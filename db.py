@@ -201,9 +201,4 @@ def set_cursor(conn, kind, value):
 
 def missing_thread_ids(conn, thread_ids):
     """Which of these t3_ ids are NOT in threads yet."""
-    if not thread_ids:
-        return set()
-    with conn.cursor() as cur:
-        cur.execute("select id from threads where id = any(%s)", (list(thread_ids),))
-        have = {r[0] for r in cur.fetchall()}
-    return set(thread_ids) - have
+    return set(thread_ids) - existing_thread_ids(conn, thread_ids)
