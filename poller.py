@@ -82,13 +82,12 @@ def settle_once(conn, batches=5):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--once", action="store_true", help="run one cycle and exit")
-    ap.add_argument("--init", action="store_true", help="create tables first")
     args = ap.parse_args()
 
     conn = db.connect()
-    if args.init:
-        db.init(conn)
-        print("schema applied")
+    # schema.sql is all "create ... if not exists", so this is safe every boot
+    # and means a fresh Railway deploy needs no manual setup step.
+    db.init(conn)
 
     while True:
         started = time.time()
