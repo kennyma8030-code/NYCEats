@@ -15,6 +15,7 @@ import traceback
 
 import arctic
 import db
+import ingest
 
 SUBREDDIT = "FoodNYC"
 PAUSE = 0.5          # politeness delay between requests
@@ -54,17 +55,10 @@ def backfill_comments(conn, start_utc, pause=PAUSE):
         if not page:
             break
 
-        # A comment on a thread we don't have would violate the FK. This should
-        # be rare after the posts pass -- it means a post outside the window, or
-        # one the archive skipped.
-        missing = db.missing_thread_ids(conn, {c["link_id"] for c in page})
-        if missing:
-            posts = arctic.posts_by_id({m[3:] for m in missing})
-            rescued += db.insert_threads(conn, posts)
-            have = db.missing_thread_ids(conn, {c["link_id"] for c in page})
-            if have:
-                page = [c for c in page if c["link_id"] not in have]
-            time.sleep(pause)
+        # Rare after the posts pass: a post older than the window, or one the
+        # archive skipped.
+        page, got, _ = ingest.ensure_threads(conn, page, pause)
+        rescued += got
 
         new += db.insert_comments(conn, page)
         total += len(page)

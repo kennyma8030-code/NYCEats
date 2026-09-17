@@ -10,30 +10,19 @@ import traceback
 
 import arctic
 import db
+import ingest
 
 SUBREDDIT = "FoodNYC"
 INTERVAL = 30 * 60
 
 
-def backfill_thread(conn, bare_ids):
-    """Fetch posts + all their comments. Returns thread ids touched."""
-    posts = arctic.posts_by_id(bare_ids)
-    found = {p["id"] for p in posts}
-    if missing := set(bare_ids) - found:
-        # Deleted or otherwise unavailable upstream; we can't satisfy the FK.
-        print(f"  ! {len(missing)} post(s) not in archive, skipping: {sorted(missing)}")
-
-    db.insert_threads(conn, posts)
-
-    touched = set()
-    for p in posts:
-        comments = arctic.all_thread_comments(p["id"])
+def pull_threads(conn, bare_ids):
+    """Download every comment of each newly discovered thread."""
+    for pid in sorted(bare_ids):
+        comments = arctic.all_thread_comments(pid)
         n = db.insert_comments(conn, comments)
-        touched.add("t3_" + p["id"])
-        print(f"  backfilled t3_{p['id']}: {len(comments)} comments ({n} new) "
-              f"- {p.get('title', '')[:50]}")
+        print(f"  backfilled t3_{pid}: {len(comments)} comments ({n} new)")
         time.sleep(1)
-    return touched, found
 
 
 def poll_once(conn):
@@ -42,24 +31,15 @@ def poll_once(conn):
     if not comments:
         return
 
-    wanted = {c["link_id"] for c in comments}
-    have = db.existing_thread_ids(conn, wanted)
-    missing = wanted - have
-
-    touched = set(wanted)
-    usable = have
-    if missing:
-        print(f"  {len(missing)} unknown thread(s), backfilling")
-        _, found = backfill_thread(conn, {m[3:] for m in missing})
-        usable = have | {"t3_" + f for f in found}
-
-    # Drop comments whose post couldn't be fetched, or the FK rejects the batch.
-    storable = [c for c in comments if c["link_id"] in usable]
+    storable, got, discovered = ingest.ensure_threads(conn, comments)
+    if got:
+        print(f"  {got} unknown thread(s), backfilling")
+        pull_threads(conn, discovered)
     if len(storable) < len(comments):
         print(f"  skipping {len(comments) - len(storable)} comment(s) with no post")
 
     new = db.insert_comments(conn, storable)
-    db.fill_tree(conn, touched & usable)
+    db.fill_tree(conn, {c["link_id"] for c in storable})
     print(f"  inserted {new} new comment(s)")
 
 
