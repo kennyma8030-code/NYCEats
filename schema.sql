@@ -36,3 +36,9 @@ create index if not exists comments_parent_idx      on comments(parent_comment_i
 create index if not exists comments_root_idx        on comments(root_comment_id);
 create index if not exists comments_created_idx     on comments(created_utc);
 create index if not exists comments_unsettled_idx   on comments(created_utc) where not score_settled;
+
+create table if not exists backfill_progress (
+  kind       text primary key,       -- 'posts' | 'comments'
+  cursor_utc bigint not null,        -- last created_utc successfully stored
+  updated_at timestamptz not null default now()
+);

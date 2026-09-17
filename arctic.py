@@ -90,3 +90,17 @@ def all_thread_comments(bare_link_id, pause=1.0):
         after = max(c["created_utc"] for c in page)
         time.sleep(pause)
     return list(out.values())
+
+
+def search_page(kind, subreddit, after=None, before=None, limit=PAGE):
+    """One page of posts or comments for a subreddit, oldest first.
+
+    kind: "posts" | "comments"
+    after/before: unix seconds or YYYY-MM-DD
+    """
+    params = {"subreddit": subreddit, "limit": limit, "sort": "asc"}
+    if after is not None:
+        params["after"] = after
+    if before is not None:
+        params["before"] = before
+    return _get(f"{kind}/search", params)

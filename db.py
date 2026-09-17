@@ -180,3 +180,30 @@ def settle_scores(conn, comments, missing_ids=()):
                 where id = any(%s)
             """, (list(missing_ids),))
     conn.commit()
+
+
+def get_cursor(conn, kind, default):
+    with conn.cursor() as cur:
+        cur.execute("select cursor_utc from backfill_progress where kind=%s", (kind,))
+        row = cur.fetchone()
+        return row[0] if row else default
+
+
+def set_cursor(conn, kind, value):
+    with conn.cursor() as cur:
+        cur.execute("""
+            insert into backfill_progress (kind, cursor_utc) values (%s, %s)
+            on conflict (kind) do update
+              set cursor_utc = excluded.cursor_utc, updated_at = now()
+        """, (kind, int(value)))
+    conn.commit()
+
+
+def missing_thread_ids(conn, thread_ids):
+    """Which of these t3_ ids are NOT in threads yet."""
+    if not thread_ids:
+        return set()
+    with conn.cursor() as cur:
+        cur.execute("select id from threads where id = any(%s)", (list(thread_ids),))
+        have = {r[0] for r in cur.fetchall()}
+    return set(thread_ids) - have
