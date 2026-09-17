@@ -5,10 +5,16 @@ import os
 import psycopg2
 from psycopg2.extras import execute_values
 
-DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://localhost/foodnyc")
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
 
 def connect():
+    if not DATABASE_URL:
+        raise SystemExit(
+            "DATABASE_URL is not set.\n"
+            "  Railway: add a variable DATABASE_URL = ${{Postgres.DATABASE_URL}}\n"
+            "  Local:   export DATABASE_URL=postgresql://postgres:dev@localhost:5433/foodnyc"
+        )
     return psycopg2.connect(DATABASE_URL)
 
 
