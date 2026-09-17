@@ -5,6 +5,20 @@ import os
 import psycopg2
 from psycopg2.extras import execute_values
 
+def _load_dotenv(path=".env"):
+    """Minimal .env reader so local runs don't need an exported variable."""
+    if not os.path.exists(path):
+        return
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            k, v = line.split("=", 1)
+            os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
+
+_load_dotenv()
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 
