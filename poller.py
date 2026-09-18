@@ -62,12 +62,20 @@ def settle_once(conn, batches=5):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--once", action="store_true", help="run one cycle and exit")
+    ap.add_argument("--backfill-years", type=float, default=0,
+                    help="run the backfill first, then poll (resumable, safe to repeat)")
     args = ap.parse_args()
 
     conn = db.connect()
     # schema.sql is all "create ... if not exists", so this is safe every boot
     # and means a fresh Railway deploy needs no manual setup step.
     db.init(conn)
+
+    if args.backfill_years:
+        import backfill
+        # Resumable and idempotent: a restart mid-run picks up at its cursor,
+        # and a completed backfill costs one empty page on the next boot.
+        backfill.run(conn, args.backfill_years)
 
     while True:
         started = time.time()

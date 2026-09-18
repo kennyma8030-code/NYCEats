@@ -86,6 +86,28 @@ def backfill_comments(conn, start_utc, pause=PAUSE):
     return total, new
 
 
+def run(conn, years, posts_only=False):
+    """Both phases plus the tree sweep. Safe to call repeatedly."""
+    start_utc = int(time.time() - years * 365.25 * 86400)
+    print(f"backfilling from {time.strftime('%Y-%m-%d', time.gmtime(start_utc))}")
+
+    print("phase 1: posts")
+    seen, new = backfill_posts(conn, start_utc)
+    print(f"  done: {seen:,} posts, {new:,} new\n")
+    if posts_only:
+        return
+
+    print("phase 2: comments")
+    seen, new = backfill_comments(conn, start_utc)
+    print(f"  done: {seen:,} comments, {new:,} new\n")
+
+    print("phase 3: rebuilding reply trees")
+    with conn.cursor() as cur:
+        cur.execute("select id from threads")
+        ids = [r[0] for r in cur.fetchall()]
+    print(f"  updated {db.fill_tree(conn, ids):,} rows\n")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--years", type=float, default=5.0)
@@ -96,7 +118,6 @@ def main():
                     help="only rebuild reply trees over every thread, then exit")
     args = ap.parse_args()
 
-    start_utc = int(time.time() - args.years * 365.25 * 86400)
     conn = db.connect()
     db.init(conn)
 
@@ -114,18 +135,9 @@ def main():
         print(f"  updated {db.fill_tree(conn, ids):,} rows")
         return
 
-    print(f"backfilling from {time.strftime('%Y-%m-%d', time.gmtime(start_utc))}\n")
     began = time.time()
-
     try:
-        print("phase 1: posts")
-        seen, new = backfill_posts(conn, start_utc)
-        print(f"  done: {seen:,} posts, {new:,} new\n")
-
-        if not args.posts_only:
-            print("phase 2: comments")
-            seen, new = backfill_comments(conn, start_utc)
-            print(f"  done: {seen:,} comments, {new:,} new\n")
+        run(conn, args.years, posts_only=args.posts_only)
     except KeyboardInterrupt:
         print("\ninterrupted -- progress saved, re-run to resume")
     except Exception:
