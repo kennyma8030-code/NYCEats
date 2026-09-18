@@ -21,12 +21,13 @@ SUBREDDIT = "FoodNYC"
 PAUSE = 0.5          # politeness delay between requests
 PAGE = 100
 TREE_BATCH = 400     # threads to accumulate before rebuilding reply trees
+LOG_EVERY = 25       # pages between progress lines (keeps long runs quiet)
 
 
 def backfill_posts(conn, start_utc, pause=PAUSE):
     """Every post since start_utc. Cheap: ~40k posts = ~400 requests."""
     cursor = db.get_cursor(conn, "posts", start_utc)
-    total = new = 0
+    total = new = pages = 0
     while True:
         page = arctic.search_page("posts", SUBREDDIT, after=cursor)
         if not page:
@@ -41,7 +42,9 @@ def backfill_posts(conn, start_utc, pause=PAUSE):
             break
         cursor = newest
         db.set_cursor(conn, "posts", cursor)
-        print(f"  posts: {total:>7,} seen  {new:>7,} new   at {time.strftime('%Y-%m-%d', time.gmtime(cursor))}")
+        pages += 1
+        if pages % LOG_EVERY == 0:
+            print(f"  posts: {total:>7,} seen  {new:>7,} new   at {time.strftime('%Y-%m-%d', time.gmtime(cursor))}", flush=True)
         if cursor >= time.time() - 60:
             break
         time.sleep(pause)
@@ -51,7 +54,7 @@ def backfill_posts(conn, start_utc, pause=PAUSE):
 def backfill_comments(conn, start_utc, pause=PAUSE):
     """Every comment since start_utc, fetching any post we're missing first."""
     cursor = db.get_cursor(conn, "comments", start_utc)
-    total = new = rescued = 0
+    total = new = rescued = pages = 0
     pending = set()
     while True:
         page = arctic.search_page("comments", SUBREDDIT, after=cursor)
@@ -78,8 +81,10 @@ def backfill_comments(conn, start_utc, pause=PAUSE):
             break                        # no forward progress
         cursor = newest
         db.set_cursor(conn, "comments", cursor)
-        print(f"  comments: {total:>8,} seen  {new:>8,} new  {rescued:>4} posts rescued"
-              f"   at {time.strftime('%Y-%m-%d', time.gmtime(cursor))}")
+        pages += 1
+        if pages % LOG_EVERY == 0:
+            print(f"  comments: {total:>8,} seen  {new:>8,} new  {rescued:>4} posts rescued"
+                  f"   at {time.strftime('%Y-%m-%d', time.gmtime(cursor))}", flush=True)
         if cursor >= time.time() - 60:
             break                        # caught up to the present
         time.sleep(pause)
