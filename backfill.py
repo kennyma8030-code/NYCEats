@@ -34,12 +34,15 @@ def backfill_posts(conn, start_utc, pause=PAUSE):
         new += db.insert_threads(conn, page)
         total += len(page)
         newest = max(p["created_utc"] for p in page)
-        if newest == cursor and len(page) < PAGE:
-            break                        # no forward progress, nothing left
+        # A short page is NOT the end -- the API returns fewer than `limit`
+        # for sparse ranges. Only an empty page, no forward progress, or
+        # reaching the present means we're done.
+        if newest <= cursor:
+            break
         cursor = newest
         db.set_cursor(conn, "posts", cursor)
         print(f"  posts: {total:>7,} seen  {new:>7,} new   at {time.strftime('%Y-%m-%d', time.gmtime(cursor))}")
-        if len(page) < PAGE:
+        if cursor >= time.time() - 60:
             break
         time.sleep(pause)
     return total, new
@@ -71,14 +74,14 @@ def backfill_comments(conn, start_utc, pause=PAUSE):
             pending.clear()
 
         newest = max(c["created_utc"] for c in page)
-        if newest == cursor and len(page) < PAGE:
-            break
+        if newest <= cursor:
+            break                        # no forward progress
         cursor = newest
         db.set_cursor(conn, "comments", cursor)
         print(f"  comments: {total:>8,} seen  {new:>8,} new  {rescued:>4} posts rescued"
               f"   at {time.strftime('%Y-%m-%d', time.gmtime(cursor))}")
-        if len(page) < PAGE:
-            break
+        if cursor >= time.time() - 60:
+            break                        # caught up to the present
         time.sleep(pause)
 
     if pending:
