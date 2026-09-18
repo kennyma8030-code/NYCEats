@@ -1,5 +1,6 @@
 """Thin client for the Arctic Shift API."""
 
+import http.client
 import json
 import time
 import urllib.error
@@ -31,10 +32,13 @@ def _get(path, params, attempt=0):
             time.sleep(wait)
             return _get(path, params, attempt + 1)
         raise
-    except urllib.error.URLError as e:
-        if attempt < 5:
-            wait = 5 * (2 ** attempt)
-            print(f"    {e.reason}, retrying in {wait}s")
+    except (OSError, http.client.HTTPException) as e:
+        # Covers URLError, timeouts, and RemoteDisconnected / connection resets.
+        # Over thousands of requests the server will drop a connection sooner
+        # or later; that is transient and must not end the run.
+        if attempt < 7:
+            wait = min(5 * (2 ** attempt), 120)
+            print(f"    {type(e).__name__}: {e}, retrying in {wait}s")
             time.sleep(wait)
             return _get(path, params, attempt + 1)
         raise
