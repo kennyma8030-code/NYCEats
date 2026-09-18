@@ -3,7 +3,7 @@
 import os
 
 import psycopg2
-from psycopg2.extras import execute_values
+from psycopg2.extras import Json, execute_values
 
 def _load_dotenv(path=".env"):
     """Minimal .env reader so local runs don't need an exported variable."""
@@ -109,6 +109,52 @@ def insert_comments(conn, comments):
             returning id
         """, rows, template="(%s,%s,%s,%s,%s,%s,%s,to_timestamp(%s),to_timestamp(%s),%s,%s)",
             fetch=True)
+        n = len(inserted)
+    conn.commit()
+    return n
+
+
+ASPECTS = ("food", "value", "service", "atmosphere", "wait")
+
+
+def insert_mentions(conn, comment_id, mentions, model_version, prompt_hash):
+    """One comment's extraction. `entity_key` is set by the caller -- extract.py
+    owns normalization, this only writes what it is handed.
+
+    No conflict clause: `mentions` is append-only and has no natural key, so a
+    re-extraction is meant to add rows, not replace them.
+    """
+    if not mentions:
+        return 0
+    rows = []
+    for m in mentions:
+        aspects = m.get("aspects") or {}
+        rows.append((
+            comment_id,
+            m["restaurant_raw"],
+            m["entity_key"],
+            m.get("neighborhood_hint"),
+            Json(m.get("dishes") or []),
+            Json(m.get("descriptors") or []),
+            # Pin the five keys so a model that invents a sixth, or drops one,
+            # still produces the same shape for every row downstream reads.
+            Json({k: aspects.get(k) for k in ASPECTS}),
+            m.get("expensiveness"),
+            m.get("is_firsthand"),
+            bool(m.get("is_negated")),
+            model_version,
+            prompt_hash,
+        ))
+    with conn.cursor() as cur:
+        inserted = execute_values(cur, """
+            insert into mentions
+              (comment_id, restaurant_raw, entity_key, neighborhood_hint,
+               dishes, descriptors, aspects, expensiveness, is_firsthand,
+               is_negated, model_version, prompt_hash)
+            values %s
+            on conflict (comment_id, restaurant_raw, prompt_hash) do nothing
+            returning id
+        """, rows, fetch=True)
         n = len(inserted)
     conn.commit()
     return n

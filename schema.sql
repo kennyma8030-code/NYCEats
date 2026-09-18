@@ -42,3 +42,40 @@ create table if not exists backfill_progress (
   cursor_utc bigint not null,        -- last created_utc successfully stored
   updated_at timestamptz not null default now()
 );
+
+-- extraction state on the raw corpus. A timestamp + prompt hash rather than a
+-- boolean, so a prompt v2 re-run is a query rather than a migration.
+alter table comments add column if not exists extracted_at   timestamptz;
+alter table comments add column if not exists extracted_with text;
+alter table comments add column if not exists extract_error  text;
+create index if not exists comments_unextracted_idx
+  on comments(thread_id) where extracted_at is null and extract_error is null;
+
+-- append-only source of truth for everything downstream.
+create table if not exists mentions (
+  id             bigserial primary key,
+  comment_id     text not null references comments(id),
+  restaurant_raw text not null,           -- verbatim, never modified
+  entity_key     text not null,           -- normalized placeholder until resolution
+  entity_id      bigint,                  -- filled in later; no FK yet
+  neighborhood_hint text,
+  dishes         jsonb,
+  descriptors    jsonb,
+  aspects        jsonb,                   -- {food,value,service,atmosphere,wait} each -1..1 or null
+  expensiveness  real,                    -- fact, no valence
+  is_firsthand   boolean,
+  is_negated     boolean not null default false,
+  model_version  text not null,
+  prompt_hash    text not null,
+  created_at     timestamptz not null default now()
+);
+
+create index if not exists mentions_entity_idx  on mentions(entity_key);
+create index if not exists mentions_comment_idx on mentions(comment_id);
+create index if not exists mentions_desc_idx    on mentions using gin(descriptors);
+
+-- Extraction commits mentions and then marks the comment done; a crash between
+-- the two would duplicate on re-run. Making the pair unique lets the retry be
+-- idempotent, same as every other writer in this codebase.
+create unique index if not exists mentions_unique_idx
+  on mentions(comment_id, restaurant_raw, prompt_hash);
