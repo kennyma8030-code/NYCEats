@@ -28,10 +28,8 @@ select
 
   case
     when r_exact.name is not null              then 'exact'
-    -- TUNE. 0.75 is a guess -- there is no real extraction data to set it
-    -- from yet. Set it by reading actual near-misses after the first run:
-    -- too loose merges distinct restaurants, too tight orphans typos, and
-    -- both fail silently.
+    -- TUNE. 0.75 sits in the gap measured on real extractions: correct
+    -- matches scored 0.80+, incorrect ones 0.60 and below.
     when fuzzy.score >= 0.75                   then 'fuzzy'
     when count(distinct c.author) >= 3         then 'unlisted'   -- corroborated
     else                                            'unverified' -- 1-2 people, no match
@@ -41,10 +39,20 @@ from mentions m
 join comments c on c.id = m.comment_id
 left join restaurants r_exact on r_exact.name_key = m.entity_key
 left join lateral (
-  select r.name, similarity(r.name_key, m.entity_key) as score
+  -- word_similarity, not similarity. Plain trigram penalises length
+  -- differences, so "katz" scored 0.20 against "katzs delicatessen" and 0.16
+  -- against the unrelated "katou restaurant" -- no threshold separates those.
+  -- word_similarity asks how well the key matches SOME WORD RUN inside the
+  -- official name, which is exactly how people shorten restaurant names.
+  -- Measured: correct matches land 0.80-1.00, wrong ones 0.45-0.60.
+  select r.name, word_similarity(m.entity_key, r.name_key) as score
   from restaurants r
-  where r.name_key % m.entity_key          -- uses the trgm index
-  order by score desc
+  where m.entity_key <% r.name_key         -- uses the trgm GIN index
+  -- Shortest name wins ties. Food halls are licensed under one combined name
+  -- ("WOK TO WALK, LOS TACOS HERMANOS, POKE BOWL, ..."), which scores a
+  -- perfect 1.00 for any tenant it contains and would otherwise beat the
+  -- actual restaurant.
+  order by score desc, length(r.name_key) asc
   limit 1
 ) fuzzy on r_exact.name is null
 

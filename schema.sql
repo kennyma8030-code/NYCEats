@@ -77,8 +77,12 @@ create index if not exists mentions_desc_idx    on mentions using gin(descriptor
 -- Extraction commits mentions and then marks the comment done; a crash between
 -- the two would duplicate on re-run. Making the pair unique lets the retry be
 -- idempotent, same as every other writer in this codebase.
+-- Keyed on entity_key, not restaurant_raw: the model emits the same place
+-- several times in one comment with different apostrophes ("l'industrie",
+-- "l’industrie", "L'industrie"), and those are distinct raw strings. The
+-- normalized key is what makes them one mention.
 create unique index if not exists mentions_unique_idx
-  on mentions(comment_id, restaurant_raw, prompt_hash);
+  on mentions(comment_id, entity_key, prompt_hash);
 
 -- Trigram matching for the restaurant list. Needed before its index; a fresh
 -- Railway database has no extensions enabled.
