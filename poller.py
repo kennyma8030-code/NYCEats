@@ -12,6 +12,7 @@ import arctic
 import db
 import ingest
 import restaurants
+import rss
 
 SUBREDDIT = "FoodNYC"
 INTERVAL = 30 * 60
@@ -63,6 +64,8 @@ def settle_once(conn, batches=5):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--once", action="store_true", help="run one cycle and exit")
+    ap.add_argument("--no-rss", action="store_true",
+                    help="do not run the RSS fallback collector")
     ap.add_argument("--no-backfill", action="store_true",
                     help="start polling immediately, skipping the catch-up sweep")
     ap.add_argument("--backfill-years", type=float, default=0,
@@ -81,6 +84,12 @@ def main():
     n = restaurants.ensure_loaded(conn)
     if n:
         print(f"loaded {n:,} NYC restaurants")
+
+    # Before the backfill, not after: a first-boot sweep runs for hours and
+    # the fallback should be collecting through all of it.
+    if not args.no_rss:
+        rss.start_background()
+        print(f"rss fallback polling every {rss.INTERVAL // 60} min")
 
     if not args.no_backfill:
         import backfill

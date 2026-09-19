@@ -248,3 +248,42 @@ def set_cursor(conn, kind, value):
 def missing_thread_ids(conn, thread_ids):
     """Which of these t3_ ids are NOT in threads yet."""
     return set(thread_ids) - existing_thread_ids(conn, thread_ids)
+
+
+# --- RSS fallback -----------------------------------------------------------
+# Separate tables, separate functions. These exist so a Reddit-side record
+# survives an Arctic Shift outage; nothing downstream reads them.
+
+def insert_rss_threads(conn, threads):
+    """threads: (id, title, permalink) tuples. Deduped by primary key."""
+    if not threads:
+        return 0
+    with conn.cursor() as cur:
+        inserted = execute_values(cur, """
+            insert into rss_threads (id, title, permalink)
+            values %s
+            on conflict (id) do nothing
+            returning id
+        """, threads, fetch=True)
+        n = len(inserted)
+    conn.commit()
+    return n
+
+
+def insert_rss_comments(conn, comments):
+    """The feed re-sends the same 25 comments every cycle; the key drops them."""
+    if not comments:
+        return 0
+    rows = [(c["id"], c["thread_id"], c["author"], c["body"],
+             c["created_utc"], c["permalink"]) for c in comments]
+    with conn.cursor() as cur:
+        inserted = execute_values(cur, """
+            insert into rss_comments
+              (id, thread_id, author, body, created_utc, permalink)
+            values %s
+            on conflict (id) do nothing
+            returning id
+        """, rows, fetch=True)
+        n = len(inserted)
+    conn.commit()
+    return n
