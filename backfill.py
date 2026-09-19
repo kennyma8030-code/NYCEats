@@ -1,4 +1,4 @@
-"""Backfill r/FoodNYC for the past N years.
+"""Backfill r/FoodNYC, all of it by default.
 
 Two bulk passes over the subreddit rather than one request per thread:
 posts first (so the foreign key is satisfiable), then comments. That is
@@ -21,6 +21,7 @@ SUBREDDIT = "FoodNYC"
 PAUSE = 0.5          # politeness delay between requests
 PAGE = 100
 TREE_BATCH = 400     # threads to accumulate before rebuilding reply trees
+EPOCH = 1104537600   # 2005-01-01, before Reddit existed. "All time" floor.
 LOG_EVERY = 25       # pages between progress lines (keeps long runs quiet)
 
 
@@ -55,7 +56,7 @@ def backfill_comments(conn, start_utc, pause=PAUSE):
     """Every comment since start_utc, fetching any post we're missing first."""
     cursor = db.get_cursor(conn, "comments", start_utc)
     total = new = rescued = pages = 0
-    pending = set()
+    pending, touched = set(), set()
     while True:
         page = arctic.search_page("comments", SUBREDDIT, after=cursor)
         if not page:
@@ -72,6 +73,7 @@ def backfill_comments(conn, start_utc, pause=PAUSE):
         # fill_tree is a recursive CTE; running it per page doubles wall time.
         # Batch it -- late-arriving parents are picked up by the next flush.
         pending.update(c["link_id"] for c in page)
+        touched.update(c["link_id"] for c in page)
         if len(pending) >= TREE_BATCH:
             db.fill_tree(conn, pending)
             pending.clear()
@@ -91,12 +93,28 @@ def backfill_comments(conn, start_utc, pause=PAUSE):
 
     if pending:
         db.fill_tree(conn, pending)
-    return total, new
+    return total, new, touched
 
 
-def run(conn, years, posts_only=False):
-    """Both phases plus the tree sweep. Safe to call repeatedly."""
-    start_utc = int(time.time() - years * 365.25 * 86400)
+def stale_thread_ids(conn):
+    """Threads holding a comment whose depth was never computed.
+
+    Phase 2 fills trees as it goes, so sweeping every thread afterwards is a
+    recursive CTE over the whole corpus to change nothing. These are the only
+    threads that can still be wrong: a reply stored in an earlier run than the
+    parent it hangs off.
+    """
+    with conn.cursor() as cur:
+        cur.execute("select distinct thread_id from comments where depth is null")
+        return {r[0] for r in cur.fetchall()}
+
+
+def run(conn, years=None, posts_only=False):
+    """Both phases plus the tree sweep. Safe to call repeatedly.
+
+    years=None sweeps from the beginning of the subreddit.
+    """
+    start_utc = EPOCH if not years else int(time.time() - years * 365.25 * 86400)
     print(f"backfilling from {time.strftime('%Y-%m-%d', time.gmtime(start_utc))}")
 
     print("phase 1: posts")
@@ -118,7 +136,8 @@ def run(conn, years, posts_only=False):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--years", type=float, default=5.0)
+    ap.add_argument("--years", type=float, default=0,
+                    help="limit to the last N years (default: all time)")
     ap.add_argument("--restart", action="store_true",
                     help="ignore saved progress and start from the beginning")
     ap.add_argument("--posts-only", action="store_true")
@@ -145,7 +164,7 @@ def main():
 
     began = time.time()
     try:
-        run(conn, args.years, posts_only=args.posts_only)
+        run(conn, args.years or None, posts_only=args.posts_only)
     except KeyboardInterrupt:
         print("\ninterrupted -- progress saved, re-run to resume")
     except Exception:

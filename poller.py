@@ -63,8 +63,13 @@ def settle_once(conn, batches=5):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--once", action="store_true", help="run one cycle and exit")
+    ap.add_argument("--no-backfill", action="store_true",
+                    help="start polling immediately, skipping the catch-up sweep")
     ap.add_argument("--backfill-years", type=float, default=0,
-                    help="run the backfill first, then poll (resumable, safe to repeat)")
+                    help="limit the catch-up sweep to the last N years (default: all time)")
+    ap.add_argument("--rescan", action="store_true",
+                    help="throw away the saved cursor and re-sweep from the beginning; "
+                         "the only way to recover comments lost from behind the cursor")
     args = ap.parse_args()
 
     conn = db.connect()
@@ -77,11 +82,18 @@ def main():
     if n:
         print(f"loaded {n:,} NYC restaurants")
 
-    if args.backfill_years:
+    if not args.no_backfill:
         import backfill
-        # Resumable and idempotent: a restart mid-run picks up at its cursor,
-        # and a completed backfill costs one empty page on the next boot.
-        backfill.run(conn, args.backfill_years)
+        if args.rescan:
+            with conn.cursor() as cur:
+                cur.execute("delete from backfill_progress")
+            conn.commit()
+            print("cursor cleared -- re-sweeping from the beginning")
+        # Runs on every boot, and that is the point: after downtime it resumes
+        # at the last comment we stored and pages forward to now, filling the
+        # gap the 30-minute poll would have skipped straight over. Caught up,
+        # it costs one empty page.
+        backfill.run(conn, args.backfill_years or None)
 
     while True:
         started = time.time()
