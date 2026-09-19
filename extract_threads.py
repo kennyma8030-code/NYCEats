@@ -150,8 +150,13 @@ def run(conn, since=None, workers=None, max_threads=None):
                 todo = pending_threads(conn, since, limit=workers * 2)
                 if not todo:
                     break
+                # Bounded: pool.map materialises every job, and each holds up
+                # to CHUNK comment bodies. Pulling 128 big threads at once was
+                # enough to get the process OOM-killed.
                 jobs = []
                 for thread_id, _ in todo:
+                    if len(jobs) >= workers * 2:
+                        break
                     head, rows = thread_rows(conn, thread_id, since)
                     if not rows:
                         continue
