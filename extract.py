@@ -28,9 +28,10 @@ MODEL = os.environ.get("LLM_MODEL", "deepseek-v4.1-flash")
 BATCH = 200          # rows per SELECT; the work is one API call at a time anyway
 LOG_EVERY = 25
 
-# USD per token, DeepSeek list price.
-PRICE_IN = 0.14 / 1_000_000
-PRICE_OUT = 0.28 / 1_000_000
+# USD per million tokens. Provider-dependent, so configurable: DeepSeek direct
+# lists v4-flash at 0.14/0.28, OpenRouter at 0.048/0.096 for the same model.
+PRICE_IN = float(os.environ.get("LLM_PRICE_IN", "0.048")) / 1_000_000
+PRICE_OUT = float(os.environ.get("LLM_PRICE_OUT", "0.096")) / 1_000_000
 
 # Accumulated across the process so main() can price the run without threading
 # a counter through every function.
