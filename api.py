@@ -50,7 +50,7 @@ def leaderboard(conn, q):
         where.append("l.raw_mentions >= %s")
         params.append(int(q["min_mentions"][0]))
     if q.get("min_authors"):
-        where.append("res.distinct_authors >= %s")
+        where.append("l.distinct_authors >= %s")
         params.append(int(q["min_authors"][0]))
     if q.get("rising", ["0"])[0] == "1":
         where.append("l.momentum_fired")
@@ -66,7 +66,7 @@ def leaderboard(conn, q):
         "volume":    "l.decayed_volume desc nulls last",
         "momentum":  "l.momentum_sigma desc nulls last",
         "mentions":  "l.raw_mentions desc",
-        "authors":   "res.distinct_authors desc nulls last",
+        "authors":   "l.distinct_authors desc nulls last",
         "longevity": "l.months_active desc nulls last",
         "food":      "l.food desc nulls last",
         "value":     "l.value desc nulls last",
@@ -75,10 +75,21 @@ def leaderboard(conn, q):
     sql = f"""
         select l.*, r.name as official_name, r.cuisine, r.boroughs,
                r.is_chain, r.location_count,
-               res.status, res.distinct_authors, res.fuzzy_match, res.fuzzy_score
+               res.status, res.fuzzy_match, res.fuzzy_score
         from entity_leaderboard l
         left join restaurants r on r.name_key = l.entity_key
-        left join mention_resolution res on res.entity_key = l.entity_key
+        -- l.entity_key is a RESOLVED key now, and mention_resolution is keyed
+        -- on what people typed. Reach it through the alias table and report
+        -- the strongest status among the spellings that merged into this row.
+        left join lateral (
+          select res.status, res.fuzzy_match, res.fuzzy_score
+          from entity_alias al
+          join mention_resolution res on res.entity_key = al.entity_key
+          where al.resolved_key = l.entity_key
+          order by case res.status when 'exact' then 1 when 'fuzzy' then 2
+                                   when 'unlisted' then 3 else 4 end
+          limit 1
+        ) res on true
         {"where " + " and ".join(where) if where else ""}
         order by {order}
         limit %s
@@ -93,7 +104,8 @@ def mentions(conn, q):
     """The comments behind a score. This is the non-negotiable click-through."""
     with conn.cursor() as cur:
         cur.execute("""
-            select m.restaurant_raw, m.aspects, m.descriptors, m.dishes,
+            select m.restaurant_raw, m.entity_key as typed_key,
+                   m.aspects, m.descriptors, m.dishes,
                    m.is_firsthand, m.is_negated,
                    c.author, c.score, c.created_utc, c.body,
                    c.permalink, c.was_deleted_later,
@@ -101,7 +113,8 @@ def mentions(conn, q):
             from mentions m
             join comments c on c.id = m.comment_id
             join threads t on t.id = c.thread_id
-            where m.entity_key = %s
+            join entity_alias al on al.entity_key = m.entity_key
+            where al.resolved_key = %s
             order by c.created_utc desc
             limit 200
         """, (q["entity"][0],))

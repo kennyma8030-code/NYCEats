@@ -31,7 +31,70 @@ select
   1.0::float8   as momentum_pseudo,      -- TUNE  k in expected = share*N + k
   3.0::float8   as momentum_sigma,       -- TUNE  display threshold, in sigma
   3.0::float8   as aspect_pseudo,        -- TUNE  shrinkage toward the city mean
-  3             as min_mentions;         -- TUNE  leaderboard floor
+  3             as min_mentions,          -- TUNE  leaderboard floor
+  0.75::float8  as alias_min_score;       -- TUNE  word_similarity to merge
+
+
+-- ---------------------------------------------------------------------------
+-- 0.5 Identity. Which typed names are the same restaurant.
+--
+--    Without this the board ranks SPELLINGS: "katz", "katzs" and "katzs deli"
+--    are three rows sharing one delicatessen, and "los tacos" splits ten ways.
+--    481 of 5,637 rows duplicate another row.
+--
+--    Materialised on purpose. This is the one place identity is DECIDED, so it
+--    has to be something you can read, sort and correct -- delete the row that
+--    merges "otto" into ZERO OTTO NOVE and it stays split. A lateral
+--    word_similarity recomputed inside every query is none of those things.
+--
+--    resolved_key is a name_key, the same shape as entity_key, so downstream
+--    joins against restaurants(name_key) keep working untouched. A name that
+--    matches nothing resolves to itself: this only ever merges, never drops.
+--      refresh materialized view entity_alias;
+-- ---------------------------------------------------------------------------
+do $$
+begin
+  if exists (select 1 from pg_matviews where matviewname = 'entity_alias') then
+    drop materialized view entity_alias cascade;
+  elsif exists (select 1 from pg_views where viewname = 'entity_alias') then
+    drop view entity_alias cascade;
+  end if;
+end $$;
+create materialized view entity_alias as
+with keys as (select distinct entity_key from mentions),
+matched as (
+  select k.entity_key,
+         x.name_key  as exact_key,
+         fz.name_key as fuzzy_key,
+         fz.score    as fuzzy_score
+  from keys k
+  left join restaurants x on x.name_key = k.entity_key
+  left join lateral (
+    -- word_similarity, not similarity: people shorten names, and plain trigram
+    -- punishes the length difference. "katz" scores 0.20 against "katzs
+    -- delicatessen" and 0.80 under word_similarity.
+    select r.name_key, word_similarity(k.entity_key, r.name_key) as score
+    from restaurants r
+    where k.entity_key <% r.name_key
+    -- Shortest wins ties: food halls are licensed under one combined name that
+    -- contains -- and so perfectly matches -- every tenant inside it.
+    order by score desc, length(r.name_key) asc
+    limit 1
+  ) fz on x.name_key is null
+)
+select
+  m.entity_key,
+  coalesce(m.exact_key,
+           case when m.fuzzy_score >= p.alias_min_score then m.fuzzy_key end,
+           m.entity_key)                   as resolved_key,
+  case when m.exact_key is not null            then 'exact'
+       when m.fuzzy_score >= p.alias_min_score then 'fuzzy'
+       else                                         'self' end as method,
+  round(m.fuzzy_score::numeric, 2)         as score
+from matched m, scoring_params p;
+
+create unique index if not exists entity_alias_pk on entity_alias(entity_key);
+create index if not exists entity_alias_resolved_idx on entity_alias(resolved_key);
 
 
 -- ---------------------------------------------------------------------------
@@ -60,7 +123,12 @@ with base as (
   select
     m.id            as mention_id,
     m.comment_id,
-    m.entity_key,
+    -- The resolved key IS entity_key from here down, so every window
+    -- function, group by and downstream view merges with no further
+    -- edit. in_chain and author_nth especially must see "katz" and
+    -- "katzs" as one restaurant or their discounts miss.
+    coalesce(a.resolved_key, m.entity_key) as entity_key,
+    m.entity_key    as typed_key,
     m.aspects,
     m.is_negated,
     m.is_firsthand,
@@ -87,6 +155,7 @@ with base as (
   from mentions m
   join comments c on c.id = m.comment_id
   join threads  t on t.id = c.thread_id
+  left join entity_alias a on a.entity_key = m.entity_key
 ),
 counted as (
   select
@@ -105,6 +174,7 @@ select
   mention_id,
   comment_id,
   entity_key,
+  typed_key,
   thread_id,
   chain_id,
   author,
@@ -290,11 +360,12 @@ order by entity_key,
 -- ---------------------------------------------------------------------------
 create or replace view entity_longevity as
 with active_months as (
-  select m.entity_key,
+  select coalesce(a.resolved_key, m.entity_key) as entity_key,
          extract(year from c.created_utc)::int * 12
            + extract(month from c.created_utc)::int as month_idx
   from mentions m
   join comments c on c.id = m.comment_id
+  left join entity_alias a on a.entity_key = m.entity_key
   group by 1, 2
 ),
 gaps as (
@@ -304,12 +375,16 @@ gaps as (
   from active_months
 ),
 totals as (
-  select m.entity_key,
+  -- Resolved here too. active_months is keyed on the resolved name, so a
+  -- totals row keyed on the typed one joins to nothing and every merged
+  -- entity reports NULL months_active.
+  select coalesce(a.resolved_key, m.entity_key) as entity_key,
          min(c.created_utc) as first_seen,
          max(c.created_utc) as last_seen,
          count(*)           as total_mentions
   from mentions m
   join comments c on c.id = m.comment_id
+  left join entity_alias a on a.entity_key = m.entity_key
   group by 1
 )
 select t.entity_key,
@@ -389,7 +464,7 @@ cross join scoring_params p;
 --    so it is surfaced on the leaderboard rather than folded into a score.
 -- ---------------------------------------------------------------------------
 create or replace view entity_confidence as
-select m.entity_key,
+select coalesce(a.resolved_key, m.entity_key) as entity_key,
        count(distinct c.author) filter (where c.author is not null
                                           and c.author <> '[deleted]')
          as distinct_authors,
@@ -397,7 +472,8 @@ select m.entity_key,
        count(*) filter (where m.is_negated)   as negated_mentions
 from mentions m
 join comments c on c.id = m.comment_id
-group by m.entity_key;
+left join entity_alias a on a.entity_key = m.entity_key
+group by 1;
 
 
 -- ---------------------------------------------------------------------------
