@@ -28,8 +28,10 @@ select
 
   case
     when r_exact.name is not null              then 'exact'
-    -- TUNE. At 0.6 an invented "tonys pizzeria supreme" matched a real
-    -- "TONYS PIZZERIA" and would have merged into its score silently.
+    -- TUNE. 0.75 is a guess -- there is no real extraction data to set it
+    -- from yet. Set it by reading actual near-misses after the first run:
+    -- too loose merges distinct restaurants, too tight orphans typos, and
+    -- both fail silently.
     when fuzzy.score >= 0.75                   then 'fuzzy'
     when count(distinct c.author) >= 3         then 'unlisted'   -- corroborated
     else                                            'unverified' -- 1-2 people, no match
