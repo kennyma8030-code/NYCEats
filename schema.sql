@@ -106,3 +106,20 @@ create table if not exists restaurants (
 
 create index if not exists restaurants_key_idx  on restaurants(name_key);
 create index if not exists restaurants_trgm_idx on restaurants using gin (name_key gin_trgm_ops);
+
+
+-- ---------------------------------------------------------------------------
+-- Manual identity decisions. entity_alias PROPOSES a merge; this DECIDES it.
+--
+-- A materialized view cannot be edited, so corrections need somewhere real to
+-- live. Set resolved_key equal to entity_key to mean "never merge this one":
+-- word_similarity scores "cote" against "cote wine bar" at a confident 1.00
+-- and is simply wrong, and no threshold distinguishes that from "katzs"
+-- against "katzs delicatessen", which is right for the same reason.
+-- ---------------------------------------------------------------------------
+create table if not exists alias_overrides (
+  entity_key   text primary key,
+  resolved_key text not null,
+  note         text,
+  created_at   timestamptz not null default now()
+);

@@ -84,14 +84,19 @@ matched as (
 )
 select
   m.entity_key,
-  coalesce(m.exact_key,
+  -- The override wins outright. It is the only judgement here a person made.
+  coalesce(o.resolved_key,
+           m.exact_key,
            case when m.fuzzy_score >= p.alias_min_score then m.fuzzy_key end,
            m.entity_key)                   as resolved_key,
-  case when m.exact_key is not null            then 'exact'
-       when m.fuzzy_score >= p.alias_min_score then 'fuzzy'
-       else                                         'self' end as method,
+  case when o.resolved_key is not null          then 'manual'
+       when m.exact_key is not null             then 'exact'
+       when m.fuzzy_score >= p.alias_min_score  then 'fuzzy'
+       else                                          'self' end as method,
   round(m.fuzzy_score::numeric, 2)         as score
-from matched m, scoring_params p;
+from matched m
+cross join scoring_params p
+left join alias_overrides o on o.entity_key = m.entity_key;
 
 create unique index if not exists entity_alias_pk on entity_alias(entity_key);
 create index if not exists entity_alias_resolved_idx on entity_alias(resolved_key);

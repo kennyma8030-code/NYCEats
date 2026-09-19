@@ -13,6 +13,7 @@ import json
 import os
 import re
 import time
+import unicodedata
 import urllib.error
 import urllib.request
 
@@ -58,7 +59,16 @@ def normalize_entity(raw):
     evidence.
     """
     s = (raw or "").lower().replace("'", "").replace("’", "")
-    s = " ".join(_PUNCT.sub(" ", s).split())
+    # Accents become their base letter, not a space. _PUNCT treats anything
+    # outside a-z0-9 as punctuation, so "Ba Xuyen" was arriving as "b xuy n"
+    # -- shredded before matching ever ran, which is why 74 keys could not
+    # match anything at all.
+    s = unicodedata.normalize("NFKD", s)
+    s = "".join(c for c in s if not unicodedata.combining(c))
+    # Drop "and" rather than mapping & to it. People type "joe and pats", the
+    # licence says "JOE & PAT'S", and dropping both sides collapses them --
+    # while mapping to "and" would break "s p" against "S & P LUNCH".
+    s = " ".join(w for w in _PUNCT.sub(" ", s).split() if w != "and")
     if s.startswith("the "):
         s = s[4:]
     for suffix in (" restaurant", " nyc"):
