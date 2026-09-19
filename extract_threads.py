@@ -31,10 +31,14 @@ LOG_EVERY = 25
 def pending_threads(conn, since=None, limit=500):
     """Threads with comments still needing extraction, biggest first.
 
-    Smallest first. Biggest-first maximises token saving per call, but the
-    largest threads run to ~1,000 comments, so it spends the first hour on 14
-    threads with nothing else moving. Small threads clear fast and the
-    per-thread saving is already most of the win.
+    Biggest first, because that is the whole point. The system prompt is paid
+    once per CALL, not per comment, so a 25-comment thread amortises it 25
+    ways. Measured on this corpus: 109 input tokens per comment on the largest
+    threads against 1,582 in comment mode, a 14.5x difference.
+
+    Smallest-first was tried and is a trap: 3,024 pending threads hold exactly
+    one comment, and on those "thread mode" is comment mode paying full price.
+    It feels faster because the thread counter moves, and it costs ~20x.
     """
     with conn.cursor() as cur:
         cur.execute("""
@@ -45,7 +49,7 @@ def pending_threads(conn, since=None, limit=500):
               and length(c.body) > 15
               and (%s is null or c.created_utc >= %s)
             group by c.thread_id
-            order by n asc
+            order by n desc
             limit %s
         """, (since, since, limit))
         return cur.fetchall()
@@ -139,7 +143,7 @@ def store_chunk(conn, comment_ids, result, error):
                 keep.append(m)
         found += db.insert_mentions(conn, cid, keep, extract.MODEL,
                                     prompt_thread.PROMPT_HASH)
-        extract._mark_extracted(conn, cid)
+        extract._mark_extracted(conn, cid, prompt_thread.PROMPT_HASH)
     return found, bad
 
 

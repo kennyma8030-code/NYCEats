@@ -153,13 +153,20 @@ def next_batch(conn, limit=200, since=None):
         return cur.fetchall()
 
 
-def _mark_extracted(conn, comment_id):
+def _mark_extracted(conn, comment_id, prompt_hash=None):
+    """prompt_hash names the prompt that actually ran.
+
+    It has to be a parameter: thread mode calls this too, and hardcoding the
+    comment-mode hash stamped every thread-mode comment with the wrong prompt.
+    That made `--reset` unable to undo a thread-mode run -- it looked for
+    comments marked with a hash none of them carried.
+    """
     with conn.cursor() as cur:
         cur.execute("""
             update comments
             set extracted_at = now(), extracted_with = %s, extract_error = null
             where id = %s
-        """, (f"{MODEL}:{prompt.PROMPT_HASH}", comment_id))
+        """, (f"{MODEL}:{prompt_hash or prompt.PROMPT_HASH}", comment_id))
     conn.commit()
 
 
