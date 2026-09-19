@@ -21,6 +21,10 @@ import prompt
 
 # Provider is configurable because the same model is reachable through
 # DeepSeek directly or through OpenRouter, with different slugs and prices.
+# Off by default. Excluding reasoning halves the bill, but measured on a
+# reply saying "skip it, tourist trap" about its parent's restaurant, it
+# dropped the negation entirely -- the hardest and most important case.
+NO_REASONING = os.environ.get("LLM_NO_REASONING", "0") != "0"
 WORKERS = int(os.environ.get("LLM_WORKERS", "48"))   # measured: 200 comments/min
 API_URL = os.environ.get("LLM_API_URL", "https://api.deepseek.com/chat/completions")
 API_KEY_VAR = "OPENROUTER_API_KEY" if "openrouter" in API_URL else "DEEPSEEK_API_KEY"
@@ -76,7 +80,7 @@ def is_chain(entity_key):
 
 def call_model(system, user, attempt=0):
     """One completion. Returns the raw JSON string the model produced."""
-    body = json.dumps({
+    payload = {
         "model": MODEL,
         "messages": [
             {"role": "system", "content": system},
@@ -84,7 +88,11 @@ def call_model(system, user, attempt=0):
         ],
         "response_format": {"type": "json_object"},
         "temperature": 0,
-    }).encode("utf-8")
+    }
+    # Opt-in only: cheaper, but loses reply-refers-to-parent negation.
+    if NO_REASONING:
+        payload["reasoning"] = {"exclude": True}
+    body = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(API_URL, data=body, headers={
         "Authorization": "Bearer " + os.environ[API_KEY_VAR],
         "Content-Type": "application/json",
