@@ -19,7 +19,7 @@ import db
 import prompt
 
 API_URL = "https://api.deepseek.com/chat/completions"
-MODEL = "deepseek-v4-flash"
+MODEL = os.environ.get("DEEPSEEK_MODEL", "deepseek-v4.1-flash")
 BATCH = 200          # rows per SELECT; the work is one API call at a time anyway
 LOG_EVERY = 25
 
