@@ -152,7 +152,11 @@ def insert_mentions(conn, comment_id, mentions, model_version, prompt_hash):
                dishes, descriptors, aspects, expensiveness, is_firsthand,
                is_negated, model_version, prompt_hash)
             values %s
-            on conflict (comment_id, restaurant_raw, prompt_hash) do nothing
+            -- Must match mentions_unique_idx exactly. Keyed on entity_key,
+            -- not restaurant_raw: one comment can spell a name three ways
+            -- ("l'industrie", "l’industrie", "L'industrie") and those are
+            -- one mention, not three.
+            on conflict (comment_id, entity_key, prompt_hash) do nothing
             returning id
         """, rows, fetch=True)
         n = len(inserted)

@@ -39,7 +39,10 @@ PRICE_OUT = float(os.environ.get("LLM_PRICE_OUT", "0.096")) / 1_000_000
 
 # Accumulated across the process so main() can price the run without threading
 # a counter through every function.
-USAGE = {"prompt_tokens": 0, "completion_tokens": 0}
+# "cost" is the real charge when the provider reports one (OpenRouter does).
+# The price constants are only a fallback for providers that do not.
+USAGE = {"prompt_tokens": 0, "completion_tokens": 0, "reasoning_tokens": 0,
+         "cost": 0.0, "priced_calls": 0, "calls": 0}
 
 _PUNCT = re.compile(r"[^a-z0-9]+")
 
@@ -122,6 +125,14 @@ def call_model(system, user, attempt=0):
     usage = payload.get("usage") or {}
     USAGE["prompt_tokens"] += usage.get("prompt_tokens") or 0
     USAGE["completion_tokens"] += usage.get("completion_tokens") or 0
+    USAGE["reasoning_tokens"] += (usage.get("completion_tokens_details") or {}).get(
+        "reasoning_tokens") or 0
+    USAGE["calls"] += 1
+    # Measured against OpenRouter: the constants overstate by ~25%, and every
+    # retry the estimate cannot see is a call this does.
+    if usage.get("cost") is not None:
+        USAGE["cost"] += float(usage["cost"])
+        USAGE["priced_calls"] += 1
     return payload["choices"][0]["message"]["content"]
 
 
@@ -311,8 +322,9 @@ def main():
 
     done, found = run(conn, args.limit, since, args.workers)
 
-    cost = (USAGE["prompt_tokens"] * PRICE_IN
-            + USAGE["completion_tokens"] * PRICE_OUT)
+    U = USAGE
+    cost = U["cost"] if U["priced_calls"] == U["calls"] and U["calls"] else (
+        U["prompt_tokens"] * PRICE_IN + U["completion_tokens"] * PRICE_OUT)
     print(f"\n{done:,} comments, {found:,} mentions "
           f"({(time.time() - began) / 60:.1f} min)")
     print(f"tokens: {USAGE['prompt_tokens']:,} in / "

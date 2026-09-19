@@ -230,8 +230,9 @@ def main():
           f"({mins:.1f} min)")
     if bad:
         print(f"  {bad} mention(s) dropped for referencing an id we never sent")
-    cost = (extract.USAGE["prompt_tokens"] * extract.PRICE_IN
-            + extract.USAGE["completion_tokens"] * extract.PRICE_OUT)
+    U = extract.USAGE
+    cost = U["cost"] if U["priced_calls"] == U["calls"] and U["calls"] else (
+        U["prompt_tokens"] * extract.PRICE_IN + U["completion_tokens"] * extract.PRICE_OUT)
     print(f"tokens: {extract.USAGE['prompt_tokens']:,} in / "
           f"{extract.USAGE['completion_tokens']:,} out   est. ${cost:.2f}")
     if done:
