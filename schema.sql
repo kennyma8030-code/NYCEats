@@ -80,6 +80,10 @@ create index if not exists mentions_desc_idx    on mentions using gin(descriptor
 create unique index if not exists mentions_unique_idx
   on mentions(comment_id, restaurant_raw, prompt_hash);
 
+-- Trigram matching for the restaurant list. Needed before its index; a fresh
+-- Railway database has no extensions enabled.
+create extension if not exists pg_trgm;
+
 -- Real NYC restaurants, from the health department's inspection data.
 -- One row per NAME, not per licence: locations collapse, so a place with
 -- three branches is one restaurant with three addresses.

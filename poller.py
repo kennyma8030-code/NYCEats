@@ -11,6 +11,7 @@ import traceback
 import arctic
 import db
 import ingest
+import restaurants
 
 SUBREDDIT = "FoodNYC"
 INTERVAL = 30 * 60
@@ -70,6 +71,11 @@ def main():
     # schema.sql is all "create ... if not exists", so this is safe every boot
     # and means a fresh Railway deploy needs no manual setup step.
     db.init(conn)
+
+    # First boot on a fresh database: pull the NYC restaurant list. No-op after.
+    n = restaurants.ensure_loaded(conn)
+    if n:
+        print(f"loaded {n:,} NYC restaurants")
 
     if args.backfill_years:
         import backfill

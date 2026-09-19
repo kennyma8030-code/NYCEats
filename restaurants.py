@@ -122,6 +122,21 @@ def load(conn, groups):
     return n
 
 
+def ensure_loaded(conn):
+    """Load the list once, on first boot. Cheap to call every time.
+
+    Railway redeploys often; refetching 235k inspection rows on every restart
+    would be wasteful, so this only runs when the table is actually empty.
+    Re-run `python restaurants.py` by hand to refresh it.
+    """
+    with conn.cursor() as cur:
+        cur.execute("select count(*) from restaurants")
+        if cur.fetchone()[0]:
+            return 0
+    print("restaurants table is empty, loading the NYC list")
+    return load(conn, group_by_name(fetch_all()))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true", help="fetch and report, do not write")
