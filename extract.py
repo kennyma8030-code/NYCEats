@@ -322,6 +322,18 @@ def main():
 
     done, found = run(conn, args.limit, since, args.workers)
 
+    # The scores are stale the moment a mention lands. Refresh here
+    # rather than leaving it to whoever remembers.
+    if done:
+        import refresh
+        print("refreshing scoring views")
+        try:
+            refresh.refresh_views(conn)
+        except Exception as e:
+            print(f"  refresh failed ({type(e).__name__}: {e}) -- "
+                  f"run python refresh.py --apply")
+            conn.rollback()
+
     U = USAGE
     cost = U["cost"] if U["priced_calls"] == U["calls"] and U["calls"] else (
         U["prompt_tokens"] * PRICE_IN + U["completion_tokens"] * PRICE_OUT)

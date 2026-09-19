@@ -85,6 +85,12 @@ def main():
     if n:
         print(f"loaded {n:,} NYC restaurants")
 
+    # scoring.sql and resolve.sql were applied by hand until now, which is
+    # why production has no scoring views. Every statement in them is
+    # create-or-replace, so this is safe on every boot.
+    import refresh
+    refresh.apply_sql(conn)
+
     # Before the backfill, not after: a first-boot sweep runs for hours and
     # the fallback should be collecting through all of it.
     if not args.no_rss:

@@ -220,6 +220,18 @@ def main():
     began = time.time()
     try:
         done, found, bad, threads = run(conn, since, args.workers, args.threads)
+
+    # The scores are stale the moment a mention lands. Refresh here
+    # rather than leaving it to whoever remembers.
+    if done:
+        import refresh
+        print("refreshing scoring views")
+        try:
+            refresh.refresh_views(conn)
+        except Exception as e:
+            print(f"  refresh failed ({type(e).__name__}: {e}) -- "
+                  f"run python refresh.py --apply")
+            conn.rollback()
     except Exception:
         traceback.print_exc()
         conn.rollback()
