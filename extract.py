@@ -21,7 +21,7 @@ import prompt
 
 # Provider is configurable because the same model is reachable through
 # DeepSeek directly or through OpenRouter, with different slugs and prices.
-WORKERS = int(os.environ.get("LLM_WORKERS", "12"))
+WORKERS = int(os.environ.get("LLM_WORKERS", "48"))   # measured: 200 comments/min
 API_URL = os.environ.get("LLM_API_URL", "https://api.deepseek.com/chat/completions")
 API_KEY_VAR = "OPENROUTER_API_KEY" if "openrouter" in API_URL else "DEEPSEEK_API_KEY"
 MODEL = os.environ.get("LLM_MODEL", "deepseek-v4.1-flash")
@@ -169,13 +169,20 @@ def fetch_one(row):
     """
     comment_id, body, title, selftext, parent = row
     user = prompt.build_user_message(body, title, selftext, parent)
-    try:
-        raw = call_model(prompt.SYSTEM_PROMPT, user)
-        return comment_id, json.loads(raw).get("mentions") or [], None
-    except Exception as e:
-        # Anything that outlived call_model's retries, plus malformed JSON. The
-        # row is parked, not lost: --retry-errors brings it back.
-        return comment_id, None, f"{type(e).__name__}: {e}"
+    last = None
+    # Malformed JSON runs about 1 in 600. It is not deterministic -- the same
+    # prompt usually parses on a second attempt -- so retry before parking it.
+    for attempt in range(2):
+        try:
+            raw = call_model(prompt.SYSTEM_PROMPT, user)
+            return comment_id, json.loads(raw).get("mentions") or [], None
+        except (json.JSONDecodeError, TypeError) as e:
+            last = f"{type(e).__name__}: {e}"
+        except Exception as e:
+            # Network and HTTP failures already exhausted call_model's backoff;
+            # retrying here would just double the wait.
+            return comment_id, None, f"{type(e).__name__}: {e}"
+    return comment_id, None, last
 
 
 def store_one(conn, comment_id, mentions, error):
