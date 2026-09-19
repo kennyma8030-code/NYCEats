@@ -7,6 +7,7 @@ and the loop moves on.
 """
 
 import argparse
+import concurrent.futures
 import http.client
 import json
 import os
@@ -18,8 +19,12 @@ import urllib.request
 import db
 import prompt
 
-API_URL = "https://api.deepseek.com/chat/completions"
-MODEL = os.environ.get("DEEPSEEK_MODEL", "deepseek-v4.1-flash")
+# Provider is configurable because the same model is reachable through
+# DeepSeek directly or through OpenRouter, with different slugs and prices.
+WORKERS = int(os.environ.get("LLM_WORKERS", "12"))
+API_URL = os.environ.get("LLM_API_URL", "https://api.deepseek.com/chat/completions")
+API_KEY_VAR = "OPENROUTER_API_KEY" if "openrouter" in API_URL else "DEEPSEEK_API_KEY"
+MODEL = os.environ.get("LLM_MODEL", "deepseek-v4.1-flash")
 BATCH = 200          # rows per SELECT; the work is one API call at a time anyway
 LOG_EVERY = 25
 
@@ -80,7 +85,7 @@ def call_model(system, user, attempt=0):
         "temperature": 0,
     }).encode("utf-8")
     req = urllib.request.Request(API_URL, data=body, headers={
-        "Authorization": "Bearer " + os.environ["DEEPSEEK_API_KEY"],
+        "Authorization": "Bearer " + os.environ[API_KEY_VAR],
         "Content-Type": "application/json",
     })
     try:
@@ -156,17 +161,27 @@ def _mark_error(conn, comment_id, message):
     conn.commit()
 
 
-def extract_comment(conn, row):
-    """One comment end to end. Returns the number of mentions stored."""
+def fetch_one(row):
+    """The network half. Runs on a worker thread: touches no database.
+
+    Returns (comment_id, mentions, error). psycopg2 connections are not
+    thread-safe, so every write is handed back to the main thread.
+    """
     comment_id, body, title, selftext, parent = row
     user = prompt.build_user_message(body, title, selftext, parent)
     try:
         raw = call_model(prompt.SYSTEM_PROMPT, user)
-        mentions = json.loads(raw).get("mentions") or []
+        return comment_id, json.loads(raw).get("mentions") or [], None
     except Exception as e:
         # Anything that outlived call_model's retries, plus malformed JSON. The
         # row is parked, not lost: --retry-errors brings it back.
-        _mark_error(conn, comment_id, f"{type(e).__name__}: {e}")
+        return comment_id, None, f"{type(e).__name__}: {e}"
+
+
+def store_one(conn, comment_id, mentions, error):
+    """The database half. Main thread only."""
+    if error is not None:
+        _mark_error(conn, comment_id, error)
         return 0
 
     keep = []
@@ -188,19 +203,27 @@ def extract_comment(conn, row):
     return n
 
 
-def run(conn, limit=None, since=None):
+def run(conn, limit=None, since=None, workers=WORKERS):
+    """Fan the API calls out across threads; keep every write on this thread.
+
+    The work is pure latency -- a call takes ~9s and almost all of it is
+    waiting. Sequentially that is ~7 comments/min, which is ten days for a
+    six-month window. psycopg2 connections are not thread-safe, so the pool
+    only ever runs fetch_one, and store_one stays here.
+    """
     done = found = 0
     try:
-        while limit is None or done < limit:
-            take = BATCH if limit is None else min(BATCH, limit - done)
-            rows = next_batch(conn, take, since)
-            if not rows:
-                break
-            for row in rows:
-                found += extract_comment(conn, row)
-                done += 1
-                if done % LOG_EVERY == 0:
-                    print(f"  {done:,} comments  {found:,} mentions", flush=True)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
+            while limit is None or done < limit:
+                take = BATCH if limit is None else min(BATCH, limit - done)
+                rows = next_batch(conn, take, since)
+                if not rows:
+                    break
+                for result in pool.map(fetch_one, rows):
+                    found += store_one(conn, *result)
+                    done += 1
+                    if done % LOG_EVERY == 0:
+                        print(f"  {done:,} comments  {found:,} mentions", flush=True)
     except KeyboardInterrupt:
         print("\ninterrupted -- finished comments are committed, re-run to resume")
     return done, found
@@ -210,6 +233,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=None,
                     help="stop after N comments")
+    ap.add_argument("--workers", type=int, default=WORKERS,
+                    help="concurrent API calls")
     ap.add_argument("--since", metavar="MONTHS", type=int, default=None,
                     help="only extract comments from the last N months")
     ap.add_argument("--retry-errors", action="store_true",
@@ -236,8 +261,8 @@ def main():
     # Fail here rather than per comment: a missing key raises inside
     # extract_comment, which would happily stamp 384k rows with the same error.
     # db's .env loader has already run by import time.
-    if not os.environ.get("DEEPSEEK_API_KEY"):
-        raise SystemExit("DEEPSEEK_API_KEY is not set (add it to .env next to DATABASE_URL)")
+    if not os.environ.get(API_KEY_VAR):
+        raise SystemExit(f"{API_KEY_VAR} is not set (add it to .env next to DATABASE_URL)")
 
     conn = db.connect()
 
@@ -261,7 +286,7 @@ def main():
                              and length(body) > 15 and created_utc >= %s""", (since,))
             print(f"{cur.fetchone()[0]:,} comments from the last {args.since} months")
 
-    done, found = run(conn, args.limit, since)
+    done, found = run(conn, args.limit, since, args.workers)
 
     cost = (USAGE["prompt_tokens"] * PRICE_IN
             + USAGE["completion_tokens"] * PRICE_OUT)
