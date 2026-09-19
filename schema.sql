@@ -79,3 +79,22 @@ create index if not exists mentions_desc_idx    on mentions using gin(descriptor
 -- idempotent, same as every other writer in this codebase.
 create unique index if not exists mentions_unique_idx
   on mentions(comment_id, restaurant_raw, prompt_hash);
+
+-- Real NYC restaurants, from the health department's inspection data.
+-- One row per NAME, not per licence: locations collapse, so a place with
+-- three branches is one restaurant with three addresses.
+create table if not exists restaurants (
+  id             bigserial primary key,
+  name           text not null,          -- display form, as the city lists it
+  name_key       text not null unique,   -- normalized, matches mentions.entity_key
+  cuisine        text,
+  boroughs       text[],
+  location_count int not null default 1,
+  addresses      jsonb,
+  is_chain       boolean not null default false,
+  closed         boolean not null default false,
+  last_seen      date                    -- most recent inspection on record
+);
+
+create index if not exists restaurants_key_idx  on restaurants(name_key);
+create index if not exists restaurants_trgm_idx on restaurants using gin (name_key gin_trgm_ops);
