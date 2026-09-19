@@ -40,7 +40,22 @@ select
 --    volume    = correlation_discount * author_cap
 --    sentiment = chain_discount * upvote_factor
 -- ---------------------------------------------------------------------------
-create or replace view mention_weights as
+-- Materialised: every downstream view reads it, and entity_momentum reads it
+-- once per window. Recomputing the window functions and the prompted-check
+-- four times over made the leaderboard take minutes.
+--   refresh materialized view concurrently mention_weights;
+-- Neither DROP form no-ops against the other kind -- each errors outright,
+-- which aborts the whole script under ON_ERROR_STOP. So drop whichever is
+-- actually there.
+do $$
+begin
+  if exists (select 1 from pg_matviews where matviewname = 'mention_weights') then
+    drop materialized view mention_weights cascade;
+  elsif exists (select 1 from pg_views where viewname = 'mention_weights') then
+    drop view mention_weights cascade;
+  end if;
+end $$;
+create materialized view mention_weights as
 with base as (
   select
     m.id            as mention_id,
@@ -133,6 +148,10 @@ select
 
 from counted;
 
+create unique index if not exists mention_weights_pk  on mention_weights(mention_id);
+create index if not exists mention_weights_entity_idx on mention_weights(entity_key);
+create index if not exists mention_weights_time_idx   on mention_weights(created_utc);
+
 
 -- ---------------------------------------------------------------------------
 -- 2. Volume: decayed, then divided by the subreddit's own decayed activity.
@@ -183,7 +202,20 @@ from per_entity e cross join decayed_corpus d;
 --    The baseline window contains the recent window, which drags the estimate
 --    toward "no change" -- conservative in the direction we want.
 -- ---------------------------------------------------------------------------
-create or replace view momentum_windows as
+-- Materialised: four rows, but each is a count over 750k comments, and
+-- entity_momentum_all cross-joins this -- so as a plain view the corpus counts
+-- were being re-evaluated per entity. That alone took the leaderboard from
+-- seconds to minutes.
+--   refresh materialized view momentum_windows;
+do $$
+begin
+  if exists (select 1 from pg_matviews where matviewname = 'momentum_windows') then
+    drop materialized view momentum_windows cascade;
+  elsif exists (select 1 from pg_views where viewname = 'momentum_windows') then
+    drop view momentum_windows cascade;
+  end if;
+end $$;
+create materialized view momentum_windows as
 select w.window_days,
        (select count(*) from comments c
          where c.created_utc > now() - make_interval(days => w.window_days))

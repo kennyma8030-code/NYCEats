@@ -9,7 +9,7 @@ does not add a second. If it grows past a few endpoints, move it to FastAPI.
 import json
 import os
 import urllib.parse
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 
 import db
 
@@ -174,4 +174,4 @@ class Handler(SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     print(f"http://localhost:{PORT}")
-    HTTPServer(("", PORT), Handler).serve_forever()
+    ThreadingHTTPServer(("", PORT), Handler).serve_forever()
