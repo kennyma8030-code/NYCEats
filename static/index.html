@@ -1,0 +1,247 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>NYCEats</title>
+<style>
+  :root {
+    --bg:#faf9f7; --card:#fff; --ink:#1a1a1a; --mute:#6b6b6b; --line:#e5e2dd;
+    --pos:#2f7d4f; --neg:#b3402f; --accent:#2b5fa8;
+  }
+  * { box-sizing:border-box }
+  body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+         background:var(--bg); color:var(--ink) }
+  header { padding:16px 20px; border-bottom:1px solid var(--line); background:var(--card);
+           display:flex; align-items:baseline; gap:14px; flex-wrap:wrap }
+  h1 { margin:0; font-size:17px; letter-spacing:-.01em }
+  .stats { color:var(--mute); font-size:12px }
+  .warn { background:#fff4e0; border:1px solid #f0d9a8; color:#7a5a12;
+          padding:6px 10px; border-radius:5px; font-size:12px }
+  .wrap { display:grid; grid-template-columns:230px 1fr; gap:18px; padding:18px 20px;
+          align-items:start }
+  @media (max-width:820px) { .wrap { grid-template-columns:1fr } }
+
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:7px;
+           padding:14px; position:sticky; top:14px }
+  .panel h2 { font-size:11px; text-transform:uppercase; letter-spacing:.06em;
+              color:var(--mute); margin:14px 0 6px }
+  .panel h2:first-child { margin-top:0 }
+  label { display:block; font-size:12px; margin:5px 0 }
+  input,select { width:100%; padding:6px 7px; border:1px solid var(--line);
+                 border-radius:4px; font:inherit; font-size:13px; background:#fff }
+  input[type=range] { padding:0 }
+  .row { display:flex; align-items:center; gap:7px; font-size:12px; margin:4px 0 }
+  .row input[type=checkbox] { width:auto }
+  .rng { display:grid; grid-template-columns:1fr 34px; gap:6px; align-items:center }
+  .rng span { font-variant-numeric:tabular-nums; color:var(--mute); font-size:11px;
+              text-align:right }
+  button { width:100%; padding:7px; border:1px solid var(--line); background:#f3f1ee;
+           border-radius:4px; cursor:pointer; font:inherit; font-size:12px; margin-top:12px }
+  button:hover { background:#eae7e2 }
+
+  table { width:100%; border-collapse:collapse; background:var(--card);
+          border:1px solid var(--line); border-radius:7px; overflow:hidden }
+  th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.05em;
+       color:var(--mute); padding:9px 10px; border-bottom:1px solid var(--line);
+       white-space:nowrap; font-weight:600 }
+  td { padding:9px 10px; border-bottom:1px solid #f2efeb; vertical-align:top }
+  tr:last-child td { border-bottom:none }
+  tr.e:hover { background:#fbfaf8; cursor:pointer }
+  .name { font-weight:600 }
+  .sub { color:var(--mute); font-size:11.5px; margin-top:1px }
+  .num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap }
+  .pos { color:var(--pos) } .neg { color:var(--neg) } .none { color:#c4c0ba }
+  .tag { display:inline-block; padding:1px 6px; border-radius:9px; font-size:10.5px;
+         border:1px solid var(--line); color:var(--mute); background:#f7f5f2 }
+  .tag.exact { border-color:#bfe0cb; background:#eef7f1; color:var(--pos) }
+  .tag.fuzzy { border-color:#f0d9a8; background:#fff8ea; color:#8a6a1e }
+  .tag.rise  { border-color:#bfd4ef; background:#eff4fb; color:var(--accent) }
+
+  .detail { background:#fbfaf8 }
+  .detail td { padding:12px 14px }
+  .m { border-left:2px solid var(--line); padding:7px 0 7px 11px; margin-bottom:11px }
+  .m .meta { font-size:11px; color:var(--mute); margin-bottom:3px }
+  .m .body { white-space:pre-wrap }
+  .m a { color:var(--accent) }
+  .asp { font-size:11px; color:var(--mute); margin-top:3px }
+  .empty { padding:36px; text-align:center; color:var(--mute) }
+</style>
+
+<header>
+  <h1>NYCEats</h1>
+  <span class="stats" id="stats">loading…</span>
+  <span class="warn" id="warn" hidden></span>
+</header>
+
+<div class="wrap">
+  <aside class="panel">
+    <h2>Search</h2>
+    <input id="search" placeholder="restaurant name">
+
+    <h2>Place</h2>
+    <label>Cuisine <select id="cuisine"><option value="">any</option></select></label>
+    <label>Borough <select id="borough"><option value="">any</option></select></label>
+    <div class="row"><input type="checkbox" id="hide_chains" checked>
+      <label for="hide_chains" style="margin:0">Hide chains</label></div>
+
+    <h2>Evidence</h2>
+    <label>Match <select id="status"><option value="">any</option></select></label>
+    <label>Min mentions <span id="mmL" class="sub">1</span>
+      <input type="range" id="min_mentions" min="1" max="30" value="1"></label>
+    <label>Min people <span id="maL" class="sub">1</span>
+      <input type="range" id="min_authors" min="1" max="20" value="1"></label>
+    <div class="row"><input type="checkbox" id="rising">
+      <label for="rising" style="margin:0">Rising only</label></div>
+
+    <h2>Aspects</h2>
+    <div id="aspects"></div>
+
+    <h2>Sort</h2>
+    <select id="sort">
+      <option value="volume">Volume</option>
+      <option value="momentum">Momentum</option>
+      <option value="mentions">Raw mentions</option>
+      <option value="authors">Distinct people</option>
+      <option value="longevity">Longevity</option>
+      <option value="food">Food score</option>
+      <option value="value">Value score</option>
+    </select>
+    <button id="reset">Reset filters</button>
+  </aside>
+
+  <main>
+    <table>
+      <thead><tr>
+        <th>Restaurant</th><th class="num">Vol</th><th class="num">Mom</th>
+        <th class="num">Ment</th><th class="num">Ppl</th>
+        <th class="num">Food</th><th class="num">Value</th>
+        <th class="num">Svc</th><th class="num">Atmo</th><th class="num">Wait</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty" hidden></div>
+  </main>
+</div>
+
+<script>
+const ASPECTS = ["food","value","service","atmosphere","wait"];
+const $ = id => document.getElementById(id);
+
+$("aspects").innerHTML = ASPECTS.map(a => `
+  <label>${a} &ge; <span class="sub" id="${a}L">any</span>
+    <input type="range" id="min_${a}" min="-1" max="1" step="0.1" value="-1"></label>`).join("");
+
+function params() {
+  const p = new URLSearchParams();
+  if ($("search").value.trim()) p.set("search", $("search").value.trim());
+  for (const k of ["cuisine","borough","status","sort"])
+    if ($(k).value) p.set(k, $(k).value);
+  p.set("hide_chains", $("hide_chains").checked ? "1" : "0");
+  if ($("rising").checked) p.set("rising", "1");
+  if (+$("min_mentions").value > 1) p.set("min_mentions", $("min_mentions").value);
+  if (+$("min_authors").value  > 1) p.set("min_authors",  $("min_authors").value);
+  for (const a of ASPECTS) {
+    const v = +$("min_" + a).value;
+    if (v > -1) p.set("min_" + a, v);
+  }
+  return p;
+}
+
+// A null aspect is NOT zero -- an unmeasured thing must not look average.
+const score = v => v === null || v === undefined
+  ? '<span class="none">&mdash;</span>'
+  : `<span class="${v > 0.05 ? "pos" : v < -0.05 ? "neg" : ""}">${(+v).toFixed(2)}</span>`;
+
+const esc = s => (s ?? "").replace(/[<>&]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
+
+async function load() {
+  const rows = await (await fetch("/api/leaderboard?" + params())).json();
+  if (rows.error) { $("empty").hidden = false; $("empty").textContent = rows.error; return; }
+  $("empty").hidden = rows.length > 0;
+  if (!rows.length) $("empty").textContent = "No restaurants match these filters.";
+
+  $("rows").innerHTML = rows.map(r => {
+    const sub = [r.official_name && r.official_name !== r.entity_key ? r.official_name : null,
+                 r.cuisine, (r.boroughs || []).join("/")].filter(Boolean).join(" · ");
+    const tags = [
+      r.status === "exact" ? '<span class="tag exact">verified</span>' :
+      r.status === "fuzzy" ? `<span class="tag fuzzy">~${r.fuzzy_match ?? ""}</span>` :
+      `<span class="tag">${r.status ?? "?"}</span>`,
+      r.momentum_fired ? `<span class="tag rise">rising ${r.momentum_window_days}d</span>` : ""
+    ].join(" ");
+    return `<tr class="e" data-k="${esc(r.entity_key)}">
+      <td><div class="name">${esc(r.entity_key)}</div>
+          <div class="sub">${esc(sub)} ${tags}</div></td>
+      <td class="num">${r.decayed_volume == null ? "—" : (+r.decayed_volume).toFixed(1)}</td>
+      <td class="num">${r.momentum_sigma == null ? "—" : (+r.momentum_sigma).toFixed(1)}</td>
+      <td class="num">${r.raw_mentions ?? "—"}</td>
+      <td class="num">${r.distinct_authors ?? "—"}</td>
+      ${ASPECTS.map(a => `<td class="num">${score(r[a])}</td>`).join("")}
+    </tr>`;
+  }).join("");
+}
+
+// Click a row to see the comments behind its numbers.
+$("rows").addEventListener("click", async e => {
+  const tr = e.target.closest("tr.e");
+  if (!tr) return;
+  const open = tr.nextElementSibling;
+  if (open && open.classList.contains("detail")) { open.remove(); return; }
+  document.querySelectorAll("tr.detail").forEach(d => d.remove());
+
+  const ms = await (await fetch("/api/mentions?entity=" + encodeURIComponent(tr.dataset.k))).json();
+  const row = document.createElement("tr");
+  row.className = "detail";
+  row.innerHTML = `<td colspan="10">` + (ms.length ? ms.map(m => {
+    const a = m.aspects || {};
+    const shown = ASPECTS.filter(k => a[k] !== null && a[k] !== undefined)
+                         .map(k => `${k} ${(+a[k]).toFixed(1)}`).join(" · ");
+    const link = m.was_deleted_later
+      ? '<span class="none">comment deleted</span>'
+      : `<a href="https://reddit.com${m.permalink}" target="_blank">permalink</a>`;
+    return `<div class="m">
+      <div class="meta">u/${esc(m.author)} · ${(m.created_utc||"").slice(0,10)}
+        · score ${m.score ?? "?"} · ${link}
+        ${m.is_negated ? ' · <span class="neg">avoid</span>' : ""}
+        ${m.is_firsthand === false ? " · hearsay" : ""}</div>
+      <div class="body">${esc(m.body).slice(0, 700)}</div>
+      ${shown ? `<div class="asp">${shown}</div>` : ""}
+      <div class="asp">in: ${esc(m.thread_title)}</div>
+    </div>`;
+  }).join("") : "<em>no mentions</em>") + "</td>";
+  tr.after(row);
+});
+
+async function facets() {
+  const f = await (await fetch("/api/facets")).json();
+  const fill = (id, list) => $(id).innerHTML = '<option value="">any</option>' +
+    list.map(x => `<option value="${esc(x.name)}">${esc(x.name)} (${x.n})</option>`).join("");
+  fill("cuisine", f.cuisines); fill("borough", f.boroughs); fill("status", f.statuses);
+  const s = f.stats;
+  $("stats").textContent =
+    `${s.entities.toLocaleString()} restaurants · ${s.mentions.toLocaleString()} mentions · ` +
+    `${s.extracted.toLocaleString()} of ${s.comments.toLocaleString()} comments extracted`;
+  if ((s.models || "").includes("stringmatch")) {
+    $("warn").hidden = false;
+    $("warn").textContent = "Placeholder data — string matching, no sentiment yet";
+  }
+}
+
+let t;
+document.addEventListener("input", e => {
+  const m = {min_mentions:"mmL", min_authors:"maL"}[e.target.id];
+  if (m) $(m).textContent = e.target.value;
+  for (const a of ASPECTS) if (e.target.id === "min_" + a)
+    $(a + "L").textContent = +e.target.value <= -1 ? "any" : (+e.target.value).toFixed(1);
+  clearTimeout(t); t = setTimeout(load, 180);
+});
+$("reset").onclick = () => {
+  $("search").value = "";
+  ["cuisine","borough","status"].forEach(k => $(k).value = "");
+  $("hide_chains").checked = true; $("rising").checked = false;
+  $("min_mentions").value = 1; $("min_authors").value = 1;
+  $("mmL").textContent = "1"; $("maL").textContent = "1";
+  ASPECTS.forEach(a => { $("min_" + a).value = -1; $(a + "L").textContent = "any"; });
+  load();
+};
+
+facets(); load();
+</script>
