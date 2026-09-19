@@ -124,13 +124,12 @@ def run(conn, years=None, posts_only=False):
         return
 
     print("phase 2: comments")
-    seen, new = backfill_comments(conn, start_utc)
+    seen, new, touched = backfill_comments(conn, start_utc)
     print(f"  done: {seen:,} comments, {new:,} new\n")
 
     print("phase 3: rebuilding reply trees")
-    with conn.cursor() as cur:
-        cur.execute("select id from threads")
-        ids = [r[0] for r in cur.fetchall()]
+    ids = touched | stale_thread_ids(conn)
+    print(f"  {len(ids):,} thread(s) to check")
     print(f"  updated {db.fill_tree(conn, ids):,} rows\n")
 
 
