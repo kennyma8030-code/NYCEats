@@ -111,7 +111,7 @@ def call_model(system, user, attempt=0):
     return payload["choices"][0]["message"]["content"]
 
 
-def next_batch(conn, limit):
+def next_batch(conn, limit=200, since=None):
     """Comments still needing extraction, with everything the prompt asks for.
 
     One query rather than a lookup per comment: the thread is an inner join (the
@@ -132,9 +132,10 @@ def next_batch(conn, limit):
               and c.extract_error is null
               and c.body not in ('[deleted]', '[removed]')
               and length(c.body) > 15
+              and (%s is null or c.created_utc >= %s)
             order by c.thread_id, c.created_utc
             limit %s
-        """, (limit,))
+        """, (since, since, limit))
         return cur.fetchall()
 
 
@@ -187,12 +188,12 @@ def extract_comment(conn, row):
     return n
 
 
-def run(conn, limit=None):
+def run(conn, limit=None, since=None):
     done = found = 0
     try:
         while limit is None or done < limit:
             take = BATCH if limit is None else min(BATCH, limit - done)
-            rows = next_batch(conn, take)
+            rows = next_batch(conn, take, since)
             if not rows:
                 break
             for row in rows:
@@ -209,6 +210,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=None,
                     help="stop after N comments")
+    ap.add_argument("--since", metavar="MONTHS", type=int, default=None,
+                    help="only extract comments from the last N months")
     ap.add_argument("--retry-errors", action="store_true",
                     help="clear extract_error and reprocess those comments")
     ap.add_argument("--reset", metavar="PROMPT_HASH", nargs="?", const=prompt.PROMPT_HASH,
@@ -246,7 +249,19 @@ def main():
         conn.commit()
 
     began = time.time()
-    done, found = run(conn, args.limit)
+    since = None
+    if args.since:
+        with conn.cursor() as cur:
+            cur.execute("select now() - make_interval(months => %s)", (args.since,))
+            since = cur.fetchone()[0]
+        with conn.cursor() as cur:
+            cur.execute("""select count(*) from comments
+                           where extracted_at is null and extract_error is null
+                             and body not in ('[deleted]','[removed]')
+                             and length(body) > 15 and created_utc >= %s""", (since,))
+            print(f"{cur.fetchone()[0]:,} comments from the last {args.since} months")
+
+    done, found = run(conn, args.limit, since)
 
     cost = (USAGE["prompt_tokens"] * PRICE_IN
             + USAGE["completion_tokens"] * PRICE_OUT)
