@@ -24,15 +24,17 @@ import prompt_thread
 # A thread larger than this is split. Threads run to 1,096 comments and one
 # call that size is slow, expensive to retry, and past the point where the
 # model tracks ids reliably.
-CHUNK = 60
+CHUNK = 25
 LOG_EVERY = 25
 
 
 def pending_threads(conn, since=None, limit=500):
     """Threads with comments still needing extraction, biggest first.
 
-    Biggest first because the saving is per thread: a 200-comment thread saves
-    199 copies of the system prompt, a 2-comment thread saves one.
+    Smallest first. Biggest-first maximises token saving per call, but the
+    largest threads run to ~1,000 comments, so it spends the first hour on 14
+    threads with nothing else moving. Small threads clear fast and the
+    per-thread saving is already most of the win.
     """
     with conn.cursor() as cur:
         cur.execute("""
@@ -43,7 +45,7 @@ def pending_threads(conn, since=None, limit=500):
               and length(c.body) > 15
               and (%s is null or c.created_utc >= %s)
             group by c.thread_id
-            order by n desc
+            order by n asc
             limit %s
         """, (since, since, limit))
         return cur.fetchall()
