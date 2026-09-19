@@ -211,7 +211,24 @@ def main():
                     help="stop after N comments")
     ap.add_argument("--retry-errors", action="store_true",
                     help="clear extract_error and reprocess those comments")
+    ap.add_argument("--reset", metavar="PROMPT_HASH", nargs="?", const=prompt.PROMPT_HASH,
+                    help="undo a run: delete its mentions and un-mark its comments "
+                         "(defaults to the current prompt hash)")
     args = ap.parse_args()
+
+    # --reset needs no API key and must run before the key check.
+    if args.reset:
+        conn = db.connect()
+        with conn.cursor() as cur:
+            cur.execute("delete from mentions where prompt_hash = %s", (args.reset,))
+            gone = cur.rowcount
+            cur.execute("update comments set extracted_at = null, extracted_with = null "
+                        "where extracted_with = %s", (args.reset,))
+            unmarked = cur.rowcount
+        conn.commit()
+        print(f"reset {args.reset}: {gone:,} mentions deleted, "
+              f"{unmarked:,} comments returned to the queue")
+        return
 
     # Fail here rather than per comment: a missing key raises inside
     # extract_comment, which would happily stamp 384k rows with the same error.
