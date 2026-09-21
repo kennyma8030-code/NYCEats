@@ -117,6 +117,22 @@ def insert_comments(conn, comments):
 ASPECTS = ("food", "value", "service", "atmosphere", "wait")
 
 
+def _score(v):
+    """A -1..1 number, or None. The model is asked for one and mostly obliges.
+
+    It does not always: a run died on `"expensiveness": "cheaper"`, because
+    that column is a real and Postgres rejected the word. The prompt cannot be
+    made to guarantee a type, so the writer enforces it. Out-of-range values
+    are clamped rather than dropped -- 1.5 means emphatic, not missing.
+    """
+    if v is None or isinstance(v, bool):
+        return None
+    try:
+        return max(-1.0, min(1.0, float(v)))
+    except (TypeError, ValueError):
+        return None
+
+
 def insert_mentions(conn, comment_id, mentions, model_version, prompt_hash):
     """One comment's extraction. `entity_key` is set by the caller -- extract.py
     owns normalization, this only writes what it is handed.
@@ -138,8 +154,8 @@ def insert_mentions(conn, comment_id, mentions, model_version, prompt_hash):
             Json(m.get("descriptors") or []),
             # Pin the five keys so a model that invents a sixth, or drops one,
             # still produces the same shape for every row downstream reads.
-            Json({k: aspects.get(k) for k in ASPECTS}),
-            m.get("expensiveness"),
+            Json({k: _score(aspects.get(k)) for k in ASPECTS}),
+            _score(m.get("expensiveness")),
             m.get("is_firsthand"),
             bool(m.get("is_negated")),
             model_version,

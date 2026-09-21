@@ -240,7 +240,13 @@ def store_one(conn, comment_id, mentions, error):
         if m["entity_key"] and not is_chain(m["entity_key"]):
             keep.append(m)
 
-    n = db.insert_mentions(conn, comment_id, keep, MODEL, prompt.PROMPT_HASH)
+    try:
+        n = db.insert_mentions(conn, comment_id, keep, MODEL, prompt.PROMPT_HASH)
+    except Exception as e:
+        # Same reasoning as thread mode: park the comment, keep the run alive.
+        conn.rollback()
+        _mark_error(conn, comment_id, f"{type(e).__name__}: {e}")
+        return 0
     # Marked only after the insert commits, so a crash in between costs one
     # re-extracted comment rather than silently losing its mentions.
     _mark_extracted(conn, comment_id)

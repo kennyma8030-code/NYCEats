@@ -141,9 +141,17 @@ def store_chunk(conn, comment_ids, result, error):
             m["entity_key"] = extract.normalize_entity(name)
             if m["entity_key"] and not extract.is_chain(m["entity_key"]):
                 keep.append(m)
-        found += db.insert_mentions(conn, cid, keep, extract.MODEL,
-                                    prompt_thread.PROMPT_HASH)
-        extract._mark_extracted(conn, cid, prompt_thread.PROMPT_HASH)
+        # One unwritable row must not end the run. A 7-hour job died on a
+        # single `"expensiveness": "cheaper"`: psycopg2 raised, nothing caught
+        # it, and the remaining 149,290 comments went unprocessed. The failure
+        # is parked on the comment and the loop moves on.
+        try:
+            found += db.insert_mentions(conn, cid, keep, extract.MODEL,
+                                        prompt_thread.PROMPT_HASH)
+            extract._mark_extracted(conn, cid, prompt_thread.PROMPT_HASH)
+        except Exception as e:
+            conn.rollback()          # the transaction is aborted; clear it
+            extract._mark_error(conn, cid, f"{type(e).__name__}: {e}")
     return found, bad
 
 
@@ -220,9 +228,13 @@ def main():
     began = time.time()
     try:
         done, found, bad, threads = run(conn, since, args.workers, args.threads)
+    except Exception:
+        traceback.print_exc()
+        conn.rollback()
+        return
 
-    # The scores are stale the moment a mention lands. Refresh here
-    # rather than leaving it to whoever remembers.
+    # The scores are stale the moment a mention lands. Refresh here rather
+    # than leaving it to whoever remembers.
     if done:
         import refresh
         print("refreshing scoring views")
@@ -232,10 +244,6 @@ def main():
             print(f"  refresh failed ({type(e).__name__}: {e}) -- "
                   f"run python refresh.py --apply")
             conn.rollback()
-    except Exception:
-        traceback.print_exc()
-        conn.rollback()
-        return
 
     mins = (time.time() - began) / 60
     print(f"\n{done:,} comments in {threads:,} threads -> {found:,} mentions "
