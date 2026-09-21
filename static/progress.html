@@ -1,0 +1,36 @@
+<!doctype html>
+<title>NYCEats extraction</title>
+<style>
+  :root { color-scheme: light dark; font: 15px/1.5 ui-sans-serif, system-ui, sans-serif; }
+  body { margin: 0; padding: 32px; max-width: 560px; }
+  h1 { font-size: 15px; font-weight: 600; margin: 0 0 24px; opacity: .6; }
+  .pct { font-size: 56px; font-weight: 700; letter-spacing: -.02em; line-height: 1; }
+  .bar { height: 8px; border-radius: 4px; background: color-mix(in srgb, currentColor 12%, transparent); margin: 20px 0 28px; overflow: hidden; }
+  .bar div { height: 100%; background: #16a34a; transition: width .6s ease; }
+  dl { display: grid; grid-template-columns: 1fr auto; gap: 10px 16px; margin: 0; }
+  dt { opacity: .6; } dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+  .idle { color: #dc2626; }
+</style>
+<h1>NYCEats — extraction</h1>
+<div class="pct" id="pct">—</div>
+<div class="bar"><div id="bar" style="width:0"></div></div>
+<dl id="stats"></dl>
+<script>
+const f = n => n?.toLocaleString() ?? "—";
+async function tick() {
+  const d = await (await fetch("/api/progress")).json();
+  pct.textContent = d.percent + "%";
+  bar.style.width = d.percent + "%";
+  stats.innerHTML = [
+    ["extracted", f(d.extracted)],
+    ["pending", f(d.pending)],
+    ["mentions", f(d.mentions)],
+    ["distinct restaurants", f(d.entities)],
+    ["rate", d.rate_per_min + " / min"],
+    ["time remaining", d.eta_hours != null ? d.eta_hours + " h" : "—"],
+    ["errors", f(d.errored)],
+    ["status", d.running ? "running" : "<span class=idle>not running</span>"],
+  ].map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+}
+tick(); setInterval(tick, 15000);
+</script>

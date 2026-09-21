@@ -154,8 +154,44 @@ def facets(conn, _q):
     return out
 
 
+def progress(conn, _q):
+    """How far through extraction we are, and how fast.
+
+    The run's own log counts only that run. This counts the corpus, which is
+    the number you actually want while a multi-hour job is going.
+    """
+    with conn.cursor() as cur:
+        cur.execute("""
+            select count(*) filter (where extracted_at is not null)                as extracted,
+                   count(*) filter (where extracted_at is null
+                                      and extract_error is null
+                                      and body not in ('[deleted]','[removed]')
+                                      and length(body) > 15
+                                      and created_utc >= now() - interval '365 days')
+                                                                                   as pending,
+                   count(*) filter (where extract_error is not null)               as errored,
+                   -- 30 minutes, not 10: calls take ~4 minutes, so a short
+                   -- window reads as zero for the first stretch of a run and
+                   -- produces a nonsense ETA.
+                   count(*) filter (where extracted_at > now() - interval '30 min') as recent
+            from comments
+        """)
+        extracted, pending, errored, recent = cur.fetchone()
+        cur.execute("select count(*), count(distinct entity_key) from mentions")
+        mentions, entities = cur.fetchone()
+
+    rate = recent / 30.0                        # comments per minute
+    return {"extracted": extracted, "pending": pending, "errored": errored,
+            "mentions": mentions, "entities": entities,
+            "rate_per_min": round(rate, 1),
+            "eta_hours": round(pending / rate / 60, 1) if rate else None,
+            "percent": round(extracted / (extracted + pending) * 100, 1)
+                       if extracted + pending else 100.0,
+            "running": recent > 0}
+
+
 ROUTES = {"/api/leaderboard": leaderboard, "/api/mentions": mentions,
-          "/api/facets": facets}
+          "/api/facets": facets, "/api/progress": progress}
 
 
 class Handler(SimpleHTTPRequestHandler):
