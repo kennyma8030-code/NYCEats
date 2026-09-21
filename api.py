@@ -190,8 +190,37 @@ def progress(conn, _q):
             "running": recent > 0}
 
 
+def latest(conn, q):
+    """The newest extracted facts, for watching a run as it happens.
+
+    Keyed on mentions.id rather than a timestamp: it is the insertion order,
+    it is indexed, and `after` makes polling cheap -- the client asks only for
+    what it has not already seen.
+    """
+    after = q.get("after", [None])[0]
+    with conn.cursor() as cur:
+        cur.execute("""
+            select m.id, m.restaurant_raw, m.entity_key, m.aspects, m.dishes,
+                   m.descriptors, m.is_negated, m.is_firsthand,
+                   m.neighborhood_hint, m.expensiveness,
+                   c.author, c.body, c.permalink, c.created_utc,
+                   a.resolved_key, t.title as thread_title
+            from mentions m
+            join comments c on c.id = m.comment_id
+            join threads  t on t.id = c.thread_id
+            -- left join: a name extracted since the last refresh has no alias
+            -- row yet, and should still show under what the person typed.
+            left join entity_alias a on a.entity_key = m.entity_key
+            where (%s is null or m.id > %s::bigint)
+            order by m.id desc
+            limit 60
+        """, (after, after))
+        return rows_to_dicts(cur)
+
+
 ROUTES = {"/api/leaderboard": leaderboard, "/api/mentions": mentions,
-          "/api/facets": facets, "/api/progress": progress}
+          "/api/facets": facets, "/api/progress": progress,
+          "/api/latest": latest}
 
 
 class Handler(SimpleHTTPRequestHandler):
