@@ -488,7 +488,39 @@ group by 1;
 --    composite score. Aspect columns are NULL when the aspect was never
 --    observed -- absent and neutral (0.0) are different answers.
 -- ---------------------------------------------------------------------------
-create or replace view entity_leaderboard as
+--    Materialised, and this is the one that mattered most. As a plain view,
+--    every request re-ran entity_volume -- whose decayed_corpus CTE is a
+--    sum(power(2.0, ...)) across all 750k comments -- plus entity_longevity's
+--    per-entity correlated subqueries, before a single filter was applied.
+--
+--    It cannot be response-cached instead: a leaderboard is (sort x filters),
+--    and search x cuisine x borough x status x five aspect thresholds x
+--    thirteen sorts has no meaningful hit rate. So the SUBSTRATE is cached --
+--    one row per entity, a few thousand rows -- and any filter and sort over
+--    it is then a scan of something tiny.
+--      refresh materialized view concurrently entity_leaderboard;
+do $$
+begin
+  if exists (select 1 from pg_matviews where matviewname = 'entity_leaderboard') then
+    drop materialized view entity_leaderboard cascade;
+  elsif exists (select 1 from pg_views where viewname = 'entity_leaderboard') then
+    drop view entity_leaderboard cascade;
+  end if;
+end $$;
+create materialized view entity_leaderboard as
+with aspects as (
+  -- Pivoted here rather than joined per request. max() over a filter is a
+  -- pivot, not an aggregate over duplicates: aspect_scores holds at most one
+  -- row per (entity, aspect).
+  select entity_key,
+         max(aspect_score) filter (where aspect = 'food')       as food,
+         max(aspect_score) filter (where aspect = 'value')      as value,
+         max(aspect_score) filter (where aspect = 'service')    as service,
+         max(aspect_score) filter (where aspect = 'atmosphere') as atmosphere,
+         max(aspect_score) filter (where aspect = 'wait')       as wait
+  from aspect_scores
+  group by entity_key
+)
 select v.entity_key,
        v.raw_mentions,
        v.decayed_volume,
@@ -503,20 +535,38 @@ select v.entity_key,
        lg.last_seen,
        lg.months_active,
        lg.longest_gap_months,
-       max(a.aspect_score) filter (where a.aspect = 'food')       as food,
-       max(a.aspect_score) filter (where a.aspect = 'value')      as value,
-       max(a.aspect_score) filter (where a.aspect = 'service')    as service,
-       max(a.aspect_score) filter (where a.aspect = 'atmosphere') as atmosphere,
-       max(a.aspect_score) filter (where a.aspect = 'wait')       as wait
+       a.food,
+       a.value,
+       a.service,
+       a.atmosphere,
+       a.wait,
+       -- The official record, folded in so filtering by cuisine or borough is
+       -- a column test rather than a join per request. NULL when the typed
+       -- name never matched the city's list, which is not evidence the place
+       -- is fake -- see resolve.sql.
+       r.name           as official_name,
+       r.cuisine,
+       r.boroughs,
+       r.is_chain,
+       r.closed,
+       r.location_count
 from entity_volume v
 left join entity_confidence cf on cf.entity_key = v.entity_key
 left join entity_momentum  mo on mo.entity_key = v.entity_key
 left join entity_longevity lg on lg.entity_key = v.entity_key
-left join aspect_scores     a on  a.entity_key = v.entity_key
-group by v.entity_key, v.raw_mentions, v.decayed_volume, v.volume_share,
-         cf.distinct_authors, cf.firsthand_mentions, cf.negated_mentions,
-         mo.momentum_sigma, mo.momentum_window_days, mo.momentum_fired,
-         lg.first_seen, lg.last_seen, lg.months_active, lg.longest_gap_months;
+left join aspects           a on  a.entity_key = v.entity_key
+left join restaurants       r on  r.name_key   = v.entity_key;
+
+-- Unique index is not optional: REFRESH ... CONCURRENTLY requires one, and
+-- without it the refresh takes an AccessExclusiveLock and the API blocks.
+create unique index if not exists entity_leaderboard_pk
+  on entity_leaderboard(entity_key);
+create index if not exists entity_leaderboard_volume_idx
+  on entity_leaderboard(decayed_volume desc nulls last);
+create index if not exists entity_leaderboard_momentum_idx
+  on entity_leaderboard(momentum_sigma desc nulls last);
+create index if not exists entity_leaderboard_mentions_idx
+  on entity_leaderboard(raw_mentions desc nulls last);
 
 
 -- ===========================================================================

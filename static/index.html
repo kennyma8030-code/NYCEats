@@ -153,8 +153,11 @@ const score = v => v === null || v === undefined
 const esc = s => (s ?? "").replace(/[<>&]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
 
 async function load() {
-  const rows = await (await fetch("/api/leaderboard?" + params())).json();
-  if (rows.error) { $("empty").hidden = false; $("empty").textContent = rows.error; return; }
+  // The API returns {items, total, limit, offset}; a leaderboard is a query,
+  // not a fixed list, so the caller needs the unpaginated total too.
+  const res = await (await fetch("/api/leaderboard?" + params())).json();
+  if (res.error) { $("empty").hidden = false; $("empty").textContent = res.detail || res.error; return; }
+  const rows = res.items || [];
   $("empty").hidden = rows.length > 0;
   if (!rows.length) $("empty").textContent = "No restaurants match these filters.";
 
@@ -187,7 +190,8 @@ $("rows").addEventListener("click", async e => {
   if (open && open.classList.contains("detail")) { open.remove(); return; }
   document.querySelectorAll("tr.detail").forEach(d => d.remove());
 
-  const ms = await (await fetch("/api/mentions?entity=" + encodeURIComponent(tr.dataset.k))).json();
+  const ms = ((await (await fetch("/api/restaurants/"
+    + encodeURIComponent(tr.dataset.k) + "/mentions?limit=100")).json()).items) || [];
   const row = document.createElement("tr");
   row.className = "detail";
   row.innerHTML = `<td colspan="10">` + (ms.length ? ms.map(m => {
@@ -211,11 +215,15 @@ $("rows").addEventListener("click", async e => {
 });
 
 async function facets() {
-  const f = await (await fetch("/api/facets")).json();
+  // Corpus counters moved out of /api/facets into their own endpoint, so the
+  // header can refresh without re-running the descriptor scan.
+  const [f, s] = await Promise.all([
+    (await fetch("/api/facets")).json(),
+    (await fetch("/api/stats")).json(),
+  ]);
   const fill = (id, list) => $(id).innerHTML = '<option value="">any</option>' +
-    list.map(x => `<option value="${esc(x.name)}">${esc(x.name)} (${x.n})</option>`).join("");
+    (list || []).map(x => `<option value="${esc(x.name)}">${esc(x.name)} (${x.n})</option>`).join("");
   fill("cuisine", f.cuisines); fill("borough", f.boroughs); fill("status", f.statuses);
-  const s = f.stats;
   $("stats").textContent =
     `${s.entities.toLocaleString()} restaurants · ${s.mentions.toLocaleString()} mentions · ` +
     `${s.extracted.toLocaleString()} of ${s.comments.toLocaleString()} comments extracted`;

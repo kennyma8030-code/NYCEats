@@ -35,9 +35,15 @@ SQL_FILES = ("scoring.sql", "resolve.sql")
 # (name, can_refresh_concurrently). CONCURRENTLY needs a unique index and
 # keeps the view readable while it rebuilds; momentum_windows has no unique
 # key to give it one, and it is small, so it takes the lock.
+#
+# entity_leaderboard is LAST and must stay last: it reads every other view in
+# this tuple, so refreshing it first would serve the API a board built from
+# the previous run's identities and weights.
 VIEWS = (("entity_alias", True),
          ("mention_weights", True),
-         ("momentum_windows", False))
+         ("momentum_windows", False),
+         ("mention_resolution", True),
+         ("entity_leaderboard", True))
 
 
 def apply_sql(conn, verbose=True):

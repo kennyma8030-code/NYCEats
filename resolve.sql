@@ -10,7 +10,23 @@
 -- an invented name appears once, from one person. A real one gets repeated.
 -- ===========================================================================
 
-create or replace view mention_resolution as
+-- Materialised. Every leaderboard row reaches this through a lateral to
+-- report how confidently its name matched, and as a plain view that meant
+-- recomputing a word_similarity lateral over 8,769 keys per request --
+-- measured at ~2s for the view, which a 50-row page paid fifty times.
+--
+-- Same reasoning as entity_alias and mention_weights: it is derived, it is
+-- expensive, and it is read far more often than the mentions under it change.
+--   refresh materialized view concurrently mention_resolution;
+do $$
+begin
+  if exists (select 1 from pg_matviews where matviewname = 'mention_resolution') then
+    drop materialized view mention_resolution cascade;
+  elsif exists (select 1 from pg_views where viewname = 'mention_resolution') then
+    drop view mention_resolution cascade;
+  end if;
+end $$;
+create materialized view mention_resolution as
 select
   m.entity_key,
   count(*)                          as mentions,
@@ -58,3 +74,10 @@ left join lateral (
 
 group by m.entity_key, r_exact.name, r_exact.cuisine, r_exact.is_chain,
          fuzzy.name, fuzzy.score;
+
+-- Unique index is required for REFRESH ... CONCURRENTLY, and is what turns
+-- the leaderboard's per-row lateral into an index lookup.
+create unique index if not exists mention_resolution_pk
+  on mention_resolution(entity_key);
+create index if not exists mention_resolution_status_idx
+  on mention_resolution(status);

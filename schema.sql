@@ -123,3 +123,36 @@ create table if not exists alias_overrides (
   note         text,
   created_at   timestamptz not null default now()
 );
+
+
+-- ---------------------------------------------------------------------------
+-- Cached restaurant imagery.
+--
+-- The row is the cache, not an in-process dict: uvicorn forks a process per
+-- worker, so an in-memory cache would be resolved N times, expire at N
+-- different moments, and answer differently depending on which process took
+-- the request.
+--
+-- `source_ref` keeps the match auditable -- a Wikidata QID, so a wrong photo
+-- can be traced to the entity that produced it rather than just replaced.
+-- `locked` is the same idea as alias_overrides: once a person says a picture
+-- is right, no later sweep gets to overwrite it.
+--
+-- status: 'found' (url is set) | 'none' (looked, found nothing -- cached so a
+-- miss is not re-fetched on every page load).
+-- ---------------------------------------------------------------------------
+create table if not exists restaurant_images (
+  entity_key   text primary key,
+  status       text not null default 'none',
+  source       text,
+  source_ref   text,
+  url          text,
+  attribution  text,
+  license      text,
+  source_url   text,
+  locked       boolean not null default false,
+  fetched_at   timestamptz not null default now()
+);
+
+create index if not exists restaurant_images_stale_idx
+  on restaurant_images(fetched_at) where not locked;
