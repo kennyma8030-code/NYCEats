@@ -1,8 +1,9 @@
 """Push locally-extracted results up to Railway.
 
 Extraction runs locally -- it is easier to watch, interrupt and restart there,
-and it is where the API key lives. Production only ever collects comments. So
-what has to travel is the output of extraction, not the corpus:
+and it is where the API key lives. Production collects comments, and with
+inference switched on (deploy.py) extracts only the last few days of them. So
+the backlog's extraction output is what has to travel, not the corpus:
 
     mentions              what the model found
     comments.extracted_at which comments are done, so nothing is redone
@@ -59,16 +60,28 @@ def push_mentions(loc, rem, dry_run):
     The unique index on (comment_id, entity_key, prompt_hash) is what makes
     this idempotent, so re-running after a bigger extraction only adds the new
     rows. Carrying local ids across would invite a collision for no benefit.
+
+    Comments production has already extracted are skipped. The poller can run
+    inference itself now (poller.py --extract), and the model is not
+    deterministic: the same comment extracted on both sides can come back as
+    "katzs" here and "katzs deli" there, which the unique index would let
+    through as two mentions of one opinion. Whichever side got there first
+    owns the comment.
     """
     lc, rc = loc.cursor(), rem.cursor()
+    rc.execute("select id from comments where extracted_at is not null")
+    owned = {r[0] for r in rc.fetchall()}
     lc.execute(f"select {', '.join(MENTION_COLS)} from mentions order by id")
-    total = new = 0
+    total = new = skipped = 0
     while True:
         rows = lc.fetchmany(BATCH)
         if not rows:
             break
         total += len(rows)
-        if dry_run:
+        kept = [r for r in rows if r[0] not in owned]
+        skipped += len(rows) - len(kept)
+        rows = kept
+        if dry_run or not rows:
             continue
         rows = [tuple(Json(v) if isinstance(v, (dict, list)) and c == "aspects" else v
                       for c, v in zip(MENTION_COLS, r)) for r in rows]
@@ -81,7 +94,7 @@ def push_mentions(loc, rem, dry_run):
         new += len(inserted)
         rem.commit()
         print(f"  mentions {total:,} sent, {new:,} new", flush=True)
-    return total, new
+    return total, new, skipped
 
 
 def push_flags(loc, rem, dry_run):
@@ -159,8 +172,9 @@ def main():
         # unique index has to exist before ON CONFLICT can name it.
         db.init(rem, os.path.join(os.path.dirname(os.path.abspath(__file__)), "schema.sql"))
 
-    sent, new = push_mentions(loc, rem, args.dry_run)
-    print(f"mentions:  {sent:,} sent, {new:,} new")
+    sent, new, skipped = push_mentions(loc, rem, args.dry_run)
+    print(f"mentions:  {sent:,} local, {new:,} new, "
+          f"{skipped:,} skipped (comment already extracted on railway)")
     fsent, fupd = push_flags(loc, rem, args.dry_run)
     print(f"flags:     {fsent:,} sent, {fupd:,} comments marked extracted")
     print(f"overrides: {push_overrides(loc, rem, args.dry_run)}")
