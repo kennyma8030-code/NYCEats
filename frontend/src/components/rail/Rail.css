@@ -1,0 +1,75 @@
+.rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); display: grid; gap: 26px }
+.brand { margin: 0; font-weight: 600; font-size: 15px; letter-spacing: -.01em }
+.brand span { color: var(--faint); font-weight: 400; margin-left: 6px }
+
+.cats { display: grid; gap: 2px }
+.cats button {
+  all: unset; cursor: pointer; font-family: var(--display); font-size: 30px; line-height: 1.15;
+  letter-spacing: -.02em; color: var(--faint); transition: color .2s;
+}
+.cats button:hover { color: var(--mute) }
+.cats button[aria-pressed="true"] { color: var(--ink) }
+.cats button:focus-visible { outline: 2px solid var(--accent) }
+
+.wins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px }
+.wins button {
+  all: unset; cursor: pointer; text-align: center; font-family: var(--mono); font-size: 12.5px;
+  padding: 6px 0; border-radius: 6px; color: var(--mute); background: var(--cell);
+}
+.wins button:hover { color: var(--ink) }
+.wins button[aria-pressed="true"] { background: var(--ink); color: var(--bg) }
+.wins button:focus-visible { outline: 2px solid var(--accent) }
+
+.sel {
+  width: 100%; appearance: none; border: 1px solid var(--line);
+  background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23999' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 12px center;
+  border-radius: 8px; padding: 8px 30px 8px 12px; font-size: 14px; cursor: pointer;
+}
+.fs { display: grid; gap: 8px }
+.fs .lab { margin: 0 }
+
+.needs { display: grid; gap: 2px }
+.needs button {
+  all: unset; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px;
+  color: var(--mute); padding: 4px 0;
+}
+.needs button::before {
+  content: ""; width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid var(--faint); flex: none;
+  transition: background .15s, border-color .15s;
+}
+.needs button[aria-pressed="true"] { color: var(--ink) }
+.needs button[aria-pressed="true"]::before {
+  background: var(--accent); border-color: var(--accent);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Cpath d='M3.5 7.2l2.3 2.3 4.7-4.9' fill='none' stroke='white' stroke-width='1.8'/%3E%3C/svg%3E");
+}
+.needs button:focus-visible { outline: 2px solid var(--accent) }
+
+.clear { all: unset; cursor: pointer; font-size: 13px; color: var(--accent); justify-self: start }
+.clear:hover { text-decoration: underline }
+
+.more { display: contents }
+.more > summary { display: none }
+@media (min-width: 861px) { .more > .fs-wrap { display: contents } }
+
+@media (max-width: 860px) {
+  .rail { position: static; gap: 16px }
+  .cats { grid-auto-flow: column; justify-content: start; gap: 18px; overflow-x: auto; scrollbar-width: none }
+  .cats button { font-size: 24px; white-space: nowrap }
+  .wins { grid-template-columns: repeat(6, 1fr) }
+  .more { display: block; border: 1px solid var(--line); border-radius: 10px; background: var(--surface) }
+  .more > summary {
+    display: flex; justify-content: space-between; cursor: pointer; list-style: none;
+    padding: 10px 14px; font-size: 14px; font-weight: 500;
+  }
+  .more > summary::-webkit-details-marker { display: none }
+  .more > summary span { color: var(--faint); font-weight: 400 }
+  .more > .fs-wrap { display: grid; gap: 18px; padding: 4px 14px 16px }
+}
+
+/* Panel open: same rail, a little narrower; stacked on mid-size screens. */
+@media (max-width: 1100px) and (min-width: 861px) {
+  body.split .rail { position: static; gap: 16px }
+  body.split .cats { grid-auto-flow: column; justify-content: start; gap: 18px }
+  body.split .cats button { font-size: 24px; white-space: nowrap }
+  body.split .wins { grid-template-columns: repeat(6, 1fr) }
+}

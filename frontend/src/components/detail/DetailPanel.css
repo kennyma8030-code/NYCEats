@@ -1,0 +1,27 @@
+/* One panel filling the right side of the screen. */
+.sheet {
+  position: fixed; top: 0; right: 0; bottom: 0; width: var(--panel-w); z-index: 41;
+  background: var(--surface); color: var(--ink); border-left: 1px solid var(--line);
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  transform: translateX(100%); transition: transform .4s var(--ease); font-family: var(--sans);
+}
+.sheet.on { transform: none }
+
+.sh-eye {
+  margin: 0; font-family: var(--mono); font-size: 11.5px; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--faint);
+}
+.sh-x {
+  flex: none; width: 32px; height: 32px; display: grid; place-items: center; border: 0; background: none;
+  border-radius: 8px; color: var(--mute); cursor: pointer;
+}
+.sh-x:hover { background: var(--cell); color: var(--ink) }
+.sh-x svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; fill: none }
+
+/* Phones: the panel covers the screen and scrolls as one page. */
+@media (max-width: 760px) {
+  .sheet {
+    width: 100%; border-left: 0; grid-template-columns: minmax(0, 1fr);
+    overflow-y: auto; overscroll-behavior: contain;
+  }
+}
