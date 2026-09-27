@@ -434,3 +434,131 @@ def entity_exists(conn, entity_key, fetch_value):
     return fetch_value(conn,
                        "select 1 from entity_leaderboard where entity_key = %s",
                        (entity_key,)) is not None
+
+
+# ---------------------------------------------------------------------------
+# The ledger: rankings over a rolling window, for the React frontend.
+#
+# Counts are raw mentions (one row of mention_weights each), not decayed
+# volume: the ledger shows "84 mentions in the last 30 days", and a decayed
+# figure would be a number nobody can check against the comments.
+# ---------------------------------------------------------------------------
+
+# "Known for" filters: keep a place only if people rate that aspect at least
+# this well. The column name is interpolated, so these keys are the whitelist.
+LEDGER_NEEDS = {"value": 0.2, "atmosphere": 0.3, "service": 0.2, "wait": -0.1}
+
+# Per-category ranking as (where_sql, rank_sql), both written against the
+# `pool` CTE in ledger_items, and both module literals -- never caller input.
+LEDGER_CATEGORIES = {
+    # Talked about more than the window before. The floor keeps one comment
+    # against zero from reading as a spike; the sqrt puts 200 -> 260 above
+    # 1 -> 3 the same way the momentum score does.
+    "trending": ("current >= greatest(3, round(%(window)s * 0.03)) and current > previous",
+                 "(current - previous) / sqrt(previous + 2.0)"),
+    "top":      ("current > 0",
+                 "current"),
+    # Loved, but talked about no more than the median place this window.
+    # raw_mentions >= 3 so a single glowing comment is not a gem.
+    "gems":     ("sentiment >= 0.25 and current >= 1 and current <= median.m"
+                 " and raw_mentions >= 3",                    # TUNE gem thresholds
+                 "sentiment"),
+}
+
+
+def ledger_items(conn, category, window, cuisine, borough, needs, limit, fetch_all):
+    """One ranked page for (category, window, filters), with the match count
+    on every row as `total`.
+
+    Aspect scores are the all-time shrunk scores from entity_leaderboard; only
+    the counts are windowed. A week is too little evidence to score taste.
+    """
+    where_sql, rank_sql = LEDGER_CATEGORIES[category]
+    filters, params = [], {"window": window, "limit": limit}
+    if cuisine:
+        filters.append("l.cuisine = %(cuisine)s")
+        params["cuisine"] = cuisine
+    if borough:
+        filters.append("%(borough)s = any(l.boroughs)")
+        params["borough"] = borough
+    for need in needs:
+        # Key checked against the whitelist; the threshold is bound.
+        filters.append(f"l.{need} >= %(need_{need})s")
+        params[f"need_{need}"] = LEDGER_NEEDS[need]
+    extra = "".join(f" and {f}" for f in filters)
+
+    return fetch_all(conn, f"""
+        with counts as (
+          select w.entity_key,
+                 count(*) filter (where w.created_utc >  now() - make_interval(days => %(window)s)) as current,
+                 count(*) filter (where w.created_utc <= now() - make_interval(days => %(window)s)) as previous
+          from mention_weights w
+          where w.created_utc > now() - make_interval(days => 2 * %(window)s)
+          group by w.entity_key
+        ),
+        -- Over every place mentioned this window, before filters, so a borough
+        -- filter does not redefine what "not many people know" means.
+        median as (
+          select coalesce(percentile_disc(0.5) within group (order by current), 0) as m
+          from counts where current > 0
+        ),
+        pool as (
+          select c.entity_key, c.current::int as current, c.previous::int as previous,
+                 l.official_name, l.cuisine, l.boroughs,
+                 l.raw_mentions, l.distinct_authors,
+                 l.food, l.value, l.service, l.atmosphere, l.wait,
+                 (select avg(x) from unnest(array[l.food, l.value, l.service,
+                                                  l.atmosphere, l.wait]) x) as sentiment
+          from counts c
+          join entity_leaderboard l on l.entity_key = c.entity_key
+          where coalesce(l.is_chain, false) = false
+            and coalesce(l.closed, false) = false
+            {extra}
+        )
+        select pool.*, ({rank_sql})::float8 as rank_value, count(*) over () as total
+        from pool cross join median
+        where {where_sql}
+        order by rank_value desc, current desc, entity_key
+        limit %(limit)s
+    """, params)
+
+
+def ledger_series(conn, keys, window, bucket, fetch_all):
+    """Mention counts per bucket, for the current and the previous window.
+
+    Buckets count back from now inside each window separately, so the two
+    series line up bucket for bucket even when the window is not a whole
+    number of weeks.
+    """
+    if not keys:
+        return []
+    return fetch_all(conn, """
+        select entity_key,
+               age < %(window)s as is_current,
+               floor((case when age < %(window)s then age else age - %(window)s end)
+                     / %(bucket)s)::int as idx,
+               count(*)::int as n
+        from (
+          select w.entity_key,
+                 extract(epoch from (now() - w.created_utc)) / 86400.0 as age
+          from mention_weights w
+          where w.entity_key = any(%(keys)s)
+            and w.created_utc > now() - make_interval(days => 2 * %(window)s)
+        ) s
+        group by 1, 2, 3
+    """, {"keys": list(keys), "window": window, "bucket": bucket})
+
+
+def top_neighborhoods(conn, keys, fetch_all):
+    """The neighborhood commenters most often place each entity in."""
+    if not keys:
+        return []
+    return fetch_all(conn, """
+        select distinct on (al.resolved_key)
+               al.resolved_key as entity_key, m.neighborhood_hint as name
+        from mentions m
+        join entity_alias al on al.entity_key = m.entity_key
+        where al.resolved_key = any(%s) and m.neighborhood_hint is not null
+        group by al.resolved_key, m.neighborhood_hint
+        order by al.resolved_key, count(*) desc, m.neighborhood_hint
+    """, (list(keys),))

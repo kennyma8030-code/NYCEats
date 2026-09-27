@@ -295,3 +295,45 @@ class JobAccepted(BaseModel):
     job: str
     started: bool
     detail: Optional[str] = None
+
+
+LedgerCategory = Literal["trending", "top", "gems"]
+LedgerWindow = Literal[7, 14, 30, 90, 180, 365]
+LedgerNeed = Literal["value", "atmosphere", "service", "wait"]
+
+
+class LedgerAspects(BaseModel):
+    # Optional for the same reason as everywhere else: absent is not 0.0.
+    food: Optional[float] = None
+    value: Optional[float] = None
+    service: Optional[float] = None
+    atmosphere: Optional[float] = None
+    wait: Optional[float] = None
+
+
+class LedgerItem(BaseModel):
+    """One ranked row. `series` and `previous_series` are the same length,
+    oldest bucket first, so a client can draw both on one x axis."""
+    entity_key: str
+    name: str
+    cuisine: Optional[str] = None
+    borough: Optional[str] = None
+    boroughs: Optional[list[str]] = None
+    neighborhood: Optional[str] = None
+    current: int
+    previous: int
+    change_pct: Optional[int] = None
+    series: list[int]
+    previous_series: list[int]
+    total_mentions: int
+    distinct_authors: Optional[int] = None
+    aspects: LedgerAspects
+    sentiment: Optional[float] = None
+
+
+class Ledger(BaseModel):
+    category: LedgerCategory
+    window_days: int
+    bucket_days: int
+    total: int
+    items: list[LedgerItem]

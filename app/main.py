@@ -26,7 +26,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from .db import close_pool, open_pool
-from .routers import admin, public, restaurants
+from .routers import admin, ledger, public, restaurants
 
 DESCRIPTION = """
 A read API over r/FoodNYC.
@@ -84,10 +84,14 @@ def database_error(request: Request, exc: psycopg2.Error):
 
 
 app.include_router(public.router)
+app.include_router(ledger.router)
 app.include_router(restaurants.router)
 app.include_router(admin.router)
 
 # Mounted LAST and at the root, so it only catches paths no API route claimed.
-# html=True serves static/index.html at /.
-if os.path.isdir("static"):
-    app.mount("/", StaticFiles(directory="static", html=True), name="static")
+# html=True serves index.html at /. The React build wins when it exists
+# (cd frontend && npm run build); static/ is the old single-file page, kept
+# as the fallback so a deploy without a Node build step still has a UI.
+FRONTEND_DIR = next((d for d in ("frontend/dist", "static") if os.path.isdir(d)), None)
+if FRONTEND_DIR:
+    app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
