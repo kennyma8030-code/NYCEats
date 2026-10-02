@@ -126,6 +126,19 @@ create table if not exists alias_overrides (
 
 
 -- ---------------------------------------------------------------------------
+-- Names that are not restaurants: Whole Foods, Zabar's, Chelsea Market, and
+-- junk keys like "it" and "this place". Their mentions still exist; they are
+-- only kept off the leaderboard. Keyed on the RESOLVED name, which is why each
+-- also has an alias_overrides row pinning it to itself.
+-- ---------------------------------------------------------------------------
+create table if not exists excluded_entities (
+  entity_key   text primary key,
+  note         text,
+  created_at   timestamptz not null default now()
+);
+
+
+-- ---------------------------------------------------------------------------
 -- Cached restaurant imagery.
 --
 -- The row is the cache, not an in-process dict: uvicorn forks a process per
