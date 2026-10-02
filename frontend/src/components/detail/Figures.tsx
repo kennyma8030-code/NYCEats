@@ -1,5 +1,4 @@
 import type { LedgerItem, WindowDays } from "../../api/types";
-import { signedPct } from "../../lib/format";
 import { windowOf } from "../../state/filters";
 
 interface Props {
@@ -9,7 +8,6 @@ interface Props {
 
 export function Figures({ item, window }: Props) {
   const W = windowOf(window);
-  const tone = item.change_pct == null ? undefined : item.change_pct >= 0 ? "pos" : "neg";
   return (
     <div className="figs">
       <div>
@@ -17,8 +15,8 @@ export function Figures({ item, window }: Props) {
         <span>Mentions, last {W.long}</span>
       </div>
       <div>
-        <b className={tone}>{signedPct(item.change_pct)}</b>
-        <span>vs {W.long} before</span>
+        <b>{item.previous.toLocaleString()}</b>
+        <span>Mentions, {W.long} before</span>
       </div>
       <div>
         <b>{item.total_mentions.toLocaleString()}</b>

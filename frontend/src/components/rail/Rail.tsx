@@ -1,9 +1,13 @@
 import { useEffect, useRef } from "react";
-import type { Facets, Need } from "../../api/types";
+import type { Facets, Flaw, Need } from "../../api/types";
 import { activeFilterCount, type Filters } from "../../state/filters";
 import { CategoryPicker } from "./CategoryPicker";
 import { PeriodPicker } from "./PeriodPicker";
 import { FilterControls } from "./FilterControls";
+import { SearchBox } from "./SearchBox";
+import { AlgoPicker } from "./AlgoPicker";
+import { TopicBox } from "./TopicBox";
+import type { NameHit } from "../../lib/search";
 import "./Rail.css";
 
 interface Props {
@@ -11,10 +15,14 @@ interface Props {
   facets: Facets | null;
   onChange: (patch: Partial<Filters>) => void;
   onToggleNeed: (n: Need) => void;
+  onToggleFlaw: (n: Flaw) => void;
   onClear: () => void;
+  onPick: (hit: NameHit) => void;
+  onPreview: (key: string) => void;
+  opening: string | null;
 }
 
-export function Rail({ filters, facets, onChange, onToggleNeed, onClear }: Props) {
+export function Rail({ filters, facets, onChange, onToggleNeed, onToggleFlaw, onClear, onPick, onPreview, opening }: Props) {
   const more = useRef<HTMLDetailsElement>(null);
   const count = activeFilterCount(filters);
 
@@ -35,6 +43,12 @@ export function Rail({ filters, facets, onChange, onToggleNeed, onClear }: Props
       <p className="brand">
         NYCEats<span>New York</span>
       </p>
+      <SearchBox onPick={onPick} onPreview={onPreview} opening={opening} />
+      <div>
+        <p className="lab">Ranking</p>
+        <AlgoPicker value={filters.algo} onChange={(algo) => onChange({ algo })} />
+      </div>
+      <TopicBox value={filters.topic} onChange={(topic) => onChange({ topic })} />
       <CategoryPicker value={filters.category} onChange={(category) => onChange({ category })} />
       <div>
         <p className="lab">Period</p>
@@ -50,6 +64,7 @@ export function Rail({ filters, facets, onChange, onToggleNeed, onClear }: Props
             facets={facets}
             onChange={onChange}
             onToggleNeed={onToggleNeed}
+            onToggleFlaw={onToggleFlaw}
             onClear={onClear}
           />
         </div>

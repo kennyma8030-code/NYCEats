@@ -33,7 +33,19 @@ export const LedgerRow = memo(function LedgerRow({ item, rank, category, selecte
         <span className="rk">{String(rank).padStart(2, "0")}</span>
         <span>
           <span className="nm">{item.name}</span>
-          {meta && <span className="meta">{meta}</span>}
+          {(meta || item.flagged) && (
+            <span className="meta">
+              {item.flagged && (
+                <span
+                  className="flag"
+                  title={`${item.strong_neg_people} people had a bad time here in the last two years`}
+                >
+                  ⚑ complaints
+                </span>
+              )}
+              {meta}
+            </span>
+          )}
         </span>
         <Sparkline current={item.series} previous={item.previous_series} />
         <span className="m">

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import type { LedgerItem, WindowDays } from "../../api/types";
+import type { Algo, LedgerItem, WindowDays } from "../../api/types";
 import { Analytics } from "./Analytics";
 import { CommentList } from "./CommentList";
 import "./DetailPanel.css";
@@ -8,11 +8,12 @@ interface Props {
   item: LedgerItem | null;
   open: boolean;
   window: WindowDays;
+  algo: Algo;
   onClose: () => void;
 }
 
 /** One panel on the right: analytics fixed on the left, comments scrolling on the right. */
-export function DetailPanel({ item, open, window, onClose }: Props) {
+export function DetailPanel({ item, open, window, algo, onClose }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
   // React 18 does not know `inert`, so set it directly. A closed panel is
@@ -35,7 +36,7 @@ export function DetailPanel({ item, open, window, onClose }: Props) {
     >
       {item && (
         <>
-          <Analytics item={item} window={window} open={open} />
+          <Analytics item={item} window={window} open={open} algo={algo} />
           <CommentList entityKey={item.entity_key} onClose={onClose} />
         </>
       )}

@@ -5,6 +5,15 @@
   border-bottom: 1px solid var(--line); background: var(--surface);
   padding: calc(env(safe-area-inset-top, 0px) + 18px) 18px 14px 24px;
 }
+/* Same segmented look as the rail's period picker, sized for the header. */
+.cm-sort { display: flex; gap: 4px; margin-left: auto }
+.cm-sort button {
+  all: unset; cursor: pointer; font-family: var(--mono); font-size: 12px;
+  padding: 5px 10px; border-radius: 6px; color: var(--mute); background: var(--cell);
+}
+.cm-sort button:hover { color: var(--ink) }
+.cm-sort button[aria-pressed="true"] { background: var(--ink); color: var(--bg) }
+.cm-sort button:focus-visible { outline: 2px solid var(--accent) }
 .cm-list {
   flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; list-style: none; margin: 0;
   padding: 14px 18px calc(env(safe-area-inset-bottom, 0px) + 24px); display: grid; align-content: start; gap: 10px;

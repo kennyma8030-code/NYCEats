@@ -56,3 +56,6 @@ body.split .hit { grid-template-columns: 30px minmax(0, 1fr) 96px; gap: 12px }
 body.split .spark { display: none }
 body.split .nm { font-size: 21px }
 body.split .m b { font-size: 24px }
+
+/* New ranking: a big share of recent opinion is a bad experience. */
+.flag { color: var(--down); font-weight: 500; margin-right: 8px }

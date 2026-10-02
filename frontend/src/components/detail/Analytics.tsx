@@ -1,21 +1,23 @@
 import { useEffect, useRef } from "react";
-import type { AspectKey, Aspects, LedgerItem, WindowDays } from "../../api/types";
+import type { Algo, AspectKey, Aspects, LedgerItem, WindowDays } from "../../api/types";
 import { useRestaurant } from "../../hooks/useRestaurant";
 import { ASPECTS } from "../../lib/format";
 import { Figures } from "./Figures";
 import { TrendChart } from "./TrendChart";
 import { AspectBubbles } from "./AspectBubbles";
 import { DishChips } from "./DishChips";
+import { StandoutNegatives } from "./StandoutNegatives";
 import "./Analytics.css";
 
 interface Props {
   item: LedgerItem;
   window: WindowDays;
   open: boolean;
+  algo: Algo;
 }
 
-export function Analytics({ item, window, open }: Props) {
-  const { data } = useRestaurant(item.entity_key);
+export function Analytics({ item, window, open, algo }: Props) {
+  const { data } = useRestaurant(item.entity_key, algo);
   const nameRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -44,6 +46,7 @@ export function Analytics({ item, window, open }: Props) {
       <Figures item={item} window={window} />
       <TrendChart current={item.series} previous={item.previous_series} window={window} />
       <AspectBubbles aspects={aspects} />
+      {algo === "v2" && <StandoutNegatives item={item} />}
       <DishChips dishes={data ? data.top_dishes.slice(0, 5).map((d) => d.name) : null} />
     </section>
   );

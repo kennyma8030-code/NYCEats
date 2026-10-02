@@ -22,6 +22,7 @@ from contextlib import asynccontextmanager
 import psycopg2
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -60,6 +61,10 @@ app = FastAPI(
 # Wide open by default because the API is read-only and public; the admin
 # router has its own token. Narrow it with CORS_ORIGINS when a real frontend
 # gets a domain.
+# /api/names ships every restaurant to the browser; its repeated keys gzip
+# to a fraction of their size. Small responses are left alone.
+app.add_middleware(GZipMiddleware, minimum_size=1024)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[o for o in os.environ.get("CORS_ORIGINS", "*").split(",") if o],

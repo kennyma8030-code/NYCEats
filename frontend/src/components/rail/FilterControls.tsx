@@ -1,11 +1,12 @@
-import type { Facets, Need } from "../../api/types";
-import { activeFilterCount, NEEDS, type Filters } from "../../state/filters";
+import type { Facets, Flaw, Need } from "../../api/types";
+import { activeFilterCount, FLAWS, NEEDS, type Filters } from "../../state/filters";
 
 interface Props {
   filters: Filters;
   facets: Facets | null;
   onChange: (patch: Partial<Filters>) => void;
   onToggleNeed: (n: Need) => void;
+  onToggleFlaw: (n: Flaw) => void;
   onClear: () => void;
 }
 
@@ -15,7 +16,7 @@ function options(values: string[], selected: string) {
   return selected && !values.includes(selected) ? [selected, ...values] : values;
 }
 
-export function FilterControls({ filters, facets, onChange, onToggleNeed, onClear }: Props) {
+export function FilterControls({ filters, facets, onChange, onToggleNeed, onToggleFlaw, onClear }: Props) {
   const cuisines = options((facets?.cuisines ?? []).map((f) => f.name).sort(), filters.cuisine);
   const boroughs = options((facets?.boroughs ?? []).map((f) => f.name), filters.borough);
 
@@ -58,6 +59,22 @@ export function FilterControls({ filters, facets, onChange, onToggleNeed, onClea
               type="button"
               aria-pressed={filters.needs.includes(n.k)}
               onClick={() => onToggleNeed(n.k)}
+            >
+              {n.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="fs">
+        <p className="lab">Complaints about</p>
+        <div className="needs bad" role="group" aria-label="Complaints about">
+          {FLAWS.map((n) => (
+            <button
+              key={n.k}
+              type="button"
+              title="Among the worst tenth of places for this"
+              aria-pressed={filters.flaws.includes(n.k)}
+              onClick={() => onToggleFlaw(n.k)}
             >
               {n.label}
             </button>

@@ -43,6 +43,8 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Cpath d='M3.5 7.2l2.3 2.3 4.7-4.9' fill='none' stroke='white' stroke-width='1.8'/%3E%3C/svg%3E");
 }
 .needs button:focus-visible { outline: 2px solid var(--accent) }
+/* Complaints tick in the warning colour, so the two groups never blur. */
+.needs.bad button[aria-pressed="true"]::before { background-color: var(--down); border-color: var(--down) }
 
 .clear { all: unset; cursor: pointer; font-size: 13px; color: var(--accent); justify-self: start }
 .clear:hover { text-decoration: underline }
@@ -73,3 +75,7 @@
   body.split .cats button { font-size: 24px; white-space: nowrap }
   body.split .wins { grid-template-columns: repeat(6, 1fr) }
 }
+
+/* Two choices, not six: same pill style as the period picker. */
+.wins.algo { grid-template-columns: repeat(2, 1fr) }
+@media (max-width: 860px) { .wins.algo { grid-template-columns: repeat(2, 1fr) } }

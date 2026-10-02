@@ -12,7 +12,7 @@ from fastapi import APIRouter, Depends, HTTPException, Path, Query, Response
 
 from .. import images, queries
 from ..db import fetch_all, fetch_one, fetch_value, get_conn
-from ..models import (AspectDetail, ImageOut, Mention, MentionQuery,
+from ..models import (Algo, AspectDetail, ImageOut, Mention, MentionQuery,
                       MentionSort, MomentumWindow, Page, RestaurantDetail,
                       LeaderboardRow, Spelling)
 
@@ -35,7 +35,7 @@ def _require_entity(conn, entity_key):
 
 @router.get("/{entity_key}", response_model=RestaurantDetail,
             summary="Everything about one restaurant")
-def detail(entity_key: EntityKey, conn=Depends(get_conn)):
+def detail(entity_key: EntityKey, algo: Algo = "v1", conn=Depends(get_conn)):
     """One round trip for a detail page.
 
     Includes the workings, not just the numbers: per-aspect raw_mean against
@@ -49,7 +49,7 @@ def detail(entity_key: EntityKey, conn=Depends(get_conn)):
         entity_key=entity_key,
         summary=LeaderboardRow(**summary),
         aspects=[AspectDetail(**a) for a in
-                 queries.aspect_detail(conn, entity_key, fetch_all)],
+                 queries.aspect_detail(conn, entity_key, fetch_all, algo)],
         momentum=[MomentumWindow(**m) for m in
                   queries.momentum_windows(conn, entity_key, fetch_all)],
         spellings=[Spelling(**s) for s in
@@ -96,6 +96,20 @@ def mentions(
                      limit=limit, offset=offset)
     rows, total = queries.mentions_page(conn, entity_key, q, fetch_all, fetch_value)
     return Page(items=rows, total=total, limit=limit, offset=offset)
+
+
+@router.get("/{entity_key}/standout-negatives", response_model=list[Mention],
+            summary="The comments behind a v2 flag")
+def standout_negatives(
+    entity_key: EntityKey,
+    limit: Annotated[int, Query(ge=1, le=50)] = 10,
+    conn=Depends(get_conn),
+):
+    """Recent, firsthand, strongly negative comments, harshest and most
+    upvoted first -- what entity_leaderboard_v2.flagged counts, so a flag is
+    never shown without its evidence."""
+    _require_entity(conn, entity_key)
+    return queries.standout_negatives(conn, entity_key, limit, fetch_all)
 
 
 @router.get("/{entity_key}/image", response_model=ImageOut,

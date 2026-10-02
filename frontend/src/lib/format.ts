@@ -27,7 +27,8 @@ export function ago(iso: string | null, now = Date.now()): string {
   return d < 365 * DAY ? `${MON[x.getMonth()]} ${x.getDate()}` : `${MON[x.getMonth()]} ${x.getFullYear()}`;
 }
 
-export const signedPct = (p: number | null) => (p == null ? "New" : `${p >= 0 ? "+" : ""}${p}%`);
+/** Change in mention count, signed: "+47", "-3", "0". */
+export const signedCount = (n: number) => `${n > 0 ? "+" : ""}${n.toLocaleString()}`;
 
 export function sentimentWord(v: number | null): string {
   if (v == null) return "Mixed";
@@ -41,7 +42,7 @@ export function rowMetric(item: LedgerItem, category: Category): { big: string; 
   switch (category) {
     case "trending":
       return {
-        big: signedPct(item.change_pct),
+        big: signedCount(item.current - item.previous),
         small: `${item.current.toLocaleString()} vs ${plural(item.previous, "mention", "mentions")}`,
         good: true,
       };

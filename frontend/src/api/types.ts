@@ -2,6 +2,16 @@ export type AspectKey = "food" | "value" | "service" | "atmosphere" | "wait";
 export type Category = "trending" | "top" | "gems";
 export type WindowDays = 7 | 14 | 30 | 90 | 180 | 365;
 export type Need = "value" | "atmosphere" | "service" | "wait";
+/** An aspect a place does badly on: the bottom tenth of scored places. */
+export type Flaw = AspectKey;
+/** A row of /api/names: [key, name|null, cuisine, borough, mentions, aliases|null, flags].
+ *  name is null when it is just the key in title case; flags: 1 chain, 2 closed. */
+export type NameRow = [string, string | null, string | null, string | null, number, string[] | null, number];
+/** The API's mention orderings: score is Reddit upvotes, the others are post time. */
+export type CommentSort = "score" | "recent" | "oldest";
+/** Which scoring ranks the ledger: v1 is the original, v2 the new one
+ *  (recent people, bad experiences count double, standout-complaint flag). */
+export type Algo = "v1" | "v2";
 
 // null means nobody rated it, which is not the same as a middling score.
 export type Aspects = Record<AspectKey, number | null>;
@@ -22,6 +32,11 @@ export interface LedgerItem {
   distinct_authors: number | null;
   aspects: Aspects;
   sentiment: number | null;
+  // New ranking only; null under the original.
+  people: number | null;
+  flagged: boolean | null;
+  strong_neg_people: number | null;
+  strong_neg_share: number | null;
 }
 
 export interface LedgerResponse {

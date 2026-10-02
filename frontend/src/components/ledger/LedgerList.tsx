@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import type { LedgerItem, LedgerResponse } from "../../api/types";
-import { activeFilterCount, categoryOf, NEEDS, windowOf, type Filters } from "../../state/filters";
+import { activeFilterCount, categoryOf, FLAWS, NEEDS, windowOf, type Filters } from "../../state/filters";
 import { LedgerRow } from "./LedgerRow";
 import "./LedgerList.css";
 
@@ -20,9 +20,11 @@ export function LedgerList({ filters, data, loading, error, selectedKey, onSelec
   const W = windowOf(filters.window);
   const C = categoryOf(filters.category);
   const bits = [
+    filters.topic && `“${filters.topic}”`,
     filters.cuisine,
     filters.borough,
     ...filters.needs.map((k) => NEEDS.find((n) => n.k === k)?.label.toLowerCase() ?? k),
+    ...filters.flaws.map((k) => FLAWS.find((n) => n.k === k)?.label.toLowerCase() ?? k),
   ].filter(Boolean);
   const filtered = activeFilterCount(filters) > 0;
   const items = data?.items ?? [];

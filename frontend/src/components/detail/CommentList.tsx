@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { CommentSort } from "../../api/types";
 import { useComments } from "../../hooks/useComments";
 import { RedditComment } from "./RedditComment";
 import "./CommentList.css";
@@ -8,18 +9,33 @@ interface Props {
   onClose: () => void;
 }
 
+const SORTS: { value: CommentSort; label: string; title: string }[] = [
+  { value: "score", label: "Top", title: "Most upvoted first" },
+  { value: "recent", label: "Newest", title: "Most recent first" },
+  { value: "oldest", label: "Oldest", title: "Oldest first" },
+];
+
 export function CommentList({ entityKey, onClose }: Props) {
-  const { items, total, loading, error, hasMore, loadMore } = useComments(entityKey);
+  // Kept across restaurants: someone reading "Newest" wants it on the next one too.
+  const [sort, setSort] = useState<CommentSort>("score");
+  const { items, total, loading, error, hasMore, loadMore } = useComments(entityKey, sort);
   const listRef = useRef<HTMLOListElement>(null);
 
   useEffect(() => {
     if (listRef.current) listRef.current.scrollTop = 0;
-  }, [entityKey]);
+  }, [entityKey, sort]);
 
   return (
     <section className="cm" aria-label="Comments">
       <div className="cm-head">
-        <p className="sh-eye">{total ? `${total.toLocaleString()} ${total === 1 ? "comment" : "comments"} · Top` : "Comments"}</p>
+        <p className="sh-eye">{total ? `${total.toLocaleString()} ${total === 1 ? "comment" : "comments"}` : "Comments"}</p>
+        <div className="cm-sort" role="group" aria-label="Sort comments">
+          {SORTS.map((s) => (
+            <button key={s.value} type="button" title={s.title} aria-pressed={s.value === sort} onClick={() => setSort(s.value)}>
+              {s.label}
+            </button>
+          ))}
+        </div>
         <button type="button" className="sh-x" aria-label="Close" onClick={onClose}>
           <svg viewBox="0 0 16 16" aria-hidden="true">
             <path d="M3.5 3.5l9 9M12.5 3.5l-9 9" />

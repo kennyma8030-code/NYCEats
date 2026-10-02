@@ -300,6 +300,13 @@ class JobAccepted(BaseModel):
 LedgerCategory = Literal["trending", "top", "gems"]
 LedgerWindow = Literal[7, 14, 30, 90, 180, 365]
 LedgerNeed = Literal["value", "atmosphere", "service", "wait"]
+# The aspect a place does badly on. Food is included here though not in
+# LedgerNeed: "known for good food" says nothing on a food board, but
+# "people complain about the food" does.
+LedgerFlaw = Literal["food", "value", "service", "atmosphere", "wait"]
+# v1 is scoring.sql; v2 is scoring_v2.sql (recent people, negatives 2x,
+# standout-negative flag). Both are built by refresh.py.
+Algo = Literal["v1", "v2"]
 
 
 class LedgerAspects(BaseModel):
@@ -329,6 +336,11 @@ class LedgerItem(BaseModel):
     distinct_authors: Optional[int] = None
     aspects: LedgerAspects
     sentiment: Optional[float] = None
+    # v2 only; None under v1
+    people: Optional[int] = None              # distinct commenters in the window
+    flagged: Optional[bool] = None
+    strong_neg_people: Optional[int] = None   # last two years
+    strong_neg_share: Optional[float] = None  # of recent, upvote-weighted opinion
 
 
 class Ledger(BaseModel):
