@@ -6,8 +6,8 @@ from fastapi import APIRouter, Depends, Query
 
 from .. import queries
 from ..db import fetch_all, fetch_one, fetch_value, get_conn
-from ..models import (Facets, Health, LeaderboardQuery, LeaderboardRow, Page,
-                      SearchHit, SortKey, Stats)
+from ..models import (Algo, Facets, Health, LeaderboardQuery, LeaderboardRow,
+                      Page, SearchHit, SortKey, Stats)
 
 router = APIRouter()
 
@@ -21,6 +21,12 @@ def leaderboard_query(
         Query(description="How confidently the name matched the city's list")] = None,
     descriptor: Annotated[Optional[str], Query(max_length=80,
         description="A commenter's own word, e.g. 'hole in the wall', 'cash only'")] = None,
+    topic: Annotated[Optional[str], Query(max_length=80,
+        description="A category: 'omakase', 'tasting menu', 'french'. Matches "
+                    "thread titles, descriptors, dishes and cuisine")] = None,
+    algo: Annotated[Algo, Query(
+        description="v1: decayed attention (scoring.sql). v2: recent people, "
+                    "negatives weighted 2x, standout-negative flag (scoring_v2.sql)")] = "v1",
     hide_chains: bool = True,
     include_closed: bool = False,
     rising: Annotated[bool, Query(description="Only entities whose momentum fired")] = False,
@@ -31,7 +37,8 @@ def leaderboard_query(
     min_service: Annotated[Optional[float], Query(ge=-1, le=1)] = None,
     min_atmosphere: Annotated[Optional[float], Query(ge=-1, le=1)] = None,
     min_wait: Annotated[Optional[float], Query(ge=-1, le=1)] = None,
-    sort: SortKey = "volume",
+    sort: Annotated[Optional[SortKey], Query(
+        description="Defaults to volume under v1 and rank under v2")] = None,
     limit: Annotated[int, Query(ge=1, le=200)] = 50,
     offset: Annotated[int, Query(ge=0)] = 0,
 ) -> LeaderboardQuery:
@@ -43,7 +50,7 @@ def leaderboard_query(
     """
     return LeaderboardQuery(
         search=search, cuisine=cuisine, borough=borough, status=status,
-        descriptor=descriptor, hide_chains=hide_chains,
+        descriptor=descriptor, topic=topic, algo=algo, hide_chains=hide_chains,
         include_closed=include_closed, rising=rising,
         min_mentions=min_mentions, min_authors=min_authors,
         min_food=min_food, min_value=min_value, min_service=min_service,

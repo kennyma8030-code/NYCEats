@@ -13,7 +13,7 @@ Two rules hold throughout:
     typed. Joining them directly silently drops every merged spelling.
 """
 
-from .models import ASPECTS, SORTS
+from .models import ASPECTS, DEFAULT_SORT, SORTS, V2_SORTS
 
 # The columns the leaderboard exposes. Listed rather than `l.*` so a change to
 # the materialized view cannot quietly alter the API's response shape.
@@ -25,6 +25,53 @@ BOARD_COLUMNS = """
     l.food, l.value, l.service, l.atmosphere, l.wait,
     l.official_name, l.cuisine, l.boroughs, l.is_chain, l.closed,
     l.location_count
+"""
+
+# entity_leaderboard_v2 has every column above under the same name, then these.
+V2_COLUMNS = """,
+    l.recent_people, l.recent_reach, l.opinion_people, l.strong_neg_people,
+    l.strong_neg_share, l.top_neg_score, l.flagged, l.sentiment, l.trend_pct,
+    l.rank_score
+"""
+
+BOARDS = {"v1": "entity_leaderboard", "v2": "entity_leaderboard_v2"}
+
+
+def _columns(algo):
+    return BOARD_COLUMNS + (V2_COLUMNS if algo == "v2" else "")
+
+
+# Places mentioned under a topic: in a thread whose title names it, or with it
+# among the commenter's descriptors or dishes. mention_weights carries the
+# RESOLVED key, so merged spellings count. v2 also needs each person's recency;
+# v1 has no notion of it and takes every mention ever made.
+TOPIC_HITS = """
+    topic_hits as (
+      select w.entity_key, v.person, max(v.w_recency) as w
+      from mention_weights w
+      join mention_v2 v on v.mention_id = w.mention_id
+      join threads    t on t.id = w.thread_id
+      join mentions   m on m.id = w.mention_id
+      where (t.title ilike %(topic)s
+             or m.descriptors::text ilike %(topic)s
+             or m.dishes::text ilike %(topic)s)
+        and (%(algo)s = 'v1' or v.w_recency > 0)
+      group by 1, 2
+    ),
+    topic as (
+      -- A place whose city cuisine label matches is in the topic with all of
+      -- its recent reach: a French restaurant named in a steak thread is
+      -- still French.
+      select l.entity_key,
+             coalesce(h.people, 0) as topic_people,
+             greatest(coalesce(h.reach, 0),
+                      case when l.cuisine ilike %(topic)s
+                           then {cuisine_reach} else 0 end) as topic_reach
+      from {board} l
+      left join (select entity_key, count(*) as people, sum(w) as reach
+                 from topic_hits group by 1) h on h.entity_key = l.entity_key
+      where h.entity_key is not null or l.cuisine ilike %(topic)s
+    )
 """
 
 # Resolution status for a resolved entity: the strongest status among the
@@ -105,6 +152,16 @@ def _board_filters(f):
     return (" where " + " and ".join(where) if where else ""), params
 
 
+def _named(where, params):
+    """_board_filters speaks positional %s; the topic CTE needs named
+    parameters. Rename in order so both can share one statement."""
+    named = {}
+    for i, v in enumerate(params):
+        where = where.replace("%s", f"%(p{i})s", 1)
+        named[f"p{i}"] = v
+    return where, named
+
+
 def leaderboard_page(conn, f, fetch_all, fetch_value):
     """One page of the board, plus the unpaginated total.
 
@@ -112,8 +169,37 @@ def leaderboard_page(conn, f, fetch_all, fetch_value):
     guessing how many rows exist. Both statements read a materialized table of
     a few thousand rows, so two queries is cheaper than one with a window
     function over the whole set.
+
+    `algo` picks the table; everything else is shared. A v2-only sort under
+    v1 falls back to v1's default rather than erroring, so a client can flip
+    the switch without also having to reset its sort.
     """
-    where, params = _board_filters(f)
+    algo = f.algo
+    board = BOARDS[algo]
+    sort = f.sort or DEFAULT_SORT[algo]
+    if algo == "v1" and sort in V2_SORTS:
+        sort = DEFAULT_SORT["v1"]
+    order = SORTS[sort]
+
+    where, params = _named(*_board_filters(f))
+    cte, join, extra = "", "", ""
+    if f.topic:
+        params.update(topic=f"%{f.topic}%", algo=algo)
+        cuisine_reach = "l.recent_reach" if algo == "v2" else "1"
+        cte = "with " + TOPIC_HITS.format(board=board, cuisine_reach=cuisine_reach)
+        join = "join topic tp on tp.entity_key = l.entity_key"
+        if algo == "v2":
+            # Within a topic, rank by reach WITHIN it, not overall reach:
+            # Peter Luger is loud everywhere and should not top "omakase".
+            extra = """, tp.topic_people,
+                tp.topic_reach * (1.0 + l.sentiment) / 2.0
+                  * (case when l.flagged
+                          then (select flag_penalty from scoring_v2_params)
+                          else 1.0 end) as topic_rank"""
+            if f.sort is None:
+                order = "topic_rank desc nulls last"
+        else:
+            extra = ", tp.topic_people"
 
     # The count does NOT get the lateral unless the caller filtered on status.
     # count(*) has no LIMIT to stop at, so joining it would resolve the status
@@ -123,34 +209,37 @@ def leaderboard_page(conn, f, fetch_all, fetch_value):
     # runs for one page of rows, not the whole board.
     count_join = RESOLUTION_LATERAL if f.status else ""
     total = fetch_value(
-        conn, f"select count(*) from entity_leaderboard l {count_join} {where}",
+        conn, f"{cte} select count(*) from {board} l {join} {count_join} {where}",
         params, default=0)
 
     rows = fetch_all(conn, f"""
-        select {BOARD_COLUMNS}, res.status, res.fuzzy_match, res.fuzzy_score
-        from entity_leaderboard l
+        {cte}
+        select {_columns(algo)}, res.status, res.fuzzy_match, res.fuzzy_score {extra}
+        from {board} l
+        {join}
         {RESOLUTION_LATERAL}
         {where}
-        order by {SORTS[f.sort]}, l.entity_key
-        limit %s offset %s
-    """, params + [f.limit, f.offset])
+        order by {order}, l.entity_key
+        limit %(limit)s offset %(offset)s
+    """, dict(params, limit=f.limit, offset=f.offset))
     return rows, total
 
 
-def board_row(conn, entity_key, fetch_one):
+def board_row(conn, entity_key, fetch_one, algo="v1"):
     return fetch_one(conn, f"""
-        select {BOARD_COLUMNS}, res.status, res.fuzzy_match, res.fuzzy_score
-        from entity_leaderboard l
+        select {_columns(algo)}, res.status, res.fuzzy_match, res.fuzzy_score
+        from {BOARDS[algo]} l
         {RESOLUTION_LATERAL}
         where l.entity_key = %s
     """, (entity_key,))
 
 
-def aspect_detail(conn, entity_key, fetch_all):
+def aspect_detail(conn, entity_key, fetch_all, algo="v1"):
     """Per-aspect workings: what the mentions said, and what it was shrunk to."""
-    return fetch_all(conn, """
+    table = "aspect_scores_v2" if algo == "v2" else "aspect_scores"
+    return fetch_all(conn, f"""
         select aspect, n_obs, aspect_weight, raw_mean, city_mean, aspect_score
-        from aspect_scores
+        from {table}
         where entity_key = %s
         order by array_position(
             array['food','value','service','atmosphere','wait'], aspect)
@@ -297,6 +386,35 @@ def mentions_page(conn, entity_key, q, fetch_all, fetch_value):
     return rows, total
 
 
+def standout_negatives(conn, entity_key, limit, fetch_all):
+    """The comments behind a v2 flag: recent, firsthand, strongly negative,
+    harshest and most upvoted first. Same shape as mentions_page so the UI renders both alike."""
+    return fetch_all(conn, """
+        select m.id as mention_id, m.comment_id, m.restaurant_raw,
+               m.entity_key as typed_key, m.aspects, m.dishes, m.descriptors,
+               m.expensiveness, m.is_firsthand, m.is_negated,
+               m.neighborhood_hint,
+               c.author, c.score, c.controversiality, c.created_utc, c.body,
+               case when c.was_deleted_later then null else c.permalink end
+                 as permalink,
+               c.was_deleted_later,
+               t.id as thread_id, t.title as thread_title
+        from mention_v2 v
+        join mentions m on m.id = v.mention_id
+        join comments c on c.id = v.comment_id
+        join threads  t on t.id = v.thread_id
+        cross join scoring_v2_params p
+        where v.entity_key = %s
+          and v.age_days <= p.recent_days
+          and v.is_firsthand
+          and v.worst <= p.strong_neg
+        -- Harshest and most agreed-with first: worst is <= -0.6 here, so the
+        -- product is most negative for a severe complaint the sub upvoted.
+        order by v.worst * v.w_agree asc, c.created_utc desc
+        limit %s
+    """, (entity_key, limit))
+
+
 def search(conn, q, limit, fetch_all):
     """Typeahead. Deliberately does not touch the scoring views.
 
@@ -371,7 +489,8 @@ def view_health(conn, fetch_all):
         select matviewname as name, ispopulated
         from pg_matviews
         where matviewname in ('entity_alias', 'mention_weights',
-                              'momentum_windows', 'entity_leaderboard')
+                              'momentum_windows', 'entity_leaderboard',
+                              'mention_v2', 'entity_leaderboard_v2')
     """)
     return {r["name"]: bool(r["ispopulated"]) for r in rows}
 

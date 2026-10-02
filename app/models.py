@@ -30,11 +30,23 @@ SORTS = {
     "service":    "l.service desc nulls last",
     "atmosphere": "l.atmosphere desc nulls last",
     "wait":       "l.wait desc nulls last",
+    # v2 only: these columns exist on entity_leaderboard_v2 alone.
+    "rank":          "l.rank_score desc nulls last",
+    "recent_people": "l.recent_people desc nulls last",
+    "sentiment":     "l.sentiment desc nulls last",
+    "trend":         "l.trend_pct desc nulls last",
 }
+V2_SORTS = {"rank", "recent_people", "sentiment", "trend"}
+# What each algorithm ranks by when the caller does not say.
+DEFAULT_SORT = {"v1": "volume", "v2": "rank"}
 SortKey = Literal[
     "volume", "share", "momentum", "mentions", "authors", "longevity",
     "first_seen", "recent", "food", "value", "service", "atmosphere", "wait",
+    "rank", "recent_people", "sentiment", "trend",
 ]
+# v1 is scoring.sql (decayed attention, symmetric sentiment); v2 is
+# scoring_v2.sql (recent people, negatives 2x, standout-negative flag).
+Algo = Literal["v1", "v2"]
 AspectKey = Literal["food", "value", "service", "atmosphere", "wait"]
 MentionSort = Literal["recent", "oldest", "score"]
 
@@ -53,6 +65,11 @@ class LeaderboardQuery(BaseModel):
     borough: Optional[str] = Field(default=None, max_length=40)
     status: Optional[Literal["exact", "fuzzy", "unlisted", "unverified"]] = None
     descriptor: Optional[str] = Field(default=None, max_length=80)
+    # A category, not a name: "omakase", "tasting menu", "french". Matched
+    # against thread titles, the commenters' descriptors and dishes, and the
+    # city's cuisine label.
+    topic: Optional[str] = Field(default=None, max_length=80)
+    algo: Algo = "v1"
 
     hide_chains: bool = True
     include_closed: bool = False
@@ -67,7 +84,8 @@ class LeaderboardQuery(BaseModel):
     min_atmosphere: Optional[float] = Field(default=None, ge=-1, le=1)
     min_wait: Optional[float] = Field(default=None, ge=-1, le=1)
 
-    sort: SortKey = "volume"
+    # None means the algorithm's own default (DEFAULT_SORT).
+    sort: Optional[SortKey] = None
     limit: int = Field(default=50, ge=1, le=200)
     offset: int = Field(default=0, ge=0)
 
@@ -163,6 +181,20 @@ class LeaderboardRow(BaseModel):
     status: Optional[str] = None
     fuzzy_match: Optional[str] = None
     fuzzy_score: Optional[float] = None
+
+    # v2 only; None under algo=v1
+    recent_people: Optional[int] = None
+    recent_reach: Optional[float] = None
+    opinion_people: Optional[int] = None
+    strong_neg_people: Optional[int] = None
+    strong_neg_share: Optional[float] = None
+    top_neg_score: Optional[int] = None
+    flagged: Optional[bool] = None
+    sentiment: Optional[float] = None
+    trend_pct: Optional[int] = None
+    rank_score: Optional[float] = None
+    # people in the last two years who mentioned it under the searched topic
+    topic_people: Optional[int] = None
 
 
 class SearchHit(BaseModel):

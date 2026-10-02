@@ -29,21 +29,24 @@ import db
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 # Applied in order: resolve.sql's view reads restaurants, scoring.sql's views
-# read each other. Both are create-or-replace throughout.
-SQL_FILES = ("scoring.sql", "resolve.sql")
+# read each other, and scoring_v2.sql reads scoring.sql's -- which drop with
+# CASCADE and take v2 along, so v2 must be re-applied after them every time.
+SQL_FILES = ("scoring.sql", "scoring_v2.sql", "resolve.sql")
 
 # (name, can_refresh_concurrently). CONCURRENTLY needs a unique index and
 # keeps the view readable while it rebuilds; momentum_windows has no unique
 # key to give it one, and it is small, so it takes the lock.
 #
-# entity_leaderboard is LAST and must stay last: it reads every other view in
-# this tuple, so refreshing it first would serve the API a board built from
-# the previous run's identities and weights.
+# entity_leaderboard comes after everything it reads, so refreshing it first
+# would serve the API a board built from the previous run's identities and
+# weights. entity_leaderboard_v2 reads it, so it is the one that is last.
 VIEWS = (("entity_alias", True),
          ("mention_weights", True),
+         ("mention_v2", True),
          ("momentum_windows", False),
          ("mention_resolution", True),
-         ("entity_leaderboard", True))
+         ("entity_leaderboard", True),
+         ("entity_leaderboard_v2", True))
 
 
 def apply_sql(conn, verbose=True):

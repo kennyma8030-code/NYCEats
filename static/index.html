@@ -54,6 +54,15 @@
   .tag.exact { border-color:#bfe0cb; background:#eef7f1; color:var(--pos) }
   .tag.fuzzy { border-color:#f0d9a8; background:#fff8ea; color:#8a6a1e }
   .tag.rise  { border-color:#bfd4ef; background:#eff4fb; color:var(--accent) }
+  .tag.flag  { border-color:#f0c4bc; background:#fcefec; color:var(--neg) }
+  .algo { display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line);
+          border-radius:5px; overflow:hidden }
+  .algo button { margin:0; border:none; border-radius:0; background:#fff }
+  .algo button.on { background:var(--ink); color:#fff }
+  .note { font-size:11px; color:var(--mute); margin-top:5px }
+  .negs { border-left:3px solid var(--neg); padding-left:10px; margin-bottom:16px }
+  .negs h3 { font-size:11px; text-transform:uppercase; letter-spacing:.05em;
+             color:var(--neg); margin:0 0 8px }
 
   .detail { background:#fbfaf8 }
   .detail td { padding:12px 14px }
@@ -73,6 +82,16 @@
 
 <div class="wrap">
   <aside class="panel">
+    <h2>Algorithm</h2>
+    <div class="algo">
+      <button data-algo="v1">Original</button>
+      <button data-algo="v2">New</button>
+    </div>
+    <div class="note" id="algoNote"></div>
+
+    <h2>Looking for</h2>
+    <input id="topic" placeholder="omakase, french, cheap eats…">
+
     <h2>Search</h2>
     <input id="search" placeholder="restaurant name">
 
@@ -96,6 +115,11 @@
 
     <h2>Sort</h2>
     <select id="sort">
+      <option value="">Default</option>
+      <option value="rank" data-v2>Best match (new)</option>
+      <option value="recent_people" data-v2>Recent people (new)</option>
+      <option value="sentiment" data-v2>Sentiment (new)</option>
+      <option value="trend" data-v2>Trend (new)</option>
       <option value="volume">Volume</option>
       <option value="momentum">Momentum</option>
       <option value="mentions">Raw mentions</option>
@@ -109,7 +133,7 @@
 
   <main>
     <table>
-      <thead><tr>
+      <thead><tr id="head">
         <th>Restaurant</th><th class="num">Vol</th><th class="num">Mom</th>
         <th class="num">Ment</th><th class="num">Ppl</th>
         <th class="num">Food</th><th class="num">Value</th>
@@ -125,12 +149,43 @@
 const ASPECTS = ["food","value","service","atmosphere","wait"];
 const $ = id => document.getElementById(id);
 
+// Which scoring the board reads: v1 = scoring.sql, v2 = scoring_v2.sql.
+// Remembered per browser so a comparison survives a reload.
+let algo = "v1";
+try { algo = localStorage.getItem("algo") || "v1"; } catch (e) {}
+const NOTES = {
+  v1: "Decayed attention over all years; sentiment averaged evenly.",
+  v2: "People in the last 2 years; negatives count double; " +
+      "flags places where a big share of recent opinion is a bad experience.",
+};
+const HEADS = {
+  v1: ["Restaurant","Vol","Mom","Ment","Ppl"],
+  v2: ["Restaurant","Recent ppl","Sent","Trend","Ppl"],
+};
+function setAlgo(a) {
+  algo = a;
+  try { localStorage.setItem("algo", a); } catch (e) {}
+  document.querySelectorAll(".algo button").forEach(b =>
+    b.classList.toggle("on", b.dataset.algo === a));
+  $("algoNote").textContent = NOTES[a];
+  // v2-only sorts are hidden under v1; the API would fall back anyway.
+  document.querySelectorAll("#sort option[data-v2]").forEach(o => o.hidden = a !== "v2");
+  if (a !== "v2" && $("sort").selectedOptions[0]?.dataset.v2 !== undefined) $("sort").value = "";
+  const ths = $("head").children;
+  HEADS[a].forEach((h, i) => ths[i].textContent = h);
+}
+document.querySelectorAll(".algo button").forEach(b =>
+  b.onclick = () => { setAlgo(b.dataset.algo); load(); });
+setAlgo(algo);
+
 $("aspects").innerHTML = ASPECTS.map(a => `
   <label>${a} &ge; <span class="sub" id="${a}L">any</span>
     <input type="range" id="min_${a}" min="-1" max="1" step="0.1" value="-1"></label>`).join("");
 
 function params() {
   const p = new URLSearchParams();
+  p.set("algo", algo);
+  if ($("topic").value.trim()) p.set("topic", $("topic").value.trim());
   if ($("search").value.trim()) p.set("search", $("search").value.trim());
   for (const k of ["cuisine","borough","status","sort"])
     if ($(k).value) p.set(k, $(k).value);
@@ -168,14 +223,23 @@ async function load() {
       r.status === "exact" ? '<span class="tag exact">verified</span>' :
       r.status === "fuzzy" ? `<span class="tag fuzzy">~${r.fuzzy_match ?? ""}</span>` :
       `<span class="tag">${r.status ?? "?"}</span>`,
-      r.momentum_fired ? `<span class="tag rise">rising ${r.momentum_window_days}d</span>` : ""
+      r.momentum_fired ? `<span class="tag rise">rising ${r.momentum_window_days}d</span>` : "",
+      r.flagged ? `<span class="tag flag">⚑ ${r.strong_neg_people} bad experiences
+        (${Math.round(r.strong_neg_share * 100)}% of recent opinion)</span>` : "",
+      r.topic_people ? `<span class="tag">${r.topic_people} in topic</span>` : ""
     ].join(" ");
+    const pct = v => v == null ? "—" : `<span class="${v > 0 ? "pos" : v < 0 ? "neg" : ""}">${v > 0 ? "+" : ""}${v}%</span>`;
+    const lead = algo === "v2"
+      ? `<td class="num">${r.recent_people ?? "—"}</td>
+         <td class="num">${score(r.sentiment)}</td>
+         <td class="num">${pct(r.trend_pct)}</td>`
+      : `<td class="num">${r.decayed_volume == null ? "—" : (+r.decayed_volume).toFixed(1)}</td>
+         <td class="num">${r.momentum_sigma == null ? "—" : (+r.momentum_sigma).toFixed(1)}</td>
+         <td class="num">${r.raw_mentions ?? "—"}</td>`;
     return `<tr class="e" data-k="${esc(r.entity_key)}">
       <td><div class="name">${esc(r.entity_key)}</div>
           <div class="sub">${esc(sub)} ${tags}</div></td>
-      <td class="num">${r.decayed_volume == null ? "—" : (+r.decayed_volume).toFixed(1)}</td>
-      <td class="num">${r.momentum_sigma == null ? "—" : (+r.momentum_sigma).toFixed(1)}</td>
-      <td class="num">${r.raw_mentions ?? "—"}</td>
+      ${lead}
       <td class="num">${r.distinct_authors ?? "—"}</td>
       ${ASPECTS.map(a => `<td class="num">${score(r[a])}</td>`).join("")}
     </tr>`;
@@ -190,11 +254,21 @@ $("rows").addEventListener("click", async e => {
   if (open && open.classList.contains("detail")) { open.remove(); return; }
   document.querySelectorAll("tr.detail").forEach(d => d.remove());
 
-  const ms = ((await (await fetch("/api/restaurants/"
-    + encodeURIComponent(tr.dataset.k) + "/mentions?limit=100")).json()).items) || [];
+  const base = "/api/restaurants/" + encodeURIComponent(tr.dataset.k);
+  const [ms, negs] = await Promise.all([
+    fetch(base + "/mentions?limit=100").then(r => r.json()).then(r => r.items || []),
+    algo === "v2" ? fetch(base + "/standout-negatives?limit=5").then(r => r.json())
+                  : Promise.resolve([]),
+  ]);
   const row = document.createElement("tr");
   row.className = "detail";
-  row.innerHTML = `<td colspan="10">` + (ms.length ? ms.map(m => {
+  const negHtml = Array.isArray(negs) && negs.length
+    ? `<div class="negs"><h3>Standout negatives, last 2 years</h3>${negs.map(mention).join("")}</div>` : "";
+  row.innerHTML = `<td colspan="10">` + negHtml + (ms.length ? ms.map(mention).join("") : "<em>no mentions</em>") + "</td>";
+  tr.after(row);
+});
+
+function mention(m) {
     const a = m.aspects || {};
     const shown = ASPECTS.filter(k => a[k] !== null && a[k] !== undefined)
                          .map(k => `${k} ${(+a[k]).toFixed(1)}`).join(" · ");
@@ -210,9 +284,7 @@ $("rows").addEventListener("click", async e => {
       ${shown ? `<div class="asp">${shown}</div>` : ""}
       <div class="asp">in: ${esc(m.thread_title)}</div>
     </div>`;
-  }).join("") : "<em>no mentions</em>") + "</td>";
-  tr.after(row);
-});
+}
 
 async function facets() {
   // Corpus counters moved out of /api/facets into their own endpoint, so the
@@ -242,7 +314,7 @@ document.addEventListener("input", e => {
   clearTimeout(t); t = setTimeout(load, 180);
 });
 $("reset").onclick = () => {
-  $("search").value = "";
+  $("search").value = ""; $("topic").value = ""; $("sort").value = "";
   ["cuisine","borough","status"].forEach(k => $(k).value = "");
   $("hide_chains").checked = true; $("rising").checked = false;
   $("min_mentions").value = 1; $("min_authors").value = 1;
