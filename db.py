@@ -98,16 +98,22 @@ def insert_comments(conn, comments):
             c.get("retrieved_on"),
             c.get("score"),
             c.get("controversiality"),
+            c["created_utc"],
         ))
     with conn.cursor() as cur:
         inserted = execute_values(cur, """
             insert into comments
               (id, thread_id, parent_id, parent_comment_id, author, body,
-               permalink, created_utc, retrieved_on, score, controversiality)
+               permalink, created_utc, retrieved_on, score, controversiality,
+               score_settled)
             values %s
             on conflict (id) do nothing
             returning id
-        """, rows, template="(%s,%s,%s,%s,%s,%s,%s,to_timestamp(%s),to_timestamp(%s),%s,%s)",
+        """, rows,
+            # A comment already past 36h when it arrives came from the archive,
+            # whose score has had its 36h -- there is nothing left to settle.
+            template="(%s,%s,%s,%s,%s,%s,%s,to_timestamp(%s),to_timestamp(%s),%s,%s,"
+                     "to_timestamp(%s) < now() - interval '36 hours')",
             fetch=True)
         n = len(inserted)
     conn.commit()
