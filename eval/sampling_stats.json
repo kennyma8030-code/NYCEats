@@ -1,0 +1,214 @@
+{
+  "built_at": "2026-10-03T19:22:18",
+  "seed": "nyceats-eval-v1",
+  "pool_size": 198003,
+  "orphan_replies_excluded": 27,
+  "ambiguous_keys": 91,
+  "candidates_per_group": {
+    "zero_mentions_suspicious": 11119,
+    "strong_negative": 2392,
+    "ambiguous_name": 5000,
+    "nameless_reply": 14350,
+    "out_of_scope": 4773,
+    "messy_text": 5773,
+    "avoid_list_negation": 3358,
+    "long_list": 4237,
+    "deep_chain": 2899,
+    "random": 198003
+  },
+  "drawn_for_group": {
+    "nameless_reply": 40,
+    "deep_chain": 30,
+    "strong_negative": 35,
+    "avoid_list_negation": 35,
+    "ambiguous_name": 25,
+    "out_of_scope": 25,
+    "long_list": 30,
+    "zero_mentions_suspicious": 50,
+    "messy_text": 25,
+    "random": 100
+  },
+  "tagged_in_sample": {
+    "nameless_reply": 43,
+    "deep_chain": 30,
+    "avoid_list_negation": 39,
+    "out_of_scope": 32,
+    "strong_negative": 35,
+    "ambiguous_name": 28,
+    "long_list": 38,
+    "zero_mentions_suspicious": 70,
+    "messy_text": 38,
+    "random": 100
+  },
+  "thread_candidates": 4560,
+  "thread_candidates_per_group": {
+    "thread_title_names_place": 957,
+    "thread_long": 1366,
+    "thread_where_to_eat": 1420
+  },
+  "threads": [
+    {
+      "thread_id": "t3_1us3txb",
+      "drawn_for": "thread_long",
+      "title": "Another Pressed Juicery location bites the dust...",
+      "eligible_comments": 59,
+      "groups": [
+        "thread_long"
+      ]
+    },
+    {
+      "thread_id": "t3_1qvx95d",
+      "drawn_for": "thread_long",
+      "title": "Noona's Ice Cream",
+      "eligible_comments": 26,
+      "groups": [
+        "thread_long",
+        "thread_title_names_place"
+      ]
+    },
+    {
+      "thread_id": "t3_1u5t5ql",
+      "drawn_for": "thread_long",
+      "title": "Best deli pickles in NYC (preferably near manhattan)",
+      "eligible_comments": 28,
+      "groups": [
+        "thread_long",
+        "thread_where_to_eat"
+      ]
+    },
+    {
+      "thread_id": "t3_1vzfd60",
+      "drawn_for": "thread_long",
+      "title": "Mama\u2019s Too in NYC has some of my favorite slices ever!!",
+      "eligible_comments": 57,
+      "groups": [
+        "thread_long",
+        "thread_title_names_place",
+        "thread_where_to_eat"
+      ]
+    },
+    {
+      "thread_id": "t3_1qoyhc6",
+      "drawn_for": "thread_long",
+      "title": "Weightloss veg orders in NYC",
+      "eligible_comments": 31,
+      "groups": [
+        "thread_long"
+      ]
+    },
+    {
+      "thread_id": "t3_1vktrj1",
+      "drawn_for": "thread_title_names_place",
+      "title": "Eleven Madison Park, Lunch.  Menu, drinks, and a game.",
+      "eligible_comments": 24,
+      "groups": [
+        "thread_title_names_place"
+      ]
+    },
+    {
+      "thread_id": "t3_1tgc53s",
+      "drawn_for": "thread_title_names_place",
+      "title": "Anyone been to Sofreh in Prospect Heights and can recommend some dishes for my bday dinner?",
+      "eligible_comments": 9,
+      "groups": [
+        "thread_title_names_place",
+        "thread_where_to_eat"
+      ]
+    },
+    {
+      "thread_id": "t3_1og6uol",
+      "drawn_for": "thread_title_names_place",
+      "title": "A Brit's first time",
+      "eligible_comments": 8,
+      "groups": [
+        "thread_title_names_place"
+      ]
+    },
+    {
+      "thread_id": "t3_1w6chew",
+      "drawn_for": "thread_title_names_place",
+      "title": "Finally went to 4 Charles: Im appalled. Anyone else?",
+      "eligible_comments": 13,
+      "groups": [
+        "thread_title_names_place"
+      ]
+    },
+    {
+      "thread_id": "t3_1v6qq5o",
+      "drawn_for": "thread_title_names_place",
+      "title": "Solid day of eats @ Mama\u2019s Too & Red Gate Bakery \ud83c\udf55 \ud83c\udf6a",
+      "eligible_comments": 17,
+      "groups": [
+        "thread_title_names_place"
+      ]
+    },
+    {
+      "thread_id": "t3_1ryvvhd",
+      "drawn_for": "thread_title_names_place",
+      "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+      "eligible_comments": 22,
+      "groups": [
+        "thread_title_names_place"
+      ]
+    },
+    {
+      "thread_id": "t3_1t41slb",
+      "drawn_for": "thread_where_to_eat",
+      "title": "Where can I get a kir royale in Brooklyn?",
+      "eligible_comments": 9,
+      "groups": [
+        "thread_where_to_eat"
+      ]
+    },
+    {
+      "thread_id": "t3_1spkzwx",
+      "drawn_for": "thread_where_to_eat",
+      "title": "Help Finding Cheap Prosciutto Chunks?",
+      "eligible_comments": 16,
+      "groups": [
+        "thread_where_to_eat"
+      ]
+    },
+    {
+      "thread_id": "t3_1tarwra",
+      "drawn_for": "thread_where_to_eat",
+      "title": "I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?",
+      "eligible_comments": 23,
+      "groups": [
+        "thread_where_to_eat"
+      ]
+    },
+    {
+      "thread_id": "t3_1oeazb6",
+      "drawn_for": "thread_where_to_eat",
+      "title": "Looking for a dive bar along the 1 train between Lincoln Center and the Hudson stop",
+      "eligible_comments": 12,
+      "groups": [
+        "thread_where_to_eat"
+      ]
+    },
+    {
+      "thread_id": "t3_1u5380k",
+      "drawn_for": "thread_where_to_eat",
+      "title": "Does anyone know where I can find Vietnamese La Lot leaves?",
+      "eligible_comments": 9,
+      "groups": [
+        "thread_where_to_eat"
+      ]
+    },
+    {
+      "thread_id": "t3_1trcpi3",
+      "drawn_for": "thread_where_to_eat",
+      "title": "Where can we get mie gorang? Preferably in Brooklyn.",
+      "eligible_comments": 11,
+      "groups": [
+        "thread_where_to_eat"
+      ]
+    }
+  ],
+  "thread_comments_total": 374,
+  "prompt_hashes": {
+    "comment_current": "0d75b20b5f83",
+    "thread_current": "5b02ac883c80"
+  }
+}
