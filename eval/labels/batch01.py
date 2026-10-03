@@ -163,9 +163,9 @@ L["c0042"] = ([], "Corporate trivia about Wonder buying GrubHub; no judgment.")
 L["c0043"] = ([], "Dogs-in-restaurants rant; does not judge Ceres Pizza itself.")
 L["c0044"] = ([M("Rubirosa", food=-1, first=False, alt={"food": [None]}, unc=["is_negated"], conf="medium",
                  why="decides to skip Rubirosa on hearsay ('I'd rather skip it'); own plan, not an instruction to others")], "")
-L["c0045"] = ([M("Serafina", named_in="parent", food=-2, value=-2, neg=True, first=None,
-                 alt={"food": [-1, -3], "value": [-1, -3]}, unc=["is_negated"], rc=True, rt=False, conf="medium",
-                 why="'Second this' in a thread asking for poor-quality, expensive places to send an enemy; parent is out of the thread chunk")],
+L["c0045"] = ([M("Serafina", food=-2, value=-2, neg=True, first=None,
+                 alt={"food": [-1, -3], "value": [-1, -3]}, unc=["is_negated"], conf="medium",
+                 why="'Second this. Came here to write Serafina.' in a thread asking for poor-quality, expensive places to send an enemy: polarity comes only from the title")],
               "Sarcasm thread: endorsement = negative.")
 L["c0046"] = ([], "InKind payment app and a Costco deal; no place.")
 L["c0047"] = ([

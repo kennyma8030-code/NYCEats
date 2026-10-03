@@ -1,20 +1,32 @@
 {
-  "built_at": "2026-10-03T19:22:18",
+  "built_at": "2026-10-03T19:27:30",
   "seed": "nyceats-eval-v1",
   "pool_size": 198003,
   "orphan_replies_excluded": 27,
   "ambiguous_keys": 91,
   "candidates_per_group": {
-    "zero_mentions_suspicious": 11119,
-    "strong_negative": 2392,
-    "ambiguous_name": 5000,
     "nameless_reply": 14350,
-    "out_of_scope": 4773,
+    "strong_negative": 2392,
+    "zero_mentions_suspicious": 11119,
+    "ambiguous_name": 5000,
+    "deep_chain": 2899,
     "messy_text": 5773,
     "avoid_list_negation": 3358,
     "long_list": 4237,
-    "deep_chain": 2899,
+    "out_of_scope": 4773,
     "random": 198003
+  },
+  "strata_population": {
+    "nameless_reply": 14350,
+    "strong_negative": 2270,
+    "zero_mentions_suspicious": 9688,
+    "ambiguous_name": 4354,
+    "none": 149454,
+    "deep_chain": 2899,
+    "messy_text": 4689,
+    "avoid_list_negation": 3105,
+    "out_of_scope": 4060,
+    "long_list": 3134
   },
   "drawn_for_group": {
     "nameless_reply": 40,

@@ -292,6 +292,12 @@ def main():
     pool = [r for r in pool if r["thread_id"] not in thread_ids]
     gcount = collections.Counter(g for r in pool for g in r["groups"])
     gcount["random"] = len(pool)
+    # Strata for population reweighting: every pool comment falls in exactly
+    # one cell, the first risk group (in draw order) it matches, else "none".
+    order = [g for g, _ in TARGETS if g != "random"]
+    def stratum(groups):
+        return next((g for g in order if g in groups), "none")
+    strata = collections.Counter(stratum(r["groups"]) for r in pool)
     chosen, seen = [], set()
     for grp, k in TARGETS:
         cands = sorted((r for r in pool if (grp == "random" or grp in r["groups"])),
@@ -338,6 +344,7 @@ def main():
             "thread_id": r["thread_id"],
             "sampled_for": grp,
             "risk_groups": groups,
+            "stratum": stratum(r["groups"]),
             "production": prod_info(r["extracted_with"]),
             "inputs": {
                 "comment": {"user_message": comment_input(cur, r["id"])},
@@ -396,6 +403,7 @@ def main():
         "orphan_replies_excluded": len(orphans),
         "ambiguous_keys": len(amb_keys),
         "candidates_per_group": dict(gcount),
+        "strata_population": dict(strata),
         "drawn_for_group": dict(drawn),
         "tagged_in_sample": dict(sampled),
         "thread_candidates": len(tinfo),
