@@ -32,7 +32,11 @@ select
   3.0::float8   as momentum_sigma,       -- TUNE  display threshold, in sigma
   3.0::float8   as aspect_pseudo,        -- TUNE  shrinkage toward the city mean
   3             as min_mentions,          -- TUNE  leaderboard floor
-  0.75::float8  as alias_min_score;       -- TUNE  word_similarity to merge
+  -- Off. A hand review of the 2,547 names with 5+ mentions found about 1 in 6
+  -- fuzzy merges wrong ("emp" -> EMPIRE, "angel" -> BLUE ANGEL), and no
+  -- threshold separates them. Every merge worth having is now an
+  -- alias_overrides row; word_similarity tops out at 1.0, so this never fires.
+  1.01::float8  as alias_min_score;       -- TUNE  word_similarity to merge
 
 
 -- ---------------------------------------------------------------------------
@@ -555,7 +559,10 @@ left join entity_confidence cf on cf.entity_key = v.entity_key
 left join entity_momentum  mo on mo.entity_key = v.entity_key
 left join entity_longevity lg on lg.entity_key = v.entity_key
 left join aspects           a on  a.entity_key = v.entity_key
-left join restaurants       r on  r.name_key   = v.entity_key;
+left join restaurants       r on  r.name_key   = v.entity_key
+-- Grocery stores, markets and pronouns the model extracted as places.
+where not exists (select 1 from excluded_entities x
+                  where x.entity_key = v.entity_key);
 
 -- Unique index is not optional: REFRESH ... CONCURRENTLY requires one, and
 -- without it the refresh takes an AccessExclusiveLock and the API blocks.

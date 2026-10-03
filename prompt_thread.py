@@ -34,10 +34,13 @@ NEVER invent an id. Only use numbers that appear in brackets.
 FIELDS (every key required on every mention, no extra keys)
 
 id                 integer. The bracket number of the comment this came from.
-restaurant_raw     string. The name VERBATIM, exactly as that commenter typed
-                   it. Never fix spelling, never fix capitalization, never
+restaurant_raw     string. The name VERBATIM, exactly as typed in the thread.
+                   Never fix spelling, never fix capitalization, never
                    expand an abbreviation, never add a borough or a "Pizzeria"
-                   they did not type. "lindustrie" stays "lindustrie".
+                   nobody typed. "lindustrie" stays "lindustrie". When the
+                   comment talks about a place without naming it ("it's v
+                   mid", "their service is terrible"), copy the name from the
+                   comment above it that does.
 neighborhood_hint  string or null. Only when the comment places THIS restaurant
                    somewhere: "the LES one", "Astoria".
 dishes             array of strings. Dishes actually named. [] if none.
@@ -56,6 +59,8 @@ USING THE TREE
 
 A reply is about its parent unless it names something else. "Overrated" indented under a comment praising a place is about that place -- and the mention belongs to the REPLY's id, because it is the replier's opinion.
 
+A reply that gives an opinion without repeating the name IS a mention. "Mostly overpriced bad food lol", "used to live next door, it is v mid", "It's... fine", "hard disagree", "sooo good" -- each is one mention under the reply's id, named as the comment above it names the place. This is the most common miss, and these replies are where most of the negative opinions are. A reply that only asks a question or talks about something else produces nothing.
+
 The post is context, not a source. Never emit a mention for a place named only in the post, unless a comment says something about it.
 
 ASPECTS -- the part that is easiest to get wrong
@@ -69,7 +74,9 @@ null is the default. Most comments touch ONE aspect at most; the other four stay
   atmosphere  the room, the vibe, noise, the crowd.
   wait        the line, reservations, how long the food took.
 
-Scale: 1 superlative ("best in the city"), 0.6 clear praise, 0.3 named as an answer with no adjective, -0.3 mild knock, -0.6 clear complaint, -1 "never again".
+Scale: 1 superlative ("best in the city"), 0.6 clear praise, 0.3 named as an answer with no adjective, -0.3 mild knock ("mid", "fine", "overrated"), -0.6 clear complaint, -1 a bad experience stated strongly ("worst I've had", "regretted going", "got sick", "never again").
+
+Use the whole negative half of the scale. Do not soften a complaint because the thread likes the place or because the commenter is polite about it.
 
 EXPENSIVENESS is a fact with no valence: -1 very cheap, +1 very pricey. Being expensive is not bad. "Pricey but worth every penny" is expensiveness 0.7 with value 0.6. "Overpriced" is expensiveness 0.6 with value -0.7.
 
@@ -81,14 +88,18 @@ RULES
 
 1. A bare list of names is the MAJORITY case, and every name in it is a mention.
    Being named as an answer to the thread's question is an endorsement: food
-   0.3, every other aspect null. Cuisine headings, neighborhoods, boroughs,
+   0.3, every other aspect null. That default is ONLY for a name with nothing
+   said about it. If the comment says anything -- the line, the price, a deal,
+   the room -- score what it says and leave food null unless the food itself
+   is judged. Cuisine headings, neighborhoods, boroughs,
    streets and dish names are not restaurants.
 2. Single-word names are common and are the ones most often missed: Tong,
    Luger, Keens, Juniors, Angel, Scarr's, Emily, Rubirosa. Catch them.
 3. Chains count. Emit McDonald's, Starbucks, Chipotle like any other name.
 4. The same place named twice in ONE comment is ONE mention.
 5. Sentiment is what the commenter thinks NOW, not what they used to think.
-6. A closed place is still a mention: every aspect null, "closed" in descriptors.
+6. A closed place is still a mention: every aspect null, "closed" in
+   descriptors -- even when the comment remembers how good it was.
 7. An avoid instruction heading a list applies to EVERY name in that list.
    "I'd skip everyone you mentioned. Lucali, Di Fara, L&B" is three mentions,
    all with is_negated true. This is the single easiest thing to get wrong.
@@ -101,15 +112,20 @@ POST: Best pizza in Brooklyn?
   [2] u/bob: lucali is overrated
     [3] u/ann: hard disagree
 [4] u/cal: Skip both. Di Fara and F&F.
+  [5] u/dee: went to the second one last month, worst slice I've had and the guy at the counter was rude. regretted going
 
 {"mentions":[
 {"id":1,"restaurant_raw":"L'industrie","neighborhood_hint":null,"dishes":[],"descriptors":[],"aspects":{"food":0.6,"value":null,"service":null,"atmosphere":null,"wait":null},"expensiveness":null,"is_firsthand":true,"is_negated":false},
 {"id":1,"restaurant_raw":"Lucali","neighborhood_hint":null,"dishes":[],"descriptors":[],"aspects":{"food":0.5,"value":null,"service":null,"atmosphere":null,"wait":-0.5},"expensiveness":null,"is_firsthand":true,"is_negated":false},
 {"id":2,"restaurant_raw":"lucali","neighborhood_hint":null,"dishes":[],"descriptors":["overrated"],"aspects":{"food":-0.5,"value":null,"service":null,"atmosphere":null,"wait":null},"expensiveness":null,"is_firsthand":true,"is_negated":false},
+{"id":3,"restaurant_raw":"lucali","neighborhood_hint":null,"dishes":[],"descriptors":[],"aspects":{"food":0.5,"value":null,"service":null,"atmosphere":null,"wait":null},"expensiveness":null,"is_firsthand":true,"is_negated":false},
+{"id":4,"restaurant_raw":"L'industrie","neighborhood_hint":null,"dishes":[],"descriptors":[],"aspects":{"food":-0.6,"value":null,"service":null,"atmosphere":null,"wait":null},"expensiveness":null,"is_firsthand":true,"is_negated":true},
+{"id":4,"restaurant_raw":"Lucali","neighborhood_hint":null,"dishes":[],"descriptors":[],"aspects":{"food":-0.6,"value":null,"service":null,"atmosphere":null,"wait":null},"expensiveness":null,"is_firsthand":true,"is_negated":true},
 {"id":4,"restaurant_raw":"Di Fara","neighborhood_hint":null,"dishes":[],"descriptors":[],"aspects":{"food":0.3,"value":null,"service":null,"atmosphere":null,"wait":null},"expensiveness":null,"is_firsthand":true,"is_negated":false},
-{"id":4,"restaurant_raw":"F&F","neighborhood_hint":null,"dishes":[],"descriptors":[],"aspects":{"food":0.3,"value":null,"service":null,"atmosphere":null,"wait":null},"expensiveness":null,"is_firsthand":true,"is_negated":false}]}
+{"id":4,"restaurant_raw":"F&F","neighborhood_hint":null,"dishes":[],"descriptors":[],"aspects":{"food":0.3,"value":null,"service":null,"atmosphere":null,"wait":null},"expensiveness":null,"is_firsthand":true,"is_negated":false},
+{"id":5,"restaurant_raw":"F&F","neighborhood_hint":null,"dishes":[],"descriptors":[],"aspects":{"food":-1,"value":null,"service":-0.6,"atmosphere":null,"wait":null},"expensiveness":null,"is_firsthand":true,"is_negated":false}]}
 
-Comment 3 names nothing, so it produces nothing. Comment 4 says "Skip both" about places already named above, but only the NEW names it contributes are emitted under id 4.
+Comment 3 names nothing but disagrees that Lucali is overrated, so it is a positive Lucali mention under id 3. Comment 4's "Skip both" is about L'industrie and Lucali, so both are emitted under id 4 with is_negated true, alongside its two new names. Comment 5 never types a name; it replies to the F&F recommendation, so it is F&F, and "regretted going" is -1.
 """
 
 PROMPT_HASH = hashlib.sha256(SYSTEM_PROMPT.encode("utf-8")).hexdigest()[:12]

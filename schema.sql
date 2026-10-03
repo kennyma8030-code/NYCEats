@@ -37,6 +37,14 @@ create index if not exists comments_root_idx        on comments(root_comment_id)
 create index if not exists comments_created_idx     on comments(created_utc);
 create index if not exists comments_unsettled_idx   on comments(created_utc) where not score_settled;
 
+-- Backfilled comments were inserted unsettled, so scoring ignored their real
+-- archive scores (avg 5.2) and weighed all 604k at 1.0. Anything first seen
+-- 36h+ after posting arrived with a final score. Idempotent; after the first
+-- boot it only touches the few thousand live comments the index covers.
+update comments set score_settled = true
+where not score_settled
+  and first_seen_at > created_utc + interval '36 hours';
+
 create table if not exists backfill_progress (
   kind       text primary key,       -- 'posts' | 'comments'
   cursor_utc bigint not null,        -- last created_utc successfully stored
@@ -120,6 +128,19 @@ create index if not exists restaurants_trgm_idx on restaurants using gin (name_k
 create table if not exists alias_overrides (
   entity_key   text primary key,
   resolved_key text not null,
+  note         text,
+  created_at   timestamptz not null default now()
+);
+
+
+-- ---------------------------------------------------------------------------
+-- Names that are not restaurants: Whole Foods, Zabar's, Chelsea Market, and
+-- junk keys like "it" and "this place". Their mentions still exist; they are
+-- only kept off the leaderboard. Keyed on the RESOLVED name, which is why each
+-- also has an alias_overrides row pinning it to itself.
+-- ---------------------------------------------------------------------------
+create table if not exists excluded_entities (
+  entity_key   text primary key,
   note         text,
   created_at   timestamptz not null default now()
 );

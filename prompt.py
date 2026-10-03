@@ -15,7 +15,7 @@ SELFTEXT_LIMIT = 400
 
 SYSTEM_PROMPT = """You extract restaurant mentions from ONE Reddit comment posted in a New York City food subreddit.
 
-You are given the post title, usually the post body, sometimes the parent comment, and then the comment itself. The context exists only to make sense of the comment. Extract from the COMMENT. Never extract a place that is only named in the title, body, or parent -- unless the comment is clearly saying something about it ("that place is great", "go on off hours").
+You are given the post title, usually the post body, sometimes the parent comment, and then the comment itself. The context exists only to make sense of the comment. Extract from the COMMENT. Never extract a place that is only named in the title, body, or parent -- unless the comment is clearly saying something about it ("that place is great", "go on off hours", "it's v mid", "their service is terrible"). A reply that gives an opinion without repeating the name IS a mention of the place it replies about. This is the most common miss, and these replies are where most of the negative opinions are.
 
 Output ONLY a JSON object. No prose, no code fences:
 
@@ -25,10 +25,12 @@ Use {"mentions": []} when the comment names no restaurant. That is a normal answ
 
 FIELDS (every key required on every mention, no extra keys)
 
-restaurant_raw     string. The name VERBATIM, exactly as the commenter typed it.
+restaurant_raw     string. The name VERBATIM, exactly as typed.
                    Never fix spelling, never fix capitalization, never expand an
-                   abbreviation, never add a borough or a "Pizzeria" they did not
-                   type. "lindustrie" stays "lindustrie".
+                   abbreviation, never add a borough or a "Pizzeria" nobody
+                   typed. "lindustrie" stays "lindustrie". When the comment
+                   talks about a place without naming it, copy the name from
+                   the parent comment (or the post) that does.
 neighborhood_hint  string or null. Only when the comment places THIS restaurant
                    somewhere: "the LES one", "Astoria".
 dishes             array of strings. Dishes actually named. [] if none.
@@ -59,7 +61,12 @@ commenter was explicitly mixed. Unmentioned is null.
   wait        the line, reservations, how long the food took.
 
 Scale: 1 superlative ("best in the city"), 0.6 clear praise, 0.3 named as an
-answer with no adjective, -0.3 mild knock, -0.6 clear complaint, -1 "never again".
+answer with no adjective, -0.3 mild knock ("mid", "fine", "overrated"), -0.6
+clear complaint, -1 a bad experience stated strongly ("worst I've had",
+"regretted going", "got sick", "never again").
+
+Use the whole negative half of the scale. Do not soften a complaint because the
+thread likes the place or because the commenter is polite about it.
 
 EXPENSIVENESS is a fact with no valence: -1 very cheap, 0 middling, +1 very
 pricey. Being expensive is not bad. "Pricey but worth every penny" is
@@ -78,7 +85,9 @@ RULES
 
 1. A bare list of names is the MAJORITY case, and every name in it is a mention.
    Being named as an answer to the thread's question is an endorsement: food 0.3,
-   every other aspect null. Cuisine headings, neighborhoods, boroughs, streets and
+   every other aspect null. That default is ONLY for a name with nothing said
+   about it. If the comment says anything -- the line, the price, a deal, the
+   room -- score what it says and leave food null unless the food is judged. Cuisine headings, neighborhoods, boroughs, streets and
    dish names are not restaurants.
 2. Single-word names are common and are the ones most often missed: Tong, Luger,
    Keens, Juniors, Angel, Scarr's, Emily, Rubirosa. Catch them.
@@ -86,7 +95,8 @@ RULES
    filtering happens downstream.
 4. The same place named twice in one comment is ONE mention.
 5. Sentiment is what the commenter thinks NOW, not what they used to think.
-6. A closed place is still a mention: every aspect null, "closed" in descriptors.
+6. A closed place is still a mention: every aspect null, "closed" in descriptors
+   -- even when the comment remembers how good it was.
 
 EXAMPLES
 
@@ -116,7 +126,15 @@ One mention, food 0.5, is_firsthand false.
 
 Parent comment: Scarr's is worth the hype
 Comment: visit on off hours to avoid the lines
-One mention, "Scarr's" (the comment is about the parent's place), wait -0.5, and food stays null -- not 0."""
+One mention, "Scarr's" (the comment is about the parent's place), wait -0.5, and food stays null -- not 0.
+
+Parent comment: Lucky Cat is my go-to ramen spot
+Comment: Used to live next door, it is v mid
+One mention, "Lucky Cat" -- named from the parent -- food -0.3.
+
+Parent comment: F&F on Court St
+Comment: went last month, worst slice I've had and the guy at the counter was rude. regretted going
+One mention, "F&F", food -1, service -0.6, is_negated false (a bad review, not an instruction to others)."""
 
 PROMPT_HASH = hashlib.sha256(SYSTEM_PROMPT.encode("utf-8")).hexdigest()[:12]
 

@@ -22,8 +22,8 @@ EntityKey = Annotated[str, Path(min_length=1, max_length=200,
                                 description="Resolved entity key, URL-encoded")]
 
 
-def _require_entity(conn, entity_key):
-    row = queries.board_row(conn, entity_key, fetch_one)
+def _require_entity(conn, entity_key, algo="v1"):
+    row = queries.board_row(conn, entity_key, fetch_one, algo)
     if row is None:
         # Distinguish "no such entity" from "an entity with no mentions": the
         # board only holds entities that have at least one weighted mention,
@@ -43,7 +43,7 @@ def detail(entity_key: EntityKey, algo: Algo = "v1", conn=Depends(get_conn)):
     the one that fired, and which typed spellings merged into this identity
     and by what method. A score that cannot be interrogated is an assertion.
     """
-    summary = _require_entity(conn, entity_key)
+    summary = _require_entity(conn, entity_key, algo)
     official = queries.official_record(conn, entity_key, fetch_one) or {}
     return RestaurantDetail(
         entity_key=entity_key,
@@ -105,9 +105,12 @@ def standout_negatives(
     limit: Annotated[int, Query(ge=1, le=50)] = 10,
     conn=Depends(get_conn),
 ):
-    """Recent, firsthand, strongly negative comments, harshest and most
-    upvoted first -- what entity_leaderboard_v2.flagged counts, so a flag is
-    never shown without its evidence."""
+    """Recent, firsthand, strongly negative comments, most upvoted first.
+
+    These are what entity_leaderboard_v2.flagged counts, so a flag is never
+    shown without the evidence for it. Returned whatever the flag says: a
+    place with one bad night is not flagged, but you may still want to read it.
+    """
     _require_entity(conn, entity_key)
     return queries.standout_negatives(conn, entity_key, limit, fetch_all)
 
