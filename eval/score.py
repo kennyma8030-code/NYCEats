@@ -457,6 +457,8 @@ def evaluate(gold, items, run, alias, excluded, drop_chains, stats_path):
                 m = PROD_MODE.get(ph) or prod.get("mode") or "thread"
             a = score_comment(g, preds.get(cid, []), m, alias, excluded, drop_chains)
             groups = list(it.get("risk_groups", [])) + list(it.get("weaknesses", []))
+            if it.get("split"):
+                groups.append(f"split_{it['split']}")
             for scope in ["overall", *groups]:
                 scopes[scope].add(a)
             if it["kind"] == "comment":

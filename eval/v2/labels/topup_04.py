@@ -29,8 +29,8 @@ L["t1_pbryhwc"] = ([M("Land of Plenty", food=3, dishes=[("salty egg yolk prawns"
                       terms=["szechuan", "salty egg yolk prawns"], why="'the best Jumbo fried shrimp in the city... Unreal'")], "")
 L["t1_nxw2fgf"] = ([M("Shuya", food=1, terms=["mazemen", "tsukemen", "vegetarian ramen"], why="listed in three categories"),
                     M("Susuru Ramen", food=1, terms=["mazemen", "vegetarian ramen"], why="listed"),
-                    M("Okonomi", food=1, terms=["mazemen"], why="listed"),
-                    M("Yuji Ramen", food=1, terms=["mazemen"], why="listed"),
+                    M("Okonomi / Yuji Ramen", "Okonomi", also=("okonomi", "yuji ramen"), food=1, terms=["mazemen"],
+                      why="listed (one business; production aliases both names together)"),
                     M("Kajiken", food=1, terms=["mazemen"], why="listed"),
                     M("Ramen Ishida Chelsea", "Ramen Ishida", food=1, terms=["tsukemen", "vegetarian ramen"], why="listed"),
                     M("Tabetomo", food=1, terms=["vegetarian ramen"], why="'Standout vegetarian ramen'"),

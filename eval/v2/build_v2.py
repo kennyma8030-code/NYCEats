@@ -124,6 +124,8 @@ def main():
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         for cid, (ms, note) in mod.L.items():
+            keys = [m["canonical_key"] for m in ms]
+            assert len(keys) == len(set(keys)), f"duplicate canonical key in {cid}: {keys}"
             it = dict(topups[cid])
             it.update({"source": "topup", "weaknesses": [it["mined_for"]]})
             items.append(it)
@@ -132,6 +134,17 @@ def main():
                          "batch": os.path.basename(path)[:-3], "adjudicated": False,
                          "has_mention": any(not m["ambiguous"] and not m["out_of_scope"] for m in ms),
                          "mentions": ms, "note": note})
+
+    # Did the ORIGINAL extraction actually fail these comments? (eval/adjudicate.py run over v2;
+    # written after the first build, so this is filled in on the second build)
+    dis_path = os.path.join(EVAL, "baseline", "disagreements_v2.jsonl")
+    if os.path.exists(dis_path):
+        dis = {r["comment_id"]: r for r in load_jsonl(dis_path)}
+        for it, g in zip(items, gold):
+            row = dis.get(it["comment_id"])
+            tags = weaknesses_of(row, g) if row else []
+            it["original_failures"] = tags
+            it["confirmed"] = any(w in tags for w in it["weaknesses"])
 
     # ids + stratified dev/test split (by first weakness, md5 order, alternate)
     by_w = collections.defaultdict(list)
@@ -152,13 +165,15 @@ def main():
     with open(os.path.join(V2, "gold.jsonl"), "w", encoding="utf-8") as f:
         for g in gold:
             f.write(json.dumps(g, ensure_ascii=False) + "\n")
-    counts = {w: {"total": 0, "v1_failure": 0, "topup": 0, "dev": 0, "test": 0} for w in TAXONOMY}
+    counts = {w: {"total": 0, "v1_failure": 0, "topup": 0, "dev": 0, "test": 0, "topup_confirmed": 0} for w in TAXONOMY}
     for it in items:
         for w in it["weaknesses"]:
             c = counts[w]
             c["total"] += 1
             c[it["source"]] += 1
             c[it["split"]] += 1
+            if it["source"] == "topup" and it.get("confirmed"):
+                c["topup_confirmed"] += 1
     summary = {"items": len(items), "dev": sum(1 for i in items if i["split"] == "dev"),
                "test": sum(1 for i in items if i["split"] == "test"), "per_weakness": counts,
                "below_min": [w for w, c in counts.items() if c["total"] < TOPUP_MIN]}

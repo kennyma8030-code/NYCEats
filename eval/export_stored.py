@@ -1,6 +1,7 @@
 """Export the production extraction for every eval comment as a run file.
 
     EVAL_DB_URL=postgresql://... python eval/export_stored.py
+    EVAL_DB_URL=... python eval/export_stored.py --items eval/v2/items.jsonl --name production__stored__v2
 
 Writes eval/baseline/production__stored__all.jsonl in run.py's format (one line
 per comment, rep 0), so score.py can grade the original model exactly like a
@@ -12,6 +13,7 @@ dropped (chains.txt) and names normalised. Score with --drop-chains so fresh
 runs get the same treatment when comparing against this file.
 """
 
+import argparse
 import json
 import os
 
@@ -21,6 +23,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--items", default=os.path.join(HERE, "items.jsonl"))
+    ap.add_argument("--name", default="production__stored__all")
+    args = ap.parse_args()
     url = os.environ.get("EVAL_DB_URL") or os.environ.get("DATABASE_URL")
     if not url:
         raise SystemExit("set EVAL_DB_URL or DATABASE_URL")
@@ -29,7 +35,7 @@ def main():
     cur = conn.cursor()
 
     cids = {}
-    with open(os.path.join(HERE, "items.jsonl"), encoding="utf-8") as f:
+    with open(args.items, encoding="utf-8") as f:
         for line in f:
             it = json.loads(line)
             if it["kind"] == "comment":
@@ -53,7 +59,7 @@ def main():
 
     out_dir = os.environ.get("EVAL_BASELINE_DIR", os.path.join(HERE, "baseline"))
     os.makedirs(out_dir, exist_ok=True)
-    out = os.path.join(out_dir, "production__stored__all.jsonl")
+    out = os.path.join(out_dir, args.name + ".jsonl")
     with open(out, "w", encoding="utf-8") as f:
         for cid, item_ids in cids.items():
             model, _, ph = (ew.get(cid) or "").rpartition(":")

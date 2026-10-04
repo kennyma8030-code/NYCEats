@@ -35,6 +35,8 @@ def main():
 
     out = []
     for lid, (ms, note) in labels.items():
+        keys = [m["canonical_key"] for m in ms]
+        assert len(keys) == len(set(keys)), f"duplicate canonical key in {lid}: {keys}"
         if "/" in lid:
             iid, cid = lid.split("/")
             it = items[iid]

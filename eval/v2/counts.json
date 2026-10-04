@@ -1,138 +1,152 @@
 {
- "items": 449,
- "dev": 229,
- "test": 220,
+ "items": 481,
+ "dev": 246,
+ "test": 235,
  "per_weakness": {
   "dropped_nameless_reply": {
    "total": 143,
    "v1_failure": 143,
    "topup": 0,
    "dev": 71,
-   "test": 72
+   "test": 72,
+   "topup_confirmed": 0
   },
   "dropped_in_list": {
    "total": 25,
    "v1_failure": 13,
    "topup": 12,
    "dev": 14,
-   "test": 11
+   "test": 11,
+   "topup_confirmed": 0
   },
   "dropped_named_mention": {
-   "total": 21,
+   "total": 25,
    "v1_failure": 21,
-   "topup": 0,
-   "dev": 11,
-   "test": 10
+   "topup": 4,
+   "dev": 13,
+   "test": 12,
+   "topup_confirmed": 2
   },
   "dropped_reference_mention": {
    "total": 25,
    "v1_failure": 23,
    "topup": 2,
-   "dev": 12,
-   "test": 13
+   "dev": 14,
+   "test": 11,
+   "topup_confirmed": 1
   },
   "closed_place": {
    "total": 25,
    "v1_failure": 7,
    "topup": 18,
    "dev": 13,
-   "test": 12
+   "test": 12,
+   "topup_confirmed": 7
   },
   "context_gap": {
-   "total": 10,
+   "total": 25,
    "v1_failure": 6,
-   "topup": 4,
-   "dev": 5,
-   "test": 5
+   "topup": 19,
+   "dev": 13,
+   "test": 12,
+   "topup_confirmed": 3
   },
   "missed_negative": {
    "total": 54,
    "v1_failure": 54,
    "topup": 0,
-   "dev": 28,
-   "test": 26
+   "dev": 27,
+   "test": 27,
+   "topup_confirmed": 0
   },
   "negative_softened_to_positive": {
    "total": 25,
    "v1_failure": 4,
    "topup": 21,
    "dev": 14,
-   "test": 11
+   "test": 11,
+   "topup_confirmed": 1
   },
   "softened_negative": {
    "total": 25,
    "v1_failure": 7,
    "topup": 18,
    "dev": 12,
-   "test": 13
+   "test": 13,
+   "topup_confirmed": 2
   },
   "wrong_sign": {
    "total": 25,
    "v1_failure": 5,
    "topup": 20,
    "dev": 12,
-   "test": 13
+   "test": 13,
+   "topup_confirmed": 2
   },
   "missed_value_complaint": {
    "total": 25,
    "v1_failure": 9,
    "topup": 16,
    "dev": 13,
-   "test": 12
+   "test": 12,
+   "topup_confirmed": 1
   },
   "missed_dish_negative": {
    "total": 29,
    "v1_failure": 29,
    "topup": 0,
-   "dev": 16,
-   "test": 13
+   "dev": 15,
+   "test": 14,
+   "topup_confirmed": 0
   },
   "negation_scope": {
    "total": 25,
    "v1_failure": 0,
    "topup": 25,
    "dev": 13,
-   "test": 12
+   "test": 12,
+   "topup_confirmed": 2
   },
   "inferred_aspect": {
-   "total": 12,
+   "total": 25,
    "v1_failure": 12,
-   "topup": 0,
-   "dev": 8,
-   "test": 4
+   "topup": 13,
+   "dev": 15,
+   "test": 10,
+   "topup_confirmed": 3
   },
   "default_0.3": {
    "total": 25,
    "v1_failure": 14,
    "topup": 11,
    "dev": 13,
-   "test": 12
+   "test": 12,
+   "topup_confirmed": 3
   },
   "hallucinated_place": {
    "total": 25,
    "v1_failure": 7,
    "topup": 18,
    "dev": 12,
-   "test": 13
+   "test": 13,
+   "topup_confirmed": 6
   },
   "dish_as_place": {
    "total": 25,
    "v1_failure": 9,
    "topup": 16,
    "dev": 13,
-   "test": 12
+   "test": 12,
+   "topup_confirmed": 6
   },
   "wrong_target": {
    "total": 25,
    "v1_failure": 1,
    "topup": 24,
    "dev": 12,
-   "test": 13
+   "test": 13,
+   "topup_confirmed": 0
   }
  },
- "below_min": [
-  "dropped_named_mention",
-  "context_gap",
-  "inferred_aspect"
- ]
+ "below_min": []
 }

@@ -1,48 +1,63 @@
-# Status (2026-10-03)
+# Status (2026-10-04)
 
 ## Done
 
-- **Sampling** (`build_items.py`, `items.jsonl`, `sampling.md`): 395 single
-  comments (295 risk-targeted across 9 groups, 100 random) and 17 whole
-  threads (374 comments), with comment- and thread-mode inputs rendered by
-  the repo's own builders. The source is the local dev snapshot
-  (localhost:5433, data through 2026-09-26), not production; see
-  sampling.md.
-- **Gold, first 50 single comments** (`gold.jsonl`, source
-  `labels/batch01.py`): c0001–c0050, five from each draw group. That is 80
-  mentions, 29 comments with at least one required mention, and 21 with
-  none. Labeling was blind.
-- **Scaffolds:**
-  - `run.py`: model × prompt (current / git rev / file) × mode, cached,
-    resumable, with repeats, cost, latency and JSON validity. Dry-run tested
-    in both modes.
-  - `score.py`: all metrics in README "Scoring", with per-group,
-    reweighted, model-error vs context-gap and repeat-flip breakdowns.
-    `--self-test` passes, and it was run end-to-end on a synthetic quantized
-    run.
-  - `export_stored.py`: production output to a run file. Not run, to keep
-    labeling blind.
-  - `packet.py`: blind labeling packets.
+- **v1 gold is complete** (`gold.jsonl`, sources in `labels/`). It covers
+  all 395 single comments plus every one of the 374 comments in the 17
+  whole threads: 769 comment lines and 825 mentions, of which 426 comments
+  have at least one required mention.
+  - Labeled blind under the owner's rules (README).
+  - Every mention carries expensiveness, dish_sentiment, search_terms,
+    value_complaint, out_of_scope, and resolvability per mode.
+  - c0001–c0050 were relabeled when the rules changed.
+- **Canonical keys** use production's 1,901 alias overrides; its 279
+  excluded entities count as out of scope.
+- **Original extraction scored** (`baseline/`). Production's stored output
+  for these comments comes from the local snapshot and is identical to
+  production for them. Reweighted to the population:
 
-## Not done / blocked
+  | metric | value |
+  |---|---|
+  | drop rate | 0.230 |
+  | mention recall | 0.733 |
+  | negative-mention recall | 0.464 |
+  | value-complaint recall | 0.490 |
+  | dish-negative recall | n/a (no field) |
+  | sign accuracy | 0.972 |
 
-- **No production DB access:** `DATABASE_URL` is unset. The items come from
-  the local snapshot, and comment ids match production. To build against
-  production, set `DATABASE_URL` or `EVAL_DB_URL`. Outbound access to
-  `*.proxy.rlwy.net` is needed from cloud runners.
-- **No model runs:** `OPENROUTER_API_KEY` is unset. openrouter.ai was
-  reachable (HTTP 200 on /api/v1/models). Only dry runs were done.
-- `alias_overrides.json` has the snapshot's 3 rows; production may have more.
+  Thread mode is much worse than single comments: drop rate 0.486, recall
+  0.490. Nearly all of the gap is nameless replies about the post's subject.
+- **Adjudication.** All 259 disagreeing comments were re-read, producing 23
+  gold patches (`gold_changes.md`). The rest are confirmed model failures.
+- **v2 diagnostic set** (`v2/`): 481 items, 18 weaknesses, each with at
+  least 25 items (237 blind-labeled top-ups); dev 246 / test 235. See
+  `v2/taxonomy.md`.
+- **score.py** leads with the owner-priority headline (drop rate → mention
+  recall → negative-mention recall → value-complaint recall → dish-negative
+  recall → sign accuracy and levels used). It handles both the production
+  and the rubric output shapes. `--self-test` passes on v1 and v2.
+
+## Notes and caveats
+
+- **Excluded entities.** Production's `excluded_entities.json` contains a
+  few real in-scope places: `56709` (a LIC bar), `hudson eats` (a food
+  hall), and numeric or short keys. Mentions of these are ignored in
+  scoring, matching production's choice. Revisit if those entries were
+  mistakes.
+- **v2 confirmations.** Only a minority of top-ups were actually failed by
+  the original model (`confirmed` per item; see the table in
+  taxonomy.md). The mining heuristics found the right *situations*, not
+  necessarily failures, so treat unconfirmed top-ups as controls.
+- **Dish negatives.** The production prompts cannot express a dish-level
+  negative. Every gold dish negative (31 on v1) is missed by design, and the
+  metric reads n/a for those runs.
+- **Missing parents.** Two thread comments (t015) reply to parents missing
+  from the DB. They are labeled from what is visible.
 
 ## Next
 
-1. The owner reviews the rules and the open questions (in the run report),
-   especially closed places, reference-only names, bars and groceries, and
-   is_negated for self-skips.
-2. Apply any rule changes to `labels/batch01.py` and re-run it.
-3. Label c0051–c0395 in batches (`labels/batch02.py`, ...), then the 17
-   threads (one label line per comment).
-4. With a key: `run.py` the production prompts (`--prompt git:0ea62ff~1`)
-   in both modes with 3 reps, and score.
-5. Once labeling is complete: `export_stored.py`, score the original
-   extraction, re-read disagreements, then build v2 (README "v2").
+1. Run the model grid (coordinator) on v1 in both modes, with 3 reps for
+   nondeterminism, and compare on **reweighted** and **random**.
+2. Use v2 (dev) to iterate on prompts; report v2 (test) once per candidate.
+3. Owner review: the excluded_entities edge cases, and whether bars and
+   food events (The Great Nosh) should count.
