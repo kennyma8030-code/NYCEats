@@ -57,6 +57,15 @@ def show_thread(it):
 
 def main():
     args = sys.argv[1:]
+    if args and args[0] == "--file":
+        # v2 top-ups: python eval/packet.py --file eval/v2/topup_items.jsonl START END (0-based index range)
+        with open(args[1], encoding="utf-8") as f:
+            items = [json.loads(l) for l in f]
+        for n, it in enumerate(items[int(args[2]):int(args[3])], start=int(args[2])):
+            it = {k: v for k, v in it.items() if k not in ("mined_for", "production")}  # stay blind
+            it["item_id"] = f"u{n:04d}"
+            show_comment(it)
+        return
     with open(os.path.join(HERE, "items.jsonl"), encoding="utf-8") as f:
         items = [json.loads(l) for l in f]
     lo, hi = args[0], args[-1]

@@ -1,0 +1,147 @@
+{
+ "items": 309,
+ "dev": 159,
+ "test": 150,
+ "per_weakness": {
+  "dropped_nameless_reply": {
+   "total": 143,
+   "v1_failure": 143,
+   "topup": 0,
+   "dev": 72,
+   "test": 71
+  },
+  "dropped_in_list": {
+   "total": 13,
+   "v1_failure": 13,
+   "topup": 0,
+   "dev": 7,
+   "test": 6
+  },
+  "dropped_named_mention": {
+   "total": 21,
+   "v1_failure": 21,
+   "topup": 0,
+   "dev": 11,
+   "test": 10
+  },
+  "dropped_reference_mention": {
+   "total": 23,
+   "v1_failure": 23,
+   "topup": 0,
+   "dev": 12,
+   "test": 11
+  },
+  "closed_place": {
+   "total": 7,
+   "v1_failure": 7,
+   "topup": 0,
+   "dev": 4,
+   "test": 3
+  },
+  "context_gap": {
+   "total": 6,
+   "v1_failure": 6,
+   "topup": 0,
+   "dev": 3,
+   "test": 3
+  },
+  "missed_negative": {
+   "total": 54,
+   "v1_failure": 54,
+   "topup": 0,
+   "dev": 27,
+   "test": 27
+  },
+  "negative_softened_to_positive": {
+   "total": 4,
+   "v1_failure": 4,
+   "topup": 0,
+   "dev": 3,
+   "test": 1
+  },
+  "softened_negative": {
+   "total": 7,
+   "v1_failure": 7,
+   "topup": 0,
+   "dev": 5,
+   "test": 2
+  },
+  "wrong_sign": {
+   "total": 5,
+   "v1_failure": 5,
+   "topup": 0,
+   "dev": 4,
+   "test": 1
+  },
+  "missed_value_complaint": {
+   "total": 9,
+   "v1_failure": 9,
+   "topup": 0,
+   "dev": 5,
+   "test": 4
+  },
+  "missed_dish_negative": {
+   "total": 29,
+   "v1_failure": 29,
+   "topup": 0,
+   "dev": 15,
+   "test": 14
+  },
+  "negation_scope": {
+   "total": 25,
+   "v1_failure": 0,
+   "topup": 25,
+   "dev": 13,
+   "test": 12
+  },
+  "inferred_aspect": {
+   "total": 12,
+   "v1_failure": 12,
+   "topup": 0,
+   "dev": 8,
+   "test": 4
+  },
+  "default_0.3": {
+   "total": 14,
+   "v1_failure": 14,
+   "topup": 0,
+   "dev": 8,
+   "test": 6
+  },
+  "hallucinated_place": {
+   "total": 7,
+   "v1_failure": 7,
+   "topup": 0,
+   "dev": 4,
+   "test": 3
+  },
+  "dish_as_place": {
+   "total": 25,
+   "v1_failure": 9,
+   "topup": 16,
+   "dev": 13,
+   "test": 12
+  },
+  "wrong_target": {
+   "total": 25,
+   "v1_failure": 1,
+   "topup": 24,
+   "dev": 12,
+   "test": 13
+  }
+ },
+ "below_min": [
+  "dropped_in_list",
+  "dropped_named_mention",
+  "dropped_reference_mention",
+  "closed_place",
+  "context_gap",
+  "negative_softened_to_positive",
+  "softened_negative",
+  "wrong_sign",
+  "missed_value_complaint",
+  "inferred_aspect",
+  "default_0.3",
+  "hallucinated_place"
+ ]
+}
