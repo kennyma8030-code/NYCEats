@@ -1,0 +1,153 @@
+<title>NYCEats Extraction Benchmark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<style>
+:root {
+  --bg:#F6F7F5; --surface:#FFFFFF; --ink:#15171A; --mute:#5F646B; --faint:#9DA2A8; --line:#E3E4E0; --cell:#EEEFEC;
+  --accent:#0A7C66; --accent-soft:#E2F2EC; --bad:#C2410C; --bad-soft:#FBEADF;
+  --sans:"Geist", system-ui, -apple-system, "Segoe UI", sans-serif; --mono:"Geist Mono", ui-monospace, Menlo, monospace;
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  color-scheme:dark; --bg:#1C1B19; --surface:#242321; --ink:#EDECE8; --mute:#A6A39D; --faint:#6E6B66; --line:#34322F; --cell:#2B2A27;
+  --accent:#3FCBA0; --accent-soft:#173A30; --bad:#F28A5B; --bad-soft:#3D2418 } }
+:root[data-theme="dark"] {
+  color-scheme:dark; --bg:#1C1B19; --surface:#242321; --ink:#EDECE8; --mute:#A6A39D; --faint:#6E6B66; --line:#34322F; --cell:#2B2A27;
+  --accent:#3FCBA0; --accent-soft:#173A30; --bad:#F28A5B; --bad-soft:#3D2418 }
+* { box-sizing:border-box }
+body { background:var(--bg); color:var(--ink); font:15px/1.55 var(--sans); padding-inline:clamp(16px, 4vw, 48px); -webkit-font-smoothing:antialiased }
+main { max-width:1080px; margin:0 auto; padding-block:40px 80px; display:grid; gap:56px }
+section { display:grid; gap:14px; min-width:0 }
+.eyebrow { font-family:var(--mono); font-size:11.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--faint); margin:0 0 10px }
+h1 { font-family:var(--serif); font-weight:400; font-size:clamp(34px, 5vw, 54px); line-height:1.04; letter-spacing:-.025em; margin:0; text-wrap:balance; max-width:20ch }
+h1 em { font-style:normal; color:var(--accent) }
+h2 { font-family:var(--serif); font-weight:400; font-size:28px; letter-spacing:-.015em; line-height:1.15; margin:0; text-wrap:balance }
+p { margin:0; max-width:70ch }
+.lede { font-size:17px; color:var(--mute); margin-top:16px; max-width:66ch }
+.lede b { color:var(--ink); font-weight:600 }
+.sub { color:var(--mute) }
+.kpis { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:28px }
+.kpi { background:var(--surface); padding:16px 18px; display:grid; gap:4px }
+.kpi .k { font-size:12.5px; color:var(--mute) }
+.kpi .v { font-family:var(--mono); font-size:21px; font-variant-numeric:tabular-nums; letter-spacing:-.02em; white-space:nowrap }
+.kpi s { color:var(--faint); text-decoration-thickness:1px }
+.kpi b { color:var(--accent); font-weight:500 }
+.tw { overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--surface) }
+table { border-collapse:collapse; width:100%; font-variant-numeric:tabular-nums; font-size:14px }
+th, td { padding:10px 12px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap }
+thead th { font-size:11.5px; font-weight:500; color:var(--mute); vertical-align:bottom; white-space:normal; min-width:84px; line-height:1.3 }
+thead th span, th.l span { display:block; font-weight:400; color:var(--faint); font-size:12px }
+th.l { text-align:left; font-weight:400; min-width:200px }
+th.l b { font-weight:600 }
+tbody tr:last-child > * { border-bottom:0 }
+td { font-family:var(--mono); font-size:13.5px }
+td.best { color:var(--accent); font-weight:500; background:var(--accent-soft) }
+td.worst { color:var(--bad) }
+tr.prod th.l b::after { content:"today"; margin-left:8px; font:500 10.5px var(--mono); letter-spacing:.05em; text-transform:uppercase; color:var(--bad); background:var(--bad-soft); padding:2px 6px; border-radius:4px; vertical-align:2px }
+td.heat { background:color-mix(in oklab, var(--accent) calc(var(--h) * 45%), color-mix(in oklab, var(--bad) calc((1 - var(--h)) * 35%), var(--surface))) }
+td.na { color:var(--faint) }
+.up { color:var(--accent); font-size:12px } .down { color:var(--bad); font-size:12px }
+.hists { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:24px }
+.hists figure { margin:0; display:grid; gap:8px; border:1px solid var(--line); border-radius:12px; background:var(--surface); padding:18px 20px }
+.hists figcaption { font-size:13.5px; color:var(--mute) }
+.hists figcaption b { color:var(--ink); font-weight:600 }
+svg.hist { width:100%; max-width:260px; height:auto; overflow:visible }
+svg.hist rect.neg { fill:var(--bad) } svg.hist rect.pos { fill:var(--accent) } svg.hist rect.mid { fill:var(--faint) }
+svg.hist text { font:10px var(--mono); fill:var(--faint); text-anchor:middle }
+.cols2 { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px }
+.box { border:1px solid var(--line); border-radius:12px; background:var(--surface); padding:20px 22px; display:grid; gap:10px; align-content:start }
+.box h3 { margin:0; font-size:15px; font-weight:600 }
+.box ol, .box ul { margin:0; padding-left:20px; display:grid; gap:8px; color:var(--mute) }
+.box li b { color:var(--ink); font-weight:600 }
+code { font-family:var(--mono); font-size:12.5px; background:var(--cell); padding:1px 5px; border-radius:4px }
+.note { font-size:13px; color:var(--faint) }
+</style>
+
+<main>
+<header>
+  <p class="eyebrow">NYCEats · extraction benchmark · 769 hand-labeled r/FoodNYC comments</p>
+  <h1>Fix the prompt, then switch to <em>GPT-6 Luna</em></h1>
+  <p class="lede">Scored on what you use Reddit for: <b>how many people talk about a place</b> and <b>the negatives</b>. Today's extraction drops 23% of comments that mention a restaurant, 49% inside whole threads, where 88% of your data was extracted. It catches 47% of negative opinions.</p>
+  <div class="kpis"><div class='kpi'><span class='k'>Comments dropped</span><span class='v'><s>23%</s> → <b>3%</b></span></div><div class='kpi'><span class='k'>Places caught</span><span class='v'><s>73%</s> → <b>95%</b></span></div><div class='kpi'><span class='k'>Negatives caught</span><span class='v'><s>47%</s> → <b>86%</b></span></div><div class='kpi'><span class='k'>“Overpriced” caught</span><span class='v'><s>49%</s> → <b>76%</b></span></div><div class='kpi'><span class='k'>“Skip the X” caught</span><span class='v'><s>—</s> → <b>56%</b></span></div></div>
+  <p class="note" style="margin-top:10px">Today → GPT-6 Luna with the rubric_v1 prompt. Single-comment mode, weighted to match real traffic. Today's prompt has no way to report dish-level complaints.</p>
+</header>
+
+<section>
+  <h2>Most of the damage is the prompt</h2>
+  <p class="sub">Same model, same 17 threads, three prompts. The original prompt is what loses replies like “v mid” under a named place. The Oct 2 prompt fixes most of it, but production has run it on only 371 comments.</p>
+  <div class="tw"><table><thead><tr><th class="l">Configuration</th><th>Comments dropped</th><th>Places caught</th><th>Negatives caught</th><th>$ per 1,000 comments</th></tr></thead><tbody><tr><th class='l'><b>Production today</b><span>stored output</span></th><td>49%</td><td>49%</td><td>51%</td><td>—</td></tr><tr><th class='l'><b>DeepSeek v4-flash</b><span>original prompt, re-run</span></th><td>53%</td><td>54%</td><td>41%</td><td>$0.08</td></tr><tr><th class='l'><b>DeepSeek v4-flash</b><span>Oct 2 prompt</span></th><td>4%</td><td>93%</td><td>89%</td><td>$0.06</td></tr><tr><th class='l'><b>DeepSeek v4-flash</b><span>rubric_v1 prompt</span></th><td>3%</td><td>96%</td><td>89%</td><td>$0.19</td></tr></tbody></table></div>
+</section>
+
+<section>
+  <h2>Every complete configuration, single comments</h2>
+  <p class="sub">The 766 comments every row finished, weighted to real traffic. Green is the best in each column. The sample holds 114 negative opinions and only 18 “overpriced” complaints, so read that column loosely.</p>
+  <div class='tw'><table><thead><tr><th class='l'>Model</th><th>Comments dropped</th><th>Places caught</th><th>Negatives caught</th><th>“Overpriced” caught</th><th>Dish negatives caught</th><th>Precision</th><th>$ per 1,000 comments</th></tr></thead><tbody>
+<tr class='r prod'><th class='l'><b>Production today</b><span>stored output (DeepSeek v4-flash, mostly thread mode)</span></th><td class='worst'>23%</td><td class='worst'>73%</td><td class='worst'>47%</td><td class='worst'>49%</td><td class=''>—</td><td class='best'>98%</td><td>—</td></tr>
+<tr class='r'><th class='l'><b>deepseek-v4-flash</b><span>Oct 2 prompt</span></th><td class=''>5%</td><td class=''>94%</td><td class=''>79%</td><td class=''>75%</td><td class=''>—</td><td class=''>96%</td><td>$0.26</td></tr>
+<tr class='r'><th class='l'><b>deepseek-v4-flash</b><span>original prompt</span></th><td class=''>18%</td><td class=''>83%</td><td class=''>60%</td><td class=''>56%</td><td class=''>—</td><td class=''>97%</td><td>$0.38</td></tr>
+<tr class='r'><th class='l'><b>deepseek-v4-flash</b><span>rubric_v1 prompt</span></th><td class=''>9%</td><td class=''>91%</td><td class=''>78%</td><td class=''>78%</td><td class='worst'>42%</td><td class=''>95%</td><td>$0.35</td></tr>
+<tr class='r'><th class='l'><b>deepseek-v4.1-flash</b><span>rubric_v1 prompt</span></th><td class=''>4%</td><td class=''>94%</td><td class=''>86%</td><td class='best'>100%</td><td class='best'>62%</td><td class=''>93%</td><td>$0.91</td></tr>
+<tr class='r'><th class='l'><b>gpt-6-luna</b><span>rubric_v1 prompt</span></th><td class='best'>3%</td><td class='best'>95%</td><td class='best'>86%</td><td class=''>76%</td><td class=''>56%</td><td class='worst'>89%</td><td>$0.23</td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+  <h2>Whole threads</h2>
+  <p class="sub">Thread mode reads up to 25 comments per call, so it costs less per comment. 374 comments across 17 complete threads.</p>
+  <div class='tw'><table><thead><tr><th class='l'>Model</th><th>Comments dropped</th><th>Places caught</th><th>Negatives caught</th><th>“Overpriced” caught</th><th>Dish negatives caught</th><th>Precision</th><th>$ per 1,000 comments</th></tr></thead><tbody>
+<tr class='r prod'><th class='l'><b>Production today</b><span>stored output (DeepSeek v4-flash, mostly thread mode)</span></th><td class=''>49%</td><td class='worst'>49%</td><td class=''>51%</td><td class='best'>100%</td><td class=''>—</td><td class=''>88%</td><td>—</td></tr>
+<tr class='r'><th class='l'><b>deepseek-v4-flash</b><span>Oct 2 prompt</span></th><td class=''>4%</td><td class=''>93%</td><td class=''>89%</td><td class='best'>100%</td><td class=''>—</td><td class=''>94%</td><td>$0.06</td></tr>
+<tr class='r'><th class='l'><b>deepseek-v4-flash</b><span>rubric_v1 prompt</span></th><td class=''>3%</td><td class=''>96%</td><td class=''>89%</td><td class='best'>100%</td><td class='worst'>69%</td><td class=''>86%</td><td>$0.19</td></tr>
+<tr class='r'><th class='l'><b>deepseek-v4-flash</b><span>original prompt</span></th><td class='worst'>53%</td><td class=''>54%</td><td class='worst'>41%</td><td class='worst'>33%</td><td class=''>—</td><td class='best'>97%</td><td>$0.08</td></tr>
+<tr class='r'><th class='l'><b>deepseek-v4.1-flash</b><span>rubric_v1 prompt</span></th><td class='best'>1%</td><td class='best'>98%</td><td class='best'>95%</td><td class='best'>100%</td><td class='worst'>69%</td><td class=''>88%</td><td>$0.41</td></tr>
+<tr class='r'><th class='l'><b>gpt-6-luna</b><span>rubric_v1 prompt</span></th><td class=''>1%</td><td class=''>96%</td><td class=''>84%</td><td class='best'>100%</td><td class='best'>77%</td><td class='worst'>82%</td><td>$0.12</td></tr>
+<tr class='r'><th class='l'><b>glm-5.3-flash</b><span>rubric_v1 prompt</span></th><td class=''>1%</td><td class='best'>98%</td><td class=''>84%</td><td class='best'>100%</td><td class='best'>77%</td><td class=''>88%</td><td>$0.58</td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+  <h2>Where today's extraction fails</h2>
+  <p class="sub">Confirmed failures of today's extraction, grouped by cause. Each cell is the share that configuration gets right on those same comments.</p>
+  <div class="tw"><table><thead><tr><th class="l">Failure</th><th><b>Production today</b><span>stored output (DeepSeek v4-flash, mostly thread mode)</span></th><th><b>deepseek-v4-flash</b><span>Oct 2 prompt</span></th><th><b>deepseek-v4-flash</b><span>original prompt</span></th><th><b>deepseek-v4-flash</b><span>rubric_v1 prompt</span></th><th><b>deepseek-v4.1-flash</b><span>rubric_v1 prompt</span></th><th><b>gpt-6-luna</b><span>rubric_v1 prompt</span></th></tr></thead><tbody><tr><th class='l'><b>Reply judges a place without naming it</b><span>142 comments</span></th><td class='heat' style='--h:0.080'>8%</td><td class='heat' style='--h:0.821'>82%</td><td class='heat' style='--h:0.512'>51%</td><td class='heat' style='--h:0.815'>81%</td><td class='heat' style='--h:0.914'>91%</td><td class='heat' style='--h:0.920'>92%</td></tr><tr><th class='l'><b>Negative opinion missed</b><span>53 comments</span></th><td class='heat' style='--h:0.041'>4%</td><td class='heat' style='--h:0.735'>73%</td><td class='heat' style='--h:0.429'>43%</td><td class='heat' style='--h:0.694'>69%</td><td class='heat' style='--h:0.816'>82%</td><td class='heat' style='--h:0.816'>82%</td></tr><tr><th class='l'><b>Negative read as positive</b><span>4 comments</span></th><td class='heat' style='--h:0.000'>0%</td><td class='heat' style='--h:0.500'>50%</td><td class='heat' style='--h:0.500'>50%</td><td class='heat' style='--h:0.500'>50%</td><td class='heat' style='--h:1.000'>100%</td><td class='heat' style='--h:0.750'>75%</td></tr><tr><th class='l'><b>Complaint scored milder than written</b><span>7 comments</span></th><td class='heat' style='--h:0.571'>57%</td><td class='heat' style='--h:0.714'>71%</td><td class='heat' style='--h:0.571'>57%</td><td class='heat' style='--h:0.571'>57%</td><td class='heat' style='--h:0.857'>86%</td><td class='heat' style='--h:0.714'>71%</td></tr><tr><th class='l'><b>“Overpriced” missed</b><span>9 comments</span></th><td class='heat' style='--h:0.000'>0%</td><td class='heat' style='--h:0.625'>62%</td><td class='heat' style='--h:0.625'>62%</td><td class='heat' style='--h:0.750'>75%</td><td class='heat' style='--h:1.000'>100%</td><td class='heat' style='--h:0.625'>62%</td></tr><tr><th class='l'><b>“Skip the X” missed</b><span>29 comments</span></th><td class='na'>—</td><td class='na'>—</td><td class='na'>—</td><td class='heat' style='--h:0.548'>55%</td><td class='heat' style='--h:0.774'>77%</td><td class='heat' style='--h:0.710'>71%</td></tr><tr><th class='l'><b>Place in a long list dropped</b><span>13 comments</span></th><td class='heat' style='--h:0.500'>50%</td><td class='heat' style='--h:0.988'>99%</td><td class='heat' style='--h:0.950'>95%</td><td class='heat' style='--h:0.988'>99%</td><td class='heat' style='--h:0.988'>99%</td><td class='heat' style='--h:0.988'>99%</td></tr><tr><th class='l'><b>Question / “haven&#x27;t been” mention dropped</b><span>22 comments</span></th><td class='heat' style='--h:0.333'>33%</td><td class='heat' style='--h:0.815'>81%</td><td class='heat' style='--h:0.870'>87%</td><td class='heat' style='--h:0.963'>96%</td><td class='heat' style='--h:0.963'>96%</td><td class='heat' style='--h:0.963'>96%</td></tr><tr><th class='l'><b>Opinion attached to the wrong place</b><span>1 comments</span></th><td class='heat' style='--h:0.000'>0%</td><td class='heat' style='--h:1.000'>100%</td><td class='heat' style='--h:0.000'>0%</td><td class='heat' style='--h:1.000'>100%</td><td class='heat' style='--h:1.000'>100%</td><td class='heat' style='--h:0.000'>0%</td></tr><tr><th class='l'><b>Needs context the mode doesn&#x27;t show</b><span>6 comments</span></th><td class='heat' style='--h:0.000'>0%</td><td class='heat' style='--h:0.333'>33%</td><td class='heat' style='--h:0.333'>33%</td><td class='heat' style='--h:0.333'>33%</td><td class='heat' style='--h:0.333'>33%</td><td class='heat' style='--h:0.333'>33%</td></tr></tbody></table></div>
+</section>
+
+<section>
+  <h2>How the scores spread</h2>
+  <p class="sub">Every aspect score, from −3 (never again) to +3 (best in the city).</p>
+  <div class="hists">
+    <figure><svg class='hist' viewBox='0 0 190 70' role='img' aria-label='Share of scores at each level from -3 to +3'><rect class='neg' x='0' y='52.5' width='22' height='1.5' rx='2'/><text x='11.0' y='67'>-3</text><rect class='neg' x='28' y='47.6' width='22' height='6.4' rx='2'/><text x='39.0' y='67'>-2</text><rect class='neg' x='56' y='50.9' width='22' height='3.1' rx='2'/><text x='67.0' y='67'>-1</text><rect class='mid' x='84' y='52.5' width='22' height='1.5' rx='2'/><text x='95.0' y='67'>+0</text><rect class='pos' x='112' y='27.2' width='22' height='26.8' rx='2'/><text x='123.0' y='67'>+1</text><rect class='pos' x='140' y='38.8' width='22' height='15.2' rx='2'/><text x='151.0' y='67'>+2</text><rect class='pos' x='168' y='52.1' width='22' height='1.9' rx='2'/><text x='179.0' y='67'>+3</text></svg><figcaption><b>Production today.</b> 50% of scores sit at +1, the “named with nothing said” default.</figcaption></figure>
+    <figure><svg class='hist' viewBox='0 0 190 70' role='img' aria-label='Share of scores at each level from -3 to +3'><rect class='neg' x='0' y='52.5' width='22' height='1.5' rx='2'/><text x='11.0' y='67'>-3</text><rect class='neg' x='28' y='46.2' width='22' height='7.8' rx='2'/><text x='39.0' y='67'>-2</text><rect class='neg' x='56' y='50.4' width='22' height='3.6' rx='2'/><text x='67.0' y='67'>-1</text><rect class='mid' x='84' y='52.5' width='22' height='1.5' rx='2'/><text x='95.0' y='67'>+0</text><rect class='pos' x='112' y='37.9' width='22' height='16.1' rx='2'/><text x='123.0' y='67'>+1</text><rect class='pos' x='140' y='31.3' width='22' height='22.7' rx='2'/><text x='151.0' y='67'>+2</text><rect class='pos' x='168' y='52.3' width='22' height='1.7' rx='2'/><text x='179.0' y='67'>+3</text></svg><figcaption><b>GPT-6 Luna, rubric_v1.</b> 30% at +1; more opinions land at clear praise or clear complaint.</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h2>Bigger models, partial runs</h2>
+  <p class="sub">These stopped early when the API key hit its limit. Each is scored only on the comments it finished; the small number after a score is the difference in points from DeepSeek v4-flash with the same prompt on those same comments.</p>
+  <div class="tw"><table><thead><tr><th class="l">Model</th><th>Comments</th><th>Comments dropped</th><th>Places caught</th><th>Negatives caught</th><th>$ per 1,000</th></tr></thead><tbody><tr><th class='l'><b>glm-5.3-flash</b><span>rubric_v1 prompt</span></th><td>653</td><td>4% <span class='up'>-4</span></td><td>95% <span class='up'>+2</span></td><td>86% <span class='up'>+7</span></td><td>$0.81</td></tr><tr><th class='l'><b>gemini-3.8-flash</b><span>rubric_v1 prompt</span></th><td>227</td><td>2% <span class='up'>-4</span></td><td>97% <span class='up'>+2</span></td><td>81% <span class='up'>+12</span></td><td>$5.12</td></tr><tr><th class='l'><b>claude-haiku-4.5</b><span>Oct 2 prompt</span></th><td>220</td><td>16% <span class='down'>+10</span></td><td>88% <span class='down'>-7</span></td><td>78% <span class='down'>-7</span></td><td>$2.85</td></tr><tr><th class='l'><b>gemini-3.8-flash</b><span>Oct 2 prompt</span></th><td>210</td><td>2% <span class='up'>-3</span></td><td>97% <span class='up'>+3</span></td><td>84% <span class='up'>+9</span></td><td>$3.95</td></tr><tr><th class='l'><b>glm-5.3-flash</b><span>Oct 2 prompt</span></th><td>183</td><td>1% <span class='up'>-5</span></td><td>97% <span class='up'>+4</span></td><td>88% <span class='down'>-6</span></td><td>$0.61</td></tr><tr><th class='l'><b>deepseek-v4-pro-0813</b><span>rubric_v1 prompt</span></th><td>173</td><td>2% <span class='up'>-6</span></td><td>95% <span class='up'>+4</span></td><td>87% <span class='up'>+10</span></td><td>$3.49</td></tr><tr><th class='l'><b>gpt-6-luna</b><span>Oct 2 prompt</span></th><td>149</td><td>6% <span class=''>-1</span></td><td>96% <span class='up'>+3</span></td><td>81% <span class='up'>+5</span></td><td>$0.20</td></tr><tr><th class='l'><b>claude-sonnet-5.5</b><span>rubric_v1 prompt</span></th><td>112</td><td>5% <span class=''>-2</span></td><td>96% <span class=''>+1</span></td><td>92% <span class='up'>+8</span></td><td>$8.88</td></tr><tr><th class='l'><b>gpt-6.1-sol</b><span>rubric_v1 prompt</span></th><td>97</td><td>4% <span class=''>+0</span></td><td>95% <span class=''>+0</span></td><td>62% <span class='down'>-8</span></td><td>$2.27</td></tr><tr><th class='l'><b>deepseek-v4-pro-0813</b><span>Oct 2 prompt</span></th><td>79</td><td>5% <span class=''>+0</span></td><td>93% <span class='down'>-2</span></td><td>78% <span class='up'>+11</span></td><td>$2.59</td></tr><tr><th class='l'><b>deepseek-v4.1-flash</b><span>Oct 2 prompt</span></th><td>78</td><td>0% <span class='up'>-5</span></td><td>100% <span class='up'>+3</span></td><td>100% <span class='up'>+25</span></td><td>$0.48</td></tr><tr><th class='l'><b>qwen3.8-flash</b><span>rubric_v1 prompt</span></th><td>66</td><td>5% <span class='up'>-2</span></td><td>97% <span class=''>+0</span></td><td>92% <span class='up'>+8</span></td><td>$1.35</td></tr></tbody></table></div>
+</section>
+
+<section class="cols2">
+  <div class="box">
+    <h3>What to do</h3>
+    <ol>
+      <li><b>Re-extract what's stored.</b> 88% of extracted comments went through the original thread prompt, which drops about half the comments in a thread. Re-running them is the largest single improvement to the board.</li>
+      <li><b>Use GPT-6 Luna with rubric_v1.</b> It drops 3% of comments one at a time and 1% in threads, and catches 77% of “skip the X” complaints in threads. Thread mode costs about $12 per 100,000 comments.</li>
+      <li><b>Cheapest acceptable option:</b> keep DeepSeek v4-flash and switch the backlog to the Oct 2 thread prompt, about $6 per 100,000 comments. It loses dish-level complaints and catches 79% of negatives one comment at a time.</li>
+      <li><b>Check Luna's extra mentions.</b> Its precision is 89% against 96% for DeepSeek with the Oct 2 prompt; spot-check before trusting raw mention counts.</li>
+      <li><b>Give backfills their own OpenRouter key</b> with its own limit, so a re-extraction can never block the live worker.</li>
+    </ol>
+  </div>
+  <div class="box">
+    <h3>How this was measured</h3>
+    <ul>
+      <li><b>769 comments, 825 mentions</b>, labeled blind from the full thread on a 7-level scale, then checked against today's output (23 label corrections).</li>
+      <li>75% chosen for risk (nameless replies, avoid-lists, strong negatives, long lists, deep chains), 25% at random; single-comment scores are weighted back to real traffic.</li>
+      <li>Every configuration gets the exact input production sends. Comparisons use only comments every row finished.</li>
+      <li>Sonnet 5.5 caught 92% of negatives on the 112 comments it finished. At about $888 per 100,000 comments it shows the ceiling rather than a candidate.</li>
+      <li>Model calls cost $9.72. The run shared production's OpenRouter key and exhausted its limit on Oct 4, which paused live extraction until credit was added.</li>
+      <li>Everything is in <code>eval/</code> on branch <code>eval-extraction</code>; rerun with <code>run.py</code>, <code>compare.py</code>, <code>report.py</code>.</li>
+    </ul>
+  </div>
+</section>
+</main>
