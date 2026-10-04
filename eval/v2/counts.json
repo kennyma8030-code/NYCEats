@@ -1,7 +1,7 @@
 {
- "items": 309,
- "dev": 159,
- "test": 150,
+ "items": 379,
+ "dev": 195,
+ "test": 184,
  "per_weakness": {
   "dropped_nameless_reply": {
    "total": 143,
@@ -11,11 +11,11 @@
    "test": 71
   },
   "dropped_in_list": {
-   "total": 13,
+   "total": 25,
    "v1_failure": 13,
-   "topup": 0,
-   "dev": 7,
-   "test": 6
+   "topup": 12,
+   "dev": 13,
+   "test": 12
   },
   "dropped_named_mention": {
    "total": 21,
@@ -25,11 +25,11 @@
    "test": 10
   },
   "dropped_reference_mention": {
-   "total": 23,
+   "total": 25,
    "v1_failure": 23,
-   "topup": 0,
+   "topup": 2,
    "dev": 12,
-   "test": 11
+   "test": 13
   },
   "closed_place": {
    "total": 7,
@@ -49,21 +49,21 @@
    "total": 54,
    "v1_failure": 54,
    "topup": 0,
-   "dev": 27,
-   "test": 27
+   "dev": 28,
+   "test": 26
   },
   "negative_softened_to_positive": {
-   "total": 4,
+   "total": 25,
    "v1_failure": 4,
-   "topup": 0,
-   "dev": 3,
-   "test": 1
+   "topup": 21,
+   "dev": 14,
+   "test": 11
   },
   "softened_negative": {
-   "total": 7,
+   "total": 8,
    "v1_failure": 7,
-   "topup": 0,
-   "dev": 5,
+   "topup": 1,
+   "dev": 6,
    "test": 2
   },
   "wrong_sign": {
@@ -74,18 +74,18 @@
    "test": 1
   },
   "missed_value_complaint": {
-   "total": 9,
+   "total": 25,
    "v1_failure": 9,
-   "topup": 0,
-   "dev": 5,
-   "test": 4
+   "topup": 16,
+   "dev": 14,
+   "test": 11
   },
   "missed_dish_negative": {
    "total": 29,
    "v1_failure": 29,
    "topup": 0,
-   "dev": 15,
-   "test": 14
+   "dev": 16,
+   "test": 13
   },
   "negation_scope": {
    "total": 25,
@@ -109,11 +109,11 @@
    "test": 6
   },
   "hallucinated_place": {
-   "total": 7,
+   "total": 25,
    "v1_failure": 7,
-   "topup": 0,
-   "dev": 4,
-   "test": 3
+   "topup": 18,
+   "dev": 12,
+   "test": 13
   },
   "dish_as_place": {
    "total": 25,
@@ -131,17 +131,12 @@
   }
  },
  "below_min": [
-  "dropped_in_list",
   "dropped_named_mention",
-  "dropped_reference_mention",
   "closed_place",
   "context_gap",
-  "negative_softened_to_positive",
   "softened_negative",
   "wrong_sign",
-  "missed_value_complaint",
   "inferred_aspect",
-  "default_0.3",
-  "hallucinated_place"
+  "default_0.3"
  ]
 }
