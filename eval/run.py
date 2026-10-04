@@ -167,10 +167,22 @@ def call(model, system, user, args):
     return None, None, last
 
 
+def unfence(raw):
+    """Strip one surrounding ```json ... ``` fence. Some models add it despite the
+    prompt; production's client would reject such output, so json_ok_strict
+    records whether it was needed, and scoring uses the unfenced parse."""
+    s = (raw or "").strip()
+    if s.startswith("```"):
+        s = s.split("\n", 1)[1] if "\n" in s else s[3:]
+        if s.rstrip().endswith("```"):
+            s = s.rstrip()[:-3]
+    return s
+
+
 def parse(raw):
-    """(ok, mentions). ok means valid JSON with a mentions list."""
+    """(ok, mentions). ok means valid JSON with a mentions list, once unfenced."""
     try:
-        obj = json.loads(raw)
+        obj = json.loads(unfence(raw))
     except (TypeError, json.JSONDecodeError):
         return False, None
     ms = obj.get("mentions") if isinstance(obj, dict) else None
@@ -204,7 +216,9 @@ def run_job(job, rep, model, system, ph, mode, args):
             continue
         by_comment.setdefault(cid, []).append(m)
     usage = body.get("usage") or {}
-    rec.update({"raw": raw, "json_ok": ok, "mentions_by_comment": by_comment,
+    rec.update({"raw": raw, "json_ok": ok,
+                "json_ok_strict": ok and unfence(raw) == (raw or "").strip(),
+                "mentions_by_comment": by_comment,
                 "bad_ids": bad_ids, "provider": body.get("provider"),
                 "usage": {k: usage.get(k) for k in ("prompt_tokens", "completion_tokens",
                                                      "total_tokens", "cost")},
