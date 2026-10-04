@@ -9,7 +9,8 @@ never by an LLM.
 | `items.jsonl` | 395 single comments + 17 whole threads (374 comments), with the exact model input for both modes |
 | `sampling.md`, `sampling_stats.json` | how the items were chosen, with per-group counts |
 | `gold.jsonl` | gold labels, one line per comment (currently 50: c0001–c0050) |
-| `labels/batchNN.py` | human-readable source of the gold labels; running it regenerates its slice of gold.jsonl |
+| `labels/batchNN.py` | human-readable source of the gold labels (`labels/common.py` holds the constructor, `labels/build_gold.py` writes gold.jsonl) |
+| `excluded_entities.json` | production's excluded entity keys (not restaurants / outside NYC), treated as out of scope |
 | `alias_overrides.json` | snapshot of the `alias_overrides` table, used for key matching |
 | `build_items.py` | the sampler (read-only DB) |
 | `run.py` | runs model × prompt × mode over the items, caching to `runs/` |
@@ -22,16 +23,30 @@ inflates every later score.
 
 ---
 
+## Who this is for
+
+The owner uses r/FoodNYC like this: search a cuisine, dish or experience,
+read about a year of comments, and pick a place by (a) **how many people are
+talking about it** and (b) **negatives**, which weigh heavily, especially
+repeated ones ("avoid the X", "overpriced"). The rules below serve that use.
+Every named place counts toward volume, and negatives, value complaints and
+dish-level knocks are the signals that matter most.
+
 ## What a mention is
 
-A **mention** is a specific food or drink business that the comment refers to
-and says something about, or names as an answer.
+A **mention** is a specific food or drink business that the comment names or
+unambiguously refers to.
 
-- **Counts:** restaurants, bars, cafes, bakeries, dessert shops, delis, food
-  trucks with a name, chains, grocery stores and markets, food halls. Each
-  gets an `entity_type` so scoring can include or exclude it. Production
-  drops chains at write time (`chains.txt`), and `score.py --drop-chains`
-  mirrors that.
+- **In scope:** restaurants, cafes, bakeries, dessert shops, delis, bars,
+  food halls, individual stalls and vendors, food trucks, and chains. Each
+  gets an `entity_type`. Production drops chains downstream (`chains.txt`;
+  `score.py --drop-chains` mirrors that), but extraction must still emit
+  them.
+- **Out of scope, but recorded with `out_of_scope: true`** (neither required
+  nor penalised): primarily retail grocery stores, supermarkets and markets
+  (Whole Foods, Trader Joe's, Zabar's as a grocery, Costco), and places
+  outside NYC. Any key in `excluded_entities.json` (production's 279
+  exclusions) is also treated as out of scope when matching.
 - **Doesn't count:** cuisines ("Haitian food"), dishes, neighborhoods,
   streets, generic categories ("any banh mi shop", "kati roll places"),
   products and brands (Arizona iced tea, a panettone), apps and services
@@ -44,17 +59,17 @@ and says something about, or names as an answer.
 - **Places named only in the title, the body or an ancestor** are mentions of
   the comment only when the comment says something about them. Answering
   "what should I order at Portale?" with dishes counts.
-- **Reference-only names** carry no opinion and are not an answer to the
-  thread's question: "I haven't visited X yet", "the chef left for Y", a
-  question like "what drinks do you recommend at DCP?", or X given as an
-  example of a category. They are recorded with all aspects null and
-  `ambiguous: true`. A model is neither required to emit them nor penalised
-  for doing so.
-- **Closed places** are mentions with all aspects null and `closed: true`,
-  which follows the production prompt rule. The remembered sentiment goes in
-  `aspect_alternatives`, so either reading scores as correct (see the open
-  questions).
-- **Places outside NYC** are not mentions.
+- **Reference-only names are REQUIRED mentions**, because they count toward
+  "how many people are talking". Examples: "I haven't visited X yet", "the
+  chef moved to Y", "what drinks do you recommend at DCP?", "like X but
+  cheaper", X given as an example. Aspects stay null unless an opinion is
+  actually expressed, and `is_firsthand` is false where appropriate.
+- **Closed places are REQUIRED mentions**: all aspects null, `closed: true`,
+  and `descriptors` include "closed". The remembered sentiment is not
+  accepted as an alternative.
+- **`ambiguous: true`** is only for genuinely two-reading cases, e.g. a
+  nameless reply that could be about the parent's place or just the cuisine.
+  Those mentions are neither required nor penalised.
 - **The same place twice in one comment** is one mention.
 
 ## Aspect scale (7 points)
@@ -111,15 +126,36 @@ The rules for applying the scale:
 
 ### Other fields
 
-- `is_negated` is true only when the comment tells people to avoid the place:
+- `is_negated` is true only when the comment tells OTHERS to avoid the place:
   skip it, don't bother, tourist trap, an avoid list. A bad review is not
-  negation, and neither is losing a comparison. When the commenter is only
-  deciding for themselves ("I'd rather skip it"), the field is listed in
-  `uncertain_fields`.
+  negation, and neither is losing a comparison. A **self-skip** ("I'd rather
+  skip it", "I wouldn't go back") puts the negative in the aspect and sets
+  `is_negated` false, with true accepted (the field is listed in
+  `uncertain_fields`).
 - `is_firsthand` is true when they went, and false for hearsay, "on my list",
   "haven't been" or reservation attempts. It is null when it can't be
   determined. Bare recommendations default to true.
-- `dishes` are the dishes the comment names for that place.
+- `expensiveness` is the price level on the same 7 points, with no valence:
+  -3 very cheap, -1 cheap-ish / reasonable, +1 pricey, +3 very expensive
+  ("$400 omakase"). Null if price isn't said. "Overpriced" is value -2 AND
+  expensiveness +1/+2.
+- `value_complaint` is true when the comment says overpriced, not worth the
+  money, rip-off, highway robbery, or "for that price" as a complaint. It is
+  reported as its own recall.
+- `dish_sentiment` is `[{dish, level, avoid}]`, one entry per dish actually
+  named for that place. `level` is the 7-point sentiment for that dish, or
+  null if the dish is only named. `avoid` is true for "avoid / skip / don't
+  get the X". "Get the Z" is +1; "the Y is overrated" is -1. Dish-level
+  negatives are one of the owner's strongest signals. `dishes` is the list
+  of dish names.
+- `search_terms` are the cuisine, dish and experience words in the comment
+  that someone might search to find this place ("omakase", "date night",
+  "cheap eats", "slice", "byob", "hand-pulled noodles", "walk-ins"). They are
+  in the commenter's own words, lowercase, and only words tied to this
+  place.
+- `descriptors` holds labeler-supplied descriptors that matter for scoring,
+  currently "closed" for closed places.
+- `out_of_scope` is set for retail grocery and non-NYC places (see above).
 - `neighborhood_hint` is set only when the comment places THIS restaurant
   somewhere.
 - `restaurant_raw` is the name as typed in the comment. For a nameless reply,
@@ -135,15 +171,17 @@ The rules for applying the scale:
   model would actually see: 25 comments, each cut at 700 chars. An ancestor
   in a different chunk is invisible.
 - `confidence` is high, medium or low.
-- `ambiguous` marks a mention with two defensible readings, or a
-  reference-only one. It is not required for recall and not counted against
-  precision.
-- `aspect_alternatives` gives other accepted values for an aspect (null
-  included). `uncertain_fields` lists boolean fields that are not scored.
+- `ambiguous` marks a mention with two defensible readings. It is not
+  required for recall and not counted against precision.
+- `aspect_alternatives` gives other accepted values for an aspect or for
+  `expensiveness` (null included). `uncertain_fields` lists boolean fields
+  that are not scored.
 - `rationale` is one line.
 
 A gold line per comment also has `has_mention`, true when there is at least
-one non-ambiguous mention, and a `note`.
+one required mention (not ambiguous, not out of scope), and a `note`. Gold
+lines for thread comments use the thread's item_id (`t001`) plus the
+comment_id.
 
 ## Mapping to the model's -1..1 scale
 
@@ -175,8 +213,10 @@ one non-ambiguous mention, and a `note`.
 3. Record **all** mentions in the comment, not just the risky one.
 4. Every comment in a sampled whole thread gets a label line, including the
    ones with no mention.
-5. Write labels into `labels/batchNN.py` and run it to regenerate gold. Use a
-   new batch file per session and never edit gold.jsonl by hand.
+5. Write labels into `labels/batchNN.py` (using `labels/common.py`'s `M()`)
+   and run `python eval/labels/build_gold.py` to regenerate gold.jsonl from
+   every batch. Never edit gold.jsonl by hand. Corrections made after
+   adjudication are edited in the batch file and logged in `gold_changes.md`.
 
 ## Running
 
