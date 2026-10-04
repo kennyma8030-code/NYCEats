@@ -1,21 +1,21 @@
 {
- "items": 379,
- "dev": 195,
- "test": 184,
+ "items": 449,
+ "dev": 229,
+ "test": 220,
  "per_weakness": {
   "dropped_nameless_reply": {
    "total": 143,
    "v1_failure": 143,
    "topup": 0,
-   "dev": 72,
-   "test": 71
+   "dev": 71,
+   "test": 72
   },
   "dropped_in_list": {
    "total": 25,
    "v1_failure": 13,
    "topup": 12,
-   "dev": 13,
-   "test": 12
+   "dev": 14,
+   "test": 11
   },
   "dropped_named_mention": {
    "total": 21,
@@ -32,18 +32,18 @@
    "test": 13
   },
   "closed_place": {
-   "total": 7,
+   "total": 25,
    "v1_failure": 7,
-   "topup": 0,
-   "dev": 4,
-   "test": 3
+   "topup": 18,
+   "dev": 13,
+   "test": 12
   },
   "context_gap": {
-   "total": 6,
+   "total": 10,
    "v1_failure": 6,
-   "topup": 0,
-   "dev": 3,
-   "test": 3
+   "topup": 4,
+   "dev": 5,
+   "test": 5
   },
   "missed_negative": {
    "total": 54,
@@ -60,25 +60,25 @@
    "test": 11
   },
   "softened_negative": {
-   "total": 8,
+   "total": 25,
    "v1_failure": 7,
-   "topup": 1,
-   "dev": 6,
-   "test": 2
+   "topup": 18,
+   "dev": 12,
+   "test": 13
   },
   "wrong_sign": {
-   "total": 5,
+   "total": 25,
    "v1_failure": 5,
-   "topup": 0,
-   "dev": 4,
-   "test": 1
+   "topup": 20,
+   "dev": 12,
+   "test": 13
   },
   "missed_value_complaint": {
    "total": 25,
    "v1_failure": 9,
    "topup": 16,
-   "dev": 14,
-   "test": 11
+   "dev": 13,
+   "test": 12
   },
   "missed_dish_negative": {
    "total": 29,
@@ -102,11 +102,11 @@
    "test": 4
   },
   "default_0.3": {
-   "total": 14,
+   "total": 25,
    "v1_failure": 14,
-   "topup": 0,
-   "dev": 8,
-   "test": 6
+   "topup": 11,
+   "dev": 13,
+   "test": 12
   },
   "hallucinated_place": {
    "total": 25,
@@ -132,11 +132,7 @@
  },
  "below_min": [
   "dropped_named_mention",
-  "closed_place",
   "context_gap",
-  "softened_negative",
-  "wrong_sign",
-  "inferred_aspect",
-  "default_0.3"
+  "inferred_aspect"
  ]
 }
