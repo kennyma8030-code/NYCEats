@@ -2,7 +2,7 @@
 
     EVAL_DB_URL=postgresql://... python eval/export_stored.py
 
-Writes eval/runs/production__stored__all.jsonl in run.py's format (one line
+Writes eval/baseline/production__stored__all.jsonl in run.py's format (one line
 per comment, rep 0), so score.py can grade the original model exactly like a
 fresh run. Read-only connection. Do NOT run this until labeling is finished
 for the items you will score -- looking at stored output biases labels.
@@ -51,8 +51,9 @@ def main():
             "dishes": dishes or [], "descriptors": desc or [], "aspects": aspects or {},
             "expensiveness": exp, "is_firsthand": first, "is_negated": neg, "prompt_hash": ph})
 
-    os.makedirs(os.path.join(HERE, "runs"), exist_ok=True)
-    out = os.path.join(HERE, "runs", "production__stored__all.jsonl")
+    out_dir = os.environ.get("EVAL_BASELINE_DIR", os.path.join(HERE, "baseline"))
+    os.makedirs(out_dir, exist_ok=True)
+    out = os.path.join(out_dir, "production__stored__all.jsonl")
     with open(out, "w", encoding="utf-8") as f:
         for cid, item_ids in cids.items():
             model, _, ph = (ew.get(cid) or "").rpartition(":")

@@ -2,8 +2,8 @@
 from common import M
 
 L = {}
-L["c0126"] = ([M("Zabar's", "Zabar's Cafe", also=("zabars",), named_in="comment", type="cafe_bakery_dessert",
-                 alt={"food": [2]}, why="name correction for their own Zabar's cafe froyo rec; the praise is in the parent")], "")
+L["c0126"] = ([M("Zabar's", "Zabar's Cafe", also=("zabars",), named_in="comment", type="cafe_bakery_dessert", oos=True,
+                 alt={"food": [2]}, why="name correction for their own Zabar's cafe froyo rec; 'zabars' is a production excluded entity")], "")
 L["c0127"] = ([
     M("Jolibee", "Jollibee", type="chain", food=1, terms=["filipino fast food"], why="list answer"),
     M("Chatti", food=1, why="list answer"),
