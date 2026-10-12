@@ -1,0 +1,12 @@
+.page {
+  max-width: 1120px; margin: 0 auto; padding-block: 28px 64px;
+  display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 56px; align-items: start;
+  transition: padding .4s var(--ease);
+}
+
+@media (max-width: 860px) {
+  .page { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-top: 20px }
+}
+
+/* The detail panel covers the page; keep the page from scrolling underneath. */
+body.split { overflow: hidden }

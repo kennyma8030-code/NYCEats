@@ -386,6 +386,79 @@ def mentions_page(conn, entity_key, q, fetch_all, fetch_value):
     return rows, total
 
 
+def feed_items(conn, q, places_only, before, after, limit, fetch_all):
+    """Posts and comments together, newest first, optionally only those
+    containing `q`. Comments carry the places they mention, in the order they
+    mention them; posts carry none (extraction reads comments only), so
+    `places_only` leaves posts out.
+
+    `before` / `after` are (created_utc, id) pairs: id breaks ties between
+    items posted in the same second (t1_ comments and t3_ posts never collide).
+    A text search has no index; it walks comments_created_idx backwards, which
+    is ~0.1s for a common word and ~1s for one that is in nothing. Posts are
+    few enough (~43k) to scan.
+    """
+    c_where = ["c.body not in ('[deleted]', '[removed]')"]
+    t_where = ["true"]
+    params = {"limit": limit}
+    if q:
+        c_where.append("c.body ilike %(q)s")
+        t_where.append("(t.title ilike %(q)s or t.selftext ilike %(q)s)")
+        params["q"] = "%" + q.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"
+    if places_only:
+        c_where.append("exists (select 1 from mentions m where m.comment_id = c.id)")
+    for cursor, op, name in ((before, "<", "b"), (after, ">", "a")):
+        if cursor:
+            c_where.append(f"(c.created_utc, c.id) {op} (%({name}_at)s, %({name}_id)s)")
+            t_where.append(f"(t.created_utc, t.id) {op} (%({name}_at)s, %({name}_id)s)")
+            params[f"{name}_at"], params[f"{name}_id"] = cursor
+    posts = "" if places_only else f"""
+          union all
+          (select 'post', t.id, t.id, t.author, t.score, t.created_utc,
+                  case when t.selftext in ('[deleted]', '[removed]') then '' else coalesce(t.selftext, '') end,
+                  '/r/' || t.subreddit || '/comments/' || substr(t.id, 4) || '/', false
+           from threads t
+           where {" and ".join(t_where)}
+           order by t.created_utc desc, t.id desc
+           limit %(limit)s)"""
+    return fetch_all(conn, f"""
+        with page as (
+          select * from (
+            (select 'comment' as kind, c.id, c.thread_id, c.author, c.score, c.created_utc,
+                    c.body, c.permalink, c.was_deleted_later
+             from comments c
+             where {" and ".join(c_where)}
+             order by c.created_utc desc, c.id desc
+             limit %(limit)s){posts}
+          ) u
+          order by created_utc desc, id desc
+          limit %(limit)s
+        )
+        select p.kind, p.id, p.author, p.score, p.created_utc, p.body,
+               case when p.was_deleted_later then null else p.permalink end as permalink,
+               p.was_deleted_later, t.title,
+               case when p.kind = 'post' then
+                 greatest(t.num_comments, (select count(*) from comments x where x.thread_id = t.id))
+               end as num_comments,
+               coalesce(pl.places, '[]'::json) as places
+        from page p
+        join threads t on t.id = p.thread_id
+        left join lateral (
+          select json_agg(json_build_object('key', x.key, 'official_name', x.official_name)
+                          order by x.first) as places
+          from (
+            select al.resolved_key as key, min(m.id) as first, max(l.official_name) as official_name
+            from mentions m
+            join entity_alias al on al.entity_key = m.entity_key
+            join entity_leaderboard l on l.entity_key = al.resolved_key
+            where m.comment_id = p.id
+            group by al.resolved_key
+          ) x
+        ) pl on true
+        order by p.created_utc desc, p.id desc
+    """, params)
+
+
 def standout_negatives(conn, entity_key, limit, fetch_all):
     """The comments behind a v2 flag: recent, firsthand, strongly negative,
     harshest and most upvoted first. Same shape as mentions_page so the UI renders both alike."""
@@ -553,3 +626,261 @@ def entity_exists(conn, entity_key, fetch_value):
     return fetch_value(conn,
                        "select 1 from entity_leaderboard where entity_key = %s",
                        (entity_key,)) is not None
+
+
+# ---------------------------------------------------------------------------
+# The ledger: rankings over a rolling window, for the React frontend.
+#
+# Counts are raw mentions (one row of mention_weights each), not decayed
+# volume: the ledger shows "84 mentions in the last 30 days", and a decayed
+# figure would be a number nobody can check against the comments.
+# ---------------------------------------------------------------------------
+
+# "Known for" filters: keep a place only if people rate that aspect at least
+# this well. The column name is interpolated, so these keys are the whitelist.
+LEDGER_NEEDS = {"value": 0.2, "atmosphere": 0.3, "service": 0.2, "wait": -0.1}
+
+# A flaw is the bottom slice of scored places for an aspect, measured live.
+LEDGER_FLAW_SHARE = 0.10                                     # TUNE
+
+# Per-category ranking as (where_sql, rank_sql), both written against the
+# `pool` CTE in ledger_items, and both module literals -- never caller input.
+LEDGER_CATEGORIES = {
+    # Talked about more than the window before. The floor keeps one comment
+    # against zero from reading as a spike; the sqrt puts 200 -> 260 above
+    # 1 -> 3 the same way the momentum score does.
+    "trending": ("current >= greatest(3, round(%(window)s * 0.03)) and current > previous",
+                 "(current - previous) / sqrt(previous + 2.0)"),
+    "top":      ("current > 0",
+                 "current"),
+    # Loved, but talked about no more than the median place this window.
+    # raw_mentions >= 3 so a single glowing comment is not a gem.
+    "gems":     ("sentiment >= 0.25 and current >= 1 and current <= median.m"
+                 " and raw_mentions >= 3",                    # TUNE gem thresholds
+                 "sentiment"),
+}
+
+
+# The same categories under scoring v2 (scoring_v2.sql). `people` is distinct
+# commenters in the window, `sentiment` is v2's (negatives 2x, bare name-drops
+# ignored) and a flagged place -- a big share of recent opinion is a bad
+# firsthand experience -- ranks at flag_penalty.
+_FLAG_PENALTY = ("(case when flagged then (select flag_penalty from scoring_v2_params)"
+                 " else 1.0 end)")
+LEDGER_CATEGORIES_V2 = {
+    "trending": (LEDGER_CATEGORIES["trending"][0],
+                 f"(current - previous) / sqrt(previous + 2.0) * {_FLAG_PENALTY}"),
+    "top":      ("current > 0",
+                 f"people * (1.0 + coalesce(sentiment, 0)) / 2.0 * {_FLAG_PENALTY}"),
+    "gems":     (LEDGER_CATEGORIES["gems"][0] + " and not coalesce(flagged, false)",
+                 "sentiment"),
+}
+
+# Which table each algorithm reads. v2 has every v1 column under the same name.
+LEDGER_BOARDS = {"v1": "entity_leaderboard", "v2": "entity_leaderboard_v2"}
+
+
+def _ledger_select(algo):
+    """The per-place columns that differ by algorithm."""
+    if algo == "v2":
+        return """l.sentiment, l.flagged, l.strong_neg_people, l.strong_neg_share,
+                  l.recent_people"""
+    return """(select avg(x) from unnest(array[l.food, l.value, l.service,
+                                                l.atmosphere, l.wait]) x) as sentiment,
+              null::boolean as flagged, null::int as strong_neg_people,
+              null::float8 as strong_neg_share, null::int as recent_people"""
+
+
+# A topic narrows what is COUNTED, not just which rows show: "omakase" over a
+# month means mentions in omakase threads or tagged omakase, so Keens' two
+# passing omakase mentions do not ride its steakhouse volume to the top. A
+# place the city files under that cuisine counts in full.
+TOPIC_JOIN = """
+    join threads t on t.id = v.thread_id
+    join mentions mt on mt.id = v.mention_id
+    left join restaurants rt on rt.name_key = v.entity_key
+"""
+TOPIC_WHERE = """
+    and (t.title ilike %(topic)s
+         or mt.descriptors::text ilike %(topic)s
+         or mt.dishes::text ilike %(topic)s
+         or rt.cuisine ilike %(topic)s)
+"""
+
+
+def ledger_items(conn, category, window, cuisine, borough, needs, flaws, limit, fetch_all,
+                 algo="v1", topic=None):
+    """One ranked page for (category, window, filters), with the match count
+    on every row as `total`.
+
+    Aspect scores are the all-time shrunk scores from entity_leaderboard; only
+    the counts are windowed. A week is too little evidence to score taste.
+    """
+    where_sql, rank_sql = (LEDGER_CATEGORIES_V2 if algo == "v2" else LEDGER_CATEGORIES)[category]
+    board = LEDGER_BOARDS[algo]
+    filters, params = [], {"window": window, "limit": limit}
+    if topic:
+        params["topic"] = f"%{topic}%"
+    if cuisine:
+        filters.append("l.cuisine = %(cuisine)s")
+        params["cuisine"] = cuisine
+    if borough:
+        filters.append("%(borough)s = any(l.boroughs)")
+        params["borough"] = borough
+    for need in needs:
+        # Key checked against the whitelist; the threshold is bound.
+        filters.append(f"l.{need} >= %(need_{need})s")
+        params[f"need_{need}"] = LEDGER_NEEDS[need]
+    for flaw in flaws:
+        # Whitelisted twice: the route's Literal and this check. Compared
+        # against the live cut-off in the `cuts` CTE below.
+        if flaw not in ASPECTS:
+            raise ValueError(f"unknown aspect {flaw!r}")
+        filters.append(f"l.{flaw} <= cuts.{flaw}")
+    extra = "".join(f" and {f}" for f in filters)
+    if flaws:
+        params["flaw_share"] = LEDGER_FLAW_SHARE
+    # Percentiles over every open, non-chain place with a real score --
+    # percentile_cont skips nulls, so "nobody mentioned the wait" never counts
+    # as a long one. One pass for all five; only built when a flaw asks.
+    cuts_cte = """
+        cuts as (
+          select """ + ", ".join(
+              f"percentile_cont(%(flaw_share)s) within group (order by {a}) as {a}"
+              for a in ASPECTS) + """
+          from """ + board + """
+          where coalesce(is_chain, false) = false and coalesce(closed, false) = false
+            and raw_mentions >= 3
+        ),""" if flaws else ""
+    cuts_join = "cross join cuts" if flaws else ""
+
+    # mention_v2 is one row per mention_weights row, plus `person`, which the
+    # v2 "top" ranking counts. Raw counts are the same under either algorithm.
+    return fetch_all(conn, f"""
+        with counts as (
+          select v.entity_key,
+                 count(*) filter (where v.created_utc >  now() - make_interval(days => %(window)s)) as current,
+                 count(*) filter (where v.created_utc <= now() - make_interval(days => %(window)s)) as previous,
+                 count(distinct v.person)
+                       filter (where v.created_utc >  now() - make_interval(days => %(window)s)) as people
+          from mention_v2 v
+          {TOPIC_JOIN if topic else ""}
+          where v.created_utc > now() - make_interval(days => 2 * %(window)s)
+          {TOPIC_WHERE if topic else ""}
+          group by v.entity_key
+        ),
+        -- Over every place mentioned this window, before filters, so a borough
+        -- filter does not redefine what "not many people know" means.
+        median as (
+          select coalesce(percentile_disc(0.5) within group (order by current), 0) as m
+          from counts where current > 0
+        ),{cuts_cte}
+        pool as (
+          select c.entity_key, c.current::int as current, c.previous::int as previous,
+                 c.people::int as people,
+                 l.official_name, l.cuisine, l.boroughs,
+                 l.raw_mentions, l.distinct_authors,
+                 l.food, l.value, l.service, l.atmosphere, l.wait,
+                 {_ledger_select(algo)}
+          from counts c
+          join {board} l on l.entity_key = c.entity_key
+          {cuts_join}
+          where coalesce(l.is_chain, false) = false
+            and coalesce(l.closed, false) = false
+            {extra}
+        )
+        select pool.*, ({rank_sql})::float8 as rank_value, count(*) over () as total
+        from pool cross join median
+        where {where_sql}
+        order by rank_value desc, current desc, entity_key
+        limit %(limit)s
+    """, params)
+
+
+def ledger_one(conn, entity_key, window, fetch_all, algo="v1"):
+    """ledger_items' row shape for a single entity, ranked or not.
+
+    Zero counts are real answers here -- a place searched for by name may not
+    have been mentioned this window -- so this starts from the leaderboard
+    and left-joins the counts rather than starting from the counts.
+    """
+    return fetch_all(conn, f"""
+        select l.entity_key,
+               coalesce(c.current, 0)::int  as current,
+               coalesce(c.previous, 0)::int as previous,
+               l.official_name, l.cuisine, l.boroughs,
+               l.raw_mentions, l.distinct_authors,
+               l.food, l.value, l.service, l.atmosphere, l.wait,
+               {_ledger_select(algo)}
+        from {LEDGER_BOARDS[algo]} l
+        left join lateral (
+          select count(*) filter (where w.created_utc >  now() - make_interval(days => %(window)s)) as current,
+                 count(*) filter (where w.created_utc <= now() - make_interval(days => %(window)s)) as previous
+          from mention_weights w
+          where w.entity_key = l.entity_key
+            and w.created_utc > now() - make_interval(days => 2 * %(window)s)
+        ) c on true
+        where l.entity_key = %(key)s
+    """, {"key": entity_key, "window": window})
+
+
+def all_names(conn, min_mentions, fetch_all):
+    """Every leaderboard entity with the typed spellings that resolve to it.
+
+    Only spellings that differ from the key itself are listed; the key is
+    already searchable. Ordered by mentions so a client that truncates keeps
+    the places people actually talk about.
+    """
+    return fetch_all(conn, """
+        select l.entity_key, l.official_name, l.cuisine, l.boroughs[1] as borough,
+               l.raw_mentions, l.is_chain, l.closed,
+               coalesce(array_agg(a.entity_key order by a.entity_key)
+                          filter (where a.entity_key <> l.entity_key), '{}') as aliases
+        from entity_leaderboard l
+        left join entity_alias a on a.resolved_key = l.entity_key
+        where l.raw_mentions >= %s
+        group by l.entity_key, l.official_name, l.cuisine, l.boroughs,
+                 l.raw_mentions, l.is_chain, l.closed
+        order by l.raw_mentions desc nulls last, l.entity_key
+    """, (min_mentions,))
+
+
+def ledger_series(conn, keys, window, bucket, fetch_all):
+    """Mention counts per bucket, for the current and the previous window.
+
+    Buckets count back from now inside each window separately, so the two
+    series line up bucket for bucket even when the window is not a whole
+    number of weeks.
+    """
+    if not keys:
+        return []
+    return fetch_all(conn, """
+        select entity_key,
+               age < %(window)s as is_current,
+               floor((case when age < %(window)s then age else age - %(window)s end)
+                     / %(bucket)s)::int as idx,
+               count(*)::int as n
+        from (
+          select w.entity_key,
+                 extract(epoch from (now() - w.created_utc)) / 86400.0 as age
+          from mention_weights w
+          where w.entity_key = any(%(keys)s)
+            and w.created_utc > now() - make_interval(days => 2 * %(window)s)
+        ) s
+        group by 1, 2, 3
+    """, {"keys": list(keys), "window": window, "bucket": bucket})
+
+
+def top_neighborhoods(conn, keys, fetch_all):
+    """The neighborhood commenters most often place each entity in."""
+    if not keys:
+        return []
+    return fetch_all(conn, """
+        select distinct on (al.resolved_key)
+               al.resolved_key as entity_key, m.neighborhood_hint as name
+        from mentions m
+        join entity_alias al on al.entity_key = m.entity_key
+        where al.resolved_key = any(%s) and m.neighborhood_hint is not null
+        group by al.resolved_key, m.neighborhood_hint
+        order by al.resolved_key, count(*) desc, m.neighborhood_hint
+    """, (list(keys),))

@@ -327,3 +327,84 @@ class JobAccepted(BaseModel):
     job: str
     started: bool
     detail: Optional[str] = None
+
+
+LedgerCategory = Literal["trending", "top", "gems"]
+LedgerWindow = Literal[7, 14, 30, 90, 180, 365]
+LedgerNeed = Literal["value", "atmosphere", "service", "wait"]
+# The aspect a place does badly on. Food is included here though not in
+# LedgerNeed: "known for good food" says nothing on a food board, but
+# "people complain about the food" does.
+LedgerFlaw = Literal["food", "value", "service", "atmosphere", "wait"]
+# v1 is scoring.sql; v2 is scoring_v2.sql (recent people, negatives 2x,
+# standout-negative flag). Both are built by refresh.py.
+Algo = Literal["v1", "v2"]
+
+
+class LedgerAspects(BaseModel):
+    # Optional for the same reason as everywhere else: absent is not 0.0.
+    food: Optional[float] = None
+    value: Optional[float] = None
+    service: Optional[float] = None
+    atmosphere: Optional[float] = None
+    wait: Optional[float] = None
+
+
+class LedgerItem(BaseModel):
+    """One ranked row. `series` and `previous_series` are the same length,
+    oldest bucket first, so a client can draw both on one x axis."""
+    entity_key: str
+    name: str
+    cuisine: Optional[str] = None
+    borough: Optional[str] = None
+    boroughs: Optional[list[str]] = None
+    neighborhood: Optional[str] = None
+    current: int
+    previous: int
+    change_pct: Optional[int] = None
+    series: list[int]
+    previous_series: list[int]
+    total_mentions: int
+    distinct_authors: Optional[int] = None
+    aspects: LedgerAspects
+    sentiment: Optional[float] = None
+    # v2 only; None under v1
+    people: Optional[int] = None              # distinct commenters in the window
+    flagged: Optional[bool] = None
+    strong_neg_people: Optional[int] = None   # last two years
+    strong_neg_share: Optional[float] = None  # of recent, upvote-weighted opinion
+
+
+class FeedPlace(BaseModel):
+    key: str
+    name: str
+
+
+class FeedItem(BaseModel):
+    """One post or comment in the stream. `cursor` is opaque: pass it back as
+    before= for older items or after= for newer ones. `title` is the post's
+    own title for a post, and the thread it is in for a comment."""
+    kind: Literal["post", "comment"]
+    id: str
+    cursor: str
+    author: Optional[str] = None
+    score: Optional[int] = None
+    created_utc: datetime
+    body: str
+    permalink: Optional[str] = None
+    was_deleted_later: bool = False
+    title: Optional[str] = None
+    num_comments: Optional[int] = None        # posts only
+    places: list[FeedPlace]
+
+
+class Feed(BaseModel):
+    items: list[FeedItem]
+
+
+class Ledger(BaseModel):
+    category: LedgerCategory
+    window_days: int
+    bucket_days: int
+    total: int
+    items: list[LedgerItem]
