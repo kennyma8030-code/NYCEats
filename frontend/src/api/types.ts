@@ -43,6 +43,8 @@ export interface LedgerResponse {
   category: Category;
   window_days: WindowDays;
   bucket_days: 1 | 7;
+  algo: Algo;
+  topic: string | null;
   total: number;
   items: LedgerItem[];
 }

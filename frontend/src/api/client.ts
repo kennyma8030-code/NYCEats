@@ -66,9 +66,12 @@ export const api = {
   ledger: (f: Filters, signal?: AbortSignal) =>
     get<LedgerResponse>(`/api/ledger?${ledgerParams(f)}`, signal),
   /** One restaurant as a ledger row for this window, ranked or not. */
-  ledgerEntity: (entityKey: string, window: WindowDays, algo: Algo) =>
-    cached(`le|${entityKey}|${window}|${algo}`, () =>
-      get<LedgerItem>(`/api/ledger/entity?key=${key(entityKey)}&window=${window}&algo=${algo}`)),
+  ledgerEntity: (entityKey: string, window: WindowDays, algo: Algo, topic = "") =>
+    cached(`le|${entityKey}|${window}|${algo}|${topic}`, () =>
+      get<LedgerItem>(
+        `/api/ledger/entity?key=${key(entityKey)}&window=${window}&algo=${algo}` +
+          (topic ? `&topic=${encodeURIComponent(topic)}` : ""),
+      )),
   /** Every searchable name, as compact rows; see lib/search.ts. `v` is the
    *  row format: /api/names is browser-cached for 5 minutes, so a format
    *  change must change the URL or a stale copy is parsed as the new shape. */

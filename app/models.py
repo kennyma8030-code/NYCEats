@@ -406,5 +406,7 @@ class Ledger(BaseModel):
     category: LedgerCategory
     window_days: int
     bucket_days: int
+    algo: Algo = "v1"                 # which ranking and topic these rows came from,
+    topic: Optional[str] = None       # so a client can tell a stale list from a current one
     total: int
     items: list[LedgerItem]

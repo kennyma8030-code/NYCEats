@@ -6,6 +6,8 @@ const PAGE = 30;
 // The poller lands new posts and comments about every 30 minutes; checking
 // each minute shows them soon after without hammering the API.
 const POLL_MS = 60_000;
+const CHECK_PAGE = 200;
+const EMPTY_LOOKBACK_MS = 60 * 60 * 1000;
 
 interface State {
   items: FeedItem[];
@@ -28,6 +30,8 @@ export function useFeed(q: string, placesOnly: boolean) {
   const gen = useRef(0);
   const stateRef = useRef(state);
   stateRef.current = state;
+  // When the current search's first page arrived, for a view with no items.
+  const loadedAt = useRef(Date.now());
 
   useEffect(() => {
     const g = ++gen.current;
@@ -36,6 +40,7 @@ export function useFeed(q: string, placesOnly: boolean) {
     api.feed({ q, placesOnly, limit: PAGE }, ctl.signal).then(
       (page) => {
         if (gen.current === g) {
+          loadedAt.current = Date.now();
           setState({ items: page.items, fresh: [], loading: false, error: null, hasMore: page.items.length === PAGE });
         }
       },
@@ -68,18 +73,42 @@ export function useFeed(q: string, placesOnly: boolean) {
     );
   }, [q, placesOnly]);
 
-  const check = useCallback(() => {
+  // One check at a time: the interval and a tab coming back into view can fire
+  // together, and two with the same cursor would fetch the same items twice.
+  const checking = useRef(false);
+
+  const check = useCallback(async () => {
     const s = stateRef.current;
+    if (s.loading || checking.current) return;
     const newest = s.fresh[0] ?? s.items[0];
-    if (!newest || s.loading) return;
+    // An empty view (a search with no matches yet) has no item to continue
+    // from, so ask for anything since a little before it was loaded. The
+    // margin covers items Reddit stamped before the load that the poller only
+    // landed after it; none of them can already be in an empty list.
+    let cursor = newest ? newest.cursor : `${new Date(loadedAt.current - EMPTY_LOOKBACK_MS).toISOString()}|`;
     const g = gen.current;
-    api.feed({ q, placesOnly, after: newest.cursor, limit: 200 }).then(
-      (page) => {
-        if (gen.current !== g || page.items.length === 0) return;
-        setState((x) => ({ ...x, fresh: [...page.items, ...x.fresh] }));
-      },
-      () => {}, // a missed check is retried on the next one
-    );
+    checking.current = true;
+    try {
+      // `after` returns the items immediately after the cursor, so a full
+      // page means there may be more: keep going until caught up.
+      for (;;) {
+        const page = await api.feed({ q, placesOnly, after: cursor, limit: CHECK_PAGE });
+        if (gen.current !== g) return;
+        if (page.items.length > 0) {
+          setState((x) => {
+            const seen = new Set([...x.fresh, ...x.items].map((i) => i.id));
+            const added = page.items.filter((i) => !seen.has(i.id));
+            return added.length ? { ...x, fresh: [...added, ...x.fresh] } : x;
+          });
+        }
+        if (page.items.length < CHECK_PAGE) return;
+        cursor = page.items[0].cursor;
+      }
+    } catch {
+      // a missed check is retried on the next one
+    } finally {
+      checking.current = false;
+    }
   }, [q, placesOnly]);
 
   useEffect(() => {

@@ -28,25 +28,34 @@ export default function App() {
   const [selectedWindow, setSelectedWindow] = useState<WindowDays>(filters.window);
   // ...and the ranking it was computed under: a flag only exists under v2.
   const [selectedAlgo, setSelectedAlgo] = useState<Algo>(filters.algo);
+  // ...and the topic, which changes what is counted.
+  const [selectedTopic, setSelectedTopic] = useState(filters.topic.trim());
   const [open, setOpen] = useState(false);
   const [opening, setOpening] = useState<string | null>(null);
   // Only the most recent pick may open; a slow earlier one must not win.
   const latestPick = useRef<string | null>(null);
 
-  const select = useCallback((item: LedgerItem, window: WindowDays, algo: Algo) => {
+  const topic = filters.topic.trim();
+  const select = useCallback((item: LedgerItem, window: WindowDays, algo: Algo, topic: string) => {
     setSelected(item);
     setSelectedWindow(window);
     setSelectedAlgo(algo);
+    setSelectedTopic(topic);
     setOpen(true);
   }, []);
   const selectRow = useCallback(
-    (item: LedgerItem) => select(item, filters.window, filters.algo),
-    [select, filters.window, filters.algo],
+    (item: LedgerItem) => select(item, filters.window, filters.algo, topic),
+    [select, filters.window, filters.algo, topic],
   );
 
-  // The current list, only when it is for the period on screen: useFetch keeps
-  // the previous result while the next one loads.
-  const listed = ledger.data && ledger.data.window_days === filters.window ? ledger.data.items : null;
+  // The current list, only when it is for the period, ranking and topic on
+  // screen: useFetch keeps the previous result while the next one loads, and
+  // its rows must never be shown under the new algo's label.
+  const d = ledger.data;
+  const listed =
+    d && d.window_days === filters.window && d.algo === filters.algo && (d.topic ?? "") === topic
+      ? d.items
+      : null;
 
   /** Open any restaurant by key: its row from the list if it is there,
    *  otherwise the same row built for it alone. */
@@ -56,34 +65,35 @@ export default function App() {
       const inList = listed?.find((i) => i.entity_key === key);
       if (inList) {
         setOpening(null);
-        select(inList, filters.window, filters.algo);
+        select(inList, filters.window, filters.algo, topic);
         return;
       }
       setOpening(key);
       const window = filters.window;
       const algo = filters.algo;
-      api.ledgerEntity(key, window, algo).then(
+      const t = topic;
+      api.ledgerEntity(key, window, algo, t).then(
         (item) => {
           if (latestPick.current !== key) return;
           setOpening(null);
-          select(item, window, algo);
+          select(item, window, algo, t);
         },
         () => {
           if (latestPick.current === key) setOpening(null);
         },
       );
     },
-    [listed, filters.window, filters.algo, select],
+    [listed, filters.window, filters.algo, topic, select],
   );
   const pick = useCallback((hit: NameHit) => openKey(hit.key), [openKey]);
 
   // Warm what search has highlighted, so opening it is immediate.
   const preview = useCallback(
     (key: string) => {
-      api.ledgerEntity(key, filters.window, filters.algo).catch(() => {});
+      api.ledgerEntity(key, filters.window, filters.algo, topic).catch(() => {});
       api.restaurant(key, filters.algo).catch(() => {});
     },
-    [filters.window, filters.algo],
+    [filters.window, filters.algo, topic],
   );
 
   // Keep the open restaurant's numbers on the period shown: from the list
@@ -95,21 +105,24 @@ export default function App() {
       if (fresh !== selected) setSelected(fresh);
       if (selectedWindow !== filters.window) setSelectedWindow(filters.window);
       if (selectedAlgo !== filters.algo) setSelectedAlgo(filters.algo);
+      if (selectedTopic !== topic) setSelectedTopic(topic);
       return;
     }
-    if (selectedWindow === filters.window && selectedAlgo === filters.algo) return;
+    if (selectedWindow === filters.window && selectedAlgo === filters.algo && selectedTopic === topic) return;
     const key = selected.entity_key;
     const window = filters.window;
     const algo = filters.algo;
-    api.ledgerEntity(key, window, algo).then(
+    const t = topic;
+    api.ledgerEntity(key, window, algo, t).then(
       (item) => {
         setSelected((s) => (s?.entity_key === key ? item : s));
         setSelectedWindow(window);
         setSelectedAlgo(algo);
+        setSelectedTopic(t);
       },
       () => {},
     );
-  }, [listed, selected, selectedWindow, selectedAlgo, filters.window, filters.algo]);
+  }, [listed, selected, selectedWindow, selectedAlgo, selectedTopic, filters.window, filters.algo, topic]);
 
   // A shared link opens straight onto its restaurant.
   const initial = useRef(restaurantFromUrl());

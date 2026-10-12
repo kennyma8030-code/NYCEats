@@ -82,12 +82,13 @@ def ledger(
         raise HTTPException(status_code=422,
                             detail="an aspect cannot be both a need and a flaw")
 
+    topic = (topic or "").strip() or None
     rows = queries.ledger_items(conn, category, window, cuisine, borough,
                                 needs, flaws, limit, fetch_all,
-                                algo=algo, topic=(topic or "").strip() or None)
-    return Ledger(category=category, window_days=window, bucket_days=bucket,
+                                algo=algo, topic=topic)
+    return Ledger(category=category, window_days=window, bucket_days=bucket, algo=algo, topic=topic,
                   total=rows[0]["total"] if rows else 0,
-                  items=_build_items(conn, rows, window, bucket))
+                  items=_build_items(conn, rows, window, bucket, topic))
 
 
 @router.get("/api/ledger/entity", response_model=LedgerItem,
@@ -96,6 +97,9 @@ def ledger_entity(
     key: Annotated[str, Query(min_length=1, max_length=200, description="Resolved entity key")],
     window: Annotated[int, Query(description="Days: 7, 14, 30, 90, 180 or 365")] = 7,
     algo: Algo = "v1",
+    topic: Annotated[Optional[str], Query(max_length=80, description=(
+        "As on /api/ledger: count only mentions under this topic, so the row "
+        "matches the one the list shows"))] = None,
     conn=Depends(get_conn),
 ):
     """The row /api/ledger would return for this restaurant, whether or not it
@@ -108,10 +112,11 @@ def ledger_entity(
     if window not in WINDOWS:
         raise HTTPException(status_code=422,
                             detail=f"window must be one of {', '.join(map(str, WINDOWS))}")
-    rows = queries.ledger_one(conn, key, window, fetch_all, algo)
+    topic = (topic or "").strip() or None
+    rows = queries.ledger_one(conn, key, window, fetch_all, algo, topic)
     if not rows:
         raise HTTPException(status_code=404, detail=f"no entity {key!r} on the leaderboard")
-    return _build_items(conn, rows, window, bucket_days(window))[0]
+    return _build_items(conn, rows, window, bucket_days(window), topic)[0]
 
 
 @router.get("/api/names", summary="Every searchable name")
@@ -149,16 +154,17 @@ def names(
     return JSONResponse(rows, headers={"Cache-Control": "public, max-age=300"})
 
 
-def _build_items(conn, rows, window, bucket):
+def _build_items(conn, rows, window, bucket, topic=None):
     """Ledger rows -> LedgerItems: windowed series and top neighborhood added."""
     keys = [r["entity_key"] for r in rows]
 
     n = math.ceil(window / bucket)
     series = {k: ([0] * n, [0] * n) for k in keys}
-    for s in queries.ledger_series(conn, keys, window, bucket, fetch_all):
-        # min() because the oldest bucket of a window that is not a whole
-        # number of weeks is short, and floating-point age can land on n.
-        idx = min(s["idx"], n - 1)
+    for s in queries.ledger_series(conn, keys, window, bucket, fetch_all, topic):
+        # Clamped because the oldest bucket of a window that is not a whole
+        # number of weeks is short, floating-point age can land on n, and a
+        # mention stamped slightly in the future has a negative age.
+        idx = max(0, min(s["idx"], n - 1))
         cur, prev = series[s["entity_key"]]
         # Buckets count back from now; the series runs oldest first.
         (cur if s["is_current"] else prev)[n - 1 - idx] += s["n"]

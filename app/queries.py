@@ -37,6 +37,12 @@ V2_COLUMNS = """,
 BOARDS = {"v1": "entity_leaderboard", "v2": "entity_leaderboard_v2"}
 
 
+def like_pattern(text):
+    """`text` as a contains-pattern with LIKE's own wildcards escaped, so a
+    search for "100%" or "a_b" means those characters and not "anything"."""
+    return "%" + text.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"
+
+
 def _columns(algo):
     return BOARD_COLUMNS + (V2_COLUMNS if algo == "v2" else "")
 
@@ -45,6 +51,10 @@ def _columns(algo):
 # among the commenter's descriptors or dishes. mention_weights carries the
 # RESOLVED key, so merged spellings count. v2 also needs each person's recency;
 # v1 has no notion of it and takes every mention ever made.
+TOPIC_TEXT_MATCH = """(t.title ilike %(topic)s
+             or m.descriptors::text ilike %(topic)s
+             or m.dishes::text ilike %(topic)s)"""
+
 TOPIC_HITS = """
     topic_hits as (
       select w.entity_key, v.person, max(v.w_recency) as w
@@ -52,9 +62,7 @@ TOPIC_HITS = """
       join mention_v2 v on v.mention_id = w.mention_id
       join threads    t on t.id = w.thread_id
       join mentions   m on m.id = w.mention_id
-      where (t.title ilike %(topic)s
-             or m.descriptors::text ilike %(topic)s
-             or m.dishes::text ilike %(topic)s)
+      where {text_match}
         and (%(algo)s = 'v1' or v.w_recency > 0)
       group by 1, 2
     ),
@@ -186,7 +194,8 @@ def leaderboard_page(conn, f, fetch_all, fetch_value):
     if f.topic:
         params.update(topic=f"%{f.topic}%", algo=algo)
         cuisine_reach = "l.recent_reach" if algo == "v2" else "1"
-        cte = "with " + TOPIC_HITS.format(board=board, cuisine_reach=cuisine_reach)
+        cte = "with " + TOPIC_HITS.format(board=board, cuisine_reach=cuisine_reach,
+                                          text_match=TOPIC_TEXT_MATCH)
         join = "join topic tp on tp.entity_key = l.entity_key"
         if algo == "v2":
             # Within a topic, rank by reach WITHIN it, not overall reach:
@@ -394,6 +403,9 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
 
     `before` / `after` are (created_utc, id) pairs: id breaks ties between
     items posted in the same second (t1_ comments and t3_ posts never collide).
+    `after` returns the `limit` items immediately after the cursor, not the
+    newest `limit`: a reader catching up must not skip what came in between.
+    They still come back newest first, so a full page means "ask again".
     A text search has no index; it walks comments_created_idx backwards, which
     is ~0.1s for a common word and ~1s for one that is in nothing. Posts are
     few enough (~43k) to scan.
@@ -404,7 +416,7 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
     if q:
         c_where.append("c.body ilike %(q)s")
         t_where.append("(t.title ilike %(q)s or t.selftext ilike %(q)s)")
-        params["q"] = "%" + q.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"
+        params["q"] = like_pattern(q)
     if places_only:
         c_where.append("exists (select 1 from mentions m where m.comment_id = c.id)")
     for cursor, op, name in ((before, "<", "b"), (after, ">", "a")):
@@ -412,6 +424,8 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
             c_where.append(f"(c.created_utc, c.id) {op} (%({name}_at)s, %({name}_id)s)")
             t_where.append(f"(t.created_utc, t.id) {op} (%({name}_at)s, %({name}_id)s)")
             params[f"{name}_at"], params[f"{name}_id"] = cursor
+    # Walk away from the cursor: `before` down from it, `after` up from it.
+    d = "asc" if after else "desc"
     posts = "" if places_only else f"""
           union all
           (select 'post', t.id, t.id, t.author, t.score, t.created_utc,
@@ -419,7 +433,7 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
                   '/r/' || t.subreddit || '/comments/' || substr(t.id, 4) || '/', false
            from threads t
            where {" and ".join(t_where)}
-           order by t.created_utc desc, t.id desc
+           order by t.created_utc {d}, t.id {d}
            limit %(limit)s)"""
     return fetch_all(conn, f"""
         with page as (
@@ -428,10 +442,10 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
                     c.body, c.permalink, c.was_deleted_later
              from comments c
              where {" and ".join(c_where)}
-             order by c.created_utc desc, c.id desc
+             order by c.created_utc {d}, c.id {d}
              limit %(limit)s){posts}
           ) u
-          order by created_utc desc, id desc
+          order by created_utc {d}, id {d}
           limit %(limit)s
         )
         select p.kind, p.id, p.author, p.score, p.created_utc, p.body,
@@ -676,10 +690,6 @@ LEDGER_CATEGORIES_V2 = {
                  "sentiment"),
 }
 
-# Which table each algorithm reads. v2 has every v1 column under the same name.
-LEDGER_BOARDS = {"v1": "entity_leaderboard", "v2": "entity_leaderboard_v2"}
-
-
 def _ledger_select(algo):
     """The per-place columns that differ by algorithm."""
     if algo == "v2":
@@ -697,15 +707,22 @@ def _ledger_select(algo):
 # place the city files under that cuisine counts in full.
 TOPIC_JOIN = """
     join threads t on t.id = v.thread_id
-    join mentions mt on mt.id = v.mention_id
+    join mentions m on m.id = v.mention_id
     left join restaurants rt on rt.name_key = v.entity_key
 """
-TOPIC_WHERE = """
-    and (t.title ilike %(topic)s
-         or mt.descriptors::text ilike %(topic)s
-         or mt.dishes::text ilike %(topic)s
+TOPIC_WHERE = f"""
+    and ({TOPIC_TEXT_MATCH}
          or rt.cuisine ilike %(topic)s)
 """
+
+
+def _people_sql(algo):
+    """Distinct commenters in the window, v2 only: v1 has no use for it, and
+    the count(distinct) is not free."""
+    if algo != "v2":
+        return "null::bigint as people"
+    return ("count(distinct v.person) filter (where v.created_utc >"
+            " now() - make_interval(days => %(window)s)) as people")
 
 
 def ledger_items(conn, category, window, cuisine, borough, needs, flaws, limit, fetch_all,
@@ -717,10 +734,10 @@ def ledger_items(conn, category, window, cuisine, borough, needs, flaws, limit, 
     the counts are windowed. A week is too little evidence to score taste.
     """
     where_sql, rank_sql = (LEDGER_CATEGORIES_V2 if algo == "v2" else LEDGER_CATEGORIES)[category]
-    board = LEDGER_BOARDS[algo]
+    board = BOARDS[algo]
     filters, params = [], {"window": window, "limit": limit}
     if topic:
-        params["topic"] = f"%{topic}%"
+        params["topic"] = like_pattern(topic)
     if cuisine:
         filters.append("l.cuisine = %(cuisine)s")
         params["cuisine"] = cuisine
@@ -754,6 +771,10 @@ def ledger_items(conn, category, window, cuisine, borough, needs, flaws, limit, 
         ),""" if flaws else ""
     cuts_join = "cross join cuts" if flaws else ""
 
+    # People are only ranked on under v2; v1 reports none rather than a number
+    # nothing uses.
+    people_sql = _people_sql(algo)
+
     # mention_v2 is one row per mention_weights row, plus `person`, which the
     # v2 "top" ranking counts. Raw counts are the same under either algorithm.
     return fetch_all(conn, f"""
@@ -761,8 +782,7 @@ def ledger_items(conn, category, window, cuisine, borough, needs, flaws, limit, 
           select v.entity_key,
                  count(*) filter (where v.created_utc >  now() - make_interval(days => %(window)s)) as current,
                  count(*) filter (where v.created_utc <= now() - make_interval(days => %(window)s)) as previous,
-                 count(distinct v.person)
-                       filter (where v.created_utc >  now() - make_interval(days => %(window)s)) as people
+                 {people_sql}
           from mention_v2 v
           {TOPIC_JOIN if topic else ""}
           where v.created_utc > now() - make_interval(days => 2 * %(window)s)
@@ -797,31 +817,40 @@ def ledger_items(conn, category, window, cuisine, borough, needs, flaws, limit, 
     """, params)
 
 
-def ledger_one(conn, entity_key, window, fetch_all, algo="v1"):
+def ledger_one(conn, entity_key, window, fetch_all, algo="v1", topic=None):
     """ledger_items' row shape for a single entity, ranked or not.
 
     Zero counts are real answers here -- a place searched for by name may not
     have been mentioned this window -- so this starts from the leaderboard
-    and left-joins the counts rather than starting from the counts.
+    and left-joins the counts rather than starting from the counts. Under a
+    `topic` it counts the same mentions ledger_items does, so a place opened
+    from search shows the numbers it has in the list.
     """
+    params = {"key": entity_key, "window": window}
+    if topic:
+        params["topic"] = like_pattern(topic)
     return fetch_all(conn, f"""
         select l.entity_key,
                coalesce(c.current, 0)::int  as current,
                coalesce(c.previous, 0)::int as previous,
+               c.people::int as people,
                l.official_name, l.cuisine, l.boroughs,
                l.raw_mentions, l.distinct_authors,
                l.food, l.value, l.service, l.atmosphere, l.wait,
                {_ledger_select(algo)}
-        from {LEDGER_BOARDS[algo]} l
+        from {BOARDS[algo]} l
         left join lateral (
-          select count(*) filter (where w.created_utc >  now() - make_interval(days => %(window)s)) as current,
-                 count(*) filter (where w.created_utc <= now() - make_interval(days => %(window)s)) as previous
-          from mention_weights w
-          where w.entity_key = l.entity_key
-            and w.created_utc > now() - make_interval(days => 2 * %(window)s)
+          select count(*) filter (where v.created_utc >  now() - make_interval(days => %(window)s)) as current,
+                 count(*) filter (where v.created_utc <= now() - make_interval(days => %(window)s)) as previous,
+                 {_people_sql(algo)}
+          from mention_v2 v
+          {TOPIC_JOIN if topic else ""}
+          where v.entity_key = l.entity_key
+            and v.created_utc > now() - make_interval(days => 2 * %(window)s)
+            {TOPIC_WHERE if topic else ""}
         ) c on true
         where l.entity_key = %(key)s
-    """, {"key": entity_key, "window": window})
+    """, params)
 
 
 def all_names(conn, min_mentions, fetch_all):
@@ -845,30 +874,36 @@ def all_names(conn, min_mentions, fetch_all):
     """, (min_mentions,))
 
 
-def ledger_series(conn, keys, window, bucket, fetch_all):
+def ledger_series(conn, keys, window, bucket, fetch_all, topic=None):
     """Mention counts per bucket, for the current and the previous window.
 
     Buckets count back from now inside each window separately, so the two
     series line up bucket for bucket even when the window is not a whole
-    number of weeks.
+    number of weeks. Under a `topic` only the mentions ledger_items counts are
+    drawn, so the chart adds up to `current` and `previous`.
     """
     if not keys:
         return []
-    return fetch_all(conn, """
+    params = {"keys": list(keys), "window": window, "bucket": bucket}
+    if topic:
+        params["topic"] = like_pattern(topic)
+    return fetch_all(conn, f"""
         select entity_key,
                age < %(window)s as is_current,
                floor((case when age < %(window)s then age else age - %(window)s end)
                      / %(bucket)s)::int as idx,
                count(*)::int as n
         from (
-          select w.entity_key,
-                 extract(epoch from (now() - w.created_utc)) / 86400.0 as age
-          from mention_weights w
-          where w.entity_key = any(%(keys)s)
-            and w.created_utc > now() - make_interval(days => 2 * %(window)s)
+          select v.entity_key,
+                 extract(epoch from (now() - v.created_utc)) / 86400.0 as age
+          from mention_v2 v
+          {TOPIC_JOIN if topic else ""}
+          where v.entity_key = any(%(keys)s)
+            and v.created_utc > now() - make_interval(days => 2 * %(window)s)
+            {TOPIC_WHERE if topic else ""}
         ) s
         group by 1, 2, 3
-    """, {"keys": list(keys), "window": window, "bucket": bucket})
+    """, params)
 
 
 def top_neighborhoods(conn, keys, fetch_all):
