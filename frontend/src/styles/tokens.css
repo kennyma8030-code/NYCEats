@@ -9,7 +9,6 @@
   --display: "Newsreader", Georgia, "Times New Roman", serif;
   --voice: "Newsreader", Georgia, serif;
 
-  --panel-w: 58vw;
   --ease: cubic-bezier(.2, .7, .2, 1);
 }
 

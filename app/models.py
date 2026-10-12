@@ -375,6 +375,33 @@ class LedgerItem(BaseModel):
     strong_neg_share: Optional[float] = None  # of recent, upvote-weighted opinion
 
 
+class FeedPlace(BaseModel):
+    key: str
+    name: str
+
+
+class FeedItem(BaseModel):
+    """One post or comment in the stream. `cursor` is opaque: pass it back as
+    before= for older items or after= for newer ones. `title` is the post's
+    own title for a post, and the thread it is in for a comment."""
+    kind: Literal["post", "comment"]
+    id: str
+    cursor: str
+    author: Optional[str] = None
+    score: Optional[int] = None
+    created_utc: datetime
+    body: str
+    permalink: Optional[str] = None
+    was_deleted_later: bool = False
+    title: Optional[str] = None
+    num_comments: Optional[int] = None        # posts only
+    places: list[FeedPlace]
+
+
+class Feed(BaseModel):
+    items: list[FeedItem]
+
+
 class Ledger(BaseModel):
     category: LedgerCategory
     window_days: int

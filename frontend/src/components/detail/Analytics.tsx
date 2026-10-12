@@ -14,9 +14,10 @@ interface Props {
   window: WindowDays;
   open: boolean;
   algo: Algo;
+  onBack: () => void;
 }
 
-export function Analytics({ item, window, open, algo }: Props) {
+export function Analytics({ item, window, open, algo, onBack }: Props) {
   const { data } = useRestaurant(item.entity_key, algo);
   const nameRef = useRef<HTMLHeadingElement>(null);
 
@@ -36,6 +37,12 @@ export function Analytics({ item, window, open, algo }: Props) {
 
   return (
     <section className="an">
+      <button type="button" className="sh-back" onClick={onBack}>
+        <svg viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M10 3.5L5.5 8l4.5 4.5" />
+        </svg>
+        Back
+      </button>
       <div>
         {eyebrow && <p className="sh-eye">{eyebrow}</p>}
         <h2 className="sh-name" id="sh-name" tabIndex={-1} ref={nameRef}>

@@ -12,7 +12,7 @@ interface Props {
   onClose: () => void;
 }
 
-/** One panel on the right: analytics fixed on the left, comments scrolling on the right. */
+/** A full-screen panel: analytics fixed on the left, comments scrolling on the right. */
 export function DetailPanel({ item, open, window, algo, onClose }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -36,8 +36,8 @@ export function DetailPanel({ item, open, window, algo, onClose }: Props) {
     >
       {item && (
         <>
-          <Analytics item={item} window={window} open={open} algo={algo} />
-          <CommentList entityKey={item.entity_key} onClose={onClose} />
+          <Analytics item={item} window={window} open={open} algo={algo} onBack={onClose} />
+          <CommentList entityKey={item.entity_key} />
         </>
       )}
     </div>

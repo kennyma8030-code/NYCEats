@@ -3,7 +3,7 @@
 .cm-head {
   display: flex; justify-content: space-between; align-items: center; gap: 12px;
   border-bottom: 1px solid var(--line); background: var(--surface);
-  padding: calc(env(safe-area-inset-top, 0px) + 18px) 18px 14px 24px;
+  padding: calc(env(safe-area-inset-top, 0px) + 18px) 24px 14px;
 }
 /* Same segmented look as the rail's period picker, sized for the header. */
 .cm-sort { display: flex; gap: 4px; margin-left: auto }

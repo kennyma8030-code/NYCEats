@@ -1,5 +1,5 @@
 import type {
-  Algo, CommentSort, Facets, LedgerItem, LedgerResponse, Mention, NameRow, Page, RestaurantDetail, WindowDays,
+  Algo, CommentSort, Facets, Feed, LedgerItem, LedgerResponse, Mention, NameRow, Page, RestaurantDetail, WindowDays,
 } from "./types";
 import type { Filters } from "../state/filters";
 
@@ -86,4 +86,16 @@ export const api = {
       `/api/restaurants/${key(entityKey)}/mentions?sort=${sort}&limit=${limit}&offset=${offset}`,
       signal,
     ),
+  /** The whole subreddit's posts and comments, newest first. Not memoized: it is live. */
+  feed: (
+    o: { q?: string; placesOnly?: boolean; before?: string; after?: string; limit?: number },
+    signal?: AbortSignal,
+  ) => {
+    const p = new URLSearchParams({ limit: String(o.limit ?? 30) });
+    if (o.q) p.set("q", o.q);
+    if (o.placesOnly) p.set("places_only", "true");
+    if (o.before) p.set("before", o.before);
+    if (o.after) p.set("after", o.after);
+    return get<Feed>(`/api/feed?${p}`, signal);
+  },
 };

@@ -98,8 +98,11 @@ function toUrl(f: Filters) {
   if (f.borough) p.set("borough", f.borough);
   f.needs.forEach((n) => p.append("need", n));
   f.flaws.forEach((n) => p.append("flaw", n));
-  // The open restaurant is not a filter, but it shares the query string.
-  const r = new URLSearchParams(window.location.search).get("r");
+  // The open restaurant and the view are not filters, but share the query string.
+  const cur = new URLSearchParams(window.location.search);
+  const view = cur.get("view");
+  if (view) p.set("view", view);
+  const r = cur.get("r");
   if (r) p.set("r", r);
   const qs = p.toString();
   window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
@@ -114,6 +117,20 @@ export function setRestaurantInUrl(key: string | null) {
   const p = new URLSearchParams(window.location.search);
   if (key) p.set("r", key);
   else p.delete("r");
+  const qs = p.toString();
+  window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
+}
+
+export type View = "restaurants" | "comments";
+
+export function viewFromUrl(): View {
+  return new URLSearchParams(window.location.search).get("view") === "comments" ? "comments" : "restaurants";
+}
+
+export function setViewInUrl(view: View) {
+  const p = new URLSearchParams(window.location.search);
+  if (view === "comments") p.set("view", "comments");
+  else p.delete("view");
   const qs = p.toString();
   window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
 }

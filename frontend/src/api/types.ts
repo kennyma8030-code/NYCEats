@@ -113,3 +113,33 @@ export interface Page<T> {
   limit: number;
   offset: number;
 }
+
+/** A restaurant a stream comment mentions. */
+export interface FeedPlace {
+  key: string;
+  name: string;
+}
+
+/** One post or comment in the live stream, newest first. `cursor` is opaque:
+ *  pass it back as before= for older items or after= for newer ones. */
+export interface FeedItem {
+  kind: "post" | "comment";
+  id: string;
+  cursor: string;
+  author: string | null;
+  score: number | null;
+  created_utc: string;
+  body: string;
+  permalink: string | null;
+  was_deleted_later: boolean;
+  /** The post's own title for a post; the thread it is in for a comment. */
+  title: string | null;
+  /** Posts only. */
+  num_comments: number | null;
+  /** Comments only: posts are not extracted. */
+  places: FeedPlace[];
+}
+
+export interface Feed {
+  items: FeedItem[];
+}

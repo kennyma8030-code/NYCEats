@@ -27,7 +27,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from .db import close_pool, open_pool
-from .routers import admin, ledger, public, restaurants
+from .routers import admin, feed, ledger, public, restaurants
 
 DESCRIPTION = """
 A read API over r/FoodNYC.
@@ -90,6 +90,7 @@ def database_error(request: Request, exc: psycopg2.Error):
 
 app.include_router(public.router)
 app.include_router(ledger.router)
+app.include_router(feed.router)
 app.include_router(restaurants.router)
 app.include_router(admin.router)
 

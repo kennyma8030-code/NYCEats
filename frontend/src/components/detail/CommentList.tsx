@@ -6,7 +6,6 @@ import "./CommentList.css";
 
 interface Props {
   entityKey: string;
-  onClose: () => void;
 }
 
 const SORTS: { value: CommentSort; label: string; title: string }[] = [
@@ -15,7 +14,7 @@ const SORTS: { value: CommentSort; label: string; title: string }[] = [
   { value: "oldest", label: "Oldest", title: "Oldest first" },
 ];
 
-export function CommentList({ entityKey, onClose }: Props) {
+export function CommentList({ entityKey }: Props) {
   // Kept across restaurants: someone reading "Newest" wants it on the next one too.
   const [sort, setSort] = useState<CommentSort>("score");
   const { items, total, loading, error, hasMore, loadMore } = useComments(entityKey, sort);
@@ -36,11 +35,6 @@ export function CommentList({ entityKey, onClose }: Props) {
             </button>
           ))}
         </div>
-        <button type="button" className="sh-x" aria-label="Close" onClick={onClose}>
-          <svg viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M3.5 3.5l9 9M12.5 3.5l-9 9" />
-          </svg>
-        </button>
       </div>
       <ol className="cm-list" ref={listRef}>
         {items.map((m) => (

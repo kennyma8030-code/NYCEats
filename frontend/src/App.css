@@ -8,17 +8,5 @@
   .page { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-top: 20px }
 }
 
-/* While the detail panel is open the page keeps its layout, pushed into the
-   space to the left of it. */
-body.split .page {
-  max-width: none; margin: 0;
-  grid-template-columns: 190px minmax(0, 1fr); gap: 36px;
-  padding-right: calc(var(--panel-w) + 20px);
-}
-@media (max-width: 1100px) {
-  body.split .page { grid-template-columns: minmax(0, 1fr); gap: 24px }
-}
-@media (max-width: 760px) {
-  body.split { overflow: hidden }
-  body.split .page { padding-right: 0 }
-}
+/* The detail panel covers the page; keep the page from scrolling underneath. */
+body.split { overflow: hidden }

@@ -1,19 +1,25 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "./api/client";
 import type { Algo, LedgerItem, WindowDays } from "./api/types";
-import { restaurantFromUrl, setRestaurantInUrl, useFilters } from "./state/filters";
+import { restaurantFromUrl, setRestaurantInUrl, setViewInUrl, useFilters, viewFromUrl, type View } from "./state/filters";
 import { useLedger } from "./hooks/useLedger";
 import { useFacets } from "./hooks/useFacets";
 import type { NameHit } from "./lib/search";
 import { Rail } from "./components/rail/Rail";
 import { LedgerList } from "./components/ledger/LedgerList";
 import { DetailPanel } from "./components/detail/DetailPanel";
+import { LiveFeed } from "./components/feed/LiveFeed";
 import "./App.css";
 
 export default function App() {
   const { filters, update, toggleNeed, toggleFlaw, clear } = useFilters();
   const ledger = useLedger(filters);
   const facets = useFacets();
+  const [view, setView] = useState<View>(viewFromUrl);
+  useEffect(() => {
+    setViewInUrl(view);
+    window.scrollTo(0, 0);
+  }, [view]);
 
   // The selected row is kept after close so the panel can slide out with its
   // content intact; `open` is what actually shows it. `selectedWindow` is the
@@ -138,6 +144,8 @@ export default function App() {
     <>
       <div className="page">
         <Rail
+          view={view}
+          onView={setView}
           filters={filters}
           facets={facets.data}
           onChange={update}
@@ -148,15 +156,19 @@ export default function App() {
           onPreview={preview}
           opening={opening}
         />
-        <LedgerList
-          filters={filters}
-          data={ledger.data}
-          loading={ledger.loading}
-          error={ledger.error}
-          selectedKey={open ? selected?.entity_key ?? null : null}
-          onSelect={selectRow}
-          onClear={clear}
-        />
+        {view === "comments" ? (
+          <LiveFeed onOpen={openKey} />
+        ) : (
+          <LedgerList
+            filters={filters}
+            data={ledger.data}
+            loading={ledger.loading}
+            error={ledger.error}
+            selectedKey={open ? selected?.entity_key ?? null : null}
+            onSelect={selectRow}
+            onClear={clear}
+          />
+        )}
       </div>
       <DetailPanel item={selected} open={open} window={selectedWindow} algo={selectedAlgo} onClose={close} />
     </>

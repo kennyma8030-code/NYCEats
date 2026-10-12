@@ -386,6 +386,79 @@ def mentions_page(conn, entity_key, q, fetch_all, fetch_value):
     return rows, total
 
 
+def feed_items(conn, q, places_only, before, after, limit, fetch_all):
+    """Posts and comments together, newest first, optionally only those
+    containing `q`. Comments carry the places they mention, in the order they
+    mention them; posts carry none (extraction reads comments only), so
+    `places_only` leaves posts out.
+
+    `before` / `after` are (created_utc, id) pairs: id breaks ties between
+    items posted in the same second (t1_ comments and t3_ posts never collide).
+    A text search has no index; it walks comments_created_idx backwards, which
+    is ~0.1s for a common word and ~1s for one that is in nothing. Posts are
+    few enough (~43k) to scan.
+    """
+    c_where = ["c.body not in ('[deleted]', '[removed]')"]
+    t_where = ["true"]
+    params = {"limit": limit}
+    if q:
+        c_where.append("c.body ilike %(q)s")
+        t_where.append("(t.title ilike %(q)s or t.selftext ilike %(q)s)")
+        params["q"] = "%" + q.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"
+    if places_only:
+        c_where.append("exists (select 1 from mentions m where m.comment_id = c.id)")
+    for cursor, op, name in ((before, "<", "b"), (after, ">", "a")):
+        if cursor:
+            c_where.append(f"(c.created_utc, c.id) {op} (%({name}_at)s, %({name}_id)s)")
+            t_where.append(f"(t.created_utc, t.id) {op} (%({name}_at)s, %({name}_id)s)")
+            params[f"{name}_at"], params[f"{name}_id"] = cursor
+    posts = "" if places_only else f"""
+          union all
+          (select 'post', t.id, t.id, t.author, t.score, t.created_utc,
+                  case when t.selftext in ('[deleted]', '[removed]') then '' else coalesce(t.selftext, '') end,
+                  '/r/' || t.subreddit || '/comments/' || substr(t.id, 4) || '/', false
+           from threads t
+           where {" and ".join(t_where)}
+           order by t.created_utc desc, t.id desc
+           limit %(limit)s)"""
+    return fetch_all(conn, f"""
+        with page as (
+          select * from (
+            (select 'comment' as kind, c.id, c.thread_id, c.author, c.score, c.created_utc,
+                    c.body, c.permalink, c.was_deleted_later
+             from comments c
+             where {" and ".join(c_where)}
+             order by c.created_utc desc, c.id desc
+             limit %(limit)s){posts}
+          ) u
+          order by created_utc desc, id desc
+          limit %(limit)s
+        )
+        select p.kind, p.id, p.author, p.score, p.created_utc, p.body,
+               case when p.was_deleted_later then null else p.permalink end as permalink,
+               p.was_deleted_later, t.title,
+               case when p.kind = 'post' then
+                 greatest(t.num_comments, (select count(*) from comments x where x.thread_id = t.id))
+               end as num_comments,
+               coalesce(pl.places, '[]'::json) as places
+        from page p
+        join threads t on t.id = p.thread_id
+        left join lateral (
+          select json_agg(json_build_object('key', x.key, 'official_name', x.official_name)
+                          order by x.first) as places
+          from (
+            select al.resolved_key as key, min(m.id) as first, max(l.official_name) as official_name
+            from mentions m
+            join entity_alias al on al.entity_key = m.entity_key
+            join entity_leaderboard l on l.entity_key = al.resolved_key
+            where m.comment_id = p.id
+            group by al.resolved_key
+          ) x
+        ) pl on true
+        order by p.created_utc desc, p.id desc
+    """, params)
+
+
 def standout_negatives(conn, entity_key, limit, fetch_all):
     """The comments behind a v2 flag: recent, firsthand, strongly negative,
     harshest and most upvoted first. Same shape as mentions_page so the UI renders both alike."""

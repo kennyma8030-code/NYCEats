@@ -1,6 +1,6 @@
 /* Fixed column: content spread over the full height. */
 .an {
-  min-height: 0; overflow-y: auto; display: flex; flex-direction: column; justify-content: space-between; gap: 22px;
+  min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 28px;
   padding: calc(env(safe-area-inset-top, 0px) + 26px) 28px calc(env(safe-area-inset-bottom, 0px) + 28px);
   border-right: 1px solid var(--line);
 }

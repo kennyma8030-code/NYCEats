@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { Facets, Flaw, Need } from "../../api/types";
-import { activeFilterCount, type Filters } from "../../state/filters";
+import { activeFilterCount, type Filters, type View } from "../../state/filters";
 import { CategoryPicker } from "./CategoryPicker";
 import { PeriodPicker } from "./PeriodPicker";
 import { FilterControls } from "./FilterControls";
@@ -11,6 +11,8 @@ import type { NameHit } from "../../lib/search";
 import "./Rail.css";
 
 interface Props {
+  view: View;
+  onView: (v: View) => void;
   filters: Filters;
   facets: Facets | null;
   onChange: (patch: Partial<Filters>) => void;
@@ -22,12 +24,13 @@ interface Props {
   opening: string | null;
 }
 
-export function Rail({ filters, facets, onChange, onToggleNeed, onToggleFlaw, onClear, onPick, onPreview, opening }: Props) {
+export function Rail({ view, onView, filters, facets, onChange, onToggleNeed, onToggleFlaw, onClear, onPick, onPreview, opening }: Props) {
   const more = useRef<HTMLDetailsElement>(null);
   const count = activeFilterCount(filters);
 
   // On wide screens the filters sit open in the rail; on phones they fold
-  // into a disclosure.
+  // into a disclosure. Re-run on coming back from the feed, which unmounts
+  // them: the new <details> starts closed.
   useEffect(() => {
     const wide = window.matchMedia("(min-width: 861px)");
     const sync = () => {
@@ -36,39 +39,52 @@ export function Rail({ filters, facets, onChange, onToggleNeed, onToggleFlaw, on
     sync();
     wide.addEventListener("change", sync);
     return () => wide.removeEventListener("change", sync);
-  }, []);
+  }, [view]);
 
   return (
     <aside className="rail">
       <p className="brand">
         NYCEats<span>New York</span>
       </p>
-      <SearchBox onPick={onPick} onPreview={onPreview} opening={opening} />
-      <div>
-        <p className="lab">Ranking</p>
-        <AlgoPicker value={filters.algo} onChange={(algo) => onChange({ algo })} />
-      </div>
-      <TopicBox value={filters.topic} onChange={(topic) => onChange({ topic })} />
-      <CategoryPicker value={filters.category} onChange={(category) => onChange({ category })} />
-      <div>
-        <p className="lab">Period</p>
-        <PeriodPicker value={filters.window} onChange={(window) => onChange({ window })} />
-      </div>
-      <details className="more" ref={more}>
-        <summary>
-          Filters <span>{count ? `${count} on` : ""}</span>
-        </summary>
-        <div className="fs-wrap">
-          <FilterControls
-            filters={filters}
-            facets={facets}
-            onChange={onChange}
-            onToggleNeed={onToggleNeed}
-            onToggleFlaw={onToggleFlaw}
-            onClear={onClear}
-          />
-        </div>
-      </details>
+      <nav className="views" aria-label="View">
+        <button type="button" aria-pressed={view === "restaurants"} onClick={() => onView("restaurants")}>
+          Restaurants
+        </button>
+        <button type="button" aria-pressed={view === "comments"} onClick={() => onView("comments")}>
+          <i className="live" aria-hidden="true" />
+          Live feed
+        </button>
+      </nav>
+      {view === "restaurants" && (
+        <>
+          <SearchBox onPick={onPick} onPreview={onPreview} opening={opening} />
+          <div>
+            <p className="lab">Ranking</p>
+            <AlgoPicker value={filters.algo} onChange={(algo) => onChange({ algo })} />
+          </div>
+          <TopicBox value={filters.topic} onChange={(topic) => onChange({ topic })} />
+          <CategoryPicker value={filters.category} onChange={(category) => onChange({ category })} />
+          <div>
+            <p className="lab">Period</p>
+            <PeriodPicker value={filters.window} onChange={(window) => onChange({ window })} />
+          </div>
+          <details className="more" ref={more}>
+            <summary>
+              Filters <span>{count ? `${count} on` : ""}</span>
+            </summary>
+            <div className="fs-wrap">
+              <FilterControls
+                filters={filters}
+                facets={facets}
+                onChange={onChange}
+                onToggleNeed={onToggleNeed}
+                onToggleFlaw={onToggleFlaw}
+                onClear={onClear}
+              />
+            </div>
+          </details>
+        </>
+      )}
     </aside>
   );
 }
