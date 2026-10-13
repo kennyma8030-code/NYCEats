@@ -5,9 +5,14 @@ the repo, plus the heuristics that tag each comment and each thread chunk.
 
 Every connection is opened read-only twice over: the libpq option
 default_transaction_read_only and psycopg2's readonly session. Nothing here
-writes anywhere but the cache directory ($V4_CACHE_DIR, default a temp dir),
-which holds comment text and production's stored output and must never be
-committed.
+writes anywhere but the cache directory ($V4_CACHE_DIR, default
+~/.cache/nyceats-eval-v4), which holds comment text and production's stored
+output and must never be committed.
+
+The snapshot in that cache IS the population every round samples. It cannot
+be re-read later (the live DB keeps changing), so keep the file:
+snapshot_<cutoff>.pickle. Its snapshot_at is recorded in design.json, and
+next_round.py refuses to draw from any other snapshot.
 
 Stored mentions are loaded ONLY to compute heuristics (a comment's mention
 count, its ancestors', whether its scores sit at the +1 default). They are
@@ -25,7 +30,6 @@ import os
 import pickle
 import re
 import sys
-import tempfile
 
 HERE = os.path.dirname(os.path.realpath(__file__))
 EVAL = os.path.dirname(HERE)
@@ -39,11 +43,8 @@ import prompt_thread  # noqa: E402  (MAX_DEPTH_INDENT)
 # days, so anything older has settled: its stored extraction will not change
 # under us between building the set and exporting production's output.
 CUTOFF = datetime.datetime(2026, 10, 9, tzinfo=datetime.timezone.utc)
-CACHE_DIR = os.environ.get("V4_CACHE_DIR") or os.path.join(tempfile.gettempdir(), "nyceats_eval_v4")
-
-# Production prompt hashes and the mode each ran in (same table as score.py).
-PROD_MODE = {"ca5439be83b3": "thread", "5b02ac883c80": "thread",
-             "1d5bac550078": "comment", "0d75b20b5f83": "comment"}
+# A stable place outside the repo, not /tmp: the snapshot must survive reboots.
+CACHE_DIR = os.environ.get("V4_CACHE_DIR") or os.path.expanduser("~/.cache/nyceats-eval-v4")
 ORIGINAL_THREAD_PROMPT = "ca5439be83b3"
 
 
@@ -103,13 +104,24 @@ def _fetch(conn):
             "snapshot_at": snap.isoformat(), "cutoff": CUTOFF.isoformat()}
 
 
-def load(refresh=False):
-    """The raw snapshot, from cache when present."""
+def snapshot_path():
+    return os.path.join(CACHE_DIR, f"snapshot_{CUTOFF:%Y%m%d}.pickle")
+
+
+def load(refresh=False, fetch_ok=True):
+    """The raw snapshot, from cache when present.
+
+    Reading a new one from the live DB gives a different population, so it
+    only happens when fetch_ok (round 1) or refresh is set, and says so."""
     os.makedirs(CACHE_DIR, exist_ok=True)
-    path = os.path.join(CACHE_DIR, f"snapshot_{CUTOFF:%Y%m%d}.pickle")
+    path = snapshot_path()
     if os.path.exists(path) and not refresh:
         with open(path, "rb") as f:
             return pickle.load(f)
+    if not (fetch_ok or refresh):
+        raise SystemExit(f"no corpus snapshot at {path}. Point V4_CACHE_DIR at the cache that built "
+                         "round 1; a new snapshot is a different population and cannot be pooled.")
+    print(f"reading a NEW snapshot from the live database into {path}", file=sys.stderr)
     conn = connect()
     snap = _fetch(conn)
     conn.close()
@@ -380,20 +392,36 @@ def production_order(rows):
 
 
 def visual_parent(seq, i):
-    """The comment a reader of the rendered chunk would take as i's parent:
-    the nearest earlier line indented exactly one step less. Indentation is
-    capped at MAX_DEPTH_INDENT, as in prompt_thread.build_message."""
+    """The comment a reader of the rendered chunk would take as i's parent.
+
+    Normally that is the nearest earlier line indented exactly one step less.
+    Indentation stops at MAX_DEPTH_INDENT (prompt_thread.build_message), so a
+    comment deeper than the cap is drawn flush with its parent; for it the
+    only readable parent is the line right above, whether that line sits at
+    the cap or one step short of it. A deep chain rendered consecutively
+    therefore reads correctly and counts as no misattachment."""
     cap = prompt_thread.MAX_DEPTH_INDENT
     d = min(seq[i].depth, cap)
-    if d == 0:
+    if d == 0 or i == 0:
         return None
+    if seq[i].depth > cap:
+        prev = seq[i - 1]
+        return prev.id if min(prev.depth, cap) >= cap - 1 else None
     for j in range(i - 1, -1, -1):
         dj = min(seq[j].depth, cap)
-        if dj == d - 1 or (d == cap and dj == cap - 1):
+        if dj == d - 1:
             return seq[j].id
         if dj < d - 1:
             return None
     return None
+
+
+def count_misattached(part):
+    """Replies whose real parent is in this chunk but is not the line the
+    indentation points to."""
+    ids = {c.id for c in part}
+    return sum(1 for i, c in enumerate(part)
+               if c.parent and c.parent in ids and visual_parent(part, i) != c.parent)
 
 
 CHUNK_TAGS = {
@@ -430,10 +458,7 @@ def build_chunks(comments, threads, ctags, gaz, hits, skip_threads=()):
             ids = {c.id for c in part}
             fails = sum(1 for c in part if ctags[c.id] & FAILURE_SIGNALS)
             outside = sum(1 for c in part if c.parent and c.parent not in ids)
-            mis = 0
-            for i, c in enumerate(part):
-                if c.parent and c.parent in ids and visual_parent(part, i) != c.parent:
-                    mis += 1
+            mis = count_misattached(part)
             nameless_replies = sum(1 for c in part if c.depth >= 1 and not hits(c))
             t = set()
             if fails >= 3 and fails >= 0.4 * len(part):
@@ -458,9 +483,8 @@ def build_chunks(comments, threads, ctags, gaz, hits, skip_threads=()):
 class Corpus:
     """Snapshot plus derived tags. Building the tags takes a few minutes."""
 
-    def __init__(self, refresh=False):
+    def __init__(self, snap):
         import json
-        snap = load(refresh)
         self.snapshot_at, self.cutoff = snap["snapshot_at"], snap["cutoff"]
         self.comments, self.threads, self.mentions = snap["comments"], snap["threads"], snap["mentions"]
         with open(os.path.join(EVAL, "excluded_entities.json"), encoding="utf-8") as f:
@@ -480,18 +504,54 @@ class Corpus:
         self.chunk_of = {cid: key for key, ch in self.chunks.items() for cid in ch["comment_ids"]}
 
 
-def cached_corpus(refresh=False):
-    """Corpus with its tags, cached next to the snapshot. The cache key
-    includes this file's source, so editing a heuristic rebuilds the tags."""
+# Everything the derived tags depend on besides the snapshot itself: the
+# heuristics, entity normalization and chain list, the renderer constants,
+# the exclusion list, and the old eval sets that are excluded.
+KEY_FILES = [os.path.realpath(__file__),
+             os.path.join(ROOT, "extract.py"), os.path.join(ROOT, "chains.txt"),
+             os.path.join(ROOT, "extract_threads.py"), os.path.join(ROOT, "prompt_thread.py"),
+             os.path.join(EVAL, "excluded_entities.json"), os.path.join(EVAL, "items.jsonl"),
+             os.path.join(EVAL, "v2", "items.jsonl"), os.path.join(EVAL, "v2", "topup_items.jsonl")]
+
+
+def cache_key():
+    """Hash of every KEY_FILES file plus the snapshot file's identity, so a
+    changed heuristic, exclusion list or snapshot rebuilds the tags."""
     import hashlib
-    with open(os.path.realpath(__file__), "rb") as f:
-        src = hashlib.md5(f.read()).hexdigest()[:10]
-    path = os.path.join(CACHE_DIR, f"corpus_{CUTOFF:%Y%m%d}_{src}.pickle")
-    if os.path.exists(path) and not refresh:
+    h = hashlib.md5()
+    for p in KEY_FILES:
+        h.update(p.encode())
+        if os.path.exists(p):
+            with open(p, "rb") as f:
+                h.update(f.read())
+    sp = snapshot_path()
+    if os.path.exists(sp):
+        st = os.stat(sp)
+        h.update(f"{st.st_size}:{st.st_mtime_ns}".encode())
+    return h.hexdigest()[:12]
+
+
+def cached_corpus(refresh=False, expect_snapshot=None, fetch_ok=True):
+    """Corpus with its tags, cached next to the snapshot under cache_key().
+
+    expect_snapshot: refuse (SystemExit) unless the snapshot is exactly the one
+    a previous round was drawn from. Checked before any tag is computed."""
+    snap = None
+    if refresh or not os.path.exists(snapshot_path()):
+        snap = load(refresh, fetch_ok)
+    path = os.path.join(CACHE_DIR, f"corpus_{CUTOFF:%Y%m%d}_{cache_key()}.pickle")
+    if os.path.exists(path):
         with open(path, "rb") as f:
             cp = pickle.load(f)
+        got = cp.snapshot_at
     else:
-        cp = Corpus(refresh)
+        snap = snap or load(False, fetch_ok)
+        got = snap["snapshot_at"]
+    if expect_snapshot and got != expect_snapshot:
+        raise SystemExit(f"corpus snapshot {got} is not round 1's {expect_snapshot}. Every round must "
+                         f"sample the same population; restore round 1's snapshot in {CACHE_DIR}.")
+    if not os.path.exists(path):
+        cp = Corpus(snap)
         cp.hits = None          # a closure; not picklable
         with open(path, "wb") as f:
             pickle.dump(cp, f, protocol=pickle.HIGHEST_PROTOCOL)

@@ -8,7 +8,7 @@ label set, broken down every way the design allows. No database, no model.
     python eval/v4/compare_v4.py --self-test             # production vs itself must be perfect
 
 Runs scored by default: production's stored output (production/*.jsonl in
-each round) and every eval/runs/*__v4*.jsonl (run.py ... --items
+each round, written by export_production.py after labeling) and every eval/runs/*__v4*.jsonl (run.py ... --items
 eval/v4/items_single.jsonl --tag v4, and the same with items_thread.jsonl).
 A comment-mode run is scored on single items, a thread-mode run on thread
 items, production on both.
@@ -46,6 +46,7 @@ import collections
 import glob
 import json
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.realpath(__file__))
@@ -61,11 +62,26 @@ SHOW = ["drop_rate", "mention_recall", "negative_mention_recall", "value_complai
         "dish_negative_recall", "sign_accuracy", "mention_precision", "comments"]
 
 
-def load_jsonl(path):
-    return L.load_jsonl(path)
+load_jsonl = S.load_jsonl
 
 
 # ---------------------------------------------------------------- items and weights
+def round_dirs(base=HERE):
+    """Round 1 plus every complete round<N>/ under it, in round order. A
+    round directory without items.jsonl and design.json is incomplete (a
+    draw that failed, or one being written) and is skipped with a warning;
+    next_round.py writes into a hidden temp dir, so normally none exist."""
+    out = [base]
+    found = [p for p in glob.glob(os.path.join(base, "round*"))
+             if os.path.isdir(p) and re.fullmatch(r"round\d+", os.path.basename(p))]
+    for p in sorted(found, key=lambda p: int(os.path.basename(p)[5:])):
+        if all(os.path.exists(os.path.join(p, f)) for f in ("items.jsonl", "design.json")):
+            out.append(p)
+        else:
+            print(f"warning: skipping incomplete round directory {p}", file=sys.stderr)
+    return out
+
+
 def load_rounds(dirs):
     """Items from every round, with a combined weight when rounds are pooled:
     pi = sum over rounds of the item's inclusion probability under that
@@ -228,12 +244,14 @@ def main():
     ap.add_argument("--self-test", action="store_true",
                     help="use production's stored output as the reference; it must score perfectly")
     args = ap.parse_args()
-    dirs = args.dirs or [HERE] + sorted(glob.glob(os.path.join(HERE, "round*")))
+    dirs = args.dirs or round_dirs()
     items = load_rounds(dirs)
     alias, excluded = S.load_map("alias_overrides.json"), S.load_map("excluded_entities.json")
     prod = [p for d in dirs for p in sorted(glob.glob(os.path.join(d, "production", "*.jsonl")))]
 
     if args.self_test:
+        if not prod:
+            raise SystemExit("no production export: run export_production.py once labeling is finished")
         reps, covered, _ = load_runs(prod, items)
         ref = L.gold_lines(items, {c: reps[0].get(c, []) for c in covered[0]}, alias, excluded, "production")
         r = score_run("production", prod, ref, items, alias, excluded)["metrics"]["all"]

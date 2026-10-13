@@ -8,8 +8,9 @@ same prompt the candidates get, in two passes:
 - **full_context** sees the whole conversation and serves as the gold pass.
 
 Unlike v1, no label is ever checked against production output. The labels
-are blind to production, and production's output sits in its own directory
-that the labeling batches never reference.
+are blind to production: its output is not exported at all until a round's
+labeling is finished (`export_production.py` refuses before then), and the
+export is gitignored, so it never sits where a labeler could browse it.
 
 Round 1 has **504 comments**. 250 are single comments in comment mode (200
 new, plus 50 overlapping v1 gold). The other 254 sit in 14 thread chunks in
@@ -31,7 +32,8 @@ weight. Labeling has not started.
 | `compare_v4.py` | Scores runs, production and Claude per mode, stratum, tag, split and weight; reports ceilings |
 | `next_round.py` | Measures failure rates and draws round 2, 3, ... |
 | `items.jsonl` | Round 1: 250 `comment` items and 14 `thread` items. `items_single.jsonl` and `items_thread.jsonl` hold the same items split for `run.py` |
-| `production/production__stored__v4.jsonl` | Production's stored output for all 504 comments. **Never give this to a labeler** |
+| `export_production.py` | Exports production's stored output for a round into `production/`, **only once both label passes are complete**, and checks it against the round's snapshot. `production/` is gitignored and never committed |
+| `selftest.py` | Regression checks: misattachment counting, label export failures, duplicate placement in batches |
 
 `items.jsonl` is also blind: it contains no stored mention and no
 `extracted_with`. Item ids are assigned in hashed order, so an id says
@@ -76,14 +78,22 @@ every eligible comment, as a full re-extraction after `--reset` would. A
 plain run would only see the comments still pending. Things that surprised
 me:
 
-1. **Indentation points at the wrong parent for 10.9% of replies.** Within a
+1. **Indentation points at the wrong parent for 9.75% of replies.** Within a
    root, replies are sorted by time, not depth-first. The model reads
    "a comment indented under another is replying to it", so a late reply to
    an early sibling lands under whichever comment came just before it. In
    t002 (Keens), `[10]` replies to `[8]` but sits under `[9]`, and `[15]`
-   replies to `[13]` but sits under `[14]`. Over the corpus, 37,584 of
-   344,189 replies are misattached this way. This is a renderer bug, not a
-   prompt problem, and it is its own stratum (`chunk_misattached`).
+   replies to `[13]` but sits under `[14]`. Over the corpus, 33,560 of
+   344,189 replies are misattached. 31,880 of them are this time-ordering at
+   depth ≤ 6. The other 1,680 are past the depth-6 indentation cap, where a
+   reply is drawn flush with its parent and so can only be read as replying
+   to the line right above it. That is wrong when two replies share a capped
+   parent. This is a renderer bug, not a prompt problem, and it is its own
+   stratum (`chunk_misattached`). The first build reported 37,584 (10.9%):
+   it also counted 4,024 consecutive deep-chain replies past the cap as
+   misattached, although they read correctly (`visual_parent` never accepted
+   a parent drawn at the cap). The corrected stratum kept every drawn chunk;
+   only thread weights moved.
 2. **11.5% of replies have no parent in their chunk.** In 22,390 the parent
    is in another chunk. In the rest it is deleted, 15 characters or
    shorter, or missing.
@@ -188,11 +198,11 @@ Thread-mode strata:
 
 | stratum | chunks M_s | comments in stratum | drawn (random + targeted) | comments | holdout chunks |
 |---|---:|---:|---:|---:|---:|
-| chunk_misattached | 7,273 | 176,904 | 1 + 2 | 75 | 1 |
-| chunk_parent_outside | 2,070 | 46,917 | 0 + 2 | 43 | 0 |
-| chunk_title_names_place | 2,967 | 53,747 | 0 + 3 | 36 | 1 |
-| chunk_failure_dense | 2,478 | 40,091 | 0 + 3 | 40 | 1 |
-| none | 35,708 | 350,508 | 3 + 0 | 60 | 0 |
+| chunk_misattached | 6,791 | 165,799 | 1 + 2 | 75 | 1 |
+| chunk_parent_outside | 2,198 | 49,993 | 0 + 2 | 43 | 0 |
+| chunk_title_names_place | 3,033 | 55,247 | 0 + 3 | 36 | 1 |
+| chunk_failure_dense | 2,540 | 41,450 | 0 + 3 | 40 | 1 |
+| none | 35,934 | 355,678 | 3 + 0 | 60 | 0 |
 
 `design.json` has every number above, plus tag counts in the sample and in
 the population.
@@ -244,15 +254,18 @@ assignment.
 | long_parent | the parent comment mode sends is over 1,500 characters | 1,834 | – | 0 | 0 |
 
 Chunk-level tags, computed on production's chunking of the full thread. The
-visual parent of a line is the nearest earlier line indented one step less,
-with indentation capped at 6 as production caps it.
+visual parent of a line is the nearest earlier line indented one step less.
+Indentation is capped at 6 as production caps it, so a reply deeper than 6
+is drawn flush with its parent and its visual parent is the line right above
+it (`corpus.visual_parent`; `selftest.py` checks that a consecutive deep
+chain counts as no misattachment).
 
 | tag | definition | population chunks | stratum | thread items tagged |
 |---|---|---:|---:|---:|
-| chunk_misattached | ≥ 2 replies whose real parent is in the chunk but is not the line the indentation points to | 7,443 | 7,273 | 3 |
-| chunk_parent_outside | ≥ 3 replies whose parent is not in the chunk (another chunk, or not sent) | 4,546 | 2,070 | 4 |
-| chunk_title_names_place | the title has a gazetteer name, and the chunk has ≥ 3 replies with no gazetteer name of their own | 4,763 | 2,967 | 4 |
-| chunk_failure_dense | ≥ 3 comments, and ≥ 40% of the chunk, carry a comment-level failure signal (any comment stratum except long_list and question_or_unvisited) | 6,261 | 2,478 | 4 |
+| chunk_misattached | ≥ 2 replies whose real parent is in the chunk but is not the line the indentation points to (past the cap: not the line right above) | 6,954 | 6,791 | 3 |
+| chunk_parent_outside | ≥ 3 replies whose parent is not in the chunk (another chunk, or not sent) | 4,546 | 2,198 | 4 |
+| chunk_title_names_place | the title has a gazetteer name, and the chunk has ≥ 3 replies with no gazetteer name of their own | 4,763 | 3,033 | 4 |
+| chunk_failure_dense | ≥ 3 comments, and ≥ 40% of the chunk, carry a comment-level failure signal (any comment stratum except long_list and question_or_unvisited) | 6,261 | 2,540 | 4 |
 | chunk_later | not the thread's first chunk (tag only) | 15,222 | – | 3 |
 | chunk_never_extracted | every comment in the chunk is unextracted (tag only) | 35,962 | – | 7 |
 
@@ -325,7 +338,8 @@ step.
 
 To label, give each Opus labeler the user's prompt plus one batch file (or
 the lines of `batches/<pass>/packets.jsonl` for that batch) and nothing
-else. Never give it `items.jsonl`, `keys/`, `production/` or v1/v2 files.
+else. Never give it `items.jsonl`, `keys/`, any `production/` export or
+v1/v2 files.
 Run the two passes with separate labelers.
 
 ---
@@ -333,9 +347,12 @@ Run the two passes with separate labelers.
 ## Scoring
 
 ```bash
-python eval/v4/labels.py check  --pass full_context          # every packet labeled, schema valid
+python eval/v4/labels.py check  --pass full_context          # every packet labeled, schema valid (exit 1 if not)
 python eval/v4/labels.py export --pass full_context          # -> labels/full_context.run.jsonl + .gold.jsonl
 python eval/v4/labels.py export --pass same_input
+
+# only now, with both passes complete: production's stored output, checked against the snapshot
+EVAL_DB_URL=... python eval/v4/export_production.py           # -> production/ (gitignored) + export_meta.json
 
 # candidate models: the exact inputs, mode-matched
 python eval/run.py --model x/y --mode comment --items eval/v4/items_single.jsonl --tag v4 --prompt file:<prompt>
@@ -343,8 +360,24 @@ python eval/run.py --model x/y --mode thread  --items eval/v4/items_thread.jsonl
 
 python eval/v4/compare_v4.py --ref full_context    # gold reference
 python eval/v4/compare_v4.py --ref same_input      # same-input reference
-python eval/v4/compare_v4.py --self-test           # production vs itself: must be perfect (passes)
+python eval/v4/compare_v4.py --self-test           # production vs itself: must be perfect
+python eval/v4/selftest.py                         # tooling regression checks (no data needed)
 ```
+
+`labels.py export` fails with a nonzero exit, writing nothing, if any line
+is bad JSON, names a packet outside its batch, labels a packet twice, has a
+mention that fails the schema (a thread `id` that is not a bracket number
+included), or if any packet is unlabeled (`--allow-missing` exports a
+partial pass). Nothing is silently dropped or overwritten.
+
+`export_production.py` runs `eval/export_stored.py` unchanged and then
+compares every exported comment's `extracted_with` and (entity, prompt
+hash) set with the snapshot the round was drawn from. If production
+re-extracted any of them since, it stops and lists them (`--allow-drift`
+keeps the export and records the drift). `production/export_meta.json`
+records the command, the export time and the snapshot it was checked
+against, so the export can be regenerated at any time and shown to be the
+same production output that was sampled.
 
 `compare_v4.py` scores every comment with `score.py`'s `score_comment`, so
 the metrics mean exactly what `eval/README.md` says. A label gold mention
@@ -380,13 +413,22 @@ round's design. That is valid because all rounds sample the same snapshot.
 ## Round 2 and beyond
 
 ```bash
+# needs round 1 labeled, exported, and production exported (export_production.py)
 python eval/v4/next_round.py --ref full_context --dry-run           # failure rates + proposed allocation
 EVAL_DB_URL=... python eval/v4/next_round.py --ref full_context     # draws eval/v4/round2/
 python eval/v4/packets.py --dir eval/v4/round2 && python eval/v4/batches.py --dir eval/v4/round2
-EVAL_BASELINE_DIR=eval/v4/round2/production EVAL_DB_URL=... python eval/export_stored.py \
-    --items eval/v4/round2/items.jsonl --name production__stored__round2
-# label round2/batches/*, then labels.py export --dir eval/v4/round2, then compare_v4.py (pools all rounds)
+# label round2/batches/*, then labels.py export --pass ... --dir eval/v4/round2 for both passes
+EVAL_DB_URL=... python eval/v4/export_production.py --dir eval/v4/round2     # only after labeling
+python eval/v4/compare_v4.py                                        # pools all complete rounds
 ```
+
+`next_round.py` refuses to draw unless the cached corpus snapshot is the one
+round 1 was drawn from (`snapshot_at` in round 1's `design.json`), and it
+never reads a new snapshot from the live database. It builds the round in a
+hidden temp directory and renames it to `round<N>/` only when every file is
+written, so a failed draw leaves nothing behind. `compare_v4.py` and
+`next_round.py` skip, with a warning, any `round<N>/` that lacks
+`items.jsonl` or `design.json`.
 
 `next_round.py` compares the system under test (by default production; use
 `--system run.jsonl` for a model) with the reference labels on every
@@ -422,18 +464,27 @@ failures sat.
 ## Reproducing round 1
 
 ```bash
-EVAL_DB_URL=$DATABASE_URL PGOPTIONS='-c default_transaction_read_only=on' V4_CACHE_DIR=/somewhere/outside/the/repo \
-    python eval/v4/build_round1.py        # ~10 min first time: loads ~100 MB of text, caches it
+EVAL_DB_URL=$DATABASE_URL PGOPTIONS='-c default_transaction_read_only=on' \
+    python eval/v4/build_round1.py        # first time: reads ~100 MB of text into the cache
 EVAL_DB_URL=... python eval/v4/verify_inputs.py
 python eval/v4/packets.py && python eval/v4/batches.py
-EVAL_BASELINE_DIR=eval/v4/production EVAL_DB_URL=... python eval/export_stored.py \
-    --items eval/v4/items.jsonl --name production__stored__v4
 ```
 
+**The cache** is `~/.cache/nyceats-eval-v4/`, or `$V4_CACHE_DIR`. It is
+outside the repo and not in a temp directory, because
+`snapshot_20261009.pickle` *is* the population. Round 1's snapshot was read
+at `2026-10-13T20:11:58.568679+00:00` (in `design.json`). The live database
+has moved on since, so the file cannot be re-created. Keep it, since every
+later round and every re-weighting depends on it. Derived tags are cached
+next to it as `corpus_<cutoff>_<key>.pickle`. The key hashes `corpus.py`,
+`extract.py`, `chains.txt`, `extract_threads.py`, `prompt_thread.py`,
+`excluded_entities.json`, the v1/v2 item files and the snapshot file's
+size and mtime, so a change to any of them rebuilds the tags. The cache
+holds comment text and production output, so keep it out of the repo. The
+in-memory corpus is several GB, so expect swapping on a busy machine.
+
 Every connection is opened with `default_transaction_read_only=on` and a
-read-only session. The cache holds comment text and production output, so
-keep it out of the repo. The default is a temp directory. The in-memory
-corpus is several GB, so expect swapping on a busy machine.
+read-only session.
 
 ## Caveats and open questions
 

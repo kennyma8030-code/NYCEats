@@ -1,0 +1,6 @@
+# Production's stored output is exported only after labeling
+# (export_production.py) and regenerated from that command, never committed.
+production/
+.production-*/
+# A round being drawn by next_round.py before it is renamed into place.
+.round*/

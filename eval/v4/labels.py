@@ -28,7 +28,12 @@ mention neither required nor penalised), out_of_scope (boolean). Any other
 extra key is allowed and ignored. If the user's labeling prompt returns a
 different schema, write a mapping into this shape before export.
 
-EXPORT writes two files per pass:
+EXPORT refuses, exiting nonzero and writing nothing, if any line is bad JSON,
+names a packet outside its batch, labels a packet twice, or has a mention
+that fails the schema (a thread id that is not a bracket number included),
+or if any packet is unlabeled (--allow-missing exports a partial pass).
+Nothing is ever silently dropped or overwritten. Otherwise it writes two
+files per pass:
 
   labels/<pass>.run.jsonl    run.py's record format (rep 0 = primary copy,
                              rep 1 = the self-consistency duplicates), so the
@@ -63,11 +68,6 @@ REQUIRED = ("restaurant_raw", "neighborhood_hint", "dishes", "descriptors", "asp
 PASSES = ("same_input", "full_context")
 
 
-def load_jsonl(path):
-    with open(path, encoding="utf-8") as f:
-        return [json.loads(l) for l in f if l.strip()]
-
-
 def num_ok(v):
     return v is None or (isinstance(v, (int, float)) and not isinstance(v, bool) and -1 <= v <= 1)
 
@@ -100,45 +100,57 @@ def problems(m, mode, short_ids):
     return out
 
 
+class LabelError(SystemExit):
+    """Raised by export when any label is invalid: nothing is written."""
+
+
 def read_pass(d, pass_name):
-    """(key, {packet_id: output}, issues)."""
+    """(key, {packet_id: mentions}, errors, missing).
+
+    errors are hard failures: bad JSON, a packet id not in its batch, a
+    packet labeled twice, a missing mentions list, or a mention that fails
+    the schema (including a thread id that is not a bracket number in the
+    packet). A packet labeled twice is kept neither way. missing lists the
+    packets with no label yet."""
     with open(os.path.join(d, "keys", pass_name + ".json"), encoding="utf-8") as f:
         key = json.load(f)
-    got, issues = {}, []
+    got, errors, twice = {}, [], set()
     ldir = os.path.join(d, "labels", pass_name)
-    batches = sorted({v["batch"] for v in key.values()})
-    for b in batches:
+    for b in sorted({v["batch"] for v in key.values()}):
         path = os.path.join(ldir, b + ".jsonl")
         if not os.path.exists(path):
-            issues.append(f"{b}: no label file")
             continue
-        for n, line in enumerate(open(path, encoding="utf-8"), start=1):
+        with open(path, encoding="utf-8") as f:
+            lines = list(f)
+        for n, line in enumerate(lines, start=1):
             if not line.strip():
                 continue
             try:
                 rec = json.loads(line)
             except json.JSONDecodeError as e:
-                issues.append(f"{b}:{n}: bad JSON ({e})")
+                errors.append(f"{b}:{n}: bad JSON ({e})")
                 continue
-            pid = rec.get("packet_id")
+            pid = rec.get("packet_id") if isinstance(rec, dict) else None
             if pid not in key or key[pid]["batch"] != b:
-                issues.append(f"{b}:{n}: packet {pid!r} is not in this batch")
+                errors.append(f"{b}:{n}: packet {pid!r} is not in this batch")
                 continue
-            if pid in got:
-                issues.append(f"{b}:{n}: packet {pid} labeled twice")
+            if pid in got or pid in twice:
+                errors.append(f"{b}:{n}: packet {pid} labeled more than once")
+                got.pop(pid, None)
+                twice.add(pid)
+                continue
             out = rec.get("output")
             ms = out.get("mentions") if isinstance(out, dict) else None
             if not isinstance(ms, list):
-                issues.append(f"{b}:{n}: output has no mentions list")
+                errors.append(f"{b}:{n}: output has no mentions list")
                 continue
-            for i, m in enumerate(ms):
-                for p in problems(m, key[pid]["mode"], key[pid].get("short_ids", {})):
-                    issues.append(f"{b}:{n} {pid} mention {i}: {p}")
-            got[pid] = ms
-    missing = [pid for pid in key if pid not in got]
-    if missing:
-        issues.append(f"{len(missing)} packet(s) unlabeled, e.g. {missing[:5]}")
-    return key, got, issues
+            bad = [f"{b}:{n} {pid} mention {i}: {p}" for i, m in enumerate(ms)
+                   for p in problems(m, key[pid]["mode"], key[pid].get("short_ids", {}))]
+            errors += bad
+            if not bad:
+                got[pid] = ms
+    missing = [pid for pid in key if pid not in got and pid not in twice]
+    return key, got, errors, missing
 
 
 def as_gold_mention(m, alias, excluded):
@@ -188,15 +200,26 @@ def gold_lines(items, by_comment, alias, excluded, source):
                     continue          # the same place twice in one comment is one mention
                 seen.add(g["canonical_key"])
                 ms.append(g)
+            # Chains are dropped on both sides when scoring (production drops
+            # them at write time), so they are never a required mention.
             out.append({"item_id": it["item_id"], "comment_id": cid, "thread_id": it["thread_id"],
                         "source": source, "mentions": ms,
-                        "has_mention": any(S.is_required(g) for g in ms)})
+                        "has_mention": any(S.is_required(g) and g["canonical_key"] not in S.CHAINS
+                                           for g in ms)})
     return out
 
 
-def export(d, pass_name):
-    key, got, issues = read_pass(d, pass_name)
-    items = {it["item_id"]: it for it in load_jsonl(os.path.join(d, "items.jsonl"))}
+def export(d, pass_name, allow_missing=False):
+    """Write the run and gold files, or raise LabelError and write nothing."""
+    key, got, errors, missing = read_pass(d, pass_name)
+    problems_found = list(errors)
+    if missing and not allow_missing:
+        problems_found.append(f"{len(missing)} packet(s) unlabeled, e.g. {missing[:5]} "
+                              "(--allow-missing exports the rest)")
+    if problems_found:
+        raise LabelError("\n".join([f"{pass_name}: not exported, {len(problems_found)} problem(s):"]
+                                   + ["  " + p for p in problems_found[:200]]))
+    items = {it["item_id"]: it for it in S.load_jsonl(os.path.join(d, "items.jsonl"))}
     records, primary = [], {}
     for pid, ms in got.items():
         k = key[pid]
@@ -210,9 +233,7 @@ def export(d, pass_name):
             for c in it["comments"]:
                 by[c["comment_id"]]
             for m in ms:
-                cid = k["short_ids"].get(str(m.get("id")))
-                if cid:
-                    by[cid].append(m)
+                by[k["short_ids"][str(m.get("id"))]].append(m)   # ids validated in read_pass
         records.append({"call_key": call, "rep": k["copy"], "item_ids": [it["item_id"]],
                         "packet_id": pid, "model": f"claude-labels/{pass_name}", "prompt_hash": pass_name,
                         "mode": it["mode"], "json_ok": True, "error": None,
@@ -230,7 +251,14 @@ def export(d, pass_name):
             f.write(json.dumps(g, ensure_ascii=False) + "\n")
     print(f"{pass_name}: {len(records)} labeled packets -> {len(gold)} gold comments "
           f"({sum(g['has_mention'] for g in gold)} with a required mention)")
-    return issues
+
+
+def complete(d, pass_name):
+    """True when every packet of the pass has exactly one valid label."""
+    if not os.path.exists(os.path.join(d, "keys", pass_name + ".json")):
+        return False
+    _, _, errors, missing = read_pass(d, pass_name)
+    return not errors and not missing
 
 
 def main():
@@ -238,17 +266,17 @@ def main():
     ap.add_argument("cmd", choices=("check", "export"))
     ap.add_argument("--pass", dest="pass_name", choices=PASSES, required=True)
     ap.add_argument("--dir", default=HERE)
+    ap.add_argument("--allow-missing", action="store_true", help="export even if some packets are unlabeled")
     args = ap.parse_args()
-    if args.cmd == "check":
-        _, got, issues = read_pass(args.dir, args.pass_name)
-        print(f"{len(got)} packets labeled")
-    else:
-        issues = export(args.dir, args.pass_name)
-    for i in issues[:200]:
-        print("  " + i)
-    if issues:
-        print(f"{len(issues)} issue(s)")
-        sys.exit(1 if args.cmd == "check" else 0)
+    if args.cmd == "export":
+        export(args.dir, args.pass_name, args.allow_missing)    # LabelError exits nonzero
+        return
+    _, got, errors, missing = read_pass(args.dir, args.pass_name)
+    print(f"{len(got)} packets validly labeled, {len(missing)} unlabeled, {len(errors)} error(s)")
+    for e in errors[:200]:
+        print("  " + e)
+    if errors or missing:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

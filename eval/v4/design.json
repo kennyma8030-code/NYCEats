@@ -1,5 +1,5 @@
 {
- "built_at": "2026-10-13T17:24:43",
+ "built_at": "2026-10-13T17:50:11",
  "round": 1,
  "seed": "nyceats-eval-v4-r1",
  "spec": {
@@ -55,34 +55,34 @@
    ],
    "strata": {
     "chunk_misattached": {
-     "M": 7273,
+     "M": 6791,
      "n": 2,
      "r": 1,
-     "comments": 176904
+     "comments": 165799
     },
     "chunk_parent_outside": {
-     "M": 2070,
+     "M": 2198,
      "n": 2,
      "r": 0,
-     "comments": 46917
+     "comments": 49993
     },
     "chunk_title_names_place": {
-     "M": 2967,
+     "M": 3033,
      "n": 3,
      "r": 0,
-     "comments": 53747
+     "comments": 55247
     },
     "chunk_failure_dense": {
-     "M": 2478,
+     "M": 2540,
      "n": 3,
      "r": 0,
-     "comments": 40091
+     "comments": 41450
     },
     "none": {
-     "M": 35708,
+     "M": 35934,
      "n": 0,
      "r": 3,
-     "comments": 350508
+     "comments": 355678
     }
    }
   },
@@ -363,7 +363,7 @@
   "chunk_failure_dense": 6261,
   "chunk_title_names_place": 4763,
   "chunk_parent_outside": 4546,
-  "chunk_misattached": 7443,
+  "chunk_misattached": 6954,
   "chunk_later": 15222,
   "chunk_never_extracted": 35962
  }

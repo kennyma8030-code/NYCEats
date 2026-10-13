@@ -212,10 +212,10 @@ class Acc:
             self.levels.update(o.levels)
 
 
-def score_comment(gold, preds, mode, alias, excluded, drop_chains):
-    a = Acc()
+def model_mentions(preds, alias, drop_chains):
+    """A model's mentions for one comment, keyed (copied with _key), with
+    nameless entries and repeats of a key dropped, and chains too if asked."""
     ms, seen = [], set()
-    emits_dishes = False
     for m in preds or []:
         if not isinstance(m, dict) or not (m.get("restaurant_raw") or "").strip():
             continue
@@ -225,9 +225,14 @@ def score_comment(gold, preds, mode, alias, excluded, drop_chains):
         if drop_chains and m["_key"] in CHAINS:
             continue
         seen.add(m["_key"])
-        if model_dish_entries(m) is not None:
-            emits_dishes = True
         ms.append(m)
+    return ms
+
+
+def score_comment(gold, preds, mode, alias, excluded, drop_chains):
+    a = Acc()
+    ms = model_mentions(preds, alias, drop_chains)
+    emits_dishes = any(model_dish_entries(m) is not None for m in ms)
     gms = [g for g in gold["mentions"] if not (drop_chains and g["canonical_key"] in CHAINS)]
     required = [g for g in gms if is_required(g)]
     pairs, fps = match(gms, ms)

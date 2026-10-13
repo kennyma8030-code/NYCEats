@@ -33,6 +33,7 @@ re-weighted ones.
 import collections
 import datetime
 import hashlib
+import heapq
 import json
 import os
 
@@ -45,19 +46,33 @@ def h(*parts):
 
 
 # ---------------------------------------------------------------- draws
+def hash_order(xs, key, first):
+    """xs in key order, lazily: the first `first` come from a heap, and the
+    full sort happens only if the caller reads past them. The order is exactly
+    sorted(xs, key=key), so draws are identical either way."""
+    xs = list(xs)
+    head = heapq.nsmallest(first, xs, key=key)
+    yield from head
+    if len(head) < len(xs):
+        yield from sorted(xs, key=key)[first:]
+
+
 def draw_threads(cp, spec, seed, exclude_ids, exclude_threads):
-    """Chunks for thread mode. Returns (chosen [(chunk_key, draw)], design)."""
+    """Chunks for thread mode. Returns (chosen [(chunk_key, draw)], stratum, design)."""
     order = spec.get("strata_order", corpus.CHUNK_STRATA)
     pop = {k: ch for k, ch in cp.chunks.items()
            if k[0] not in exclude_threads and not exclude_ids.intersection(ch["comment_ids"])}
     n_comments = sum(len(ch["comment_ids"]) for ch in pop.values())
-    stratum = {k: corpus.stratum_of(ch["tags"], order) for k, ch in pop.items()}
-    M = collections.Counter(stratum.values())
+    stratum, buckets = {}, collections.defaultdict(list)
+    for key, ch in pop.items():
+        stratum[key] = s = corpus.stratum_of(ch["tags"], order)
+        buckets[s].append(key)
 
     chosen, threads = [], set()
-    # random, proportional to size
+    # random, proportional to size: comments in hashed order, each bringing its chunk
     budget, got, k = spec["random_comments"], 0, 0
-    for cid in sorted((c for ch in pop.values() for c in ch["comment_ids"]), key=lambda c: h(seed, "rand-t", c)):
+    comments = (c for ch in pop.values() for c in ch["comment_ids"])
+    for cid in hash_order(comments, lambda c: h(seed, "rand-t", c), 4 * budget + 64):
         if got >= budget:
             break
         k += 1
@@ -73,7 +88,7 @@ def draw_threads(cp, spec, seed, exclude_ids, exclude_threads):
     n = collections.Counter()
     for s in order:
         budget, got = spec["strata_comments"].get(s, 0), 0
-        for key in sorted((x for x in pop if stratum[x] == s), key=lambda x: h(seed, "tgt-t", *x)):
+        for key in hash_order(buckets[s], lambda x: h(seed, "tgt-t", *x), 64):
             if got >= budget:
                 break
             if key[0] in threads:
@@ -85,8 +100,8 @@ def draw_threads(cp, spec, seed, exclude_ids, exclude_threads):
     design = {"unit": "chunk", "population_chunks": len(pop), "population_comments": n_comments,
               "random_draws_k": k, "random_comments_budget": spec["random_comments"],
               "strata_order": order,
-              "strata": {s: {"M": M[s], "n": n[s], "r": r[s],
-                             "comments": sum(len(pop[x]["comment_ids"]) for x in pop if stratum[x] == s)}
+              "strata": {s: {"M": len(buckets[s]), "n": n[s], "r": r[s],
+                             "comments": sum(len(pop[x]["comment_ids"]) for x in buckets[s])}
                          for s in order + ["none"]}}
     return chosen, stratum, design
 
@@ -95,23 +110,25 @@ def draw_comments(cp, spec, seed, exclude_ids):
     """Single comments for comment mode. Returns (chosen [(cid, draw)], stratum, design)."""
     order = spec.get("strata_order", corpus.COMMENT_STRATA)
     pop = [c.id for c in cp.eligible if c.id not in exclude_ids]
-    stratum = {cid: corpus.stratum_of(cp.tags[cid], order) for cid in pop}
+    stratum, buckets = {}, collections.defaultdict(list)
+    for cid in pop:
+        stratum[cid] = s = corpus.stratum_of(cp.tags[cid], order)
+        buckets[s].append(cid)
     N = len(pop)
-    Ns = collections.Counter(stratum.values())
-    rand = sorted(pop, key=lambda c: h(seed, "rand-c", c))[:spec["random"]]
+    rand = heapq.nsmallest(spec["random"], pop, key=lambda c: h(seed, "rand-c", c))
     chosen = [(cid, "random") for cid in rand]
     taken = set(rand)
     r = collections.Counter(stratum[c] for c in rand)
     n = collections.Counter()
     for s in order:
         q = spec["strata"].get(s, 0)
-        for cid in sorted((c for c in pop if stratum[c] == s and c not in taken),
-                          key=lambda c: h(seed, "tgt-c", c))[:q]:
+        for cid in heapq.nsmallest(q, (c for c in buckets[s] if c not in taken),
+                                   key=lambda c: h(seed, "tgt-c", c)):
             chosen.append((cid, "targeted"))
             taken.add(cid)
             n[s] += 1
     design = {"unit": "comment", "population": N, "random": spec["random"], "strata_order": order,
-              "strata": {s: {"N": Ns[s], "n": n[s], "r": r[s]} for s in order + ["none"]}}
+              "strata": {s: {"N": len(buckets[s]), "n": n[s], "r": r[s]} for s in order + ["none"]}}
     return chosen, stratum, design
 
 

@@ -20,18 +20,21 @@ Writes, per pass:
   batches/<pass>/packets.jsonl   the same packets as JSON, for API-driven labeling
   keys/<pass>.json               packet id -> item, copy, batch. NOT for labelers.
 
-Nothing in batches/ names an item, a stratum, a weight or production output;
-the production export lives in production/ and is never referenced here.
+Nothing in batches/ names an item, a stratum, a weight or production output.
+Production's output is not even exported until both passes are labeled
+(export_production.py), and it never enters the repo.
 Labels go to labels/<pass>/bNNN.jsonl; see labels.py for the format.
 """
 
 import argparse
-import hashlib
 import json
 import math
 import os
+import sys
 
 HERE = os.path.dirname(os.path.realpath(__file__))
+sys.path.insert(0, HERE)
+from design import h  # noqa: E402  (one md5 ordering for every v4 draw)
 SEED = "nyceats-eval-v4-batches"
 BATCH_SIZE = 20
 DUP_SHARE = 0.10
@@ -68,10 +71,6 @@ of the comment they come from. Use {{"mentions": []}} when nothing qualifies.
 }
 
 
-def h(*parts):
-    return hashlib.md5("|".join(map(str, parts)).encode()).hexdigest()
-
-
 def duplicates(packets):
     """About 10% of items, per mode, chosen by hash. The same items are
     duplicated in both passes so the two consistency rates are comparable."""
@@ -106,8 +105,10 @@ def cut(packets, pass_name):
                 cur = []
     if cur:
         groups.append(cur)
-    for x in waiting:          # only possible at the very end
-        next(g for g in groups if not has_twin(g, x)).append(x)
+    # Packets still waiting at the end go into a batch of their own. Their
+    # twins are all in earlier batches, and no two of them share an item.
+    if waiting:
+        groups.append(waiting)
     allg = groups + threads
     allg.sort(key=lambda g: h(SEED, pass_name, "batch", g[0][0]))
     return [(f"b{n:03d}", g) for n, g in enumerate(allg, start=1)]

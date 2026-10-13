@@ -39,13 +39,18 @@ The database is only read, and only when drawing (to render the new items).
    proportional to the score with a floor of 3 (comments) or one chunk's
    worth (25 comments), so no stratum goes dark.
 
-3. DRAW. Same corpus snapshot and cutoff as round 1, so all rounds sample
-   one population and their weights pool (compare_v4.py --dirs). Every
-   comment in an earlier round, and every thread an earlier round took a
-   chunk from, is excluded, as are the v1/v2 sets. Writes
-   eval/v4/round<N>/items.jsonl, design.json and failure_rates.json. Then run
-   packets.py, batches.py and export_stored.py with --dir / --items for the
-   new directory.
+3. DRAW. Same corpus snapshot as round 1, so all rounds sample one
+   population and their weights pool (compare_v4.py --dirs). It refuses to
+   run if the cached snapshot's snapshot_at differs from round 1's
+   design.json. Every comment in an earlier round, and every thread an
+   earlier round took a chunk from, is excluded, as are the v1/v2 sets.
+   The round is built in a hidden temp dir and renamed to round<N>/ only
+   when complete (items.jsonl, design.json, failure_rates.json). Then run
+   packets.py and batches.py with --dir, label, and only after labeling run
+   export_production.py --dir for the new directory.
+
+Measuring failures needs production's export for the labeled rounds, which
+by design only exists once their labeling is finished.
 """
 
 import argparse
@@ -53,7 +58,9 @@ import collections
 import glob
 import json
 import os
+import shutil
 import sys
+import tempfile
 
 HERE = os.path.dirname(os.path.realpath(__file__))
 EVAL = os.path.dirname(HERE)
@@ -73,22 +80,8 @@ SHORT = dict(zip(FAILURES, ["drop_cmt", "drop_mnt", "wrong_pl", "spurious", "sig
 RANDOM_SHARE = 0.30
 
 
-def model_mentions(preds, alias):
-    """Deduped, keyed, chain-filtered, exactly as score.score_comment does."""
-    out, seen = [], set()
-    for m in preds or []:
-        if not isinstance(m, dict) or not (m.get("restaurant_raw") or "").strip():
-            continue
-        m = dict(m, _key=S.model_key(m, alias))
-        if not m["_key"] or m["_key"] in seen or m["_key"] in CHAINS:
-            continue
-        seen.add(m["_key"])
-        out.append(m)
-    return out
-
-
 def failures(g, preds, alias, excluded):
-    ms = model_mentions(preds, alias)
+    ms = S.model_mentions(preds, alias, True)
     gms = [x for x in g["mentions"] if x["canonical_key"] not in CHAINS]
     required = [x for x in gms if S.is_required(x)]
     pairs, fps = S.match(gms, ms)
@@ -188,12 +181,11 @@ def main():
     ap.add_argument("--round", type=int, help="round number to build (default: next)")
     ap.add_argument("--comments-per-mode", type=int, default=250)
     ap.add_argument("--dry-run", action="store_true", help="report failures and allocation; draw nothing")
-    ap.add_argument("--refresh", action="store_true", help="re-read the snapshot (same cutoff)")
     ap.add_argument("--base", default=HERE, help="round 1 directory; later rounds live in <base>/round<N>")
     args = ap.parse_args()
 
     base = args.base
-    dirs = [base] + sorted(glob.glob(os.path.join(base, "round*")), key=lambda p: int(p.rsplit("round", 1)[1]))
+    dirs = CV.round_dirs(base)
     round_no = args.round or len(dirs) + 1
     items = CV.load_rounds(dirs)
     ref = [g for d in dirs for p in [os.path.join(d, "labels", args.ref + ".gold.jsonl")]
@@ -201,6 +193,9 @@ def main():
     if not ref:
         raise SystemExit(f"no {args.ref} labels yet: run labels.py export --pass {args.ref}")
     system = args.system or [p for d in dirs for p in glob.glob(os.path.join(d, "production", "*.jsonl"))]
+    if not system:
+        raise SystemExit("no production export yet: once labeling is finished, run export_production.py, "
+                         "or pass --system <run file>")
     reps, covered, _ = CV.load_runs(system, items)
     alias, excluded = S.load_map("alias_overrides.json"), S.load_map("excluded_entities.json")
     per, weighted = measure(items, ref, reps.get(0, {}), covered.get(0, set()), alias, excluded)
@@ -230,12 +225,15 @@ def main():
     out_dir = os.path.join(base, f"round{round_no}")
     if args.dry_run:
         return
-    os.makedirs(out_dir, exist_ok=True)
-    with open(os.path.join(out_dir, "failure_rates.json"), "w", encoding="utf-8") as f:
-        json.dump(report, f, indent=1)
+    if os.path.exists(out_dir):
+        raise SystemExit(f"{out_dir} already exists; remove it or pass --round")
+
+    # Same population as round 1, or nothing: weights only pool over one snapshot.
+    with open(os.path.join(base, "design.json"), encoding="utf-8") as f:
+        snapshot_at = json.load(f)["snapshot_at"]
+    cp = corpus.cached_corpus(expect_snapshot=snapshot_at, fetch_ok=False)
 
     seed = f"nyceats-eval-v4-r{round_no}"
-    cp = corpus.cached_corpus(refresh=args.refresh)
     prior = set()
     prior_threads = set()
     for it in items:
@@ -254,11 +252,21 @@ def main():
     conn.close()
     D.assign_splits(new, seed)
     meta = D.summarize(cp, new, design, mismatches, round_no, seed, spec)
-    D.write_round(out_dir, new, meta)
+    # Build in a hidden temp dir and rename at the end: a draw that fails
+    # leaves no half-written round<N>/ for load_rounds to pick up.
+    tmp = tempfile.mkdtemp(prefix=f".round{round_no}-", dir=base)
+    try:
+        D.write_round(tmp, new, meta)
+        with open(os.path.join(tmp, "failure_rates.json"), "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=1)
+        os.rename(tmp, out_dir)
+    except BaseException:
+        shutil.rmtree(tmp, ignore_errors=True)
+        raise
     print(json.dumps(meta["counts"], indent=1))
     print(f"\nnext: python eval/v4/packets.py --dir {out_dir} && python eval/v4/batches.py --dir {out_dir}")
-    print(f"      EVAL_BASELINE_DIR={out_dir}/production python eval/export_stored.py "
-          f"--items {out_dir}/items.jsonl --name production__stored__round{round_no}")
+    print("      label both passes, then labels.py export --dir ... for each pass")
+    print(f"      only after labeling: EVAL_DB_URL=... python eval/v4/export_production.py --dir {out_dir}")
 
 
 if __name__ == "__main__":
