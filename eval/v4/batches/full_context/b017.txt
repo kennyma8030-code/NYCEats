@@ -1,0 +1,483 @@
+NYCEats extraction labeling -- batch b017 -- pass: full_context -- 20 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b017.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET b117a836 (comment packet) ===
+POST TITLE: Where Are Your Favorite Cozy, Quaint NYC Pubs/ Bars?
+POST BODY: I’m on the hunt for the coziest, quaintest bars in NYC. Borough doesn’t matter, price doesn’t matter, I’m wanting something that looks like it jumped out of Cotswolds, England in a Hallmark movie. Maybe something that flirts with bookstore vibes? I’ve included some pictures for reference ❤️
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/digrappa: [Molly’s](https://www.mollysshebeennyc.com/#about).
+
+>>> COMMENT TO LABEL (u/Satori2155):
+You be quiet now
+
+REPLIES TO IT: none
+=== END PACKET b117a836 ===
+
+=== PACKET dade415a (comment packet) ===
+POST TITLE: Looking for a steakhouse for a Saturday night in November, for the birthday of a carnivorous 15 year old girl who likes a good ribeye or porterhouse but otherwise has no f*cks to give about fancy.
+POST BODY: I'm taking my 15 year old daughter to NYC in November for her birthday.  The plan is to see a Hamilton matinee and eat good steak.  We're coming up from DC; I lived in NYC 25 years ago but have fallen completely out of touch with the steakhouse scene.   
+
+  
+I know "what steaks are good" posts are common, but I'm trying to find good steak with a very specific vibe:
+
+My daughter isn't going to care about the name on the door, the skill of the mixologist, or whether the pastry chef is a James Beard nominee. She doesn't need to know the name of the farm the cow came from. She's not going to be impressed by the artisnal cheese. She's DEFINITELY not going to want to dress up super fancy -- needs to be a place she can go in wearing a basic theater dress and a pair of chuck taylors. This is about a great cut of beef well prepared to the proper temperature, ideally in an unpretentious environment. And I need to be able to actually get a table for four on a Saturday night.  
+
+We're staying near Penn Station, but I'm comfortable heading anywhere in the city for the right place.  Price not really a factor if the food justifies it, but not looking for expensive just for the sake of expensive.  There are so many steak options in mid-town, but they all seem to be very not the vibe I hope to find -- either overly pretentious or tourist traps -- I'm struggling to find one she's going to like (even if all she says after the meal is "yeah, the steak was fine. Whatever.  It's just steak Dad.")
+
+Thanks for any suggestions and downvote away.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/AwShizWhiz: As a few people have mentioned, Keens is right up your alley. Saw someone say kbbq and I think that could be fun. Yoon haeundae Galbi is absolutely incredible. I cannot recommend it enough.
+
+>>> COMMENT TO LABEL (u/King_Turduckin):
+We did Nubiani for kbbq on our last trip to NYC (the night before our Peter Luger lunch) and she loved that.  Kbbq is awesome but we've got some incredible options in Northern VA, so I was thinking a different NY steakhouse would be more memorable.
+
+REPLIES TO IT: none
+=== END PACKET dade415a ===
+
+=== PACKET cfa323d7 (comment packet) ===
+POST TITLE: Where do I find the best donuts in Manhattan? What are your top 3?
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/kaiser11375):
+I am donut is pretty good, donut pub as everyone else mentioned, donut plant is solid and homies donuts are fantastic.
+
+REPLIES TO IT: none
+=== END PACKET cfa323d7 ===
+
+=== PACKET 2e7e01b6 (comment packet) ===
+POST TITLE: At Ceres Pizza — when the fuck did this become okay???
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/abonedrywhitewine):
+I report to 311. Harass the establishment enough so they have to enforce the rules or they shut down instead of you having to police disgusting people who let their filthy dogs in restaurants.
+
+REPLIES TO IT (context only):
+  u/Schizoeffective83: U have no life lol
+=== END PACKET 2e7e01b6 ===
+
+=== PACKET 8e3a664b (comment packet) ===
+POST TITLE: Visiting Peter Pan donuts early. Like REALLY early.
+POST BODY: Hello!
+
+I'm visiting the city next Monday, and Peter Pan bakery is currently one of my top places I plan on visiting.
+
+I saw that they were open starting 4:30am on Mondays - and I am willing to get there by that time to beat the crowd. Heck, I'd get there earlier if you told me there would be a crowd even before that!
+
+My only concern is what donuts will be out by then. I read on previous posts that certain flavours won't be out until a few hours after opening, which is reasonable. The following are my current picks;  
+\- Honey dip  
+\- White cream  
+\- Bavarian Cream  
+\- Old fashioned glazed  
+\- Sour cream cake?  
+\- Boston cream  
+\- Any cruller  
+\- Any 'volcano'  
+\- Apple fritter
+
+It is quite a list! But I assure that these won't all be eaten on the spot - I just have one day in the city and wanted to make the most of what little time I had.
+
+Would all these, or a good part of it, be out by 4:30? Or would it be ok to go a bit later (5:30 \~ 6:30am) to see if these are out, if there is less of a wait?
+
+Thank you for all your insights - have a good day!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/lichtmlm: Just fyi Moe’s Doughs around the corner almost never has a line and its donuts are equal if not better than Peter Pan imo (same exact style and I think they share some dna in ownership). Their pistachio donut is unreal.
+
+Anyways you’re clearly set on Peter Pan-and you’re definitely not going to have any issues with lines at the times your proposing. But thought I’d give my unsolicited 2 cents as you clearly seem like someone who is passionate about their donuts. And now I’m sad because I don’t live close anymore :(
+
+>>> COMMENT TO LABEL (u/human_eyes):
+I agree that Moe's are equal-if-not-superior but the vibe in there is pretty meh compared to Peter Pan, I'd recommend the latter to a visitor for that reason
+
+REPLIES TO IT: none
+=== END PACKET 8e3a664b ===
+
+=== PACKET a558f937 (comment packet) ===
+POST TITLE: Favorite fried Chicken restaurant?
+POST BODY: The other day I had a fried chicken sandwich. - mild-  from Popeyes. Very nice.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/thansal: Rowdy Rooster - Indian inflected Nashville style hot chicken.  Fucking delicious, super juicy (only dark meat at the EV location), and they will blow you out of the water if you ask (5 is a mistake, do 3 if you like spice, 4 if you really like spice, 5 is "I self harm via capsaicin").  The spice levels are also different spice blends, so they taste noticeably different, 5 is really delicious (super earthy), but just don't fucking do it.
+
+Bolivian Llama Party - I dono man, it's just really fucking good fried chicken on a sandwich.  I still always get the brisket though...
+  u/air-: FYI the menu doesn't have 1-5 anymore, it's 1-3 https://www.rowdyrooster.com/
+    u/CmdrMobium: They definitely still have 1-5 at the EV location, unless they changed it in the last week.
+
+>>> COMMENT TO LABEL (u/air-):
+Went earlier in feb and it's 1-3
+
+REPLIES TO IT: none
+=== END PACKET a558f937 ===
+
+=== PACKET aa4633ee (comment packet) ===
+POST TITLE: Where is this…?
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/kpoppeanut: Looks like Scarpetta, but their pasta dishes are around $28-$38. Honestly…their cacio e pepe ravioli is totally worth the money.
+  u/chooseusermochi: Learning how to make the scarpetta pasta (extremely easy) was like, my best pasta decision of the 2010s.
+    u/PutridCheetah8136: Pasta in general is just so easy to make and even high quality ingredients are so cheap.
+
+Expensive Italian food is an absolute scam.
+      u/Brooklyn-Epoxy: It's not that the ingredients are very expensive, but the time to make Scarpeta's spaghetti is substantial. It's worth it, but not everyone has the time or is willing to pay to save it. Speaking of that dish, I want to make it again now.
+        u/ofisor: And they’re wrong anyway, DOP tomatoes, nice EVOO, high quality fish, cheese, etc is all expensive. Factor in the labor cost and 30+ isn’t so unreasonable at a good restaurant. Pasta is “easy” to make until you’re making several shapes by hand in quantities that can serve hundreds of guests every day. Also good italian spots are way more than just pasta
+          u/PutridCheetah8136: Specifically, these “luxury” Italian places that serve a fist sized portion for 30-40 are scams. Some charge that for maybe 3 raviolis (Rezdora maybe?).
+
+As with any cooking, buying all those ingredients can be expensive but the per-plate cost is cents on the dollar compared to these restaurants.
+
+>>> COMMENT TO LABEL (u/ofisor):
+There is certainly a big up charge for the privilege of dining at some mediocre places. White tablecloths, uninventive dishes, and $1000 dollar bottles of barolo isn’t something I support.
+What I am saying, though, is the idea that 30+ for good pasta in a high col area isn’t unreasonable. And I can say with certainty that food costs are much more than 9% or “pennies on the dollar” as you state. This is just a fact. Lots of great Italian places with much higher food costs, with labor, rent, and other costs on top, which justifies the price.
+
+You seem to think that plate of vongole or ala norma should be cheaper just cause “pasta is easy”, but nyc has about 5x the gdp per capita as southern Italy and the economics of running any good Italian spot reflect that.
+
+REPLIES TO IT: none
+=== END PACKET aa4633ee ===
+
+=== PACKET 10417cba (comment packet) ===
+POST TITLE: Wegman's Next Door
+POST BODY: Any thoughts on their high-end sushi restaurant that they just opened up in their Astor Place store? I just don't know how they think people want to go to a high end restaurant in a supermarket - especially in NYC.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/some1105: I’d be happy to go to a high end restaurant in a supermarket if it was any good.  We have high end restaurants just about everywhere here.  But I won’t have anything to do with Wegman’s sushi anything after what they pulled on Yuji Haraguchi, which was foul.
+  u/dannydevitosmanager: Can you give the top level version of events?
+    u/maximkuleshov: In August 2023 before opening the Astor place store Wegmans' fish broker "Culinary Collaborations" approached Osakana - small Japanese fish shop two blocks east - about a potential partnership. They signed NDAs, got access to Osakana’s sourcing, pricing, and operations - how fish is cut, sold by the quarter-pound, boxed for chirashi, etc. Then ghosted them and opened a near-copy inside Wegmans called "Sakanaya." Osakana sued for breach of NDA and trade secret theft. Wegmans denies everything.
+      u/virtual_adam: This never even reached legal dispute level because it was so much BS 
+
+* Sakana means fish, there are hundreds of businesses in the US with that name. Both restaurants and stores 
+
+* they get their Japanese fish through a megacorp importer MC fresh, they were a wegmans supplier before the NYC store (since 2009)
+
+* if you actually go to Sakanaya there is nothing special about how they cut it. 
+
+* if anything Osakana gave them good press by saying they are on par with their offerings. They aren’t.
+
+>>> COMMENT TO LABEL (u/maximkuleshov):
+This isn’t really a legal issue - it’s a PR fuckup. Wegmans didn’t have to open a Japanese fish counter three blocks from Osakana. Their Brooklyn store runs a standard seafood section using Uoriki fish (I guess? I've never been there), and they could’ve done the same at Astor Place. Instead, they launched something that closely mirrors Osakana’s setup - same name style, pricing model, even visual feel - right after walking away from deal talks. It looks calculated and cheap.
+
+I agree though that Osakana’s offering wasn’t exactly groundbreaking. Selling quarter-pound cuts and chirashi boxes isn’t a secret and any experienced fish monger can figure out what do they do and how. I've walked past Osakana many times and first of all I thought it was a sushi restaurant, and secondly, even if I knew it was a fish store, I would still walk by. I bet many people that talk about it are just like me lol. Wegmans probably reviewed what they were given under NDA, realized there was nothing worth acquiring, and built a similar concept in-house.
+
+If you think big chains owe small businesses some sort of ethical buffer, sure, it might come off as corporate overreach. But in practice, Wegmans just did what large companies do: took the aesthetic, skipped the middleman, and moved forward. It's a tacky move, but not illegal.
+
+REPLIES TO IT (context only):
+  u/swankyoctopus: You a terrible lawyer or something? They broke the NDA and the Non-Compete. It’s both a PR fuckup and a legal issue.
+=== END PACKET 10417cba ===
+
+=== PACKET 79ff33be (comment packet) ===
+POST TITLE: First time in NYC from Dublin. What’s the best spot for a pint?
+POST BODY: Heading over from Dublin with my girlfriend in a few weeks for our first trip to New York.
+
+We’ve got the usual sightseeing stuff planned, but I know the Guinness over there can be hit or miss. Where do locals actually go for a good pint, ideally around Lower Manhattan or Brooklyn?
+
+Also open to any low key food spots near the West Village if anyone has recommendations. Cheers!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/web250):
+Not where you asked, but Sunnyside & Woodside in Queens have a big Irish population and many well poured pints. Also food that is worth the visit alone.
+
+REPLIES TO IT: none
+=== END PACKET 79ff33be ===
+
+=== PACKET 9fd94455 (comment packet) ===
+POST TITLE: Staying in midtown and looking for suggestions for 5yo
+POST BODY: Hello, 
+
+I really enjoy this sub. I'm staying near Grand Central and have been many times. I usually love halal (Royal Grill and/or Kwik Meal), and 2nd Ave Deli (not so much Katz), Eileen's Special Cheesecake, Breads for babka (for example) but am looking for some suggestions because I'm traveling with a five year old who wants pizza for every meal, so I'm really hoping for some suggestions that might appeal to the palate of a little one who finds things like halal too spicy (for instance). Nothing too pricy please (although she sees herself as a little princess, so something along those lines would be as nice treat too).
+
+Thanks!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/The_CerealDefense: How about going to K-town, make a trip of it, check out some shops, and then get Korean Fried Chicken (or wings) lots of spots.
+
+>>> COMMENT TO LABEL (u/justflipping):
+Good idea. There’s also Prince Tea House in Ktown for little princess vibes.
+
+REPLIES TO IT (context only):
+  u/ch1yoda: Thank you so much! Awesome recommendation!
+=== END PACKET 9fd94455 ===
+
+=== PACKET c7fa220a (comment packet) ===
+POST TITLE: Have you ever went somewhere just because reddit hates it?
+POST BODY: I'm kind of curious to go to Jack's Wife Freda (a kind of spot I would never seek out on my own) now just because this sub hates it so much.
+
+Have you ever done something like this?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/goodluckcharlie981: Disagree with the commenters here - there’s a reason why Jack’s Wife Freda has multiple SUCCESSFUL locations in the hottest parts of NYC, with expensive retail locations (hint… it’s not because they like to burn money). If you check it out, I recommend the eggplant sandwich with fries. Ask for extra green sauce, if you like spicy.
+  u/Infinite_Carpenter: Is it because people like instagramable spots, care less about quality than about quantity, and go with name recognition rather than seeking out something interesting?
+    u/goodluckcharlie981: I don’t think they’re in the running for a Michelin star, but it’s certainly not disgusting or bland like other people are saying. I would rate it around 7… and about your name recognition comment - this is soho we’re talking about! soho is all about the hot and trendy restaurants. You also mentioned seeking out something interesting - do you have any recs for a more lowkey Israeli spot with good food? Most of them like jacks wife or 12 chairs are pretty popular / trendy
+      u/Infinite_Carpenter: K’far, reunion, mogador. That’s just off the top of my head.
+
+>>> COMMENT TO LABEL (u/goodluckcharlie981):
+I thoroughly enjoyed K’far. I haven’t been to Reunion or Mogador but will check them out. Thanks
+
+REPLIES TO IT: none
+=== END PACKET c7fa220a ===
+
+=== PACKET d43a8608 (comment packet) ===
+POST TITLE: Really cheap eats around NYC. Manhattan, Brooklyn, Bronx Zoo.
+POST BODY: Im going in august for a week with two children and my sister. We will stay at Washington heights. I’m going to be covering most of the expenses, so my budget is very tight. I rather save the funds to live experiences rather than food. Any suggestions?   
+Places we will be visiting: Time Square, Bronx Zoo, Acuarium, Dumbo and Brooklyn Bridge, Governor’s Island, staten island ferry, Central park, Tramway to Roosevelt Island.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/jewree):
+Burgers: 7th Street Burger, they have a location near times square and others. $6 burger, step up from generic fast food, and it is a NY experience of a smashburger too.
+
+Pizza: The $1.50 slice shops do the trick if you want cheap. It isn't amazing pizza by any means, but again, it is also sorta a NY thing.  For slightly more you can do a bit better (e.g. NY Pizza Suprema is I think $4 slice these days).
+
+As others have said, packing a lunch is a good option too, but if you don't want to make lunch and pack it, grabbing things at Trader Joe's that are premade will still be cheaper than most restaurants.
+
+REPLIES TO IT (context only):
+  u/Librana28: Loved 7th St. Burger and also Skinny Loui. They seem Delicious and very affordable. Didn’t know about them. Thanks 🫶🏼
+=== END PACKET d43a8608 ===
+
+=== PACKET 3e1e2a2a (comment packet) ===
+POST TITLE: Help us plan our first trip to NYC
+POST BODY: My husband and I are visiting America for the first time in October. We are both huge foodies, and want to make sure we go to all the right places. 
+
+We are going to be there for 10 nights, I will include all of the places we have on our list so far. Would love to hear your thoughts about, what to skip out on and places we have missed and must include. The list has some rooftop bars included as well. 
+
+I understand my list is huge, and we will not get through all of these places in 10 days, so any advice would be great!
+
+Here is the list 
+
+- Katz deli 
+- Magnolia bakery 
+- Dominique ansel bakery 
+- Keens steakhouse
+- J.G Melon
+- Peter Luger
+- Price St pizza 
+- Rubirosa Pizza 
+- Rus and daughters
+- Pastrami queen 
+- Brooklyn bagel and coffee company
+- Kung fu xiao long bao
+- Joes steam rice roll 
+- Broilermaker 
+- Toro, ichiran, kame ramen (Ramen options)
+- Bleeker st pizza 
+- Boucherie 
+- Peak 
+- Surreal
+- Water tower bar 
+- Tompkins bagel
+- Boba guys 
+- Sylvias 
+- Los tacos no.1
+- Joe and Pats pizza
+- Luigis pizza Brooklyn
+- Lucali pizza Brooklyn 
+- Di Fara pizza Brooklyn
+- Marea
+- Ciprianni (dessert) 
+- The Fulton 
+- Johns of bleeker st (pizza)
+- Eds lobster bar 
+- Angry lobster rolls 
+- Forma Greenpoint 
+- Levian bakery
+- Angelina bakery 
+- Joes pizza
+- Misi 
+- Bleaker st pizza 
+- Kyuramen
+- Charles pan fried chicken 
+- Via carota 
+- RH rooftop 
+- Minton 
+- Zuma
+
+Any advice would be appreciated, thank you!
+
+Edit- 
+
+I forgot to mention, we are coming from Australia. I did not expect so many responses, thank you all so much, you all have most definitely helped with narrowing options down. I am literally counting down the days until we are there, and visit your amazing city!
+
+I do have another question, the first day we get there, it won’t be until 8pm, we are staying on West 57th st, since it’s going to very late and after flying for almost 24hours, we probably won’t want to go too far, where should we go eat that’s relatively close? From what I can see none of the restaurants in my list, are close to us. 
+
+Also any recommendations for eats near Brooklyn museum?
+
+Thanks again!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/joe_gdit):
+Los Tacos #1 is _ok_ but really not worth going to unless you are in the area. I'd go to Ramirez instead.
+
+Forma is great but sort of like cafeteria style - cool if you are in the area but maybe not worth traveling to otherwise. Check out Amazzacaffe or Naked Dog (also in that area)  instead.  Right around the corner from Forma is Frankel's which, imo, is the best bagel in the city.
+
+No pizza is worth waiting in line for.
+
+Skip Peter Luger and Misi.
+
+REPLIES TO IT (context only):
+  u/sa5m_i_am: Tbh NY has so much good shit waiting in line is never worth it IMO.
+
+Don’t even need to wait for Levain anymore thank god. 
+
+Interesting that you are the one voice of decent in Los Tacos. How come you say they’re just ok? I haven’t been but I want to go the next time I’m in Chelsea.
+=== END PACKET 3e1e2a2a ===
+
+=== PACKET 333126d2 (comment packet) ===
+POST TITLE: Spiciest food in NYC?
+POST BODY: Hi! Visitng NYC for 5 days and my husband and i LOVE spicy food (Think sichuan, indian, sri lankan etc). What are some good spots for genuinely spicy food?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/schwillster: MalaProject
+
+>>> COMMENT TO LABEL (u/No-Possession-4738):
+This. 100% this.
+
+REPLIES TO IT (context only):
+  u/CantaloupeNo1314: 100% I was sweating and crying from how spicy it was but couldn’t stop eating it.
+=== END PACKET 333126d2 ===
+
+=== PACKET fc76ad9e (comment packet) ===
+POST TITLE: Can anyone identify this restaurant I remember being on playbill at Broadway musicals?
+POST BODY: When I was a kid, I went to a Broadway musical and then an Italian restaurant that was on the playbill, where the pasta with tomato sauce was fantastic. That must have been more than 10 years ago so I don't know if it's still around, but does anyone have any guess what this restaurant is/was so if it's there I can go back?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/thansal):
+Do you have any chance of remembering what the musical was? and/or what year it was?  playbill.com has some of the old playbills that you can look through (search for the show on the top right, then scroll down).
+
+EG: If you saw Cats during the [1982-2000](https://playbill.com/production/cats-winter-garden-theatre-vault-0000011527) run, it might have been Giordano.
+
+REPLIES TO IT (context only):
+  u/BeansRiceAndPasta: It was probably around 2009-2013, not sure what the musical was. I found old playbills on the site but I can’t find the part of them with restaurants on it, how do I find that after clicking on a playbill?
+=== END PACKET fc76ad9e ===
+
+=== PACKET 15dd4120 (comment packet) ===
+POST TITLE: Unpopular opinions, Fall 2025 edition
+POST BODY: -People who hate Joe's pizza are either contrarians or don't understand what New York pizza is supposed to be like
+
+-The tomato slice at Fini is much better than the white slice
+
+-Tourists should not be advised to only eat stereotypical foods like bagels, pizza, and hot dogs. The food scene has changed a lot since say, the 80s and I'd argue that loads of different cuisines have become a part of "regular" New York food culture. I'm a native New Yorker and I rarely eat pizza or bagels myself.
+
+-Both the "NYC has no good Mexican food" and the "NYC Mexican food is just as good as LA" claims are wrong. NYC's Mexican food has improved a lot and I'm very glad that it's an increasingly mainstream part of the food scene. But it's still nowhere near somewhere like LA or even Chicago in terms of variety and quality. Still too many places using store bought tortillas or selling al pastor that was not cooked on a trompo.
+
+-Restaurants should be judged only by the quality of food and service, not the neighborhood they're in. Too many people on here will hate on a restaurant just because it's in Manhattan, even if they never went there.
+
+-Adding to this, Manhattan is severely underrated as a food borough on here. Redditors who make living in Astoria or Jackson Heights their whole personality insinuate that Manhattan is entirely Olive Gardens and $800 fine dining restaurants. In reality, neither of these things are true and Manhattan has an insane amount of variety at all price points. Within a 15 minute walk of say, the Delancey Essex stop, you could probably eat food from over 50 different countries.
+
+-Shitting on Chinatown because you went to the New World Mall food court once is lame. Flushing is great of course, but OG Chinatown is still a very special place, important to NYC history and culture, and is still absolutely worth checking out in terms of food. The Fungbros on youtube have 20+ videos (and counting) devoted to affordable eats in Chinatown, and there's more interesting stuff than you'd expect.
+
+-Shitting on Little Italy while claiming that Arthur Ave is "the real Little Italy" is also lame. The Bronx Little Italy is also not a true Little Italy anymore, and its future is also in jeapordy. But both are still worth checking out
+
+-Any corner store kind of place can be called a "bodega" regardless of the owner's ethnicity. The Yemeni spots tend to be very similar to classic bodegas in terms of function, except they don't sell pork. 
+
+-Chain restaurants are unironically more popular among native New Yorkers than transplants or tourists. There's a reason there's a Golden Corral deep in The Bronx.
+
+-This sub spends way too much time talking about chopped cheeses ; I personally think they're mid and even at a bodega I'd rather order a Philly cheesesteak
+
+-NYC's suburbs (inner ring at least) have a surprisingly good food scene
+
+-Williamsburg has an excellent food and bar scene. Despite the neighborhood having very high rents, I find it to be one of the more affordable neighborhoods to go out in.
+
+-
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/nycago: Let them hate Joe’s! Thank god it hasn’t been destroyed by lines.
+  u/KazaamFan: So weird anyone hates Joe’s. It’s a great simple new york slice
+
+>>> COMMENT TO LABEL (u/SirNarwhal):
+It's always just good enough and never great with one of the worst crusts in the city. You can get better for cheaper or the same price.
+
+REPLIES TO IT: none
+=== END PACKET 15dd4120 ===
+
+=== PACKET 1d248f42 (comment packet) ===
+POST TITLE: Best Japanese restaurants that aren’t sushi or ramen?
+POST BODY: I’m looking for the best authentic Japanese food to take some family visiting from out of town. They are older so preferably places I can make a reservation and not outrageously expensive. 
+
+Eater only has out of date Japanese roundups for non sushi, and most lists I’ve found online are very trendy/touristy and not focused on the food. I searched through Reddit but couldn’t find a good list. 
+
+Have a car so flexible on location. We’re in northern brooklyn so preferably not like super deep in Brooklyn or upper Manhattan, or deep queens. 
+
+Thanks!
+
+*edit looking for some newer recommendations as im pretty familiar with the standard recommendations. As well as some quiet restaurants as my family is hard of hearing.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/CTDubs0001: Sakagura is amazing. It’s an upscale izikaya/ sake bar. And bonus points for feeling like an actual Tokyo restaurant. Tucked in the basement of an office building.  It’s great. Best sake selection in NYC too.
+
+>>> COMMENT TO LABEL (u/confusedquokka):
+Oh yeah, I’ve been going to sakagura for years, it’s been a few years but it’s always a good option.
+
+REPLIES TO IT (context only):
+  u/CTDubs0001: Have you been to the Japanese village in industry city? There’s a food court with maybe half a dozen stalls. Not exactly formal dining by any means but it’s very authentic Japanese food and an experience of its own. Very inexpensive too.
+=== END PACKET 1d248f42 ===
+
+=== PACKET b98cf145 (comment packet) ===
+POST TITLE: Hello! New York realistic food budget suggestions!
+POST BODY: Hi everyone!
+
+My partner and I will be visiting NYC in early September, and we're trying to figure out a realistic daily food budget for two people.
+
+We'll be spending most of our time in the Lower East Side, East Village, SoHo, Williamsburg, Greenpoint, Bushwick, and around Midtown (for MoMA). We don't eat meat (but do eat seafood), don't drink alcohol, and our hotel includes breakfast, so we're mainly budgeting for coffee, lunch, dinner, and the occasional dessert or snack. We'd also like to do one or two nicer sit-down dinners during the trip, but otherwise we're happy eating at casual restaurants and cafés.
+
+Would a budget of around $100–150 per day for two people be realistic for this type of trip, or should we plan for more? If you've eaten in these neighborhoods recently, I'd love to hear what you found to be a reasonable daily budget.
+
+Thanks!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/herewegoagain_2500):
+That budget is absolutely doable and with great cheap food mixed with a couple of fancy sit downs. 
+
+Plan for one big meal a day (buy cold cuts for sandwiches, take an extra bagel or 2 from breakfast, carrots/celery sticks for roughage and no refrigerator needed. Picnic often, September is gorgeous weather). 
+
+Lunch specials at many places are great value. Eat on the later side with leftovers for dinner. 
+
+Visit Queens, Brooklyn and uptown (nosebleed) Manhattan for foodie adventures.
+
+REPLIES TO IT: none
+=== END PACKET b98cf145 ===
+
+=== PACKET e67348d9 (comment packet) ===
+POST TITLE: Great Lesser Known Restaurants that are more Budget Friendly?
+POST BODY: I came across [this post](https://www.reddit.com/r/FoodNYC/comments/wrtruj/my_top_restaurant_picks_after_a_year_on_a_tight/) but it's nearly 2 years old. I am heading back to Manhattan this week and eager to try some new-to-me good restaurants that aren't insanely expensive.  Anyone have recommendations they're loving these days?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/kikikza):
+Haven't been in a few years but Edwards in Tribeca usually was a good price and has been a family favorite for over 20 years
+
+REPLIES TO IT: none
+=== END PACKET e67348d9 ===
+
+=== PACKET 7f3b27e8 (comment packet) ===
+POST TITLE: 24 hrs in NYC. What’s your favorite spot in this area?
+POST BODY: The pin is my hotel. I’m planning to take my wife to Times Square and Central Park. I’m looking for classic bagel or bacon egg and cheese breakfast, street food for lunch (halal, hot dogs, Chinese), and somewhere to sit for dinner (Italian, steakhouse, seafood). 
+
+I don’t trust google to find a good spot. I trust myself slightly more, but would prefer some firsthand accounts. Any killer stops I shouldn’t miss?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/threesixtyone: Marea for fancy Italian dinner  
+Tim Ho Wan for dim sum
+  u/pigeonmachine: Tim Ho Wan is closing (might be closed already.)
+
+>>> COMMENT TO LABEL (u/threesixtyone):
+Gah! Did not know this, pretty upsetting. It was the best Chinese place in Hell's Kitchen.
+
+REPLIES TO IT: none
+=== END PACKET 7f3b27e8 ===

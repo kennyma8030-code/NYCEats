@@ -1,0 +1,425 @@
+NYCEats extraction labeling -- batch b013 -- pass: full_context -- 20 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b013.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 892f8eee (comment packet) ===
+POST TITLE: Your top Italian place under $50/person, give me the reccomendations!
+POST BODY: ciao, 
+
+I just moved to NY and have a friend visiting soon and they wanted to have Italian food. From my research I only found were well rated places that were $100+. 
+
+Wondering what are your top 'chill and delicious' reccomendations. Preferrably in Manhattan but open to a short subway ride (he is coming from NJ). 
+
+Thanks in advance.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/SarcasticallyPolish: Ammazzacaffee is great
+  u/gloriamuntz: This is good but fusion. Not real italian
+    u/SarcasticallyPolish: Hmm, never heard anyone call it fusion. Seemed like a the entire menu was regional Italian dishes.
+      u/gloriamuntz: Lol what region? The entire menu is made up dishes
+
+>>> COMMENT TO LABEL (u/SarcasticallyPolish):
+Really? A cursory google search shows their dishes like Reginette are from Naples, Garganelli from Emilia-Romagna, Agnolotti from Piedmont…
+
+Either way, there are some regions for you, you can research the rest if you’d like or be more specific with what you think is made up.
+
+REPLIES TO IT (context only):
+  u/gloriamuntz: At best it's italian-inspired. It's good,  don't get me wrong. I'm italian.  Its just not authentic.
+=== END PACKET 892f8eee ===
+
+=== PACKET 58d76190 (comment packet) ===
+POST TITLE: Best Shanghainese food? Is Joe’s Shanghai worth the hype or are there better spots?
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/crazeman):
+Joe Shanghai is REALLY bad.
+
+I tried it once with a coworker at the old OG Doyer st location, and the soup dumpling tastes... funky. Not good at all.
+
+Had a friend come to visit in down and she never had soup dumplings before. We were midtown and there was no soup dumplings in the area besides for Joe shanghai's mid town spot. 
+
+Thought that maybe last time was a bad batch. Took her there and it was the same thing, just plain bad. It's a shame too because I kept hyping up to her how fucking good soup dumplings were and the ones from Joe Shanghai were terrible. 
+
+Friend visited me again a few years later and I warmed up some frozen soup dumplings from the grocery store, and convinced her to give it another try. She fucking loved it to the point where she brought a bunch of frozen soup dumplings for herself to take home. So yeah, frozen grocery store soup dumplings are better then Joe Shanghai's.
+
+REPLIES TO IT (context only):
+  u/tams93: They were on Doyers? 
+
+Thought the OG location was on Pell
+=== END PACKET 58d76190 ===
+
+=== PACKET 2a05622a (comment packet) ===
+POST TITLE: [deleted by user]
+POST BODY: [removed]
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/dmclubowner: I tend to order from these spots:
+
+* [Mala Project](https://www.malaproject.nyc/) (if you're into spicy food).
+* [Teppen ramen](https://www.teppenramen.com/) (solid ramen spot, not as polished as Ippudo but flavorful).
+* [Ippudo](https://ippudo-us.com/) (consistently good ramen spot).
+* [Dun Huang](https://www.dunhuangfood.com/) (decent Chinese food, their chicken is pretty good).
+* [The Tang](https://www.thetangnyc.com/) (good spot for dumplings, noodles are decent).
+* [Lena's Italian Kitchen](https://lenasitaliankitchen.com/) (a great spot for cheap appetizers from 3-6).
+* [Bengal Tiger](https://www.bengaltigerindianfood.com/) (great spot for Indian food, prices are fair).
+
+>>> COMMENT TO LABEL (u/OuttaMyPersonalSpace):
+Haven't tried a lot of these yet. Thanks!
+
+REPLIES TO IT (context only):
+  u/dmclubowner: You're welcome :)
+=== END PACKET 2a05622a ===
+
+=== PACKET 6a284ad8 (comment packet) ===
+POST TITLE: Din Tai Fung
+POST BODY: honest thoughts on DTF? i always see people raving about it online but some friends have mentioned that it’s just okay. excited for their upcoming Brooklyn location regardless!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/nonhiphipster: Not sure why all the hate. I had a delicious meal there with my gf, and all for I wanna say around $100? Meaning nothing too insane.
+
+We also got lucky and somehow snagged bar seats with no wait.
+
+Everyone is saying it’s “overrated,” not “the food is bad.” I say go!
+  u/herffjones99: $100 for din tai fung is insane though. You can get a similar meal in chinatown for half that.
+    u/nonhiphipster: I mean, I can’t say you’re wrong. What I can say is our meal was delicious. Sometimes you have to pay more for unique dishes.
+
+>>> COMMENT TO LABEL (u/guynumber20):
+The only unique dish there is the chocolate dumplings everything else is basic cuisine that can be found in china town
+
+REPLIES TO IT (context only):
+  u/nonhiphipster: No one is arguing that string beans are unique as a concept. What’s unique is the way it’s cooked.
+=== END PACKET 6a284ad8 ===
+
+=== PACKET 43c432cc (comment packet) ===
+POST TITLE: Best Summer Soups?
+POST BODY: Hello and good afternoon, I really love soup at all times of the year even in the dead of summer. What's your favorite summer soup to get in NYC? 
+
+
+I actually never had korean cold noodle soup before so I'm curious what the best kind is, and if there's any other chilled soup that's worth a try!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/lavegasepega):
+We love pozole. We don’t eat it cold, but something about the spice, cilantro and lime that feel like summer. And it also doesn’t have to be served super hot.
+
+REPLIES TO IT: none
+=== END PACKET 43c432cc ===
+
+=== PACKET 7c9bb070 (comment packet) ===
+POST TITLE: Where can I find the best Spanish omelette/tortilla espagnola in NYC?
+POST BODY: I had never liked Spanish omelettes/tortilla espagnola until I went to Spain for vacation a few years back. There, I immediately fell in love them, and ordered them at every single tapas spot - it was an obsession. After returning from vacation, I could not find a single Spanish tortilla that I’ve liked. Everything tasted bland, over cooked, lacking in depth of flavor (or any flavor, or seasoning). The best ones here are still not great (I lived in California before and had no luck there either).
+
+So, I’m humbly turning to you Reddit. Where do I go to find an authentic tortilla espagnola in NYC?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Kooky_Comb6051: It’s either Bocqueria or Ernesto’s. They def scratch the itch for me but they don’t hit like Spanish tortillas do in Spain for me personally.
+
+>>> COMMENT TO LABEL (u/squalor1929):
+Ernesto’s for sure! That place is great.
+
+REPLIES TO IT: none
+=== END PACKET 7c9bb070 ===
+
+=== PACKET a2c96a15 (comment packet) ===
+POST TITLE: Are there any places that have great dessert dumplings?
+POST BODY: No, I'm not talking about or thinking of DTF, but I am thinking about DTF, the knock off DTF restaurant I went to as a kid. They used to have these dumplings on the dessert menu that were filled with black sesame paste, and I cannot believe that I've never seen anyone else do the same. Before I resort to setting up my own in-home black sesame dumpling factory, is there anywhere where I could get them or any other interesting dessert dumplings instead?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/cambiumkx):
+What’s a dumpling?
+
+Lots of stores sell tangyuan with black sesame paste filling.
+
+REPLIES TO IT (context only):
+  u/jaded_toast: I love those. But for this post, I am thinking dumpling in the sense of a wrapper like XLB, gyoza, or wontons.
+=== END PACKET a2c96a15 ===
+
+=== PACKET 73f7e5d6 (comment packet) ===
+POST TITLE: Gramercy, Emily or Minette for Burgers?
+POST BODY: Hi, I will be in NYC next week and am looking to try one of the better burgers in the city and know these places are pretty well known. Unfortunately will likely only have time for one spot due to other commitments.
+
+Any recommendations on which one I should go to?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Garconavecunreve: I’d go with Emily or Gramercy Tavern. I liked Minetta, assuming we’re discussing the black label burger(had it twice), but both times did not feel like it was worth the money tbh. 
+
+Gramercy is probably the tidier option, at least I feel like it’s assembled with way more attention compared to Emily’s, which in turn definitely has the superior burger sauce. I’ll phrase it like this: if you prefer a classic burger that’s really well executed choose gramercy tavern, if you want something slightly more adventurous go with Emily’s
+  u/Coconuts2018: Agreed on Minetta. I had the black label prob like 5 years ago and it was amazing. The meat was perfectly seasoned, the dearth of toppings was actually a benefit not a negative. But then I had the black label again late last year and was really disappointed. It was completely unseasoned and just unmemorable. Service was meh.
+
+Gramercy Tavern consistently great and the service is impeccable. Also you'd be able to try their amazing desserts!
+
+>>> COMMENT TO LABEL (u/[deleted]):
+I’m a regular at Minetta and have tried both and actually prefer the regular Minetta burger!
+
+REPLIES TO IT: none
+=== END PACKET 73f7e5d6 ===
+
+=== PACKET 71dfcca9 (comment packet) ===
+POST TITLE: Rezdora
+POST BODY: Hi there- I am headed to Rezdora with a party of 4 this weekend for dinner. First timer. Anyone have any feedback on this place and must have dishes? Thanks in advance!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/IEatTooManyCookies):
+It seems to be a love or hate restaurant and I absolutely love it. If you do decide not to do the tasting, skip the secondi. I like to get a bunch of apps and pastas. The staples for me are the gnocco fritto, cacio pepe salad, ragu modenese and grandma walking through the forest.
+
+REPLIES TO IT (context only):
+  u/Suspicious-Menu-4078: Thanks! I think we will stick with the plan and still head here. Won’t be our last meal. I like your idea—- I usually always skip the secondi and opt for more pastas (and dessert!)
+
+I’ll report back.
+=== END PACKET 71dfcca9 ===
+
+=== PACKET f4da11b6 (comment packet) ===
+POST TITLE: Mexican foodtuber tries NYC Mexican food
+POST BODY: I came across these videos and found them interesting
+
+The man who runs this channel (La Ruta De Garnacha) reviews almost nothing but street tacos in Mexico, but he comes to the US sometimes and reviews the food here too.
+
+He spoke very positively about Los Tacos and Los Mariscos and said that the food there is very Mexican. 
+
+[https://www.youtube.com/watch?v=84phbfW\_4ao](https://www.youtube.com/watch?v=84phbfW_4ao)
+
+[https://www.youtube.com/watch?v=3Iy12HFGcwc](https://www.youtube.com/watch?v=3Iy12HFGcwc)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/PostPostMinimalist: I had a Mexican friend here who considered plenty of Mexican spots to be quality and authentic.  But every time I see this on Reddit people are convinced quality Mexican food just doesn’t exist here.  Of course it does people.
+  u/Israfel: I've noticed many of the people who claim there aren't quality Mexican restaurants just haven't spent time in places like Jackson Heights/East Elmhurst or Sunset Park.
+    u/LongIsland1995: There's another crowd of people on here (hipsters) who claim that you can only get good Mexican food from dirty taco stands under the 7 train
+      u/Jogindah: tbf those never really disappoint lol
+
+>>> COMMENT TO LABEL (u/LongIsland1995):
+Some of those places are mid IMO
+
+REPLIES TO IT: none
+=== END PACKET f4da11b6 ===
+
+=== PACKET 69385a8f (comment packet) ===
+POST TITLE: [deleted by user]
+POST BODY: [removed]
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Jaybetav2: Atomix is out of control fabulous. I agree with all of the other ones here…but Atomix as an experience was just sublime.
+  u/Extcy_2014: +1 Atomix - absolutely incredible food and service
+    u/mikefaley: OK so this place looks fucking incredible. This might throw off my entire plan. Thank you for this.
+      u/ipki: Atomix is currently the /r/finedining NYC favorite. Doesn’t fit the description of old school New York, but is arguably the best meal you can get in NYC right now. There is a post on the fine dining subreddit about Atomix from a few days ago, check it out.
+
+>>> COMMENT TO LABEL (u/mikefaley):
+Hell yeah. Thank you my friend - this is great. Very generous of you to guide me like this.
+
+REPLIES TO IT (context only):
+  u/ipki: Of course! I love food and sharing it / spreading knowledge with others, especially if it’s for you special day.
+=== END PACKET 69385a8f ===
+
+=== PACKET ee41ceaa (comment packet) ===
+POST TITLE: The Mansion Diner Review (Upper East Side)
+POST BODY: I run a site where I've catalogued a bunch of diners across Manhattan, and I'm currently going around and writing reviews for a bunch of them. 
+
+I did one for The Mansion, which is this kind of ritzy diner on the Upper East Side.  I know that there are conflicting views on it, but I found it relatively charming, and the food to be pretty good, even if it was a tad pricey. 
+
+If you live in the area, I'd suggest visiting it even just once.  It's in the Yorkville area, which is a nice spot near the East River, and if you want, you could even stop by Gracie Mansion, the residence of the Mayor of New York, before or after your meal.  
+
+I hope you're having a good evening, and if you'd like, the review is linked below.  Take care! 
+
+**Link to Review:** [https://dinersnewyork.com/2023/06/19/the-mansion/](https://dinersnewyork.com/2023/06/19/the-mansion/)
+
+&#x200B;
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/pizza_obsessive):
+love your writing and photos! In both your op and review, you mention the mansion is a little pricey, would it be a good idea to include the price of the dish in your review?
+
+i live in the nabe,  is it possible you’re soft selling prices at the mansion? let’s say one ordered your irish breakfast and added a cup of coffee, tip and tax, i’m guessing it’s > $30?
+
+am i better off ordering their 1/2 murrays roast chicken with stuffing for $32 or walking a couple blocks to cafe d’alsace where for $34 they offer Pan roasted free-range chicken, haricot vert, snap peas, carrots, Yukon Gold mashed potatoes, chicken jus?
+
+you can’t walk a block in the neighborhood without hitting an Italian restaurant, better off paying $26 at the mansion for pasta bolognese or $22.50 at arturos italian restaurant for their rigatoni bolognese? or how about paying $2 more at uva for their homemade pasta ribbons sautéed with ragout of veal and montasio cheese?
+
+personally, I think the mansion serves a purpose but imo, considering it’s average to better than average diner food, it lands somewhere between expensive for a diner and a ripoff, a good fit if you are an undemanding, wealthy UESer but not the sort of place I’d recommend to members of this subreddit.
+
+REPLIES TO IT (context only):
+  u/CosmoKid1: >personally, I think the mansion serves a purpose but imo, considering it’s average to better than average diner food, it lands somewhere between expensive for a diner and a ripoff, a good fit if you are an undemanding, wealthy UESer but not the sort of place I’d recommend to members of this subreddit.
+
+Thanks so much!  It's always a joy to visit some neighborhood spots.  
+
+I think you're right, that including the price of my meals would probably be a good idea moving forward.  I agree with you as well, in the sense that I wouldn't necessarily recommend The Mansion as a regular dining spot, unless you have cash to burn, or are going with a large group. 
+
+Most of my reviews are really just supposed to almost be one-off journals or stories that are trying to capture the feeling of a place more than anything else.  A lot of what I read online about restaurants is often quantitative---what's the price, the best food, how far is it from XYZ---and all of that is useful, absolutely.  I'm instead looking to more archive these places, almost paint a portrait of what they're like, and if someone decides they might want to try it out, that's kind of a bonus.  While the place is expensive, I don't think it's necessarily prohibitively so, especially if you'd just like to visit it to see what it's like.  
+
+Going forward though, I think you're accurate in stating there should be an inclusion of quantitative data---how expensive was the meal, where is it, the hours, etc.  I already have it on the site, so it should be as easy as linking the page.   
+
+Thank you for your feedback!  It's this kind of substantive response that helps me make note of important features to improve on as I move ahead.
+=== END PACKET ee41ceaa ===
+
+=== PACKET 08809cb0 (comment packet) ===
+POST TITLE: Eleven Madison Park Walks Back Its No-Tipping Policy After Five Years
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/hilariouspj: Effectively, they are making the patrons pay the wages of their staff while maintaining the price. Who's really benefitting from the change? Unbelievable.
+  u/ScurvyDervish: Oh the poor patrons of EMP, whatever shall they do?
+    u/Ypdragon: I mean some patrons its a life goal or bucket list that they work towards. Not everyone that does to EMP is a millionaire.
+      u/basedlandchad14: Yeah, its not _that_ big of a deal to go. Its expensive, but if its for a life event or something pretty much anyone can go. The bar is doubly reasonable too.
+
+>>> COMMENT TO LABEL (u/Ypdragon):
+I’ve heard great things about the bar due to how it’s a la cart and the service is still some of the best. But don’t know much about it now.
+
+REPLIES TO IT: none
+=== END PACKET 08809cb0 ===
+
+=== PACKET 11729b02 (comment packet) ===
+POST TITLE: Big fan of Third Wave Coffee and black espresso and drip/pour over - any recs?
+POST BODY: Hi all! Coming over in mid October and I love single origin coffee and shops that truly care for high quality good tasting black coffee. We will be staying in Midtown and mostly will hang out mostly in Manhattan. Any recs?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/justflipping: - La Cabra
+- Voyager
+- Coffee Project
+- White Noise
+- Plowshares
+- Artbean House
+- Drip
+- Suited
+- Black Fox
+- St Kilda
+- do not feed the alligators
+- WatchHouse
+
+More: [Third wave coffee shops or closest to it in NYC?](https://www.reddit.com/r/FoodNYC/comments/1lc5tlo/third_wave_coffee_shops_or_closest_to_it_in_nyc/)
+  u/fermentedradical: This is the list. TBH you should go to r/pourover and look as that's the real spot for 3rd Wave nerdiness on Reddit. I would really suggest taking the train to Brooklyn and hitting Sey, Loveless, and Dayglow in a row as they're super close to each other. Manhattan you can do La Cabra and Coffee Project pretty easily within a few blocks, too.
+
+>>> COMMENT TO LABEL (u/justflipping):
+Yea those Brooklyn spots are worth hitting if you’re a big third wave coffee fan.
+
+REPLIES TO IT: none
+=== END PACKET 11729b02 ===
+
+=== PACKET b58f4499 (comment packet) ===
+POST TITLE: The Ice Cup is the Quintessential NYC Food
+POST BODY: All hail the Ice Cup. 
+
+You can buy it at literally any bodega and many grocery stores. You can fill it with coffee, booze, tea, soda, juice or water. 
+
+It is cheap (always and forever $1). 
+
+It is beautiful (the sweat on the clear plastic, the clean lines, the proportions.)
+
+It sounds great (the snap of the lid, the scrrrrr of the straw, the toggle of the ice.)
+
+It’s sustainable (even in the hot city heat it’ll quench your thirst for hours since you can refill it again and again.) 
+
+It’s a classy accessory. 
+
+I’ve never seen it anywhere else. It is quintessentially New York City. 
+
+It deserves to be in every Top Ten of The Best Food in NYC. 
+
+All Hail the Ice Cup.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Status_Ad_4405):
+Never seen or heard of this. I guess I don't get out enough.
+
+REPLIES TO IT: none
+=== END PACKET b58f4499 ===
+
+=== PACKET 4b08d9de (comment packet) ===
+POST TITLE: Sofia Pizza Shoppe Midtown East/UES  Closed. Crushing blow.
+POST BODY: This was my favorite spot in Midtown East, crushed to see it gone. Was in last week and saw it closed as of May 31…anyone know the deal? I’m particularly gonna miss their seasonal grandma :(
+
+  
+Not a lot of great alternatives around the area but would love to hear your spots if you got em. Marainara nextdoor is not same league for me.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/dummonger):
+Rough neighborhood. Best I got for you is Xeno’s which is about the level of a good neighborhood pizza place at 1.3x price.
+
+REPLIES TO IT: none
+=== END PACKET 4b08d9de ===
+
+=== PACKET 30323835 (comment packet) ===
+POST TITLE: Upper Manhattan highlights? Specifically Washington Heights
+POST BODY: Please give me any and all recommendations for food in Washington Heights and upper Manhattan. TY!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/CabassoG: Malecon for Dominican food. Would recommend their roast chicken, mofongo, and asopado de pollo. If you're going to include Inwood, as in another post, there's a place oddly called Unique Fusion which does delicious Thai food.
+  u/justmytoocents: Came here to say Malecón! That chicken is SO good!
+
+>>> COMMENT TO LABEL (u/QuietPea3984):
+Get extra green sauce.
+
+REPLIES TO IT: none
+=== END PACKET 30323835 ===
+
+=== PACKET 7d800cbb (comment packet) ===
+POST TITLE: Carbone Vs Din Tai Fung
+POST BODY: So i'm visiting Nyc on Friday and have managed to get reservations for both Carbone and Din Tai Fung for lunch.... so i got to pick one. As much as i would like to try both, the timings are not working in my favor. So please help, if you had to pick one which one would you? Ik they're completely different cuisines but still could use some help.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/SuppleDude):
+Both are mid and overhyped.
+
+REPLIES TO IT: none
+=== END PACKET 7d800cbb ===
+
+=== PACKET 32a13c04 (comment packet) ===
+POST TITLE: Bagels in midtown near times square
+POST BODY: Looking for recommendations
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Rob-Loring: Liberty bagels
+
+>>> COMMENT TO LABEL (u/iggy555):
+Had today messed up my order and sucked
+
+REPLIES TO IT: none
+=== END PACKET 32a13c04 ===
+
+=== PACKET bd98af5a (comment packet) ===
+POST TITLE: My favorite spots after a week in NYC
+POST BODY: This was my fifth trip to NYC and my goal for this one was to only go to more under-the-radar food spots and avoid the hyped/touristy destinations so you won't be seeing any L'Industrie, Joe's, Katz, or Russ & Daughters in this post! With that said, since Reddit only allows for 20 pictures, this will include my 20 favorite places:
+
+1. Playground (Jackson Heights, Queens): one of my goals for this trip was to try out Thai food in Queens and my god, was this place good. This place does NOT skimp on spiciness which is often an issue I have with a lot of Thai restaurants but this place delivers the heat if you request it. I got the pad kra pao at a max spiciness level twice and it was awesome, to say the least. Also, the lemon Thai tea is one of the best beverages I've ever had and they also make a mean Thai tea, I made sure to get at least one of either beverage every time I visited (I went here 5 times!). Best Thai restaurant I've ever been to and my favorite spot of the trip. 9.7/10
+2. Xi'an Cuisines (Stall 28 in the New World Mall in Flushing, Queens): this was the first stop I made after landing and these are definitely some of my favorite hand-pulled noodles - they had the perfect chew, the lamb was really tender, and the spices they used added a great complexity to the dish. I went here twice during my visit and the second time, the lamb was a little dry but since the first time was outrageously good, I'd go with a 9.4/10
+3. Gino's Pastry Shop & Cafe (Arthur Avenue, Bronx): I don't eat a lot of cannolis, but their chocolate-dipped one was incredibly good and I made sure to stop by here twice during my visit. The filling was a perfect sweetness level and the chocolate used for them had a great flavor. The wafers also had a perfect crunch and weren't stale at all. Best dessert spot of my trip. 9.3/10
+4. Gia's Pizza (Astoria, Queens): this place seemed to be a sleeper hit and I made sure to stop by here when I did a Queens pizza crawl. Their sauce was very savory and had the perfect amount of tanginess and honestly might be one of the best sauces I've ever had on any pizza. Their plain slice was definitely my favorite, but their tomato grandma slice was no slouch either! 9.2/10
+5. Momo Crave (Jackson Heights, Queens): I did a momo crawl in Queens and I was definitely the most impressed with this spot compared to the other ones I tried (Nepali Bancha Ghar and Lhasa Fast Food). I got their chili momos three times during my visit and I was really impressed with all of the flavors going on here, with the spiciness, cilantro, and fresh vegetables all culminating in a complex dish. The chicken filling was fresh and flavorful too and I liked the slight crunch on the outside of the fried momos. Oddly enough, these really satisfied my craving for General Tso's much more than a spot I tried for that in Chinatown. 9.2/10
+6. Tino's Delicatessen (Arthur Avenue, Bronx): this deli is a bit more under-the-radar than nearby Casa Della Mozzarella and I thought they made a better sandwich, primarily because I wasn't the biggest fan of Casa's bread. Besides the bread, all of the other ingredients were top-notch and this is definitely one of the best Italian sandwiches I've had outside of Italy. Also, their bocconcinis were perfect to snack on too. 9.2/10
+7. Andrea's Pizza (East Village, Manhattan): I found out about this place through Reddit and wanted to try them out and they did not disappoint! I loved their plain and margherita slices, their ingredients were extremely fresh and high quality. Apparently Andrea used to work at Scarr's and L'Industrie, but I thought this was way better than those spots. 9/10
+8. Wegmans (Astor Place, Manhattan): I heard good things about their chocolate chip cookies and needed to try them out for myself and yeah, these cookies are amazing. I got an ultimate chocolate chip and double chocolate chip cookie to sample after buying them and immediately went back to buy boxes of both flavors to eat throughout the week. I love the chocolate they used for these and the ultimate chocolate chip cookies had a great chew. Best chocolate chip cookies of my trip. 9/10
+9. YongChuan (SoHo, Manhattan): I found out about this place through a Reddit post as well and was enamored at how tender and crispy the peking duck looked so I had to try this. The duck was indeed very tender and crispy and I loved the hoisin sauce, veggies and wraps they provided to make your own peking duck wraps. I went here twice during my visit. 9/10
+10. Bagel Shop (UES, Manhattan): I tried a few bagel spots during my trip and this one was definitely the best, they have amazing cream cheeses and fresh bagels. The first time I went here, I got a bagel fresh out of the oven and it was pretty much perfection with a soft interior and crispy exterior. The other times (went here three times) I needed to get them toasted, one time not toasted quite enough but the other times were done really well. 9/10
+11. Lanzhou Handmade Noodle (Stall 14 in the New World Mall in Flushing, Queens): I loved the lamb noodle dish I got from here and felt this was like a high quality lo mein with excellent noodles, fresh vegetables, and a lot of spices. I absolutely loved their chili oil too and made sure to add plenty of it to the noodles. 9/10
+12. Macao Trading Company (SoHo, Manhattan): I heard about this place through a friend and I really enjoyed their drunken dragon's milk cocktail which has pandan, Thai basil, and green tea vodka in it. I tried all of their mocktails as well which I really enjoyed. As I went here multiple times, they were a little inconsistent with their drinks but overall, this place was fantastic. 9/10
+13. Zuma (Midtown, Manhattan): even though they're not exclusive to NYC and I probably wouldn't order any food here, I really loved their cocktails and stopped by here twice during my trip. Their drinks were a great sweetness level and didn't taste too strong at all. 9/10
+14. The Pastry Box (East Village, Manhattan): I heard good things about these cookies and really enjoyed them - even if they're a bit too thin and crunchy on the outside for me, I loved the chewiness in the middle, the chocolate chips, and the sea salt they used. I ended up getting two cookies from here. 8.9/10
+15. Nan Bei Ho (Bayside, Queens): I'm a big fan of Taiwanese breakfast and wanted to check out an authentic spot in NYC during my visit. The sweet soy milk and egg pancakes were extremely good and go toe-to-toe with my favorite breakfast places I tried in Taiwan. The pancake and and the eggs inside it were extremely fresh. I did like the salty rice roll as well, but felt it went a bit too heavy with the salt as I normally like to dip them in soy sauce but adding the soy sauce was a bit much. The sweet rice roll similarly had a bit too much sugar too. Being in Bayside, getting to this place was a trek, but totally worth the visit! 8.9/10
+16. Tai Pan Bakery (Manhattan Chinatown & Flushing, Queens): I tried egg tarts from several Chinatown bakeries and these were my favorite - I do wish the crust was a bit crunchier, but I loved the sweet custard filling and the caramelized bits on the Portuguese ones. 8.8/10
+17. Pizza Loves Sauce (SoHo, Manhattan): I went here on a previous trip so I knew it was going to be good and yes, it indeed was good again during this visit lol. I loved the crispy crust and salty cheese, even if I think they could have added more sauce to their pizza (a little ironic considering their name). 8.7/10
+18. Casa Della Mozzarella (Arthur Avenue, Bronx): as I mentioned with Tino's, I don't think Casa's sandwich (the Casa) was as good because of the bread (it was a bit stale), but the rest of the ingredients were extremely flavorful with some of the best prosciutto and mozzarella I've had outside of Italy. I also loved the balsamic glaze they added to it. 8.7/10
+19. Pan Bao 66 (Stall 29 in the New World Mall in Flushing, Queens): I went here on a previous trip as well and knew it was going to be good and yeah, it was still really good lol. I love the crisp on the bottom of the pork baos and the soup inside them. They were a bit too sweet for my liking, but still great regardless. 8.7/10
+20. New Cameron Bakery (Chinatown, Manhattan): a Chinese bakery I randomly stumbled upon, I think this place had the best egg tart crust out of the ones I tried which was really crispy. I did enjoy the egg tart custard too, but wish it was a bit more sweet. 8.6/10
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/richonarampage):
+Wow bravo amazing list.
+
+REPLIES TO IT (context only):
+  u/SimonBelmont91: Thanks, this isn't even a totally inclusive list either 😂
+=== END PACKET bd98af5a ===

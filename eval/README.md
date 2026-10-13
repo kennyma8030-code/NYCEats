@@ -12,6 +12,7 @@ never by an LLM.
 | `labels/adjudication.py`, `gold_changes.md` | 23 post-adjudication corrections applied on top of the blind labels, with reasons |
 | `adjudicate.py` | lists gold-vs-run disagreements with proposed weakness tags |
 | `baseline/` | the ORIGINAL extraction as run files, its scored results on v1/v2, and every disagreement |
+| `v4/` | round 1 of the v4 set, labeled by Claude blind to production in two passes (same input, full context), with traffic weights, a holdout and round 2 tooling. See `v4/README.md` |
 | `v2/` | diagnostic set: `taxonomy.md`, `items.jsonl`, `gold.jsonl`, `counts.json`, builder, top-up miner, top-up labels |
 | `labels/batchNN.py` | human-readable source of the gold labels (`labels/common.py` holds the constructor, `labels/build_gold.py` writes gold.jsonl) |
 | `excluded_entities.json` | production's excluded entity keys (not restaurants / outside NYC), treated as out of scope |

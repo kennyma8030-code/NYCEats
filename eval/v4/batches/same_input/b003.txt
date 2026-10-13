@@ -1,0 +1,42 @@
+NYCEats extraction labeling -- batch b003 -- pass: same_input -- 1 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b003.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 3965d282 (thread packet) ===
+POST: What is the most overrated restaurant and its better alternative to you?
+For me it’s Carbone, Emilio Ballato’s is less expensive and I feel the quality and service was better.
+
+[1] u/angrystudent94: Fedoroff’s, the sandwiches are expensive plus I’ve had far better. The roast pork was bland, Defonte’s has a far better roast pork special. The cheesesteak taste more like a hamburger, off the top of my head Rocco’s on Northern Blvd has a better one
+  [2] u/jeanyes_: Agreed on the roast pork but I did love the cheesesteak
+  [3] u/114631: As someone who has sung the praises of Rocco's, it was *terrible* last time I had it. Meat was terrible, dry, chintzy. Barely any cheese. I couldn't believe it. Used to love them so much.
+    [4] u/angrystudent94: Yea sometimes they’re hit or miss, the last time I went they really loaded up the sandwich
+[5] u/Archibald-Tuttle: I’m not sure if this OP is bait or not, but saying Carbone is overrated then listing Emilio Ballato’s a not-overrated alternative?
+  [6] u/surferpro1234: Ballatos used to be easy to walk in to. Until “They” found out about it.
+[7] u/Kamui_Amaterasu: Lindustrie — i had both the burrata and regular at willy b and west village and to me the regular was better and its nothing amazing, probably a 7.5 or 8 at best. I don’t understand the raving reviews for the burrata slice either, it doesn’t do anything for me, in fact I prefer the slice without it. Overall, the best strictly cheese pizza I’ve had is johns of bleecker. The best pepperoni square ive had is prince street (although sometimes they’re inconsistent).
+  [8] u/MaizeNBlueWaffle: I think L'Industrie is properly rated, but I also don't think it's worth waiting in the current lines for.
+    [9] u/Vegetable-Judge: Nothing is worth waiting in a line. Especially pizza. Not in NYC at least.
+      [10] u/mamaBiskothu: Not a long line but any place with no more than 10 people in front of me has been a hassle
+  [11] u/QnsPrince: This might be the worst take here
+  [12] u/papal00: Finally another L’Industrie truther.
+        [13] u/Vegetable-Judge: Fine 10 ppl max including children
+  [14] u/Cartadimusica: Wait till mamas too opens this week
+[15] u/samtresler: Lucali's. Guissepina's is just as good and there is no hassle.
+  [16] u/curiouslyseekingmore: Does Guissepinas have the calzone, too?
+    [17] u/samtresler: Yep. Only wish they had a salad or some lighter appetizer.
+  [18] u/JelloDarkness: They are both "meh", but for some reason people lose their minds trying to claim otherwise.
+    [19] u/Vegetable-Judge: Park is terrible.
+  [20] u/MikeDarsh: Carbone is overrated but putting it in the same category as Parm is insane
+  [21] u/According-Rhubarb-23: You realize the ownership is the same and that parm sells an incredibly inferior version of the “same” rigatoni? Say what you will about carbone but it’s tough to accept this an actual comparison
+[22] u/MaizeNBlueWaffle: Bonnie's. Probably the most overrated restaurant I've been to in NYC. Food is greasy and lacks any real flavor. Portions are small for the price you pay. It's completely unjustified hype
+  [23] u/martha_stewarts_ears: You gotta add your recommended alternative to answer the brief
+    [24] u/MaizeNBlueWaffle: I thought Wen Wen and Pot Luck Club were both significantly better
+  [25] u/iwantdiscipline: Thank you - I thought I was the abnormality! I really was looking forward to it as a fellow ABC growing up in the indo. I was so underwhelmed and felt like it was a one trick pony umami this and that. I just wasn’t impressed, granted I didn’t eat the McRib dupe, maybe that’s what makes it worth it. Their penicillin dupe is fantastic though, gotta give credit where it’s due.
+=== END PACKET 3965d282 ===

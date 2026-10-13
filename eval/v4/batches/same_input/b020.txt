@@ -1,0 +1,222 @@
+NYCEats extraction labeling -- batch b020 -- pass: same_input -- 20 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b020.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 464fa439 (comment packet) ===
+POST TITLE: Immigrant-owned restaurants that could use some business?
+
+POST BODY: For Christmas this year, my mom requested that in lieu of a gift, I visit an immigrant-run small business or restaurant by having a meal and giving them a big tip. So, I am hoping you guys can suggest a restaurant that is perhaps not the most popular or well-known but has good food and could benefit from more business! Any borough is fine, probably just want to avoid West African food since I have ...
+
+PARENT COMMENT: I recommend going to Elmhurst and just walking down Broadway from 74th St to Elmhurst Ave. Its an incredibly vibrant street with restaurants from all over the world. There are delicious charcoal skewer stalls with plastic stools on the sidewalk and groups of people dancing/ gambling in the parks.
+
+COMMENT: Elmhurst and Jackson Heights are some of my personal favorite places for food in all of NYC. So much diversity and variety - I think it would almost impossible to have a bad meal.
+=== END PACKET 464fa439 ===
+
+=== PACKET 5bdf1d5f (comment packet) ===
+POST TITLE: Is family style the standard for larger dinner groups?
+
+POST BODY: It’s my first time organizing a dinner for a group this size (less than 20, but large enough to have to write to restaurants about space). The ideal setting would be a steakhouse, but I’ve been a little surprised that everyone only offers preset family style options, even if the group is willing to meet the minimum spend via a la carte ordering. Is this just the standard, to keep the service simpl ...
+
+PARENT COMMENT: Go to Bobby Vans at 54 & Park. They have a private room in the back, we held 25 people in that room and they did individual steak and sides without a problem.  Talk to Dan, the manager, he’ll take care of you.
+
+COMMENT: Appreciate this tip, will look into it. Thanks!
+=== END PACKET 5bdf1d5f ===
+
+=== PACKET 2afee6dd (comment packet) ===
+POST TITLE: Respectfully, I'm looking for your favorite shithole with the best food you've ever had.
+
+POST BODY: What are some places that look absolutely terrible on the outside (bonus points if the service isn't great), that has some of the best food you've had in the city?
+
+PARENT COMMENT: Hyberabadi Zaiqa
+
+COMMENT: Agree, mutton biryani made my eyes pop ngl
+=== END PACKET 2afee6dd ===
+
+=== PACKET 6f6e25fa (comment packet) ===
+POST TITLE: What’s an NYC food opinion that will have you like this
+
+COMMENT: Unapologetic foods (dhamaka, semma) is a laughably overpriced, overhyped annoyance
+=== END PACKET 6f6e25fa ===
+
+=== PACKET 5f170348 (comment packet) ===
+POST TITLE: Favorite Manhattan cafe to sit outside and watch the world go by?
+
+PARENT COMMENT: lol yeah the food is so blah I don’t get why people like it
+
+COMMENT: It is very average and not a substitute for an actual diner.
+=== END PACKET 5f170348 ===
+
+=== PACKET c9f4dcb7 (comment packet) ===
+POST TITLE: If you could only pick one, what is your favorite sweet treat in the city?
+
+POST BODY: It can be anything from anywhere. What’s your favorite or go-to sweet treat in the city?
+
+Looking for inspiration for my weekly goodie 😋
+
+COMMENT: Gotta say gelato. It's just richer and smoother than regular ice cream, feels like you're getting more flavor in every bite instead of a bunch of air. My go to treat whenever I need a pick me up.
+=== END PACKET c9f4dcb7 ===
+
+=== PACKET 07ceace4 (comment packet) ===
+POST TITLE: What's left under $10?
+
+POST BODY: There was a time when $1 pizza slices and fast food dollar menus were the backbone of budget eating in NYC. But those days are (mostly) gone, and eating on a tight budget has gotten rough.
+
+So let’s help each other out: What’s your go-to, actually good meal in NYC for $10 or less?
+
+Could be a slice + soda, a big rice plate, a dumpling spot, a bodega sandwich, anything tasty and filling without bre ...
+
+COMMENT: Plenty in Spanish Harlem 6 train 116: 
+
+Burmudez Bakery bacon egg and cheese on a full loaf of fresh made bread is about 7 bucks. 
+
+Tamale lady on the NE corner: $2.25 per. 
+
+Taco/Burrito truck at the bus stop btw 3rd and Lex everything 10 or less except Chorizo Cemita/Torta as the egg is extra. 
+
+Color World: Jerk Chicken and Rasta pasta deals.
+=== END PACKET 07ceace4 ===
+
+=== PACKET 0d87f47b (comment packet) ===
+POST TITLE: Looking for places that sell alfajores
+
+POST BODY: I posted this a long time ago, and didn't get many hits. But times have changed, so I'm wondering if there are currently any great places to find alfajores, preferably in Brooklyn or Manhattan.
+
+COMMENT: Argentalia on 7th Av between 15th and 16th St in Park Slope has good pizza and housemade alfajores.
+=== END PACKET 0d87f47b ===
+
+=== PACKET c884a1be (comment packet) ===
+POST TITLE: Best non-Chain Coffee/Latte in Midtown East
+
+POST BODY: I'm starting a job near 47th and Lex this week, and the way my commute lines up I usually have 20–30 minutes to grab coffee before work. I'm a flavored latte guy, but the chains nearby (Blank Street, Bluestone, Starbucks) don't do much for me. Any good independent spots with good coffee in the Midtown East/Grand Central area?
+
+COMMENT: I second Little Collins (bw 44th and 45th on 3rd ave), and they absolutely do pick up. Every single thing I have tried on their menu is insanely good, especially for the price. They have a large selection of dishes, which is really hard to find at places that do great coffee. And they look out for you once you are a regular.
+=== END PACKET c884a1be ===
+
+=== PACKET 6665a50f (comment packet) ===
+POST TITLE: Reigning pizza slice downtown Manhattan? L’industrie?
+
+POST BODY: I am an avid consumer of pizza by the slice. I’ve been on a L’industrie kick for months now and very content, but browsed this sub the other day and was surprised by the hate L’industrie has been getting, for what I consider a standout slice.
+
+Educate me on what slice shops are the best these days. For someone who’s struggled to find anything better than L’industrie.
+
+Places off the top of my head ...
+
+PARENT COMMENT: The one in FiDi is BAD. It’s almost like it’s not the same place.
+
+COMMENT: Completely agree
+=== END PACKET 6665a50f ===
+
+=== PACKET 948dbacb (comment packet) ===
+POST TITLE: What has been your most overpriced and underwhelming restaurant experience?
+
+POST BODY: Which restaurant that is part of the NYC fine dining scene was your least favorite and why?
+
+PARENT COMMENT: Interesting! I love monkey bar, but also had more than just the burger. What are some of your favorite burgers out of curiosity
+
+COMMENT: agree w/ you. really liked monkey bar and their burger
+=== END PACKET 948dbacb ===
+
+=== PACKET 9f8f535c (comment packet) ===
+POST TITLE: One of the best Nasi Lemaks in NYC
+
+POST BODY: Ayam is a fast-casual place in Astoria, the family who runs it is from Southern Thailand, so the food’s a mix of Malaysian/Thai dishes. 
+
+And it’s only $13 for a generous portion!
+
+PARENT COMMENT: Southern Thailand shares a border with Malaysia, so the food’s a mix of both. 
+
+It’s honestly hard to find good Nasi Lemak or sambal in NYC, I like Nyonya in Chinatown, they have a really large menu too (cash only). 
+
+I can tell you where I don’t recommend for Nasi Lemak: Papa Rich or Fish Market, overpriced and 👎
+
+COMMENT: Just gave this place a try today. It was great! Thanks for sharing. Definitely the kind of recommendations I like seeing in this sub.
+=== END PACKET 9f8f535c ===
+
+=== PACKET cfe34ce9 (comment packet) ===
+POST TITLE: What is the best NYC food after a night of drinking?
+
+POST BODY: You have the munchies bad. It can be a specific restaurant, or a specific food, or just generally, what hits the spot after a long night imbibing?
+
+PARENT COMMENT: Lamb over rice was my first thought.
+
+COMMENT: Extra hot sauce
+=== END PACKET cfe34ce9 ===
+
+=== PACKET 7f36aa66 (comment packet) ===
+POST TITLE: Favorite Ramen in Manhattan?
+
+POST BODY: There are highly rated places and then there are your favorite places. I’m looking for you’re favorite. Ideally East Village area, but really could be anywhere.
+
+PARENT COMMENT: jeju
+
+COMMENT: damn this is the only mention pf Jeju ive seen, have just not a lot of people have tried this place cause its hard to get reservations? Or do they consider Korean raymun a different thing. Ive been wanting to go, but never been able to find a reservation for the dates of trips I schedule.
+=== END PACKET 7f36aa66 ===
+
+=== PACKET 36b92f6a (comment packet) ===
+POST TITLE: Have you ever tried a dish at a restaurant in NYC that was so tasty you almost came back the next day—or even kept returning for it again and again?
+
+COMMENT: Chicken paitan ramen at Ivan
+=== END PACKET 36b92f6a ===
+
+=== PACKET abe442a5 (comment packet) ===
+POST TITLE: Where can I find the best Spanish omelette/tortilla espagnola in NYC?
+
+POST BODY: I had never liked Spanish omelettes/tortilla espagnola until I went to Spain for vacation a few years back. There, I immediately fell in love them, and ordered them at every single tapas spot - it was an obsession. After returning from vacation, I could not find a single Spanish tortilla that I’ve liked. Everything tasted bland, over cooked, lacking in depth of flavor (or any flavor, or seasoning) ...
+
+PARENT COMMENT: It’s either Bocqueria or Ernesto’s. They def scratch the itch for me but they don’t hit like Spanish tortillas do in Spain for me personally.
+
+COMMENT: Ernesto’s for sure! That place is great.
+=== END PACKET abe442a5 ===
+
+=== PACKET e7a52a97 (comment packet) ===
+POST TITLE: Just tried Korean Salt Bread and it’s a $4.50 bread stick from Olive Garden
+
+POST BODY: Justin’s on 2nd was slammed. I was very intrigued. And I couldn’t believe this thing that’s FREE at OG is hyped as the next big fad.
+
+I will say the salt coffee was good, but people have been salting their coffee for ages.
+
+PARENT COMMENT: I literally am japanese and no one does that
+
+COMMENT: that's not korea genius
+=== END PACKET e7a52a97 ===
+
+=== PACKET 57d69607 (comment packet) ===
+POST TITLE: CMV: Lucky Charlie has got the best pie in the city.
+
+PARENT COMMENT: It's an A tier slice, but S tier after midnight for some reason.
+
+COMMENT: They do huge late night volume with it being on top of the LIRR stop, that's the real key. Take a late night off peak out there.
+=== END PACKET 57d69607 ===
+
+=== PACKET 93e5a13b (comment packet) ===
+POST TITLE: I love Caffe Panna ice cream, but it’s a frustrating business
+
+POST BODY: Don’t get me wrong, their ice cream is amazing but there are several things about this business that really frustrate me. 
+
+1. The hours are already limited (9:30pm closing) and   
+after seeing all their creative flavors posted on Instagram, you get there at 8:30 and they are out of almost all their flavors except one or two, one if which is usually a sorbet. For people who are coming for the firs ...
+
+PARENT COMMENT: Salt and straw on uws is so good
+
+COMMENT: Tried this one recently. It was mid as hell.
+=== END PACKET 93e5a13b ===
+
+=== PACKET 9af49621 (comment packet) ===
+POST TITLE: The Plant-Based Diet Has Officially Peaked in NYC
+
+PARENT COMMENT: As an Indian vegetarian who’s lived in NYC for awhile now, the issue I see with the vegan movement in the west is how they want to be “ so different” from the meat eaters but then all of the alternatives are trying to be meat imitations. ( Beyond burgers , Chik’n, cauliflower steak etc )
+
+Part of why veganism works in many eastern cuisines ( especially Indian and Thai) is that the vegan food is not a stand in for an alternative meat dish. You don’t have a Paneer Vindaloo or an Eggplant Shawarma as a stand in for their meat versions.  Instead you have paneer butter masala and bhaingan bharta as their own stand alone dishes which are not “ derivative” of any meat dishes. Everyone likes paneer even the most hardcore meat eaters. 
+
+The vegan west needs to get inventive with vegan dishes - dishes that can become staples in their own right ( like avocado toast) if they want more people to embrace plant based diets
+
+COMMENT: or just learn indian food lmao but i don’t trust em to not call it “weird” or wtv happened with “courtney cook’s eggs “
+=== END PACKET 9af49621 ===

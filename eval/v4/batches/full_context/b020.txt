@@ -1,0 +1,380 @@
+NYCEats extraction labeling -- batch b020 -- pass: full_context -- 20 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b020.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET bdb772fe (comment packet) ===
+POST TITLE: I found Roaches cooked into my food at 888 Hudson Thai - be careful - they refuse to refund
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/joshw231: Health complaint and post it on their goggle review and yelp
+
+>>> COMMENT TO LABEL (u/Seatac_SFO_LAX):
+They took my Google review down as fraud. This is why I’m posting here.
+
+REPLIES TO IT (context only):
+  u/joshw231: They reported it so it was automatically taken down but you can request an appeal. It’s 100% a legit review so it will be overturned.
+=== END PACKET bdb772fe ===
+
+=== PACKET 8ecdd278 (comment packet) ===
+POST TITLE: Looking for the best Taiwanese oyster omelette/pancake in NYC!
+POST BODY: This is my favorite Taiwanese dish, and it's so rare to find it served in NYC. Anyone have a recommendation? I remember being disappointed by it at Winson (which doesn't serve it anymore). I live in Brooklyn, so would love recs for Brooklyn or Manhattan (as opposed to Flushing, for example), but for the right dish, I'd travel!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Sirhc128: As a Taiwanese born and raised here I can wholeheartedly say that OK Ryan (yep that’s the restaurant name) in Flushing is the most authentic you’re going to get.  It scratches the itch more than any other place claiming to be Taiwanese.  The oyster pancake, along with other dishes are the real deal holyfield.
+
+>>> COMMENT TO LABEL (u/slowcanteloupe):
+or their sister restaurant ok canaan if you don't want to do college point blvd.
+
+REPLIES TO IT (context only):
+  u/donut_butt: Ok Canaan closed!! 😭😭😭
+=== END PACKET 8ecdd278 ===
+
+=== PACKET 1f247e3e (comment packet) ===
+POST TITLE: What has been your most overpriced and underwhelming restaurant experience?
+POST BODY: Which restaurant that is part of the NYC fine dining scene was your least favorite and why?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/not_so_basic: Monkey bar… meatball appetiser was really the highlight, burger was nothing special!
+  u/Therothboys318: Interesting! I love monkey bar, but also had more than just the burger. What are some of your favorite burgers out of curiosity
+
+>>> COMMENT TO LABEL (u/milkchocolatesheikh):
+agree w/ you. really liked monkey bar and their burger
+
+REPLIES TO IT (context only):
+  u/Therothboys318: Glad I’m not the only one lol, I liked the burger as well
+=== END PACKET 1f247e3e ===
+
+=== PACKET 88e32429 (comment packet) ===
+POST TITLE: I love Caffe Panna ice cream, but it’s a frustrating business
+POST BODY: Don’t get me wrong, their ice cream is amazing but there are several things about this business that really frustrate me. 
+
+1. The hours are already limited (9:30pm closing) and   
+after seeing all their creative flavors posted on Instagram, you get there at 8:30 and they are out of almost all their flavors except one or two, one if which is usually a sorbet. For people who are coming for the first time, they don’t realize they essentially having nothing left until they get to the front of the line. 
+
+2. They do nothing to help move the line along. On a busy summer night they have one person taking orders, who does not appear to be in any sort of a rush. Meanwhile, there are 5-10 people behind the counter seemingly socializing or on their phones. Sometimes a second person comes out to take orders from people on the line, which helps a lot, but it just goes to show how easily they could speed up the line. 
+
+3. Given all this, their ice cream is super expensive, which of course is not unique for nyc ice cream, but still frustrating that you pay $6.50 for a size literally called “tiny.”
+
+Love their ice cream but wondering if others share any of these frustrations.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/personaljournal325: They also kinda fell off recently? Hasn't been hitting the way it used to.
+
+Either way there's better ice cream in the city. Similar to pizza, we can get 90% of the quality without the line.
+  u/gonnabefine: What are your favorite spots?
+    u/Sm_Jftwin: Salt and straw on uws is so good
+
+>>> COMMENT TO LABEL (u/thelionqueen1999):
+Tried this one recently. It was mid as hell.
+
+REPLIES TO IT: none
+=== END PACKET 88e32429 ===
+
+=== PACKET 913cec6c (comment packet) ===
+POST TITLE: Tompkins Square Bagels- everything bagel, Nova Scotia salmon, dill and cucumber cream cheese
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/galileotheweirdo: That’s way too much cream cheese 😂  
+
+Edit: yeah boo me for wanting more fish and less cow fat lol
+  u/GKrollin: Idk why you're getting hate here. That's like 6oz cream cheese and 1oz salmon. Should be more like a 2:1 ratio of 4oz:2oz
+    u/galileotheweirdo: Yeah and salmon is clearly the tastier, healthier, more valuable component here. But I get it, as an immigrant I’ve never had the habit of eating much dairy and just don’t really overdo it, while most Americans love cheese
+
+>>> COMMENT TO LABEL (u/GKrollin):
+I'm all for heavy cream cheese but at least stack the fish as well. What's the point in high quality smoked salmon if all I can taste is dill?
+
+REPLIES TO IT: none
+=== END PACKET 913cec6c ===
+
+=== PACKET f41e0978 (comment packet) ===
+POST TITLE: Mini dumpling buns in NYC?
+POST BODY: Are there any places in the city that do these type of dumplings other than din soup dumplings in brooklyn?  theyre my favorite but i cant find anywhere else that does them
+
+https://preview.redd.it/egtdatympuqg1.jpg?width=360&format=pjpg&auto=webp&s=72a3e0f79bb9ff0a4456f5e9717792f72005d4b3
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/amandabug):
+closest store bought approximation if you pan dry :
+
+https://www.hmart.com/juicy-pork-vegetables-dumplings-21-2-oz--601g--1/p
+
+REPLIES TO IT: none
+=== END PACKET f41e0978 ===
+
+=== PACKET 025e5f54 (comment packet) ===
+POST TITLE: Saigon Shack
+POST BODY: Has anyone been to Saigon Shack lately in Greenwich Village? I went there last spring and it was pretty good. Planning to go there this Monday with some friends for my bday but there’s been so many bad to mid reviews lately.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/nim_run16: for casual - sao mai, for nicer - madame vo, for what’s trendy rn - banh anh em
+  u/enzxswrld: Thanks for the recs, im having trouble finding good priced pho under and around $20 so I’ll check those out
+
+I personally can’t justify more than $20 for pho when there’s one near me in queens that gives good portions for only $13
+
+>>> COMMENT TO LABEL (u/levu12):
+If you want something cheap, just go somewhere in Chinatown like Nam Son, it’s not the best but it’ll do
+
+REPLIES TO IT: none
+=== END PACKET 025e5f54 ===
+
+=== PACKET d1d4b3f1 (comment packet) ===
+POST TITLE: Seirinkan x Sake No Hana - A different perspective
+POST BODY: I will start this off by saying $45 for a pizza is pretty damn overpriced. However, the pizza was amazing and definitely one of the best Neopolitans i’ve had - I would still put Una Pizza and Pizzeria da Ciro in Kyoto above it though. 
+
+I want to talk about the recent negative review though and the complaints about the wait time. In the 45 minutes I spent at Sake no Hana i witnessed 2 different groups pretty much harassing the wait staff until they relented. One group WALKED IN - got seated without a resy because the staff was nice - then kept complaining about how they shouldn’t be subject to the limit because they “walked in” separately. Another group walked in with 3 solo reservations just to get past the pizza limit then complained that they wanted to be seated together - the staff asked me to move to accommodate them ( they were extremely nice about it and apologized the whole time) but this was the type of entitlement I witnessed. This was my first time at Sake no Hana so i have 0 attachment to this restaurant but it’s hard for me to give any weight to the review trashing them when they’re trying to accommodate the most entitled customer base i’ve ever seen lmao.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/mundus1520: 45 dollars for a pizza with broken oily cheese? Oof
+  u/halfcastdota: cheaper than having to take PTO to fly to japan to try it
+    u/cemita: Why are you paying to go to Japan to eat pizza?
+      u/halfcastdota: i forgot this sub is a bunch of tech bros who act like they’re food experts because they’ve been to astoria one time
+
+>>> COMMENT TO LABEL (u/Wirecrats):
+Yeah no idea why you are being downvoted. Thanks for the post. Likely reason is they have never had Japanese pizza. Japanese Italian is by far my favourite cuisine. Next time I’m in NYC will certainly try this.
+
+REPLIES TO IT (context only):
+  u/halfcastdota: sadly it’s only a week long pop up. but if you love japanese food, dm me when you’re in nyc and there’s this really nice izakaya under the radar that you might enjoy
+  u/basilgenovese: Insane takes on this thread. Dude is a master at his craft. Clearly the restaurant got overwhelmed and aren’t isn’t used to getting absolutely fucked due to some hype. Leave Brittany alone.
+=== END PACKET d1d4b3f1 ===
+
+=== PACKET 67cff7e9 (comment packet) ===
+POST TITLE: Anyone know what’s going on With Mah-Ze-Dahr bakery?
+POST BODY: Suddenly closed and there’s a Marshall’s Possession notice on the front window. Place was always so busy. Online ordering was active for days after closing but site seems to have finally been updated. Claim shipping will restart next week.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/QuesoFresca):
+It’s amazing how far the chain got considering the questionable financials. The owner’s story always seemed a bit fantastical but the product was excellent and the in-store experience was generally good. How did they make it this far? Was everyone simply blinded by the owner’s Wall Street resume?
+
+Was just reading this piece: https://lifeandthyme.com/food/human-capital-at-umber-ahmads-mah-ze-dahr/ 
+
+“Proving the value of her products—as a relatively affordable luxury—can be more challenging. The economics of running a food business are still fairly misunderstood, and Mah-Ze-Dahr sees its share of customers who balk at the prices. “People come in and say, ‘It seems so expensive. I make cookies at home and it costs me almost nothing,’” she tells me.
+
+The response requires a deeper understanding of what goes into creating a food business beyond ingredients. “I say, ‘I appreciate that, and I’m sure you make great cookies. But you aren’t employing thirty-seven people, you don’t have upwards of $20,000 a month in rent, and then electricity and insurance.’”
+
+Ahmad is also deliberate in how her business is operated on the human resource side. “I also run an ethical business; every one of the people who works with me is offered healthcare, [and I match their] retirement plan. They get paid a living wage; it’s not a minimum wage,” she says. “Everyone has internal progression; I promote from within.” Building sustainability, she says, is of the greatest importance to her model.
+
+Here, we see Ahmad’s upbringing in action—her interest in humanity, and that idea of making a difference. In order to implement and sustain that kind of impact, her approach has been strategic—to think big and grow into it. But bakeries being the humble community cornerstone that they are is not something Ahmad neglects at Mah-Ze-Dahr. In fact, it was a central consideration in the development of her bakery, especially given her own experience as a woman and person of color.”
+
+REPLIES TO IT (context only):
+  u/Odd-Carry-5863: It’s unfortunate when someone, particularly a woman, weaponizes their “woman-of-color” status to treat others so poorly. 
+
+The pay was $13+ tips. How, in NY is that liveable? Our tips were also always magically “missing”? And we couldn’t ever know for certain how much we were supposed to be making. AND, when two colleagues stepped forward about the tips they’d received not matching the POS system, the POS for that day was wiped. 
+
+I’d asked regarding their health insurance from the moment I’d started working there. I’d asked about the 401k match in the same regard. It still didn’t happen by the time I’d left, almost a year later. I consider myself privileged. I have other income. I can thankfully get by. Others cannot. Others came from countries like Gambia to work at MZD. Others are people of color who are treated like people of color. 
+
+The whole thing is just sad.
+  u/Suitable_Income4700: Unfortunately 401k got taken away cause she could no longer afford to do it and as oppose to healthcare she stopped it without informing employees that she stopped it. They didn't know until they tried to use it again.
+=== END PACKET 67cff7e9 ===
+
+=== PACKET 6c0f5338 (comment packet) ===
+POST TITLE: Going to NYC for the first time next month. Anyone restaurant recommendations near time Times Square area?
+POST BODY: I know this is pretty broad. Just looking for recommendations to start with
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/myxyplyxy):
+No. Dont eat there. Dont stay there either.
+
+REPLIES TO IT: none
+=== END PACKET 6c0f5338 ===
+
+=== PACKET ceb65044 (comment packet) ===
+POST TITLE: Which diners can I visit while on vacation in NYC to get the authentic American diner experience?
+POST BODY: I've seen a lot of movies and TV series with scenes set in diners, where someone drinks cheap brewed coffee and eats eggs with bacon. Is that still a thing in NYC or nearby? If so, which places should I visit to get that kind of experience?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Nick_Fotiu_Is_God):
+In Manhattan (that I've personally been to):
+
+The Square Diner
+
+Hector's
+
+Joe Jr. 
+
+Tramway
+
+Tom's
+
+Waverly
+
+Cozy Soup and Burger
+
+The Flame
+
+I would recommend The Square.
+
+REPLIES TO IT: none
+=== END PACKET ceb65044 ===
+
+=== PACKET 7d279108 (comment packet) ===
+POST TITLE: Danny & Coop’s: Bradley Cooper serving Cooper Sharp American cheesesteak. Sometimes the Universe gets the casting right 😋
+POST BODY: https://dannyandcoops.com/
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Tink1024: Just had the same sandwich at Angelo’s in Philly! Best cheesesteak we’ve had there!
+  u/Neptune28: Pic?
+    u/Tink1024: Boo it’s only letting me attach a video whyyyyyyyyyy
+      u/Neptune28: You can use a link website like this https://imglink.cc/
+
+>>> COMMENT TO LABEL (u/Tink1024):
+[https://imglink.cc/cdn/Y9VUlPVeSu.jpeg](https://imglink.cc/cdn/Y9VUlPVeSu.jpeg)
+
+Hopefully that worked. Look at the sandwich it was soooo good. We went to the Angelos on Ninth St and thank you!
+
+REPLIES TO IT (context only):
+  u/Neptune28: Yes it worked, looks so good!! Hope to go some day and try it. Is it even better than Danny & Coop's or similar?
+=== END PACKET 7d279108 ===
+
+=== PACKET 862cf8c4 (comment packet) ===
+POST TITLE: Was on Resy at Midnight for an I Sodi res. No availability. What's going on?
+POST BODY: I was on Resy at 11:59 prepared to snag an I Sodi reservation 14 days out. The clock hits midnight and there are no reservations listed, only the notify button. 
+
+What's happening? Are bots instantly taking all the reservations?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/10throwaway123456789: I had the same issue and could never figure it out. I think I Sodi is mostly a walk-in spot so they don't make very many reservations available, if any. I would call the restaurant and ask. The hosts are usually pretty forthcoming with the reservation procedure.
+  u/wheredidspringgo: May just try walking in. I reached out via email and was just told to put on a notify
+
+>>> COMMENT TO LABEL (u/h1g440rs3):
+Call them and talk to an actual person if you want a real answer
+
+REPLIES TO IT: none
+=== END PACKET 862cf8c4 ===
+
+=== PACKET c27ba679 (comment packet) ===
+POST TITLE: Being a part of this sub since it’s inception makes me laugh how literally every food report has the exact same spots on them. Hope it becomes more common to venture off the beaten path and find the spots that aren’t on TikTok and eater mag. What’s a non hyped spot you tried lately that you enjoyed?
+POST BODY: Imagine traveling all the way to nyc and trying the same 10 restaurants everyone hypes and there’s an equal amount of posts online saying how they’re not worth it. 
+
+Just want the money to be spread amongst other small biz that could use it. So many good spots all over the city that people miss out on. People are cheating themselves waiting in crazy lines not trying the spot down the block with the same or better food. That’s the real magic of NYC food imo. 
+
+For me a recent one is Evelina. It’s well known in the area but I don’t see it posted often. One of my faves in the city for Italian.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/chass5):
+i’m always on here pushing m. wells which pete wells put on his recent top 100 nyc restaurant list at a very respectable no. 50. but it doesn’t get a lot of buzz otherwise
+
+REPLIES TO IT (context only):
+  u/phishyphriend: When the OG M Wells Diner first came around, now that was an "it" place. Now I just feel old haha
+  u/m1a2c2kali: The one in LIC?
+  u/IManageTacoBell: Huge +1 m wells is an incredible restaraunt. Excellent food and service. I think they have a Michelin star as well?
+=== END PACKET c27ba679 ===
+
+=== PACKET f57cf166 (comment packet) ===
+POST TITLE: Coqodao - A Korean Fried Chicken place - Highly recommanded
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/spotlight-app):
+Pinned [comment](https://reddit.com/r/FoodNYC/comments/1ioo36x/coqodao_a_korean_fried_chicken_place_highly/mcl9fyf/) from u/Sharlilla:
+
+> [Link to website](https://www.coqodaq.com/)
+
+REPLIES TO IT: none
+=== END PACKET f57cf166 ===
+
+=== PACKET 5c60b77c (comment packet) ===
+POST TITLE: Keen’s Steakhouse bought by hospitality giant Landry’s
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/chuckescobar: First Jersey Mike’s and now this. My day is ruined.
+  u/Coldhat: What happened to jersey mikes???
+    u/Broke-Mandingo: Blackstone bought them out for $8 Billion (not black rock real estate, and also not the portable grill company)
+
+>>> COMMENT TO LABEL (u/TightBoard2):
+Blackrock is way more than real estate. They’re the largest asset manager in the world
+
+REPLIES TO IT: none
+=== END PACKET 5c60b77c ===
+
+=== PACKET 3ad5fcd0 (comment packet) ===
+POST TITLE: Greenwich Village Steakhouse - Strip House or Golden Steer?
+POST BODY: Craving steak and looking for any feedback on either restaurant
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/RealityBright8190: I lived on 12th street when the original Strip House location was a Spanish restaurant. It was fantastic when it first opened. Glazier group purchased it and they expanded to midtown and Vegas. It was still excellent. Then in 2011 BR Guest purchased all of the locations and it was all downhill from there. All the cuts of meat never tasted quite like the originals. Not nearly the quality. Landry’s then purchased Strip House from BRG and they never managed to get the original mojo back. Such a shame. I went from spending thousands of dollars a year there to spending $0.
+
+Old Homestead was always meh in my opinion. 
+
+4 Charles was no problem to get reservations at when they first opened. TicTock and influencers blew it way the fuck up. It’s meh as well. 
+
+I wish I could report on an all around excellent steak house experience in the Village. I cannot.
+
+>>> COMMENT TO LABEL (u/manicakes1):
+Slim pickings out there. I’d just go to Keens. Wolfgang’s on Park has also completely gone downhill and I will not set foot in there again.
+
+REPLIES TO IT: none
+=== END PACKET 3ad5fcd0 ===
+
+=== PACKET d51ad753 (comment packet) ===
+POST TITLE: Getting reservation at Bungalow, NYC by chef Vikas Khanna
+POST BODY: Im trying to get a reservation at bunglow for months now. And it always shows unavailable on Resy 
+I have checked Resy on the time mentioned on the bungalow website and at random times but I’m never able to get one 
+Did anyone else get the reservation over here then please give me some tips
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Wild-Cut2830):
+Have you tried via any of the apps like ResX, Cita, RezyTrader, Wuwwuw, AppointmentTrader, etc.? Check them out.
+
+REPLIES TO IT (context only):
+  u/RightCheesecake6: Thanks for recommending so many websites.
+I just knew about resy and open table
+  u/No_Comb_1021: Is appointmentTrader legitimate?
+  u/RaspberryDiligent644: None of these worked for me as I was looking.
+=== END PACKET d51ad753 ===
+
+=== PACKET 13d091e8 (comment packet) ===
+POST TITLE: I went to Mariscos El Submarino for lunch. This place has been on my list for a while and did not disappoint
+POST BODY: I'll just start by saying the Costra taco is one of, if not the best, taco I've had in the city. All of the food was excellent. 
+
+The Mixto Aguachile Verde was fresh, full of seafood, and had just the right level of heat. 
+
+The taco. Bruh. I could eat them until I passed out. The meat was so tender, and juicy, and beefy. The tortilla was also the best, or at least one of the very best, I've had in the city.
+
+The guac was made to order and just right.
+
+The other taco, the Gobernador, was more like a quesadilla. Packed with cheese and shrimp and a creamy shrimp sauce. This by itself would be a nice quick lunch. And at $9, to me, would be one of the best values in the neighborhood. 
+
+I would come here for lunch, a casual dinner, and even for a date night. I will recommend this place to the people I know.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/juicepak):
+easily one of the best restaurants in the city. dont skip out on the tuna tostada, octopus taco or grilled shrimp
+
+REPLIES TO IT: none
+=== END PACKET 13d091e8 ===
+
+=== PACKET fb61b68e (comment packet) ===
+POST TITLE: Need suggestions on (food) things to do on a night crawl on 27 May
+POST BODY: I'm touching down at JFK (no checked bags) at 10pm and need to catch an amtrak up to DC at 5am.
+
+I need some suggestions of things to do and food that will still be open at those ungodly hours on a Wednesday.  Especially restaurants those with wifi and a power port.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/JeanCerise):
+Restaurants have WiFi. Not a power port. 
+
+Would you want to go to the TWA hotel at JFK and sleep?
+
+REPLIES TO IT: none
+=== END PACKET fb61b68e ===

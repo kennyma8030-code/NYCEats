@@ -1,0 +1,42 @@
+NYCEats extraction labeling -- batch b006 -- pass: same_input -- 1 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b006.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 7db2b587 (thread packet) ===
+POST: Even Bad Pizza in NYC is Sometimes Bad....As Evidenced by....
+I would think given it's the world mecca of pizza, that bad pizza there is still decent, but nope, I found a place called Roma Pizza on 8th Ave. that I picked because the reviews were decent, you could eat inside, and it was literally around the corner from the theater I was going to. This place was really bad. Definite Top 5 worst pizza places I've ever eaten anywhere. I don't know how people cou ...
+
+    [1] u/Neptune28: Agreed. It's not even close to bad. In fact, I may go to Bedford and get some in a few hours.
+    [2] u/Objective-Two-8728: Agree, it’s quite good - just no where near a ‘best slice in nyc’ territory
+  [3] u/InSearchOfGoodPun: I once watched a video on YouTube of some tourist who ate “Joe’s Pizza” and he didn’t think it was bad, but he didn’t see what the fuss was about. It turns out that he was eating at the shitty “Joe’s Pizza” in Chelsea that is not part of the famous mini-chain. Even funnier is that none of the commenters seemed to realize this either.
+  [4] u/pavlovselephant: Large swaths of inner Queens have atrocious pizza.
+    [5] u/16_USQW: It's not bad but certainly overrated!
+[6] u/ThinPerformance: What was bad about it?
+  [7] u/DiedOfATheory: It just tasted bad. Everything was wrong with it. I can't think of anything I liked other than I was really hungry at the time...Poor tasting ingredients, floppy, etc.
+  [8] u/netllama: 100%. This post is completely useless nonsense without context.
+[9] u/ArtDecoNewYork: There's loads of bad pizza in NYC, or at least mediocre pizza (not even counting the budget places which are cheap at least).
+[10] u/lithium900mg: I tried a new place that just opened on 7th Ave between 14th and 15th the other day and it was genuinely the worst slice of pizza I’ve ever had it my life I couldn’t even finish it
+[11] u/SomeDrillingImplied: I hold the controversial opinion that the median pizza on Long Island and NJ is actually better than the median pizza in NYC, but the highs are higher in NYC than they are in the aforementioned places.
+  [12] u/Objective-Two-8728: This is intriguing….do you think the mean/average would be a different conclusion?
+  [13] u/MosesRobertsNYC: Not controversial at all. Same goes for bagels.
+  [14] u/Neptune28: Where in NJ? I have gotten pizza at Maplewood Pizzeria and liked it quite a bit, the paste is incredible too [https://www.maplewoodpizza.net/](https://www.maplewoodpizza.net/)
+  [15] u/AvailableFalconn: But in NYC you’ll always be 5 minutes from a good pizza place. Not sure how the crap one’s survive tbh.
+  [16] u/pumper911: If you go with the barstool scale, feel like NYC pizza median is around 6.7 and Long Island and NJ is like 7.2. But NYC has a bunch of 9+’s and there’s maybe 1 or 2 I’ve come across in NJ / LI
+  [17] u/The_Chief: Manhattan that might be true, but definitely not for Brooklyn. Manhattan Pizza always has been shit with no soul except for good spots.
+  [18] u/Jesufication: Razza pulls up the avg so much that median is definitely the way to go
+    [19] u/Alert-Painting1164: Agree. I’ve willingly eaten so much bad pizza in Manhattan because I was drunk and it was there
+    [20] u/gambalore: Fuck Barstool and Dave Portnoy in particular.
+  [21] u/cellularATP: This is not true for Long Island. I'd rather have a lot of random slices in the city before I'd have random Long Island pizza. New Jersey is different though. They have the highs that compete with NYC like you mentioned, as well as a higher median.
+  [22] u/Round-Vast-1014: not that controversial tbh, the average neighborhood spot in NJ is just more dependable
+    [23] u/SpartanAesthetic: Village Trattoria (in Maplewood or Summit) has the best creative slices I’ve ever had.
+      [24] u/Neptune28: I will check it out next time!
+    [25] u/SomeDrillingImplied: Long Island bagels blow NYC bagels out of the water, honestly. Doesn't matter of it's mean, median, or best of the best. LI is best in show for all categories there.
+=== END PACKET 7db2b587 ===

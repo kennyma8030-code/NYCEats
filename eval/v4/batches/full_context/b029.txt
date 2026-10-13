@@ -1,0 +1,389 @@
+NYCEats extraction labeling -- batch b029 -- pass: full_context -- 20 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b029.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 56b4b5c6 (comment packet) ===
+POST TITLE: My first Michelin experience. Which would you prefer?
+POST BODY: I'm looking for the best experience at the restaurant. Which of these would you prefer if you had to recommend only one? 
+
+* The Modern (most likely will do the Kitchen Table)
+* Daniel 
+* Atera
+* 63 Clinton
+
+Thanks!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/iCloudStrife: Daniel might feel a bit weird solo if you're at all apprehensive. All tables can see all tables, pretty much. And the service is pretty stiff and impersonal. But it'll feel the fanciest out of the four you mentioned so if it's what you're imagining, it's not a bad choice at all. It was one of my first solo tasting menu experiences (although at Daniel I actually recommended doing the prix fixe menu and picking what you want and getting larger portions of them).
+
+63 Clinton will be the most social (at least with the staff, who will talk to you often and genuinely) if that's what you want. I don't think their food is particularly impressive but it's consistently very good. It's probably not what you're picturing as a "Michelin" experience, and not coincidentally it's the only 1-star out of your list of otherwise 2-star places.
+
+Atera is a risky play. You'll be at a counter but the food might be quite different from what you've had before. They do a great wine pairing, but you might find the juxtaposition of 2-star (nearly 3-star) service and the more sleek and minimalist and dark setting, and being close to your fellow diners, a bit unusual.  
+  
+I suggest The Modern. It'll have the professionalism and finesse of Daniel with a bit more of Atera's creativity but in a more pleasant atmosphere. And if you sit at the counter you've got that aspect of 63 Clinton covered. And IMO the Modern's eggs on eggs on eggs edges out 63 Clinton's breakfast taco.
+  u/ListofReddit: Awesome thanks for the in depth comment. I think I’m edging towards the modern. I was thinking of doing the kitchen table for it. If not the kitchen counter then most likely the main dining room because I do want the tasting menu.
+
+>>> COMMENT TO LABEL (u/Same-Honeydew5598):
+This was a great breakdown. I would say hands down start with the modern. I went to Atera with some friends and there were a couple people there solo, I would recommend for a solo experience but not for the first Michelin experience. 
+Either way you can’t go wrong and enjoy!
+
+REPLIES TO IT: none
+=== END PACKET 56b4b5c6 ===
+
+=== PACKET 6d3bccc1 (comment packet) ===
+POST TITLE: One of the best Nasi Lemaks in NYC
+POST BODY: Ayam is a fast-casual place in Astoria, the family who runs it is from Southern Thailand, so the food’s a mix of Malaysian/Thai dishes. 
+
+And it’s only $13 for a generous portion!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/justflipping: Looks good! Interesting mix of Malaysian and Thai.
+
+Which other places do you like for nasi lemak?
+  u/Jessense: Southern Thailand shares a border with Malaysia, so the food’s a mix of both. 
+
+It’s honestly hard to find good Nasi Lemak or sambal in NYC, I like Nyonya in Chinatown, they have a really large menu too (cash only). 
+
+I can tell you where I don’t recommend for Nasi Lemak: Papa Rich or Fish Market, overpriced and 👎
+
+>>> COMMENT TO LABEL (u/justflipping):
+Just gave this place a try today. It was great! Thanks for sharing. Definitely the kind of recommendations I like seeing in this sub.
+
+REPLIES TO IT (context only):
+  u/Jessense: What did you get?
+=== END PACKET 6d3bccc1 ===
+
+=== PACKET dd404220 (comment packet) ===
+POST TITLE: My top 5 ramen joints
+POST BODY: Like for many, Ippudo was my gateway ramen many years ago, over a decade. Since then I have tried a bunch of ramen joints, I would say about 15 so far. And I have been back to numerous a whole bunch of times. This is all for tonkotsu ramen. These are mostly in Manhattan as I live in Jersey City but ride my bike all over Manhattan, BK & Queens, and also just pop in to socialize often. But Manhattan is the most mileage so I am not as aware of BK or Queens shops. Though I did go to Danbo in BK and it was amazing.
+
+There is no single best bowl of ramen in the city to me. All of these make me super fucking happy, and all are slightly different and one may have better noodles, one may have a better broth. But ultimately these are a combination of firepower across noodles, broth, meat, toppings.
+
+In no order - E.A.K. (6th or 9th) Momosan  Ippudo (Astor) Hide-Chan (UES) Danbo (in BK)
+
+Santouka in Edgewater to me is just as good, EVEN though their egg is a dry hard-boiled abomination.  The melty pork ramen is still out of this world. If their egg game was on point, sheesh.
+
+There are other good ramen joints I've tried I just can't say I crave them as much as the above, but I'd happily eat at again. I kept thinking Ippudo couldn't be that good, it was the first one to really blow up and it's cool to hate that guy, so I kept expecting to find stuff so much notieceably better.
+
+Fuck it, Ippudo makes a ridiculously good bowl of ramen. Every, single time. Certain places, like Momosan, are super light on the pork portion, so you are going to have to get extra chasu, and little tricks to learn at some. 
+
+I have been to Tonchin, Teppen, Ichiran, Mr. Taka, Minca and then like 4-5 others I can't remember. 
+
+I hate to say this, but Minca was just not good.
+
+I still have like 5 more on my list of the ones I see most mentioned in mostly this subreddit. Any suggestions for the absolute next joint or two if those are my jam?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/schickschickschick):
+how was tonchin????
+
+REPLIES TO IT (context only):
+  u/Texas_Rockets: I went a few days ago. Thought it was in that space where it’s hard to find ramen that good but also not the most amazing thing out there. Maybe an 8/10?
+=== END PACKET dd404220 ===
+
+=== PACKET 2c9cbdd5 (comment packet) ===
+POST TITLE: Tired of fake food influencers. Who are the REAL NYC food Instagram accounts worth following?
+POST BODY: I’m fed up with sponsored food posts from accounts being paid by restaurant groups with the biggest budgets.
+
+The VIP List types feel useless. I don’t trust their takes. I want real people who eat everywhere, know food, and give honest opinions. I want creators you can message and get real answers from.
+
+A few smaller accounts I’ve liked:
+• Table___nyc
+• Pesscatariandiet
+• Resyguynyc
+• Spaghetti.alla.vongole
+
+Who else is worth following? I want honest reviews, no ads, no hype. Send me the accounts you trust, PLEASE.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/cawfytawk: The best reviews are from people that don't solicit free food from the businesses in exchange for a review (so tacky)
+and don't exclusively post food on their feed. My favorites are the anti-fluencers that shame clout chasers for slandering restos that refuse to comp their meals. 
+
+Tyreaktoldyou, daadisnacks, pictureperfectluis
+
+>>> COMMENT TO LABEL (u/Smooth_Influence_488):
+Speaking of, I finally got my chai popcorn. So good, especially if you like not too sweet snacks.
+
+REPLIES TO IT (context only):
+  u/cawfytawk: I want to try it! Sounds delicious! I didn't know he sold snacks, tbh 😂 I was hooked on his de-bunking reels. "Come with meeeeee..." Hilarious!!!
+=== END PACKET 2c9cbdd5 ===
+
+=== PACKET 719514d8 (comment packet) ===
+POST TITLE: New Indigenous Frybread Pop-Up Stand in Ridgewood, NYC!
+POST BODY: Hey! My name is Raini and I'm a member of the Lakota tribe. I realized theres been a gap in indigenous foods available so I decided to start my own frybread stand! Complete with toppings such as honey, powdered sugar, and three different types of jelly!
+
+Our first day open will be this Sunday at TV Eye. Starting at Noon and going until supplies last!
+
+Its $5/pc and you wont regret it <3
+
+If you can't make it, follow my IG for updates on our next pop-up!:
+
+# @lakotafrybreadco
+
+It's pretty bare bones rn but I'llbe posting pics and vids of our frybread very soon! 🥰
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Sharp_Progress_5693):
+This is so cool, can’t wait to try and see your ascension
+
+REPLIES TO IT (context only):
+  u/mayhemintexas: 🥹🫶
+=== END PACKET 719514d8 ===
+
+=== PACKET 56cefa8e (comment packet) ===
+POST TITLE: Hawksmoor and Comped Drinks
+POST BODY: My girlfriend and I just had a meal at the Hawksmoor. We showed up early and got a drink at the bar before our table was ready. When the bill came at the end, I noticed my first martini wasn’t on there. Has anyone had a similar experience? Is this part of their protocol?
+
+Side note we got the porterhouse which was cooked perfectly, the wine was good and the dining room was gorgeous. Not a place to go looking for value as our bill was around $350 for splitting a steak and some sides but all around very good.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/geneticswag: Are y’all tipping out on that “comp” drink, or just including its proportional percentage?
+
+>>> COMMENT TO LABEL (u/PitfulDate):
+Yes if it's something I ordered and they comp it to be nice. I was obviously ready to pay full price for the item + tip if I ordered something and I might as well share my good fortune back with my server. 
+
+No if they comped something I never ordered. For example,  something they wanted me to try. Or if they accidentally gave me the wrong thing and then just let me keep the wrong order as well as my original order. At that point, I appreciate free stuff but I don't feel obligated to tip beyond my normal percentages.
+
+REPLIES TO IT: none
+=== END PACKET 56cefa8e ===
+
+=== PACKET 8a9c34a1 (comment packet) ===
+POST TITLE: NYC Food Instagram Feeds That Aren't Annoying AF
+POST BODY: I pretty much stay off Instagram entirely now because food media on there has become all the same people going to the same places saying the same thing, because restaurants asked them to come. No thanks. BUT, I do like a handful of accounts that - THANK GOD - are not doing the exact same thing as everyone else.
+
+Open to discovering others in the comments if you've got 'em.
+
+1. Rob Martinez - @ robmartinez  
+Literally the only person I can find who's doing actual STORYTELLING. He's supporting restaurants in all the right way.
+
+2. Dave Cook - @ eatingintranslation  
+So simple. Just pictures of dishes that are good. Great! Thank you!
+
+3. Anh - @ whatsgoinganh  
+No one else is actually making their videos like this, and it's goddamn refreshing! Seriously, why does EVERY food person online use the same vocal cadence, same editing, same same same. Not Anh!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/ADiscipleOfYeezus):
+I recommend Nicolas Nuvan (@nicolasnuvan)! He often does wide-ranging videos on culture in the outer boroughs that usually include a restaurant or two! He’s very thoughtful in how he makes his videos and how he depicts marginalized communities.
+
+REPLIES TO IT (context only):
+  u/bkiron89: Unfortunately he showed his true colors and is willing to sell out the community for AI:
+
+https://www.reddit.com/r/BedStuy/s/1sEXmYDxuk
+=== END PACKET 8a9c34a1 ===
+
+=== PACKET 80a79d6f (comment packet) ===
+POST TITLE: feasting on pasta at Misi in brooklyn
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/cowgoeswoof9: Pasta party - 3 pastas for 2 people!
+Everything was so flavorful and fresh! But the favorite was the spinach and mascarpone tortelli 
+
+https://www.misinewyork.com/menus/
+  u/ram0h: whats the estimated damage, if you dont mind me asking?
+
+>>> COMMENT TO LABEL (u/cowgoeswoof9):
+About $25 per pasta!
+
+REPLIES TO IT (context only):
+  u/ram0h: oh not bad
+=== END PACKET 80a79d6f ===
+
+=== PACKET a27e80dd (comment packet) ===
+POST TITLE: Sonny in chinatown
+POST BODY: First time seeing him. Didnt realize the guy is so tall...
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/CabassoG):
+He's around 6 feet or something similar. Place seems to be to A+ Hot Pot Rice Noodles on Mott. Haven't been but it looks tasty.
+
+REPLIES TO IT: none
+=== END PACKET a27e80dd ===
+
+=== PACKET 8b2aef43 (comment packet) ===
+POST TITLE: Fine dining w ice cream cake?
+POST BODY: Any recommendations for an excellent meal in Manhattan that has an ice cream cake or something ice cream cake adjacent on their dessert menu?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/jaded_toast):
+So, I haven't been, but something on my list to try is the buckeye terrine at The Grill. I haven't been able to find any photos of it either, so not sure if it's ice cream, but could potentially be. 
+
+And not fine dining, but San Sabino has a dessert that's supposed to be based off of the Viennetta (although I personally think that the comparison is a stretch).
+
+REPLIES TO IT: none
+=== END PACKET 8b2aef43 ===
+
+=== PACKET d515cc29 (comment packet) ===
+POST TITLE: Of the five 3 Star restaurants (Jungsik, Eleven Madison Park, Le Bernadin, Per Se and Masa) which would you recommend and why?
+POST BODY: Out of those 5 I've only eaten at Eleven Madison Park and that was before the vegan switch over. Wanting to take my girlfriend to a place that will truly blow her mind and having a hard time choosing
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Fragdict: Jungsik and it’s not even close. I’d put CTBF up there as well—not sure what Michelin is thinking as it’s a far better meal than the old three stars.
+
+As a rule of thumb, a restaurant that just earned its third star is going to be better than a restaurant that has held three stars for a decade.
+  u/throwawayl311: What does ctfb stand for?
+    u/Fragdict: Chef’s Table at Brooklyn Fare.
+
+>>> COMMENT TO LABEL (u/Relative-Subject-512):
+Service is horrible. Def not worth it
+
+REPLIES TO IT: none
+=== END PACKET d515cc29 ===
+
+=== PACKET b8856508 (comment packet) ===
+POST TITLE: First time NYC and willing to try it all grom everywhere
+POST BODY: I‘m not a foodie per se but I guess that NYC is great place to try food from the Caribbean, Creole cuisine,  Levanthinian and African kitchen. We‘re a family of four, totally non urban non of US origin farmer‘s family and will be overwhelmed by NYC anyway. But, any ideas on how to start diving into the food adventure would be great. No need for fancy restaurants we‘re totally cool with family kitchens, traditional cuisine which won‘t get in our hometown village deep in the Alps!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/SadTomorrow869):
+Try searching the sub for specific kinds of cuisine you want to try and you'll get plenty of suggestions. Broadly speaking, the best examples of these cuisines will be outside of Manhattan.
+
+REPLIES TO IT: none
+=== END PACKET b8856508 ===
+
+=== PACKET adf4b99f (comment packet) ===
+POST TITLE: Korean BBQ at home - where do you buy ingredients esp the meat?
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/tshneier: HMart
+  u/BoysenberrySpaceJam: HMart. One in K-town. One in UWS at least.
+    u/weekendgopher217: Any hmart except the one on uws. It's the worst hmart in the world.
+
+>>> COMMENT TO LABEL (u/knguyen49):
+What’s wrong w the one on the UWS?
+
+REPLIES TO IT (context only):
+  u/weekendgopher217: Expensive and tiny.
+=== END PACKET adf4b99f ===
+
+=== PACKET 043fd228 (comment packet) ===
+POST TITLE: Any omakase recommendations?
+POST BODY: Never done a true omakase before.  Looking to go for an upcoming celebration with my gf and would prefer to sit at the bar and watch the dishes as they're prepped.  You guys have any recs in the mid to higher end price range?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Stinkytofu86):
+koyu omakase at astoria is not bad
+
+REPLIES TO IT: none
+=== END PACKET 043fd228 ===
+
+=== PACKET 5ceed1dc (comment packet) ===
+POST TITLE: Reigning pizza slice downtown Manhattan? L’industrie?
+POST BODY: I am an avid consumer of pizza by the slice. I’ve been on a L’industrie kick for months now and very content, but browsed this sub the other day and was surprised by the hate L’industrie has been getting, for what I consider a standout slice.
+
+Educate me on what slice shops are the best these days. For someone who’s struggled to find anything better than L’industrie.
+
+Places off the top of my head I’ve been that I rate lower:  
+\-Scarr’s: inconsistent, often cold / congealed  
+\-Prince St: Still like a square every now and then but prefer a thin New York slice and often a bit too greasy  
+\-Rubirosa’s: former favorite but has fallen off hard IMO. Haven’t had a good pie in years  
+\-Cello’s: good in a pinch but this is “we have L’industrie at home”  
+\-Two Bro’s: joking but this is actually unbeatable for $1.50  
+\-Joe’s, John’s, etc - good staples but doesn’t wow  
+\-Juliana’s: not bad but definitely a tourist trap
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Busy-Entrepreneur-74: The answer here is Joe’s imo
+  u/themayorhere: It’s crazy Joes gets downvoted. The real location in the village is as quintessential NYC pizza as it gets. Theres better stuff out there these days, but quintessential is the word for Joes.
+    u/bobdownie: The one in FiDi is BAD. It’s almost like it’s not the same place.
+
+>>> COMMENT TO LABEL (u/themayorhere):
+Completely agree
+
+REPLIES TO IT: none
+=== END PACKET 5ceed1dc ===
+
+=== PACKET 990e46c1 (comment packet) ===
+POST TITLE: Stretch Pizza
+POST BODY: Second time having their pizza ! It holds up via delivery   . Definitely in my top 3 slices now.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Ecstatic_Owl_3793: incredible pizza; bad delivery service (issues every time). that we continue to order is a statement.
+  u/OtherIllustrator27: Sorry to hear. I did Uber Eats, priority delivery and it was great.
+
+>>> COMMENT TO LABEL (u/Ecstatic_Owl_3793):
+will try this (avoid grubhub)!
+
+REPLIES TO IT: none
+=== END PACKET 990e46c1 ===
+
+=== PACKET d9dd3778 (comment packet) ===
+POST TITLE: Best unique ethnic food in midtown?
+POST BODY: Mother in law from Poland is visitng and wants something "special and ethnic" in the Midtown area. She already suggested Cafe Mogador if that gives you an idea of what she means.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/phoenixchimera):
+* get some Indian in Curry Hill. Panna Too for shits and giggles (tell them you're celebrating someone's birthday), but there's more quality/authentic stuff in the neighborhood if that's really what you're looking for. 
+* Woojrip to sample a variety of Korean cuisine. It's not fancy (it's mostly a pay by the pound buffet) but it will give a lot of variety. If you can drag her to Picnic Garden, that also could give her variety in a nicer setting. For a sit down BBQ restaurant, Antoya. People love HanGawi but after everyone in my party got severe food poisoning after eating there (which is a pretty massive feat for a veg place), I actively dissuade people from going there. 
+* Pio Pio on 8th ave is a decent entry to peruvian style, great space and cocktails in addition to good food that's not obscenely priced.
+
+REPLIES TO IT: none
+=== END PACKET d9dd3778 ===
+
+=== PACKET 733304be (comment packet) ===
+POST TITLE: Thoughts on Tacombi? (UES)
+POST BODY: Got three tacos (well two and a tostada). The Al Pastor which was really good. The LaFrieda ribeye which was horrible. Bland as fuck and the avocado tostada, also fantastic (the best of the three). Also got a large guac and chips for $16. Guac was great ( it’s hard to fuck guac up) and chips were way too hard for me. One thing I notice is that they single wrap their tacos. How do you folks prefer them? The pastor stood up well to the single tortilla, the ribeye was a drippy mess. I feel like this place has declined over the past few years. So is it literally just a taco place for people who don’t want to go to the outer boroughs, village etc or are they legit?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/manicontrol2020):
+It's a decent, consistent option. They are very lucky that Los Tacos isn't on UES or UWS. When they do come, they will easily be the best tacos in those areas.
+
+REPLIES TO IT: none
+=== END PACKET 733304be ===
+
+=== PACKET e12e9091 (comment packet) ===
+POST TITLE: The Plant-Based Diet Has Officially Peaked in NYC
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/funkykayy: As an Indian vegetarian who’s lived in NYC for awhile now, the issue I see with the vegan movement in the west is how they want to be “ so different” from the meat eaters but then all of the alternatives are trying to be meat imitations. ( Beyond burgers , Chik’n, cauliflower steak etc )
+
+Part of why veganism works in many eastern cuisines ( especially Indian and Thai) is that the vegan food is not a stand in for an alternative meat dish. You don’t have a Paneer Vindaloo or an Eggplant Shawarma as a stand in for their meat versions.  Instead you have paneer butter masala and bhaingan bharta as their own stand alone dishes which are not “ derivative” of any meat dishes. Everyone likes paneer even the most hardcore meat eaters. 
+
+The vegan west needs to get inventive with vegan dishes - dishes that can become staples in their own right ( like avocado toast) if they want more people to embrace plant based diets
+
+>>> COMMENT TO LABEL (u/chasingsukoon):
+or just learn indian food lmao but i don’t trust em to not call it “weird” or wtv happened with “courtney cook’s eggs “
+
+REPLIES TO IT: none
+=== END PACKET e12e9091 ===
+
+=== PACKET 51138e2b (comment packet) ===
+POST TITLE: Seirinkan x Sake No Hana - A different perspective
+POST BODY: I will start this off by saying $45 for a pizza is pretty damn overpriced. However, the pizza was amazing and definitely one of the best Neopolitans i’ve had - I would still put Una Pizza and Pizzeria da Ciro in Kyoto above it though. 
+
+I want to talk about the recent negative review though and the complaints about the wait time. In the 45 minutes I spent at Sake no Hana i witnessed 2 different groups pretty much harassing the wait staff until they relented. One group WALKED IN - got seated without a resy because the staff was nice - then kept complaining about how they shouldn’t be subject to the limit because they “walked in” separately. Another group walked in with 3 solo reservations just to get past the pizza limit then complained that they wanted to be seated together - the staff asked me to move to accommodate them ( they were extremely nice about it and apologized the whole time) but this was the type of entitlement I witnessed. This was my first time at Sake no Hana so i have 0 attachment to this restaurant but it’s hard for me to give any weight to the review trashing them when they’re trying to accommodate the most entitled customer base i’ve ever seen lmao.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/mundus1520: 45 dollars for a pizza with broken oily cheese? Oof
+  u/halfcastdota: cheaper than having to take PTO to fly to japan to try it
+    u/cemita: Why are you paying to go to Japan to eat pizza?
+      u/halfcastdota: i forgot this sub is a bunch of tech bros who act like they’re food experts because they’ve been to astoria one time
+
+>>> COMMENT TO LABEL (u/Wirecrats):
+Yeah no idea why you are being downvoted. Thanks for the post. Likely reason is they have never had Japanese pizza. Japanese Italian is by far my favourite cuisine. Next time I’m in NYC will certainly try this.
+
+REPLIES TO IT (context only):
+  u/halfcastdota: sadly it’s only a week long pop up. but if you love japanese food, dm me when you’re in nyc and there’s this really nice izakaya under the radar that you might enjoy
+  u/basilgenovese: Insane takes on this thread. Dude is a master at his craft. Clearly the restaurant got overwhelmed and aren’t isn’t used to getting absolutely fucked due to some hype. Leave Brittany alone.
+=== END PACKET 51138e2b ===

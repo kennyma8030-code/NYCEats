@@ -1,0 +1,440 @@
+NYCEats extraction labeling -- batch b030 -- pass: full_context -- 20 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b030.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET dec73e4b (comment packet) ===
+POST TITLE: Whats a food or restaurant you should absolutely try before leaving nyc
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/NYEDMD: Depends on your experience. At the risk of engaging in stereotypes, if you’re from say, rural Oklahoma, you may not have had first class sushi, especially via an extensive omakase menu. With that said, a few of the more obvious suggestions:
+
+Bagel & Lox from Barney Greengrass or Russ and Daughters
+
+Pastrami from Katz’s or Sarge’s
+
+Mutton Chop from Keens
+
+Dinner from one of the old established "Great Houses", i.e.: Le Bernardin, Jean Georges, or Daniel.
+
+If pizza to you is Domino’s or the Hut, then a slice from any one of a dozen places we can spend days arguing about…
+
+Again, all predicated on what you HAVEN’T experienced.
+  u/jexxie3: This is a great point. I can find great pizza and bagels in Jersey. Call it the NYC diaspora. I can’t find the amazing Korean food I had the other day. Yubu? Fucking incredible.
+
+>>> COMMENT TO LABEL (u/blahblahblah_random):
+fort lee, bergen county..
+
+REPLIES TO IT (context only):
+  u/jexxie3: I’m not saying there’s not good Korean food in NJ… just that I can’t get it near me in West Bumblefuck, NJ.
+=== END PACKET dec73e4b ===
+
+=== PACKET 9ea59080 (comment packet) ===
+POST TITLE: Recommend a $50-$100, $100+ with warm, conversational hospitality/service for solo diner?
+POST BODY: I’m going through a break up and I want to be taken care of- I also want to eat red meat until I die of a heart attack, optional. Ready to spend. Good view from a height, or dimly lit ground floor vibe.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/pandaspuppiespizza: Claud. It’s half underground and the bar service is friendly. Killer pork chop
+  u/DorianHistorian: Tons of great suggestions all over these comments. Re: Claud just wanted to add that I have eaten here multiple times, and the one time I came alone and sat at the counter in the back was far and away the best experience.
+
+>>> COMMENT TO LABEL (u/pandaspuppiespizza):
+Oooh you got to sit at the kitchen counter? That’s awesome — did you walk in and they put you there or did you reserve that spot ahead of time
+
+REPLIES TO IT (context only):
+  u/DorianHistorian: I got there about a half hour before they opened and was the first one in the door without a reservation. That's where they sat me. Not technically a chef's counter, but I believe it's 5 seats basically right on top of the garde manger station and looking at the grill, etc.
+=== END PACKET 9ea59080 ===
+
+=== PACKET 76a94f1b (comment packet) ===
+POST TITLE: Best sake bar in NYC right now?
+POST BODY: I'm visiting this week and am a big sake enthusiast. Don't really care how good the food is or if they even have food. Prefer a vibe more like an izakaya. I know of sake bar decibel but was wondering if maybe all these years later that there might be something better for that type of thing. Thanks!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/justflipping: Sake Bar Decibel is still good. There’s also Hi-Collar, Sake Bar Satsko, and Sakagura. More recs [here](https://www.theinfatuation.com/new-york/guides/best-sake-bars-nyc?)
+
+Not izakaya but more brewery for locally brewed sake: Brooklyn Kura, Kato Sake Works
+
+>>> COMMENT TO LABEL (u/loydhope3):
+Have you been to Satsko recently. I love it there — but what’s with the smell?
+
+REPLIES TO IT (context only):
+  u/justflipping: Not that recent. Went a few months ago and didn’t notice a smell
+  u/vurto: No smell when I was there a month ago...
+=== END PACKET 76a94f1b ===
+
+=== PACKET 5c57809a (comment packet) ===
+POST TITLE: 7 nights in your marvellous city 🫶🏻🤤
+POST BODY: My favourites : 
+
+1.	⁠Murray’s Bagels - BEC
+
+2.	⁠All’Antico Vinaio - La Dante
+
+3.	⁠Best Damn Breakfast Burrito - La Neta
+
+4.	⁠Andiamo Pizza - classic cheese
+
+5.	⁠Leo’s Bagels - cream cheese on multigrain
+
+6.	⁠Hungry Llama - honey whipped latte 
+
+7-8. La Bernardin - lobster cappuccino  & nori crisp 
+
+9-10. Hamburger America - smash burger with cheese + fries 
+
+11-12. Upside Pizza - pepperoni & mushroom
+
+13.	⁠Rezdora - burrata, raviolo & gramigna
+
+14.	⁠Ole & Steen - chocolate social slice
+
+15.	⁠Society cafe - hand rolled pretzel with Brie & beer dip 
+
+16-17. Minetta Tavern - Salad & steak frites
+
+18.	⁠Daily Provisions - maple cruller
+
+19.	⁠Apollo Bagels - cream cheese w tomato & smoked salmon
+
+20.	⁠Court street grocers - American combo
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/ryox82: All'Antico was a great choice. I try to hit it up and throw at least one sandwich in the bag when I am there for vendor events or roundtable.
+  u/michepc: Having been to the original, I haven’t yet been able to get myself to pay nearly twice the price here.
+    u/BeautifulComplaint81: Oh damn is it double the price?! Haha feel like. The sandwiches look smaller in pics too
+
+>>> COMMENT TO LABEL (u/michepc):
+8-12 euros vs 14-19 USD. Not quite double but close enough lol.  Plus the euro price most likely includes tax and there’s no tip screen 🫠
+
+REPLIES TO IT (context only):
+  u/BeautifulComplaint81: Euro version and system is much better lol. Will give them a try when I'm back in the city
+=== END PACKET 5c57809a ===
+
+=== PACKET e5a10c1e (comment packet) ===
+POST TITLE: Minetta Tavern in Greenwich Village - July 2026 for Lunch Menu
+POST BODY: Booked a reservation for solo lunch. Seated immediately and the server brought over the customary solo diner complimentary champagne without prompt.
+
+I love the atmosphere and decor of this spot, especially the caricatures on the wall.
+
+Baguette came to the table hot & fresh. Great flavor to the bread but only ate a bit as I didn't want to be filled up on carbs ahead of the main reason why I came - trying the famous Black Label Burger.
+
+Ordered with a side salad with the fries & burger. Perfectly medium on the inside, as requested. A bit longer on the wait for mains than I assumed for a burger. I think almost 20 minutes from baguette being served. Could have been because it was a busier lunch rush.
+
+Onto the burger, I prefer pub-style over smashed. I want to taste the beef and this one certainly delivered. Not mind-blowing as some other reviews I've read about the Black Label. I'd say it was good overall (3/5). For me, not a return visit kind of order.
+
+As a comprehensive dining experience though, I would take friends & family visiting the city to this spot.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/stonktradersensei):
+Thanks for the review, been on my list to go eat at.  How busy was this lunch rush?  Like would I be able to walk in as a solo diner?
+
+REPLIES TO IT (context only):
+  u/AuPhoenix: No idea on the feasibility of walk-ins, sorry :/
+
+I went on a Saturday for lunch, and there appeared to be a steady flow of folks.
+  u/limperatrice: If you don't mind eating at the bar you can go in without a reservation
+=== END PACKET e5a10c1e ===
+
+=== PACKET 5954ab60 (comment packet) ===
+POST TITLE: Lombardi's Pizza Flown to CA
+POST BODY: Don't ask me how, but my mother brought Lombardi's from NY to CA today 😂
+
+My parents had business in NY and asked me spur-of-the-moment what Pizzaria to eat at. In my list of like 20 NY pizzerias I want to visit someday, Lombardi's was closest to where they were staying. When they flew back to CA they brought a surprise!
+
+This is half Large Margherita and half Large White pie. Heated in an air fryer, it's like I'm there 😍
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/hbomb9410: The food from NYC I miss the most is a BEC on a roll, and I am very loud about it, lol. A couple of years ago, my sister-in-law, who lives there now, flew home for a wedding. She stopped at the deli on her way to the airport, bought me a BEC, and kept it in her carry-on all the way down to Texas. It was 12 hours old, but it was perfect. One of the best surprises I've ever gotten.
+
+>>> COMMENT TO LABEL (u/phlanxcampbell1992):
+Most delis in manhattan have declined severely.. the price of a bacon egg in cheese in chealse is like 8 or 9$ now… also lots of delis are not serving real bacon any more and just serving beef bacon.. its too bad i now skip deli food cuz it horrid and they all have the same crappy bread and processed meats.
+
+REPLIES TO IT (context only):
+  u/NOT-GR8-BOB: $8?!? Oh no that’s going to bankrupt me!!!
+  u/CarbideManga: Still about 5 bucks in most spots in BK. I think most food carts in the city are also still around that price. At least the one down the block from my office was a few months ago.
+  u/netllama: I'll wager a Chelsea BEC that you couldn't tell the difference between pork & beef bacon in a blind taste test.
+=== END PACKET 5954ab60 ===
+
+=== PACKET 5efba9fb (comment packet) ===
+POST TITLE: Thai restaurants in Manhattan that are not sweet
+POST BODY: I really notice when entrees that I expect to be savory are sweetened.  This has made finding a Thai place a bit rough, because it seems like every Thai place we've tried has become sweeter and sweeter.  Do you have any recommendations?  Bonus for UES or UWS.  TIA!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Mindless-Slide-755: Zabb PuTawn is pretty authentic
+  u/dirtymartinigirl: Ugh that B rating though…
+
+>>> COMMENT TO LABEL (u/Mindless-Slide-755):
+I didn't know that but it is very good lol
+
+REPLIES TO IT (context only):
+  u/dirtymartinigirl: It is good! I had it last week, and I was fully aware of their health rating lol
+=== END PACKET 5efba9fb ===
+
+=== PACKET 8e0124d1 (comment packet) ===
+POST TITLE: What are your favorite upscale Greek/Mediterranean Restaurants in Manhattan?
+POST BODY: Similar to Eléa, ideally. Any suggestions?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/bfdjon: People seem to not like Milos on here but I have yet to have a bad meal. Also one of y all time favorite Octopus dishes. I prefer the Milos on 55th.
+
+>>> COMMENT TO LABEL (u/amyheming):
+I ate there recently. The octopus was phenomenal. The rest was meh considering the price. I would only go back for the octopus.
+
+REPLIES TO IT (context only):
+  u/bfdjon: I was going to post a picture but for some reason not an option. The raw scallop dish is also very good. I don't believe it is on the menu but a highlight. I usually end up with quite a few apps but so far nothing I haven't liked.
+=== END PACKET 8e0124d1 ===
+
+=== PACKET fab5275c (comment packet) ===
+POST TITLE: Jewish Food crawl
+POST BODY: Hello! I’m taking my Mom into the city to see a show at Lincoln Center on Saturday and I would like to take her for some Jewish food places since she can’t get a lot Jewish food where she lives. I’m looking for best suggestions for meals and for nibbles and snacks.  We have been to Russ and Daughters.  On my list of possibilities are all Lower East Side places: Katz’s, Kossars, Yonah Schimmel, Pickle Guys. I’d really prefer some suggestions closer to the UWS/Midtown area as we have a Lincoln Center matinee. I was thinking of starting the day at Barney Greengrass but reviews seem to be hit or miss.   Does not need to be kosher. Thanks for your suggestions!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Throwawayhelp111521):
+Barney Greengrass 
+
+Zabars
+
+REPLIES TO IT: none
+=== END PACKET fab5275c ===
+
+=== PACKET e4a49897 (comment packet) ===
+POST TITLE: Whenever someone in this sub recommends The Infatuation I think of this
+POST BODY: This is a review of the site The Infatuation which I am reviewing while on the D train, starting with a review with writing so bad and such weird non sequitir Jared Leto references it made me want to vomit.
+
+The Infatuation is like a horcrux made of all the grief and good writing we lost from Bourdain’s death. They’re mired openly in JP Morgan Chase money, a company connected to OpenTable’s Chase Sapphire reservations. So I don’t really see the ethical bonus of their ‘we pay for our dinners’ as it’s probably on a company card paid for by said bank. 
+
+But the main thing about the Infatuation is they have zero point of view, their recent review of 11 Madison Park was roundly dunked on here, for bragging about being invited to the kitchen and refusing the tour, something which some commenters said is a frequent invite. Reading their review you get zero context of what the restaurant is trying to do and whether or not they achieve it, or the narrative of what they’ve been through lately. There’s no expertise of technique. It’s just: I liked this and not this. It’s the prose form of someone who’s only interested in taking pics of food to show they’ve been somewhere hard to get into and expensive. There is no insight or wit or elevation or understanding in their reviews. It’s simply amateurish writing. And their recommendations scoring system emphasizes one of the worst blights in NYC food this decade: everyone’s ordering the same exact meal based on what they’ve read or seen videos of online. 
+
+Take this review of Oresh. https://www.theinfatuation.com/new-york/reviews/oresh I haven’t been to Oresh. Probably never will go. But this ‘review’ is a literary slopbowl that has shrunk the portion sizes. It’s shorter than texts you’ll get asking to confirm your reservation. It seems only to care about what the perception of the place and its categorization is and how it measures up to that. There’s no discussing why the bagel is the way it is, or why the chef slices tuna in such a thin sheet, or how successful his use of wood fired grill is. It’s the opinion of someone who wants to brag they’ve been there and that’s it. I also would like them to stop trying to make  ‘clubstaurant’ happen, it’s disrespectful to the people who fetch very hard to make a restaurant try to be what it is even if it fails. 
+
+The only good thing about is it’s arranged by neighorhood. Which NYmag used to excel at. That’s it. Then there’s their unwatchable video podcast, which seemingly failed and has stopped. One of their main people sounds exactly like a Gen Z mutant version of the Dorsia set mocked in American Psycho. All the talk is of the most basic and aggravating food trends. It’s all reactive. Ironic in so many ways. 
+
+Has The Infatuation ever, ever made a spot blow up in the same way say, Rob Martinez has? They’re the trust fund kids following the herd. 
+
+TL;dr : the infatuation is barely readable, one step above AI in terms of literary prowess, and their reviews leave the worst aftertaste in NYC.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/jfyc: I personally am really upset at the infatuation, because they have so much power and influence, and they could do so much good with it, but they don't. I review ramen in NYC, and I look at their ramen lists and don't agree with them at all, and neither do other ramen lovers in my community.  I honestly feel like some of the placements/positions of shops are bought.
+  u/DenyNothing1989: Thank you, yes, with their capital and backing and presumably audience they could afford to hire some knowledgeable food people or better writers and editors. We know that Righteous Eats found itself financially unsustainable without backing and Jaeki Cho was upfront about that. The Infatuation has had none of those issues despite the troubled media landscape and doesn’t do any good with it.
+
+>>> COMMENT TO LABEL (u/skatesharpening):
+Whatever you do / don’t go to their rio off eeeatscon thing. It’s a rip off. They make you pay with a chase card. They charge an arm and a leg and they jam it with media.
+
+REPLIES TO IT: none
+=== END PACKET e4a49897 ===
+
+=== PACKET 44d2c6e2 (comment packet) ===
+POST TITLE: Best cheap food in Manhattan?
+POST BODY: [deleted]
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/k-ostheory):
+Margon Cuban and Park Gourmet in Midtown are gems. 
+
+As is B and H dairy and Jin Fong Dim Sum. 
+
+(Cheap is relative on NYC, but these are not too expensive.
+
+REPLIES TO IT: none
+=== END PACKET 44d2c6e2 ===
+
+=== PACKET 820e1227 (comment packet) ===
+POST TITLE: Just tried Korean Salt Bread and it’s a $4.50 bread stick from Olive Garden
+POST BODY: Justin’s on 2nd was slammed. I was very intrigued. And I couldn’t believe this thing that’s FREE at OG is hyped as the next big fad.
+
+I will say the salt coffee was good, but people have been salting their coffee for ages.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Calm_Machine7634: Isn’t it Japanese?
+  u/ry690: you are correct. It's still insane people are paying that much for salt bread lol
+    u/slvupdown: it's literally like a variation of a croissant and people are complaining about a $4.50 pastry in 2026 in nyc of all places
+
+what timeline do you people live in jfc
+      u/ry690: because it's still wild people line up for literal salted bread. No one in japan cares about it like that. it's less than a dollar in convenience stores.
+        u/slvupdown: I was literally searching yt videos and people are lining up in korea for it lol
+          u/ry690: I literally am japanese and no one does that
+
+>>> COMMENT TO LABEL (u/slvupdown):
+that's not korea genius
+
+REPLIES TO IT (context only):
+  u/ry690: im surprised you can tell the difference
+=== END PACKET 820e1227 ===
+
+=== PACKET 104bc843 (comment packet) ===
+POST TITLE: Where can a girl get some white sauce prosciutto pizza
+POST BODY: I’m talking with arugula, honey, flat crust  
+in dire search 
+
+Please and thank you 🙏🏻🫡
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Imaginary-Minimum918):
+Pretty sure they have at Eataly. Haven’t been for a min tho
+
+REPLIES TO IT: none
+=== END PACKET 104bc843 ===
+
+=== PACKET 8aaa58b6 (comment packet) ===
+POST TITLE: First time NYC and willing to try it all grom everywhere
+POST BODY: I‘m not a foodie per se but I guess that NYC is great place to try food from the Caribbean, Creole cuisine,  Levanthinian and African kitchen. We‘re a family of four, totally non urban non of US origin farmer‘s family and will be overwhelmed by NYC anyway. But, any ideas on how to start diving into the food adventure would be great. No need for fancy restaurants we‘re totally cool with family kitchens, traditional cuisine which won‘t get in our hometown village deep in the Alps!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/SadTomorrow869):
+Try searching the sub for specific kinds of cuisine you want to try and you'll get plenty of suggestions. Broadly speaking, the best examples of these cuisines will be outside of Manhattan.
+
+REPLIES TO IT: none
+=== END PACKET 8aaa58b6 ===
+
+=== PACKET abb17997 (comment packet) ===
+POST TITLE: Since when did restaurants start letting dogs inside?
+POST BODY: It’s happened twice to me this month at two different Manhattan restaurants where I was led to a table inside by the hostess and was greeted by a dog next table over, either on the person’s lap or on the bench seat - not even tucked away under the table. Both restaurants had robust outdoor dining areas so it’s not like that’s not an option.
+
+I get that yesterday was hot as hell. Then leave your dog at home! The first instance was earlier on a perfectly pleasant 72 degree day. 
+
+I thought maybe they snuck the dogs in (they were small dogs), but the owners weren’t hiding them and the hostesses definitely saw them like nothing was wrong. 
+
+How is this okay? Is this not a health code violation anymore? Are they afraid that turning them away could result in a bad review?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/SockSock81219: Yup, since covid. My theory is that folks got dogs during the pandemic which now all have separation anxiety since they spent the whole like first two years of lives with the owners never leaving their side. People will claim they're service animals in order to avoid leaving them home where they'll tear the house to shreds.
+
+Restaurants just stopped fighting it. But if a dog is being disruptive or if you're highly allergic, it should be within your rights to tell the server.
+
+>>> COMMENT TO LABEL (u/Front-Lie7639):
+THIS. this this this this. jesus the number of dogs I know on prozac.
+
+REPLIES TO IT: none
+=== END PACKET abb17997 ===
+
+=== PACKET eae49499 (comment packet) ===
+POST TITLE: Immigrants of NYC, what restaurant in the city has the best version of your home country’s food?
+POST BODY: Saw this on the London subreddit and am having great success in the Chicago subreddit. My wife and I will be visiting in a few months and would love to venture out a bit. 
+
+More details the better in terms of what to try there.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Throwaway1234498766):
+Kings Kitchen (92E Broadway) for claypot rice (Cantonese). Not sure it’s the best in the city, but it’s pretty good and it’s not easy to find given how region specific it is
+
+REPLIES TO IT (context only):
+  u/Empath1999: While the rice was good, the chicken sucked. It was mostly cartilage :|
+=== END PACKET eae49499 ===
+
+=== PACKET 417bb085 (comment packet) ===
+POST TITLE: Blizzard doesn’t stop the classic NY BEC
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/fit_lunch_896):
+Goddamn this is making me hungry.
+
+REPLIES TO IT: none
+=== END PACKET 417bb085 ===
+
+=== PACKET 0d9de890 (comment packet) ===
+POST TITLE: Best crispy, bouncy non-oily Korean seafood pancake in Manhattan?
+POST BODY: Tough to get this balance.  Does anyone have a reccomendation?
+
+Thank you!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/HomeboddE):
+Update:
+
+Think I will try a few and report back.  First report:
+
+02 Hot Stone BBQ House
+
+Thick pancake.  Pretty good crisp.  Nice big pieces of shrimp and very generous with green onion but some gluggy bits here and there.  Served with sweeter sauce that I did not prefer.  Their side kimchi was not tangy in a way that balanced the pancake for me.
+
+Search continues
+
+REPLIES TO IT: none
+=== END PACKET 0d9de890 ===
+
+=== PACKET c600b12f (comment packet) ===
+POST TITLE: Looking to update my walk tour of Chinatown / Little Italy route
+POST BODY: All,
+
+So... I used to keep a running list of restaurants I'd visit for a kind of one-day route through Chinatown / Little Italy when I'd visit the city. I had been keeping it updated and commenting on it on Chowhound, but I just realized it has closed down, seeming forever, and with it goes all my notes (I know, I know...).
+
+So I come to you, fellow Redditors, to help me update it. COVID has had me away for couple years and I know a couple of these are closed. All I have remaining is a map on google maps:
+
+[https://www.google.com/maps/@40.7180565,-73.9979228,16z/data=!3m1!4b1!4m2!6m1!1s1oiFcByyeRLIR4pznfq7g\_5SkM2k](https://www.google.com/maps/@40.7180565,-73.9979228,16z/data=!3m1!4b1!4m2!6m1!1s1oiFcByyeRLIR4pznfq7g_5SkM2k)
+
+&#x200B;
+
+If anyone has a small (or large...) restaurant with a perfect little bite or something me and my friends must try, I'd love to hear it. One thing I'd appreciate is if you could tell me the place and the thing I should eat there. I'm looking for 10-12 places (so small dishes please we like to do it all in one day) and if you ever come to Columbus I can give you a similar list for our midwestern town, but for Ohio, you'll have to drive, no chance we have 12 excellent restaurants within walking distance of each other, this isn't NYC...
+
+If you can help out, my gratitude will be eternal (or at least robust...)
+
+Edit: fixed a couple typos...
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/crazeman):
+[Here's a older comment that I made](https://www.reddit.com/r/FoodNYC/comments/uvejl1/comment/i9li61p/?utm_source=share&utm_medium=web2x&context=3) on a similar topic. It included a lot of places you already have.
+
+**Bubble Tea:**
+
+* [Tiger Sugar](https://g.page/tiger-sugar-chinatown?share) or [Yi Fang](https://goo.gl/maps/4CinLMBp6Q2SJQ6fA) is pretty good for their brown sugar bubble tea
+* [Ten Ren](https://g.page/tiger-sugar-chinatown?share) for the OG spot. They have a tea shop in Chinatown for as long as I can remember.
+
+**Ice cream:**
+
+* [Taiyaki](https://g.page/taiyakinyc?share) is the instagram spot, the ice cream itself is okay.
+* [Chinatown Ice cream factory](https://goo.gl/maps/MvvT3h5MUyPsDwx57) is the OG historic spot
+* [Minus Celcius Ice Cream](https://goo.gl/maps/WkY68EokhUgdsyNo7) has the thai rolled up ice cream. The taste is meh to me but it's still a fun experience at least once and it's a good to share option.
+
+**Dessert options:**
+
+* [Eileen Cheese cake](https://g.page/eileenscheesecake?share) is pretty much the perfect eat and go spot. They sell these bite size cheesecakes and have a good variety of flavors.
+* [T-Swirl Crepe](https://goo.gl/maps/9nXxedCCZ21D4tny7) for Japanese Crepes.
+* [Keki Modern Cake](https://goo.gl/maps/MLcBPCUgYRH4APCv9) sells whole fluffy souffle Japanese cheesecakes. Not really eat it on the go but it's nice to bring back to the hotel. It's not a super large cake but it's really cheap, around \~$15 for the whole cake.
+
+**Dim Sum:**
+
+I think [Dim Sum](https://www.youtube.com/watch?v=XDZ_H5TFoDQ) should get a honorable mention since it's literally the definition of trying a little of everything and you probably won't have that in Ohio, but it's more of a sit down and eat. It's like Chinese breakfast Tapas, you get to order a bunch of small dishes to share so you get to try everything. Usually they stop serving dim sum after a certain time.
+
+[Jing Fong](https://goo.gl/maps/32jFTZb6K85EfLLB8) or [Golden Unicorn](https://g.page/goldenunicornnyc?share) are good choices if you get to Chinatown earlyish and if you want the full "Cart experience". [Nom Wah](https://g.page/nomwah?share) is more touristy option. The food is still pretty good though and it's a good choice for later in the day as they serve dim sum until closing.
+
+REPLIES TO IT (context only):
+  u/WCourtBowman: Great suggestions. I appreciate the diversity. We're definitely quality of food over image sort of folks. The odds of us posting to instagram are quite low. ;)  
+
+
+Dim sum is definitely something we do, and I'll look at those. Too much eating at Dim Sum to do when we do the "walking tour" thing.
+  u/frann_ie: I’ll be in Chinatown on Wednesday/Thursday and this along with the older comment you linked are so helpful!!!
+=== END PACKET c600b12f ===
+
+=== PACKET be07c0a7 (comment packet) ===
+POST TITLE: Where will Los Tacos No1 open next? They’re at 10 locations right now in Manhattan, target is 15
+POST BODY: Curious where you guys think they open next? They said target 15 locations in Manhattan. They mentioned they’ve looked at Columbus Circle and Rockefeller Center. Looks like they’re hyper focused on Manhattan only. Before expanding out into new cities as per their recent private equity deal.
+
+Where else do you guys think they will open next? Any word thru grapevine?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Cjenks49):
+They will avoid low density low traffic areas.   
+Their success is based on foot traffic on the 2 key day parts lunch and dinner.   
+Remember rent is expensive so you have to sell a lot of $6 tacos to be profitable.
+
+REPLIES TO IT: none
+=== END PACKET be07c0a7 ===

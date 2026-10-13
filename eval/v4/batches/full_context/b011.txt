@@ -1,0 +1,46 @@
+NYCEats extraction labeling -- batch b011 -- pass: full_context -- 1 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b011.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 8ced0c3a (thread packet) ===
+POST TITLE: Update needed Best Okonomikaki in the city
+POST BODY: This has I believe updated in Two years and I'm hungry!
+
+THREAD, in reply order. Label ONLY the comments with a bracket number [n]. Lines marked (context) are there to read, not to label.
+[1] u/jaded_toast: ... the fruit, or oysters?
+  (context, deleted or too short to be sent) u/bikerfriend: The cooked dish
+    [2] u/jaded_toast: It was a joke. The dish is "okonomiyaki". Kaki, I believe, depending on the kanji can mean either persimmon or oysters.
+      [3] u/bikerfriend: Thanks you ruined my day :)
+[4] u/nim_run16: following bc i haven’t found a good one either
+[5] u/swh74: Not the best answer but you might appreciate it anyway. Daesung Korean Noodle in flushing has a okonomiyaki-pajeon which I love. A good mix between the two dishes
+  [6] u/justflipping: Love their oko-pajeon, one of the things I have to get whenever I’m there.
+  [7] u/jagarico: Underrated answer! It’s not traditional but still super yummy.
+(context, deleted or too short to be sent) u/oct1000: dokodemo!
+  [8] u/jtm2727: Seconding this as excellent - have both Osaka and Hiroshima style! Don’t have a huge frame of reference for other spots in the city, though.
+  [9] u/justflipping: Yea dokomemo was recommended in the [last discussion](https://www.reddit.com/r/FoodNYC/comments/1lhrasp/okonomiyaki_nyc/). Would still be my top choice.
+  [10] u/reezyrice: It’s not a conventional style though. Both the Osaka and Hiroshima style has a heavy dokodemo spin to it. I don’t think there is one here in the City. In SoCal, there’s a few proper places like Otafuku.
+[11] u/kimchi_trash: The one at bar goto is good
+[12] u/_ajli: is there monjayaki anywhere in the city
+  [13] u/jaded_toast: I asked this question before, and the answer, at least at the time, was no.
+  (context, deleted or too short to be sent) u/bikerfriend: What is that?
+[14] u/nightkhan: you mean...okonomiyaki?
+[15] u/Gifs_Ungiven: I liked the okonomiyaki place at Japan Village
+[16] u/bikerfriend: Went to Dokodemo today i prefer izakaya Nomad!
+[17] u/Ok-Rip-2892: I like the one from Kenka last time i went years ago
+[18] u/VegetableFudge4323: Only available during street fest season, but it’ll be [Osakaya](https://www.instagram.com/osakayanewyork) hands down!
+
+The ig page hasn't been very active, but they're still kicking. I got one of their okonomiyaki in October during the last JAPAN FES.
+
+Izakaya MEW was pretty good for taste and price, and a general solid spot. But I'll be honest, I suspect every izakaya in the city reheats from frozen as they're all perfectly cookie cutter round and they're not practical to make from scratch in a busy nyc kitchen. 
+
+Nothing wrong with that, but you could stock some yourself and have it for dinner anytime!
+=== END PACKET 8ced0c3a ===

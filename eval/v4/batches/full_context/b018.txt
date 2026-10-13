@@ -1,0 +1,390 @@
+NYCEats extraction labeling -- batch b018 -- pass: full_context -- 20 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b018.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 73b109e6 (comment packet) ===
+POST TITLE: Taim in the West Village has abruptly shut down
+POST BODY: Closed by Order of the Commissioner of Health and Mental Hygiene.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/slowcanteloupe: They left without notice in LIC a few weeks ago.  I really miss their puffy pita.
+  u/nightkingscat: Naya opened nearby and was better in every way imo. Taim fell off hard a year or two ago, they used to be so generous with their portions.
+
+>>> COMMENT TO LABEL (u/fuzz11):
+I could eat Naya every day
+
+REPLIES TO IT: none
+=== END PACKET 73b109e6 ===
+
+=== PACKET c578d7a9 (comment packet) ===
+POST TITLE: The BEST bagels I’ve ever had
+POST BODY: I recently tried Apollo Bagels in the East Village  and WOW. It blew my socks off! I thought it was just another trendy spot but these bagels are probably the best I’ve ever had. I got the lox and the everything bagel is heavily seasoned (the way I like it) and sooo crispy. I was in shock when I first tried it. Has anyone else tried it? Thoughts??
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/twoanddone_9737: Have you tried Absolute Bagels? Those are my best ever. 
+
+Curious to know how they compare if you’ve tried both?
+  u/HippoInformal3291: I haven’t but now I’m curious! Apollo bagels is near me but I think now I’ll have to make the trek to try Absolute
+    u/SadCombination7535: I tell everyone to go to absolute. Then go to church or st John the Devine. It's 6th largest church in the world and they usually have cool modern art exhibits. Then go to the Hungarian pastry shop. It's like being on a good European vacation but with good bagels.
+      u/No_Weakness_2135: Yes St John the Divine is such a beautiful building.   That’s a good trip if you haven’t explored the UWS.  Head up for bagels and then wander around
+        u/Significant-Yellow43: The Columbia University Campus is also quite nice
+
+>>> COMMENT TO LABEL (u/bumanddrifterinexile):
+They don’t let you in anymore unless you work/study there
+
+REPLIES TO IT: none
+=== END PACKET c578d7a9 ===
+
+=== PACKET 55f652a6 (comment packet) ===
+POST TITLE: Suggestions for dinner near MSG
+POST BODY: Hi all, we’ll be in town for the first week in June and we’re looking for a great dinner spot near MSG. Nothing crazy expensive (maybe $50 entrees?) but looking for a good experience. Obviously, tons of options but would love to hear so local favourites. 
+
+Thanks!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/m1kasa4ckerman: Jongro BBQ in K Town
+
+>>> COMMENT TO LABEL (u/Forgive_Me_Tokyo):
+Fuck yeah - you have great taste in KBBQ
+
+REPLIES TO IT: none
+=== END PACKET 55f652a6 ===
+
+=== PACKET deceb0fd (comment packet) ===
+POST TITLE: What are some common myths about the food scene in NYC?
+POST BODY: Some common ones I see:
+
+"New York doesn't have good Mexican food!"
+
+That's super outdated, and anyone who makes a bit of effort could find really good, authentic Mexican food. There is a very large Mexican community in NYC that is continuing to grow. 
+
+"You have to go to deep into Queens to get real X food!"
+
+While I absolutely do think people should check out neighborhoods like Corona, Jackson Heights, Flushing, etc. for food, it seems a little pretentious to me when people claim that anything in Manhattan is automatically overpriced and bad as far as "ethnic" food goes. There is nothing preventing restaurant owners from making a good restaurant of their country's cuisine in Manhattan, and it happens all the time. I personally don't see a huge difference in price, inflation is a bitch and it affects every restaurant. Not to mention, especially in a place like Flushing there are plenty of wealthier immigrants and higher end restaurants that cater to them.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/AerysBat: Still can't get a decent Cali style burrito anywhere though. Electric Burrito ain't it sorry
+
+>>> COMMENT TO LABEL (u/jmlbhs):
+Lucha lucha was good. I was disappointed when it closed. The Mexican food thing is absolutely insane Gatekeeping - went to San Diego and LA in the last year (2x to SD) and had some of
+The best Mexican food they had to offer. And they were great! But to say nothing in NY could compare is just asinine.
+
+REPLIES TO IT (context only):
+  u/atyppo: Not sure where you ate, but it's absolutely true. [This place](https://www.google.com/maps/place/El+Grullense/@37.9830412,-121.2844444,17.21z/data=!4m7!3m6!1s0x80900d3e5ed8b52f:0x7ddef24f7e9a97d2!8m2!3d37.9839726!4d-121.2829384!9m1!1b1) for example in my hometown (norcal) is probably the best burritos and tacos I can think of anywhere. I wish I could find stuff to compare here. Pastor is better here but aside from that, it's tough to find good meats. I think a big part of why this is repeated so often is because the standard for Mexican food is just so much lower here. Something like Dos Toros would never survive in CA.
+=== END PACKET deceb0fd ===
+
+=== PACKET 759ca6b9 (comment packet) ===
+POST TITLE: How is Dominique Ansel's new bakery Papa d'Amour?
+POST BODY: He just wrote this piece full of recs of places to eat in NY [https://on.ft.com/4kFwnkP](https://on.ft.com/4kFwnkP)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Garconavecunreve: Not the worst restaurant recommendations I’ve read to date tbf - Kings is indeed fantastic for seafood and small plates
+  u/LuBK: I agree. The k-town recs are great too.
+
+>>> COMMENT TO LABEL (u/haribobosses):
+Gammeok had some ahem controversy a few years ago
+
+REPLIES TO IT: none
+=== END PACKET 759ca6b9 ===
+
+=== PACKET 754f664f (comment packet) ===
+POST TITLE: Door dash and  corner store reservations , booking
+POST BODY: I'm checking door dash and I'm confused. I want to book Sept 18. I have to book 1 month ahead of time or 2 weeks before Sept 18 to get a seat?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/No-Yogurtcloset2314: Why do you want to go so badly for their Applebee's food.
+  u/yung_rhubarb: ok canceled.that slut Taylor swift liked it so I thought why not
+
+>>> COMMENT TO LABEL (u/FoodNYC-ModTeam):
+No hate, flamewars, rude comments, etc
+
+NO MISOGYNY
+
+REPLIES TO IT: none
+=== END PACKET 754f664f ===
+
+=== PACKET 78fdd482 (comment packet) ===
+POST TITLE: Eleven Madison Park Walks Back Its No-Tipping Policy After Five Years
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/a2cthrawy: why are they going downhill so much?
+
+>>> COMMENT TO LABEL (u/reignnyday):
+Inflated egos, going vegan, charging super high prices for being vegan and most importantly just not serving very good food. 
+
+Hypocrisy in the form of still serving meat in the private dining room, too. 
+
+This is effectively a 20% hike in prices for the end user. 
+
+It’s really a shame because a lot of guests are people that have saved up for the meal of a lifetime and are now thoroughly being let down.
+
+REPLIES TO IT (context only):
+  u/userbrn1: > a lot of guests are people that have saved up for the meal of a lifetime
+
+Probably less than 1% of the people dining at places like EMP are having to deliberately save money away for a meal there tbf lol
+  u/basedlandchad14: > It’s really a shame because a lot of guests are people that have saved up for the meal of a lifetime and are now thoroughly being let down.
+
+For real. Imagine going and not even being able to have the world famous lavendar-glazed duck. What a joke.
+=== END PACKET 78fdd482 ===
+
+=== PACKET c43e6750 (comment packet) ===
+POST TITLE: Best sandwich places
+POST BODY: Hi UK guy here and arriving with my family in a day or so. 
+I'm looking for best sandwich places for lunch. We are just south of central park but will obviously be travelling around. 
+Also great pizza and burger places for the kids too.
+Thanks in advance for your help.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/justflipping):
+Going to include sandwiches from different cultures:
+
+-	Banh Mi Co Ut, Ba Xuyen, Banh Anh Em
+-	Patacon Pisao
+-	Arepas Cafe
+-	Xian Famous Foods, Old Luo Yang, Henan Feng Wei
+-	Pecking House
+-	Hen House
+-	Little Kirin
+-	SyKo
+-	Zyara, King of Falafel, Mamoun’s Falafel
+-	Sunny & Annie’s Deli
+-	Defonte’s
+-	Taku Sando
+-	Tokuyamatcha and Onigirazu
+-	Masa Madre
+-	Bolivian Llama Party
+-	Cemitas El Tigre
+-	A&A Bake Doubles and Roti, De Hot Pot, Trinciti
+-	Mama Yoshi Mini Mart
+-	All’Antico Vinaio
+
+More:
+
+[NY Sandwiches!! Looking for inspiration](https://www.reddit.com/r/FoodNYC/comments/1eqmfg0/ny_sandwiches_looking_for_inspiration/)
+
+[Best unusual sandwich places?](https://www.reddit.com/r/FoodNYC/comments/1dzy0tt/best_unusual_sandwich_places/)
+
+REPLIES TO IT: none
+=== END PACKET c43e6750 ===
+
+=== PACKET c606c873 (comment packet) ===
+POST TITLE: vietnamese banh mi dac biet
+POST BODY: I’m feeling a bit homesick and have been craving an authentic banh mi this past week. I always get the classic banh mi dac biet (which is a banh mi with cold cuts and pate). I would love to know if there are any spots I should try.
+
+I plan on visiting the east village this weekend so any places in the EV or near the EV would be ideal. But if I have to travel farther just to get my Banh Mi Che Cali/THH/Carrot & Daikon fixings (if you’re Viet from the OC, you know what I’m talking about hahah), I’m willing to do the trek.
+
+Thank you in advance!
+
+P.S. If you spell it like “bahn mi” or used to spell it that way, it will be hard for me to trust your opinion lol but I’m willing to hear my fellow foodie out :P
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/c8bb8ge):
+V-Nam Cafe on 1st Ave is very good.
+
+REPLIES TO IT: none
+=== END PACKET c606c873 ===
+
+=== PACKET 27a48aab (comment packet) ===
+POST TITLE: Best halal cart in NYC that is not Adel’s or Mido’s?
+POST BODY: I had Adel’s and it’s for sure my #1, but not worth the line. Mido’s felt like a bootleg Adel’s to me so I didn’t really enjoy it too much since I was just comparing it to Adel’s the whole time. Is there any other halal cart in NYC that is worth the travel? And I’m talking about packed with flavor, color, superb white sauce, etc.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Extension-Respond289):
+check out the one on 46th and 6th, heard it's bomb and way less of a wait than the usual spots. white sauce game strong too lol
+
+REPLIES TO IT: none
+=== END PACKET 27a48aab ===
+
+=== PACKET 553f2031 (comment packet) ===
+POST TITLE: Capitaine - quite pleasant evening in the west village
+POST BODY: Visited Capitaine earlier this evening with my parents as they are in town.
+
+I had been to Libertine once previously (the prior concept which was more French bistro style) and no has changed over to Capitaine.
+
+We ordered the following:
+
+\- raw platter of oysters, shrimp, scallops  
+\- bread  
+\- razor clams casino  
+\- Capitaine salad  
+\- whole dorade (smaller fish deboned with skin on)  
+\- lobster roll
+
+Highlights were:  
+\- oysters were excellent and properly shucked  
+\- shrimp were perfectly cooked and enormous for a shrimp cocktail  
+\- salad was excellent, the anchovies were wonderful  
+\- the dorade was delicious and cooked very nicely
+
+Cocktails were good, a bit small if you ordered off menu.
+
+All in all it was a very nice experience and I recommend trying - especially for the raw bar.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Garconavecunreve):
+This might just be my feeling but the menu felt a bit identity-less; compared to the likes of Crevette, cervos and eel bar (even dame) it just seemed a bit bland - for some reason 2/3 of the most memorable dishes to me were sides (the salad and the aioli fries)
+
+REPLIES TO IT (context only):
+  u/FUCK_CAPTCHAS: I wouldn’t say that’s inaccurate - I found the raw dishes and sides to shine the most. I imagine their margins are mostly on those and booze.
+
+I didn’t really like the lobster roll and would certainly skip it next time.
+  u/mgianfal: Yes and the stuff that actually required preparation is a miss.  Hard to F up raw bar
+=== END PACKET 553f2031 ===
+
+=== PACKET f754b70c (comment packet) ===
+POST TITLE: Anyone know where to get steak and fries?
+POST BODY: To clarify I don’t mean Steak Frites. Its good however I want steak over fries. For example, Colonial grill.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/AttemptRough3891):
+I’ve never had it from this place - how is it different from steak frites?  Looks pretty much the same save for some sauce on top.
+
+REPLIES TO IT (context only):
+  u/Sufficient_Damage534: Steak Frites is french cuisine. While I enjoy it, this one is Colombian so the seasonings and sauces are different.
+=== END PACKET f754b70c ===
+
+=== PACKET 005f1659 (comment packet) ===
+POST TITLE: Why should I go to a local cafe instead of Starbucks if it’s usually more expensive?
+POST BODY: Whenever people talk about coffee in NYC, there’s always this strong push to “support small/local cafes” instead of going to places like Starbucks. I get the idea in theory, but in practice I’ve noticed a lot of small independent cafes are actually more expensive than Starbucks. 
+
+For example, a latte at some neighborhood spots is like $6–$7+, sometimes without much seating, fewer locations, and slower service. Meanwhile Starbucks is everywhere, consistent, and often cheaper.
+
+So I’m genuinely curious: what exactly am I getting that’s better?
+
+Is it the beans? The roasting? What is it?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Ok-Temporary-8243):
+Better coffee? I get dunkin or mcd if i want caffeine. But more local brands, or even chains like devocion are just better
+
+REPLIES TO IT: none
+=== END PACKET 005f1659 ===
+
+=== PACKET afa9f876 (comment packet) ===
+POST TITLE: What do you think of this take on the nyc food scene?
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/some1105):
+I’m thrilled I don’t need the internet to know what I think of a restaurant and certainly don’t need it to decide whether a restaurant is worth going to, and therefore I can be marked safe from what douchebros ranging from this guy all the way to that pizza guy think about anything.  This sub is fun recreationally for answering some questions, but otherwise ignoring the hype train completely not only works fine for me in terms of quality of what I eat but also in terms of avoiding the worst of noxious restaurant companions.
+
+REPLIES TO IT (context only):
+  u/EanmundsAvenger: Yes exactly this. I have no idea which restaurants are “TikTok famous” because I don’t use that garbage. I don’t get annoyed by influencers because I’m not on Instagram. 
+
+I just eat at restaurants my friends recommend or just try something that looks interesting. Avoid the social media bullshit from the start and you won’t have issues with it driving what you choose 
+
+Like someone else commented - his opinion sounds like someone who spends more time looking at NYC restaurants on TikTok and IG than out trying places himself. I work in the restaurant  industry and actual chefs, sommeliers, bartenders, etc don’t share his opinion. I hear about great new spots all the time and there are still literally thousands of great restaurants that have been around for years
+  u/tiggat: dont you enjoy arguing?
+=== END PACKET afa9f876 ===
+
+=== PACKET 4a3d0a46 (comment packet) ===
+POST TITLE: I guess the Frozen Yogurt lines are no more. Nobody in line 12pm.
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Machdame: I am glad I don't live in NYC anymore because big dumb lines definitely were not a thing when I was there.
+  u/jaded_toast: Ah, yes, because lines were only invented a couple years ago. I'd agree that social media has had an amplifying effect on lines, but let's not pretend that people collectively being willing to wait for something is a recent phenomena.
+    u/Machdame: I really can't believe that this is a "back in my day" kind of line, but here we are... That was over 20 years ago. We had lines, but at this volume for waht amounts to a popup? Would have been laughable.
+
+>>> COMMENT TO LABEL (u/jaded_toast):
+Ten years ago, you had people willing to wait for cronuts, Artichoke, black tap, rainbow bagels. Before that, Magnolia cupcakes, and then I was too young to be conscious of those fads. But I did watch a video recently about how rabid the fans were for Rent and how they would camp out overnight for tickets - and that was the mid 90s.
+
+REPLIES TO IT (context only):
+  u/Machdame: That's Broadway though. The theatre scene has always been big with how a successful show can get out of hand.
+=== END PACKET 4a3d0a46 ===
+
+=== PACKET 52691d34 (comment packet) ===
+POST TITLE: Recommendation for Korean Fried Chicken
+POST BODY: While I love national chain Bon Chon, I'm looking for some more local, authentic places. TIA
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/kimchiblues: Turntable Chicken Jazz
+
+>>> COMMENT TO LABEL (u/DocJ2786):
+This is the way.
+
+REPLIES TO IT: none
+=== END PACKET 52691d34 ===
+
+=== PACKET 1c1e6e86 (comment packet) ===
+POST TITLE: Best KBBQ + Korean Restaurants/Spots for First Timers in NYC
+POST BODY: Hello!
+
+My sister and I are coming to NYC for the first time this week and know we are likely going to be eating quite a bit of Korean food while there lol
+
+Seems like most of the places in Koreatown have tons of good reviews, but I am curious what places others here suggest. I did peek thru some older posts, but was hoping to get more recent opinions if possible lol. 
+
+Also, I was surprised to not see miss korea bbq mentioned much given that it has almost 20k reviews! 
+
+Thx!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/danjiyaya):
+New Wonjo for the overall experience- veteran ahjummas who serve and take care of you, filling your banchan plates before you need to ask, and the kind of authentic banchan that Koreans actually eat. I do believe Nubiani has great quality meat but terrible side dishes. DubuHaus for everything else.
+
+REPLIES TO IT: none
+=== END PACKET 1c1e6e86 ===
+
+=== PACKET 46d5e620 (comment packet) ===
+POST TITLE: Looking for good middle eastern or mexican food?
+POST BODY: Staying near hudson yards, but i’m willing to go like 20-30 mins on subway to get it. Takeout or sitdown, i don’t mind either. Hopefully somewhat cheap, (20-30) per person. Thanks in advance guys
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Lankience):
+I went to the butcher a few months ago and a fellow customer and I were chatting while we waited. He would not shut ip about how much he loved Salam for middle eastern food. It's at 13th and 6th so very accessible to you. I haven't been but it's been on my list for awhile.
+
+REPLIES TO IT: none
+=== END PACKET 46d5e620 ===
+
+=== PACKET 08d8b21e (comment packet) ===
+POST TITLE: Ny in two weeks. Finalizing my restaurant list
+POST BODY: I got a lot of great recommendations on my last list and narrowed it down some this time around. Let me know what yall think! I know I shouldn’t be this stressed about my vacation but there is just tooo many delicious sounds restaurants in NYC! You locals are truly blessed. Please let me know if I’m missing something essential.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/yosim91: Lunch options are basic and kind of bad
+  u/Grose040791: I plan on spending a full day eating in spots in chinatown that look really good. We will prob find a decent sushi spot one day. Thinking one day we will eat at a good pizza spot (johns on Bleeker st?). But yeah thats all i have so far. Is there a good lunch spot you could recommend? wouldn't mind a place that has a great sandwich!
+
+>>> COMMENT TO LABEL (u/yosim91):
+Hey! Depends if you're staying in Manhattan the whole time - try Faiccos Italian Specialties in WV. Or Regina's Grocery LES. 
+
+But go explore more of East Williamsburg and Greenpoint.
+
+Leave some room for spontaneity too and go with the flow.
+
+I also love Pi Bakerie for lunch.
+
+REPLIES TO IT: none
+=== END PACKET 08d8b21e ===
+
+=== PACKET dc63bc70 (comment packet) ===
+POST TITLE: Best burger without a reservation
+POST BODY: My friend is visiting tomorrow and unfortunately I couldn't get a reservation to the most recommended spots (4Charles, Red Hook, etc).
+
+What's your favorite no-reservation-needed burger? It also has to be for dinner since that's when he gets in. Thank you in advance!!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/NYEDMD):
+The Elephant Burger at Elephant & Castle in the West Village is the most underrated burger in the city. À la Carte fries are also excellent. And no reservations neeed.
+
+REPLIES TO IT: none
+=== END PACKET dc63bc70 ===

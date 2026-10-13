@@ -1,0 +1,42 @@
+NYCEats extraction labeling -- batch b013 -- pass: same_input -- 1 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b013.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 0b99a621 (thread packet) ===
+POST: Good Korean Restaurants in Koreatown?
+What are some good Korean places that aren't necessarily KBBQ? I was looking at Her Name Is Han and Cho Dang Gol. HNIH is booked on the day I am visiting and CDG doesn't take reservations. Are the waits at CDG long on a Friday? Thanks for any help you can give!
+
+[1] u/Jaudition: I always take visitors to Osamil
+  [2] u/steve_147: It's booked for this Friday :( Do they have tables for walk-ins too?
+    [3] u/Jaudition: No, not unless you’re lucky or willing to eat at the bar :(
+      [4] u/steve_147: Definitely willing to eat at the bar! Thanks! I'll add it to the list and maybe get a reservation somewhere else as a back-up or see what others can recommend too
+        [5] u/DoobieLift: My buddy manages at osamil. Going to meet him tomorrow for drinks, I’ll ask about walk-ins or any type of wait list on Friday. FWIW it’s definitely more of a pub; really fun place to grab some drinks but the food there is excellent. Someone else recommended To Sok Chon - should be great for traditional Korean stews and the like, haven’t been to that location but the one in NJ is phenomenal.
+[6] u/pandaspuppiespizza: Moono tends to have space (and is part of the Hand Hospitality group that is taking over the worldk which is also the group that owns Her Name is Han).
+[7] u/MasterpieceMain8252: Tosokchon is relatively new, and looks legit
+[8] u/kimjbyrne: If you want traditional Korean food, I would not recommend Osamil, they don’t even give you 반찬. I also found CDG to be overrated, I’ve definitely had better 순두부 at other places. New Wonjo is great with a variety of dishes, Five Senses isn’t bad either, and of course, miss KOREA is a fan favorite. If you’re looking for fried chicken, I’d highly recommend Tofu Tofu in Chinatown. They are also well known for their 순두부. I also love the Food Gallery - they have everything, including street food, which isn’t always easy to come by. (For context, I’m Korean-American, lived in Seoul for 8 years - just in case you’re wondering where my reviews are coming from.)
+  [9] u/penis_berry_crunch: Don't know why you're downvoted. Food Gallery is fire.
+  [10] u/ShinyCake: Can I ask what you recommend at the Food Gallery?
+    [11] u/kimjbyrne: I recommend the kimchi and red bean buns from BUNN, the kimbap + odeng combo from Gochujang. I’m not a fan of tteokbokki in general, but friends have said it’s good from Gochujang. Happy eating ☺️
+[12] u/haribobosses: My favorite restaurant on 32nd is Wonjo, and, downstairs, there's no BBQ. I find them reliable and delicious. If there are waits, they are shorter for no-bbq.
+[13] u/nuschka: i’ve been able to get some last min reservations at nubiani (across the street from osamil)
+[14] u/ashrevolts: Take 31, next door to Her Name Is Han, is solid
+  [15] u/btwatch: It's great if you want high quality pocha (bar) food.
+    [16] u/btwatch: Bangia, it'll be loud in there but the budaejjiage hits.
+[17] u/milkiblush: I waited around 45 min on a Sunday for CDG and it was sooo worth it. Hands down best restaurant I’ve been to in NYC. I just strolled around Macys while waiting
+[18] u/btwatch: If you can make it for lunch, you can get to Her Name is Han by about 1150am and get seated in the first seating at noon.
+[19] u/hhhenryhhh: Gameeoak still there? Gotta taste the rat
+[20] u/CompetitionNew751: Cho Dang Gol - casual eatery with daily homemade tofu. Walk-in but wait can be long. I recommend putting your name down and going to a nearby bar / walking over to Macy’s (you only have ten mins to report back, so wouldn’t venture too far).
+[21] u/peony2011: BCD tofu is a fave but there is always a line
+[22] u/mamaneedswine88: If you want to be adventurous, try gopchang story!
+  [23] u/steve_147: Oh boy I wanna go there so bad but I know my girlfriend won't handle the offal haha
+[24] u/Unlikely-Guess3775: Favorites are Osamil, Soju Haus, and Bangia. Osamil Upstairs is also a fun spot for a post dinner drink, or Turntable Chicken Jazz if you want chi-mec
+[25] u/Skimslime: Add Olle to your list!
+=== END PACKET 0b99a621 ===

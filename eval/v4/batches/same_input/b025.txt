@@ -1,0 +1,24 @@
+NYCEats extraction labeling -- batch b025 -- pass: same_input -- 1 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b025.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 363fdff7 (thread packet) ===
+POST: Atomix NYC: Wine pairing worth it for someone who generally prefers cocktails?
+I'm going to Atomix this week. I've heard the wine pairing is very good, but in general I find cocktails more interesting than wines. I wanted to ask: is the wine pairing so good with the dishes that you'd recommend I get the pairing? Or if I generally prefer cocktails to wines, should I just stick with cocktails?
+
+[1] u/LawsOfEconomics: I had this same dilemma. I found the less expensive of the two wine pairing options to be 110% worth it. I also had one of the best cocktails of my life there. So my recommendation is to get there as early as is allowed and order a cocktail, and also do the pairing—if you’re up for that.
+  [2] u/Rrolack: Thanks for this. If I got the wine pairing I’d probably go for the reserve (the more expensive one), but only a half size pairing as I’m a lightweight.
+  [3] u/Eddiebtz: Last time we were only allowed in literally 5 min before my reservation time and rushed downstairs. I remembered another time I sat at the upstairs bar for 30 min before my reservation. I think it depends if you have the early or late reservation time slot.
+    [4] u/rdgn: So which slot did you have?
+      [5] u/Rrolack: Was really great; I also got a half wine pairing which was plenty of wine and also very well paired!
+[6] u/Ana-la-lah: I loved it, was very good
+[7] u/ipki: Go and ask them to pair the cocktails with the courses, they will do that (I have done it and loved it).
+=== END PACKET 363fdff7 ===

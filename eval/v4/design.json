@@ -1,0 +1,370 @@
+{
+ "built_at": "2026-10-13T17:24:43",
+ "round": 1,
+ "seed": "nyceats-eval-v4-r1",
+ "spec": {
+  "thread": {
+   "random_comments": 65,
+   "strata_comments": {
+    "chunk_misattached": 35,
+    "chunk_parent_outside": 30,
+    "chunk_title_names_place": 35,
+    "chunk_failure_dense": 35
+   }
+  },
+  "comment": {
+   "random": 60,
+   "strata": {
+    "dish_complaint": 14,
+    "price_complaint": 14,
+    "neg_wording_nonneg_score": 14,
+    "deep_chain_context_gap": 12,
+    "reply_ancestor_named": 18,
+    "short_opinion_reply": 14,
+    "avoid_or_strong_negative": 12,
+    "question_or_unvisited": 12,
+    "stuck_default_with_opinion": 12,
+    "zero_mentions_suspicious": 10,
+    "long_list": 8
+   }
+  },
+  "overlap_v1": 50
+ },
+ "snapshot_at": "2026-10-13T20:11:58.568679+00:00",
+ "cutoff": "2026-10-09T00:00:00+00:00",
+ "corpus": {
+  "comments": 762745,
+  "eligible": 681125,
+  "chunks": 51123,
+  "gazetteer_keys": 2350,
+  "old_set_comments_excluded": 1006,
+  "old_set_threads_excluded": 17
+ },
+ "design": {
+  "thread": {
+   "unit": "chunk",
+   "population_chunks": 50496,
+   "population_comments": 668167,
+   "random_draws_k": 4,
+   "random_comments_budget": 65,
+   "strata_order": [
+    "chunk_misattached",
+    "chunk_parent_outside",
+    "chunk_title_names_place",
+    "chunk_failure_dense"
+   ],
+   "strata": {
+    "chunk_misattached": {
+     "M": 7273,
+     "n": 2,
+     "r": 1,
+     "comments": 176904
+    },
+    "chunk_parent_outside": {
+     "M": 2070,
+     "n": 2,
+     "r": 0,
+     "comments": 46917
+    },
+    "chunk_title_names_place": {
+     "M": 2967,
+     "n": 3,
+     "r": 0,
+     "comments": 53747
+    },
+    "chunk_failure_dense": {
+     "M": 2478,
+     "n": 3,
+     "r": 0,
+     "comments": 40091
+    },
+    "none": {
+     "M": 35708,
+     "n": 0,
+     "r": 3,
+     "comments": 350508
+    }
+   }
+  },
+  "comment": {
+   "unit": "comment",
+   "population": 679865,
+   "random": 60,
+   "strata_order": [
+    "dish_complaint",
+    "price_complaint",
+    "neg_wording_nonneg_score",
+    "deep_chain_context_gap",
+    "reply_ancestor_named",
+    "short_opinion_reply",
+    "avoid_or_strong_negative",
+    "question_or_unvisited",
+    "stuck_default_with_opinion",
+    "zero_mentions_suspicious",
+    "long_list"
+   ],
+   "strata": {
+    "dish_complaint": {
+     "N": 4021,
+     "n": 14,
+     "r": 0
+    },
+    "price_complaint": {
+     "N": 8981,
+     "n": 14,
+     "r": 0
+    },
+    "neg_wording_nonneg_score": {
+     "N": 1997,
+     "n": 14,
+     "r": 0
+    },
+    "deep_chain_context_gap": {
+     "N": 30612,
+     "n": 12,
+     "r": 5
+    },
+    "reply_ancestor_named": {
+     "N": 65433,
+     "n": 18,
+     "r": 6
+    },
+    "short_opinion_reply": {
+     "N": 18802,
+     "n": 14,
+     "r": 0
+    },
+    "avoid_or_strong_negative": {
+     "N": 11763,
+     "n": 12,
+     "r": 0
+    },
+    "question_or_unvisited": {
+     "N": 11401,
+     "n": 12,
+     "r": 2
+    },
+    "stuck_default_with_opinion": {
+     "N": 5166,
+     "n": 12,
+     "r": 1
+    },
+    "zero_mentions_suspicious": {
+     "N": 10241,
+     "n": 10,
+     "r": 0
+    },
+    "long_list": {
+     "N": 10125,
+     "n": 8,
+     "r": 2
+    },
+    "none": {
+     "N": 501323,
+     "n": 0,
+     "r": 44
+    }
+   }
+  }
+ },
+ "chunk_order_mismatches": [],
+ "counts": {
+  "comment": {
+   "items": 250,
+   "comments": 250,
+   "by_draw": {
+    "overlap_v1": {
+     "items": 50,
+     "comments": 50
+    },
+    "random": {
+     "items": 60,
+     "comments": 60
+    },
+    "targeted": {
+     "items": 140,
+     "comments": 140
+    }
+   },
+   "by_stratum": {
+    "avoid_or_strong_negative": {
+     "items": 12,
+     "comments": 12
+    },
+    "deep_chain_context_gap": {
+     "items": 17,
+     "comments": 17
+    },
+    "dish_complaint": {
+     "items": 14,
+     "comments": 14
+    },
+    "long_list": {
+     "items": 10,
+     "comments": 10
+    },
+    "neg_wording_nonneg_score": {
+     "items": 14,
+     "comments": 14
+    },
+    "none": {
+     "items": 44,
+     "comments": 44
+    },
+    "overlap_v1": {
+     "items": 50,
+     "comments": 50
+    },
+    "price_complaint": {
+     "items": 14,
+     "comments": 14
+    },
+    "question_or_unvisited": {
+     "items": 14,
+     "comments": 14
+    },
+    "reply_ancestor_named": {
+     "items": 24,
+     "comments": 24
+    },
+    "short_opinion_reply": {
+     "items": 14,
+     "comments": 14
+    },
+    "stuck_default_with_opinion": {
+     "items": 13,
+     "comments": 13
+    },
+    "zero_mentions_suspicious": {
+     "items": 10,
+     "comments": 10
+    }
+   },
+   "by_split": {
+    "holdout": {
+     "items": 50,
+     "comments": 50
+    },
+    "tuning": {
+     "items": 200,
+     "comments": 200
+    }
+   },
+   "tagged_in_sample": {
+    "avoid_or_strong_negative": 25,
+    "deep_chain_context_gap": 25,
+    "dish_complaint": 14,
+    "extracted_no_mentions": 64,
+    "long_list": 23,
+    "mixed_prompt_mentions": 2,
+    "neg_wording_nonneg_score": 17,
+    "never_extracted": 125,
+    "original_thread_prompt": 114,
+    "price_complaint": 16,
+    "question_or_unvisited": 17,
+    "reply_ancestor_named": 52,
+    "short_opinion_reply": 24,
+    "stuck_default_with_opinion": 21,
+    "zero_mentions_suspicious": 23
+   }
+  },
+  "thread": {
+   "items": 14,
+   "comments": 254,
+   "by_draw": {
+    "random": {
+     "items": 4,
+     "comments": 85
+    },
+    "targeted": {
+     "items": 10,
+     "comments": 169
+    }
+   },
+   "by_stratum": {
+    "chunk_failure_dense": {
+     "items": 3,
+     "comments": 40
+    },
+    "chunk_misattached": {
+     "items": 3,
+     "comments": 75
+    },
+    "chunk_parent_outside": {
+     "items": 2,
+     "comments": 43
+    },
+    "chunk_title_names_place": {
+     "items": 3,
+     "comments": 36
+    },
+    "none": {
+     "items": 3,
+     "comments": 60
+    }
+   },
+   "by_split": {
+    "holdout": {
+     "items": 3,
+     "comments": 41
+    },
+    "tuning": {
+     "items": 11,
+     "comments": 213
+    }
+   },
+   "tagged_in_sample": {
+    "avoid_or_strong_negative": 13,
+    "chunk_failure_dense": 4,
+    "chunk_later": 3,
+    "chunk_misattached": 3,
+    "chunk_never_extracted": 7,
+    "chunk_parent_outside": 4,
+    "chunk_title_names_place": 4,
+    "deep_chain_context_gap": 7,
+    "dish_complaint": 2,
+    "extracted_no_mentions": 74,
+    "long_list": 6,
+    "mixed_prompt_mentions": 28,
+    "neg_wording_nonneg_score": 2,
+    "never_extracted": 125,
+    "original_thread_prompt": 87,
+    "price_complaint": 2,
+    "question_or_unvisited": 2,
+    "reply_ancestor_named": 28,
+    "short_opinion_reply": 16,
+    "stuck_default_with_opinion": 6,
+    "zero_mentions_suspicious": 5
+   }
+  }
+ },
+ "population_tags": {
+  "dish_complaint": 4046,
+  "price_complaint": 9230,
+  "neg_wording_nonneg_score": 2408,
+  "deep_chain_context_gap": 31152,
+  "reply_ancestor_named": 89557,
+  "short_opinion_reply": 29842,
+  "avoid_or_strong_negative": 19845,
+  "question_or_unvisited": 14655,
+  "stuck_default_with_opinion": 6848,
+  "zero_mentions_suspicious": 13924,
+  "long_list": 14044,
+  "never_extracted": 476973,
+  "extract_error": 386,
+  "extracted_no_mentions": 107985,
+  "original_thread_prompt": 177078,
+  "mixed_prompt_mentions": 6547,
+  "parent_missing": 199,
+  "parent_not_sent": 1979,
+  "long_parent": 1834
+ },
+ "population_chunk_tags": {
+  "chunk_failure_dense": 6261,
+  "chunk_title_names_place": 4763,
+  "chunk_parent_outside": 4546,
+  "chunk_misattached": 7443,
+  "chunk_later": 15222,
+  "chunk_never_extracted": 35962
+ }
+}

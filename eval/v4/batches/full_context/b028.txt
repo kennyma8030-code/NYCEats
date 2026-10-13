@@ -1,0 +1,442 @@
+NYCEats extraction labeling -- batch b028 -- pass: full_context -- 20 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b028.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET f3812faa (comment packet) ===
+POST TITLE: ISO: traditional Bear Claw Donut near NYC ????????
+POST BODY: Does anybody know where I can get a not-gentrified bear claw? I’m willing to travel if needed :(
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/RanOutofCookies: Oh this is a hard one. NYC is more apple fritter and less bear claw.
+  u/lockednchaste: I can't even find apple fritters most times. I think even Dunkin stopped carrying them by me. They're my absolute fave.
+    u/RanOutofCookies: The best one I ever had was from D’Aiuto’s Bakery that used to be near Penn Station. They used to make these “baby Watson” cheesecakes but their apple fritters were like two pounds each. I ate one over three days.
+      u/lockednchaste: I'm a yeasted donut slut so mixing a half pound scoop of dough with a big honking handful of apple pie filling and then deep frying it is right up my alley for desserts.
+
+>>> COMMENT TO LABEL (u/RanOutofCookies):
+Why doesn’t anyone make an apple fritter à la mode for dessert?!
+
+REPLIES TO IT (context only):
+  u/jewree: I do regularly at home!  The trick is warming it slightly but not so much the oil comes pouring out.
+=== END PACKET f3812faa ===
+
+=== PACKET 01090a43 (comment packet) ===
+POST TITLE: Tourists sabotaging their NYC restaurant experiences?
+POST BODY: Does anyone else think that tourists are ruining their own chances of enjoying restaurants in NYC? They're like, "I visited for a week and ate at 4 restaurants with Michelin stars, 13 bagel places (only wanted 12 but the 13th was free), 5 pizza places including the secret Joe's Pizza on the Chrysler Building gargoyle, and only 2 hand pulled noodle places but they were the ones where they stretch the noodle from the Flushing kitchen all the way to the counter on East Broadway. Honestly it was good, but I thought it would help me achieve total inner peace. Plus I never got to meet Pete Wells. Has NY fallen off?" It's like if you had a birthday party everyday for a month and then said, "it was a fun month but the party on the 5th and the 19th were a little lacking because of the ambiance and honestly by the 24th I was really running out of things to talk about with my friends. Overall though I'm thankful to have had the opportunity to celebrate with my friends and eat a little cake even though they were out of the  cronut cake on the 9th and the 28th."
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/TheLegendofLior: I think a number of factors has made the dining experience across America worse lately. Poor service, everything served in plastic, chain everything, etc. This imo is what you’re seeing.
+  u/phoenixmatrix: don't forget how all the heavy tourist destinations are just a bunch of people with 5 kids with everyone on ipads and/or Facetime with volume cranked up spending more time taking pictures than actually enjoying the food.  
+
+
+I went to Peter Luger recently (I know people say its not all that, but I was curious to see for myself). Food was great, but all the tourists on their phones and toddlers screaming along their ipads' music gave such a cafeteria vibe, it really hurt the atmosphere far more than the poor service ever could.
+
+>>> COMMENT TO LABEL (u/lovepotao):
+For the price toddlers and iPads should not be allowed.
+
+REPLIES TO IT (context only):
+  u/phoenixmatrix: Yeah, unfortunately very few restaurants are willing to say "no" to customers. I've had meals at 3* restaurants running our table thousands of dollars that got ruined by kids out of control (and their bad parents). People have main character syndrome everywhere these days.
+=== END PACKET 01090a43 ===
+
+=== PACKET 9b3ec864 (comment packet) ===
+POST TITLE: Doordash payout
+POST BODY: Hi all,
+
+I posted a couple weeks ago online ordering through 3rd party apps. Someone asked to see a payout from the app and I couldn’t figure out how to post into that thread so I’m posting here! Check it out, I would love to discuss what y’all are paying on your side so we can see just how much a company like DoorDash is making from both of us.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/palefire123: What "marketing" does DoorDash or any other delivery platform perform on behalf of the restaurant?   None.   Its just another fee. 
+
+Overall, would you say you still
+make money profit with the existence of Doordash etc (despite the huge % they take) than before they came into existence (if your restaurant was around back then)?   Did you have your own delivery guy?  Not offer delivery?
+  u/mbnyc1118: I don't think the % of sales makes sense and is definitely disproportionate/inflated, but they absolutely do, using Paid Search ads on Google and Bing, paying for keywords and often driving to specific restaurants/categories within their app.
+
+>>> COMMENT TO LABEL (u/palefire123):
+I get that is the pitch for a positive value add.  But how often do people search for a restaurant with no idea where they want to order from?   I think most people develop a list of favorites near their home and work, primarily based on taste and value.   They will order from those places for years again and again without any additional marketing.   So a restaurant paying 30% of each delivery on every order for years is paying for nothing.  
+
+Based on the comment above from the restaurant owner, he seems to be paying up just to not have potential customers steered away from him.  Its a Protection Racket.   Also, he's probably over-estimating how many people will try his place just because he may be pushed up on the search result.
+
+I have my favorite local Thai and sushi for takeout.  Each time I want to order Thai, I'm not searching "Thai" on DoorDash and ordering from the first name at the top of the list.  Does any human actually do that?
+
+REPLIES TO IT (context only):
+  u/mbnyc1118: I agree with you! Many people do explore and also look for deals etc so there is a bit of an audience there. Source, I work in digital marketing, and one of my clients is a major fast food chain.
+
+That said, food delivery apps (or aggregators as we call them) are absolutely skimming off top, adding unnecessary competition to all actual restaurants (by outbidding many restaurants on their own keywords so they get the sale and thus the commission), and as a result are making food more expensive for consumers AND less profitable for restaurants.
+
+I personally call and order whenever I can, or go and pick up when I can't, and encourage everyone to do so. It's often cheaper, and the restaurant keeps more of their rightfully earned profit.
+  u/nerpdangle: Interesting thought, I do notice a lot of frequent diners of mine using DoorDash, maybe I will change my plan to see if they still order regardless of positioning in the marketplace
+=== END PACKET 9b3ec864 ===
+
+=== PACKET 24397e99 (comment packet) ===
+POST TITLE: Trade NYC dinner Reservations?
+POST BODY: Not sure if this is the right place to post this but I was wondering if anyone had a Tatiana reservation they wanted to trade me.  In exchange I will give 2 reservation (maybe 3) on the day of your choice (as long as its 2-3 weeks away) at some of the most difficult places to get into in NYC.  I need a reservation for Tatiana for 6 people on Monday 8/26  around 5:30-7 reservation time.  please DM me if you want to trade.  thanks
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/igetlotsofupvotes):
+What are these most difficult places to get into? Can you do 4 charles
+
+REPLIES TO IT (context only):
+  u/Specific-Key5004: please DM for restaurants where I can into
+=== END PACKET 24397e99 ===
+
+=== PACKET cb36c879 (comment packet) ===
+POST TITLE: The 22 Best Pizza Places in New York Right Now
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/A_M_E_P_M_H_T: Its got Joe's on there.... Am I the only one who's only had crappy,  oily slices from Joe's? Been there 3 times in the past few years.
+  u/UnusualMacaroon: Which location do you go to?
+
+>>> COMMENT TO LABEL (u/QUINNFLORE):
+This is the difference maker for joes. If you go in times square you’re gonna be extremely disappointed
+
+REPLIES TO IT: none
+=== END PACKET cb36c879 ===
+
+=== PACKET 45f114b6 (comment packet) ===
+POST TITLE: CMV: Lucky Charlie has got the best pie in the city.
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/ted_the_ked1: its really good. not the best pie though.
+  u/Legote: It all just comes down to personal preference at this point. Pizza around the area, NJ, NY, New Haven, is on a whole tier of its own. I didn’t even know how good we had it until I moved out. Went to some pizzeria that’s supposed to be number 1 in the area, and it was meh.
+    u/Smooth_Influence_488: Ain't that the truth. I'm such a gremlin for a sweet umami sauce & will never back down on Dani's being the best slice *for me*.
+      u/lambretta76: It's an A tier slice, but S tier after midnight for some reason.
+
+>>> COMMENT TO LABEL (u/Smooth_Influence_488):
+They do huge late night volume with it being on top of the LIRR stop, that's the real key. Take a late night off peak out there.
+
+REPLIES TO IT: none
+=== END PACKET 45f114b6 ===
+
+=== PACKET eb83e1b4 (comment packet) ===
+POST TITLE: I've heard the Korean food in Fort Lee NJ is better than NYC, what restaurants would you recommend there?
+POST BODY: Okay yeah it's not in NYC but every Korean I know who likes food has told me to go to Fort Lee if I want the really good stuff. Can we get a list of some of the food highlights from the Fort Lee/Edgewater/Palisades area worth venturing over the Hudson for? Interested in restaurants but also any bakeries or grocery stores, whoever has good food!
+
+The following places are ones I already saw recommended online or by people I know:
+
+  
+
+
+Sa Rit Gol (soups)
+
+Busan Gukbap (soups)
+
+Wooga (KBBQ)
+
+Gayeon (KBBQ)
+
+JJ Dak (chicken)
+
+Duri Pocha (bar food)
+
+Myung Dong Noodle House (soup)
+
+Hong Ban Jang (Chinese-Korean)
+
+To Sok Chon (soups)
+
+Taste 1080 (KBBQ)
+
+Dong Bang Grill  (KBBQ)
+
+Jeong Yook (KBBQ)
+
+Te Min Quan (Chinese-Korean)
+
+Bada Story (seafood)
+
+Namhansansung (marinated crab)
+
+D'avante Bakery
+
+Cafe Oak (kimbap)
+
+Siruwa (rice cakes)
+
+HanNam mart (grocery store, sells good blood sausage)
+
+Gamja Tang Tang (general traditional restaurant)
+
+Gadeuk Lunch Box (kimbap)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/d0rki: How do you not have BCD on there?! probably the best way to try soup+fish/meat combo
+
+Also daeji ssonday is good for pork kbbq (not fort lee but close)
+
+E-castle is good esp during weekday lunch prices
+
+Homung nengmyun is the goated cold noodle place in fort lee that opened last year
+
+>>> COMMENT TO LABEL (u/GochujangChips):
+Maybe because BCD is overpriced and bland. SGD is superior
+
+REPLIES TO IT: none
+=== END PACKET eb83e1b4 ===
+
+=== PACKET 80ece554 (comment packet) ===
+POST TITLE: Going to Kabawa for a special occasion what should I get?
+POST BODY: I am going to Kabawa for a special occasion and had some questions for people who have been recently.
+
+What are some of the best items other than the pork chop? Neither of us eat pork. 
+
+Is the dry aged steak incredible? I don’t normally eat red meat, but it’s a celebration.
+
+Is the turnover for two worth it? It seems like getting two different desserts would be more interesting.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/thatguy8856: Pepper shrimp and cassava dumplings are both very good. Goat is phenomenal. Duck sausage is good too, very interesting and wasnt what i was expecting. Ive only had the birthday flan for dessert. Outside of that and the turnover i think the other items are new i dont recall them being on the menu. I really like the flan, but the turnover seems to be the "it" dessert. You can most probably can order the turnover and something else youll just have to pay both the supplement (i forget if it has a supplement, but i think it does) and probably extra for the additional dessert. They will also box and let you take to go whatever you want, I've seen a girl solo the turnover and take half of it to go. The portions are hefty and they give you a lot of other stuff included as well so its pretty normal to box some stuff.
+
+
+Have fun and enjoy!
+  u/SadCombination7535: Thanks for the in depth answer! Its one of those places where every menu item sounds good so it’s hard to choose
+
+>>> COMMENT TO LABEL (u/thatguy8856):
+Yeah pretty much the case. Ask the staff for recommendationa and just order what you're feeling
+
+REPLIES TO IT: none
+=== END PACKET 80ece554 ===
+
+=== PACKET 67fe3a51 (comment packet) ===
+POST TITLE: 4 days eating through NYC
+POST BODY: 1) Zabars for a simple bagel lox 
+
+This was quite good and the lox was amazing. It was also cool to walk around the store and explore the bakery.
+
+2) lunch at torrisi
+
+The tortellini pomodoro is so simple and delicious. We went 30 minutes before opening. Service was great and all the dishes were really polished. I would definitely go back.
+
+3) Dinner at Kabawa
+
+The pepper shrimp and goat were the highlights. I do agree with the sentiment from this sub that this place is slightly overpriced but I still enjoyed my meal here.
+
+4) Lunch at The Modern Kitchen Table
+
+Really fun experience at the kitchen table. Everything was good but this eggs on eggs on eggs dish was the real standout.
+
+5) Dinner at Penny
+
+Loved this spot and the seafood is really well done. I have to say besides the icebox I didn’t LOVE the other dishes we ordered but the seafood is really high quality and delicious.
+
+6) Pizza at Lucky Charlie’s 
+
+This was an interesting pizza as it had awesome char and crisp but also felt top heavy and wet at times? I think i prefer dry mozzarella over fresh mozzarella but still an enjoyable pizza. Not sure I’d wait an hour or go to bushwick again though but glad I tried it.
+
+NOT PICTURED:
+
+7th St burger Late Night: great late night option
+
+Brooklyn DOP slices in Park Slope was excellent
+
+Mariscos Submarino in Park Slope: coming from LA I didn’t LOVE the tacos but the aguachiles was a pleasant surprise and well done I thought 
+
+Brooklyn Crab in Red Hook: really fun environment on a nice sunny day, I thought the fish and chips and lobster roll were solid here, nothing crazy.
+
+Overall another really successful long weekend of eating in the city concentrated in Manhattan and Brooklyn. Hopefully the next trip we’ll be looking to explore queens and some more ethnic cuisines. Let me know if yall have any good recs for me, especially for non hyped places that really care about food and ingredients.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Dammit_Jim: Damn. This is a spendy weekend.
+  u/CapOnBrimBent: We were celebrating getting married!
+
+>>> COMMENT TO LABEL (u/Dammit_Jim):
+Phenomenal choices. I've been to the Modern more times than I can count but I haven't ever eaten at the Kitchen Table. Looks really fun.
+
+REPLIES TO IT: none
+=== END PACKET 67fe3a51 ===
+
+=== PACKET b1821dca (comment packet) ===
+POST TITLE: If you could only pick one, what is your favorite sweet treat in the city?
+POST BODY: It can be anything from anywhere. What’s your favorite or go-to sweet treat in the city?
+
+Looking for inspiration for my weekly goodie 😋
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Foodie0789):
+Gotta say gelato. It's just richer and smoother than regular ice cream, feels like you're getting more flavor in every bite instead of a bunch of air. My go to treat whenever I need a pick me up.
+
+REPLIES TO IT: none
+=== END PACKET b1821dca ===
+
+=== PACKET 2c8a283a (comment packet) ===
+POST TITLE: Favorite Pizza in NYC?
+POST BODY: I have an affinity for Joe’s Pizza, on carmine street, I know it’s not “top tier” but their pizza is always consistent and Ive been going there my whole life.
+If you’re lucky enough to have the father or son make the pizza it’s always on point.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/SpaceGhost4004):
+Used to be New Park but after 2020 their quality tanked. 
+
+Louie and Ernie's is also slept on pretty hard but those who know, knows.
+
+REPLIES TO IT: none
+=== END PACKET 2c8a283a ===
+
+=== PACKET aab3773f (comment packet) ===
+POST TITLE: Jewish Food crawl
+POST BODY: Hello! I’m taking my Mom into the city to see a show at Lincoln Center on Saturday and I would like to take her for some Jewish food places since she can’t get a lot Jewish food where she lives. I’m looking for best suggestions for meals and for nibbles and snacks.  We have been to Russ and Daughters.  On my list of possibilities are all Lower East Side places: Katz’s, Kossars, Yonah Schimmel, Pickle Guys. I’d really prefer some suggestions closer to the UWS/Midtown area as we have a Lincoln Center matinee. I was thinking of starting the day at Barney Greengrass but reviews seem to be hit or miss.   Does not need to be kosher. Thanks for your suggestions!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Throwawayhelp111521):
+Barney Greengrass 
+
+Zabars
+
+REPLIES TO IT: none
+=== END PACKET aab3773f ===
+
+=== PACKET b2ecf5f7 (comment packet) ===
+POST TITLE: UWS for four?
+POST BODY: Looking for recommendations for a pescatarian friendly, moderately priced restaurant, thinking ~$50-$60pp including a drink and splitting apps. A place with a lively atmosphere. Thanks in advance!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/pinksushi123):
+Sushi Yasaka! Great sushi for the price!
+
+REPLIES TO IT (context only):
+  u/funnyastroxbl: Momoya > imo
+=== END PACKET b2ecf5f7 ===
+
+=== PACKET 9f9b3396 (comment packet) ===
+POST TITLE: Rooftop bars in Manhattan
+POST BODY: What are some good rooftop bars in Manhattan?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/BaetrixReloaded):
+phd rooftop, yotel, ink 48, le bain
+
+REPLIES TO IT: none
+=== END PACKET 9f9b3396 ===
+
+=== PACKET 781c180f (comment packet) ===
+POST TITLE: Resy acknowledges bots!!
+POST BODY: Was just on Resy trying to make a reservation at Cote and stumbled upon this page. I don't know how long its been there for, but its cool to see that they are finally addressing bots on the platform. I wasn't able to get the res (lol) but I did get served a captcha when I was attempting to check out. Glad to see that they're finally making moves, buying and selling reservations is disgusting
+
+https://preview.redd.it/c76oar5p8lod1.png?width=2220&format=png&auto=webp&s=c3cf4e651ac959898c030ce1f548a44eb403d7d9
+
+[https://resy.com/security-center?date=2024-09-13&seats=2#stopBot](https://resy.com/security-center?date=2024-09-13&seats=2#stopBot)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Nice_Juggernaut4113: Is resy what to use? I made two open table reservations this trip and both were absolutely horrible dining experiences
+  u/Eastern-Blacksmith12: Tbh opentable restaurants are all kinda mid…. to the point where I don’t ever really open their app anymore. It doesn’t seem like they have the same bot problems as the Resy spots but that probably has more to do with the restaurants not being as high demand.
+
+>>> COMMENT TO LABEL (u/Nice_Juggernaut4113):
+Yea I mean mid would be an understatement complete fucking ripoff would be more accurate — it recommends me to fushimi which looks nice but the menu when I got there was nothing like the open table menu it had basically nothing on it except some basic rolls and then $96 steak and then Koloman could have been good but they were out of their classic items and the French toast dish was awful and dry and they saw no one could eat it and did nothing to try to remedy the situation and were clearing plates before we were done
+
+REPLIES TO IT: none
+=== END PACKET 781c180f ===
+
+=== PACKET bf6f7ed6 (comment packet) ===
+POST TITLE: I guess the Frozen Yogurt lines are no more. Nobody in line 12pm.
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Machdame: I am glad I don't live in NYC anymore because big dumb lines definitely were not a thing when I was there.
+  u/jaded_toast: Ah, yes, because lines were only invented a couple years ago. I'd agree that social media has had an amplifying effect on lines, but let's not pretend that people collectively being willing to wait for something is a recent phenomena.
+    u/Machdame: I really can't believe that this is a "back in my day" kind of line, but here we are... That was over 20 years ago. We had lines, but at this volume for waht amounts to a popup? Would have been laughable.
+
+>>> COMMENT TO LABEL (u/jaded_toast):
+Ten years ago, you had people willing to wait for cronuts, Artichoke, black tap, rainbow bagels. Before that, Magnolia cupcakes, and then I was too young to be conscious of those fads. But I did watch a video recently about how rabid the fans were for Rent and how they would camp out overnight for tickets - and that was the mid 90s.
+
+REPLIES TO IT (context only):
+  u/Machdame: That's Broadway though. The theatre scene has always been big with how a successful show can get out of hand.
+=== END PACKET bf6f7ed6 ===
+
+=== PACKET 2ff9c4f4 (comment packet) ===
+POST TITLE: Dim Sum with carts
+POST BODY: Hi, Coming to the city for the first time in years and looking for the best Dim Sum place in china town. One that still has carts and serves things that I've never seen before. Not looking to trek out to Queens. Thank you.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/[deleted]):
+I would go to the new Jing Fong on Centre Street! 
+
+I wouldn’t go to Golden Unicorn. It used to be my favorite spot. I went on Christmas Day and it was so expensive for the two of us and the food was subpar. It’s gone down hill the past few years.
+
+REPLIES TO IT (context only):
+  u/Nomansisanisland: Shana tova
+=== END PACKET 2ff9c4f4 ===
+
+=== PACKET 7015b68a (comment packet) ===
+POST TITLE: The Mansion Diner Review (Upper East Side)
+POST BODY: I run a site where I've catalogued a bunch of diners across Manhattan, and I'm currently going around and writing reviews for a bunch of them. 
+
+I did one for The Mansion, which is this kind of ritzy diner on the Upper East Side.  I know that there are conflicting views on it, but I found it relatively charming, and the food to be pretty good, even if it was a tad pricey. 
+
+If you live in the area, I'd suggest visiting it even just once.  It's in the Yorkville area, which is a nice spot near the East River, and if you want, you could even stop by Gracie Mansion, the residence of the Mayor of New York, before or after your meal.  
+
+I hope you're having a good evening, and if you'd like, the review is linked below.  Take care! 
+
+**Link to Review:** [https://dinersnewyork.com/2023/06/19/the-mansion/](https://dinersnewyork.com/2023/06/19/the-mansion/)
+
+&#x200B;
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/pizza_obsessive):
+love your writing and photos! In both your op and review, you mention the mansion is a little pricey, would it be a good idea to include the price of the dish in your review?
+
+i live in the nabe,  is it possible you’re soft selling prices at the mansion? let’s say one ordered your irish breakfast and added a cup of coffee, tip and tax, i’m guessing it’s > $30?
+
+am i better off ordering their 1/2 murrays roast chicken with stuffing for $32 or walking a couple blocks to cafe d’alsace where for $34 they offer Pan roasted free-range chicken, haricot vert, snap peas, carrots, Yukon Gold mashed potatoes, chicken jus?
+
+you can’t walk a block in the neighborhood without hitting an Italian restaurant, better off paying $26 at the mansion for pasta bolognese or $22.50 at arturos italian restaurant for their rigatoni bolognese? or how about paying $2 more at uva for their homemade pasta ribbons sautéed with ragout of veal and montasio cheese?
+
+personally, I think the mansion serves a purpose but imo, considering it’s average to better than average diner food, it lands somewhere between expensive for a diner and a ripoff, a good fit if you are an undemanding, wealthy UESer but not the sort of place I’d recommend to members of this subreddit.
+
+REPLIES TO IT (context only):
+  u/CosmoKid1: >personally, I think the mansion serves a purpose but imo, considering it’s average to better than average diner food, it lands somewhere between expensive for a diner and a ripoff, a good fit if you are an undemanding, wealthy UESer but not the sort of place I’d recommend to members of this subreddit.
+
+Thanks so much!  It's always a joy to visit some neighborhood spots.  
+
+I think you're right, that including the price of my meals would probably be a good idea moving forward.  I agree with you as well, in the sense that I wouldn't necessarily recommend The Mansion as a regular dining spot, unless you have cash to burn, or are going with a large group. 
+
+Most of my reviews are really just supposed to almost be one-off journals or stories that are trying to capture the feeling of a place more than anything else.  A lot of what I read online about restaurants is often quantitative---what's the price, the best food, how far is it from XYZ---and all of that is useful, absolutely.  I'm instead looking to more archive these places, almost paint a portrait of what they're like, and if someone decides they might want to try it out, that's kind of a bonus.  While the place is expensive, I don't think it's necessarily prohibitively so, especially if you'd just like to visit it to see what it's like.  
+
+Going forward though, I think you're accurate in stating there should be an inclusion of quantitative data---how expensive was the meal, where is it, the hours, etc.  I already have it on the site, so it should be as easy as linking the page.   
+
+Thank you for your feedback!  It's this kind of substantive response that helps me make note of important features to improve on as I move ahead.
+=== END PACKET 7015b68a ===
+
+=== PACKET 24a550f2 (comment packet) ===
+POST TITLE: What are the top 5 most overrated restaurants in Manhattan?
+POST BODY: [deleted]
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/brockj84: Carbone
+  u/superangry2: Hard disagree. I’ll go to the mat on this one. The food and service at Carbone is fantastic. The whole restaurant is a vibe. There’s something special about the ‘bone that other places try to capture but fail to. Also, it’s cool to be eating and see some rando celeb walk in.
+    u/RecycledAccountName: Please don’t tell me people unironically call it “the ‘bone.”
+
+>>> COMMENT TO LABEL (u/superangry2):
+The boner community does, yes.
+
+REPLIES TO IT: none
+=== END PACKET 24a550f2 ===
+
+=== PACKET 5b8c04af (comment packet) ===
+POST TITLE: I’m from LA, visiting NYC for the first time and want to try food from ethnicities not widely available in LA. Suggestions?
+POST BODY: [removed]
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/NokSoo874):
+Thai food. The New York Times has said Elmhurst, Queens has the best in the city. The good restaurants are near the Elmhurst Ave subway station on the R train. (The 7 train Elmhurst stop will leave you at a neighborhood with good Hispanic food from many lands.)
+
+REPLIES TO IT (context only):
+  u/air-: Nothing wrong with suggesting  Elmhurst but LA certainly has plenty of amazing Thai food
+=== END PACKET 5b8c04af ===

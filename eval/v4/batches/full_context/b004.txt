@@ -1,0 +1,55 @@
+NYCEats extraction labeling -- batch b004 -- pass: full_context -- 1 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b004.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET f901f212 (thread packet) ===
+POST TITLE: Where to find onigiri that doesn't skimp on the filling
+POST BODY: As title says, looking for a spot in any borough where they have onigiri with a good amount of filling in them.
+
+THREAD, in reply order. Label ONLY the comments with a bracket number [n]. Lines marked (context) are there to read, not to label.
+[1] u/slowcanteloupe: i'm no onigiri expert, but Fushimi Market south of Herald Square has some pretty fat ones.
+  [2] u/Fancy_Composer_5641: They are huge and 95% rice
+    [3] u/slowcanteloupe: I'm going to get some tomorrow and test it out!
+[4] u/justflipping: -	[Obento Yasan in Japan Village](https://www.reddit.com/r/FoodNYC/comments/1n1gilg/hefty_madetoorder_onigiri_from_obentoyasan_in/)
+-	Omusubi Gonbei
+-	Harper’s Bread House
+-	Yaya Tea
+-	Ohayo Bread House
+[5] u/PorkProofPrion: maybe the point of an onigiri is the rice
+  [6] u/swh74: I have no problems with the rice. Its just that i had an onigiri for lunch today that was so devoid of filling i had to re-read the label to make sure i got the right one. Trying to avoid that disappointment again
+  [7] u/FiveMinuteNerd: Then it should be cheaper!
+[8] u/fsharpman: Best onigiris in Brooklyn
+
+https://maps.app.goo.gl/zjHFzVuhDRrGHpD67
+  [9] u/DinerEnBlanc: Ohayo is onigiri heaven. Their baked goods are mostly pretty meh though. Half of their offerings are weirdly underbaked. Solid drinks though.
+[10] u/NerdCocktail: Hakata Japanese Market
+
+[https://share.google/qDEVfumZyCXgHyBbU](https://share.google/qDEVfumZyCXgHyBbU)
+[11] u/Spiritual_Disk_8116: Omusubi Gonbei
+
+https://maps.app.goo.gl/vbvNwr2Vgow4EMzMA?g_st=ic
+
+Great filling to rice ratio
+  [12] u/lerenardetlarose: Yup, the best rice to filling ratio!
+[13] u/Foodiegirlie030793: I love yaya tea onigiris they’re fresh rice is always warm and lots of filling!!!
+[14] u/Equivalent_Net_8983: Or better still, places where they still actually put the “filling” *inside* the rice, and not just on top.
+
+I also hate that fewer and fewer places offer okaka as a filling.
+  [15] u/lightstarangelnyc: Hanamizuki Cafe has cheese okaka as a filling option!
+[16] u/BombardierIsTrash: Not strictly an onigiri but: Tokuyamatcha &  Onigirazu Bar has a 2 or 3 locations around the city now, and they’re pretty generous with their fillings.
+[17] u/colordance: obentoyasan and mogmog!
+[18] u/nycsourdiesel83: Katagiri in the city perhaps
+[19] u/lightstarangelnyc: Hanamizuki Cafe!
+(context, deleted or too short to be sent) u/ConflictGullible392: 969 NYC Coffee
+[20] u/No_Somewhere9811: Take a look at Sushi Counter, a couple of locations in the city.
+[21] u/yongjoo: Anyone remember Oms B? All rice balls, I was positive this would be the biggest trend. https://yelp.to/e8-vRhMAGS
+=== END PACKET f901f212 ===

@@ -1,0 +1,385 @@
+NYCEats extraction labeling -- batch b015 -- pass: full_context -- 20 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b015.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 72f40ecb (comment packet) ===
+POST TITLE: Help! Need recommendations for 5 people this Wednesday in Manhattan!
+POST BODY: I had someone who said they could come through for me on a reservation bail and now I'm scrambling.
+
+It's for 5 people, Manhattan is preferred but open to Brooklyn. It's almost impossible to get somewhere that's popular at this point, but always really (like Carbone (I know feelings are very mixed), 4 Charles, Torrisi, Claud, etc.).
+
+Cuisine: flexible here, prefer Modern American (not a big fan of tasting menu), but open to Italian, Spanish/tapas, Mediterranean, Asian.
+
+Time: 6pm - 8pm start time
+
+Budget: flexible up to $200-$250pp
+
+Does anyone have any recommendations?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Garconavecunreve):
+Go to Brooklyn: sailor, gator, harts, third falcon…  
+
+If Manhattan must: Opto, American bar, monkey bar, Zimmis, little maven
+
+REPLIES TO IT: none
+=== END PACKET 72f40ecb ===
+
+=== PACKET 71c94552 (comment packet) ===
+POST TITLE: Best non-Chain Coffee/Latte in Midtown East
+POST BODY: I'm starting a job near 47th and Lex this week, and the way my commute lines up I usually have 20–30 minutes to grab coffee before work. I'm a flavored latte guy, but the chains nearby (Blank Street, Bluestone, Starbucks) don't do much for me. Any good independent spots with good coffee in the Midtown East/Grand Central area?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/OddSilverware):
+I second Little Collins (bw 44th and 45th on 3rd ave), and they absolutely do pick up. Every single thing I have tried on their menu is insanely good, especially for the price. They have a large selection of dishes, which is really hard to find at places that do great coffee. And they look out for you once you are a regular.
+
+REPLIES TO IT: none
+=== END PACKET 71c94552 ===
+
+=== PACKET 8b737bc0 (comment packet) ===
+POST TITLE: 24 hrs in NYC. What’s your favorite spot in this area?
+POST BODY: The pin is my hotel. I’m planning to take my wife to Times Square and Central Park. I’m looking for classic bagel or bacon egg and cheese breakfast, street food for lunch (halal, hot dogs, Chinese), and somewhere to sit for dinner (Italian, steakhouse, seafood). 
+
+I don’t trust google to find a good spot. I trust myself slightly more, but would prefer some firsthand accounts. Any killer stops I shouldn’t miss?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/threesixtyone: Marea for fancy Italian dinner  
+Tim Ho Wan for dim sum
+  u/pigeonmachine: Tim Ho Wan is closing (might be closed already.)
+
+>>> COMMENT TO LABEL (u/threesixtyone):
+Gah! Did not know this, pretty upsetting. It was the best Chinese place in Hell's Kitchen.
+
+REPLIES TO IT: none
+=== END PACKET 8b737bc0 ===
+
+=== PACKET 1aff3f55 (comment packet) ===
+POST TITLE: 'There's a problem with the sauce': Times Square taqueria's salsa sparks lawsuit
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/hella_sauce: Ban this dude from America
+
+>>> COMMENT TO LABEL (u/honorious):
+Nah give him citizenship, he will fit right in with our deplorables.
+
+REPLIES TO IT: none
+=== END PACKET 1aff3f55 ===
+
+=== PACKET 3687a830 (comment packet) ===
+POST TITLE: Where to buy an electric hot pot and Asian groceries?
+POST BODY: Title. Looking to purchase a Chinese electric hot pot with the divider, but not sure where to look. Additionally, have not been able to find a grocery store with good hot pot ingredients - hoping for a one-stop shop situation. Any help would be appreciated!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/halfadash6):
+Hong Kong supermarket is probably good for this. I’m not 100 percent sure they have the hot pot but they do have a housewares section downstairs
+
+REPLIES TO IT (context only):
+  u/OnlyaClam: second. I have bought hotpot ingredients at HKS, and there's def a chance of finding the hot pot machine there too
+=== END PACKET 3687a830 ===
+
+=== PACKET 94c5f0a0 (comment packet) ===
+POST TITLE: Most elite tacos in NYC?
+POST BODY: I finally got around to trying Los Tacos 1 and it does in fact, deserve the hype! Really juicy al pastor meat and tasty handmade tortillas (both corn and flour). Very authentic in both its food and atmosphere. People complain about the price, but it's like a dollar more than average for a much better taco.
+
+So far that puts Los Tacos and Taqueria Al Pastor in the elite category for me, with everywhere else I've had (dozens of places) being at least a notch or two below. Except for Los Mariscos which I like even more, but mariscos vs al pastor/carne asada is an apples and oranges kind of thing.
+
+Which other taquerias belong in the elite category? I hear great things about Taqueria Ramirez for instance.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/d0pey911: Taqueria Ramirez is definitely one of the best. My best friend prefers Ramirez Al pastor tacos over Los tacos adobada, my wife prefers Los tacos, says Ramirez is dry and too salty for her taste. Birria landia is often brought up as the best Birria in nyc but I think nenes taqueria is just as tasty.
+
+>>> COMMENT TO LABEL (u/futurebro):
+Nene’s is so good! Just an inconvenient spot for me personally otherwise I’d be there constantly
+
+REPLIES TO IT: none
+=== END PACKET 94c5f0a0 ===
+
+=== PACKET f32b1b11 (comment packet) ===
+POST TITLE: Minetta Tavern in Greenwich Village - July 2026 for Lunch Menu
+POST BODY: Booked a reservation for solo lunch. Seated immediately and the server brought over the customary solo diner complimentary champagne without prompt.
+
+I love the atmosphere and decor of this spot, especially the caricatures on the wall.
+
+Baguette came to the table hot & fresh. Great flavor to the bread but only ate a bit as I didn't want to be filled up on carbs ahead of the main reason why I came - trying the famous Black Label Burger.
+
+Ordered with a side salad with the fries & burger. Perfectly medium on the inside, as requested. A bit longer on the wait for mains than I assumed for a burger. I think almost 20 minutes from baguette being served. Could have been because it was a busier lunch rush.
+
+Onto the burger, I prefer pub-style over smashed. I want to taste the beef and this one certainly delivered. Not mind-blowing as some other reviews I've read about the Black Label. I'd say it was good overall (3/5). For me, not a return visit kind of order.
+
+As a comprehensive dining experience though, I would take friends & family visiting the city to this spot.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/stonktradersensei):
+Thanks for the review, been on my list to go eat at.  How busy was this lunch rush?  Like would I be able to walk in as a solo diner?
+
+REPLIES TO IT (context only):
+  u/AuPhoenix: No idea on the feasibility of walk-ins, sorry :/
+
+I went on a Saturday for lunch, and there appeared to be a steady flow of folks.
+  u/limperatrice: If you don't mind eating at the bar you can go in without a reservation
+=== END PACKET f32b1b11 ===
+
+=== PACKET a80c4fdf (comment packet) ===
+POST TITLE: West village casual dressed acceptable dining
+POST BODY: Bringing my wife to NYC for her 40th birthday mid September. Going to be all over the place that day and ending the evening at The Comedy Cellar. 
+
+I'd like to take her somewhere with good quality eats and a nice vibe for dinner but won't have the time to stop at the hotel to get properly dressed up for anything super high end. 
+
+Can anyone recommend some places that lean more casual in that area?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/QnsPrince):
+The clam, emily, minetta, lure, dante, charlie bird
+
+REPLIES TO IT: none
+=== END PACKET a80c4fdf ===
+
+=== PACKET ece13001 (comment packet) ===
+POST TITLE: What trendy/popular coffee shop/dessert spot did you try because of the hype, and were you surprised by how good it was or disappointed by how bad it was?
+POST BODY: Name one place for each!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Calm-Pea8612):
+Maman coffee is incredibly mid, though their pastries are great. Caffe Panna was disappointing only because they ran out of their specials by 4 pm on a Tuesday, but the regular ice cream is good & worth the wait nonetheless.
+
+REPLIES TO IT: none
+=== END PACKET ece13001 ===
+
+=== PACKET bbe63a26 (comment packet) ===
+POST TITLE: How is caffe panna so good?
+POST BODY: Can someone explain the science behind why caffe panna is seriously so good??? I have had it multiple times at their Manhattan location but I recently tried their pints from butterfield market and they are incredible as well. There is truly no other ice cream that compares.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/virtual_adam: A few things I’ve noticed following her a few years before the official opening
+
+* she had the budget to really dive deep for years into the subject, from living in Italy to some ice cream school (?!) in UPenn ( I remember her taking the final test) she had the time and budget to just learn about ice cream making as long as she needed before she decided to open up
+
+* IIRC the daily flavors weren’t as crazy pre covid. Then in COVID you could pay her to make a crazy flavor of your choice. And those sort of triggered the types of flavors she does so well today. Even though her classics are also excellent (which goes back to studying)
+
+* I don’t think she ever had pressure to break even super quickly, just focused on top ingredients and flavors. She buys a lot of stuff from Gustiamo - which even at a “restaurant discount” is insanely expensive - but the best of the best of the best of Italian ingredients. For example I absolutely love her Italian hazelnut base she does for a day or 2 a few times a year. At $13 I personally think there’s no way she’s making money on those
+  u/Useful_Cheesecake673: > •	⁠she had the budget to really dive deep for years into the subject,
+•	⁠I don’t think she ever had pressure to break even super quickly, just focused on top ingredients and flavors. 
+
+Her dad is the founder of Shake Shack so all this tracks.
+    u/tamanshuddd: Oh I think Danny Meyer did a few other things besides shake shack lol
+      u/lapetitfromage: But having said that there’s a shake shack in Tokyo. That shit is everywhere now.
+        u/yourgrandmasgrandma: Tokyo got a Shake Shack in 2015, but has had a Union Square Cafe since 2007!
+          u/Tricky_Job_3425: I wasn’t trying to criticize you,  just correct the statement.  your comment says” Tokyo got a shake shack in 2015 that has had a Union Square Cafe since 2007!” I work for USC and we’re celebrating 40 years this year. I hope you’ve had a chance to try it. We’re really proud of that. Not a lot of restaurants make it to 40 years. It’s really good, wasn’t trying to make you feel bad.🙂
+            u/yourgrandmasgrandma: Yeah I’ve definitely worked for USHG a lot longer than you and I’m sorry you’re still struggling so badly to read that very simple sentence.
+              u/Tricky_Job_3425: Sorry you’re having a bad day. Have some ice cream. I hope your day gets better Gracias.
+
+>>> COMMENT TO LABEL (u/yourgrandmasgrandma):
+My day is great. You need to read before writing.
+
+REPLIES TO IT (context only):
+  u/Tricky_Job_3425: There’s no way you’re a part of the company. I’ve tried to be nice and leaned forward with charitable assumptions, but there’s no way you would’ve made it past the probationary period. People with your attitude don’t last in our company. Thank heavens.
+=== END PACKET bbe63a26 ===
+
+=== PACKET 5af53869 (comment packet) ===
+POST TITLE: good buffalo wing places?
+POST BODY: preferably in brooklyn or manhattan
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/TheGrowingSubaltern):
+commenting bc I’d like to know as well. 
+
+Haven’t found great wings in NYC yet. Have had many that are good but not great. 
+
+If anyone knows the spot for dry rub particularly, please let me know.
+
+REPLIES TO IT: none
+=== END PACKET 5af53869 ===
+
+=== PACKET af82fcc2 (comment packet) ===
+POST TITLE: Reservation Sales Thread - **READ BEFORE POSTING!!**
+POST BODY: This thread exists *solely* to create a space for people to avoid losing their deposits on pre-paid meals. Gouging is not tolerated on this subreddit. The below rules exist to ensure it stays that way. Read them before posting because violations can lead to an immediate permanent ban.  
+
+1. This thread is the only place on the subreddit for selling restaurant reservations. You may not ask to buy reservations.
+2. You may ONLY sell non-refundable reservations for below or equal to face value. (plus all taxes and fees)
+3. You must clearly state both the price you paid and the price you're looking for in the post.
+4. We do not know every restaurant's deposit and cancellation policies. If you do not make it clear that you're operating by the rules above, we will assume you're not. 
+
+Good post:
+
+> I have a table for 4 at Eleven Madison Park at 8:30 PM on Sunday, February 3rd. Tickets are nonrefundable and a business emergency came up. Paid $1589.58, willing to take $1200 OBO. Transfer on Resy.
+
+Bad post:
+
+> Got a table for 2 at 4 Charles. DM for details.
+
+The mods of [/r/FoodNYC](https://old.reddit.com/r/FoodNYC) accept no responsibility for these transactions. Tock and Resy both allow transfers on the website - if someone tells you otherwise it's a scam. Do your own research on your transaction before handing over any money to a third party. Check with the restaurant, check account ages, meet in person if feasible.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/OpenEstablishment958):
+I have a table for 6 at 4 Charles tonight at 9:30 pm. It's a Non Refundable since I missed the deadline to cancel and I'll give it for $300. Please let me know! If not, I'll attend myself but I just have other things I have to take care of and I'd prefer to skip out on this tonight. Thank you!
+
+REPLIES TO IT: none
+=== END PACKET af82fcc2 ===
+
+=== PACKET 522df2fd (comment packet) ===
+POST TITLE: What's your most controvertial nyc food scene opinion?
+POST BODY: Laserwolf would be a fraction as successful without the view.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/dredgedskeleton: if the potions aren't filling, the restaurant sucks
+  u/theillustratedlife: Drives me nuts when somewhere changes $30 for a plate of pasta and you leave hungry.
+    u/multiequations: I refuse to pay $30 plus a plate for pasta. It’s especially a crime if it’s not fresh, housemade pasta. I’m sorry for flour and eggs are some of the cheapest and most readily available ingredients.
+
+>>> COMMENT TO LABEL (u/DACula):
+Too many people are okay with overpriced Italian restaurants that serve store bought dry pasta. I just don't understand why people are okay with this, when they could make the same meal of $3 at home in 30 minutes.
+
+REPLIES TO IT: none
+=== END PACKET 522df2fd ===
+
+=== PACKET 339fd403 (comment packet) ===
+POST TITLE: FreshDirect quality is now abysmal, grocery delivery alternatives?
+POST BODY: I have been a FreshDirect customer and DeliveryPass member for a decade, but I have reached a breaking point. Over the last few months, since my area was moved to a third-party delivery service, every order has been unreliable. I no longer feel I can trust the service, particularly regarding the integrity of the cold chain.
+
+Today was a new low: my order was scheduled for a 9–11 PM delivery window, but the driver dropped it off at 3:30 PM—nearly six hours early—without any prior notification. Furthermore, the driver left the order at the concierge desk and refused to deliver it to my apartment, despite clear instructions not to leave items unattended.
+
+I have contacted customer service multiple times. While they take my complaints and offer assurances, nothing changes. Even after speaking with a manager who promised improvements, the issues persist.
+
+I am now looking for reliable alternatives. I have tried Whole Foods and Instacart, but I find that their reliance on brick-and-mortar stores often leads to frequent substitutions or out-of-stock items. The direct-from-warehouse model was a major advantage of FreshDirect that I would like to find elsewhere.
+
+Is anyone else experiencing these same issues with FreshDirect? If you have moved to a more reliable grocery delivery service, I would love to hear about your experience and recommendations.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/HuckleberryOwn647: It seems to be worst where they have switched to 3P delivery. My area seems to still be serviced by the same FD team and service is still good. I pray it will stay the same. I hope FD listens to these complaints before they lose all their loyal customers.
+  u/sandrotosi: [https://www.bxtimes.com/freshdirect-strike-third-party-delivery/](https://www.bxtimes.com/freshdirect-strike-third-party-delivery/)
+
+"FreshDirect is now proposing to increase that number to 40% this year, 50% in 2027 and 60% in 2028" 😞
+
+>>> COMMENT TO LABEL (u/HermioneJane611):
+Holy crap, this is terrible news! FD was the only reliable cold chain delivery service I knew of in New York City. 
+
+I had tried Amazon Fresh myself this past year, but I don’t live close to the distribution center in my borough; I had to compost 90% of my (within delivery window) order after the cold chain was broken (they refunded me). My understanding is Fresh only preserves the cold chain until the order leaves the distribution center because that’s when Amazon considers the order “fulfilled”; how the delivery person takes it from there is not their problem (orders are batched by region, no insulated bags or refrigerated vehicles need apply).
+
+I was looking forward to resuming FD orders once they restored processing for my payment method in my zip code, but now it sounds like they're not an improvement over the competition at all anymore. How disappointing.
+
+REPLIES TO IT (context only):
+  u/Mark-It_Maker: They have been fine for me
+=== END PACKET 339fd403 ===
+
+=== PACKET 7ddc84aa (comment packet) ===
+POST TITLE: Good spot for a bite/drink in/near Central Park?
+POST BODY: I have a first date coming up and we're going for a walk in central park. We wanted to grab something small to eat/drink either in the park or near Columbus circle. I'm not looking for anything fancy, just yummy good food. We could always just pick up a slice or something but I'd like to snazz it up a bit 😅 any suggestions?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/FastChampionship2628: Walk in the park is a pretty cheap date and your date might get hot or tired so definitely snazz it up a bit.
+
+There is a Le Pan Quotidien right across the street from the Shops at Columbus Circle.
+
+That would be a convenient location to sit down for sandwiches or pastries.
+
+If you want a sit-down restaurant, maybe go to PJ Clarke's on W 63rd after you finish hanging out at the park.
+
+>>> COMMENT TO LABEL (u/derbengirl):
+Thanks so much! We had kinda both agreed to do something cheap, so I'm not really worried about "looking" cheap, I just wanted to treat them to something anyway, lol
+
+REPLIES TO IT (context only):
+  u/FastChampionship2628: It's good you are both on the same page.  Something like coffee and pastries would be a nice treat or you can stop somewhere and grab a drink.   Have fun on your date.
+=== END PACKET 7ddc84aa ===
+
+=== PACKET a6d93d1d (comment packet) ===
+POST TITLE: Restaurant that serves fois gras, fried prawns, and piña coladas?
+POST BODY: Struggling to find one restaurant that serves all of these things. I would love to have james gandolfini’s last meal: four shots of rum, two piña coladas, two beers, two orders of fried prawns, and foie gras.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Spumorty: Sunken harbor club maybe?
+
+>>> COMMENT TO LABEL (u/TopCapTheApp):
+Gage and Tollner is a great call
+
+REPLIES TO IT: none
+=== END PACKET a6d93d1d ===
+
+=== PACKET 58a2c25f (comment packet) ===
+POST TITLE: Everything this Canadian ate and drank in 4 days in Manhattan and North Jersey
+POST BODY: 1. Los Taco no 1 - al pastor con todos (I shouldn’t have gotten the guac)
+2. 787 Coffee - ice coffee 
+3. The Corner Slice (NJ) - assorted slices (great service) 
+4. Barney Greengrass - salmon lox (this cost $35 CAD but was the best thing I ate all week 🥇)
+5. S&P Lunch - pastrami 
+6. Overstory - El Bandito
+7. Hamburger America - fried onion burger (2nd best thing I ate 🥈)
+8. Sake Bar Decibel - sake flight, very cool bar 
+9. McSorely’s - the dark beer
+10-11. Kopitiam - pandan chicken, kaya toast, tofu satay salad, and a condensed milk ice coffee not pictured (expensive and my most disappointing meal by far) 
+12. Superbueno - don’t recall the cocktail but it aaa excellent 
+13. Shuka - I think we ordered just about the whole menu. (3rd best thing I ate 🥉)
+14. Thai Diner - Thai ice coffee 
+15. L’industrie - burrata slice (honorable mention, 4th best thing I ate)
+16-17. Summit Diner (NJ) - Taylor ham, hash brown, eggs, and an egg cream (all excellent)
+18. Playa Bowls (NJ) - never seen this where I’m from but apparently it’s a chain that started in the Jersey shore, it hit the right spot 
+19. Sol-Mar (NJ) - cod, sopa verde (not pictured).  This was probably the largest meal I’ve ever been served.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/danielleiellle):
+Sad about Kopitiam. What was disappointing? I know the pandan toast isn’t everyone’s favorite but I enjoy the Nasi Lemak when I go
+
+REPLIES TO IT (context only):
+  u/bigbootybitches: I think my main issue is they talked me into getting 3 items (saying 2 wasn’t enough for a meal) which was way too much food and really expensive especially for a place where you order from the counter and clear your own trays. And nothing blew me away, it was all kind of bland. Maybe other items are better but these were 0/3
+=== END PACKET 58a2c25f ===
+
+=== PACKET ad3df1af (comment packet) ===
+POST TITLE: Even Bad Pizza in NYC is Sometimes Bad....As Evidenced by....
+POST BODY: I would think given it's the world mecca of pizza, that bad pizza there is still decent, but nope, I found a place called Roma Pizza on 8th Ave. that I picked because the reviews were decent, you could eat inside, and it was literally around the corner from the theater I was going to. This place was really bad. Definite Top 5 worst pizza places I've ever eaten anywhere. I don't know how people could like it or prefer it. I think it's the first pizza I've had in NY that I truly did not enjoy on any level.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Mammoth_Sell5185):
+I had Roma last week since I work nearby. Yeah, the regular slice is terrible. Weirdly, I had a chicken slice, which was all around about five times as good as the plain. Much crispier, cheese and the other ingredients tasted better and everything. 🤷
+
+REPLIES TO IT: none
+=== END PACKET ad3df1af ===
+
+=== PACKET bfb8a110 (comment packet) ===
+POST TITLE: The Best Dumplings in NYC are in an abandoned mall
+POST BODY: If you have not yet tried Fu Zhou Wei Zhong Wei Jia Xiang Feng Wei you need to immediately for the best friend dumplings and pork buns you’ll ever have. If you pardon the ambiance you’ll see them making everything by had and PACKING those buns with flavor. 100/10 recommend. 
+
+Eater.com/23598627/fu-zhao-wei-zhong-dumplings-chinatown-mall
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Ok-Temporary-8243: They're great, but I wouldn't exactly say they're the best. The meat is what you'd expect for the price. I hope it doesn't become another mei lai wa though.
+  u/LieutenantKije: I don’t know if we got a bad batch but when my friend and I visited, ours were super greasy. I have a video somewhere of turning one upside down and seeing oil pour out of it 🤢 couldn’t finish eating them all
+    u/Ok-Temporary-8243: Are you not Asian? The oil/juice/grease is intentional, not a bug
+
+>>> COMMENT TO LABEL (u/LieutenantKije):
+I missed the part where OP mentioned they had the fried dumplings lol. We ordered the boiled ones and those were super greasy
+
+REPLIES TO IT (context only):
+  u/Ok-Temporary-8243: They're generally kinda greasy because the meat has a much higher fat content. But that's the allure really. Trust me, they taste horrible without the liquid
+=== END PACKET bfb8a110 ===
+
+=== PACKET fa04515b (comment packet) ===
+POST TITLE: Best high-end rowdy restaurant in NYC
+POST BODY: I'm looking for the best combination of a buzzy, loud, boozy restaurant that still serves top quality food. This is for a celebration with a bunch of guy friends who are all very adventurous eaters. We'd like to avoid steakhouses; we've done that a lot in the past and would instead like do haute cuisine without feeling like we're in a monastery.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/jwillyk2121: Puglia’s
+
+>>> COMMENT TO LABEL (u/Equidae2):
+lol. He said High end. I had one of the best times of my life at Puglia's once. I think it was the company I was with.
+
+REPLIES TO IT (context only):
+  u/jwillyk2121: True Puglias is def not high end but the live paino and singing is electric lol
+=== END PACKET fa04515b ===

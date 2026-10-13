@@ -1,0 +1,508 @@
+NYCEats extraction labeling -- batch b026 -- pass: full_context -- 20 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b026.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET c2cd312b (comment packet) ===
+POST TITLE: Returning to NYC after 10 years with a few questions.
+POST BODY: Hey everyone, used to live in NYC and staying over the weekend in park slope. On Friday might go to the Blasket (more my friends thing than mine).
+
+So, looking for cheapish bars between the two spots ideally with some good food. Late night food a plus.
+
+Apart from that, got any bar with a great smash burger reccs in Brooklyn? 
+
+Also looking for your favorite cheap spots near park slope, stuff you like in crown heights I might have missed when I lived there, and wings.
+
+I’m in a chicago these days so if you wanna drop a comparison to some place you love there I’ll take it to!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/crazeman: If you want to check out some NY beers, there's a cluster of 4 breweries within a 4 block radius. (Technically they're like a block west of park slope lol).
+
+There's Strong Rope and Finback on the same block, Wild East about 2 blocks away, and Threes brewing at a other 2 blocks away.
+
+I've only been to threes brewing and strong back once, I can't tell you which brewery is the best lol.
+
+>>> COMMENT TO LABEL (u/bkrunnergirl25):
+Highly recommend strong rope for non-hops lovers, Finback for the IPA set, Wild East for a wide variety of options and Three's for it's Meat Hook offering.
+
+REPLIES TO IT: none
+=== END PACKET c2cd312b ===
+
+=== PACKET 958e2d0d (comment packet) ===
+POST TITLE: Where can I find the best banh mi and which banh mi is the one you typically order?
+POST BODY: I was quite a fan of banhmigos for a while but outside of that not really experienced with banh mi and in sure there are some much better ones. Some places im looking at include Thanh Da and Ba Xuyen. Wondering which one locals in the area generally prefer flavorwise. Then theres Cơm Tấm Ninh Kiều in the Bronx. Banh mi Saigon, Saigon Vietnamese Sandwich Deli, Saiguette are some in Manhattan. But what place truly has the best banh mi the city has to offer? And which from them is your favorite to order?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/justflipping):
+My go-to order is usually the #1 / classic / roast pork / dac biet "special."
+
+The absolute "best" will depend on personal preferences. I usually rotate between these places, depending on what I'm craving and if I'm nearby:
+
+-	Banh Mi Co Ut
+-	Banh Mi Saigon
+-	Saigon Vietnamese
+-	Saiguette
+-	Ba Xuyen
+-	JoJu
+-	Banh
+
+REPLIES TO IT: none
+=== END PACKET 958e2d0d ===
+
+=== PACKET 7814a24b (comment packet) ===
+POST TITLE: I asked this sub for the best pizza rec and got 90k views, so I made it into a live r/FoodNYC leaderboard
+POST BODY: A week ago I asked you all for the best pizza spots in NYC for my side project and got 90k views.
+
+
+I took your recommendations and built it: 
+https://www.kinghill.nyc
+
+Think of it as r/FoodNYC’s live ranking reddit style:
+no SEO games, 
+no influencer lists, 
+no sponsorships, 
+NO sign-ups, 
+completely anonymous. 
+FREE to use
+Just real people deciding what deserves to stay on top.
+
+
+The problem:
+We have all been here… Googling "best pizza NYC" and scrolling past sponsored results, SEO-optimized lists, and Yelp reviews you're not sure you can trust. Or spending 20 minutes digging through Reddit threads from 2 years ago trying to piece together what's still good. Finding great food in NYC shouldn't require cross-referencing five sources and hoping for the best.
+
+
+How King of the Hill works:
+—10 restaurants compete on a leaderboard per category
+—You vote for favorites (or downvote the overrated)
+—Every Sunday at midnight, #10 gets eliminated and loses all votes
+—Top community nomination replaces them Monday at 0 votes
+—Ranks 1-9 keep their votes—momentum builds week after week
+—Upvote comments to surface the best dishes at each spot
+
+
+What's live now:
+Pizza 🍕
+Burgers 🍔
+Korean 🇰🇷
+Ramen 🍜
+Sushi 🍣
+
+
+I seeded the initial lists using the recommendations from that pizza thread and other strong recs from r/FoodNYC. The current votes are from a small beta launch I did with friends, but from here it’s entirely up to the community.
+
+The next elimination happens on Sunday, Nov 28 at midnight. Vote now or watch #10 get kicked out.
+
+
+No sponsorships. No algorithms. Just New Yorkers deciding what's actually worth eating.
+
+Its a passion project and I dont make money from this, in fact, losing money :/
+
+https://www.kinghill.nyc
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Snoo6705):
+Glad to NOT see the very overrated L'Industrie on the pizza list
+
+REPLIES TO IT (context only):
+  u/Yeety691218: Well peep the suggestion section, you might be disaapointed haha
+  u/DinerEnBlanc: Can’t vote for something that’s not given as an option.
+=== END PACKET 7814a24b ===
+
+=== PACKET 9470b4c2 (comment packet) ===
+POST TITLE: If you could bring back one closed restaurant, what would it be?
+POST BODY: This cold winter day’s got me feeling nostalgic. What’s restaurants or eateries of the past would you bring back if given the chance? For me, it’s a tie between Caracas Arepa & Marble Dessert Bar. Oh, how miss dousing their seafood arepa with their signature yellow sauce. And to this day, I still can’t find a dessert tasting quite like Marble’s. Lysee comes close, but it’s not quite the same.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/dman-5000):
+Pravda: Good food and great vibe
+Udon west: biggest beers in the city and reverse happy hour
+Harry’s water taxi beach: a beach bar on Long Island city waterfront
+
+REPLIES TO IT (context only):
+  u/Negative_Tower_501: Pravda RIP when I need a sexy drink and snack in SoHo I’m lost
+=== END PACKET 9470b4c2 ===
+
+=== PACKET 7e8a6e07 (comment packet) ===
+POST TITLE: Three weeks off between jobs - what NYC restaurants are only doable on weekdays?
+POST BODY: Im taking three weeks off between jobs and have full weekday flexibility. What are the places or experiences that are usually impossible to try with a 9–5 schedule but are perfect during weekday hours? I live near the union square station so location/distance isn’t an issue for me!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/SeldomWrong: Torrisi walk in lunch. The only problem is being solo you’ll only get to try a few dishes.
+
+>>> COMMENT TO LABEL (u/ourannual):
+When I went solo I got two appetizers, a pasta, a main, and dessert. Dude next to me solo at the bar ate three pasta dishes. Where there’s a will there’s a way.
+
+REPLIES TO IT: none
+=== END PACKET 7e8a6e07 ===
+
+=== PACKET d98e265b (comment packet) ===
+POST TITLE: Visiting NYC and bringing wife and daughter for their first time. We are planning to head straight to John’s of Bleeker from LaGuardia. Thoughts?
+POST BODY: Is this the absolute pinnacle of pizza I can get and show them? Any other must tries? Considered di fara in Brooklyn. L’industrie?
+
+Also going to hit raoul’s for burgers, have reservations there and at crown shy, San Carlo osteria Piemonte.
+
+Thoughts?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/kokoromelody: Are you going to have all your luggage and bags with you? I highly recommend dropping them off at your hotel first. NYC has a lot of pedestrian foot traffic (esp in West Village/Greenwich Village) so you'll want to save yourselves the hassle of lugging those with you and storing them when in a restaurant.
+  u/Lizzie_Boredom: Go to Prince St. Pizza instead. And like others said, drop off your bags first.
+
+>>> COMMENT TO LABEL (u/Dissidence802):
+Bleeker Street is easily better than Prince IMO, plus you avoid the bigotry as an extra bonus.
+
+REPLIES TO IT (context only):
+  u/Lizzie_Boredom: Idk the story. What happened there?
+  u/MaizeNBlueWaffle: Not to mention prince Prince St is just criminally priced
+=== END PACKET d98e265b ===
+
+=== PACKET a88846ea (comment packet) ===
+POST TITLE: Lean Piroshki with Pancakes in Breadcrumbs and Mustard
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Mr_ND_Cooking):
+Procedure for making pancakes
+
+ Take a plate, put flour, salt and sugar, mix well. Then take another bowl, put sparkling water in it and start adding the flour spoon by spoon and mix until you use up the flour. And start to baking the pancakes
+
+Procedure for making the filling for filling the pancakes
+
+ Take a pan and put olive oil, turn on the stove to medium temperature, then put fresh mushrooms and start stewing for 10-15 minutes, put vegetables and black pepper in the pan. After we finish stewing, we put the fresh champignons in a bowl and then grate low-fat cheese into the bowl with the champignons. We mix these two ingredients to combine well, then add ketchup and continue mixing again
+
+Procedure for making the mixture for gluing the piroshki
+
+ Take a plate, put a glass of water and put a spoonful of mustard and stir to combine the mustard and water
+
+After we have done these things, we start by filling the pancakes, we put 2-3 tablespoons of the filling in each pancake, then we roll them and seal them with the mustard and water mixture. So we repeat the procedure until we run out of pancakes. After we finish the pancakes, we take breadcrumbs and dip the pancakes in the mixture of water and mustard. First we put the pancake in the mustard and water mixture and then in the breadcrumbs and repeat the procedure. Then they are fried for 2-3 minutes on one side and 2-3 minutes on the other side. And the piroshki are ready, you can start tasting
+
+Ingredients
+
+Pancakes
+
+1. Flour 500 gr.
+
+2. Sparkling water
+
+3. Salt 1 tsp
+
+4.Sugar 1 tsp
+
+Fill for pancakes
+
+1. Fresh mushrooms 1 kg
+
+2.Lean cheese 400 gr.
+
+3.Ketchup 100 ml.
+
+Fried pancakes in breadcrumbs and mustard
+
+1. 1 glass of water
+2. Mustard 1 tbsp
+
+For more 👉 https://youtu.be/pxeEyLJhkUU
+
+REPLIES TO IT: none
+=== END PACKET a88846ea ===
+
+=== PACKET 2dd824c1 (comment packet) ===
+POST TITLE: UWS for four?
+POST BODY: Looking for recommendations for a pescatarian friendly, moderately priced restaurant, thinking ~$50-$60pp including a drink and splitting apps. A place with a lively atmosphere. Thanks in advance!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/pinksushi123):
+Sushi Yasaka! Great sushi for the price!
+
+REPLIES TO IT (context only):
+  u/funnyastroxbl: Momoya > imo
+=== END PACKET 2dd824c1 ===
+
+=== PACKET 70ac01fb (comment packet) ===
+POST TITLE: Goku Ramen
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/chachachaw):
+It’s this thing where you cash app this account 
+
+1% of your net worth Or 2$ , and by choose wisely 
+
+AFTER you do that you 
+text this number (916) 253-8296 
+Text ONE word, text what you desire most.  and if you’re willing to risk it, a delivery address. 
+Then wait. What you will get in the mail you can’t talk about publicly. But it will all be explained. You must Pass this along and become a part of the the greatest transfer of information that has ever taken place. 
+$begoniababe
+
+REPLIES TO IT: none
+=== END PACKET 70ac01fb ===
+
+=== PACKET 9ad9426e (comment packet) ===
+POST TITLE: Sabrett hot dogs?
+POST BODY: So I just spent a day in NYC (Brooklyn and Manhattan). 
+
+Was wanting to get a sabrett hot dog since I live in CO and can’t get them. 
+
+When I was a kid we would go visit my grandparents in queens and used to hit a hot dog stand with my dad and grandpa so it’s a nostalgia thing 
+
+The carts I saw all over the city weren’t the ones I remember, these have hot dogs and other street food. 
+
+But I wanted one anyways and hit one up that had the sabrett umbrella. The guy put the dog and bun on a griddle and kinda smashed the bun down for some reason. In any case, hot dog didn’t have that “crunch” and just didn’t taste the same. 
+
+I remember them coming out of hot water and the bun was kind steamed. Am I not remembering this right?  Are there fakes out there and where do I find the authentic thing?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/JuZNyC):
+Nick's is an old school hot dog cart but he's pretty deep in Flushing, he used to be on Main Street next to the church until a few years ago but now he's by the Stop and Shop down Farrington. Sells dirty water dogs and shish kebobs, been going to him since my sister took me to him when I was in kindergarten and now I take my nephews (her kids) to get hot dogs and shish kebobs.
+
+REPLIES TO IT: none
+=== END PACKET 9ad9426e ===
+
+=== PACKET 046528f3 (comment packet) ===
+POST TITLE: Drag this tourist's list of spots to hit
+POST BODY: Hello from across the pond, New Yorkers. My gf and I are visiting the city soon and we're super excited to eat well! I've scoured previous posts on this sub for recommendations and come up with a list of places we'd like to hit, but I'd like to get some feedback.
+
+**Key info:**
+
+\- We're doing a full day in Brooklyn, plus going to a Nets game at Barclay Centre another day. Otherwise, we are staying in Manhattan.
+
+\- We'll grab on-the-go breakfasts to get us out the door, and then plan to eat little and often throughout the day to fit in as many places as we can. So we're talking lunch, dinner, snacks, and desserts.
+
+\- We're not afraid of doing some more 'touristy' stuff (like historic food institutions). But we don't want to go to any tourist traps or places locals actively avoid!
+
+\- We'll be having an anniversary meal at Dirt Candy and a couple more sit-down meals (albeit at a lower price point). We like food-first, unpretentious places with atmosphere and are open to all cuisines.
+
+\- I'm a vegetarian and my gf is a pescetarian.
+
+I'm scared to get roasted, but could you please let me know if a) any of these are not worth the hype, b) if you think I'm missing anywhere... unmissable, c) which spots we should prioritise.
+
+**Dessert** Magnolia Bakery / Milk Bar / Levain / Peter Pan Donut & Pastry Shop / Little Cupcake Bakeshop / Red Gate Bakery 
+
+**Pizza** L’Industrie / New York Pizza Suprema / Paulie Gee’s / Luigi’s / Bleecker Street / Joe’s / Scarr’s / Di Fara’s
+
+**Delis/cheap eats** Katz’ Deli / Uptown Veg / Veselka / Absolute Bagels / B&H Dairy / Russ & Daughters / S&P Luncheonette / NY Dosas / Viva Birria / Tortilleria Mexicana Los Hermanos / Zaragoza / Los Tacos No.1
+
+**Sit-down** Superiority Burger / Chama Mama / al di la Trattoria / Anixi / Avant Garden
+
+Thanks so much. We promise to tip generously and not to stop in the middle of any sidewalks 🫡
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/thansal):
+Skip Katz', the only thing really worth it is stuff neither of y'all eat (Pastrami and other Jewishy Deli classics).  You can walk by and look in the window when you're going to Russ & Daughters.  PS: Russ & Daughters has 2 locations, one is just the counter where you can get bagel w/ stuff, but I'd suggest the sit down cafe where there's more veg friendly options (she can still get all the fish).
+
+Yay for Superiority and Dirt Candy!
+
+NYC Dosas - There will be a line, but it moves fast.  While in the area look at Pomme Frites (NYC institution, we don't have a lot of Belgian style fries), Doughnut Project (if you come before March, they're closing the end of Feb), Manousheh (Lebanese wraps, phenomenal, veg/vegan friendly).
+
+I think your list is pretty damn solid.  The thing I'd suggest is to expand it if you can, so there's more options everywhere.  Sometimes a place just isn't going to work out, and knowing what's around the corner is good.
+
+A random selection of veg (well mainly vegan) places:
+
+* [Overthrow Hospitality](https://www.overthrowhospitality.com/), if you need another expensive sit down, they have a bunch in all sorts of different styles (food and ambiance), my top is Eterea for Mexican + Tequila in a dark plush environ.  Avant Garden is part of them, I think it's the safest bet, I would describe it as New American and everything that conjures up (does that conjure up anything for non-Americans?).
+* Spicy Moon - A couple locations of great vegan Szechuan.  Stick to things like cumin style or dry pepper style.
+* PLANTA - vegan establishment across the US for 'nice' spaces.
+* jajaja - vegan Mexican, lots of locations.  Goes harder on faux meat than I like, but they're still great.
+
+REPLIES TO IT (context only):
+  u/GoodHagriddance: Gotcha re Katz's - it's a shame, but it's probably wishful thinking on our part to think it would work for us. I'm excited for Russ & Daughters, especially for my gf to have some good salmon.  
+Thanks for the insight near NY Dosas and the ideas for expansion! We still have several weeks to plan so I'll definitely add some more, just wanted to check in before I got too far down the line. Cheers pal!
+=== END PACKET 046528f3 ===
+
+=== PACKET 3dc9c190 (comment packet) ===
+POST TITLE: At Ceres Pizza — when the fuck did this become okay???
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/abonedrywhitewine):
+I report to 311. Harass the establishment enough so they have to enforce the rules or they shut down instead of you having to police disgusting people who let their filthy dogs in restaurants.
+
+REPLIES TO IT (context only):
+  u/Schizoeffective83: U have no life lol
+=== END PACKET 3dc9c190 ===
+
+=== PACKET 54140c37 (comment packet) ===
+POST TITLE: Reigning pizza slice downtown Manhattan? L’industrie?
+POST BODY: I am an avid consumer of pizza by the slice. I’ve been on a L’industrie kick for months now and very content, but browsed this sub the other day and was surprised by the hate L’industrie has been getting, for what I consider a standout slice.
+
+Educate me on what slice shops are the best these days. For someone who’s struggled to find anything better than L’industrie.
+
+Places off the top of my head I’ve been that I rate lower:  
+\-Scarr’s: inconsistent, often cold / congealed  
+\-Prince St: Still like a square every now and then but prefer a thin New York slice and often a bit too greasy  
+\-Rubirosa’s: former favorite but has fallen off hard IMO. Haven’t had a good pie in years  
+\-Cello’s: good in a pinch but this is “we have L’industrie at home”  
+\-Two Bro’s: joking but this is actually unbeatable for $1.50  
+\-Joe’s, John’s, etc - good staples but doesn’t wow  
+\-Juliana’s: not bad but definitely a tourist trap
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Busy-Entrepreneur-74: The answer here is Joe’s imo
+  u/themayorhere: It’s crazy Joes gets downvoted. The real location in the village is as quintessential NYC pizza as it gets. Theres better stuff out there these days, but quintessential is the word for Joes.
+    u/bobdownie: The one in FiDi is BAD. It’s almost like it’s not the same place.
+
+>>> COMMENT TO LABEL (u/themayorhere):
+Completely agree
+
+REPLIES TO IT: none
+=== END PACKET 54140c37 ===
+
+=== PACKET 507a7291 (comment packet) ===
+POST TITLE: Is there a delivery service that actually consolidates quality Asian + Western groceries? (Queens)
+POST BODY: I've been through the gauntlet on this. H Mart Instacart, Whole Foods, Trader Joe's, Weee, Natoora, local halal butchers, Flushing runs, Chinatown runs. I cook Taiwanese, Japanese food regularly and eat pretty standard Western stuff otherwise.
+
+Here's where I've landed after way too much time on this: H Mart doesn't deliver fish and the online fish selection is thin. Natoora quality is great but not sustainable price-wise for daily use. Trader Joe's has no reliable fresh meat. Whole Foods meat is nothing special — I end up at a butcher or halal shop anyway for anything I actually care about. And I know most of these grocers are sourcing from the same distributors for a lot of their proteins, which makes the whole runaround even more annoying.
+
+I'm not looking for the cheapest option or the highest-end option. I just want one, maybe two stops (or deliveries) that cover quality proteins, fresh fish, Taiwanese/Asian pantry staples, and normal Western basics. Going from Astoria to Flushing to save $15 on groceries doesn't pencil out.
+
+Has anyone actually solved this or is 3-4 sources just the reality of eating this way in NYC?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/samosasweetie):
+short answer is no? i would deliver stuff that’s hard to find and just plan to get whatever item you need that day, like every other new yorker. like if you need fish that day make it an errand to go to a fish market. like.. what?  lol
+
+REPLIES TO IT (context only):
+  u/Terrible_Alps9830: what a great suggestion, thank you
+=== END PACKET 507a7291 ===
+
+=== PACKET 24ff02ce (comment packet) ===
+POST TITLE: Sip from Sip & Guzzle | West Village Food & Drinks
+POST BODY: Went to Sip from Sip & Guzzle. Their Royale with cheese was delicious and my favorite thing on the menu. The shake it came with I didn’t like at all. The pork yaki skewer I highly recommend. Volcano roll was good, but probably wouldn’t order again. Mochi fries were good as well. I thought the Hokkaido milk soft serve was ok. For the cocktails I recommend the Strawberry Hot Pot and Hi-chew chu hi. 
+
+Sip & Guzzle website: https://www.sipandguzzlenyc.com/
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/KickMental8434):
+I went to the one in Tokyo and loved it but this looks so different! Very fun just completely different
+
+REPLIES TO IT (context only):
+  u/Excellent-Gur-8547: Quite honestly, I thought the one in Tokyo was worse than the one here despite that one being the original, but they also focus really hard on savory cocktails and that's just... not my vibe.
+=== END PACKET 24ff02ce ===
+
+=== PACKET 74a554f0 (comment packet) ===
+POST TITLE: List of terrible restaurants in NYC with great customer reviews
+POST BODY: Wo hop
+Aiththi 
+Spice Symphony
+Pongisiri 
+karahi
+Tipsy Shanghai
+SOL Mexican
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/tanyca111521: Barn Joo
+
+Dominique Ansel’s Bakery (the croissants in particular were bad)
+  u/heregoesnothin_: I had the cronut for the first time y’day and had to throw it away. Wtf was that?!
+
+>>> COMMENT TO LABEL (u/tanyca111521):
+The sad thing is that the Cronut was the best thing I tried there. I thought it was decent to be fair. But the croissant and cookie shot were so disappointing.
+
+REPLIES TO IT: none
+=== END PACKET 74a554f0 ===
+
+=== PACKET 3aae802e (comment packet) ===
+POST TITLE: What are the popular dishes to order at Dishoom x Pastis?
+POST BODY: I don't know much about Dishoom, what are the crowd pleasers?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Human-Progress7526):
+think the popup just started today and the menu is not 1:1 with dishoom's
+
+REPLIES TO IT: none
+=== END PACKET 3aae802e ===
+
+=== PACKET 91e1c49c (comment packet) ===
+POST TITLE: Lunch in Flatiron
+POST BODY: I'll be working in the Flatiron District for a few days in December and am looking for some good lunch spots to check out. Budget isnt an issue although I am not trying to do a tasting menu if that helps. Not a picky eater and am willing to walk 20-30 min outside of the area to go to a place that spikes my interest. Sit down or take out, doesn't matter either.
+
+Appreciate the recs!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/ozanazmaraza: ilili   
+Hawksmoor  
+Her Name is Han   
+Olle   
+Union Square Cafe  
+Valerie
+
+>>> COMMENT TO LABEL (u/raydeezyy):
+Already had Her Name is Han on my list but wow ilili looks amazing
+
+REPLIES TO IT (context only):
+  u/ozanazmaraza: I am never disappointed whenever I visit ilili, though have to say their duck shawarma is my fav. If you have really sweet tooth, their candy bar dessert will satisfy.
+=== END PACKET 91e1c49c ===
+
+=== PACKET 4c156f2b (comment packet) ===
+POST TITLE: Low Food Budget Suggestions
+POST BODY: Well, my financial situation has gotten worse and now I have 250 less than thought I would.
+
+It's my mom and me, we'll be there five full days that we'll need three meals and two half days that we'll only need dinner. We'll be around Manhattan in the theater district most evenings.
+
+These are the places I'm planning on:
+Mei Lai Wah 
+Los Tacos No 1 
+Shake Shack (We don't have it in Kansas)
+Vito's Slices and Ices
+Market Crates 
+Pisillo Italian Paninini 
+Empanada Mama 
+Artichoke Basille's Pizza
+
+I'm not a big fan of bones in meat, dark chicken meat or pork. We also don't like seafood.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Equivalent_Net_8983):
+I don’t understand why so many people recommend buying a bunch of bagels and keeping them in your room. Find a good bagel place near your hotel and buy them fresh each morning, especially if they’re baked on premises. There is nothing as wonderful as a fresh bagel straight from the oven. Keeping a small tub of cream cheese might be a good idea.
+
+I often see posts by food “influencers” on instagram recommending “cheap eat” places in the Bronx or Queens. These are all well and good, but the problem becomes *time*, which you’re also limited by. It might be valuable for you to save $3-5 for a meal, but not if it requires an hour trip on the subway to get to and from there. So, your calculation will most often have to be: where can we eat cheaply *near here*, “here” being wherever your sight-seeing is going to take you.
+
+Having said that though, if you’re in a heavily tourist-y area, like Times Square, taking a 5-10 min walk away from the heart of the area might save you some money. Having tried to grab a last minute quick bite before a Bway play, I’ve noticed that those no-name food places in the area are severely over- priced.
+
+If you can find an actual supermarket, and don’t mind brown-bagging it, buying a loaf of bread, some cold cuts or pb&j and having that for lunch *might* save enough to squeeze in an inexpensive sit-down meal, including a tip. If you can manage to stay in a hotel with a kitchen in the room (and I have no idea whether such a thing even exists in NYC), that would give you more flexibility to make some inexpensive meals for any time, whether breakfast before you leave, or something inexpensive for dinner at the end of your day. Not suggesting you cook *all* your meals, but if you save enough on the meals you fix yourself, you may have a bigger budget for your meals out, so instead of those mediocre $1.50 pizza slices, you can get a decent slice from a better pizzeria.
+
+I know you mentioned no bones or dark meat chicken, but those rotisserie chickens you can pick up in just about any supermarket these days can also be a pretty affordable shared entree.
+
+REPLIES TO IT (context only):
+  u/crazeman: The cost of the subway trip alone is not worth the savings on foodmost of the time. $3 a ride per person adds up quick unless if they have a unlimited... And its often hard to break even on the unlimited pass even as a tourist.
+=== END PACKET 4c156f2b ===
+
+=== PACKET bac2d352 (comment packet) ===
+POST TITLE: I'm tired of New Yorkers hating on Katz's Deli just because it's a tourist spot
+POST BODY: Yes, some places are popular with tourists. That does not mean they automatically suck. Almost every born and raised New Yorker loves to tell me "Katz's Deli is trash" or "it's the most overrated sandwich on earth." What are they smoking because I'd love some. You can say it's overpriced. I can even entertain the it's overrated angle if you mostly are referring to the price. But to say it is terrible is just annoying New Yorker contrarian pretentious behavior. I bet most of them have never even had it before and are just saying that to sound cool. It is objectively a fantastic sandwich. Yes it is overpriced but so is every pastrami sandwich on earth now.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/IvanTheNotSoBad1: New Yorkers just hate being on the same line with tourists.  Food's pretty good albeit expensive.  2nd Ave deli is just less hassle.
+  u/pixel_of_moral_decay: It’s not cheap, but I’m not sure I’d call it expensive either.
+
+Look at a typical midtown salad.
+
+Now consider Katz is in house cured meat in pretty substantial quantity hand cut to order.
+
+It’s not that crazy.  Honestly it makes a lot of midtown lunch spots look more overpriced since you get so little for what you pay, at least Katz is big enough you might even split it with someone.
+    u/jayval718: $25 before tax for a sandwich is not expensive? 🤣
+
+>>> COMMENT TO LABEL (u/CoysNizl3):
+comparatively, no.
+
+REPLIES TO IT: none
+=== END PACKET bac2d352 ===

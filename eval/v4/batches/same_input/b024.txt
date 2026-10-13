@@ -1,0 +1,239 @@
+NYCEats extraction labeling -- batch b024 -- pass: same_input -- 20 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b024.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 7e80d9a5 (comment packet) ===
+POST TITLE: Gramercy, Emily or Minette for Burgers?
+
+POST BODY: Hi, I will be in NYC next week and am looking to try one of the better burgers in the city and know these places are pretty well known. Unfortunately will likely only have time for one spot due to other commitments.
+
+Any recommendations on which one I should go to?
+
+PARENT COMMENT: Agreed on Minetta. I had the black label prob like 5 years ago and it was amazing. The meat was perfectly seasoned, the dearth of toppings was actually a benefit not a negative. But then I had the black label again late last year and was really disappointed. It was completely unseasoned and just unmemorable. Service was meh.
+
+Gramercy Tavern consistently great and the service is impeccable. Also you'd be able to try their amazing desserts!
+
+COMMENT: I’m a regular at Minetta and have tried both and actually prefer the regular Minetta burger!
+=== END PACKET 7e80d9a5 ===
+
+=== PACKET 5190f57c (comment packet) ===
+POST TITLE: Anyone know where to get steak and fries?
+
+POST BODY: To clarify I don’t mean Steak Frites. Its good however I want steak over fries. For example, Colonial grill.
+
+COMMENT: I’ve never had it from this place - how is it different from steak frites?  Looks pretty much the same save for some sauce on top.
+=== END PACKET 5190f57c ===
+
+=== PACKET 7f3f7d7c (comment packet) ===
+POST TITLE: Principe - worth it?
+
+POST BODY: I’ve got a reservation there on Saturday night. It has a bunch of mixed recent reviews on Google Maps and wondering if I should book somewhere else.
+
+COMMENT: I really liked it! Yes the seafood “apps” are teensy and therefore very expensive. But all the food is really good and it’s a cool space. The shrimp mafaldine pasta is amazing, and they do a really good duck breast (sauce seems to rotate but the fennel one was bomb). Oh and they bread (free!) is so good — it’s like a cornmeal crusted English muffin, warm, and comes with unique dipping sauces.
+=== END PACKET 7f3f7d7c ===
+
+=== PACKET ef200886 (comment packet) ===
+POST TITLE: Best sake bar in NYC right now?
+
+POST BODY: I'm visiting this week and am a big sake enthusiast. Don't really care how good the food is or if they even have food. Prefer a vibe more like an izakaya. I know of sake bar decibel but was wondering if maybe all these years later that there might be something better for that type of thing. Thanks!
+
+PARENT COMMENT: Sake Bar Decibel is still good. There’s also Hi-Collar, Sake Bar Satsko, and Sakagura. More recs [here](https://www.theinfatuation.com/new-york/guides/best-sake-bars-nyc?)
+
+Not izakaya but more brewery for locally brewed sake: Brooklyn Kura, Kato Sake Works
+
+COMMENT: Have you been to Satsko recently. I love it there — but what’s with the smell?
+=== END PACKET ef200886 ===
+
+=== PACKET 3ca2238a (comment packet) ===
+POST TITLE: UWS for four?
+
+POST BODY: Looking for recommendations for a pescatarian friendly, moderately priced restaurant, thinking ~$50-$60pp including a drink and splitting apps. A place with a lively atmosphere. Thanks in advance!
+
+COMMENT: Sushi Yasaka! Great sushi for the price!
+=== END PACKET 3ca2238a ===
+
+=== PACKET 1f4b2afe (comment packet) ===
+POST TITLE: Din Tai Fung
+
+POST BODY: honest thoughts on DTF? i always see people raving about it online but some friends have mentioned that it’s just okay. excited for their upcoming Brooklyn location regardless!
+
+PARENT COMMENT: I mean, I can’t say you’re wrong. What I can say is our meal was delicious. Sometimes you have to pay more for unique dishes.
+
+COMMENT: The only unique dish there is the chocolate dumplings everything else is basic cuisine that can be found in china town
+=== END PACKET 1f4b2afe ===
+
+=== PACKET 4046fd92 (comment packet) ===
+POST TITLE: Have you ever went somewhere just because reddit hates it?
+
+POST BODY: I'm kind of curious to go to Jack's Wife Freda (a kind of spot I would never seek out on my own) now just because this sub hates it so much.
+
+Have you ever done something like this?
+
+PARENT COMMENT: K’far, reunion, mogador. That’s just off the top of my head.
+
+COMMENT: I thoroughly enjoyed K’far. I haven’t been to Reunion or Mogador but will check them out. Thanks
+=== END PACKET 4046fd92 ===
+
+=== PACKET 84edbcc8 (comment packet) ===
+POST TITLE: 7 nights in your marvellous city 🫶🏻🤤
+
+POST BODY: My favourites : 
+
+1.	⁠Murray’s Bagels - BEC
+
+2.	⁠All’Antico Vinaio - La Dante
+
+3.	⁠Best Damn Breakfast Burrito - La Neta
+
+4.	⁠Andiamo Pizza - classic cheese
+
+5.	⁠Leo’s Bagels - cream cheese on multigrain
+
+6.	⁠Hungry Llama - honey whipped latte 
+
+7-8. La Bernardin - lobster cappuccino  & nori crisp 
+
+9-10. Hamburger America - smash burger with cheese + fries 
+
+11-12. Upside Pizza - pepperoni & mush ...
+
+PARENT COMMENT: Oh damn is it double the price?! Haha feel like. The sandwiches look smaller in pics too
+
+COMMENT: 8-12 euros vs 14-19 USD. Not quite double but close enough lol.  Plus the euro price most likely includes tax and there’s no tip screen 🫠
+=== END PACKET 84edbcc8 ===
+
+=== PACKET 8d57c031 (comment packet) ===
+POST TITLE: What’s the best ramen bowl in Manhattan
+
+POST BODY: It’s been close to 2 years since this question was asked so I wanted to see if opinions had changed since that time. What’re your favorite ramen spots? Or are there places I should definitely avoid? Going to grab ramen tonight so I’ll go to the top comment and report back.
+
+COMMENT: My cote is for Totto.
+=== END PACKET 8d57c031 ===
+
+=== PACKET 7d2197fd (comment packet) ===
+POST TITLE: Unpopular opinions, Fall 2025 edition
+
+POST BODY: -People who hate Joe's pizza are either contrarians or don't understand what New York pizza is supposed to be like
+
+-The tomato slice at Fini is much better than the white slice
+
+-Tourists should not be advised to only eat stereotypical foods like bagels, pizza, and hot dogs. The food scene has changed a lot since say, the 80s and I'd argue that loads of different cuisines have become a part of "r ...
+
+PARENT COMMENT: So weird anyone hates Joe’s. It’s a great simple new york slice
+
+COMMENT: It's always just good enough and never great with one of the worst crusts in the city. You can get better for cheaper or the same price.
+=== END PACKET 7d2197fd ===
+
+=== PACKET 2b878503 (comment packet) ===
+POST TITLE: Sonny in chinatown
+
+POST BODY: First time seeing him. Didnt realize the guy is so tall...
+
+COMMENT: He's around 6 feet or something similar. Place seems to be to A+ Hot Pot Rice Noodles on Mott. Haven't been but it looks tasty.
+=== END PACKET 2b878503 ===
+
+=== PACKET bc62b2aa (comment packet) ===
+POST TITLE: Where Are Your Favorite Cozy, Quaint NYC Pubs/ Bars?
+
+POST BODY: I’m on the hunt for the coziest, quaintest bars in NYC. Borough doesn’t matter, price doesn’t matter, I’m wanting something that looks like it jumped out of Cotswolds, England in a Hallmark movie. Maybe something that flirts with bookstore vibes? I’ve included some pictures for reference ❤️
+
+PARENT COMMENT: [Molly’s](https://www.mollysshebeennyc.com/#about).
+
+COMMENT: You be quiet now
+=== END PACKET bc62b2aa ===
+
+=== PACKET 8ac66bd9 (comment packet) ===
+POST TITLE: Lombardi's Pizza Flown to CA
+
+POST BODY: Don't ask me how, but my mother brought Lombardi's from NY to CA today 😂
+
+My parents had business in NY and asked me spur-of-the-moment what Pizzaria to eat at. In my list of like 20 NY pizzerias I want to visit someday, Lombardi's was closest to where they were staying. When they flew back to CA they brought a surprise!
+
+This is half Large Margherita and half Large White pie. Heated in an air fry ...
+
+PARENT COMMENT: The food from NYC I miss the most is a BEC on a roll, and I am very loud about it, lol. A couple of years ago, my sister-in-law, who lives there now, flew home for a wedding. She stopped at the deli on her way to the airport, bought me a BEC, and kept it in her carry-on all the way down to Texas. It was 12 hours old, but it was perfect. One of the best surprises I've ever gotten.
+
+COMMENT: Most delis in manhattan have declined severely.. the price of a bacon egg in cheese in chealse is like 8 or 9$ now… also lots of delis are not serving real bacon any more and just serving beef bacon.. its too bad i now skip deli food cuz it horrid and they all have the same crappy bread and processed meats.
+=== END PACKET 8ac66bd9 ===
+
+=== PACKET 9f9bc1b0 (comment packet) ===
+POST TITLE: I went to Mariscos El Submarino for lunch. This place has been on my list for a while and did not disappoint
+
+POST BODY: I'll just start by saying the Costra taco is one of, if not the best, taco I've had in the city. All of the food was excellent. 
+
+The Mixto Aguachile Verde was fresh, full of seafood, and had just the right level of heat. 
+
+The taco. Bruh. I could eat them until I passed out. The meat was so tender, and juicy, and beefy. The tortilla was also the best, or at least one of the very best, I've had in ...
+
+COMMENT: easily one of the best restaurants in the city. dont skip out on the tuna tostada, octopus taco or grilled shrimp
+=== END PACKET 9f9bc1b0 ===
+
+=== PACKET 56297aef (comment packet) ===
+POST TITLE: At Ceres Pizza — when the fuck did this become okay???
+
+COMMENT: It’s clearly a service dog!!! You can’t ask for papers, it’s illegal!!! (/s)
+=== END PACKET 56297aef ===
+
+=== PACKET 4e0f1e22 (comment packet) ===
+POST TITLE: First time in NYC from Dublin. What’s the best spot for a pint?
+
+POST BODY: Heading over from Dublin with my girlfriend in a few weeks for our first trip to New York.
+
+We’ve got the usual sightseeing stuff planned, but I know the Guinness over there can be hit or miss. Where do locals actually go for a good pint, ideally around Lower Manhattan or Brooklyn?
+
+Also open to any low key food spots near the West Village if anyone has recommendations. Cheers!
+
+COMMENT: Not where you asked, but Sunnyside & Woodside in Queens have a big Irish population and many well poured pints. Also food that is worth the visit alone.
+=== END PACKET 4e0f1e22 ===
+
+=== PACKET 3a80ef79 (comment packet) ===
+POST TITLE: 'There's a problem with the sauce': Times Square taqueria's salsa sparks lawsuit
+
+PARENT COMMENT: Ban this dude from America
+
+COMMENT: Nah give him citizenship, he will fit right in with our deplorables.
+=== END PACKET 3a80ef79 ===
+
+=== PACKET b9659b1c (comment packet) ===
+POST TITLE: How is Dominique Ansel's new bakery Papa d'Amour?
+
+POST BODY: He just wrote this piece full of recs of places to eat in NY [https://on.ft.com/4kFwnkP](https://on.ft.com/4kFwnkP)
+
+PARENT COMMENT: I agree. The k-town recs are great too.
+
+COMMENT: Gammeok had some ahem controversy a few years ago
+=== END PACKET b9659b1c ===
+
+=== PACKET 8c20711e (comment packet) ===
+POST TITLE: Radio Bakery didn’t live up to hype
+
+POST BODY: I went to radio bakery (prospect heights location) with my friend yesterday morning around 11:30 am. We waited in line around an hour (which we were fine with, we wanted to see what the hype was about). 
+
+We ordered four items: ham & rosemary butter sandwich, burrata & prosciutto focaccia, triple chocolate croissant, and pistachio croissant. 
+
+We really enjoyed the sandwiches. The focaccia was per ...
+
+PARENT COMMENT: I feel like there's a difference between waiting for an hour for some baked goods and 20 minutes for a full dinner.
+
+COMMENT: Yea completely different
+=== END PACKET 8c20711e ===
+
+=== PACKET b9e59ae0 (comment packet) ===
+POST TITLE: Whenever someone in this sub recommends The Infatuation I think of this
+
+POST BODY: This is a review of the site The Infatuation which I am reviewing while on the D train, starting with a review with writing so bad and such weird non sequitir Jared Leto references it made me want to vomit.
+
+The Infatuation is like a horcrux made of all the grief and good writing we lost from Bourdain’s death. They’re mired openly in JP Morgan Chase money, a company connected to OpenTable’s Chase ...
+
+PARENT COMMENT: Thank you, yes, with their capital and backing and presumably audience they could afford to hire some knowledgeable food people or better writers and editors. We know that Righteous Eats found itself financially unsustainable without backing and Jaeki Cho was upfront about that. The Infatuation has had none of those issues despite the troubled media landscape and doesn’t do any good with it.
+
+COMMENT: Whatever you do / don’t go to their rio off eeeatscon thing. It’s a rip off. They make you pay with a chase card. They charge an arm and a leg and they jam it with media.
+=== END PACKET b9e59ae0 ===

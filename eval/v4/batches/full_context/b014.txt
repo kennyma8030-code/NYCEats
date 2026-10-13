@@ -1,0 +1,260 @@
+NYCEats extraction labeling -- batch b014 -- pass: full_context -- 15 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b014.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET dcece1a2 (comment packet) ===
+POST TITLE: Your worst meal of 2024 ?
+POST BODY: Flex mussels for me
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Suitable-Peanut: Bar Vinazo in Park Slope which has since permanently closed. I know we're all used to paying ridiculous prices for ridiculous portions in New York but this just took the cake. Regular old tinned fish (still in the tin!) that would maybe cost you 10 bucks at an import shop, marked up to around 30 bucks. Poorly sliced jamon iberico with a sneaky markup price on the meats & cheese board that I didn't even notice when I ordered it. 
+
+Everything was just tiny and sad. Left  hungry And with about $300 spent on four people.  Unfortunately I think that was my last meal out with friends before moving away.
+
+>>> COMMENT TO LABEL (u/Dissidence802):
+If it makes you feel any better, they kicked the bucket last month.
+
+REPLIES TO IT (context only):
+  u/Suitable-Peanut: >Bar Vinazo in Park Slope **which has since permanently closed**
+=== END PACKET dcece1a2 ===
+
+=== PACKET 9522f0a6 (comment packet) ===
+POST TITLE: How is Dominique Ansel's new bakery Papa d'Amour?
+POST BODY: He just wrote this piece full of recs of places to eat in NY [https://on.ft.com/4kFwnkP](https://on.ft.com/4kFwnkP)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Garconavecunreve: Not the worst restaurant recommendations I’ve read to date tbf - Kings is indeed fantastic for seafood and small plates
+  u/LuBK: I agree. The k-town recs are great too.
+
+>>> COMMENT TO LABEL (u/haribobosses):
+Gammeok had some ahem controversy a few years ago
+
+REPLIES TO IT: none
+=== END PACKET 9522f0a6 ===
+
+=== PACKET 8d96fc73 (comment packet) ===
+POST TITLE: Anyone here have a favorite late night diner they enjoy?
+POST BODY: I ask as I have been itching to go on a late night cruise in the city for some greasy food with a melted apple pie, and I wanted to feel like I was in the 80s again as When Harry Met Sally has been an awesome movie that I  suddenly wanted to go on a little adventure.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Cartadimusica):
+Going to be Kellogg's when it opens
+
+REPLIES TO IT (context only):
+  u/KaleidoArachnid: I didn’t know that place does late night dining.
+  u/keyblayde808: place was mid, go to three decker a couple stops up the g, or just walk like 20 min
+=== END PACKET 8d96fc73 ===
+
+=== PACKET 875293fc (comment packet) ===
+POST TITLE: What’s an NYC food opinion that will have you like this
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/chef_torte):
+Unapologetic foods (dhamaka, semma) is a laughably overpriced, overhyped annoyance
+
+REPLIES TO IT: none
+=== END PACKET 875293fc ===
+
+=== PACKET d85f08ff (comment packet) ===
+POST TITLE: Reservation Sales Thread - **READ BEFORE POSTING!!**
+POST BODY: This thread exists *solely* to create a space for people to avoid losing their deposits on pre-paid meals. Gouging is not tolerated on this subreddit. The below rules exist to ensure it stays that way. Read them before posting because violations can lead to an immediate permanent ban.  
+
+1. This thread is the only place on the subreddit for selling restaurant reservations. You may not ask to buy reservations.
+2. You may ONLY sell non-refundable reservations for below or equal to face value. (plus all taxes and fees)
+3. You must clearly state both the price you paid and the price you're looking for in the post.
+4. We do not know every restaurant's deposit and cancellation policies. If you do not make it clear that you're operating by the rules above, we will assume you're not. 
+
+Good post:
+
+> I have a table for 4 at Eleven Madison Park at 8:30 PM on Sunday, February 3rd. Tickets are nonrefundable and a business emergency came up. Paid $1589.58, willing to take $1200 OBO. Transfer on Resy.
+
+Bad post:
+
+> Got a table for 2 at 4 Charles. DM for details.
+
+The mods of [/r/FoodNYC](https://old.reddit.com/r/FoodNYC) accept no responsibility for these transactions. Tock and Resy both allow transfers on the website - if someone tells you otherwise it's a scam. Do your own research on your transaction before handing over any money to a third party. Check with the restaurant, check account ages, meet in person if feasible.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/OpenEstablishment958):
+I have a table for 6 at 4 Charles tonight at 9:30 pm. It's a Non Refundable since I missed the deadline to cancel and I'll give it for $300. Please let me know! If not, I'll attend myself but I just have other things I have to take care of and I'd prefer to skip out on this tonight. Thank you!
+
+REPLIES TO IT: none
+=== END PACKET d85f08ff ===
+
+=== PACKET cabf8840 (comment packet) ===
+POST TITLE: Lunch between 43rd and 33rd between 7th and 9th.
+POST BODY: Any cuisine. Sit down ideally under $40pp.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/paulderev):
+Jolibee (you need to try Filipino fast food at least once if you haven’t)
+
+Chatti
+
+Go Go Curry (the rare Japanese style curry place in nyc)
+
+El Sabroso (Ecuadorian cuisine)
+
+Bluestone Lane
+
+Gyu Kaku (technically 44th street but it’s one of my sit down restaurant go to’s in this area, especially with a group)
+
+Smashburger (super underrated burger chain)
+
+Sky Pavilion (sichuan Chinese cuisine)
+
+NY pizza suprema
+
+PENN 1 food hall across from MSG has a pollo campero and a blue bottle in it plus an H&H and a Zaro’s
+
+REPLIES TO IT (context only):
+  u/infjnyc: Thank you so much!
+=== END PACKET cabf8840 ===
+
+=== PACKET 76c7323e (comment packet) ===
+POST TITLE: Thai restaurants in Manhattan that are not sweet
+POST BODY: I really notice when entrees that I expect to be savory are sweetened.  This has made finding a Thai place a bit rough, because it seems like every Thai place we've tried has become sweeter and sweeter.  Do you have any recommendations?  Bonus for UES or UWS.  TIA!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Mindless-Slide-755: Zabb PuTawn is pretty authentic
+  u/dirtymartinigirl: Ugh that B rating though…
+
+>>> COMMENT TO LABEL (u/Mindless-Slide-755):
+I didn't know that but it is very good lol
+
+REPLIES TO IT (context only):
+  u/dirtymartinigirl: It is good! I had it last week, and I was fully aware of their health rating lol
+=== END PACKET 76c7323e ===
+
+=== PACKET 72214d72 (comment packet) ===
+POST TITLE: Was on Resy at Midnight for an I Sodi res. No availability. What's going on?
+POST BODY: I was on Resy at 11:59 prepared to snag an I Sodi reservation 14 days out. The clock hits midnight and there are no reservations listed, only the notify button. 
+
+What's happening? Are bots instantly taking all the reservations?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/10throwaway123456789: I had the same issue and could never figure it out. I think I Sodi is mostly a walk-in spot so they don't make very many reservations available, if any. I would call the restaurant and ask. The hosts are usually pretty forthcoming with the reservation procedure.
+  u/wheredidspringgo: May just try walking in. I reached out via email and was just told to put on a notify
+
+>>> COMMENT TO LABEL (u/h1g440rs3):
+Call them and talk to an actual person if you want a real answer
+
+REPLIES TO IT: none
+=== END PACKET 72214d72 ===
+
+=== PACKET 02937344 (comment packet) ===
+POST TITLE: Popular/highly rated restaurants you’ve been disappointed by?
+POST BODY: I was so excited to snag a reservation at I sodi only to be super disappointed. I ordered the pork Milanese and found it inedible and tasting of old oil. Curious if there are others that have had this experience at popular, hard-to-get-into spots!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/AuPhoenix: Casa Enrique. When it lost its one and only Michelin Star this year, I was not surprised at all. Service felt rushed as they were trying to flip the table ASAP. The wait staff removed my plate before I was done eating (I'm a slower eater). The mole was nothing special.
+
+>>> COMMENT TO LABEL (u/114631):
+Felt the EXACT same re the service!! It was unreal. Several visits that happened.
+
+REPLIES TO IT: none
+=== END PACKET 02937344 ===
+
+=== PACKET ecc1d1e9 (comment packet) ===
+POST TITLE: Where do you take an out of towner for their first pizza?
+POST BODY: I have my favorite spots- tbh i usually take guests to table 87 gowanus for a pie. I have a family member coming for their first ever time staying in SoHo and am thinking of doing pizza then grimm ales. So maybe lower manhattan or williamsburg which is not my usual pizza destinations. Feel somehow more pressure than normal?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/ouikikazz):
+Joe's Pizza is still the NY slice in my opinion, lindustrie has a better slice johns has a very different pie prince st a particular square but for that NY style slice Joe's is still my top choice and usually there's zero to little wait vs most other places you can wait 30+ minutes. I don't think a y are better than the rest they're all different and great in their own regard so best option is try them all!
+
+REPLIES TO IT: none
+=== END PACKET ecc1d1e9 ===
+
+=== PACKET 5b548d66 (comment packet) ===
+POST TITLE: Best restaurants near penn or grand central?
+POST BODY: My parents from Long Island are coming to the city to celebrate my mom’s birthday. They can take a train into penn or grand central station, but they don’t like taking the subway so we’re limited to somewhere within walking distance. I’d like to take them to a nice restaurant and maybe hit a cocktail bar before for drinks.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Snoo-18544):
+Tons of options near GC.  
+  
+Grand Central - Campbell the cocktail bar is a vibe. 
+
+Oyster Bar is an option or Grand Brasserie. 
+
+If that doesn't grab you there are a TON of steak houses and Japanese places near GC. There is strip house's midtown location, smith and wollensky, benjamin's, bobby vans' capital grill.
+
+For Japanese : Sakagura (an upscale sake bar/izakaya), Sushi yasuda (used to be michelin star rated), HatsuHana (this subreddit's favorite sushi place), Joji (Michelin Star Omakase, its expensive). Thats just off the top of my head. The  UN,Japanese consulate and Japan Society being near there means a lot of japanese places are tucked away.
+
+There is als quite a few italian restaurants in the area, though its not my forte so I will hold off on recommendation. I will say Rosemary's has a location there.
+
+REPLIES TO IT: none
+=== END PACKET 5b548d66 ===
+
+=== PACKET abc6aacd (comment packet) ===
+POST TITLE: heading off to new york and looking for restaurant recommendations!! were staying 6 min walk away from times square so nottoo far
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/amyheming):
+If you are here for more than 1 night, I would recommend venturing out of Midtown. Check out the West Village, Chelsea, Lower East Side as a few places that have amazing restaurants. The subway is fast and the least expensive but you could also taxi if you wanted to.
+
+REPLIES TO IT: none
+=== END PACKET abc6aacd ===
+
+=== PACKET 0624820f (comment packet) ===
+POST TITLE: Respectfully, I'm looking for your favorite shithole with the best food you've ever had.
+POST BODY: What are some places that look absolutely terrible on the outside (bonus points if the service isn't great), that has some of the best food you've had in the city?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/cornellian1234: Hyberabadi Zaiqa
+
+>>> COMMENT TO LABEL (u/71puppers):
+Agree, mutton biryani made my eyes pop ngl
+
+REPLIES TO IT: none
+=== END PACKET 0624820f ===
+
+=== PACKET 89fcbe47 (comment packet) ===
+POST TITLE: What are the best/worst places on this list (food)
+POST BODY: I will be in nyc for a few days with my friends and we want to taste a large variety of foods from little shops and places.
+
+Additionally, anyone have any recommendations for nicer sit down restaurants for around the 65-80 dollar range (the nicer the better, but I know that’s not a super expressive number…)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/crazeman):
+The AYCE spots (Let's Meat, Hometown BBQ, KPOT) being on this list doesn't make sense. Unless if you come from a place that has 0 hot pot or KBBQ spots, the AYCE spots won't be better than whatever you can get at home.
+
+Tiger Sugar used to be the "best" boba tea years ago but IMO there's a lot of places that are better than them now. If you want something nearby the Chinatown location, HeyTea is excellent. ChiCha Sen is also supposed to be very good (I've never been because there's always lines). Xin Fu Tang is not in Chinatown but they have the best boba.
+
+If you like pickled stuff, there's a Pickle Guys right next to the Doughnut Plant in LES.
+
+REPLIES TO IT (context only):
+  u/eamack13: Yeah, the closest hotpot is about 4 hours away from me. We are unlikely to go to the ayce places, because we need room for everything else
+=== END PACKET 89fcbe47 ===
+
+=== PACKET 4bc0761b (comment packet) ===
+POST TITLE: Best artisan bread?
+POST BODY: I'm moving from CA to NYC and will really miss Tartine sourdough :( Any recommendations for bakeries with great crusty country loaves and/or baguettes? Ideally in Manhattan but I'm willing to make a bit of a trip for good bread!!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/HatIntelligent6028):
+She wolf is amazing. Otway good too
+
+REPLIES TO IT: none
+=== END PACKET 4bc0761b ===

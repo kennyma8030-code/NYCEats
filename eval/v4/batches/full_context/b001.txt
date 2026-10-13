@@ -1,0 +1,81 @@
+NYCEats extraction labeling -- batch b001 -- pass: full_context -- 1 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b001.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 92dec199 (thread packet) ===
+POST TITLE: At Boqueria, you must eat their $50 paella, their signature dish, in 15 minutes and leave
+POST BODY: We booked a table at 4 pm on a weekday at Boqueria at 40th st. When we ordered their seafood paella, the waiter told us it can take an hour to prepare and then we must vacate the table by 5:15, giving us only 15 minutes to eat it. (Nowhere in our opentable reservation did it state a time limit) We ended up ordering something else and managed to finsih by 5:15. But in the future, if any waiter asks us to leave within an unreasonable amount of time, I will tell them, "hey, that's YOUR problem, not mine".
+
+THREAD, in reply order. Label ONLY the comments with a bracket number [n]. Lines marked (context) are there to read, not to label.
+(context) u/Fun_Nothing5548: Just don’t leave and tell them to call the police if they don’t like it. That would give you at least another hour
+  (context) u/ThatFakeAirplane: Have you ever noticed that NYC isn't Spain?
+    (context) u/mbnyc1118: If you're going to be a Spanish restaurant, uphold Spanish cultural values. Food is culture.
+      (context) u/PaniniInEternity: This is not how restaurants work
+        [1] u/e-mails: 15 minutes to eat a dish is absolutely not how restaurants (should) work either…
+          [4] u/PaniniInEternity: Again, I'm not arguing this I am simply saying that the comment that the OP made about being upset that this restaurant does not operate like a restaurant in Spain and that people should call the police because of that is absurd. I'm not arguing that the restaurant should be giving you 15 minutes to eat.
+            [10] u/Tie_Poe: I could have misread but it sounded to me like the customer was telling the restaurant to call the police if they wanted him out before they were done eating, not that they would call if the restaurant told them to leave
+      (context) u/HumbleIntroduction71: Sounds good, next time I go to an Italian / Spanish / Japanese / any other cuisine, I won’t tip and tell them I’m upholding cultural values. Thank you kind redditor
+        [7] u/CheckItWhileIWreckIt: Lmao do you guys work at Boqueria? What an incredibly weird and pedantic hill to die on.
+          [9] u/HumbleIntroduction71: No lol I think what they did was stupid but the comment that they’re not upholding the customs of spain by not giving them more time is one of the most redditor things that I have ever read, truly you guys live in your own reality
+  (context) u/PaniniInEternity: This is so dumb. I cannot believe you've been upvoted. We aren't in Spain. Just bc the food is Spanish.
+    (context) u/imalusr: They definitely meant to say “un-Spanish”.  I’m guessing you don’t know what sobremesa means?
+      (context) u/PaniniInEternity: I know exactly what sobremsa means but it doesn't apply at a highly in demand NYC restaurant. 
+
+For example as someone else pointed out - should every Japanese restaurant in the US not allow tips? 
+
+Or every Indian restaurant not provide utensils?
+        (context) u/Basic-Environment-40: should any restaurant offer a 60m-time-cooked-to-order dish and a max table time of 75m, anywhere on Earth?
+          (context) u/PaniniInEternity: That problem is a different problem that "this Spanish restaurant in NYC isn't adhering to the culture of typical Spanish restaurants in Spain! Call the POLICE"
+            [2] u/Basic-Environment-40: if you say so. should any restaurant offer a 60m-time-cooked-to-order dish and a max table time of 75m, anywhere on Earth?
+              [3] u/PaniniInEternity: Again, this issue is separate from what the OP was posting about. He specifically said that the diner should call the police because the restaurant was not adhering to Spanish customs which I find absolutely absurd. 
+
+Of course a restaurant should give you more time to eat your food but that's not what he said.
+                [5] u/FlumpusMcGoo: No one is on your side.
+                [6] u/Basic-Environment-40: The title of this post, as made by the Original Poster (OP), is “At Boqueria, you must eat their $50 paella, their signature dish, in 15 minutes and leave.”  I hope this helps clarify.
+                [8] u/WiffleBallZZZ: No one said the diner should call the police. They were saying the diner should ignore the time limit and just keep eating, and if the restaurant doesn't like it then they can call the police.
+  [11] u/Acrobatic_Many_8162: > Just don’t leave and tell them to call the police if they don’t like it.
+
+
+The exact same redditors who upvote this statement would also call somebody a "Karen" if they did this in real life. Which there is no way in hell the person who wrote this has the balls to do. The reddit circle of life.
+[12] u/Other-Beginning-8888: They also have a shadey billing app called blackbird that charges you an additional fee for the extraodinary privilege of paying your bill. We were not allowed to pay with our credit card without blackbird.
+
+The food is fine but if you're going to charge me a fee just to pay, you're fine food is no longer worth it to me.
+
+Never going back. There's too many other tapas places that are exceptional.
+  [13] u/MITBijanRobinson: Blackbird is cool what extra fee are you talkin about
+  [14] u/Tarvael: I love the food but was totally turned off by the push to pay via QR code/app. There was a $2.99 convenience fee listed in the summary online. We waited until the waiter came back and he ran our credit cards.
+    [19] u/Stinky-Alpaca: The fee is for their convenience
+    [20] u/IvoShandor: pay by QR code is optional
+    (context) u/Wiknetti: Could this be a junk fee? I think they were recently banned too.
+  [15] u/boroughthoughts: I've never heard of a place requiring blackbird. Blackbird is an App, created by the RESY founder, that basically gives reward points to members for using it to pay. Some of the rewards are determined by participating restaurants, so its basically like a points card+. However, its a pain in the but to use so a lot of people don't use it.
+    [16] u/Other-Beginning-8888: We were tood point blank, blackbird is the only payment system they would accept for our tap. Direct quote. Flatiron location.
+      (context) u/PatientCup8482: Perfect reason to get up and leave
+      (context) u/irememberthealamo: Did they say it was the only way to tap or the only way to use a card at all?
+    (context) u/zbewbies: The vibes that Resy gives is a massive turnoff.
+  [17] u/Nick12322: Any other tapas recs? I love boqueria but I’ll admit I haven’t been to many other tapas places
+    [24] u/throwawaycuriae: Spend the money and go to Casa Mono.
+    (context) u/VestidaDeBlanco: there are so many places better than Boqueria. Go to Casa Mono. Txikito. Despaña. Tia Pol. Salinas. 87 Ludlow.
+    (context) u/LeopoldTheLlama: I'm a fan of La Nacional
+  [18] u/Ok-Psychology-2621: Same shady payment service at Isla& co in the LES. They refused to take my cc, and wanted me to pay through a QR code. Finally when I went to bar to say I needed a printed receipt b4 I pay, I saw $4.99 charge for paying on QR code. wtf. I don’t know if it was blackbird or something else bc I saw red god hours after….
+  [21] u/DMmepicsofyourdog: Report to the city, this is illegal. They can’t charge service charges like that to pay the bill
+    [22] u/WhiteHeteroMale: These are the state requirements:  https://portal.311.nyc.gov/article/?kanumber=KA-03682
+      (context) u/N-Pop: does the law cover apps like Blackbird of just Credit cards?
+  [23] u/efuipa: Blackbird isn’t shady itself, but it IS weird to be the only option. It’s like how restaurants no longer offer their own delivery options, and they only offer through DoorDash/UberEats.
+    (context) u/Big_Two6049: Delivery is a liability for drivers/ messengers and subsequently the restaurant while lazy people tend to prefer delivery services
+  [25] u/rjstang: Never have this problem in the UES one, we always eat at the bar and the bartender never has a problem taking our card through their POS system 🤷🏻‍♂️
+  (context) u/buttoncode: This should be illegal, wtf
+  (context) u/Peaches-is-sleepy: Can you suggest some spots? Boqueria has been my favorite for years, but I haven't been in a minute and reading this + menu changes isn't exciting
+  (context) u/akmalhot: Lots of places charge a cc fee now, is it higher than the typical 3-4%?
+  (context) u/swim7810: You don’t have to agree lmao 😭
+
+(The thread is long: shown are only the numbered comments, their ancestors and their direct replies, 47 of 193 comments.)
+=== END PACKET 92dec199 ===

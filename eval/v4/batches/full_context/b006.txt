@@ -1,0 +1,32 @@
+NYCEats extraction labeling -- batch b006 -- pass: full_context -- 1 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b006.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 53f00f4b (thread packet) ===
+POST TITLE: Atomix NYC: Wine pairing worth it for someone who generally prefers cocktails?
+POST BODY: I'm going to Atomix this week.  I've heard the wine pairing is very good, but in general I find cocktails more interesting than wines.
+
+I wanted to ask: is the wine pairing so good with the dishes that you'd recommend I get the pairing?  Or if I generally prefer cocktails to wines, should I just stick with cocktails?
+
+THREAD, in reply order. Label ONLY the comments with a bracket number [n]. Lines marked (context) are there to read, not to label.
+[1] u/LawsOfEconomics: I had this same dilemma. I found the less expensive  of the two wine pairing options to be 110% worth it. I also had one of the best cocktails of my life there. So my recommendation is to get there as early as is allowed and order a cocktail, and also do the pairing—if you’re up for that.
+  [2] u/Rrolack: Thanks for this.
+
+If I got the wine pairing I’d probably go for the reserve (the more expensive one), but only a half size pairing as I’m a lightweight.
+    (context, deleted or too short to be sent) u/LawsOfEconomics: How was it?
+      [5] u/Rrolack: Was really great; I also got a half wine pairing which was plenty of wine and also very well paired!
+  [3] u/Eddiebtz: Last time we were only allowed in literally 5 min before my reservation time and rushed downstairs. I remembered another time I sat at the upstairs bar for 30 min before my reservation. I think it depends if you have the early or late reservation time slot.
+    [4] u/rdgn: So which slot did you have?
+      (context, deleted or too short to be sent) u/Eddiebtz: 5:30
+[6] u/Ana-la-lah: I loved it, was very good
+[7] u/ipki: Go and ask them to pair the cocktails with the courses, they will do that (I have done it and loved it).
+=== END PACKET 53f00f4b ===

@@ -1,0 +1,171 @@
+NYCEats extraction labeling -- batch b002 -- pass: full_context -- 1 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b002.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET a937b0f0 (thread packet) ===
+POST TITLE: Even Bad Pizza in NYC is Sometimes Bad....As Evidenced by....
+POST BODY: I would think given it's the world mecca of pizza, that bad pizza there is still decent, but nope, I found a place called Roma Pizza on 8th Ave. that I picked because the reviews were decent, you could eat inside, and it was literally around the corner from the theater I was going to. This place was really bad. Definite Top 5 worst pizza places I've ever eaten anywhere. I don't know how people could like it or prefer it. I think it's the first pizza I've had in NY that I truly did not enjoy on any level.
+
+THREAD, in reply order. Label ONLY the comments with a bracket number [n]. Lines marked (context) are there to read, not to label.
+(context) u/No_Network4228: I remember once when I was in college stopping by a kosher pizza place and it was one of the most vile things I ever tried to eat, I still remember it 20 years later.
+(context) u/vdubjb: usually bad pizza can be made better by overcooking
+(context) u/16_USQW: Roma Pizza on 2nd Ave. and 24th St. not awful but it’s bad pizza.
+  (context) u/ebergs520: Interesting, because if find Roma pizza on the upper east side, 1st and 3rd ave locations, pretty good
+    (context) u/DiedOfATheory: I assume these all have different owners..
+      (context) u/Neptune28: There's another Roma in Brooklyn, along 7th Ave
+
+[https://romapizzaparkslope.com/](https://romapizzaparkslope.com/)
+
+Are these all different?
+
+Maybe it's like Rosa's, there's several places named Rosa's but I think the franchise locations are Williamsburg, Maspeth, and Middle Village
+    (context) u/OcelotDAD: Roma Pizza on 88th and 1st on the UES is legitimately good.
+(context) u/Royal-Mathematician2: The dollar shop at E 6th and Ave A has some of the worst pizza in NYC I have ever had.
+  (context) u/DiedOfATheory: There is one(I guess it is $1.50 now) around the corner from Joe's Pizza, and it was actually pretty decent. I'd take that over the place I mentioned any day.
+    (context) u/Royal-Mathematician2: I used to work around the corner form there. That one was good.
+  (context) u/sthug: Yea when i first moved to the east village during covid i made a late night desperation order from there and it was so fucking bad
+  (context) u/DoritosDewItRight: That place is unbelievably bad, it tastes like elementary school cafeteria pizza
+    (context) u/cathbadh: Wait... Are talking about the rectangle ones and hexagonal fiestada ones from the 80s and 90s?  Ngl I still eat those sometimes. Tastes like nostalgia.
+  (context) u/arparpsrp: im sure its better than the worst pizza in toleho ohio
+    (context) u/cathbadh: Idk, the worst in Toledo is just the hot and ready from Little Caesars. Is this better than that? 
+
+Random seeing my hometown used to throw shade in the wild.... The in the wild part is random , the throwing shade with Toledo as the target is justified. They never make national news for good reasons.
+  (context) u/buckeye2114: I’ve eaten here sober before lmao, it’s not THAT bad. Obviously not great either. Granted of course the bar for pizza in NYC for “good”, or “above average” is so much higher than anywhere else. 
+
+Just wait until you find yourself visiting people in the middle of the country and order a pizza at a restaurant only to find yourself staring a half baked grocery store bought crust with marinara sauce and barely melted cheese. And then you’ll realize how good NYC has it.
+    (context) u/TombofromKoriko: This exactly - the worst NYC slice is a godsend in an airport.
+  (context) u/t1nt3d_: But its a dollar though.
+(context) u/Neptune28: The place in Manhattan?
+(context) u/Glizzys4everyone: Unless a famous food is from a very small city, I expect any big city known for something to have shitty versions of it
+(context) u/Neptune28: There's definitely really bad pizza, yeah. I think it's amazing when people call Joe's Pizza bad, they haven't tried some of the really lousy neighborhood places in other areas on the city. Around my area, this pizza was so bad that I couldn't even get beyond 1 bite. People in the areas like Bushwick, Bed Stuy, Williamsburg, Greenpoint, Park Slope, LIC, Astoria are lucky.
+  (context) u/DiedOfATheory: Joe's pizza is good, they're just pushing it somewhat on price, but they know they get a lot of tourists and are popular, so they get away with it. Those bad places must have people who think they're good though, or how would they stay open? I don't get it!
+    (context) u/Neptune28: The price is fine, I think it is $4.50 for a slice at Joe's on Bedford? Some places in Manhattan are like $6+.
+
+Well one of the mediocre places near Flatlands just closed, so now there's only like 1 pizza place along Flatbush that is anywhere close by. That place is terrible to me, but seems to keep getting business. I think some of it is that people stay within the neighborhood and haven't tried pizza places in those other neighborhoods. I tried one in Ridgewood that was amazing
+
+[https://www.reddit.com/r/FoodNYC/comments/1qk39h7/manos\_pizzeria\_ridgewood/](https://www.reddit.com/r/FoodNYC/comments/1qk39h7/manos_pizzeria_ridgewood/)
+  (context) u/ArtDecoNewYork: If anyone claimed that Joe's is actually "bad", I would assume they're either a pretentious contrarian or just don't like classic NY pizza
+    [1] u/Neptune28: Agreed. It's not even close to bad. In fact, I may go to Bedford and get some in a few hours.
+    [2] u/Objective-Two-8728: Agree, it’s quite good - just no where near a ‘best slice in nyc’ territory
+    [5] u/16_USQW: It's not bad but certainly overrated!
+  (context) u/Possible-Door3249: I don’t trust anyone that said Joe is bad and I assume they are transplant
+  [3] u/InSearchOfGoodPun: I once watched a video on YouTube of some tourist who ate “Joe’s Pizza” and he didn’t think it was bad, but he didn’t see what the fuss was about. It turns out that he was eating at the shitty “Joe’s Pizza” in Chelsea that is not part of the famous mini-chain. Even funnier is that none of the commenters seemed to realize this either.
+  [4] u/pavlovselephant: Large swaths of inner Queens have atrocious pizza.
+[6] u/ThinPerformance: What was bad about it?
+  [7] u/DiedOfATheory: It just tasted bad. Everything was wrong with it. I can't think of anything I liked other than I was really hungry at the time...Poor tasting ingredients, floppy, etc.
+  [8] u/netllama: 100%.  This post is completely useless nonsense without context.
+[9] u/ArtDecoNewYork: There's loads of bad pizza in NYC, or at least mediocre pizza (not even counting the budget places which are cheap at least).
+[10] u/lithium900mg: I tried a new place that just opened on 7th Ave between 14th and 15th the other day and it was genuinely the worst slice of pizza I’ve ever had it my life I couldn’t even finish it
+[11] u/SomeDrillingImplied: I hold the controversial opinion that the median pizza on Long Island and NJ is actually better than the median pizza in NYC, but the highs are higher in NYC than they are in the aforementioned places.
+  [12] u/Objective-Two-8728: This is intriguing….do you think the mean/average would be a different conclusion?
+    (context) u/arbybk: Yes, that's how statistics works.
+  (context, deleted or too short to be sent) u/ChrisFromLongIsland: 100%
+  [13] u/MosesRobertsNYC: Not controversial at all. Same goes for bagels.
+    [25] u/SomeDrillingImplied: Long Island bagels blow NYC bagels out of the water, honestly.  Doesn't matter of it's mean, median, or best of the best.  LI is best in show for all categories there.
+      (context) u/EmptyLabs: Yeah I think so many people are spoiled for options that they don't realize it. Having lived and adventured through both areas, it becomes clear very quickly that LI bagels are better if you enjoy egg sammy or prefer something less chewy but still a bit idk snappy(?) like the skin of the bagel keeps the satisfying snap when you bite into it but isn't super dense like many NYC bagels are. 
+
+IMO the "bad" LI bagel shops aren't even bad most of the time, they just taste like NYC bagels which, understandably, is a big shock for locals. 
+
+That said, if I were to get a simple butter bagel I would prefer an NYC bagel most of the time. Since they're better for coffee (I'm a dipper)
+        (context) u/JackiiX: Buttered bagel dipped in coffee? Haven’t heard of that before, that’s interesting
+          (context) u/EmptyLabs: I think it's a poverty thing. We used to get gratuitously firm (probably yesterday's) bagels when I was a child. I did what I could to make them palatable and found I enjoy that little bit of butter in my coffee as a bonus to the bagel getting softer.
+            (context) u/JackiiX: I looked it up after replying to your comment, and it seems a lot more popular than I expected so that’s cool
+  [14] u/Neptune28: Where in NJ? I have gotten pizza at Maplewood Pizzeria and liked it quite a bit, the paste is incredible too
+
+[https://www.maplewoodpizza.net/](https://www.maplewoodpizza.net/)
+    [23] u/SpartanAesthetic: Village Trattoria (in Maplewood or Summit) has the best creative slices I’ve ever had.
+      [24] u/Neptune28: I will check it out next time!
+    (context) u/rlevavy: In Maplewood my favorites are The Roman Gourmet (has been there for as long as I've been alive) and Corner Slice (which has only opened in the past couple years, and is sicilian-style.)  Artie's, which is around the corner from Corner Slice, is also good, but (I think) doesn't sell slices.  The white slice at Sabatino's is also quite good.
+  (context, deleted or too short to be sent) u/KILLDAECIAN: Correct
+  [15] u/AvailableFalconn: But in NYC you’ll always be 5 minutes from a good pizza place.  Not sure how the crap one’s survive tbh.
+  [16] u/pumper911: If you go with the barstool scale, feel like NYC pizza median is around 6.7 and Long Island and NJ is like 7.2. But NYC has a bunch of 9+’s and there’s maybe 1 or 2 I’ve come across in NJ / LI
+    [20] u/gambalore: Fuck Barstool and Dave Portnoy in particular.
+    (context) u/SomeDrillingImplied: You will be downvoted for propagating Shortnoy stupidity and deservedly so.
+  [17] u/The_Chief: Manhattan that might be true, but definitely not for Brooklyn. Manhattan Pizza always has been shit with no soul except for good spots.
+    [19] u/Alert-Painting1164: Agree. I’ve willingly eaten so much bad pizza in Manhattan because I was drunk and it was there
+  [18] u/Jesufication: Razza pulls up the avg so much that median is definitely the way to go
+  [21] u/cellularATP: This is not true for Long Island.  I'd rather have a lot of random slices in the city before I'd have random Long Island pizza.  New Jersey is different though.  They have the highs that compete with NYC like you mentioned, as well as a higher median.
+    (context, deleted or too short to be sent) u/SomeDrillingImplied: ok
+      (context) u/cellularATP: Could you tell me where I should get bagels and pizza on Long Island to change my opinion?  I've tried a decent number of places, but maybe I've missed the good ones?  Preferably Suffolk, but I'll drive to Nassau too.
+        (context) u/SomeDrillingImplied: For bagels my favorite spot is Boulevard Hot Bagels in Nesconset.  No fancy bells or whistles, but they do a great job at the basics.  They also own St. James Bagels on North Country by me, but they're a half notch below.  I hear Bagel Chalet in Commack is very good, but I can't personally attest.
+
+As for pizza the best is Nico's Charred Pies at Root + Branch in Copaigue.  Hours are limited and they don't do slices, but the pizza is incredible. More accessible options include Ciro's, Colosseo, Umberto's (grandma and Sicilian), King Umberto's, Taglio for Roman pizza, and Dario's for everything they have
+          (context) u/Salty-Esq: House of Bagels in Commack is better
+  [22] u/Round-Vast-1014: not that controversial tbh, the average neighborhood spot in NJ is just more dependable
+  (context) u/misstheolddaysfan: You're actually correct at least as far as NJ is concerned. And add in connecticut.
+  (context) u/nycago: This is true for midtown dirty proper but not for the 5 boroughs or Manhattan as a whole.
+  (context) u/freeman687: But that's probably due to quantity? In NYC, we have more of both good AND bad. In less dense population areas in LI and NJ, it's probably harder to keep a crappy pizza place going because people stop going there whereas in Manhattan there's always random foot traffic and millions of hungry masses who will settle for a slice anywhere.
+  (context) u/NYCRealist: Best Pizza I've had is in New Haven, CT.
+  (context) u/TombofromKoriko: I tend to agree, a bad slice and bagel joint can survive here just on foot traffic and turnover. In the suburbs these places have to be at least half-decent to survive.
+(context) u/Objective-Two-8728: There is plenty of relatively bad pizza in nyc, much of it is dolla-slice
+  (context) u/Neptune28: The "dollar" slice on 38th and 8th is pretty good, but yes, a lot of them taste like cardboard.
+    (context) u/JackTheBongRipper: Are you talking talking about the 2 bros on the corner? For me, 2 bros always hits—I'd argue it hits so different from a "good" slice that it's a fool's errand to even try to compare them.
+      (context) u/Neptune28: Yes! It just got annoying because of the vagrants and mentally ill around it, but the slice itself was solid.
+      (context) u/KoalaOnABuilding: Yeah, the thing the no-longer-a-dollar slices I like is the turnover is so high that they're always super fresh. Same reason I liked little caesars in Michigan
+  (context) u/gambalore: Can’t judge the dollar slice places on the same criteria as regular slices. They’re a different beast.
+    (context) u/Objective-Two-8728: I was beginning to write up this exact rant under my comment but just gave up
+(context) u/Mammoth_Sell5185: I had Roma last week since I work nearby. Yeah, the regular slice is terrible. Weirdly, I had a chicken slice, which was all around about five times as good as the plain. Much crispier, cheese and the other ingredients tasted better and everything. 🤷
+(context) u/Aggressive-Candle421: Why try to hurt a local business
+  (context) u/misstheolddaysfan: Is it really a local business?   
+
+I agree with you that you shouldn't trash small businesses that are trying to build something, but if you walk into a place and they don't even seem to be trying- its fine to say that its garbage.  You can't call yourself NY pizza and crank out the same crap they sell in other parts of the country.  I'll gladly say it about VAL Pizza. I tried it four times because its extremely convenient and honestly the only place I can grab a fast something when im in a rush in that area.  Its so bad that now even if i'm starving and have no time, i'll go without.
+(context) u/Ok_Task_7711: Roma is the worst AND overpriced
+(context) u/FlashAndPoof: I’m laughing because I just had a slice at Roma yesterday and liked it. But I’m also new to NYC and only have chain pizza to compare to. What are your recs?
+  (context) u/Neptune28: Check out Manos Pizza in Ridgewood
+
+[https://www.reddit.com/r/FoodNYC/comments/1qk39h7/manos\_pizzeria\_ridgewood/](https://www.reddit.com/r/FoodNYC/comments/1qk39h7/manos_pizzeria_ridgewood/)
+    (context) u/FlashAndPoof: I’ll have to check it out! Got any recs near Broadway in Manhattan though?
+      (context) u/Neptune28: How close to Broadway? Farinella was good, but it looks like it closed.
+        (context) u/FlashAndPoof: Ideally close enough to get a bite before or after shows in the area. That’s the only reason I went to Roma’s yesterday.
+          (context) u/nycsourdiesel83: Sacco’s Pizza on 9th Ave.
+(context) u/Junkstar: There’s a lot of bad pizza in NYC. Even more average pizza. Great pizza is in the minority, but at least every neighborhood has some nearby.
+(context) u/robmsor: Most of the time, bad-mediocre pizza can be helped by loading it with toppings. The various Andiomo’a and Roma’s, for example.
+
+The one that couldn’t be saved that way was a place called Justino’s on 10th Avenue and 57th. It was the among the worst pizza I’ve ever had. It looks like they’ve gone out of business.
+  (context) u/Alert-Painting1164: Ha ha I used to live round the corner and i think I had it once and then never again. It was next door to the Boston market if I recall, that’s gone too. There was also the worst bodega in the world on the corner of 57and 10
+    (context) u/Neptune28: Wow I remember that Boston Market! I used to get it at the other locations in the early 2000s, stopped for years, then passed by the 10th Ave one in 2010.
+
+[https://maps.app.goo.gl/V6Tsz4Nq7dfpMVgXA](https://maps.app.goo.gl/V6Tsz4Nq7dfpMVgXA)
+    (context) u/robmsor: Funny (to me, anyway) anecdote:
+
+After the VP debate in '24, Tim Walz's handlers wanted to get footage of him and his wife "enjoying" some genuine NY pizza.  As Justino's was down the block from the CBS studios where the debate was filmed (I think this was true), that's where they went.  As soon as I recognized it I thought "you poor bastards"
+  (context) u/misstheolddaysfan: I think the places people love nowadays, they must be talking about the toppings.  To me- good pizza should be good with nothing on top.  And it should still taste good cold.
+    (context) u/robmsor: Agreed! I like a good topping as much as anyone, but really good pizza doesn't need any.
+    (context) u/Neptune28: That's why I always test out a plain slice when I go to a new place.
+(context) u/jae343: Should've just went to Pops one block down.
+(context) u/Alert-Painting1164: There’s a market for bad pizza. One just opened on the same block as my office (mid town) it looks like absolute trash and it’s packed all the time, I guess with tourists.
+(context) u/misstheolddaysfan: There is not only bad pizza in ny, there's terrible pizza in NY.  Back when I was younger, it was hard to find a bad pizza place.  You had to really work at it.  Most places were at least decent, and then you had favorite places.  Now, I only like a handful of places. Most places are not good.  And I have to travel to get pizza as good as what I used to consider average. there's not a single place in all of midtown that I would really enjoy a slice. Johns has lines around the block and I only consider that okay.  Same with the famous Suprema- its "fine" not great.  I dont even know what I'd call great anymore.  I can tell you where I go for a good slice, but nothing in NYC is amazing.
+(context) u/iggy555: I saw a guy working at a $1.50 pizza joint pick up an empty pizza box on the street and put it back inside the store to reuse
+(context) u/PAE8791: Bad pizza spots usually have tourist type names ,  Roma pizza , little Italy pizza ,  etc .
+(context) u/dimlakalaka: F & F pizza is bad.
+(context) u/boroughthoughts: What ever pizza nerd (Scott Weiner) that does all the review on his subway takes said that 80 percent of Pizza in NYC is actually pretty bad and I agree with him. Like there are so many forgettable 4$ cheese slice shops in Lower Manhattan that are not worth anything other than being closest on the block. Like take oven slice in LES, every time I go there its because I was too lazy to walk another block to Johnny's and every time I do that I am like why did I do this since I could have had a much better slice for a 1.50 more.
+(context) u/Apherious: Tons of places in NYC that sell mediocre or down right terrible food, they get by from quantity of people buying it. The population keeps it going
+(context) u/djlamar7: I nominate iPizzaNY as the worst I've ever had here. There used to be one near me and sometimes my friends and I would go after drinking just because there wasn't another 4 AM one nearby (after the first time I always got the chicken from the Krispy Krunchy Chicken that was also inside).
+
+One time I met up with a friend at a bar in the evening. We only had two beers but he got hungry and wanted to go there. I told him "we're not drunk enough for that pizza" but he got a slice anyway. He took two bites, said "yeah you were right" and threw it into the trash.
+  (context) u/kaptiankuff: Was gonna mention this place it also suffers from having 5 other pizza places on the same square block
+(context) u/juicepak: For the level of effort required to get a table, my vote for worst and most overrated pizza in NYC is Lucali by a landslide
+(context) u/JuZNyC: Yeah of course bad pizza here is still bad, 70% of the dollar slice spots are bad except that they're $1.50.
+(context) u/DJ_Derp: Their Pizza on 6th Avenue is also terrible
+(context) u/AvatarofBro: What didn't you like about it?
+(context) u/Ice_water_plz: Honestly youll be surprised, my mom likes cheap 1.50 pizza, but if I go get her something higher quality she says it's OK
+(context) u/jaritadaubenspeck: A lot of pizza places in NYC are strictly for tourists who regularly eat Pizza Hut or Domino’s back home.
+(context) u/ChalkLicker: There are places in NYC that locals rave about that are absolute garbage. And I’m not being elitist, I love almost all pizza. People raised on shitty pizza love shitty pizza. Nothing wrong with it, but buyer beware.
+(context) u/SonicYouth_NYC: There are many unremarkable pizza places in NYC.  
+
+The great pizza places just make us forget about the unremarkable ones.
+(context) u/SirBumbles: I'll say it.. Prince St Pizza is trash
+(context) u/Wooden-Line607: come to NJ for pizza, NYC is mostly misses, I don't know why they can't just make a pizza normally
+(context) u/TombofromKoriko: Those places on 8th Ave don't need to rely on repeat customers at all, and it shows. There's always another batch of tourists coming. 
+
+For what it's worth, going one block over to 9th ave generally yields much better results in food. That's where it starts to become a neighborhood again instead of a business district. (The business being tourism.)
+=== END PACKET a937b0f0 ===

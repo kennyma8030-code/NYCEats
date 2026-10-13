@@ -1,0 +1,228 @@
+NYCEats extraction labeling -- batch b030 -- pass: same_input -- 20 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b030.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 2f15730a (comment packet) ===
+POST TITLE: Three weeks off between jobs - what NYC restaurants are only doable on weekdays?
+
+POST BODY: Im taking three weeks off between jobs and have full weekday flexibility. What are the places or experiences that are usually impossible to try with a 9–5 schedule but are perfect during weekday hours? I live near the union square station so location/distance isn’t an issue for me!
+
+PARENT COMMENT: Torrisi walk in lunch. The only problem is being solo you’ll only get to try a few dishes.
+
+COMMENT: When I went solo I got two appetizers, a pasta, a main, and dessert. Dude next to me solo at the bar ate three pasta dishes. Where there’s a will there’s a way.
+=== END PACKET 2f15730a ===
+
+=== PACKET 76a51ce8 (comment packet) ===
+POST TITLE: Rooftop bars in Manhattan
+
+POST BODY: What are some good rooftop bars in Manhattan?
+
+COMMENT: phd rooftop, yotel, ink 48, le bain
+=== END PACKET 76a51ce8 ===
+
+=== PACKET 3cc9f12c (comment packet) ===
+POST TITLE: Fine dining w ice cream cake?
+
+POST BODY: Any recommendations for an excellent meal in Manhattan that has an ice cream cake or something ice cream cake adjacent on their dessert menu?
+
+COMMENT: So, I haven't been, but something on my list to try is the buckeye terrine at The Grill. I haven't been able to find any photos of it either, so not sure if it's ice cream, but could potentially be. 
+
+And not fine dining, but San Sabino has a dessert that's supposed to be based off of the Viennetta (although I personally think that the comparison is a stretch).
+=== END PACKET 3cc9f12c ===
+
+=== PACKET ca948574 (comment packet) ===
+POST TITLE: Door dash and  corner store reservations , booking
+
+POST BODY: I'm checking door dash and I'm confused. I want to book Sept 18. I have to book 1 month ahead of time or 2 weeks before Sept 18 to get a seat?
+
+PARENT COMMENT: ok canceled.that slut Taylor swift liked it so I thought why not
+
+COMMENT: No hate, flamewars, rude comments, etc
+
+NO MISOGYNY
+=== END PACKET ca948574 ===
+
+=== PACKET a41660f0 (comment packet) ===
+POST TITLE: Lunch between 43rd and 33rd between 7th and 9th.
+
+POST BODY: Any cuisine. Sit down ideally under $40pp.
+
+COMMENT: Jolibee (you need to try Filipino fast food at least once if you haven’t)
+
+Chatti
+
+Go Go Curry (the rare Japanese style curry place in nyc)
+
+El Sabroso (Ecuadorian cuisine)
+
+Bluestone Lane
+
+Gyu Kaku (technically 44th street but it’s one of my sit down restaurant go to’s in this area, especially with a group)
+
+Smashburger (super underrated burger chain)
+
+Sky Pavilion (sichuan Chinese cuisine)
+
+NY pizza suprema
+
+PENN 1 food hall across from MSG has a pollo campero and a blue bottle in it plus an H&H and a Zaro’s
+=== END PACKET a41660f0 ===
+
+=== PACKET a7c14a52 (comment packet) ===
+POST TITLE: Looking for a steakhouse for a Saturday night in November, for the birthday of a carnivorous 15 year old girl who likes a good ribeye or porterhouse but otherwise has no f*cks to give about fancy.
+
+POST BODY: I'm taking my 15 year old daughter to NYC in November for her birthday.  The plan is to see a Hamilton matinee and eat good steak.  We're coming up from DC; I lived in NYC 25 years ago but have fallen completely out of touch with the steakhouse scene.   
+
+  
+I know "what steaks are good" posts are common, but I'm trying to find good steak with a very specific vibe:
+
+My daughter isn't going to care ...
+
+PARENT COMMENT: As a few people have mentioned, Keens is right up your alley. Saw someone say kbbq and I think that could be fun. Yoon haeundae Galbi is absolutely incredible. I cannot recommend it enough.
+
+COMMENT: We did Nubiani for kbbq on our last trip to NYC (the night before our Peter Luger lunch) and she loved that.  Kbbq is awesome but we've got some incredible options in Northern VA, so I was thinking a different NY steakhouse would be more memorable.
+=== END PACKET a7c14a52 ===
+
+=== PACKET cc644179 (comment packet) ===
+POST TITLE: Saigon Shack
+
+POST BODY: Has anyone been to Saigon Shack lately in Greenwich Village? I went there last spring and it was pretty good. Planning to go there this Monday with some friends for my bday but there’s been so many bad to mid reviews lately.
+
+PARENT COMMENT: Thanks for the recs, im having trouble finding good priced pho under and around $20 so I’ll check those out
+
+I personally can’t justify more than $20 for pho when there’s one near me in queens that gives good portions for only $13
+
+COMMENT: If you want something cheap, just go somewhere in Chinatown like Nam Son, it’s not the best but it’ll do
+=== END PACKET cc644179 ===
+
+=== PACKET c3deef61 (comment packet) ===
+POST TITLE: The Best Dumplings in NYC are in an abandoned mall
+
+POST BODY: If you have not yet tried Fu Zhou Wei Zhong Wei Jia Xiang Feng Wei you need to immediately for the best friend dumplings and pork buns you’ll ever have. If you pardon the ambiance you’ll see them making everything by had and PACKING those buns with flavor. 100/10 recommend. 
+
+Eater.com/23598627/fu-zhao-wei-zhong-dumplings-chinatown-mall
+
+PARENT COMMENT: Are you not Asian? The oil/juice/grease is intentional, not a bug
+
+COMMENT: I missed the part where OP mentioned they had the fried dumplings lol. We ordered the boiled ones and those were super greasy
+=== END PACKET c3deef61 ===
+
+=== PACKET 85046ff3 (comment packet) ===
+POST TITLE: Looking for the best Taiwanese oyster omelette/pancake in NYC!
+
+POST BODY: This is my favorite Taiwanese dish, and it's so rare to find it served in NYC. Anyone have a recommendation? I remember being disappointed by it at Winson (which doesn't serve it anymore). I live in Brooklyn, so would love recs for Brooklyn or Manhattan (as opposed to Flushing, for example), but for the right dish, I'd travel!
+
+PARENT COMMENT: As a Taiwanese born and raised here I can wholeheartedly say that OK Ryan (yep that’s the restaurant name) in Flushing is the most authentic you’re going to get.  It scratches the itch more than any other place claiming to be Taiwanese.  The oyster pancake, along with other dishes are the real deal holyfield.
+
+COMMENT: or their sister restaurant ok canaan if you don't want to do college point blvd.
+=== END PACKET 85046ff3 ===
+
+=== PACKET 3b950da0 (comment packet) ===
+POST TITLE: Immigrants of NYC, what restaurant in the city has the best version of your home country’s food?
+
+POST BODY: Saw this on the London subreddit and am having great success in the Chicago subreddit. My wife and I will be visiting in a few months and would love to venture out a bit. 
+
+More details the better in terms of what to try there.
+
+COMMENT: Kings Kitchen (92E Broadway) for claypot rice (Cantonese). Not sure it’s the best in the city, but it’s pretty good and it’s not easy to find given how region specific it is
+=== END PACKET 3b950da0 ===
+
+=== PACKET d79c2b14 (comment packet) ===
+POST TITLE: Coqodao - A Korean Fried Chicken place - Highly recommanded
+
+COMMENT: Pinned [comment](https://reddit.com/r/FoodNYC/comments/1ioo36x/coqodao_a_korean_fried_chicken_place_highly/mcl9fyf/) from u/Sharlilla:
+
+> [Link to website](https://www.coqodaq.com/)
+=== END PACKET d79c2b14 ===
+
+=== PACKET 4a9fa61e (comment packet) ===
+POST TITLE: Croissant or bagel recommendations not in lower manhattan?
+
+POST BODY: Staying in midtown west and looking for a tasty bakery for croissants and bagels (can be different places) before going to the Met at 10am. Ideally midtown/hell’s kitchen/UES/UWS. 
+
+Anywhere in the vicinity would be fine since everything I’m finding seems to be in lower manhattan. Would be willing to venture out of the way if the croissants were worth it though (and didn’t have a wait longer than ...
+
+COMMENT: I am living in UWS but go to Bagel Shop in UES, just go you won’t regret it. Local people get mad when it is being recommended because they don’t want it to get crowded.
+=== END PACKET 4a9fa61e ===
+
+=== PACKET 78fe8309 (comment packet) ===
+POST TITLE: Need help deciding where to eat omakase
+
+POST BODY: So I’m looking at some omakases that are below $200. My current list that I’m trying to choose between is Sushi katsuei, sushi yatsuda, sushi nakazawa, takumi omakase, genki omakase, sushi by M, shin East, and sushi lab. Currently leaning towards sushi by M or genki omakase just because it’s the most sushi per dollar spent but I don’t mind spending more if the quality is better but at the same tim ...
+
+COMMENT: Sushi on me is so fun! The Thai Japanese fusion is exciting and always delicious. The atmosphere and chefs are so cool.
+
+For something on the more classical omakase side of things I really enjoy kissaki
+=== END PACKET 78fe8309 ===
+
+=== PACKET c96894eb (comment packet) ===
+POST TITLE: Whats a food or restaurant you should absolutely try before leaving nyc
+
+PARENT COMMENT: This is a great point. I can find great pizza and bagels in Jersey. Call it the NYC diaspora. I can’t find the amazing Korean food I had the other day. Yubu? Fucking incredible.
+
+COMMENT: fort lee, bergen county..
+=== END PACKET c96894eb ===
+
+=== PACKET 7089e9dd (comment packet) ===
+POST TITLE: Keen’s Steakhouse bought by hospitality giant Landry’s
+
+PARENT COMMENT: Blackstone bought them out for $8 Billion (not black rock real estate, and also not the portable grill company)
+
+COMMENT: Blackrock is way more than real estate. They’re the largest asset manager in the world
+=== END PACKET 7089e9dd ===
+
+=== PACKET f5a5d5c4 (comment packet) ===
+POST TITLE: Favorite places to get drinks or desserts made with lychee?
+
+POST BODY: I normally think of lychee as a snacking fruit, but I was reminded last week of how refreshing it is. I feel like lychee is a flavor or ingredient you don't often come across, so before the next temp spike, what are some of your favorite places making drinks or desserts with it?
+
+Ironically, what sparked this thought was an ice cream from the new Unnecessary ice cream shop. I tried the Yakult and ...
+
+PARENT COMMENT: Verlain for Lychee Martinis
+
+COMMENT: Ahh the memories….or lack thereof…
+=== END PACKET f5a5d5c4 ===
+
+=== PACKET dc97daec (comment packet) ===
+POST TITLE: Korean BBQ at home - where do you buy ingredients esp the meat?
+
+PARENT COMMENT: Any hmart except the one on uws. It's the worst hmart in the world.
+
+COMMENT: What’s wrong w the one on the UWS?
+=== END PACKET dc97daec ===
+
+=== PACKET 75863dd9 (comment packet) ===
+POST TITLE: What are your favorite upscale Greek/Mediterranean Restaurants in Manhattan?
+
+POST BODY: Similar to Eléa, ideally. Any suggestions?
+
+PARENT COMMENT: People seem to not like Milos on here but I have yet to have a bad meal. Also one of y all time favorite Octopus dishes. I prefer the Milos on 55th.
+
+COMMENT: I ate there recently. The octopus was phenomenal. The rest was meh considering the price. I would only go back for the octopus.
+=== END PACKET 75863dd9 ===
+
+=== PACKET 93d93f61 (comment packet) ===
+POST TITLE: Best burger without a reservation
+
+POST BODY: My friend is visiting tomorrow and unfortunately I couldn't get a reservation to the most recommended spots (4Charles, Red Hook, etc).
+
+What's your favorite no-reservation-needed burger? It also has to be for dinner since that's when he gets in. Thank you in advance!!
+
+COMMENT: The Elephant Burger at Elephant & Castle in the West Village is the most underrated burger in the city. À la Carte fries are also excellent. And no reservations neeed.
+=== END PACKET 93d93f61 ===
+
+=== PACKET 7eb3d0ed (comment packet) ===
+POST TITLE: Going to NYC for the first time next month. Anyone restaurant recommendations near time Times Square area?
+
+POST BODY: I know this is pretty broad. Just looking for recommendations to start with
+
+COMMENT: No. Dont eat there. Dont stay there either.
+=== END PACKET 7eb3d0ed ===

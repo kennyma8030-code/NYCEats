@@ -1,0 +1,282 @@
+NYCEats extraction labeling -- batch b022 -- pass: same_input -- 20 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b022.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 251587e5 (comment packet) ===
+POST TITLE: My favorite spots after a week in NYC
+
+POST BODY: This was my fifth trip to NYC and my goal for this one was to only go to more under-the-radar food spots and avoid the hyped/touristy destinations so you won't be seeing any L'Industrie, Joe's, Katz, or Russ & Daughters in this post! With that said, since Reddit only allows for 20 pictures, this will include my 20 favorite places:
+
+1. Playground (Jackson Heights, Queens): one of my goals for this ...
+
+COMMENT: Wow bravo amazing list.
+=== END PACKET 251587e5 ===
+
+=== PACKET e6f97596 (comment packet) ===
+POST TITLE: Goat biryani like haat bazaar in Jackson heights (willing to travel)
+
+POST BODY: I was shocked a while back when I say haat bazaar had closed. My favorite haleem and goat biryani was there. This is a long shot but does anyone know if there is a spot that serves biryani or haleem similar to there. Willing to travel anywhere in NYC.
+
+COMMENT: I'm curious to see what other Bengali Biryani people recommend. Personally I think the Biryani at Boishakhi is decent so you should try it yourself. 
+
+This isn't Bengali but I think the Hyderabadi Biryani at Hyderabadi Ziaqa is one of the best Biryani dishes you can get in the city without paying an arm and a leg.
+=== END PACKET e6f97596 ===
+
+=== PACKET ad2d950a (comment packet) ===
+POST TITLE: Can I talk about Los Tacos 1 again?
+
+POST BODY: Ok I have seen a shit ton of posts/comments saying that LST1 is over rated.  I for one, have lived in nyc my whole life.  Most of my experience is in Manhattan because I live here.  I've tried a lot of small mom and pop shops, trucks, stands, and restaurants in my time. Please don't tell me to travel 45-60 minutes outside of Manhattan to go to sunset park or queens to find better tacos. thats ridi ...
+
+COMMENT: It’s not just Los tacos but I feel like I’ve had pretty good tacos and Mexican food in the city in general. Yeah it’s pricy and even the taco trucks are pricey but the average rent here is like 2-5x more than whatever state other folks came from. So yeah, a taco is going to be 2x more expensive. 
+
+Heck, maybe my taco tastes are mediocre but Rosie’s in the east village even had pretty good tacos to me. Their pork one is incredible!
+=== END PACKET ad2d950a ===
+
+=== PACKET d52e9ebb (comment packet) ===
+POST TITLE: Favorite fried Chicken restaurant?
+
+POST BODY: The other day I had a fried chicken sandwich. - mild-  from Popeyes. Very nice.
+
+PARENT COMMENT: They definitely still have 1-5 at the EV location, unless they changed it in the last week.
+
+COMMENT: Went earlier in feb and it's 1-3
+=== END PACKET d52e9ebb ===
+
+=== PACKET 58126fe0 (comment packet) ===
+POST TITLE: Where can I find the best banh mi and which banh mi is the one you typically order?
+
+POST BODY: I was quite a fan of banhmigos for a while but outside of that not really experienced with banh mi and in sure there are some much better ones. Some places im looking at include Thanh Da and Ba Xuyen. Wondering which one locals in the area generally prefer flavorwise. Then theres Cơm Tấm Ninh Kiều in the Bronx. Banh mi Saigon, Saigon Vietnamese Sandwich Deli, Saiguette are some in Manhattan. But w ...
+
+COMMENT: My go-to order is usually the #1 / classic / roast pork / dac biet "special."
+
+The absolute "best" will depend on personal preferences. I usually rotate between these places, depending on what I'm craving and if I'm nearby:
+
+-	Banh Mi Co Ut
+-	Banh Mi Saigon
+-	Saigon Vietnamese
+-	Saiguette
+-	Ba Xuyen
+-	JoJu
+-	Banh
+=== END PACKET 58126fe0 ===
+
+=== PACKET 8f31a7ba (comment packet) ===
+POST TITLE: Visiting Peter Pan donuts early. Like REALLY early.
+
+POST BODY: Hello!
+
+I'm visiting the city next Monday, and Peter Pan bakery is currently one of my top places I plan on visiting.
+
+I saw that they were open starting 4:30am on Mondays - and I am willing to get there by that time to beat the crowd. Heck, I'd get there earlier if you told me there would be a crowd even before that!
+
+My only concern is what donuts will be out by then. I read on previous posts th ...
+
+PARENT COMMENT: Just fyi Moe’s Doughs around the corner almost never has a line and its donuts are equal if not better than Peter Pan imo (same exact style and I think they share some dna in ownership). Their pistachio donut is unreal.
+
+Anyways you’re clearly set on Peter Pan-and you’re definitely not going to have any issues with lines at the times your proposing. But thought I’d give my unsolicited 2 cents as you clearly seem like someone who is passionate about their donuts. And now I’m sad because I don’t live close anymore :(
+
+COMMENT: I agree that Moe's are equal-if-not-superior but the vibe in there is pretty meh compared to Peter Pan, I'd recommend the latter to a visitor for that reason
+=== END PACKET 8f31a7ba ===
+
+=== PACKET 4b9d7ee3 (comment packet) ===
+POST TITLE: Low Food Budget Suggestions
+
+POST BODY: Well, my financial situation has gotten worse and now I have 250 less than thought I would.
+
+It's my mom and me, we'll be there five full days that we'll need three meals and two half days that we'll only need dinner. We'll be around Manhattan in the theater district most evenings.
+
+These are the places I'm planning on:
+Mei Lai Wah 
+Los Tacos No 1 
+Shake Shack (We don't have it in Kansas)
+Vito's S ...
+
+COMMENT: I don’t understand why so many people recommend buying a bunch of bagels and keeping them in your room. Find a good bagel place near your hotel and buy them fresh each morning, especially if they’re baked on premises. There is nothing as wonderful as a fresh bagel straight from the oven. Keeping a small tub of cream cheese might be a good idea.
+
+I often see posts by food “influencers” on instagram recommending “cheap eat” places in the Bronx or Queens. These are all well and good, but the problem becomes *time*, which you’re also limited by. It might be valuable for you to save $3-5 for a meal, but not if it requires an hour trip on the subway to get to and from there. So, your calculation will most often have to be: where can we eat cheaply *near here*, “here” being wherever your sight-seeing is going to take you.
+
+Having said that though, if you’re in a heavily tourist-y area, like Times Square, taking a 5-10 min walk away from the heart of the area might save you some money. Having tried to grab a last minute quick bite before a Bway play, I’ve noticed that those no-name food places in the area are severely over- priced.
+
+If you can find an actual supermarket, and don’t mind brown-bagging it, buying a loaf of bread, some cold cuts or pb&j and having that for lunch *might* save enough to squeeze in an inexpensive sit-down meal, including a tip. If you can manage to stay in a hotel with a kitchen in the room (and I have no idea whether such a thing even exists in NYC), that would give you more flexibility to make some inexpensive meals for any time, whether breakfast before you leave, or something inexpensive for dinner at the end of your day. Not suggesting you cook *all* your meals, but if you save enough on the meals you fix yourself, you may have a bigger budget for your meals out, so instead of those mediocre $1.50 pizza slices, you can get a decent slice from a better pizzeria.
+
+I know you mentioned no bones or dark meat chicken, but those rotisserie chickens you can pick up in just about any supermarket these days can also be a pretty affordable shared entree.
+=== END PACKET 4b9d7ee3 ===
+
+=== PACKET ef0921c9 (comment packet) ===
+POST TITLE: Minetta Tavern in Greenwich Village - July 2026 for Lunch Menu
+
+POST BODY: Booked a reservation for solo lunch. Seated immediately and the server brought over the customary solo diner complimentary champagne without prompt.
+
+I love the atmosphere and decor of this spot, especially the caricatures on the wall.
+
+Baguette came to the table hot & fresh. Great flavor to the bread but only ate a bit as I didn't want to be filled up on carbs ahead of the main reason why I came ...
+
+COMMENT: Thanks for the review, been on my list to go eat at.  How busy was this lunch rush?  Like would I be able to walk in as a solo diner?
+=== END PACKET ef0921c9 ===
+
+=== PACKET a1e4d1ec (comment packet) ===
+POST TITLE: What are the best/worst places on this list (food)
+
+POST BODY: I will be in nyc for a few days with my friends and we want to taste a large variety of foods from little shops and places.
+
+Additionally, anyone have any recommendations for nicer sit down restaurants for around the 65-80 dollar range (the nicer the better, but I know that’s not a super expressive number…)
+
+COMMENT: The AYCE spots (Let's Meat, Hometown BBQ, KPOT) being on this list doesn't make sense. Unless if you come from a place that has 0 hot pot or KBBQ spots, the AYCE spots won't be better than whatever you can get at home.
+
+Tiger Sugar used to be the "best" boba tea years ago but IMO there's a lot of places that are better than them now. If you want something nearby the Chinatown location, HeyTea is excellent. ChiCha Sen is also supposed to be very good (I've never been because there's always lines). Xin Fu Tang is not in Chinatown but they have the best boba.
+
+If you like pickled stuff, there's a Pickle Guys right next to the Doughnut Plant in LES.
+=== END PACKET a1e4d1ec ===
+
+=== PACKET 6663053d (comment packet) ===
+POST TITLE: Had lunch at Red Hook Tavern, had to try their Tavern Burger
+
+POST BODY: A nice Brooklyn spot with a great dry-aged burger.
+
+COMMENT: Red Hook Tavern's burgers slap, but those fries are criminally underrated.
+=== END PACKET 6663053d ===
+
+=== PACKET f49e5b46 (comment packet) ===
+POST TITLE: What is the best bagel shop that both delivers and freezes well?
+
+POST BODY: I like to buy bagels a dozen at a time, sliced, pop them in the freezer, and eat half each morning.
+
+I've been doing this with my go-to, Tompkins Square Bagels, but would like to perhaps expand outside of where I normally go in the city to diversify my taste!
+
+Any recommendations? I'm not sure if some shops make bagels that would freeze better than others. I love Pop Up Bagels, for example, but th ...
+
+COMMENT: The ones from Best bagel & coffee hold up well in the freezer!
+=== END PACKET f49e5b46 ===
+
+=== PACKET 0c560f09 (comment packet) ===
+POST TITLE: Is there a delivery service that actually consolidates quality Asian + Western groceries? (Queens)
+
+POST BODY: I've been through the gauntlet on this. H Mart Instacart, Whole Foods, Trader Joe's, Weee, Natoora, local halal butchers, Flushing runs, Chinatown runs. I cook Taiwanese, Japanese food regularly and eat pretty standard Western stuff otherwise.
+
+Here's where I've landed after way too much time on this: H Mart doesn't deliver fish and the online fish selection is thin. Natoora quality is great but n ...
+
+COMMENT: short answer is no? i would deliver stuff that’s hard to find and just plan to get whatever item you need that day, like every other new yorker. like if you need fish that day make it an errand to go to a fish market. like.. what?  lol
+=== END PACKET 0c560f09 ===
+
+=== PACKET 96ad72f0 (comment packet) ===
+POST TITLE: The Mansion Diner Review (Upper East Side)
+
+POST BODY: I run a site where I've catalogued a bunch of diners across Manhattan, and I'm currently going around and writing reviews for a bunch of them. 
+
+I did one for The Mansion, which is this kind of ritzy diner on the Upper East Side.  I know that there are conflicting views on it, but I found it relatively charming, and the food to be pretty good, even if it was a tad pricey. 
+
+If you live in the area ...
+
+COMMENT: love your writing and photos! In both your op and review, you mention the mansion is a little pricey, would it be a good idea to include the price of the dish in your review?
+
+i live in the nabe,  is it possible you’re soft selling prices at the mansion? let’s say one ordered your irish breakfast and added a cup of coffee, tip and tax, i’m guessing it’s > $30?
+
+am i better off ordering their 1/2 murrays roast chicken with stuffing for $32 or walking a couple blocks to cafe d’alsace where for $34 they offer Pan roasted free-range chicken, haricot vert, snap peas, carrots, Yukon Gold mashed potatoes, chicken jus?
+
+you can’t walk a block in the neighborhood without hitting an Italian restaurant, better off paying $26 at the mansion for pasta bolognese or $22.50 at arturos italian restaurant for their rigatoni bolognese? or how about paying $2 more at uva for their homemade pasta ribbons sautéed with ragout of veal and montasio cheese?
+
+personally, I think the mansion serves a purpose but imo, considering it’s average to better than average diner food, it lands somewhere between expensive for a diner and a ripoff, a good fit if you are an undemanding, wealthy UESer but not the sort of place I’d recommend to members of this subreddit.
+=== END PACKET 96ad72f0 ===
+
+=== PACKET b0ec8192 (comment packet) ===
+POST TITLE: Reservation Sales Thread - **READ BEFORE POSTING!!**
+
+POST BODY: This thread exists *solely* to create a space for people to avoid losing their deposits on pre-paid meals. Gouging is not tolerated on this subreddit. The below rules exist to ensure it stays that way. Read them before posting because violations can lead to an immediate permanent ban.  
+
+1. This thread is the only place on the subreddit for selling restaurant reservations. You may not ask to buy r ...
+
+COMMENT: I have a table for 6 at 4 Charles tonight at 9:30 pm. It's a Non Refundable since I missed the deadline to cancel and I'll give it for $300. Please let me know! If not, I'll attend myself but I just have other things I have to take care of and I'd prefer to skip out on this tonight. Thank you!
+=== END PACKET b0ec8192 ===
+
+=== PACKET 2835e039 (comment packet) ===
+POST TITLE: any typical American-style Breakfast recommendation?
+
+POST BODY: We're staying next to bryant park on 6th avenue. Because of jet lag we may wake up super early, also my husband is someone who take breakfast very seriously, so we wouldn't refuse a feast for the morning. Any kind of recommendation will be welcomed! Thank you!
+
+PARENT COMMENT: Walk over to S&P on 5th Ave & 22nd. It’s the Old Eisenberg’s and classic American
+
+COMMENT: Thank you!! Marked, looks so nice
+=== END PACKET 2835e039 ===
+
+=== PACKET 524f8646 (comment packet) ===
+POST TITLE: Where can I find a Japanese lunch/dinner like this (Kaiseki/Gozen)
+
+COMMENT: There’s a few spots that come to mind:
+
+Budget (<$20)
+- Those chinese run Japanese places (like KO sushi on UES)
+
+- ichibantei (the closest thing to home flavors imo)
+
+- hibino lunch specials 
+
+
+More expensive (>$20)
+- ootoya (classic!!)
+
+- sakagura
+
+- towa but I think they stopped their lunch service.
+
+- restaurant nippon 
+
+- azuma
+=== END PACKET 524f8646 ===
+
+=== PACKET 1639e74e (comment packet) ===
+POST TITLE: Best crispy, bouncy non-oily Korean seafood pancake in Manhattan?
+
+POST BODY: Tough to get this balance.  Does anyone have a reccomendation?
+
+Thank you!
+
+COMMENT: Update:
+
+Think I will try a few and report back.  First report:
+
+02 Hot Stone BBQ House
+
+Thick pancake.  Pretty good crisp.  Nice big pieces of shrimp and very generous with green onion but some gluggy bits here and there.  Served with sweeter sauce that I did not prefer.  Their side kimchi was not tangy in a way that balanced the pancake for me.
+
+Search continues
+=== END PACKET 1639e74e ===
+
+=== PACKET 8c7637c4 (comment packet) ===
+POST TITLE: How is Dominique Ansel's new bakery Papa d'Amour?
+
+POST BODY: He just wrote this piece full of recs of places to eat in NY [https://on.ft.com/4kFwnkP](https://on.ft.com/4kFwnkP)
+
+PARENT COMMENT: I agree. The k-town recs are great too.
+
+COMMENT: Gammeok had some ahem controversy a few years ago
+=== END PACKET 8c7637c4 ===
+
+=== PACKET 59bea059 (comment packet) ===
+POST TITLE: Cherry desserts/drinks?
+
+POST BODY: my friend is visiting and looking for cherry desserts/drinks but i'm stumped! i don't think cherry is a very popular flavor, the best i can think of is cherry pie at petee's. does anyone have recs? thanks!
+
+PARENT COMMENT: I don’t know if they still do it but I remember taverna kyclades giving us some yogurt with a delicious sour cherry topping at the end of our meal. Still think about it years later.
+
+COMMENT: This at Pi Bakerie.
+=== END PACKET 59bea059 ===
+
+=== PACKET 6f4e45d4 (comment packet) ===
+POST TITLE: Was on Resy at Midnight for an I Sodi res. No availability. What's going on?
+
+POST BODY: I was on Resy at 11:59 prepared to snag an I Sodi reservation 14 days out. The clock hits midnight and there are no reservations listed, only the notify button. 
+
+What's happening? Are bots instantly taking all the reservations?
+
+PARENT COMMENT: May just try walking in. I reached out via email and was just told to put on a notify
+
+COMMENT: Call them and talk to an actual person if you want a real answer
+=== END PACKET 6f4e45d4 ===

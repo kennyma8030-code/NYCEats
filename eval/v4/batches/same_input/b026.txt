@@ -1,0 +1,254 @@
+NYCEats extraction labeling -- batch b026 -- pass: same_input -- 20 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b026.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET ebc779d3 (comment packet) ===
+POST TITLE: Carbone Vs Din Tai Fung
+
+POST BODY: So i'm visiting Nyc on Friday and have managed to get reservations for both Carbone and Din Tai Fung for lunch.... so i got to pick one. As much as i would like to try both, the timings are not working in my favor. So please help, if you had to pick one which one would you? Ik they're completely different cuisines but still could use some help.
+
+COMMENT: Both are mid and overhyped.
+=== END PACKET ebc779d3 ===
+
+=== PACKET b63204ad (comment packet) ===
+POST TITLE: Best high-end rowdy restaurant in NYC
+
+POST BODY: I'm looking for the best combination of a buzzy, loud, boozy restaurant that still serves top quality food. This is for a celebration with a bunch of guy friends who are all very adventurous eaters. We'd like to avoid steakhouses; we've done that a lot in the past and would instead like do haute cuisine without feeling like we're in a monastery.
+
+PARENT COMMENT: Puglia’s
+
+COMMENT: lol. He said High end. I had one of the best times of my life at Puglia's once. I think it was the company I was with.
+=== END PACKET b63204ad ===
+
+=== PACKET 624fdd41 (comment packet) ===
+POST TITLE: heading off to new york and looking for restaurant recommendations!! were staying 6 min walk away from times square so nottoo far
+
+COMMENT: If you are here for more than 1 night, I would recommend venturing out of Midtown. Check out the West Village, Chelsea, Lower East Side as a few places that have amazing restaurants. The subway is fast and the least expensive but you could also taxi if you wanted to.
+=== END PACKET 624fdd41 ===
+
+=== PACKET 259ed7b9 (comment packet) ===
+POST TITLE: Restaurant Recommendations for a couple from California
+
+POST BODY: Hello! My husband I will be visiting NYC in July. I am vegan and he is an omnivore, I do not drink alcohol, but he does, no other dietary restrictions. We are coming all the way from California and want to make the most of our trip. What is the:  
+\-Best, most authentic slice of NYC pizza? (I can go elsewhere for my husband's sake)  
+\-Best, most authentic bagel place (I heard a rumor about an all ...
+
+COMMENT: Sbarrros does great NY pizza
+
+Generally bagels are vegan 
+
+Dirty candy 
+
+No 
+
+Italian food 
+
+Dirty candy
+=== END PACKET 259ed7b9 ===
+
+=== PACKET 5c572cb2 (comment packet) ===
+POST TITLE: Looking for a steakhouse for a Saturday night in November, for the birthday of a carnivorous 15 year old girl who likes a good ribeye or porterhouse but otherwise has no f*cks to give about fancy.
+
+POST BODY: I'm taking my 15 year old daughter to NYC in November for her birthday.  The plan is to see a Hamilton matinee and eat good steak.  We're coming up from DC; I lived in NYC 25 years ago but have fallen completely out of touch with the steakhouse scene.   
+
+  
+I know "what steaks are good" posts are common, but I'm trying to find good steak with a very specific vibe:
+
+My daughter isn't going to care ...
+
+PARENT COMMENT: As a few people have mentioned, Keens is right up your alley. Saw someone say kbbq and I think that could be fun. Yoon haeundae Galbi is absolutely incredible. I cannot recommend it enough.
+
+COMMENT: We did Nubiani for kbbq on our last trip to NYC (the night before our Peter Luger lunch) and she loved that.  Kbbq is awesome but we've got some incredible options in Northern VA, so I was thinking a different NY steakhouse would be more memorable.
+=== END PACKET 5c572cb2 ===
+
+=== PACKET 89618613 (comment packet) ===
+POST TITLE: At Ceres Pizza — when the fuck did this become okay???
+
+COMMENT: I report to 311. Harass the establishment enough so they have to enforce the rules or they shut down instead of you having to police disgusting people who let their filthy dogs in restaurants.
+=== END PACKET 89618613 ===
+
+=== PACKET bf955de5 (comment packet) ===
+POST TITLE: Is Little Italy just all tourist traps?
+
+POST BODY: Happened to walk down Mulberry for the first time in years and every restaurant had a carnival barker outside trying to get me and my girlfriend to eat dinner there. It felt similar to walking down a Mexican street in a tourist area. Has it always been like this? Is there literally anything there worthwhile to see/do/eat there?
+
+COMMENT: Yes. You really don't get out much, do you?
+=== END PACKET bf955de5 ===
+
+=== PACKET 9b103c1b (comment packet) ===
+POST TITLE: 24 hrs in NYC. What’s your favorite spot in this area?
+
+POST BODY: The pin is my hotel. I’m planning to take my wife to Times Square and Central Park. I’m looking for classic bagel or bacon egg and cheese breakfast, street food for lunch (halal, hot dogs, Chinese), and somewhere to sit for dinner (Italian, steakhouse, seafood). 
+
+I don’t trust google to find a good spot. I trust myself slightly more, but would prefer some firsthand accounts. Any killer stops I sh ...
+
+PARENT COMMENT: Tim Ho Wan is closing (might be closed already.)
+
+COMMENT: Gah! Did not know this, pretty upsetting. It was the best Chinese place in Hell's Kitchen.
+=== END PACKET 9b103c1b ===
+
+=== PACKET b6d8e9e9 (comment packet) ===
+POST TITLE: Where will Los Tacos No1 open next? They’re at 10 locations right now in Manhattan, target is 15
+
+POST BODY: Curious where you guys think they open next? They said target 15 locations in Manhattan. They mentioned they’ve looked at Columbus Circle and Rockefeller Center. Looks like they’re hyper focused on Manhattan only. Before expanding out into new cities as per their recent private equity deal.
+
+Where else do you guys think they will open next? Any word thru grapevine?
+
+COMMENT: They will avoid low density low traffic areas.   
+Their success is based on foot traffic on the 2 key day parts lunch and dinner.   
+Remember rent is expensive so you have to sell a lot of $6 tacos to be profitable.
+=== END PACKET b6d8e9e9 ===
+
+=== PACKET d84dfa6f (comment packet) ===
+POST TITLE: 冰饭 “Ice Rice”
+
+POST BODY: Where’s the best place to find “ice rice”? It’s a dessert from ChangLe, Fuzhou and my husband and I were obsessed when we lived over there. We’re visiting next month and I’m trying to find a place nearby that has a good version. Preferably Manhattan around Chinatown but willing to go to Flushing/Queens if there aren’t any good options closer!
+
+COMMENT: Did some googling for ice rice+fuzhou+changle and this place has "ice rice" thats looks similar.
+
+[Yelp page 2 - Nuan Xin Rice Roll](https://www.yelp.com/search?find_desc=Ice+Rice&find_loc=Brooklyn%2C+NY&start=10). Nuan Xin Rice Roll also has a location in Manhattan, Chinatown. There are also more results from reviews mentioning ice rice on page 1 from some Chinese skewer places.
+
+There's a big Fuzhounese population in Manhattan, Chinatown and 8th Ave Brooklyn so you might have more luck there.
+=== END PACKET d84dfa6f ===
+
+=== PACKET a31e5fcf (comment packet) ===
+POST TITLE: Help us plan our first trip to NYC
+
+POST BODY: My husband and I are visiting America for the first time in October. We are both huge foodies, and want to make sure we go to all the right places. 
+
+We are going to be there for 10 nights, I will include all of the places we have on our list so far. Would love to hear your thoughts about, what to skip out on and places we have missed and must include. The list has some rooftop bars included as we ...
+
+COMMENT: Los Tacos #1 is _ok_ but really not worth going to unless you are in the area. I'd go to Ramirez instead.
+
+Forma is great but sort of like cafeteria style - cool if you are in the area but maybe not worth traveling to otherwise. Check out Amazzacaffe or Naked Dog (also in that area)  instead.  Right around the corner from Forma is Frankel's which, imo, is the best bagel in the city.
+
+No pizza is worth waiting in line for.
+
+Skip Peter Luger and Misi.
+=== END PACKET a31e5fcf ===
+
+=== PACKET f20b16a7 (comment packet) ===
+POST TITLE: The Ice Cup is the Quintessential NYC Food
+
+POST BODY: All hail the Ice Cup. 
+
+You can buy it at literally any bodega and many grocery stores. You can fill it with coffee, booze, tea, soda, juice or water. 
+
+It is cheap (always and forever $1). 
+
+It is beautiful (the sweat on the clear plastic, the clean lines, the proportions.)
+
+It sounds great (the snap of the lid, the scrrrrr of the straw, the toggle of the ice.)
+
+It’s sustainable (even in the hot ...
+
+COMMENT: Never seen or heard of this. I guess I don't get out enough.
+=== END PACKET f20b16a7 ===
+
+=== PACKET 839d6fa7 (comment packet) ===
+POST TITLE: Great Lesser Known Restaurants that are more Budget Friendly?
+
+POST BODY: I came across [this post](https://www.reddit.com/r/FoodNYC/comments/wrtruj/my_top_restaurant_picks_after_a_year_on_a_tight/) but it's nearly 2 years old. I am heading back to Manhattan this week and eager to try some new-to-me good restaurants that aren't insanely expensive.  Anyone have recommendations they're loving these days?
+
+COMMENT: Haven't been in a few years but Edwards in Tribeca usually was a good price and has been a family favorite for over 20 years
+=== END PACKET 839d6fa7 ===
+
+=== PACKET 203a6dff (comment packet) ===
+POST TITLE: Anyone here have a favorite late night diner they enjoy?
+
+POST BODY: I ask as I have been itching to go on a late night cruise in the city for some greasy food with a melted apple pie, and I wanted to feel like I was in the 80s again as When Harry Met Sally has been an awesome movie that I  suddenly wanted to go on a little adventure.
+
+COMMENT: Going to be Kellogg's when it opens
+=== END PACKET 203a6dff ===
+
+=== PACKET dfe8c31a (comment packet) ===
+POST TITLE: What’s an NYC food opinion that will have you like this?
+
+POST BODY: Mine is Nowon’s burger is the most mid thing ever
+
+PARENT COMMENT: Red Hook Tavern burger is overpriced and overhyped
+
+COMMENT: I eat burgers everyday and that is the best burger I have ever eaten it is perfect
+=== END PACKET dfe8c31a ===
+
+=== PACKET 7bec3064 (comment packet) ===
+POST TITLE: Recommend a $50-$100, $100+ with warm, conversational hospitality/service for solo diner?
+
+POST BODY: I’m going through a break up and I want to be taken care of- I also want to eat red meat until I die of a heart attack, optional. Ready to spend. Good view from a height, or dimly lit ground floor vibe.
+
+PARENT COMMENT: Tons of great suggestions all over these comments. Re: Claud just wanted to add that I have eaten here multiple times, and the one time I came alone and sat at the counter in the back was far and away the best experience.
+
+COMMENT: Oooh you got to sit at the kitchen counter? That’s awesome — did you walk in and they put you there or did you reserve that spot ahead of time
+=== END PACKET 7bec3064 ===
+
+=== PACKET 8de20c08 (comment packet) ===
+POST TITLE: Your worst meal of 2024 ?
+
+POST BODY: Flex mussels for me
+
+PARENT COMMENT: Bar Vinazo in Park Slope which has since permanently closed. I know we're all used to paying ridiculous prices for ridiculous portions in New York but this just took the cake. Regular old tinned fish (still in the tin!) that would maybe cost you 10 bucks at an import shop, marked up to around 30 bucks. Poorly sliced jamon iberico with a sneaky markup price on the meats & cheese board that I didn't even notice when I ordered it. 
+
+Everything was just tiny and sad. Left  hungry And with about $300 spent on four people.  Unfortunately I think that was my last meal out with friends before moving away.
+
+COMMENT: If it makes you feel any better, they kicked the bucket last month.
+=== END PACKET 8de20c08 ===
+
+=== PACKET b4b99e0e (comment packet) ===
+POST TITLE: Which diners can I visit while on vacation in NYC to get the authentic American diner experience?
+
+POST BODY: I've seen a lot of movies and TV series with scenes set in diners, where someone drinks cheap brewed coffee and eats eggs with bacon. Is that still a thing in NYC or nearby? If so, which places should I visit to get that kind of experience?
+
+COMMENT: In Manhattan (that I've personally been to):
+
+The Square Diner
+
+Hector's
+
+Joe Jr. 
+
+Tramway
+
+Tom's
+
+Waverly
+
+Cozy Soup and Burger
+
+The Flame
+
+I would recommend The Square.
+=== END PACKET b4b99e0e ===
+
+=== PACKET 7f4ebd19 (comment packet) ===
+POST TITLE: I guess the Frozen Yogurt lines are no more. Nobody in line 12pm.
+
+PARENT COMMENT: I really can't believe that this is a "back in my day" kind of line, but here we are... That was over 20 years ago. We had lines, but at this volume for waht amounts to a popup? Would have been laughable.
+
+COMMENT: Ten years ago, you had people willing to wait for cronuts, Artichoke, black tap, rainbow bagels. Before that, Magnolia cupcakes, and then I was too young to be conscious of those fads. But I did watch a video recently about how rabid the fans were for Rent and how they would camp out overnight for tickets - and that was the mid 90s.
+=== END PACKET 7f4ebd19 ===
+
+=== PACKET c4afbaa3 (comment packet) ===
+POST TITLE: [deleted by user]
+
+POST BODY: [removed]
+
+PARENT COMMENT: I tend to order from these spots:
+
+* [Mala Project](https://www.malaproject.nyc/) (if you're into spicy food).
+* [Teppen ramen](https://www.teppenramen.com/) (solid ramen spot, not as polished as Ippudo but flavorful).
+* [Ippudo](https://ippudo-us.com/) (consistently good ramen spot).
+* [Dun Huang](https://www.dunhuangfood.com/) (decent Chinese food, their chicken is pretty good).
+* [The Tang](https://www.thetangnyc.com/) (good spot for dumplings, noodles are decent).
+* [Lena's Italian Kitchen](https://lenasitaliankitchen.com/) (a great spot for cheap appetizers from 3-6).
+* [Bengal Tiger](https://www.bengaltigerindianfood.com/) (great spot for Indian food, prices are fair).
+
+COMMENT: Haven't tried a lot of these yet. Thanks!
+=== END PACKET c4afbaa3 ===

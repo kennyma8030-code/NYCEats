@@ -1,0 +1,386 @@
+NYCEats extraction labeling -- batch b023 -- pass: full_context -- 20 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b023.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 4e5e2d60 (comment packet) ===
+POST TITLE: Looking for “suburban” Tex Mex places
+POST BODY: Not sure if “suburban” is the best term but I’m sure most people are familiar with these places. The kind of places that give free chips and watery salsa, a bunch of combos on the menu with a taco, enchilada, and chalupa or something like that with rice & refried beans on the side, and margs that come in big fishbowl type glasses.
+
+No intention of getting into the NYC Mexican food discourse, I’ve had plenty of delicious Mexican here. Just looking for this type of restaurant that I went to a bunch growing up in the suburbs in Tennessee but doesn’t seem all that common here. I realize this type of place won’t have the most delicious food or anything, just looking for the vibe. I appreciate any suggestions, thank you!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/WinnieCerise: El Rio Grande in the East 30s is what you want.
+
+>>> COMMENT TO LABEL (u/bruiserbrody45):
+Yes - free watery salsa. Huge strong flavored frozen marg in every flavor. The nachos are legit awesome other things are hit or miss.
+
+REPLIES TO IT: none
+=== END PACKET 4e5e2d60 ===
+
+=== PACKET 7286d83a (comment packet) ===
+POST TITLE: If you work at a restaurant that releases reservations on a particular date and time - TELL US WHEN THAT IS
+POST BODY: [removed]
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/curiouslyseekingmore: I feel your pain
+  u/haribobosses: OP’s not trying to go to restaurants. They’re trying to book it for the richer people than us who make going to the restaurant impossible to begin with.
+    u/Lyin-Don: I dine out too. Like 3-4 days a week.
+
+It isn't just me this screws. It's all of us. 
+
+It is amazing to me that people are arguing in favor of restaurants not providing the most obvious and simple information imaginable
+
+They list what time they open - why can't they do the same for reservations?
+      u/haribobosses: Not arguing in favor of restaurants. Just don’t have any sympathy for people who’s job it is to give those reservations to richer people.
+        u/TheCremeArrow: Damn he had us in the first half, ngl.
+
+I am annoyed by bots snatching up all the reservations. I think I’m actually MORE annoyed by the concept of someone doing the same manual thing as I am just to resell the reservation. 
+
+Just play by the same rules ya lazy fks. OP - not actively judging you so much as your clientele. Get your dollar I guess. Though you should have a badge for this sub that says bot.
+
+>>> COMMENT TO LABEL (u/Lyin-Don):
+How am I a bot???
+
+I’ve actually been offered bot services by another concierge and turned it down. Emphatically. I hate that shit. 
+
+I try at 9/10/12pm/whatever and if I don’t get them then I don’t get them. Same as anyone else. 
+
+I don’t resell anything?? Nor do we ever double book for anyone. Resy, Open Table and Tock have concierge platforms. They are not trying to hinder us from making reservations for others. They encourage it. 
+
+Surely you guys have stayed at hotels with concierge services. This is part of the job. If you’re going on vacation to another city and aren’t asking the concierge at your hotel to assist you arrange/organize your stay then you’re doing it wrong.
+
+REPLIES TO IT: none
+=== END PACKET 7286d83a ===
+
+=== PACKET 16920286 (comment packet) ===
+POST TITLE: What are a few of your fav restaurants/eateries that have permanently closed?
+POST BODY: A few of mine are: Gotham Bar&Grill, Arizona 206 and Mustang Grill
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Worried_Monk_3844: Po
+  u/yzzyszzn: Would pay an ungodly amount to taste their white bean bruschetta again 💔
+    u/Worried_Monk_3844: I cam send you the recipe if you like
+
+>>> COMMENT TO LABEL (u/damage-controlled):
+Post this right here please - the whole world should know this joy
+
+REPLIES TO IT: none
+=== END PACKET 16920286 ===
+
+=== PACKET 7000266d (comment packet) ===
+POST TITLE: Lean Piroshki with Pancakes in Breadcrumbs and Mustard
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Mr_ND_Cooking):
+Procedure for making pancakes
+
+ Take a plate, put flour, salt and sugar, mix well. Then take another bowl, put sparkling water in it and start adding the flour spoon by spoon and mix until you use up the flour. And start to baking the pancakes
+
+Procedure for making the filling for filling the pancakes
+
+ Take a pan and put olive oil, turn on the stove to medium temperature, then put fresh mushrooms and start stewing for 10-15 minutes, put vegetables and black pepper in the pan. After we finish stewing, we put the fresh champignons in a bowl and then grate low-fat cheese into the bowl with the champignons. We mix these two ingredients to combine well, then add ketchup and continue mixing again
+
+Procedure for making the mixture for gluing the piroshki
+
+ Take a plate, put a glass of water and put a spoonful of mustard and stir to combine the mustard and water
+
+After we have done these things, we start by filling the pancakes, we put 2-3 tablespoons of the filling in each pancake, then we roll them and seal them with the mustard and water mixture. So we repeat the procedure until we run out of pancakes. After we finish the pancakes, we take breadcrumbs and dip the pancakes in the mixture of water and mustard. First we put the pancake in the mustard and water mixture and then in the breadcrumbs and repeat the procedure. Then they are fried for 2-3 minutes on one side and 2-3 minutes on the other side. And the piroshki are ready, you can start tasting
+
+Ingredients
+
+Pancakes
+
+1. Flour 500 gr.
+
+2. Sparkling water
+
+3. Salt 1 tsp
+
+4.Sugar 1 tsp
+
+Fill for pancakes
+
+1. Fresh mushrooms 1 kg
+
+2.Lean cheese 400 gr.
+
+3.Ketchup 100 ml.
+
+Fried pancakes in breadcrumbs and mustard
+
+1. 1 glass of water
+2. Mustard 1 tbsp
+
+For more 👉 https://youtu.be/pxeEyLJhkUU
+
+REPLIES TO IT: none
+=== END PACKET 7000266d ===
+
+=== PACKET ceea0f65 (comment packet) ===
+POST TITLE: Anyone know where to get steak and fries?
+POST BODY: To clarify I don’t mean Steak Frites. Its good however I want steak over fries. For example, Colonial grill.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/AttemptRough3891):
+I’ve never had it from this place - how is it different from steak frites?  Looks pretty much the same save for some sauce on top.
+
+REPLIES TO IT (context only):
+  u/Sufficient_Damage534: Steak Frites is french cuisine. While I enjoy it, this one is Colombian so the seasonings and sauces are different.
+=== END PACKET ceea0f65 ===
+
+=== PACKET e44665e4 (comment packet) ===
+POST TITLE: What is the best bagel shop that both delivers and freezes well?
+POST BODY: I like to buy bagels a dozen at a time, sliced, pop them in the freezer, and eat half each morning.
+
+I've been doing this with my go-to, Tompkins Square Bagels, but would like to perhaps expand outside of where I normally go in the city to diversify my taste!
+
+Any recommendations? I'm not sure if some shops make bagels that would freeze better than others. I love Pop Up Bagels, for example, but they're meant to be eaten fresh.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/concernedcanary):
+The ones from Best bagel & coffee hold up well in the freezer!
+
+REPLIES TO IT (context only):
+  u/iggy555: 💯
+=== END PACKET e44665e4 ===
+
+=== PACKET 8708ea19 (comment packet) ===
+POST TITLE: Cherry desserts/drinks?
+POST BODY: my friend is visiting and looking for cherry desserts/drinks but i'm stumped! i don't think cherry is a very popular flavor, the best i can think of is cherry pie at petee's. does anyone have recs? thanks!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Calm_Machine7634: I don’t know if they still do it but I remember taverna kyclades giving us some yogurt with a delicious sour cherry topping at the end of our meal. Still think about it years later.
+
+>>> COMMENT TO LABEL (u/AmyMapleTommy):
+This at Pi Bakerie.
+
+REPLIES TO IT: none
+=== END PACKET 8708ea19 ===
+
+=== PACKET b5873583 (comment packet) ===
+POST TITLE: best cheap dive bar in manhattan?
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/andrewegan1986: Does Off The Wagon count as a dive bar? I've gotten to know the staff over the years and it's my favorite bar in the city.
+
+For an easy answer, Strangelove on 53rd between 2nd and 3rd. They also have an LES outpost that's probably better known, Clockwork. Bud Light and a shit is $6. Vibe depends on whose working that night but it's a great dive bar.
+  u/HighOnPoker: Decent price for a Bud Light but most places let you shit for free.
+
+>>> COMMENT TO LABEL (u/andrewegan1986):
+Haha, I'm not changing it!
+
+REPLIES TO IT: none
+=== END PACKET b5873583 ===
+
+=== PACKET a70c885d (comment packet) ===
+POST TITLE: Best sandwich/food anything to take to JFK?
+POST BODY: basically, i'm flying out of jfk soon and i don't want to pay 20$ for a soggy sandwich like i normally do and so i was wondering does anyone have a fave food or snack they like to take with them to the airport? ideally around lower manhattan and open on a monday
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Aggravating-Math-389: Is a thick and lumpy soup considered a liquid by TSA?
+
+>>> COMMENT TO LABEL (u/Smitty06):
+Yes, the closest thing you can get away with is cookie dough ime
+
+REPLIES TO IT: none
+=== END PACKET a70c885d ===
+
+=== PACKET f07c53d6 (comment packet) ===
+POST TITLE: What’s an NYC food opinion that will have you like this?
+POST BODY: Mine is Nowon’s burger is the most mid thing ever
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Cobblestone-boner: Red Hook Tavern burger is overpriced and overhyped
+
+>>> COMMENT TO LABEL (u/kidfromhomealone):
+I eat burgers everyday and that is the best burger I have ever eaten it is perfect
+
+REPLIES TO IT: none
+=== END PACKET f07c53d6 ===
+
+=== PACKET 4e57c7f7 (comment packet) ===
+POST TITLE: Red Sauce Italian
+POST BODY: (I know, I know)
+
+I’m coming to NYC next week with my kids. My 9yo son wants to eat at a red sauce Italian place… He has a vision of experiencing an old school place where someone might tell him to leave the gun and take the cannoli. 
+
+Can anyone recommend a nice, sit down Italian place that is maybe more classic and less foodie but still really delicious? The kids are 9, 12, and 15. They are adventurous eaters, but my youngest really wants the classic red sauce menu for this meal. Budget would be in the $40-$70/person range. But we’re flexible on that, too!
+
+We’re staying in Midtown on the east side of the park, and would like to be an easy subway ride to wherever we’re gonna eat. Open to leaving Manhattan as long as I don’t have to switch trains a million times. 
+
+Alternatively, Anyone’s Nonna wanna have us over for Sunday dinner? 🤣
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/DetectiveOk3902: [www.gargiulos.com](https://www.bing.com/ck/a?!&&p=44323d431bd4f9ecfe857e732f5a5ea8f5be03be5784345849d8977f8e2fb628JmltdHM9MTc2Njg4MDAwMA&ptn=3&ver=2&hsh=4&fclid=13847b4b-2249-6aa7-3b73-6e18233b6b73&u=a1aHR0cHM6Ly93d3cuYmluZy5jb20vYWxpbmsvbGluaz91cmw9aHR0cCUzYSUyZiUyZnd3dy5nYXJnaXVsb3MuY29tJTJmJnNvdXJjZT1zZXJwLWxvY2FsJmg9QVllUTMwbk9VZWNCbDRwMU8lMmZTdVNDQVh3TUFodTVZY2xJVSUyZnpyUER1cWclM2QmcD1sd19tYWdzbWx0JmlnPTc3OEUzRUY4Nzk1QzQ1RjY4QzIyNzczRDZFRDZDRjcwJnlwaWQ9WU43RDg4Q0MzRjdCMjY3QTg3&ntb=1)  in brooklyn.  Not sure the food is the best but its 116 years.
+  u/SoSpiffandSoKlean: Suggesting a big family hike all the way out to Coney Island in the dead of winter for Italian food when there are a million other places closer makes no sense. It will take forever to get there from midtown, and not much else to do in December.
+
+>>> COMMENT TO LABEL (u/DetectiveOk3902):
+Ok, but they wanted old school.  So it is that.  I go to Coney Island in the winter.  I also try the Russian places.  I make a day out of it.  Walking the boardwalk in dead of winter is fun to me.
+
+REPLIES TO IT: none
+=== END PACKET 4e57c7f7 ===
+
+=== PACKET 0ff0a4bd (comment packet) ===
+POST TITLE: Getting reservation at Bungalow, NYC by chef Vikas Khanna
+POST BODY: Im trying to get a reservation at bunglow for months now. And it always shows unavailable on Resy 
+I have checked Resy on the time mentioned on the bungalow website and at random times but I’m never able to get one 
+Did anyone else get the reservation over here then please give me some tips
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Wild-Cut2830):
+Have you tried via any of the apps like ResX, Cita, RezyTrader, Wuwwuw, AppointmentTrader, etc.? Check them out.
+
+REPLIES TO IT (context only):
+  u/RightCheesecake6: Thanks for recommending so many websites.
+I just knew about resy and open table
+  u/No_Comb_1021: Is appointmentTrader legitimate?
+  u/RaspberryDiligent644: None of these worked for me as I was looking.
+=== END PACKET 0ff0a4bd ===
+
+=== PACKET 3f055b63 (comment packet) ===
+POST TITLE: Had a really nice lunch at Casa D’Angelo with my family today
+POST BODY: [https://cangelomulberry.com/](https://cangelomulberry.com/)
+
+u/casadangelonyc
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/AutoModerator):
+Welcome to r/FoodNYC!  As a new participant your post has been filtered for further review due to the influx of low effort, unresearched posts here.  Please be patient and your post will be approved (or not) shortly!
+
+*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/FoodNYC) if you have any questions or concerns.*
+
+REPLIES TO IT: none
+=== END PACKET 3f055b63 ===
+
+=== PACKET 5a7845d2 (comment packet) ===
+POST TITLE: Croissant or bagel recommendations not in lower manhattan?
+POST BODY: Staying in midtown west and looking for a tasty bakery for croissants and bagels (can be different places) before going to the Met at 10am. Ideally midtown/hell’s kitchen/UES/UWS. 
+
+Anywhere in the vicinity would be fine since everything I’m finding seems to be in lower manhattan. Would be willing to venture out of the way if the croissants were worth it though (and didn’t have a wait longer than 20 min on Friday before 10am).
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/huynhthuyvy):
+I am living in UWS but go to Bagel Shop in UES, just go you won’t regret it. Local people get mad when it is being recommended because they don’t want it to get crowded.
+
+REPLIES TO IT (context only):
+  u/cdau186: Thank you! I trust a fellow Viet (I’m assuming based on your username). I promise- I am not on TikTok and never take pictures of my food, let alone post them. I will keep your neighborhood spots to myself.
+=== END PACKET 5a7845d2 ===
+
+=== PACKET 397d887f (comment packet) ===
+POST TITLE: Need help deciding where to eat omakase
+POST BODY: So I’m looking at some omakases that are below $200. My current list that I’m trying to choose between is Sushi katsuei, sushi yatsuda, sushi nakazawa, takumi omakase, genki omakase, sushi by M, shin East, and sushi lab. Currently leaning towards sushi by M or genki omakase just because it’s the most sushi per dollar spent but I don’t mind spending more if the quality is better but at the same time will spending an extra $50 really have that great of an increase in quality. Would appreciate anyone’s thoughts on the restaurants or open to recommendations too. Thanks!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/chiquitabrujita):
+Sushi on me is so fun! The Thai Japanese fusion is exciting and always delicious. The atmosphere and chefs are so cool.
+
+For something on the more classical omakase side of things I really enjoy kissaki
+
+REPLIES TO IT: none
+=== END PACKET 397d887f ===
+
+=== PACKET 98a3fe82 (comment packet) ===
+POST TITLE: Adel’s Halal is NOT worth it
+POST BODY: After hearing all the hype around Adel’s Halal food on 6th and 49th st, I decided to try it over the weekend. Even at 2AM, the wait was nearly an hour and a half. The line was ridiculously long and slow moving. Going through security at JFK during rush hour is a much more pleasant experience than waiting on this line. The food itself is just average at best, with any other halal cart being just as good. Adel’s is definitely a tourist trap and not worth trying. I would avoid at all costs.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/AvatarofBro: It's something to do while you're drunk with your buddies, after leaving the bar. If you're raw-dogging the Adel's line sober, you're probably not going to have a great time.
+
+>>> COMMENT TO LABEL (u/LongIsland1995):
+Post bar is the worst time to wait an hour for food
+
+REPLIES TO IT (context only):
+  u/AvatarofBro: I disagree
+=== END PACKET 98a3fe82 ===
+
+=== PACKET 39018c24 (comment packet) ===
+POST TITLE: Pop up bagels
+POST BODY: Trying to get a quick bagel before work. I forgot I’m forced to get 3 and a whole fuckin tub of cream cheese
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Ill_Assignment4369):
+Straight up. 80% normal bagel size too. They're not bad. But Tal is a million times better
+
+REPLIES TO IT (context only):
+  u/Coldhat: Agree +1 tal
+=== END PACKET 39018c24 ===
+
+=== PACKET 3565120b (comment packet) ===
+POST TITLE: Restaurant that serves fois gras, fried prawns, and piña coladas?
+POST BODY: Struggling to find one restaurant that serves all of these things. I would love to have james gandolfini’s last meal: four shots of rum, two piña coladas, two beers, two orders of fried prawns, and foie gras.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Spumorty: Sunken harbor club maybe?
+
+>>> COMMENT TO LABEL (u/TopCapTheApp):
+Gage and Tollner is a great call
+
+REPLIES TO IT: none
+=== END PACKET 3565120b ===
+
+=== PACKET d54c648b (comment packet) ===
+POST TITLE: Restaurant Recommendations for a couple from California
+POST BODY: Hello! My husband I will be visiting NYC in July. I am vegan and he is an omnivore, I do not drink alcohol, but he does, no other dietary restrictions. We are coming all the way from California and want to make the most of our trip. What is the:  
+\-Best, most authentic slice of NYC pizza? (I can go elsewhere for my husband's sake)  
+\-Best, most authentic bagel place (I heard a rumor about an all vegan bagel place??) 
+
+\-Any all vegan places that are super tasty? -Any vegan hot dog vendors?
+
+\-Any cuisine that we may not have access to that we must try?
+
+\-Best fancy meal for dinner (We are however a teacher and engineer so maybe not like $10K/plate LOL) 
+
+We will be getting our place to stay in Dumbo, BKLYN but mostly doing things around Manhattan.
+
+Thank you SO much in advance.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Flight_Tall):
+Sbarrros does great NY pizza
+
+Generally bagels are vegan 
+
+Dirty candy 
+
+No 
+
+Italian food 
+
+Dirty candy
+
+REPLIES TO IT (context only):
+  u/AbbreviationsEven503: Thanks...I'm pretty sure I can get Sbarros in my local mall so I think I'll pass
+=== END PACKET d54c648b ===
+
+=== PACKET 7ddcd15c (comment packet) ===
+POST TITLE: I kept hearing about “Pies n Thighs” finally to be disappointed
+POST BODY: I thought this restaurant would be much better so many ppl review this high saying how good it is and nope. Don’t order the sweet tea if you don’t love lemon because that’s all you taste. The fries were good but most likely frozen fries I give the meal 6/10. Any thoughts on this restaurant [Pies n Thighs](https://piesnthighs.com/piesnthighsparkslope)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/FajitaTits: You went to Pies n Thighs and didn’t get either of the things in its namesake?
+
+>>> COMMENT TO LABEL (u/johndoenumber2):
+My rule of thumb is when trying some new or hole-in-the-wall place, I always get what's in the name or depicted on the sign on a first visit.
+
+REPLIES TO IT: none
+=== END PACKET 7ddcd15c ===

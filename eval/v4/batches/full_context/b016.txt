@@ -1,0 +1,34 @@
+NYCEats extraction labeling -- batch b016 -- pass: full_context -- 1 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b016.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET af5416e8 (thread packet) ===
+POST TITLE: Would it be a faux pas to go to Wildair and just order dessert?
+POST BODY: Wildair’s desserts are great. Would it be okay to go there to just order dessert or would that be inconsiderate? Ik they are a small restaurant
+
+THREAD, in reply order. Label ONLY the comments with a bracket number [n]. Lines marked (context) are there to read, not to label.
+[1] u/Sea-Committee3922: Call them and ask
+[2] u/vagrantwastrel: Since they keep most of the restaurant for walk ins, you getting a glass of wine and their ridiculous hazelnut tart shouldn’t be a problem if you don’t linger forever. Also let the host know that you’ll be quick so they can give an accurate time for other people who might want your table
+  [3] u/WinnieCerise: Not at prime time dining hours. The place and server miss out on a two-top spending a few hundred on a complete meal vs OP spending only $20 on one dessert. That’s not cool. 
+
+Sit at the bar.
+    [4] u/hifrom2: But would it be okay if i went at like 5 or 9 and sat at the bar and got a dessert?
+      [5] u/WinnieCerise: I would think it would be perfectly fine.
+[6] u/slithersky: They do not care at all. It’s a wine bar with amazing food. I’ve walked in on a Saturday night and just gotten wine. Maybe I could see the argument if you make a prime time reservation, but if you are walking in they won’t care and I’m not sure they would even with a reservation.
+[7] u/10throwaway123456789: I just wanted the Bird's Nest from Aquavit. I emailed them, they said absolutely. I went early, sat in the bar area. And just had that. It was really good.
+[8] u/sayilovecrepes: I say, as long as you do it as a walk in (or an off peak res) and tip well, you’re 110% good to go. Wildair rocks. Their desserts are fantastic hahah
+[9] u/Consistent_Milk545: Sometimes the dessert costs more than an entree, so go ahead just order a beverage to go along with it and not sit for 2 hours
+[10] u/nl2012: Have you had the desserts at contra their sister restaurant? I like the ones at wildair but the ones at Contra are a next level
+  [11] u/hifrom2: Contra just turned prix fixe so I don’t think it would be possible just to get a dessert now :-(
+[12] u/FPLholic: Had a similar question for Crown Shy so asked the last time I was there - they said walk-ins can get bar seating and order just dessert no problem, so I’d imagine the same applies to Wildair/Contra
+[13] u/BigBoyGoldenTicket: I can’t imagine they’d care.
+=== END PACKET af5416e8 ===

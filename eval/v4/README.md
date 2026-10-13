@@ -1,0 +1,460 @@
+# Extraction eval v4
+
+v4 compares any candidate model against production's stored extraction and,
+above all, against Claude's own extraction. Claude labels every item with the
+same prompt the candidates get, in two passes:
+
+- **same_input** sees exactly what the model sees.
+- **full_context** sees the whole conversation and serves as the gold pass.
+
+Unlike v1, no label is ever checked against production output. The labels
+are blind to production, and production's output sits in its own directory
+that the labeling batches never reference.
+
+Round 1 has **504 comments**. 250 are single comments in comment mode (200
+new, plus 50 overlapping v1 gold). The other 254 sit in 14 thread chunks in
+thread mode. About 30% of the new comments were drawn at random from real
+traffic and 70% by failure-targeted heuristics. Every item carries its
+stratum, every matching heuristic tag, its inclusion probability and its
+weight. Labeling has not started.
+
+| file | what |
+|---|---|
+| `corpus.py` | Loads the corpus read-only, caches it outside the repo, and holds every heuristic |
+| `render.py` | Renders model inputs from the DB with production's SQL and builders |
+| `design.py` | Draws, inclusion probabilities, the holdout split, item assembly, and `design.json` |
+| `build_round1.py` | The round 1 spec and build: writes `items*.jsonl` and `design.json` |
+| `verify_inputs.py` | Byte-diffs v4's inputs against production's own functions and writes `verify_inputs.json` |
+| `packets.py` | Writes `packets.jsonl`: a `same_input` and a `full_context` packet per item |
+| `batches.py` | Writes the blind labeling batches `batches/<pass>/bNNN.txt`, plus `keys/<pass>.json` |
+| `labels.py` | Checks label files and exports them to run and gold format |
+| `compare_v4.py` | Scores runs, production and Claude per mode, stratum, tag, split and weight; reports ceilings |
+| `next_round.py` | Measures failure rates and draws round 2, 3, ... |
+| `items.jsonl` | Round 1: 250 `comment` items and 14 `thread` items. `items_single.jsonl` and `items_thread.jsonl` hold the same items split for `run.py` |
+| `production/production__stored__v4.jsonl` | Production's stored output for all 504 comments. **Never give this to a labeler** |
+
+`items.jsonl` is also blind: it contains no stored mention and no
+`extracted_with`. Item ids are assigned in hashed order, so an id says
+nothing about how its item was drawn. The rule from v1 still holds: **no
+eval comment may ever be used as a prompt example.**
+
+---
+
+## What production actually sends
+
+The renderers reproduce production's input byte for byte. `verify_inputs.py`
+called production's functions directly on a read-only connection and got
+identical strings in every check:
+
+| check | identical |
+|---|---|
+| next 200 comments in production's queue (`extract.next_batch` → `prompt.build_user_message`) vs `render.comment_inputs` | 200 / 200 |
+| all 250 v4 single items vs a fresh render | 250 / 250 |
+| v4 thread chunks whose thread is wholly unextracted (`extract_threads.thread_rows` → `chunks` → fetch_chunk's numbering → `build_message`) | 7 / 7 (the other 7 are partly extracted, so production's pending filter would render a subset) |
+| the five biggest wholly-pending threads in production's own queue | 5 / 5 |
+| the 50 v1 overlap items vs the input v1 stored | 50 / 50 unchanged |
+
+**Comment mode** (`extract.py`, which the poller runs) sends four things:
+
+- the post title;
+- the selftext, cut at 400 characters (`rstrip` + `" ..."`, original
+  whitespace kept);
+- the **immediate parent only, untruncated**;
+- the comment, untruncated.
+
+The parent is left out when it is `[deleted]` or `[removed]`, or missing
+from the DB. No grandparent is ever sent, so a reply two levels below the
+place it judges cannot be resolved (`deep_chain_context_gap`). Parent
+lengths have a median of 106 characters, a p99 of 1,158 and a maximum of
+9,664. There are 1,834 comments whose parent runs over 1,500 characters.
+
+**Thread mode** (`extract_threads.py`) renders a thread as an indented tree.
+Comments are ordered by `coalesce(root_comment_id, id), created_utc` and cut
+into chunks of 25. The selftext is whitespace-collapsed and cut at 400, each
+comment is cut at 700, and indentation is capped at depth 6. v4 renders
+every eligible comment, as a full re-extraction after `--reset` would. A
+plain run would only see the comments still pending. Things that surprised
+me:
+
+1. **Indentation points at the wrong parent for 10.9% of replies.** Within a
+   root, replies are sorted by time, not depth-first. The model reads
+   "a comment indented under another is replying to it", so a late reply to
+   an early sibling lands under whichever comment came just before it. In
+   t002 (Keens), `[10]` replies to `[8]` but sits under `[9]`, and `[15]`
+   replies to `[13]` but sits under `[14]`. Over the corpus, 37,584 of
+   344,189 replies are misattached this way. This is a renderer bug, not a
+   prompt problem, and it is its own stratum (`chunk_misattached`).
+2. **11.5% of replies have no parent in their chunk.** In 22,390 the parent
+   is in another chunk. In the rest it is deleted, 15 characters or
+   shorter, or missing.
+3. **Stored output mixes prompts.** 6,547 comments stamped with the
+   comment-mode hash `1d5bac550078` still carry 9,988 mentions from the
+   thread prompt `ca5439be83b3`. The comment-mode re-run added mentions
+   without removing the old ones. No (comment, entity) pair is duplicated,
+   so the stored output is the union of both runs. The production export
+   keeps the union, because that is what the board shows. These comments
+   are tagged `mixed_prompt_mentions`.
+4. **70% of the corpus has never been extracted.** That is 476,973 of
+   681,125 eligible comments. Extraction covers 2026 almost completely, a
+   quarter of 2025, and essentially nothing before. The DB history starts in
+   **2021-09**, not 2014 as SPEC.md says.
+5. 114 groups of comments share a root and a `created_utc` second, so
+   production's order between them is not deterministic. None fall in a v4
+   chunk.
+
+---
+
+## How round 1 was built
+
+The **snapshot** was read 2026-10-13 and cut at `created_utc < 2026-10-09`.
+The poller only extracts the last 3 days, so stored output for these
+comments is settled. It holds 762,745 comments, 681,125 of them eligible
+(body not `[deleted]`/`[removed]` and longer than 15 characters, which is
+`next_batch`'s filter), in 51,123 production chunks. All 1,006 eligible
+comments from v1/v2 (single items, thread items and top-ups) and v1's 17
+whole threads are excluded, except for the overlap.
+
+The **seed** is `nyceats-eval-v4-r1`. Every draw orders candidates by
+`md5(seed|purpose|key)`, so rebuilding over the same snapshot gives the same
+set.
+
+### Comment mode (unit: one comment)
+
+- **Random:** 60 comments drawn uniformly from all 679,827 eligible
+  comments.
+- **Targeted:** 140 comments. Each comment's stratum is the first heuristic
+  it matches in the order below, or `none`. Each stratum then draws its
+  quota at random from the comments not already picked.
+- **Overlap:** 50 v1 single-comment gold items in hashed order. They use
+  v1's labels, which v1 corrected against production. They carry no weight
+  and are left out of every re-weighted number. They exist only to measure
+  Claude-vs-v1 agreement.
+
+The inclusion probability is
+`pi = n_r/N + (1 - n_r/N) * n_s/(N_s - r_s)`, and weight = 1/pi.
+
+### Thread mode (unit: one production chunk)
+
+- **Random:** comments are taken in random order, and each brings in its
+  whole chunk, until 65 comments are covered. This makes the draw
+  proportional to size, so it is proportional to traffic: k = 4 draws gave
+  4 chunks and 85 comments. `pi_r = 1 - (1 - size/668,167)^k`.
+- **Targeted:** each chunk stratum takes chunks at random until its comment
+  budget is met (35/30/35/35). `pi = pi_r + (1 - pi_r) * n_s/(M_s - r_s)`.
+- At most one chunk is taken per thread, and no chunk contains a v1/v2
+  comment or a single item's comment. That way no comment has two
+  references.
+- Every comment in a chunk carries the chunk's weight.
+
+There are two approximations here: the one-chunk-per-thread rule, and
+stopping on a comment budget rather than a fixed count. Both are small next
+to the sampling error of 14 chunks.
+
+### Holdout
+
+Within each mode, items are sorted by (stratum, draw, hash), and every fifth
+item is marked `holdout`, starting from a hashed offset. That gives
+**50 / 250 single items and 3 / 14 chunks (41 comments)**, spread over the
+strata. Holdout is for final scoring only, never for prompt tuning.
+
+### Counts
+
+| mode | items | comments | random | targeted | overlap | holdout |
+|---|---:|---:|---:|---:|---:|---:|
+| comment | 250 | 250 | 60 | 140 | 50 | 50 |
+| thread | 14 chunks | 254 | 85 (4 chunks) | 169 (10 chunks) | – | 41 (3 chunks) |
+| **total** | | **504** | 145 | 309 | 50 | 91 |
+
+Comment-mode strata, in priority order. `N_s` is the population, `r_s` the
+random picks that fell in the stratum, and `n_s` the targeted draws:
+
+| stratum | N_s | r_s | n_s | items | holdout | weight |
+|---|---:|---:|---:|---:|---:|---:|
+| dish_complaint | 4,021 | 0 | 14 | 14 | 3 | 280 |
+| price_complaint | 8,981 | 0 | 14 | 14 | 2 | 607 |
+| neg_wording_nonneg_score | 1,997 | 0 | 14 | 14 | 3 | 141 |
+| deep_chain_context_gap | 30,612 | 5 | 12 | 17 | 3 | 2,082 |
+| reply_ancestor_named | 65,433 | 6 | 18 | 24 | 5 | 2,752 |
+| short_opinion_reply | 18,802 | 0 | 14 | 14 | 3 | 1,201 |
+| avoid_or_strong_negative | 11,763 | 0 | 12 | 12 | 3 | 902 |
+| question_or_unvisited | 11,401 | 2 | 12 | 14 | 3 | 877 |
+| stuck_default_with_opinion | 5,166 | 1 | 12 | 13 | 2 | 415 |
+| zero_mentions_suspicious | 10,241 | 0 | 10 | 10 | 2 | 939 |
+| long_list | 10,125 | 2 | 8 | 10 | 2 | 1,138 |
+| none | 501,323 | 44 | 0 | 44 | 9 | 11,331 |
+| overlap_v1 | – | – | – | 50 | 10 | none |
+
+Thread-mode strata:
+
+| stratum | chunks M_s | comments in stratum | drawn (random + targeted) | comments | holdout chunks |
+|---|---:|---:|---:|---:|---:|
+| chunk_misattached | 7,273 | 176,904 | 1 + 2 | 75 | 1 |
+| chunk_parent_outside | 2,070 | 46,917 | 0 + 2 | 43 | 0 |
+| chunk_title_names_place | 2,967 | 53,747 | 0 + 3 | 36 | 1 |
+| chunk_failure_dense | 2,478 | 40,091 | 0 + 3 | 40 | 1 |
+| none | 35,708 | 350,508 | 3 + 0 | 60 | 0 |
+
+`design.json` has every number above, plus tag counts in the sample and in
+the population.
+
+---
+
+## Heuristics
+
+Every heuristic is read-only. Some read only the comment text; others also
+read production's stored mentions, which are used only to choose candidates
+and never written into an item. The **gazetteer** is production's entity
+keys with at least 8 stored mentions, after removing four kinds of key:
+
+- keys in `excluded_entities` or `chains.txt`;
+- keys made only of generic words ("best pizza", "coffee shop", "little
+  italy");
+- keys ending in a location word ("7th street", "bryant park");
+- single-word keys that appear in the corpus more than 4 times as often as
+  they were extracted ("best", "via").
+
+That leaves 2,350 keys. Names are matched on `normalize_entity` n-grams of
+1 to 4 words. The gazetteer is what lets "a parent names a place" work on
+the 70% of comments that were never extracted.
+
+Comment-level tags. A single item and every comment in a thread item
+carries every tag it matches. "Stratum" is the count after first-match
+assignment.
+
+| tag | definition | population | stratum | single items | thread comments |
+|---|---|---:|---:|---:|---:|
+| dish_complaint | body matches DISH_COMPLAINT: "skip/avoid/don't get the ...", or "the <dish> was bland/dry/soggy/..." | 4,046 | 4,021 | 14 | 2 |
+| price_complaint | body matches PRICE_COMPLAINT: overpriced, rip-off, not worth it / the money, too expensive, for that price, "$N for a ..." | 9,230 | 8,981 | 16 | 2 |
+| neg_wording_nonneg_score | extracted with at least 1 stored mention, body matches NEG_WORDS, and no stored mention has an aspect < 0 or `is_negated` | 2,408 | 1,997 | 17 | 2 |
+| deep_chain_context_gap | depth ≥ 2, length ≤ 400, no stored mention or gazetteer name in the comment or its parent, but the grandparent or great-grandparent has one (comment mode never sends it) | 31,152 | 30,612 | 25 | 7 |
+| reply_ancestor_named | depth ≥ 1, length ≤ 400, no stored mention (or never extracted) and no gazetteer name in the comment, while the parent or grandparent has a stored mention or a gazetteer name | 89,557 | 65,433 | 52 | 28 |
+| short_opinion_reply | depth ≥ 1, length ≤ 150, body matches SHORT_OPINION | 29,842 | 18,802 | 24 | 16 |
+| avoid_or_strong_negative | body matches AVOID_OR_STRONG_NEG | 19,845 | 11,763 | 25 | 13 |
+| question_or_unvisited | body matches QUESTION_OR_UNVISITED | 14,655 | 11,401 | 17 | 2 |
+| stuck_default_with_opinion | extracted, at least 1 stored mention at the "named, nothing said" default (food 0.3 ± 0.01, other aspects null), and body matches NEG_WORDS or POS_WORDS | 6,848 | 5,166 | 21 | 6 |
+| zero_mentions_suspicious | extracted with no stored mention, and the body has a gazetteer name or meets v1's rule (PLACE_WORDS plus CAP_MID or POSSESSIVE, or a top-level reply under a rec-seeking title) | 13,924 | 10,241 | 23 | 5 |
+| long_list | ≥ 4 BULLET lines, ≥ 8 line breaks, or ≥ 6 stored mentions | 14,044 | 10,125 | 23 | 6 |
+| never_extracted | `extracted_at` is null (pending, or parked with `extract_error`). Too common to target; the random draw covers it | 476,973 | – | 125 | 125 |
+| extract_error | `extract_error` is set | 386 | – | 0 | 0 |
+| extracted_no_mentions | extracted, no stored mention | 107,985 | – | 64 | 74 |
+| original_thread_prompt | `extracted_with` ends in the original thread prompt `ca5439be83b3`. Tag only: it is 86% of extracted comments, so random sampling already covers it | 177,078 | – | 114 | 87 |
+| mixed_prompt_mentions | stored mentions carry a prompt hash other than the comment's `extracted_with` | 6,547 | – | 2 | 28 |
+| parent_missing | a reply whose parent is not in the DB | 199 | – | 0 | 0 |
+| parent_not_sent | parent is `[deleted]`/`[removed]`, so comment mode omits it | 1,979 | – | 0 | 0 |
+| long_parent | the parent comment mode sends is over 1,500 characters | 1,834 | – | 0 | 0 |
+
+Chunk-level tags, computed on production's chunking of the full thread. The
+visual parent of a line is the nearest earlier line indented one step less,
+with indentation capped at 6 as production caps it.
+
+| tag | definition | population chunks | stratum | thread items tagged |
+|---|---|---:|---:|---:|
+| chunk_misattached | ≥ 2 replies whose real parent is in the chunk but is not the line the indentation points to | 7,443 | 7,273 | 3 |
+| chunk_parent_outside | ≥ 3 replies whose parent is not in the chunk (another chunk, or not sent) | 4,546 | 2,070 | 4 |
+| chunk_title_names_place | the title has a gazetteer name, and the chunk has ≥ 3 replies with no gazetteer name of their own | 4,763 | 2,967 | 4 |
+| chunk_failure_dense | ≥ 3 comments, and ≥ 40% of the chunk, carry a comment-level failure signal (any comment stratum except long_list and question_or_unvisited) | 6,261 | 2,478 | 4 |
+| chunk_later | not the thread's first chunk (tag only) | 15,222 | – | 3 |
+| chunk_never_extracted | every comment in the chunk is unextracted (tag only) | 35,962 | – | 7 |
+
+The patterns are `re.IGNORECASE` (except CAP_MID and POSSESSIVE) and are
+copied from `corpus.py`:
+
+```
+SHORT_OPINION = (^\W*(this|same|\+1|yes+|no+|nah|facts|agreed?|seconded|word)\b)|\b(mid|meh|overrated|overhyped|underwhelming|mediocre|not worth|skip|pass on|hard pass|avoid|tourist trap|trash|garbage|bland|disappointing|disagree|hard disagree|second this|underrated|so good|it'?s fine|it'?s ok(ay)?|just ok(ay)?|decent|solid|fell off|gone downhill|went downhill|nothing special)\b
+NEG_WORDS = \b(mid|meh|overrated|overhyped|underwhelming|mediocre|disappoint\w*|bland|terrible|awful|horrible|gross|disgusting|inedible|worst|trash|garbage|sucks?|sucked|rude|dirty|food poisoning|got sick|never again|never going back|not worth|overpriced|rip ?-?off|tourist trap|avoid|skip|stay away|don'?t bother|wouldn'?t (go|recommend|return)|nothing special|fell off|(gone|went) downhill|not what it used to be|soggy|stale|greasy|overcooked|undercooked|lukewarm|flavorless|tasteless)\b
+POS_WORDS = \b(amazing|incredible|delicious|great|awesome|best|love|loved|favou?rite|fav|excellent|fantastic|outstanding|phenomenal|underrated|insane|unreal|bomb|slaps|fire|perfect|worth it|worth the)\b
+PRICE_COMPLAINT = \b(over-? ?priced|rip-? ?off|highway robbery|robbery|price gouging|money grab|not worth (it|the (money|price|cost|hype))|(too|so|very|way|crazy|insanely|ridiculously|absurdly|really) (expensive|pricey|overpriced)|for (that|the|this) price|at (that|this) price|prices? (are|is|have gone|went) (up|insane|crazy|ridiculous|absurd|way up)|\$\d+(\.\d\d)? for (a|an|one|two|three|\d) \w+)
+DISH_COMPLAINT = (\b(skip|avoid|don'?t (get|order|bother with)|pass on|stay away from|steer clear of) (the|their|any of the)\b)|(\b(the|their|my) [\w'’ -]{2,30}? (was|is|were|are|tasted|felt) (kind of |kinda |a bit |pretty |so |very |really |super |too )?(bland|dry|soggy|overcooked|undercooked|under-?seasoned|salty|too salty|greasy|stale|rubbery|mushy|tough|chewy|lukewarm|mid|meh|forgettable|disappointing|overrated|not good|terrible|awful|inedible|gross|burnt|flavorless|tasteless)\b)
+QUESTION_OR_UNVISITED = \b(haven'?t (been|tried|gone|had|made it)|have not (been|tried)|never (been|tried)|on my (list|radar)|want(ed)? to try|wanna try|planning (to|on) (go|try)|heard (good|great|amazing|mixed|bad|nothing but) things|(has|have) any ?one (been|tried|gone)|any ?one (been|tried)|have you (been|tried)|is it (good|worth)|worth (it|going|the hype|the wait)\s*\?|how (is|was|are|were) [^?]{1,40}\?)
+AVOID_OR_STRONG_NEG = \b(avoid|skip|tourist trap|don'?t go|dont bother|don'?t bother|not worth|overrated|stay away|overhyped|got sick|food poisoning|rude|worst|never again|never going back|never go back|regret\w*|disgusting|inedible)\b
+BULLET = ^\s*(?:[-*•+]|\d{1,2}[.)])\s+\S        (multiline)
+PLACE_WORDS = \b(try|tried|go to|went to|spot|place|recommend|check out|love|loved|favorite|fav|go-to|get the|order the|pizzeria|deli|bakery|ramen|tacos?)\b
+CAP_MID = [a-z,;:(] +[A-Z][A-Za-z'’&\-]{2,}
+POSSESSIVE = \b[A-Za-z]{2,}(?:'|’)s\b
+```
+
+These heuristics find *situations*, not confirmed failures. Spot checks
+were mostly on target. Two weaker spots: `dish_complaint` also catches
+place-level knocks ("the dessert places on your list are mid"), and
+`deep_chain_context_gap` catches some chains that have wandered off topic.
+
+---
+
+## Packets, batches and labels
+
+`packets.py` builds two packets per item:
+
+- **same_input** is the exact model input: the comment-mode message, or the
+  chunk.
+- **full_context** gives the full title and body, untruncated. For a single
+  comment it adds the whole ancestor chain, the comment marked
+  `>>> COMMENT TO LABEL`, and its replies. For a chunk it adds the whole
+  thread in true reply order (depth-first). Chunk comments keep their
+  `[n]` numbers; everything else is marked `(context)`. Threads over 150
+  comments show only the chunk's comments, their ancestors and their
+  direct replies. In t002/t004-style chunks this view shows the real
+  parents that the same-input rendering misattaches.
+
+`batches.py` cuts each pass into **30 batches** in hashed order: 14 batches
+of about 20 single comments, and 16 batches that each hold one chunk. Each
+pass has 291 packets. The **self-consistency subset** is 10% of items per
+mode (25 singles and 2 chunks, the same items in both passes). Each copy
+appears a second time under a different opaque packet id and always in a
+different batch. Batch files contain only instructions and packet text. A
+scan for strata, weights, item ids, prompt hashes and the word "production"
+finds only comment text. `keys/<pass>.json` maps packet ids back to items;
+it is for tooling, not labelers.
+
+**Label format** is one file per batch, `labels/<pass>/bNNN.jsonl`, with one
+line per packet:
+
+```json
+{"packet_id": "0000abcd", "output": {"mentions": [{"id": 4, "restaurant_raw": "Example Place", "neighborhood_hint": null,
+  "dishes": ["noodles"], "descriptors": [], "aspects": {"food": null, "value": null, "service": -0.6,
+  "atmosphere": null, "wait": null}, "expensiveness": null, "is_firsthand": false, "is_negated": false}]}}
+```
+
+`output` is production's extraction schema (`prompt.py` /
+`prompt_thread.py`). That way Claude's labels, production's rows and model
+runs all go through `score.py` the same way. `id` appears only in thread
+packets, and it is the bracket number. The optional fields
+`value_complaint`, `dish_sentiment`, `ambiguous` and `out_of_scope` are used
+when present. **If the user's labeling prompt returns a different schema,
+map it into this shape before `labels.py export`.** That is the one mapping
+step.
+
+To label, give each Opus labeler the user's prompt plus one batch file (or
+the lines of `batches/<pass>/packets.jsonl` for that batch) and nothing
+else. Never give it `items.jsonl`, `keys/`, `production/` or v1/v2 files.
+Run the two passes with separate labelers.
+
+---
+
+## Scoring
+
+```bash
+python eval/v4/labels.py check  --pass full_context          # every packet labeled, schema valid
+python eval/v4/labels.py export --pass full_context          # -> labels/full_context.run.jsonl + .gold.jsonl
+python eval/v4/labels.py export --pass same_input
+
+# candidate models: the exact inputs, mode-matched
+python eval/run.py --model x/y --mode comment --items eval/v4/items_single.jsonl --tag v4 --prompt file:<prompt>
+python eval/run.py --model x/y --mode thread  --items eval/v4/items_thread.jsonl --tag v4 --prompt file:<prompt>
+
+python eval/v4/compare_v4.py --ref full_context    # gold reference
+python eval/v4/compare_v4.py --ref same_input      # same-input reference
+python eval/v4/compare_v4.py --self-test           # production vs itself: must be perfect (passes)
+```
+
+`compare_v4.py` scores every comment with `score.py`'s `score_comment`, so
+the metrics mean exactly what `eval/README.md` says. A label gold mention
+is keyed like a model mention: `normalize_entity` plus alias overrides.
+Levels come from `score.bucket`. There are no accept-keys or alternatives,
+so matching relies on score.py's fuzzy rule. Production is scored on both
+modes; a comment-mode run on single items; a thread-mode run on chunks.
+
+For each mode, the report shows these scopes:
+
+- unweighted;
+- **weighted** to traffic (Hajek, 1/pi; overlap excluded);
+- tuning / holdout, both unweighted and weighted;
+- each draw;
+- each stratum;
+- each heuristic tag.
+
+Never-extracted comments are not covered by production, so production is
+scored on the 254 extracted comments.
+
+The **ceilings** come in three rows:
+
+- **claude self-consistency**: the duplicate copies scored against the
+  primary copies.
+- **claude same_input vs full_context**: what the mode's missing context
+  costs even Claude.
+- **Claude vs v1 hand gold**: on the 50 overlap items.
+
+Outputs go to `results/comparison_<ref>.json` and `.md`. Pass `--dirs` to
+pool rounds. The combined `pi` is the sum of the item's `pi` under each
+round's design. That is valid because all rounds sample the same snapshot.
+
+## Round 2 and beyond
+
+```bash
+python eval/v4/next_round.py --ref full_context --dry-run           # failure rates + proposed allocation
+EVAL_DB_URL=... python eval/v4/next_round.py --ref full_context     # draws eval/v4/round2/
+python eval/v4/packets.py --dir eval/v4/round2 && python eval/v4/batches.py --dir eval/v4/round2
+EVAL_BASELINE_DIR=eval/v4/round2/production EVAL_DB_URL=... python eval/export_stored.py \
+    --items eval/v4/round2/items.jsonl --name production__stored__round2
+# label round2/batches/*, then labels.py export --dir eval/v4/round2, then compare_v4.py (pools all rounds)
+```
+
+`next_round.py` compares the system under test (by default production; use
+`--system run.jsonl` for a model) with the reference labels on every
+labeled round. It types each comment's failures:
+
+- dropped comment
+- dropped mention
+- wrong place
+- spurious mention
+- wrong sign
+- scored milder than written
+- missed negative
+- missed negation
+- missed price complaint
+- missed dish complaint
+- stuck at the +1 default
+
+It reports the rate of each type per heuristic, per stratum and weighted to
+traffic, then allocates the new round:
+
+- 30% of each mode's 250-comment budget stays random.
+- The other 70% is split across strata in proportion to
+  `sum over failure types seen of (c[s,f] + 0.5) / (n[s] + 1)`.
+- Each stratum keeps a floor of 3 comments, or 25 thread comments.
+
+The draw uses the same snapshot and the same pi formulas. It excludes every
+comment and thread from earlier rounds, and writes `round<N>/items.jsonl`,
+`design.json` and `failure_rates.json`. Rerun it for round 3 and on. It was
+tested end to end on a scratch copy with synthetic labels and a degraded
+fake system: the allocation shifted toward the strata where the fake
+failures sat.
+
+## Reproducing round 1
+
+```bash
+EVAL_DB_URL=$DATABASE_URL PGOPTIONS='-c default_transaction_read_only=on' V4_CACHE_DIR=/somewhere/outside/the/repo \
+    python eval/v4/build_round1.py        # ~10 min first time: loads ~100 MB of text, caches it
+EVAL_DB_URL=... python eval/v4/verify_inputs.py
+python eval/v4/packets.py && python eval/v4/batches.py
+EVAL_BASELINE_DIR=eval/v4/production EVAL_DB_URL=... python eval/export_stored.py \
+    --items eval/v4/items.jsonl --name production__stored__v4
+```
+
+Every connection is opened with `default_transaction_read_only=on` and a
+read-only session. The cache holds comment text and production output, so
+keep it out of the repo. The default is a temp directory. The in-memory
+corpus is several GB, so expect swapping on a busy machine.
+
+## Caveats and open questions
+
+- **Thread mode has only 14 chunks.** Re-weighted thread numbers rest on 4
+  random chunks, so treat them as indicative. Round 2 should add chunks.
+- **The full re-extraction assumption.** v4 renders a thread with every
+  eligible comment pending. If the backlog is re-run *without* `--reset`,
+  production sends only unextracted comments, which changes the chunks for
+  partly extracted threads (7 of 14 v4 chunks).
+- **"No extraction at all" was read two ways.** `never_extracted` (70% of
+  the corpus) is a tag that the random draw covers.
+  `zero_mentions_suspicious` targets extracted comments that came back
+  empty while naming a place.
+- **Gold without alternatives.** Claude's labels carry one value per
+  aspect, unlike v1's accepted alternatives. Exact-level agreement will
+  read lower than v1's for the same quality, so sign and recall metrics are
+  the robust ones.
+- **The production export is the union of prompts** for the 6,547 mixed
+  comments, as the board shows it. Comments production never extracted are
+  not counted against it, because it never processed them.
+- **The renderer misattachment** looks worth fixing in `extract_threads.py`
+  independently of the model choice: order depth-first within each root.
+  That would change the thread-mode input, so v4's thread items would need
+  re-rendering for the fixed version.

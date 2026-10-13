@@ -1,0 +1,282 @@
+NYCEats extraction labeling -- batch b015 -- pass: same_input -- 20 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b015.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET eb11df17 (comment packet) ===
+POST TITLE: Anyone know what’s going on With Mah-Ze-Dahr bakery?
+
+POST BODY: Suddenly closed and there’s a Marshall’s Possession notice on the front window. Place was always so busy. Online ordering was active for days after closing but site seems to have finally been updated. Claim shipping will restart next week.
+
+COMMENT: It’s amazing how far the chain got considering the questionable financials. The owner’s story always seemed a bit fantastical but the product was excellent and the in-store experience was generally good. How did they make it this far? Was everyone simply blinded by the owner’s Wall Street resume?
+
+Was just reading this piece: https://lifeandthyme.com/food/human-capital-at-umber-ahmads-mah-ze-dahr/ 
+
+“Proving the value of her products—as a relatively affordable luxury—can be more challenging. The economics of running a food business are still fairly misunderstood, and Mah-Ze-Dahr sees its share of customers who balk at the prices. “People come in and say, ‘It seems so expensive. I make cookies at home and it costs me almost nothing,’” she tells me.
+
+The response requires a deeper understanding of what goes into creating a food business beyond ingredients. “I say, ‘I appreciate that, and I’m sure you make great cookies. But you aren’t employing thirty-seven people, you don’t have upwards of $20,000 a month in rent, and then electricity and insurance.’”
+
+Ahmad is also deliberate in how her business is operated on the human resource side. “I also run an ethical business; every one of the people who works with me is offered healthcare, [and I match their] retirement plan. They get paid a living wage; it’s not a minimum wage,” she says. “Everyone has internal progression; I promote from within.” Building sustainability, she says, is of the greatest importance to her model.
+
+Here, we see Ahmad’s upbringing in action—her interest in humanity, and that idea of making a difference. In order to implement and sustain that kind of impact, her approach has been strategic—to think big and grow into it. But bakeries being the humble community cornerstone that they are is not something Ahmad neglects at Mah-Ze-Dahr. In fact, it was a central consideration in the development of her bakery, especially given her own experience as a woman and person of color.”
+=== END PACKET eb11df17 ===
+
+=== PACKET 489edf4c (comment packet) ===
+POST TITLE: Help! Need recommendations for 5 people this Wednesday in Manhattan!
+
+POST BODY: I had someone who said they could come through for me on a reservation bail and now I'm scrambling.
+
+It's for 5 people, Manhattan is preferred but open to Brooklyn. It's almost impossible to get somewhere that's popular at this point, but always really (like Carbone (I know feelings are very mixed), 4 Charles, Torrisi, Claud, etc.).
+
+Cuisine: flexible here, prefer Modern American (not a big fan of ...
+
+COMMENT: Go to Brooklyn: sailor, gator, harts, third falcon…  
+
+If Manhattan must: Opto, American bar, monkey bar, Zimmis, little maven
+=== END PACKET 489edf4c ===
+
+=== PACKET 47e5dfc0 (comment packet) ===
+POST TITLE: Spiciest food in NYC?
+
+POST BODY: Hi! Visitng NYC for 5 days and my husband and i LOVE spicy food (Think sichuan, indian, sri lankan etc). What are some good spots for genuinely spicy food?
+
+PARENT COMMENT: MalaProject
+
+COMMENT: This. 100% this.
+=== END PACKET 47e5dfc0 ===
+
+=== PACKET 578dc6f8 (comment packet) ===
+POST TITLE: What’s the order at 4 Charles!
+
+POST BODY: Going with a group of 4 this week. What are the must gets?
+
+COMMENT: Don't skip the chocolate cream pie
+=== END PACKET 578dc6f8 ===
+
+=== PACKET 032541bf (comment packet) ===
+POST TITLE: List of terrible restaurants in NYC with great customer reviews
+
+POST BODY: Wo hop
+Aiththi 
+Spice Symphony
+Pongisiri 
+karahi
+Tipsy Shanghai
+SOL Mexican
+
+PARENT COMMENT: I had the cronut for the first time y’day and had to throw it away. Wtf was that?!
+
+COMMENT: The sad thing is that the Cronut was the best thing I tried there. I thought it was decent to be fair. But the croissant and cookie shot were so disappointing.
+=== END PACKET 032541bf ===
+
+=== PACKET 007ace9e (comment packet) ===
+POST TITLE: Best unique ethnic food in midtown?
+
+POST BODY: Mother in law from Poland is visitng and wants something "special and ethnic" in the Midtown area. She already suggested Cafe Mogador if that gives you an idea of what she means.
+
+COMMENT: * get some Indian in Curry Hill. Panna Too for shits and giggles (tell them you're celebrating someone's birthday), but there's more quality/authentic stuff in the neighborhood if that's really what you're looking for. 
+* Woojrip to sample a variety of Korean cuisine. It's not fancy (it's mostly a pay by the pound buffet) but it will give a lot of variety. If you can drag her to Picnic Garden, that also could give her variety in a nicer setting. For a sit down BBQ restaurant, Antoya. People love HanGawi but after everyone in my party got severe food poisoning after eating there (which is a pretty massive feat for a veg place), I actively dissuade people from going there. 
+* Pio Pio on 8th ave is a decent entry to peruvian style, great space and cocktails in addition to good food that's not obscenely priced.
+=== END PACKET 007ace9e ===
+
+=== PACKET 9cdd559c (comment packet) ===
+POST TITLE: Resy acknowledges bots!!
+
+POST BODY: Was just on Resy trying to make a reservation at Cote and stumbled upon this page. I don't know how long its been there for, but its cool to see that they are finally addressing bots on the platform. I wasn't able to get the res (lol) but I did get served a captcha when I was attempting to check out. Glad to see that they're finally making moves, buying and selling reservations is disgusting
+
+http ...
+
+PARENT COMMENT: Tbh opentable restaurants are all kinda mid…. to the point where I don’t ever really open their app anymore. It doesn’t seem like they have the same bot problems as the Resy spots but that probably has more to do with the restaurants not being as high demand.
+
+COMMENT: Yea I mean mid would be an understatement complete fucking ripoff would be more accurate — it recommends me to fushimi which looks nice but the menu when I got there was nothing like the open table menu it had basically nothing on it except some basic rolls and then $96 steak and then Koloman could have been good but they were out of their classic items and the French toast dish was awful and dry and they saw no one could eat it and did nothing to try to remedy the situation and were clearing plates before we were done
+=== END PACKET 9cdd559c ===
+
+=== PACKET 392952d4 (comment packet) ===
+POST TITLE: FreshDirect quality is now abysmal, grocery delivery alternatives?
+
+POST BODY: I have been a FreshDirect customer and DeliveryPass member for a decade, but I have reached a breaking point. Over the last few months, since my area was moved to a third-party delivery service, every order has been unreliable. I no longer feel I can trust the service, particularly regarding the integrity of the cold chain.
+
+Today was a new low: my order was scheduled for a 9–11 PM delivery window ...
+
+PARENT COMMENT: [https://www.bxtimes.com/freshdirect-strike-third-party-delivery/](https://www.bxtimes.com/freshdirect-strike-third-party-delivery/)
+
+"FreshDirect is now proposing to increase that number to 40% this year, 50% in 2027 and 60% in 2028" 😞
+
+COMMENT: Holy crap, this is terrible news! FD was the only reliable cold chain delivery service I knew of in New York City. 
+
+I had tried Amazon Fresh myself this past year, but I don’t live close to the distribution center in my borough; I had to compost 90% of my (within delivery window) order after the cold chain was broken (they refunded me). My understanding is Fresh only preserves the cold chain until the order leaves the distribution center because that’s when Amazon considers the order “fulfilled”; how the delivery person takes it from there is not their problem (orders are batched by region, no insulated bags or refrigerated vehicles need apply).
+
+I was looking forward to resuming FD orders once they restored processing for my payment method in my zip code, but now it sounds like they're not an improvement over the competition at all anymore. How disappointing.
+=== END PACKET 392952d4 ===
+
+=== PACKET d99663b9 (comment packet) ===
+POST TITLE: Big fan of Third Wave Coffee and black espresso and drip/pour over - any recs?
+
+POST BODY: Hi all! Coming over in mid October and I love single origin coffee and shops that truly care for high quality good tasting black coffee. We will be staying in Midtown and mostly will hang out mostly in Manhattan. Any recs?
+
+PARENT COMMENT: This is the list. TBH you should go to r/pourover and look as that's the real spot for 3rd Wave nerdiness on Reddit. I would really suggest taking the train to Brooklyn and hitting Sey, Loveless, and Dayglow in a row as they're super close to each other. Manhattan you can do La Cabra and Coffee Project pretty easily within a few blocks, too.
+
+COMMENT: Yea those Brooklyn spots are worth hitting if you’re a big third wave coffee fan.
+=== END PACKET d99663b9 ===
+
+=== PACKET 23dfb5ab (comment packet) ===
+POST TITLE: Danny & Coop’s: Bradley Cooper serving Cooper Sharp American cheesesteak. Sometimes the Universe gets the casting right 😋
+
+POST BODY: https://dannyandcoops.com/
+
+PARENT COMMENT: You can use a link website like this https://imglink.cc/
+
+COMMENT: [https://imglink.cc/cdn/Y9VUlPVeSu.jpeg](https://imglink.cc/cdn/Y9VUlPVeSu.jpeg)
+
+Hopefully that worked. Look at the sandwich it was soooo good. We went to the Angelos on Ninth St and thank you!
+=== END PACKET 23dfb5ab ===
+
+=== PACKET c3ba8fc5 (comment packet) ===
+POST TITLE: Bagels in midtown near times square
+
+POST BODY: Looking for recommendations
+
+PARENT COMMENT: Liberty bagels
+
+COMMENT: Had today messed up my order and sucked
+=== END PACKET c3ba8fc5 ===
+
+=== PACKET 321dc130 (comment packet) ===
+POST TITLE: Doordash payout
+
+POST BODY: Hi all,
+
+I posted a couple weeks ago online ordering through 3rd party apps. Someone asked to see a payout from the app and I couldn’t figure out how to post into that thread so I’m posting here! Check it out, I would love to discuss what y’all are paying on your side so we can see just how much a company like DoorDash is making from both of us.
+
+PARENT COMMENT: I don't think the % of sales makes sense and is definitely disproportionate/inflated, but they absolutely do, using Paid Search ads on Google and Bing, paying for keywords and often driving to specific restaurants/categories within their app.
+
+COMMENT: I get that is the pitch for a positive value add.  But how often do people search for a restaurant with no idea where they want to order from?   I think most people develop a list of favorites near their home and work, primarily based on taste and value.   They will order from those places for years again and again without any additional marketing.   So a restaurant paying 30% of each delivery on every order for years is paying for nothing.  
+
+Based on the comment above from the restaurant owner, he seems to be paying up just to not have potential customers steered away from him.  Its a Protection Racket.   Also, he's probably over-estimating how many people will try his place just because he may be pushed up on the search result.
+
+I have my favorite local Thai and sushi for takeout.  Each time I want to order Thai, I'm not searching "Thai" on DoorDash and ordering from the first name at the top of the list.  Does any human actually do that?
+=== END PACKET 321dc130 ===
+
+=== PACKET f07596c2 (comment packet) ===
+POST TITLE: Minetta Tavern in Greenwich Village - July 2026 for Lunch Menu
+
+POST BODY: Booked a reservation for solo lunch. Seated immediately and the server brought over the customary solo diner complimentary champagne without prompt.
+
+I love the atmosphere and decor of this spot, especially the caricatures on the wall.
+
+Baguette came to the table hot & fresh. Great flavor to the bread but only ate a bit as I didn't want to be filled up on carbs ahead of the main reason why I came ...
+
+COMMENT: Thanks for the review, been on my list to go eat at.  How busy was this lunch rush?  Like would I be able to walk in as a solo diner?
+=== END PACKET f07596c2 ===
+
+=== PACKET 2a46a648 (comment packet) ===
+POST TITLE: Can I talk about Los Tacos 1 again?
+
+POST BODY: Ok I have seen a shit ton of posts/comments saying that LST1 is over rated.  I for one, have lived in nyc my whole life.  Most of my experience is in Manhattan because I live here.  I've tried a lot of small mom and pop shops, trucks, stands, and restaurants in my time. Please don't tell me to travel 45-60 minutes outside of Manhattan to go to sunset park or queens to find better tacos. thats ridi ...
+
+PARENT COMMENT: While overall COL is really expensive in LA, as the only perspective I personally have, storefront rents in LA are much cheaper than NYC. This is a huge upfront cost savings. Plus you have a lot of independent food stalls, carts, etc that are able to offer a more affordable taco. Food is still very expensive anywhere though.
+
+COMMENT: I can’t speak to rents, but California’s climate is hospitable to many of the vegetables/fruits found in tacos, so I am guessing  they are  cheaper - and better.
+=== END PACKET 2a46a648 ===
+
+=== PACKET fbcdbc2b (comment packet) ===
+POST TITLE: Jewish Food crawl
+
+POST BODY: Hello! I’m taking my Mom into the city to see a show at Lincoln Center on Saturday and I would like to take her for some Jewish food places since she can’t get a lot Jewish food where she lives. I’m looking for best suggestions for meals and for nibbles and snacks.  We have been to Russ and Daughters.  On my list of possibilities are all Lower East Side places: Katz’s, Kossars, Yonah Schimmel, Pic ...
+
+COMMENT: Barney Greengrass 
+
+Zabars
+=== END PACKET fbcdbc2b ===
+
+=== PACKET fe8b4291 (comment packet) ===
+POST TITLE: Looking for Napolitano-style pizza on UES similar to Motorino/Song e Napule on UWS (but on UES).
+
+POST BODY: No Patsy's, Salvo's or big NYC-style slice pies.  We tried San Mateo and it was good, close, but not quite. The crust was too dry and not chewy enough, the mushrooms were canned.  Hoping to do better without needing to travel.
+
+PARENT COMMENT: Donna Margarita
+
+COMMENT: This was just ok for me
+=== END PACKET fe8b4291 ===
+
+=== PACKET 63427a0b (comment packet) ===
+POST TITLE: Restaurant that serves fois gras, fried prawns, and piña coladas?
+
+POST BODY: Struggling to find one restaurant that serves all of these things. I would love to have james gandolfini’s last meal: four shots of rum, two piña coladas, two beers, two orders of fried prawns, and foie gras.
+
+PARENT COMMENT: Sunken harbor club maybe?
+
+COMMENT: Gage and Tollner is a great call
+=== END PACKET 63427a0b ===
+
+=== PACKET 37eafc10 (comment packet) ===
+POST TITLE: Why should I go to a local cafe instead of Starbucks if it’s usually more expensive?
+
+POST BODY: Whenever people talk about coffee in NYC, there’s always this strong push to “support small/local cafes” instead of going to places like Starbucks. I get the idea in theory, but in practice I’ve noticed a lot of small independent cafes are actually more expensive than Starbucks. 
+
+For example, a latte at some neighborhood spots is like $6–$7+, sometimes without much seating, fewer locations, and s ...
+
+COMMENT: Better coffee? I get dunkin or mcd if i want caffeine. But more local brands, or even chains like devocion are just better
+=== END PACKET 37eafc10 ===
+
+=== PACKET daafd9c9 (comment packet) ===
+POST TITLE: Lean Piroshki with Pancakes in Breadcrumbs and Mustard
+
+COMMENT: Procedure for making pancakes
+
+ Take a plate, put flour, salt and sugar, mix well. Then take another bowl, put sparkling water in it and start adding the flour spoon by spoon and mix until you use up the flour. And start to baking the pancakes
+
+Procedure for making the filling for filling the pancakes
+
+ Take a pan and put olive oil, turn on the stove to medium temperature, then put fresh mushrooms and start stewing for 10-15 minutes, put vegetables and black pepper in the pan. After we finish stewing, we put the fresh champignons in a bowl and then grate low-fat cheese into the bowl with the champignons. We mix these two ingredients to combine well, then add ketchup and continue mixing again
+
+Procedure for making the mixture for gluing the piroshki
+
+ Take a plate, put a glass of water and put a spoonful of mustard and stir to combine the mustard and water
+
+After we have done these things, we start by filling the pancakes, we put 2-3 tablespoons of the filling in each pancake, then we roll them and seal them with the mustard and water mixture. So we repeat the procedure until we run out of pancakes. After we finish the pancakes, we take breadcrumbs and dip the pancakes in the mixture of water and mustard. First we put the pancake in the mustard and water mixture and then in the breadcrumbs and repeat the procedure. Then they are fried for 2-3 minutes on one side and 2-3 minutes on the other side. And the piroshki are ready, you can start tasting
+
+Ingredients
+
+Pancakes
+
+1. Flour 500 gr.
+
+2. Sparkling water
+
+3. Salt 1 tsp
+
+4.Sugar 1 tsp
+
+Fill for pancakes
+
+1. Fresh mushrooms 1 kg
+
+2.Lean cheese 400 gr.
+
+3.Ketchup 100 ml.
+
+Fried pancakes in breadcrumbs and mustard
+
+1. 1 glass of water
+2. Mustard 1 tbsp
+
+For more 👉 https://youtu.be/pxeEyLJhkUU
+=== END PACKET daafd9c9 ===
+
+=== PACKET 7ee431d8 (comment packet) ===
+POST TITLE: I kept hearing about “Pies n Thighs” finally to be disappointed
+
+POST BODY: I thought this restaurant would be much better so many ppl review this high saying how good it is and nope. Don’t order the sweet tea if you don’t love lemon because that’s all you taste. The fries were good but most likely frozen fries I give the meal 6/10. Any thoughts on this restaurant [Pies n Thighs](https://piesnthighs.com/piesnthighsparkslope)
+
+PARENT COMMENT: You went to Pies n Thighs and didn’t get either of the things in its namesake?
+
+COMMENT: My rule of thumb is when trying some new or hole-in-the-wall place, I always get what's in the name or depicted on the sign on a first visit.
+=== END PACKET 7ee431d8 ===

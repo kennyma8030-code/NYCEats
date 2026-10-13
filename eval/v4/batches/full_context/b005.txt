@@ -1,0 +1,37 @@
+NYCEats extraction labeling -- batch b005 -- pass: full_context -- 1 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b005.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 01d6d0b8 (thread packet) ===
+POST TITLE: Cafe Himalaya
+POST BODY: Lots of discussion in this community re: seeing the same places over and over again so wanted to break up the monotony with a spot that deserves all the attention and business: Cafe Himalaya in the East Village. Unassuming hole in the wall serving hearty, comforting Tibetan food that’s bold, balanced and spicy 🔥🌶️  my go to orders are the sha thukpa (any protein, I’ve done beef and this is shrimp) and sha momo panfried but I always eye other dishes which look just as delicious when I dine solo here. Ate here last night after a long work day and it hit the spot, like a warm hug. Support your local businesses!!
+
+THREAD, in reply order. Label ONLY the comments with a bracket number [n]. Lines marked (context) are there to read, not to label.
+(context, deleted or too short to be sent) u/some1105: Thanks!
+[1] u/L0chness_M0nster: Love this place!
+[2] u/justflipping: Great place. Thanks for sharing!
+[3] u/fredugolon: One of my favs back in the day. Haven’t been in over a decade. Thanks for the reminder :)
+[4] u/bfdjon: I don’t know why but I have never had Tibetan food before. I’ll have to rectify that situation. I have to head to the East Village soon.
+[5] u/JH_0930: One of my favorite spots!! Thukpa is also my go-to
+[6] u/Vtrader_io: Have you ever noticed how Tibetan cuisine appreciates in value the more you invest time discovering it? Cafe Himalaya has been delivering consistent returns to my palate portfolio for years - their momos offer better compounding satisfaction than my first Bitcoin acquisition. My wife and I just returned from Bhutan last month where we dined with a local family, and I can confirm this place maintains authenticity that rivals even the homeland offerings. When I'm between meetings at vtrader, I'll occasionally Uber over from Midtown just for their thukpa - pairs perfectly with reviewing market charts on my Patek while the spice builds.
+(context, deleted or too short to be sent) u/SweetSilvana: looks good
+[7] u/azeet94: The chilli chicken (not that spicy) is the star of the show here. Must get
+  [8] u/aspiring-green-thumb: I’ll have to try that next time!!!!!
+[9] u/inthiscountry: This place is such a gem! So tasty. I’ll only say that the momos here aren’t great and it took me years to try one of the momo spots in Jackson heights to realize how glorious they can be- so that’s just the one thing I wouldn’t recommend
+  [10] u/aspiring-green-thumb: Ooh what spot? I’d love a recco as I haven’t tried many (I did try one but it wasn’t good unfortunately 🥲)
+    [11] u/inthiscountry: I’d recommend trying Phayul to start! There are so many good ones, Nepali Bhanchaa Ghar, for trucks Potala and Moms Momos. I actually love Phayul’s vegetarian momos, which have potato and chive.
+[12] u/easyontheeggs: Chili Dofu is the best
+  [13] u/aspiring-green-thumb: I love tofu so I’ll try this next time too!!!!!
+[14] u/Beezlebubbah: Haven't been in years but every time I pass it I feel very fond. Very delicious and very affordable, if memory serves.
+  [15] u/aspiring-green-thumb: Still just as good I hope! This particular corner has businesses I’ve frequented for 10+ years (particularly V Nam cafe for no frills pho) … still affordable, very delicious!
+    [16] u/Beezlebubbah: Ooh appreciate the rec!
+=== END PACKET 01d6d0b8 ===

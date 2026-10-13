@@ -1,0 +1,36 @@
+NYCEats extraction labeling -- batch b009 -- pass: full_context -- 1 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b009.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET fc58809c (thread packet) ===
+POST TITLE: Where can I get a giant party sub for the Super Bowl?
+POST BODY: Court Street Grocers does one but prices seem insane - $200 for 4’ and $265 for 6’
+
+THREAD, in reply order. Label ONLY the comments with a bracket number [n]. Lines marked (context) are there to read, not to label.
+[1] u/rumfortheborder: lioni, maybe united meat market, maybe russos
+  [2] u/SpoonedToDeath: I 2nd lionis, their regular sandwiches are all top notch.
+[3] u/elborzo: Try non trendy bagel stores / delis that don’t make a big deal out of everything like CSG. DeFonte does them, bagel boy in BR is decent ish too in a pinch.
+[4] u/festinalente27: Wegmans, probably
+(context, deleted or too short to be sent) u/Title26: Paisanos
+[5] u/Adventure241: Russo's is advertising them right now for the super bowl
+[6] u/Uncle_Coffee_Cake: Western Beef is my goto for cold cuts subs. Around $14/foot. And they have 6ft as on option, I've only done 3ft in the past.
+[7] u/DecisionPatient128: Harbor Deli and Harbor Deli Too Port Washington
+[8] u/SnooPaintings6124: Regina’s grocery 6 ft are 180
+[9] u/Garlic-And-Onions: Seconding Paisanos on Smith Street
+[10] u/nycago: What’s a sub? This is a hero town!
+[11] u/multiequations: Big Apple meat market does party subs
+(context, deleted or too short to be sent) u/NYMNYJNYKNYR: Milano Market
+[12] u/Hot-Soup-1206: If this isn't too out of the way for you, Valentino's in ridgewood is doing 3' for $50. Its an italian market with a great deli.
+[13] u/whaaaaaaaaaasssass: Does anyone know if Fiacco’s in the village does this?  If so I’m in, and also it will probably weigh 50lbs.
+  [14] u/GuideMoney4241: They have weird hours I don’t think they’re open Sundays
+(context, deleted or too short to be sent) u/GuideMoney4241: Wegmans
+=== END PACKET fc58809c ===

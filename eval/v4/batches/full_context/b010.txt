@@ -1,0 +1,407 @@
+NYCEats extraction labeling -- batch b010 -- pass: full_context -- 20 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b010.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET c4cbeb18 (comment packet) ===
+POST TITLE: Tasting and ranking of seven chocolate cakes in the city
+POST BODY: Taste test of seven cakes! From top left and proceeding clockwise, the contenders are: Mia's blackout, Mia's chocolate fudge, Little Cupcake blackout, From Lucie chocolate, Veniero's dark chocolate layer, Strip House chocolate layer, and Hani's chocolate blackout. We had three adults and one five-year-old taste tester (but she quickly became too sugared up to give much helpful feedback lol). We each ranked from best to worst and then averaged out to get our favorites from the group. One of us is not big on sweets at all, and two of us have quite different dessert ideals, so a real range of opinions typically, but we found a consensus on the cakes. 
+
+
+
+Not pictured/tasted but worth mentioning: Claude (the bakery) has been a fave chocolate cake of mine for awhile, but we just didn't have time to make it down there today. I suspect it would crack the top three if not top two alongside the rest of these. It's truly great imo. Haven't tried Claude (the restaurant) but it wasn't logistically possible to get because we weren't eating at the restaurant and they don't have a pickup option like the Strip House. Lysee chocolate cake is not for me so I didn't bother including it. Found it dry and bland when I tried it a few years ago, and much prefer the titular Lysee cake if I'm going there. Still need to give Amy's Bread a try. On to the rankings, from best to worst!
+
+  
+1. **Hani's -** This was number 1 for two of us, so a clear winner. Dense and fudgy, and the salt content is what really puts it ahead imo. Many of these other cakes could do with more salt or at least finishing salt on top like Hani's. Texturally it has a lot going for it as well. Love the Valrhona pearls on top and the crumbs on the outside. It's just great. What else to say??
+
+  
+2. **From Lucie AND Mia's Chocolate Fudge -** Tie! From Lucie had a really nice density to it and the ganache frosting was great. There is a slight coffee taste to From Lucie that really added a nice depth of flavor. Also nice frosting ratio. Mia's chocolate fudge was actually pretty low on my ranking, but my fellow taste tasters ranked it very high. They noted the cake itself had a great consistency. I agree with that but found the frosting a little sweet. Please note for children that the Mia's Chocolate Fudge has some rainbow sprinkles on top and our little taste tester loved that. It was her clear favorite. 
+
+4. **Strip House -** The most expensive cake by far. With tax and tip it was $30. Not worth it to us considering it is middle of the pack. It is certainly the biggest slice compared to the others, but it's a similar style to Hani's and not as good. Save your money on this one. 
+
+5. **Mia's Blackout -** Maybe worth it if you just wanted to try several of the Mia cakes at one time but we all agreed this was not as good as the chocolate fudge slice. 
+
+6. **Veniero's -** We were all so sad not to love this one. It looked great and fudgy but just really lackluster. The raspberry truffle slice sounded good but because it had a rum component that wasn't part of the tasting for the five-year-old and based on how low this ranked I can't imagine going back and deciding to try it. A real let down unfortunately. 
+
+7. **Little Cupcake Bakeshop -** Shocked this was last, as it looked so good and moist in the box. Incredibly dry and the frosting was nothing special. Maybe just an off day but we were all extremely unimpressed with this.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/kave1790: Love Hanis. They’re doing their own thing
+
+>>> COMMENT TO LABEL (u/mikeyh269):
+Met the founder and his partner, both great people, super friendly and welcoming.
+
+REPLIES TO IT (context only):
+  u/[deleted]: [removed]
+=== END PACKET c4cbeb18 ===
+
+=== PACKET 8a00ca51 (comment packet) ===
+POST TITLE: What’s the order at 4 Charles!
+POST BODY: Going with a group of 4 this week. What are the must gets?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/nightkhan):
+Don't skip the chocolate cream pie
+
+REPLIES TO IT: none
+=== END PACKET 8a00ca51 ===
+
+=== PACKET 86f5b3cb (comment packet) ===
+POST TITLE: Is family style the standard for larger dinner groups?
+POST BODY: It’s my first time organizing a dinner for a group this size (less than 20, but large enough to have to write to restaurants about space). The ideal setting would be a steakhouse, but I’ve been a little surprised that everyone only offers preset family style options, even if the group is willing to meet the minimum spend via a la carte ordering. Is this just the standard, to keep the service simple?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/zenmaster75: Go to Bobby Vans at 54 & Park. They have a private room in the back, we held 25 people in that room and they did individual steak and sides without a problem.  Talk to Dan, the manager, he’ll take care of you.
+
+>>> COMMENT TO LABEL (u/electrax94):
+Appreciate this tip, will look into it. Thanks!
+
+REPLIES TO IT: none
+=== END PACKET 86f5b3cb ===
+
+=== PACKET bb82c582 (comment packet) ===
+POST TITLE: Need backup restaurant for Aug
+POST BODY: My wife’s and my first trip away after having our first baby. Been practicing Atomix reservations for 4 months but it’s been 50/50, even for Tues-Wed.
+Looking specifically for the best 2-Michelin star spot to shoot for as a backup? Leaning toward either Daniel (never been to a Boulud place) or Gabriel Kreuther.
+Thanks for any suggestions. https://guide.michelin.com/us/en/new-york-state/new-york/restaurants/2-stars-michelin
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/trufflepigggy: Been to most of those 2 stars. Daniel is old school fine dining, I think they play it safe these days bc they have a long established clientele that keeps going back. Everything good but not as memorable. Gabriel Kreuther is pretty good as well, probably around same level as Daniel for me. 
+
+My favorite two were Aquavit and Atera, just outstanding in terms of flavor. Could still look at pics from the visits and taste the food. I’m also big fan of The Modern and Saga. Aska was probably my least favorite, still enjoyed it but flavors too foreign for me.
+
+>>> COMMENT TO LABEL (u/LawsOfEconomics):
+Hey thanks for taking the time to help me out. What was it about Aquavit that made it so much better than Aska for you?
+
+REPLIES TO IT (context only):
+  u/trufflepigggy: Aska felt a lot more experimental to me, I just wasn’t used to the flavors. They’re probably the most unique in the entire city I think though. Aquavit definitely had the Scandinavian flavors without "overdoing" it for me. Just a personal opinion, I’m not a food expert.
+=== END PACKET bb82c582 ===
+
+=== PACKET a186c776 (comment packet) ===
+POST TITLE: Where's a forlorn gal taking herself out to dinner + a drink
+POST BODY: Hello! Looking for places to take myself out for dinner with good bar seat situation - am going through the most devastating breakup of my life and would like to get out of our apartment for dinner. (He's moved out, so it's all mine now). 
+
+Feeling fairly price sensitive -  I can't reasonably afford this apartment by myself, so am trying to be conscious of that - so not looking for anything super crazy, but willing to pay for decent. West village and downtown preferred. THANK YOU!!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/dobeel123: & sons - go for happy hour and enjoy their meal deals
+
+>>> COMMENT TO LABEL (u/fouriest_transform):
+Just saw their monday tuesday girls night deal lmao I will be there
+
+REPLIES TO IT: none
+=== END PACKET a186c776 ===
+
+=== PACKET b6c01f9c (comment packet) ===
+POST TITLE: Can I talk about Los Tacos 1 again?
+POST BODY: Ok I have seen a shit ton of posts/comments saying that LST1 is over rated.  I for one, have lived in nyc my whole life.  Most of my experience is in Manhattan because I live here.  I've tried a lot of small mom and pop shops, trucks, stands, and restaurants in my time. Please don't tell me to travel 45-60 minutes outside of Manhattan to go to sunset park or queens to find better tacos. thats ridiculous and most likely the tacos are just ok.  But please tell me if theres anything better in Manhattan.   
+  
+I dont get why theres so much hate for Los tacos 1?  I finally tried their tacos last week and loved them so I'm judging most of you for groupthink. Please prove me wrong.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Federal_Stay824: I don’t hate Los tacos, in fact I like it very much, but when 3 tacos and a drink is nearing 30 bucks it becomes very not worth it very fast
+  u/Additional_Pea_1877: When a salad and not much else costs $20 at Sweetgreen….food is expensive everywhere. Now add the cost of labor, rent, utilities, insurance, licenses…it’s a miracle that any restaurant survives in NYC.
+    u/otoverstoverpt: Sure but for those of us who have spent time in say, California, tacos are like just street food. They aren’t a slop bowl, it’s more like something from your local bodega. And California is just as expensive as NYC yet you can get Tacos as good or much better than Los Tacos for a couple of dollars.
+      u/Additional_Pea_1877: While overall COL is really expensive in LA, as the only perspective I personally have, storefront rents in LA are much cheaper than NYC. This is a huge upfront cost savings. Plus you have a lot of independent food stalls, carts, etc that are able to offer a more affordable taco. Food is still very expensive anywhere though.
+
+>>> COMMENT TO LABEL (u/SmoothLester):
+I can’t speak to rents, but California’s climate is hospitable to many of the vegetables/fruits found in tacos, so I am guessing  they are  cheaper - and better.
+
+REPLIES TO IT: none
+=== END PACKET b6c01f9c ===
+
+=== PACKET 3183588c (comment packet) ===
+POST TITLE: Pepperoni slice at Stretch Pizza
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/NewRazzmatazz2455: Stretch on Park Avenue in Manhattan? I didn’t realize they sell by the slice.
+  u/DinerEnBlanc: Only on weekends
+    u/jackdud: They started recently selling slices weekdays too, after 11:30 AM. [Here's 3 slices](https://imgur.com/a/CyUbJAv) my friend and I watched me eat last Thursday.
+
+>>> COMMENT TO LABEL (u/FortheredditLOLz):
+Oh boi! More of a reason to go nowadays! i ‘had to’ order an entire pie and then down it because no one went a few times with me.
+
+REPLIES TO IT: none
+=== END PACKET 3183588c ===
+
+=== PACKET de3ea49f (comment packet) ===
+POST TITLE: Bang-bang recommendations for parents' night out - Manhattan edition
+POST BODY: Recently, my wife and I have picked a restaurant off the NYT Top 100 restaurant list for our birthdays. We've dined at Atomix, Torrisi, Claud, Via Carota, and Lilia. Other years, we've gone to some more of our rotational spots like St. Anselm, Minetta Tavern, or NURA (RIP). 
+
+For this year, we were thinking about places like Thai Diner, Smithereens, and Penny. We've also heard a lot about Banh Anh Em and thought that could be cool. 
+
+But we have kids now and get to go out to eat so much less than we used to, we thought it could also be fun to do a bang-bang where we try two spots - for example, a great slice of pizza (was thinking Mama's Too?) followed by splitting a burger, then find a good dessert and cocktail in whatever neighborhood we're in. 
+
+So my question to the sub: can you give me the ultimate Manhattan bang-bang? If you could pick two places to go, doesn't really matter what neighborhood they're in, doesn't matter if they're walking distance or require a subway/uber. We have no preference on cuisine, we eat everything.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Frank-Costanza1: I love that this reference is being actively used by someone other than myself.  All dining becomes a bang bang for me.  It's sad and glorious at the same time
+
+>>> COMMENT TO LABEL (u/m1a2c2kali):
+Didn’t know this was a thing I’ve been doing bang bangs forever, especially on dates, just to change up the scenery at times
+
+REPLIES TO IT (context only):
+  u/Frank-Costanza1: Watch the bang bang episode of Louie.  Def not a date thing
+=== END PACKET de3ea49f ===
+
+=== PACKET d8616753 (comment packet) ===
+POST TITLE: Looking for Napolitano-style pizza on UES similar to Motorino/Song e Napule on UWS (but on UES).
+POST BODY: No Patsy's, Salvo's or big NYC-style slice pies.  We tried San Mateo and it was good, close, but not quite. The crust was too dry and not chewy enough, the mushrooms were canned.  Hoping to do better without needing to travel.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/JudgmentUnited5297: Donna Margarita
+
+>>> COMMENT TO LABEL (u/Purple-Mix1033):
+This was just ok for me
+
+REPLIES TO IT (context only):
+  u/JudgmentUnited5297: Yeah it used to be way more brick oven style, around 2017 it shifted to Neapolitan. But it's still somewhere between the two styles.
+=== END PACKET d8616753 ===
+
+=== PACKET 6918e79d (comment packet) ===
+POST TITLE: FreshDirect quality is now abysmal, grocery delivery alternatives?
+POST BODY: I have been a FreshDirect customer and DeliveryPass member for a decade, but I have reached a breaking point. Over the last few months, since my area was moved to a third-party delivery service, every order has been unreliable. I no longer feel I can trust the service, particularly regarding the integrity of the cold chain.
+
+Today was a new low: my order was scheduled for a 9–11 PM delivery window, but the driver dropped it off at 3:30 PM—nearly six hours early—without any prior notification. Furthermore, the driver left the order at the concierge desk and refused to deliver it to my apartment, despite clear instructions not to leave items unattended.
+
+I have contacted customer service multiple times. While they take my complaints and offer assurances, nothing changes. Even after speaking with a manager who promised improvements, the issues persist.
+
+I am now looking for reliable alternatives. I have tried Whole Foods and Instacart, but I find that their reliance on brick-and-mortar stores often leads to frequent substitutions or out-of-stock items. The direct-from-warehouse model was a major advantage of FreshDirect that I would like to find elsewhere.
+
+Is anyone else experiencing these same issues with FreshDirect? If you have moved to a more reliable grocery delivery service, I would love to hear about your experience and recommendations.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/HuckleberryOwn647: It seems to be worst where they have switched to 3P delivery. My area seems to still be serviced by the same FD team and service is still good. I pray it will stay the same. I hope FD listens to these complaints before they lose all their loyal customers.
+  u/sandrotosi: [https://www.bxtimes.com/freshdirect-strike-third-party-delivery/](https://www.bxtimes.com/freshdirect-strike-third-party-delivery/)
+
+"FreshDirect is now proposing to increase that number to 40% this year, 50% in 2027 and 60% in 2028" 😞
+
+>>> COMMENT TO LABEL (u/HermioneJane611):
+Holy crap, this is terrible news! FD was the only reliable cold chain delivery service I knew of in New York City. 
+
+I had tried Amazon Fresh myself this past year, but I don’t live close to the distribution center in my borough; I had to compost 90% of my (within delivery window) order after the cold chain was broken (they refunded me). My understanding is Fresh only preserves the cold chain until the order leaves the distribution center because that’s when Amazon considers the order “fulfilled”; how the delivery person takes it from there is not their problem (orders are batched by region, no insulated bags or refrigerated vehicles need apply).
+
+I was looking forward to resuming FD orders once they restored processing for my payment method in my zip code, but now it sounds like they're not an improvement over the competition at all anymore. How disappointing.
+
+REPLIES TO IT (context only):
+  u/Mark-It_Maker: They have been fine for me
+=== END PACKET 6918e79d ===
+
+=== PACKET 99afe789 (comment packet) ===
+POST TITLE: Chinese Food in NYC. Roti Canai, Hainan Chicken, Pork Bone Tea, and ABC Ice.
+POST BODY: Shout out to Amazing Asia on Kissena.  新馬小館。
+
+You can browse their menu here
+
+https://order.online/store/25944813?pickup=true&redirected=true
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/ch1ckenrice: This is Malaysian food not Chinese food
+  u/random_agency: 海南雞 is literally the chicken of China Hainan Island
+
+福建肉骨茶- is literally the Pork bone broth of ethnic Fujian people in Malaysia.
+
+Roti Canai is the only brother from another mother dish.
+
+>>> COMMENT TO LABEL (u/Fish___Face):
+this is like if you ate hamburgers and said you got german food
+
+REPLIES TO IT: none
+=== END PACKET 99afe789 ===
+
+=== PACKET 0915f565 (comment packet) ===
+POST TITLE: Had lunch at Red Hook Tavern, had to try their Tavern Burger
+POST BODY: A nice Brooklyn spot with a great dry-aged burger.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/novel_putting):
+Red Hook Tavern's burgers slap, but those fries are criminally underrated.
+
+REPLIES TO IT: none
+=== END PACKET 0915f565 ===
+
+=== PACKET d82a73da (comment packet) ===
+POST TITLE: Visiting NYC- Looking for hyper specific recs
+POST BODY: Hello all! Visiting NYC in May and looking to fully dive into the nooks and crannies of the food scene. I’m from CDMX so not looking for Mexican food. However, I am looking for really authentic restaurants from hard to find cuisines from around the world, that may only cook a couple of dishes (or be specialized in one dish). 
+
+Prioritizing anything from the African continent, some Asian countries and Central American food, but all recommendation are welcome. 
+
+Staying in Bushwick but willing to travel if the trip is worthwhile
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/anacardier):
+Phayul - Tibetan
+
+Awash - Ethiopian
+
+New World food court in Flushing has a lot of more niche Asian cuisine. I like the Uyghur place there a lot
+
+Masalawala and Sons - Bengali food (specifically from India, not Bangladeshi)
+
+Between the Bagel - Korean owned bagel shop that does cool fusion sandwiches
+
+Ukrainian East Village Restaurant
+
+REPLIES TO IT: none
+=== END PACKET d82a73da ===
+
+=== PACKET 53626c0e (comment packet) ===
+POST TITLE: Whats a food or restaurant you should absolutely try before leaving nyc
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/NYEDMD: Depends on your experience. At the risk of engaging in stereotypes, if you’re from say, rural Oklahoma, you may not have had first class sushi, especially via an extensive omakase menu. With that said, a few of the more obvious suggestions:
+
+Bagel & Lox from Barney Greengrass or Russ and Daughters
+
+Pastrami from Katz’s or Sarge’s
+
+Mutton Chop from Keens
+
+Dinner from one of the old established "Great Houses", i.e.: Le Bernardin, Jean Georges, or Daniel.
+
+If pizza to you is Domino’s or the Hut, then a slice from any one of a dozen places we can spend days arguing about…
+
+Again, all predicated on what you HAVEN’T experienced.
+  u/jexxie3: This is a great point. I can find great pizza and bagels in Jersey. Call it the NYC diaspora. I can’t find the amazing Korean food I had the other day. Yubu? Fucking incredible.
+
+>>> COMMENT TO LABEL (u/blahblahblah_random):
+fort lee, bergen county..
+
+REPLIES TO IT (context only):
+  u/jexxie3: I’m not saying there’s not good Korean food in NJ… just that I can’t get it near me in West Bumblefuck, NJ.
+=== END PACKET 53626c0e ===
+
+=== PACKET d3190d2f (comment packet) ===
+POST TITLE: Favorite Ramen in Manhattan?
+POST BODY: There are highly rated places and then there are your favorite places. I’m looking for you’re favorite. Ideally East Village area, but really could be anywhere.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/whoismikebean: jeju
+
+>>> COMMENT TO LABEL (u/deadhead4077-work):
+damn this is the only mention pf Jeju ive seen, have just not a lot of people have tried this place cause its hard to get reservations? Or do they consider Korean raymun a different thing. Ive been wanting to go, but never been able to find a reservation for the dates of trips I schedule.
+
+REPLIES TO IT: none
+=== END PACKET d3190d2f ===
+
+=== PACKET d890cfd2 (comment packet) ===
+POST TITLE: ISO the cheapest pint and glass of wine in the city.
+POST BODY: I’m in town for a few days, I want to enjoy your lovely city but frankly I’m Canadian and our dollar is trash. Help me, where can I hit the town without breaking the bank. Cheers!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/lockednchaste: Get out of Midtown. A cold Presidente in the Heights with some tostones is worth the hike. The Cloisters is a bonus.
+
+>>> COMMENT TO LABEL (u/snowblue08):
+need a recommended spot for this ASAP
+
+REPLIES TO IT (context only):
+  u/lockednchaste: Malecon.
+=== END PACKET d890cfd2 ===
+
+=== PACKET c1092f0d (comment packet) ===
+POST TITLE: Looking for a steakhouse for a Saturday night in November, for the birthday of a carnivorous 15 year old girl who likes a good ribeye or porterhouse but otherwise has no f*cks to give about fancy.
+POST BODY: I'm taking my 15 year old daughter to NYC in November for her birthday.  The plan is to see a Hamilton matinee and eat good steak.  We're coming up from DC; I lived in NYC 25 years ago but have fallen completely out of touch with the steakhouse scene.   
+
+  
+I know "what steaks are good" posts are common, but I'm trying to find good steak with a very specific vibe:
+
+My daughter isn't going to care about the name on the door, the skill of the mixologist, or whether the pastry chef is a James Beard nominee. She doesn't need to know the name of the farm the cow came from. She's not going to be impressed by the artisnal cheese. She's DEFINITELY not going to want to dress up super fancy -- needs to be a place she can go in wearing a basic theater dress and a pair of chuck taylors. This is about a great cut of beef well prepared to the proper temperature, ideally in an unpretentious environment. And I need to be able to actually get a table for four on a Saturday night.  
+
+We're staying near Penn Station, but I'm comfortable heading anywhere in the city for the right place.  Price not really a factor if the food justifies it, but not looking for expensive just for the sake of expensive.  There are so many steak options in mid-town, but they all seem to be very not the vibe I hope to find -- either overly pretentious or tourist traps -- I'm struggling to find one she's going to like (even if all she says after the meal is "yeah, the steak was fine. Whatever.  It's just steak Dad.")
+
+Thanks for any suggestions and downvote away.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/AwShizWhiz: As a few people have mentioned, Keens is right up your alley. Saw someone say kbbq and I think that could be fun. Yoon haeundae Galbi is absolutely incredible. I cannot recommend it enough.
+
+>>> COMMENT TO LABEL (u/King_Turduckin):
+We did Nubiani for kbbq on our last trip to NYC (the night before our Peter Luger lunch) and she loved that.  Kbbq is awesome but we've got some incredible options in Northern VA, so I was thinking a different NY steakhouse would be more memorable.
+
+REPLIES TO IT: none
+=== END PACKET c1092f0d ===
+
+=== PACKET 86034fe7 (comment packet) ===
+POST TITLE: 'There's a problem with the sauce': Times Square taqueria's salsa sparks lawsuit
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/hella_sauce: Ban this dude from America
+
+>>> COMMENT TO LABEL (u/honorious):
+Nah give him citizenship, he will fit right in with our deplorables.
+
+REPLIES TO IT: none
+=== END PACKET 86034fe7 ===
+
+=== PACKET b8fc804e (comment packet) ===
+POST TITLE: Lucali's is so overrated and needs to be called out.
+POST BODY: First of all
+
+- John's of Bleecker street - Godly crust, Lucali's crust does not compare
+
+- Di Fara's - Just unique and perfect blend of crust + cheese + tomato sauce
+
+- L'Industrie Pizza - top tier dough with the best cheese to sauce ratio
+
+Are all objectively better. There are probably more but it might be subjective.
+
+Lucali has very fresh ingredients and tastes great but their crust and dough is lacking, way too chewy and lacking flavor.
+
+Also their ordering system is SOOO pretentious and ridiculous, more people need to call this out and this alone deducts points from their pizza.
+
+What's worse is that they shut down service ALL the time to cater to celebs. It would be fine if this was done once in a blue moon or off hours, but practically every week they shut down shop because some Celeb wants to drop by.
+
+Ridiculous!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/bachelorette2020: Di Fara has gone downhill.
+  u/Prestigious_Love_288: The old guy died
+
+>>> COMMENT TO LABEL (u/pillkrush):
+it's not like he was making every pie till the end. he was occasionally there, his son and workers were pretty much running the ship. it was still considered the best when he was there part time but as soon as he died it was "it's not the same!"
+
+REPLIES TO IT (context only):
+  u/Prestigious_Love_288: No but he over saw the sauce and was there to quality control.
+=== END PACKET b8fc804e ===
+
+=== PACKET 2060429c (comment packet) ===
+POST TITLE: [serious] why is eating out literally 80-100% more in the past few years and is it ever coming down?
+POST BODY: Not looking for this to be a rant but rather a serious/proven answer.  Literally everything is up like 80-100%.  Went for lunch ysy and 2 sammies and 1 fries was $30.  Had I added drinks and another fry it would have been $50.    
+
+
+1. Did commercial rents go up that much?
+2. Did food prices go up that much? (I get covid supply chain at the time, but are we still having problems?)
+3. Because people are willing to pay for it?
+
+Either way, do you guys think it will come back or are we stuck this way (and beyond in years to come)?  Anyone in the industry care to comment?  
+
+
+For ref: I was in the stroudford/PA (poconos area) a few months again and the prices there were still sane (as were other towns in PA).  Huge steak and cheese/fries was $10.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/One-Tumbleweed5980: People are willing to pay for it. We'll tip 20% on top of that too. Third party delivery apps are expensive too but we still use it.
+  u/mfairview: Honestly, we have cut back A LOT in eating/drinking out (like once every 2-3wks).  Imagine we're not alone.  Amazing pricing is still sustainable.
+    u/themooseexperience: I used to only eat out on weekends, but literally *only* eat out on weekends (meaning, I'd never eat out / order in during the week unless it was for work etc, but I'd eat out / order in every Friday/Saturday night for years).
+
+Now, I and many others I know are far pickier about where they choose to eat, and I'll cook far more often including the weekends. I pretty much only go to / order from a place I either (1) know will be good or (2) is a cuisine I can't cook very well myself. No more random "oh this place could be good" and next thing you know you're out $50 for an entree and a drink.
+
+It's also crazy that the second you get outside the city (and Hoboken/JC), prices go right back down. Where my parents live in NJ, prices are not much higher now than I remember growing up.
+
+>>> COMMENT TO LABEL (u/mistybuttock99):
+This is what I’m noticing too. Also, realizing you can make most foods at home and they’ll taste better anyway for less money.
+
+REPLIES TO IT: none
+=== END PACKET 2060429c ===

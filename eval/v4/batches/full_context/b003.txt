@@ -1,0 +1,199 @@
+NYCEats extraction labeling -- batch b003 -- pass: full_context -- 1 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b003.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET d5299948 (thread packet) ===
+POST TITLE: What is the most overrated restaurant and its better alternative to you?
+POST BODY: For me it’s Carbone, Emilio Ballato’s is less expensive and I feel the quality and service was better.
+
+THREAD, in reply order. Label ONLY the comments with a bracket number [n]. Lines marked (context) are there to read, not to label.
+(context) u/GotLittUp: Halal Guys/Adel's are overrated. 
+
+I prefer Royal Grill Halal, Kwik Meal, Sammy's, or Rafiqi
+  (context) u/spageddy_lee: I agree but I also have not heard of anyone who is not a tourist talking up Halal Guys recently
+
+Adel's sucks though, you're right.
+    (context) u/GotLittUp: True! It pains me to see people line up for Halal Guys, it's truly terrible food and I hate that it's popular with any group of people LOL
+      (context) u/Red_Army: It's such a shame, the original cart was great. They really turned it into garbage.
+      (context) u/Mauve__avenger_: It's like BAD bad, not even mediocre. I can't believe they are still as popular as they are
+    (context) u/StarrkDreams: Does Adel’s actually suck? I never been but was under the impression it’s actually pretty good, just not worth the long line.
+      (context) u/efuipa: Adel's is delicious, don't listen to him. The wait is absolutely not worth it, though.
+      (context) u/ultimatefishlover: I thought it was pretty good, but yeah just not worth waiting for any more than like... 15 minutes
+    (context) u/dannyrac: Keep my Adels name out your mouth
+  (context, deleted or too short to be sent) u/Thick-Definition7416: Rafiqi!!
+  (context) u/Cheezfri: Which Rafiqi are you talking about? Hard to find on Google maps.
+    (context) u/GotLittUp: 31st and Broadway!
+    (context) u/martha_stewarts_ears: There used to be one at the top of Union Square too
+      (context) u/real-human-not-a-bot: There certainly WAS one near Stuyvesant a few years ago, but I dunno if it’s still there now.
+      (context) u/20letterwordsarehard: Still is. Corner of 17th and Broadway.
+Got it today. Still very good.
+  (context, deleted or too short to be sent) u/coolmesa: Mido’s ftw
+  (context) u/iniquities: Halal Guys hasn't been as good since they expanded.
+
+I actually like Adel's because they have my favorite hot sauce but I'd only get it like twice a year with the hour long line. 
+
+Royal Grill I feel like went down post-COVID.
+
+Kwik Meal I do like because they do things differently
+
+Sammy's has not been as good for 10 years since the original owner retired - I prefer Bashir's a block down
+
+Rafiqi I haven't had since pre-covid but they were always my recommendation to anyone who wants a great salad combo because they got figuratively everything in their salad combo. 
+
+I'd also add on King of Falafel & Sharwma by Ditmars, or Habiba B&B on Steinway for anyone in Astoria
+    (context) u/turnmeintocompostplz: I definitely appreciate the salad spread Rafiki has. It's the solid choice, it's good falafel when you want to know what you're getting. Always bummed when I try a new cart and they throw it on the flat top and chop it up. Like, my guy, cmon.
+  (context) u/pinkiendabrain: Adding Shah's Halal (Sunnyside) to your list of preferred
+    (context) u/turnmeintocompostplz: Oh, if we're getting granular the two at 86/5 in Bay Ridge are great. I prefer the SE corner but the NE is very good on its own and doesn't get the dinner rush line.
+  (context) u/cold_hard_cache: I'm in Seattle so I don't know why I got shown this thread, but I'd rather eat plates out of the trash at Shawarma King than the food at the halal guys here. At least the plates would have good sauce on them.
+(context) u/Impressive-Bass7928: was thinking of asking something like this - looking forward to the replies for sure!
+  (context) u/thenumbersthenumbers: Same, this is a perfectly worded starter thread…
+(context) u/zxyzyxz: Not overrated per se but good alternatives
+
+Veselka -> Little Poland, Ukrainian East Village Restaurant
+  (context) u/dumberthenhelooks: I find this funny bc growing up here no one really talked about veselka’s food being great if you were looking for Ukrainian, but it was open 24 hours and you could get drunk perogies at 2 am and that was amazing. The Ukrainian restaurant is definitely better. But veselka is pretty good
+    (context) u/zxyzyxz: Sadly due to the pandemic, Veselka is not 24 hours anymore which is why I thought it were overrated per OP's question.
+      (context) u/dumberthenhelooks: They announced they are going back to 24 hrs starting this summer
+        (context) u/zxyzyxz: Nice that's great, hope more places go back to that if they were affected by COVID
+      (context) u/turnmeintocompostplz: Yeah, it's fine and I go, but it being open 24/7 is probably where it got 20% of the credit it gets.
+  (context) u/Swolnerman: I thought the same, went to little Poland for a while before going to veselka for the first time. I like little Poland more personally, but the staff at veselka are better and it’s a better atmosphere
+  (context) u/Capable-Routine-846: thought veselka was okay and little poland was trash
+  (context) u/ghostlymadd: Couldn’t agree more. Veselka isn’t bad but Ukrainian East Village Restaurant has no wait the food is better so…
+  (context) u/contempt1: I miss Kiev and Odessa, both of which were open late. And super cheap and tasty.
+  (context) u/PotatoBoxx: honestly wasn’t a huge fan of little poland but love veselka. gotta try ukrainian east village next
+  (context) u/mooutdaway: Any polish restaurant in greenpoint is better than those
+  (context) u/tacologic: Veselka was really disappointing last time I went 😕
+  (context) u/ThreeLittlePuigs: Streecha better than them all
+(context) u/tiggat: Rezdora is overrated, go to olive garden times square instead.
+  (context) u/techrino: Olive Garden is barely food let alone Italian food!
+    (context) u/cjf618: Don’t talk about my family like that.
+  (context) u/According-Rhubarb-23: Honestly I actually agree with this. Rezdora is the most overhyped restaurant in the entire city. I went twice when it opened. First time, meh. Second time, my pasta came out cold. It was sent back and cold again! 
+
+At least Olive Garden comes out hot
+(context) u/Classic_Schmosssby: Rezdora and Carbone are overrated. Romans and Evelina (both in Fort Greene BK) are great!
+  (context) u/shaolin_shadowboxing: Oh man if you’re talking Fort Greene, Larina is the bomb.
+    (context) u/cjf618: Shhh don’t tell people about Larina!
+      (context) u/Classic_Schmosssby: Lmao ngl I didn’t drop my favorite for fear of it blowing up. It’s small and not always easy to get a table so I’m very selective of who I take there
+        (context) u/Vegetable-Judge: Where is it? Oh I remember. I know it. What’s the name of that one again? I don’t want to butcher it.
+          (context, deleted or too short to be sent) u/Classic_Schmosssby: Nice try 😏
+            (context) u/Vegetable-Judge: I have nothing. Please. Give me this. Please. I’m a desperate boy.
+    (context) u/martha_stewarts_ears: So weird, I didn’t like Larina! I was so annoyed about portion size and felt it was boring. I was quite buzzed though so I don’t really remember haha
+
+Love Evelina though. And Olea, the best
+  (context) u/martha_stewarts_ears: Love Evelina. Different cuisine but my fave in the area is Olea.
+  (context) u/QnsPrince: Rezdora is not overrated. Its overpriced but the food is fantastic.
+    (context) u/Classic_Schmosssby: I was underwhelmed. Portions were tiny and got cold almost immediately. Nothing other than the gnocco fritto stood out as exceptional to me. Wine pairing was very nice. Overall I was disappointed and spent >$650
+    (context) u/theonly5th: Went right when it opened and it was incredible. Went a few years later and it was fine, a bit underwhelming. Carbone is good but insanely overhyped.
+(context) u/dgreify: Eleven Madison Park
+  (context) u/zxyzyxz: It is overrated for sure, I'd recommend literally any other good vegan place in the city.
+    (context) u/randy1000000: the food is great but you can get great food at a lot more affordable places. 3 stars is usually more about service and experience, which i found to be exceptional.
+(context) u/sgobv: John’s of bleecker st
+  (context) u/Vegetable-Judge: Oooo someone said something stupid 
+
+Hehe just kidding but yea don’t say that mister (or misses or whatever you are, a non pizza connoisseur)
+  (context, deleted or too short to be sent) u/Capable-Routine-846: agreed
+  (context, deleted or too short to be sent) u/bigwager1010: You’re right
+(context) u/GaelicInQueens: Vinegar Hill House. Food is priced like it’s something special when it’s average in my opinion
+  (context) u/MaizeNBlueWaffle: Agreed, food was good, but not mindblowing. I also hated the service there. Everyone who works there is just so pompous
+  (context, deleted or too short to be sent) u/QnsPrince: Love rolos
+  (context) u/highlyimperfect: This is definitely true but what is the connection between them; do they have similar style/cuisine?
+    (context) u/OccasionallyLogical: This was my thought exactly. One is not an alternative to the other unless you want to travel an hour
+(context) u/disagree4downvote: Dorsia. The Olive Garden in Times Square hits different
+  (context) u/ThatFakeAirplane: Man, a Dorsia joke! You NEVER see that here
+    (context) u/Vegetable-Judge: Yea because it’s impossible to get a reservation there so no one talks about it. It’s good though. My friends sister’s work friends boss went and said it was good. He got the flank steak.
+(context) u/GotLittUp: Joe's Pizza and Prince Street Pizza <<< I prefer Scarr's
+  (context) u/NowhereInColor: I waited almost an hour at Scarrs and the line wasn’t even that long
+(context) u/AvatarofBro: Overrated by whom, exactly? 
+
+So many of these threads just devolve into folks getting mad about what they've seen other people say about restaurants online.
+  (context) u/TheLongWayHome52: I swear this sub thinks everything is overrated lol
+    (context, deleted or too short to be sent) u/Savings_Spell6563: Yeah 🙄
+  (context) u/Embarrassed_Ad7801: To you. That’s what the header says, it’s also up to you if you’re gonna feed into arguments.
+
+You can literally just scroll by and ignore it.
+(context) u/OtherHalf747: Lilia is overrated. I think Terre’s pastas have more flavor. Forma’s pastas are half the price, and while they may not have the same quality of cook as Lilia’s, they are still really good.
+
+L’Industrie is overrated. It’s a pretty good slice but it’s definitely not god’s gift to pizza like some make it out to be. Sal and Carmine’s is better (and you won’t have to wait).
+
+I thought Oxalis’ food was, with the exception of their bread, largely forgettable. I think it having a Michelin star makes it overrated. They’re currently closed but will be reopening somewhere else nearby soon-ish. If I was looking for that vibe, I’d pick Olmsted nearby instead.
+  (context) u/Working_Crew5402: Love Lilia but agreed on Oxalis
+  (context) u/highlyimperfect: You can't even really compare l'industrie to sal and Carmine's they are totally different things.  But yeah all these fashionable pizza places (e.g. I'd put lucali in here too) are just not worth the hassle
+  (context) u/arie222: I went to Lilia recently and thought it was incredible. Definitely lived up to the hype.
+  (context) u/RedditAccount707: Oxalis's non-alcoholic pairing was exquisite
+(context) u/dirtybubblemartini: Expensive omakase is overrated, always go for the “cheap” places. I’ve had a range of omakase experiences at different price points and I’ve always been let down by the more expensive places I’ve gone (Sushi Yasuda, Shota Omakase), and satisfied by their less expensive counterparts (Takumi, Sushi Lin).
+  (context) u/ThatFakeAirplane: Just stick to Whole Foods sushi and stay out of the omakase conversation, then.
+(context) u/killingit0925: Joe’s Shanghai, Halal Guys, Baz Bagels
+[1] u/angrystudent94: Fedoroff’s, the sandwiches are expensive plus I’ve had far better. The roast pork was bland, Defonte’s has a far better roast pork special. The cheesesteak taste more like a hamburger, off the top of my head Rocco’s on Northern Blvd has a better one
+  [2] u/jeanyes_: Agreed on the roast pork but I did love the cheesesteak
+  [3] u/114631: As someone who has sung the praises of Rocco's, it was *terrible* last time I had it. Meat was terrible, dry, chintzy. Barely any cheese. I couldn't believe it. Used to love them so much.
+    [4] u/angrystudent94: Yea sometimes they’re hit or miss, the last time I went they really loaded up the sandwich
+[5] u/Archibald-Tuttle: I’m not sure if this OP is bait or not, but saying Carbone is overrated then listing Emilio Ballato’s a not-overrated alternative?
+  [6] u/surferpro1234: Ballatos used to be easy to walk in to. Until “They” found out about it.
+[7] u/Kamui_Amaterasu: Lindustrie — i had both the burrata and regular at willy b and west village and to me the regular was better and its nothing amazing, probably a 7.5 or 8 at best. I don’t understand the raving reviews for the burrata slice either, it doesn’t do anything for me, in fact I prefer the slice without it.
+
+Overall, the best strictly cheese pizza I’ve had is johns of bleecker. The best pepperoni square ive had is prince street (although sometimes they’re inconsistent).
+  [8] u/MaizeNBlueWaffle: I think L'Industrie is properly rated, but I also don't think it's worth waiting in the current lines for.
+    [9] u/Vegetable-Judge: Nothing is worth waiting in a line. Especially pizza. Not in NYC at least.
+      [10] u/mamaBiskothu: Not a long line but any place with no more than 10 people in front of me has been a hassle
+        [13] u/Vegetable-Judge: Fine 10 ppl max including children
+  [11] u/QnsPrince: This might be the worst take here
+  [12] u/papal00: Finally another L’Industrie truther.
+  [14] u/Cartadimusica: Wait till mamas too opens this week
+[15] u/samtresler: Lucali's. Guissepina's is just as good and there is no hassle.
+  [16] u/curiouslyseekingmore: Does Guissepinas have the calzone, too?
+    [17] u/samtresler: Yep.
+
+Only wish they had a salad or some lighter appetizer.
+(context, deleted or too short to be sent) u/timexconsumer: Parm>Carbone
+  [18] u/JelloDarkness: They are both "meh", but for some reason people lose their minds trying to claim otherwise.
+    [19] u/Vegetable-Judge: Park is terrible.
+  [20] u/MikeDarsh: Carbone is overrated but putting it in the same category as Parm is insane
+  [21] u/According-Rhubarb-23: You realize the ownership is the same and that parm sells an incredibly inferior version of the “same” rigatoni? Say what you will about carbone but it’s tough to accept this an actual comparison
+[22] u/MaizeNBlueWaffle: Bonnie's. Probably the most overrated restaurant I've been to in NYC. Food is greasy and lacks any real flavor. Portions are small for the price you pay. It's completely unjustified hype
+  [23] u/martha_stewarts_ears: You gotta add your recommended alternative to answer the brief
+    [24] u/MaizeNBlueWaffle: I thought Wen Wen and Pot Luck Club were both significantly better
+      (context) u/jenryalee: Second Wenwen over Bonnie's, but Bonnie's is better to get drunk at for sure.
+  (context, deleted or too short to be sent) u/Responsible_Mind8470: Agreed  !!!!
+  [25] u/iwantdiscipline: Thank you - I thought I was the abnormality! I really was looking forward to it as a fellow ABC growing up in the indo. I was so underwhelmed and felt like it was a one trick pony umami this and that. I just wasn’t impressed, granted I didn’t eat the McRib dupe, maybe that’s what makes it worth it. 
+
+Their penicillin dupe is fantastic though, gotta give credit where it’s due.
+    (context) u/MaizeNBlueWaffle: > granted I didn’t eat the McRib dupe
+
+Even the McRib was decent at best. Like it felt more like a novelty item than something that actually wowed me with flavor
+  (context) u/pink3rbellx: Agreed on Bonnie’s- 100% hype
+  (context) u/curiouslyseekingmore: I felt so old at Bonnie’s, I had to ask them to turn the music down 😭 but +1 to Potluck Club (esp their fried chicken)
+    (context) u/MaizeNBlueWaffle: > I had to ask them to turn the music down
+
+You must have loved the seizure inducting bathroom then lol
+      (context) u/curiouslyseekingmore: Completely forgot, but speaking of such bathrooms - the one at Fowl Witch scared the F outta me.
+  (context) u/highlyimperfect: I have only been twice but is it possible it went way downhill?  My first visit was amazing, second one was just like meh and I had been talking it up to my dinner companion so got totally embarrassed.
+    (context) u/MaizeNBlueWaffle: I went there like 2 years ago and it was still very meh. No other restaurant in NYC has surpassed how underwhelmed I was by Bonnies
+(context, deleted or too short to be sent) u/QnsPrince: L&B Spumoni
+  (context) u/scurvyderp: Had their pizza a month ago. Prego on soggy bread with canned mushrooms. Don’t know what the hype is about
+  (context) u/iniquities: IMO - L&B's is decent and the problem is that they're the only ones (that I know of at least) who are doing upside down pizza outside of Philly.
+
+Philly definitely has better upside down pizza compared to L&B's though
+    (context) u/QnsPrince: Upside down is not as rare as you think it is
+      (context) u/iniquities: Please let me know where else in NYC I can find it then because I'm in Queens so I'm rarely ever in Bensonhurst.
+(context) u/Sea-Agent-3670: Via Carota - I don’t get the hype!
+  (context) u/clerksrat: That cacio e Pepe!!
+(context) u/llewellynjean: This is Fort Greene specific, but LaRina is overrated and Aita is underrated
+(context) u/bigboynyc69: Baodega on 20th was the absolute epitome of overrated and overpriced. I commented exactly why a while ago on a different post. Just….. never again
+(context) u/Shoddy_Reserve788: Not a restaurant but a bar, white rabbit is the most overhyped place I’ve heard of. Drinks were ok but OD expensive.
+(context) u/Typical_Marzipan_210: Buddakan in NYC. Alt: Red Farm.
+(context) u/dudddee: Please don't come at me but I didn't like 7th Street Burger that much. I know people love it. 
+
+Carbone was good imo but the prices were absolutely wild. I also not sure I need to have steak at Peter Lugers again but I def want to try their burger in the future.
+(context) u/cartermatic: Overrated:  Yoon Haeundae Galbi.
+
+Alternative:  Manhattan:  Jongro.  Or better yet venture out to Queens in Murray Hill and do Ssam Tong or Mapo.  Also enjoyed a meal at Northern160
+(context) u/rnjbond: Most fancy fusion Indian restaurants. Overrated and there's much better Indian food in Murray Hill.
+=== END PACKET d5299948 ===

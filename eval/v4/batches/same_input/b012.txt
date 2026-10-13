@@ -1,0 +1,224 @@
+NYCEats extraction labeling -- batch b012 -- pass: same_input -- 20 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b012.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 4b2e5600 (comment packet) ===
+POST TITLE: Anyone know where to get steak and fries?
+
+POST BODY: To clarify I don’t mean Steak Frites. Its good however I want steak over fries. For example, Colonial grill.
+
+COMMENT: I’ve never had it from this place - how is it different from steak frites?  Looks pretty much the same save for some sauce on top.
+=== END PACKET 4b2e5600 ===
+
+=== PACKET 2ff2ac0b (comment packet) ===
+POST TITLE: Are there any places that have great dessert dumplings?
+
+POST BODY: No, I'm not talking about or thinking of DTF, but I am thinking about DTF, the knock off DTF restaurant I went to as a kid. They used to have these dumplings on the dessert menu that were filled with black sesame paste, and I cannot believe that I've never seen anyone else do the same. Before I resort to setting up my own in-home black sesame dumpling factory, is there anywhere where I could get t ...
+
+COMMENT: What’s a dumpling?
+
+Lots of stores sell tangyuan with black sesame paste filling.
+=== END PACKET 2ff2ac0b ===
+
+=== PACKET a9cd4793 (comment packet) ===
+POST TITLE: Where's a forlorn gal taking herself out to dinner + a drink
+
+POST BODY: Hello! Looking for places to take myself out for dinner with good bar seat situation - am going through the most devastating breakup of my life and would like to get out of our apartment for dinner. (He's moved out, so it's all mine now). 
+
+Feeling fairly price sensitive -  I can't reasonably afford this apartment by myself, so am trying to be conscious of that - so not looking for anything super ...
+
+PARENT COMMENT: & sons - go for happy hour and enjoy their meal deals
+
+COMMENT: Just saw their monday tuesday girls night deal lmao I will be there
+=== END PACKET a9cd4793 ===
+
+=== PACKET 686c8d7a (comment packet) ===
+POST TITLE: Had a really nice lunch at Casa D’Angelo with my family today
+
+POST BODY: [https://cangelomulberry.com/](https://cangelomulberry.com/)
+
+u/casadangelonyc
+
+COMMENT: Welcome to r/FoodNYC!  As a new participant your post has been filtered for further review due to the influx of low effort, unresearched posts here.  Please be patient and your post will be approved (or not) shortly!
+
+*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/FoodNYC) if you have any questions or concerns.*
+=== END PACKET 686c8d7a ===
+
+=== PACKET 1e86df94 (comment packet) ===
+POST TITLE: Eleven Madison Park Walks Back Its No-Tipping Policy After Five Years
+
+PARENT COMMENT: why are they going downhill so much?
+
+COMMENT: Inflated egos, going vegan, charging super high prices for being vegan and most importantly just not serving very good food. 
+
+Hypocrisy in the form of still serving meat in the private dining room, too. 
+
+This is effectively a 20% hike in prices for the end user. 
+
+It’s really a shame because a lot of guests are people that have saved up for the meal of a lifetime and are now thoroughly being let down.
+=== END PACKET 1e86df94 ===
+
+=== PACKET 2e5ac11b (comment packet) ===
+POST TITLE: I kept hearing about “Pies n Thighs” finally to be disappointed
+
+POST BODY: I thought this restaurant would be much better so many ppl review this high saying how good it is and nope. Don’t order the sweet tea if you don’t love lemon because that’s all you taste. The fries were good but most likely frozen fries I give the meal 6/10. Any thoughts on this restaurant [Pies n Thighs](https://piesnthighs.com/piesnthighsparkslope)
+
+PARENT COMMENT: You went to Pies n Thighs and didn’t get either of the things in its namesake?
+
+COMMENT: My rule of thumb is when trying some new or hole-in-the-wall place, I always get what's in the name or depicted on the sign on a first visit.
+=== END PACKET 2e5ac11b ===
+
+=== PACKET d987f1a8 (comment packet) ===
+POST TITLE: Really cheap eats around NYC. Manhattan, Brooklyn, Bronx Zoo.
+
+POST BODY: Im going in august for a week with two children and my sister. We will stay at Washington heights. I’m going to be covering most of the expenses, so my budget is very tight. I rather save the funds to live experiences rather than food. Any suggestions?   
+Places we will be visiting: Time Square, Bronx Zoo, Acuarium, Dumbo and Brooklyn Bridge, Governor’s Island, staten island ferry, Central park, T ...
+
+COMMENT: Burgers: 7th Street Burger, they have a location near times square and others. $6 burger, step up from generic fast food, and it is a NY experience of a smashburger too.
+
+Pizza: The $1.50 slice shops do the trick if you want cheap. It isn't amazing pizza by any means, but again, it is also sorta a NY thing.  For slightly more you can do a bit better (e.g. NY Pizza Suprema is I think $4 slice these days).
+
+As others have said, packing a lunch is a good option too, but if you don't want to make lunch and pack it, grabbing things at Trader Joe's that are premade will still be cheaper than most restaurants.
+=== END PACKET d987f1a8 ===
+
+=== PACKET 1e66283a (comment packet) ===
+POST TITLE: feasting on pasta at Misi in brooklyn
+
+PARENT COMMENT: whats the estimated damage, if you dont mind me asking?
+
+COMMENT: About $25 per pasta!
+=== END PACKET 1e66283a ===
+
+=== PACKET 068d1743 (comment packet) ===
+POST TITLE: what’s your personal “most worth-it” pizza spot? Building a community ranking and need your input 🍕
+
+POST BODY: I’m working on a little side project that ranks NYC’s favorite pizza spots based purely on anonymous crowdsourcing like reddit upvotes/downvotes (kind of like a live, community-powered Top 10 list).
+
+It’s still super early beta, so before I even plug anything in, I want to sanity-check my starting list.
+
+Right now, these are the 10 my friends and I came up with and our personal ranking. **see pict ...
+
+COMMENT: Lucali is great, but I would never wait hours in line. I only go because I live across the street, and sometimes when I notice there’s no line, I can grab a late table. Is it good? Absolutely delicious. Is it worth waiting in line at 2 p.m. with beach chairs? No fucking way.
+=== END PACKET 068d1743 ===
+
+=== PACKET 0c764c25 (comment packet) ===
+POST TITLE: best cheap dive bar in manhattan?
+
+PARENT COMMENT: Decent price for a Bud Light but most places let you shit for free.
+
+COMMENT: Haha, I'm not changing it!
+=== END PACKET 0c764c25 ===
+
+=== PACKET 8ad56029 (comment packet) ===
+POST TITLE: First time NYC and willing to try it all grom everywhere
+
+POST BODY: I‘m not a foodie per se but I guess that NYC is great place to try food from the Caribbean, Creole cuisine,  Levanthinian and African kitchen. We‘re a family of four, totally non urban non of US origin farmer‘s family and will be overwhelmed by NYC anyway. But, any ideas on how to start diving into the food adventure would be great. No need for fancy restaurants we‘re totally cool with family kitc ...
+
+COMMENT: Try searching the sub for specific kinds of cuisine you want to try and you'll get plenty of suggestions. Broadly speaking, the best examples of these cuisines will be outside of Manhattan.
+=== END PACKET 8ad56029 ===
+
+=== PACKET a4302836 (comment packet) ===
+POST TITLE: Seirinkan x Sake No Hana - A different perspective
+
+POST BODY: I will start this off by saying $45 for a pizza is pretty damn overpriced. However, the pizza was amazing and definitely one of the best Neopolitans i’ve had - I would still put Una Pizza and Pizzeria da Ciro in Kyoto above it though. 
+
+I want to talk about the recent negative review though and the complaints about the wait time. In the 45 minutes I spent at Sake no Hana i witnessed 2 different gr ...
+
+PARENT COMMENT: i forgot this sub is a bunch of tech bros who act like they’re food experts because they’ve been to astoria one time
+
+COMMENT: Yeah no idea why you are being downvoted. Thanks for the post. Likely reason is they have never had Japanese pizza. Japanese Italian is by far my favourite cuisine. Next time I’m in NYC will certainly try this.
+=== END PACKET a4302836 ===
+
+=== PACKET 4b714ade (comment packet) ===
+POST TITLE: Best Japanese restaurants that aren’t sushi or ramen?
+
+POST BODY: I’m looking for the best authentic Japanese food to take some family visiting from out of town. They are older so preferably places I can make a reservation and not outrageously expensive. 
+
+Eater only has out of date Japanese roundups for non sushi, and most lists I’ve found online are very trendy/touristy and not focused on the food. I searched through Reddit but couldn’t find a good list. 
+
+Hav ...
+
+PARENT COMMENT: Sakagura is amazing. It’s an upscale izikaya/ sake bar. And bonus points for feeling like an actual Tokyo restaurant. Tucked in the basement of an office building.  It’s great. Best sake selection in NYC too.
+
+COMMENT: Oh yeah, I’ve been going to sakagura for years, it’s been a few years but it’s always a good option.
+=== END PACKET 4b714ade ===
+
+=== PACKET 7c9c30e3 (comment packet) ===
+POST TITLE: Bang-bang recommendations for parents' night out - Manhattan edition
+
+POST BODY: Recently, my wife and I have picked a restaurant off the NYT Top 100 restaurant list for our birthdays. We've dined at Atomix, Torrisi, Claud, Via Carota, and Lilia. Other years, we've gone to some more of our rotational spots like St. Anselm, Minetta Tavern, or NURA (RIP). 
+
+For this year, we were thinking about places like Thai Diner, Smithereens, and Penny. We've also heard a lot about Banh Anh ...
+
+PARENT COMMENT: I love that this reference is being actively used by someone other than myself.  All dining becomes a bang bang for me.  It's sad and glorious at the same time
+
+COMMENT: Didn’t know this was a thing I’ve been doing bang bangs forever, especially on dates, just to change up the scenery at times
+=== END PACKET 7c9c30e3 ===
+
+=== PACKET a4fb5254 (comment packet) ===
+POST TITLE: Most elite tacos in NYC?
+
+POST BODY: I finally got around to trying Los Tacos 1 and it does in fact, deserve the hype! Really juicy al pastor meat and tasty handmade tortillas (both corn and flour). Very authentic in both its food and atmosphere. People complain about the price, but it's like a dollar more than average for a much better taco.
+
+So far that puts Los Tacos and Taqueria Al Pastor in the elite category for me, with everyw ...
+
+PARENT COMMENT: Taqueria Ramirez is definitely one of the best. My best friend prefers Ramirez Al pastor tacos over Los tacos adobada, my wife prefers Los tacos, says Ramirez is dry and too salty for her taste. Birria landia is often brought up as the best Birria in nyc but I think nenes taqueria is just as tasty.
+
+COMMENT: Nene’s is so good! Just an inconvenient spot for me personally otherwise I’d be there constantly
+=== END PACKET a4fb5254 ===
+
+=== PACKET 034ec625 (comment packet) ===
+POST TITLE: Sonny in chinatown
+
+POST BODY: First time seeing him. Didnt realize the guy is so tall...
+
+COMMENT: He's around 6 feet or something similar. Place seems to be to A+ Hot Pot Rice Noodles on Mott. Haven't been but it looks tasty.
+=== END PACKET 034ec625 ===
+
+=== PACKET 0a79130b (comment packet) ===
+POST TITLE: The 22 Best Pizza Places in New York Right Now
+
+PARENT COMMENT: Which location do you go to?
+
+COMMENT: This is the difference maker for joes. If you go in times square you’re gonna be extremely disappointed
+=== END PACKET 0a79130b ===
+
+=== PACKET c0afe269 (comment packet) ===
+POST TITLE: What do you think of this take on the nyc food scene?
+
+COMMENT: I’m thrilled I don’t need the internet to know what I think of a restaurant and certainly don’t need it to decide whether a restaurant is worth going to, and therefore I can be marked safe from what douchebros ranging from this guy all the way to that pizza guy think about anything.  This sub is fun recreationally for answering some questions, but otherwise ignoring the hype train completely not only works fine for me in terms of quality of what I eat but also in terms of avoiding the worst of noxious restaurant companions.
+=== END PACKET c0afe269 ===
+
+=== PACKET 6abc257e (comment packet) ===
+POST TITLE: Staying in midtown and looking for suggestions for 5yo
+
+POST BODY: Hello, 
+
+I really enjoy this sub. I'm staying near Grand Central and have been many times. I usually love halal (Royal Grill and/or Kwik Meal), and 2nd Ave Deli (not so much Katz), Eileen's Special Cheesecake, Breads for babka (for example) but am looking for some suggestions because I'm traveling with a five year old who wants pizza for every meal, so I'm really hoping for some suggestions that m ...
+
+PARENT COMMENT: How about going to K-town, make a trip of it, check out some shops, and then get Korean Fried Chicken (or wings) lots of spots.
+
+COMMENT: Good idea. There’s also Prince Tea House in Ktown for little princess vibes.
+=== END PACKET 6abc257e ===
+
+=== PACKET 2d304c6c (comment packet) ===
+POST TITLE: Need backup restaurant for Aug
+
+POST BODY: My wife’s and my first trip away after having our first baby. Been practicing Atomix reservations for 4 months but it’s been 50/50, even for Tues-Wed.
+Looking specifically for the best 2-Michelin star spot to shoot for as a backup? Leaning toward either Daniel (never been to a Boulud place) or Gabriel Kreuther.
+Thanks for any suggestions. https://guide.michelin.com/us/en/new-york-state/new-york/re ...
+
+PARENT COMMENT: Been to most of those 2 stars. Daniel is old school fine dining, I think they play it safe these days bc they have a long established clientele that keeps going back. Everything good but not as memorable. Gabriel Kreuther is pretty good as well, probably around same level as Daniel for me. 
+
+My favorite two were Aquavit and Atera, just outstanding in terms of flavor. Could still look at pics from the visits and taste the food. I’m also big fan of The Modern and Saga. Aska was probably my least favorite, still enjoyed it but flavors too foreign for me.
+
+COMMENT: Hey thanks for taking the time to help me out. What was it about Aquavit that made it so much better than Aska for you?
+=== END PACKET 2d304c6c ===

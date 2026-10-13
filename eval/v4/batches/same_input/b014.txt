@@ -1,0 +1,258 @@
+NYCEats extraction labeling -- batch b014 -- pass: same_input -- 20 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b014.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 4062d0f7 (comment packet) ===
+POST TITLE: Recommendation for Korean Fried Chicken
+
+POST BODY: While I love national chain Bon Chon, I'm looking for some more local, authentic places. TIA
+
+PARENT COMMENT: Turntable Chicken Jazz
+
+COMMENT: This is the way.
+=== END PACKET 4062d0f7 ===
+
+=== PACKET f1c95dfd (comment packet) ===
+POST TITLE: Getting reservation at Bungalow, NYC by chef Vikas Khanna
+
+POST BODY: Im trying to get a reservation at bunglow for months now. And it always shows unavailable on Resy 
+I have checked Resy on the time mentioned on the bungalow website and at random times but I’m never able to get one 
+Did anyone else get the reservation over here then please give me some tips
+
+COMMENT: Have you tried via any of the apps like ResX, Cita, RezyTrader, Wuwwuw, AppointmentTrader, etc.? Check them out.
+=== END PACKET f1c95dfd ===
+
+=== PACKET fba1ee5f (comment packet) ===
+POST TITLE: Reigning pizza slice downtown Manhattan? L’industrie?
+
+POST BODY: I am an avid consumer of pizza by the slice. I’ve been on a L’industrie kick for months now and very content, but browsed this sub the other day and was surprised by the hate L’industrie has been getting, for what I consider a standout slice.
+
+Educate me on what slice shops are the best these days. For someone who’s struggled to find anything better than L’industrie.
+
+Places off the top of my head ...
+
+PARENT COMMENT: The one in FiDi is BAD. It’s almost like it’s not the same place.
+
+COMMENT: Completely agree
+=== END PACKET fba1ee5f ===
+
+=== PACKET 7c9af0b7 (comment packet) ===
+POST TITLE: Returning to NYC after 10 years with a few questions.
+
+POST BODY: Hey everyone, used to live in NYC and staying over the weekend in park slope. On Friday might go to the Blasket (more my friends thing than mine).
+
+So, looking for cheapish bars between the two spots ideally with some good food. Late night food a plus.
+
+Apart from that, got any bar with a great smash burger reccs in Brooklyn? 
+
+Also looking for your favorite cheap spots near park slope, stuff you ...
+
+PARENT COMMENT: If you want to check out some NY beers, there's a cluster of 4 breweries within a 4 block radius. (Technically they're like a block west of park slope lol).
+
+There's Strong Rope and Finback on the same block, Wild East about 2 blocks away, and Threes brewing at a other 2 blocks away.
+
+I've only been to threes brewing and strong back once, I can't tell you which brewery is the best lol.
+
+COMMENT: Highly recommend strong rope for non-hops lovers, Finback for the IPA set, Wild East for a wide variety of options and Three's for it's Meat Hook offering.
+=== END PACKET 7c9af0b7 ===
+
+=== PACKET 452933f7 (comment packet) ===
+POST TITLE: Last minute brunch today near Lincoln Center
+
+POST BODY: A friend is in town. Is she seeing a matinee at Lincoln Center this afternoon. She suggested brunch. I know there’s the Smith…. that’s the obvious choice. I’m afraid it will be packed and I haven’t a reservation. Any place else near Lincoln or on the UWS?
+
+COMMENT: Old John's Luncheonette - a few blocks from Lincoln Center
+=== END PACKET 452933f7 ===
+
+=== PACKET da61d4de (comment packet) ===
+POST TITLE: Adel’s Halal is NOT worth it
+
+POST BODY: After hearing all the hype around Adel’s Halal food on 6th and 49th st, I decided to try it over the weekend. Even at 2AM, the wait was nearly an hour and a half. The line was ridiculously long and slow moving. Going through security at JFK during rush hour is a much more pleasant experience than waiting on this line. The food itself is just average at best, with any other halal cart being just as ...
+
+PARENT COMMENT: It's something to do while you're drunk with your buddies, after leaving the bar. If you're raw-dogging the Adel's line sober, you're probably not going to have a great time.
+
+COMMENT: Post bar is the worst time to wait an hour for food
+=== END PACKET da61d4de ===
+
+=== PACKET 9a75447c (comment packet) ===
+POST TITLE: Favorite Pizza in NYC?
+
+POST BODY: I have an affinity for Joe’s Pizza, on carmine street, I know it’s not “top tier” but their pizza is always consistent and Ive been going there my whole life.
+If you’re lucky enough to have the father or son make the pizza it’s always on point.
+
+COMMENT: Used to be New Park but after 2020 their quality tanked. 
+
+Louie and Ernie's is also slept on pretty hard but those who know, knows.
+=== END PACKET 9a75447c ===
+
+=== PACKET 3d24fb6a (comment packet) ===
+POST TITLE: At Ceres Pizza — when the fuck did this become okay???
+
+COMMENT: I report to 311. Harass the establishment enough so they have to enforce the rules or they shut down instead of you having to police disgusting people who let their filthy dogs in restaurants.
+=== END PACKET 3d24fb6a ===
+
+=== PACKET 86a0b758 (comment packet) ===
+POST TITLE: What are a few of your fav restaurants/eateries that have permanently closed?
+
+POST BODY: A few of mine are: Gotham Bar&Grill, Arizona 206 and Mustang Grill
+
+PARENT COMMENT: I cam send you the recipe if you like
+
+COMMENT: Post this right here please - the whole world should know this joy
+=== END PACKET 86a0b758 ===
+
+=== PACKET abf0ba68 (comment packet) ===
+POST TITLE: What trendy/popular coffee shop/dessert spot did you try because of the hype, and were you surprised by how good it was or disappointed by how bad it was?
+
+POST BODY: Name one place for each!
+
+COMMENT: Maman coffee is incredibly mid, though their pastries are great. Caffe Panna was disappointing only because they ran out of their specials by 4 pm on a Tuesday, but the regular ice cream is good & worth the wait nonetheless.
+=== END PACKET abf0ba68 ===
+
+=== PACKET f1611b32 (comment packet) ===
+POST TITLE: How is caffe panna so good?
+
+POST BODY: Can someone explain the science behind why caffe panna is seriously so good??? I have had it multiple times at their Manhattan location but I recently tried their pints from butterfield market and they are incredible as well. There is truly no other ice cream that compares.
+
+PARENT COMMENT: Sorry you’re having a bad day. Have some ice cream. I hope your day gets better Gracias.
+
+COMMENT: My day is great. You need to read before writing.
+=== END PACKET f1611b32 ===
+
+=== PACKET 2b286bb8 (comment packet) ===
+POST TITLE: Where do you take an out of towner for their first pizza?
+
+POST BODY: I have my favorite spots- tbh i usually take guests to table 87 gowanus for a pie. I have a family member coming for their first ever time staying in SoHo and am thinking of doing pizza then grimm ales. So maybe lower manhattan or williamsburg which is not my usual pizza destinations. Feel somehow more pressure than normal?
+
+COMMENT: Joe's Pizza is still the NY slice in my opinion, lindustrie has a better slice johns has a very different pie prince st a particular square but for that NY style slice Joe's is still my top choice and usually there's zero to little wait vs most other places you can wait 30+ minutes. I don't think a y are better than the rest they're all different and great in their own regard so best option is try them all!
+=== END PACKET 2b286bb8 ===
+
+=== PACKET 496e1675 (comment packet) ===
+POST TITLE: Was on Resy at Midnight for an I Sodi res. No availability. What's going on?
+
+POST BODY: I was on Resy at 11:59 prepared to snag an I Sodi reservation 14 days out. The clock hits midnight and there are no reservations listed, only the notify button. 
+
+What's happening? Are bots instantly taking all the reservations?
+
+PARENT COMMENT: May just try walking in. I reached out via email and was just told to put on a notify
+
+COMMENT: Call them and talk to an actual person if you want a real answer
+=== END PACKET 496e1675 ===
+
+=== PACKET dbbdd9a7 (comment packet) ===
+POST TITLE: Trade NYC dinner Reservations?
+
+POST BODY: Not sure if this is the right place to post this but I was wondering if anyone had a Tatiana reservation they wanted to trade me.  In exchange I will give 2 reservation (maybe 3) on the day of your choice (as long as its 2-3 weeks away) at some of the most difficult places to get into in NYC.  I need a reservation for Tatiana for 6 people on Monday 8/26  around 5:30-7 reservation time.  please DM ...
+
+COMMENT: What are these most difficult places to get into? Can you do 4 charles
+=== END PACKET dbbdd9a7 ===
+
+=== PACKET 7bf75d91 (comment packet) ===
+POST TITLE: Pepperoni slice at Stretch Pizza
+
+PARENT COMMENT: They started recently selling slices weekdays too, after 11:30 AM. [Here's 3 slices](https://imgur.com/a/CyUbJAv) my friend and I watched me eat last Thursday.
+
+COMMENT: Oh boi! More of a reason to go nowadays! i ‘had to’ order an entire pie and then down it because no one went a few times with me.
+=== END PACKET 7bf75d91 ===
+
+=== PACKET 51f9a7ce (comment packet) ===
+POST TITLE: Cuisines/dishes in NYC that I can't find in Toronto?
+
+POST BODY: I see a lot of posts here asking about great Chinese, Indian, and Italian food. For anyone who hasn't been to Toronto, we have a pretty incredible food scene ourselves. Because of how multicultural the city is, you can find genuinely good versions of pretty much every major cuisine here — Chinese, Indian, Italian, Middle Eastern, Korean, Japanese, Caribbean, etc. I’d say Toronto can hold its own w ...
+
+PARENT COMMENT: Thank you . Will look into the BBQ
+
+COMMENT: You’re actually super lucky, those two places opened up super recently. Until then I, a native Texan, thought everything else sucked. Go to Goldees if you can, that is a true and authentic representation of Texas BBQ.
+=== END PACKET 51f9a7ce ===
+
+=== PACKET 6f16797c (comment packet) ===
+POST TITLE: Racist experience at the Commerce Inn in the West Village
+
+POST BODY: Had a really uncomfortable experience at brunch at The Commerce Inn in the West Village this weekend that honestly felt discriminatory.
+
+I'm a brown woman. I walked in to ask for a table and the host told me there were ZERO spots left and that the waitlist for brunch was completely CLOSED for the day.  
+But while I was standing there, I watched two white families/groups before and after me get sea ...
+
+PARENT COMMENT: For the uninitiated white people in this thread, let me tell you that no matter how much you want to believe that this shit is just circumstantial, this happens to poc’s CONSTANTLY, and we are subjected to unrelenting micro or macro aggressions, no matter how we present socioeconomically. 
+
+In the end most of us just accept it for what it is and move on because it’s not worth the fight or confrontation where we are made to look unhinged or reactionary. 
+
+No we are not just trying to pull the race card to get something out of it. We just want to be left the fuck alone and treated as equals.
+
+COMMENT: I've told this story on Reddit once before, but maybe worth telling it again...   
+I--white guy--grew up rather poor in Manhattan with mostly minority friends, most of us never took cabs, bc... no money. Cut ahead to I'm 18yo and working for a Broadway show where I become best friends with the star, a young black man who just won his 2nd Tony award--he's well known enuf that he gets asked for his autograph most the time when we're out and about.  
+Anyhow, after the show one night, we don't take his car service (limo) and decide to catch a cab to a club or dinner thing--can't recall--but he tells me to catch us a cab. I said, what, you're too big a star to catch us a cab now?  
+He says, yeh, whatever, just catch us a cab. I said something back and he said: "You really don't know, do you?" And I asked what he was talking about.  
+He looked pretty surprised at my ignorance, but he walked into the street and held up his hand, and cab after cab drove right past him.   
+He gestured for me to go, and I held up my hand and two cabs are trying to get around each other to get to me first.  
+I honestly had no idea.  
+   
+And I'm sorry OP that you had to feel some of the same feelings my friend felt so often.  
+   --   
+  
+About that friend, if we were going out his agent would often call ahead and make reservations, but he was well known enuf that we generally didn't run into issues with him getting a table, but about the racist cab drivers? Once they realized who he was, they'd ask for his autograph and act like his best friend.     
+   
+  The story about him and racist cops in L.A. I'll save for another day.  I did write one story about him I was kind of proud of, a sad story about the night Gregory Hines died... and [it was an homage to the remarkable Greg Burge, as well.](https://youtu.be/3u6pSsP2PGY?si=kweuSBMMVkodp9Cz)
+=== END PACKET 6f16797c ===
+
+=== PACKET 117dd384 (comment packet) ===
+POST TITLE: Sofia Pizza Shoppe Midtown East/UES  Closed. Crushing blow.
+
+POST BODY: This was my favorite spot in Midtown East, crushed to see it gone. Was in last week and saw it closed as of May 31…anyone know the deal? I’m particularly gonna miss their seasonal grandma :(
+
+  
+Not a lot of great alternatives around the area but would love to hear your spots if you got em. Marainara nextdoor is not same league for me.
+
+COMMENT: Rough neighborhood. Best I got for you is Xeno’s which is about the level of a good neighborhood pizza place at 1.3x price.
+=== END PACKET 117dd384 ===
+
+=== PACKET 10a8dc69 (comment packet) ===
+POST TITLE: Looking to update my walk tour of Chinatown / Little Italy route
+
+POST BODY: All,
+
+So... I used to keep a running list of restaurants I'd visit for a kind of one-day route through Chinatown / Little Italy when I'd visit the city. I had been keeping it updated and commenting on it on Chowhound, but I just realized it has closed down, seeming forever, and with it goes all my notes (I know, I know...).
+
+So I come to you, fellow Redditors, to help me update it. COVID has had m ...
+
+COMMENT: [Here's a older comment that I made](https://www.reddit.com/r/FoodNYC/comments/uvejl1/comment/i9li61p/?utm_source=share&utm_medium=web2x&context=3) on a similar topic. It included a lot of places you already have.
+
+**Bubble Tea:**
+
+* [Tiger Sugar](https://g.page/tiger-sugar-chinatown?share) or [Yi Fang](https://goo.gl/maps/4CinLMBp6Q2SJQ6fA) is pretty good for their brown sugar bubble tea
+* [Ten Ren](https://g.page/tiger-sugar-chinatown?share) for the OG spot. They have a tea shop in Chinatown for as long as I can remember.
+
+**Ice cream:**
+
+* [Taiyaki](https://g.page/taiyakinyc?share) is the instagram spot, the ice cream itself is okay.
+* [Chinatown Ice cream factory](https://goo.gl/maps/MvvT3h5MUyPsDwx57) is the OG historic spot
+* [Minus Celcius Ice Cream](https://goo.gl/maps/WkY68EokhUgdsyNo7) has the thai rolled up ice cream. The taste is meh to me but it's still a fun experience at least once and it's a good to share option.
+
+**Dessert options:**
+
+* [Eileen Cheese cake](https://g.page/eileenscheesecake?share) is pretty much the perfect eat and go spot. They sell these bite size cheesecakes and have a good variety of flavors.
+* [T-Swirl Crepe](https://goo.gl/maps/9nXxedCCZ21D4tny7) for Japanese Crepes.
+* [Keki Modern Cake](https://goo.gl/maps/MLcBPCUgYRH4APCv9) sells whole fluffy souffle Japanese cheesecakes. Not really eat it on the go but it's nice to bring back to the hotel. It's not a super large cake but it's really cheap, around \~$15 for the whole cake.
+
+**Dim Sum:**
+
+I think [Dim Sum](https://www.youtube.com/watch?v=XDZ_H5TFoDQ) should get a honorable mention since it's literally the definition of trying a little of everything and you probably won't have that in Ohio, but it's more of a sit down and eat. It's like Chinese breakfast Tapas, you get to order a bunch of small dishes to share so you get to try everything. Usually they stop serving dim sum after a certain time.
+
+[Jing Fong](https://goo.gl/maps/32jFTZb6K85EfLLB8) or [Golden Unicorn](https://g.page/goldenunicornnyc?share) are good choices if you get to Chinatown earlyish and if you want the full "Cart experience". [Nom Wah](https://g.page/nomwah?share) is more touristy option. The food is still pretty good though and it's a good choice for later in the day as they serve dim sum until closing.
+=== END PACKET 10a8dc69 ===
+
+=== PACKET 5ce018ac (comment packet) ===
+POST TITLE: My top 5 ramen joints
+
+POST BODY: Like for many, Ippudo was my gateway ramen many years ago, over a decade. Since then I have tried a bunch of ramen joints, I would say about 15 so far. And I have been back to numerous a whole bunch of times. This is all for tonkotsu ramen. These are mostly in Manhattan as I live in Jersey City but ride my bike all over Manhattan, BK & Queens, and also just pop in to socialize often. But Manhattan ...
+
+COMMENT: how was tonchin????
+=== END PACKET 5ce018ac ===

@@ -1,0 +1,411 @@
+NYCEats extraction labeling -- batch b019 -- pass: full_context -- 20 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b019.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 34a68f65 (comment packet) ===
+POST TITLE: Craving a good pav bhaji in New York - where can I find?
+POST BODY: https://preview.redd.it/s4b3osj7jmrf1.jpg?width=700&format=pjpg&auto=webp&s=b96baba01cd12efbf5e0b71335f5187ec8325022
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/EnvironmentalSugar67):
+madras dosa company in Times Square. Their dosas are fine but their chaat items, including pav bhaji are great. Their samosa chaat is fabulous too
+
+REPLIES TO IT (context only):
+  u/En1gma20: Thanks for the explanation. I have had the dosa there, didn't like it. So, was not planning on going back; will give their pav bhaji a try.
+=== END PACKET 34a68f65 ===
+
+=== PACKET bd0af997 (comment packet) ===
+POST TITLE: What's the worst food you've had in NYC?
+POST BODY: You can get thousands of fantastic meals all over the city...
+And for the most part, you could walk into any random restaurant and the food will be at least decent, if not good (and sometimes great!)
+
+All that being said, what has been the absolute worst food you've had - I'm talking stop eating mid-meal and go somewhere else awful.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/crazeman):
+My "unique" experience at Xiang Hot Pot was pretty god awful. Cousin was about to move from NY to Chicago permanently so it was our last meal in NY together. She had some friends from Cali visiting NY and they insisted on going to Xiang Hot Pot because they are Instagram fanatics.
+
+Apparently they saw the video from Strictly Dumpling (I won't link the video because I don't like that guy and think he's a fucker, but [here's a 2 min video from Yahoo](https://www.yahoo.com/video/bubble-tea-hot-pot-arrived-141237688.html)) going to Xiang Hot Pot and ordering their very "unique" bubble Milk Tea hot pot. Of course in the video, he makes it sound like the best and most innovative shit he's ever eaten in his life. 
+
+Cooking raw meat into bubble tea tastes as fucking awful as it sounds. The first few minutes I'm like "hey, this ain't so bad, I mean it's not amazing but its kind of innovative", you can chomp on some meat and if you want some bubble tea, you just scoop some out from the "soup". Soon I'm like sorry, this does not taste good. At the end I'm hating myself for ever coming to this restaurant and wondering why this monstrosity is even a fucking thing.
+
+I think it would have been fine if we got a regular soup broth for the 2nd half of the pot so we can cook everything in that and just use the other side as a shitty bubble tea drink. BUT NO, the friends also insisted on getting the spicy soup base because it comes with a cute molded spice bear, and they wanted a video of the bear slowly melting into the hot water bath.
+
+Oh and did I mention that NONE OF THEM can eat anything remotely spicy? They literally got the spicy broth fully knowing that they cannot eat spicy just so they can post it on Instagram because you do not get the spice bear with a non spicy broth. I'm "mid" at best at handling spice, I was the only one eating from the spicy side in the group and I was dying.
+
+So we have one fucking side where we have the option to cook meat in the most mediocre bubble tea that's disgustingly chock full of sugar, the other side was a pit of fiery red spicy hell. My stomach was literally churning from all the sugar and the spice and I'm running to the bathroom, shitting out fire with my asshole burning from the spicey ass broth.
+
+The WORST thing was that afterwards, I found out that the restaurant does NOT have this  bubble tea broth on their regular menu. You literally had to call in a few days beforehand and specifically ask the restaurant and preorder it so they can prepare for it ahead of time. I'm pretty sure we had to fucking pay extra for it too.
+
+(This is not to slander Xiang Hot Pot, I think their hot pot is actually pretty good and meat was pretty high quality compared to AYCE hot pot places, just for the love of god, don't get the bubble tea hot pot shit).
+
+REPLIES TO IT (context only):
+  u/Automation_Papi: Mikey Chen is a fucking weirdo, but majority of his food recommendations are great
+  u/rgumai: AYCE milk(tea)steak? Sign me up!
+
+But no seriously that sounds awful.
+  u/gl0ryBoy-00: i gotta ask why you hate mike chen lmaooo dude seems so normal
+  u/arrogant_ambassador: Bubble tea hot pot?
+
+🤢
+  u/yunet002: I hate what Instagram has done to food. Xiang is actually great of you just order regular hot pot. Sorry this happened to you but I enjoyed reading your description 😂
+  u/thansal: Holyfucks that sounds terrible.
+
+I thought the point of bubble tea hot pot was to have like, bubble tea ingredients and other sweets to dunk in it (more like dessert fondu)!
+  u/Diflicated: Lol you ate milk steak.
+  u/eddy159357: I never take Mike Chen's reviews seriously anymore. That man will basically eat anything and say it's good. After I saw him go to places I knew were mediocre or bad and make it seem like it was the best thing he's had.
+  u/Individual-Plus: I ate there pretty recently and ordered the hot bear soup, I can attest that it was Iiterally the worst hot pot I've had and it was expensive as hell. My stomach was literally dying for almost 2 days after going there lmao.
+=== END PACKET bd0af997 ===
+
+=== PACKET 482e3e03 (comment packet) ===
+POST TITLE: Can I talk about Los Tacos 1 again?
+POST BODY: Ok I have seen a shit ton of posts/comments saying that LST1 is over rated.  I for one, have lived in nyc my whole life.  Most of my experience is in Manhattan because I live here.  I've tried a lot of small mom and pop shops, trucks, stands, and restaurants in my time. Please don't tell me to travel 45-60 minutes outside of Manhattan to go to sunset park or queens to find better tacos. thats ridiculous and most likely the tacos are just ok.  But please tell me if theres anything better in Manhattan.   
+  
+I dont get why theres so much hate for Los tacos 1?  I finally tried their tacos last week and loved them so I'm judging most of you for groupthink. Please prove me wrong.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Rimu05):
+It’s not just Los tacos but I feel like I’ve had pretty good tacos and Mexican food in the city in general. Yeah it’s pricy and even the taco trucks are pricey but the average rent here is like 2-5x more than whatever state other folks came from. So yeah, a taco is going to be 2x more expensive. 
+
+Heck, maybe my taco tastes are mediocre but Rosie’s in the east village even had pretty good tacos to me. Their pork one is incredible!
+
+REPLIES TO IT: none
+=== END PACKET 482e3e03 ===
+
+=== PACKET a3127beb (comment packet) ===
+POST TITLE: Restaurants that you miss in NYC?
+POST BODY: This is not a recommendation thread, but rather I just wanted to see if there were any defunct places that people missed dining in as that's all I wanted to discuss.
+
+&#x200B;
+
+For instance, a place that I miss dining in was Pizza D'Amore in Avenue U as they made really good pizza there, but recently they had closed down, but I did enjoy their food.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/chuddlyfe: Guy’s American Kitchen and Bar
+
+>>> COMMENT TO LABEL (u/AvatarofBro):
+It truly was one of the worst meals I've ever had, but I got to meet Guy Fieri who was there giving a personal tour to a Make-a-Wish kid. 
+
+This was long after the notoriety from the Wells review died down. The whole place was just a few months from closing. We were probably one of, like, six tables in the whole spot that wasn't empty. Our server just sort of sidled up to us and asked if we wanted to meet the Mayor of Flavortown himself.
+
+REPLIES TO IT: none
+=== END PACKET a3127beb ===
+
+=== PACKET 1495461f (comment packet) ===
+POST TITLE: At Ceres Pizza — when the fuck did this become okay???
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/cassiopeeahhh):
+It’s clearly a service dog!!! You can’t ask for papers, it’s illegal!!! (/s)
+
+REPLIES TO IT: none
+=== END PACKET 1495461f ===
+
+=== PACKET d3806bfc (comment packet) ===
+POST TITLE: Lowerline, BK for Oysters &amp; Cajun
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/spinaltap540: I’ve lived by this place for years but have never gone because it always seems packed and is so tiny. What were your thoughts?
+
+>>> COMMENT TO LABEL (u/antisnaxxer):
+I live near there now, and often go for lunch. It’s very easy to get a table. I think of it as a very easy and inexpensive option for a full service lunch
+
+REPLIES TO IT: none
+=== END PACKET d3806bfc ===
+
+=== PACKET d7187a68 (comment packet) ===
+POST TITLE: Is Chef’s Table at Brooklyn Fare still excellent?
+POST BODY: I have never been, but would love to visit.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/nahnah515):
+Quite mid for the price point. Did not feel any of the dishes really stood out. Go elsewhere.
+
+REPLIES TO IT: none
+=== END PACKET d7187a68 ===
+
+=== PACKET abe4f017 (comment packet) ===
+POST TITLE: Radio Bakery didn’t live up to hype
+POST BODY: I went to radio bakery (prospect heights location) with my friend yesterday morning around 11:30 am. We waited in line around an hour (which we were fine with, we wanted to see what the hype was about). 
+
+We ordered four items: ham & rosemary butter sandwich, burrata & prosciutto focaccia, triple chocolate croissant, and pistachio croissant. 
+
+We really enjoyed the sandwiches. The focaccia was perfect, crispy, and light. But the croissants were such let downs :( I was really expecting to be blown away because people hype up their pastries so much but they were okay at best. Definitely not worth waiting in line an hour. Anyone else feel this way about radio bakery?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Pbpopcorn: Never been but nothing is worth waiting an hour for especially places hyped up by TikTok
+  u/ohmaiya: For a bakery I agree, but I’ve waited in long lines for other hyped up places (e.g., Tatiana) and thought it was very much worth it
+    u/gloriameow: You waited an hour for Abuqir Seafood!? 😭 - an astonished Astorian
+      u/ohmaiya: No 😭 I probably waited around 20-25 min, my point was that I’ve waited for food at other places that I enjoyed
+        u/drcolour: I feel like there's a difference between waiting for an hour for some baked goods and 20 minutes for a full dinner.
+
+>>> COMMENT TO LABEL (u/justflipping):
+Yea completely different
+
+REPLIES TO IT: none
+=== END PACKET abe4f017 ===
+
+=== PACKET 39bf670a (comment packet) ===
+POST TITLE: 2026 NYC Food Trip Review how did I do overall……..?
+POST BODY: **The Hits**
+
+**Radio Bakery:** Salmon lox focaccia. Best bite of the trip, hands down. Still thinking about it.
+
+**Danny and Coops:** Best cheesesteak I’ve ever had. You definitely need the hot peppers to balance the richness.
+
+**Fish Cheeks:** 10/10. The red crab curry and crab fried rice are top-tier.
+
+**Katz Deli:** Fatty cut Reuben was incredible as always.
+
+**Blue Road Burger:** Way better than Gotham. The perfect smash burger.
+
+**Santa Panza:** Prosciutto and Margherita pies were both excellent.
+
+**Solid Spots**
+
+**The Commodore:** Chicken sandwich is great—love the seeded bun and slaw. Fried chicken plate was solid, too.
+
+**Ramen Danbo:** Really good. Loved the firm noodles.
+
+**East Village Pizza:** Better than Scarr’s. The jalapeño pepperoni slice is the move.
+
+**Santo Taco:** Steak and shrimp tacos were delicious. Sauces were on point.
+
+**Mama’s TOO!:** Crust is amazing. I got the Spicy Boy, but didn’t love the hot honey. I’d go back for a different slice though.
+
+**Mid / Overrated**
+
+**Scarr’s:** They didn’t have the grandma slice (which I loved in 2019). The regular cheese was just "fine."
+
+**Gotham Burger:** A little overhyped. The patty needed more salt.
+
+**Adel’s:** Glad I used Grubhub to skip the line. It’s good, but I’d never wait for it. Probably won't go back.
+
+**Son Del Norte:** Bland. Steak and bean/cheese burritos were a letdown, even if the tortilla was good.
+
+**Vato:** Burnt ends breakfast burrito was super bland. Very overrated.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/justflipping):
+You did not bad! As long as you enjoyed yourself, that's what matters. 
+
+Adel's is one of those places most of here wouldn't recommend on account of the line. Lots of other great halal carts.
+
+REPLIES TO IT (context only):
+  u/Hairy_Beginning3812: What’s the best falafel cart?
+=== END PACKET 39bf670a ===
+
+=== PACKET 86e6b3eb (comment packet) ===
+POST TITLE: Sonny in chinatown
+POST BODY: First time seeing him. Didnt realize the guy is so tall...
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/CabassoG):
+He's around 6 feet or something similar. Place seems to be to A+ Hot Pot Rice Noodles on Mott. Haven't been but it looks tasty.
+
+REPLIES TO IT: none
+=== END PACKET 86e6b3eb ===
+
+=== PACKET 7ec1b2f3 (comment packet) ===
+POST TITLE: What is the best NYC food after a night of drinking?
+POST BODY: You have the munchies bad. It can be a specific restaurant, or a specific food, or just generally, what hits the spot after a long night imbibing?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/nycrok1234: Halal always hits the spot for me.
+  u/spider_pork: Lamb over rice was my first thought.
+
+>>> COMMENT TO LABEL (u/crispycrackerzx):
+Extra hot sauce
+
+REPLIES TO IT (context only):
+  u/[deleted]: [deleted]
+=== END PACKET 7ec1b2f3 ===
+
+=== PACKET aee73612 (comment packet) ===
+POST TITLE: Favorite places to get drinks or desserts made with lychee?
+POST BODY: I normally think of lychee as a snacking fruit, but I was reminded last week of how refreshing it is. I feel like lychee is a flavor or ingredient you don't often come across, so before the next temp spike, what are some of your favorite places making drinks or desserts with it?
+
+Ironically, what sparked this thought was an ice cream from the new Unnecessary ice cream shop. I tried the Yakult and elderflower flavor, and even though it didn't have any lychee in it, the light sweetness, slight tang, and floral notes reminded me a lot of it.
+
+And another dessert that comes to mind is the bing fen (ice jelly) from Shan in Brooklyn. It's flavored with oolong, topped with lychee and cream (which might be cool whip, which I normally despise but strangely don't mind here). It's very simple, lightly sweet, cold, and super refreshing.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/What_a_life_1995: Verlain for Lychee Martinis
+
+>>> COMMENT TO LABEL (u/Precious_marimo):
+Ahh the memories….or lack thereof…
+
+REPLIES TO IT: none
+=== END PACKET aee73612 ===
+
+=== PACKET 6804ef64 (comment packet) ===
+POST TITLE: What’s the best ramen bowl in Manhattan
+POST BODY: It’s been close to 2 years since this question was asked so I wanted to see if opinions had changed since that time. What’re your favorite ramen spots? Or are there places I should definitely avoid? Going to grab ramen tonight so I’ll go to the top comment and report back.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/ThePathOfTheRighteou):
+My cote is for Totto.
+
+REPLIES TO IT (context only):
+  u/FCWolferJr: Totto spicy is the best, most consistent bowl in the city
+  u/Smart_Promise5145: Was Totto's old name Toto? I used to go to Toto, waited on the line for hours, and I couldn't find Toto on Google anymore. I love their wavy noodle.
+=== END PACKET 6804ef64 ===
+
+=== PACKET 54770308 (comment packet) ===
+POST TITLE: How are we looking so far? Looking to avoid tourist traps and overrated/overpriced spots.
+POST BODY: We will be traveling there shortly and any help is appreciated, thank you!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/GauchoWink: Avoid tourist traps but going to L’industrie lol ok
+  u/NikoSuave28: That’s why I’m posting this. I have no idea what’s a tourist trap
+
+>>> COMMENT TO LABEL (u/jtrainbk):
+L’industrie is kind of tourist trap but good and worth the wait. How many in your party? You could order a pie online,  pick it up and go to the park.  That way you can skip the lines. but you do need enough people to eat it.
+
+REPLIES TO IT: none
+=== END PACKET 54770308 ===
+
+=== PACKET 19027df7 (comment packet) ===
+POST TITLE: Immigrant-owned restaurants that could use some business?
+POST BODY: For Christmas this year, my mom requested that in lieu of a gift, I visit an immigrant-run small business or restaurant by having a meal and giving them a big tip. So, I am hoping you guys can suggest a restaurant that is perhaps not the most popular or well-known but has good food and could benefit from more business! Any borough is fine, probably just want to avoid West African food since I have a peanut allergy.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/tardytartar: I recommend going to Elmhurst and just walking down Broadway from 74th St to Elmhurst Ave. Its an incredibly vibrant street with restaurants from all over the world. There are delicious charcoal skewer stalls with plastic stools on the sidewalk and groups of people dancing/ gambling in the parks.
+
+>>> COMMENT TO LABEL (u/kokoromelody):
+Elmhurst and Jackson Heights are some of my personal favorite places for food in all of NYC. So much diversity and variety - I think it would almost impossible to have a bad meal.
+
+REPLIES TO IT: none
+=== END PACKET 19027df7 ===
+
+=== PACKET f50fba05 (comment packet) ===
+POST TITLE: Racist experience at the Commerce Inn in the West Village
+POST BODY: Had a really uncomfortable experience at brunch at The Commerce Inn in the West Village this weekend that honestly felt discriminatory.
+
+I'm a brown woman. I walked in to ask for a table and the host told me there were ZERO spots left and that the waitlist for brunch was completely CLOSED for the day.  
+But while I was standing there, I watched two white families/groups before and after me get seated immediately, and I overheard other people being added to the waitlist.  
+Then I asked my white husband walk in separately about five to ten minutes  later and he was seated at a table for two instantly (he wasn't with me the first time).
+
+When I came over to join him, staff acted weird about it and basically tried to stop me from sitting there until it became obvious we were together.
+
+We confronted to host and asked why I, five minutes earlier, was denied the opportunity to even add my name to the waitlist, whereas he was able to sit immediately. We were told that there were "so many cancellations" in those five minutes and that the host "has a weird way of managing the waitlist" (???)
+
+We ended up leaving because the whole thing felt gross and uncomfortable.
+
+Maybe there's some explanation, but the difference in treatment was hard to ignore.
+
+Curious if anyone else has had a similar experience at the Commerce Inn?
+
+P.S: Just sharing my personal experience. I obviously can’t know anyone’s intent, and I genuinely want to believe this wasn’t discrimination. But the difference in treatment made me uncomfortable enough that I felt it was worth sharing. Also, no hate toward management or the restaurant overall! the issue felt specific to the host interaction that day.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/xkonerox: For the uninitiated white people in this thread, let me tell you that no matter how much you want to believe that this shit is just circumstantial, this happens to poc’s CONSTANTLY, and we are subjected to unrelenting micro or macro aggressions, no matter how we present socioeconomically. 
+
+In the end most of us just accept it for what it is and move on because it’s not worth the fight or confrontation where we are made to look unhinged or reactionary. 
+
+No we are not just trying to pull the race card to get something out of it. We just want to be left the fuck alone and treated as equals.
+
+>>> COMMENT TO LABEL (u/jeremyjava):
+I've told this story on Reddit once before, but maybe worth telling it again...   
+I--white guy--grew up rather poor in Manhattan with mostly minority friends, most of us never took cabs, bc... no money. Cut ahead to I'm 18yo and working for a Broadway show where I become best friends with the star, a young black man who just won his 2nd Tony award--he's well known enuf that he gets asked for his autograph most the time when we're out and about.  
+Anyhow, after the show one night, we don't take his car service (limo) and decide to catch a cab to a club or dinner thing--can't recall--but he tells me to catch us a cab. I said, what, you're too big a star to catch us a cab now?  
+He says, yeh, whatever, just catch us a cab. I said something back and he said: "You really don't know, do you?" And I asked what he was talking about.  
+He looked pretty surprised at my ignorance, but he walked into the street and held up his hand, and cab after cab drove right past him.   
+He gestured for me to go, and I held up my hand and two cabs are trying to get around each other to get to me first.  
+I honestly had no idea.  
+   
+And I'm sorry OP that you had to feel some of the same feelings my friend felt so often.  
+   --   
+  
+About that friend, if we were going out his agent would often call ahead and make reservations, but he was well known enuf that we generally didn't run into issues with him getting a table, but about the racist cab drivers? Once they realized who he was, they'd ask for his autograph and act like his best friend.     
+   
+  The story about him and racist cops in L.A. I'll save for another day.  I did write one story about him I was kind of proud of, a sad story about the night Gregory Hines died... and [it was an homage to the remarkable Greg Burge, as well.](https://youtu.be/3u6pSsP2PGY?si=kweuSBMMVkodp9Cz)
+
+REPLIES TO IT (context only):
+  u/NYCFXM: 💯 my co-worker needed to get to BK from 14th Street one night for an emergency. No taxi would stop for him. I told him wait on the sidewalk. I caught a cab in under a minute.
+  u/SamiNurb: Sounds like you’re old enough to remember when Danny Glover tried getting a Cab in the city
+  u/Ok_Struggle_4199: I did the jpm race one year in the park and it poured down raining. I walked away from the park to catch a cab and no one would stop. This white woman called a cab for me After she saw it happening over and over again.
+  u/phoenics1908: Wait was your friend Gregory Hines??!
+  u/bintai: There was a period in the 90's when dozens of cabbies were being killed every year, which I think contributed to this behavior since many of the murders occurred in poor neighborhoods.   Cabbies therefore were reluctant to pick up passengers who might have final destinations in poor neighborhoods.
+=== END PACKET f50fba05 ===
+
+=== PACKET c290f5ac (comment packet) ===
+POST TITLE: What's left under $10?
+POST BODY: There was a time when $1 pizza slices and fast food dollar menus were the backbone of budget eating in NYC. But those days are (mostly) gone, and eating on a tight budget has gotten rough.
+
+So let’s help each other out: What’s your go-to, actually good meal in NYC for $10 or less?
+
+Could be a slice + soda, a big rice plate, a dumpling spot, a bodega sandwich, anything tasty and filling without breaking the bank.
+
+**Bonus points if you drop neighborhood + subway stop. Let’s make this a guide.**
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Schmeep01):
+Plenty in Spanish Harlem 6 train 116: 
+
+Burmudez Bakery bacon egg and cheese on a full loaf of fresh made bread is about 7 bucks. 
+
+Tamale lady on the NE corner: $2.25 per. 
+
+Taco/Burrito truck at the bus stop btw 3rd and Lex everything 10 or less except Chorizo Cemita/Torta as the egg is extra. 
+
+Color World: Jerk Chicken and Rasta pasta deals.
+
+REPLIES TO IT: none
+=== END PACKET c290f5ac ===
+
+=== PACKET 7529e287 (comment packet) ===
+POST TITLE: Is Little Italy just all tourist traps?
+POST BODY: Happened to walk down Mulberry for the first time in years and every restaurant had a carnival barker outside trying to get me and my girlfriend to eat dinner there. It felt similar to walking down a Mexican street in a tourist area. Has it always been like this? Is there literally anything there worthwhile to see/do/eat there?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/androidspofforth):
+Yes. You really don't get out much, do you?
+
+REPLIES TO IT: none
+=== END PACKET 7529e287 ===
+
+=== PACKET afa71851 (comment packet) ===
+POST TITLE: Best dinner date place
+POST BODY: As the title says what is the best dinner date place to take my wife. If hallal that would be much better.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/FoodNYC-ModTeam):
+Frequent or low effort question, try searching the sub first.
+
+REPLIES TO IT: none
+=== END PACKET afa71851 ===
+
+=== PACKET ed9b6b09 (comment packet) ===
+POST TITLE: Looking for places that sell alfajores
+POST BODY: I posted this a long time ago, and didn't get many hits. But times have changed, so I'm wondering if there are currently any great places to find alfajores, preferably in Brooklyn or Manhattan.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/progapanda):
+Argentalia on 7th Av between 15th and 16th St in Park Slope has good pizza and housemade alfajores.
+
+REPLIES TO IT: none
+=== END PACKET ed9b6b09 ===

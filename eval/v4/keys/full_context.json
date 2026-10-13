@@ -1,0 +1,2080 @@
+{
+ "92dec199": {
+  "item_id": "t004",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b001",
+  "short_ids": {
+   "1": "t1_oo8up5b",
+   "2": "t1_oo8y2wb",
+   "3": "t1_oo8yt2g",
+   "4": "t1_oo96ikp",
+   "5": "t1_oo9f94n",
+   "6": "t1_ooaak08",
+   "7": "t1_ooaifje",
+   "8": "t1_ooamgbp",
+   "9": "t1_ooas1le",
+   "10": "t1_oob4f0y",
+   "11": "t1_ooyd6w8",
+   "12": "t1_oo74hne",
+   "13": "t1_oo753hj",
+   "14": "t1_oo76fy8",
+   "15": "t1_oo781sk",
+   "16": "t1_oo78snl",
+   "17": "t1_oo7afzz",
+   "18": "t1_oo7b7dn",
+   "19": "t1_oo7bq56",
+   "20": "t1_oo7efc7",
+   "21": "t1_oo7igin",
+   "22": "t1_oo7krka",
+   "23": "t1_oo7o777",
+   "24": "t1_oo8670a",
+   "25": "t1_oo86los"
+  }
+ },
+ "a937b0f0": {
+  "item_id": "t003",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b002",
+  "short_ids": {
+   "1": "t1_p3orh4j",
+   "2": "t1_p3oueta",
+   "3": "t1_p3rmslv",
+   "4": "t1_p3rnnlr",
+   "5": "t1_p3ua0m3",
+   "6": "t1_p3oopt1",
+   "7": "t1_p3op7mz",
+   "8": "t1_p3p8ork",
+   "9": "t1_p3op83k",
+   "10": "t1_p3opgp0",
+   "11": "t1_p3oplqt",
+   "12": "t1_p3ori9i",
+   "13": "t1_p3os9cc",
+   "14": "t1_p3ossck",
+   "15": "t1_p3ov7zq",
+   "16": "t1_p3owip9",
+   "17": "t1_p3p0clo",
+   "18": "t1_p3p0ouw",
+   "19": "t1_p3p2za2",
+   "20": "t1_p3p2zng",
+   "21": "t1_p3p4fee",
+   "22": "t1_p3p4vy7",
+   "23": "t1_p3p67ir",
+   "24": "t1_p3p7d6k",
+   "25": "t1_p3paitk"
+  }
+ },
+ "d5299948": {
+  "item_id": "t010",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b003",
+  "short_ids": {
+   "1": "t1_ktooveh",
+   "2": "t1_ktqck5g",
+   "3": "t1_ktrm587",
+   "4": "t1_ktvkod5",
+   "5": "t1_ktoppnn",
+   "6": "t1_ktrpqg4",
+   "7": "t1_ktou7nb",
+   "8": "t1_ktp6xg4",
+   "9": "t1_ktpch7g",
+   "10": "t1_ktpdpb9",
+   "11": "t1_ktpe69j",
+   "12": "t1_ktpquwv",
+   "13": "t1_ktpskjy",
+   "14": "t1_ktq6xnz",
+   "15": "t1_ktp0xqi",
+   "16": "t1_ktrat6y",
+   "17": "t1_ktrqlp1",
+   "18": "t1_ktp97e0",
+   "19": "t1_ktpckic",
+   "20": "t1_kttgqh6",
+   "21": "t1_ktup9bq",
+   "22": "t1_ktp6l82",
+   "23": "t1_ktp9edu",
+   "24": "t1_ktpj7p2",
+   "25": "t1_ktqir5n"
+  }
+ },
+ "f901f212": {
+  "item_id": "t011",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b004",
+  "short_ids": {
+   "1": "t1_o9x9n9o",
+   "2": "t1_o9y3qzk",
+   "3": "t1_o9ybynp",
+   "4": "t1_o9xnwh0",
+   "5": "t1_o9xvzs6",
+   "6": "t1_o9y1mzf",
+   "7": "t1_o9zpyfz",
+   "8": "t1_o9y91ml",
+   "9": "t1_o9yaenz",
+   "10": "t1_o9ydlac",
+   "11": "t1_o9yk0ej",
+   "12": "t1_o9ymbsg",
+   "13": "t1_o9ykexy",
+   "14": "t1_o9ylgpz",
+   "15": "t1_oa1frfa",
+   "16": "t1_o9yxsdh",
+   "17": "t1_o9z2ncl",
+   "18": "t1_oa0xa83",
+   "19": "t1_oa1fl78",
+   "20": "t1_oa3qsn4",
+   "21": "t1_oa5s265"
+  }
+ },
+ "01d6d0b8": {
+  "item_id": "t005",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b005",
+  "short_ids": {
+   "1": "t1_mtrc7rs",
+   "2": "t1_mtrdlbd",
+   "3": "t1_mtrswxn",
+   "4": "t1_mtrxrh7",
+   "5": "t1_mtsngsm",
+   "6": "t1_mttkkvl",
+   "7": "t1_mtv6zhl",
+   "8": "t1_mtv9q6t",
+   "9": "t1_mtwu7em",
+   "10": "t1_mtxfwrx",
+   "11": "t1_mtz7e2y",
+   "12": "t1_mu10iag",
+   "13": "t1_mu3w98l",
+   "14": "t1_mu1lg4h",
+   "15": "t1_mu3wfij",
+   "16": "t1_mu3xug9"
+  }
+ },
+ "53f00f4b": {
+  "item_id": "t014",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b006",
+  "short_ids": {
+   "1": "t1_mg36yy3",
+   "2": "t1_mg39uag",
+   "3": "t1_mg3ddyn",
+   "4": "t1_mg3eokk",
+   "5": "t1_micb80s",
+   "6": "t1_mg4r160",
+   "7": "t1_mgd6laz"
+  }
+ },
+ "34eac59b": {
+  "item_id": "t009",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b007",
+  "short_ids": {
+   "1": "t1_ke2r9g9",
+   "2": "t1_ke2rx1v",
+   "3": "t1_ke2swf6",
+   "4": "t1_ke2tlab",
+   "5": "t1_ke55i57",
+   "6": "t1_ke2vnjx",
+   "7": "t1_ke2wfty",
+   "8": "t1_ke35546",
+   "9": "t1_ke4vdqt",
+   "10": "t1_kg0ta04",
+   "11": "t1_kg0zryu",
+   "12": "t1_ke3e6kb",
+   "13": "t1_ke4ai65",
+   "14": "t1_ke4bkq6",
+   "15": "t1_ke53q03",
+   "16": "t1_ke54wxc",
+   "17": "t1_ke4os0n",
+   "18": "t1_ke54srx",
+   "19": "t1_ke5b3wd",
+   "20": "t1_ke5j7eg",
+   "21": "t1_ke6u4mr",
+   "22": "t1_ke6x58m",
+   "23": "t1_ke98zcc",
+   "24": "t1_ke6y3kt",
+   "25": "t1_ke7v7kx"
+  }
+ },
+ "fe7cb71a": {
+  "item_id": "t001",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b008",
+  "short_ids": {
+   "1": "t1_nhz3rwh",
+   "2": "t1_nhz4kpw",
+   "3": "t1_nhz502u",
+   "4": "t1_nhz6071",
+   "5": "t1_nhz60np",
+   "6": "t1_nhz6s82",
+   "7": "t1_nhz83m3",
+   "8": "t1_nhz8hrp",
+   "9": "t1_nhz8mvp"
+  }
+ },
+ "fc58809c": {
+  "item_id": "t007",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b009",
+  "short_ids": {
+   "1": "t1_maz6im6",
+   "2": "t1_mazpewa",
+   "3": "t1_maz957d",
+   "4": "t1_maz9a0u",
+   "5": "t1_maznpa2",
+   "6": "t1_mazwqza",
+   "7": "t1_mb01h4u",
+   "8": "t1_mb1b4n4",
+   "9": "t1_mb1mys0",
+   "10": "t1_mb1o17w",
+   "11": "t1_mb2b3zj",
+   "12": "t1_mb3vzvj",
+   "13": "t1_mb3ysyb",
+   "14": "t1_mbs3npn"
+  }
+ },
+ "c4cbeb18": {
+  "item_id": "s0094",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "8a00ca51": {
+  "item_id": "s0077",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "86f5b3cb": {
+  "item_id": "s0189",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "bb82c582": {
+  "item_id": "s0118",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "a186c776": {
+  "item_id": "s0138",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "b6c01f9c": {
+  "item_id": "s0191",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "3183588c": {
+  "item_id": "s0048",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "de3ea49f": {
+  "item_id": "s0047",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "d8616753": {
+  "item_id": "s0214",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "6918e79d": {
+  "item_id": "s0162",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "99afe789": {
+  "item_id": "s0073",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "0915f565": {
+  "item_id": "s0053",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "d82a73da": {
+  "item_id": "s0146",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "53626c0e": {
+  "item_id": "s0015",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "d3190d2f": {
+  "item_id": "s0184",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "d890cfd2": {
+  "item_id": "s0029",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "c1092f0d": {
+  "item_id": "s0116",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "86034fe7": {
+  "item_id": "s0167",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "b8fc804e": {
+  "item_id": "s0031",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "2060429c": {
+  "item_id": "s0050",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b010"
+ },
+ "8ced0c3a": {
+  "item_id": "t013",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b011",
+  "short_ids": {
+   "1": "t1_o36isrr",
+   "2": "t1_o36mbf3",
+   "3": "t1_o36pbmh",
+   "4": "t1_o36k5m3",
+   "5": "t1_o36t4pr",
+   "6": "t1_o36z8xc",
+   "7": "t1_o3725xz",
+   "8": "t1_o36yl6r",
+   "9": "t1_o3703bl",
+   "10": "t1_o3bt6da",
+   "11": "t1_o36ylvt",
+   "12": "t1_o376fvd",
+   "13": "t1_o37eber",
+   "14": "t1_o37gsrc",
+   "15": "t1_o37klr2",
+   "16": "t1_o39x24t",
+   "17": "t1_o3xugw3",
+   "18": "t1_o42hxtq"
+  }
+ },
+ "95f0138e": {
+  "item_id": "t004",
+  "mode": "thread",
+  "copy": 1,
+  "batch": "b012",
+  "short_ids": {
+   "1": "t1_oo8up5b",
+   "2": "t1_oo8y2wb",
+   "3": "t1_oo8yt2g",
+   "4": "t1_oo96ikp",
+   "5": "t1_oo9f94n",
+   "6": "t1_ooaak08",
+   "7": "t1_ooaifje",
+   "8": "t1_ooamgbp",
+   "9": "t1_ooas1le",
+   "10": "t1_oob4f0y",
+   "11": "t1_ooyd6w8",
+   "12": "t1_oo74hne",
+   "13": "t1_oo753hj",
+   "14": "t1_oo76fy8",
+   "15": "t1_oo781sk",
+   "16": "t1_oo78snl",
+   "17": "t1_oo7afzz",
+   "18": "t1_oo7b7dn",
+   "19": "t1_oo7bq56",
+   "20": "t1_oo7efc7",
+   "21": "t1_oo7igin",
+   "22": "t1_oo7krka",
+   "23": "t1_oo7o777",
+   "24": "t1_oo8670a",
+   "25": "t1_oo86los"
+  }
+ },
+ "892f8eee": {
+  "item_id": "s0007",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "58d76190": {
+  "item_id": "s0129",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "2a05622a": {
+  "item_id": "s0135",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "6a284ad8": {
+  "item_id": "s0112",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "43c432cc": {
+  "item_id": "s0201",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "7c9bb070": {
+  "item_id": "s0194",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "a2c96a15": {
+  "item_id": "s0182",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "73f7e5d6": {
+  "item_id": "s0183",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "71dfcca9": {
+  "item_id": "s0123",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "f4da11b6": {
+  "item_id": "s0032",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "69385a8f": {
+  "item_id": "s0120",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "ee41ceaa": {
+  "item_id": "s0075",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "08809cb0": {
+  "item_id": "s0041",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "11729b02": {
+  "item_id": "s0136",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "b58f4499": {
+  "item_id": "s0030",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "4b08d9de": {
+  "item_id": "s0022",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "30323835": {
+  "item_id": "s0024",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "7d800cbb": {
+  "item_id": "s0081",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "32a13c04": {
+  "item_id": "s0119",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "bd98af5a": {
+  "item_id": "s0096",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b013"
+ },
+ "dcece1a2": {
+  "item_id": "s0188",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "9522f0a6": {
+  "item_id": "s0131",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "8d96fc73": {
+  "item_id": "s0080",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "875293fc": {
+  "item_id": "s0104",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "d85f08ff": {
+  "item_id": "s0234",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "cabf8840": {
+  "item_id": "s0051",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "76c7323e": {
+  "item_id": "s0212",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "72214d72": {
+  "item_id": "s0099",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "02937344": {
+  "item_id": "s0152",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "ecc1d1e9": {
+  "item_id": "s0054",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "5b548d66": {
+  "item_id": "s0060",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "abc6aacd": {
+  "item_id": "s0043",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "0624820f": {
+  "item_id": "s0213",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "89fcbe47": {
+  "item_id": "s0106",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "4bc0761b": {
+  "item_id": "s0173",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b014"
+ },
+ "72f40ecb": {
+  "item_id": "s0203",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "71c94552": {
+  "item_id": "s0058",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "8b737bc0": {
+  "item_id": "s0226",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "1aff3f55": {
+  "item_id": "s0167",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b015"
+ },
+ "3687a830": {
+  "item_id": "s0241",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "94c5f0a0": {
+  "item_id": "s0229",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "f32b1b11": {
+  "item_id": "s0221",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b015"
+ },
+ "a80c4fdf": {
+  "item_id": "s0035",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "ece13001": {
+  "item_id": "s0102",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "bbe63a26": {
+  "item_id": "s0067",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "5af53869": {
+  "item_id": "s0170",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "af82fcc2": {
+  "item_id": "s0234",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b015"
+ },
+ "522df2fd": {
+  "item_id": "s0025",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "339fd403": {
+  "item_id": "s0162",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b015"
+ },
+ "7ddc84aa": {
+  "item_id": "s0079",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "a6d93d1d": {
+  "item_id": "s0028",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b015"
+ },
+ "58a2c25f": {
+  "item_id": "s0052",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "ad3df1af": {
+  "item_id": "s0149",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "bfb8a110": {
+  "item_id": "s0008",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "fa04515b": {
+  "item_id": "s0014",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b015"
+ },
+ "af5416e8": {
+  "item_id": "t006",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b016",
+  "short_ids": {
+   "1": "t1_jess8w4",
+   "2": "t1_jet6pjh",
+   "3": "t1_jet79qu",
+   "4": "t1_jetaqyb",
+   "5": "t1_jetdewx",
+   "6": "t1_jetrp0u",
+   "7": "t1_jetx5gt",
+   "8": "t1_jeuufwp",
+   "9": "t1_jevrxtd",
+   "10": "t1_jeweq3l",
+   "11": "t1_jexkms8",
+   "12": "t1_jewx117",
+   "13": "t1_jf0c63c"
+  }
+ },
+ "b117a836": {
+  "item_id": "s0100",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "dade415a": {
+  "item_id": "s0116",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b017"
+ },
+ "cfa323d7": {
+  "item_id": "s0202",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "2e7e01b6": {
+  "item_id": "s0098",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b017"
+ },
+ "8e3a664b": {
+  "item_id": "s0222",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "a558f937": {
+  "item_id": "s0128",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "aa4633ee": {
+  "item_id": "s0019",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "10417cba": {
+  "item_id": "s0200",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "79ff33be": {
+  "item_id": "s0207",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "9fd94455": {
+  "item_id": "s0039",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "c7fa220a": {
+  "item_id": "s0175",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "d43a8608": {
+  "item_id": "s0018",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "3e1e2a2a": {
+  "item_id": "s0065",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "333126d2": {
+  "item_id": "s0062",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "fc76ad9e": {
+  "item_id": "s0232",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "15dd4120": {
+  "item_id": "s0125",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "1d248f42": {
+  "item_id": "s0233",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "b98cf145": {
+  "item_id": "s0224",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "e67348d9": {
+  "item_id": "s0147",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b017"
+ },
+ "7f3b27e8": {
+  "item_id": "s0226",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b017"
+ },
+ "73b109e6": {
+  "item_id": "s0016",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "c578d7a9": {
+  "item_id": "s0038",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "55f652a6": {
+  "item_id": "s0087",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "deceb0fd": {
+  "item_id": "s0027",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "759ca6b9": {
+  "item_id": "s0131",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b018"
+ },
+ "754f664f": {
+  "item_id": "s0159",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "78fdd482": {
+  "item_id": "s0110",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "c43e6750": {
+  "item_id": "s0124",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "c606c873": {
+  "item_id": "s0126",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "27a48aab": {
+  "item_id": "s0164",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "553f2031": {
+  "item_id": "s0239",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "f754b70c": {
+  "item_id": "s0020",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b018"
+ },
+ "005f1659": {
+  "item_id": "s0134",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "afa9f876": {
+  "item_id": "s0021",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "4a3d0a46": {
+  "item_id": "s0107",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "52691d34": {
+  "item_id": "s0140",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "1c1e6e86": {
+  "item_id": "s0242",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "46d5e620": {
+  "item_id": "s0250",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "08d8b21e": {
+  "item_id": "s0121",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "dc63bc70": {
+  "item_id": "s0208",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b018"
+ },
+ "34a68f65": {
+  "item_id": "s0206",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "bd0af997": {
+  "item_id": "s0113",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "482e3e03": {
+  "item_id": "s0109",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "a3127beb": {
+  "item_id": "s0083",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "1495461f": {
+  "item_id": "s0171",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "d3806bfc": {
+  "item_id": "s0137",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "d7187a68": {
+  "item_id": "s0071",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "abe4f017": {
+  "item_id": "s0227",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "39bf670a": {
+  "item_id": "s0005",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "86e6b3eb": {
+  "item_id": "s0056",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b019"
+ },
+ "7ec1b2f3": {
+  "item_id": "s0245",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "aee73612": {
+  "item_id": "s0093",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "6804ef64": {
+  "item_id": "s0223",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "54770308": {
+  "item_id": "s0076",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "19027df7": {
+  "item_id": "s0091",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "f50fba05": {
+  "item_id": "s0088",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "c290f5ac": {
+  "item_id": "s0139",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "7529e287": {
+  "item_id": "s0066",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "afa71851": {
+  "item_id": "s0180",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "ed9b6b09": {
+  "item_id": "s0199",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b019"
+ },
+ "bdb772fe": {
+  "item_id": "s0103",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "8ecdd278": {
+  "item_id": "s0218",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "1f247e3e": {
+  "item_id": "s0216",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "88e32429": {
+  "item_id": "s0105",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "913cec6c": {
+  "item_id": "s0179",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "f41e0978": {
+  "item_id": "s0192",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "025e5f54": {
+  "item_id": "s0238",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "d1d4b3f1": {
+  "item_id": "s0084",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b020"
+ },
+ "67cff7e9": {
+  "item_id": "s0013",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "6c0f5338": {
+  "item_id": "s0046",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "ceb65044": {
+  "item_id": "s0215",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "7d279108": {
+  "item_id": "s0143",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "862cf8c4": {
+  "item_id": "s0099",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b020"
+ },
+ "c27ba679": {
+  "item_id": "s0205",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "f57cf166": {
+  "item_id": "s0040",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "5c60b77c": {
+  "item_id": "s0209",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "3ad5fcd0": {
+  "item_id": "s0153",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "d51ad753": {
+  "item_id": "s0068",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b020"
+ },
+ "13d091e8": {
+  "item_id": "s0122",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "fb61b68e": {
+  "item_id": "s0127",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b020"
+ },
+ "d8b4c4ed": {
+  "item_id": "t008",
+  "mode": "thread",
+  "copy": 1,
+  "batch": "b021",
+  "short_ids": {
+   "1": "t1_o0oi8jp",
+   "2": "t1_o0p2asm",
+   "3": "t1_o0uhm5z",
+   "4": "t1_o0ojlzw",
+   "5": "t1_o0okdg5",
+   "6": "t1_o0p3jwv",
+   "7": "t1_o0yly64",
+   "8": "t1_o0yu7mg",
+   "9": "t1_o0yv9mt",
+   "10": "t1_o0okft5",
+   "11": "t1_o0p2jzo",
+   "12": "t1_o0p4hlu",
+   "13": "t1_o0pgywp",
+   "14": "t1_o0onrji",
+   "15": "t1_o0p2wt1",
+   "16": "t1_o0q31w1",
+   "17": "t1_o0orcly",
+   "18": "t1_o0pbp0n",
+   "19": "t1_o0pdggr",
+   "20": "t1_o0ptlwd",
+   "21": "t1_o0v4vpe"
+  }
+ },
+ "0a97c29c": {
+  "item_id": "t002",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b022",
+  "short_ids": {
+   "1": "t1_m0mm5ph",
+   "2": "t1_m0mnor4",
+   "3": "t1_m0msq3d",
+   "4": "t1_m0muj0d",
+   "5": "t1_m0n3lu0",
+   "6": "t1_m0mmf68",
+   "7": "t1_m0mz701",
+   "8": "t1_m0nehvp",
+   "9": "t1_m0oq73k",
+   "10": "t1_m0qitkz",
+   "11": "t1_m0qm0e9",
+   "12": "t1_m0mmuul",
+   "13": "t1_m0mq79b",
+   "14": "t1_m0msxeb",
+   "15": "t1_m0mu3zl",
+   "16": "t1_m0mpvbn",
+   "17": "t1_m0mrhs7",
+   "18": "t1_m0pr4d1",
+   "19": "t1_m0mrufr",
+   "20": "t1_m0mskv7",
+   "21": "t1_m0oqg68",
+   "22": "t1_m0mthv8",
+   "23": "t1_m0mylm4",
+   "24": "t1_m0q0isu",
+   "25": "t1_m0my12c"
+  }
+ },
+ "4e5e2d60": {
+  "item_id": "s0055",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "7286d83a": {
+  "item_id": "s0198",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "16920286": {
+  "item_id": "s0111",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "7000266d": {
+  "item_id": "s0092",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "ceea0f65": {
+  "item_id": "s0020",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "e44665e4": {
+  "item_id": "s0217",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "8708ea19": {
+  "item_id": "s0157",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "b5873583": {
+  "item_id": "s0247",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "a70c885d": {
+  "item_id": "s0108",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "f07c53d6": {
+  "item_id": "s0204",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "4e57c7f7": {
+  "item_id": "s0236",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "0ff0a4bd": {
+  "item_id": "s0068",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "3f055b63": {
+  "item_id": "s0006",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "5a7845d2": {
+  "item_id": "s0190",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "397d887f": {
+  "item_id": "s0012",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "98a3fe82": {
+  "item_id": "s0244",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "39018c24": {
+  "item_id": "s0070",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "3565120b": {
+  "item_id": "s0028",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "d54c648b": {
+  "item_id": "s0249",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b023"
+ },
+ "7ddcd15c": {
+  "item_id": "s0037",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b023"
+ },
+ "70000f8d": {
+  "item_id": "s0095",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "e5a2d473": {
+  "item_id": "s0144",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "58ec16cd": {
+  "item_id": "s0117",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "2a0468d8": {
+  "item_id": "s0023",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "ff5a965e": {
+  "item_id": "s0058",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b024"
+ },
+ "d90c92f8": {
+  "item_id": "s0074",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "271752a9": {
+  "item_id": "s0045",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "23695bcd": {
+  "item_id": "s0195",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "43f2a385": {
+  "item_id": "s0017",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "17d6c34e": {
+  "item_id": "s0037",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "0a6a8758": {
+  "item_id": "s0231",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "3488ee3d": {
+  "item_id": "s0161",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "aea93a81": {
+  "item_id": "s0141",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "9560430d": {
+  "item_id": "s0086",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "acfb068c": {
+  "item_id": "s0044",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "6bb1d85e": {
+  "item_id": "s0187",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "95e75093": {
+  "item_id": "s0002",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "952037e1": {
+  "item_id": "s0069",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "1c9c124d": {
+  "item_id": "s0177",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "bf624982": {
+  "item_id": "s0220",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b024"
+ },
+ "1664097d": {
+  "item_id": "t008",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b025",
+  "short_ids": {
+   "1": "t1_o0oi8jp",
+   "2": "t1_o0p2asm",
+   "3": "t1_o0uhm5z",
+   "4": "t1_o0ojlzw",
+   "5": "t1_o0okdg5",
+   "6": "t1_o0p3jwv",
+   "7": "t1_o0yly64",
+   "8": "t1_o0yu7mg",
+   "9": "t1_o0yv9mt",
+   "10": "t1_o0okft5",
+   "11": "t1_o0p2jzo",
+   "12": "t1_o0p4hlu",
+   "13": "t1_o0pgywp",
+   "14": "t1_o0onrji",
+   "15": "t1_o0p2wt1",
+   "16": "t1_o0q31w1",
+   "17": "t1_o0orcly",
+   "18": "t1_o0pbp0n",
+   "19": "t1_o0pdggr",
+   "20": "t1_o0ptlwd",
+   "21": "t1_o0v4vpe"
+  }
+ },
+ "c2cd312b": {
+  "item_id": "s0011",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "958e2d0d": {
+  "item_id": "s0243",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "7814a24b": {
+  "item_id": "s0130",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "9470b4c2": {
+  "item_id": "s0178",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "7e8a6e07": {
+  "item_id": "s0176",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "d98e265b": {
+  "item_id": "s0061",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "a88846ea": {
+  "item_id": "s0092",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b026"
+ },
+ "2dd824c1": {
+  "item_id": "s0193",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "70ac01fb": {
+  "item_id": "s0163",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "9ad9426e": {
+  "item_id": "s0248",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "046528f3": {
+  "item_id": "s0115",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "3dc9c190": {
+  "item_id": "s0098",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "54140c37": {
+  "item_id": "s0155",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b026"
+ },
+ "507a7291": {
+  "item_id": "s0174",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "24ff02ce": {
+  "item_id": "s0082",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "74a554f0": {
+  "item_id": "s0160",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "3aae802e": {
+  "item_id": "s0148",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "91e1c49c": {
+  "item_id": "s0003",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "4c156f2b": {
+  "item_id": "s0133",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "bac2d352": {
+  "item_id": "s0009",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b026"
+ },
+ "7e34ef0d": {
+  "item_id": "t012",
+  "mode": "thread",
+  "copy": 0,
+  "batch": "b027",
+  "short_ids": {
+   "1": "t1_nvv5k2f",
+   "2": "t1_nvv69iz",
+   "3": "t1_nvvvhqm",
+   "4": "t1_nvy9q9g",
+   "5": "t1_nvya7yh",
+   "6": "t1_nvyf6rb",
+   "7": "t1_nvvjhjz",
+   "8": "t1_nvvxlq3",
+   "9": "t1_nvvypjg",
+   "10": "t1_nvxgljk"
+  }
+ },
+ "f3812faa": {
+  "item_id": "s0237",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "01090a43": {
+  "item_id": "s0196",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "9b3ec864": {
+  "item_id": "s0197",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "24397e99": {
+  "item_id": "s0154",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "cb36c879": {
+  "item_id": "s0181",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "45f114b6": {
+  "item_id": "s0165",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "eb83e1b4": {
+  "item_id": "s0034",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "80ece554": {
+  "item_id": "s0158",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "67fe3a51": {
+  "item_id": "s0132",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "b1821dca": {
+  "item_id": "s0078",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "2c8a283a": {
+  "item_id": "s0168",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "aab3773f": {
+  "item_id": "s0010",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "b2ecf5f7": {
+  "item_id": "s0193",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b028"
+ },
+ "9f9b3396": {
+  "item_id": "s0186",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "781c180f": {
+  "item_id": "s0211",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "bf6f7ed6": {
+  "item_id": "s0107",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b028"
+ },
+ "2ff9c4f4": {
+  "item_id": "s0225",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "7015b68a": {
+  "item_id": "s0075",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b028"
+ },
+ "24a550f2": {
+  "item_id": "s0219",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "5b8c04af": {
+  "item_id": "s0064",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b028"
+ },
+ "56b4b5c6": {
+  "item_id": "s0114",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "6d3bccc1": {
+  "item_id": "s0001",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "dd404220": {
+  "item_id": "s0156",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "2c9cbdd5": {
+  "item_id": "s0026",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "719514d8": {
+  "item_id": "s0230",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "56cefa8e": {
+  "item_id": "s0089",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "8a9c34a1": {
+  "item_id": "s0085",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "80a79d6f": {
+  "item_id": "s0042",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "a27e80dd": {
+  "item_id": "s0056",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "8b2aef43": {
+  "item_id": "s0172",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "d515cc29": {
+  "item_id": "s0072",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "b8856508": {
+  "item_id": "s0228",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "adf4b99f": {
+  "item_id": "s0049",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "043fd228": {
+  "item_id": "s0150",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "5ceed1dc": {
+  "item_id": "s0155",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "990e46c1": {
+  "item_id": "s0033",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "d9dd3778": {
+  "item_id": "s0004",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "733304be": {
+  "item_id": "s0036",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "e12e9091": {
+  "item_id": "s0142",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "51138e2b": {
+  "item_id": "s0084",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b029"
+ },
+ "dec73e4b": {
+  "item_id": "s0015",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b030"
+ },
+ "9ea59080": {
+  "item_id": "s0185",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "76a94f1b": {
+  "item_id": "s0145",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "5c57809a": {
+  "item_id": "s0090",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "e5a10c1e": {
+  "item_id": "s0221",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "5954ab60": {
+  "item_id": "s0097",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "5efba9fb": {
+  "item_id": "s0212",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b030"
+ },
+ "8e0124d1": {
+  "item_id": "s0240",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "fab5275c": {
+  "item_id": "s0010",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b030"
+ },
+ "e4a49897": {
+  "item_id": "s0169",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "44d2c6e2": {
+  "item_id": "s0166",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "820e1227": {
+  "item_id": "s0151",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "104bc843": {
+  "item_id": "s0210",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "8aaa58b6": {
+  "item_id": "s0228",
+  "mode": "comment",
+  "copy": 1,
+  "batch": "b030"
+ },
+ "abb17997": {
+  "item_id": "s0057",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "eae49499": {
+  "item_id": "s0235",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "417bb085": {
+  "item_id": "s0101",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "0d9de890": {
+  "item_id": "s0063",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "c600b12f": {
+  "item_id": "s0059",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ },
+ "be07c0a7": {
+  "item_id": "s0246",
+  "mode": "comment",
+  "copy": 0,
+  "batch": "b030"
+ }
+}

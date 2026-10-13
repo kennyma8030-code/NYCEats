@@ -1,0 +1,35 @@
+{
+ "comment_queue": {
+  "checked": 200,
+  "identical": 200,
+  "differ": []
+ },
+ "comment_items": {
+  "checked": 250,
+  "identical": 250,
+  "differ": []
+ },
+ "thread_items": {
+  "checked": 7,
+  "identical": 7,
+  "differ": [],
+  "not_checkable_partly_extracted_or_late_comments": [
+   "t001",
+   "t003",
+   "t004",
+   "t008",
+   "t011",
+   "t012",
+   "t013"
+  ]
+ },
+ "thread_queue": {
+  "threads_checked": 5,
+  "identical": 5,
+  "differ": []
+ },
+ "v1_overlap_input_drift": {
+  "overlap_items": 50,
+  "renders_differently_than_v1": []
+ }
+}

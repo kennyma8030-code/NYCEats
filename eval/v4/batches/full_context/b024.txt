@@ -1,0 +1,341 @@
+NYCEats extraction labeling -- batch b024 -- pass: full_context -- 20 packet(s)
+
+Apply the extraction prompt you were given, but read the whole conversation
+shown before deciding what each comment means. Label ONLY the comment marked
+">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
+number [n]; everything else is context. Packets are independent.
+
+Write one JSON line per packet to labels/full_context/b024.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 70000f8d (comment packet) ===
+POST TITLE: Principe - worth it?
+POST BODY: I’ve got a reservation there on Saturday night. It has a bunch of mixed recent reviews on Google Maps and wondering if I should book somewhere else.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/pandaspuppiespizza):
+I really liked it! Yes the seafood “apps” are teensy and therefore very expensive. But all the food is really good and it’s a cool space. The shrimp mafaldine pasta is amazing, and they do a really good duck breast (sauce seems to rotate but the fennel one was bomb). Oh and they bread (free!) is so good — it’s like a cornmeal crusted English muffin, warm, and comes with unique dipping sauces.
+
+REPLIES TO IT (context only):
+  u/Reasonable_Tune821: Thanks 🙏
+=== END PACKET 70000f8d ===
+
+=== PACKET e5a2d473 (comment packet) ===
+POST TITLE: any typical American-style Breakfast recommendation?
+POST BODY: We're staying next to bryant park on 6th avenue. Because of jet lag we may wake up super early, also my husband is someone who take breakfast very seriously, so we wouldn't refuse a feast for the morning. Any kind of recommendation will be welcomed! Thank you!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/SavingsAd1484: Walk over to S&P on 5th Ave & 22nd. It’s the Old Eisenberg’s and classic American
+
+>>> COMMENT TO LABEL (u/Dizzy_Wonder9697):
+Thank you!! Marked, looks so nice
+
+REPLIES TO IT: none
+=== END PACKET e5a2d473 ===
+
+=== PACKET 58ec16cd (comment packet) ===
+POST TITLE: Where can I find a Japanese lunch/dinner like this (Kaiseki/Gozen)
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/reezyrice):
+There’s a few spots that come to mind:
+
+Budget (<$20)
+- Those chinese run Japanese places (like KO sushi on UES)
+
+- ichibantei (the closest thing to home flavors imo)
+
+- hibino lunch specials 
+
+
+More expensive (>$20)
+- ootoya (classic!!)
+
+- sakagura
+
+- towa but I think they stopped their lunch service.
+
+- restaurant nippon 
+
+- azuma
+
+REPLIES TO IT: none
+=== END PACKET 58ec16cd ===
+
+=== PACKET 2a0468d8 (comment packet) ===
+POST TITLE: what’s your personal “most worth-it” pizza spot? Building a community ranking and need your input 🍕
+POST BODY: I’m working on a little side project that ranks NYC’s favorite pizza spots based purely on anonymous crowdsourcing like reddit upvotes/downvotes (kind of like a live, community-powered Top 10 list).
+
+It’s still super early beta, so before I even plug anything in, I want to sanity-check my starting list.
+
+Right now, these are the 10 my friends and I came up with and our personal ranking. **see picture
+
+But I wanna get you guys take also, what is your personal “most worth-it” pizza in NYC?
+
+Not necessarily the most famous or hyped — just the one that feels like the best value/experience.
+
+Examples:
+	•	The $5 slice you swear by
+	•	The spot you always bring friends to
+	•	The underrated neighborhood joint
+
+Also:
+What pizza place MUST be on a Top 10 community ranking?
+
+I’ll update the list based on the comments before I plug everything into the beta. Appreciate it the help!!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Wise_Lavishness_1624):
+Lucali is great, but I would never wait hours in line. I only go because I live across the street, and sometimes when I notice there’s no line, I can grab a late table. Is it good? Absolutely delicious. Is it worth waiting in line at 2 p.m. with beach chairs? No fucking way.
+
+REPLIES TO IT (context only):
+  u/beer_nyc: Was such a great option back in the pre-Covid years (when the line situation existed but was far more reasonable), especially when you live in the neighborhood.
+=== END PACKET 2a0468d8 ===
+
+=== PACKET ff5a965e (comment packet) ===
+POST TITLE: Best non-Chain Coffee/Latte in Midtown East
+POST BODY: I'm starting a job near 47th and Lex this week, and the way my commute lines up I usually have 20–30 minutes to grab coffee before work. I'm a flavored latte guy, but the chains nearby (Blank Street, Bluestone, Starbucks) don't do much for me. Any good independent spots with good coffee in the Midtown East/Grand Central area?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/OddSilverware):
+I second Little Collins (bw 44th and 45th on 3rd ave), and they absolutely do pick up. Every single thing I have tried on their menu is insanely good, especially for the price. They have a large selection of dishes, which is really hard to find at places that do great coffee. And they look out for you once you are a regular.
+
+REPLIES TO IT: none
+=== END PACKET ff5a965e ===
+
+=== PACKET d90c92f8 (comment packet) ===
+POST TITLE: Let's not argue about the best slice in town. Whose is the biggest?
+POST BODY: My nomination is Artichoke Basille's. Never went so quickly from "A slice is *how* much?" to "Oh OK, makes sense, actually." when I got this two-plate special.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Easy-F: Artichoke pizza place is vomitous vile filth, straight from satan’s anus. It is not pizza. It is not food. it is not right. If you like it you’re going to hell.
+  u/observant_hobo: I actually think the pepperoni slice is solid, although more of a Detroit style than NYC. The artichoke slice is pretty awful in my opinion, drenched in gallons of greasy white sauce.
+
+>>> COMMENT TO LABEL (u/Easy-F):
+yeah it’s super gross. I love a white slice but THAT slice is like something straight out of some shitty U.K. town in the middle of nowhere
+
+REPLIES TO IT: none
+=== END PACKET d90c92f8 ===
+
+=== PACKET 271752a9 (comment packet) ===
+POST TITLE: Favorite Manhattan cafe to sit outside and watch the world go by?
+POST BODY: (none)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/evansdead: Not for the food, but the Jack's Wife Freda in SoHo has great outdoor seating and is perfect for this. Great for just a drink or coffee.
+  u/dddddddddude: lol yeah the food is so blah I don’t get why people like it
+
+>>> COMMENT TO LABEL (u/evansdead):
+It is very average and not a substitute for an actual diner.
+
+REPLIES TO IT: none
+=== END PACKET 271752a9 ===
+
+=== PACKET 23695bcd (comment packet) ===
+POST TITLE: Cuisines/dishes in NYC that I can't find in Toronto?
+POST BODY: I see a lot of posts here asking about great Chinese, Indian, and Italian food. For anyone who hasn't been to Toronto, we have a pretty incredible food scene ourselves. Because of how multicultural the city is, you can find genuinely good versions of pretty much every major cuisine here — Chinese, Indian, Italian, Middle Eastern, Korean, Japanese, Caribbean, etc. I’d say Toronto can hold its own with NYC when it comes to variety (I won’t start a war over which city does each one better 😂).
+
+I travel to NYC pretty often, and the food is always incredible. I’ve been to a ton of renowned fine dining spots, eaten through plenty of slices and halal carts, and had some great steakhouses.
+
+But this time, I’m really looking for food that I **can’t easily get in Toronto**.
+
+For example, Dominican or Puerto Rican food. I'm sure you can find it in other parts of the US, but it's not something we really have in Toronto — and I imagine NYC is one of the best places to try it.
+
+So what cuisines or specific dishes in NYC would you recommend to someone from Toronto who wants something that’s genuinely hard to find back home?
+
+Doesn’t have to be fancy or expensive either. Hole-in-the-wall, casual, or neighborhood spots are exactly what I’m looking for.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/ExPokeChamp: So the cities are compatible, but NYC has superior options for certain foods. We are much better with Mexican, BBQ( go to Goldees or Bark), and we are much better with Latin or general HQ French. Can’t go wrong with any of it. Other than haute-cuisine thai, I can’t think of another superior food we have.
+  u/TelephoneOdd8772: Thank you . Will look into the BBQ
+
+>>> COMMENT TO LABEL (u/ExPokeChamp):
+You’re actually super lucky, those two places opened up super recently. Until then I, a native Texan, thought everything else sucked. Go to Goldees if you can, that is a true and authentic representation of Texas BBQ.
+
+REPLIES TO IT (context only):
+  u/ChornWork2: presumably you mean kirbees.
+  u/Dynamiccushion65: What Korean places do you like
+  u/BartBeachGuy: Best Korean outside of Korea? Have you been to LA?
+=== END PACKET 23695bcd ===
+
+=== PACKET 43f2a385 (comment packet) ===
+POST TITLE: Last minute brunch today near Lincoln Center
+POST BODY: A friend is in town. Is she seeing a matinee at Lincoln Center this afternoon. She suggested brunch. I know there’s the Smith…. that’s the obvious choice. I’m afraid it will be packed and I haven’t a reservation. Any place else near Lincoln or on the UWS?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Ajeelynn):
+Old John's Luncheonette - a few blocks from Lincoln Center
+
+REPLIES TO IT: none
+=== END PACKET 43f2a385 ===
+
+=== PACKET 17d6c34e (comment packet) ===
+POST TITLE: I kept hearing about “Pies n Thighs” finally to be disappointed
+POST BODY: I thought this restaurant would be much better so many ppl review this high saying how good it is and nope. Don’t order the sweet tea if you don’t love lemon because that’s all you taste. The fries were good but most likely frozen fries I give the meal 6/10. Any thoughts on this restaurant [Pies n Thighs](https://piesnthighs.com/piesnthighsparkslope)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/FajitaTits: You went to Pies n Thighs and didn’t get either of the things in its namesake?
+
+>>> COMMENT TO LABEL (u/johndoenumber2):
+My rule of thumb is when trying some new or hole-in-the-wall place, I always get what's in the name or depicted on the sign on a first visit.
+
+REPLIES TO IT: none
+=== END PACKET 17d6c34e ===
+
+=== PACKET 0a6a8758 (comment packet) ===
+POST TITLE: Cheap or cheapish near met opera/lincoln center?
+POST BODY: Counter service or sit-down, but not expensive, please. Migrant kitchen? What else? Thank you!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Sooblazed: Grays Papaya is the obvious and easy answer theres also Shinbashi 72 for fast casual japanese bento and katsu curry.. and andys deli for some deli heroes.. other choices but a lil more expensive but tasty are la dinastia / charles pan fried chicken / pastrami queen
+
+>>> COMMENT TO LABEL (u/NYCandLIdweller):
+Grays and charles no sit down and no bathroom so if that part doesn’t matter sure go grab some takeout. Both places are great for that.
+
+REPLIES TO IT: none
+=== END PACKET 0a6a8758 ===
+
+=== PACKET 3488ee3d (comment packet) ===
+POST TITLE: Do you guys give feedback when the waiter asks “how is everything?”
+POST BODY: Just had a dinner and we had three separate people come up and say thanks for dining and ask “how is everything”. They are a new restaurant so I guess they are looking for feedback. Usually we just say “it’s great” even if the food is not that great because I guess that’s the polite thing to do? But I’m curious what other people do. Especially if the restaurant is kind of fancy like $30-40 per main, when they ask, do they actually want feedback? I don’t expect a discount or anything but sometimes the food at these places is not good, especially for the price. 
+
+Also what do people tip of the service is good but the food is so average at these higher tier places? I feel kind of annoyed to tip 20% if the food is average but don’t want to punish the waitstaff.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/teeny_yellow_bikini):
+Sometimes--it depends on the situation and how engaged we've been with the server. 
+
+Once we ate at Bourbon Steak and I mentioned (in convo) to my partner that a dish was a bit salty. A few mins later, the assistant manager came over and asked us about it as she overheard us and wanted to get our full feedback. And then they comped it + dessert so I guess it depends on the institution. 
+
+We always tip at least 20%.
+
+REPLIES TO IT: none
+=== END PACKET 3488ee3d ===
+
+=== PACKET aea93a81 (comment packet) ===
+POST TITLE: 冰饭 “Ice Rice”
+POST BODY: Where’s the best place to find “ice rice”? It’s a dessert from ChangLe, Fuzhou and my husband and I were obsessed when we lived over there. We’re visiting next month and I’m trying to find a place nearby that has a good version. Preferably Manhattan around Chinatown but willing to go to Flushing/Queens if there aren’t any good options closer!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/justflipping):
+Did some googling for ice rice+fuzhou+changle and this place has "ice rice" thats looks similar.
+
+[Yelp page 2 - Nuan Xin Rice Roll](https://www.yelp.com/search?find_desc=Ice+Rice&find_loc=Brooklyn%2C+NY&start=10). Nuan Xin Rice Roll also has a location in Manhattan, Chinatown. There are also more results from reviews mentioning ice rice on page 1 from some Chinese skewer places.
+
+There's a big Fuzhounese population in Manhattan, Chinatown and 8th Ave Brooklyn so you might have more luck there.
+
+REPLIES TO IT: none
+=== END PACKET aea93a81 ===
+
+=== PACKET 9560430d (comment packet) ===
+POST TITLE: What the Best/Favorite Crab Rangoon in NYC?
+POST BODY: Hello all! Looking for the best crab rangoon in NYC - doesn't matter what neighborhood but would love to hear any and all suggestions of favorites/ must go places! Trying to try as many places as possible. 
+
+Thanks!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/saxualtension):
+Top Thai Vintage in the WV has great crab rangoons, they’re also one of my favorite restaurants in that area! Delicious food all-around, and awesome bartenders there
+
+REPLIES TO IT: none
+=== END PACKET 9560430d ===
+
+=== PACKET acfb068c (comment packet) ===
+POST TITLE: Have you ever tried a dish at a restaurant in NYC that was so tasty you almost came back the next day—or even kept returning for it again and again?
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/PretzelsThirst):
+Chicken paitan ramen at Ivan
+
+REPLIES TO IT: none
+=== END PACKET acfb068c ===
+
+=== PACKET 6bb1d85e (comment packet) ===
+POST TITLE: Best value tasting menu for solo diner?
+POST BODY: Looking for a quality tasting menu, preferably under $200 but willing to pay more for wine/drink pairings. I’m a solo diner and I’m leaning more toward American/Italian/French but open to other suggestions. Bonus points for something near Midtown East or Murray Hill.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/throwawayl311: 63 Clinton, huge fan
+
+>>> COMMENT TO LABEL (u/dummonger):
+was just here last night. got out for 240 tip included for 2ppl. wonderful service and food.
+
+REPLIES TO IT: none
+=== END PACKET 6bb1d85e ===
+
+=== PACKET 95e75093 (comment packet) ===
+POST TITLE: Goat biryani like haat bazaar in Jackson heights (willing to travel)
+POST BODY: I was shocked a while back when I say haat bazaar had closed. My favorite haleem and goat biryani was there. This is a long shot but does anyone know if there is a spot that serves biryani or haleem similar to there. Willing to travel anywhere in NYC.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Slamdingo):
+I'm curious to see what other Bengali Biryani people recommend. Personally I think the Biryani at Boishakhi is decent so you should try it yourself. 
+
+This isn't Bengali but I think the Hyderabadi Biryani at Hyderabadi Ziaqa is one of the best Biryani dishes you can get in the city without paying an arm and a leg.
+
+REPLIES TO IT: none
+=== END PACKET 95e75093 ===
+
+=== PACKET 952037e1 (comment packet) ===
+POST TITLE: Scored a really hot date. I want to impress the daylights out of my date with an upscale type cocktail spot in the city. She likes Hotel Chelsea as reference
+POST BODY: As all stated in the title , I'm no stranger to NY but want a silver bullet of a nice impressive cocktail spot to impress my date. Trying to be a little extra this time around.
+
+She was at Hotel Chelsea recently as some form of reference.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/banallthemusic):
+Do you want to impress her with great cocktails or great vibe?
+
+These spots come to mind - Bemelmans bar, king Cole, bar room at beekman, Monkey Bar, Raines Law Room and Shinji.
+
+REPLIES TO IT (context only):
+  u/Level-Celebration175: The beekman, Peak lounge bar, Manhatta, Bemelmans, Patent pending, The Nines, and Casa Cruz. Peak and Manhattan easily have some of the best views of the city while being upscale
+=== END PACKET 952037e1 ===
+
+=== PACKET 1c9c124d (comment packet) ===
+POST TITLE: what’s your favorite place to eat that’s near 30 Rock?
+POST BODY: i’m at 30 rock and have an hour until my flight. any suggestions? open to all types of food, not craving anything in particular rn.
+
+edit: with such little time, i put my trust in Yelp. Joe’s soup dumplings did not disappoint, though being my first soup dumpling experience i have no baseline to judge it comparatively
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/greenkoalapoop):
+Real Kung Fu Little Steam Buns has some of the best pan friend steam pork buns in the area.
+
+Hatsuhana for really solid sushi
+
+(+1 for Katsu-Hama as well)
+
+REPLIES TO IT: none
+=== END PACKET 1c9c124d ===
+
+=== PACKET bf624982 (comment packet) ===
+POST TITLE: Bad Roman - question
+POST BODY: Going to Bad Roman this week and looking to get the most bang for my buck. Not looking for you to tell me to not go because I’m going regardless haha. What menu items are a must, and what is overhyped/a skip? It’s not cheap so hoping to order the best of the best!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/jorsiem):
+>and what is overhyped
+
+The entire thing
+
+REPLIES TO IT: none
+=== END PACKET bf624982 ===
