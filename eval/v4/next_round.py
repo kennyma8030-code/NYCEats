@@ -12,10 +12,13 @@ The database is only read, and only when drawing (to render the new items).
    eval/v4/round2, ...) is compared with each model run given on the
    command line, using score.py's matching against Claude's labels (the
    --ref pass). A comment-mode run counts on single items, a thread-mode run
-   on chunks. Several runs pool their counts, so failures several models
-   share weigh most. Production's stored output can be added with
-   --production, but it is not needed: production's data only served to
-   pick likely-hard comments for round 1. Failure types, per comment:
+   on chunks. Run files are grouped by model (run.py's recorded model, else
+   the file name's first field) and every model weighs the same: failure
+   rates are averaged across models, so a model with many run files does not
+   dominate. A path that does not exist stops the run with a message.
+   Production's stored output can be added with --production as one more
+   model, but it is not needed: production's data only served to pick
+   likely-hard comments for round 1. Failure types, per comment:
 
      dropped_comment         the reference has a required mention, the system has none
      dropped_mention         a required reference mention is unmatched
@@ -38,9 +41,13 @@ The database is only read, and only when drawing (to render the new items).
    once in that mode. Each stratum s gets the score
        sum over counted types f of (c[s,f] + 0.5) / (n[s] + 1)
    where n[s] is the labeled comments carrying tag s and c[s,f] those with
-   failure f, so strata where failures concentrate get more. Quotas are
-   proportional to the score with a floor of 3 (comments) or one chunk's
-   worth (25 comments), so no stratum goes dark.
+   failure f (both on one model's scale: the models' mean n and mean rate),
+   so strata where failures concentrate get more. Quotas are proportional
+   to the score with a floor of 3 (comments) or one chunk's worth (25
+   comments), so no stratum goes dark. A mode that no run covered falls back
+   to a uniform allocation, with a warning and "allocation_basis" in
+   failure_rates.json saying so; --modes limits the draw to the modes
+   wanted (e.g. --modes comment when only comment-mode runs exist).
 
 3. DRAW. The population is every eligible comment created before
    corpus.CUTOFF (Oct 9), as in round 1. If round 1's snapshot pickle is in
@@ -137,25 +144,37 @@ def failures(g, preds, alias, excluded):
     return F
 
 
-def measure(items, ref, runs, alias, excluded):
-    """Per mode: {tag: {"n": .., f: count}}, plus weighted overall rates.
+MODES = ("comment", "thread")
 
-    runs: [(preds, covered, run_mode)]. A comment-mode run counts on single
-    items and a thread-mode run on chunks (as in compare_v4); any other mode,
-    such as production's "stored", counts on both. Runs pool: a comment
-    scored by two runs counts twice."""
-    by_item = {it["item_id"]: it for it in items}
-    per = {"comment": collections.defaultdict(collections.Counter),
-           "thread": collections.defaultdict(collections.Counter)}
-    wsum = {"comment": collections.Counter(), "thread": collections.Counter()}
-    for g, it, preds in ((g, by_item.get(g["item_id"]), preds) for preds, covered, run_mode in runs
-                         for g in ref if g["comment_id"] in covered
-                         and (run_mode not in ("comment", "thread") or by_item[g["item_id"]]["mode"] == run_mode)):
-        F = failures(g, preds.get(g["comment_id"], []), alias, excluded)
+
+def new_tally():
+    return ({m: collections.defaultdict(collections.Counter) for m in MODES},
+            {m: collections.Counter() for m in MODES})
+
+
+def measure_file(by_item, ref, path, items, alias, excluded, per, wsum):
+    """Add one run file's failures to per / wsum. Mirrors compare_v4.evaluate:
+    a comment-mode run counts on single items, a thread-mode run on chunks,
+    any other mode (production's "stored") on both. Returns how many gold
+    lines name an item that is not loaded (skipped, never fatal)."""
+    reps, covered, run_mode = CV.load_runs([path], items)
+    preds, covered = reps.get(0, {}), covered.get(0, set())
+    missing = 0
+    for g in ref:
+        it = by_item.get(g["item_id"])
+        cid = g["comment_id"]
+        if it is None:
+            missing += 1
+            continue
+        if cid not in covered:
+            continue
+        if run_mode in MODES and it["mode"] != run_mode:
+            continue
+        F = failures(g, preds.get(cid, []), alias, excluded)
         mode = it["mode"]
         tags = set(it["tags"]) | {f"stratum:{it['stratum']}", "all"}
         if it["kind"] == "thread":
-            tags |= set(next(c["tags"] for c in it["comments"] if c["comment_id"] == g["comment_id"]))
+            tags |= set(next(c["tags"] for c in it["comments"] if c["comment_id"] == cid))
         for t in tags:
             per[mode][t]["n"] += 1
             per[mode][t].update(F)
@@ -163,7 +182,37 @@ def measure(items, ref, runs, alias, excluded):
             wsum[mode]["n"] += it["weight"]
             for f in F:
                 wsum[mode][f] += it["weight"]
-    weighted = {m: {f: (w[f] / w["n"] if w["n"] else None) for f in FAILURES} for m, w in wsum.items()}
+    return missing
+
+
+def model_of(path):
+    """The model a run file belongs to: run.py's recorded model, else the
+    file name's first field (<model>__<prompthash>__<mode>...)."""
+    for r in CV.load_jsonl(path):
+        if r.get("model"):
+            return r["model"]
+    return os.path.basename(path).split("__", 1)[0]
+
+
+def combine(tallies):
+    """Average models with equal weight, however many run files each has.
+
+    For every (mode, tag) the combined failure rate is the mean of the
+    models' rates (over the models that covered it), and the combined n is
+    their mean n, so allocate() sees counts on one model's scale."""
+    per, weighted = {m: collections.defaultdict(collections.Counter) for m in MODES}, {}
+    for m in MODES:
+        tags = {t for p, _ in tallies for t in p[m]}
+        for t in tags:
+            cov = [p[m][t] for p, _ in tallies if p[m][t]["n"]]
+            n = sum(c["n"] for c in cov) / len(cov)
+            per[m][t]["n"] = n
+            for f in FAILURES:
+                rate = sum(c[f] / c["n"] for c in cov) / len(cov)
+                if rate:
+                    per[m][t][f] = rate * n
+        ws = [w[m] for _, w in tallies if w[m]["n"]]
+        weighted[m] = {f: (sum(w[f] / w["n"] for w in ws) / len(ws) if ws else None) for f in FAILURES}
     return per, weighted
 
 
@@ -187,11 +236,17 @@ def main():
     ap.add_argument("runs", nargs="*", help="candidate model run files (run.py output) to find failures in")
     ap.add_argument("--production", action="store_true",
                     help="also count production's stored output (needs export_production.py first)")
+    ap.add_argument("--modes", default=",".join(MODES),
+                    help="comma-separated modes to draw (default comment,thread); "
+                         "e.g. --modes comment when only comment-mode runs exist")
     ap.add_argument("--round", type=int, help="round number to build (default: next)")
     ap.add_argument("--comments-per-mode", type=int, default=250)
     ap.add_argument("--dry-run", action="store_true", help="report failures and allocation; draw nothing")
     ap.add_argument("--base", default=HERE, help="round 1 directory; later rounds live in <base>/round<N>")
     args = ap.parse_args()
+    args.modes = [m.strip() for m in args.modes.split(",") if m.strip()]
+    if not args.modes or set(args.modes) - set(MODES):
+        raise SystemExit(f"--modes takes a comma-separated subset of {','.join(MODES)}")
 
     base = args.base
     dirs = CV.round_dirs(base)
@@ -201,41 +256,73 @@ def main():
            if os.path.exists(p) for g in CV.load_jsonl(p)]
     if not ref:
         raise SystemExit(f"no {args.ref} labels yet: run labels.py export --pass {args.ref}")
-    groups = [[p] for p in args.runs]           # each model run file is its own system
+    absent = [p for p in args.runs if not os.path.isfile(p)]
+    if absent:
+        raise SystemExit(f"run file(s) not found: {', '.join(absent)} "
+                         "(an unexpanded glob matches nothing; check eval/runs/)")
+    models = collections.defaultdict(list)      # model -> its run files, weighted equally
+    for p in args.runs:
+        models[model_of(p)].append(p)
     if args.production:
         prod = [p for d in dirs for p in glob.glob(os.path.join(d, "production", "*.jsonl"))]
         if not prod:
             raise SystemExit("--production: no production export (export_production.py) in any round")
-        groups.append(prod)                     # one export per round, merged into one system
-    if not groups:
+        models["production (stored)"] = prod    # one export per round
+    if not models:
         raise SystemExit("pass one or more model run files (run.py output) to find failures in")
-    system = [p for g in groups for p in g]
-    runs = []
-    for g in groups:
-        reps, covered, mode = CV.load_runs(g, items)
-        runs.append((reps.get(0, {}), covered.get(0, set()), mode))
     alias, excluded = S.load_map("alias_overrides.json"), S.load_map("excluded_entities.json")
-    per, weighted = measure(items, ref, runs, alias, excluded)
+    by_item = {it["item_id"]: it for it in items}
+    tallies, missing = [], 0
+    for paths in models.values():
+        per_m, wsum_m = new_tally()
+        for p in paths:
+            missing = max(missing, measure_file(by_item, ref, p, items, alias, excluded, per_m, wsum_m))
+        tallies.append((per_m, wsum_m))
+    if missing:
+        print(f"warning: {missing} labeled comment(s) belong to items that are not loaded; skipped",
+              file=sys.stderr)
+    per, weighted = combine(tallies)
 
     budget = args.comments_per_mode
     tgt = round(budget * (1 - RANDOM_SHARE))
+    basis = {}
+    for m in MODES:
+        if m not in args.modes:
+            basis[m] = "not drawn (--modes)"
+        elif not per[m].get("all", {}).get("n"):
+            basis[m] = "uniform: no run covered this mode"
+            print(f"WARNING: no run covered {m} mode, so its strata get a uniform allocation. "
+                  f"Pass a {m}-mode run, or --modes {','.join(x for x in MODES if x != m)} "
+                  f"to skip drawing it.", file=sys.stderr)
+        else:
+            basis[m] = "model failures"
     q_c, seen_c = allocate(per["comment"], corpus.COMMENT_STRATA, tgt, 3)
     q_t, seen_t = allocate(per["thread"], corpus.CHUNK_STRATA, tgt, 25)
-    spec = {"comment": {"random": budget - tgt, "strata": q_c},
-            "thread": {"random_comments": budget - tgt, "strata_comments": q_t},
+    if "comment" not in args.modes:
+        q_c = {s: 0 for s in q_c}
+    if "thread" not in args.modes:
+        q_t = {s: 0 for s in q_t}
+    spec = {"comment": {"random": (budget - tgt) if "comment" in args.modes else 0, "strata": q_c},
+            "thread": {"random_comments": (budget - tgt) if "thread" in args.modes else 0,
+                       "strata_comments": q_t},
             "overlap_v1": 0}
-    report = {"round": round_no, "reference": args.ref, "system": [os.path.relpath(p, EVAL) for p in system],
+    report = {"round": round_no, "reference": args.ref,
+              "models": {k: [os.path.relpath(p, EVAL) for p in v] for k, v in models.items()},
+              "model_weighting": "equal per model: failure rates averaged across models",
+              "allocation_basis": basis, "skipped_unloaded_gold_lines": missing,
               "failures_counted": {"comment": seen_c, "thread": seen_t},
               "weighted_rates": weighted,
-              "by_tag": {m: {t: {"n": c["n"], **{f: c[f] for f in FAILURES if c[f]},
+              "by_tag": {m: {t: {"n": round(c["n"], 1),
                                  **{f + "_rate": round(c[f] / c["n"], 3) for f in FAILURES if c[f]}}
                              for t, c in sorted(per[m].items())} for m in per},
               "spec": spec}
-    for m in ("comment", "thread"):
-        print(f"\n== {m} mode: failure rate by heuristic (n = labeled comments the system processed)")
-        print(f"  {'tag':34} {'n':>4} " + " ".join(f"{SHORT[f]:>8}" for f in FAILURES))
+    print(f"models (equal weight): {', '.join(f'{k} ({len(v)} file(s))' for k, v in models.items())}")
+    for m in MODES:
+        print(f"\n== {m} mode ({basis[m]}): failure rate by heuristic, averaged over models "
+              f"(n = labeled comments per model)")
+        print(f"  {'tag':34} {'n':>6} " + " ".join(f"{SHORT[f]:>8}" for f in FAILURES))
         for t, c in sorted(per[m].items(), key=lambda x: -x[1]["n"]):
-            print(f"  {t[:34]:34} {c['n']:>4} " + " ".join(
+            print(f"  {t[:34]:34} {c['n']:>6.0f} " + " ".join(
                 f"{(c[f] / c['n'] if c['n'] else 0):>8.2f}" for f in FAILURES))
         print("  weighted to traffic: " + ", ".join(f"{f}={v:.3f}" for f, v in weighted[m].items() if v))
     print("\nallocation:", json.dumps(spec, indent=1))

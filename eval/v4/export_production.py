@@ -76,7 +76,7 @@ def main():
     # The drift check needs the round's snapshot; without it, export unchecked.
     snap = None
     if os.path.exists(corpus.snapshot_path()):
-        snap = corpus.load(fetch_ok=False)
+        snap = corpus.load()
         if snap["snapshot_at"] != snapshot_at:
             print(f"warning: cached snapshot {snap['snapshot_at']} is not this round's {snapshot_at}; "
                   "skipping the drift check", file=sys.stderr)

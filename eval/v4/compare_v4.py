@@ -287,9 +287,17 @@ def main():
             ceilings.append(score_run("claude same_input vs full_context", si, ref, items, alias, excluded,
                                       both_modes=True))
 
+    snaps = {}
+    for d in dirs:
+        with open(os.path.join(d, "design.json"), encoding="utf-8") as f:
+            snaps[os.path.relpath(d, EVAL)] = json.load(f).get("snapshot_at")
+    if len(set(snaps.values())) > 1:
+        print("warning: pooled rounds were drawn from different snapshots, so pooled weights are approximate",
+              file=sys.stderr)
     out = {"reference": {"pass": args.ref, "files": [os.path.relpath(p, EVAL) for p in ref_paths],
                          "comments": len(ref), "with_mention": sum(g["has_mention"] for g in ref)},
            "dirs": [os.path.relpath(d, EVAL) for d in dirs],
+           "snapshots": snaps, "mixed_snapshots": len(set(snaps.values())) > 1,
            "runs": runs, "ceilings": ceilings,
            "v1_overlap_agreement": v1_agreement(dirs, args.ref, items, alias, excluded)}
     jp, mp = write(os.path.join(dirs[0], "results"), args.ref, out)

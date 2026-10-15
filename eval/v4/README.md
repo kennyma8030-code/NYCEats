@@ -54,7 +54,9 @@ cutoff, which takes a few minutes and several GB of memory. It then warns
 that the population may have drifted since round 1's snapshot
 (`2026-10-13T20:11:58Z`): deletions, late-arriving comments, and extraction
 progress moving the production-derived heuristic tags. Pooled weights
-across rounds are then approximate.
+across rounds are then approximate, and `compare_v4.py` warns. A live read
+is never saved, so it can never stand in for round 1's snapshot; each run
+without the snapshot reads the database again.
 
 | file | what |
 |---|---|
@@ -438,7 +440,9 @@ The **ceilings** come in three rows:
 Outputs go to `results/comparison_<ref>.json` and `.md`. Pass `--dirs` to
 pool rounds. The combined `pi` is the sum of the item's `pi` under each
 round's design. It is exact when every round drew from the same snapshot,
-and approximate when a later round read the live database.
+and approximate when a later round read the live database. In that case
+`compare_v4.py` prints a one-line warning, and the output JSON records each
+round's `snapshot_at` with `mixed_snapshots: true`.
 
 ## Round 2 and beyond
 
@@ -451,12 +455,23 @@ python eval/v4/packets.py --dir eval/v4/round2 && python eval/v4/batches.py --di
 # run the models on round2/items_single.jsonl and items_thread.jsonl, then compare_v4.py (pools all rounds)
 ```
 
-`next_round.py` takes one or more candidate model run files. It scores each
-against Claude's labels (`--ref`, default `full_context`) on every labeled
-round: a comment-mode run on single items, a thread-mode run on chunks.
-Several runs pool their counts, so failures that several models share weigh
-most. Production's stored output can be added with `--production`, but it is
-not needed. It types each comment's failures:
+`next_round.py` takes one or more candidate model run files. A path that
+doesn't exist, such as an unexpanded glob, stops it with a message. It
+scores each file against Claude's labels (`--ref`, default `full_context`)
+on every labeled round: a comment-mode run on single items, a thread-mode
+run on chunks.
+
+Files are grouped by model (`run.py`'s recorded model). Every model counts
+equally: its failure rates are averaged with the other models', so a model
+with many run files doesn't dominate.
+
+If no run covers a mode, that mode's strata fall back to a uniform
+allocation. It prints a warning and records it as `allocation_basis` in
+`failure_rates.json`. `--modes comment` (or `--modes thread`) draws only the
+modes you have runs for.
+
+Production's stored output can be added with `--production`, as one more
+model, but it isn't needed. It types each comment's failures:
 
 - dropped comment
 - dropped mention
@@ -499,7 +514,7 @@ Round 1 is committed, so nothing needs rebuilding. To rebuild or re-check it:
 
 ```bash
 EVAL_DB_URL=$DATABASE_URL PGOPTIONS='-c default_transaction_read_only=on' \
-    python eval/v4/build_round1.py        # reads ~100 MB of text into the cache
+    python eval/v4/build_round1.py        # uses the cached snapshot, else reads ~100 MB live
 EVAL_DB_URL=... python eval/v4/verify_inputs.py
 python eval/v4/packets.py && python eval/v4/batches.py
 ```
@@ -507,8 +522,8 @@ python eval/v4/packets.py && python eval/v4/batches.py
 A byte-identical rebuild needs round 1's snapshot: `snapshot_20261009.pickle`
 in `~/.cache/nyceats-eval-v4/` (or `$V4_CACHE_DIR`), read at
 `2026-10-13T20:11:58.568679+00:00`. Without it the build reads the live
-database, which has moved on since. Derived tags are cached next to the
-snapshot as `corpus_<cutoff>_<key>.pickle`. The key hashes `corpus.py`,
+database, which has moved on since, and saves nothing. The tags derived from
+round 1's snapshot are cached next to it as `corpus_<cutoff>_<key>.pickle`. The key hashes `corpus.py`,
 `extract.py`, `chains.txt`, `extract_threads.py`, `prompt_thread.py`,
 `excluded_entities.json`, the v1/v2 item files and the snapshot file's size
 and mtime. The cache holds comment text and production output, so keep it
