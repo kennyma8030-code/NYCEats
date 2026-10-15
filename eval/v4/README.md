@@ -1,16 +1,16 @@
 # Extraction eval v4
 
-v4 compares any candidate model against production's stored extraction and,
-above all, against Claude's own extraction. Claude labels every item with the
-same prompt the candidates get, in two passes:
+v4 compares candidate extraction models against **Claude's own extraction**.
+Claude labels every item with the same prompt the candidates get, in two
+passes:
 
 - **same_input** sees exactly what the model sees.
 - **full_context** sees the whole conversation and serves as the gold pass.
 
-Unlike v1, no label is ever checked against production output. The labels
-are blind to production: its output is not exported at all until a round's
-labeling is finished (`export_production.py` refuses before then), and the
-export is gitignored, so it never sits where a labeler could browse it.
+Production's extraction is not a baseline here. Its stored output was used
+for one thing only: the round 1 heuristics that picked likely-hard comments.
+No label is ever checked against it, and items, packets and batches never
+contain it.
 
 Round 1 has **504 comments**. 250 are single comments in comment mode (200
 new, plus 50 overlapping v1 gold). The other 254 sit in 14 thread chunks in
@@ -19,9 +19,46 @@ traffic and 70% by failure-targeted heuristics. Every item carries its
 stratum, every matching heuristic tag, its inclusion probability and its
 weight. Labeling has not started.
 
+## The workflow
+
+1. **Label.** Give Opus labelers the prompt and the batch files, one pass
+   at a time. Then check and export the labels.
+2. **Run the models** on the exact production inputs with `eval/run.py`.
+3. **Compare to Claude's labels** with `compare_v4.py`.
+4. **Draw round 2 from the models' failures** with `next_round.py`, then
+   repeat.
+
+Commands are under [Scoring](#scoring) and [Round 2 and
+beyond](#round-2-and-beyond).
+
+## On a new device
+
+Everything needed is on this branch: the round 1 items, packets, labeling
+batches and keys are committed. Labeling, running models and comparing need
+no database. You need:
+
+- **This branch** and a Python with `psycopg2` (the repo's
+  `requirements.txt`).
+- **`OPENROUTER_API_KEY`**, only to run candidate models (`eval/run.py`).
+- **A read-only `DATABASE_URL`** (or `EVAL_DB_URL`), only to draw round 2
+  and later. Point it at production and run with
+  `PGOPTIONS='-c default_transaction_read_only=on'`; every v4 connection
+  also opens a read-only session.
+- **The cutoff.** It is fixed in `corpus.CUTOFF`: comments created before
+  2026-10-09 UTC. Round 2 samples the same population.
+
+Round 1's corpus snapshot (`~/.cache/nyceats-eval-v4/snapshot_20261009.pickle`,
+about 300 MB) is an optional fast path; don't copy it. Without it,
+`next_round.py` reads the corpus from the live database with the same
+cutoff, which takes a few minutes and several GB of memory. It then warns
+that the population may have drifted since round 1's snapshot
+(`2026-10-13T20:11:58Z`): deletions, late-arriving comments, and extraction
+progress moving the production-derived heuristic tags. Pooled weights
+across rounds are then approximate.
+
 | file | what |
 |---|---|
-| `corpus.py` | Loads the corpus read-only, caches it outside the repo, and holds every heuristic |
+| `corpus.py` | Loads the corpus read-only (from the optional cache, else the live DB) and holds every heuristic |
 | `render.py` | Renders model inputs from the DB with production's SQL and builders |
 | `design.py` | Draws, inclusion probabilities, the holdout split, item assembly, and `design.json` |
 | `build_round1.py` | The round 1 spec and build: writes `items*.jsonl` and `design.json` |
@@ -29,10 +66,10 @@ weight. Labeling has not started.
 | `packets.py` | Writes `packets.jsonl`: a `same_input` and a `full_context` packet per item |
 | `batches.py` | Writes the blind labeling batches `batches/<pass>/bNNN.txt`, plus `keys/<pass>.json` |
 | `labels.py` | Checks label files and exports them to run and gold format |
-| `compare_v4.py` | Scores runs, production and Claude per mode, stratum, tag, split and weight; reports ceilings |
-| `next_round.py` | Measures failure rates and draws round 2, 3, ... |
+| `compare_v4.py` | Scores model runs against Claude's labels per mode, stratum, tag, split and weight; reports Claude's own ceilings |
+| `next_round.py` | Measures candidate models' failure rates against Claude's labels and draws round 2, 3, ... |
 | `items.jsonl` | Round 1: 250 `comment` items and 14 `thread` items. `items_single.jsonl` and `items_thread.jsonl` hold the same items split for `run.py` |
-| `export_production.py` | Exports production's stored output for a round into `production/`, **only once both label passes are complete**, and checks it against the round's snapshot. `production/` is gitignored and never committed |
+| `export_production.py` | Optional, not part of the workflow: exports production's stored output for a round into gitignored `production/`, only once both label passes are complete (see the appendix) |
 | `selftest.py` | Regression checks: misattachment counting, label export failures, duplicate placement in batches |
 
 `items.jsonl` is also blind: it contains no stored mention and no
@@ -347,44 +384,39 @@ Run the two passes with separate labelers.
 ## Scoring
 
 ```bash
-python eval/v4/labels.py check  --pass full_context          # every packet labeled, schema valid (exit 1 if not)
+# 1. labels: check, then export each pass (exit 1, nothing written, on any problem)
+python eval/v4/labels.py check  --pass full_context
 python eval/v4/labels.py export --pass full_context          # -> labels/full_context.run.jsonl + .gold.jsonl
 python eval/v4/labels.py export --pass same_input
 
-# only now, with both passes complete: production's stored output, checked against the snapshot
-EVAL_DB_URL=... python eval/v4/export_production.py           # -> production/ (gitignored) + export_meta.json
-
-# candidate models: the exact inputs, mode-matched
+# 2. candidate models on the exact production inputs, mode-matched (OPENROUTER_API_KEY)
 python eval/run.py --model x/y --mode comment --items eval/v4/items_single.jsonl --tag v4 --prompt file:<prompt>
 python eval/run.py --model x/y --mode thread  --items eval/v4/items_thread.jsonl --tag v4 --prompt file:<prompt>
 
+# 3. compare every eval/runs/*__v4*.jsonl to Claude's labels
 python eval/v4/compare_v4.py --ref full_context    # gold reference
 python eval/v4/compare_v4.py --ref same_input      # same-input reference
-python eval/v4/compare_v4.py --self-test           # production vs itself: must be perfect
 python eval/v4/selftest.py                         # tooling regression checks (no data needed)
 ```
 
-`labels.py export` fails with a nonzero exit, writing nothing, if any line
-is bad JSON, names a packet outside its batch, labels a packet twice, has a
-mention that fails the schema (a thread `id` that is not a bracket number
-included), or if any packet is unlabeled (`--allow-missing` exports a
-partial pass). Nothing is silently dropped or overwritten.
+`labels.py export` fails with a nonzero exit and writes nothing in any of
+these cases:
 
-`export_production.py` runs `eval/export_stored.py` unchanged and then
-compares every exported comment's `extracted_with` and (entity, prompt
-hash) set with the snapshot the round was drawn from. If production
-re-extracted any of them since, it stops and lists them (`--allow-drift`
-keeps the export and records the drift). `production/export_meta.json`
-records the command, the export time and the snapshot it was checked
-against, so the export can be regenerated at any time and shown to be the
-same production output that was sampled.
+- a line is bad JSON;
+- a line names a packet outside its batch;
+- a packet is labeled twice;
+- a mention fails the schema, including a thread `id` that is not a
+  bracket number;
+- a packet is unlabeled (`--allow-missing` exports a partial pass).
+
+Nothing is silently dropped or overwritten.
 
 `compare_v4.py` scores every comment with `score.py`'s `score_comment`, so
 the metrics mean exactly what `eval/README.md` says. A label gold mention
 is keyed like a model mention: `normalize_entity` plus alias overrides.
 Levels come from `score.bucket`. There are no accept-keys or alternatives,
-so matching relies on score.py's fuzzy rule. Production is scored on both
-modes; a comment-mode run on single items; a thread-mode run on chunks.
+so matching relies on score.py's fuzzy rule. A comment-mode run is scored
+on single items, and a thread-mode run on chunks.
 
 For each mode, the report shows these scopes:
 
@@ -394,9 +426,6 @@ For each mode, the report shows these scopes:
 - each draw;
 - each stratum;
 - each heuristic tag.
-
-Never-extracted comments are not covered by production, so production is
-scored on the 254 extracted comments.
 
 The **ceilings** come in three rows:
 
@@ -408,31 +437,26 @@ The **ceilings** come in three rows:
 
 Outputs go to `results/comparison_<ref>.json` and `.md`. Pass `--dirs` to
 pool rounds. The combined `pi` is the sum of the item's `pi` under each
-round's design. That is valid because all rounds sample the same snapshot.
+round's design. It is exact when every round drew from the same snapshot,
+and approximate when a later round read the live database.
 
 ## Round 2 and beyond
 
 ```bash
-# needs round 1 labeled, exported, and production exported (export_production.py)
-python eval/v4/next_round.py --ref full_context --dry-run           # failure rates + proposed allocation
-EVAL_DB_URL=... python eval/v4/next_round.py --ref full_context     # draws eval/v4/round2/
+# 4. draw the next round from where the candidate models fail against Claude's labels
+python eval/v4/next_round.py eval/runs/*__v4.jsonl --dry-run          # failure rates + proposed allocation
+EVAL_DB_URL=... python eval/v4/next_round.py eval/runs/*__v4.jsonl    # draws eval/v4/round2/ (read-only DB)
 python eval/v4/packets.py --dir eval/v4/round2 && python eval/v4/batches.py --dir eval/v4/round2
-# label round2/batches/*, then labels.py export --pass ... --dir eval/v4/round2 for both passes
-EVAL_DB_URL=... python eval/v4/export_production.py --dir eval/v4/round2     # only after labeling
-python eval/v4/compare_v4.py                                        # pools all complete rounds
+# label round2/batches/*, labels.py export --pass ... --dir eval/v4/round2,
+# run the models on round2/items_single.jsonl and items_thread.jsonl, then compare_v4.py (pools all rounds)
 ```
 
-`next_round.py` refuses to draw unless the cached corpus snapshot is the one
-round 1 was drawn from (`snapshot_at` in round 1's `design.json`), and it
-never reads a new snapshot from the live database. It builds the round in a
-hidden temp directory and renames it to `round<N>/` only when every file is
-written, so a failed draw leaves nothing behind. `compare_v4.py` and
-`next_round.py` skip, with a warning, any `round<N>/` that lacks
-`items.jsonl` or `design.json`.
-
-`next_round.py` compares the system under test (by default production; use
-`--system run.jsonl` for a model) with the reference labels on every
-labeled round. It types each comment's failures:
+`next_round.py` takes one or more candidate model run files. It scores each
+against Claude's labels (`--ref`, default `full_context`) on every labeled
+round: a comment-mode run on single items, a thread-mode run on chunks.
+Several runs pool their counts, so failures that several models share weigh
+most. Production's stored output can be added with `--production`, but it is
+not needed. It types each comment's failures:
 
 - dropped comment
 - dropped mention
@@ -454,37 +478,63 @@ traffic, then allocates the new round:
   `sum over failure types seen of (c[s,f] + 0.5) / (n[s] + 1)`.
 - Each stratum keeps a floor of 3 comments, or 25 thread comments.
 
-The draw uses the same snapshot and the same pi formulas. It excludes every
-comment and thread from earlier rounds, and writes `round<N>/items.jsonl`,
-`design.json` and `failure_rates.json`. Rerun it for round 3 and on. It was
-tested end to end on a scratch copy with synthetic labels and a degraded
-fake system: the allocation shifted toward the strata where the fake
-failures sat.
+The strata are still round 1's heuristics. They read production's stored
+output only to locate likely-hard comments, and the models' failures decide
+how many to take from each.
+
+The draw uses round 1's snapshot if it is in the cache. Otherwise it reads
+the corpus from the live database (read-only, comments before the Oct 9
+cutoff) and warns that the population may have drifted (see [On a new
+device](#on-a-new-device)). It excludes every comment and thread from
+earlier rounds. It builds the round in a hidden temp directory and renames
+it to `round<N>/` only when `items.jsonl`, `design.json` and
+`failure_rates.json` are all written, so a failed draw leaves nothing
+behind. `compare_v4.py` and `next_round.py` skip, with a warning, any
+`round<N>/` that lacks `items.jsonl` or `design.json`. Rerun it for round 3
+and on.
 
 ## Reproducing round 1
 
+Round 1 is committed, so nothing needs rebuilding. To rebuild or re-check it:
+
 ```bash
 EVAL_DB_URL=$DATABASE_URL PGOPTIONS='-c default_transaction_read_only=on' \
-    python eval/v4/build_round1.py        # first time: reads ~100 MB of text into the cache
+    python eval/v4/build_round1.py        # reads ~100 MB of text into the cache
 EVAL_DB_URL=... python eval/v4/verify_inputs.py
 python eval/v4/packets.py && python eval/v4/batches.py
 ```
 
-**The cache** is `~/.cache/nyceats-eval-v4/`, or `$V4_CACHE_DIR`. It is
-outside the repo and not in a temp directory, because
-`snapshot_20261009.pickle` *is* the population. Round 1's snapshot was read
-at `2026-10-13T20:11:58.568679+00:00` (in `design.json`). The live database
-has moved on since, so the file cannot be re-created. Keep it, since every
-later round and every re-weighting depends on it. Derived tags are cached
-next to it as `corpus_<cutoff>_<key>.pickle`. The key hashes `corpus.py`,
+A byte-identical rebuild needs round 1's snapshot: `snapshot_20261009.pickle`
+in `~/.cache/nyceats-eval-v4/` (or `$V4_CACHE_DIR`), read at
+`2026-10-13T20:11:58.568679+00:00`. Without it the build reads the live
+database, which has moved on since. Derived tags are cached next to the
+snapshot as `corpus_<cutoff>_<key>.pickle`. The key hashes `corpus.py`,
 `extract.py`, `chains.txt`, `extract_threads.py`, `prompt_thread.py`,
-`excluded_entities.json`, the v1/v2 item files and the snapshot file's
-size and mtime, so a change to any of them rebuilds the tags. The cache
-holds comment text and production output, so keep it out of the repo. The
-in-memory corpus is several GB, so expect swapping on a busy machine.
+`excluded_entities.json`, the v1/v2 item files and the snapshot file's size
+and mtime. The cache holds comment text and production output, so keep it
+out of the repo.
 
 Every connection is opened with `default_transaction_read_only=on` and a
 read-only session.
+
+## Appendix: production's stored output (optional)
+
+Not part of the workflow. To also score production's stored extraction,
+export it after a round's labeling is finished:
+
+```bash
+EVAL_DB_URL=... python eval/v4/export_production.py [--dir eval/v4/round2]
+python eval/v4/compare_v4.py                 # adds a "production (stored)" row
+python eval/v4/compare_v4.py --self-test     # production vs itself: must be perfect
+python eval/v4/next_round.py --production ...  # also counts production's failures
+```
+
+It refuses until both label passes are complete, and it runs
+`eval/export_stored.py` unchanged into gitignored `production/`. If the
+round 1 snapshot is cached, it checks every exported comment against it and
+stops if production re-extracted any since (`--allow-drift` keeps the
+export). Production covers only the comments it ever extracted, 254 of
+round 1's 504.
 
 ## Caveats and open questions
 

@@ -1,16 +1,21 @@
-"""Measure where the system under test fails on the labeled rounds, then draw
-the next round so it oversamples those failures. Rerunnable for round 3 and on.
+"""Measure where candidate models fail against Claude's labels, then draw the
+next round so it oversamples those failures. Rerunnable for round 3 and on.
 
-    python eval/v4/next_round.py --ref full_context --dry-run       # failure rates + proposed allocation only
-    EVAL_DB_URL=postgresql://... python eval/v4/next_round.py --ref full_context
-    python eval/v4/next_round.py --ref same_input --system eval/runs/<model>__<hash>__comment__v4.jsonl
+    python eval/v4/next_round.py eval/runs/*__v4.jsonl --dry-run      # failure rates + proposed allocation only
+    EVAL_DB_URL=postgresql://... python eval/v4/next_round.py eval/runs/a__comment__v4.jsonl eval/runs/a__thread__v4.jsonl
+    python eval/v4/next_round.py --ref same_input eval/runs/<model>__<hash>__comment__v4.jsonl
+    python eval/v4/next_round.py --production ...      # also count production's stored output, if exported
 
 The database is only read, and only when drawing (to render the new items).
 
 1. FAILURES. Every labeled comment in every existing round (eval/v4,
-   eval/v4/round2, ...) is compared with the system's output (default:
-   production's stored output) using score.py's matching. Failure types,
-   per comment:
+   eval/v4/round2, ...) is compared with each model run given on the
+   command line, using score.py's matching against Claude's labels (the
+   --ref pass). A comment-mode run counts on single items, a thread-mode run
+   on chunks. Several runs pool their counts, so failures several models
+   share weigh most. Production's stored output can be added with
+   --production, but it is not needed: production's data only served to
+   pick likely-hard comments for round 1. Failure types, per comment:
 
      dropped_comment         the reference has a required mention, the system has none
      dropped_mention         a required reference mention is unmatched
@@ -22,13 +27,11 @@ The database is only read, and only when drawing (to render the new items).
      missed_negation         reference is_negated, system not
      missed_price_complaint  reference value complaint (or value < 0) dropped or not flagged
      missed_dish_complaint   a reference dish at -1 or below / avoid with no negative dish entry
-                             (production's prompts cannot express this at all)
      stuck_default           the system left a mention at food 0.3 only while the reference
                              scored something else
 
    Rates are reported per heuristic tag and per stratum, for each mode, plus
-   traffic-weighted overall rates. Comments the system never processed (not
-   extracted, or not in the run) are skipped.
+   traffic-weighted overall rates. Comments a run never processed are skipped.
 
 2. ALLOCATION. 30% of each mode's budget is random, as in round 1. The other
    70% goes to the strata. A failure type counts when it showed up at least
@@ -39,18 +42,18 @@ The database is only read, and only when drawing (to render the new items).
    proportional to the score with a floor of 3 (comments) or one chunk's
    worth (25 comments), so no stratum goes dark.
 
-3. DRAW. Same corpus snapshot as round 1, so all rounds sample one
-   population and their weights pool (compare_v4.py --dirs). It refuses to
-   run if the cached snapshot's snapshot_at differs from round 1's
-   design.json. Every comment in an earlier round, and every thread an
-   earlier round took a chunk from, is excluded, as are the v1/v2 sets.
-   The round is built in a hidden temp dir and renamed to round<N>/ only
-   when complete (items.jsonl, design.json, failure_rates.json). Then run
-   packets.py and batches.py with --dir, label, and only after labeling run
-   export_production.py --dir for the new directory.
-
-Measuring failures needs production's export for the labeled rounds, which
-by design only exists once their labeling is finished.
+3. DRAW. The population is every eligible comment created before
+   corpus.CUTOFF (Oct 9), as in round 1. If round 1's snapshot pickle is in
+   the cache it is used (fast, and exactly round 1's population). Otherwise
+   the corpus is read from the live database, read-only, with the same
+   cutoff, and a warning says the population may have drifted since round 1
+   (late comments, deletions, extraction progress shifting heuristic tags),
+   so pooled weights are approximate. Every comment in an earlier round,
+   and every thread an earlier round took a chunk from, is excluded, as are
+   the v1/v2 sets. The round is built in a hidden temp dir and renamed to
+   round<N>/ only when complete (items.jsonl, design.json,
+   failure_rates.json). Then run packets.py and batches.py with --dir, and
+   label it.
 """
 
 import argparse
@@ -134,16 +137,20 @@ def failures(g, preds, alias, excluded):
     return F
 
 
-def measure(items, ref, preds, covered, alias, excluded):
-    """Per mode: {tag: {"n": .., f: count}}, plus weighted overall rates."""
+def measure(items, ref, runs, alias, excluded):
+    """Per mode: {tag: {"n": .., f: count}}, plus weighted overall rates.
+
+    runs: [(preds, covered, run_mode)]. A comment-mode run counts on single
+    items and a thread-mode run on chunks (as in compare_v4); any other mode,
+    such as production's "stored", counts on both. Runs pool: a comment
+    scored by two runs counts twice."""
     by_item = {it["item_id"]: it for it in items}
     per = {"comment": collections.defaultdict(collections.Counter),
            "thread": collections.defaultdict(collections.Counter)}
     wsum = {"comment": collections.Counter(), "thread": collections.Counter()}
-    for g in ref:
-        it = by_item.get(g["item_id"])
-        if it is None or g["comment_id"] not in covered:
-            continue
+    for g, it, preds in ((g, by_item.get(g["item_id"]), preds) for preds, covered, run_mode in runs
+                         for g in ref if g["comment_id"] in covered
+                         and (run_mode not in ("comment", "thread") or by_item[g["item_id"]]["mode"] == run_mode)):
         F = failures(g, preds.get(g["comment_id"], []), alias, excluded)
         mode = it["mode"]
         tags = set(it["tags"]) | {f"stratum:{it['stratum']}", "all"}
@@ -177,7 +184,9 @@ def allocate(per_mode, strata, total, floor):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ref", choices=("same_input", "full_context"), default="full_context")
-    ap.add_argument("--system", nargs="*", help="run file(s); default production's stored output")
+    ap.add_argument("runs", nargs="*", help="candidate model run files (run.py output) to find failures in")
+    ap.add_argument("--production", action="store_true",
+                    help="also count production's stored output (needs export_production.py first)")
     ap.add_argument("--round", type=int, help="round number to build (default: next)")
     ap.add_argument("--comments-per-mode", type=int, default=250)
     ap.add_argument("--dry-run", action="store_true", help="report failures and allocation; draw nothing")
@@ -192,13 +201,21 @@ def main():
            if os.path.exists(p) for g in CV.load_jsonl(p)]
     if not ref:
         raise SystemExit(f"no {args.ref} labels yet: run labels.py export --pass {args.ref}")
-    system = args.system or [p for d in dirs for p in glob.glob(os.path.join(d, "production", "*.jsonl"))]
-    if not system:
-        raise SystemExit("no production export yet: once labeling is finished, run export_production.py, "
-                         "or pass --system <run file>")
-    reps, covered, _ = CV.load_runs(system, items)
+    groups = [[p] for p in args.runs]           # each model run file is its own system
+    if args.production:
+        prod = [p for d in dirs for p in glob.glob(os.path.join(d, "production", "*.jsonl"))]
+        if not prod:
+            raise SystemExit("--production: no production export (export_production.py) in any round")
+        groups.append(prod)                     # one export per round, merged into one system
+    if not groups:
+        raise SystemExit("pass one or more model run files (run.py output) to find failures in")
+    system = [p for g in groups for p in g]
+    runs = []
+    for g in groups:
+        reps, covered, mode = CV.load_runs(g, items)
+        runs.append((reps.get(0, {}), covered.get(0, set()), mode))
     alias, excluded = S.load_map("alias_overrides.json"), S.load_map("excluded_entities.json")
-    per, weighted = measure(items, ref, reps.get(0, {}), covered.get(0, set()), alias, excluded)
+    per, weighted = measure(items, ref, runs, alias, excluded)
 
     budget = args.comments_per_mode
     tgt = round(budget * (1 - RANDOM_SHARE))
@@ -228,10 +245,17 @@ def main():
     if os.path.exists(out_dir):
         raise SystemExit(f"{out_dir} already exists; remove it or pass --round")
 
-    # Same population as round 1, or nothing: weights only pool over one snapshot.
+    # Round 1's snapshot is the fast path and exactly round 1's population.
+    # Without it the corpus comes from the live database (read-only, same
+    # cutoff), which may have drifted since.
     with open(os.path.join(base, "design.json"), encoding="utf-8") as f:
         snapshot_at = json.load(f)["snapshot_at"]
-    cp = corpus.cached_corpus(expect_snapshot=snapshot_at, fetch_ok=False)
+    cp = corpus.cached_corpus()
+    if cp.snapshot_at != snapshot_at:
+        print(f"WARNING: drawing from snapshot {cp.snapshot_at}, not round 1's {snapshot_at}. The population "
+              f"(comments before {corpus.CUTOFF:%Y-%m-%d}) may have drifted since: deletions, late comments, "
+              "and extraction progress moving heuristic tags. Weights pooled across rounds are approximate.",
+              file=sys.stderr)
 
     seed = f"nyceats-eval-v4-r{round_no}"
     prior = set()
@@ -266,7 +290,7 @@ def main():
     print(json.dumps(meta["counts"], indent=1))
     print(f"\nnext: python eval/v4/packets.py --dir {out_dir} && python eval/v4/batches.py --dir {out_dir}")
     print("      label both passes, then labels.py export --dir ... for each pass")
-    print(f"      only after labeling: EVAL_DB_URL=... python eval/v4/export_production.py --dir {out_dir}")
+    print(f"      run the candidate models on {out_dir}/items_single.jsonl and items_thread.jsonl, then compare_v4.py")
 
 
 if __name__ == "__main__":

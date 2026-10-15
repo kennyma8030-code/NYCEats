@@ -9,10 +9,10 @@ writes anywhere but the cache directory ($V4_CACHE_DIR, default
 ~/.cache/nyceats-eval-v4), which holds comment text and production's stored
 output and must never be committed.
 
-The snapshot in that cache IS the population every round samples. It cannot
-be re-read later (the live DB keeps changing), so keep the file:
-snapshot_<cutoff>.pickle. Its snapshot_at is recorded in design.json, and
-next_round.py refuses to draw from any other snapshot.
+The snapshot in that cache is an optional fast path. When it is missing, the
+corpus is read again from the live database with the same cutoff; that
+population may have drifted slightly from round 1's (snapshot_at is recorded
+in design.json, and next_round.py warns when they differ).
 
 Stored mentions are loaded ONLY to compute heuristics (a comment's mention
 count, its ancestors', whether its scores sit at the +1 default). They are
@@ -531,11 +531,9 @@ def cache_key():
     return h.hexdigest()[:12]
 
 
-def cached_corpus(refresh=False, expect_snapshot=None, fetch_ok=True):
+def cached_corpus(refresh=False, fetch_ok=True):
     """Corpus with its tags, cached next to the snapshot under cache_key().
-
-    expect_snapshot: refuse (SystemExit) unless the snapshot is exactly the one
-    a previous round was drawn from. Checked before any tag is computed."""
+    Without a snapshot file it reads one from the live database (load)."""
     snap = None
     if refresh or not os.path.exists(snapshot_path()):
         snap = load(refresh, fetch_ok)
@@ -543,15 +541,8 @@ def cached_corpus(refresh=False, expect_snapshot=None, fetch_ok=True):
     if os.path.exists(path):
         with open(path, "rb") as f:
             cp = pickle.load(f)
-        got = cp.snapshot_at
     else:
-        snap = snap or load(False, fetch_ok)
-        got = snap["snapshot_at"]
-    if expect_snapshot and got != expect_snapshot:
-        raise SystemExit(f"corpus snapshot {got} is not round 1's {expect_snapshot}. Every round must "
-                         f"sample the same population; restore round 1's snapshot in {CACHE_DIR}.")
-    if not os.path.exists(path):
-        cp = Corpus(snap)
+        cp = Corpus(snap or load(False, fetch_ok))
         cp.hits = None          # a closure; not picklable
         with open(path, "wb") as f:
             pickle.dump(cp, f, protocol=pickle.HIGHEST_PROTOCOL)

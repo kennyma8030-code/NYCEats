@@ -1,5 +1,7 @@
-"""Export production's stored extraction for a round, ONLY after its labeling
-is finished. Read-only against the database.
+"""Optional: export production's stored extraction for a round, ONLY after its
+labeling is finished. Read-only against the database. v4 compares candidate
+models with Claude's labels; production is not a baseline, so nothing in the
+main workflow needs this.
 
     EVAL_DB_URL=postgresql://... python eval/v4/export_production.py               # round 1
     EVAL_DB_URL=... python eval/v4/export_production.py --dir eval/v4/round2
@@ -8,8 +10,8 @@ Labels must be blind to production, so this refuses to run until both label
 passes of the round are complete and valid (labels.py check). --force skips
 that gate, for a deliberate reason only.
 
-It runs eval/export_stored.py unchanged, then checks the result against the
-corpus snapshot the round was drawn from (the snapshot holds production's
+It runs eval/export_stored.py unchanged, then, when the round's snapshot is
+cached, checks the result against it (the snapshot holds production's
 stored mentions as of snapshot_at). If production re-extracted any of these
 comments since the snapshot, the export is not production-as-sampled, so it
 stops and lists them (--allow-drift keeps it anyway and records the drift).
@@ -71,9 +73,16 @@ def main():
                          "production's output stays unexported until it is (labels.py check)")
     with open(os.path.join(d, "design.json"), encoding="utf-8") as f:
         snapshot_at = json.load(f)["snapshot_at"]
-    snap = corpus.load(fetch_ok=False)
-    if snap["snapshot_at"] != snapshot_at:
-        raise SystemExit(f"cached snapshot {snap['snapshot_at']} is not this round's {snapshot_at}")
+    # The drift check needs the round's snapshot; without it, export unchecked.
+    snap = None
+    if os.path.exists(corpus.snapshot_path()):
+        snap = corpus.load(fetch_ok=False)
+        if snap["snapshot_at"] != snapshot_at:
+            print(f"warning: cached snapshot {snap['snapshot_at']} is not this round's {snapshot_at}; "
+                  "skipping the drift check", file=sys.stderr)
+            snap = None
+    else:
+        print("warning: no snapshot cached; skipping the drift check", file=sys.stderr)
 
     tmp = tempfile.mkdtemp(prefix=".production-", dir=d)
     try:
@@ -82,14 +91,14 @@ def main():
                     "--name", f"production__stored__{name}"]
         export_stored.main()
         path = os.path.join(tmp, f"production__stored__{name}.jsonl")
-        changed = drift(path, snap)
+        changed = drift(path, snap) if snap else None
         if changed and not args.allow_drift:
             raise SystemExit(f"{len(changed)} comment(s) were re-extracted since the snapshot, "
                              f"e.g. {changed[:5]}; pass --allow-drift to keep the export anyway")
         meta = {"exported_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
                 "command": "python eval/v4/export_production.py --dir " + os.path.relpath(d, os.path.dirname(EVAL))
                            + (" --force" if args.force else "") + (" --allow-drift" if args.allow_drift else ""),
-                "checked_against_snapshot": snapshot_at, "drifted_comments": changed,
+                "checked_against_snapshot": snapshot_at if snap else None, "drifted_comments": changed,
                 "labels_complete": not incomplete}
         with open(os.path.join(tmp, "export_meta.json"), "w", encoding="utf-8") as f:
             json.dump(meta, f, indent=1)
@@ -100,7 +109,7 @@ def main():
     except BaseException:
         shutil.rmtree(tmp, ignore_errors=True)
         raise
-    print(f"-> {dest} (drift: {len(changed)})")
+    print(f"-> {dest} (drift: {'unchecked' if changed is None else len(changed)})")
 
 
 if __name__ == "__main__":
