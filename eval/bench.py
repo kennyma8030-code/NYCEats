@@ -59,7 +59,7 @@ TABLE = ["drop_rate", "mention_recall", "negative_mention_recall", "value_compla
          "reference_only_recall", "reference_only_precision", "bare_endorsement_recall",
          "bare_endorsement_precision", "is_negated_recall", "experience_acc", "price_exact_acc",
          "dishes_disliked_recall", "dishes_liked_recall", "judgment_question_acc"]
-HEALTH = ["parse_failure_rate", "repairs_per_100_mentions", "bad_id_rate", "cost_per_1k_comments",
+HEALTH = ["refused_inputs", "parse_failure_rate", "repairs_per_100_mentions", "bad_id_rate", "cost_per_1k_comments",
           "latency_p50", "cache_read_share"]
 
 
@@ -142,24 +142,19 @@ def estimate(plan, cat):
     return total, out_tok
 
 
-def covered_cids(run):
-    return run.covered.get(0, set())
-
-
-def score_set(name, rows, args, alias, excluded):
-    """rows: [(label, mode, Run)]. Returns per-mode tables of (label, n, result, health)."""
-    gold_path, items_path, stats = set_paths(name)
-    gold = S.load_jsonl(gold_path)
-    items = S.load_jsonl(items_path)
+def score_set(gold, items, stats, rows, args, alias, excluded):
+    """rows: [(label, mode, Run)]. Returns per mode (n common comments, rows)."""
     gold_cids = {g["comment_id"] for g in gold}
     tables = {}
     for mode in ("comment", "thread"):
         mrows = [(label, run) for label, m, run in rows if m in (mode, "stored")]
         if not any(m == mode for _, m, _ in rows):
             continue
+        # Every rep of every row is scored on the same comments: those that
+        # all of them covered.
         common = set(gold_cids)
         for _, run in mrows:
-            common &= covered_cids(run)
+            common &= run.covered_all_reps()
         out = []
         for label, run in mrows:
             per_rep, flips = SV.evaluate(gold, items, run, alias, excluded, args.drop_chains, stats, only=common)
@@ -270,6 +265,7 @@ def main():
     plans = []
     for model in models:
         api, model_id = providers.resolve(model, args.api)
+        providers.check_opts(api, opts)
         for spec in specs:
             for mode in modes:
                 plans.append(plan_run(model_id, api, spec, mode, sets, args, opts))
@@ -312,14 +308,13 @@ def main():
         if not os.path.exists(gold_path):
             print(f"skipping scoring on {name}: no v5 gold at {gold_path}", file=sys.stderr)
             continue
-        items = S.load_jsonl(items_path)
+        items, gold = S.load_jsonl(items_path), S.load_jsonl(gold_path)
         rows = []
         for p in plans:
             if os.path.exists(p["out"]):
                 run = SV.Run(p["out"], items)
                 rows.append((p["label"], p["mode"], run))
-                per_rep, flips = SV.evaluate(S.load_jsonl(gold_path), items, run, alias, excluded,
-                                             args.drop_chains, stats)
+                per_rep, flips = SV.evaluate(gold, items, run, alias, excluded, args.drop_chains, stats)
                 md, _ = SV.report(run, per_rep, flips, args.out, f"__{name}")
                 print(f"  full report: {md}")
         if not args.no_baseline:
@@ -337,7 +332,7 @@ def main():
             label, _, path = extra.rpartition("=")
             run = SV.Run(path, items)
             rows.append((label or os.path.basename(path), run.mode, run))
-        results[name] = score_set(name, rows, args, alias, excluded)
+        results[name] = score_set(gold, items, stats, rows, args, alias, excluded)
     if results:
         md, cs = write_tables(results, args)
         print(f"comparison: {md}\n            {cs}")

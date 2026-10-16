@@ -55,17 +55,38 @@ ASPECTS = V.ASPECTS
 
 
 # ---------------------------------------------------------------- reading runs
+def set_calls(items):
+    """Every call key a set's items can produce -> the comment_ids that call
+    covers. One run file can hold calls for several sets (v1 and v2 share
+    it), so a set's cost and health are counted over its own calls only."""
+    keys = {}
+    for it in items:
+        cids = [it["comment_id"]] if it["kind"] == "comment" else [c["comment_id"] for c in it["comments"]]
+        for cid in cids:
+            keys[f"comment:{cid}"] = {cid}
+            keys[f"stored:{cid}"] = {cid}
+        chunks = [it["inputs"]["thread"]] if it["kind"] == "comment" else it["thread_chunks"]
+        for ch in chunks:
+            keys[f"thread:{it['thread_id']}:{ch['chunk_index']}"] = set(ch["short_ids"].values())
+    return keys
+
+
 class Run:
-    """A run file read once: per rep, comment_id -> contract mentions."""
+    """A run file read once, for one set: per rep, comment_id -> contract
+    mentions, plus the run-health numbers over that set's calls."""
 
     def __init__(self, path, items):
         self.path = path
-        reps, covered, stats, mode = S.load_run(path, items)
-        self.covered, self.stats, self.mode = covered, stats, mode
+        reps, covered, _, mode = S.load_run(path, items)
+        self.covered, self.mode = covered, mode
         self.fixes = collections.Counter()
-        self.raw_mentions = 0
-        self.schema = collections.Counter()
         self.comment_mode = {}          # stored runs: each comment's own mode
+
+        # One schema for the whole run, by majority, so a drifted v5 mention
+        # is repaired (and counted) by the normalizer, not adapted as old.
+        every = [m for by_cid in reps.values() for ms in by_cid.values() for m in ms]
+        self.raw_mentions = len(every)
+        self.schema = V.run_schema(every) if every else None
         self.preds = {}
         for rep, by_cid in reps.items():
             out = {}
@@ -73,34 +94,56 @@ class Run:
                 if mode == "stored":
                     ph = next((x.get("prompt_hash") for x in ms if isinstance(x, dict)), None)
                     self.comment_mode[cid] = S.PROD_MODE.get(ph)
-                clean = []
-                for m in ms:
-                    self.raw_mentions += 1
-                    self.schema["v5" if V.is_v5(m) else "old"] += 1
-                    c = V.to_v5(m, self.fixes)
-                    if c is not None:
-                        clean.append(c)
-                out[cid] = clean
+                out[cid] = [c for c in (V.to_v5(m, self.fixes, self.schema) for m in ms) if c is not None]
             self.preds[rep] = out
-        self.n_reps = max(1, len(self.preds))
-        self.bad_ids = self.emitted = self.cache_read = self.cache_write = self.prompt_tokens = 0
+
+        keys = set_calls(items)
+        st = {"calls": 0, "errors": 0, "json_bad": 0, "cost": 0.0, "latency": [], "prompt_tokens": 0,
+              "completion_tokens": 0, "permanent": 0, "comments_in_calls": 0}
+        self.bad_ids = self.emitted = self.cache_read = self.cache_write = 0
         self.stop = collections.Counter()
-        for r in S.load_jsonl(path):
-            if r.get("error") or r.get("raw") is None:
+        recs = [r for r in S.load_jsonl(path) if r.get("call_key") in keys]
+        answered = {(r["call_key"], r["rep"]) for r in recs if not r.get("error") and r.get("raw", "") is not None}
+        for r in recs:
+            st["calls"] += 1
+            if r.get("error"):
+                st["errors"] += 1
+                if r.get("permanent") and (r["call_key"], r["rep"]) not in answered:
+                    # Refused for good: the model never answers this input, so
+                    # it counts as covered with nothing found, i.e. a drop.
+                    st["permanent"] += 1
+                    self.covered.setdefault(r["rep"], set()).update(keys[r["call_key"]])
+                    self.preds.setdefault(r["rep"], {})
                 continue
+            if not r.get("json_ok"):
+                st["json_bad"] += 1
+            u = r.get("usage") or {}
+            st["cost"] += float(u.get("cost") or 0)
+            st["prompt_tokens"] += u.get("prompt_tokens") or 0
+            st["completion_tokens"] += u.get("completion_tokens") or 0
+            st["comments_in_calls"] += len(keys[r["call_key"]])
+            if r.get("latency_s") is not None:
+                st["latency"].append(r["latency_s"])
             self.bad_ids += r.get("bad_ids") or 0
             self.emitted += (r.get("bad_ids") or 0) + sum(len(v) for v in (r.get("mentions_by_comment") or {}).values())
-            u = r.get("usage") or {}
             self.cache_read += u.get("cache_read_tokens") or 0
             self.cache_write += u.get("cache_write_tokens") or 0
-            self.prompt_tokens += u.get("prompt_tokens") or 0
             self.stop[r.get("stop_reason") or "?"] += 1
+        self.stats = st
+        self.n_reps = max(1, len(self.preds))
 
     @property
     def schema_name(self):
-        if not self.schema:
-            return "none"
-        return "v5" if self.schema["v5"] >= self.schema["old"] else "old (adapted)"
+        return {None: "none", "v5": "v5", "old": "old (adapted)"}[self.schema]
+
+    @property
+    def reps(self):
+        return sorted(set(self.covered) | set(self.preds)) or [0]
+
+    def covered_all_reps(self):
+        """Comments covered in EVERY rep, so reps compare on the same set."""
+        sets = [self.covered.get(rep, set()) for rep in self.reps]
+        return set.intersection(*sets) if sets else set()
 
     def mode_for(self, cid, item):
         if self.mode != "stored":
@@ -473,10 +516,9 @@ def run_health(run):
     st = run.stats
     answered = st["calls"] - st["errors"]
     lat = sorted(st["latency"]) or [0]
-    n_comments = len(set().union(*run.covered.values())) if run.covered else 0
     return {
         "schema": run.schema_name,
-        "calls": st["calls"], "errors": st["errors"],
+        "calls": st["calls"], "errors": st["errors"], "refused_inputs": st["permanent"],
         "error_rate": ratio(st["errors"], st["calls"]),
         "parse_failure_rate": ratio(st["json_bad"], answered),
         "mentions_emitted": run.raw_mentions,
@@ -485,8 +527,10 @@ def run_health(run):
         "bad_id_rate": ratio(run.bad_ids, run.emitted),
         "cost": st["cost"],
         "cost_per_call": ratio(st["cost"], answered),
-        "cost_per_1k_comments": None if not n_comments else 1000 * st["cost"] / (n_comments * run.n_reps),
-        "cache_read_share": ratio(run.cache_read, run.prompt_tokens),
+        # Cost and comments over the same answered calls of this set: a
+        # thread chunk's cost against every comment that chunk rendered.
+        "cost_per_1k_comments": ratio(1000 * st["cost"], st["comments_in_calls"]),
+        "cache_read_share": ratio(run.cache_read, st["prompt_tokens"]),
         "cache_read_tokens": run.cache_read, "cache_write_tokens": run.cache_write,
         "latency_p50": lat[len(lat) // 2], "latency_p90": lat[int(len(lat) * 0.9)],
         "prompt_tokens": st["prompt_tokens"], "completion_tokens": st["completion_tokens"],
@@ -531,7 +575,8 @@ def report(run, per_rep, flips, out_dir, tag=""):
     groups = sorted(k for k in r0 if k not in main and not k.startswith("_"))
     lines = [f"# {name}", "",
              f"mode: {run.mode}; schema: {h['schema']}; reps: {len(per_rep)}; labeled comments not in run: {r0['_missing']}",
-             f"calls {h['calls']}, errors {h['errors']}, parse failures {fmt(h['parse_failure_rate'])}, "
+             f"calls {h['calls']}, errors {h['errors']} (inputs refused for good: {h['refused_inputs']}), "
+             f"parse failures {fmt(h['parse_failure_rate'])}, "
              f"cost ${h['cost']:.4f} (${fmt(h['cost_per_1k_comments'])} per 1k comments), "
              f"latency p50 {h['latency_p50']:.1f}s p90 {h['latency_p90']:.1f}s",
              f"input tokens {h['prompt_tokens']:,} (cache reads {h['cache_read_tokens']:,}, cache writes "
@@ -585,12 +630,12 @@ def gold_as_run(gold, items, path="<gold>"):
     fixes = collections.Counter()
     run.path, run.covered, run.mode, run.fixes = path, {0: covered}, "comment", fixes
     run.stats = {"calls": 0, "errors": 0, "json_bad": 0, "cost": 0.0, "latency": [],
-                 "prompt_tokens": 0, "completion_tokens": 0}
+                 "prompt_tokens": 0, "completion_tokens": 0, "permanent": 0, "comments_in_calls": 0}
     run.preds = {0: {cid: [V.normalize_v5(m, fixes) for m in ms] for cid, ms in preds.items()}}
     run.raw_mentions = sum(len(v) for v in preds.values())
-    run.schema = collections.Counter(v5=run.raw_mentions)
+    run.schema = "v5"
     run.comment_mode, run.n_reps = {}, 1
-    run.bad_ids = run.emitted = run.cache_read = run.cache_write = run.prompt_tokens = 0
+    run.bad_ids = run.emitted = run.cache_read = run.cache_write = 0
     run.stop = collections.Counter()
     return run
 

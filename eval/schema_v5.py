@@ -103,8 +103,16 @@ def _str_list(v, field, fixes):
 
 
 def _label(v, fixes, field):
-    """An aspect value -> a label or None."""
+    """An aspect value -> a label or None.
+
+    A v5 model that drifts into numbers almost always writes the 7-point
+    levels it was shown (-3..3), so whole numbers, as ints, int-like strings
+    or floats like 2.0, are read as levels: 1 is decent, not rave. Only a
+    fractional number (0.6, -0.33) is read on the old -1..1 scale."""
     if v is None:
+        return None
+    if isinstance(v, bool):
+        fixes[f"{field}_bad_label"] += 1
         return None
     if isinstance(v, str):
         s = v.strip().lower()
@@ -115,7 +123,7 @@ def _label(v, fixes, field):
         if s in ("", "null", "none"):
             fixes[f"{field}_null_string"] += 1
             return None
-        n = _num(s)
+        n = _num(s.removeprefix("+"))
         if n is None:
             fixes[f"{field}_bad_label"] += 1
             return None
@@ -124,8 +132,11 @@ def _label(v, fixes, field):
     if n is None:
         fixes[f"{field}_bad_label"] += 1
         return None
-    fixes[f"{field}_numeric"] += 1
-    return LABEL_OF_LEVEL[level_of_float(n)] if abs(n) <= 1 else LABEL_OF_LEVEL[max(-3, min(3, round(n)))]
+    if float(n).is_integer():
+        fixes[f"{field}_numeric_level"] += 1
+        return LABEL_OF_LEVEL[max(-3, min(3, int(n)))]
+    fixes[f"{field}_numeric_float"] += 1
+    return LABEL_OF_LEVEL[level_of_float(n)]
 
 
 def price_of_float(v):
@@ -157,6 +168,9 @@ def _price(v, fixes):
         fixes["price_bad_label"] += 1
         return None
     fixes["price_numeric"] += 1
+    if float(n).is_integer():           # a level, as for aspects
+        lvl = max(-3, min(3, int(n)))
+        return "cheap" if lvl <= -1 else "moderate" if lvl == 0 else "very_pricey" if lvl >= 3 else "pricey"
     return price_of_float(n)
 
 
@@ -342,9 +356,24 @@ def is_v5(m):
     return isinstance(asp, dict) and any(isinstance(v, str) for v in asp.values())
 
 
-def to_v5(m, fixes=None):
-    """Any raw mention -> the contract (normalizer for v5, adapter for old)."""
-    return normalize_v5(m, fixes) if is_v5(m) else adapt_old(m, fixes)
+def run_schema(mentions):
+    """'v5' or 'old' for a whole run, by majority of its mentions (ties go to
+    v5). Deciding per run rather than per mention matters: a v5 mention that
+    drifted (numeric aspects, missing v5 keys) must still go through the
+    normalizer, where its repairs are counted, not be quietly adapted."""
+    v5 = old = 0
+    for m in mentions:
+        if isinstance(m, dict):
+            v5 += is_v5(m)
+            old += not is_v5(m)
+    return "v5" if v5 >= old else "old"
+
+
+def to_v5(m, fixes=None, schema=None):
+    """A raw mention -> the contract: the normalizer for a v5 run, the
+    adapter for an old one. Without a run's schema, the mention decides."""
+    schema = schema or ("v5" if is_v5(m) else "old")
+    return normalize_v5(m, fixes) if schema == "v5" else adapt_old(m, fixes)
 
 
 def level(label):

@@ -161,14 +161,15 @@ def run_path(model_id, ph, mode, tag=""):
 
 
 def cached_calls(out):
-    """(call_key, rep) pairs already answered in a run file. Errors are not
+    """(call_key, rep) pairs already settled in a run file: answered, or
+    refused for good (a moderation 403 on that input). Other errors are not
     cached, so they are retried."""
     done = set()
     if os.path.exists(out):
         with open(out, encoding="utf-8") as f:
             for l in f:
                 r = json.loads(l)
-                if r.get("raw") is not None:
+                if r.get("raw") is not None or r.get("permanent"):
                     done.add((r["call_key"], r["rep"]))
     return done
 
@@ -196,10 +197,15 @@ def parse(raw):
 
 
 def run_job(job, rep, model, system, ph, mode, opts, api="openrouter"):
-    out, latency, err = providers.complete(api, model, system, job["user"], opts)
     rec = {"call_key": job["call_key"], "rep": rep, "item_ids": job["item_ids"],
            "model": model, "prompt_hash": ph, "mode": mode,
-           "ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "latency_s": latency, "error": err}
+           "ts": time.strftime("%Y-%m-%dT%H:%M:%S")}
+    try:
+        out, latency, err = providers.complete(api, model, system, job["user"], opts)
+    except providers.PermanentError as e:
+        rec.update({"latency_s": None, "error": str(e), "permanent": True})
+        return rec
+    rec.update({"latency_s": latency, "error": err})
     if out is None:
         return rec
     raw = out["raw"]
@@ -249,6 +255,9 @@ def execute(todo, model, system, ph, mode, opts, api, out, workers, progress=Tru
     cancelled, calls already in flight are still recorded if they succeed,
     and nothing is written for the refused call, so a resume after topping
     up the key starts exactly where this one stopped."""
+    providers.check_opts(api, opts)
+    if api == "openrouter":
+        providers.catalog()         # load once here, not raced by every worker
     os.makedirs(os.path.dirname(out), exist_ok=True)
     stats = {"calls": 0, "json_ok": 0, "errors": 0, "cost": 0.0, "latency": []}
     fatal = None
@@ -334,6 +343,7 @@ def main():
     providers.load_env()
     api, model = providers.resolve(args.model, args.api)
     opts = call_opts(args)
+    providers.check_opts(api, opts)
     pmod, label = load_prompt(args.prompt, args.mode)
     system = pmod.SYSTEM_PROMPT
     ph = prompt_hash(system)

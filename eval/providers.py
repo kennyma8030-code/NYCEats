@@ -49,27 +49,41 @@ ALIASES = {
     "glm-5.3-flash": {"openrouter": "z-ai/glm-5.3-flash"},
 }
 
-# Anthropic first-party prices, $ per million tokens: input, output, cache
-# read. A 5-minute cache write is 1.25x input. Haiku 5.5's rates hold for
-# prompts up to 100K tokens, far above anything the eval sends.
+# Anthropic first-party prices: input and output $ per million tokens, and a
+# cache read as a fraction of input. Reads are 0.1x input on every model here
+# except Opus 5.5, which reads at 0.05x (so $0.20, the same dollar figure as
+# Sonnet 5.5's 0.1x of $2). A 5-minute cache write is 1.25x input on all of
+# them. Haiku 5.5's rates hold for prompts up to 100K tokens, far above
+# anything the eval sends.
 ANTHROPIC_PRICES = {
-    "claude-haiku-5-5": (0.10, 0.50, 0.01),
-    "claude-sonnet-5-5": (2.00, 10.00, 0.20),
-    "claude-opus-5-5": (4.00, 20.00, 0.20),
-    "claude-sonnet-5": (2.00, 10.00, 0.20),
-    "claude-opus-5": (5.00, 25.00, 0.50),
+    "claude-haiku-5-5": (0.10, 0.50, 0.10),
+    "claude-sonnet-5-5": (2.00, 10.00, 0.10),
+    "claude-opus-5-5": (4.00, 20.00, 0.05),
+    "claude-sonnet-5": (2.00, 10.00, 0.10),
+    "claude-opus-5": (5.00, 25.00, 0.10),
     "claude-haiku-4-5": (1.00, 5.00, 0.10),
 }
 CACHE_WRITE_FACTOR = 1.25
-# The only native ids that still accept a non-default temperature; every
-# newer Claude model rejects one with a 400.
+# The only Claude ids that still accept a non-default temperature; every
+# newer Claude model rejects one with a 400, whichever provider relays it.
 ANTHROPIC_SAMPLING_OK = {"claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-6"}
+
+# A 403 from OpenRouter is usually the key (spend limit, no credit), but its
+# moderation also answers 403 for one flagged input. Only the first kind is
+# fatal; a body with none of these words is a per-call failure.
+KEY_FAILURE_WORDS = ("key limit", "limit exceeded", "credit", "insufficient", "quota",
+                     "api key", "unauthorized", "no auth", "billing", "payment")
 
 
 class FatalError(Exception):
     """The key itself was refused: out of credit, revoked, or not allowed.
     Every later call would fail the same way, so the whole run stops at the
     first one instead of writing hundreds of error rows."""
+
+
+class PermanentError(Exception):
+    """This one input was refused (a moderation 403) and would be refused
+    again. It is recorded as an error row that resume does not retry."""
 
 
 # ---------------------------------------------------------------- keys
@@ -108,6 +122,13 @@ def _native_to_slug(model_id):
     return f"anthropic/claude-{m.group(1)}-{m.group(2)}.{m.group(3)}" if m else f"anthropic/{model_id}"
 
 
+def _slug_to_native(slug):
+    """anthropic/claude-haiku-5.5 -> claude-haiku-5-5 (anthropic/claude-sonnet-5 -> claude-sonnet-5)."""
+    s = slug.split("/", 1)[-1].split(":", 1)[0]
+    m = re.fullmatch(r"claude-([a-z]+)-(\d+)\.(\d+)", s)
+    return f"claude-{m.group(1)}-{m.group(2)}-{m.group(3)}" if m else s
+
+
 def resolve(model, api="auto"):
     """A model name -> (api, model id). api is auto, openrouter or anthropic."""
     have_anthropic = bool(os.environ.get("ANTHROPIC_API_KEY"))
@@ -124,24 +145,38 @@ def resolve(model, api="auto"):
         return "anthropic", model
     if api == "anthropic":
         if model.startswith("anthropic/"):
-            slug = model.split("/", 1)[1]
-            m = re.fullmatch(r"claude-([a-z]+)-(\d+)\.(\d+)", slug)
-            return "anthropic", f"claude-{m.group(1)}-{m.group(2)}-{m.group(3)}" if m else slug
+            return "anthropic", _slug_to_native(model)
         raise SystemExit(f"{model} is not an Anthropic model")
     return "openrouter", model
 
 
 _catalog = None
+_catalog_lock = threading.Lock()
+_catalog_failed_at = 0.0
+CATALOG_RETRY_S = 300
 
 
 def catalog(max_age_days=7):
     """OpenRouter's public model list (pricing, supported parameters), cached
-    on disk for a week and in memory for the process. Needs no key. Returns
-    {} when offline with nothing cached."""
-    global _catalog
-    if _catalog is None:
-        _catalog = _load_catalog(max_age_days)
-    return _catalog
+    on disk for a week and in memory for the process. Needs no key.
+
+    Worker threads call this concurrently, so loading is locked and the disk
+    copy is replaced atomically. A failed load is not cached: it returns {}
+    and is tried again after CATALOG_RETRY_S, rather than on every call."""
+    global _catalog, _catalog_failed_at
+    if _catalog is not None:
+        return _catalog
+    with _catalog_lock:
+        if _catalog is not None:
+            return _catalog
+        if time.time() - _catalog_failed_at < CATALOG_RETRY_S:
+            return {}
+        cat = _load_catalog(max_age_days)
+        if cat:
+            _catalog = cat
+        else:
+            _catalog_failed_at = time.time()
+        return cat
 
 
 def _load_catalog(max_age_days):
@@ -151,10 +186,13 @@ def _load_catalog(max_age_days):
         try:
             with urllib.request.urlopen(CATALOG_URL, timeout=30) as r:
                 data = r.read()
+            json.loads(data)                        # never replace a good copy with junk
             os.makedirs(CACHE_DIR, exist_ok=True)
-            with open(path, "wb") as f:
+            tmp = f"{path}.{os.getpid()}.{threading.get_ident()}.tmp"
+            with open(tmp, "wb") as f:
                 f.write(data)
-        except (OSError, urllib.error.URLError):
+            os.replace(tmp, path)
+        except (OSError, ValueError, urllib.error.URLError):
             if not os.path.exists(path):
                 return {}
     try:
@@ -170,7 +208,8 @@ def prices(api, model_id, cat=None):
         p = ANTHROPIC_PRICES.get(model_id)
         if not p:
             return None
-        return p[0] / 1e6, p[1] / 1e6, p[2] / 1e6, p[0] * CACHE_WRITE_FACTOR / 1e6
+        inp, out, read = p
+        return inp / 1e6, out / 1e6, inp * read / 1e6, inp * CACHE_WRITE_FACTOR / 1e6
     entry = (cat if cat is not None else catalog()).get(model_id)
     if not entry:
         return None
@@ -181,11 +220,15 @@ def prices(api, model_id, cat=None):
 
 
 def supports(api, model_id, param, cat=None):
-    """Whether a request parameter may be sent. OpenRouter's catalog says per
-    model; with no catalog entry the old behavior (send it) stands."""
+    """Whether a request parameter may be sent. A Claude model's own rule
+    wins, on either provider: OpenRouter's catalog lists temperature for
+    models whose API then rejects it. Otherwise the catalog says per model,
+    and with no catalog entry the old behavior (send it) stands."""
     if api == "anthropic":
         return param != "temperature" or model_id in ANTHROPIC_SAMPLING_OK
-    entry = (cat if cat is not None else catalog()).get(model_id)
+    if param == "temperature" and model_id.startswith("anthropic/"):
+        return _slug_to_native(model_id) in ANTHROPIC_SAMPLING_OK
+    entry =(cat if cat is not None else catalog()).get(model_id)
     if not entry or "supported_parameters" not in entry:
         return True
     return param in entry["supported_parameters"]
@@ -193,6 +236,9 @@ def supports(api, model_id, param, cat=None):
 
 # ---------------------------------------------------------------- calls
 def _openrouter_payload(model_id, system, user, opts, cat):
+    if opts.get("thinking"):
+        # Never record a setting the request did not carry.
+        raise SystemExit("--thinking is only sent on Anthropic's API; on OpenRouter use --effort")
     if model_id.startswith("anthropic/"):
         # The system prompt is identical on every call; mark it so Anthropic
         # caches it instead of billing it in full each time.
@@ -229,15 +275,26 @@ def _call_openrouter(model_id, system, user, opts, cat):
                 body = json.load(r)
             return parse_openrouter(body), time.time() - t0, None
         except urllib.error.HTTPError as e:
-            last = f"http {e.code}: {e.read()[:300]!r}"
-            if e.code in (401, 402, 403):
+            body = e.read()[:300]
+            last = f"http {e.code}: {body!r}"
+            if is_key_failure(e.code, body):
                 raise FatalError(f"OpenRouter refused the key ({last})")
+            if e.code == 403:
+                raise PermanentError(last)
             if e.code != 429 and e.code < 500:
                 break
         except Exception as e:  # network; transient
             last = f"{type(e).__name__}: {e}"
         time.sleep(min(5 * 2 ** attempt, 60))
     return None, None, last
+
+
+def is_key_failure(code, body):
+    """401 and 402 are always the key; a 403 is the key only when it says so."""
+    if code in (401, 402):
+        return True
+    text = (body.decode("utf-8", "replace") if isinstance(body, bytes) else str(body)).lower()
+    return code == 403 and "flagged" not in text and any(w in text for w in KEY_FAILURE_WORDS)
 
 
 def parse_openrouter(body):
@@ -338,6 +395,13 @@ def _call_anthropic(model_id, system, user, opts):
     if out["raw"] is None:
         return None, time.time() - t0, f"refusal: {msg.to_dict().get('stop_details')}"
     return out, time.time() - t0, None
+
+
+def check_opts(api, opts):
+    """Refuse settings this provider would not send, before any call, so a
+    run file is never named for a setting it didn't use."""
+    if api == "openrouter" and opts.get("thinking"):
+        raise SystemExit("--thinking is only sent on Anthropic's API; on OpenRouter use --effort")
 
 
 def complete(api, model_id, system, user, opts, cat=None):

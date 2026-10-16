@@ -83,6 +83,11 @@ or null. "Overpriced" is price pricey **and** value bad.
 
 ## Normalizer (`schema_v5.normalize_v5`)
 
+`score_v5.Run` picks one schema per run file, by majority of its mentions
+(`schema_v5.run_schema`). Every mention in a v5 run goes through the
+normalizer, including one that drifted back to old-style numbers, and every
+mention in an old run goes through the adapter.
+
 The normalizer turns a raw v5 mention into the contract. It counts every
 repair, and `score_v5` reports the count per 100 mentions with the most
 common kinds. A prompt that needs many repairs is a finding in itself.
@@ -94,11 +99,13 @@ common kinds. A prompt that needs many repairs is a finding in itself.
 | aspects missing or not an object | all null | `aspects_missing` / `aspects_invalid` |
 | an aspect key missing / an extra one | null / ignored | `aspect_missing_key` / `aspect_extra_key` |
 | `"Good"`, `" good "` | `good` | `aspect_label_case` |
-| a float (`0.6`) or an integer level (`2`) | its label | `aspect_numeric` |
+| a whole number (`2`, `"-1"`, `"+1"`, `2.0`) | that 7-point level's label, clamped to ±3 (so 1 is decent) | `aspect_numeric_level` |
+| a fractional number (`0.6`, `-0.33`) | its label on the old -1..1 scale | `aspect_numeric_float` |
 | an unknown label (`"ok"`) | null | `aspect_bad_label` |
 | `"true"` / `"false"` / `1` / `0` for a boolean | that boolean | `<field>_string` / `<field>_number` |
 | a missing boolean | false | `<field>_missing` |
-| `"very pricey"`, a float price | `very_pricey`, see price map | `price_numeric` |
+| `"very pricey"` | `very_pricey` | – |
+| a numeric price | whole numbers as levels, fractions as the old scale, then the price map | `price_numeric` |
 | `experience: true/false` | ate_there / secondhand | `experience_bool` |
 | missing experience | unclear | `experience_missing` |
 | a string where a list belongs | a one-item list | `<field>_string` |

@@ -299,14 +299,22 @@ python eval/selftest_v5.py                                                      
   of all writing it. Before any live call, the bench prints an estimated
   cost and refuses to start above `--max-cost` (default $1) unless you pass
   `--yes`.
-- **Refused key.** A 401/402/403, or an out-of-credit error, stops the whole
-  bench at once. Nothing is written for the refused call, so a re-run after
-  topping up resumes cleanly.
+- **Refused key.** A 401 or 402, a 403 that names the key (spend limit,
+  credit), or Anthropic's out-of-credit error stops the whole bench at once.
+  Nothing is written for the refused call, so a re-run after topping up
+  resumes cleanly.
+- **Refused input.** Any other 403, such as OpenRouter moderation flagging
+  one comment, becomes a single error row. Resume does not retry it. It
+  scores as a dropped comment and is counted as `refused_inputs`.
 - **Settings in the file name.** `--effort` and `--thinking` change the
-  output, so they become part of the run file name. Current Claude models
-  reject `temperature`, so it is only sent where the model accepts it.
+  output, so they become part of the run file name.
+  - `--thinking` is only sent on Anthropic's API and is refused on
+    OpenRouter, where `--effort` is the control.
+  - Current Claude models reject `temperature`, on either provider, so it is
+    only sent where the model accepts it.
 - **Common-comment comparison.** The table compares rows only on the
-  comments every row covered. Until v5 gold exists, pass
+  comments that every row covered in every rep. Cost per 1k comments is
+  counted over the set's own calls. Until v5 gold exists, pass
   `--gold v1=PATH --gold v2=PATH`.
 
 ## Scoring (score.py)

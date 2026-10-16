@@ -66,7 +66,7 @@ def test_normalizer():
     check(m["price"] == "very_pricey" and m["experience"] == "ate_there", "price spacing and bool experience")
     check(m["dishes_disliked"] == ["Slice", "square"] and m["dishes_liked"] == [], "a dish in two lists stays disliked")
     check(m["descriptors"] == ["cash only"], "non-string descriptors dropped")
-    for k in ("is_negated_string", "aspect_numeric", "aspect_label_case", "aspect_extra_key", "extra_key",
+    for k in ("is_negated_string", "aspect_numeric_float", "aspect_label_case", "aspect_extra_key", "extra_key",
               "dish_in_two_lists", "dishes_liked_string", "descriptors_non_string", "experience_bool"):
         check(fx[k] >= 1, f"repair counted: {k}")
 
@@ -160,16 +160,18 @@ class FakeHTTP:
     """Stands in for urllib's urlopen. Answers by the user message, in the
     OpenRouter chat-completions shape, and records every request body."""
 
-    def __init__(self, table, status=200):
-        self.table, self.status, self.requests = table, status, []
+    KEY_LIMIT = b'{"error":{"message":"Key limit exceeded ($30.00 of $30.00 used; does not reset)","code":403}}'
+    FLAGGED = b'{"error":{"message":"Input was flagged by moderation","code":403}}'
+
+    def __init__(self, table, status=200, body=KEY_LIMIT, only=None):
+        self.table, self.status, self.body, self.only, self.requests = table, status, body, only, []
 
     def __call__(self, req, timeout=None):
         body = json.loads(req.data)
         self.requests.append(body)
-        if self.status != 200:
-            raise urllib.error.HTTPError(req.full_url, self.status, "no",
-                                         {}, io.BytesIO(b'{"error":{"message":"Key limit exceeded"}}'))
         user = body["messages"][1]["content"]
+        if self.status != 200 and (self.only is None or user in self.only):
+            raise urllib.error.HTTPError(req.full_url, self.status, "no", {}, io.BytesIO(self.body))
         content = json.dumps({"mentions": self.table[user]})
         return io.BytesIO(json.dumps({
             "choices": [{"message": {"content": content}, "finish_reason": "stop"}],
@@ -218,10 +220,14 @@ class FakeSDK:
 def install(http=None, sdk=None):
     providers._urlopen = http or providers.urllib.request.urlopen
     providers._sdk, providers._client = sdk, None
-    providers._catalog = {"anthropic/claude-haiku-5.5": {
-        "supported_parameters": ["max_tokens", "reasoning", "response_format"],
-        "pricing": {"prompt": "0.0000001", "completion": "0.0000005", "input_cache_read": "0.00000001",
-                    "input_cache_write": "0.000000125"}}}
+    # The catalog lists temperature even for the Claude model that rejects
+    # it: the Claude rule has to win over the catalog.
+    params = ["max_tokens", "reasoning", "response_format", "temperature"]
+    pricing = {"prompt": "0.0000001", "completion": "0.0000005", "input_cache_read": "0.00000001",
+               "input_cache_write": "0.000000125"}
+    providers._catalog = {m: {"supported_parameters": params, "pricing": pricing}
+                          for m in ("anthropic/claude-haiku-5.5", "anthropic/claude-haiku-4.5",
+                                    "deepseek/deepseek-v4-flash")}
 
 
 SYSTEM = "SYSTEM " * 800      # stands in for a ~5k-token v5 prompt
@@ -313,6 +319,163 @@ def test_resolve():
             os.environ["ANTHROPIC_API_KEY"] = saved
 
 
+def test_temperature():
+    install()
+    pay = lambda m: providers._openrouter_payload(m, "s", "u", {"temperature": 0.0}, providers._catalog)  # noqa: E731
+    check("temperature" not in pay("anthropic/claude-haiku-5.5"),
+          "openrouter: Claude 5.5 gets no temperature even when the catalog lists it")
+    check(pay("anthropic/claude-haiku-4.5").get("temperature") == 0.0, "openrouter: Haiku 4.5 still gets temperature")
+    check(pay("deepseek/deepseek-v4-flash").get("temperature") == 0.0, "openrouter: other models follow the catalog")
+
+
+def test_integer_levels():
+    fx = collections.Counter()
+    lab = lambda v: V._label(v, fx, "aspect")  # noqa: E731
+    for v, want in ((1, "decent"), (-1, "meh"), (2, "good"), (-3, "awful"), (3, "rave"), (0, "mixed"),
+                    ("2", "good"), ("+1", "decent"), ("-2", "bad"), (2.0, "good"), (7, "rave"),
+                    (0.6, "good"), (-0.33, "meh"), (0.3, "decent"), (-0.9, "awful"), (True, None)):
+        check(lab(v) == want, f"aspect value {v!r} reads as {want} (got {lab(v)})")
+    check(fx["aspect_numeric_level"] and fx["aspect_numeric_float"], "both numeric repairs counted")
+    check(V._price(1, fx) == "pricey" and V._price(-2, fx) == "cheap" and V._price(0.9, fx) == "very_pricey",
+          "price levels and floats")
+
+
+def write_run(path, recs):
+    with open(path, "w", encoding="utf-8") as f:
+        for r in recs:
+            f.write(json.dumps(r) + "\n")
+
+
+def rec(key, rep, by_cid, mode="comment", cost=0.001, **kw):
+    r = {"call_key": key, "rep": rep, "item_ids": [], "model": "m", "prompt_hash": "h", "mode": mode,
+         "error": None, "raw": "{}", "json_ok": True, "mentions_by_comment": by_cid, "bad_ids": 0,
+         "latency_s": 1.0, "usage": {"prompt_tokens": 100, "completion_tokens": 10, "cost": cost}}
+    r.update(kw)
+    return r
+
+
+def test_moderation_403(tmp):
+    """A flagged input is one error row, the run goes on, resume skips it,
+    and it scores as a dropped comment."""
+    items, answers, gold = fixture()
+    jobs, table = jobs_for(items, answers, "comment")
+    flagged = jobs[0]["user"]
+    install(http=FakeHTTP(table, status=403, body=FakeHTTP.FLAGGED, only={flagged}))
+    out = os.path.join(tmp, "flagged.jsonl")
+    st = R.execute([(j, 0) for j in jobs], "deepseek/deepseek-v4-flash", SYSTEM, "h", "comment",
+                   {"timeout": 5}, "openrouter", out, 2, False)
+    rows = S.load_jsonl(out)
+    bad = [r for r in rows if r.get("error")]
+    check(st["calls"] == len(jobs) and len(bad) == 1 and bad[0].get("permanent"),
+          "a flagged 403 is one permanent error row and the run continues")
+    check(len(R.cached_calls(out)) == len(jobs), "resume does not retry a refused input")
+    install(http=FakeHTTP(table, status=402, body=b'{"error":{"message":"Payment required"}}'))
+    try:
+        R.execute([(jobs[0], 1)], "deepseek/deepseek-v4-flash", SYSTEM, "h", "comment", {"timeout": 5},
+                  "openrouter", out, 2, False)
+        check(False, "a 402 must stop the run")
+    except SystemExit:
+        pass
+    check(providers.is_key_failure(403, FakeHTTP.KEY_LIMIT) and not providers.is_key_failure(403, FakeHTTP.FLAGGED)
+          and providers.is_key_failure(401, b"") and not providers.is_key_failure(403, b"forbidden"),
+          "only key-shaped 403s are fatal")
+    run = SV.Run(out, items)
+    h = SV.run_health(run)
+    check(h["refused_inputs"] == 1, "run health counts the refused input")
+    cid = jobs[0]["id_map"][None]
+    check(cid in run.covered[0] and run.preds[0].get(cid, []) == [], "a refused input is covered with nothing found")
+
+
+def test_rep_coverage_and_set_cost(tmp):
+    items, answers, gold = fixture()
+    a, b = items[0]["comment_id"], items[1]["comment_id"]
+    path = os.path.join(tmp, "reps.jsonl")
+    write_run(path, [rec(f"comment:{a}", 0, {a: []}), rec(f"comment:{b}", 0, {b: []}),
+                     rec(f"comment:{a}", 1, {a: []}),
+                     rec(f"comment:{b}", 1, {}, error="http 500", raw=None),
+                     rec("comment:t1_not_in_this_set", 0, {"t1_not_in_this_set": []}, cost=5.0)])
+    run = SV.Run(path, items)
+    check(run.covered_all_reps() == {a}, f"coverage is intersected across reps ({run.covered_all_reps()})")
+    h = SV.run_health(run)
+    check(h["calls"] == 4 and abs(h["cost"] - 0.003) < 1e-9, "another set's calls are not counted in this set's cost")
+    check(abs(h["cost_per_1k_comments"] - 1.0) < 1e-9, f"cost per 1k comments over the same calls ({h['cost_per_1k_comments']})")
+
+    # Thread mode: a chunk's cost is spread over every comment it rendered.
+    it = items[0]
+    ch = it["inputs"]["thread"]
+    key = f"thread:{it['thread_id']}:{ch['chunk_index']}"
+    path = os.path.join(tmp, "thread_cost.jsonl")
+    write_run(path, [rec(key, 0, {}, mode="thread", cost=0.01),
+                     rec("thread:t3_other_set:0", 0, {}, mode="thread", cost=9.0)])
+    h = SV.run_health(SV.Run(path, items))
+    n = len(ch["short_ids"])
+    check(abs(h["cost_per_1k_comments"] - 10.0 / n) < 1e-9, "thread cost per 1k comments counts only this set's chunks")
+
+
+def test_run_level_schema(tmp):
+    items, answers, gold = fixture()
+    a = items[0]["comment_id"]
+    drifted = {"restaurant_raw": "Testaurant Alpha", "aspects": {"food": -3, "service": -2}}
+    path = os.path.join(tmp, "drift.jsonl")
+    v5 = [mention("Other One"), mention("Other Two", food="good")]
+    write_run(path, [rec(f"comment:{a}", 0, {a: v5 + [drifted]})])
+    run = SV.Run(path, items)
+    got = next(m for m in run.preds[0][a] if m["restaurant_raw"] == "Testaurant Alpha")
+    check(run.schema == "v5", "the run is v5 by majority")
+    check(got["aspects"]["food"] == "awful" and not got.get("_adapted"),
+          "a drifted mention in a v5 run goes through the normalizer (levels, not old floats)")
+    check(run.fixes["aspect_numeric_level"] == 2 and run.fixes["experience_missing"] == 1,
+          "its repairs are counted")
+    old = {"restaurant_raw": "Tong", "aspects": {"food": 0.3}, "is_negated": False}
+    path = os.path.join(tmp, "old.jsonl")
+    write_run(path, [rec(f"comment:{a}", 0, {a: [old, dict(old, restaurant_raw="Keens")]})])
+    run = SV.Run(path, items)
+    check(run.schema == "old" and all(m.get("_adapted") for m in run.preds[0][a]), "an old run is adapted")
+
+
+def test_catalog():
+    calls = []
+    real = providers._load_catalog
+    try:
+        providers._catalog, providers._catalog_failed_at = None, 0.0
+        providers._load_catalog = lambda days: (calls.append(1), {})[1]
+        check(providers.catalog() == {} and providers._catalog is None, "a failed load is not cached")
+        check(providers.catalog() == {} and len(calls) == 1, "and is not retried on every call")
+        providers._catalog_failed_at = 0.0
+
+        def slow(days):
+            import time as _t
+            calls.append(1)
+            _t.sleep(0.05)
+            return {"x/y": {"pricing": {}}}
+        providers._load_catalog = slow
+        calls.clear()
+        import concurrent.futures as cf
+        with cf.ThreadPoolExecutor(8) as pool:
+            got = list(pool.map(lambda _: providers.catalog(), range(16)))
+        check(len(calls) == 1 and all("x/y" in g for g in got), f"concurrent callers load once ({len(calls)})")
+    finally:
+        providers._load_catalog = real
+        providers._catalog, providers._catalog_failed_at = None, 0.0
+
+
+def test_prices_and_thinking():
+    p = lambda m: [round(x * 1e6, 4) for x in providers.prices("anthropic", m)]  # noqa: E731
+    check(p("claude-opus-5-5") == [4.0, 20.0, 0.2, 5.0], f"Opus 5.5 reads at 0.05x input ({p('claude-opus-5-5')})")
+    check(p("claude-sonnet-5-5") == [2.0, 10.0, 0.2, 2.5], "Sonnet 5.5 reads at 0.1x")
+    check(p("claude-haiku-5-5") == [0.1, 0.5, 0.01, 0.125], "Haiku 5.5 reads at 0.1x")
+    check(p("claude-opus-5") == [5.0, 25.0, 0.5, 6.25], "Opus 5 reads at 0.1x")
+    try:
+        providers.check_opts("openrouter", {"thinking": "disabled"})
+        check(False, "--thinking on OpenRouter must be refused")
+    except SystemExit:
+        pass
+    providers.check_opts("anthropic", {"thinking": "disabled"})
+    kw = providers.anthropic_request("claude-haiku-5-5", "s", "u", {"thinking": "disabled", "effort": "low"})
+    check(kw["thinking"] == {"type": "disabled"} and kw["output_config"] == {"effort": "low"},
+          "the Anthropic path sends the thinking and effort it is tagged with")
+
+
 def test_real_gold():
     path = SV.SETS["v1"]["gold"]
     if not os.path.exists(path):
@@ -338,6 +501,10 @@ def main():
                     end_to_end(api, model, mode, tmp)
                 fatal_stops(api, tmp)
             fatal_stops("openrouter", tmp, "deepseek/deepseek-v4-flash")
+            test_temperature()
+            test_moderation_403(tmp)
+            test_rep_coverage_and_set_cost(tmp)
+            test_run_level_schema(tmp)
     finally:
         if saved is None:
             os.environ.pop("OPENROUTER_API_KEY", None)
@@ -345,6 +512,9 @@ def main():
             os.environ["OPENROUTER_API_KEY"] = saved
     install()
     providers._catalog = None
+    test_integer_levels()
+    test_catalog()
+    test_prices_and_thinking()
     test_real_gold()
     if FAILS:
         raise SystemExit(f"{len(FAILS)} checks failed")
