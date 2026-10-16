@@ -395,7 +395,8 @@ def test_rep_coverage_and_set_cost(tmp):
                      rec(f"comment:{b}", 1, {}, error="http 500", raw=None),
                      rec("comment:t1_not_in_this_set", 0, {"t1_not_in_this_set": []}, cost=5.0)])
     run = SV.Run(path, items)
-    check(run.covered_all_reps() == {a}, f"coverage is intersected across reps ({run.covered_all_reps()})")
+    check(run.complete_reps() == [0] and run.covered_complete() == {a, b},
+          f"a rep missing a call is not complete ({run.complete_reps()}, {run.covered_complete()})")
     h = SV.run_health(run)
     check(h["calls"] == 4 and abs(h["cost"] - 0.003) < 1e-9, "another set's calls are not counted in this set's cost")
     check(abs(h["cost_per_1k_comments"] - 1.0) < 1e-9, f"cost per 1k comments over the same calls ({h['cost_per_1k_comments']})")
@@ -410,6 +411,41 @@ def test_rep_coverage_and_set_cost(tmp):
     h = SV.run_health(SV.Run(path, items))
     n = len(ch["short_ids"])
     check(abs(h["cost_per_1k_comments"] - 10.0 / n) < 1e-9, "thread cost per 1k comments counts only this set's chunks")
+
+
+def test_complete_reps(tmp):
+    """A later rep that stopped early is left out, not allowed to shrink the
+    common comments; a short rep 0 stays but is flagged."""
+    import bench as B
+    items, answers, gold = fixture()
+    a, b, c = (it["comment_id"] for it in items)
+    full = [rec(f"comment:{x}", rep, {x: []}) for rep in (0, 1) for x in (a, b, c)]
+    path = os.path.join(tmp, "three_reps.jsonl")
+    write_run(path, full + [rec(f"comment:{a}", 2, {a: []}),
+                            rec(f"comment:{b}", 2, {}, error="http 403: key limit", raw=None)])
+    run = SV.Run(path, items)
+    check(run.complete_reps() == [0, 1] and len(run.reps) == 3, f"rep 2 is partial and dropped ({run.complete_reps()})")
+    check(run.covered_complete() == {a, b, c}, "the complete reps keep the full coverage")
+    check(not run.rep0_partial(), "rep 0 is complete")
+    per_rep, _ = SV.evaluate(gold, items, run, {}, set(), False, "")
+    check(len(per_rep) == 2, "only complete reps are scored")
+
+    other = os.path.join(tmp, "one_rep.jsonl")
+    write_run(other, [rec(f"comment:{x}", 0, {x: []}) for x in (a, b, c)])
+    short = os.path.join(tmp, "short_rep0.jsonl")
+    write_run(short, [rec(f"comment:{a}", 0, {a: []}), rec(f"comment:{b}", 0, {b: []}),
+                      rec(f"comment:{c}", 0, {}, error="http 500", raw=None)])
+    r_other, r_short = SV.Run(other, items), SV.Run(short, items)
+    check(r_short.rep0_partial() and r_short.complete_reps() == [0], "a short rep 0 is kept and flagged")
+    check(r_other.rep0_partial({f"comment:{a}", "comment:t1_never_made"}), "an unmade planned call flags rep 0")
+
+    class A:
+        drop_chains = False
+    rows = [("three", "comment", run), ("one", "comment", r_other)]
+    n, out = B.score_set(gold, items, "", rows, A(), {}, set())["comment"]
+    check(n == 3 and [len(x[2]) for x in out] == [2, 1], f"common set is rep 0's full coverage ({n})")
+    n, _ = B.score_set(gold, items, "", rows + [("short", "comment", r_short)], A(), {}, set())["comment"]
+    check(n == 2, "a short rep 0 narrows the common set to what it covered")
 
 
 def test_run_level_schema(tmp):
@@ -505,6 +541,7 @@ def main():
             test_moderation_403(tmp)
             test_rep_coverage_and_set_cost(tmp)
             test_run_level_schema(tmp)
+            test_complete_reps(tmp)
     finally:
         if saved is None:
             os.environ.pop("OPENROUTER_API_KEY", None)

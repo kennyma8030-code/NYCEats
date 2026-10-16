@@ -98,12 +98,22 @@ class Run:
             self.preds[rep] = out
 
         keys = set_calls(items)
+        in_set = set().union(*keys.values()) if keys else set()
+        self.covered = {rep: cids & in_set for rep, cids in self.covered.items()}
         st = {"calls": 0, "errors": 0, "json_bad": 0, "cost": 0.0, "latency": [], "prompt_tokens": 0,
               "completion_tokens": 0, "permanent": 0, "comments_in_calls": 0}
         self.bad_ids = self.emitted = self.cache_read = self.cache_write = 0
         self.stop = collections.Counter()
         recs = [r for r in S.load_jsonl(path) if r.get("call_key") in keys]
         answered = {(r["call_key"], r["rep"]) for r in recs if not r.get("error") and r.get("raw", "") is not None}
+        # Per rep, the calls tried and the calls settled (answered, or refused
+        # for good). A rep 0 with tried-but-unsettled calls is partial.
+        self.attempted = collections.defaultdict(set)
+        self.settled = collections.defaultdict(set)
+        for r in recs:
+            self.attempted[r["rep"]].add(r["call_key"])
+            if (r["call_key"], r["rep"]) in answered or r.get("permanent"):
+                self.settled[r["rep"]].add(r["call_key"])
         for r in recs:
             st["calls"] += 1
             if r.get("error"):
@@ -140,9 +150,24 @@ class Run:
     def reps(self):
         return sorted(set(self.covered) | set(self.preds)) or [0]
 
-    def covered_all_reps(self):
-        """Comments covered in EVERY rep, so reps compare on the same set."""
-        sets = [self.covered.get(rep, set()) for rep in self.reps]
+    def complete_reps(self):
+        """The reps that cover everything rep 0 covers. Rep 0 defines the
+        row's planned set; a later rep that stopped early (an exhausted key,
+        say) would otherwise shrink every row's common comments to its own
+        few, so it is left out of scoring instead and reported as such."""
+        base = self.covered.get(0, set())
+        return [rep for rep in self.reps if rep == 0 or self.covered.get(rep, set()) >= base]
+
+    def rep0_partial(self, planned=None):
+        """Whether rep 0 itself is short: a call it tried never settled, or a
+        planned call key (bench's job list) was never made."""
+        tried = set(self.attempted.get(0, set())) | set(planned or ())
+        return bool(tried - self.settled.get(0, set()))
+
+    def covered_complete(self):
+        """Comments covered in every complete rep (rep 0's coverage, since
+        complete reps contain it)."""
+        sets = [self.covered.get(rep, set()) for rep in self.complete_reps()]
         return set.intersection(*sets) if sets else set()
 
     def mode_for(self, cid, item):
@@ -456,7 +481,8 @@ def evaluate(gold, items, run, alias, excluded, drop_chains, stats_path, only=No
         with open(stats_path, encoding="utf-8") as f:
             strata_pop = json.load(f).get("strata_population", {})
     per_rep = []
-    for rep in sorted(run.preds) or [0]:
+    reps = run.complete_reps()
+    for rep in reps:
         preds = run.preds.get(rep, {})
         capable = any(dish_capable(m) for ms in preds.values() for m in ms)
         scopes = collections.defaultdict(Acc)
@@ -494,9 +520,10 @@ def evaluate(gold, items, run, alias, excluded, drop_chains, stats_path, only=No
         per_rep.append(res)
 
     flips = None
-    if len(run.preds) > 1:
+    if len(reps) > 1:
         status = collections.defaultdict(set)
-        for rep, preds in run.preds.items():
+        for rep in reps:
+            preds = run.preds.get(rep, {})
             for g in gold:
                 if only is not None and g["comment_id"] not in only:
                     continue
@@ -574,7 +601,7 @@ def report(run, per_rep, flips, out_dir, tag=""):
     main = [s for s in ("overall", "reweighted", "single_comments", "threads") if s in r0]
     groups = sorted(k for k in r0 if k not in main and not k.startswith("_"))
     lines = [f"# {name}", "",
-             f"mode: {run.mode}; schema: {h['schema']}; reps: {len(per_rep)}; labeled comments not in run: {r0['_missing']}",
+             f"mode: {run.mode}; schema: {h['schema']}; reps used {len(per_rep)} of {len(run.reps)}{' (rep 0 partial)' if run.rep0_partial() else ''}; labeled comments not in run: {r0['_missing']}",
              f"calls {h['calls']}, errors {h['errors']} (inputs refused for good: {h['refused_inputs']}), "
              f"parse failures {fmt(h['parse_failure_rate'])}, "
              f"cost ${h['cost']:.4f} (${fmt(h['cost_per_1k_comments'])} per 1k comments), "
@@ -635,6 +662,7 @@ def gold_as_run(gold, items, path="<gold>"):
     run.raw_mentions = sum(len(v) for v in preds.values())
     run.schema = "v5"
     run.comment_mode, run.n_reps = {}, 1
+    run.attempted, run.settled = collections.defaultdict(set), collections.defaultdict(set)
     run.bad_ids = run.emitted = run.cache_read = run.cache_write = 0
     run.stop = collections.Counter()
     return run

@@ -154,7 +154,7 @@ def score_set(gold, items, stats, rows, args, alias, excluded):
         # all of them covered.
         common = set(gold_cids)
         for _, run in mrows:
-            common &= run.covered_all_reps()
+            common &= run.covered_complete()
         out = []
         for label, run in mrows:
             per_rep, flips = SV.evaluate(gold, items, run, alias, excluded, args.drop_chains, stats, only=common)
@@ -194,11 +194,12 @@ def write_tables(results, args):
             r0 = rows[0][2][0]
             scope = "reweighted" if (r0.get("reweighted") or {}).get("comments") else "overall"
             lines[-2] += f", scope {scope}"
-            head =["row", "schema", "reps"] + TABLE + HEALTH
+            head = ["row", "schema", "reps used", "rep 0 partial"] + TABLE + HEALTH
             lines += ["| " + " | ".join(head) + " |", "|---" * len(head) + "|"]
             for label, run, per_rep, flips in rows:
                 h = SV.run_health(run)
-                cells = [label, h["schema"], str(len(per_rep))]
+                partial = "yes" if run.rep0_partial(getattr(run, "planned", None)) else ""
+                cells = [label, h["schema"], f"{len(per_rep)} of {len(run.reps)}", partial]
                 for m in TABLE:
                     v, sd = mean_cell(per_rep, scope, m)
                     cells.append(SV.fmt(v) + (f"±{sd:.3f}" if sd else ""))
@@ -313,6 +314,7 @@ def main():
         for p in plans:
             if os.path.exists(p["out"]):
                 run = SV.Run(p["out"], items)
+                run.planned = {j["call_key"] for j in p["jobs"]} & set(SV.set_calls(items))
                 rows.append((p["label"], p["mode"], run))
                 per_rep, flips = SV.evaluate(gold, items, run, alias, excluded, args.drop_chains, stats)
                 md, _ = SV.report(run, per_rep, flips, args.out, f"__{name}")

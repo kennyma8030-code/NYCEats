@@ -313,9 +313,16 @@ python eval/selftest_v5.py                                                      
   - Current Claude models reject `temperature`, on either provider, so it is
     only sent where the model accepts it.
 - **Common-comment comparison.** The table compares rows only on the
-  comments that every row covered in every rep. Cost per 1k comments is
-  counted over the set's own calls. Until v5 gold exists, pass
-  `--gold v1=PATH --gold v2=PATH`.
+  comments every row covered.
+  - **Complete reps only:** a rep counts only if it covers everything that
+    row's rep 0 covered. Shorter reps (an interrupted `--repeat`) are left
+    out and shown as "reps used k of n", so they can't shrink everyone's
+    comments.
+  - **Short rep 0:** if a row's rep 0 is itself short (a call it tried never
+    settled, or a planned call was never made), the row stays and is flagged
+    "rep 0 partial".
+  - **Cost per 1k comments** is counted over the set's own calls.
+  - **Before v5 gold exists**, pass `--gold v1=PATH --gold v2=PATH`.
 
 ## Scoring (score.py)
 
