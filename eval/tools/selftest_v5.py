@@ -545,11 +545,14 @@ def main():
     test_adapter()
     test_scorer_perfect()
     test_resolve()
-    # The fakes never send anything, but the request is built with a key.
-    saved = os.environ.get("OPENROUTER_API_KEY")
+    # The fakes never send anything, but the request is built with a key, and
+    # every call goes through the spend cap, whose ledger must not be the real one.
+    saved = {k: os.environ.get(k) for k in ("OPENROUTER_API_KEY", "ANTHROPIC_API_KEY", "EVAL_SPEND_DIR")}
     os.environ["OPENROUTER_API_KEY"] = "fake-key-for-selftest"
+    os.environ["ANTHROPIC_API_KEY"] = "fake-anthropic-key-for-selftest"
     try:
         with tempfile.TemporaryDirectory() as tmp:
+            os.environ["EVAL_SPEND_DIR"] = os.path.join(tmp, "spend")
             for api, model in (("openrouter", "anthropic/claude-haiku-5.5"), ("anthropic", "claude-haiku-5-5")):
                 for mode in ("comment", "thread"):
                     end_to_end(api, model, mode, tmp)
@@ -561,10 +564,11 @@ def main():
             test_run_level_schema(tmp)
             test_complete_reps(tmp)
     finally:
-        if saved is None:
-            os.environ.pop("OPENROUTER_API_KEY", None)
-        else:
-            os.environ["OPENROUTER_API_KEY"] = saved
+        for k, v in saved.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
     install()
     providers._catalog = None
     test_integer_levels()

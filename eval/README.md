@@ -18,9 +18,12 @@ eval/
   score.py               score runs against the v1 gold (and the library the others import)
   score_v5.py            score any run (v5 or old schema) against the v5 gold
   _paths.py              where eval/ lives; every script imports it to find lib/ and the other modules
-  lib/                   modules the entry points import: providers.py, schema_v5.py
+  lib/                   modules the entry points import: providers.py, schema_v5.py,
+                         budget.py (the $6-per-key spend cap and its ledger)
   tools/                 one-off tools: export_stored, adjudicate, compare, reparse,
-                         report, selftest_v5 (offline checks of the v5 harness)
+                         report, selftest_v5 (offline checks of the v5 harness),
+                         selftest_budget (offline checks of the spend cap)
+  .spend/                the spend ledger, one file per key (gitignored)
   prompts/               extraction prompts run.py loads: v5_*.py, rubric_v1_*.py,
                          v3_prompt.md, and check_v5.py, which validates v5's examples
   data/                  alias_overrides.json and excluded_entities.json, production's
@@ -68,8 +71,33 @@ python eval/bench.py --model haiku-5.5 --prompt "file:eval/prompts/v5_{mode}.py"
 python eval/bench.py --model haiku-5.5,gemini-3.8-flash --prompt current --limit 5 --yes      # smoke test
 python eval/bench.py --score-only                                                             # baselines only
 python eval/score_v5.py eval/runs/<run>.jsonl [--set v2]                                      # one run, full report
+python eval/bench.py --budget --model haiku-5.5                                               # spend so far, what's left
+python eval/bench.py --budget-set-spent 1.23 --model haiku-5.5                                # copy in the console figure
 python eval/tools/selftest_v5.py                                                                    # offline checks
+python eval/tools/selftest_budget.py                                                                # spend-cap checks
 ```
+
+- **Spend cap.** No command spends more than $6 on one key
+  (`HARD_CAP_USD` in `lib/budget.py`; `--cap` or `EVAL_BUDGET_CAP_USD` may
+  lower it for a run, never raise it, and `--yes` never lifts it).
+  - **The ledger:** an Anthropic key has no usage endpoint, so what has been
+    spent is kept in `eval/.spend/<hash of the key>.json`, rewritten after
+    every call, counting failed attempts that may still have billed. It only
+    sees spend from this harness on this machine. Seed or correct it from the
+    Anthropic console with `--budget-set-spent`; lowering it needs `--yes`.
+    Nothing resets it, and an unreadable ledger stops the run.
+  - **Before a run:** the bench prints the expected cost and a pessimistic
+    one (every input byte counted as a token, every answer at `max_tokens`),
+    and refuses when the pessimistic cost is above what's left. `--partial`
+    runs anyway in spend order: rows as given, comment before thread, v1
+    before v2, one rep of everything before the next. The cap stops it.
+  - **During a run:** each call's worst case is reserved before it is sent,
+    so parallel calls can't overshoot. When the next call doesn't fit, the
+    calls in flight finish, everything is written, and the command exits
+    non-zero. Re-running it later resumes without repeating a paid call.
+  - **max_tokens** is always sent: 8,000 in comment mode and 16,000 in
+    thread mode by default, about 3-4x the largest gold answer, leaving room
+    for Haiku 5.5's default thinking, which counts inside it.
 
 - **Models.** Use an alias (`haiku-5.5`, `sonnet-5.5`, `deepseek-v4-flash`,
   … see `lib/providers.py`'s `ALIASES`), an Anthropic id (`claude-haiku-5-5`) or any
@@ -82,8 +110,8 @@ python eval/tools/selftest_v5.py                                                
 - **Cost.** The system prompt is marked for caching on Claude models, and
   the first call of a run goes alone so later calls read the cache instead
   of all writing it. Before any live call, the bench prints an estimated
-  cost and refuses to start above `--max-cost` (default $1) unless you pass
-  `--yes`.
+  cost and asks for `--yes` above `--max-cost` (default $1). That is a
+  confirmation only; the spend cap above is separate.
 - **Refused key.** A 401 or 402, a 403 that names the key (spend limit,
   credit), or Anthropic's out-of-credit error stops the whole bench at once.
   Nothing is written for the refused call, so a re-run after topping up

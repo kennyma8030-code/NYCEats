@@ -1,0 +1,2 @@
+# The spend ledger: per-key totals and journals, keyed by a hash of the key.
+.spend/
