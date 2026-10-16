@@ -21,6 +21,10 @@ never by an LLM.
 | `run.py` | runs model × prompt × mode over the items, caching to `runs/` |
 | `export_stored.py` | dumps the stored production extraction as a run file (read-only DB) |
 | `score.py` | scores runs against the gold, writing `results/<date>__<run>.md/.csv` |
+| `schema_v5.md`, `schema_v5.py` | the v5 output contract, and its normalizer and old-schema adapter |
+| `score_v5.py` | scores any run (v5 or old schema) against the v5 gold |
+| `bench.py`, `providers.py` | one-command benchmarks over models × prompts × modes; OpenRouter or Anthropic's API |
+| `selftest_v5.py` | offline checks of the v5 harness with fake providers |
 | `STATUS.md` | what is done and what comes next |
 
 **No eval comment may ever be used as a prompt example.** Doing so silently
@@ -259,6 +263,51 @@ python eval/score.py --self-test          # gold scored against itself must be p
 `1d5bac550078` (comment) and `ca5439be83b3` (thread). `current` gives
 `0d75b20b5f83` / `5b02ac883c80`. Run files are named
 `<model>__<prompthash>__<mode>.jsonl`.
+
+## Benchmark any model
+
+`bench.py` runs every model × prompt × mode you name, on v1 and v2, and makes
+only the calls missing from the run files, so interrupted runs resume. It
+then writes one comparison table to `results/<date>__bench__<name>.md`. The
+table puts the new runs next to the baselines: deepseek-v4-flash on the
+current and original prompts, and production's stored output. Each new run
+also gets a full report. Scoring uses `score_v5.py`, so old-prompt runs and
+v5 runs are judged by the same rules (`schema_v5.md`).
+
+```bash
+# Haiku 5.5, v5 prompts against the current ones, both modes, both sets, 3 reps
+python eval/bench.py --model haiku-5.5 --prompt "file:eval/prompts/v5_{mode}.py,current" \
+    --modes comment,thread --sets v1,v2 --repeat 3
+
+python eval/bench.py --model haiku-5.5 --prompt "file:eval/prompts/v5_{mode}.py" --dry-run   # plan + cost estimate
+python eval/bench.py --model haiku-5.5,gemini-3.8-flash --prompt current --limit 5 --yes      # smoke test
+python eval/bench.py --score-only                                                             # baselines only
+python eval/score_v5.py eval/runs/<run>.jsonl [--set v2]                                      # one run, full report
+python eval/selftest_v5.py                                                                    # offline checks
+```
+
+- **Models.** Use an alias (`haiku-5.5`, `sonnet-5.5`, `deepseek-v4-flash`,
+  … see `providers.ALIASES`), an Anthropic id (`claude-haiku-5-5`) or any
+  OpenRouter slug.
+  - **Provider choice:** Claude models go to Anthropic's API when
+    `ANTHROPIC_API_KEY` is set (it needs `pip install anthropic`), and
+    through OpenRouter otherwise. `--api` forces one.
+  - **Keys:** read from the environment, or from `.env` in this checkout or
+    in the main checkout.
+- **Cost.** The system prompt is marked for caching on Claude models, and
+  the first call of a run goes alone so later calls read the cache instead
+  of all writing it. Before any live call, the bench prints an estimated
+  cost and refuses to start above `--max-cost` (default $1) unless you pass
+  `--yes`.
+- **Refused key.** A 401/402/403, or an out-of-credit error, stops the whole
+  bench at once. Nothing is written for the refused call, so a re-run after
+  topping up resumes cleanly.
+- **Settings in the file name.** `--effort` and `--thinking` change the
+  output, so they become part of the run file name. Current Claude models
+  reject `temperature`, so it is only sent where the model accepts it.
+- **Common-comment comparison.** The table compares rows only on the
+  comments every row covered. Until v5 gold exists, pass
+  `--gold v1=PATH --gold v2=PATH`.
 
 ## Scoring (score.py)
 
