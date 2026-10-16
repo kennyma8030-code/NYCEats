@@ -1,9 +1,15 @@
 """Run a model x prompt x mode over eval/items.jsonl. Never touches the database.
 
-    OPENROUTER_API_KEY=... python eval/run.py --model deepseek/deepseek-v4-flash --mode comment
+    python eval/run.py --model deepseek/deepseek-v4-flash --mode comment
+    python eval/run.py --model haiku-5.5 --mode thread --prompt file:eval/prompts/v5_thread.py
     python eval/run.py --model openai/gpt-5-mini --mode thread --prompt git:0ea62ff~1 --repeat 3
-    python eval/run.py --model x/y --mode comment --prompt file:eval/prompts/rubric_v1.py
     python eval/run.py --model x/y --mode thread --dry-run --limit 3
+
+--model takes an alias (providers.ALIASES), an Anthropic id or an OpenRouter
+slug. Claude models go to Anthropic's own API when ANTHROPIC_API_KEY is set,
+otherwise through OpenRouter; --api forces one. Keys are read from the
+environment or from .env (see providers.py). eval/bench.py drives this for a
+whole grid and scores it; use run.py for one run.
 
 --prompt selects the SYSTEM PROMPT:
     current          prompt.py / prompt_thread.py in this checkout (default)
@@ -22,7 +28,9 @@ Output is appended to eval/runs/<model>__<prompthash>__<mode>.jsonl, one line
 per call and repetition. A call already present (same call_key and rep) is
 skipped, so an interrupted run resumes and --repeat N only adds the missing
 repetitions. Each line records the raw output, whether it parsed as JSON,
-latency, token usage and OpenRouter's reported cost.
+latency, token usage (with cache reads and writes) and cost: OpenRouter's
+reported cost, or for Anthropic's API one computed from its price table.
+Effort and thinking settings are added to the file name.
 """
 
 import argparse
@@ -35,13 +43,11 @@ import subprocess
 import sys
 import time
 import types
-import urllib.error
-import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-API_URL = os.environ.get("EVAL_API_URL", "https://openrouter.ai/api/v1/chat/completions")
-KEY_VAR = "OPENROUTER_API_KEY"
+sys.path.insert(0, HERE)
+import providers  # noqa: E402
 
 
 # ---------------------------------------------------------------- prompts
@@ -131,40 +137,41 @@ def build_jobs(items, mode, pmod, custom=False):
 
 
 # ---------------------------------------------------------------- client
-def call(model, system, user, args):
-    payload = {
-        "model": model,
-        "messages": [{"role": "system", "content": system},
-                     {"role": "user", "content": user}],
-        "response_format": {"type": "json_object"},
-        "temperature": args.temperature,
-        "usage": {"include": True},
-    }
-    if args.max_tokens:
-        payload["max_tokens"] = args.max_tokens
-    if args.provider:
-        payload["provider"] = {"order": args.provider.split(","), "allow_fallbacks": False}
-    if args.reasoning:
-        payload["reasoning"] = {"effort": args.reasoning}
-    req = urllib.request.Request(API_URL, data=json.dumps(payload).encode(), headers={
-        "Authorization": "Bearer " + os.environ[KEY_VAR],
-        "Content-Type": "application/json",
-    })
-    last = None
-    for attempt in range(6):
-        t0 = time.time()
-        try:
-            with urllib.request.urlopen(req, timeout=args.timeout) as r:
-                body = json.load(r)
-            return body, time.time() - t0, None
-        except urllib.error.HTTPError as e:
-            last = f"http {e.code}: {e.read()[:300]!r}"
-            if e.code != 429 and e.code < 500:
-                break
-        except Exception as e:  # network; transient
-            last = f"{type(e).__name__}: {e}"
-        time.sleep(min(5 * 2 ** attempt, 60))
-    return None, None, last
+def call_opts(args):
+    """The request options providers.complete() reads, from run.py's flags."""
+    return {"temperature": args.temperature, "max_tokens": args.max_tokens,
+            "provider": args.provider, "effort": args.effort or args.reasoning,
+            "thinking": args.thinking, "timeout": args.timeout}
+
+
+def config_tag(opts, tag=""):
+    """Effort and thinking change the output, so they go in the run file name;
+    otherwise a resumed run would mix configurations in one file."""
+    parts = [tag] if tag else []
+    if opts.get("effort"):
+        parts.append(f"effort-{opts['effort']}")
+    if opts.get("thinking"):
+        parts.append(f"thinking-{opts['thinking']}")
+    return "__".join(parts)
+
+
+def run_path(model_id, ph, mode, tag=""):
+    slug = model_id.replace("/", "_").replace(":", "_")
+    return os.path.join(HERE, "runs", f"{slug}__{ph}__{mode}{('__' + tag) if tag else ''}.jsonl")
+
+
+def cached_calls(out):
+    """(call_key, rep) pairs already settled in a run file: answered, or
+    refused for good (a moderation 403 on that input). Other errors are not
+    cached, so they are retried."""
+    done = set()
+    if os.path.exists(out):
+        with open(out, encoding="utf-8") as f:
+            for l in f:
+                r = json.loads(l)
+                if r.get("raw") is not None or r.get("permanent"):
+                    done.add((r["call_key"], r["rep"]))
+    return done
 
 
 def unfence(raw):
@@ -189,15 +196,22 @@ def parse(raw):
     return isinstance(ms, list), ms if isinstance(ms, list) else None
 
 
-def run_job(job, rep, model, system, ph, mode, args):
-    body, latency, err = call(model, system, job["user"], args)
+def run_job(job, rep, model, system, ph, mode, opts, api="openrouter"):
     rec = {"call_key": job["call_key"], "rep": rep, "item_ids": job["item_ids"],
            "model": model, "prompt_hash": ph, "mode": mode,
-           "ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "latency_s": latency, "error": err}
-    if body is None:
+           "ts": time.strftime("%Y-%m-%dT%H:%M:%S")}
+    try:
+        out, latency, err = providers.complete(api, model, system, job["user"], opts)
+    except providers.PermanentError as e:
+        rec.update({"latency_s": None, "error": str(e), "permanent": True})
         return rec
-    msg = (body.get("choices") or [{}])[0].get("message") or {}
-    raw = msg.get("content")
+    rec.update({"latency_s": latency, "error": err})
+    if out is None:
+        return rec
+    raw = out["raw"]
+    if raw is None:
+        rec["error"] = out.get("error") or f"empty response (stop {out.get('stop_reason')})"
+        return rec
     ok, mentions = parse(raw)
     by_comment = {}
     bad_ids = 0
@@ -215,21 +229,94 @@ def run_job(job, rep, model, system, ph, mode, args):
             bad_ids += 1
             continue
         by_comment.setdefault(cid, []).append(m)
-    usage = body.get("usage") or {}
     rec.update({"raw": raw, "json_ok": ok,
                 "json_ok_strict": ok and unfence(raw) == (raw or "").strip(),
                 "mentions_by_comment": by_comment,
-                "bad_ids": bad_ids, "provider": body.get("provider"),
-                "usage": {k: usage.get(k) for k in ("prompt_tokens", "completion_tokens",
-                                                     "total_tokens", "cost")},
-                "reasoning_tokens": (usage.get("completion_tokens_details") or {}).get(
-                    "reasoning_tokens")})
+                "bad_ids": bad_ids, "provider": out.get("provider"), "api": out.get("api"),
+                "stop_reason": out.get("stop_reason"),
+                "usage": out["usage"], "reasoning_tokens": out.get("reasoning_tokens"),
+                "opts": {k: v for k, v in opts.items() if v is not None and k != "timeout"}})
     return rec
+
+
+def caches_prompt(api, model):
+    return api == "anthropic" or model.startswith("anthropic/")
+
+
+def execute(todo, model, system, ph, mode, opts, api, out, workers, progress=True):
+    """Run (job, rep) pairs in parallel, appending each record as it lands so
+    an interrupted run resumes. Returns summary stats.
+
+    Where the system prompt is cached, the first call runs alone: calls
+    started together all miss the cache and each pays the write, so one call
+    writes it and the rest read it.
+
+    A refused key (providers.FatalError) stops everything: pending calls are
+    cancelled, calls already in flight are still recorded if they succeed,
+    and nothing is written for the refused call, so a resume after topping
+    up the key starts exactly where this one stopped."""
+    providers.check_opts(api, opts)
+    if api == "openrouter":
+        providers.catalog()         # load once here, not raced by every worker
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    stats = {"calls": 0, "json_ok": 0, "errors": 0, "cost": 0.0, "latency": []}
+    fatal = None
+
+    def record(f, rec):
+        f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        f.flush()
+        stats["calls"] += 1
+        if rec.get("error"):
+            stats["errors"] += 1
+        else:
+            stats["json_ok"] += bool(rec.get("json_ok"))
+            stats["cost"] += float((rec.get("usage") or {}).get("cost") or 0)
+            stats["latency"].append(rec["latency_s"])
+        if progress and stats["calls"] % 50 == 0:
+            print(f"  {stats['calls']}/{len(todo)} calls, {stats['errors']} errors, "
+                  f"${stats['cost']:.4f}", file=sys.stderr)
+
+    with open(out, "a", encoding="utf-8") as f:
+        rest = list(todo)
+        if rest and caches_prompt(api, model):
+            j, rep = rest.pop(0)
+            try:
+                record(f, run_job(j, rep, model, system, ph, mode, opts, api))
+            except providers.FatalError as e:
+                raise SystemExit(f"stopped: {e}")
+        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
+            futs = [pool.submit(run_job, j, rep, model, system, ph, mode, opts, api) for j, rep in rest]
+            for fut in concurrent.futures.as_completed(futs):
+                if fut.cancelled():
+                    continue
+                try:
+                    rec = fut.result()
+                except providers.FatalError as e:
+                    if fatal is None:
+                        fatal = e
+                        for other in futs:
+                            other.cancel()
+                    continue
+                record(f, rec)
+    if fatal is not None:
+        raise SystemExit(f"stopped: {fatal}\n{stats['calls']} calls were recorded before the stop; "
+                         f"re-running resumes from there.")
+    return stats
+
+
+def print_stats(stats):
+    lat = sorted(stats["latency"]) or [0]
+    print(f"calls {stats['calls']}  errors {stats['errors']}  json_ok {stats['json_ok']}  "
+          f"cost ${stats['cost']:.4f}  latency p50 {lat[len(lat)//2]:.1f}s "
+          f"p90 {lat[int(len(lat)*0.9)]:.1f}s")
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--model", required=True, help="OpenRouter model slug")
+    ap.add_argument("--model", required=True,
+                    help="an alias (haiku-5.5), an Anthropic id (claude-haiku-5-5) or an OpenRouter slug")
+    ap.add_argument("--api", choices=["auto", "openrouter", "anthropic"], default="auto",
+                    help="auto: Anthropic's API for Claude models when ANTHROPIC_API_KEY is set")
     ap.add_argument("--mode", choices=["comment", "thread"], required=True)
     ap.add_argument("--prompt", default="current")
     ap.add_argument("--items", default=os.path.join(HERE, "items.jsonl"))
@@ -239,15 +326,24 @@ def main():
     ap.add_argument("--limit", type=int, help="at most N calls")
     ap.add_argument("--repeat", type=int, default=1, help="repetitions per call")
     ap.add_argument("--workers", type=int, default=8)
-    ap.add_argument("--temperature", type=float, default=0.0)
+    ap.add_argument("--temperature", type=float, default=0.0,
+                    help="sent only to models that accept it (current Claude models do not)")
     ap.add_argument("--max-tokens", type=int)
-    ap.add_argument("--reasoning", choices=["low", "medium", "high"])
+    ap.add_argument("--effort", choices=["low", "medium", "high", "xhigh", "max"],
+                    help="reasoning effort; omitted means the model's default")
+    ap.add_argument("--reasoning", choices=["low", "medium", "high"], help="old name for --effort")
+    ap.add_argument("--thinking", choices=["adaptive", "disabled", "between_tools"],
+                    help="Anthropic API only: the thinking type, sent as given")
     ap.add_argument("--provider", help="comma list; pins OpenRouter routing")
     ap.add_argument("--timeout", type=int, default=180)
     ap.add_argument("--tag", default="", help="suffix for the run file name")
     ap.add_argument("--dry-run", action="store_true", help="print the first calls, no API")
     args = ap.parse_args()
 
+    providers.load_env()
+    api, model = providers.resolve(args.model, args.api)
+    opts = call_opts(args)
+    providers.check_opts(api, opts)
     pmod, label = load_prompt(args.prompt, args.mode)
     system = pmod.SYSTEM_PROMPT
     ph = prompt_hash(system)
@@ -261,54 +357,23 @@ def main():
     if args.limit:
         jobs = jobs[:args.limit]
 
-    slug = args.model.replace("/", "_").replace(":", "_")
-    name = f"{slug}__{ph}__{args.mode}{('__' + args.tag) if args.tag else ''}.jsonl"
-    out = os.path.join(HERE, "runs", name)
+    out = run_path(model, ph, args.mode, config_tag(opts, args.tag))
 
     if args.dry_run:
-        print(f"prompt {label} hash {ph}; {len(jobs)} calls -> {out}")
+        print(f"{api}:{model} prompt {label} hash {ph}; {len(jobs)} calls -> {out}")
         for j in jobs[:3]:
             print("=" * 80, "\n", j["call_key"], j["item_ids"])
             print(j["user"][:1500])
             print(f"[~{(len(system) + len(j['user'])) // 4:,} input tokens]")
         return
 
-    if not os.environ.get(KEY_VAR):
-        raise SystemExit(f"{KEY_VAR} is not set")
-
-    done = set()
-    if os.path.exists(out):
-        with open(out, encoding="utf-8") as f:
-            for l in f:
-                r = json.loads(l)
-                if r.get("raw") is not None:      # errors are retried
-                    done.add((r["call_key"], r["rep"]))
+    providers.require_key(api)
+    done = cached_calls(out)
     todo = [(j, rep) for rep in range(args.repeat) for j in jobs
             if (j["call_key"], rep) not in done]
-    print(f"{args.model} prompt={label} ({ph}) mode={args.mode}: "
+    print(f"{api}:{model} prompt={label} ({ph}) mode={args.mode}: "
           f"{len(todo)} calls to make, {len(done)} cached -> {out}")
-    os.makedirs(os.path.dirname(out), exist_ok=True)
-
-    stats = {"calls": 0, "json_ok": 0, "errors": 0, "cost": 0.0, "latency": []}
-    with open(out, "a", encoding="utf-8") as f, \
-            concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
-        futs = [pool.submit(run_job, j, rep, args.model, system, ph, args.mode, args)
-                for j, rep in todo]
-        for fut in concurrent.futures.as_completed(futs):
-            rec = fut.result()
-            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-            f.flush()
-            stats["calls"] += 1
-            if rec.get("error"):
-                stats["errors"] += 1
-                continue
-            stats["json_ok"] += bool(rec.get("json_ok"))
-            stats["cost"] += float((rec.get("usage") or {}).get("cost") or 0)
-            stats["latency"].append(rec["latency_s"])
-    lat = sorted(stats["latency"]) or [0]
-    print(f"calls {stats['calls']}  errors {stats['errors']}  json_ok {stats['json_ok']}  "
-          f"cost ${stats['cost']:.4f}  latency p50 {lat[len(lat)//2]:.1f}s "
-          f"p90 {lat[int(len(lat)*0.9)]:.1f}s")
+    print_stats(execute(todo, model, system, ph, args.mode, opts, api, out, args.workers))
 
 
 if __name__ == "__main__":
