@@ -17,6 +17,7 @@ eval/
   run.py                 run one model x prompt x mode over a set, caching to runs/
   score.py               score runs against the v1 gold (and the library the others import)
   score_v5.py            score any run (v5 or old schema) against the v5 gold
+  _paths.py              where eval/ lives; every script imports it to find lib/ and the other modules
   lib/                   modules the entry points import: providers.py, schema_v5.py
   tools/                 one-off tools: export_stored, adjudicate, compare, reparse,
                          report, selftest_v5 (offline checks of the v5 harness)

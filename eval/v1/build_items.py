@@ -21,7 +21,10 @@ import sys
 
 import psycopg2
 
-ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import _paths  # noqa: E402
+
+ROOT = _paths.ROOT
 sys.path.insert(0, ROOT)
 import extract_threads  # noqa: E402  (CHUNK; imports db/extract, no side effects)
 import prompt  # noqa: E402

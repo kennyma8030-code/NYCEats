@@ -6,12 +6,15 @@ import sys
 
 V1 = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EVAL = os.path.dirname(V1)
-sys.path.insert(0, os.path.dirname(EVAL))
+sys.path.insert(0, EVAL)
+import _paths  # noqa: E402
+
+sys.path.insert(0, _paths.ROOT)
 from extract import normalize_entity  # noqa: E402
 
-with open(os.path.join(EVAL, "data", "alias_overrides.json"), encoding="utf-8") as f:
+with open(os.path.join(_paths.DATA, "alias_overrides.json"), encoding="utf-8") as f:
     ALIAS = json.load(f)
-with open(os.path.join(EVAL, "data", "excluded_entities.json"), encoding="utf-8") as f:
+with open(os.path.join(_paths.DATA, "excluded_entities.json"), encoding="utf-8") as f:
     EXCLUDED = json.load(f)
 
 LEVELS = (None, -3, -2, -1, 0, 1, 2, 3)

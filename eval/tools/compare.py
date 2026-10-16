@@ -24,8 +24,9 @@ import json
 import os
 import sys
 
-HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # eval/, where runs/ and results/ live
-sys.path.insert(0, HERE)
+EVAL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, EVAL)
+import _paths  # noqa: E402,F401  (adds eval/lib)
 import score as S  # noqa: E402
 
 PROMPTS = {"1d5bac550078": "original", "ca5439be83b3": "original",
@@ -79,15 +80,15 @@ def cost_per_1k(run, n_comments_rep0):
 
 
 def main():
-    gold = S.load_jsonl(os.path.join(HERE, "v1", "gold.jsonl"))
-    items = S.load_jsonl(os.path.join(HERE, "v1", "items.jsonl"))
+    gold = S.load_jsonl(os.path.join(EVAL, "v1", "gold.jsonl"))
+    items = S.load_jsonl(os.path.join(EVAL, "v1", "items.jsonl"))
     alias, excluded = S.load_map("alias_overrides.json"), S.load_map("excluded_entities.json")
-    stats_path = os.path.join(HERE, "v1", "sampling_stats.json")
+    stats_path = os.path.join(EVAL, "v1", "sampling_stats.json")
     all_ids = {g["comment_id"] for g in gold}
     thread_ids = {c["comment_id"] for it in items if it["kind"] != "comment" for c in it["comments"]}
 
     runs = {}
-    for path in sorted(glob.glob(os.path.join(HERE, "runs", "*.jsonl"))):
+    for path in sorted(glob.glob(os.path.join(EVAL, "runs", "*.jsonl"))):
         run, meta = load(path, items)
         if "model" not in meta:
             continue
@@ -98,7 +99,7 @@ def main():
         meta["cost_per_1k_comments"] = cost_per_1k(run, meta["covered"])
         meta["cost_total"] = run[2]["cost"]
         runs[meta["file"]] = (run, meta)
-    stored_path = os.path.join(HERE, "baseline", "production__stored__all.jsonl")
+    stored_path = os.path.join(EVAL, "baseline", "production__stored__all.jsonl")
     stored = S.load_run(stored_path, items)
 
     out = {"gold": {"comments": len(gold), "mentions": sum(len(g["mentions"]) for g in gold),
@@ -151,22 +152,22 @@ def main():
     out["panels"]["partial"] = partial
 
     # v2: weakness breakdown for complete comment-mode runs (v1-derived v2 items only)
-    v2_gold = S.load_jsonl(os.path.join(HERE, "v2", "gold.jsonl"))
-    v2_items = S.load_jsonl(os.path.join(HERE, "v2", "items.jsonl"))
+    v2_gold = S.load_jsonl(os.path.join(EVAL, "v2", "gold.jsonl"))
+    v2_items = S.load_jsonl(os.path.join(EVAL, "v2", "items.jsonl"))
     v2_ids = {g["comment_id"] for g in v2_gold}
     vcommon = v2_ids & common
     panel = {"n_comments": len(vcommon), "rows": [
         {"label": "production (stored output)",
-         "metrics": metrics(v2_gold, v2_items, S.load_run(os.path.join(HERE, "baseline", "production__stored__v2.jsonl"), v2_items),
+         "metrics": metrics(v2_gold, v2_items, S.load_run(os.path.join(EVAL, "baseline", "production__stored__v2.jsonl"), v2_items),
                             vcommon, "", alias, excluded)}]}
     for f in full_c:
-        run = S.load_run(os.path.join(HERE, "runs", f), v2_items)
+        run = S.load_run(os.path.join(EVAL, "runs", f), v2_items)
         panel["rows"].append({"file": f, "label": f"{runs[f][1]['model']} · {runs[f][1]['prompt']}",
                               "metrics": metrics(v2_gold, v2_items, run, vcommon, "", alias, excluded)})
     out["panels"]["v2"] = panel
 
-    os.makedirs(os.path.join(HERE, "results"), exist_ok=True)
-    path = os.path.join(HERE, "results", "comparison.json")
+    os.makedirs(os.path.join(EVAL, "results"), exist_ok=True)
+    path = os.path.join(EVAL, "results", "comparison.json")
     with open(path, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1, default=lambda o: sorted(o) if isinstance(o, set) else str(o))
     print(path)

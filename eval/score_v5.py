@@ -39,9 +39,9 @@ import os
 import statistics
 import sys
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, HERE)
-sys.path.insert(0, os.path.join(HERE, "lib"))
+import _paths  # noqa: E402,F401  (puts eval/ and eval/lib on sys.path)
+
+HERE = _paths.EVAL
 import schema_v5 as V  # noqa: E402
 import score as S  # noqa: E402
 from score import CHAINS, lenient_same, prf, ratio, sign  # noqa: E402

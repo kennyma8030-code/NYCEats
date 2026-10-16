@@ -29,7 +29,6 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 EVAL = os.path.dirname(HERE)
-sys.path.insert(0, HERE)
 import threads as th  # noqa: E402
 
 GAP = 15

@@ -13,9 +13,9 @@ import json
 import os
 import sys
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-EVAL = os.path.dirname(HERE)
+EVAL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, EVAL)
+import _paths  # noqa: E402,F401  (adds eval/lib)
 import score  # noqa: E402
 
 

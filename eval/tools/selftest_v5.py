@@ -17,10 +17,9 @@ import sys
 import tempfile
 import urllib.error
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-EVAL = os.path.dirname(HERE)
+EVAL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, EVAL)
-sys.path.insert(0, os.path.join(EVAL, "lib"))
+import _paths  # noqa: E402,F401  (adds eval/lib)
 import providers  # noqa: E402
 import run as R  # noqa: E402
 import schema_v5 as V  # noqa: E402

@@ -44,10 +44,10 @@ import sys
 import time
 import types
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)
-sys.path.insert(0, HERE)
-sys.path.insert(0, os.path.join(HERE, "lib"))
+import _paths  # noqa: E402,F401  (puts eval/ and eval/lib on sys.path)
+
+HERE = _paths.EVAL
+ROOT = _paths.ROOT
 import providers  # noqa: E402
 
 
@@ -323,7 +323,8 @@ def main():
     ap.add_argument("--items", default=os.path.join(HERE, "v1", "items.jsonl"))
     ap.add_argument("--only", nargs="*", help="item ids to run")
     ap.add_argument("--labeled-only", action="store_true",
-                    help="only items that have a gold label (eval/v1/gold.jsonl)")
+                    help="only items that have a gold label (--gold, default: gold.jsonl beside --items)")
+    ap.add_argument("--gold", help="gold file for --labeled-only (default: gold.jsonl in --items' folder)")
     ap.add_argument("--limit", type=int, help="at most N calls")
     ap.add_argument("--repeat", type=int, default=1, help="repetitions per call")
     ap.add_argument("--workers", type=int, default=8)
@@ -351,10 +352,16 @@ def main():
 
     only = args.only
     if args.labeled_only:
-        with open(os.path.join(HERE, "v1", "gold.jsonl"), encoding="utf-8") as f:
+        gold = args.gold or os.path.join(os.path.dirname(os.path.abspath(args.items)), "gold.jsonl")
+        if not os.path.exists(gold):
+            sys.exit(f"--labeled-only: no gold file at {gold}; pass --gold")
+        with open(gold, encoding="utf-8") as f:
             only = sorted({json.loads(l)["item_id"] for l in f})
     jobs = build_jobs(load_items(args.items, only), args.mode, pmod,
                       custom=args.prompt.startswith("file:"))
+    if only is not None and not jobs:
+        sys.exit(f"no items selected from {args.items} by --only/--labeled-only"
+                 + (f" (gold: {gold})" if args.labeled_only else ""))
     if args.limit:
         jobs = jobs[:args.limit]
 

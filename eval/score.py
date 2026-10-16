@@ -21,7 +21,7 @@ this order:
   f. sign accuracy + levels used
 
 Model mentions are keyed normalize_entity -> alias_overrides (production's
-1,901). A key in excluded_entities.json, or a match to a gold out_of_scope or
+1,901). A key in data/excluded_entities.json, or a match to a gold out_of_scope or
 ambiguous mention, is neither rewarded nor penalised.
 """
 
@@ -36,9 +36,11 @@ import re
 import statistics
 import sys
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)
-sys.path.insert(0, ROOT)
+import _paths  # noqa: E402,F401  (puts eval/ and eval/lib on sys.path)
+
+HERE = _paths.EVAL
+ROOT = _paths.ROOT
+sys.path.insert(0, ROOT)  # extract.normalize_entity
 from extract import CHAINS, normalize_entity  # noqa: E402
 
 ASPECTS = ("food", "value", "service", "atmosphere", "wait")
@@ -128,7 +130,7 @@ def load_jsonl(path):
 
 
 def load_map(name):
-    path = os.path.join(HERE, "data", name)
+    path = os.path.join(_paths.DATA, name)
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
             return json.load(f)

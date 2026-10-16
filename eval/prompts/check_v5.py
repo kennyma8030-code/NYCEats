@@ -22,7 +22,9 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 EVAL = os.path.dirname(HERE)
-ROOT = os.path.dirname(EVAL)
+sys.path.insert(0, EVAL)
+import _paths  # noqa: E402  (run.py, which _load runs below, needs eval/lib)
+ROOT = _paths.ROOT
 
 
 def _load(name, path):

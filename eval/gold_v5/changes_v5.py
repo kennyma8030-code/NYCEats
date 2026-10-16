@@ -15,7 +15,6 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 EVAL = os.path.dirname(HERE)
-sys.path.insert(0, EVAL)
 import convert_gold_v5 as cv  # noqa: E402
 
 

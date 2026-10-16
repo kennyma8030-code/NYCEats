@@ -75,7 +75,6 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 EVAL = os.path.dirname(HERE)
-sys.path.insert(0, HERE)
 import overrides as ov  # noqa: E402
 
 LEVEL = {3: "rave", 2: "good", 1: "decent", 0: "mixed", -1: "meh", -2: "bad", -3: "awful"}

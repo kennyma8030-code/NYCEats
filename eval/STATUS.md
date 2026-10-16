@@ -39,7 +39,7 @@
 
 ## Notes and caveats
 
-- **Excluded entities.** Production's `excluded_entities.json` contains a
+- **Excluded entities.** Production's `data/excluded_entities.json` contains a
   few real in-scope places: `56709` (a LIC bar), `hudson eats` (a food
   hall), and numeric or short keys. Mentions of these are ignored in
   scoring, matching production's choice. Revisit if those entries were

@@ -10,9 +10,11 @@ import json
 import os
 import sys
 
-HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # eval/, where results/ lives
-C = json.load(open(os.path.join(HERE, "results", "comparison.json"), encoding="utf-8"))
-OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "results", "report.html")
+EVAL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, EVAL)
+import _paths  # noqa: E402,F401  (adds eval/lib)
+C = json.load(open(os.path.join(EVAL, "results", "comparison.json"), encoding="utf-8"))
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(EVAL, "results", "report.html")
 
 PROMPT_NAME = {"original": "original prompt", "revised": "Oct 2 prompt", "rubric_v1": "rubric_v1 prompt"}
 COLS = [  # key, header, higher_is_better, kind

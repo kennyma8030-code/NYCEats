@@ -33,9 +33,9 @@ import os
 import statistics
 import sys
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, HERE)
-sys.path.insert(0, os.path.join(HERE, "lib"))
+import _paths  # noqa: E402,F401  (puts eval/ and eval/lib on sys.path)
+
+HERE = _paths.EVAL
 import providers  # noqa: E402
 import run as R  # noqa: E402
 import score as S  # noqa: E402

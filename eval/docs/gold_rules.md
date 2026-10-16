@@ -26,7 +26,7 @@ unambiguously refers to.
 - **Out of scope, but recorded with `out_of_scope: true`** (neither required
   nor penalised): primarily retail grocery stores, supermarkets and markets
   (Whole Foods, Trader Joe's, Zabar's as a grocery, Costco), and places
-  outside NYC. Any key in `excluded_entities.json` (production's 279
+  outside NYC. Any key in `data/excluded_entities.json` (production's 279
   exclusions) is also treated as out of scope when matching.
 - **Doesn't count:** cuisines ("Haitian food"), dishes, neighborhoods,
   streets, generic categories ("any banh mi shop", "kati roll places"),
