@@ -3,8 +3,8 @@
 v5 implements schema contract v5. What changed from production's revised
 prompt (0d75b20b5f83 / 5b02ac883c80):
   * aspects are seven level WORDS instead of floats. Models land on named
-    levels far more consistently, and the harness maps them back to the floats
-    scoring already reads;
+    levels far more consistently, and eval/schema_v5.py (eval-v5-harness) maps
+    them back to the floats scoring already reads;
   * reference_only replaces the "food 0.3" sentinel. A bare endorsement keeps
     every aspect null, so no food score is invented for a name nobody judged;
   * questions, stated facts and yardstick comparisons are mentions too, marked
@@ -46,6 +46,19 @@ def mention(name, *, id=None, ref=False, hood=None, neg=False, price=None,
     return json.dumps(m, ensure_ascii=False, separators=(",", ":"))
 
 
+def comment_input(title, comment, body=None, parent=None):
+    """An example input laid out exactly as production's build_user_message
+    renders one (check_v5.py compares the two), so the examples look like
+    the real inputs the model is scored on."""
+    parts = ["POST TITLE: " + title]
+    if body:
+        parts.append("POST BODY: " + body)
+    if parent:
+        parts.append("PARENT COMMENT: " + parent)
+    parts.append("COMMENT: " + comment)
+    return "\n\n".join(parts)
+
+
 def output(*mentions):
     if not mentions:
         return '{"mentions":[]}'
@@ -67,9 +80,10 @@ B. ENDORSEMENT. The place is named as an answer to a request for places to go
    endorsement. Never invent a food level for it.
    EXCEPTION: when the request itself carries a judgment ("most overrated
    spot?", "worst service you've had?", "biggest letdown?"), a bare name
-   answering it takes that judgment, at its plain level: "most overrated" ->
-   food "meh" and descriptor "overrated"; "worst service" -> service "bad";
-   "biggest letdown" -> food "bad". That makes it kind A.
+   answering it takes that judgment, scored by the LEVELS table entry for the
+   request's own words: "most overrated" -> food "meh" and descriptor
+   "overrated"; "worst service" -> service "awful"; "biggest letdown" -> food
+   "bad". That makes it kind A.
 
 C. REFERENCE. Everything else that names or points at a place:
    - a question about it: "is Okiku still open?", "has anyone tried Okiku?"
@@ -121,9 +135,10 @@ LEVEL_TABLE = """LEVELS -- the only allowed values in aspects, or null
   "meh"     mild knock: "mid", "fine", "it's ok", "overrated", "nothing
             special", "not worth the hype", "used to be good"
   "bad"     clear complaint: "bad", "bland", "rude", "slow", "disappointing",
-            "overpriced" (that is value), "tourist trap", "skip it"
-  "awful"   strong bad experience: "worst I've had", "got sick", "never
-            again", "regretted going", "inedible"
+            "letdown", "tourist trap", "skip it"; and for value:
+            "overpriced", "not worth the price", "not worth $40"
+  "awful"   strong bad experience: "worst", "worst I've had", "got sick",
+            "never again", "regretted going", "inedible"
 
 "fine", "it's ok" and "mid" are "meh", NEVER "decent": on Reddit they are a
 knock. Use the whole negative half. Do not soften a complaint because the thread
@@ -136,7 +151,8 @@ ASPECTS
               place with no aspect named ("amazing", "mid", "my favorite",
               "skip it") goes here.
   value       worth the money: "overpriced", "worth every penny", "great deal",
-              "not worth $40". "Cheap" or "pricey" alone is price, not value.
+              "not worth the price", "not worth $40". "Cheap" or "pricey"
+              alone is price, not value.
   service     the staff.
   atmosphere  the room, the vibe, noise, the crowd.
   wait        the line, getting a table or a reservation, how long food took.
@@ -163,8 +179,11 @@ EXPERIENCE
   "unclear"     neither: a bare name in a list, a question, a fact.
 
 IS_NEGATED is true only when the comment tells people to AVOID the place: "skip
-it", "don't bother", "avoid", "not worth it", "go somewhere else". A bad review
-is not an avoid: "worst slice I've had, regretted going" is is_negated false.
+it", "don't bother", "avoid", "go somewhere else", and a bare "not worth it" or
+"not worth going" given as advice. Saying what it is not worth is NOT an avoid:
+"not worth the price" and "not worth $40" are value "bad"; "not worth the hype"
+is food "meh". A bad review is not an avoid: "worst slice I've had, regretted
+going" is is_negated false.
 Losing a comparison is not an avoid. An avoid instruction that heads a list
 applies to EVERY name in that list. An avoid with no reason given is also food
 "bad".
