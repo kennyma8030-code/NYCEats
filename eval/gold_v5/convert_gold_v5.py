@@ -325,7 +325,7 @@ def convert(path_in, path_out, used):
             new.append(convert_mention(m, o))
         g2 = {k: v for k, v in g.items() if k != "mentions"}
         g2["label_version"] = 3
-        g2["v5_converted_by"] = "eval/convert_gold_v5.py"
+        g2["v5_converted_by"] = "eval/gold_v5/convert_gold_v5.py"
         g2["mentions"] = new
         g2["has_mention"] = any(not x["ambiguous"] and not x["out_of_scope"] for x in new)
         lines.append(g2)
