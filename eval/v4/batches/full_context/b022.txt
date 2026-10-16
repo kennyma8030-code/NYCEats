@@ -1,131 +1,351 @@
-NYCEats extraction labeling -- batch b022 -- pass: full_context -- 1 packet(s)
+NYCEats extraction labeling -- batch b022 -- pass: full_context -- thread mode -- 1 packet(s)
 
-Apply the extraction prompt you were given, but read the whole conversation
-shown before deciding what each comment means. Label ONLY the comment marked
-">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
-number [n]; everything else is context. Packets are independent.
+Each packet shows the whole conversation around the unit the model sees. Read
+all of it before deciding what a comment means, but label ONLY the comment
+marked ">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a
+bracket number [n]; everything else is context. The layout differs from the
+model's input; the prompt's rules apply all the same. Set needs_context true
+on a mention that the model's own input could not support.
 
-Write one JSON line per packet to labels/full_context/b022.jsonl:
+How to label is in LABELING.md; read it first. In short: label every packet
+exactly as the EXTRACTION PROMPT below asks, then add the label metadata
+(canonical_name and rationale always; the optional fields when they apply).
+Packets are independent: never carry anything from one packet to another, and
+never look at other batches, other passes, model runs or results.
+
+Write one JSON line per packet, in any order, to labels/full_context/b022.jsonl:
   {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
-"output" is the JSON object the prompt asks for. A comment packet's mentions
-carry no "id". A thread packet's mentions each carry "id", the bracket number
-of the comment they come from. Use {"mentions": []} when nothing qualifies.
+Use {"mentions": []} when nothing qualifies. Every mention starts with "id", the bracket number of the comment it comes from.
+Check the file before you finish:
+  python eval/v4/labels.py check --pass full_context --batch b022
 
-=== PACKET 0a97c29c (thread packet) ===
-POST TITLE: First team dinner at Keen's - what should I expect?
-POST BODY: Started in a bank this past Aug after graduating and the team is going out for a holiday dinner to Keen's. I'm the only new analyst and the rest of the team are all very senior people. The team + me will be a total of 5 people
+=== EXTRACTION PROMPT (thread mode) ===
+You extract restaurant mentions from a Reddit thread in a New York City food subreddit.
 
-I haven't been to Keen's before - how do these types of things go? Is it automatically assumed that everyone will order their own steak, given that this place has meat huge portions? If it is shared, ex 1-2 for the table, I'm going to just let everyone else decide among themselves. If not shared, the taste of mutton (even that's big for me) and a side dish/salad. I am confident in my table manners, but if anyone has any tips on what to expect, I would appreciate it as I'm going in blind here. I don't really drink and would prefer to stick with water; if the team shares a bottle of wine, should I also have some or order a cocktail? Same with oysters - force myself to have 1 to be polite or skip/order a separate app? Any advice on the above or fine dining business meals dos/don'ts in general would be appreciated...r/fine dining said I'd get more advice here
+The input is the post, then its comments as an indented tree. The first line is "POST: " and the post title; the next line, when present, is the post body (cut at 400 characters). After a blank line come the comments. Each comment is one line: a number in brackets, the author as u/name, then the text (long comments are cut with " ..."). Indentation means a reply: a comment indented under another is replying to it.
+
+Output ONLY a JSON object. No prose, no code fences:
+
+{"mentions": [ {"id": 3, ...}, {"id": 7, ...} ]}
+
+Use {"mentions": []} only when no comment names or points at a place.
+
+USING THE TREE
+
+Every mention carries the bracket number of the comment it came from. A comment
+that names three places produces three entries with the same id. Many comments
+produce nothing; that is normal. NEVER invent an id: only use numbers that
+appear in brackets.
+
+A reply is about the comment it replies to, unless it names something else.
+"Overrated" indented under a comment praising a place is about that place --
+and the mention belongs to the REPLY's id, because it is the replier's opinion.
+Two comments at the same indent are NOT replying to each other.
+
+A reply that gives an opinion without repeating the name IS a mention: "mostly
+overpriced lol", "used to live next door, it is v mid", "it's... fine", "hard
+disagree", "sooo good". Each is one mention under the reply's id, with the name
+copied exactly as the comment above typed it. "Skip both" or "all great" covers
+every place the comment it replies to names. A reply that talks about something
+else produces nothing.
+
+Two limits of the layout:
+- Indentation stops growing after 6 levels, so a deeper reply prints at the
+  same indent as its parent.
+- The input can start mid-conversation, so its first comments may be indented
+  replies whose parent is not shown. A nameless reply whose parent is not shown
+  gets a mention only if the place is unambiguous from what is visible;
+  otherwise skip it.
+
+The post is context, not a source. Never emit a mention for a place named only
+in the post, unless a comment says something about it or asks about it.
+
+KIND OF MENTION -- decide this FIRST for every mention
+
+A. OPINION. The comment judges the place: the food or a dish, whether it is worth
+   the money, the staff, the room, the wait -- or uses a judging word about it
+   ("tourist trap", "overrated", "hidden gem", "my favorite", "mid") -- or tells
+   people to avoid it.
+   -> reference_only false. Score the aspects it judges; the rest stay null.
+
+B. ENDORSEMENT. The place is named as an answer to a request for places to go
+   ("best pizza?", "where should I eat in Astoria", "recs for a date spot"),
+   with nothing said about it.
+   -> reference_only false and EVERY aspect null. Being named is the
+   endorsement. Never invent a food level for it.
+   EXCEPTION: when the request itself carries a judgment ("most overrated
+   spot?", "worst service you've had?", "biggest letdown?"), a bare name
+   answering it takes that judgment, scored by the LEVELS table entry for the
+   request's own words: "most overrated" -> food "meh" and descriptor
+   "overrated"; "worst service" -> service "awful"; "biggest letdown" -> food
+   "bad". That makes it kind A.
+
+C. REFERENCE. Everything else that names or points at a place:
+   - a question about it: "is Okiku still open?", "has anyone tried Okiku?"
+   - a stated fact: "they moved to Court St", "it's cash only btw", "closed"
+   - a yardstick: "if you like Okiku you'll love Harbor Fish" (Okiku is the
+     yardstick)
+   - a passing reference: "I was near Okiku and saw a line"
+   - a bare name when nobody asked for places to go ("where did you eat this
+     week?", or a post that asks for no recommendation)
+   -> reference_only true, every aspect null, is_negated false, dishes_liked
+   and dishes_disliked empty. STILL fill neighborhood_hint, price, experience,
+   dishes_mentioned and descriptors when the comment STATES them.
+
+Who asked: a top-level comment answers the post. A reply answers the comment it
+replies to; if that comment asks nothing, it answers the post.
+
+FIELDS (every key on every mention, no extra keys)
+
+id                 integer. The bracket number of the comment this
+                   mention came from.
+restaurant_raw     string. The name VERBATIM, exactly as typed: same spelling,
+                   same capitalization, no added words. Never fix spelling,
+                   never expand an abbreviation, never add a borough or a
+                   "Pizzeria" nobody typed. "lindustrie" stays "lindustrie".
+                   When the comment talks about a place without naming it,
+                   copy the name exactly as the comment or post it refers to
+                   typed it.
+neighborhood_hint  string or null. Only when the comment says where THIS place
+                   is: "the LES one", "Astoria".
+reference_only     true or false. See KIND OF MENTION.
+aspects            object with exactly these keys: food, value, service,
+                   atmosphere, wait. Each is one LEVEL word, or null.
+is_negated         true or false. True ONLY when the comment tells people to
+                   avoid the place.
+price              "cheap", "moderate", "pricey", "very_pricey", or null.
+experience         "ate_there", "secondhand", or "unclear".
+dishes_liked       array of strings. [] if none.
+dishes_disliked    array of strings. [] if none.
+dishes_mentioned   array of strings. [] if none.
+descriptors        array of strings: the commenter's own words. [] if none.
+
+LEVELS -- the only allowed values in aspects, or null
+
+  "rave"    superlative: "best in the city", "best I've ever had", "perfect",
+            "the GOAT", "life-changing"
+  "good"    clear praise: "so good", "great", "excellent", "love it",
+            "my favorite", "my go-to", "swears by it", "hidden gem"
+  "decent"  mild praise: "solid", "pretty good", "decent", "not bad"
+  "mixed"   explicitly mixed: "hit or miss", "inconsistent", "some good,
+            some bad"
+  "meh"     mild knock: "mid", "fine", "it's ok", "overrated", "nothing
+            special", "not worth the hype", "used to be good"
+  "bad"     clear complaint: "bad", "bland", "rude", "slow", "disappointing",
+            "letdown", "tourist trap", "skip it"; and for value:
+            "overpriced", "not worth the price", "not worth $40"
+  "awful"   strong bad experience: "worst", "worst I've had", "got sick",
+            "never again", "regretted going", "inedible"
+
+"fine", "it's ok" and "mid" are "meh", NEVER "decent": on Reddit they are a
+knock. Use the whole negative half. Do not soften a complaint because the thread
+likes the place or because the commenter is polite about it.
+
+null is the default and means NOT MENTIONED. "mixed" never means unmentioned.
+
+ASPECTS
+  food        the cooking, including dishes. Generic praise or hate for the
+              place with no aspect named ("amazing", "mid", "my favorite",
+              "skip it") goes here.
+  value       worth the money: "overpriced", "worth every penny", "great deal",
+              "not worth the price", "not worth $40". "Cheap" or "pricey"
+              alone is price, not value.
+  service     the staff.
+  atmosphere  the room, the vibe, noise, the crowd.
+  wait        the line, getting a table or a reservation, how long food took.
+
+Most comments judge ONE aspect; the other four stay null. NEVER infer one aspect
+from another: great food says NOTHING about service, value, the room or the wait.
+When the comment gives no verdict on the food overall, food takes the level of
+the dishes it judges, whatever it says about value, service, atmosphere or the
+wait: liked dishes -> their level; disliked dishes -> their level, at most
+"meh"; liked and disliked together -> "mixed". A verdict on the food overall
+wins: "great, but skip the dumplings" is food "good".
+
+PRICE is how expensive, with no judgment. Fill it only when the comment says
+it in words ("cheap", "affordable", "pricey", "expensive", "$$$$"). A dollar
+figure with no word about it is null. Being expensive is not bad: "pricey but
+worth every penny" is price "pricey" with value "good". "Overpriced" is price
+"pricey" with value "bad".
+
+EXPERIENCE
+  "ate_there"   they say or clearly imply they ate there: they describe a meal,
+                "my go-to", "I used to live next door", or give a verdict in
+                their own voice ("it's mid", "so good", "skip it").
+  "secondhand"  they say they have not been, or the opinion is someone else's:
+                "haven't been", "heard great things", "my friend swears by it",
+                "it's on my list".
+  "unclear"     neither: a bare name in a list, a question, a fact.
+
+IS_NEGATED is true only when the comment tells people to AVOID the place: "skip
+it", "don't bother", "avoid", "go somewhere else", and a bare "not worth it" or
+"not worth going" given as advice. Saying what it is not worth is NOT an avoid:
+"not worth the price" and "not worth $40" are value "bad"; "not worth the hype"
+is food "meh". A bad review is not an avoid: "worst slice I've had, regretted
+going" is is_negated false.
+Losing a comparison is not an avoid. An avoid instruction that heads a list
+applies to EVERY name in that list. An avoid with no reason given is also food
+"bad". An avoid for a reason that is NOT about the place's food, value,
+service, room or wait -- politics or who owns it, a mismatch with what the
+asker wants ("it's all seafood" when they want steak), where it is or how hard
+it is to get to -- is is_negated true with EVERY aspect null and no liked or
+disliked dishes: nobody judged the place. Experience is "unclear" unless they
+say they went.
+
+DISHES are dishes and drinks the comment names for this place. Each dish goes in
+exactly ONE list:
+  dishes_liked      praised or recommended: "get the vodka slice", "the
+                    pastrami is a must", "got the pastrami and the soup, both
+                    great" (both are liked).
+  dishes_disliked   judged negatively: "skip the dumplings", "the soup was
+                    bland".
+  dishes_mentioned  named with no judgment: "I got the vodka slice". Every dish
+                    on a REFERENCE mention goes here.
+
+DESCRIPTORS are OPEN VOCABULARY: the commenter's own words for what the place IS
+or FEELS like: "red sauce", "hole in the wall", "slice shop", "date spot",
+"cash only", "BYOB", "tourist trap", "closed". There is no fixed list. Never
+invent words they did not use; the one exception is the judgment from a
+judging request ("overrated"). Record what is STATED, not what is ASKED: "is it
+still cash only?" gives no descriptor; "it's cash only btw" gives "cash only".
+Factual descriptors ("cash only", "BYOB", "slice shop", "closed") are not an
+opinion. Judging descriptors ("tourist trap", "overrated", "hidden gem") are an
+opinion: kind A, with the aspect scored.
+
+RULES -- the most common misses first
+
+1. A reply that gives an opinion without repeating the name IS a mention of the
+   place it replies about: "it's v mid", "hard disagree", "their service is
+   terrible". Copy the name from the comment it replies to. This is the most
+   common miss, and these replies carry most of the negative opinions.
+2. A bare list of names is the most common comment. Every name in it is a
+   mention.
+3. Single-word names are the ones most often missed: Tong, Luger, Keens,
+   Juniors, Angel, Scarr's, Emily, Rubirosa. Catch them.
+4. Chains count. Emit McDonald's, Starbucks, Chipotle like any other name;
+   filtering happens later.
+5. Cuisine headings, neighborhoods, boroughs, streets and dishes are not
+   restaurants.
+6. The same place named twice in one comment is ONE mention.
+7. Sentiment is what the commenter thinks NOW. "Used to be my favorite" is food
+   "meh".
+8. A closed place is still a mention: reference_only true, "closed" in
+   descriptors, every aspect null -- even when the comment remembers how good
+   it was. Dishes they remember go in dishes_mentioned.
+9. "X over Y" or "X is better than Y": Y lost, so Y is food "meh" unless the
+   comment also praises Y. Never is_negated. A place used only as a yardstick
+   ("if you like Okiku you'll love Harbor Fish") is a REFERENCE.
+
+EXAMPLES (invented places)
+
+POST: Best dumplings in Flushing?
+
+[1] u/ann: Golden Lotus, and Pepper House but the wait is brutal on weekends
+  [2] u/bob: pepper house is overrated
+    [3] u/ann: hard disagree
+  [4] u/cal: Skip both. Kings Dumpling House and Mama Wu's
+    [5] u/dee: is mama wu's still cash only?
+      [6] u/cal: yeah cash only. get the pork and chive, the soup dumplings are bland now
+    [7] u/eve: went to Kings Dumpling House last month, worst dumplings I've had and the guy at the counter was rude. regretted going
+[8] u/fay: RIP Silver Pond, closed in March
+[9] u/gil: haven't been yet but my cousin swears by Lucky Bao
+
+{"mentions":[
+{"id":1,"restaurant_raw":"Golden Lotus","neighborhood_hint":null,"reference_only":false,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"id":1,"restaurant_raw":"Pepper House","neighborhood_hint":null,"reference_only":false,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":"bad"},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"id":2,"restaurant_raw":"pepper house","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["overrated"]},
+{"id":3,"restaurant_raw":"pepper house","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"good","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"id":4,"restaurant_raw":"Golden Lotus","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"bad","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"id":4,"restaurant_raw":"Pepper House","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"bad","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"id":4,"restaurant_raw":"Kings Dumpling House","neighborhood_hint":null,"reference_only":false,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"id":4,"restaurant_raw":"Mama Wu's","neighborhood_hint":null,"reference_only":false,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"id":5,"restaurant_raw":"mama wu's","neighborhood_hint":null,"reference_only":true,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"id":6,"restaurant_raw":"mama wu's","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"mixed","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":["pork and chive"],"dishes_disliked":["soup dumplings"],"dishes_mentioned":[],"descriptors":["cash only"]},
+{"id":7,"restaurant_raw":"Kings Dumpling House","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"awful","value":null,"service":"bad","atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":["dumplings"],"dishes_mentioned":[],"descriptors":[]},
+{"id":8,"restaurant_raw":"Silver Pond","neighborhood_hint":null,"reference_only":true,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["closed"]},
+{"id":9,"restaurant_raw":"Lucky Bao","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"good","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"secondhand","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+
+Why:
+[1] answers the post. Golden Lotus is a bare answer: an endorsement, every aspect null. Pepper House only has its wait judged, so food stays null.
+[3] names nothing but disagrees that Pepper House is overrated: a positive mention under id 3, named as [2] typed it.
+[4] is indented under [1], so "Skip both" means the two places [1] named: is_negated true, and an avoid with no reason is food "bad". Its two new names are bare answers.
+[5] only asks, so it is a reference; "cash only" is asked, not stated.
+[6] states "cash only" and judges two dishes in opposite directions, so food is "mixed".
+[7] "worst I've had" and "regretted going" are "awful"; it is a bad review, not an avoid, so is_negated is false.
+[8] a closed place: a reference with "closed", every aspect null.
+[9] the opinion is the cousin's, so experience is "secondhand".
+
+POST: Most overrated spot in the West Village?
+
+[1] u/gus: Copper Kettle
+  [2] u/jo: honestly it's pretty solid for brunch
+[3] u/hal: Marlowe's. Pricey and the service is slow
+  [4] u/ivy: nah, Marlowe's has the best burger in the city
+    [5] u/kit: it's ok, not worth the hype
+
+{"mentions":[
+{"id":1,"restaurant_raw":"Copper Kettle","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["overrated"]},
+{"id":2,"restaurant_raw":"Copper Kettle","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"decent","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"id":3,"restaurant_raw":"Marlowe's","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":"bad","atmosphere":null,"wait":null},"is_negated":false,"price":"pricey","experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["overrated"]},
+{"id":4,"restaurant_raw":"Marlowe's","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"rave","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":["burger"],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"id":5,"restaurant_raw":"Marlowe's","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+
+Why: the post asks for overrated places, so each bare answer takes that judgment: "overrated" is food "meh" in the LEVELS table, plus descriptor "overrated". "Pricey" is price, not value. The replies are scored on their own words: "pretty solid" is "decent", "the best ... in the city" is "rave", and "it's ok, not worth the hype" is "meh" and not an avoid.
+
+POST: What's your go-to late night snack?
+
+[1] u/lu: a bacon egg and cheese from literally any bodega
+  [2] u/mo: cold pizza straight from the fridge
+
+{"mentions":[]}
+
+Why: no comment names or points at a place.
+=== END EXTRACTION PROMPT ===
+
+=== PACKET d8b4c4ed (thread packet) ===
+POST TITLE: Best, but unique, ethnic cuisine spots?
+POST BODY: My food interests are street food and authentic ethnic cuisine. Since Im gonna be in NYC soon, (Brooklyn/Queens but I’ll go wherever), I wanted to get this subs opinion on the best, but unique, ethnic spots. What I mean by that is not your normal Arab/Indian/Thai spots or even your popular “different” cuisines like Uyghur/Polish/Ethiopian I’m talking like Ecuadorian/Angolan/Bosnian if that makes sense. I’ll of course take recommendations for those other types as well but since I’m in the Mecca of diversity I’m trying to take advantage. Bonus points for street food spots as I’m not super into sit downs/formals. Thanks!!
 
 THREAD, in reply order. Label ONLY the comments with a bracket number [n]. Lines marked (context) are there to read, not to label.
-[1] u/super_bri_22: Gotta get the Mutton chop
-  [2] u/hot_gabagool: Salad ain't got nuttin on that mutton...hope the didn't cut the fat off!
+[1] u/justflipping: Depends what’s considered unique to you. Three quick recs:
 
-Seriously though. The mutton is huge and  a bit gamey for me.  It is famous for it though.  Had it once.  It's a steak house so can't go wrong with any cut.
-    [3] u/ih8pod6: That is so Franco.
-    [4] u/tmm224: Actually, have you ever had the short rib salad there? It's so damn good. I prefer it over the Mutton lol
-    [5] u/bubble_chart: Just a salad … just a salad
-[6] u/gc1: You're on a team of 5 you've been working on since August, so hopefully you know these people well enough to be comfortable being yourself around them.  You should be able to do this and have fun without eating or drinking anything you don't want to.
+-	Nepali Bhanchha Ghar
+-	Bolivian Llama Party
+-	Burmese Bites
 
-There's certainly no need to choke down an oyster if you don't want to -- enough people don't partake of shellfish for allergy or religious reasons that simply saying "I don't eat shellfish" or even just "no thanks" should be fine.  If they're ordering a round of appetizers that includes nothing you'd want to eat, you could always join the fun and say, anyone want in on a ceasar salad?  
+More: 
 
-As far as wine goes, it depends if you really don't drink or just prefer not to.  If the latter, you could accept  a glass and nurse it for the duration.  If not just order a soft drink or club soda with lime or something.
-  [7] u/dollypartonsfavorite: i love oysters but i feel like it's one of those foods that people are completely understanding when others don't like. they're definitely an acquired taste
-  [8] u/netllama: > on a team of 5 you've been working on since August, so hopefully you know these people well enough to be comfortable being yourself 
+-	[Most unique cultural foods you can get in NYC that cost under $30?](https://www.reddit.com/r/FoodNYC/comments/1m031pp/most_unique_cultural_foods_you_can_get_in_nyc/)
+-	[Uncommon/underrated ethnic representations in the food scene in NYC?](https://www.reddit.com/r/FoodNYC/comments/1jgvvwj/uncommonunderrated_ethnic_representations_in_the/)
+  [2] u/_nine9ine: Thanks for the threads, I’ll check em out
+    [3] u/justflipping: No problem. Enjoy!
+[4] u/pavelysnotekapret: Karavan in Brooklyn serves Tajik food, Djerdan Burek and Sarajevo Grill serve Bosnian, Cka Ka Qellue Albanian, Lakruwana and New Asha serve Sri Lankan, The Weekender Bhutanese
+  [5] u/pavelysnotekapret: Also while technically under the umbrella of Chinese food, Nanchang Flavor in flushing serves Jiangxi cuisine, of which I have never seen outside mainland China; not in California, not in Vancouver, not in any of the other chinatowns in NYC. The owner grew up on a street in Nanchang known for street food in the 70s and 80s when my dad was growing up there, so if you have the chance try their rice donuts and mixed rice noodles (also have never seen these kinds of rice donuts sold outside of China)
+    [6] u/_nine9ine: Yeah this sounds up my alley, and I know there’s a lot of regional cuisines to explore as well but if we dive into those the this post would be to long lol. Thanks
+    [7] u/EatingInTranslation: Stopped by the New York Food Court today; unfortunately, Nanchang Flavor has closed.
+      [8] u/pavelysnotekapret: oh no! permanently?
+        [9] u/EatingInTranslation: Nanchang Flavor had been stall 7. The current occupant of that stall is Master of Braised Delicacies.
+          (context, deleted or too short to be sent) u/pavelysnotekapret: nooooooo 😭😭😭
+[10] u/paulblartmaulc0p: bolivian llama party (i'm bolivian and really love their food!), sigiri (sri lankan), little myanmar (burmese), little morocco or moroccan bites by siham (i am also moroccan lol). and i have to mention abuquir and astoria seafood even if it's not a "cuisine" - you pick out whatever fish you want and it's made the way you prefer!
+  [11] u/_nine9ine: Hell yeah, never had Bolivian before so this is what I was looking for!
+    [12] u/paulblartmaulc0p: please get the salteñas! they're like empanadas with soup inside, perfect for cold weather
+  [13] u/ZenghisZan: The Sigiri location in Metuchen over in Jersey is one of my favorite restaurants ever!
+[14] u/Electrosnack: [Koryo-Saram](https://en.wikipedia.org/wiki/Koryo-saram) cuisine in Brooklyn. Try [Cafe Lily](http://www.cafelilybrooklyn.com/) in Bensonhurst. BYOB. 
 
-4 months is barely enough time to *begin* to figure out office politics.  And for a new grad, its even more difficult to adjust & get comfortable.  It takes the better part of a year for most people get comfortable.
-    [10] u/12345_abc_: My first few weeks were general training with the rest of the cohort and then the team was taking turns with last summer vacations after...plus they're all at least as old as my dad so it's hard to get close socially
-      [11] u/netllama: Yes, exactly.  Sadly, i don't think most people who have been established in their careers remember what its like to start off in your first real job, or even necessarily starting at any new job.  Its scary.  Its daunting.  The power dynamics are huge and intimidating.  It doesn't happen in a few short months.
-  [9] u/Ana-la-lah: The biggest danger with your first work holiday dinner is getting wasted and making an ass of yourself.
-[12] u/MikeJamesBurry: Stay relaxed and go with the flow. Let others take the lead in deciding what to order. Someone will likely start the conversation about the menu. Avoid being the person who constantly refuses options or the one who orders too much (like three starters) if no one else suggests it. Keep it balanced and enjoy the meal with the group.
-  [13] u/KagePhour: Like this person said, let someone else take the lead in ordering. Someone else will most likely be familiar with these type places. They have options like "steak for 3" and might order a couple of those for all to share. Or order you own individual steak. Dont force the oysters on yourself. People love oysters and have no problem when other dont like them, its more oysters for them. Maybe suggest one of the sides that will be ordered. Hard to go wrong there.
-    [15] u/Particular-Macaron35: You can always say you want to save room for the steak.
-  [14] u/super_mullet: Good advice and good advice for life in general!
-  (context, deleted or too short to be sent) u/12345_abc_: Thanks!
-[16] u/mtnrobot: Usually the more senior people take control of how the ordering process will work so just follow their lead. Wouldn’t be totally surprised if you’re sharing apps, steak and sides with the table (maybe each getting their own salad) but it’ll be clear what’s happening. Often times people start with a cocktail and then move into wine next. You can order a mocktail or just skip it altogether. I like the other persons idea of nursing a glass of wine through the night but you don’t have to drink if you don’t like to. They will probably order a few apps and won’t notice if you don’t eat something but just politely decline if there’s something you don’t like. Overall I wouldn’t overthink it - let the senior people take charge and go with the flow. Enjoy!
-[17] u/Uncledannyschee: If you’re not getting the mutton chop (which you should) suggest getting a “taste of mutton”
-  [18] u/Wiknetti: Smaller portion, pretty good choice to try some of the best mutton in the city in one of the oldest steakhouses.
-[19] u/MSPCSchertzer: Go with the Mutton Chop, classics are classic for a reason.  If everyone else is senior this is kind of a congratulations dinner for you.  Everyone else has likely been to every steakhouse in NYC many times.  It's not a big deal for them, you can even order a salad and an appetizer.  Just say a quick thank you when they pick up the tab and don't get shit faced or match drinks with the drunkest person there.  If you split off afterwards to party with the drunkest person, that is a different story.
-[20] u/HighOnPoker: Don’t sweat it. Assume you’re ordering your own meal. If you don’t usually eat mutton, I wouldn’t recommend it. I did that on a business dinner there and it was good but not nearly as good as the steak. That said if you’re into that then go for it. If you’re worried about too much food, you can probably find a smaller cut of steak. Most likely the boss or someone like that will say if they’re gonna order appetizers or sides for the table. Otherwise just order one side for yourself. Mostly, follow the lead of the other people when they order.
-  [21] u/Ana-la-lah: Yeah, get a “taste of mutton” if a mutton chop hasn’t been ordered for the table, which they most certainly will do. Whole everyone raves about it, it is rather gamey, and there is a LOT on a whole chop.
-[22] u/mngd4: Get a wedge salad. Best blue cheese of all time!
-  [23] u/welly7878: Honestly sometimes I wonder if I go to keens just because of their wedge salad.
-    [24] u/FeedbackVast5882: 100000% can.  That WS is from the gods.  and that bacon they put on it!  hot damn!!
-[25] u/Haggis_McBaggis: This is so wholesome, OP. I hope you have a great evening and that you report back!
-  (context) u/12345_abc_: Will do; people always talk about how soft skills are important but only in the context of team work...the outside office social stuff is harder for me. Making a good first impression is one thing but maintaining it after has some stress there!
-(context) u/lets_try_civility: Go for lunch beforehand. Talk to the waiter. Talk up the host. There's nothing like having the staff welcome you back.
-(context) u/Wonderful-Loss827: I understand you're new but why are you worried about portion sizes? This is going to be comped by your company. No one is gonna be sharing any steaks..maybe apps but no one will be sharing steaks. Just order whatever you want and if you don't eat it all, it's fine. It's also fine to order a drink or water. No one will care.
-  (context) u/12345_abc_: Restaurant portions are always too big for me; I worry that it'll come off as rude if there's too much food left on my plate after. Take someone out to an expensive place and they leave behind more food than they eat? Even if the company pays, it's still irksome to the organizer
-    (context) u/Wonderful-Loss827: Unfortunately that's the way it is. You know how many meetings are catered and very little gets eaten? America loves to waste food. 
+Azeri cuisine at [Village Cafe](https://villagecafeny.com/) in Midwood, Brooklyn. Really great food. BYOB. 
 
-But let me tell ya, it would be more weird to coworkers if you asked to share food than to just throw leftovers away. If you are comfortable with your coworkers, there's no reason why you can't ask for a to go container. If you are worried about getting a giant steak, get the smaller portion ones like filet mignon, sirloin or just ask your server. 
-If you want to impress them, ask the server for the pub menu, where you can order the burger, or bavette steak on salad, or the short ribs. 
+[Çka Ka Qellu](https://ckakaqellue.com/), Albanian in Murray Hill. 
 
-You can ask for the smaller mutton, but in my experience, it is underwhelming.
-(context) u/theBrotacus: Don’t stress it. Don’t force yourself to eat anything you don’t want to eat and just go with the flow. Someone will take the wheel and there’s no world that they would put that responsibility on you. Often the servers are also more than happy to offer their suggestions based on party size etc. Just have fun with it, enjoy!
-(context, deleted or too short to be sent) u/schroderrr: Pipes
-(context) u/Disastrous_Repeat_63: I wouldn’t sweat it, the biggest fear of mine is over consumption of alcohol at work parties. You don’t drink, so no risk there. Don’t feel pressured to drink, however if one of the senior guys has a little to much to drink and is pressuring you, I’d drink. (Happens sometimes, don’t become the office outcast by declining). I’d imagine if you’re at a bank, it’ll be everyone getting their own dishes. Especially after Covid, don’t think people are to keen on sharing. Enjoy yourself :)
-  (context) u/netllama: > Happens sometimes, don’t become the office outcast by declining
+[Kafana](https://kafananyc.com/), Serbian in the East Village.
+  [15] u/_nine9ine: Azeri has been high on my list to try to actually so I appreciate the rec
+  [16] u/AttentionPowerful491: Cafe Lily is definitely a cuisine I was not familiar with.  Uzbek Korean and it is pretty tasty and has a very interesting story
+[17] u/SprinklesGood3144: I had great Japanese food at Tomo21 a few weeks ago. In the Village at 172 Thompson St.
+[18] u/Malsperanza: 1. 116th Street and side streets have a big variety of African places, mostly West African, but there's a range. Most are steam-table style or just formica tables, not at all formal. I don't have a favorite, but here are a few: Mama Africa, Massawa, Pikine, Sylla, La Savane. But if you search "African restaurant" on Google Maps, you'll find others.
 
-jebus.  you're defending toxic workplace culture??
-    (context) u/Disastrous_Repeat_63: Not defending, but it is what it is.
-(context) u/TheOldRamDangle: If you have a chance and it’s not too slammed ask your waiter for a tour of some of the upstairs rooms. Lots of cool history there
-(context) u/kkkkk1018: Careful ordering the mutton. Some carving needs to be done by you and it could be awkward.
-  (context) u/FeedbackVast5882: 1000%.  Do you like mutton especiailly?  If not go with one of the steaks.  Lamb is a bit trickier.  Even if Giamatti ordered it in that scene from Billions!
-    (context) u/kkkkk1018: I enjoyed it, but only ordered it because of the hype. It was a large center bone with meat on either side. I’m pretty familiar with the saddle cut so did ok, but it was a chore to cut and eat. It was flavorful and the mint jelly was superb. I think it was $72 and probably had about 8oz of edible loin meat to enjoy.
-(context) u/SadCombination7535: Get the prime rib. It’s the biggest steak I’ve ever seen. Show the other team members who the big dog is.
-  (context) u/SadCombination7535: Also the fries are out of this world good. Make sure you get the fries.
-(context) u/Brief_Historian_9997: One cocktail when you sit down and one glass of wine with your meal. Don’t be the drunk guy. 
+2. The Upper West Side still has a few of the amazing old-school Chino Latino places. This is a purely NYC invention and won't be around much longer: Flor de Mayo is the best, but also La Nueva Victoria China, La Dinastia, La Caridad. The story is that after Mao won the Revolution in China, some Chinese fled and ended up in the Caribbean and opened restaurants. 10 years later, the Cuban Revolution happened and they fled to NYC. By then they had created an extraordinary hybrid cuisine. Regrettably, it's hard to find pickled kingfish anymore, but you can still get rice with squid ink. 
 
-Get what you like. If you don’t eat oysters or seafood do not eat it. This is not a situation to experiment.
-(context) u/GoliathGrouper_0417: On the drinking part: Lots of people don’t drink these days. There’s nothing unusual about that. If you’d prefer a Coke or iced tea or an NA beer, go for it and don’t think twice. 
-
-That said, my absolute favorite NA beverage is seltzer with a couple dashes of angostura bitters. I lived on it for two years when I abandoned alcohol for weight reasons. I found it quenched any cravings I might have had - and it looks so much like a scotch and soda that you’re still part of the group. Goes well with steak, too.
-(context) u/altsteve21: The steak will be heavily burnt on the outside to the point of being inedible and the middle will be cold. it will cost $500.
-(context) u/bikerfriend: Im of the opinion no oysters 😊 no promotions
-(context) u/OutlandishnessNo8737: This is one of the saddest "ask Reddit" posts I've ever seen.
-
-
-Just get pressured into doing whatever by whomever; why even be pretend to be a person with a personality or preferences?
-
-
-That said, you're obviously okay with cannibalism-- mutton chop.
-(context, deleted or too short to be sent) u/confused_trout: Steak. Dipshit.
-(context) u/cavalier8865: If you're being trusted to have enough judgement and manage clients money, you should probably be capable of ordering in a restaurant in front of your coworkers.  Don't overthink it and don't order well done.
-(context) u/lewfairchild: Bring your pipe.
-(context) u/OutdoorsyGeek: If you want to order a cocktail that will impress the traditionalists, either get a martini with blue cheese stuffed olives or an old fashioned.
-  (context, deleted or too short to be sent) u/12345_abc_: Thanks!
-(context) u/FrankiePoops: You'll be fine. My favorite is the king's cut prime rib. Thick cut bacon as an app.   
-
-But you'll be fine with whatever. Go with the flow. If they want an appetizer you don't want, just mention that you'll pass on it but don't say "No I don't want that". Drink as you wish.
-(context) u/Glass_Exit5275: the mutton chop is the signature meat
-(context) u/Glass_Exit5275: shocked not many mention of the Mutton?  come on men
-(context) u/FeedbackVast5882: As others have said just go with the flow.  the more senior person will likely take the lead, "so here's what I like to do, let's get XYZ...Does everyone here like cabernet..."
-
-No need to eat something you don't like like oysters---PLENTY of folks don't like oysters and more for folks who do.
-
-BUT I would have a glass of whatever wine the senior person ordered.  You don't really have to even drink it all.  Just have it and occassionally sip on it.  
-
-These dinner IME (and i can be very introverted) are lots of fun.  Everyone is happy...looking forward to the holidays and it's a great way to get to know colleagues.
-
-These dinners, these types of events, are critical to your career.  and best thing is it's very hard to screw it up.  Like you'd have to literally take a shit on the table to make a bad impression.  Simply go with the flow. one human being talking to other human beings.
-(context) u/loudonfast: All I can say is that I wish there had been an internet to give me this advice the first time I went to a steakhouse with the boss (Gallagher's, 1986). I ordered the Salmon because I "didn't like" steak. In truth I'd just never had a good steak and had no idea how good they could be.
-
-I might as well have told the boss I was a communist spy (back when that meant something). I don't think I ever lived that one down.
-
-  
-I also worried too much about how much I ordered and how much I drank with the result that I was nervous pill. You don't want to be "that drunk guy" but conversely you might want to just nurse a glass of wine if you want to avoid conversation about why you're not drinking (not that there's anything wrong with that).
-
-  
-I terms of ordering. If the bosses are going to a steakhouse they are probably not too concerned about what any one person orders. Unless it's really over the top.
-(context) u/BostonJohnC: First of all Keen’s is a true gem.  It’s one of our favorite restaurants anywhere.   Good advice here - either the organizers will have a pre planned menu or you can order off the menu.  Order a steak - not the most expensive one.   Lamb chops are also excellent as is the Dover sole if you prefer fish.   Side dishes are shared so let someone else order for the table.  For apps the wedge salad with bacon is life changing.  If you are able visit the bar before (maybe get a few others to join you if it’s not part of the plan) as the bar at keens is an experience unto itself.    We often will eat dinner at the bar at Keens.   Don’t stress - enjoy, you are about to experience one of the finest dining experiences.  If you avoid alcohol, which is fine, at least have sparkling water or soda with a splash of cranberry.
-(context) u/helcat: Hi there OP. I'm going to Keen's tonight and I need you to report back how it went.
-  (context) u/12345_abc_: It went fine; the steaks are all huge though and the sides are all meant to be shared as well. We all ordered our own steak and split appetizers and sides. The taste of mutton was around 10 oz and even that was a bit much for me (delicious though). Bacon as an appetizer didn't taste much different from ham or Canadian bacon but still very good. My team kept it pretty casual, everyone had a cocktail to go with appetizers and a couple of them had a glass of wine as well with the mains. It felt like a very upscale pub vibe? It was a fine dining place but not ostentatious
-    (context) u/helcat: And did you feel comfortable? You didn't have too much stress about your group?
-      (context) u/12345_abc_: No stress; my team is great though
-        (context, deleted or too short to be sent) u/helcat: Good.
-          (context) u/12345_abc_: Hope your meal goes well; they had a raspberry mocktail that was really good (I chickened out of real alcohol but no one noticed :p)
-            (context) u/helcat: I'm not really a fan of lamb but this place is famous for that mutton chop so I was thinking of trying the taste of mutton. I can get a good steak in other places and I can make a good steak at home but that thing is famous.
-              (context) u/12345_abc_: If you're in a group, you can order the taste of mutton as an appetizer, just to try, and have a beef steak as your main
-                (context) u/helcat: Our waiter discouraged me from getting the taste of lamb so I had a New York strip and it was delicious. What a great restaurant. Such a good vibe. There was one table of loud annoying finance bros but everyone else was cool.
-=== END PACKET 0a97c29c ===
+3. Google "Momo Crawl" for a list of Tibetan dumpling places in Jackson Heights, including awesome food trucks. Everyone posts their favorites.
+  [19] u/_nine9ine: Yeah I noticed when looking in that area the amount of Nepali spots. If I can’t pick one I might have to try them all lol
+    [20] u/Malsperanza: I think the crawl involves about 25 places.
+[21] u/yakitorispelling: Hakata Tonton in Chinatown for regional Japanese food from Fukuoka, a lot of pork and offal dishes.  They are also the only place in NYC left that has wafu chuuka(Japanese style chinese). They also have a good selection of sake/shochu from Kyushu, while other places are pushing sake from Fukushima, and local ones like Brooklyn Kura,  Dassai Blue.
+=== END PACKET d8b4c4ed ===

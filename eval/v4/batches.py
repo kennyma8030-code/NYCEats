@@ -9,64 +9,96 @@ Two passes, labeled separately and never shown to the same labeler at once:
   same_input     the packet is exactly the model's input
   full_context   the packet is the full thread around the same unit
 
-Batches hold about 20 single comments, or exactly one thread chunk, in
-hashed (shuffled) order. A self-consistency subset of about 10% of items is
-added a second time under a different packet id, always in a different batch
-from its original, so Claude's agreement with itself can be measured.
+Batches hold up to 12 single comments, or exactly one thread chunk, in
+hashed (shuffled) order: few enough that one labeling agent can give every
+packet a careful read, the metadata and a rationale in one sitting. A
+self-consistency subset of about 10% of items is added a second time under a
+different packet id, always in a different batch from its original, so
+Claude's agreement with itself can be measured.
+
+Every batch holds one mode only, and carries the v5 extraction prompt of that
+mode verbatim (eval/prompts/v5_comment.py or v5_thread.py), so a labeler
+needs only eval/v4/LABELING.md and its batch file. The prompt each pass was
+cut with is recorded in keys/<pass>.prompt.json, and labels.py export stamps
+its hash on the exported run.
 
 Writes, per pass:
-  batches/<pass>/bNNN.txt        what a labeler reads: instructions, then each
-                                 packet between delimiter lines, verbatim
+  batches/<pass>/bNNN.txt        what a labeler reads: instructions, the
+                                 prompt, then each packet between delimiter
+                                 lines, verbatim
   batches/<pass>/packets.jsonl   the same packets as JSON, for API-driven labeling
   keys/<pass>.json               packet id -> item, copy, batch. NOT for labelers.
+  keys/<pass>.prompt.json        mode -> the v5 prompt hash the batches carry
 
-Nothing in batches/ names an item, a stratum, a weight or production output.
-Production's output is not even exported until both passes are labeled
-(export_production.py), and it never enters the repo.
-Labels go to labels/<pass>/bNNN.jsonl; see labels.py for the format.
+Nothing in batches/ names an item, a stratum, a weight, a prompt hash or
+production output. Production's output is not even exported until both
+passes are labeled (export_production.py), and it never enters the repo.
+Labels go to labels/<pass>/bNNN.jsonl; see labels.py and LABELING.md.
 """
 
 import argparse
+import importlib.util
 import json
 import math
 import os
 import sys
 
 HERE = os.path.dirname(os.path.realpath(__file__))
+EVAL = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 from design import h  # noqa: E402  (one md5 ordering for every v4 draw)
 SEED = "nyceats-eval-v4-batches"
-BATCH_SIZE = 20
+BATCH_SIZE = 12
 DUP_SHARE = 0.10
 PASSES = ("same_input", "full_context")
+PROMPT_FILES = {"comment": os.path.join(EVAL, "prompts", "v5_comment.py"),
+                "thread": os.path.join(EVAL, "prompts", "v5_thread.py")}
+
+
+def load_prompts():
+    """mode -> (SYSTEM_PROMPT, PROMPT_HASH) of the v5 prompts."""
+    out = {}
+    for mode, path in PROMPT_FILES.items():
+        spec = importlib.util.spec_from_file_location(f"v5_{mode}", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        out[mode] = (mod.SYSTEM_PROMPT, mod.PROMPT_HASH)
+    return out
+
+
+COMMON = """\
+How to label is in LABELING.md; read it first. In short: label every packet
+exactly as the EXTRACTION PROMPT below asks, then add the label metadata
+(canonical_name and rationale always; the optional fields when they apply).
+Packets are independent: never carry anything from one packet to another, and
+never look at other batches, other passes, model runs or results.
+
+Write one JSON line per packet, in any order, to labels/{pass_name}/{batch}.jsonl:
+  {{"packet_id": "<id>", "output": {{"mentions": [ ... ]}}}}
+Use {{"mentions": []}} when nothing qualifies. {id_rule}
+Check the file before you finish:
+  python eval/v4/labels.py check --pass {pass_name} --batch {batch}
+"""
+
+ID_RULE = {"comment": "A comment packet's mentions carry no \"id\".",
+           "thread": "Every mention starts with \"id\", the bracket number of the comment it comes from."}
 
 HEADER = {
     "same_input": """\
-NYCEats extraction labeling -- batch {batch} -- pass: same_input -- {n} packet(s)
+NYCEats extraction labeling -- batch {batch} -- pass: same_input -- {mode} mode -- {n} packet(s)
 
-Apply the extraction prompt you were given to each packet below. Each packet is
-exactly the input the extraction model receives, so judge it from what is
-shown. Packets are independent: never carry anything from one packet to another.
-
-Write one JSON line per packet to labels/same_input/{batch}.jsonl:
-  {{"packet_id": "<id>", "output": {{"mentions": [ ... ]}}}}
-"output" is the JSON object the prompt asks for. A comment packet's mentions
-carry no "id". A thread packet's mentions each carry "id", the bracket number
-of the comment they come from. Use {{"mentions": []}} when nothing qualifies.
+Each packet is exactly the input the extraction model receives. Judge it from
+what is shown and nothing else.
 """,
     "full_context": """\
-NYCEats extraction labeling -- batch {batch} -- pass: full_context -- {n} packet(s)
+NYCEats extraction labeling -- batch {batch} -- pass: full_context -- {mode} mode -- {n} packet(s)
 
-Apply the extraction prompt you were given, but read the whole conversation
-shown before deciding what each comment means. Label ONLY the comment marked
-">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
-number [n]; everything else is context. Packets are independent.
-
-Write one JSON line per packet to labels/full_context/{batch}.jsonl:
-  {{"packet_id": "<id>", "output": {{"mentions": [ ... ]}}}}
-"output" is the JSON object the prompt asks for. A comment packet's mentions
-carry no "id". A thread packet's mentions each carry "id", the bracket number
-of the comment they come from. Use {{"mentions": []}} when nothing qualifies.
+Each packet shows the whole conversation around the unit the model sees. Read
+all of it before deciding what a comment means, but label ONLY the comment
+marked ">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a
+bracket number [n]; everything else is context. The layout differs from the
+model's input; the prompt's rules apply all the same. Set needs_context true
+on a mention that the model's own input could not support.
 """,
 }
 
@@ -114,8 +146,16 @@ def cut(packets, pass_name):
     return [(f"b{n:03d}", g) for n, g in enumerate(allg, start=1)]
 
 
-def render_batch(batch_id, units, pass_name):
-    out = [HEADER[pass_name].format(batch=batch_id, n=len(units))]
+def render_batch(batch_id, units, pass_name, prompts):
+    modes = {p["mode"] for _, p, _ in units}
+    assert len(modes) == 1, f"batch {batch_id} mixes modes {modes}"
+    mode = modes.pop()
+    out = [HEADER[pass_name].format(batch=batch_id, n=len(units), mode=mode),
+           COMMON.format(pass_name=pass_name, batch=batch_id, id_rule=ID_RULE[mode]),
+           f"=== EXTRACTION PROMPT ({mode} mode) ===",
+           prompts[mode][0],
+           "=== END EXTRACTION PROMPT ===",
+           ""]
     for pid, p, _ in units:
         kind = "comment packet" if p["mode"] == "comment" else "thread packet"
         out.append(f"=== PACKET {pid} ({kind}) ===")
@@ -132,6 +172,7 @@ def main():
     args = ap.parse_args()
     with open(os.path.join(args.dir, "packets.jsonl"), encoding="utf-8") as f:
         packets = [json.loads(l) for l in f]
+    prompts = load_prompts()
     for pass_name in args.passes or PASSES:
         bdir = os.path.join(args.dir, "batches", pass_name)
         os.makedirs(bdir, exist_ok=True)
@@ -145,7 +186,7 @@ def main():
         with open(os.path.join(bdir, "packets.jsonl"), "w", encoding="utf-8") as pj:
             for batch_id, units in batches:
                 with open(os.path.join(bdir, batch_id + ".txt"), "w", encoding="utf-8") as f:
-                    f.write(render_batch(batch_id, units, pass_name))
+                    f.write(render_batch(batch_id, units, pass_name, prompts))
                 for pid, p, copy in units:
                     pj.write(json.dumps({"packet_id": pid, "batch": batch_id, "mode": p["mode"],
                                          "input": p[pass_name]}, ensure_ascii=False) + "\n")
@@ -153,8 +194,12 @@ def main():
                                 **({"short_ids": p["short_ids"]} if p["mode"] == "thread" else {})}
         with open(os.path.join(args.dir, "keys", pass_name + ".json"), "w", encoding="utf-8") as f:
             json.dump(key, f, indent=1)
+        with open(os.path.join(args.dir, "keys", pass_name + ".prompt.json"), "w", encoding="utf-8") as f:
+            json.dump({mode: ph for mode, (_, ph) in prompts.items()}, f, indent=1)
         n_dup = sum(1 for v in key.values() if v["copy"])
-        print(f"{pass_name}: {len(batches)} batches, {len(key)} packets ({n_dup} duplicates) -> {bdir}")
+        by_mode = {m: sum(1 for _, u in batches if u[0][1]["mode"] == m) for m in ("comment", "thread")}
+        print(f"{pass_name}: {len(batches)} batches ({by_mode['comment']} comment, {by_mode['thread']} thread), "
+              f"{len(key)} packets ({n_dup} duplicates) -> {bdir}")
 
 
 if __name__ == "__main__":

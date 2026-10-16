@@ -21,8 +21,9 @@ weight. Labeling has not started.
 
 ## The workflow
 
-1. **Label.** Give Opus labelers the prompt and the batch files, one pass
-   at a time. Then check and export the labels.
+1. **Label.** Give each labeling agent `LABELING.md` and one batch file (the
+   v5 prompt is inside it), one pass at a time with separate labelers. Then
+   check and export the labels.
 2. **Run the models** on the exact production inputs with `eval/run.py`.
 3. **Compare to Claude's labels** with `compare_v4.py`.
 4. **Draw round 2 from the models' failures** with `next_round.py`, then
@@ -347,39 +348,57 @@ place-level knocks ("the dessert places on your list are mid"), and
   direct replies. In t002/t004-style chunks this view shows the real
   parents that the same-input rendering misattaches.
 
-`batches.py` cuts each pass into **30 batches** in hashed order: 14 batches
-of about 20 single comments, and 16 batches that each hold one chunk. Each
-pass has 291 packets. The **self-consistency subset** is 10% of items per
-mode (25 singles and 2 chunks, the same items in both passes). Each copy
-appears a second time under a different opaque packet id and always in a
-different batch. Batch files contain only instructions and packet text. A
-scan for strata, weights, item ids, prompt hashes and the word "production"
-finds only comment text. `keys/<pass>.json` maps packet ids back to items;
-it is for tooling, not labelers.
+`batches.py` cuts each pass into **39 batches** in hashed order: 23 batches
+of up to 12 single comments, and 16 batches that each hold one chunk. Each
+pass has 291 packets. Twelve is what one labeling agent can label carefully,
+with metadata and a rationale per mention, in one sitting.
 
-**Label format** is one file per batch, `labels/<pass>/bNNN.jsonl`, with one
-line per packet:
+- **Self-consistency subset:** 10% of items per mode (25 singles and 2
+  chunks, the same items in both passes). Each copy appears a second time
+  under a different opaque packet id, always in a different batch.
+- **One mode per batch, prompt included:** every batch carries the v5
+  extraction prompt of its mode verbatim (`eval/prompts/v5_comment.py` or
+  `v5_thread.py`). `keys/<pass>.prompt.json` records the hash it was cut
+  with.
+- **Blind:** batch files contain only instructions, the prompt and packet
+  text. A scan for strata, weights, item ids, prompt hashes and the word
+  "production" finds only comment text.
+- **Keys are for tooling:** `keys/<pass>.json` maps packet ids back to items.
+  It is not for labelers.
+
+**Labeling is v5.** `LABELING.md` is the brief every labeler gets. It holds
+the settled conventions (c1–c4, with the narrowed c2), the precedents from
+the v1/v2 gold, and the label format. The format is one file per batch,
+`labels/<pass>/bNNN.jsonl`, with one line per packet:
 
 ```json
-{"packet_id": "0000abcd", "output": {"mentions": [{"id": 4, "restaurant_raw": "Example Place", "neighborhood_hint": null,
-  "dishes": ["noodles"], "descriptors": [], "aspects": {"food": null, "value": null, "service": -0.6,
-  "atmosphere": null, "wait": null}, "expensiveness": null, "is_firsthand": false, "is_negated": false}]}}
+{"packet_id": "0000abcd", "output": {"mentions": [{"id": 4, "restaurant_raw": "Example Place",
+  "neighborhood_hint": null, "reference_only": false, "aspects": {"food": null, "value": null,
+  "service": "bad", "atmosphere": null, "wait": null}, "is_negated": false, "price": null,
+  "experience": "ate_there", "dishes_liked": [], "dishes_disliked": [], "dishes_mentioned": [],
+  "descriptors": [], "canonical_name": "Example Place", "rationale": "reply calls the staff rude"}]}}
 ```
 
-`output` is production's extraction schema (`prompt.py` /
-`prompt_thread.py`). That way Claude's labels, production's rows and model
-runs all go through `score.py` the same way. `id` appears only in thread
-packets, and it is the bracket number. The optional fields
-`value_complaint`, `dish_sentiment`, `ambiguous` and `out_of_scope` are used
-when present. **If the user's labeling prompt returns a different schema,
-map it into this shape before `labels.py export`.** That is the one mapping
-step.
+Each mention is a v5 contract mention plus label metadata. `canonical_name`
+and `rationale` are always required. The optional fields are `accept_names`,
+`entity_type`, `out_of_scope`, `ambiguous`, `confidence`, `named_in`,
+`aspect_alternatives`, `judgment_question`, `uncertain_fields`,
+`value_complaint`, and `needs_context` (full_context pass only). `labels.py`
+documents each one.
 
-To label, give each Opus labeler the user's prompt plus one batch file (or
-the lines of `batches/<pass>/packets.jsonl` for that batch) and nothing
-else. Never give it `items.jsonl`, `keys/`, any `production/` export or
-v1/v2 files.
-Run the two passes with separate labelers.
+A labeler checks its own file with:
+
+```
+python eval/v4/labels.py check --pass <pass> --batch bNNN
+```
+
+The check validates the v5 contract and its conventions and fails loudly.
+The v1/v2 v5 gold passes the same check unchanged.
+
+To label, give each labeling agent `LABELING.md` plus one batch file and
+nothing else. Never give it `items.jsonl`, `keys/`, any `production/`
+export, runs, results or v1/v2 files. Run the two passes with separate
+labelers.
 
 ---
 
@@ -407,18 +426,35 @@ these cases:
 - a line is bad JSON;
 - a line names a packet outside its batch;
 - a packet is labeled twice;
-- a mention fails the schema, including a thread `id` that is not a
-  bracket number;
-- a packet is unlabeled (`--allow-missing` exports a partial pass).
+- a mention fails the v5 contract or the label format, including a thread
+  `id` that is not a bracket number, or the same place twice in one comment;
+- a packet is unlabeled (`--allow-missing` exports a partial pass);
+- the exported gold fails the v5 gold validator (`gold_v5/convert_gold_v5.py`).
 
 Nothing is silently dropped or overwritten.
 
-`compare_v4.py` scores every comment with `score.py`'s `score_comment`, so
-the metrics mean exactly what `eval/docs/scoring.md` says. A label gold mention
-is keyed like a model mention: `normalize_entity` plus alias overrides.
-Levels come from `score.bucket`. There are no accept-keys or alternatives,
-so matching relies on score.py's fuzzy rule. A comment-mode run is scored
-on single items, and a thread-mode run on chunks.
+**What export writes.**
+- `labels/<pass>.run.jsonl`: the labels' contract mentions, in `run.py`'s
+  record format.
+- `labels/<pass>.gold.jsonl`: v5 gold (`label_version: 3`), the same format
+  as `eval/v1/gold_v5.jsonl`.
+
+**How labels become gold.**
+- `canonical_key` and `accept_keys` come from `canonical_name`,
+  `restaurant_raw` and `accept_names`, through `normalize_entity` and the
+  alias overrides.
+- A non-quality avoid is tagged `c2_nonquality`.
+- `needs_context` marks the item's mode unresolvable, so a miss there is
+  counted as a context gap, not a model error.
+
+**Scoring.** `compare_v4.py` reads every run through `score_v5.Run` and
+scores each comment with `score_v5.score_comment`, so the metrics mean
+exactly what `eval/score_v5.py` says.
+- **Any schema:** v5 runs go through the normalizer, and old ones
+  (production's, the current prompt) go through the adapter.
+- **Modes:** a comment-mode run is scored on single items, and a thread-mode
+  run on chunks.
+- **v1 overlap:** the overlap ceiling compares against `eval/v1/gold_v5.jsonl`.
 
 For each mode, the report shows these scopes:
 
@@ -563,10 +599,10 @@ round 1's 504.
   the corpus) is a tag that the random draw covers.
   `zero_mentions_suspicious` targets extracted comments that came back
   empty while naming a place.
-- **Gold without alternatives.** Claude's labels carry one value per
-  aspect, unlike v1's accepted alternatives. Exact-level agreement will
-  read lower than v1's for the same quality, so sign and recall metrics are
-  the robust ones.
+- **Few alternatives.** Labelers may give `aspect_alternatives`, but the
+  brief asks for them only where a neighbor level is a fair reading. Expect
+  them to be sparser than v1's. Exact-level agreement will read lower than
+  v1's for the same quality, so sign and recall metrics are the robust ones.
 - **The production export is the union of prompts** for the 6,547 mixed
   comments, as the board shows it. Comments production never extracted are
   not counted against it, because it never processed them.

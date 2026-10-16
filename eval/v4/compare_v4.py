@@ -13,8 +13,11 @@ eval/v4/items_single.jsonl --tag v4, and the same with items_thread.jsonl).
 A comment-mode run is scored on single items, a thread-mode run on thread
 items, production on both.
 
-Every comment is scored with score.py's own score_comment, so the metrics
-mean exactly what eval/docs/scoring.md says. On top of that, per mode:
+Every run is read through schema_v5 (score_v5.Run: v5 output through the
+normalizer, old output such as production's through the adapter), and every
+comment is scored with score_v5's score_comment against Claude's v5 labels,
+so the metrics mean exactly what eval/score_v5.py and eval/docs/schema_v5.md
+say. On top of that, per mode:
 
   <mode>                     unweighted, every item of that mode
   <mode> weighted            re-weighted to real traffic with each item's
@@ -36,7 +39,8 @@ Ceilings, when the labels exist:
                              labels: what the mode's missing context costs
                              even Claude.
   claude vs v1 gold          the reference labels on the 50 overlap items,
-                             scored against v1's hand gold.
+                             scored against v1's hand gold in its v5 form
+                             (eval/v1/gold_v5.jsonl).
 
 Writes results/comparison_<ref>.json and .md in the first --dirs directory.
 """
@@ -53,13 +57,16 @@ HERE = os.path.dirname(os.path.realpath(__file__))
 EVAL = os.path.dirname(HERE)
 sys.path.insert(0, EVAL)
 sys.path.insert(0, HERE)
+import _paths  # noqa: E402,F401  (puts eval/lib on sys.path)
 import score as S  # noqa: E402
+import score_v5 as SV  # noqa: E402
 import corpus  # noqa: E402
 import design as D  # noqa: E402
 import labels as L  # noqa: E402
 
 SHOW = ["drop_rate", "mention_recall", "negative_mention_recall", "value_complaint_recall",
-        "dish_negative_recall", "sign_accuracy", "mention_precision", "comments"]
+        "dish_negative_recall", "sign_accuracy", "reference_only_recall", "bare_endorsement_recall",
+        "is_negated_recall", "mention_precision", "comments"]
 
 
 load_jsonl = S.load_jsonl
@@ -107,16 +114,18 @@ def load_rounds(dirs):
 
 
 def load_runs(paths, items):
-    """Merge run files (e.g. one production export per round) into one run."""
+    """Merge run files (e.g. one production export per round) into one run.
+    Each file is read through score_v5.Run, so every mention comes back in
+    the v5 contract whatever schema the run was written in."""
     reps, covered = collections.defaultdict(dict), collections.defaultdict(set)
     mode = None
     for p in paths:
-        r, c, _, m = S.load_run(p, items)
-        for rep, preds in r.items():
+        run = SV.Run(p, items)
+        for rep, preds in run.preds.items():
             reps[rep].update(preds)
-        for rep, ids in c.items():
+        for rep, ids in run.covered.items():
             covered[rep] |= ids
-        mode = mode or m
+        mode = mode or run.mode
     return reps, covered, mode
 
 
@@ -134,10 +143,9 @@ def groups_for(it, cid):
 def evaluate(ref, items, preds, covered, run_mode, alias, excluded):
     """ref: gold lines. preds: {comment_id: [mentions]}. Returns {scope: metrics}."""
     by_item = {it["item_id"]: it for it in items}
-    acc = collections.defaultdict(S.Acc)
+    acc = collections.defaultdict(SV.Acc)
     raw = collections.Counter()
-    dish_capable = any(isinstance(m, dict) and isinstance(m.get("dish_sentiment"), list)
-                       for ms in preds.values() for m in ms)
+    dish_capable = any(SV.dish_capable(m) for ms in preds.values() for m in ms)
     for g in ref:
         it = by_item.get(g["item_id"])
         cid = g["comment_id"]
@@ -145,14 +153,14 @@ def evaluate(ref, items, preds, covered, run_mode, alias, excluded):
             continue
         if run_mode in ("comment", "thread") and it["mode"] != run_mode:
             continue
-        a = S.score_comment(g, preds.get(cid, []), it["mode"], alias, excluded, True)
+        a = SV.score_comment(g, preds.get(cid, []), it["mode"], alias, excluded, True)
         for scope in ["all"] + groups_for(it, cid):
             acc[scope].add(a)
         if it.get("weight"):
             for scope in (f"{it['mode']} weighted", f"{it['mode']} weighted {it['split']}"):
                 acc[scope].add(a, it["weight"])
                 raw[scope] += 1
-    out = {k: S.summarize(v, dish_capable) for k, v in acc.items()}
+    out = {k: SV.summarize(v, dish_capable) for k, v in acc.items()}
     for k, n in raw.items():
         # summarize's "comments" is the weighted sum here; keep it as the
         # traffic the sample stands for, and report the real count.
@@ -172,8 +180,8 @@ def score_run(name, paths, ref, items, alias, excluded, rep=0, both_modes=False)
 
 
 def v1_agreement(ref_pass_dirs, ref_name, items, alias, excluded):
-    """The reference labels scored against v1's hand gold on the overlap items."""
-    v1 = {g["comment_id"]: g for g in load_jsonl(os.path.join(EVAL, "v1", "gold.jsonl"))}
+    """The reference labels scored against v1's hand gold (v5 form) on the overlap items."""
+    v1 = {g["comment_id"]: g for g in load_jsonl(os.path.join(EVAL, "v1", "gold_v5.jsonl"))}
     overlap = [it for it in items if it["draw"] == "overlap_v1" and it["comment_id"] in v1]
     if not overlap:
         return None
@@ -182,13 +190,13 @@ def v1_agreement(ref_pass_dirs, ref_name, items, alias, excluded):
     if not runs:
         return None
     reps, covered, _ = load_runs(runs, items)
-    acc = S.Acc()
+    acc = SV.Acc()
     for it in overlap:
         cid = it["comment_id"]
         if cid in covered.get(0, set()):
-            acc.add(S.score_comment(v1[cid], reps[0].get(cid, []), "comment", alias, excluded, True))
-    dish = any(isinstance(m.get("dish_sentiment"), list) for ms in reps[0].values() for m in ms)
-    return S.summarize(acc, dish)
+            acc.add(SV.score_comment(v1[cid], reps[0].get(cid, []), "comment", alias, excluded, True))
+    dish = any(SV.dish_capable(m) for ms in reps[0].values() for m in ms)
+    return SV.summarize(acc, dish)
 
 
 # ---------------------------------------------------------------- output

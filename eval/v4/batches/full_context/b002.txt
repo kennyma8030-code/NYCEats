@@ -1,171 +1,569 @@
-NYCEats extraction labeling -- batch b002 -- pass: full_context -- 1 packet(s)
+NYCEats extraction labeling -- batch b002 -- pass: full_context -- comment mode -- 12 packet(s)
 
-Apply the extraction prompt you were given, but read the whole conversation
-shown before deciding what each comment means. Label ONLY the comment marked
-">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
-number [n]; everything else is context. Packets are independent.
+Each packet shows the whole conversation around the unit the model sees. Read
+all of it before deciding what a comment means, but label ONLY the comment
+marked ">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a
+bracket number [n]; everything else is context. The layout differs from the
+model's input; the prompt's rules apply all the same. Set needs_context true
+on a mention that the model's own input could not support.
 
-Write one JSON line per packet to labels/full_context/b002.jsonl:
+How to label is in LABELING.md; read it first. In short: label every packet
+exactly as the EXTRACTION PROMPT below asks, then add the label metadata
+(canonical_name and rationale always; the optional fields when they apply).
+Packets are independent: never carry anything from one packet to another, and
+never look at other batches, other passes, model runs or results.
+
+Write one JSON line per packet, in any order, to labels/full_context/b002.jsonl:
   {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
-"output" is the JSON object the prompt asks for. A comment packet's mentions
-carry no "id". A thread packet's mentions each carry "id", the bracket number
-of the comment they come from. Use {"mentions": []} when nothing qualifies.
+Use {"mentions": []} when nothing qualifies. A comment packet's mentions carry no "id".
+Check the file before you finish:
+  python eval/v4/labels.py check --pass full_context --batch b002
 
-=== PACKET a937b0f0 (thread packet) ===
-POST TITLE: Even Bad Pizza in NYC is Sometimes Bad....As Evidenced by....
-POST BODY: I would think given it's the world mecca of pizza, that bad pizza there is still decent, but nope, I found a place called Roma Pizza on 8th Ave. that I picked because the reviews were decent, you could eat inside, and it was literally around the corner from the theater I was going to. This place was really bad. Definite Top 5 worst pizza places I've ever eaten anywhere. I don't know how people could like it or prefer it. I think it's the first pizza I've had in NY that I truly did not enjoy on any level.
+=== EXTRACTION PROMPT (comment mode) ===
+You extract restaurant mentions from ONE Reddit comment posted in a New York City food subreddit.
 
-THREAD, in reply order. Label ONLY the comments with a bracket number [n]. Lines marked (context) are there to read, not to label.
-(context) u/No_Network4228: I remember once when I was in college stopping by a kosher pizza place and it was one of the most vile things I ever tried to eat, I still remember it 20 years later.
-(context) u/vdubjb: usually bad pizza can be made better by overcooking
-(context) u/16_USQW: Roma Pizza on 2nd Ave. and 24th St. not awful but it’s bad pizza.
-  (context) u/ebergs520: Interesting, because if find Roma pizza on the upper east side, 1st and 3rd ave locations, pretty good
-    (context) u/DiedOfATheory: I assume these all have different owners..
-      (context) u/Neptune28: There's another Roma in Brooklyn, along 7th Ave
+The input has these parts, in this order, separated by blank lines: POST TITLE, usually POST BODY (cut at 400 characters), sometimes PARENT COMMENT (the comment this one replies to), and then COMMENT. The other parts exist only to make sense of the COMMENT. Extract from the COMMENT. Never extract a place that is only named in the title, body or parent -- unless the COMMENT says something about it or asks about it. A comment that gives an opinion without repeating the name IS a mention of the place it replies about.
 
-[https://romapizzaparkslope.com/](https://romapizzaparkslope.com/)
+Output ONLY a JSON object. No prose, no code fences:
 
-Are these all different?
+{"mentions": [ {...}, {...} ]}
 
-Maybe it's like Rosa's, there's several places named Rosa's but I think the franchise locations are Williamsburg, Maspeth, and Middle Village
-    (context) u/OcelotDAD: Roma Pizza on 88th and 1st on the UES is legitimately good.
-(context) u/Royal-Mathematician2: The dollar shop at E 6th and Ave A has some of the worst pizza in NYC I have ever had.
-  (context) u/DiedOfATheory: There is one(I guess it is $1.50 now) around the corner from Joe's Pizza, and it was actually pretty decent. I'd take that over the place I mentioned any day.
-    (context) u/Royal-Mathematician2: I used to work around the corner form there. That one was good.
-  (context) u/sthug: Yea when i first moved to the east village during covid i made a late night desperation order from there and it was so fucking bad
-  (context) u/DoritosDewItRight: That place is unbelievably bad, it tastes like elementary school cafeteria pizza
-    (context) u/cathbadh: Wait... Are talking about the rectangle ones and hexagonal fiestada ones from the 80s and 90s?  Ngl I still eat those sometimes. Tastes like nostalgia.
-  (context) u/arparpsrp: im sure its better than the worst pizza in toleho ohio
-    (context) u/cathbadh: Idk, the worst in Toledo is just the hot and ready from Little Caesars. Is this better than that? 
+Use {"mentions": []} only when the comment names and points at no place at all. That is a normal answer.
 
-Random seeing my hometown used to throw shade in the wild.... The in the wild part is random , the throwing shade with Toledo as the target is justified. They never make national news for good reasons.
-  (context) u/buckeye2114: I’ve eaten here sober before lmao, it’s not THAT bad. Obviously not great either. Granted of course the bar for pizza in NYC for “good”, or “above average” is so much higher than anywhere else. 
+KIND OF MENTION -- decide this FIRST for every mention
 
-Just wait until you find yourself visiting people in the middle of the country and order a pizza at a restaurant only to find yourself staring a half baked grocery store bought crust with marinara sauce and barely melted cheese. And then you’ll realize how good NYC has it.
-    (context) u/TombofromKoriko: This exactly - the worst NYC slice is a godsend in an airport.
-  (context) u/t1nt3d_: But its a dollar though.
-(context) u/Neptune28: The place in Manhattan?
-(context) u/Glizzys4everyone: Unless a famous food is from a very small city, I expect any big city known for something to have shitty versions of it
-(context) u/Neptune28: There's definitely really bad pizza, yeah. I think it's amazing when people call Joe's Pizza bad, they haven't tried some of the really lousy neighborhood places in other areas on the city. Around my area, this pizza was so bad that I couldn't even get beyond 1 bite. People in the areas like Bushwick, Bed Stuy, Williamsburg, Greenpoint, Park Slope, LIC, Astoria are lucky.
-  (context) u/DiedOfATheory: Joe's pizza is good, they're just pushing it somewhat on price, but they know they get a lot of tourists and are popular, so they get away with it. Those bad places must have people who think they're good though, or how would they stay open? I don't get it!
-    (context) u/Neptune28: The price is fine, I think it is $4.50 for a slice at Joe's on Bedford? Some places in Manhattan are like $6+.
+A. OPINION. The comment judges the place: the food or a dish, whether it is worth
+   the money, the staff, the room, the wait -- or uses a judging word about it
+   ("tourist trap", "overrated", "hidden gem", "my favorite", "mid") -- or tells
+   people to avoid it.
+   -> reference_only false. Score the aspects it judges; the rest stay null.
 
-Well one of the mediocre places near Flatlands just closed, so now there's only like 1 pizza place along Flatbush that is anywhere close by. That place is terrible to me, but seems to keep getting business. I think some of it is that people stay within the neighborhood and haven't tried pizza places in those other neighborhoods. I tried one in Ridgewood that was amazing
+B. ENDORSEMENT. The place is named as an answer to a request for places to go
+   ("best pizza?", "where should I eat in Astoria", "recs for a date spot"),
+   with nothing said about it.
+   -> reference_only false and EVERY aspect null. Being named is the
+   endorsement. Never invent a food level for it.
+   EXCEPTION: when the request itself carries a judgment ("most overrated
+   spot?", "worst service you've had?", "biggest letdown?"), a bare name
+   answering it takes that judgment, scored by the LEVELS table entry for the
+   request's own words: "most overrated" -> food "meh" and descriptor
+   "overrated"; "worst service" -> service "awful"; "biggest letdown" -> food
+   "bad". That makes it kind A.
 
-[https://www.reddit.com/r/FoodNYC/comments/1qk39h7/manos\_pizzeria\_ridgewood/](https://www.reddit.com/r/FoodNYC/comments/1qk39h7/manos_pizzeria_ridgewood/)
-  (context) u/ArtDecoNewYork: If anyone claimed that Joe's is actually "bad", I would assume they're either a pretentious contrarian or just don't like classic NY pizza
-    [1] u/Neptune28: Agreed. It's not even close to bad. In fact, I may go to Bedford and get some in a few hours.
-    [2] u/Objective-Two-8728: Agree, it’s quite good - just no where near a ‘best slice in nyc’ territory
-    [5] u/16_USQW: It's not bad but certainly overrated!
-  (context) u/Possible-Door3249: I don’t trust anyone that said Joe is bad and I assume they are transplant
-  [3] u/InSearchOfGoodPun: I once watched a video on YouTube of some tourist who ate “Joe’s Pizza” and he didn’t think it was bad, but he didn’t see what the fuss was about. It turns out that he was eating at the shitty “Joe’s Pizza” in Chelsea that is not part of the famous mini-chain. Even funnier is that none of the commenters seemed to realize this either.
-  [4] u/pavlovselephant: Large swaths of inner Queens have atrocious pizza.
-[6] u/ThinPerformance: What was bad about it?
-  [7] u/DiedOfATheory: It just tasted bad. Everything was wrong with it. I can't think of anything I liked other than I was really hungry at the time...Poor tasting ingredients, floppy, etc.
-  [8] u/netllama: 100%.  This post is completely useless nonsense without context.
-[9] u/ArtDecoNewYork: There's loads of bad pizza in NYC, or at least mediocre pizza (not even counting the budget places which are cheap at least).
-[10] u/lithium900mg: I tried a new place that just opened on 7th Ave between 14th and 15th the other day and it was genuinely the worst slice of pizza I’ve ever had it my life I couldn’t even finish it
-[11] u/SomeDrillingImplied: I hold the controversial opinion that the median pizza on Long Island and NJ is actually better than the median pizza in NYC, but the highs are higher in NYC than they are in the aforementioned places.
-  [12] u/Objective-Two-8728: This is intriguing….do you think the mean/average would be a different conclusion?
-    (context) u/arbybk: Yes, that's how statistics works.
-  (context, deleted or too short to be sent) u/ChrisFromLongIsland: 100%
-  [13] u/MosesRobertsNYC: Not controversial at all. Same goes for bagels.
-    [25] u/SomeDrillingImplied: Long Island bagels blow NYC bagels out of the water, honestly.  Doesn't matter of it's mean, median, or best of the best.  LI is best in show for all categories there.
-      (context) u/EmptyLabs: Yeah I think so many people are spoiled for options that they don't realize it. Having lived and adventured through both areas, it becomes clear very quickly that LI bagels are better if you enjoy egg sammy or prefer something less chewy but still a bit idk snappy(?) like the skin of the bagel keeps the satisfying snap when you bite into it but isn't super dense like many NYC bagels are. 
+C. REFERENCE. Everything else that names or points at a place:
+   - a question about it: "is Okiku still open?", "has anyone tried Okiku?"
+   - a stated fact: "they moved to Court St", "it's cash only btw", "closed"
+   - a yardstick: "if you like Okiku you'll love Harbor Fish" (Okiku is the
+     yardstick)
+   - a passing reference: "I was near Okiku and saw a line"
+   - a bare name when nobody asked for places to go ("where did you eat this
+     week?", or a post that asks for no recommendation)
+   -> reference_only true, every aspect null, is_negated false, dishes_liked
+   and dishes_disliked empty. STILL fill neighborhood_hint, price, experience,
+   dishes_mentioned and descriptors when the comment STATES them.
 
-IMO the "bad" LI bagel shops aren't even bad most of the time, they just taste like NYC bagels which, understandably, is a big shock for locals. 
+Who asked: a top-level comment answers the post. A reply answers the comment it
+replies to; if that comment asks nothing, it answers the post.
 
-That said, if I were to get a simple butter bagel I would prefer an NYC bagel most of the time. Since they're better for coffee (I'm a dipper)
-        (context) u/JackiiX: Buttered bagel dipped in coffee? Haven’t heard of that before, that’s interesting
-          (context) u/EmptyLabs: I think it's a poverty thing. We used to get gratuitously firm (probably yesterday's) bagels when I was a child. I did what I could to make them palatable and found I enjoy that little bit of butter in my coffee as a bonus to the bagel getting softer.
-            (context) u/JackiiX: I looked it up after replying to your comment, and it seems a lot more popular than I expected so that’s cool
-  [14] u/Neptune28: Where in NJ? I have gotten pizza at Maplewood Pizzeria and liked it quite a bit, the paste is incredible too
+FIELDS (every key on every mention, no extra keys)
 
-[https://www.maplewoodpizza.net/](https://www.maplewoodpizza.net/)
-    [23] u/SpartanAesthetic: Village Trattoria (in Maplewood or Summit) has the best creative slices I’ve ever had.
-      [24] u/Neptune28: I will check it out next time!
-    (context) u/rlevavy: In Maplewood my favorites are The Roman Gourmet (has been there for as long as I've been alive) and Corner Slice (which has only opened in the past couple years, and is sicilian-style.)  Artie's, which is around the corner from Corner Slice, is also good, but (I think) doesn't sell slices.  The white slice at Sabatino's is also quite good.
-  (context, deleted or too short to be sent) u/KILLDAECIAN: Correct
-  [15] u/AvailableFalconn: But in NYC you’ll always be 5 minutes from a good pizza place.  Not sure how the crap one’s survive tbh.
-  [16] u/pumper911: If you go with the barstool scale, feel like NYC pizza median is around 6.7 and Long Island and NJ is like 7.2. But NYC has a bunch of 9+’s and there’s maybe 1 or 2 I’ve come across in NJ / LI
-    [20] u/gambalore: Fuck Barstool and Dave Portnoy in particular.
-    (context) u/SomeDrillingImplied: You will be downvoted for propagating Shortnoy stupidity and deservedly so.
-  [17] u/The_Chief: Manhattan that might be true, but definitely not for Brooklyn. Manhattan Pizza always has been shit with no soul except for good spots.
-    [19] u/Alert-Painting1164: Agree. I’ve willingly eaten so much bad pizza in Manhattan because I was drunk and it was there
-  [18] u/Jesufication: Razza pulls up the avg so much that median is definitely the way to go
-  [21] u/cellularATP: This is not true for Long Island.  I'd rather have a lot of random slices in the city before I'd have random Long Island pizza.  New Jersey is different though.  They have the highs that compete with NYC like you mentioned, as well as a higher median.
-    (context, deleted or too short to be sent) u/SomeDrillingImplied: ok
-      (context) u/cellularATP: Could you tell me where I should get bagels and pizza on Long Island to change my opinion?  I've tried a decent number of places, but maybe I've missed the good ones?  Preferably Suffolk, but I'll drive to Nassau too.
-        (context) u/SomeDrillingImplied: For bagels my favorite spot is Boulevard Hot Bagels in Nesconset.  No fancy bells or whistles, but they do a great job at the basics.  They also own St. James Bagels on North Country by me, but they're a half notch below.  I hear Bagel Chalet in Commack is very good, but I can't personally attest.
+restaurant_raw     string. The name VERBATIM, exactly as typed: same spelling,
+                   same capitalization, no added words. Never fix spelling,
+                   never expand an abbreviation, never add a borough or a
+                   "Pizzeria" nobody typed. "lindustrie" stays "lindustrie".
+                   When the comment talks about a place without naming it,
+                   copy the name exactly as the comment or post it refers to
+                   typed it.
+neighborhood_hint  string or null. Only when the comment says where THIS place
+                   is: "the LES one", "Astoria".
+reference_only     true or false. See KIND OF MENTION.
+aspects            object with exactly these keys: food, value, service,
+                   atmosphere, wait. Each is one LEVEL word, or null.
+is_negated         true or false. True ONLY when the comment tells people to
+                   avoid the place.
+price              "cheap", "moderate", "pricey", "very_pricey", or null.
+experience         "ate_there", "secondhand", or "unclear".
+dishes_liked       array of strings. [] if none.
+dishes_disliked    array of strings. [] if none.
+dishes_mentioned   array of strings. [] if none.
+descriptors        array of strings: the commenter's own words. [] if none.
 
-As for pizza the best is Nico's Charred Pies at Root + Branch in Copaigue.  Hours are limited and they don't do slices, but the pizza is incredible. More accessible options include Ciro's, Colosseo, Umberto's (grandma and Sicilian), King Umberto's, Taglio for Roman pizza, and Dario's for everything they have
-          (context) u/Salty-Esq: House of Bagels in Commack is better
-  [22] u/Round-Vast-1014: not that controversial tbh, the average neighborhood spot in NJ is just more dependable
-  (context) u/misstheolddaysfan: You're actually correct at least as far as NJ is concerned. And add in connecticut.
-  (context) u/nycago: This is true for midtown dirty proper but not for the 5 boroughs or Manhattan as a whole.
-  (context) u/freeman687: But that's probably due to quantity? In NYC, we have more of both good AND bad. In less dense population areas in LI and NJ, it's probably harder to keep a crappy pizza place going because people stop going there whereas in Manhattan there's always random foot traffic and millions of hungry masses who will settle for a slice anywhere.
-  (context) u/NYCRealist: Best Pizza I've had is in New Haven, CT.
-  (context) u/TombofromKoriko: I tend to agree, a bad slice and bagel joint can survive here just on foot traffic and turnover. In the suburbs these places have to be at least half-decent to survive.
-(context) u/Objective-Two-8728: There is plenty of relatively bad pizza in nyc, much of it is dolla-slice
-  (context) u/Neptune28: The "dollar" slice on 38th and 8th is pretty good, but yes, a lot of them taste like cardboard.
-    (context) u/JackTheBongRipper: Are you talking talking about the 2 bros on the corner? For me, 2 bros always hits—I'd argue it hits so different from a "good" slice that it's a fool's errand to even try to compare them.
-      (context) u/Neptune28: Yes! It just got annoying because of the vagrants and mentally ill around it, but the slice itself was solid.
-      (context) u/KoalaOnABuilding: Yeah, the thing the no-longer-a-dollar slices I like is the turnover is so high that they're always super fresh. Same reason I liked little caesars in Michigan
-  (context) u/gambalore: Can’t judge the dollar slice places on the same criteria as regular slices. They’re a different beast.
-    (context) u/Objective-Two-8728: I was beginning to write up this exact rant under my comment but just gave up
-(context) u/Mammoth_Sell5185: I had Roma last week since I work nearby. Yeah, the regular slice is terrible. Weirdly, I had a chicken slice, which was all around about five times as good as the plain. Much crispier, cheese and the other ingredients tasted better and everything. 🤷
-(context) u/Aggressive-Candle421: Why try to hurt a local business
-  (context) u/misstheolddaysfan: Is it really a local business?   
+LEVELS -- the only allowed values in aspects, or null
 
-I agree with you that you shouldn't trash small businesses that are trying to build something, but if you walk into a place and they don't even seem to be trying- its fine to say that its garbage.  You can't call yourself NY pizza and crank out the same crap they sell in other parts of the country.  I'll gladly say it about VAL Pizza. I tried it four times because its extremely convenient and honestly the only place I can grab a fast something when im in a rush in that area.  Its so bad that now even if i'm starving and have no time, i'll go without.
-(context) u/Ok_Task_7711: Roma is the worst AND overpriced
-(context) u/FlashAndPoof: I’m laughing because I just had a slice at Roma yesterday and liked it. But I’m also new to NYC and only have chain pizza to compare to. What are your recs?
-  (context) u/Neptune28: Check out Manos Pizza in Ridgewood
+  "rave"    superlative: "best in the city", "best I've ever had", "perfect",
+            "the GOAT", "life-changing"
+  "good"    clear praise: "so good", "great", "excellent", "love it",
+            "my favorite", "my go-to", "swears by it", "hidden gem"
+  "decent"  mild praise: "solid", "pretty good", "decent", "not bad"
+  "mixed"   explicitly mixed: "hit or miss", "inconsistent", "some good,
+            some bad"
+  "meh"     mild knock: "mid", "fine", "it's ok", "overrated", "nothing
+            special", "not worth the hype", "used to be good"
+  "bad"     clear complaint: "bad", "bland", "rude", "slow", "disappointing",
+            "letdown", "tourist trap", "skip it"; and for value:
+            "overpriced", "not worth the price", "not worth $40"
+  "awful"   strong bad experience: "worst", "worst I've had", "got sick",
+            "never again", "regretted going", "inedible"
 
-[https://www.reddit.com/r/FoodNYC/comments/1qk39h7/manos\_pizzeria\_ridgewood/](https://www.reddit.com/r/FoodNYC/comments/1qk39h7/manos_pizzeria_ridgewood/)
-    (context) u/FlashAndPoof: I’ll have to check it out! Got any recs near Broadway in Manhattan though?
-      (context) u/Neptune28: How close to Broadway? Farinella was good, but it looks like it closed.
-        (context) u/FlashAndPoof: Ideally close enough to get a bite before or after shows in the area. That’s the only reason I went to Roma’s yesterday.
-          (context) u/nycsourdiesel83: Sacco’s Pizza on 9th Ave.
-(context) u/Junkstar: There’s a lot of bad pizza in NYC. Even more average pizza. Great pizza is in the minority, but at least every neighborhood has some nearby.
-(context) u/robmsor: Most of the time, bad-mediocre pizza can be helped by loading it with toppings. The various Andiomo’a and Roma’s, for example.
+"fine", "it's ok" and "mid" are "meh", NEVER "decent": on Reddit they are a
+knock. Use the whole negative half. Do not soften a complaint because the thread
+likes the place or because the commenter is polite about it.
 
-The one that couldn’t be saved that way was a place called Justino’s on 10th Avenue and 57th. It was the among the worst pizza I’ve ever had. It looks like they’ve gone out of business.
-  (context) u/Alert-Painting1164: Ha ha I used to live round the corner and i think I had it once and then never again. It was next door to the Boston market if I recall, that’s gone too. There was also the worst bodega in the world on the corner of 57and 10
-    (context) u/Neptune28: Wow I remember that Boston Market! I used to get it at the other locations in the early 2000s, stopped for years, then passed by the 10th Ave one in 2010.
+null is the default and means NOT MENTIONED. "mixed" never means unmentioned.
 
-[https://maps.app.goo.gl/V6Tsz4Nq7dfpMVgXA](https://maps.app.goo.gl/V6Tsz4Nq7dfpMVgXA)
-    (context) u/robmsor: Funny (to me, anyway) anecdote:
+ASPECTS
+  food        the cooking, including dishes. Generic praise or hate for the
+              place with no aspect named ("amazing", "mid", "my favorite",
+              "skip it") goes here.
+  value       worth the money: "overpriced", "worth every penny", "great deal",
+              "not worth the price", "not worth $40". "Cheap" or "pricey"
+              alone is price, not value.
+  service     the staff.
+  atmosphere  the room, the vibe, noise, the crowd.
+  wait        the line, getting a table or a reservation, how long food took.
 
-After the VP debate in '24, Tim Walz's handlers wanted to get footage of him and his wife "enjoying" some genuine NY pizza.  As Justino's was down the block from the CBS studios where the debate was filmed (I think this was true), that's where they went.  As soon as I recognized it I thought "you poor bastards"
-  (context) u/misstheolddaysfan: I think the places people love nowadays, they must be talking about the toppings.  To me- good pizza should be good with nothing on top.  And it should still taste good cold.
-    (context) u/robmsor: Agreed! I like a good topping as much as anyone, but really good pizza doesn't need any.
-    (context) u/Neptune28: That's why I always test out a plain slice when I go to a new place.
-(context) u/jae343: Should've just went to Pops one block down.
-(context) u/Alert-Painting1164: There’s a market for bad pizza. One just opened on the same block as my office (mid town) it looks like absolute trash and it’s packed all the time, I guess with tourists.
-(context) u/misstheolddaysfan: There is not only bad pizza in ny, there's terrible pizza in NY.  Back when I was younger, it was hard to find a bad pizza place.  You had to really work at it.  Most places were at least decent, and then you had favorite places.  Now, I only like a handful of places. Most places are not good.  And I have to travel to get pizza as good as what I used to consider average. there's not a single place in all of midtown that I would really enjoy a slice. Johns has lines around the block and I only consider that okay.  Same with the famous Suprema- its "fine" not great.  I dont even know what I'd call great anymore.  I can tell you where I go for a good slice, but nothing in NYC is amazing.
-(context) u/iggy555: I saw a guy working at a $1.50 pizza joint pick up an empty pizza box on the street and put it back inside the store to reuse
-(context) u/PAE8791: Bad pizza spots usually have tourist type names ,  Roma pizza , little Italy pizza ,  etc .
-(context) u/dimlakalaka: F & F pizza is bad.
-(context) u/boroughthoughts: What ever pizza nerd (Scott Weiner) that does all the review on his subway takes said that 80 percent of Pizza in NYC is actually pretty bad and I agree with him. Like there are so many forgettable 4$ cheese slice shops in Lower Manhattan that are not worth anything other than being closest on the block. Like take oven slice in LES, every time I go there its because I was too lazy to walk another block to Johnny's and every time I do that I am like why did I do this since I could have had a much better slice for a 1.50 more.
-(context) u/Apherious: Tons of places in NYC that sell mediocre or down right terrible food, they get by from quantity of people buying it. The population keeps it going
-(context) u/djlamar7: I nominate iPizzaNY as the worst I've ever had here. There used to be one near me and sometimes my friends and I would go after drinking just because there wasn't another 4 AM one nearby (after the first time I always got the chicken from the Krispy Krunchy Chicken that was also inside).
+Most comments judge ONE aspect; the other four stay null. NEVER infer one aspect
+from another: great food says NOTHING about service, value, the room or the wait.
+When the comment gives no verdict on the food overall, food takes the level of
+the dishes it judges, whatever it says about value, service, atmosphere or the
+wait: liked dishes -> their level; disliked dishes -> their level, at most
+"meh"; liked and disliked together -> "mixed". A verdict on the food overall
+wins: "great, but skip the dumplings" is food "good".
 
-One time I met up with a friend at a bar in the evening. We only had two beers but he got hungry and wanted to go there. I told him "we're not drunk enough for that pizza" but he got a slice anyway. He took two bites, said "yeah you were right" and threw it into the trash.
-  (context) u/kaptiankuff: Was gonna mention this place it also suffers from having 5 other pizza places on the same square block
-(context) u/juicepak: For the level of effort required to get a table, my vote for worst and most overrated pizza in NYC is Lucali by a landslide
-(context) u/JuZNyC: Yeah of course bad pizza here is still bad, 70% of the dollar slice spots are bad except that they're $1.50.
-(context) u/DJ_Derp: Their Pizza on 6th Avenue is also terrible
-(context) u/AvatarofBro: What didn't you like about it?
-(context) u/Ice_water_plz: Honestly youll be surprised, my mom likes cheap 1.50 pizza, but if I go get her something higher quality she says it's OK
-(context) u/jaritadaubenspeck: A lot of pizza places in NYC are strictly for tourists who regularly eat Pizza Hut or Domino’s back home.
-(context) u/ChalkLicker: There are places in NYC that locals rave about that are absolute garbage. And I’m not being elitist, I love almost all pizza. People raised on shitty pizza love shitty pizza. Nothing wrong with it, but buyer beware.
-(context) u/SonicYouth_NYC: There are many unremarkable pizza places in NYC.  
+PRICE is how expensive, with no judgment. Fill it only when the comment says
+it in words ("cheap", "affordable", "pricey", "expensive", "$$$$"). A dollar
+figure with no word about it is null. Being expensive is not bad: "pricey but
+worth every penny" is price "pricey" with value "good". "Overpriced" is price
+"pricey" with value "bad".
 
-The great pizza places just make us forget about the unremarkable ones.
-(context) u/SirBumbles: I'll say it.. Prince St Pizza is trash
-(context) u/Wooden-Line607: come to NJ for pizza, NYC is mostly misses, I don't know why they can't just make a pizza normally
-(context) u/TombofromKoriko: Those places on 8th Ave don't need to rely on repeat customers at all, and it shows. There's always another batch of tourists coming. 
+EXPERIENCE
+  "ate_there"   they say or clearly imply they ate there: they describe a meal,
+                "my go-to", "I used to live next door", or give a verdict in
+                their own voice ("it's mid", "so good", "skip it").
+  "secondhand"  they say they have not been, or the opinion is someone else's:
+                "haven't been", "heard great things", "my friend swears by it",
+                "it's on my list".
+  "unclear"     neither: a bare name in a list, a question, a fact.
 
-For what it's worth, going one block over to 9th ave generally yields much better results in food. That's where it starts to become a neighborhood again instead of a business district. (The business being tourism.)
-=== END PACKET a937b0f0 ===
+IS_NEGATED is true only when the comment tells people to AVOID the place: "skip
+it", "don't bother", "avoid", "go somewhere else", and a bare "not worth it" or
+"not worth going" given as advice. Saying what it is not worth is NOT an avoid:
+"not worth the price" and "not worth $40" are value "bad"; "not worth the hype"
+is food "meh". A bad review is not an avoid: "worst slice I've had, regretted
+going" is is_negated false.
+Losing a comparison is not an avoid. An avoid instruction that heads a list
+applies to EVERY name in that list. An avoid with no reason given is also food
+"bad". An avoid for a reason that is NOT about the place's food, value,
+service, room or wait -- politics or who owns it, a mismatch with what the
+asker wants ("it's all seafood" when they want steak), where it is or how hard
+it is to get to -- is is_negated true with EVERY aspect null and no liked or
+disliked dishes: nobody judged the place. Experience is "unclear" unless they
+say they went.
+
+DISHES are dishes and drinks the comment names for this place. Each dish goes in
+exactly ONE list:
+  dishes_liked      praised or recommended: "get the vodka slice", "the
+                    pastrami is a must", "got the pastrami and the soup, both
+                    great" (both are liked).
+  dishes_disliked   judged negatively: "skip the dumplings", "the soup was
+                    bland".
+  dishes_mentioned  named with no judgment: "I got the vodka slice". Every dish
+                    on a REFERENCE mention goes here.
+
+DESCRIPTORS are OPEN VOCABULARY: the commenter's own words for what the place IS
+or FEELS like: "red sauce", "hole in the wall", "slice shop", "date spot",
+"cash only", "BYOB", "tourist trap", "closed". There is no fixed list. Never
+invent words they did not use; the one exception is the judgment from a
+judging request ("overrated"). Record what is STATED, not what is ASKED: "is it
+still cash only?" gives no descriptor; "it's cash only btw" gives "cash only".
+Factual descriptors ("cash only", "BYOB", "slice shop", "closed") are not an
+opinion. Judging descriptors ("tourist trap", "overrated", "hidden gem") are an
+opinion: kind A, with the aspect scored.
+
+RULES -- the most common misses first
+
+1. A reply that gives an opinion without repeating the name IS a mention of the
+   place it replies about: "it's v mid", "hard disagree", "their service is
+   terrible". Copy the name from the comment it replies to. This is the most
+   common miss, and these replies carry most of the negative opinions.
+2. A bare list of names is the most common comment. Every name in it is a
+   mention.
+3. Single-word names are the ones most often missed: Tong, Luger, Keens,
+   Juniors, Angel, Scarr's, Emily, Rubirosa. Catch them.
+4. Chains count. Emit McDonald's, Starbucks, Chipotle like any other name;
+   filtering happens later.
+5. Cuisine headings, neighborhoods, boroughs, streets and dishes are not
+   restaurants.
+6. The same place named twice in one comment is ONE mention.
+7. Sentiment is what the commenter thinks NOW. "Used to be my favorite" is food
+   "meh".
+8. A closed place is still a mention: reference_only true, "closed" in
+   descriptors, every aspect null -- even when the comment remembers how good
+   it was. Dishes they remember go in dishes_mentioned.
+9. "X over Y" or "X is better than Y": Y lost, so Y is food "meh" unless the
+   comment also praises Y. Never is_negated. A place used only as a yardstick
+   ("if you like Okiku you'll love Harbor Fish") is a REFERENCE.
+
+EXAMPLES (invented places)
+
+POST TITLE: Best Thai in Queens?
+
+COMMENT: Thai - Siam Garden and Lemongrass Hut
+{"mentions":[
+{"restaurant_raw":"Siam Garden","neighborhood_hint":null,"reference_only":false,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["Thai"]},
+{"restaurant_raw":"Lemongrass Hut","neighborhood_hint":null,"reference_only":false,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["Thai"]}]}
+Why: "Thai" is a heading, not a restaurant. Both names answer a request for places, so both are endorsements: reference_only false, every aspect null.
+
+POST TITLE: Dinner near Union Square?
+
+POST BODY: Last time we went to Harbor Fish and loved it. Looking for something new.
+
+COMMENT: Try Kumo, the spicy miso ramen is great
+{"mentions":[
+{"restaurant_raw":"Kumo","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"good","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":["spicy miso ramen"],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: Harbor Fish is named only in the POST BODY and the comment says nothing about it, so it is not extracted. The praised dish sets food.
+
+POST TITLE: Best bagel in Brooklyn?
+
+COMMENT: Bagel Hut is the best I've ever had. Corner Bagels is pretty solid. Lox Box is ok, nothing special
+{"mentions":[
+{"restaurant_raw":"Bagel Hut","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"rave","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"restaurant_raw":"Corner Bagels","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"decent","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"restaurant_raw":"Lox Box","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: "the best I've ever had" is "rave". "pretty solid" is "decent". "ok" and "nothing special" are a knock: "meh", never "decent".
+
+POST TITLE: Most overrated restaurant in Manhattan?
+
+COMMENT: Copper Kettle. Also Marlowe's, the service is slow
+{"mentions":[
+{"restaurant_raw":"Copper Kettle","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["overrated"]},
+{"restaurant_raw":"Marlowe's","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":"bad","atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["overrated"]}]}
+Why: the post asks for overrated places, so each bare name takes that judgment: "overrated" is food "meh" in the LEVELS table, plus descriptor "overrated". "the service is slow" adds service "bad".
+
+POST TITLE: Late night food in the East Village
+
+COMMENT: Is Okiku still cash only?
+{"mentions":[
+{"restaurant_raw":"Okiku","neighborhood_hint":null,"reference_only":true,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: a question about a place is a reference. "cash only" is asked, not stated, so there is no descriptor.
+
+POST TITLE: Golden Lotus closing?
+
+COMMENT: No, they just moved to the Flushing location. It's BYOB now too
+{"mentions":[
+{"restaurant_raw":"Golden Lotus","neighborhood_hint":"Flushing","reference_only":true,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["BYOB"]}]}
+Why: the comment is about the place the post names, so the name is copied from the post. It states facts and judges nothing, so it is a reference that still carries the location and "BYOB".
+
+POST TITLE: Where should I eat near Times Square?
+
+COMMENT: Bridge Diner is a tourist trap. Pricey too. Go to Sal's Slices instead, get the grandma slice
+{"mentions":[
+{"restaurant_raw":"Bridge Diner","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"bad","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":"pricey","experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["tourist trap"]},
+{"restaurant_raw":"Sal's Slices","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"good","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":["grandma slice"],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: "tourist trap" judges the place, so food is "bad". "Go to Sal's Slices instead" tells people to avoid Bridge Diner. "Pricey" is price; nothing says whether it is worth it, so value stays null. "get the grandma slice" recommends a dish, and food follows it.
+
+POST TITLE: Seafood for an anniversary?
+
+COMMENT: Harbor Fish is really good but not worth the price
+{"mentions":[
+{"restaurant_raw":"Harbor Fish","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"good","value":"bad","service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: "not worth the price" is value "bad". It says what the place is not worth, so it is not an avoid: is_negated false.
+
+POST TITLE: Brunch in Park Slope
+
+PARENT COMMENT: Marlowe's is my go-to brunch spot
+
+COMMENT: honestly mid, and the wait is insane
+{"mentions":[
+{"restaurant_raw":"Marlowe's","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":null,"atmosphere":null,"wait":"bad"},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: the comment never types a name, but it judges the place its parent names, so it is a mention of "Marlowe's". "mid" is "meh", never "decent".
+
+POST TITLE: Gino's, Pepper Pie or Nonna Rosa?
+
+COMMENT: I'd skip everyone you mentioned. Gino's, Pepper Pie, Nonna Rosa - tourist traps now
+{"mentions":[
+{"restaurant_raw":"Gino's","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"bad","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["tourist traps"]},
+{"restaurant_raw":"Pepper Pie","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"bad","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["tourist traps"]},
+{"restaurant_raw":"Nonna Rosa","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"bad","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["tourist traps"]}]}
+Why: an avoid instruction at the head of a list applies to EVERY name in it. This is the easiest thing to get wrong.
+
+POST TITLE: Steak for a birthday dinner?
+
+COMMENT: Don't go to Tidewater, it's all seafood. And skip Green Bowl, the owner donates to causes I won't support
+{"mentions":[
+{"restaurant_raw":"Tidewater","neighborhood_hint":null,"reference_only":false,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["all seafood"]},
+{"restaurant_raw":"Green Bowl","neighborhood_hint":null,"reference_only":false,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: both are avoids, but neither reason judges the food, value, service, room or wait: one is a mismatch with what the asker wants, the other is about the owner. So is_negated is true and every aspect stays null. Neither says they went, so experience is "unclear".
+
+POST TITLE: Sichuan in Flushing?
+
+COMMENT: Pepper House is hit or miss. Get the cumin lamb, skip the dumplings. I also had the cucumber salad. Cheap for the area
+{"mentions":[
+{"restaurant_raw":"Pepper House","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"mixed","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":"cheap","experience":"ate_there","dishes_liked":["cumin lamb"],"dishes_disliked":["dumplings"],"dishes_mentioned":["cucumber salad"],"descriptors":[]}]}
+Why: "hit or miss" is the verdict on the food overall, so food is "mixed". Each dish goes in exactly one list: recommended, judged negatively, or only named.
+
+POST TITLE: Omakase under $100?
+
+COMMENT: Haven't been but my friend swears by Okiku. Supposedly it's like Hoshi
+{"mentions":[
+{"restaurant_raw":"Okiku","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"good","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"secondhand","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"restaurant_raw":"Hoshi","neighborhood_hint":null,"reference_only":true,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: the opinion on Okiku is the friend's, so experience is "secondhand"; the opinion is still recorded. Hoshi is only a yardstick, so it is a reference.
+
+POST TITLE: What closed spot do you miss most?
+
+COMMENT: Silver Pond. Closed last year, their soup dumplings were the best
+{"mentions":[
+{"restaurant_raw":"Silver Pond","neighborhood_hint":null,"reference_only":true,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":["soup dumplings"],"descriptors":["closed"]}]}
+Why: a closed place is a reference with "closed" in descriptors and every aspect null, even when it is remembered fondly. Its remembered dish goes in dishes_mentioned.
+
+POST TITLE: Ramen recs?
+
+COMMENT: Kumo over Hikari any day
+{"mentions":[
+{"restaurant_raw":"Kumo","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"good","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"restaurant_raw":"Hikari","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: Hikari lost the comparison, so it is food "meh" and is_negated stays false.
+
+POST TITLE: Best slice near Court St?
+
+PARENT COMMENT: Tony's Corner on Court St
+
+COMMENT: went last month, worst slice I've had and the guy at the counter was rude. regretted going
+{"mentions":[
+{"restaurant_raw":"Tony's Corner","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"awful","value":null,"service":"bad","atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":["slice"],"dishes_mentioned":[],"descriptors":[]}]}
+Why: named from the parent. "worst I've had" and "regretted going" are "awful". It is a bad review, not an instruction to others, so is_negated is false.
+
+POST TITLE: Best bagels?
+
+COMMENT: Honestly any bodega bagel with scallion cream cheese hits
+{"mentions":[]}
+Why: no place is named or pointed at.
+=== END EXTRACTION PROMPT ===
+
+=== PACKET 54140c37 (comment packet) ===
+POST TITLE: Reigning pizza slice downtown Manhattan? L’industrie?
+POST BODY: I am an avid consumer of pizza by the slice. I’ve been on a L’industrie kick for months now and very content, but browsed this sub the other day and was surprised by the hate L’industrie has been getting, for what I consider a standout slice.
+
+Educate me on what slice shops are the best these days. For someone who’s struggled to find anything better than L’industrie.
+
+Places off the top of my head I’ve been that I rate lower:  
+\-Scarr’s: inconsistent, often cold / congealed  
+\-Prince St: Still like a square every now and then but prefer a thin New York slice and often a bit too greasy  
+\-Rubirosa’s: former favorite but has fallen off hard IMO. Haven’t had a good pie in years  
+\-Cello’s: good in a pinch but this is “we have L’industrie at home”  
+\-Two Bro’s: joking but this is actually unbeatable for $1.50  
+\-Joe’s, John’s, etc - good staples but doesn’t wow  
+\-Juliana’s: not bad but definitely a tourist trap
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Busy-Entrepreneur-74: The answer here is Joe’s imo
+  u/themayorhere: It’s crazy Joes gets downvoted. The real location in the village is as quintessential NYC pizza as it gets. Theres better stuff out there these days, but quintessential is the word for Joes.
+    u/bobdownie: The one in FiDi is BAD. It’s almost like it’s not the same place.
+
+>>> COMMENT TO LABEL (u/themayorhere):
+Completely agree
+
+REPLIES TO IT: none
+=== END PACKET 54140c37 ===
+
+=== PACKET 507a7291 (comment packet) ===
+POST TITLE: Is there a delivery service that actually consolidates quality Asian + Western groceries? (Queens)
+POST BODY: I've been through the gauntlet on this. H Mart Instacart, Whole Foods, Trader Joe's, Weee, Natoora, local halal butchers, Flushing runs, Chinatown runs. I cook Taiwanese, Japanese food regularly and eat pretty standard Western stuff otherwise.
+
+Here's where I've landed after way too much time on this: H Mart doesn't deliver fish and the online fish selection is thin. Natoora quality is great but not sustainable price-wise for daily use. Trader Joe's has no reliable fresh meat. Whole Foods meat is nothing special — I end up at a butcher or halal shop anyway for anything I actually care about. And I know most of these grocers are sourcing from the same distributors for a lot of their proteins, which makes the whole runaround even more annoying.
+
+I'm not looking for the cheapest option or the highest-end option. I just want one, maybe two stops (or deliveries) that cover quality proteins, fresh fish, Taiwanese/Asian pantry staples, and normal Western basics. Going from Astoria to Flushing to save $15 on groceries doesn't pencil out.
+
+Has anyone actually solved this or is 3-4 sources just the reality of eating this way in NYC?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/samosasweetie):
+short answer is no? i would deliver stuff that’s hard to find and just plan to get whatever item you need that day, like every other new yorker. like if you need fish that day make it an errand to go to a fish market. like.. what?  lol
+
+REPLIES TO IT (context only):
+  u/Terrible_Alps9830: what a great suggestion, thank you
+=== END PACKET 507a7291 ===
+
+=== PACKET 24ff02ce (comment packet) ===
+POST TITLE: Sip from Sip & Guzzle | West Village Food & Drinks
+POST BODY: Went to Sip from Sip & Guzzle. Their Royale with cheese was delicious and my favorite thing on the menu. The shake it came with I didn’t like at all. The pork yaki skewer I highly recommend. Volcano roll was good, but probably wouldn’t order again. Mochi fries were good as well. I thought the Hokkaido milk soft serve was ok. For the cocktails I recommend the Strawberry Hot Pot and Hi-chew chu hi. 
+
+Sip & Guzzle website: https://www.sipandguzzlenyc.com/
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/KickMental8434):
+I went to the one in Tokyo and loved it but this looks so different! Very fun just completely different
+
+REPLIES TO IT (context only):
+  u/Excellent-Gur-8547: Quite honestly, I thought the one in Tokyo was worse than the one here despite that one being the original, but they also focus really hard on savory cocktails and that's just... not my vibe.
+=== END PACKET 24ff02ce ===
+
+=== PACKET 74a554f0 (comment packet) ===
+POST TITLE: List of terrible restaurants in NYC with great customer reviews
+POST BODY: Wo hop
+Aiththi 
+Spice Symphony
+Pongisiri 
+karahi
+Tipsy Shanghai
+SOL Mexican
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/tanyca111521: Barn Joo
+
+Dominique Ansel’s Bakery (the croissants in particular were bad)
+  u/heregoesnothin_: I had the cronut for the first time y’day and had to throw it away. Wtf was that?!
+
+>>> COMMENT TO LABEL (u/tanyca111521):
+The sad thing is that the Cronut was the best thing I tried there. I thought it was decent to be fair. But the croissant and cookie shot were so disappointing.
+
+REPLIES TO IT: none
+=== END PACKET 74a554f0 ===
+
+=== PACKET 3aae802e (comment packet) ===
+POST TITLE: What are the popular dishes to order at Dishoom x Pastis?
+POST BODY: I don't know much about Dishoom, what are the crowd pleasers?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Human-Progress7526):
+think the popup just started today and the menu is not 1:1 with dishoom's
+
+REPLIES TO IT: none
+=== END PACKET 3aae802e ===
+
+=== PACKET 91e1c49c (comment packet) ===
+POST TITLE: Lunch in Flatiron
+POST BODY: I'll be working in the Flatiron District for a few days in December and am looking for some good lunch spots to check out. Budget isnt an issue although I am not trying to do a tasting menu if that helps. Not a picky eater and am willing to walk 20-30 min outside of the area to go to a place that spikes my interest. Sit down or take out, doesn't matter either.
+
+Appreciate the recs!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/ozanazmaraza: ilili   
+Hawksmoor  
+Her Name is Han   
+Olle   
+Union Square Cafe  
+Valerie
+
+>>> COMMENT TO LABEL (u/raydeezyy):
+Already had Her Name is Han on my list but wow ilili looks amazing
+
+REPLIES TO IT (context only):
+  u/ozanazmaraza: I am never disappointed whenever I visit ilili, though have to say their duck shawarma is my fav. If you have really sweet tooth, their candy bar dessert will satisfy.
+=== END PACKET 91e1c49c ===
+
+=== PACKET 4c156f2b (comment packet) ===
+POST TITLE: Low Food Budget Suggestions
+POST BODY: Well, my financial situation has gotten worse and now I have 250 less than thought I would.
+
+It's my mom and me, we'll be there five full days that we'll need three meals and two half days that we'll only need dinner. We'll be around Manhattan in the theater district most evenings.
+
+These are the places I'm planning on:
+Mei Lai Wah 
+Los Tacos No 1 
+Shake Shack (We don't have it in Kansas)
+Vito's Slices and Ices
+Market Crates 
+Pisillo Italian Paninini 
+Empanada Mama 
+Artichoke Basille's Pizza
+
+I'm not a big fan of bones in meat, dark chicken meat or pork. We also don't like seafood.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Equivalent_Net_8983):
+I don’t understand why so many people recommend buying a bunch of bagels and keeping them in your room. Find a good bagel place near your hotel and buy them fresh each morning, especially if they’re baked on premises. There is nothing as wonderful as a fresh bagel straight from the oven. Keeping a small tub of cream cheese might be a good idea.
+
+I often see posts by food “influencers” on instagram recommending “cheap eat” places in the Bronx or Queens. These are all well and good, but the problem becomes *time*, which you’re also limited by. It might be valuable for you to save $3-5 for a meal, but not if it requires an hour trip on the subway to get to and from there. So, your calculation will most often have to be: where can we eat cheaply *near here*, “here” being wherever your sight-seeing is going to take you.
+
+Having said that though, if you’re in a heavily tourist-y area, like Times Square, taking a 5-10 min walk away from the heart of the area might save you some money. Having tried to grab a last minute quick bite before a Bway play, I’ve noticed that those no-name food places in the area are severely over- priced.
+
+If you can find an actual supermarket, and don’t mind brown-bagging it, buying a loaf of bread, some cold cuts or pb&j and having that for lunch *might* save enough to squeeze in an inexpensive sit-down meal, including a tip. If you can manage to stay in a hotel with a kitchen in the room (and I have no idea whether such a thing even exists in NYC), that would give you more flexibility to make some inexpensive meals for any time, whether breakfast before you leave, or something inexpensive for dinner at the end of your day. Not suggesting you cook *all* your meals, but if you save enough on the meals you fix yourself, you may have a bigger budget for your meals out, so instead of those mediocre $1.50 pizza slices, you can get a decent slice from a better pizzeria.
+
+I know you mentioned no bones or dark meat chicken, but those rotisserie chickens you can pick up in just about any supermarket these days can also be a pretty affordable shared entree.
+
+REPLIES TO IT (context only):
+  u/crazeman: The cost of the subway trip alone is not worth the savings on foodmost of the time. $3 a ride per person adds up quick unless if they have a unlimited... And its often hard to break even on the unlimited pass even as a tourist.
+=== END PACKET 4c156f2b ===
+
+=== PACKET bac2d352 (comment packet) ===
+POST TITLE: I'm tired of New Yorkers hating on Katz's Deli just because it's a tourist spot
+POST BODY: Yes, some places are popular with tourists. That does not mean they automatically suck. Almost every born and raised New Yorker loves to tell me "Katz's Deli is trash" or "it's the most overrated sandwich on earth." What are they smoking because I'd love some. You can say it's overpriced. I can even entertain the it's overrated angle if you mostly are referring to the price. But to say it is terrible is just annoying New Yorker contrarian pretentious behavior. I bet most of them have never even had it before and are just saying that to sound cool. It is objectively a fantastic sandwich. Yes it is overpriced but so is every pastrami sandwich on earth now.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/IvanTheNotSoBad1: New Yorkers just hate being on the same line with tourists.  Food's pretty good albeit expensive.  2nd Ave deli is just less hassle.
+  u/pixel_of_moral_decay: It’s not cheap, but I’m not sure I’d call it expensive either.
+
+Look at a typical midtown salad.
+
+Now consider Katz is in house cured meat in pretty substantial quantity hand cut to order.
+
+It’s not that crazy.  Honestly it makes a lot of midtown lunch spots look more overpriced since you get so little for what you pay, at least Katz is big enough you might even split it with someone.
+    u/jayval718: $25 before tax for a sandwich is not expensive? 🤣
+
+>>> COMMENT TO LABEL (u/CoysNizl3):
+comparatively, no.
+
+REPLIES TO IT: none
+=== END PACKET bac2d352 ===
+
+=== PACKET dcece1a2 (comment packet) ===
+POST TITLE: Your worst meal of 2024 ?
+POST BODY: Flex mussels for me
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Suitable-Peanut: Bar Vinazo in Park Slope which has since permanently closed. I know we're all used to paying ridiculous prices for ridiculous portions in New York but this just took the cake. Regular old tinned fish (still in the tin!) that would maybe cost you 10 bucks at an import shop, marked up to around 30 bucks. Poorly sliced jamon iberico with a sneaky markup price on the meats & cheese board that I didn't even notice when I ordered it. 
+
+Everything was just tiny and sad. Left  hungry And with about $300 spent on four people.  Unfortunately I think that was my last meal out with friends before moving away.
+
+>>> COMMENT TO LABEL (u/Dissidence802):
+If it makes you feel any better, they kicked the bucket last month.
+
+REPLIES TO IT (context only):
+  u/Suitable-Peanut: >Bar Vinazo in Park Slope **which has since permanently closed**
+=== END PACKET dcece1a2 ===
+
+=== PACKET 9522f0a6 (comment packet) ===
+POST TITLE: How is Dominique Ansel's new bakery Papa d'Amour?
+POST BODY: He just wrote this piece full of recs of places to eat in NY [https://on.ft.com/4kFwnkP](https://on.ft.com/4kFwnkP)
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Garconavecunreve: Not the worst restaurant recommendations I’ve read to date tbf - Kings is indeed fantastic for seafood and small plates
+  u/LuBK: I agree. The k-town recs are great too.
+
+>>> COMMENT TO LABEL (u/haribobosses):
+Gammeok had some ahem controversy a few years ago
+
+REPLIES TO IT: none
+=== END PACKET 9522f0a6 ===
+
+=== PACKET 8d96fc73 (comment packet) ===
+POST TITLE: Anyone here have a favorite late night diner they enjoy?
+POST BODY: I ask as I have been itching to go on a late night cruise in the city for some greasy food with a melted apple pie, and I wanted to feel like I was in the 80s again as When Harry Met Sally has been an awesome movie that I  suddenly wanted to go on a little adventure.
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/Cartadimusica):
+Going to be Kellogg's when it opens
+
+REPLIES TO IT (context only):
+  u/KaleidoArachnid: I didn’t know that place does late night dining.
+  u/keyblayde808: place was mid, go to three decker a couple stops up the g, or just walk like 20 min
+=== END PACKET 8d96fc73 ===
+
+=== PACKET 875293fc (comment packet) ===
+POST TITLE: What’s an NYC food opinion that will have you like this
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/chef_torte):
+Unapologetic foods (dhamaka, semma) is a laughably overpriced, overhyped annoyance
+
+REPLIES TO IT: none
+=== END PACKET 875293fc ===

@@ -1,327 +1,345 @@
-NYCEats extraction labeling -- batch b018 -- pass: full_context -- 20 packet(s)
+NYCEats extraction labeling -- batch b018 -- pass: full_context -- comment mode -- 12 packet(s)
 
-Apply the extraction prompt you were given, but read the whole conversation
-shown before deciding what each comment means. Label ONLY the comment marked
-">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a bracket
-number [n]; everything else is context. Packets are independent.
+Each packet shows the whole conversation around the unit the model sees. Read
+all of it before deciding what a comment means, but label ONLY the comment
+marked ">>> COMMENT TO LABEL", or in a thread packet ONLY the comments with a
+bracket number [n]; everything else is context. The layout differs from the
+model's input; the prompt's rules apply all the same. Set needs_context true
+on a mention that the model's own input could not support.
 
-Write one JSON line per packet to labels/full_context/b018.jsonl:
+How to label is in LABELING.md; read it first. In short: label every packet
+exactly as the EXTRACTION PROMPT below asks, then add the label metadata
+(canonical_name and rationale always; the optional fields when they apply).
+Packets are independent: never carry anything from one packet to another, and
+never look at other batches, other passes, model runs or results.
+
+Write one JSON line per packet, in any order, to labels/full_context/b018.jsonl:
   {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
-"output" is the JSON object the prompt asks for. A comment packet's mentions
-carry no "id". A thread packet's mentions each carry "id", the bracket number
-of the comment they come from. Use {"mentions": []} when nothing qualifies.
-
-=== PACKET 73b109e6 (comment packet) ===
-POST TITLE: Taim in the West Village has abruptly shut down
-POST BODY: Closed by Order of the Commissioner of Health and Mental Hygiene.
-
-CONVERSATION ABOVE THE COMMENT, oldest first:
-u/slowcanteloupe: They left without notice in LIC a few weeks ago.  I really miss their puffy pita.
-  u/nightkingscat: Naya opened nearby and was better in every way imo. Taim fell off hard a year or two ago, they used to be so generous with their portions.
-
->>> COMMENT TO LABEL (u/fuzz11):
-I could eat Naya every day
-
-REPLIES TO IT: none
-=== END PACKET 73b109e6 ===
-
-=== PACKET c578d7a9 (comment packet) ===
-POST TITLE: The BEST bagels I’ve ever had
-POST BODY: I recently tried Apollo Bagels in the East Village  and WOW. It blew my socks off! I thought it was just another trendy spot but these bagels are probably the best I’ve ever had. I got the lox and the everything bagel is heavily seasoned (the way I like it) and sooo crispy. I was in shock when I first tried it. Has anyone else tried it? Thoughts??
-
-CONVERSATION ABOVE THE COMMENT, oldest first:
-u/twoanddone_9737: Have you tried Absolute Bagels? Those are my best ever. 
-
-Curious to know how they compare if you’ve tried both?
-  u/HippoInformal3291: I haven’t but now I’m curious! Apollo bagels is near me but I think now I’ll have to make the trek to try Absolute
-    u/SadCombination7535: I tell everyone to go to absolute. Then go to church or st John the Devine. It's 6th largest church in the world and they usually have cool modern art exhibits. Then go to the Hungarian pastry shop. It's like being on a good European vacation but with good bagels.
-      u/No_Weakness_2135: Yes St John the Divine is such a beautiful building.   That’s a good trip if you haven’t explored the UWS.  Head up for bagels and then wander around
-        u/Significant-Yellow43: The Columbia University Campus is also quite nice
-
->>> COMMENT TO LABEL (u/bumanddrifterinexile):
-They don’t let you in anymore unless you work/study there
-
-REPLIES TO IT: none
-=== END PACKET c578d7a9 ===
-
-=== PACKET 55f652a6 (comment packet) ===
-POST TITLE: Suggestions for dinner near MSG
-POST BODY: Hi all, we’ll be in town for the first week in June and we’re looking for a great dinner spot near MSG. Nothing crazy expensive (maybe $50 entrees?) but looking for a good experience. Obviously, tons of options but would love to hear so local favourites. 
-
-Thanks!
-
-CONVERSATION ABOVE THE COMMENT, oldest first:
-u/m1kasa4ckerman: Jongro BBQ in K Town
-
->>> COMMENT TO LABEL (u/Forgive_Me_Tokyo):
-Fuck yeah - you have great taste in KBBQ
-
-REPLIES TO IT: none
-=== END PACKET 55f652a6 ===
-
-=== PACKET deceb0fd (comment packet) ===
-POST TITLE: What are some common myths about the food scene in NYC?
-POST BODY: Some common ones I see:
-
-"New York doesn't have good Mexican food!"
-
-That's super outdated, and anyone who makes a bit of effort could find really good, authentic Mexican food. There is a very large Mexican community in NYC that is continuing to grow. 
-
-"You have to go to deep into Queens to get real X food!"
-
-While I absolutely do think people should check out neighborhoods like Corona, Jackson Heights, Flushing, etc. for food, it seems a little pretentious to me when people claim that anything in Manhattan is automatically overpriced and bad as far as "ethnic" food goes. There is nothing preventing restaurant owners from making a good restaurant of their country's cuisine in Manhattan, and it happens all the time. I personally don't see a huge difference in price, inflation is a bitch and it affects every restaurant. Not to mention, especially in a place like Flushing there are plenty of wealthier immigrants and higher end restaurants that cater to them.
-
-CONVERSATION ABOVE THE COMMENT, oldest first:
-u/AerysBat: Still can't get a decent Cali style burrito anywhere though. Electric Burrito ain't it sorry
-
->>> COMMENT TO LABEL (u/jmlbhs):
-Lucha lucha was good. I was disappointed when it closed. The Mexican food thing is absolutely insane Gatekeeping - went to San Diego and LA in the last year (2x to SD) and had some of
-The best Mexican food they had to offer. And they were great! But to say nothing in NY could compare is just asinine.
-
-REPLIES TO IT (context only):
-  u/atyppo: Not sure where you ate, but it's absolutely true. [This place](https://www.google.com/maps/place/El+Grullense/@37.9830412,-121.2844444,17.21z/data=!4m7!3m6!1s0x80900d3e5ed8b52f:0x7ddef24f7e9a97d2!8m2!3d37.9839726!4d-121.2829384!9m1!1b1) for example in my hometown (norcal) is probably the best burritos and tacos I can think of anywhere. I wish I could find stuff to compare here. Pastor is better here but aside from that, it's tough to find good meats. I think a big part of why this is repeated so often is because the standard for Mexican food is just so much lower here. Something like Dos Toros would never survive in CA.
-=== END PACKET deceb0fd ===
-
-=== PACKET 759ca6b9 (comment packet) ===
-POST TITLE: How is Dominique Ansel's new bakery Papa d'Amour?
-POST BODY: He just wrote this piece full of recs of places to eat in NY [https://on.ft.com/4kFwnkP](https://on.ft.com/4kFwnkP)
-
-CONVERSATION ABOVE THE COMMENT, oldest first:
-u/Garconavecunreve: Not the worst restaurant recommendations I’ve read to date tbf - Kings is indeed fantastic for seafood and small plates
-  u/LuBK: I agree. The k-town recs are great too.
-
->>> COMMENT TO LABEL (u/haribobosses):
-Gammeok had some ahem controversy a few years ago
-
-REPLIES TO IT: none
-=== END PACKET 759ca6b9 ===
-
-=== PACKET 754f664f (comment packet) ===
-POST TITLE: Door dash and  corner store reservations , booking
-POST BODY: I'm checking door dash and I'm confused. I want to book Sept 18. I have to book 1 month ahead of time or 2 weeks before Sept 18 to get a seat?
-
-CONVERSATION ABOVE THE COMMENT, oldest first:
-u/No-Yogurtcloset2314: Why do you want to go so badly for their Applebee's food.
-  u/yung_rhubarb: ok canceled.that slut Taylor swift liked it so I thought why not
-
->>> COMMENT TO LABEL (u/FoodNYC-ModTeam):
-No hate, flamewars, rude comments, etc
-
-NO MISOGYNY
-
-REPLIES TO IT: none
-=== END PACKET 754f664f ===
-
-=== PACKET 78fdd482 (comment packet) ===
-POST TITLE: Eleven Madison Park Walks Back Its No-Tipping Policy After Five Years
-POST BODY: (none)
-
-CONVERSATION ABOVE THE COMMENT, oldest first:
-u/a2cthrawy: why are they going downhill so much?
-
->>> COMMENT TO LABEL (u/reignnyday):
-Inflated egos, going vegan, charging super high prices for being vegan and most importantly just not serving very good food. 
-
-Hypocrisy in the form of still serving meat in the private dining room, too. 
-
-This is effectively a 20% hike in prices for the end user. 
-
-It’s really a shame because a lot of guests are people that have saved up for the meal of a lifetime and are now thoroughly being let down.
-
-REPLIES TO IT (context only):
-  u/userbrn1: > a lot of guests are people that have saved up for the meal of a lifetime
-
-Probably less than 1% of the people dining at places like EMP are having to deliberately save money away for a meal there tbf lol
-  u/basedlandchad14: > It’s really a shame because a lot of guests are people that have saved up for the meal of a lifetime and are now thoroughly being let down.
-
-For real. Imagine going and not even being able to have the world famous lavendar-glazed duck. What a joke.
-=== END PACKET 78fdd482 ===
-
-=== PACKET c43e6750 (comment packet) ===
-POST TITLE: Best sandwich places
-POST BODY: Hi UK guy here and arriving with my family in a day or so. 
-I'm looking for best sandwich places for lunch. We are just south of central park but will obviously be travelling around. 
-Also great pizza and burger places for the kids too.
-Thanks in advance for your help.
-
-The comment is a top-level reply to the post.
-
->>> COMMENT TO LABEL (u/justflipping):
-Going to include sandwiches from different cultures:
-
--	Banh Mi Co Ut, Ba Xuyen, Banh Anh Em
--	Patacon Pisao
--	Arepas Cafe
--	Xian Famous Foods, Old Luo Yang, Henan Feng Wei
--	Pecking House
--	Hen House
--	Little Kirin
--	SyKo
--	Zyara, King of Falafel, Mamoun’s Falafel
--	Sunny & Annie’s Deli
--	Defonte’s
--	Taku Sando
--	Tokuyamatcha and Onigirazu
--	Masa Madre
--	Bolivian Llama Party
--	Cemitas El Tigre
--	A&A Bake Doubles and Roti, De Hot Pot, Trinciti
--	Mama Yoshi Mini Mart
--	All’Antico Vinaio
-
-More:
-
-[NY Sandwiches!! Looking for inspiration](https://www.reddit.com/r/FoodNYC/comments/1eqmfg0/ny_sandwiches_looking_for_inspiration/)
-
-[Best unusual sandwich places?](https://www.reddit.com/r/FoodNYC/comments/1dzy0tt/best_unusual_sandwich_places/)
-
-REPLIES TO IT: none
-=== END PACKET c43e6750 ===
-
-=== PACKET c606c873 (comment packet) ===
-POST TITLE: vietnamese banh mi dac biet
-POST BODY: I’m feeling a bit homesick and have been craving an authentic banh mi this past week. I always get the classic banh mi dac biet (which is a banh mi with cold cuts and pate). I would love to know if there are any spots I should try.
-
-I plan on visiting the east village this weekend so any places in the EV or near the EV would be ideal. But if I have to travel farther just to get my Banh Mi Che Cali/THH/Carrot & Daikon fixings (if you’re Viet from the OC, you know what I’m talking about hahah), I’m willing to do the trek.
-
-Thank you in advance!
-
-P.S. If you spell it like “bahn mi” or used to spell it that way, it will be hard for me to trust your opinion lol but I’m willing to hear my fellow foodie out :P
-
-The comment is a top-level reply to the post.
-
->>> COMMENT TO LABEL (u/c8bb8ge):
-V-Nam Cafe on 1st Ave is very good.
-
-REPLIES TO IT: none
-=== END PACKET c606c873 ===
-
-=== PACKET 27a48aab (comment packet) ===
-POST TITLE: Best halal cart in NYC that is not Adel’s or Mido’s?
-POST BODY: I had Adel’s and it’s for sure my #1, but not worth the line. Mido’s felt like a bootleg Adel’s to me so I didn’t really enjoy it too much since I was just comparing it to Adel’s the whole time. Is there any other halal cart in NYC that is worth the travel? And I’m talking about packed with flavor, color, superb white sauce, etc.
-
-The comment is a top-level reply to the post.
-
->>> COMMENT TO LABEL (u/Extension-Respond289):
-check out the one on 46th and 6th, heard it's bomb and way less of a wait than the usual spots. white sauce game strong too lol
-
-REPLIES TO IT: none
-=== END PACKET 27a48aab ===
-
-=== PACKET 553f2031 (comment packet) ===
-POST TITLE: Capitaine - quite pleasant evening in the west village
-POST BODY: Visited Capitaine earlier this evening with my parents as they are in town.
-
-I had been to Libertine once previously (the prior concept which was more French bistro style) and no has changed over to Capitaine.
-
-We ordered the following:
-
-\- raw platter of oysters, shrimp, scallops  
-\- bread  
-\- razor clams casino  
-\- Capitaine salad  
-\- whole dorade (smaller fish deboned with skin on)  
-\- lobster roll
-
-Highlights were:  
-\- oysters were excellent and properly shucked  
-\- shrimp were perfectly cooked and enormous for a shrimp cocktail  
-\- salad was excellent, the anchovies were wonderful  
-\- the dorade was delicious and cooked very nicely
-
-Cocktails were good, a bit small if you ordered off menu.
-
-All in all it was a very nice experience and I recommend trying - especially for the raw bar.
-
-The comment is a top-level reply to the post.
-
->>> COMMENT TO LABEL (u/Garconavecunreve):
-This might just be my feeling but the menu felt a bit identity-less; compared to the likes of Crevette, cervos and eel bar (even dame) it just seemed a bit bland - for some reason 2/3 of the most memorable dishes to me were sides (the salad and the aioli fries)
-
-REPLIES TO IT (context only):
-  u/FUCK_CAPTCHAS: I wouldn’t say that’s inaccurate - I found the raw dishes and sides to shine the most. I imagine their margins are mostly on those and booze.
-
-I didn’t really like the lobster roll and would certainly skip it next time.
-  u/mgianfal: Yes and the stuff that actually required preparation is a miss.  Hard to F up raw bar
-=== END PACKET 553f2031 ===
-
-=== PACKET f754b70c (comment packet) ===
-POST TITLE: Anyone know where to get steak and fries?
-POST BODY: To clarify I don’t mean Steak Frites. Its good however I want steak over fries. For example, Colonial grill.
-
-The comment is a top-level reply to the post.
-
->>> COMMENT TO LABEL (u/AttemptRough3891):
-I’ve never had it from this place - how is it different from steak frites?  Looks pretty much the same save for some sauce on top.
-
-REPLIES TO IT (context only):
-  u/Sufficient_Damage534: Steak Frites is french cuisine. While I enjoy it, this one is Colombian so the seasonings and sauces are different.
-=== END PACKET f754b70c ===
-
-=== PACKET 005f1659 (comment packet) ===
-POST TITLE: Why should I go to a local cafe instead of Starbucks if it’s usually more expensive?
-POST BODY: Whenever people talk about coffee in NYC, there’s always this strong push to “support small/local cafes” instead of going to places like Starbucks. I get the idea in theory, but in practice I’ve noticed a lot of small independent cafes are actually more expensive than Starbucks. 
-
-For example, a latte at some neighborhood spots is like $6–$7+, sometimes without much seating, fewer locations, and slower service. Meanwhile Starbucks is everywhere, consistent, and often cheaper.
-
-So I’m genuinely curious: what exactly am I getting that’s better?
-
-Is it the beans? The roasting? What is it?
-
-The comment is a top-level reply to the post.
-
->>> COMMENT TO LABEL (u/Ok-Temporary-8243):
-Better coffee? I get dunkin or mcd if i want caffeine. But more local brands, or even chains like devocion are just better
-
-REPLIES TO IT: none
-=== END PACKET 005f1659 ===
-
-=== PACKET afa9f876 (comment packet) ===
-POST TITLE: What do you think of this take on the nyc food scene?
-POST BODY: (none)
-
-The comment is a top-level reply to the post.
-
->>> COMMENT TO LABEL (u/some1105):
-I’m thrilled I don’t need the internet to know what I think of a restaurant and certainly don’t need it to decide whether a restaurant is worth going to, and therefore I can be marked safe from what douchebros ranging from this guy all the way to that pizza guy think about anything.  This sub is fun recreationally for answering some questions, but otherwise ignoring the hype train completely not only works fine for me in terms of quality of what I eat but also in terms of avoiding the worst of noxious restaurant companions.
-
-REPLIES TO IT (context only):
-  u/EanmundsAvenger: Yes exactly this. I have no idea which restaurants are “TikTok famous” because I don’t use that garbage. I don’t get annoyed by influencers because I’m not on Instagram. 
-
-I just eat at restaurants my friends recommend or just try something that looks interesting. Avoid the social media bullshit from the start and you won’t have issues with it driving what you choose 
-
-Like someone else commented - his opinion sounds like someone who spends more time looking at NYC restaurants on TikTok and IG than out trying places himself. I work in the restaurant  industry and actual chefs, sommeliers, bartenders, etc don’t share his opinion. I hear about great new spots all the time and there are still literally thousands of great restaurants that have been around for years
-  u/tiggat: dont you enjoy arguing?
-=== END PACKET afa9f876 ===
-
-=== PACKET 4a3d0a46 (comment packet) ===
-POST TITLE: I guess the Frozen Yogurt lines are no more. Nobody in line 12pm.
-POST BODY: (none)
-
-CONVERSATION ABOVE THE COMMENT, oldest first:
-u/Machdame: I am glad I don't live in NYC anymore because big dumb lines definitely were not a thing when I was there.
-  u/jaded_toast: Ah, yes, because lines were only invented a couple years ago. I'd agree that social media has had an amplifying effect on lines, but let's not pretend that people collectively being willing to wait for something is a recent phenomena.
-    u/Machdame: I really can't believe that this is a "back in my day" kind of line, but here we are... That was over 20 years ago. We had lines, but at this volume for waht amounts to a popup? Would have been laughable.
-
->>> COMMENT TO LABEL (u/jaded_toast):
-Ten years ago, you had people willing to wait for cronuts, Artichoke, black tap, rainbow bagels. Before that, Magnolia cupcakes, and then I was too young to be conscious of those fads. But I did watch a video recently about how rabid the fans were for Rent and how they would camp out overnight for tickets - and that was the mid 90s.
-
-REPLIES TO IT (context only):
-  u/Machdame: That's Broadway though. The theatre scene has always been big with how a successful show can get out of hand.
-=== END PACKET 4a3d0a46 ===
-
-=== PACKET 52691d34 (comment packet) ===
-POST TITLE: Recommendation for Korean Fried Chicken
-POST BODY: While I love national chain Bon Chon, I'm looking for some more local, authentic places. TIA
-
-CONVERSATION ABOVE THE COMMENT, oldest first:
-u/kimchiblues: Turntable Chicken Jazz
-
->>> COMMENT TO LABEL (u/DocJ2786):
-This is the way.
-
-REPLIES TO IT: none
-=== END PACKET 52691d34 ===
+Use {"mentions": []} when nothing qualifies. A comment packet's mentions carry no "id".
+Check the file before you finish:
+  python eval/v4/labels.py check --pass full_context --batch b018
+
+=== EXTRACTION PROMPT (comment mode) ===
+You extract restaurant mentions from ONE Reddit comment posted in a New York City food subreddit.
+
+The input has these parts, in this order, separated by blank lines: POST TITLE, usually POST BODY (cut at 400 characters), sometimes PARENT COMMENT (the comment this one replies to), and then COMMENT. The other parts exist only to make sense of the COMMENT. Extract from the COMMENT. Never extract a place that is only named in the title, body or parent -- unless the COMMENT says something about it or asks about it. A comment that gives an opinion without repeating the name IS a mention of the place it replies about.
+
+Output ONLY a JSON object. No prose, no code fences:
+
+{"mentions": [ {...}, {...} ]}
+
+Use {"mentions": []} only when the comment names and points at no place at all. That is a normal answer.
+
+KIND OF MENTION -- decide this FIRST for every mention
+
+A. OPINION. The comment judges the place: the food or a dish, whether it is worth
+   the money, the staff, the room, the wait -- or uses a judging word about it
+   ("tourist trap", "overrated", "hidden gem", "my favorite", "mid") -- or tells
+   people to avoid it.
+   -> reference_only false. Score the aspects it judges; the rest stay null.
+
+B. ENDORSEMENT. The place is named as an answer to a request for places to go
+   ("best pizza?", "where should I eat in Astoria", "recs for a date spot"),
+   with nothing said about it.
+   -> reference_only false and EVERY aspect null. Being named is the
+   endorsement. Never invent a food level for it.
+   EXCEPTION: when the request itself carries a judgment ("most overrated
+   spot?", "worst service you've had?", "biggest letdown?"), a bare name
+   answering it takes that judgment, scored by the LEVELS table entry for the
+   request's own words: "most overrated" -> food "meh" and descriptor
+   "overrated"; "worst service" -> service "awful"; "biggest letdown" -> food
+   "bad". That makes it kind A.
+
+C. REFERENCE. Everything else that names or points at a place:
+   - a question about it: "is Okiku still open?", "has anyone tried Okiku?"
+   - a stated fact: "they moved to Court St", "it's cash only btw", "closed"
+   - a yardstick: "if you like Okiku you'll love Harbor Fish" (Okiku is the
+     yardstick)
+   - a passing reference: "I was near Okiku and saw a line"
+   - a bare name when nobody asked for places to go ("where did you eat this
+     week?", or a post that asks for no recommendation)
+   -> reference_only true, every aspect null, is_negated false, dishes_liked
+   and dishes_disliked empty. STILL fill neighborhood_hint, price, experience,
+   dishes_mentioned and descriptors when the comment STATES them.
+
+Who asked: a top-level comment answers the post. A reply answers the comment it
+replies to; if that comment asks nothing, it answers the post.
+
+FIELDS (every key on every mention, no extra keys)
+
+restaurant_raw     string. The name VERBATIM, exactly as typed: same spelling,
+                   same capitalization, no added words. Never fix spelling,
+                   never expand an abbreviation, never add a borough or a
+                   "Pizzeria" nobody typed. "lindustrie" stays "lindustrie".
+                   When the comment talks about a place without naming it,
+                   copy the name exactly as the comment or post it refers to
+                   typed it.
+neighborhood_hint  string or null. Only when the comment says where THIS place
+                   is: "the LES one", "Astoria".
+reference_only     true or false. See KIND OF MENTION.
+aspects            object with exactly these keys: food, value, service,
+                   atmosphere, wait. Each is one LEVEL word, or null.
+is_negated         true or false. True ONLY when the comment tells people to
+                   avoid the place.
+price              "cheap", "moderate", "pricey", "very_pricey", or null.
+experience         "ate_there", "secondhand", or "unclear".
+dishes_liked       array of strings. [] if none.
+dishes_disliked    array of strings. [] if none.
+dishes_mentioned   array of strings. [] if none.
+descriptors        array of strings: the commenter's own words. [] if none.
+
+LEVELS -- the only allowed values in aspects, or null
+
+  "rave"    superlative: "best in the city", "best I've ever had", "perfect",
+            "the GOAT", "life-changing"
+  "good"    clear praise: "so good", "great", "excellent", "love it",
+            "my favorite", "my go-to", "swears by it", "hidden gem"
+  "decent"  mild praise: "solid", "pretty good", "decent", "not bad"
+  "mixed"   explicitly mixed: "hit or miss", "inconsistent", "some good,
+            some bad"
+  "meh"     mild knock: "mid", "fine", "it's ok", "overrated", "nothing
+            special", "not worth the hype", "used to be good"
+  "bad"     clear complaint: "bad", "bland", "rude", "slow", "disappointing",
+            "letdown", "tourist trap", "skip it"; and for value:
+            "overpriced", "not worth the price", "not worth $40"
+  "awful"   strong bad experience: "worst", "worst I've had", "got sick",
+            "never again", "regretted going", "inedible"
+
+"fine", "it's ok" and "mid" are "meh", NEVER "decent": on Reddit they are a
+knock. Use the whole negative half. Do not soften a complaint because the thread
+likes the place or because the commenter is polite about it.
+
+null is the default and means NOT MENTIONED. "mixed" never means unmentioned.
+
+ASPECTS
+  food        the cooking, including dishes. Generic praise or hate for the
+              place with no aspect named ("amazing", "mid", "my favorite",
+              "skip it") goes here.
+  value       worth the money: "overpriced", "worth every penny", "great deal",
+              "not worth the price", "not worth $40". "Cheap" or "pricey"
+              alone is price, not value.
+  service     the staff.
+  atmosphere  the room, the vibe, noise, the crowd.
+  wait        the line, getting a table or a reservation, how long food took.
+
+Most comments judge ONE aspect; the other four stay null. NEVER infer one aspect
+from another: great food says NOTHING about service, value, the room or the wait.
+When the comment gives no verdict on the food overall, food takes the level of
+the dishes it judges, whatever it says about value, service, atmosphere or the
+wait: liked dishes -> their level; disliked dishes -> their level, at most
+"meh"; liked and disliked together -> "mixed". A verdict on the food overall
+wins: "great, but skip the dumplings" is food "good".
+
+PRICE is how expensive, with no judgment. Fill it only when the comment says
+it in words ("cheap", "affordable", "pricey", "expensive", "$$$$"). A dollar
+figure with no word about it is null. Being expensive is not bad: "pricey but
+worth every penny" is price "pricey" with value "good". "Overpriced" is price
+"pricey" with value "bad".
+
+EXPERIENCE
+  "ate_there"   they say or clearly imply they ate there: they describe a meal,
+                "my go-to", "I used to live next door", or give a verdict in
+                their own voice ("it's mid", "so good", "skip it").
+  "secondhand"  they say they have not been, or the opinion is someone else's:
+                "haven't been", "heard great things", "my friend swears by it",
+                "it's on my list".
+  "unclear"     neither: a bare name in a list, a question, a fact.
+
+IS_NEGATED is true only when the comment tells people to AVOID the place: "skip
+it", "don't bother", "avoid", "go somewhere else", and a bare "not worth it" or
+"not worth going" given as advice. Saying what it is not worth is NOT an avoid:
+"not worth the price" and "not worth $40" are value "bad"; "not worth the hype"
+is food "meh". A bad review is not an avoid: "worst slice I've had, regretted
+going" is is_negated false.
+Losing a comparison is not an avoid. An avoid instruction that heads a list
+applies to EVERY name in that list. An avoid with no reason given is also food
+"bad". An avoid for a reason that is NOT about the place's food, value,
+service, room or wait -- politics or who owns it, a mismatch with what the
+asker wants ("it's all seafood" when they want steak), where it is or how hard
+it is to get to -- is is_negated true with EVERY aspect null and no liked or
+disliked dishes: nobody judged the place. Experience is "unclear" unless they
+say they went.
+
+DISHES are dishes and drinks the comment names for this place. Each dish goes in
+exactly ONE list:
+  dishes_liked      praised or recommended: "get the vodka slice", "the
+                    pastrami is a must", "got the pastrami and the soup, both
+                    great" (both are liked).
+  dishes_disliked   judged negatively: "skip the dumplings", "the soup was
+                    bland".
+  dishes_mentioned  named with no judgment: "I got the vodka slice". Every dish
+                    on a REFERENCE mention goes here.
+
+DESCRIPTORS are OPEN VOCABULARY: the commenter's own words for what the place IS
+or FEELS like: "red sauce", "hole in the wall", "slice shop", "date spot",
+"cash only", "BYOB", "tourist trap", "closed". There is no fixed list. Never
+invent words they did not use; the one exception is the judgment from a
+judging request ("overrated"). Record what is STATED, not what is ASKED: "is it
+still cash only?" gives no descriptor; "it's cash only btw" gives "cash only".
+Factual descriptors ("cash only", "BYOB", "slice shop", "closed") are not an
+opinion. Judging descriptors ("tourist trap", "overrated", "hidden gem") are an
+opinion: kind A, with the aspect scored.
+
+RULES -- the most common misses first
+
+1. A reply that gives an opinion without repeating the name IS a mention of the
+   place it replies about: "it's v mid", "hard disagree", "their service is
+   terrible". Copy the name from the comment it replies to. This is the most
+   common miss, and these replies carry most of the negative opinions.
+2. A bare list of names is the most common comment. Every name in it is a
+   mention.
+3. Single-word names are the ones most often missed: Tong, Luger, Keens,
+   Juniors, Angel, Scarr's, Emily, Rubirosa. Catch them.
+4. Chains count. Emit McDonald's, Starbucks, Chipotle like any other name;
+   filtering happens later.
+5. Cuisine headings, neighborhoods, boroughs, streets and dishes are not
+   restaurants.
+6. The same place named twice in one comment is ONE mention.
+7. Sentiment is what the commenter thinks NOW. "Used to be my favorite" is food
+   "meh".
+8. A closed place is still a mention: reference_only true, "closed" in
+   descriptors, every aspect null -- even when the comment remembers how good
+   it was. Dishes they remember go in dishes_mentioned.
+9. "X over Y" or "X is better than Y": Y lost, so Y is food "meh" unless the
+   comment also praises Y. Never is_negated. A place used only as a yardstick
+   ("if you like Okiku you'll love Harbor Fish") is a REFERENCE.
+
+EXAMPLES (invented places)
+
+POST TITLE: Best Thai in Queens?
+
+COMMENT: Thai - Siam Garden and Lemongrass Hut
+{"mentions":[
+{"restaurant_raw":"Siam Garden","neighborhood_hint":null,"reference_only":false,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["Thai"]},
+{"restaurant_raw":"Lemongrass Hut","neighborhood_hint":null,"reference_only":false,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["Thai"]}]}
+Why: "Thai" is a heading, not a restaurant. Both names answer a request for places, so both are endorsements: reference_only false, every aspect null.
+
+POST TITLE: Dinner near Union Square?
+
+POST BODY: Last time we went to Harbor Fish and loved it. Looking for something new.
+
+COMMENT: Try Kumo, the spicy miso ramen is great
+{"mentions":[
+{"restaurant_raw":"Kumo","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"good","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":["spicy miso ramen"],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: Harbor Fish is named only in the POST BODY and the comment says nothing about it, so it is not extracted. The praised dish sets food.
+
+POST TITLE: Best bagel in Brooklyn?
+
+COMMENT: Bagel Hut is the best I've ever had. Corner Bagels is pretty solid. Lox Box is ok, nothing special
+{"mentions":[
+{"restaurant_raw":"Bagel Hut","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"rave","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"restaurant_raw":"Corner Bagels","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"decent","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"restaurant_raw":"Lox Box","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: "the best I've ever had" is "rave". "pretty solid" is "decent". "ok" and "nothing special" are a knock: "meh", never "decent".
+
+POST TITLE: Most overrated restaurant in Manhattan?
+
+COMMENT: Copper Kettle. Also Marlowe's, the service is slow
+{"mentions":[
+{"restaurant_raw":"Copper Kettle","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["overrated"]},
+{"restaurant_raw":"Marlowe's","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":"bad","atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["overrated"]}]}
+Why: the post asks for overrated places, so each bare name takes that judgment: "overrated" is food "meh" in the LEVELS table, plus descriptor "overrated". "the service is slow" adds service "bad".
+
+POST TITLE: Late night food in the East Village
+
+COMMENT: Is Okiku still cash only?
+{"mentions":[
+{"restaurant_raw":"Okiku","neighborhood_hint":null,"reference_only":true,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: a question about a place is a reference. "cash only" is asked, not stated, so there is no descriptor.
+
+POST TITLE: Golden Lotus closing?
+
+COMMENT: No, they just moved to the Flushing location. It's BYOB now too
+{"mentions":[
+{"restaurant_raw":"Golden Lotus","neighborhood_hint":"Flushing","reference_only":true,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["BYOB"]}]}
+Why: the comment is about the place the post names, so the name is copied from the post. It states facts and judges nothing, so it is a reference that still carries the location and "BYOB".
+
+POST TITLE: Where should I eat near Times Square?
+
+COMMENT: Bridge Diner is a tourist trap. Pricey too. Go to Sal's Slices instead, get the grandma slice
+{"mentions":[
+{"restaurant_raw":"Bridge Diner","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"bad","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":"pricey","experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["tourist trap"]},
+{"restaurant_raw":"Sal's Slices","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"good","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":["grandma slice"],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: "tourist trap" judges the place, so food is "bad". "Go to Sal's Slices instead" tells people to avoid Bridge Diner. "Pricey" is price; nothing says whether it is worth it, so value stays null. "get the grandma slice" recommends a dish, and food follows it.
+
+POST TITLE: Seafood for an anniversary?
+
+COMMENT: Harbor Fish is really good but not worth the price
+{"mentions":[
+{"restaurant_raw":"Harbor Fish","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"good","value":"bad","service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: "not worth the price" is value "bad". It says what the place is not worth, so it is not an avoid: is_negated false.
+
+POST TITLE: Brunch in Park Slope
+
+PARENT COMMENT: Marlowe's is my go-to brunch spot
+
+COMMENT: honestly mid, and the wait is insane
+{"mentions":[
+{"restaurant_raw":"Marlowe's","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":null,"atmosphere":null,"wait":"bad"},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: the comment never types a name, but it judges the place its parent names, so it is a mention of "Marlowe's". "mid" is "meh", never "decent".
+
+POST TITLE: Gino's, Pepper Pie or Nonna Rosa?
+
+COMMENT: I'd skip everyone you mentioned. Gino's, Pepper Pie, Nonna Rosa - tourist traps now
+{"mentions":[
+{"restaurant_raw":"Gino's","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"bad","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["tourist traps"]},
+{"restaurant_raw":"Pepper Pie","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"bad","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["tourist traps"]},
+{"restaurant_raw":"Nonna Rosa","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"bad","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["tourist traps"]}]}
+Why: an avoid instruction at the head of a list applies to EVERY name in it. This is the easiest thing to get wrong.
+
+POST TITLE: Steak for a birthday dinner?
+
+COMMENT: Don't go to Tidewater, it's all seafood. And skip Green Bowl, the owner donates to causes I won't support
+{"mentions":[
+{"restaurant_raw":"Tidewater","neighborhood_hint":null,"reference_only":false,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":["all seafood"]},
+{"restaurant_raw":"Green Bowl","neighborhood_hint":null,"reference_only":false,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":true,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: both are avoids, but neither reason judges the food, value, service, room or wait: one is a mismatch with what the asker wants, the other is about the owner. So is_negated is true and every aspect stays null. Neither says they went, so experience is "unclear".
+
+POST TITLE: Sichuan in Flushing?
+
+COMMENT: Pepper House is hit or miss. Get the cumin lamb, skip the dumplings. I also had the cucumber salad. Cheap for the area
+{"mentions":[
+{"restaurant_raw":"Pepper House","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"mixed","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":"cheap","experience":"ate_there","dishes_liked":["cumin lamb"],"dishes_disliked":["dumplings"],"dishes_mentioned":["cucumber salad"],"descriptors":[]}]}
+Why: "hit or miss" is the verdict on the food overall, so food is "mixed". Each dish goes in exactly one list: recommended, judged negatively, or only named.
+
+POST TITLE: Omakase under $100?
+
+COMMENT: Haven't been but my friend swears by Okiku. Supposedly it's like Hoshi
+{"mentions":[
+{"restaurant_raw":"Okiku","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"good","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"secondhand","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"restaurant_raw":"Hoshi","neighborhood_hint":null,"reference_only":true,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"unclear","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: the opinion on Okiku is the friend's, so experience is "secondhand"; the opinion is still recorded. Hoshi is only a yardstick, so it is a reference.
+
+POST TITLE: What closed spot do you miss most?
+
+COMMENT: Silver Pond. Closed last year, their soup dumplings were the best
+{"mentions":[
+{"restaurant_raw":"Silver Pond","neighborhood_hint":null,"reference_only":true,"aspects":{"food":null,"value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":["soup dumplings"],"descriptors":["closed"]}]}
+Why: a closed place is a reference with "closed" in descriptors and every aspect null, even when it is remembered fondly. Its remembered dish goes in dishes_mentioned.
+
+POST TITLE: Ramen recs?
+
+COMMENT: Kumo over Hikari any day
+{"mentions":[
+{"restaurant_raw":"Kumo","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"good","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]},
+{"restaurant_raw":"Hikari","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"meh","value":null,"service":null,"atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":[],"dishes_mentioned":[],"descriptors":[]}]}
+Why: Hikari lost the comparison, so it is food "meh" and is_negated stays false.
+
+POST TITLE: Best slice near Court St?
+
+PARENT COMMENT: Tony's Corner on Court St
+
+COMMENT: went last month, worst slice I've had and the guy at the counter was rude. regretted going
+{"mentions":[
+{"restaurant_raw":"Tony's Corner","neighborhood_hint":null,"reference_only":false,"aspects":{"food":"awful","value":null,"service":"bad","atmosphere":null,"wait":null},"is_negated":false,"price":null,"experience":"ate_there","dishes_liked":[],"dishes_disliked":["slice"],"dishes_mentioned":[],"descriptors":[]}]}
+Why: named from the parent. "worst I've had" and "regretted going" are "awful". It is a bad review, not an instruction to others, so is_negated is false.
+
+POST TITLE: Best bagels?
+
+COMMENT: Honestly any bodega bagel with scallion cream cheese hits
+{"mentions":[]}
+Why: no place is named or pointed at.
+=== END EXTRACTION PROMPT ===
 
 === PACKET 1c1e6e86 (comment packet) ===
 POST TITLE: Best KBBQ + Korean Restaurants/Spots for First Timers in NYC
@@ -388,3 +406,158 @@ The Elephant Burger at Elephant & Castle in the West Village is the most underra
 
 REPLIES TO IT: none
 === END PACKET dc63bc70 ===
+
+=== PACKET 892f8eee (comment packet) ===
+POST TITLE: Your top Italian place under $50/person, give me the reccomendations!
+POST BODY: ciao, 
+
+I just moved to NY and have a friend visiting soon and they wanted to have Italian food. From my research I only found were well rated places that were $100+. 
+
+Wondering what are your top 'chill and delicious' reccomendations. Preferrably in Manhattan but open to a short subway ride (he is coming from NJ). 
+
+Thanks in advance.
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/SarcasticallyPolish: Ammazzacaffee is great
+  u/gloriamuntz: This is good but fusion. Not real italian
+    u/SarcasticallyPolish: Hmm, never heard anyone call it fusion. Seemed like a the entire menu was regional Italian dishes.
+      u/gloriamuntz: Lol what region? The entire menu is made up dishes
+
+>>> COMMENT TO LABEL (u/SarcasticallyPolish):
+Really? A cursory google search shows their dishes like Reginette are from Naples, Garganelli from Emilia-Romagna, Agnolotti from Piedmont…
+
+Either way, there are some regions for you, you can research the rest if you’d like or be more specific with what you think is made up.
+
+REPLIES TO IT (context only):
+  u/gloriamuntz: At best it's italian-inspired. It's good,  don't get me wrong. I'm italian.  Its just not authentic.
+=== END PACKET 892f8eee ===
+
+=== PACKET 58d76190 (comment packet) ===
+POST TITLE: Best Shanghainese food? Is Joe’s Shanghai worth the hype or are there better spots?
+POST BODY: (none)
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/crazeman):
+Joe Shanghai is REALLY bad.
+
+I tried it once with a coworker at the old OG Doyer st location, and the soup dumpling tastes... funky. Not good at all.
+
+Had a friend come to visit in down and she never had soup dumplings before. We were midtown and there was no soup dumplings in the area besides for Joe shanghai's mid town spot. 
+
+Thought that maybe last time was a bad batch. Took her there and it was the same thing, just plain bad. It's a shame too because I kept hyping up to her how fucking good soup dumplings were and the ones from Joe Shanghai were terrible. 
+
+Friend visited me again a few years later and I warmed up some frozen soup dumplings from the grocery store, and convinced her to give it another try. She fucking loved it to the point where she brought a bunch of frozen soup dumplings for herself to take home. So yeah, frozen grocery store soup dumplings are better then Joe Shanghai's.
+
+REPLIES TO IT (context only):
+  u/tams93: They were on Doyers? 
+
+Thought the OG location was on Pell
+=== END PACKET 58d76190 ===
+
+=== PACKET 2a05622a (comment packet) ===
+POST TITLE: [deleted by user]
+POST BODY: [removed]
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/dmclubowner: I tend to order from these spots:
+
+* [Mala Project](https://www.malaproject.nyc/) (if you're into spicy food).
+* [Teppen ramen](https://www.teppenramen.com/) (solid ramen spot, not as polished as Ippudo but flavorful).
+* [Ippudo](https://ippudo-us.com/) (consistently good ramen spot).
+* [Dun Huang](https://www.dunhuangfood.com/) (decent Chinese food, their chicken is pretty good).
+* [The Tang](https://www.thetangnyc.com/) (good spot for dumplings, noodles are decent).
+* [Lena's Italian Kitchen](https://lenasitaliankitchen.com/) (a great spot for cheap appetizers from 3-6).
+* [Bengal Tiger](https://www.bengaltigerindianfood.com/) (great spot for Indian food, prices are fair).
+
+>>> COMMENT TO LABEL (u/OuttaMyPersonalSpace):
+Haven't tried a lot of these yet. Thanks!
+
+REPLIES TO IT (context only):
+  u/dmclubowner: You're welcome :)
+=== END PACKET 2a05622a ===
+
+=== PACKET 6a284ad8 (comment packet) ===
+POST TITLE: Din Tai Fung
+POST BODY: honest thoughts on DTF? i always see people raving about it online but some friends have mentioned that it’s just okay. excited for their upcoming Brooklyn location regardless!
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/nonhiphipster: Not sure why all the hate. I had a delicious meal there with my gf, and all for I wanna say around $100? Meaning nothing too insane.
+
+We also got lucky and somehow snagged bar seats with no wait.
+
+Everyone is saying it’s “overrated,” not “the food is bad.” I say go!
+  u/herffjones99: $100 for din tai fung is insane though. You can get a similar meal in chinatown for half that.
+    u/nonhiphipster: I mean, I can’t say you’re wrong. What I can say is our meal was delicious. Sometimes you have to pay more for unique dishes.
+
+>>> COMMENT TO LABEL (u/guynumber20):
+The only unique dish there is the chocolate dumplings everything else is basic cuisine that can be found in china town
+
+REPLIES TO IT (context only):
+  u/nonhiphipster: No one is arguing that string beans are unique as a concept. What’s unique is the way it’s cooked.
+=== END PACKET 6a284ad8 ===
+
+=== PACKET 43c432cc (comment packet) ===
+POST TITLE: Best Summer Soups?
+POST BODY: Hello and good afternoon, I really love soup at all times of the year even in the dead of summer. What's your favorite summer soup to get in NYC? 
+
+
+I actually never had korean cold noodle soup before so I'm curious what the best kind is, and if there's any other chilled soup that's worth a try!
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/lavegasepega):
+We love pozole. We don’t eat it cold, but something about the spice, cilantro and lime that feel like summer. And it also doesn’t have to be served super hot.
+
+REPLIES TO IT: none
+=== END PACKET 43c432cc ===
+
+=== PACKET 7c9bb070 (comment packet) ===
+POST TITLE: Where can I find the best Spanish omelette/tortilla espagnola in NYC?
+POST BODY: I had never liked Spanish omelettes/tortilla espagnola until I went to Spain for vacation a few years back. There, I immediately fell in love them, and ordered them at every single tapas spot - it was an obsession. After returning from vacation, I could not find a single Spanish tortilla that I’ve liked. Everything tasted bland, over cooked, lacking in depth of flavor (or any flavor, or seasoning). The best ones here are still not great (I lived in California before and had no luck there either).
+
+So, I’m humbly turning to you Reddit. Where do I go to find an authentic tortilla espagnola in NYC?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Kooky_Comb6051: It’s either Bocqueria or Ernesto’s. They def scratch the itch for me but they don’t hit like Spanish tortillas do in Spain for me personally.
+
+>>> COMMENT TO LABEL (u/squalor1929):
+Ernesto’s for sure! That place is great.
+
+REPLIES TO IT: none
+=== END PACKET 7c9bb070 ===
+
+=== PACKET a2c96a15 (comment packet) ===
+POST TITLE: Are there any places that have great dessert dumplings?
+POST BODY: No, I'm not talking about or thinking of DTF, but I am thinking about DTF, the knock off DTF restaurant I went to as a kid. They used to have these dumplings on the dessert menu that were filled with black sesame paste, and I cannot believe that I've never seen anyone else do the same. Before I resort to setting up my own in-home black sesame dumpling factory, is there anywhere where I could get them or any other interesting dessert dumplings instead?
+
+The comment is a top-level reply to the post.
+
+>>> COMMENT TO LABEL (u/cambiumkx):
+What’s a dumpling?
+
+Lots of stores sell tangyuan with black sesame paste filling.
+
+REPLIES TO IT (context only):
+  u/jaded_toast: I love those. But for this post, I am thinking dumpling in the sense of a wrapper like XLB, gyoza, or wontons.
+=== END PACKET a2c96a15 ===
+
+=== PACKET 73f7e5d6 (comment packet) ===
+POST TITLE: Gramercy, Emily or Minette for Burgers?
+POST BODY: Hi, I will be in NYC next week and am looking to try one of the better burgers in the city and know these places are pretty well known. Unfortunately will likely only have time for one spot due to other commitments.
+
+Any recommendations on which one I should go to?
+
+CONVERSATION ABOVE THE COMMENT, oldest first:
+u/Garconavecunreve: I’d go with Emily or Gramercy Tavern. I liked Minetta, assuming we’re discussing the black label burger(had it twice), but both times did not feel like it was worth the money tbh. 
+
+Gramercy is probably the tidier option, at least I feel like it’s assembled with way more attention compared to Emily’s, which in turn definitely has the superior burger sauce. I’ll phrase it like this: if you prefer a classic burger that’s really well executed choose gramercy tavern, if you want something slightly more adventurous go with Emily’s
+  u/Coconuts2018: Agreed on Minetta. I had the black label prob like 5 years ago and it was amazing. The meat was perfectly seasoned, the dearth of toppings was actually a benefit not a negative. But then I had the black label again late last year and was really disappointed. It was completely unseasoned and just unmemorable. Service was meh.
+
+Gramercy Tavern consistently great and the service is impeccable. Also you'd be able to try their amazing desserts!
+
+>>> COMMENT TO LABEL (u/[deleted]):
+I’m a regular at Minetta and have tried both and actually prefer the regular Minetta burger!
+
+REPLIES TO IT: none
+=== END PACKET 73f7e5d6 ===

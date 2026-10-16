@@ -25,13 +25,17 @@ The database is only read, and only when drawing (to render the new items).
      wrong_place             a mention is dropped AND the system named some other place
      spurious_mention        the system named a place the reference does not have, and dropped nothing
      wrong_sign              a matched aspect has the opposite sign
-     scored_milder           a reference aspect at -1 or below is null or higher in the system
-     missed_negative         a reference negative (any aspect <= -1) is dropped or carries no negative
+     scored_milder           a reference aspect at meh or below is null or higher in the system
+     missed_negative         a reference negative (an aspect at meh or below, or an avoid)
+                             is dropped or carries no negative
      missed_negation         reference is_negated, system not
-     missed_price_complaint  reference value complaint (or value < 0) dropped or not flagged
-     missed_dish_complaint   a reference dish at -1 or below / avoid with no negative dish entry
-     stuck_default           the system left a mention at food 0.3 only while the reference
-                             scored something else
+     missed_price_complaint  reference value complaint (value at meh or below) dropped or not flagged
+     missed_dish_complaint   a reference disliked dish missing from the system's dishes_disliked
+     stuck_default           the system left a bare endorsement (every aspect null, no
+                             avoid) where the reference judged the place
+
+   Every run is read through schema_v5 and compared with the v5 labels, so
+   old-schema runs (production's, the current prompt) arrive adapted.
 
    Rates are reported per heuristic tag and per stratum, for each mode, plus
    traffic-weighted overall rates. Comments a run never processed are skipped.
@@ -76,7 +80,9 @@ HERE = os.path.dirname(os.path.realpath(__file__))
 EVAL = os.path.dirname(HERE)
 sys.path.insert(0, EVAL)
 sys.path.insert(0, HERE)
+import _paths  # noqa: E402,F401  (puts eval/lib on sys.path)
 import score as S  # noqa: E402
+import score_v5 as SV  # noqa: E402
 import corpus  # noqa: E402
 import design as D  # noqa: E402
 import compare_v4 as CV  # noqa: E402
@@ -91,6 +97,10 @@ RANDOM_SHARE = 0.30
 
 
 def failures(g, preds, alias, excluded):
+    """Failure types for one comment. g is a v5 gold line (Claude's labels);
+    preds are contract mentions (compare_v4.load_runs reads every run through
+    schema_v5, so old-schema runs arrive adapted)."""
+    lv = SV.lv
     ms = S.model_mentions(preds, alias, True)
     gms = [x for x in g["mentions"] if x["canonical_key"] not in CHAINS]
     required = [x for x in gms if S.is_required(x)]
@@ -109,38 +119,34 @@ def failures(g, preds, alias, excluded):
         F.add("spurious_mention")
     for x in required:
         m = matched.get(id(x))
-        dish_negs = [d for d in x.get("dish_sentiment", []) if (d["level"] is not None and d["level"] <= -1) or d["avoid"]]
+        dish_negs = x.get("dishes_disliked") or []
         if m is None:
-            if S.gold_negative(x):
+            if SV.gold_negative(x):
                 F.add("missed_negative")
             if x.get("value_complaint"):
                 F.add("missed_price_complaint")
             if dish_negs:
                 F.add("missed_dish_complaint")
             continue
-        asp = m.get("aspects") if isinstance(m.get("aspects"), dict) else {}
-        for a in S.ASPECTS:
-            gv, mv = x["aspects"].get(a), S.bucket(asp.get(a))
+        for a in SV.ASPECTS:
+            gv, mv = lv(x["aspects"].get(a)), lv(m["aspects"].get(a))
             if gv is not None and mv is not None and gv != 0 and mv != 0 and S.sign(gv) != S.sign(mv):
                 F.add("wrong_sign")
             if gv is not None and gv <= -1 and (mv is None or mv > gv):
                 F.add("scored_milder")
-        if S.gold_negative(x) and not S.model_negative(m):
+        if SV.gold_negative(x) and not SV.model_negative(m):
             F.add("missed_negative")
-        if x["is_negated"] and not m.get("is_negated"):
+        if x["is_negated"] and not m["is_negated"]:
             F.add("missed_negation")
-        if x.get("value_complaint") and not S.model_value_complaint(m):
+        if x.get("value_complaint") and not SV.model_value_complaint(m):
             F.add("missed_price_complaint")
-        if dish_negs:
-            ents = S.model_dish_entries(m) or []
-            if not all(any(isinstance(e, dict) and S.lenient_same(e.get("dish"), d["dish"])
-                           and ((S.bucket(e.get("level")) or 0) < 0 or e.get("avoid")) for e in ents)
-                       for d in dish_negs):
+        if dish_negs and SV.dish_capable(m):
+            if not all(any(S.lenient_same(d, e) for e in m["dishes_disliked"]) for d in dish_negs):
                 F.add("missed_dish_complaint")
-        if corpus.is_default(m):
-            others = [v for k, v in x["aspects"].items() if k != "food" and v is not None]
-            if others or x["aspects"].get("food") not in (1, None):
-                F.add("stuck_default")
+        # v5's "stuck at the default": the system left a bare endorsement
+        # (every aspect null, no avoid) where the reference judged the place.
+        if SV.is_bare(m) and (any(v is not None for v in x["aspects"].values()) or x["is_negated"]):
+            F.add("stuck_default")
     return F
 
 
