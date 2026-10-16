@@ -18,6 +18,7 @@ import json
 import os
 import re
 import subprocess
+import sys
 import threading
 import time
 import urllib.error
@@ -64,6 +65,9 @@ ANTHROPIC_PRICES = {
     "claude-haiku-4-5": (1.00, 5.00, 0.10),
 }
 CACHE_WRITE_FACTOR = 1.25
+# Haiku 5.5 charges more once a prompt passes 100K tokens. The eval never gets
+# near that, but the spend cap prices a call at the tier it could reach.
+ANTHROPIC_LONG_PRICES = {"claude-haiku-5-5": (100_000, 0.50, 2.50)}
 # The only Claude ids that still accept a non-default temperature; every
 # newer Claude model rejects one with a 400, whichever provider relays it.
 ANTHROPIC_SAMPLING_OK = {"claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-6"}
@@ -219,6 +223,17 @@ def prices(api, model_id, cat=None):
     return inp, f("completion", 0.0), f("input_cache_read", inp), f("input_cache_write", inp)
 
 
+def long_context_prices(model_id, prompt_tokens):
+    """The long-prompt tier, as prices() returns it, when prompt_tokens is
+    past the model's threshold; else None."""
+    tier = ANTHROPIC_LONG_PRICES.get(model_id)
+    if not tier or prompt_tokens <= tier[0]:
+        return None
+    _, inp, out = tier
+    read = ANTHROPIC_PRICES[model_id][2]
+    return inp / 1e6, out / 1e6, inp * read / 1e6, inp * CACHE_WRITE_FACTOR / 1e6
+
+
 def supports(api, model_id, param, cat=None):
     """Whether a request parameter may be sent. A Claude model's own rule
     wins, on either provider: OpenRouter's catalog lists temperature for
@@ -261,20 +276,42 @@ def _openrouter_payload(model_id, system, user, opts, cat):
     return payload
 
 
-def _call_openrouter(model_id, system, user, opts, cat):
+def _meter(meter, usage=None, uncertain=False):
+    """Tell the spend cap about one attempt: a response's cost (or its token
+    counts when the provider didn't price it), or an attempt that ended
+    without an answer but may still have been billed."""
+    if meter is None:
+        return
+    if uncertain:
+        meter["uncertain"] += 1
+    elif usage is not None:
+        if usage.get("cost") is not None:
+            meter["cost"] += float(usage["cost"])
+        else:
+            meter["unpriced"].append(usage)
+
+
+def _uncertain_left(meter, used):
+    return meter is None or used <= meter.get("max_uncertain", 1)
+
+
+def _call_openrouter(model_id, system, user, opts, cat, meter=None):
     payload = _openrouter_payload(model_id, system, user, opts, cat)
     req = urllib.request.Request(OPENROUTER_URL, data=json.dumps(payload).encode(), headers={
         "Authorization": "Bearer " + os.environ["OPENROUTER_API_KEY"],
         "Content-Type": "application/json",
     })
-    last = None
+    last, uncertain = None, 0
     for attempt in range(6):
         t0 = time.time()
         try:
             with _urlopen(req, timeout=opts.get("timeout", 180)) as r:
                 body = json.load(r)
-            return parse_openrouter(body), time.time() - t0, None
+            out = parse_openrouter(body)
+            _meter(meter, out["usage"])
+            return out, time.time() - t0, None
         except urllib.error.HTTPError as e:
+            # An HTTP error is a rejection, not a billed completion.
             body = e.read()[:300]
             last = f"http {e.code}: {body!r}"
             if is_key_failure(e.code, body):
@@ -283,10 +320,30 @@ def _call_openrouter(model_id, system, user, opts, cat):
                 raise PermanentError(last)
             if e.code != 429 and e.code < 500:
                 break
-        except Exception as e:  # network; transient
+        except Exception as e:  # network or timeout: the request may have run and billed
             last = f"{type(e).__name__}: {e}"
-        time.sleep(min(5 * 2 ** attempt, 60))
+            uncertain += 1
+            _meter(meter, uncertain=True)
+            if not _uncertain_left(meter, uncertain):
+                break
+        time.sleep(min(RETRY_BASE_S * 2 ** attempt, 60))
     return None, None, last
+
+
+def openrouter_key_status():
+    """UNTESTED, optional (EVAL_OPENROUTER_KEY_CHECK=1): OpenRouter's own
+    record of this key's limit and usage, from GET /api/v1/key. Never called
+    by default; the local ledger is what the cap relies on. Returns
+    {"limit": float or None, "usage": float} or None."""
+    req = urllib.request.Request("https://openrouter.ai/api/v1/key", headers={
+        "Authorization": "Bearer " + os.environ.get("OPENROUTER_API_KEY", "")})
+    try:
+        with _urlopen(req, timeout=30) as r:
+            d = (json.load(r) or {}).get("data") or {}
+        return {"limit": d.get("limit"), "usage": float(d.get("usage") or 0)}
+    except Exception as e:
+        print(f"note: OpenRouter key check failed ({type(e).__name__}); using the ledger only", file=sys.stderr)
+        return None
 
 
 def is_key_failure(code, body):
@@ -342,7 +399,7 @@ def parse_anthropic(msg, model_id):
     u = msg.get("usage") or {}
     inp, out = u.get("input_tokens") or 0, u.get("output_tokens") or 0
     cr, cw = u.get("cache_read_input_tokens") or 0, u.get("cache_creation_input_tokens") or 0
-    p = prices("anthropic", model_id)
+    p = long_context_prices(model_id, inp + cr + cw) or prices("anthropic", model_id)
     cost = None if p is None else inp * p[0] + out * p[1] + cr * p[2] + cw * p[3]
     return {
         "raw": text if text or msg.get("stop_reason") != "refusal" else None,
@@ -375,26 +432,47 @@ def _anthropic_sdk():
     return _sdk
 
 
-def _call_anthropic(model_id, system, user, opts):
+ANTHROPIC_ATTEMPTS = 6
+RETRY_BASE_S = 5        # backoff: 5s, 10s, 20s, ... capped at 60s (tests set it to 0)
+
+
+def _call_anthropic(model_id, system, user, opts, meter=None):
+    """The SDK's own retries are off (max_retries=0) so every attempt is
+    visible to the spend cap: a timeout may have billed and is charged, a 429
+    or 5xx did not and is retried freely."""
     global _client
     anthropic = _anthropic_sdk()
     with _client_lock:
         if _client is None:
-            _client = anthropic.Anthropic(max_retries=5, timeout=opts.get("timeout", 180))
-    t0 = time.time()
-    try:
-        msg = _client.messages.create(**anthropic_request(model_id, system, user, opts))
-    except anthropic.APIStatusError as e:
-        err = f"http {e.status_code}: {str(e.message)[:300]}"
-        if e.status_code in (401, 402, 403) or "credit balance" in str(e.message).lower():
-            raise FatalError(f"Anthropic refused the key ({err})")
-        return None, None, err
-    except anthropic.APIConnectionError as e:
-        return None, None, f"{type(e).__name__}: {e}"
-    out = parse_anthropic(msg.to_dict(), model_id)
-    if out["raw"] is None:
-        return None, time.time() - t0, f"refusal: {msg.to_dict().get('stop_details')}"
-    return out, time.time() - t0, None
+            _client = anthropic.Anthropic(max_retries=0, timeout=opts.get("timeout", 180))
+    last, uncertain = None, 0
+    for attempt in range(ANTHROPIC_ATTEMPTS):
+        t0 = time.time()
+        try:
+            msg = _client.messages.create(**anthropic_request(model_id, system, user, opts))
+        except anthropic.APIStatusError as e:
+            last = f"http {e.status_code}: {str(e.message)[:300]}"
+            if e.status_code in (401, 402, 403) or "credit balance" in str(e.message).lower():
+                raise FatalError(f"Anthropic refused the key ({last})")
+            if e.status_code in (408, 409, 429) or e.status_code >= 500:
+                time.sleep(min(RETRY_BASE_S * 2 ** attempt, 60))
+                continue
+            return None, None, last
+        except anthropic.APIConnectionError as e:   # includes timeouts: the request may have run
+            last = f"{type(e).__name__}: {e}"
+            uncertain += 1
+            _meter(meter, uncertain=True)
+            if not _uncertain_left(meter, uncertain):
+                return None, None, last
+            time.sleep(min(RETRY_BASE_S * 2 ** attempt, 60))
+            continue
+        d = msg.to_dict()
+        out = parse_anthropic(d, model_id)
+        _meter(meter, out["usage"])                  # a refusal or a truncation still bills
+        if out["raw"] is None:
+            return None, time.time() - t0, f"refusal: {d.get('stop_details')}"
+        return out, time.time() - t0, None
+    return None, None, last
 
 
 def check_opts(api, opts):
@@ -404,11 +482,12 @@ def check_opts(api, opts):
         raise SystemExit("--thinking is only sent on Anthropic's API; on OpenRouter use --effort")
 
 
-def complete(api, model_id, system, user, opts, cat=None):
-    """One call -> (record or None, latency seconds, error string or None)."""
+def complete(api, model_id, system, user, opts, cat=None, meter=None):
+    """One call -> (record or None, latency seconds, error string or None).
+    meter (budget.new_meter()) collects what the call billed, for the cap."""
     if api == "anthropic":
-        return _call_anthropic(model_id, system, user, opts)
-    return _call_openrouter(model_id, system, user, opts, cat if cat is not None else catalog())
+        return _call_anthropic(model_id, system, user, opts, meter)
+    return _call_openrouter(model_id, system, user, opts, cat if cat is not None else catalog(), meter)
 
 
 def require_key(api):

@@ -31,9 +31,16 @@ repetitions. Each line records the raw output, whether it parsed as JSON,
 latency, token usage (with cache reads and writes) and cost: OpenRouter's
 reported cost, or for Anthropic's API one computed from its price table.
 Effort and thinking settings are added to the file name.
+
+Every call goes through the spend cap (eval/lib/budget.py, at most $6 per
+key): a run whose pessimistic cost is above what's left is refused unless
+--partial, every request carries an explicit max_tokens, and a call is sent
+only once its worst case is reserved. When the cap stops a run, everything
+made so far is written and the command exits non-zero.
 """
 
 import argparse
+import collections
 import concurrent.futures
 import hashlib
 import importlib.util
@@ -48,6 +55,7 @@ import _paths  # noqa: E402,F401  (puts eval/ and eval/lib on sys.path)
 
 HERE = _paths.EVAL
 ROOT = _paths.ROOT
+import budget  # noqa: E402
 import providers  # noqa: E402
 
 
@@ -197,12 +205,12 @@ def parse(raw):
     return isinstance(ms, list), ms if isinstance(ms, list) else None
 
 
-def run_job(job, rep, model, system, ph, mode, opts, api="openrouter"):
+def run_job(job, rep, model, system, ph, mode, opts, api="openrouter", meter=None):
     rec = {"call_key": job["call_key"], "rep": rep, "item_ids": job["item_ids"],
            "model": model, "prompt_hash": ph, "mode": mode,
            "ts": time.strftime("%Y-%m-%dT%H:%M:%S")}
     try:
-        out, latency, err = providers.complete(api, model, system, job["user"], opts)
+        out, latency, err = providers.complete(api, model, system, job["user"], opts, meter=meter)
     except providers.PermanentError as e:
         rec.update({"latency_s": None, "error": str(e), "permanent": True})
         return rec
@@ -244,24 +252,58 @@ def caches_prompt(api, model):
     return api == "anthropic" or model.startswith("anthropic/")
 
 
-def execute(todo, model, system, ph, mode, opts, api, out, workers, progress=True):
+def with_max_tokens(opts, mode):
+    """Every request carries an explicit max_tokens, so the spend cap can
+    bound it: the caller's, else budget.DEFAULT_MAX_TOKENS for the mode."""
+    opts = dict(opts)
+    if not opts.get("max_tokens"):
+        opts["max_tokens"] = budget.DEFAULT_MAX_TOKENS[mode]
+    return opts
+
+
+def execute(todo, model, system, ph, mode, opts, api, out, workers, progress=True, spend=None):
     """Run (job, rep) pairs in parallel, appending each record as it lands so
     an interrupted run resumes. Returns summary stats.
+
+    Every call goes through the spend cap (spend, a budget.Budget; opened
+    here for the key this api uses when the caller has none). A call is
+    dispatched only once its worst case is reserved; when the cap can't fit
+    the next one, the calls in flight finish and are written, and
+    budget.BudgetExhausted is raised. Calls are dispatched in todo's order,
+    so the most valuable ones come first.
 
     Where the system prompt is cached, the first call runs alone: calls
     started together all miss the cache and each pays the write, so one call
     writes it and the rest read it.
 
-    A refused key (providers.FatalError) stops everything: pending calls are
-    cancelled, calls already in flight are still recorded if they succeed,
+    A refused key (providers.FatalError) stops everything: nothing more is
+    dispatched, calls already in flight are still recorded if they succeed,
     and nothing is written for the refused call, so a resume after topping
     up the key starts exactly where this one stopped."""
     providers.check_opts(api, opts)
-    if api == "openrouter":
-        providers.catalog()         # load once here, not raced by every worker
+    opts = with_max_tokens(opts, mode)
+    budget.check_max_tokens(api, opts["max_tokens"])
+    cat = providers.catalog() if api == "openrouter" else None   # load once, not raced by every worker
+    if budget.call_prices(api, model, 0, cat) is None:
+        raise SystemExit(f"no known price for {api}:{model}; it can't run under the spend cap")
+    own = spend is None
+    if own:
+        spend = budget.Budget.open(api)
+    try:
+        return _execute(todo, model, system, ph, mode, opts, api, out, workers, progress, spend, cat)
+    finally:
+        if own:
+            spend.close()
+
+
+def _execute(todo, model, system, ph, mode, opts, api, out, workers, progress, spend, cat):
     os.makedirs(os.path.dirname(out), exist_ok=True)
-    stats = {"calls": 0, "json_ok": 0, "errors": 0, "cost": 0.0, "latency": []}
-    fatal = None
+    stats = {"calls": 0, "json_ok": 0, "errors": 0, "cost": 0.0, "latency": [], "spent": 0.0}
+    fatal, stopped = None, False
+    pending = collections.deque(todo)
+    inflight = {}
+    warmed = not caches_prompt(api, model)
+    reserve_factor = 1 + budget.MAX_UNCERTAIN_RETRIES
 
     def record(f, rec):
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
@@ -275,33 +317,46 @@ def execute(todo, model, system, ph, mode, opts, api, out, workers, progress=Tru
             stats["latency"].append(rec["latency_s"])
         if progress and stats["calls"] % 50 == 0:
             print(f"  {stats['calls']}/{len(todo)} calls, {stats['errors']} errors, "
-                  f"${stats['cost']:.4f}", file=sys.stderr)
+                  f"${stats['spent']:.4f} spent", file=sys.stderr)
 
-    with open(out, "a", encoding="utf-8") as f:
-        rest = list(todo)
-        if rest and caches_prompt(api, model):
-            j, rep = rest.pop(0)
-            try:
-                record(f, run_job(j, rep, model, system, ph, mode, opts, api))
-            except providers.FatalError as e:
-                raise SystemExit(f"stopped: {e}")
-        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
-            futs = [pool.submit(run_job, j, rep, model, system, ph, mode, opts, api) for j, rep in rest]
-            for fut in concurrent.futures.as_completed(futs):
-                if fut.cancelled():
-                    continue
+    with open(out, "a", encoding="utf-8") as f, \
+            concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
+        while True:
+            limit = workers if warmed else 1
+            while pending and fatal is None and not stopped and len(inflight) < limit:
+                j, rep = pending[0]
+                attempt = budget.attempt_ceiling(api, model, system, j["user"], opts["max_tokens"], cat)
+                held = spend.reserve(attempt * reserve_factor)
+                if held is None:
+                    # Settling what's in flight may free enough; with nothing
+                    # in flight, the cap is reached.
+                    stopped = not inflight
+                    break
+                pending.popleft()
+                meter = budget.new_meter()
+                fut = pool.submit(run_job, j, rep, model, system, ph, mode, opts, api, meter)
+                inflight[fut] = (held, meter, attempt, j["call_key"])
+            if not inflight:
+                break
+            done, _ = concurrent.futures.wait(inflight, return_when=concurrent.futures.FIRST_COMPLETED)
+            for fut in done:
+                held, meter, attempt, key = inflight.pop(fut)
+                stats["spent"] += spend.settle(held, meter, attempt, model, key, cat)
+                warmed = True
                 try:
                     rec = fut.result()
                 except providers.FatalError as e:
-                    if fatal is None:
-                        fatal = e
-                        for other in futs:
-                            other.cancel()
+                    fatal = fatal or e
                     continue
                 record(f, rec)
     if fatal is not None:
         raise SystemExit(f"stopped: {fatal}\n{stats['calls']} calls were recorded before the stop; "
                          f"re-running resumes from there.")
+    if stopped:
+        raise budget.BudgetExhausted(
+            f"budget: the ${spend.cap:.2f} cap stopped dispatching with {len(pending)} calls of this run not "
+            f"made (${spend.available():.4f} left, below the next call's worst case). Everything made so far "
+            f"is written; re-running the same command resumes without repeating a paid call.", stats)
     return stats
 
 
@@ -330,7 +385,8 @@ def main():
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--temperature", type=float, default=0.0,
                     help="sent only to models that accept it (current Claude models do not)")
-    ap.add_argument("--max-tokens", type=int)
+    ap.add_argument("--max-tokens", type=int, help="default per mode: budget.DEFAULT_MAX_TOKENS "
+                                                    f"{budget.DEFAULT_MAX_TOKENS}")
     ap.add_argument("--effort", choices=["low", "medium", "high", "xhigh", "max"],
                     help="reasoning effort; omitted means the model's default")
     ap.add_argument("--reasoning", choices=["low", "medium", "high"], help="old name for --effort")
@@ -339,13 +395,20 @@ def main():
     ap.add_argument("--provider", help="comma list; pins OpenRouter routing")
     ap.add_argument("--timeout", type=int, default=180)
     ap.add_argument("--tag", default="", help="suffix for the run file name")
+    ap.add_argument("--cap", type=float, help=f"lower the spend cap for this run (never above "
+                                              f"${budget.HARD_CAP_USD:.2f})")
+    ap.add_argument("--partial", action="store_true",
+                    help="run even if the pessimistic estimate is above what's left: calls go in order "
+                         "and the cap stops them")
     ap.add_argument("--dry-run", action="store_true", help="print the first calls, no API")
     args = ap.parse_args()
 
     providers.load_env()
     api, model = providers.resolve(args.model, args.api)
-    opts = call_opts(args)
+    opts = with_max_tokens(call_opts(args), args.mode)
     providers.check_opts(api, opts)
+    budget.check_max_tokens(api, opts["max_tokens"])
+    budget.effective_cap(args.cap)          # refuse a raised cap before anything else
     pmod, label = load_prompt(args.prompt, args.mode)
     system = pmod.SYSTEM_PROMPT
     ph = prompt_hash(system)
@@ -366,6 +429,14 @@ def main():
         jobs = jobs[:args.limit]
 
     out = run_path(model, ph, args.mode, config_tag(opts, args.tag))
+    done = cached_calls(out)
+    todo = [(j, rep) for rep in range(args.repeat) for j in jobs
+            if (j["call_key"], rep) not in done]
+    cat = providers.catalog() if api == "openrouter" else None
+    pess = [budget.pessimistic_call(api, model, system, j["user"], opts["max_tokens"], i == 0, cat)
+            for i, (j, _) in enumerate(todo)]
+    if any(p is None for p in pess):
+        raise SystemExit(f"no known price for {api}:{model}; it can't run under the spend cap")
 
     if args.dry_run:
         print(f"{api}:{model} prompt {label} hash {ph}; {len(jobs)} calls -> {out}")
@@ -373,15 +444,31 @@ def main():
             print("=" * 80, "\n", j["call_key"], j["item_ids"])
             print(j["user"][:1500])
             print(f"[~{(len(system) + len(j['user'])) // 4:,} input tokens]")
+        print(f"pessimistic ${sum(pess):.4f} for {len(todo)} calls (max_tokens {opts['max_tokens']})")
+        ro = budget.Budget.open(api, args.cap, lock=False, need_key=False)
+        print("\n".join(ro.lines(sum(pess))) if ro else f"budget: {budget.key_var(api)} not set")
         return
 
     providers.require_key(api)
-    done = cached_calls(out)
-    todo = [(j, rep) for rep in range(args.repeat) for j in jobs
-            if (j["call_key"], rep) not in done]
-    print(f"{api}:{model} prompt={label} ({ph}) mode={args.mode}: "
-          f"{len(todo)} calls to make, {len(done)} cached -> {out}")
-    print_stats(execute(todo, model, system, ph, args.mode, opts, api, out, args.workers))
+    with budget.Budget.open(api, args.cap) as spend:
+        n_fit, _ = budget.fits(pess, spend.remaining)
+        for line in spend.lines(sum(pess)):
+            print(line)
+        print(f"  {n_fit} of {len(todo)} calls fit the pessimistic estimate")
+        budget.preflight(sum(pess), spend.remaining, args.partial,
+                         f"Run fewer calls (--limit {n_fit}), or pass --partial to make them in order "
+                         f"until the cap stops them.")
+        print(f"{api}:{model} prompt={label} ({ph}) mode={args.mode}: "
+              f"{len(todo)} calls to make, {len(done)} cached -> {out}")
+        try:
+            print_stats(execute(todo, model, system, ph, args.mode, opts, api, out, args.workers, spend=spend))
+        except budget.BudgetExhausted as e:
+            print_stats(e.stats)
+            for line in spend.lines():
+                print(line)
+            raise SystemExit(str(e))
+        for line in spend.lines():
+            print(line)
 
 
 if __name__ == "__main__":
