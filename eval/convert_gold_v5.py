@@ -5,7 +5,9 @@
 
 The blind v1/v2 labels are never edited. This script maps them to v5 with the
 fixed rules below, then applies the hand decisions in labels_v5/overrides.py
-and labels_v5/threads.py, then applies the provisional conventions. Every
+then applies the provisional conventions. labels_v5/threads.py records how
+each judgment-carrying thread was classified; its per-mention results are
+entries in overrides.py. Every
 output mention records which convention decided a field and what the field
 would be without it, so a convention can be reversed with a query.
 
@@ -16,6 +18,8 @@ Mechanical rules
 - Bare endorsement: an old food +1 with no other aspect is a name given as an
   answer with nothing said ("named as an answer means food +1" in the v1
   rules). It becomes food null, reference_only false, experience unclear.
+  A food +1 that came with a dish verdict is not bare: the review decided
+  each one.
   Old food +1 was also used for mild judgments ("solid", "looks good"); the
   review re-read every one and overrides.py restores those to "decent".
   "decent" is dropped from a bare mention's food alternatives, because v5
@@ -41,10 +45,13 @@ Mechanical rules
 Provisional conventions (relayed by the orchestrator from the prompt worker,
 not yet confirmed with the user). Each sets `conventions[id]` to the values
 the fields would have without it:
-- c1: a comment that judges only dishes gives food the dishes' level, or
-  "mixed" when they disagree. A recommended dish ("get the X") counts as good.
-  An explicit verdict on the food overall wins.
-- c2: an avoid with no negative aspect gets food "bad".
+- c1: when a comment gives no overall food verdict, food takes the dishes'
+  own level, or "mixed" when liked and disliked dishes disagree. A disliked
+  dish counts as at most meh. A liked dish with no v1 level is taken as good
+  and also tagged c1_assumed. Other aspects (value, the wait) do not stop it.
+- c2: an avoid with no negative aspect gets food "bad". Avoids for a reason
+  that is not about quality (politics, the asker's diet) are also tagged
+  c2_nonquality, so they can be flipped on their own.
 - c3: a verdict in the commenter's own voice is ate_there unless they say
   they haven't been. Bare names, questions and facts stay unclear.
 - c4: bare "not worth it" given as advice is an avoid (is_negated true);
@@ -69,7 +76,6 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "labels_v5"))
 import overrides as ov  # noqa: E402
-import threads as th  # noqa: E402
 
 LEVEL = {3: "rave", 2: "good", 1: "decent", 0: "mixed", -1: "meh", -2: "bad", -3: "awful"}
 LABELS = set(LEVEL.values())
@@ -79,6 +85,8 @@ PRICES = ("cheap", "moderate", "pricey", "very_pricey")
 PRICE = {-3: ("cheap", []), -2: ("cheap", []), -1: ("cheap", ["moderate"]), 0: ("moderate", []),
          1: ("pricey", ["moderate"]), 2: ("pricey", ["very_pricey"]), 3: ("very_pricey", [])}
 EXPERIENCE = ("ate_there", "secondhand", "unclear")
+FIRSTHAND = {True: "ate_there", False: "secondhand", None: "unclear"}
+CONVENTIONS = ("c1", "c1_assumed", "c2", "c2_nonquality", "c3", "c4")
 
 META_KEYS = ["canonical_name", "canonical_key", "accept_keys", "entity_type", "out_of_scope", "ambiguous",
              "confidence", "named_in", "resolvable_comment_mode", "resolvable_thread_mode", "uncertain_fields",
@@ -102,6 +110,38 @@ def lab_list(vs):
 
 def price_of(v):
     return (None, []) if v is None else PRICE[v]
+
+
+def dish_verdict(d):
+    """'liked', 'disliked' or 'mentioned' for one v1 dish_sentiment entry."""
+    if d["avoid"] or (d["level"] is not None and d["level"] < 0):
+        return "disliked"
+    if d["level"] is not None and d["level"] > 0:
+        return "liked"
+    return "mentioned"
+
+
+def is_bare(m):
+    """v1's 'named as an answer': food +1, nothing else scored, no dish verdict, not closed.
+
+    A dish verdict is a judgment, so food +1 with a liked or disliked dish is
+    not bare; the review decides whether that +1 was an overall verdict.
+    """
+    a = m["aspects"]
+    return (a.get("food") == 1 and all(a[k] is None for k in ASPECTS if k != "food") and not m["closed"]
+            and not any(dish_verdict(d) != "mentioned" for d in m["dish_sentiment"]))
+
+
+def mention_keys(g):
+    """Override key per mention: canonical_name, or name#n when a name repeats in the comment."""
+    names = [m["canonical_name"] for m in g["mentions"]]
+    keys = []
+    for i, name in enumerate(names):
+        if names.count(name) > 1:
+            keys.append((g["comment_id"], f"{name}#{names[:i].count(name)}"))
+        else:
+            keys.append((g["comment_id"], name))
+    return keys
 
 
 def dish_part_of(term, dishes):
@@ -133,10 +173,10 @@ def merged_overrides():
     return out
 
 
-def convert_mention(m, o, thread_rule):
+def convert_mention(m, o):
     a_old = m["aspects"]
     alts_old = m["aspect_alternatives"]
-    bare = (a_old.get("food") == 1 and all(a_old[k] is None for k in ASPECTS if k != "food") and not m["closed"])
+    bare = is_bare(m)
     aspects = {k: lab(a_old[k]) for k in ASPECTS}
     alts = {}
     for k, vs in alts_old.items():
@@ -164,18 +204,13 @@ def convert_mention(m, o, thread_rule):
     liked, disliked, mentioned = [], [], []
     levels = {}
     for d in m["dish_sentiment"]:
-        if d["avoid"] or (d["level"] is not None and d["level"] < 0):
-            disliked.append(d["dish"])
-        elif d["level"] is not None and d["level"] > 0:
-            liked.append(d["dish"])
-        else:
-            mentioned.append(d["dish"])
-        levels[d["dish"]] = (-2 if d["level"] is None else d["level"]) if d["avoid"] else d["level"]
+        {"liked": liked, "disliked": disliked, "mentioned": mentioned}[dish_verdict(d)].append(d["dish"])
+        levels[d["dish"]] = d["level"]
     has_verdict = bool(liked or disliked)
     all_null = all(v is None for v in a_old.values())
     reference_only = bool(m["closed"] or (all_null and not has_verdict and not m["is_negated"]))
     fh = m["is_firsthand"]
-    experience = {True: "ate_there", False: "secondhand", None: "unclear"}[fh]
+    experience = FIRSTHAND[fh]
     if bare and fh is not False:
         experience = "unclear"
     dish_names = [d["dish"] for d in m["dish_sentiment"]]
@@ -195,7 +230,7 @@ def convert_mention(m, o, thread_rule):
                descriptors=descriptors, aspect_alternatives=alts, judgment_question=False, conventions={})
     no_c3 = False
     exp_set = False
-    for src in (thread_rule, o):
+    for src in (o,):
         if not src:
             continue
         f = dict(src["fields"])
@@ -229,16 +264,24 @@ def convert_mention(m, o, thread_rule):
     # c1: food from the dishes when the food overall is not judged.
     if (not out["reference_only"] and asp["food"] is None and "c1" not in out["conventions"]
             and (out["dishes_liked"] or out["dishes_disliked"])):
+        assumed = False
         if out["dishes_liked"] and out["dishes_disliked"]:
             food = "mixed"
         elif out["dishes_liked"]:
-            best = max((levels.get(d) or 1) for d in out["dishes_liked"])
-            food = "rave" if best >= 3 else "good"
+            # The dishes' own level; a dish with no v1 level (added by the
+            # review) is taken as good and tagged so it can be audited.
+            known = [levels[d] for d in out["dishes_liked"] if (levels.get(d) or 0) > 0]
+            assumed = len(known) < len(out["dishes_liked"])
+            food = LEVEL[min(max(known + ([2] if assumed else [])), 3)]
         else:
-            worst = min((levels.get(d) if levels.get(d) is not None else -2) for d in out["dishes_disliked"])
+            # A disliked dish is at most meh, whatever its stale v1 level; an
+            # avoid with no level is bad.
+            worst = min(min(levels[d], -1) if levels.get(d) is not None else -2 for d in out["dishes_disliked"])
             food = LEVEL[max(worst, -3)]
         asp["food"] = food
         out["conventions"]["c1"] = {"food": None}
+        if assumed:
+            out["conventions"]["c1_assumed"] = {"food": None}
     # c2: an avoid always carries a negative aspect.
     if out["is_negated"] and not any(v in NEGATIVE for v in asp.values()):
         if asp["food"] is not None:
@@ -247,7 +290,7 @@ def convert_mention(m, o, thread_rule):
         out["conventions"]["c2"] = {"food": None}
     # c3: a verdict in their own voice means they went.
     judged = any(v is not None for v in asp.values()) or out["dishes_liked"] or out["dishes_disliked"]
-    if not out["reference_only"] and judged and out["experience"] == "unclear" and not no_c3:
+    if not out["reference_only"] and judged and out["experience"] == "unclear" and not exp_set and not no_c3:
         out["experience"] = "ate_there"
         out["conventions"]["c3"] = {"experience": "unclear"}
     # c3, other direction: a reference (a fact, a question, a passing name) is
@@ -269,23 +312,17 @@ def convert_mention(m, o, thread_rule):
     return out
 
 
-def convert(path_in, path_out, used, threads_rules):
+def convert(path_in, path_out, used):
     ovs = merged_overrides()
     lines = []
     for line in open(path_in, encoding="utf-8"):
         g = json.loads(line)
-        names = [m["canonical_name"] for m in g["mentions"]]
         new = []
-        for m in g["mentions"]:
-            if names.count(m["canonical_name"]) > 1:
-                key = (g["comment_id"], m["canonical_name"] + "#" + str(names[:g["mentions"].index(m)].count(m["canonical_name"])))
-            else:
-                key = (g["comment_id"], m["canonical_name"])
+        for m, key in zip(g["mentions"], mention_keys(g)):
             o = ovs.get(key)
             if o:
                 used.add(key)
-            tr = threads_rules.get((g["thread_id"], g["comment_id"], m["canonical_name"]))
-            new.append(convert_mention(m, o, tr))
+            new.append(convert_mention(m, o))
         g2 = {k: v for k, v in g.items() if k != "mentions"}
         g2["label_version"] = 3
         g2["v5_converted_by"] = "eval/convert_gold_v5.py"
@@ -343,7 +380,7 @@ def validate(path):
             if m["is_negated"] and not any(v in NEGATIVE for v in m["aspects"].values()):
                 errs.append(f"{where} avoid without a negative aspect (c2)")
             for cid, rev in m["conventions"].items():
-                if cid not in ("c1", "c2", "c3", "c4") or not isinstance(rev, dict):
+                if cid not in CONVENTIONS or not isinstance(rev, dict):
                     errs.append(f"{where} convention {cid}")
             if m["judgment_question"] and m["reference_only"]:
                 errs.append(f"{where} judgment_question on a reference")
@@ -360,9 +397,8 @@ def main():
             (os.path.join(HERE, "v2", "gold.jsonl"), os.path.join(HERE, "v2", "gold_v5.jsonl"))]
     if not args.check:
         used = set()
-        rules = th.mention_rules()
         for src, dst in outs:
-            convert(src, dst, used, rules)
+            convert(src, dst, used)
         unused = set(merged_overrides()) - used
         if unused:
             raise SystemExit(f"overrides matched no mention: {sorted(unused)}")

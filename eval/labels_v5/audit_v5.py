@@ -7,8 +7,10 @@ the comment text. Ambiguous and out-of-scope mentions are not scored, so they
 are left out of every case except "non-restaurants". A case is counted per
 COMMENT (an item exercises it if any scored mention does) because that is the
 unit a model is run on; mention counts are given alongside. Fewer than 15
-comments in a column is flagged as a gap: a recall on so few items swings by
-more than ten points from one item.
+comments is flagged as a gap, both per column and in the total: a recall on
+so few items swings by more than six points from one item. Heuristic
+patterns use word boundaries, and phrases such as "fine dining", "midtown",
+"mid-range" and "rip off" are blanked out before matching.
 
 v1 is split into its single comments (comment-mode items) and the comments of
 its 17 whole threads (thread-mode items). v2 counts only its 237 top-ups,
@@ -32,15 +34,20 @@ import threads as th  # noqa: E402
 
 GAP = 15
 I = re.IGNORECASE
-QUESTION = re.compile(r"\?")
 GET_THE = re.compile(r"\b(get|try|order|grab) (the|their)\b|\bmust[- ]?(have|try|get)\b|\bis a must\b", I)
+# Phrases that contain a heuristic word without meaning it: blanked out first.
+FALSE_HITS = re.compile(r"\bfine[- ]dining\b|\bmid[- ]?range\b|\bmid[- ]?town\b|\brip[- ]?offs?\b", I)
 OK_FINE = re.compile(r"\b(it'?s ok|it'?s okay|just ok|fine|mid|alright|meh)\b", I)
 HAVENT = re.compile(r"\b(haven'?t been|never been|on my list|haven'?t tried|been meaning to|want to try|heard)\b", I)
-DOLLAR = re.compile(r"\$\s?\d|\d+\s?(bucks|dollars)", I)
+DOLLAR = re.compile(r"\$\s?\d|\b\d+\s?(bucks|dollars)\b", I)
 PRICE_WORDS = re.compile(r"\b(cheap|expensive|pricey|pricy|overpriced|affordable|inexpensive|reasonabl[ey] priced|priced|break the bank)\b", I)
-COMPARE = re.compile(r"\b(better than|worse than|over|instead|than|compared to|like [A-Z])", I)
 CLOSED = re.compile(r"\b(closed|shut down|RIP|no longer open|went out of business)\b", I)
 AVOID = re.compile(r"\b(skip|avoid|stay away|don'?t bother|not worth)\b", I)
+QUESTION = re.compile(r"\?")
+
+
+def clean(text):
+    return FALSE_HITS.sub(" ", text or "")
 EVALUATIVE = {"overrated", "tourist trap", "hidden gem", "the og", "institution", "iconic", "classic", "top rated",
               "overhyped", "underrated", "staple", "gem", "legendary", "poor quality", "expensive", "new yorker classic"}
 
@@ -55,18 +62,19 @@ def bodies():
         for it in load(os.path.join(EVAL, p)):
             if it["kind"] == "comment":
                 c = it["context"]
-                out[it["comment_id"]] = dict(body=c["body"], depth=c.get("depth") or 0, title=c["thread_title"])
+                out[it["comment_id"]] = dict(body=c["body"], depth=c.get("depth") or 0, title=c["thread_title"],
+                                             thread_id=it["thread_id"])
             else:
                 for x in it["comments"]:
                     out[x["comment_id"]] = dict(body=x["body"], depth=x.get("depth") or 0,
-                                                title=it["context"]["thread_title"])
+                                                title=it["context"]["thread_title"], thread_id=it["thread_id"])
     return out
 
 
 def cases(g, text):
     """Case -> number of scored mentions in this comment that exercise it."""
     c = collections.Counter()
-    body = text["body"]
+    body = clean(text["body"])
     scored = [m for m in g["mentions"] if not m["ambiguous"] and not m["out_of_scope"]]
     for m in g["mentions"]:
         if m["out_of_scope"] or m["entity_type"] in ("grocery_market", "other"):
@@ -95,6 +103,11 @@ def cases(g, text):
             c["reference_only uncertain"] += 1
         if m["judgment_question"]:
             c["judgment-carrying question (rule 2)"] += 1
+        kind = th.THREADS.get(text["thread_id"], (None,))[0]
+        if kind == "judgment":
+            c["mention in a pure judgment thread"] += 1
+        elif kind == "mixed":
+            c["mention in a mixed judgment/recommendation thread"] += 1
         desc = [d.lower() for d in m["descriptors"]]
         if any(d in EVALUATIVE for d in desc):
             c["~evaluative descriptor"] += 1
@@ -159,7 +172,7 @@ def audit_v4():
         title = it["context"]["thread_title"]
         comments = [it["context"]] if it["kind"] == "comment" else it["comments"]
         for x in comments:
-            b = x.get("body") or ""
+            b = clean(x.get("body"))
             n += 1
             out["thread-mode comment" if it["kind"] == "thread" else "comment-mode comment"] += 1
             if QUESTION.search(b):
@@ -178,7 +191,7 @@ def audit_v4():
                 out["~price in words"] += 1
             if AVOID.search(b):
                 out["~avoid wording"] += 1
-            if re.search(r"(?i)overrated|overhyped|worst|letdown|disappoint|tourist trap|nasty|terrible", title):
+            if re.search(r"(?i)\b(overrated|overhyped|worst|letdown|disappoint\w*|tourist trap|nasty|terrible)\b", title):
                 out["~judgment-carrying title"] += 1
         for t in it.get("tags") or []:
             out[f"tag {t}"] += 1
@@ -214,16 +227,21 @@ def main():
 
     lines = ["# v5 gold diversity audit", "",
              "Generated by `eval/labels_v5/audit_v5.py`. Cells are comments (mentions in parentheses).",
-             f"**Bold** marks a gap: fewer than {GAP} comments in the combined v1+v2 total.",
+             f"**Bold** marks a gap: fewer than {GAP} comments, in a column or in the combined v1+v2 total.",
              "`~` marks a case found by text heuristics rather than by a gold field.", "",
              "| case | " + " | ".join(f"{k} (n={v['n']})" for k, v in cols.items()) + " | total |",
              "|---|" + "---:|" * (len(cols) + 1)]
     for k in keys:
-        cells = [f"{c['items'][k]} ({c['mentions'][k]})" for c in cols.values()]
+        cells = []
+        for col in cols.values():
+            cell = f"{col['items'][k]} ({col['mentions'][k]})"
+            cells.append(f"**{cell}**" if col["items"][k] < GAP else cell)
         t = total[k]
         name = f"**{k}**" if t < GAP else k
         lines.append(f"| {name} | " + " | ".join(cells) + f" | {'**%d**' % t if t < GAP else t} |")
-    lines += ["", f"Threads whose question carries a judgment, classified in `threads.py`: {len(judgment_threads)}.", ""]
+    kinds = collections.Counter(v[0] for v in judgment_threads.values())
+    lines += ["", "Threads whose question carries a judgment, classified in `threads.py`: "
+              f"{kinds['judgment']} pure judgment, {kinds['mixed']} mixed judgment and recommendation.", ""]
     lines += ["## Unlabeled v4 round 1 (text heuristics only)", "",
               f"{v4n} comments outside the v1 overlap. Labeling them would add roughly:", "",
               "| heuristic | comments |", "|---|---:|"]

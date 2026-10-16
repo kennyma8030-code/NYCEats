@@ -15,6 +15,12 @@ Fields an entry may set:
     uncertain=[...] adds fields to uncertain_fields (not scored).
     add_desc=[...], drop_desc=[...] edit descriptors without replacing them.
     ambiguous=True/False changes the mention's ambiguous flag.
+    conv={id: {field: value without it}} tags a convention decided by hand.
+    no_c3=True keeps convention 3 from touching experience.
+    food=None on a mention with dish verdicts lets c1 take food from them.
+
+A name that repeats within one comment is keyed "name#n" (n counts from 0 in
+mention order), as convert_gold_v5.mention_keys builds it.
 
 Every food +1, every all-null mention and every dish without a verdict was
 re-read; an entry exists only where the default was wrong. Entries are grouped
@@ -339,4 +345,38 @@ O("t1_notfai2", "Lilia", "c4: 'not worth how hard it is to go' is the wait, not 
 O("t1_o2c0eer", "Scarr's Pizza", "c4: 'not worth it if you have to wait in line' is conditional on the wait, not an avoid", conv={"c4": {"is_negated": True}})
 O("t1_ok57sgz", "Adel's Famous Halal Food", "c4: 'isnt worth the line' is wait bad, not an avoid", conv={"c4": {"is_negated": True}})
 O("t1_pc1wgff", "Dig Inn", "c4: 'never worth the dig' (the money) is value bad, not an avoid", conv={"c4": {"is_negated": True}})
+
+# ---------------------------------------------------------------------------
+# Old food +1 with a dish verdict is not a bare endorsement. Where the
+# comment judges only dishes, v1's +1 is dropped and c1 takes food from the
+# dishes' own level. Where it gives an overall verdict, an entry above keeps
+# the food label and c1 does not fire.
+# ---------------------------------------------------------------------------
+O("t1_ohvuhag", "Portale", "c1: names only dishes to order", food=None)
+O("t1_nt99vmo", "Cannelle Patisserie", "c1: names only the chocolate mousse cake", food=None)
+O("t1_o72a7gw", "Hi-Collar", "c1: 'Get the Siphon Pour Over, Fluffy Pancakes, Omurice and a Sando' judges only dishes", food=None)
+O("t1_oa1tbql", "Brennan & Carr", "c1: 'They'll douse it in cheese' is about the burger only", food=None)
+O("t1_nw1301j", "Russ & Daughters", "c1: listed for its bagel and lox only", food=None)
+O("t1_owwu0q6", "Great NY Noodletown", "c1: 'for soft shell crab' only", food=None)
+O("t1_owwu0q6", "Noodle Village", "c1: 'for soup dumplings and curry oxtail' only", food=None)
+O("t1_owwu0q6", "Banh Mi Saigon", "c1: 'for the #1 special' only", food=None)
+O("t1_owwu0q6", "Bánh Mì Cô Út", "c1: 'for the more traditional sandwich' only", food=None)
+O("t1_p1j5f2c", "El Malecon", "c1: 'Get extra green sauce' only", food=None)
+O("t1_p66vnfc", "Mama's Too", "c1: 'You need to try their elote slice' only", food=None)
+O("t1_o25705p", "Le Botaniste", "c1: suggested for its warm bowl only", food=None)
+O("t1_ozujedh", "Faicco's Italian Specialties", "c1: 'try faiccos for a chicken cutlet sando' only", food=None)
+O("t1_obkq0rr", "Red Hook Tavern", "c1: judges only the smoked pork chop ('arguably the best dish')", food=None)
+O("t1_olcktdv", "Utopia Bagels", "c1: names only its country chicken salad", food=None)
+O("t1_nxp7fd1", "From Lucie", "c1: 'get a cake from From Lucie' only", food=None)
+O("t1_oq8ykks", "Szechuan Mountain House", "c1: suggested for the twice cooked pork only", food=None)
+O("t1_oq8ykks", "Spy C Cuisine", "c1: suggested for the farmhouse style pork only", food=None)
+O("t1_oq8ykks", "886", "c1: suggested for the fly's head only", food=None)
+O("t1_m5ovv4r", "Raising Cane's", "c1: judges only the tenders ('bland but the texture... bomb')", food=None)
+O("t1_ntgkxkl", "Russ & Daughters", "c1: judges only the bagels ('very meh')", food=None)
+O("t1_o65rrko", "Bungalow", "c1: judges only dishes, and they disagree (biryani underwhelming, lamb amazing)", food=None)
+O("t1_oofppn4", "Hill Country", "c1: judges only dishes, and they disagree (brisket very good, sides terrible)", food=None)
+O("t1_oanwd0s", "Hunter's Steak and Ale", "c1: judges only the burger (a favorite memory)", food=None)
+O("t1_o251gud", "Sweetgreen", "an avoid for a political reason, not quality: tagged so it can be flipped on its own", conv={"c2_nonquality": {"food": None}})
+O("t1_o255q7c", "Sweetgreen", "same: avoided for the partnership", conv={"c2_nonquality": {"food": None}})
+O("t1_o81a1qc", "Chef's Table at Brooklyn Fare", "avoided because it is all seafood, a reason about the asker's diet", conv={"c2_nonquality": {"food": None}})
 # @@END@@

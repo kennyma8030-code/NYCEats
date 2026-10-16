@@ -78,14 +78,16 @@ Every mention the new schema treats differently was re-read: every old food
 +1 (434), every all-null mention (338), every dish without a verdict, every
 price, every avoid, every mixed level, every comment saying "not worth" and
 every thread whose question carries a judgment. An override exists only where
-the mechanical default was wrong: 265 entries over 242 mentions.
+the mechanical default was wrong: 292 entries over 265 mentions.
 
 ## Rules applied
 
 - **Bare endorsement.** v1 scored a name given as an answer, with nothing
   said, as food +1. v5 leaves every aspect null (contract rule 1). Old +1s
   that were real mild judgments ("solid", "I like", "looks so good", "pretty
-  decent") were restored to `decent` by hand.
+  decent") were restored to `decent` by hand. A food +1 that came with a dish
+  verdict is never bare: where the comment judges only dishes, c1 takes food
+  from them (48); where it gives an overall verdict, the label stays (9).
 - **Reference only.** An all-null mention (v1 already gave every bare answer
   +1) and every closed place became `reference_only`. A v1 food +1
   alternative on an all-null mention meant "could be read as an answer", so
@@ -124,9 +126,11 @@ one is a mechanical rewrite of those mentions.
 
 | convention | rule | mentions (scored) |
 |---|---|---:|
-| c1 | a comment that judges only dishes gives food the dishes' level, or mixed; "get the X" counts as good | 50 (50) |
-| c2 | an avoid with no negative aspect gets food bad; bare "skip X" scored meh in v1 moved to bad | 17 (17) |
-| c3 | a verdict in the commenter's own voice is ate_there (123); a reference is unclear unless it shows a visit (157) | 280 (154) |
+| c1 | with no overall food verdict, food takes the dishes' own level (a disliked dish is at most meh), or mixed when they disagree; value or the wait do not stop it | 50 (50) |
+| c1_assumed | a c1 liked dish with no v1 level, taken as good | 0 |
+| c2 | an avoid with no negative aspect gets food bad (13); bare "skip X" scored meh in v1 moved to bad (4) | 17 (17) |
+| c2_nonquality | also tagged: an avoid for a reason that is not quality (Sweetgreen's politics, "it's all seafood") | 3 (3) |
+| c3 | a verdict in the commenter's own voice is ate_there (93); a reference is unclear unless it shows a visit (157); an explicit experience decision always wins | 250 (124) |
 | c4 | bare "not worth it" as advice is an avoid (5); "not worth the price / the line" is value or wait bad and not an avoid (15, two of them were avoids in v1) | 20 (20) |
 
 ## Change counts
@@ -136,26 +140,29 @@ Counted over unique comments (v2's 244 v1 comments count once).
 | change | mentions |
 |---|---:|
 | mentions | 1369 |
-| override entries / mentions with an override | 265 / 242 |
+| override entries / mentions with an override | 292 / 265 |
 | not scored (ambiguous or out of scope) | 172 |
 | old food +1 alone | 434 |
-| &nbsp;&nbsp;-> bare endorsement (food null) | 285 |
-| &nbsp;&nbsp;-> kept as a mild judgment | 97 |
-| &nbsp;&nbsp;-> food from the dishes (c1) | 47 |
+| food +1 with no dish verdict (v1's "named as an answer") | 377 |
+| &nbsp;&nbsp;-> bare endorsement (food null) | 284 |
+| &nbsp;&nbsp;-> kept as a mild judgment | 88 |
 | &nbsp;&nbsp;-> reference_only | 5 |
+| food +1 with a dish verdict | 57 |
+| &nbsp;&nbsp;-> judges only dishes: food from the dishes (c1) | 48 |
+| &nbsp;&nbsp;-> an overall food verdict: label kept | 9 |
 | old all-null | 338 |
 | &nbsp;&nbsp;-> reference_only | 315 |
 | &nbsp;&nbsp;-> not a reference (avoid, comparison loser, dish verdict) | 23 |
 | closed -> reference_only | 41 |
 | reference_only marked uncertain | 67 |
 | judgment_question set | 1 |
-| became meh (fine/ok/alright, comparison loser) | 11 |
+| became meh (fine/ok/alright, comparison loser, disliked dish) | 11 |
 | other levels changed by review (food 6, value 1, wait 1) | 8 |
 | dish level 0 -> mentioned | 8 |
-| dishes moved to liked by meal-level praise | 2 |
+| dishes moved to liked by meal-level praise | 3 |
 | descriptors edited by review | 7 |
 | price kept (stated in words) / nulled (dollar figure only) | 39 / 31 |
-| experience ate_there -> unclear | 439 |
+| experience ate_there -> unclear | 440 |
 | experience unclear -> ate_there | 48 |
 | experience secondhand -> ate_there / unclear | 2 / 1 |
 | experience unclear -> secondhand | 1 |

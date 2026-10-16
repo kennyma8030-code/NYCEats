@@ -30,7 +30,3 @@ THREADS = {
     "t3_1oebqm6": ("mixed", "Restaurant regrets... I've had a few", {}),
 }
 
-
-def mention_rules():
-    """Per-mention rules are written out in overrides.py; nothing is implied here."""
-    return {}
