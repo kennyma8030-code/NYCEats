@@ -1,11 +1,11 @@
 """Convert the v1 and v2 gold to the v5 schema.
 
-    python eval/convert_gold_v5.py            # writes eval/gold_v5.jsonl and eval/v2/gold_v5.jsonl
-    python eval/convert_gold_v5.py --check    # validate the written files only
+    python eval/gold_v5/convert_gold_v5.py    # writes eval/v1/gold_v5.jsonl and eval/v2/gold_v5.jsonl
+    python eval/gold_v5/convert_gold_v5.py --check    # validate the written files only
 
 The blind v1/v2 labels are never edited. This script maps them to v5 with the
-fixed rules below, then applies the hand decisions in labels_v5/overrides.py
-then applies the provisional conventions. labels_v5/threads.py records how
+fixed rules below, then applies the hand decisions in gold_v5/overrides.py
+then applies the provisional conventions. gold_v5/threads.py records how
 each judgment-carrying thread was classified; its per-mention results are
 entries in overrides.py. Every
 output mention records which convention decided a field and what the field
@@ -74,7 +74,8 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(HERE, "labels_v5"))
+EVAL = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
 import overrides as ov  # noqa: E402
 
 LEVEL = {3: "rave", 2: "good", 1: "decent", 0: "mixed", -1: "meh", -2: "bad", -3: "awful"}
@@ -393,8 +394,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args()
-    outs = [(os.path.join(HERE, "gold.jsonl"), os.path.join(HERE, "gold_v5.jsonl")),
-            (os.path.join(HERE, "v2", "gold.jsonl"), os.path.join(HERE, "v2", "gold_v5.jsonl"))]
+    outs = [(os.path.join(EVAL, "v1", "gold.jsonl"), os.path.join(EVAL, "v1", "gold_v5.jsonl")),
+            (os.path.join(EVAL, "v2", "gold.jsonl"), os.path.join(EVAL, "v2", "gold_v5.jsonl"))]
     if not args.check:
         used = set()
         for src, dst in outs:

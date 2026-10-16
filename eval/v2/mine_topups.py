@@ -4,7 +4,7 @@
 
 The stored extraction is used only to FIND candidates (the same rule as v1
 sampling); it is never written to the output, and labeling packets
-(eval/packet.py --v2) show no model output. Comments already in v1 or v2 are
+(eval/v1/packet.py --file) show no model output. Comments already in v1 or v2 are
 excluded. Candidates are drawn in md5(seed||id) order up to each weakness's
 deficit to 25. Writes eval/v2/topup_items.jsonl (same item shape as v1 single
 comments, plus mined_for).
@@ -19,7 +19,7 @@ import sys
 
 V2 = os.path.dirname(os.path.abspath(__file__))
 EVAL = os.path.dirname(V2)
-sys.path.insert(0, EVAL)
+sys.path.insert(0, os.path.join(EVAL, "v1"))
 import build_items as B  # noqa: E402
 
 SEED = "nyceats-v2-topup"
@@ -111,7 +111,7 @@ def main():
         counts = json.load(f)["per_weakness"]
     deficit = {w: TARGET - c["total"] for w, c in counts.items() if c["total"] < TARGET}
     used = set()
-    for p in (os.path.join(EVAL, "items.jsonl"),):
+    for p in (os.path.join(EVAL, "v1", "items.jsonl"),):
         with open(p, encoding="utf-8") as f:
             for l in f:
                 it = json.loads(l)

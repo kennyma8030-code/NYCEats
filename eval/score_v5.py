@@ -1,4 +1,4 @@
-"""Score run files against the v5 gold (eval/gold_v5.jsonl, eval/v2/gold_v5.jsonl).
+"""Score run files against the v5 gold (eval/v1/gold_v5.jsonl, eval/v2/gold_v5.jsonl).
 
     python eval/score_v5.py eval/runs/<model>__<hash>__<mode>.jsonl [more runs ...]
     python eval/score_v5.py RUN --set v2                 # the v2 diagnostic set
@@ -9,7 +9,7 @@ Every run is read through schema_v5: v5 output through the normalizer, old
 output (production's prompts, the current prompt, rubric_v1) through the
 adapter, so old and new prompts are scored by the same rules. Writes
 eval/results/<date>__<run>__v5[__<set>].md and .csv. The contract and the
-gold format are in eval/schema_v5.md.
+gold format are in eval/docs/schema_v5.md.
 
 The HEADLINE keeps score.py's order, the owner's priorities:
 
@@ -41,13 +41,14 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(HERE, "lib"))
 import schema_v5 as V  # noqa: E402
 import score as S  # noqa: E402
 from score import CHAINS, lenient_same, prf, ratio, sign  # noqa: E402
 
 SETS = {
-    "v1": {"gold": os.path.join(HERE, "gold_v5.jsonl"), "items": os.path.join(HERE, "items.jsonl"),
-           "stats": os.path.join(HERE, "sampling_stats.json")},
+    "v1": {"gold": os.path.join(HERE, "v1", "gold_v5.jsonl"), "items": os.path.join(HERE, "v1", "items.jsonl"),
+           "stats": os.path.join(HERE, "v1", "sampling_stats.json")},
     "v2": {"gold": os.path.join(HERE, "v2", "gold_v5.jsonl"), "items": os.path.join(HERE, "v2", "items.jsonl"),
            "stats": ""},
 }
@@ -612,7 +613,7 @@ def report(run, per_rep, flips, out_dir, tag=""):
              f"bad thread ids: {fmt(h['bad_id_rate'])}"]
     if h["schema"].startswith("old"):
         lines.append("Old-schema run, read through the adapter: reference_only is derived (every aspect null, "
-                     "no avoid) and bare endorsement is food 0.3 alone; see schema_v5.md.")
+                     "no avoid) and bare endorsement is food 0.3 alone; see docs/schema_v5.md.")
     if flips is not None:
         lines.append(f"required-mention match status flips across reps: {flips:.3f}")
     head = "| metric | " + " | ".join(main) + " |"

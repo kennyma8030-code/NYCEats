@@ -5,21 +5,21 @@ calls as unparsed. Their raw text is kept, so this recomputes json_ok,
 json_ok_strict and mentions_by_comment in place for every record that lacks
 json_ok_strict (i.e. was written by the old parser).
 
-    python eval/reparse.py eval/runs/*.jsonl
+    python eval/tools/reparse.py eval/runs/*.jsonl
 """
 
 import json
 import os
 import sys
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import run  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def id_maps(mode):
-    items = run.load_items(os.path.join(HERE, "items.jsonl"))
+    items = run.load_items(os.path.join(os.path.dirname(HERE), "v1", "items.jsonl"))
     return {j["call_key"]: j["id_map"] for j in run.build_jobs(items, mode, None)}
 
 

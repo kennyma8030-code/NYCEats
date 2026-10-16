@@ -66,10 +66,10 @@ The headline barely moves: the original model's failures were real.
 
 # v5: the gold under the v5 schema
 
-`eval/gold_v5.jsonl` and `eval/v2/gold_v5.jsonl` hold the v1 and v2 gold in the
-v5 schema (`label_version: 3`). `eval/convert_gold_v5.py` writes them. It maps
+`eval/v1/gold_v5.jsonl` and `eval/v2/gold_v5.jsonl` hold the v1 and v2 gold in the
+v5 schema (`label_version: 3`). `eval/gold_v5/convert_gold_v5.py` writes them. It maps
 the blind labels mechanically, then applies the hand decisions in
-`labels_v5/overrides.py`, then the provisional conventions. The old gold files
+`gold_v5/overrides.py`, then the provisional conventions. The old gold files
 are untouched; the old scorer still reads them. Every override names its
 comment and mention and gives a reason, so each change can be audited against
 the blind label.
@@ -114,7 +114,7 @@ the mechanical default was wrong: 292 entries over 265 mentions.
   unclear, a bare endorsement became unclear, and the conventions below
   adjusted the rest.
 - **Judgment-carrying questions** (rule 2) are classified per thread in
-  `labels_v5/threads.py` and scored at the level the question's own words
+  `gold_v5/threads.py` and scored at the level the question's own words
   carry ("worst service" is service awful, "most overrated" food meh). The
   first relay said "plain level"; that was corrected before this was built.
 
@@ -167,7 +167,7 @@ Counted over unique comments (v2's 244 v1 comments count once).
 | experience secondhand -> ate_there / unclear | 2 / 1 |
 | experience unclear -> secondhand | 1 |
 
-`labels_v5/changes_v5.py` reproduces this table.
+`gold_v5/changes_v5.py` reproduces this table.
 
 ## Borderline calls, by item
 

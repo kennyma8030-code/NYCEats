@@ -10,7 +10,7 @@ Labels must be blind to production, so this refuses to run until both label
 passes of the round are complete and valid (labels.py check). --force skips
 that gate, for a deliberate reason only.
 
-It runs eval/export_stored.py unchanged, then, when the round's snapshot is
+It runs eval/tools/export_stored.py unchanged, then, when the round's snapshot is
 cached, checks the result against it (the snapshot holds production's
 stored mentions as of snapshot_at). If production re-extracted any of these
 comments since the snapshot, the export is not production-as-sampled, so it
@@ -35,6 +35,7 @@ import tempfile
 HERE = os.path.dirname(os.path.realpath(__file__))
 EVAL = os.path.dirname(HERE)
 sys.path.insert(0, EVAL)
+sys.path.insert(0, os.path.join(EVAL, "tools"))
 sys.path.insert(0, HERE)
 import corpus  # noqa: E402
 import export_stored  # noqa: E402

@@ -3,7 +3,7 @@
 v5 implements schema contract v5. What changed from production's revised
 prompt (0d75b20b5f83 / 5b02ac883c80):
   * aspects are seven level WORDS instead of floats. Models land on named
-    levels far more consistently, and eval/schema_v5.py (eval-v5-harness) maps
+    levels far more consistently, and eval/lib/schema_v5.py maps
     them back to the floats scoring already reads;
   * reference_only replaces the "food 0.3" sentinel. A bare endorsement keeps
     every aspect null, so no food score is invented for a name nobody judged;

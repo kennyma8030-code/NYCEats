@@ -134,7 +134,7 @@ def old_set_ids():
     the old labels is measured on a known, chosen subset."""
     import json
     ids, threads = set(), set()
-    for rel in ("items.jsonl", "v2/items.jsonl", "v2/topup_items.jsonl"):
+    for rel in ("v1/items.jsonl", "v2/items.jsonl", "v2/topup_items.jsonl"):
         path = os.path.join(EVAL, rel)
         if not os.path.exists(path):
             continue
@@ -483,7 +483,7 @@ class Corpus:
         import json
         self.snapshot_at, self.cutoff = snap["snapshot_at"], snap["cutoff"]
         self.comments, self.threads, self.mentions = snap["comments"], snap["threads"], snap["mentions"]
-        with open(os.path.join(EVAL, "excluded_entities.json"), encoding="utf-8") as f:
+        with open(os.path.join(EVAL, "data", "excluded_entities.json"), encoding="utf-8") as f:
             excluded = set(json.load(f))
         self.gaz = Gazetteer(self.mentions, self.comments, excluded)
         memo = {}
@@ -506,7 +506,7 @@ class Corpus:
 KEY_FILES = [os.path.realpath(__file__),
              os.path.join(ROOT, "extract.py"), os.path.join(ROOT, "chains.txt"),
              os.path.join(ROOT, "extract_threads.py"), os.path.join(ROOT, "prompt_thread.py"),
-             os.path.join(EVAL, "excluded_entities.json"), os.path.join(EVAL, "items.jsonl"),
+             os.path.join(EVAL, "data", "excluded_entities.json"), os.path.join(EVAL, "v1", "items.jsonl"),
              os.path.join(EVAL, "v2", "items.jsonl"), os.path.join(EVAL, "v2", "topup_items.jsonl")]
 
 

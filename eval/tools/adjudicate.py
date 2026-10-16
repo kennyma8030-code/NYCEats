@@ -1,9 +1,9 @@
 """List every disagreement between gold and a run, with proposed weakness tags.
 
-    python eval/adjudicate.py eval/baseline/production__stored__all.jsonl --out eval/baseline/disagreements.jsonl
+    python eval/tools/adjudicate.py eval/baseline/production__stored__all.jsonl --out eval/baseline/disagreements.jsonl
 
 Used AFTER labeling is final: each disagreement is re-read; gold errors are
-fixed in labels/batchNN.py (and logged in gold_changes.md), and confirmed
+fixed in v1/labels/batchNN.py (and logged in v1/gold_changes.md), and confirmed
 model failures keep their weakness tags (eval/v2/taxonomy.md).
 """
 
@@ -14,7 +14,8 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, HERE)
+EVAL = os.path.dirname(HERE)
+sys.path.insert(0, EVAL)
 import score  # noqa: E402
 
 
@@ -67,8 +68,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("run")
     ap.add_argument("--out", required=True)
-    ap.add_argument("--gold", default=os.path.join(HERE, "gold.jsonl"))
-    ap.add_argument("--items", default=os.path.join(HERE, "items.jsonl"))
+    ap.add_argument("--gold", default=os.path.join(EVAL, "v1", "gold.jsonl"))
+    ap.add_argument("--items", default=os.path.join(EVAL, "v1", "items.jsonl"))
     args = ap.parse_args()
     gold = score.load_jsonl(args.gold)
     items = {it["item_id"]: it for it in score.load_jsonl(args.items)}

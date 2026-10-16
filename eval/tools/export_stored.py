@@ -1,7 +1,7 @@
 """Export the production extraction for every eval comment as a run file.
 
-    EVAL_DB_URL=postgresql://... python eval/export_stored.py
-    EVAL_DB_URL=... python eval/export_stored.py --items eval/v2/items.jsonl --name production__stored__v2
+    EVAL_DB_URL=postgresql://... python eval/tools/export_stored.py
+    EVAL_DB_URL=... python eval/tools/export_stored.py --items eval/v2/items.jsonl --name production__stored__v2
 
 Writes eval/baseline/production__stored__all.jsonl in run.py's format (one line
 per comment, rep 0), so score.py can grade the original model exactly like a
@@ -20,11 +20,12 @@ import os
 import psycopg2
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+EVAL = os.path.dirname(HERE)
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--items", default=os.path.join(HERE, "items.jsonl"))
+    ap.add_argument("--items", default=os.path.join(EVAL, "v1", "items.jsonl"))
     ap.add_argument("--name", default="production__stored__all")
     args = ap.parse_args()
     url = os.environ.get("EVAL_DB_URL") or os.environ.get("DATABASE_URL")
@@ -57,7 +58,7 @@ def main():
             "dishes": dishes or [], "descriptors": desc or [], "aspects": aspects or {},
             "expensiveness": exp, "is_firsthand": first, "is_negated": neg, "prompt_hash": ph})
 
-    out_dir = os.environ.get("EVAL_BASELINE_DIR", os.path.join(HERE, "baseline"))
+    out_dir = os.environ.get("EVAL_BASELINE_DIR", os.path.join(EVAL, "baseline"))
     os.makedirs(out_dir, exist_ok=True)
     out = os.path.join(out_dir, args.name + ".jsonl")
     with open(out, "w", encoding="utf-8") as f:

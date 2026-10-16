@@ -414,7 +414,7 @@ these cases:
 Nothing is silently dropped or overwritten.
 
 `compare_v4.py` scores every comment with `score.py`'s `score_comment`, so
-the metrics mean exactly what `eval/README.md` says. A label gold mention
+the metrics mean exactly what `eval/docs/scoring.md` says. A label gold mention
 is keyed like a model mention: `normalize_entity` plus alias overrides.
 Levels come from `score.bucket`. There are no accept-keys or alternatives,
 so matching relies on score.py's fuzzy rule. A comment-mode run is scored
@@ -525,7 +525,7 @@ in `~/.cache/nyceats-eval-v4/` (or `$V4_CACHE_DIR`), read at
 database, which has moved on since, and saves nothing. The tags derived from
 round 1's snapshot are cached next to it as `corpus_<cutoff>_<key>.pickle`. The key hashes `corpus.py`,
 `extract.py`, `chains.txt`, `extract_threads.py`, `prompt_thread.py`,
-`excluded_entities.json`, the v1/v2 item files and the snapshot file's size
+`data/excluded_entities.json`, the v1/v2 item files and the snapshot file's size
 and mtime. The cache holds comment text and production output, so keep it
 out of the repo.
 
@@ -545,7 +545,7 @@ python eval/v4/next_round.py --production ...  # also counts production's failur
 ```
 
 It refuses until both label passes are complete, and it runs
-`eval/export_stored.py` unchanged into gitignored `production/`. If the
+`eval/tools/export_stored.py` unchanged into gitignored `production/`. If the
 round 1 snapshot is cached, it checks every exported comment against it and
 stops if production re-extracted any since (`--allow-drift` keeps the
 export). Production covers only the comments it ever extracted, 254 of

@@ -24,7 +24,7 @@ import urllib.error
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)
+ROOT = os.path.dirname(os.path.dirname(HERE))
 OPENROUTER_URL = os.environ.get("EVAL_API_URL", "https://openrouter.ai/api/v1/chat/completions")
 CATALOG_URL = "https://openrouter.ai/api/v1/models"
 CACHE_DIR = os.path.join(os.path.expanduser("~"), ".cache", "nyceats-eval")

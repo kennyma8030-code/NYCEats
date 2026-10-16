@@ -1,11 +1,11 @@
 """Regression checks for the v5 harness: normalizer, adapter, scorer, providers.
 
-    python eval/selftest_v5.py
+    python eval/tools/selftest_v5.py
 
 No network and no API key: both providers are replaced by fakes that answer
 in their real response shapes (OpenRouter chat completions, Anthropic
 Messages), so the whole path -- request, parse, normalize, store, resume,
-score -- runs end to end. If eval/gold_v5.jsonl exists it is also scored
+score -- runs end to end. If eval/v1/gold_v5.jsonl exists it is also scored
 against itself, which must be perfect.
 """
 
@@ -18,7 +18,9 @@ import tempfile
 import urllib.error
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, HERE)
+EVAL = os.path.dirname(HERE)
+sys.path.insert(0, EVAL)
+sys.path.insert(0, os.path.join(EVAL, "lib"))
 import providers  # noqa: E402
 import run as R  # noqa: E402
 import schema_v5 as V  # noqa: E402
@@ -132,7 +134,7 @@ def gold_line(item, cid, mentions):
 
 
 def fixture():
-    items = [it for it in R.load_items(os.path.join(HERE, "items.jsonl")) if it["kind"] == "comment"][:3]
+    items = [it for it in R.load_items(os.path.join(EVAL, "v1", "items.jsonl")) if it["kind"] == "comment"][:3]
     answers = [
         [mention("Testaurant Alpha", food="awful", service="bad", experience="ate_there",
                  dishes_disliked=["vodka slice"], descriptors=["tourist trap"], is_negated=True)],

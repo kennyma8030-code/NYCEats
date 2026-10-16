@@ -31,7 +31,7 @@ diagnostic set like v2, not the reweighted headline.
 Every item must be a real comment. Never paraphrase or invent one.
 
 ```sql
--- exclusions: load the ids from eval/items.jsonl, eval/v2/items.jsonl and
+-- exclusions: load the ids from eval/v1/items.jsonl, eval/v2/items.jsonl and
 -- eval/v4/items.jsonl into a temp table first
 create temp table seen(id text primary key);
 

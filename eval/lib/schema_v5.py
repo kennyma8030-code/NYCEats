@@ -2,7 +2,7 @@
 
 Everything that turns a model's raw output into the v5 contract lives here, so
 the scorer, the bench and the self-tests all read output the same way. The
-written contract is eval/schema_v5.md; this file must agree with it.
+written contract is eval/docs/schema_v5.md; this file must agree with it.
 
 Two entry points:
 

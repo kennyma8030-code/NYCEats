@@ -1,4 +1,4 @@
-"""Score run files against eval/gold.jsonl.
+"""Score run files against eval/v1/gold.jsonl.
 
     python eval/score.py eval/runs/<model>__<hash>__<mode>.jsonl [more runs ...]
     python eval/score.py eval/runs/production__stored__all.jsonl --drop-chains
@@ -6,7 +6,7 @@
     python eval/score.py RUN --gold eval/v2/gold.jsonl --items eval/v2/items.jsonl   # v2 diagnostic set
 
 Writes eval/results/<date>__<run>.md and .csv. Full definitions are in
-eval/README.md ("Scoring"). The HEADLINE follows the owner's priorities, in
+eval/docs/scoring.md. The HEADLINE follows the owner's priorities, in
 this order:
 
   a. comment drop rate          gold has >=1 required mention, model returned none
@@ -128,7 +128,7 @@ def load_jsonl(path):
 
 
 def load_map(name):
-    path = os.path.join(HERE, name)
+    path = os.path.join(HERE, "data", name)
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
             return json.load(f)
@@ -598,9 +598,9 @@ def gold_as_run(gold):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("runs", nargs="*")
-    ap.add_argument("--gold", default=os.path.join(HERE, "gold.jsonl"))
-    ap.add_argument("--items", default=os.path.join(HERE, "items.jsonl"))
-    ap.add_argument("--stats", default=os.path.join(HERE, "sampling_stats.json"),
+    ap.add_argument("--gold", default=os.path.join(HERE, "v1", "gold.jsonl"))
+    ap.add_argument("--items", default=os.path.join(HERE, "v1", "items.jsonl"))
+    ap.add_argument("--stats", default=os.path.join(HERE, "v1", "sampling_stats.json"),
                     help="strata populations for reweighting ('' to skip)")
     ap.add_argument("--drop-chains", action="store_true", help="drop chains.txt keys on both sides, as production does")
     ap.add_argument("--out", default=os.path.join(HERE, "results"))

@@ -35,6 +35,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(HERE, "lib"))
 import providers  # noqa: E402
 import run as R  # noqa: E402
 import score as S  # noqa: E402
@@ -182,7 +183,7 @@ def write_tables(results, args):
              "Rows are compared on the comments every row in the table covered. Scope is `reweighted` "
              "(the population estimate) where the set has strata, else `overall`. Values are the mean "
              "across reps; ± is the sd across reps. Old-schema rows are read through the adapter, so their "
-             "reference_only numbers are derived (see eval/schema_v5.md).", ""]
+             "reference_only numbers are derived (see eval/docs/schema_v5.md).", ""]
     rows_csv = []
     for set_name, tables in results.items():
         for mode, (n_common, rows) in tables.items():

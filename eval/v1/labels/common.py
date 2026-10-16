@@ -1,16 +1,17 @@
-"""Shared label constructor for labels/batchNN.py. Schema: eval/README.md."""
+"""Shared label constructor for v1/labels/batchNN.py. Schema: eval/docs/gold_rules.md."""
 
 import json
 import os
 import sys
 
-EVAL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+V1 = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+EVAL = os.path.dirname(V1)
 sys.path.insert(0, os.path.dirname(EVAL))
 from extract import normalize_entity  # noqa: E402
 
-with open(os.path.join(EVAL, "alias_overrides.json"), encoding="utf-8") as f:
+with open(os.path.join(EVAL, "data", "alias_overrides.json"), encoding="utf-8") as f:
     ALIAS = json.load(f)
-with open(os.path.join(EVAL, "excluded_entities.json"), encoding="utf-8") as f:
+with open(os.path.join(EVAL, "data", "excluded_entities.json"), encoding="utf-8") as f:
     EXCLUDED = json.load(f)
 
 LEVELS = (None, -3, -2, -1, 0, 1, 2, 3)

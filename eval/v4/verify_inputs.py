@@ -118,7 +118,7 @@ def main():
     report["thread_queue"] = {"threads_checked": checked, "identical": checked - len(bad), "differ": bad}
 
     # v1 overlap drift
-    with open(os.path.join(corpus.EVAL, "items.jsonl"), encoding="utf-8") as f:
+    with open(os.path.join(corpus.EVAL, "v1", "items.jsonl"), encoding="utf-8") as f:
         v1 = {json.loads(l)["item_id"]: json.loads(l) for l in f}
     drift = [it["item_id"] for it in singles if it.get("v1_item_id")
              and v1[it["v1_item_id"]]["inputs"]["comment"]["user_message"] != it["inputs"]["comment"]["user_message"]]

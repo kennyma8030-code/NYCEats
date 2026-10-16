@@ -1,7 +1,7 @@
 """Print a BLIND labeling packet: no risk groups, no stored or model output.
 
-    python eval/packet.py c0051 c0060      # single-comment items in that id range
-    python eval/packet.py t001             # one whole thread
+    python eval/v1/packet.py c0051 c0060      # single-comment items in that id range
+    python eval/v1/packet.py t001             # one whole thread
 
 Single items show the title, full body, the full ancestor chain (marking which
 ancestors are inside the thread-mode chunk the model sees), the comment and
@@ -58,7 +58,7 @@ def show_thread(it):
 def main():
     args = sys.argv[1:]
     if args and args[0] == "--file":
-        # v2 top-ups: python eval/packet.py --file eval/v2/topup_items.jsonl START END (0-based index range)
+        # v2 top-ups: python eval/v1/packet.py --file eval/v2/topup_items.jsonl START END (0-based index range)
         with open(args[1], encoding="utf-8") as f:
             items = [json.loads(l) for l in f]
         for n, it in enumerate(items[int(args[2]):int(args[3])], start=int(args[2])):

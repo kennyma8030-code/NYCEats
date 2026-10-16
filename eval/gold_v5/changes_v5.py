@@ -1,6 +1,6 @@
 """Count every class of change between the v1/v2 gold and the v5 gold.
 
-    python eval/labels_v5/changes_v5.py     # prints a markdown table for gold_changes.md
+    python eval/gold_v5/changes_v5.py     # prints a markdown table for v1/gold_changes.md
 
 Counted over unique comments (v2's 244 v1 comments are counted once). The
 level map, the bare predicate, the firsthand mapping and the override keys
@@ -25,7 +25,7 @@ def load(p):
 
 def main():
     old, new = {}, {}
-    for a, b in (("gold.jsonl", "gold_v5.jsonl"), (os.path.join("v2", "gold.jsonl"), os.path.join("v2", "gold_v5.jsonl"))):
+    for a, b in ((os.path.join("v1", "gold.jsonl"), os.path.join("v1", "gold_v5.jsonl")), (os.path.join("v2", "gold.jsonl"), os.path.join("v2", "gold_v5.jsonl"))):
         for g in load(os.path.join(EVAL, a)):
             old.setdefault(g["comment_id"], g)
         for g in load(os.path.join(EVAL, b)):

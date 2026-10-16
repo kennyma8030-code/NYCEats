@@ -3,9 +3,9 @@
     python eval/v2/build_v2.py
 
 Inputs
-  eval/baseline/disagreements.jsonl   every gold-vs-original disagreement (eval/adjudicate.py),
-                                      all re-read; gold errors were fixed via labels/adjudication.py
-  eval/items.jsonl, eval/gold.jsonl   v1
+  eval/baseline/disagreements.jsonl   every gold-vs-original disagreement (eval/tools/adjudicate.py),
+                                      all re-read; gold errors were fixed via v1/labels/adjudication.py
+  eval/v1/items.jsonl, eval/v1/gold.jsonl
   eval/v2/topup_items.jsonl           comments mined per weakness (eval/v2/mine_topups.py)
   eval/v2/labels/topup_*.py           their blind labels (same M() schema)
 Outputs
@@ -27,7 +27,7 @@ import sys
 
 V2 = os.path.dirname(os.path.abspath(__file__))
 EVAL = os.path.dirname(V2)
-sys.path.insert(0, os.path.join(EVAL, "labels"))
+sys.path.insert(0, os.path.join(EVAL, "v1", "labels"))
 
 TAXONOMY = ["dropped_nameless_reply", "dropped_in_list", "dropped_named_mention", "dropped_reference_mention",
             "closed_place", "context_gap", "missed_negative", "negative_softened_to_positive", "softened_negative",
@@ -101,8 +101,8 @@ def comment_item(v1_item, cid):
 
 
 def main():
-    v1_items = {it["item_id"]: it for it in load_jsonl(os.path.join(EVAL, "items.jsonl"))}
-    v1_gold = {(g["item_id"], g["comment_id"]): g for g in load_jsonl(os.path.join(EVAL, "gold.jsonl"))}
+    v1_items = {it["item_id"]: it for it in load_jsonl(os.path.join(EVAL, "v1", "items.jsonl"))}
+    v1_gold = {(g["item_id"], g["comment_id"]): g for g in load_jsonl(os.path.join(EVAL, "v1", "gold.jsonl"))}
     rows = load_jsonl(os.path.join(EVAL, "baseline", "disagreements.jsonl"))
 
     items, gold = [], []
@@ -135,7 +135,7 @@ def main():
                          "has_mention": any(not m["ambiguous"] and not m["out_of_scope"] for m in ms),
                          "mentions": ms, "note": note})
 
-    # Did the ORIGINAL extraction actually fail these comments? (eval/adjudicate.py run over v2;
+    # Did the ORIGINAL extraction actually fail these comments? (eval/tools/adjudicate.py run over v2;
     # written after the first build, so this is filled in on the second build)
     dis_path = os.path.join(EVAL, "baseline", "disagreements_v2.jsonl")
     if os.path.exists(dis_path):

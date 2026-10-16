@@ -1,4 +1,4 @@
-"""Run a model x prompt x mode over eval/items.jsonl. Never touches the database.
+"""Run a model x prompt x mode over eval/v1/items.jsonl. Never touches the database.
 
     python eval/run.py --model deepseek/deepseek-v4-flash --mode comment
     python eval/run.py --model haiku-5.5 --mode thread --prompt file:eval/prompts/v5_thread.py
@@ -20,7 +20,7 @@ whole grid and scores it; use run.py for one run.
                      build_message; if it does, inputs are re-rendered from the
                      item's raw context instead of the stored rendering.
 
-Model inputs are the renderings stored in items.jsonl, produced by the repo's
+Model inputs are the renderings stored in the items file, produced by the repo's
 own builders when the items were built. Thread mode makes one call per
 distinct (thread, chunk), shared by every item in that chunk.
 
@@ -47,6 +47,7 @@ import types
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(HERE, "lib"))
 import providers  # noqa: E402
 
 
@@ -319,10 +320,10 @@ def main():
                     help="auto: Anthropic's API for Claude models when ANTHROPIC_API_KEY is set")
     ap.add_argument("--mode", choices=["comment", "thread"], required=True)
     ap.add_argument("--prompt", default="current")
-    ap.add_argument("--items", default=os.path.join(HERE, "items.jsonl"))
+    ap.add_argument("--items", default=os.path.join(HERE, "v1", "items.jsonl"))
     ap.add_argument("--only", nargs="*", help="item ids to run")
     ap.add_argument("--labeled-only", action="store_true",
-                    help="only items that have a gold label (eval/gold.jsonl)")
+                    help="only items that have a gold label (eval/v1/gold.jsonl)")
     ap.add_argument("--limit", type=int, help="at most N calls")
     ap.add_argument("--repeat", type=int, default=1, help="repetitions per call")
     ap.add_argument("--workers", type=int, default=8)
@@ -350,7 +351,7 @@ def main():
 
     only = args.only
     if args.labeled_only:
-        with open(os.path.join(HERE, "gold.jsonl"), encoding="utf-8") as f:
+        with open(os.path.join(HERE, "v1", "gold.jsonl"), encoding="utf-8") as f:
             only = sorted({json.loads(l)["item_id"] for l in f})
     jobs = build_jobs(load_items(args.items, only), args.mode, pmod,
                       custom=args.prompt.startswith("file:"))

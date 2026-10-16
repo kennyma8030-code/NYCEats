@@ -2,11 +2,11 @@
 
 ## Done
 
-- **v1 gold is complete** (`gold.jsonl`, sources in `labels/`). It covers
+- **v1 gold is complete** (`v1/gold.jsonl`, sources in `v1/labels/`). It covers
   all 395 single comments plus every one of the 374 comments in the 17
   whole threads: 769 comment lines and 825 mentions, of which 426 comments
   have at least one required mention.
-  - Labeled blind under the owner's rules (README).
+  - Labeled blind under the owner's rules (`docs/gold_rules.md`).
   - Every mention carries expensiveness, dish_sentiment, search_terms,
     value_complaint, out_of_scope, and resolvability per mode.
   - c0001–c0050 were relabeled when the rules changed.
@@ -28,7 +28,7 @@
   Thread mode is much worse than single comments: drop rate 0.486, recall
   0.490. Nearly all of the gap is nameless replies about the post's subject.
 - **Adjudication.** All 259 disagreeing comments were re-read, producing 23
-  gold patches (`gold_changes.md`). The rest are confirmed model failures.
+  gold patches (`v1/gold_changes.md`). The rest are confirmed model failures.
 - **v2 diagnostic set** (`v2/`): 481 items, 18 weaknesses, each with at
   least 25 items (237 blind-labeled top-ups); dev 246 / test 235. See
   `v2/taxonomy.md`.

@@ -1,7 +1,7 @@
-"""Regenerate eval/gold.jsonl from every labels/batchNN.py (each defines L), then
-apply the post-adjudication corrections in labels/adjudication.py.
+"""Regenerate eval/v1/gold.jsonl from every v1/labels/batchNN.py (each defines L), then
+apply the post-adjudication corrections in v1/labels/adjudication.py.
 
-    python eval/labels/build_gold.py
+    python eval/v1/labels/build_gold.py
 
 L maps item_id -> (mentions, note) for single comments, and
 "<thread item_id>/<comment_id>" -> (mentions, note) for thread comments.
@@ -13,16 +13,16 @@ import json
 import os
 
 import adjudication
-from common import EVAL
+from common import V1
 
 LABELER = "claude-opus-5.5 (manual, blind)"
 
 
 def main():
-    with open(os.path.join(EVAL, "items.jsonl"), encoding="utf-8") as f:
+    with open(os.path.join(V1, "items.jsonl"), encoding="utf-8") as f:
         items = {json.loads(l)["item_id"]: json.loads(l) for l in f}
     labels, source = {}, {}
-    for path in sorted(glob.glob(os.path.join(EVAL, "labels", "batch*.py"))):
+    for path in sorted(glob.glob(os.path.join(V1, "labels", "batch*.py"))):
         spec = importlib.util.spec_from_file_location(os.path.basename(path)[:-3], path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
@@ -53,7 +53,7 @@ def main():
         })
     order = {k: i for i, k in enumerate(items)}
     out.sort(key=lambda g: (order[g["item_id"]], g["comment_id"]))
-    with open(os.path.join(EVAL, "gold.jsonl"), "w", encoding="utf-8") as f:
+    with open(os.path.join(V1, "gold.jsonl"), "w", encoding="utf-8") as f:
         for g in out:
             f.write(json.dumps(g, ensure_ascii=False) + "\n")
     n_single = sum(1 for g in out if g["item_id"].startswith("c"))

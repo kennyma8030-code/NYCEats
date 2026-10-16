@@ -1,7 +1,7 @@
 # Sampling
 
-Built by `eval/build_items.py` (deterministic, seed `nyceats-eval-v1`), with
-raw numbers in `eval/sampling_stats.json`.
+Built by `eval/v1/build_items.py` (deterministic, seed `nyceats-eval-v1`), with
+raw numbers in `eval/v1/sampling_stats.json`.
 
 ## Data source
 
@@ -18,7 +18,7 @@ production.
 The snapshot reproduces the problems that motivated this eval: 82.8% of food
 scores are exactly 0.3 or 0.6, and 93,176 of 198,404 extracted comments (47%)
 have at least one mention. It has only 3 `alias_overrides` rows (cote,
-republic, otto). If production has more, refresh `eval/alias_overrides.json`.
+republic, otto). If production has more, refresh `eval/data/alias_overrides.json`.
 
 Every connection is opened with `set_session(readonly=True)`.
 

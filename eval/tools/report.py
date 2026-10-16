@@ -1,6 +1,6 @@
 """Render eval/results/comparison.json as a standalone HTML report.
 
-    python eval/report.py [out.html]
+    python eval/tools/report.py [out.html]
 
 Every number on the page comes from comparison.json; nothing is typed in.
 """
@@ -10,7 +10,7 @@ import json
 import os
 import sys
 
-HERE = os.path.dirname(os.path.abspath(__file__))
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # eval/, where results/ lives
 C = json.load(open(os.path.join(HERE, "results", "comparison.json"), encoding="utf-8"))
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "results", "report.html")
 

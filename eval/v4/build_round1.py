@@ -39,7 +39,7 @@ SPEC = {
 
 def pick_overlap(cp, k):
     """k v1 single-comment gold items, in hashed order, that are still eligible."""
-    path = os.path.join(corpus.EVAL, "items.jsonl")
+    path = os.path.join(corpus.EVAL, "v1", "items.jsonl")
     with open(path, encoding="utf-8") as f:
         v1 = [json.loads(l) for l in f]
     cands = [(it["comment_id"], it["item_id"]) for it in v1

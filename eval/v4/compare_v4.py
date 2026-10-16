@@ -14,7 +14,7 @@ A comment-mode run is scored on single items, a thread-mode run on thread
 items, production on both.
 
 Every comment is scored with score.py's own score_comment, so the metrics
-mean exactly what eval/README.md says. On top of that, per mode:
+mean exactly what eval/docs/scoring.md says. On top of that, per mode:
 
   <mode>                     unweighted, every item of that mode
   <mode> weighted            re-weighted to real traffic with each item's
@@ -173,7 +173,7 @@ def score_run(name, paths, ref, items, alias, excluded, rep=0, both_modes=False)
 
 def v1_agreement(ref_pass_dirs, ref_name, items, alias, excluded):
     """The reference labels scored against v1's hand gold on the overlap items."""
-    v1 = {g["comment_id"]: g for g in load_jsonl(os.path.join(EVAL, "gold.jsonl"))}
+    v1 = {g["comment_id"]: g for g in load_jsonl(os.path.join(EVAL, "v1", "gold.jsonl"))}
     overlap = [it for it in items if it["draw"] == "overlap_v1" and it["comment_id"] in v1]
     if not overlap:
         return None

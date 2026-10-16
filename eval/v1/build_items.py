@@ -1,6 +1,6 @@
-"""Build eval/items.jsonl: the extraction eval sample. Read-only against the DB.
+"""Build eval/v1/items.jsonl: the extraction eval sample. Read-only against the DB.
 
-    EVAL_DB_URL=postgresql://... python eval/build_items.py      # or DATABASE_URL
+    EVAL_DB_URL=postgresql://... python eval/v1/build_items.py      # or DATABASE_URL
 
 Every connection is opened read-only. The stored extraction (mention counts,
 entity keys) is used ONLY to find candidates for the risk groups; it is never
@@ -8,7 +8,7 @@ written into items.jsonl, so labeling stays blind.
 
 Sampling is deterministic: candidates in each group are ordered by
 md5(SEED || comment_id), so re-running against the same data gives the same
-items. See eval/sampling.md for the heuristics and the counts they produced.
+items. See eval/v1/sampling.md for the heuristics and the counts they produced.
 """
 
 import collections
@@ -21,15 +21,15 @@ import sys
 
 import psycopg2
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, ROOT)
 import extract_threads  # noqa: E402  (CHUNK; imports db/extract, no side effects)
 import prompt  # noqa: E402
 import prompt_thread  # noqa: E402
 
 SEED = "nyceats-eval-v1"
-OUT = os.path.join(ROOT, "eval", "items.jsonl")
-STATS = os.path.join(ROOT, "eval", "sampling_stats.json")
+OUT = os.path.join(ROOT, "eval", "v1", "items.jsonl")
+STATS = os.path.join(ROOT, "eval", "v1", "sampling_stats.json")
 
 # Draw order matters: a comment is drawn for the first group that wants it,
 # but is TAGGED with every group it matches. Rarer groups draw first.

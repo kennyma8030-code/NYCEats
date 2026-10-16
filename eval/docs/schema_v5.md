@@ -2,7 +2,7 @@
 
 This is the single written copy of the v5 contract: what a v5 prompt asks the
 model to output, what the v5 gold stores, and how the harness reads both.
-`schema_v5.py` implements it, `score_v5.py` scores against it, and
+`lib/schema_v5.py` implements it, `score_v5.py` scores against it, and
 `bench.py` runs it. If they disagree with this file, this file is the bug
 report.
 
@@ -157,7 +157,7 @@ To write v5 output into today's `mentions` columns, use
 bare endorsement into food 0.3 exactly, which is what scoring_v2's bare-name
 test reads.
 
-## Gold v5 (`eval/gold_v5.jsonl`, `eval/v2/gold_v5.jsonl`)
+## Gold v5 (`eval/v1/gold_v5.jsonl`, `eval/v2/gold_v5.jsonl`)
 
 **Items.** Each item has the same keys as v1 gold (`item_id`, `comment_id`,
 `thread_id`, `has_mention`, `mentions`, `note`, …), with `label_version: 3`.

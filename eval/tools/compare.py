@@ -16,7 +16,7 @@ would let a model look better for having finished the easy ones. So:
 
 Everything uses rep 0, production's chain filter, and score.py's metrics.
 
-    python eval/compare.py            -> eval/results/comparison.json
+    python eval/tools/compare.py            -> eval/results/comparison.json
 """
 
 import glob
@@ -24,7 +24,7 @@ import json
 import os
 import sys
 
-HERE = os.path.dirname(os.path.abspath(__file__))
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # eval/, where runs/ and results/ live
 sys.path.insert(0, HERE)
 import score as S  # noqa: E402
 
@@ -79,10 +79,10 @@ def cost_per_1k(run, n_comments_rep0):
 
 
 def main():
-    gold = S.load_jsonl(os.path.join(HERE, "gold.jsonl"))
-    items = S.load_jsonl(os.path.join(HERE, "items.jsonl"))
+    gold = S.load_jsonl(os.path.join(HERE, "v1", "gold.jsonl"))
+    items = S.load_jsonl(os.path.join(HERE, "v1", "items.jsonl"))
     alias, excluded = S.load_map("alias_overrides.json"), S.load_map("excluded_entities.json")
-    stats_path = os.path.join(HERE, "sampling_stats.json")
+    stats_path = os.path.join(HERE, "v1", "sampling_stats.json")
     all_ids = {g["comment_id"] for g in gold}
     thread_ids = {c["comment_id"] for it in items if it["kind"] != "comment" for c in it["comments"]}
 

@@ -12,10 +12,10 @@ comment.
 
 1. **Score.** The original extraction was scored against v1 gold
    (`eval/baseline/production__stored__all.jsonl`).
-2. **Re-read.** `eval/adjudicate.py` listed every disagreement with proposed
+2. **Re-read.** `eval/tools/adjudicate.py` listed every disagreement with proposed
    tags, 259 comments in all, and each one was re-read. Twenty-three were
-   gold errors; they were patched (`labels/adjudication.py`,
-   `gold_changes.md`). Everything else was confirmed as a model failure and
+   gold errors; they were patched (`v1/labels/adjudication.py`,
+   `v1/gold_changes.md`). Everything else was confirmed as a model failure and
    tagged. 244 v1 comments carry at least one tag.
 3. **Top up.** Every weakness with fewer than 25 items was topped up. The
    miner (`v2/mine_topups.py`) finds similar comments with SQL heuristics;
