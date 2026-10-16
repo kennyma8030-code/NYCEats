@@ -200,7 +200,10 @@ def lv(label):
 
 
 def gold_negative(g):
-    return any((lv(v) is not None and lv(v) <= -1) for v in g["aspects"].values())
+    # An avoid is negative evidence even when its reason judges no aspect
+    # (a political or fit avoid leaves every aspect null), matching model_negative.
+    return (any((lv(v) is not None and lv(v) <= -1) for v in g["aspects"].values())
+            or bool(g.get("is_negated")))
 
 
 def model_negative(m):

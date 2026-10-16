@@ -188,7 +188,12 @@ is food "meh". A bad review is not an avoid: "worst slice I've had, regretted
 going" is is_negated false.
 Losing a comparison is not an avoid. An avoid instruction that heads a list
 applies to EVERY name in that list. An avoid with no reason given is also food
-"bad".
+"bad". An avoid for a reason that is NOT about the place's food, value,
+service, room or wait -- politics or who owns it, a mismatch with what the
+asker wants ("it's all seafood" when they want steak), where it is or how hard
+it is to get to -- is is_negated true with EVERY aspect null and no liked or
+disliked dishes: nobody judged the place. Experience is "unclear" unless they
+say they went.
 
 DISHES are dishes and drinks the comment names for this place. Each dish goes in
 exactly ONE list:

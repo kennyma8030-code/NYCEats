@@ -376,7 +376,12 @@ O("t1_ntgkxkl", "Russ & Daughters", "c1: judges only the bagels ('very meh')", f
 O("t1_o65rrko", "Bungalow", "c1: judges only dishes, and they disagree (biryani underwhelming, lamb amazing)", food=None)
 O("t1_oofppn4", "Hill Country", "c1: judges only dishes, and they disagree (brisket very good, sides terrible)", food=None)
 O("t1_oanwd0s", "Hunter's Steak and Ale", "c1: judges only the burger (a favorite memory)", food=None)
-O("t1_o251gud", "Sweetgreen", "an avoid for a political reason, not quality: tagged so it can be flipped on its own", conv={"c2_nonquality": {"food": None}})
-O("t1_o255q7c", "Sweetgreen", "same: avoided for the partnership", conv={"c2_nonquality": {"food": None}})
-O("t1_o81a1qc", "Chef's Table at Brooklyn Fare", "avoided because it is all seafood, a reason about the asker's diet", conv={"c2_nonquality": {"food": None}})
+# ---------------------------------------------------------------------------
+# c2, narrowed (settled): an avoid whose stated reason is not about the
+# place's quality judges nothing, so every aspect stays null and no dish
+# carries a verdict; is_negated stays true. The tag records the c2 reading.
+# ---------------------------------------------------------------------------
+O("t1_o251gud", "Sweetgreen", "c2_nonquality: avoided for a political reason, not quality", food=None, conv={"c2_nonquality": {"food": "bad"}})
+O("t1_o255q7c", "Sweetgreen", "c2_nonquality: same, avoided for the partnership; nothing says they went, so unclear", food=None, experience="unclear", conv={"c2_nonquality": {"food": "bad"}})
+O("t1_o81a1qc", "Chef's Table at Brooklyn Fare", "c2_nonquality: avoided because it is all seafood, a reason about the asker's diet; knowing the menu's first half suggests a visit, but it could be from the menu", food=None, uncertain=["experience"], conv={"c2_nonquality": {"food": "bad"}})
 # @@END@@

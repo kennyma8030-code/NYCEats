@@ -50,6 +50,7 @@ KEYS = ["restaurant_raw", "neighborhood_hint", "reference_only", "aspects", "is_
 LISTS = ("dishes_liked", "dishes_disliked", "dishes_mentioned", "descriptors")
 SHARED = ["KINDS", "LEVEL_TABLE", "OTHER_FIELDS", "RULES"]
 TREE_LINE = re.compile(r"^( *)\[(\d+)\] u/([^:]*): (.*)$")
+used_nonquality = []  # where each non-quality avoid example sits
 
 
 def examples(prompt):
@@ -178,8 +179,14 @@ def check_mention(m, text, mode, where, errs, tree=None):
             err("reference_only with is_negated")
         if m["dishes_liked"] or m["dishes_disliked"]:
             err("reference_only with liked or disliked dishes")
+    # An avoid either judges the place (some aspect negative; with no reason at
+    # all that is food bad) or gives a reason unrelated to its quality, which
+    # leaves every aspect null and no dish verdict. Anything between is a break.
     if m["is_negated"] is True and not any(v in NEGATIVE for v in judged):
-        err("is_negated with no negative aspect (an avoid with no reason is food bad)")
+        if judged or m["dishes_liked"] or m["dishes_disliked"]:
+            err("is_negated with aspects but none negative")
+        elif m["reference_only"] is not True:
+            used_nonquality.append(where)
     if "closed" in [d.lower() for d in m["descriptors"]] and m["reference_only"] is not True:
         err("a closed place must be reference_only")
 
@@ -249,6 +256,8 @@ def check(mode, path):
         errs.append(f"{mode}: no example shows the empty output")
     if mode == "thread" and not used["secondhand"]:
         errs.append("thread: no example shows a secondhand mention")
+    if mode == "comment" and not any(w.startswith("comment ") for w in used_nonquality):
+        errs.append("comment: no example shows an avoid for a reason unrelated to quality")
     return errs, len(exs), used, len(p)
 
 

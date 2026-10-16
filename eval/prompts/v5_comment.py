@@ -93,6 +93,15 @@ EXAMPLES = "\n\n".join([
        'an avoid instruction at the head of a list applies to EVERY name in it. This is the '
        'easiest thing to get wrong.'),
 
+    ex(I("Steak for a birthday dinner?",
+         "Don't go to Tidewater, it's all seafood. And skip Green Bowl, the owner "
+         "donates to causes I won't support"),
+       OUT(M("Tidewater", neg=True, desc=["all seafood"]),
+           M("Green Bowl", neg=True)),
+       'both are avoids, but neither reason judges the food, value, service, room or wait: one '
+       'is a mismatch with what the asker wants, the other is about the owner. So is_negated is '
+       'true and every aspect stays null. Neither says they went, so experience is "unclear".'),
+
     ex(I("Sichuan in Flushing?",
          "Pepper House is hit or miss. Get the cumin lamb, skip the dumplings. "
          "I also had the cucumber salad. Cheap for the area"),

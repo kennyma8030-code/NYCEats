@@ -137,7 +137,9 @@ def fixture():
     answers = [
         [mention("Testaurant Alpha", food="awful", service="bad", experience="ate_there",
                  dishes_disliked=["vodka slice"], descriptors=["tourist trap"], is_negated=True)],
-        [mention("Testaurant Beta"), mention("Testaurant Gamma", reference_only=True, descriptors=["closed"])],
+        [mention("Testaurant Beta"), mention("Testaurant Gamma", reference_only=True, descriptors=["closed"]),
+         # an avoid for a reason unrelated to quality: negated, every aspect null
+         mention("Testaurant Delta", is_negated=True, descriptors=["all seafood"])],
         [],
     ]
     gold = [gold_line(it, it["comment_id"], ans) for it, ans in zip(items, answers)]
@@ -154,6 +156,21 @@ def test_scorer_perfect():
               "closed_handled_rate"):
         check(o[k] == 1.0, f"gold vs itself is perfect: {k}={o[k]}")
     check(o["drop_rate"] == 0, "gold vs itself drops nothing")
+
+    # A non-quality avoid is an avoid, not a bare endorsement, and it is
+    # negative evidence even with every aspect null.
+    nq = mention("Testaurant Delta", is_negated=True)
+    fx = collections.Counter()
+    check(V.normalize_v5(nq, fx) == nq and sum(fx.values()) == 0, "a non-quality avoid needs no repair")
+    check(not SV.is_bare(nq), "a non-quality avoid is not a bare endorsement")
+    check(SV.gold_negative(nq) and SV.model_negative(nq), "a non-quality avoid counts as negative on both sides")
+    check(V.to_production_floats(nq)["food"] is None, "a non-quality avoid writes no food 0.3")
+    as_bare = [list(a) for a in answers]
+    as_bare[1][2] = mention("Testaurant Delta")
+    run2 = SV.gold_as_run([gold_line(it, it["comment_id"], ans) for it, ans in zip(items, as_bare)], items)
+    o2 = SV.evaluate(gold, items, run2, {}, set(), False, "")[0][0]["overall"]
+    check(o2["is_negated_recall"] < 1.0 and o2["bare_endorsement_precision"] < 1.0,
+          "reading a non-quality avoid as a bare endorsement is scored as a miss")
 
 
 # ---------------------------------------------------------------- fakes

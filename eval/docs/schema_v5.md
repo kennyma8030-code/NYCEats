@@ -81,6 +81,37 @@ or null. "Overpriced" is price pricey **and** value bad.
    it. A negative review is not an avoid, and losing a comparison isn't one
    either.
 
+### Conventions (settled 2026-10-16)
+
+The contract left these open. The prompt states each one and the gold
+follows it. Every gold mention a convention decided carries a `conventions`
+tag holding the other reading, so any of them can be reversed mechanically.
+
+- **c1, dishes set food.** When the comment gives no verdict on the food
+  overall, food takes the level of its judged dishes, whatever it says about
+  value, service, the room or the wait. A disliked dish counts as at most meh,
+  and liked plus disliked dishes give mixed. An overall verdict wins.
+- **c2, an avoid judges the place unless its reason is elsewhere.**
+  - **No reason given:** food bad, so the avoid carries a negative aspect.
+  - **A reason unrelated to quality** (politics or ownership, a mismatch with
+    what the asker wants such as "it's all seafood", where it is or how hard
+    it is to reach): `is_negated` true, every aspect null, no liked or
+    disliked dishes. Experience is unclear unless they say they went. The
+    gold tags these `c2_nonquality`.
+  - So every avoid either has a negative aspect, or has every aspect null and
+    no dish verdict. A bare endorsement is never negated.
+- **c3, a verdict means a visit.** A verdict in the commenter's own voice
+  ("it's mid", "so good", "skip it") is ate_there unless they say they
+  haven't been. "Haven't been" is secondhand. Bare names, questions and facts
+  are unclear.
+- **c4, "not worth it."** Bare "not worth it" or "not worth going" given as
+  advice is an avoid. "Not worth the price" or "not worth $40" is value bad,
+  "not worth the line" is wait bad, and "not worth the hype" is food meh; none
+  of those is an avoid.
+- **Judgment-carrying questions** are scored by the level the question's own
+  words carry: "worst service" is service awful, "most overrated" is food meh,
+  "biggest letdown" is food bad.
+
 ## Normalizer (`schema_v5.normalize_v5`)
 
 `score_v5.Run` picks one schema per run file, by majority of its mentions

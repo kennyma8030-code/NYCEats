@@ -42,16 +42,16 @@ Mechanical rules
   part of a dish name. Gold descriptors are a recall target for lenient
   matching, not an exhaustive list, so descriptor precision is not scorable.
 
-Provisional conventions (relayed by the orchestrator from the prompt worker,
-not yet confirmed with the user). Each sets `conventions[id]` to the values
-the fields would have without it:
+Conventions, settled 2026-10-16. Each sets `conventions[id]` to the values
+the fields would have under the other reading, so any one can be reversed:
 - c1: when a comment gives no overall food verdict, food takes the dishes'
   own level, or "mixed" when liked and disliked dishes disagree. A disliked
   dish counts as at most meh. A liked dish with no v1 level is taken as good
   and also tagged c1_assumed. Other aspects (value, the wait) do not stop it.
-- c2: an avoid with no negative aspect gets food "bad". Avoids for a reason
-  that is not about quality (politics, the asker's diet) are also tagged
-  c2_nonquality, so they can be flipped on their own.
+- c2: an avoid that gives no reason gets food "bad". An avoid for a reason
+  that is not about the place's quality (politics, the asker's diet, where it
+  is) is tagged c2_nonquality by the review instead: is_negated stays true,
+  every aspect stays null and no dish carries a verdict.
 - c3: a verdict in the commenter's own voice is ate_there unless they say
   they haven't been. Bare names, questions and facts stay unclear.
 - c4: bare "not worth it" given as advice is an avoid (is_negated true);
@@ -282,8 +282,17 @@ def convert_mention(m, o):
         out["conventions"]["c1"] = {"food": None}
         if assumed:
             out["conventions"]["c1_assumed"] = {"food": None}
-    # c2: an avoid always carries a negative aspect.
-    if out["is_negated"] and not any(v in NEGATIVE for v in asp.values()):
+    # c2, narrowed: an avoid for a reason unrelated to the place's quality
+    # (tagged c2_nonquality by the review) judges nothing, so every aspect stays
+    # null and no dish carries a verdict. The tag records the c2 reading.
+    if out["is_negated"] and "c2_nonquality" in out["conventions"]:
+        if any(v is not None for v in asp.values()):
+            raise SystemExit(f"non-quality avoid with aspects set: {m['canonical_name']}")
+        out["dishes_mentioned"] += [d for d in out["dishes_liked"] + out["dishes_disliked"]
+                                    if d not in out["dishes_mentioned"]]
+        out["dishes_liked"], out["dishes_disliked"] = [], []
+    # c2: any other avoid carries a negative aspect; with no reason, food bad.
+    elif out["is_negated"] and not any(v in NEGATIVE for v in asp.values()):
         if asp["food"] is not None:
             raise SystemExit(f"avoid with positive food: {m['canonical_name']}")
         asp["food"] = "bad"
@@ -378,7 +387,12 @@ def validate(path):
                 if m["dishes_liked"] or m["dishes_disliked"]:
                     errs.append(f"{where} reference_only with dish verdicts")
             if m["is_negated"] and not any(v in NEGATIVE for v in m["aspects"].values()):
-                errs.append(f"{where} avoid without a negative aspect (c2)")
+                nonquality = ("c2_nonquality" in m["conventions"]
+                              and all(v is None for v in m["aspects"].values())
+                              and not m["dishes_liked"] and not m["dishes_disliked"])
+                if not nonquality:
+                    errs.append(f"{where} avoid without a negative aspect (c2) and not a tagged "
+                                "non-quality avoid with every aspect null")
             for cid, rev in m["conventions"].items():
                 if cid not in CONVENTIONS or not isinstance(rev, dict):
                     errs.append(f"{where} convention {cid}")

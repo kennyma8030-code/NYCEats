@@ -69,7 +69,7 @@ The headline barely moves: the original model's failures were real.
 `eval/v1/gold_v5.jsonl` and `eval/v2/gold_v5.jsonl` hold the v1 and v2 gold in the
 v5 schema (`label_version: 3`). `eval/gold_v5/convert_gold_v5.py` writes them. It maps
 the blind labels mechanically, then applies the hand decisions in
-`gold_v5/overrides.py`, then the provisional conventions. The old gold files
+`gold_v5/overrides.py`, then the conventions. The old gold files
 are untouched; the old scorer still reads them. Every override names its
 comment and mention and gives a reason, so each change can be audited against
 the blind label.
@@ -118,19 +118,21 @@ the mechanical default was wrong: 292 entries over 265 mentions.
   carry ("worst service" is service awful, "most overrated" food meh). The
   first relay said "plain level"; that was corrected before this was built.
 
-## Provisional conventions, tagged for reversal
+## Conventions, settled and tagged
 
-Conventions 1-4 are not yet confirmed with the user. Each mention a convention
-decided carries `conventions: {id: {field: value without it}}`, so reversing
-one is a mechanical rewrite of those mentions.
+Conventions 1-4 are settled (orchestrator decision, 2026-10-16), with c2
+narrowed: an avoid whose stated reason is not about the place's quality
+judges nothing. Each mention a convention decided still carries
+`conventions: {id: {field: value under the other reading}}`, so any one can
+still be reversed mechanically.
 
 | convention | rule | mentions (scored) |
 |---|---|---:|
 | c1 | with no overall food verdict, food takes the dishes' own level (a disliked dish is at most meh), or mixed when they disagree; value or the wait do not stop it | 50 (50) |
 | c1_assumed | a c1 liked dish with no v1 level, taken as good | 0 |
-| c2 | an avoid with no negative aspect gets food bad (13); bare "skip X" scored meh in v1 moved to bad (4) | 17 (17) |
-| c2_nonquality | also tagged: an avoid for a reason that is not quality (Sweetgreen's politics, "it's all seafood") | 3 (3) |
-| c3 | a verdict in the commenter's own voice is ate_there (93); a reference is unclear unless it shows a visit (157); an explicit experience decision always wins | 250 (124) |
+| c2 | an avoid that gives no reason gets food bad; bare "skip X" scored meh in v1 moved to bad (4) | 14 (14) |
+| c2_nonquality | an avoid for a reason unrelated to quality (Sweetgreen's politics, "it's all seafood"): is_negated true, every aspect null, no dish verdict. The tag records the c2 reading, food bad | 3 (3) |
+| c3 | a verdict in the commenter's own voice is ate_there; a reference is unclear unless it shows a visit; an explicit experience decision always wins | 249 (123) |
 | c4 | bare "not worth it" as advice is an avoid (5); "not worth the price / the line" is value or wait bad and not an avoid (15, two of them were avoids in v1) | 20 (20) |
 
 ## Change counts
@@ -162,8 +164,8 @@ Counted over unique comments (v2's 244 v1 comments count once).
 | dishes moved to liked by meal-level praise | 3 |
 | descriptors edited by review | 7 |
 | price kept (stated in words) / nulled (dollar figure only) | 39 / 31 |
-| experience ate_there -> unclear | 440 |
-| experience unclear -> ate_there | 48 |
+| experience ate_there -> unclear | 441 |
+| experience unclear -> ate_there | 47 |
 | experience secondhand -> ate_there / unclear | 2 / 1 |
 | experience unclear -> secondhand | 1 |
 
@@ -179,8 +181,8 @@ Counted over unique comments (v2's 244 v1 comments count once).
 | c0264 | Radio Bakery | says what they ordered and will try, no judgment: reference, uncertain |
 | c0045 | Serafina | the one bare name answering a judgment-carrying question ("poor quality yet expensive, for an enemy"): food bad, value bad, judgment_question |
 | c0214 | Mama's Too and 3 others | "just avoid all these spots tomorrow" warns about a 184-person crawl: wait bad, not food |
-| t005 | Sweetgreen (2 comments) | an avoid for a political reason: c2 still sets food bad, tagged |
-| v0259 | Chef's Table at Brooklyn Fare | "avoid, it's all seafood and uncooked" is a reason about the asker's diet: c2 food bad, tagged |
+| t005 | Sweetgreen (2 comments) | an avoid for a political reason: c2_nonquality, every aspect null; one says nothing of a visit, so unclear |
+| v0259 | Chef's Table at Brooklyn Fare | "avoid, it's all seafood and uncooked" is a reason about the asker's diet: c2_nonquality, every aspect null; experience uncertain |
 | v0274 | Dominique Ansel | skip the cronut line, the cookie is awesome: dishes disagree, food mixed (c1) |
 | v0420 | Golden Bull handmade noodles | a terrible sandwich, but "good enough for my regular rotation": the overall verdict wins, food good |
 | v0420 | Joju, MalaTang | "both fine and I'd go again": fine is meh, mixed accepted |

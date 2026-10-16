@@ -78,14 +78,18 @@ def cases(g, text):
     for m in g["mentions"]:
         if m["out_of_scope"] or m["entity_type"] in ("grocery_market", "other"):
             c["non-restaurant (out of scope)"] += 1
-    bare = [m for m in scored if not m["reference_only"] and all(v is None for v in m["aspects"].values())]
+    # A non-quality avoid also has every aspect null, but it is an avoid, not an endorsement.
+    bare = [m for m in scored if not m["reference_only"] and not m["is_negated"]
+            and all(v is None for v in m["aspects"].values())]
     if len(scored) >= 3 and len(bare) >= 2:
         c["bare list (3+ names, 2+ bare)"] += 1
     for m in scored:
         a = m["aspects"]
         judged = any(v is not None for v in a.values())
-        if not m["reference_only"] and not judged:
+        if not m["reference_only"] and not judged and not m["is_negated"]:
             c["bare endorsement"] += 1
+        if m["is_negated"] and not judged:
+            c["avoid for a reason unrelated to quality"] += 1
         if judged:
             c["judged"] += 1
         if m["reference_only"]:
