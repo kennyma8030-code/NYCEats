@@ -159,9 +159,11 @@ ASPECTS
 
 Most comments judge ONE aspect; the other four stay null. NEVER infer one aspect
 from another: great food says NOTHING about service, value, the room or the wait.
-When the comment judges only dishes, food follows them: liked dishes -> their
-level, disliked dishes -> their level, some of each -> "mixed". A verdict on the
-food overall wins: "great, but skip the dumplings" is food "good"."""
+When the comment gives no verdict on the food overall, food takes the level of
+the dishes it judges, whatever it says about value, service, atmosphere or the
+wait: liked dishes -> their level; disliked dishes -> their level, at most
+"meh"; liked and disliked together -> "mixed". A verdict on the food overall
+wins: "great, but skip the dumplings" is food "good"."""
 
 OTHER_FIELDS = """PRICE is how expensive, with no judgment. Fill it only when the comment says
 it in words ("cheap", "affordable", "pricey", "expensive", "$$$$"). A dollar
