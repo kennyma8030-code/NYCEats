@@ -1,0 +1,32 @@
+{
+  "voyage-4-large": {
+    "n": 25,
+    "median_ms": 400,
+    "p90_ms": 410,
+    "min_ms": 248
+  },
+  "qwen3-8b": {
+    "n": 25,
+    "median_ms": 410,
+    "p90_ms": 436,
+    "min_ms": 261
+  },
+  "oai-3-large": {
+    "n": 25,
+    "median_ms": 510,
+    "p90_ms": 512,
+    "min_ms": 396
+  },
+  "gemini-2": {
+    "n": 25,
+    "median_ms": 627,
+    "p90_ms": 1026,
+    "min_ms": 570
+  },
+  "oai-3-small": {
+    "n": 25,
+    "median_ms": 410,
+    "p90_ms": 511,
+    "min_ms": 326
+  }
+}
