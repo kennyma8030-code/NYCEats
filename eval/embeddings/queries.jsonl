@@ -1,0 +1,110 @@
+{"qid": "q001", "text": "date night", "category": "occasion_vibe", "intent": "a restaurant that works well for a romantic date", "holdout": false}
+{"qid": "q002", "text": "romantic dinner for an anniversary", "category": "occasion_vibe", "intent": "a special, romantic place for an anniversary dinner", "holdout": false}
+{"qid": "q003", "text": "first date spot that isn't too fancy", "category": "occasion_vibe", "intent": "a casual, relaxed place suited to a first date", "holdout": true}
+{"qid": "q004", "text": "good for a big group", "category": "occasion_vibe", "intent": "a restaurant that can seat or suits a large group", "holdout": false}
+{"qid": "q005", "text": "birthday dinner for 10 people", "category": "occasion_vibe", "intent": "a place that handles a ~10 person celebratory dinner", "holdout": false}
+{"qid": "q006", "text": "solo dinner at the bar", "category": "occasion_vibe", "intent": "a place comfortable for eating alone, ideally at a bar or counter", "holdout": true}
+{"qid": "q007", "text": "place to eat alone with a book", "category": "occasion_vibe", "intent": "a calm spot where dining solo is comfortable", "holdout": true}
+{"qid": "q008", "text": "boozy brunch", "category": "occasion_vibe", "intent": "a brunch spot with drinks, e.g. bottomless or cocktails", "holdout": false}
+{"qid": "q009", "text": "brunch without a crazy wait", "category": "occasion_vibe", "intent": "a brunch place where you can get seated without a long wait", "holdout": false}
+{"qid": "q010", "text": "late night food after the bars", "category": "occasion_vibe", "intent": "food available late at night", "holdout": false}
+{"qid": "q011", "text": "open past midnight", "category": "occasion_vibe", "intent": "a restaurant that serves food after midnight", "holdout": false}
+{"qid": "q012", "text": "business lunch in midtown", "category": "occasion_vibe", "intent": "a midtown lunch place suitable for a work meal", "holdout": false}
+{"qid": "q013", "text": "take my parents when they visit", "category": "occasion_vibe", "intent": "a crowd-pleasing restaurant to bring visiting parents", "holdout": false}
+{"qid": "q014", "text": "kid friendly restaurant", "category": "occasion_vibe", "intent": "a place that welcomes children/families", "holdout": false}
+{"qid": "q015", "text": "lively spot with a fun vibe", "category": "occasion_vibe", "intent": "an energetic, fun atmosphere", "holdout": false}
+{"qid": "q016", "text": "cheap eats", "category": "price", "intent": "inexpensive, good food", "holdout": true}
+{"qid": "q017", "text": "cheap tasting menu", "category": "price", "intent": "a tasting menu at a relatively low price", "holdout": false}
+{"qid": "q018", "text": "worth the splurge", "category": "price", "intent": "an expensive place that is worth the money", "holdout": false}
+{"qid": "q019", "text": "best meal under $20", "category": "price", "intent": "a very good meal for under about $20", "holdout": false}
+{"qid": "q020", "text": "affordable omakase", "category": "price", "intent": "an omakase that is relatively inexpensive", "holdout": false}
+{"qid": "q021", "text": "special occasion splurge dinner", "category": "price", "intent": "a high-end place for a special occasion", "holdout": false}
+{"qid": "q022", "text": "good value prix fixe", "category": "price", "intent": "a prix fixe / set menu that is good value", "holdout": false}
+{"qid": "q023", "text": "lunch special deals", "category": "price", "intent": "restaurants with good lunch specials", "holdout": false}
+{"qid": "q024", "text": "cheap date", "category": "price", "intent": "an inexpensive place that works for a date", "holdout": false}
+{"qid": "q025", "text": "dollar slice", "category": "price", "intent": "a cheap slice pizza place", "holdout": false}
+{"qid": "q026", "text": "budget friendly sushi", "category": "price", "intent": "sushi that is affordable", "holdout": true}
+{"qid": "q027", "text": "overpriced for what you get", "category": "price", "intent": "places where the price is too high for the quality (avoid intent)", "holdout": false}
+{"qid": "q028", "text": "best soup dumplings", "category": "dish", "intent": "where to get great soup dumplings (xiao long bao)", "holdout": false}
+{"qid": "q029", "text": "xiao long bao", "category": "dish", "intent": "where to get great xiao long bao / soup dumplings", "holdout": false}
+{"qid": "q030", "text": "good bagel", "category": "dish", "intent": "a place with good bagels", "holdout": true}
+{"qid": "q031", "text": "best pastrami sandwich", "category": "dish", "intent": "where to get a great pastrami sandwich", "holdout": true}
+{"qid": "q032", "text": "hand pulled noodles", "category": "dish", "intent": "a place serving hand-pulled noodles", "holdout": false}
+{"qid": "q033", "text": "birria tacos", "category": "dish", "intent": "where to get birria tacos", "holdout": false}
+{"qid": "q034", "text": "chopped cheese", "category": "dish", "intent": "where to get a good chopped cheese", "holdout": false}
+{"qid": "q035", "text": "flaky croissant", "category": "dish", "intent": "a bakery with excellent croissants", "holdout": false}
+{"qid": "q036", "text": "best burger in the city", "category": "dish", "intent": "a top burger", "holdout": false}
+{"qid": "q037", "text": "smash burger", "category": "dish", "intent": "a place serving smash burgers", "holdout": true}
+{"qid": "q038", "text": "pho", "category": "dish", "intent": "a good pho / Vietnamese noodle soup spot", "holdout": false}
+{"qid": "q039", "text": "ramen", "category": "dish", "intent": "a good ramen shop", "holdout": true}
+{"qid": "q040", "text": "dry aged steak", "category": "dish", "intent": "a place known for dry-aged steak", "holdout": false}
+{"qid": "q041", "text": "cacio e pepe", "category": "dish", "intent": "a place with good cacio e pepe", "holdout": false}
+{"qid": "q042", "text": "halal cart chicken over rice", "category": "dish", "intent": "a good halal cart / chicken over rice", "holdout": false}
+{"qid": "q043", "text": "oysters happy hour", "category": "dish", "intent": "an oyster happy hour / discounted oysters", "holdout": false}
+{"qid": "q044", "text": "hot pot", "category": "dish", "intent": "a hot pot restaurant", "holdout": false}
+{"qid": "q045", "text": "best fries", "category": "dish", "intent": "a place with excellent french fries", "holdout": false}
+{"qid": "q046", "text": "sichuan in flushing", "category": "cuisine_neighborhood", "intent": "a Sichuan restaurant in Flushing", "holdout": true}
+{"qid": "q047", "text": "dim sum in chinatown", "category": "cuisine_neighborhood", "intent": "a dim sum place in Manhattan or other Chinatown", "holdout": false}
+{"qid": "q048", "text": "korean bbq in k-town", "category": "cuisine_neighborhood", "intent": "Korean BBQ in Koreatown (Manhattan)", "holdout": false}
+{"qid": "q049", "text": "italian in the west village", "category": "cuisine_neighborhood", "intent": "an Italian restaurant in the West Village", "holdout": true}
+{"qid": "q050", "text": "tacos in sunset park", "category": "cuisine_neighborhood", "intent": "tacos in Sunset Park, Brooklyn", "holdout": false}
+{"qid": "q051", "text": "thai in elmhurst", "category": "cuisine_neighborhood", "intent": "Thai food in Elmhurst, Queens", "holdout": false}
+{"qid": "q052", "text": "pizza in brooklyn", "category": "cuisine_neighborhood", "intent": "pizza in Brooklyn", "holdout": false}
+{"qid": "q053", "text": "jamaican food in flatbush", "category": "cuisine_neighborhood", "intent": "Jamaican / Caribbean food in Flatbush", "holdout": false}
+{"qid": "q054", "text": "ethiopian in harlem", "category": "cuisine_neighborhood", "intent": "Ethiopian food in Harlem", "holdout": true}
+{"qid": "q055", "text": "georgian food in brighton beach", "category": "cuisine_neighborhood", "intent": "Georgian (country) food, ideally in south Brooklyn", "holdout": false}
+{"qid": "q056", "text": "indian on curry hill", "category": "cuisine_neighborhood", "intent": "Indian food on Lexington Ave in the 20s (Curry Hill)", "holdout": false}
+{"qid": "q057", "text": "greek in astoria", "category": "cuisine_neighborhood", "intent": "Greek food in Astoria", "holdout": false}
+{"qid": "q058", "text": "ukrainian food in the east village", "category": "cuisine_neighborhood", "intent": "Ukrainian/Eastern European food in the East Village", "holdout": false}
+{"qid": "q059", "text": "dominican food in washington heights", "category": "cuisine_neighborhood", "intent": "Dominican food in Washington Heights/Inwood", "holdout": false}
+{"qid": "q060", "text": "no reservation needed", "category": "attribute", "intent": "walk-in friendly, no reservation required", "holdout": true}
+{"qid": "q061", "text": "outdoor seating", "category": "attribute", "intent": "a place with outdoor seating, patio or backyard", "holdout": true}
+{"qid": "q062", "text": "quiet enough to talk", "category": "attribute", "intent": "a restaurant quiet enough for conversation", "holdout": false}
+{"qid": "q063", "text": "good cocktails with dinner", "category": "attribute", "intent": "a restaurant with good cocktails", "holdout": false}
+{"qid": "q064", "text": "vegetarian friendly", "category": "attribute", "intent": "a place with good vegetarian options", "holdout": false}
+{"qid": "q065", "text": "vegan options", "category": "attribute", "intent": "a place with vegan food", "holdout": false}
+{"qid": "q066", "text": "gluten free", "category": "attribute", "intent": "a place that handles gluten free well", "holdout": true}
+{"qid": "q067", "text": "chef's counter", "category": "attribute", "intent": "a restaurant with a chef's counter / counter seating experience", "holdout": false}
+{"qid": "q068", "text": "byob", "category": "attribute", "intent": "a bring-your-own-bottle restaurant", "holdout": false}
+{"qid": "q069", "text": "cash only", "category": "attribute", "intent": "a cash-only restaurant", "holdout": false}
+{"qid": "q070", "text": "dog friendly patio", "category": "attribute", "intent": "a place where you can sit with a dog", "holdout": false}
+{"qid": "q071", "text": "great service", "category": "attribute", "intent": "a restaurant with excellent service", "holdout": false}
+{"qid": "q072", "text": "quick lunch near the office", "category": "attribute", "intent": "a fast, convenient lunch spot", "holdout": false}
+{"qid": "q073", "text": "huge portions", "category": "attribute", "intent": "a place with big portions", "holdout": false}
+{"qid": "q074", "text": "live music with dinner", "category": "attribute", "intent": "a restaurant with live music", "holdout": false}
+{"qid": "q075", "text": "overrated spots", "category": "avoid_negative", "intent": "places people say are overrated (avoid intent)", "holdout": false}
+{"qid": "q076", "text": "tourist traps", "category": "avoid_negative", "intent": "places people call tourist traps (avoid intent)", "holdout": true}
+{"qid": "q077", "text": "places that went downhill", "category": "avoid_negative", "intent": "restaurants that used to be good and declined", "holdout": false}
+{"qid": "q078", "text": "worst service", "category": "avoid_negative", "intent": "restaurants with bad service (avoid intent)", "holdout": false}
+{"qid": "q079", "text": "not worth the hype", "category": "avoid_negative", "intent": "hyped places that disappoint (avoid intent)", "holdout": false}
+{"qid": "q080", "text": "got food poisoning", "category": "avoid_negative", "intent": "places people say made them sick (avoid intent)", "holdout": false}
+{"qid": "q081", "text": "long line not worth it", "category": "avoid_negative", "intent": "places where the wait isn't worth it (avoid intent)", "holdout": true}
+{"qid": "q082", "text": "closed restaurants i miss", "category": "avoid_negative", "intent": "restaurants that have closed and are missed", "holdout": false}
+{"qid": "q083", "text": "disappointing michelin star", "category": "avoid_negative", "intent": "Michelin-starred places that disappointed", "holdout": false}
+{"qid": "q084", "text": "spot that slaps", "category": "paraphrase_slang", "intent": "a place whose food is excellent (slang)", "holdout": false}
+{"qid": "q085", "text": "hidden gem", "category": "paraphrase_slang", "intent": "a lesser-known but excellent place", "holdout": true}
+{"qid": "q086", "text": "hole in the wall", "category": "paraphrase_slang", "intent": "a small, unassuming but good place", "holdout": false}
+{"qid": "q087", "text": "underrated", "category": "paraphrase_slang", "intent": "a place better than its reputation", "holdout": true}
+{"qid": "q088", "text": "bussin wings", "category": "paraphrase_slang", "intent": "great chicken wings (slang)", "holdout": false}
+{"qid": "q089", "text": "lowkey good dumpling spot", "category": "paraphrase_slang", "intent": "an under-the-radar good dumpling place", "holdout": false}
+{"qid": "q090", "text": "fire pizza", "category": "paraphrase_slang", "intent": "excellent pizza (slang)", "holdout": false}
+{"qid": "q091", "text": "no frills old school joint", "category": "paraphrase_slang", "intent": "an old-school, unpretentious place", "holdout": false}
+{"qid": "q092", "text": "legit authentic", "category": "paraphrase_slang", "intent": "authentic, the real thing", "holdout": false}
+{"qid": "q093", "text": "banger sandwich", "category": "paraphrase_slang", "intent": "an excellent sandwich (slang)", "holdout": false}
+{"qid": "q094", "text": "where locals actually eat", "category": "paraphrase_slang", "intent": "a non-touristy place locals go to", "holdout": false}
+{"qid": "q095", "text": "goated bakery", "category": "paraphrase_slang", "intent": "an excellent bakery (slang)", "holdout": false}
+{"qid": "q096", "text": "quiet romantic spot, not loud", "category": "hard_case", "intent": "a romantic place that is quiet; loud places do not qualify", "holdout": true}
+{"qid": "q097", "text": "pizza that isn't a dollar slice", "category": "hard_case", "intent": "quality pizza, not the cheap dollar-slice kind", "holdout": false}
+{"qid": "q098", "text": "italian not in little italy", "category": "hard_case", "intent": "good Italian food outside Little Italy", "holdout": false}
+{"qid": "q099", "text": "chinese food that isn't americanized", "category": "hard_case", "intent": "authentic Chinese food", "holdout": false}
+{"qid": "q100", "text": "a steakhouse other than peter luger", "category": "hard_case", "intent": "a recommended steakhouse that is not Peter Luger", "holdout": false}
+{"qid": "q101", "text": "good food near penn station", "category": "hard_case", "intent": "a good place to eat near Penn Station / Herald Sq", "holdout": false}
+{"qid": "q102", "text": "restaurant with no wait", "category": "hard_case", "intent": "a place where you get seated quickly", "holdout": true}
+{"qid": "q103", "text": "sushi that isn't expensive", "category": "hard_case", "intent": "affordable sushi", "holdout": false}
+{"qid": "q104", "text": "brunch spot that takes reservations", "category": "hard_case", "intent": "brunch place where you can reserve", "holdout": true}
+{"qid": "q105", "text": "spicy food that actually has heat", "category": "hard_case", "intent": "genuinely spicy food", "holdout": false}
+{"qid": "q106", "text": "bar food that's actually good", "category": "hard_case", "intent": "a bar with notably good food", "holdout": false}
+{"qid": "q107", "text": "happy hour", "category": "hard_case", "intent": "a happy hour with drink/food deals", "holdout": false}
+{"qid": "q108", "text": "cold noodles", "category": "hard_case", "intent": "a place serving cold noodle dishes", "holdout": false}
+{"qid": "q109", "text": "jewish deli", "category": "hard_case", "intent": "a classic Jewish deli", "holdout": false}
+{"qid": "q110", "text": "not a chain", "category": "hard_case", "intent": "an independent restaurant rather than a chain", "holdout": false}
