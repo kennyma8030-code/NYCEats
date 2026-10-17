@@ -160,19 +160,102 @@ CASES = {
                 dishes=[D("burrito", "negative")],
                 notes=[N("price", "$20+ for a burrito", "negative", "burrito")]),
               M("Chipotle", "stated", notes=[N("comparison", "a better burrito than Super Burrito")])],
+    # Benchmark miss (v5 filed it reference-only): "Buy their canned chili and make it yourself. They
+    # aren't making it in store." under "Cincinnati Night at Edward's". Skyline (Cincinnati) is out of scope.
+    "c0185": [M("Edward's", "stated", "negative", named_in="context", taste="negative",
+                dishes=[D("chili", "negative")],
+                notes=[N("not made in house", "the chili is canned, not made in store", "negative", "chili")])],
+    # Benchmark miss ("not bad" read as praise): "Straight up. 80% normal bagel size too. They're not bad.
+    # But Tal is a million times better" in a "Pop up bagels" thread.
+    "c0155": [M("Pop up bagels", "stated", "negative", named_in="context", taste="negative",
+                notes=[N("portion size", "bagels are 80% of normal size", "negative")]),
+              M("Tal", "stated", "positive", taste="positive",
+                notes=[N("comparison", "a million times better than Pop Up Bagels", "positive")])],
 }
 
-# What the design expects when each case is scored against the v1 gold.
-# Deliberate disagreements with the gold are listed, not hidden:
-EXPECT = {
-    "matched_all": True,          # every required gold mention found, no false positives
-    "neg_hit_all": True,          # every gold negative carried a negative
-    "vc_hit_all": True,           # every gold value complaint caught
-    "dishneg_hit_all": True,      # every gold dish negative caught
-    "sign_errors": 0,
+# v2 gold, keyed by v2 item id: the remaining benchmark failure quotes and the
+# "scored positive" pattern (v2 weakness negative_softened_to_positive).
+CASES_V2 = {
+    # "...some of the best places are: 1. Extremely hard to get a reservation to, so tie with Sho post 3*
+    #  2. Cost somewhere $300-$400, which is the same as the base cost of Sho roughly ... similar to
+    #  Yoshino and Sho." v5 filed Sho reference-only; the trait is shared with Sho (RULES 5).
+    "v0065": [M("Sho", "stated", wait="negative",
+                notes=[N("price", "base cost about $300-$400")]),
+              M("Yoshino", "none")],
+    # "I agree with you on Semma. The dosa was amazing, but definitely not leagues ahead ... Other
+    #  dishes lacked the depth and complexity I expected" (the original model scored it positive)
+    "v0119": [M("Semma", "stated", "negative", taste="negative", dishes=[D("dosa", "positive")],
+                notes=[N("other dishes", "other dishes lacked depth and complexity", "negative")])],
+    # "I feel like moms isn't as good as it used to be ... the last time I went it was meh. Maybe swap
+    #  it for Thai dinner or golden dinner?"
+    "v0364": [M("moms", "stated", "negative", taste="negative", trend="declined",
+                dishes=[D("mac and cheese pancake", "negative")]),
+              M("Thai dinner", "endorse", "positive"), M("golden dinner", "endorse", "positive")],
+    # "...The pizza is definitely not worth the wait. A good slice but only a slight step above every
+    #  other NYC slice"
+    "v0373": [M("Lindustrie", "stated", "negative", taste="positive", wait="negative",
+                notes=[N("compared to other slices", "only a slight step above other NYC slices")])],
+}
+
+# Thread mode, rendered by v6_thread.render_chunk from the read-only sidecar.
+# Keys: (items file, item id, chunk index); values: {new bracket number:
+# (expected comment id, v6 mentions)}. t003/0 holds the misordered replies
+# (production drew "I LOVE their pickled mango" under Jacob's; it answers the
+# Pickle Guys comment). t001/0 [25] answers a 14-character parent ("Tell me
+# more...") that production never renders.
+THREAD_CASES = {
+    ("items.jsonl", "t003", 0): {
+        3: ("t1_ornphy1", [M("pickle guys", "stated", "neutral", taste="neutral", atmosphere="positive",
+                             dishes=[D("fruit", "positive")])]),
+        4: ("t1_oro17m1", [M("The Pickle Guys", "stated", "positive", taste="positive",
+                             dishes=[D("pickled pineapple", "positive")])]),
+        5: ("t1_orom5pn", [M("pickle guys", "stated", "positive", named_in="context", taste="positive",
+                             dishes=[D("pickled mango", "very_positive")])]),
+        6: ("t1_ornssi9", [M("Jacob’s", "stated", "negative", taste="negative",
+                             dishes=[D("pickles", "negative")],
+                             notes=[N("menu", "everything on the menu is over the top", "negative")])]),
+    },
+    ("items.jsonl", "t001", 0): {
+        25: ("t1_owlz2bg", [M("Pressed", "stated", "negative", named_in="context", value="negative",
+                              notes=[N("price", "overpriced produce in liquid form", "negative")])]),
+    },
+}
+
+# An invented chunk in production order: [b] and [c] both answer [a], and [d]
+# answers [b] but was posted after [c], so production draws it under [c].
+# [e] answers a comment in another chunk, [f] a deleted one, [g] one missing
+# from the database.
+SYNTH_ROWS = [
+    {"comment_id": "a", "parent_comment_id": None, "author": "ann", "body": "Golden Lotus is the move"},
+    {"comment_id": "b", "parent_comment_id": "a", "author": "bob", "body": "their noodles are mid"},
+    {"comment_id": "c", "parent_comment_id": "a", "author": "cal", "body": "second this"},
+    {"comment_id": "d", "parent_comment_id": "b", "author": "dee", "body": "hard disagree"},
+    {"comment_id": "e", "parent_comment_id": "x", "author": "eve", "body": "overrated"},
+    {"comment_id": "f", "parent_comment_id": "y", "author": "fay", "body": "so good"},
+    {"comment_id": "g", "parent_comment_id": "z", "author": "gus", "body": "agreed"},
+]
+SYNTH_OUTSIDE = {"x": {"author": "zed", "body": "Pepper  House"}, "y": {"author": "yul", "body": "[deleted]"}}
+SYNTH_EXPECTED = """POST: Best noodles in Queens?
+
+[1] u/ann: Golden Lotus is the move
+  [2] u/bob (reply to [1]): their noodles are mid
+    [3] u/dee (reply to [2]): hard disagree
+  [4] u/cal (reply to [1]): second this
+[5] u/eve (reply to u/zed, not in this chunk: "Pepper House"): overrated
+[6] u/fay (reply to a deleted comment): so good
+[7] u/gus (reply to a comment not shown): agreed"""
+
+# What the design expects when the cases are scored against the gold: every
+# required mention matched with no false positive, every gold negative,
+# value complaint and dish negative caught, and no sign error. Deliberate
+# disagreements with the gold are listed here, not hidden:
+EXPECT_MISSES = {
     # v6 never turns a bare dollar figure into a price level, and does not
     # read "overpriced" as one; the gold does both.
-    "expensiveness_presence_misses": {"c0049", "c0084"},
+    "expensiveness": {"c0049", "c0084", "v0065"},
+    # Owner's rule: a portion complaint that doesn't mention price is a note,
+    # not value. The v1 gold reads "80% normal bagel size" as a value complaint.
+    "value_complaint": {"c0155"},
 }
 
 
@@ -210,46 +293,92 @@ def main():
     if leaks:
         errs.append(f"{leaks} eval comment(s) share a 7-word run with a prompt")
 
-    # 3. hand-written outputs vs v1 gold
-    gold = {g["item_id"]: g for g in S.load_jsonl(os.path.join(HERE, "gold.jsonl"))}
+    # 3. hand-written outputs vs the v1 and v2 gold (comment mode), and the
+    #    rendered thread chunks vs the v1 gold (thread mode)
     alias, excluded = S.load_map("alias_overrides.json"), S.load_map("excluded_entities.json")
-    total = S.Acc()
-    exp_miss = set()
-    rows = []
-    for iid, ms in CASES.items():
-        errs += [f"{iid}: {e}" for e in validate({"mentions": ms}, common.SCHEMA_COMMENT, common.SCHEMA_COMMENT)]
-        a = S.score_comment(gold[iid], A.adapt_all(ms), "comment", alias, excluded, False)
+    lines_v1 = S.load_jsonl(os.path.join(HERE, "gold.jsonl"))
+    gold_v1 = {g["item_id"]: g for g in lines_v1 if not g["item_id"].startswith("t")}
+    gold_v2 = {g["item_id"]: g for g in S.load_jsonl(os.path.join(HERE, "v2", "gold.jsonl"))}
+    by_cid = {g["comment_id"]: g for g in lines_v1}    # thread lines share their item id
+    scored = []                                   # (label, gold line, v6 mentions, mode, schema)
+    for gold, cases in ((gold_v1, CASES), (gold_v2, CASES_V2)):
+        for iid, ms in cases.items():
+            scored.append((iid, gold[iid], ms, "comment", common.SCHEMA_COMMENT))
+    for (path, iid, ci), outs in THREAD_CASES.items():
+        it = next(json.loads(l) for l in open(os.path.join(HERE, path), encoding="utf-8")
+                  if json.loads(l)["item_id"] == iid)
+        side = os.path.join(HERE, os.path.splitext(path)[0] + ".thread_rows.jsonl")
+        rec = next(r for r in map(json.loads, open(side, encoding="utf-8"))
+                   if r["call_key"] == f"thread:{it['thread_id']}:{ci}")
+        _, id_map = pt.render_chunk(rec["title"], rec["selftext"], rec["rows"], rec["outside"])
+        for n, (cid, ms) in outs.items():
+            if id_map.get(n) != cid:
+                errs.append(f"{iid}/{ci} [{n}] renders as {id_map.get(n)}, expected {cid}")
+            ms = [dict(m, id=n) for m in ms]
+            scored.append((f"{iid}/{ci}[{n}]", by_cid[cid], ms, "thread", common.SCHEMA_THREAD))
+
+    total, rows = S.Acc(), []
+    misses = {"expensiveness": set(), "value_complaint": set()}
+    for label, g, ms, mode, schema in scored:
+        errs += [f"{label}: {e}" for e in validate({"mentions": ms}, schema, schema)]
+        a = S.score_comment(g, A.adapt_all(ms), mode, alias, excluded, False)
         total.add(a)
         c = a.c
         if c["pres_fn_expensiveness"]:
-            exp_miss.add(iid)
-        rows.append(f"  {iid}: tp {c['tp']} fn {c['fn']} fp {c['fp']}  neg {c['neg_mention_hit']}/{c['neg_mention_n']}"
+            misses["expensiveness"].add(label)
+        if c["vc_hit"] != c["vc_n"]:
+            misses["value_complaint"].add(label)
+        for what, ok in (("matching", not c["fn"] and not c["fp"]),
+                         ("negative", c["neg_mention_hit"] == c["neg_mention_n"]),
+                         ("dish negative", c["dishneg_hit"] == c["dishneg_n"]),
+                         ("sign", c["sign_ok"] == c["sign_n"])):
+            if not ok:
+                errs.append(f"{label}: {what} disagrees with the gold")
+        rows.append(f"  {label:16s} tp {c['tp']} fn {c['fn']} fp {c['fp']}  neg {c['neg_mention_hit']}/{c['neg_mention_n']}"
                     f"  vc {c['vc_hit']}/{c['vc_n']}  dishneg {c['dishneg_hit']}/{c['dishneg_n']}"
                     f"  sign {c['sign_ok']}/{c['sign_n']}  negated {c['neg_ok']}/{c['neg_n']}"
                     f"  firsthand {c['first_ok']}/{c['first_n']}")
     o = S.summarize(total, True)
-    c = total.c
-    print("per comment (v6 output -> adapter -> score.score_comment vs v1 gold):")
+    print("per comment (v6 output -> adapter -> score.score_comment vs gold):")
     print("\n".join(rows))
     print(json.dumps({k: o[k] for k in ("drop_rate", "mention_recall", "mention_precision",
                                         "negative_mention_recall", "value_complaint_recall",
                                         "dish_negative_recall", "sign_accuracy", "is_negated_acc",
                                         "is_firsthand_acc", "food_exact_acc", "food_within1_acc",
                                         "expensiveness_presence_f1", "level_histogram")}, indent=1))
-    if EXPECT["matched_all"] and (c["fn"] or c["fp"]):
-        errs.append(f"mention matching: fn {c['fn']} fp {c['fp']}")
-    if EXPECT["neg_hit_all"] and c["neg_mention_hit"] != c["neg_mention_n"]:
-        errs.append("a gold negative was missed")
-    if EXPECT["vc_hit_all"] and c["vc_hit"] != c["vc_n"]:
-        errs.append("a gold value complaint was missed")
-    if EXPECT["dishneg_hit_all"] and c["dishneg_hit"] != c["dishneg_n"]:
-        errs.append("a gold dish negative was missed")
-    if c["sign_n"] - c["sign_ok"] != EXPECT["sign_errors"]:
-        errs.append(f"sign errors: {c['sign_n'] - c['sign_ok']}")
-    if exp_miss != EXPECT["expensiveness_presence_misses"]:
-        errs.append(f"expensiveness presence misses {sorted(exp_miss)}")
+    for k, want in EXPECT_MISSES.items():
+        if misses[k] != want:
+            errs.append(f"{k} misses {sorted(misses[k])}, expected exactly {sorted(want)}")
 
-    # 4. v4 label path and passthrough
+    # 4. thread rendering, offline
+    text, id_map = pt.render_chunk("Best noodles in Queens?", "", SYNTH_ROWS, SYNTH_OUTSIDE)
+    if text != SYNTH_EXPECTED:
+        errs.append("synthetic chunk renders differently:\n" + text)
+    if id_map != {1: "a", 2: "b", 3: "d", 4: "c", 5: "e", 6: "f", 7: "g"}:
+        errs.append(f"synthetic id map {id_map}")
+    # Every chunk in every sidecar: same membership as production, every reply's
+    # marker names its real parent, and a parent always comes before its replies.
+    n_chunks = n_markers = 0
+    for side in ("items", "v2/items", "v4/items_single", "v4/items_thread"):
+        for rec in map(json.loads, open(os.path.join(HERE, side + ".thread_rows.jsonl"), encoding="utf-8")):
+            text, id_map = pt.render_chunk(rec["title"], rec["selftext"], rec["rows"], rec["outside"])
+            n_chunks += 1
+            if sorted(id_map.values()) != sorted(rec["short_ids"].values()):
+                errs.append(f"{side} {rec['call_key']}: chunk membership changed")
+            num = {cid: n for n, cid in id_map.items()}
+            for r in rec["rows"]:
+                line = next(l for l in text.splitlines() if l.lstrip().startswith(f"[{num[r['comment_id']]}] "))
+                m = re.match(r"\s*\[\d+\] u/\S* \(reply to \[(\d+)\]\)", line)
+                p = r["parent_comment_id"]
+                if p in num:
+                    n_markers += 1
+                    if not m or id_map[int(m.group(1))] != p or num[p] >= num[r["comment_id"]]:
+                        errs.append(f"{side} {rec['call_key']}: reply {r['comment_id']} not marked under its parent")
+                elif m:
+                    errs.append(f"{side} {rec['call_key']}: {r['comment_id']} marked with an in-chunk parent it lacks")
+    print(f"rendering: {n_chunks} real chunks, {n_markers} in-chunk reply markers all point at the true parent")
+
+    # 5. v4 label path and passthrough
     for iid, ms in CASES.items():
         for m in A.adapt_all(ms):
             errs += [f"{iid} labels.problems: {p}" for p in L.problems(m, "comment", {})]

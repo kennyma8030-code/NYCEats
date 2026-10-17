@@ -8,14 +8,21 @@ before noon" or "takes InKind" are kept rather than squeezed into a number.
 eval/prompts/v6_DESIGN.md defines every field and lists what the owner still
 has to decide.
 
-What the benchmark of the lost v5 taught, and where each lesson lives here:
-  * a "reference" bucket swallowed mild complaints, so negatives fell from
-    0.87 to 0.71. opinion "none" is defined as neutral facts and questions
-    only, and RULES 1 names the complaints that look like facts;
-  * "not bad", "fine" and "ok" were read as praise. They are listed under
-    neutral, and the positive level asks for real praise;
-  * a bare dollar figure was never turned into a price level. That rule is
-    kept, and the figure goes in a note instead.
+The Haiku 5.5 benchmark of the lost v5 prompt shaped the rules. The full
+issue-to-rule table is in v6_DESIGN.md; in short:
+  * a "reference" bucket swallowed mild complaints, so negative recall fell
+    from 0.87 to 0.71. opinion "none" is facts and questions with no
+    judgment (RULES 1), and every complaint must lower a level (RULES 2);
+  * lukewarm words were read as praise or as "mixed", where the gold calls
+    them a mild knock. They are negative (RULES 3), and neutral is kept for
+    a verdict that weighs good against bad;
+  * missed negatives came back "scored positive", the named-as-an-answer
+    default applied to places that had a remark. "endorse" is only a bare
+    pick (RULES 4), and a trait shared with another place carries over to
+    it (RULES 5);
+  * value complaints fell from 0.98 to 0.80. Any money complaint is value
+    negative (RULES 6). A bare dollar figure still never becomes a price
+    level.
 
 Examples use invented places. No eval comment may ever appear in a prompt.
 
@@ -79,7 +86,7 @@ FIELDS = """name        The name exactly as typed. Never fix spelling or case, n
 named_in    "comment", or "context" when the name was copied from the context.
 location    Where the comment places THIS place ("the LES one", "on 2nd Ave"), else null.
 experience  "firsthand": describes going or eating there, or gives their own pick or verdict. "secondhand": repeats others ("heard great things", "my friend swears by it", "people say it's gone downhill"). "none": anything else (questions, "on my list", a bare fact).
-opinion     "none": only neutral facts or a question ("cash only", "they moved to Bushwick", "is it still good?"). "endorse": named as a pick with nothing said about it (a list item, "try X", "second this" under a rec). "stated": anything that judges the place.
+opinion     "none": only neutral facts or a question ("cash only", "they moved to Bushwick", "is it still good?"). "endorse": offered as a pick with nothing else said (a list item, "try X", "second this" under a rec). "stated": anything else that judges the place, however briefly.
 overall     LEVEL. The verdict on the place as a whole: is it worth going? "Best slice in the city" is overall and taste very_positive; "go early to beat the line" has no overall (null). Always "positive" for "endorse".
 aspects     {taste, value, service, atmosphere, wait}, each a LEVEL or null. Only what is said; never infer one aspect from another or from overall.
               taste: the food and drink. value: worth the money, including portions for the price. service: staff, and how the place is run. atmosphere: room, vibe, noise, crowd. wait: lines, getting a table or reservation, slow food, selling out.
@@ -94,21 +101,24 @@ notes       Everything else said about the place that no field above holds, so n
 
 SCALE = """LEVELS: "very_positive", "positive", "neutral", "negative", "very_negative", or null.
   very_positive  superlative or emphatic: "best in the city", "my favorite", "one of the best meals of my life", "god tier", "a must"
-  positive       real praise: "good", "great", "delicious", "pretty solid", "worth it", "get the X"
-  neutral        a verdict that is middling or mixed: "fine", "ok", "not bad", "decent", "meh", "hit or miss", "good, not great"
-  negative       any knock or complaint, however mild or polite: "mid", "overrated", "nothing special", "underwhelming", "bland", "overpriced", "rude", "hard to get a reservation", "the line is insane"
+  positive       real praise, a clear yes: "good", "great", "delicious", "pretty solid", "worth it", "get the X"
+  neutral        a balanced verdict, good and bad weighed evenly: "hit or miss", "great food, awful service". Never for lukewarm words.
+  negative       any knock, however mild or polite, lukewarm words included: "fine", "ok", "not bad", "meh", "mid", "nothing special", "overrated", "underwhelming", "bland", "overpriced", "rude", "hard to book", "the line is insane"
   very_negative  strong: "worst I've had", "inedible", "disgusting", "got sick", "never again", "regretted going", "avoid at all costs"
 null means not mentioned. neutral is a verdict, never a stand-in for "not mentioned"."""
 
 RULES = """RULES
-1. opinion "none" is ONLY for neutral facts and questions. A complaint put as a fact is an opinion: "impossible to get a reservation" and "they sell out by noon" are wait negative; "tiny portions for the price" is value negative.
-2. A complaint no aspect holds (portion size, overrated, got sick, stopped making a dish) goes in notes with a plain "about" and its level: "they stopped making the babka" is about "stopped making the babka", level negative.
-3. Positive needs real praise. "Not bad", "fine", "ok" and "decent" are neutral.
-4. A heading or lead-in covers every name under it: "My favorites:" makes each very_positive; "I'd skip all of these: A, B, C" makes all three avoid true, overall negative.
-5. "This", "+1" and "second this" take the verdict they agree with: under a rec or praise, endorse; under a knock, stated with the same overall.
-6. Levels are what the commenter thinks NOW. "Used to be great, now mid": overall negative, trend declined. A closed place remembered fondly: overall positive, status closed, timeframe past.
-7. Losing a comparison is not a complaint: in "I prefer A over B", B gets no level, only a note.
-8. Thread framing and sarcasm decide polarity: "second this" under "worst meal you've had?" is negative.
-9. Never soften a complaint because the thread likes the place or the commenter is polite."""
+1. opinion "none" is ONLY for facts and questions with no judgment at all. A complaint put as a fact is stated, with a negative level: "impossible to book" and "they sell out by noon" are wait negative; "tiny portions for the price" is value negative; "the sauce comes from a jar now" is taste negative.
+2. Every complaint lowers a level: the aspect it is about, or overall when none fits. A note adds the detail of a complaint no aspect names (overrated, got sick, portion size, stopped making a dish), with a plain "about" and its level, but never holds a complaint alone.
+3. Lukewarm is negative. On this subreddit "fine", "ok", "not bad" and "meh" are knocks, not praise and not neutral.
+4. Never default to positive. "endorse" is only for a name offered as a pick with nothing else said. A place named in a comparison, as an example, in a question or with any remark is "stated" and leveled by what is said. A complaint replying to a rave is still a complaint.
+5. Shared traits carry over: "as hard to book as X" is wait negative for X too. Losing a comparison, and nothing more ("I prefer A over B"), gives B no level, only a note.
+6. Money complaints are value negative: "overpriced", "not worth the money", "for the price", "$28 for that is a joke". The dollar figure also goes in a note.
+7. A complaint about one dish is a negative dish entry, even when the place is praised.
+8. A heading or lead-in covers every name under it: "My favorites:" makes each very_positive; "I'd skip all of these: A, B, C" makes all three avoid true, overall negative.
+9. "This", "+1" and "second this" take the verdict they agree with: under a rec or praise, endorse; under a knock, stated with the same overall.
+10. Levels are what the commenter thinks NOW. "Used to be great, now mid": overall negative, trend declined. A closed place remembered fondly: overall positive, status closed, timeframe past.
+11. Thread framing and sarcasm decide polarity: "second this" under "worst meal you've had?" is negative.
+12. Never soften a complaint because the thread likes the place or the commenter is polite."""
 
 EXAMPLE_JSON = """{"mentions":[{"name":"Golden Lotus","named_in":"context","location":null,"experience":"firsthand","opinion":"stated","overall":"negative","aspects":{"taste":"negative","value":"negative","service":null,"atmosphere":null,"wait":"negative"},"avoid":false,"dishes":[{"dish":"noodles","level":"negative","avoid":false}],"price":null,"timeframe":"current","trend":null,"status":null,"tags":[],"notes":[{"about":"price","text":"$24 a bowl","level":"negative","dish":"noodles"},{"about":"best time to go","text":"go early, line by noon","level":null,"dish":null}]}]}"""

@@ -8,9 +8,11 @@ leaves the scoring for later, which is still to be decided.
 |---|---|
 | `v6_schema.json` | strict JSON Schema, comment mode. Thread mode adds `id` (`v6_common.SCHEMA_THREAD`) |
 | `v6_common.py` | shared prompt text, both schemas, `response_format` / Anthropic `output_config.format` helpers |
-| `v6_comment.py`, `v6_thread.py` | the two system prompts, for `eval/run.py --prompt file:...` |
+| `v6_comment.py`, `v6_thread.py` | the two system prompts, for `eval/run.py --prompt file:...`. `v6_thread.py` also has its own chunk renderer, `render_chunk` |
 | `../v6_adapter.py` | maps v6 output to the shape the v1/v2 gold and v4 labels use. `score.load_run` and `v4/labels.py` call it automatically |
-| `../v6_selftest.py` | offline checks: schema strictness, no eval text in the prompts, and 14 real gold comments scored through the adapter |
+| `../build_thread_rows.py` | read-only: fetches the raw rows behind every thread chunk and writes `<items>.thread_rows.jsonl`, verified byte for byte against production's renderer |
+| `../items.thread_rows.jsonl`, `../v2/items.thread_rows.jsonl`, `../v4/items_{single,thread}.thread_rows.jsonl` | those rows (1,032 chunks, all verified), committed so a benchmark needs no database |
+| `../v6_selftest.py` | offline checks: schema strictness, no eval text in the prompts, 20 real gold comments and 5 rendered thread comments scored through the adapter, and the renderer checked on every real chunk |
 | `../../migrations/v6_mentions.sql` | storage draft. **Not applied.** |
 
 To benchmark (the orchestrator does this; it needs `OPENROUTER_API_KEY`):
@@ -21,6 +23,12 @@ python eval/run.py --model M --mode thread  --prompt file:eval/prompts/v6_thread
 python eval/run.py --model M --mode comment --items eval/v4/items_single.jsonl --tag v4 --prompt file:eval/prompts/v6_comment.py
 python eval/score.py eval/runs/<run>.jsonl          # v1 headline; v6 output is adapted on load
 ```
+
+In thread mode `run.py` re-renders every chunk with `render_chunk` from the
+committed `.thread_rows.jsonl` file next to the items file (only when the
+prompt module defines `render_chunk`; the stored rendering is untouched for
+every other prompt). The renderer renumbers comments, so each run record
+keeps the `id_map` it used.
 
 `--schema` sends the strict schema as `response_format` and only works on
 providers that support `json_schema`. Without it, the run uses
@@ -66,9 +74,9 @@ The examples are real r/FoodNYC comments. None of them is in any eval set
 | `named_in` | `comment`, or `context` when the name came from the parent, an ancestor, the title or the body. Shows which mentions rest on reply attribution, the riskiest kind. | *"Used to be amazing pre covid. Now its kinda meh."* under "Gramercy Tavern" (t1_n9428u8): `context`. |
 | `location` | Where the comment places this place. | *"The williamsburg one is the best one!"* (t1_p2newsp): `"williamsburg"`. |
 | `experience` | `firsthand`: they went, or gave their own pick or verdict. `secondhand`: they repeat others. `none`: questions, "on my list", bare facts. | `firsthand`: *"I arrived a few mins after 4pm on a Thursday… the food wasn't at all memorable"* (t1_pgdrvqi). `secondhand`: *"I've heard great things about Takeda, but haven't been yet"* (t1_njjt6lg). `none`: *"Are they still cash only?"* (t1_pck88y8). |
-| `opinion` | `none`: only neutral facts or a question. `endorse`: named as a pick with nothing said about it. `stated`: anything that judges. | `none`: *"Vanessa moved to UES"* (t1_nxnnpa6). `endorse`: *"Second this!"* under "I like Sushi by Bou for inexpensive omakase" (t1_nvl78cn). `stated`: *"Lucali is just really overrated for this."* (t1_ojnugks). |
+| `opinion` | `none`: only facts or a question, no judgment at all. `endorse`: offered as a pick with nothing else said. `stated`: anything else that judges, however briefly. | `none`: *"Vanessa moved to UES"* (t1_nxnnpa6). `endorse`: *"Second this!"* under "I like Sushi by Bou for inexpensive omakase" (t1_nvl78cn). `stated`: *"Lucali is just really overrated for this."* (t1_ojnugks). |
 | `overall` | The verdict on the place as a whole: is it worth going? It is its own judgment, not an average of the aspects. `null` when the comment gives no verdict. Always `positive` for an endorsement. | *"Prince street used to be IT. God tier. Went downhill SO much… It's not even in tier 2 anymore."* (t1_nnskhna): `negative`. *"Usually theyve been sold out by 5pm so you might wanna go earlier"* (t1_nf0fbw4): `null`, with wait `negative`. |
-| `aspects.taste` | The food and drink. | *"The Khao Yum was pretty good, everything else meh."* (t1_nl6cnst): `neutral`, with the dish entry `positive`. |
+| `aspects.taste` | The food and drink. | *"The Khao Yum was pretty good, everything else meh."* (t1_nl6cnst): `negative` (the rest is "meh"), with the dish entry `positive`. |
 | `aspects.value` | Worth the money, including portions for the price. | *"Makina is good but their portions are tiny for the price."* (t1_p1wjq1c): `negative`. |
 | `aspects.service` | Staff, and how the place is run. | *"Waiter was rude… and then forgot to put in our order."* (t1_n9aoblb): `negative`. |
 | `aspects.atmosphere` | Room, vibe, noise, crowd. | *"The Smith is SO LOUD."* (t1_o4x3tiq): `negative`. |
@@ -94,27 +102,31 @@ bucket in a people-count means exactly one thing. Storage maps them to
 | level | means | real examples |
 |---|---|---|
 | very_positive | superlative or emphatic | *"it is the best halal I've ever had"* (t1_n5qfnmv); *"L'industrie IS in fact fire"* (t1_njj4kjv) |
-| positive | real praise | *"Quality Bistro is pretty solid"* (t1_mohzmwn); *"the quality is always very good"* (t1_pfb25mg) |
-| neutral | a verdict that is middling or mixed | *"Hamburger America was fine. Not bad, not exceptionally good."* (t1_mpf6fit); *"Emmet's… Its decent."* (t1_n00ed52) |
-| negative | any knock, however mild or polite | *"Rubirosa is mid"* (t1_njj4kjv); *"Lucali is just really overrated"* (t1_ojnugks) |
+| positive | real praise, a clear yes | *"Quality Bistro is pretty solid"* (t1_mohzmwn); *"the quality is always very good"* (t1_pfb25mg) |
+| neutral | a balanced verdict, good and bad weighed evenly | *"The service was great and everyone was welcoming, but the food wasn't at all memorable"* (t1_pgdrvqi): overall `neutral`, with service `positive` and taste `negative` |
+| negative | any knock, however mild or polite, lukewarm words included | *"Rubirosa is mid"* (t1_njj4kjv); *"Lucali is just really overrated"* (t1_ojnugks); *"Hamburger America was fine. Not bad, not exceptionally good."* (t1_mpf6fit) |
 | very_negative | strong | *"used to be good then turned into slop"* (t1_ntcepjk) |
 | null | not mentioned | |
 
 **The boundaries that matter.** v5 lost negatives at these edges.
 
-- **Neutral vs. positive.** Positive needs actual praise: "good", "pretty
-  solid", "tasty", "worth it". "Not bad", "fine", "ok" and "decent" are
-  neutral. v5 read them as mild praise. *"Hamburger America was fine. Not
-  bad, not exceptionally good."* is neutral, not a weak positive.
-- **Neutral vs. negative.** A word that disappoints or warns is negative:
-  "mid", "overrated", "nothing special", "underwhelming", "not worth the
-  hype". Acceptable without enthusiasm is neutral. A neutral word next to a
-  knock is negative: *"It's not bad, but both times I've been I'm surprised
-  at the hype"* (t1_mnwprq9) is negative, with an "overrated" note.
-- **"meh" and "mid".** These are the closest call. v6 puts "meh" in neutral,
-  following the v5 finding that grouped it with "fine". It puts "mid" in
-  negative, because on this subreddit "mid" is a dismissal (the original
-  prompt's "it's v mid" reply was its model negative). This is open question 1.
+- **Lukewarm is negative.** "Fine", "ok", "not bad", "meh" and "mid" are
+  knocks on this subreddit, so they are `negative`, never positive and
+  never neutral. v5 read "not bad" as mild praise, and a first draft of v6
+  called these words neutral. Both lose negatives. The gold, and the
+  benchmark's "meh" bucket, score them as a mild knock (−1): "meh" is −1 in
+  8 of 11 v1/v2 gold mentions, and "not bad" in both. A neutral reading also
+  reproduces the benchmark's "scored mixed" misses. *"Hamburger America was
+  fine. Not bad, not exceptionally good."* is negative.
+- **Positive needs real praise.** "Good", "pretty solid", "tasty", "worth
+  it". "Decent" is not listed either way; in the gold it is mostly a weak
+  yes, and the model reads it in context.
+- **Neutral is a balance.** Use it only when good and bad are weighed evenly:
+  *"The service was great… but the food wasn't at all memorable"*
+  (t1_pgdrvqi) is overall neutral, service positive, taste negative. A
+  lukewarm word next to a knock is just negative: *"It's not bad, but both
+  times I've been I'm surprised at the hype"* (t1_mnwprq9) is negative, with
+  an "overrated" note.
 - **Price as a drawback.** *"The quality was fine, but it was a little
   pricey"* (t1_o72jfgb): taste neutral, price `expensive`, and, because of
   the "but", value negative. *"Pricey but so worth
@@ -123,9 +135,11 @@ bucket in a people-count means exactly one thing. Storage maps them to
   cash only, BYOB, moved, closed, an address, a question, a hypothetical
   (*"if it's mid you're dead to me"*, t1_ns74zo4). These are judgments, not
   facts: reservations (*"impossible to get a res"*), lines, selling out
-  (*"sold out by 5pm"*), portions for the price (value), stopped making
-  something (a negative note). They are what v5's reference bucket
-  swallowed.
+  (*"sold out by 5pm"*), portions for the price (value), something no
+  longer made in house (taste), stopped making a dish (overall, plus a
+  note). They are what v5's reference bucket swallowed. Every complaint
+  has to lower some level; a note alone never carries one, because nothing
+  counts a note as a negative.
 - **`null` vs. `neutral`.** `null` is silence; `neutral` is a verdict.
   "Missing renders as absent, never neutral" (SPEC.md) holds all the way
   through.
@@ -146,16 +160,17 @@ bucket in a people-count means exactly one thing. Storage maps them to
    comment that only complains about one thing still has a negative
    overall when that complaint reads as a verdict (rude service). The test
    is "is it worth going?".
-4. **Losing a comparison gives no level.** "I prefer A over B" doesn't say
-   B is bad, so B gets a note and no level. The v1 gold scored it -1 (open
-   question 8).
+4. **Losing a comparison gives no level, but a shared trait carries over.**
+   "I prefer A over B" doesn't say B is bad, so B gets a note and no level
+   (the v1 gold scored it −1; open question 8). "As hard to book as X" says
+   something about X, so X gets wait negative. That was the Sushi Sho miss.
 5. **Closed places keep their remembered verdict**, with `timeframe: past`
    and `status: closed`. The old prompt threw the verdict away. Scoring can
    ignore past rows; it cannot recover deleted ones.
 6. **`price` only from words.** A dollar figure goes into a note. Its
    meaning depends on the dish ($24 is cheap omakase and dear ramen), and
    v5 got this right. "Overpriced" is value, not a price level. Against the
-   v1 gold this costs expensiveness presence (2 of 14 test comments).
+   gold this costs expensiveness presence (3 of the 20 test comments).
 7. **`avoid` means telling others.** "I won't go back" and bad reviews are
    not avoid instructions, the same rule as `is_negated`.
 8. **No complaint list (owner's decision).** Complaints are counted
@@ -173,10 +188,88 @@ bucket in a people-count means exactly one thing. Storage maps them to
     a place), and places outside NYC. *"Food poisoning central!"* about a
     place in Saugus (t1_of92lql) is not a mention. Chains are in scope;
     filtering them is a downstream decision.
-12. **Thread mode can't fix the renderer, so it hedges.** The prompt says
-    indentation can be wrong when siblings interleave, tells the model to
-    pick the comment a reply plainly answers, and tells it not to guess when
-    the parent isn't shown.
+12. **Thread mode brings its own renderer** (next section) instead of
+    asking the model to repair production's. The prompt trusts the explicit
+    reply marker and skips a reply whose place it still can't identify,
+    rather than guessing.
+13. **Never default to positive.** Only a bare pick is `endorse`. A place
+    named with any remark is `stated` and leveled by what was said. This
+    keeps the named-as-an-answer default from turning a knock positive.
+
+## The Haiku 5.5 benchmark of v5: issue → cause → fix
+
+These issues come from the benchmark page: Haiku 5.5 with the v5 prompt
+against Haiku 5.5 with the current prompt, on the v1, v2 and v4 sets. The
+"self-test" column names the real gold comments in `v6_selftest.py` that
+show each fix offline. Whether a model actually follows the rules can only
+be measured by the paid benchmark.
+
+| # | issue | cause | v6 fix (prompt text) | self-test |
+|---|---|---|---|---|
+| 1 | Negative recall 0.87 → 0.71 (comment mode). Reference-only precision 0.573. Misses: Sushi Sho "extremely hard to get a reservation", Monkey Bar "never able to get a reservation", Edward's "aren't making it in store". | A reference bucket accepted facts that carry a complaint. Nothing forced a complaint into a level. A place used as a yardstick ("tie with Sho") had no way to inherit the trait. | RULES 1: *opinion "none" is ONLY for facts and questions with no judgment at all. A complaint put as a fact is stated, with a negative level: "impossible to book" and "they sell out by noon" are wait negative; … "the sauce comes from a jar now" is taste negative.* RULES 2: *Every complaint lowers a level: the aspect it is about, or overall when none fits. A note … never holds a complaint alone.* RULES 5: *Shared traits carry over: "as hard to book as X" is wait negative for X too.* | c0038 Monkey Bar, c0185 Edward's, v0065 Sho: all negatives hit |
+| 2 | "Not bad" read as a mild positive where the gold says meh (−1). | Lukewarm words read as praise (v5) or as neutral (v6's first draft). | SCALE, negative: *any knock, however mild or polite, lukewarm words included: "fine", "ok", "not bad", "meh", "mid", …*; neutral: *Never for lukewarm words.* RULES 3: *Lukewarm is negative.* | c0155 "They're not bad. But Tal is a million times better": negative hit |
+| 3 | Missed negatives came back "scored positive" (v2 comment: 10, against 3 with the current prompt; thread: 13) or "scored mixed". 8–16 per set were not extracted at all. | The named-as-an-answer default applied to places that had a remark; praise elsewhere in the comment ("the dosa was amazing") outweighed the knock; the mixed level absorbed lukewarm knocks. The current prompt (0.87) limits its default to "a name with nothing said about it" and says "use the whole negative half of the scale"; v5 lacked both. Unextracted: thread rendering (issue 4) and skipped short replies. | RULES 4: *Never default to positive. "endorse" is only for a name offered as a pick with nothing else said. A place named in a comparison, as an example, in a question or with any remark is "stated" and leveled by what is said. A complaint replying to a rave is still a complaint.* `opinion` field: *"stated": anything else that judges the place, however briefly.* Neutral only for a balance. RULES 7: *A complaint about one dish is a negative dish entry, even when the place is praised.* RULES 12 (never soften) is kept. Thread intro: *Go through EVERY comment, one-word replies included.* | v0119 Semma (scored positive by the original model), v0364 moms, v0373 L'industrie: negatives hit, no sign error |
+| 4 | Thread mode: negative recall 0.684 (Claude's ceiling 0.922), mention recall 0.932 (0.978), dish-negative recall 0.40 (comment mode ~0.52), precision 0.904 (0.941). | The renderer. 9.75% of replies are drawn under the wrong parent. 11.5% have their parent in another chunk. 17,202 replies answer a parent of 15 characters or fewer, never rendered (usually a bare name like "Carbone"). Comments are cut at 700 characters (4.9% of text lost) and the post body at 400. | `v6_thread.render_chunk`: depth-first order, an explicit *(reply to [n])* that the prompt says to trust over position, a quoted one-line stub for a parent outside the chunk, comments cut at 1,500 and the post at 800. Prompt section READING THE COMMENTS. RULES 7 for dish knocks. | All 10,447 in-chunk markers in the 1,032 real chunks point at the true parent. t003/0: the misordered "I LOVE their pickled mango" now answers Pickle Guys. t001/0 [25] "Its overpriced produce in liquid form" now shows its 14-character parent and scores value negative |
+| 5 | Thread mode slow: ~25 s and ~6.7k reasoning tokens per chunk. | The model rebuilds the tree from indentation and second-guesses it, because the old prompt warned that indentation can be wrong. | The explicit markers make attribution a lookup. Prompt: *Read the comments once, in order. A comment's own words and the comment it answers are all you need; most comments name no place and need no deliberation.* Reasoning stays on. | Cannot be measured offline |
+| 6 | Value-complaint recall 0.80 with v5 against 0.98 with the current prompt (v1 comment). | Money remarks were kept as price facts or references. | RULES 6: *Money complaints are value negative: "overpriced", "not worth the money", "for the price", "$28 for that is a joke". The dollar figure also goes in a note.* `price` field: *"overpriced" is value, not price.* | c0045, c0049, c0064, c0084, c0205, t001/0[25] hit. c0155 is a deliberate miss: "80% normal bagel size" says nothing about price, so under the owner's rule it is a portion note, not value |
+| 7 | v5 prompt ~3× the current one. | | v6 comment ~2,050 tokens (1.12× `prompt.py`), thread ~2,450 (1.13× `prompt_thread.py`). | |
+
+## Thread mode rendering
+
+`render_chunk` keeps production's chunk membership (the same comments in
+the same chunk, so every run stays comparable with earlier ones), and
+changes only how a chunk is drawn. Here is v1 t003, chunk 0 (lines cut).
+Production:
+
+```
+[1] u/guatemamaLF: I used to go to my neighborhood deli … Jacob's Pickles and The Pickle Guys …
+  [2] u/aalliias: A bucket of pickles sounds heavenly
+  [3] u/Relative_Prize9052: I like pickle guys fruit, oddly enough. Other stuff seems average …
+  [4] u/bfume: Jacob's needs snacking/crunching pickles. …
+    [5] u/helcat: The Pickle Guys is the first time I've ever had pickled pineapple. …
+    [6] u/bmsa131: I LOVE their pickled mango. 🥭
+```
+
+Here [5] and [6] answer [3] (Pickle Guys) but are drawn under [4] (Jacob's),
+so a model files the mango praise against Jacob's. v6:
+
+```
+[1] u/guatemamaLF: I used to go to my neighborhood deli … Jacob's Pickles and The Pickle Guys …
+  [2] u/aalliias (reply to [1]): A bucket of pickles sounds heavenly
+  [3] u/Relative_Prize9052 (reply to [1]): I like pickle guys fruit, oddly enough. …
+    [4] u/helcat (reply to [3]): The Pickle Guys is the first time I've ever had pickled pineapple. …
+    [5] u/bmsa131 (reply to [3]): I LOVE their pickled mango. 🥭
+  [6] u/bfume (reply to [1]): Jacob's needs snacking/crunching pickles. …
+```
+
+A parent outside the chunk, including the short ones production never
+draws, is quoted:
+
+```
+[20] u/villagevigaro (reply to u/ENYVan, not in this chunk: "Carbone"): THIS! Super whatever food at an insane price point
+```
+
+Across the 1,032 eval chunks the renderer writes 10,447 in-chunk reply
+markers, 904 stubs for parents in another chunk, 507 for parents too short
+to be drawn, and 45 "reply to a deleted comment". Input grows 15%: 4,327
+characters a chunk against 3,777, about 171 tokens per comment against 150
+counting the system prompt. The cached system prompt is most of that.
+
+**Chunk size stays 25**, for three reasons. The stubs remove the main
+reason to shrink chunks: a reply no longer needs its parent inside the
+chunk. Smaller chunks pay the system prompt more often. And keeping
+production's boundaries keeps the benchmark comparable. If the benchmark
+shows reasoning per chunk still near 6.7k tokens, try 15 next.
+
+**What production would need** (in `extract_threads.py`, not changed here):
+1. Select `parent_comment_id` in `thread_rows`.
+2. Fetch each chunk's outside parents in one query, with no length filter,
+   so short and deleted parents get a stub.
+3. Order the pending rows depth-first within each root before cutting
+   chunks, and prefer cutting at a root boundary.
+4. Render with `render_chunk`, and map the model's ids back through the
+   id map it returns instead of the short-id enumeration in `fetch_chunk`.
+5. Raise `MAX_COMMENT_CHARS` to 1,500 and `SELFTEXT_LIMIT` to 800.
 
 ## Scoring v6 against the existing gold
 
@@ -199,26 +292,57 @@ DeepSeek run gives the same 0.872 negative-mention recall as before.
 | `tags` | `descriptors` (search-terms recall) |
 
 **Offline test** (`python eval/v6_selftest.py`). I hand-wrote v6 outputs
-for 14 real v1 gold comments under the v6 rules: a bare list of 8, a
-question, a closed place, a GrubHub tip, a walk-in tip, "never able to get
-a reservation", a hearsay self-skip, "second this" in a worst-restaurant
-thread, highway-robbery yogurt, a nameless "inedible", "service is
-horrible, def not worth it", "skip lenwich", a $34 sandwich, and a
-Super Burrito rant with a Chipotle comparison. Scored through the adapter:
-recall 1.0, precision 1.0, negative-mention recall 1.0, value-complaint
+under the v6 rules for:
+- 16 real v1 gold comments: a bare list of 8, a question, a closed place, a
+  GrubHub tip, a walk-in tip, "never able to get a reservation", a hearsay
+  self-skip, "second this" in a worst-restaurant thread, highway-robbery
+  yogurt, a nameless "inedible", "service is horrible, def not worth it",
+  "skip lenwich", a $34 sandwich, a Super Burrito rant with a Chipotle
+  comparison, Edward's "aren't making it in store", and "they're not bad";
+- 4 v2 gold comments: Sushi Sho, and three where the original model scored
+  a knock positive;
+- 5 comments from two real v1 thread chunks rendered by `render_chunk`
+  (misordered replies, and a reply to a short parent in another chunk),
+  mapped back through its id map.
+
+Scored through the adapter: recall 1.0, precision 1.0, negative-mention
 recall 1.0, dish-negative recall 1.0, sign accuracy 1.0, is_negated and
-is_firsthand accuracy 1.0, and food exact-level accuracy 0.93. The one
-designed miss is expensiveness presence on the two comments that give only
-a dollar figure. The test also lints the schema for strict mode, validates
-every output and the prompts' own examples against it, checks the v4 label
-path in both modes, and confirms that no eval comment shares a 7-word run
-with either prompt.
+is_firsthand accuracy 1.0. Value-complaint recall is 0.86. Its one miss,
+c0155, is by design: a portion complaint with no price is a note. The other
+designed miss is expensiveness on the three comments that give only a
+dollar figure.
+
+The test also:
+- lints the schema for strict mode;
+- validates every output and the prompts' own examples against it;
+- renders an invented chunk and compares the exact text;
+- renders all 1,032 real chunks and checks that membership is unchanged and
+  every reply marker names the true parent;
+- checks the v4 label path in both modes;
+- confirms no eval comment shares a 7-word run with either prompt.
 
 Expect lower **exact-level** agreement than a 7-level prompt: five levels
-cannot express the gold's -1/-2 split, so a gold "mid" (-1) reads as -2.
-Sign, recall and the negative metrics are the comparable numbers. Where v6
-calls "fine" neutral, v1 gold says -1, and that will show as a sign miss.
-It is the owner's rule, not a model error.
+cannot express the gold's −1/−2 split, so a gold "mid" (−1) reads as −2.
+Sign, recall and the negative metrics are the comparable numbers.
+
+## What only the paid benchmark can settle
+
+- Whether Haiku 5.5 (or any model) follows the tightened rules. The
+  offline test shows the rules and adapter produce the right scores when
+  followed, not that they will be followed.
+- **Prompt against mode in thread mode.** The v5 page compares Haiku + v5
+  with Haiku + the current prompt in comment mode, but thread mode has no
+  Haiku + current-prompt baseline. Without one, a thread-mode change can't
+  be split between the prompt and the mode. Run Haiku with the current
+  prompt in thread mode on the stored rendering, then Haiku + v6 thread. A
+  third run (v6 rules on the stored rendering) would isolate the renderer,
+  but it needs a v6 prompt variant without the marker text, so I haven't
+  built it.
+- Reasoning tokens and latency per chunk with the new rendering (`run.py`
+  records `reasoning_tokens` and `latency_s`).
+- Whether lukewarm → negative over-counts negatives against the v4 Claude
+  labels. Those labels follow whatever prompt the labelers get.
+- Output-token growth per mention.
 
 ## Cost
 
@@ -230,10 +354,11 @@ tokenizer offline):
 | production `prompt.py` | ~1,820 tokens |
 | production `prompt_thread.py` | ~2,170 |
 | rubric_v1 comment / thread | ~1,910 / ~2,330 |
-| **v6 comment / thread** | **~1,840 / ~2,180** |
+| **v6 comment / thread** | **~2,050 / ~2,450** (1.12× / 1.13× production) |
 | v5 (lost) | about 3× production |
 
-The system prompt is about the same size as today's and is identical on
+In thread mode the rendered chunk also grows 15% (see Thread mode
+rendering). The system prompt is close to today's size and is identical on
 every call, so prefix caching (DeepSeek and OpenAI cache automatically;
 Anthropic with `cache_control`) bills most of it at the cache rate. Where
 v6 does cost more is **output**. A bare endorsement is 312 characters
@@ -277,25 +402,19 @@ before reasoning tokens. The benchmark run will give the real figure.
    cluster: it applies, re-runs cleanly, and rejects out-of-range levels,
    and unknown enum values.
 7. **The thread renderer** (`extract_threads.thread_rows`,
-   `prompt_thread.build_message`). Replies are time-ordered within a root,
-   so 9.75% sit under the wrong parent, and 11.5% have their parent in
-   another chunk. The prompt can only hedge. The fix belongs in the renderer:
-   - order depth-first within each root;
-   - print an explicit parent, `[7 ↩3]` or `(reply to [3])`, and tell the
-     prompt that marker is authoritative;
-   - for a parent outside the chunk, print a one-line stub of it, e.g.
-     `(replying to: "Keens is the move for…")`.
-
-   That changes the thread-mode input, so v4's thread items would need
-   re-rendering, which is why it isn't done here.
+   `prompt_thread.build_message`). It is fixed for the eval in
+   `v6_thread.render_chunk`. Production needs the five changes listed under
+   Thread mode rendering.
 
 ## Open questions for the owner
 
-1. **What does neutral mean?** v6 makes neutral "a middling or mixed
-   verdict": fine, ok, not bad, decent, meh, hit or miss. The v1 gold
-   scored "fine" as a mild knock. Should "meh" be neutral or negative?
-   Should a mixed verdict ("great food, awful service") have a neutral
-   overall, or should overall follow the dominant side?
+1. **What does neutral mean?** v6 now makes neutral only "a balanced
+   verdict" and counts lukewarm words (fine, ok, not bad, meh, mid) as
+   negative. That follows the benchmark and the gold, where they are a mild
+   knock, but it puts "it's fine" in the owner's negative bucket. Is that
+   the reading the owner wants? Should a mixed verdict ("great food, awful
+   service") have a neutral overall, or should overall follow the dominant
+   side?
 2. **Do bare endorsements count as "praised"?** The majority of mentions
    are a name given as an answer. v6 records them as `opinion: endorse`,
    overall positive. They could fill the praised bucket, get their own

@@ -10,9 +10,12 @@
     git:<rev>        the same files at a git revision (0ea62ff~1 = the prompts
                      production ran: 1d5bac550078 comment, ca5439be83b3 thread)
     file:<path>      a python file defining SYSTEM_PROMPT (a future rubric
-                     prompt). It may also define build_user_message /
-                     build_message; if it does, inputs are re-rendered from the
-                     item's raw context instead of the stored rendering.
+                     prompt). It may also define build_user_message (comment
+                     mode) or render_chunk (thread mode); if it does, inputs
+                     are re-rendered from raw rows instead of the stored
+                     rendering. Thread re-rendering reads
+                     <items>.thread_rows.jsonl, written read-only by
+                     eval/build_thread_rows.py.
 
 Model inputs are the renderings stored in items.jsonl, produced by the repo's
 own builders when the items were built. Thread mode makes one call per
@@ -87,11 +90,17 @@ def load_items(path, ids=None):
     return items
 
 
-def build_jobs(items, mode, pmod, custom=False):
+def build_jobs(items, mode, pmod, custom=False, thread_rows=None):
     """One job per model call: {call_key, item_ids, user, id_map}.
 
     id_map maps whatever id the model returns to a comment_id: the short
-    bracket id in thread mode, None (the one comment) in comment mode."""
+    bracket id in thread mode, None (the one comment) in comment mode.
+
+    thread_rows ({call_key: sidecar record}) makes thread mode re-render each
+    chunk with pmod.render_chunk. The renderer may renumber the comments, so
+    its own id map replaces the stored one; a chunk whose sidecar is missing,
+    or was built from a different chunking, stops the run rather than quietly
+    mixing renderings."""
     jobs = {}
     rerender = custom and mode == "comment" and hasattr(pmod, "build_user_message")
     for it in items:
@@ -119,14 +128,21 @@ def build_jobs(items, mode, pmod, custom=False):
                           for c in it["thread_chunks"]]
             for tid, ci, user, sids in chunks:
                 key = f"thread:{tid}:{ci}"
+                id_map = {int(k): v for k, v in sids.items()}
+                if thread_rows is not None and key not in jobs:
+                    rec = thread_rows.get(key)
+                    if rec is None or rec["short_ids"] != sids:
+                        raise SystemExit(f"{key}: no matching raw rows; run eval/build_thread_rows.py "
+                                         "on this items file")
+                    user, id_map = pmod.render_chunk(rec["title"], rec["selftext"], rec["rows"],
+                                                     rec["outside"])
                 j = jobs.setdefault(key, {"call_key": key, "item_ids": [], "user": user,
-                                          "id_map": {int(k): v for k, v in sids.items()}})
+                                          "id_map": id_map, "rendered": thread_rows is not None})
                 if it["item_id"] not in j["item_ids"]:
                     j["item_ids"].append(it["item_id"])
-    if custom and mode == "thread" and hasattr(pmod, "build_message"):
+    if custom and mode == "thread" and hasattr(pmod, "build_message") and thread_rows is None:
         print("note: prompt module defines build_message; thread inputs still use the "
-              "stored rendering (re-run build_items.py with that renderer to change it)",
-              file=sys.stderr)
+              "stored rendering (define render_chunk to re-render)", file=sys.stderr)
     return list(jobs.values())
 
 
@@ -193,6 +209,9 @@ def run_job(job, rep, model, system, ph, mode, args):
     body, latency, err = call(model, system, job["user"], args)
     rec = {"call_key": job["call_key"], "rep": rep, "item_ids": job["item_ids"],
            "model": model, "prompt_hash": ph, "mode": mode,
+           # A re-rendered chunk is renumbered, so the stored short ids no longer
+           # map the model's ids; keep the map the call actually used.
+           **({"id_map": {str(k): v for k, v in job["id_map"].items()}} if job.get("rendered") else {}),
            "ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "latency_s": latency, "error": err}
     if body is None:
         return rec
@@ -267,7 +286,15 @@ def main():
     if args.labeled_only:
         with open(os.path.join(HERE, "gold.jsonl"), encoding="utf-8") as f:
             only = sorted({json.loads(l)["item_id"] for l in f})
-    jobs = build_jobs(load_items(args.items, only), args.mode, pmod,
+    thread_rows = None
+    if args.prompt.startswith("file:") and args.mode == "thread" and hasattr(pmod, "render_chunk"):
+        side = os.path.splitext(args.items)[0] + ".thread_rows.jsonl"
+        if not os.path.exists(side):
+            raise SystemExit(f"{side} is missing: this prompt re-renders thread chunks. Build it "
+                             f"read-only with eval/build_thread_rows.py {args.items} --env-file ...")
+        with open(side, encoding="utf-8") as f:
+            thread_rows = {r["call_key"]: r for r in map(json.loads, f)}
+    jobs = build_jobs(load_items(args.items, only), args.mode, pmod, thread_rows=thread_rows,
                       custom=args.prompt.startswith("file:"))
     if args.limit:
         jobs = jobs[:args.limit]
