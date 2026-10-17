@@ -20,7 +20,8 @@ convention v6 deliberately dropped:
   * A closed place gets every aspect null, which is how the gold labels it.
     v6 keeps the remembered verdict with timeframe "past"; that survives
     under the "v6" key.
-  * value_complaint is a negative value level or a "price" complaint.
+  * value_complaint is a negative value level. v6 has no complaint list;
+    a price complaint is value by definition.
 
 The untranslated mention stays available under "v6", so a v6-aware scorer
 never has to re-parse the run file.
@@ -52,7 +53,6 @@ def to_legacy(m):
     aspects = {"food": food, **{a: num(asp.get(a)) for a in OTHER_ASPECTS}}
     if closed:
         aspects = {k: None for k in aspects}
-    complaints = m.get("complaints") if isinstance(m.get("complaints"), list) else []
     dishes = [d for d in (m.get("dishes") or []) if isinstance(d, dict) and d.get("dish")]
     tags = [str(t) for t in (m.get("tags") or [])]
     out = {
@@ -64,7 +64,7 @@ def to_legacy(m):
         "descriptors": tags + (["closed"] if closed and "closed" not in tags else []),
         "aspects": aspects,
         "expensiveness": PRICE_NUM.get(m.get("price")),
-        "value_complaint": (aspects["value"] or 0) < 0 or "price" in complaints,
+        "value_complaint": (aspects["value"] or 0) < 0,
         "is_firsthand": m.get("experience") == "firsthand",
         "is_negated": bool(m.get("avoid")),
         "v6": m,

@@ -47,10 +47,10 @@ POST: Best noodles in Queens?
 [4] u/cal: Avoid both. Noodle Lab is the move, just skip their dumplings
   [5] u/dee: is it still cash only?
 
-1: Golden Lotus endorse (overall positive). Pepper House stated: overall positive, wait negative, complaints ["wait"].
-2: pepper house stated: overall negative, value negative, complaints ["hype","price"], dish noodles (level null), note {{"about":"price","text":"$28 for noodles","level":"negative","dish":"noodles"}}.
+1: Golden Lotus endorse (overall positive). Pepper House stated: overall positive, wait negative.
+2: pepper house stated: overall negative, value negative, dish noodles (level null), notes {{"about":"overrated","text":"overrated","level":"negative","dish":null}} and {{"about":"price","text":"$28 for noodles","level":"negative","dish":"noodles"}}.
 3: pepper house, named_in "context":
-{{"id":3,"name":"pepper house","named_in":"context","location":null,"experience":"firsthand","opinion":"stated","overall":"positive","aspects":{{"taste":"positive","value":null,"service":null,"atmosphere":null,"wait":null}},"avoid":false,"complaints":[],"dishes":[{{"dish":"cumin lamb","level":"positive","avoid":false}}],"price":null,"timeframe":"current","trend":null,"status":null,"tags":[],"notes":[]}}
+{{"id":3,"name":"pepper house","named_in":"context","location":null,"experience":"firsthand","opinion":"stated","overall":"positive","aspects":{{"taste":"positive","value":null,"service":null,"atmosphere":null,"wait":null}},"avoid":false,"dishes":[{{"dish":"cumin lamb","level":"positive","avoid":false}}],"price":null,"timeframe":"current","trend":null,"status":null,"tags":[],"notes":[]}}
 4: Golden Lotus and Pepper House, named_in "context": avoid true, overall negative. Noodle Lab stated: overall positive, dish dumplings negative with avoid true.
 5: Noodle Lab, named_in "context": opinion none, experience none, every level null."""
 

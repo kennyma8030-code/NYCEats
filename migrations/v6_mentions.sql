@@ -46,13 +46,13 @@ alter table mentions
   add column if not exists service_level    smallint,
   add column if not exists atmosphere_level smallint,
   add column if not exists wait_level       smallint,
-  add column if not exists complaints       text[],    -- taste, price, portion, service, wait, ...
   add column if not exists dish_opinions    jsonb,     -- [{dish, level -2..2 or null, avoid}]
   add column if not exists price_level      smallint,  -- stated in words only, never from a dollar figure
   add column if not exists timeframe        text,      -- 'current' | 'past'
   add column if not exists trend            text,      -- 'declined' | 'improved'
   add column if not exists status           text,      -- 'closed' | 'moved' | 'opened'
-  add column if not exists notes            jsonb;     -- [{about, text, level -2..2 or null, dish}]
+  add column if not exists notes            jsonb;     -- [{about, text, level -2..2 or null, dish}]; also
+                                                       -- complaints no aspect holds (portion size, overrated, got sick)
 
 -- `dishes` stays a list of names and `descriptors` keeps its GIN index; v6
 -- tags go into `descriptors` (plus "closed" for a closed place), which is
@@ -65,8 +65,7 @@ alter table mentions
   drop constraint if exists mentions_timeframe_chk,
   drop constraint if exists mentions_trend_chk,
   drop constraint if exists mentions_status_chk,
-  drop constraint if exists mentions_levels_chk,
-  drop constraint if exists mentions_complaints_chk;
+  drop constraint if exists mentions_levels_chk;
 
 alter table mentions
   add constraint mentions_named_in_chk   check (named_in   in ('comment', 'context')) not valid,
@@ -79,14 +78,10 @@ alter table mentions
         overall_level    between -2 and 2 and taste_level      between -2 and 2
     and value_level      between -2 and 2 and service_level    between -2 and 2
     and atmosphere_level between -2 and 2 and wait_level       between -2 and 2
-    and price_level      between -2 and 2) not valid,
-  add constraint mentions_complaints_chk check (complaints <@ array[
-        'taste', 'price', 'portion', 'service', 'wait', 'atmosphere', 'hype',
-        'hygiene', 'consistency', 'availability', 'other']::text[]) not valid;
+    and price_level      between -2 and 2) not valid;
 
 commit;
 
 -- Optional, run separately (CREATE INDEX CONCURRENTLY cannot run inside a
 -- transaction, and a plain CREATE INDEX blocks the poller's writes):
---   create index concurrently if not exists mentions_complaints_idx on mentions using gin (complaints);
 --   create index concurrently if not exists mentions_v6_idx on mentions (entity_key) where schema_version = 6;

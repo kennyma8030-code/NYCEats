@@ -55,14 +55,6 @@
           "additionalProperties": false
         },
         "avoid": {"type": "boolean"},
-        "complaints": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": ["taste", "price", "portion", "service", "wait", "atmosphere", "hype",
-                     "hygiene", "consistency", "availability", "other"]
-          }
-        },
         "dishes": {"type": "array", "items": {"$ref": "#/$defs/dish"}},
         "price": {
           "type": ["string", "null"],
@@ -75,7 +67,7 @@
         "notes": {"type": "array", "items": {"$ref": "#/$defs/note"}}
       },
       "required": ["name", "named_in", "location", "experience", "opinion", "overall", "aspects",
-                   "avoid", "complaints", "dishes", "price", "timeframe", "trend", "status",
+                   "avoid", "dishes", "price", "timeframe", "trend", "status",
                    "tags", "notes"],
       "additionalProperties": false
     }

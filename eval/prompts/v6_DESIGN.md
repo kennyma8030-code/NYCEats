@@ -38,7 +38,7 @@ turning it off loses negations that point at the parent comment.
   "experience": "firsthand", "opinion": "stated",
   "overall": "negative",
   "aspects": {"taste": "negative", "value": "negative", "service": null, "atmosphere": null, "wait": "negative"},
-  "avoid": false, "complaints": ["taste", "price", "wait"],
+  "avoid": false,
   "dishes": [{"dish": "noodles", "level": "negative", "avoid": false}],
   "price": null, "timeframe": "current", "trend": null, "status": null,
   "tags": [],
@@ -69,19 +69,18 @@ The examples are real r/FoodNYC comments. None of them is in any eval set
 | `opinion` | `none`: only neutral facts or a question. `endorse`: named as a pick with nothing said about it. `stated`: anything that judges. | `none`: *"Vanessa moved to UES"* (t1_nxnnpa6). `endorse`: *"Second this!"* under "I like Sushi by Bou for inexpensive omakase" (t1_nvl78cn). `stated`: *"Lucali is just really overrated for this."* (t1_ojnugks). |
 | `overall` | The verdict on the place as a whole: is it worth going? It is its own judgment, not an average of the aspects. `null` when the comment gives no verdict. Always `positive` for an endorsement. | *"Prince street used to be IT. God tier. Went downhill SO much… It's not even in tier 2 anymore."* (t1_nnskhna): `negative`. *"Usually theyve been sold out by 5pm so you might wanna go earlier"* (t1_nf0fbw4): `null`, with wait `negative`. |
 | `aspects.taste` | The food and drink. | *"The Khao Yum was pretty good, everything else meh."* (t1_nl6cnst): `neutral`, with the dish entry `positive`. |
-| `aspects.value` | Worth the money, portions included. | *"Makina is good but their portions are tiny for the price."* (t1_p1wjq1c): `negative`. |
+| `aspects.value` | Worth the money, including portions for the price. | *"Makina is good but their portions are tiny for the price."* (t1_p1wjq1c): `negative`. |
 | `aspects.service` | Staff, and how the place is run. | *"Waiter was rude… and then forgot to put in our order."* (t1_n9aoblb): `negative`. |
 | `aspects.atmosphere` | Room, vibe, noise, crowd. | *"The Smith is SO LOUD."* (t1_o4x3tiq): `negative`. |
 | `aspects.wait` | Lines, getting a table or reservation, slow food, selling out. | *"Been trying to go but it's impossible to get a res!"* under Le Veau d'Or (t1_odm85nw): `negative`. |
 | `avoid` | The comment tells others to avoid the place. A bad review, or "I won't go back", is not enough. | *"The Smith is SO LOUD. Avoid it."* (t1_o4x3tiq): `true`. *"Used to love that place, now never going back."* (t1_n9aoblb): `false`. |
-| `complaints` | Every kind of complaint: taste, price, portion, service, wait, atmosphere, hype, hygiene, consistency, availability, other. | *"Staff is rude, they pack people in like sardines, and the food is mediocre"* (t1_n465ux4): `service, atmosphere, taste`. *"I got so sad they stopped serving oxtail that I stopped going"* (t1_mwqt6af): `availability`. *"very overrated. It has a very good publicist"* (t1_nsuni5l): `hype`. *"very mid and inconsistent"* (t1_mo1lnsb): `taste, consistency`. |
 | `dishes` | Every dish or drink named for this place, with a level (`null` if only named) and `avoid` for "skip / don't get". | *"Superiority Burger is fantastic (just skip the burger)"* (t1_ogrbqmn): burger `avoid: true`. *"Spicy cumin lamb is the play."* (t1_omixdn4): `positive`. |
 | `price` | How pricey, only when said in words: `very_cheap` … `very_expensive`. | *"Breads is pricey but the quality is always very good"* (t1_pfb25mg): `expensive`. *"Sushi kai… $85 i think"* (t1_nezwid0): `null`, with the figure kept in a note. |
 | `timeframe` | `past` when the levels describe how it was, not how it is. | *"I loved alta, too, but it closed permanently."* (t1_o5w3ls8): `past`, overall `positive`, status `closed`. |
 | `trend` | `declined` / `improved` when the comment says it changed. | t1_nnskhna above: `declined`. *"The speed has improved a lot since I last went"* (t1_n9yt7wi): `improved`. |
 | `status` | `closed`, `moved`, `opened` (new or reopened). | t1_nxnnpa6: `moved`, location `"UES"`. |
 | `tags` | The commenter's words for what the place is or is for: cuisine, format, occasion, diet, payment. | *"For chill group vibes, Shinzo Omakase… BYOB option available"* (t1_nacayj3): `["omakase", "byob", "group"]`. |
-| `notes` | Everything else said about the place that no other field holds: `{about, text, level, dish}`. | *"The Modern is in InKind too"* (t1_o1rc19q): `{"about": "accepts InKind"}`. *"go on a weekday afternoon if you can. the line is significantly more manageable"* (t1_ouyftfe): `{"about": "best time to go"}`. Carmine's *"portions are HUGE, so even though prices might look high, divide everything by like two"* (t1_pcq6e7y): value `positive`, plus `{"about": "portion size", "level": "positive"}`. |
+| `notes` | Everything else said about the place that no other field holds: `{about, text, level, dish}`. This includes the complaints no aspect covers (portion size, overrated, got sick, stopped making a dish), each with a plain `about` and its level. | *"I got so sad they stopped serving oxtail that I stopped going"* (t1_mwqt6af): `{"about": "stopped serving oxtail", "level": "negative"}`. *"very overrated. It has a very good publicist"* (t1_nsuni5l): overall `negative` plus `{"about": "overrated", "level": "negative"}`. *"The Modern is in InKind too"* (t1_o1rc19q): `{"about": "accepts InKind"}`. *"go on a weekday afternoon if you can. the line is significantly more manageable"* (t1_ouyftfe): `{"about": "best time to go"}`. Carmine's *"portions are HUGE, so even though prices might look high, divide everything by like two"* (t1_pcq6e7y): value `positive`, plus `{"about": "portion size", "level": "positive"}`. |
 | `id` | Thread mode only: the bracket number of the comment. | |
 
 ## Levels
@@ -111,21 +110,22 @@ bucket in a people-count means exactly one thing. Storage maps them to
   "mid", "overrated", "nothing special", "underwhelming", "not worth the
   hype". Acceptable without enthusiasm is neutral. A neutral word next to a
   knock is negative: *"It's not bad, but both times I've been I'm surprised
-  at the hype"* (t1_mnwprq9) is negative with complaint `hype`.
+  at the hype"* (t1_mnwprq9) is negative, with an "overrated" note.
 - **"meh" and "mid".** These are the closest call. v6 puts "meh" in neutral,
   following the v5 finding that grouped it with "fine". It puts "mid" in
   negative, because on this subreddit "mid" is a dismissal (the original
   prompt's "it's v mid" reply was its model negative). This is open question 1.
 - **Price as a drawback.** *"The quality was fine, but it was a little
   pricey"* (t1_o72jfgb): taste neutral, price `expensive`, and, because of
-  the "but", value negative with complaint `price`. *"Pricey but so worth
+  the "but", value negative. *"Pricey but so worth
   it"* (t1_n9xmub1) is price `expensive` and value positive.
 - **Facts that are complaints.** `opinion: none` covers only neutral facts:
   cash only, BYOB, moved, closed, an address, a question, a hypothetical
   (*"if it's mid you're dead to me"*, t1_ns74zo4). These are judgments, not
   facts: reservations (*"impossible to get a res"*), lines, selling out
-  (*"sold out by 5pm"*), stopped making something, portions. They are what
-  v5's reference bucket swallowed.
+  (*"sold out by 5pm"*), portions for the price (value), stopped making
+  something (a negative note). They are what v5's reference bucket
+  swallowed.
 - **`null` vs. `neutral`.** `null` is silence; `neutral` is a verdict.
   "Missing renders as absent, never neutral" (SPEC.md) holds all the way
   through.
@@ -158,8 +158,11 @@ bucket in a people-count means exactly one thing. Storage maps them to
    v1 gold this costs expensiveness presence (2 of 14 test comments).
 7. **`avoid` means telling others.** "I won't go back" and bad reviews are
    not avoid instructions, the same rule as `is_negated`.
-8. **`complaints` is a closed list with `other`**, so the counts stay
-   comparable. The open detail goes in notes.
+8. **No complaint list (owner's decision).** Complaints are counted
+   through the aspects. A complaint no aspect holds (portion size,
+   overrated, got sick, stopped making a dish) is a note with a plain
+   `about` and a level, so it is kept but not forced into a category.
+   Small portions for the price are value.
 9. **`named_in`** costs a few output tokens per mention. It marks the
    nameless-reply mentions, which is where thread-mode attribution errors
    live.
@@ -190,7 +193,7 @@ DeepSeek run gives the same 0.872 negative-mention recall as before.
 | `taste`, else 0.33 for `endorse`, else `overall` | `food` |
 | `status: closed` | every aspect null, `"closed"` in descriptors |
 | `price` | `expensiveness` ±1, ±0.67, 0 |
-| value negative, or `"price"` in complaints | `value_complaint` |
+| value negative | `value_complaint` |
 | `avoid`, `experience == firsthand` | `is_negated`, `is_firsthand` |
 | `dishes` | `dishes` (names) and `dish_sentiment` |
 | `tags` | `descriptors` (search-terms recall) |
@@ -227,15 +230,15 @@ tokenizer offline):
 | production `prompt.py` | ~1,820 tokens |
 | production `prompt_thread.py` | ~2,170 |
 | rubric_v1 comment / thread | ~1,910 / ~2,330 |
-| **v6 comment / thread** | **~1,880 / ~2,200** |
+| **v6 comment / thread** | **~1,840 / ~2,180** |
 | v5 (lost) | about 3× production |
 
 The system prompt is about the same size as today's and is identical on
 every call, so prefix caching (DeepSeek and OpenAI cache automatically;
 Anthropic with `cache_control`) bills most of it at the cache rate. Where
-v6 does cost more is **output**. A bare endorsement is 328 characters
-(about 85 tokens), against 222 (about 55) today. A rich mention with
-dishes and notes runs 500–700 characters (130–180 tokens). Output is priced at 2× input on
+v6 does cost more is **output**. A bare endorsement is 312 characters
+(about 80 tokens), against 222 (about 55) today. A rich mention with
+dishes and notes runs 480–700 characters (120–180 tokens). Output is priced at 2× input on
 DeepSeek, so expect roughly 1.4–1.8× today's output bill per mention
 before reasoning tokens. The benchmark run will give the real figure.
 
@@ -268,11 +271,11 @@ before reasoning tokens. The benchmark run will give the real figure.
 5. **`descriptors` is the only open field** (`prompt.py:37`). v6 adds
    `tags` (stored in `descriptors`), `notes`, and `raw` for everything else.
 6. **Storage** is `migrations/v6_mentions.sql`: typed columns for every v6
-   field (levels as smallint -2…2 with checks, `complaints text[]`,
-   `dish_opinions`, `notes` and `raw` as jsonb), plus `schema_version`. It
+   field (levels as smallint -2…2 with checks, `dish_opinions`, `notes`
+   and `raw` as jsonb), plus `schema_version`. It
    does not change the unique key. It is tested on a throwaway local
    cluster: it applies, re-runs cleanly, and rejects out-of-range levels,
-   unknown complaints and unknown enum values.
+   and unknown enum values.
 7. **The thread renderer** (`extract_threads.thread_rows`,
    `prompt_thread.build_message`). Replies are time-ordered within a root,
    so 9.75% sit under the wrong parent, and 11.5% have their parent in

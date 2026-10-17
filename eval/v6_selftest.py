@@ -94,14 +94,14 @@ def validate(value, node, root, path="$"):
 
 # ------------------------------------------------------------ fixtures
 def M(name, opinion, overall=None, *, named_in="comment", experience="firsthand", taste=None,
-      value=None, service=None, atmosphere=None, wait=None, avoid=False, complaints=(),
+      value=None, service=None, atmosphere=None, wait=None, avoid=False,
       dishes=(), price=None, timeframe="current", trend=None, status=None, tags=(), notes=(),
       location=None):
     return {"name": name, "named_in": named_in, "location": location, "experience": experience,
             "opinion": opinion, "overall": overall,
             "aspects": {"taste": taste, "value": value, "service": service,
                         "atmosphere": atmosphere, "wait": wait},
-            "avoid": avoid, "complaints": list(complaints), "dishes": list(dishes), "price": price,
+            "avoid": avoid, "dishes": list(dishes), "price": price,
             "timeframe": timeframe, "trend": trend, "status": status, "tags": list(tags),
             "notes": list(notes)}
 
@@ -132,32 +132,31 @@ CASES = {
     "c0029": [M("Fish Cheeks", "stated", named_in="context", wait="positive",
                 notes=[N("best time to go", "around 4-4:40pm there are always free tables", "positive")])],
     # "... I was never able to get a reservation to Monkey Bar, but I ate so much great food ..."
-    "c0038": [M("Monkey Bar", "stated", experience="none", wait="negative", complaints=["wait"])],
+    "c0038": [M("Monkey Bar", "stated", experience="none", wait="negative")],
     # "If Rubirosa is just like that, I'd rather skip it"
     "c0044": [M("Rubirosa", "stated", "negative", experience="secondhand")],
     # "Second this. Came here to write Serafina." in "poor quality yet expensive restaurant for an enemy"
-    "c0045": [M("Serafina", "stated", "negative", taste="negative", value="negative",
-                complaints=["taste", "price"], price="expensive")],
+    "c0045": [M("Serafina", "stated", "negative", taste="negative", value="negative", price="expensive")],
     # "the grapefruit and yogurt at jacks wife freda is really good, although at 15$ it's highway robbery"
     "c0049": [M("jacks wife freda", "stated", "neutral", taste="positive", value="negative",
-                complaints=["price"], dishes=[D("grapefruit and yogurt", "positive")],
+                dishes=[D("grapefruit and yogurt", "positive")],
                 notes=[N("price", "$15 for the grapefruit and yogurt", "negative", "grapefruit and yogurt")])],
     # "So hard it was inedible" (Luigi's, two levels up: thread-mode context)
     "c0053": [M("Luigi’s", "stated", "very_negative", named_in="context", taste="very_negative",
-                complaints=["taste"], dishes=[D("pizza", "very_negative")])],
+                dishes=[D("pizza", "very_negative")])],
     # "Service is horrible. Def not worth it" (Chef's Table at Brooklyn Fare, from the parent)
     "c0064": [M("Chef’s Table at Brooklyn Fare", "stated", "negative", named_in="context",
-                service="negative", value="negative", avoid=True, complaints=["service", "price"])],
+                service="negative", value="negative", avoid=True)],
     # "jeeze skip lenwich"
     "c0074": [M("lenwich", "stated", "negative", avoid=True)],
     # "I wouldn't say it's worth 34 dollars for a sandwich. It was good, but not worth that much" (Salt Hank)
     "c0084": [M("Salt Hank", "stated", "neutral", named_in="context", taste="positive", value="negative",
-                complaints=["price"], dishes=[D("sandwich", "positive")],
+                dishes=[D("sandwich", "positive")],
                 notes=[N("price", "$34 for a sandwich", "negative", "sandwich")])],
     # "... Super Burrito. It fucking sucks. There's certainly better burritos in NY (even Chipotle ffs) &
     #  it's extremely expensive ... No one ... should pay $20+ for that shitty ass burrito."
     "c0205": [M("Super Burrito", "stated", "negative", taste="negative", value="very_negative", avoid=True,
-                complaints=["taste", "price"], price="very_expensive", location="WV",
+                price="very_expensive", location="WV",
                 dishes=[D("burrito", "negative")],
                 notes=[N("price", "$20+ for a burrito", "negative", "burrito")]),
               M("Chipotle", "stated", notes=[N("comparison", "a better burrito than Super Burrito")])],

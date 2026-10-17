@@ -82,9 +82,8 @@ experience  "firsthand": describes going or eating there, or gives their own pic
 opinion     "none": only neutral facts or a question ("cash only", "they moved to Bushwick", "is it still good?"). "endorse": named as a pick with nothing said about it (a list item, "try X", "second this" under a rec). "stated": anything that judges the place.
 overall     LEVEL. The verdict on the place as a whole: is it worth going? "Best slice in the city" is overall and taste very_positive; "go early to beat the line" has no overall (null). Always "positive" for "endorse".
 aspects     {taste, value, service, atmosphere, wait}, each a LEVEL or null. Only what is said; never infer one aspect from another or from overall.
-              taste: the food and drink. value: worth the money, portions included. service: staff, and how the place is run. atmosphere: room, vibe, noise, crowd. wait: lines, getting a table or reservation, slow food, selling out.
+              taste: the food and drink. value: worth the money, including portions for the price. service: staff, and how the place is run. atmosphere: room, vibe, noise, crowd. wait: lines, getting a table or reservation, slow food, selling out.
 avoid       true only when the comment tells OTHERS to avoid the place: "skip it", "don't bother", "tourist trap", an avoid list. A bad review alone, or "I won't go back", is false.
-complaints  Every kind of complaint made: "taste", "price", "portion", "service", "wait", "atmosphere", "hype" (overrated, tourist trap), "hygiene" (got sick, roaches), "consistency" (hit or miss, went downhill), "availability" (sold out, stopped making it, odd hours), "other". [] if none.
 dishes      Every dish or drink named for this place: {"dish", "level": LEVEL, or null if only named, "avoid": true for "skip / don't get the X"}. "Get the X" is "positive".
 price       How pricey, only when said in words: "very_cheap", "cheap", "moderate", "expensive", "very_expensive", else null. A dollar figure alone is not a price level (note it instead), and "overpriced" is value, not price.
 timeframe   "current", or "past" when the levels describe how it was, not how it is (a closed place, a visit years ago with nothing about now).
@@ -102,13 +101,14 @@ SCALE = """LEVELS: "very_positive", "positive", "neutral", "negative", "very_neg
 null means not mentioned. neutral is a verdict, never a stand-in for "not mentioned"."""
 
 RULES = """RULES
-1. opinion "none" is ONLY for neutral facts and questions. A complaint put as a fact is an opinion: "impossible to get a reservation" and "they sell out by noon" are wait negative; "they stopped making the babka" is an availability complaint; "portions are tiny" is value negative.
-2. Positive needs real praise. "Not bad", "fine", "ok" and "decent" are neutral.
-3. A heading or lead-in covers every name under it: "My favorites:" makes each very_positive; "I'd skip all of these: A, B, C" makes all three avoid true, overall negative.
-4. "This", "+1" and "second this" take the verdict they agree with: under a rec or praise, endorse; under a knock, stated with the same overall.
-5. Levels are what the commenter thinks NOW. "Used to be great, now mid": overall negative, trend declined, complaints ["consistency"]. A closed place remembered fondly: overall positive, status closed, timeframe past.
-6. Losing a comparison is not a complaint: in "I prefer A over B", B gets no level, only a note.
-7. Thread framing and sarcasm decide polarity: "second this" under "worst meal you've had?" is negative.
-8. Never soften a complaint because the thread likes the place or the commenter is polite."""
+1. opinion "none" is ONLY for neutral facts and questions. A complaint put as a fact is an opinion: "impossible to get a reservation" and "they sell out by noon" are wait negative; "tiny portions for the price" is value negative.
+2. A complaint no aspect holds (portion size, overrated, got sick, stopped making a dish) goes in notes with a plain "about" and its level: "they stopped making the babka" is about "stopped making the babka", level negative.
+3. Positive needs real praise. "Not bad", "fine", "ok" and "decent" are neutral.
+4. A heading or lead-in covers every name under it: "My favorites:" makes each very_positive; "I'd skip all of these: A, B, C" makes all three avoid true, overall negative.
+5. "This", "+1" and "second this" take the verdict they agree with: under a rec or praise, endorse; under a knock, stated with the same overall.
+6. Levels are what the commenter thinks NOW. "Used to be great, now mid": overall negative, trend declined. A closed place remembered fondly: overall positive, status closed, timeframe past.
+7. Losing a comparison is not a complaint: in "I prefer A over B", B gets no level, only a note.
+8. Thread framing and sarcasm decide polarity: "second this" under "worst meal you've had?" is negative.
+9. Never soften a complaint because the thread likes the place or the commenter is polite."""
 
-EXAMPLE_JSON = """{"mentions":[{"name":"Golden Lotus","named_in":"context","location":null,"experience":"firsthand","opinion":"stated","overall":"negative","aspects":{"taste":"negative","value":"negative","service":null,"atmosphere":null,"wait":"negative"},"avoid":false,"complaints":["taste","price","wait"],"dishes":[{"dish":"noodles","level":"negative","avoid":false}],"price":null,"timeframe":"current","trend":null,"status":null,"tags":[],"notes":[{"about":"price","text":"$24 a bowl","level":"negative","dish":"noodles"},{"about":"best time to go","text":"go early, line by noon","level":null,"dish":null}]}]}"""
+EXAMPLE_JSON = """{"mentions":[{"name":"Golden Lotus","named_in":"context","location":null,"experience":"firsthand","opinion":"stated","overall":"negative","aspects":{"taste":"negative","value":"negative","service":null,"atmosphere":null,"wait":"negative"},"avoid":false,"dishes":[{"dish":"noodles","level":"negative","avoid":false}],"price":null,"timeframe":"current","trend":null,"status":null,"tags":[],"notes":[{"about":"price","text":"$24 a bowl","level":"negative","dish":"noodles"},{"about":"best time to go","text":"go early, line by noon","level":null,"dish":null}]}]}"""
