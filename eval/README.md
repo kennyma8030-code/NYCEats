@@ -18,7 +18,8 @@ never by an LLM.
 | `excluded_entities.json` | production's excluded entity keys (not restaurants / outside NYC), treated as out of scope |
 | `alias_overrides.json` | snapshot of the `alias_overrides` table, used for key matching |
 | `build_items.py` | the sampler (read-only DB) |
-| `run.py` | runs model × prompt × mode over the items, caching to `runs/` |
+| `run.py` | runs model × prompt × mode over the items, caching to `runs/` (`--schema` sends a prompt module's strict JSON schema) |
+| `prompts/v6_*`, `v6_adapter.py`, `v6_selftest.py` | the v6 extraction prompt, schema and design note (`prompts/v6_DESIGN.md`); the adapter that lets `score.py` and `v4/labels.py` read v6 output; its offline test |
 | `export_stored.py` | dumps the stored production extraction as a run file (read-only DB) |
 | `score.py` | scores runs against the gold, writing `results/<date>__<run>.md/.csv` |
 | `STATUS.md` | what is done and what comes next |

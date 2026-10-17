@@ -40,6 +40,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
 from extract import CHAINS, normalize_entity  # noqa: E402
+if HERE not in sys.path:
+    sys.path.insert(0, HERE)
+import v6_adapter  # noqa: E402
 
 ASPECTS = ("food", "value", "service", "atmosphere", "wait")
 PROD_MODE = {"ca5439be83b3": "thread", "5b02ac883c80": "thread",
@@ -423,7 +426,9 @@ def load_run(path, items):
         if r.get("latency_s") is not None:
             stats["latency"].append(r["latency_s"])
         for cid, ms in (r.get("mentions_by_comment") or {}).items():
-            reps[r["rep"]].setdefault(cid, []).extend(ms)
+            # v6 output is translated to the gold's shape here, once, so every
+            # scorer downstream (this file, compare_v4, next_round) reads it.
+            reps[r["rep"]].setdefault(cid, []).extend(v6_adapter.adapt_all(ms))
         key = r["call_key"]
         if key.startswith(("comment:", "stored:")):
             covered[r["rep"]].add(key.split(":", 1)[1])

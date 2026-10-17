@@ -26,7 +26,9 @@ Optional fields, used by score.py when present: value_complaint (boolean),
 dish_sentiment ([{dish, level -1..1 or null, avoid}]), ambiguous (boolean,
 mention neither required nor penalised), out_of_scope (boolean). Any other
 extra key is allowed and ignored. If the user's labeling prompt returns a
-different schema, write a mapping into this shape before export.
+different schema, write a mapping into this shape before export. Output in
+the v6 schema (eval/prompts/v6_schema.json) is mapped automatically by
+eval/v6_adapter.py.
 
 EXPORT refuses, exiting nonzero and writing nothing, if any line is bad JSON,
 names a packet outside its batch, labels a packet twice, or has a mention
@@ -144,6 +146,9 @@ def read_pass(d, pass_name):
             if not isinstance(ms, list):
                 errors.append(f"{b}:{n}: output has no mentions list")
                 continue
+            # Labels written with the v6 prompt are mapped into this file's
+            # schema first, the same mapping score.py applies to v6 runs.
+            ms = S.v6_adapter.adapt_all(ms)
             bad = [f"{b}:{n} {pid} mention {i}: {p}" for i, m in enumerate(ms)
                    for p in problems(m, key[pid]["mode"], key[pid].get("short_ids", {}))]
             errors += bad

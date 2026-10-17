@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NYCEats extraction v6 (comment mode; thread mode adds an integer id as the first mention property)",
+  "type": "object",
+  "properties": {
+    "mentions": {"type": "array", "items": {"$ref": "#/$defs/mention"}}
+  },
+  "required": ["mentions"],
+  "additionalProperties": false,
+  "$defs": {
+    "level": {
+      "type": ["string", "null"],
+      "enum": ["very_positive", "positive", "neutral", "negative", "very_negative", null]
+    },
+    "dish": {
+      "type": "object",
+      "properties": {
+        "dish": {"type": "string"},
+        "level": {"$ref": "#/$defs/level"},
+        "avoid": {"type": "boolean"}
+      },
+      "required": ["dish", "level", "avoid"],
+      "additionalProperties": false
+    },
+    "note": {
+      "type": "object",
+      "properties": {
+        "about": {"type": "string"},
+        "text": {"type": "string"},
+        "level": {"$ref": "#/$defs/level"},
+        "dish": {"type": ["string", "null"]}
+      },
+      "required": ["about", "text", "level", "dish"],
+      "additionalProperties": false
+    },
+    "mention": {
+      "type": "object",
+      "properties": {
+        "name": {"type": "string"},
+        "named_in": {"type": "string", "enum": ["comment", "context"]},
+        "location": {"type": ["string", "null"]},
+        "experience": {"type": "string", "enum": ["firsthand", "secondhand", "none"]},
+        "opinion": {"type": "string", "enum": ["none", "endorse", "stated"]},
+        "overall": {"$ref": "#/$defs/level"},
+        "aspects": {
+          "type": "object",
+          "properties": {
+            "taste": {"$ref": "#/$defs/level"},
+            "value": {"$ref": "#/$defs/level"},
+            "service": {"$ref": "#/$defs/level"},
+            "atmosphere": {"$ref": "#/$defs/level"},
+            "wait": {"$ref": "#/$defs/level"}
+          },
+          "required": ["taste", "value", "service", "atmosphere", "wait"],
+          "additionalProperties": false
+        },
+        "avoid": {"type": "boolean"},
+        "complaints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["taste", "price", "portion", "service", "wait", "atmosphere", "hype",
+                     "hygiene", "consistency", "availability", "other"]
+          }
+        },
+        "dishes": {"type": "array", "items": {"$ref": "#/$defs/dish"}},
+        "price": {
+          "type": ["string", "null"],
+          "enum": ["very_cheap", "cheap", "moderate", "expensive", "very_expensive", null]
+        },
+        "timeframe": {"type": "string", "enum": ["current", "past"]},
+        "trend": {"type": ["string", "null"], "enum": ["declined", "improved", null]},
+        "status": {"type": ["string", "null"], "enum": ["closed", "moved", "opened", null]},
+        "tags": {"type": "array", "items": {"type": "string"}},
+        "notes": {"type": "array", "items": {"$ref": "#/$defs/note"}}
+      },
+      "required": ["name", "named_in", "location", "experience", "opinion", "overall", "aspects",
+                   "avoid", "complaints", "dishes", "price", "timeframe", "trend", "status",
+                   "tags", "notes"],
+      "additionalProperties": false
+    }
+  }
+}

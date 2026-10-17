@@ -136,7 +136,7 @@ def call(model, system, user, args):
         "model": model,
         "messages": [{"role": "system", "content": system},
                      {"role": "user", "content": user}],
-        "response_format": {"type": "json_object"},
+        "response_format": args.response_format or {"type": "json_object"},
         "temperature": args.temperature,
         "usage": {"include": True},
     }
@@ -246,11 +246,22 @@ def main():
     ap.add_argument("--timeout", type=int, default=180)
     ap.add_argument("--tag", default="", help="suffix for the run file name")
     ap.add_argument("--dry-run", action="store_true", help="print the first calls, no API")
+    ap.add_argument("--schema", action="store_true",
+                    help="send the prompt module's RESPONSE_FORMAT (strict JSON schema) "
+                         "instead of json_object; the provider must support it")
     args = ap.parse_args()
 
     pmod, label = load_prompt(args.prompt, args.mode)
     system = pmod.SYSTEM_PROMPT
     ph = prompt_hash(system)
+    args.response_format = None
+    if args.schema:
+        if not hasattr(pmod, "RESPONSE_FORMAT"):
+            raise SystemExit("--schema: this prompt module defines no RESPONSE_FORMAT")
+        args.response_format = pmod.RESPONSE_FORMAT
+        # The hash only covers the system prompt, so a schema run needs its own
+        # file or it would resume from (and mix with) a json_object run.
+        args.tag = (args.tag + "_" if args.tag else "") + "schema"
 
     only = args.only
     if args.labeled_only:
