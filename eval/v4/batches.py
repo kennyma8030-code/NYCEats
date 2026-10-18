@@ -149,8 +149,11 @@ def main():
                 for pid, p, copy in units:
                     pj.write(json.dumps({"packet_id": pid, "batch": batch_id, "mode": p["mode"],
                                          "input": p[pass_name]}, ensure_ascii=False) + "\n")
+                    # A pass may number a chunk its own way (v6's same_input
+                    # renderer does), so the key keeps that pass's numbers.
+                    sids = p.get(pass_name + "_short_ids", p.get("short_ids"))
                     key[pid] = {"item_id": p["item_id"], "mode": p["mode"], "copy": copy, "batch": batch_id,
-                                **({"short_ids": p["short_ids"]} if p["mode"] == "thread" else {})}
+                                **({"short_ids": sids} if p["mode"] == "thread" else {})}
         with open(os.path.join(args.dir, "keys", pass_name + ".json"), "w", encoding="utf-8") as f:
             json.dump(key, f, indent=1)
         n_dup = sum(1 for v in key.values() if v["copy"])

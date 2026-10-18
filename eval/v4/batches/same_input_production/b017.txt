@@ -1,0 +1,31 @@
+NYCEats extraction labeling -- batch b017 -- pass: same_input -- 1 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b017.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 5cfc9e49 (thread packet) ===
+POST: Where can I get a giant party sub for the Super Bowl?
+Court Street Grocers does one but prices seem insane - $200 for 4’ and $265 for 6’
+
+[1] u/rumfortheborder: lioni, maybe united meat market, maybe russos
+  [2] u/SpoonedToDeath: I 2nd lionis, their regular sandwiches are all top notch.
+[3] u/elborzo: Try non trendy bagel stores / delis that don’t make a big deal out of everything like CSG. DeFonte does them, bagel boy in BR is decent ish too in a pinch.
+[4] u/festinalente27: Wegmans, probably
+[5] u/Adventure241: Russo's is advertising them right now for the super bowl
+[6] u/Uncle_Coffee_Cake: Western Beef is my goto for cold cuts subs. Around $14/foot. And they have 6ft as on option, I've only done 3ft in the past.
+[7] u/DecisionPatient128: Harbor Deli and Harbor Deli Too Port Washington
+[8] u/SnooPaintings6124: Regina’s grocery 6 ft are 180
+[9] u/Garlic-And-Onions: Seconding Paisanos on Smith Street
+[10] u/nycago: What’s a sub? This is a hero town!
+[11] u/multiequations: Big Apple meat market does party subs
+[12] u/Hot-Soup-1206: If this isn't too out of the way for you, Valentino's in ridgewood is doing 3' for $50. Its an italian market with a great deli.
+[13] u/whaaaaaaaaaasssass: Does anyone know if Fiacco’s in the village does this? If so I’m in, and also it will probably weigh 50lbs.
+  [14] u/GuideMoney4241: They have weird hours I don’t think they’re open Sundays
+=== END PACKET 5cfc9e49 ===

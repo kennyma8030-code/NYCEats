@@ -8,6 +8,8 @@
 2. labels.py export fails, writing nothing, on an invalid thread id, a
    packet labeled twice, a schema failure or a missing label, and succeeds
    on a clean pass.
+   A pass the manifest marks v6 also fails on anything the strict v6
+   schema rejects, and exports the adapted mentions with the v6 original.
 3. batches.py never crashes when a duplicate has nowhere to go, and never
    puts both copies of an item in one batch.
 """
@@ -111,6 +113,63 @@ def check_label_export():
     print("label export ok")
 
 
+def v6_mention(name, **extra):
+    m = {"name": name, "named_in": "comment", "location": None, "experience": "firsthand",
+         "opinion": "stated", "overall": "negative",
+         "aspects": {"taste": "positive", "value": None, "service": None, "atmosphere": None, "wait": None},
+         "avoid": False, "dishes": [], "price": None, "timeframe": "current", "trend": None,
+         "status": None, "tags": [], "notes": []}
+    m.update(extra)
+    return m
+
+
+def check_v6_label_export():
+    """A pass the manifest marks v6 must validate strictly against the v6
+    schema; anything less (a missing field, an extra key, a bad level, an id
+    on a comment packet) refuses the whole export."""
+    def v6_dir(lines):
+        d = label_dir(lines)
+        with open(os.path.join(d, "labels", L.MANIFEST), "w") as f:
+            json.dump({"same_input": {"schema": "v6", "prompts": {}}}, f)
+        return d
+
+    good_c = {"packet_id": "pc", "output": {"mentions": [v6_mention("Lucali")]}}
+    good_t = {"packet_id": "pt", "output": {"mentions": [dict(id=2, **v6_mention("Di Fara"))]}}
+    d = v6_dir({"b001": [good_c], "b002": [good_t]})
+    L.export(d, "same_input")
+    gold = {g["comment_id"]: g for g in map(json.loads, open(os.path.join(d, "labels", "same_input.gold.jsonl")))}
+    g = gold["t1_s"]["mentions"][0]
+    assert g["aspects"]["food"] == 2 and g["v6"]["overall"] == "negative", g
+    assert len(gold["t1_b"]["mentions"]) == 1 and not gold["t1_a"]["mentions"]
+
+    no_notes = v6_mention("X")
+    del no_notes["notes"]
+    bad = {
+        "missing field": {"b001": [{"packet_id": "pc", "output": {"mentions": [no_notes]}}], "b002": [good_t]},
+        "bad level": {"b001": [{"packet_id": "pc", "output": {"mentions": [v6_mention("X", overall="mid")]}}],
+                      "b002": [good_t]},
+        "id on a comment packet": {"b001": [{"packet_id": "pc", "output": {"mentions": [dict(id=1, **v6_mention("X"))]}}],
+                                   "b002": [good_t]},
+        "extra top-level key": {"b001": [{"packet_id": "pc", "output": {"mentions": [], "notes": "x"}}],
+                                "b002": [good_t]},
+        "thread id outside the packet": {"b001": [good_c],
+                                         "b002": [{"packet_id": "pt", "output": {"mentions": [dict(id=7, **v6_mention("X"))]}}]},
+        "thread mention without id": {"b001": [good_c], "b002": [{"packet_id": "pt", "output": {"mentions": [v6_mention("X")]}}]},
+        "production-shaped mention": {"b001": [{"packet_id": "pc", "output": {"mentions": [mention("X")]}}],
+                                      "b002": [good_t]},
+    }
+    for what, lines in bad.items():
+        d = v6_dir(lines)
+        try:
+            L.export(d, "same_input")
+        except L.LabelError as e:
+            assert e.code, what
+        else:
+            raise AssertionError(f"v6 export accepted a {what}")
+        assert not os.path.exists(os.path.join(d, "labels", "same_input.gold.jsonl")), what
+    print("v6 label export ok")
+
+
 def check_batches():
     for n in (1, 2, 3, 21, 41):
         packets = [{"item_id": f"s{i:04d}", "mode": "comment", "same_input": "x", "full_context": "x"}
@@ -126,5 +185,6 @@ def check_batches():
 if __name__ == "__main__":
     check_misattachment()
     check_label_export()
+    check_v6_label_export()
     check_batches()
     print("selftest ok")

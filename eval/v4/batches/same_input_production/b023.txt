@@ -1,0 +1,229 @@
+NYCEats extraction labeling -- batch b023 -- pass: same_input -- 15 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b023.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET deb53652 (comment packet) ===
+POST TITLE: Thai restaurants in Manhattan that are not sweet
+
+POST BODY: I really notice when entrees that I expect to be savory are sweetened.  This has made finding a Thai place a bit rough, because it seems like every Thai place we've tried has become sweeter and sweeter.  Do you have any recommendations?  Bonus for UES or UWS.  TIA!
+
+PARENT COMMENT: Ugh that B rating though…
+
+COMMENT: I didn't know that but it is very good lol
+=== END PACKET deb53652 ===
+
+=== PACKET 46d1285b (comment packet) ===
+POST TITLE: Best cheap food in Manhattan?
+
+POST BODY: [deleted]
+
+COMMENT: Margon Cuban and Park Gourmet in Midtown are gems. 
+
+As is B and H dairy and Jin Fong Dim Sum. 
+
+(Cheap is relative on NYC, but these are not too expensive.
+=== END PACKET 46d1285b ===
+
+=== PACKET d2078027 (comment packet) ===
+POST TITLE: 2026 NYC Food Trip Review how did I do overall……..?
+
+POST BODY: **The Hits**
+
+**Radio Bakery:** Salmon lox focaccia. Best bite of the trip, hands down. Still thinking about it.
+
+**Danny and Coops:** Best cheesesteak I’ve ever had. You definitely need the hot peppers to balance the richness.
+
+**Fish Cheeks:** 10/10. The red crab curry and crab fried rice are top-tier.
+
+**Katz Deli:** Fatty cut Reuben was incredible as always.
+
+**Blue Road Burger:** Way better t ...
+
+COMMENT: You did not bad! As long as you enjoyed yourself, that's what matters. 
+
+Adel's is one of those places most of here wouldn't recommend on account of the line. Lots of other great halal carts.
+=== END PACKET d2078027 ===
+
+=== PACKET b8063025 (comment packet) ===
+POST TITLE: ISO the cheapest pint and glass of wine in the city.
+
+POST BODY: I’m in town for a few days, I want to enjoy your lovely city but frankly I’m Canadian and our dollar is trash. Help me, where can I hit the town without breaking the bank. Cheers!
+
+PARENT COMMENT: Get out of Midtown. A cold Presidente in the Heights with some tostones is worth the hike. The Cloisters is a bonus.
+
+COMMENT: need a recommended spot for this ASAP
+=== END PACKET b8063025 ===
+
+=== PACKET d3323bba (comment packet) ===
+POST TITLE: Bad Roman - question
+
+POST BODY: Going to Bad Roman this week and looking to get the most bang for my buck. Not looking for you to tell me to not go because I’m going regardless haha. What menu items are a must, and what is overhyped/a skip? It’s not cheap so hoping to order the best of the best!
+
+COMMENT: >and what is overhyped
+
+The entire thing
+=== END PACKET d3323bba ===
+
+=== PACKET 12f83959 (comment packet) ===
+POST TITLE: Craving a good pav bhaji in New York - where can I find?
+
+POST BODY: https://preview.redd.it/s4b3osj7jmrf1.jpg?width=700&format=pjpg&auto=webp&s=b96baba01cd12efbf5e0b71335f5187ec8325022
+
+COMMENT: madras dosa company in Times Square. Their dosas are fine but their chaat items, including pav bhaji are great. Their samosa chaat is fabulous too
+=== END PACKET 12f83959 ===
+
+=== PACKET b779606b (comment packet) ===
+POST TITLE: Restaurants that you miss in NYC?
+
+POST BODY: This is not a recommendation thread, but rather I just wanted to see if there were any defunct places that people missed dining in as that's all I wanted to discuss.
+
+&#x200B;
+
+For instance, a place that I miss dining in was Pizza D'Amore in Avenue U as they made really good pizza there, but recently they had closed down, but I did enjoy their food.
+
+PARENT COMMENT: Guy’s American Kitchen and Bar
+
+COMMENT: It truly was one of the worst meals I've ever had, but I got to meet Guy Fieri who was there giving a personal tour to a Make-a-Wish kid. 
+
+This was long after the notoriety from the Wells review died down. The whole place was just a few months from closing. We were probably one of, like, six tables in the whole spot that wasn't empty. Our server just sort of sidled up to us and asked if we wanted to meet the Mayor of Flavortown himself.
+=== END PACKET b779606b ===
+
+=== PACKET b61d73cd (comment packet) ===
+POST TITLE: I found Roaches cooked into my food at 888 Hudson Thai - be careful - they refuse to refund
+
+PARENT COMMENT: Health complaint and post it on their goggle review and yelp
+
+COMMENT: They took my Google review down as fraud. This is why I’m posting here.
+=== END PACKET b61d73cd ===
+
+=== PACKET ecee0811 (comment packet) ===
+POST TITLE: The Mansion Diner Review (Upper East Side)
+
+POST BODY: I run a site where I've catalogued a bunch of diners across Manhattan, and I'm currently going around and writing reviews for a bunch of them. 
+
+I did one for The Mansion, which is this kind of ritzy diner on the Upper East Side.  I know that there are conflicting views on it, but I found it relatively charming, and the food to be pretty good, even if it was a tad pricey. 
+
+If you live in the area ...
+
+COMMENT: love your writing and photos! In both your op and review, you mention the mansion is a little pricey, would it be a good idea to include the price of the dish in your review?
+
+i live in the nabe,  is it possible you’re soft selling prices at the mansion? let’s say one ordered your irish breakfast and added a cup of coffee, tip and tax, i’m guessing it’s > $30?
+
+am i better off ordering their 1/2 murrays roast chicken with stuffing for $32 or walking a couple blocks to cafe d’alsace where for $34 they offer Pan roasted free-range chicken, haricot vert, snap peas, carrots, Yukon Gold mashed potatoes, chicken jus?
+
+you can’t walk a block in the neighborhood without hitting an Italian restaurant, better off paying $26 at the mansion for pasta bolognese or $22.50 at arturos italian restaurant for their rigatoni bolognese? or how about paying $2 more at uva for their homemade pasta ribbons sautéed with ragout of veal and montasio cheese?
+
+personally, I think the mansion serves a purpose but imo, considering it’s average to better than average diner food, it lands somewhere between expensive for a diner and a ripoff, a good fit if you are an undemanding, wealthy UESer but not the sort of place I’d recommend to members of this subreddit.
+=== END PACKET ecee0811 ===
+
+=== PACKET e3c40009 (comment packet) ===
+POST TITLE: Lucali's is so overrated and needs to be called out.
+
+POST BODY: First of all
+
+- John's of Bleecker street - Godly crust, Lucali's crust does not compare
+
+- Di Fara's - Just unique and perfect blend of crust + cheese + tomato sauce
+
+- L'Industrie Pizza - top tier dough with the best cheese to sauce ratio
+
+Are all objectively better. There are probably more but it might be subjective.
+
+Lucali has very fresh ingredients and tastes great but their crust and dough ...
+
+PARENT COMMENT: The old guy died
+
+COMMENT: it's not like he was making every pie till the end. he was occasionally there, his son and workers were pretty much running the ship. it was still considered the best when he was there part time but as soon as he died it was "it's not the same!"
+=== END PACKET e3c40009 ===
+
+=== PACKET 7d31564d (comment packet) ===
+POST TITLE: Lean Piroshki with Pancakes in Breadcrumbs and Mustard
+
+COMMENT: Procedure for making pancakes
+
+ Take a plate, put flour, salt and sugar, mix well. Then take another bowl, put sparkling water in it and start adding the flour spoon by spoon and mix until you use up the flour. And start to baking the pancakes
+
+Procedure for making the filling for filling the pancakes
+
+ Take a pan and put olive oil, turn on the stove to medium temperature, then put fresh mushrooms and start stewing for 10-15 minutes, put vegetables and black pepper in the pan. After we finish stewing, we put the fresh champignons in a bowl and then grate low-fat cheese into the bowl with the champignons. We mix these two ingredients to combine well, then add ketchup and continue mixing again
+
+Procedure for making the mixture for gluing the piroshki
+
+ Take a plate, put a glass of water and put a spoonful of mustard and stir to combine the mustard and water
+
+After we have done these things, we start by filling the pancakes, we put 2-3 tablespoons of the filling in each pancake, then we roll them and seal them with the mustard and water mixture. So we repeat the procedure until we run out of pancakes. After we finish the pancakes, we take breadcrumbs and dip the pancakes in the mixture of water and mustard. First we put the pancake in the mustard and water mixture and then in the breadcrumbs and repeat the procedure. Then they are fried for 2-3 minutes on one side and 2-3 minutes on the other side. And the piroshki are ready, you can start tasting
+
+Ingredients
+
+Pancakes
+
+1. Flour 500 gr.
+
+2. Sparkling water
+
+3. Salt 1 tsp
+
+4.Sugar 1 tsp
+
+Fill for pancakes
+
+1. Fresh mushrooms 1 kg
+
+2.Lean cheese 400 gr.
+
+3.Ketchup 100 ml.
+
+Fried pancakes in breadcrumbs and mustard
+
+1. 1 glass of water
+2. Mustard 1 tbsp
+
+For more 👉 https://youtu.be/pxeEyLJhkUU
+=== END PACKET 7d31564d ===
+
+=== PACKET 67c7a3cc (comment packet) ===
+POST TITLE: Tourists sabotaging their NYC restaurant experiences?
+
+POST BODY: Does anyone else think that tourists are ruining their own chances of enjoying restaurants in NYC? They're like, "I visited for a week and ate at 4 restaurants with Michelin stars, 13 bagel places (only wanted 12 but the 13th was free), 5 pizza places including the secret Joe's Pizza on the Chrysler Building gargoyle, and only 2 hand pulled noodle places but they were the ones where they stretch t ...
+
+PARENT COMMENT: don't forget how all the heavy tourist destinations are just a bunch of people with 5 kids with everyone on ipads and/or Facetime with volume cranked up spending more time taking pictures than actually enjoying the food.  
+
+
+I went to Peter Luger recently (I know people say its not all that, but I was curious to see for myself). Food was great, but all the tourists on their phones and toddlers screaming along their ipads' music gave such a cafeteria vibe, it really hurt the atmosphere far more than the poor service ever could.
+
+COMMENT: For the price toddlers and iPads should not be allowed.
+=== END PACKET 67c7a3cc ===
+
+=== PACKET 177055c3 (comment packet) ===
+POST TITLE: Best halal cart in NYC that is not Adel’s or Mido’s?
+
+POST BODY: I had Adel’s and it’s for sure my #1, but not worth the line. Mido’s felt like a bootleg Adel’s to me so I didn’t really enjoy it too much since I was just comparing it to Adel’s the whole time. Is there any other halal cart in NYC that is worth the travel? And I’m talking about packed with flavor, color, superb white sauce, etc.
+
+COMMENT: check out the one on 46th and 6th, heard it's bomb and way less of a wait than the usual spots. white sauce game strong too lol
+=== END PACKET 177055c3 ===
+
+=== PACKET 8c682b9c (comment packet) ===
+POST TITLE: Any omakase recommendations?
+
+POST BODY: Never done a true omakase before.  Looking to go for an upcoming celebration with my gf and would prefer to sit at the bar and watch the dishes as they're prepped.  You guys have any recs in the mid to higher end price range?
+
+COMMENT: koyu omakase at astoria is not bad
+=== END PACKET 8c682b9c ===
+
+=== PACKET bbcb94d7 (comment packet) ===
+POST TITLE: Of the five 3 Star restaurants (Jungsik, Eleven Madison Park, Le Bernadin, Per Se and Masa) which would you recommend and why?
+
+POST BODY: Out of those 5 I've only eaten at Eleven Madison Park and that was before the vegan switch over. Wanting to take my girlfriend to a place that will truly blow her mind and having a hard time choosing
+
+PARENT COMMENT: Chef’s Table at Brooklyn Fare.
+
+COMMENT: Service is horrible. Def not worth it
+=== END PACKET bbcb94d7 ===

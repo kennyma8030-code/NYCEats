@@ -34,8 +34,28 @@ EXPORT refuses, exiting nonzero and writing nothing, if any line is bad JSON,
 names a packet outside its batch, labels a packet twice, or has a mention
 that fails the schema (a thread id that is not a bracket number included),
 or if any packet is unlabeled (--allow-missing exports a partial pass).
-Nothing is ever silently dropped or overwritten. Otherwise it writes two
-files per pass:
+Nothing is ever silently dropped or overwritten.
+
+V6 LABELS. labels/manifest.json records, per pass, the schema and the exact
+system prompts the labelers followed:
+
+    {"same_input": {"schema": "v6", "renderer": "v6",
+                    "prompts": {"comment": {"file": "eval/prompts/v6_comment.py",
+                                            "prompt_hash": "a15cfb978cce", "sha256": "...",
+                                            "commit": "d61c91a"},
+                                "thread": {...}},
+                    "reruns": [...]}, "full_context": {...}}
+
+For a pass whose schema is "v6", every packet's whole output must validate
+strictly against v6_schema.json (comment packets) or its thread form with
+"id" (thread packets): a missing or extra key, or an unknown level, is an
+error like any other, so export refuses. The mentions are then mapped with
+eval/v6_adapter.py, as for a v6 model run, and the untranslated v6 mention
+is kept under "v6" in both the run and the gold file. A pass labeled with a
+prompt whose hash no longer matches the prompt file is reported, not
+refused: the labels stay the reference for the prompt they were made with.
+
+Otherwise it writes two files per pass:
 
   labels/<pass>.run.jsonl    run.py's record format (rep 0 = primary copy,
                              rep 1 = the self-consistency duplicates), so the
@@ -56,18 +76,58 @@ leans on score.py's fuzzy key rule (extra trailing words, a possessive s).
 
 import argparse
 import collections
+import hashlib
+import importlib.util
 import json
 import os
 import sys
 
 HERE = os.path.dirname(os.path.realpath(__file__))
-sys.path.insert(0, os.path.dirname(HERE))
+EVAL = os.path.dirname(HERE)
+sys.path.insert(0, EVAL)
 import score as S  # noqa: E402
 
 ASPECTS = ("food", "value", "service", "atmosphere", "wait")
 REQUIRED = ("restaurant_raw", "neighborhood_hint", "dishes", "descriptors", "aspects",
             "expensiveness", "is_firsthand", "is_negated")
 PASSES = ("same_input", "full_context")
+MANIFEST = "manifest.json"
+
+
+def _load(name):
+    spec = importlib.util.spec_from_file_location(name, os.path.join(EVAL, "prompts", name + ".py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def manifest(d):
+    """labels/manifest.json, or {} for a round labeled before v6."""
+    path = os.path.join(d, "labels", MANIFEST)
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def v6_schemas():
+    c = _load("v6_common")
+    return {"comment": c.SCHEMA_COMMENT, "thread": c.SCHEMA_THREAD}
+
+
+def prompt_drift(spec):
+    """Warnings for each recorded prompt whose text has changed since labeling."""
+    out = []
+    for mode, p in (spec.get("prompts") or {}).items():
+        path = os.path.join(os.path.dirname(EVAL), p["file"])
+        if not os.path.exists(path):
+            out.append(f"{mode}: {p['file']} is gone; labels follow prompt {p['prompt_hash']}")
+            continue
+        text = _load(os.path.splitext(os.path.basename(path))[0]).SYSTEM_PROMPT
+        if hashlib.sha256(text.encode("utf-8")).hexdigest() != p["sha256"]:
+            out.append(f"{mode}: {p['file']} has changed since labeling; labels follow prompt "
+                       f"{p['prompt_hash']} (commit {p.get('commit')})")
+    return out
 
 
 def num_ok(v):
@@ -116,6 +176,8 @@ def read_pass(d, pass_name):
     packets with no label yet."""
     with open(os.path.join(d, "keys", pass_name + ".json"), encoding="utf-8") as f:
         key = json.load(f)
+    v6 = manifest(d).get(pass_name, {}).get("schema") == "v6"
+    schemas = v6_schemas() if v6 else None
     got, errors, twice = {}, [], set()
     ldir = os.path.join(d, "labels", pass_name)
     for b in sorted({v["batch"] for v in key.values()}):
@@ -146,6 +208,12 @@ def read_pass(d, pass_name):
             if not isinstance(ms, list):
                 errors.append(f"{b}:{n}: output has no mentions list")
                 continue
+            if v6:
+                bad = [f"{b}:{n} {pid} v6 schema: {e}"
+                       for e in S.v6_adapter.schema_errors(out, schemas[key[pid]["mode"]])]
+                if bad:
+                    errors += bad
+                    continue
             # Labels written with the v6 prompt are mapped into this file's
             # schema first, the same mapping score.py applies to v6 runs.
             ms = S.v6_adapter.adapt_all(ms)
@@ -184,6 +252,9 @@ def as_gold_mention(m, alias, excluded):
         "is_negated": bool(m.get("is_negated")),
         "is_firsthand": first if isinstance(first, bool) else None,
         "uncertain_fields": [], "neighborhood_hint": m.get("neighborhood_hint"),
+        # A v6 label keeps its own words (overall, opinion, named_in, notes),
+        # which the 7-point gold shape cannot hold.
+        **({"v6": m["v6"]} if isinstance(m.get("v6"), dict) else {}),
     }
 
 
@@ -217,6 +288,8 @@ def gold_lines(items, by_comment, alias, excluded, source):
 def export(d, pass_name, allow_missing=False):
     """Write the run and gold files, or raise LabelError and write nothing."""
     key, got, errors, missing = read_pass(d, pass_name)
+    for w in prompt_drift(manifest(d).get(pass_name, {})):
+        print(f"note: {w}", file=sys.stderr)
     problems_found = list(errors)
     if missing and not allow_missing:
         problems_found.append(f"{len(missing)} packet(s) unlabeled, e.g. {missing[:5]} "
@@ -272,12 +345,23 @@ def main():
     ap.add_argument("--pass", dest="pass_name", choices=PASSES, required=True)
     ap.add_argument("--dir", default=HERE)
     ap.add_argument("--allow-missing", action="store_true", help="export even if some packets are unlabeled")
+    ap.add_argument("--batch", help="check: only this batch (bNNN)")
     args = ap.parse_args()
     if args.cmd == "export":
         export(args.dir, args.pass_name, args.allow_missing)    # LabelError exits nonzero
         return
     _, got, errors, missing = read_pass(args.dir, args.pass_name)
-    print(f"{len(got)} packets validly labeled, {len(missing)} unlabeled, {len(errors)} error(s)")
+    spec = manifest(args.dir).get(args.pass_name, {})
+    for w in prompt_drift(spec):
+        print(f"note: {w}")
+    if args.batch:
+        # One batch only: how a labeler's file is checked the moment it lands.
+        key = json.load(open(os.path.join(args.dir, "keys", args.pass_name + ".json"), encoding="utf-8"))
+        errors = [e for e in errors if e.startswith(args.batch + ":")]
+        missing = [p for p in missing if key[p]["batch"] == args.batch]
+        got = {p: v for p, v in got.items() if key[p]["batch"] == args.batch}
+    print(f"{len(got)} packets validly labeled ({spec.get('schema', 'production')} schema), "
+          f"{len(missing)} unlabeled, {len(errors)} error(s)")
     for e in errors[:200]:
         print("  " + e)
     if errors or missing:

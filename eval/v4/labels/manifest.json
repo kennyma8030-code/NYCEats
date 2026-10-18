@@ -1,0 +1,44 @@
+{
+ "same_input": {
+  "schema": "v6",
+  "prompts": {
+   "comment": {
+    "file": "eval/prompts/v6_comment.py",
+    "prompt_hash": "a15cfb978cce",
+    "sha256": "a15cfb978cceeea9c6b0d4303fa1519d6003766b2da3d568f24c47bacd7c3e9a",
+    "commit": "d61c91a"
+   },
+   "thread": {
+    "file": "eval/prompts/v6_thread.py",
+    "prompt_hash": "44e1a49c7781",
+    "sha256": "44e1a49c77817ff70dac5d0054d7b2068e6befa3f38c2437e0db7c4f501dcab2",
+    "commit": "d61c91a"
+   }
+  },
+  "labeler": "Claude Opus 5.5 (claude-opus-5-5) subagents, one fresh agent per batch, given only the v6 system prompt for the batch's mode (verbatim), the batch file and a short note",
+  "reruns": [],
+  "renderer": "v6",
+  "inputs": "production's comment-mode message for single items; v6_thread.render_chunk for chunks"
+ },
+ "full_context": {
+  "schema": "v6",
+  "prompts": {
+   "comment": {
+    "file": "eval/prompts/v6_comment.py",
+    "prompt_hash": "a15cfb978cce",
+    "sha256": "a15cfb978cceeea9c6b0d4303fa1519d6003766b2da3d568f24c47bacd7c3e9a",
+    "commit": "d61c91a"
+   },
+   "thread": {
+    "file": "eval/prompts/v6_thread.py",
+    "prompt_hash": "44e1a49c7781",
+    "sha256": "44e1a49c77817ff70dac5d0054d7b2068e6befa3f38c2437e0db7c4f501dcab2",
+    "commit": "d61c91a"
+   }
+  },
+  "labeler": "Claude Opus 5.5 (claude-opus-5-5) subagents, one fresh agent per batch, given only the v6 system prompt for the batch's mode (verbatim), the batch file and a short note",
+  "reruns": [],
+  "renderer": "full_context",
+  "inputs": "packets.py full_context: the whole ancestor chain and replies, or the whole thread in reply order"
+ }
+}

@@ -11,16 +11,16 @@ carry no "id". A thread packet's mentions each carry "id", the bracket number
 of the comment they come from. Use {"mentions": []} when nothing qualifies.
 
 === PACKET 8dd2e45d (thread packet) ===
-POST: Birthday Lunch/after show  Recs for Solo diner
+POST: Birthday Lunch/after show Recs for Solo diner
 Last week of October. Seeing a broadway show that night but free for lunch. Want to try Minetta tavern after the show but not sure I could get there in time. They do have 10:30 pm resy for 10:30 pm, would I be cutting it too close? Any good lunch spots too? Love fine dining and really wanna try some classic spots. I’ll be staying in FiDi.
 
 [1] u/ByeSoaps: Fidi lunch spots \- Bar Room at the Beekman is a must for cocktails and small plates (one of my all time favs - the view up the atrium is epic). \- Tiny's is a historic spot - think it goes back to the 1810s. \- Au Cheval - famous for their burgers (it's a diner) \- The Odeon is another great diner - definitely a good option for lunch \- Bubby's is another stable. Nothing that'll win a Michelin star but cool vibe. Closer to broadway - Madame George is nice for small bites and cocktails. Let me know if you're exploring other areas and can throw out a few more names. I've got a free curated list of places that I can share if you're interested
-  [2] u/Efficient_Cattle_988: This is really amazing. Seeing operation mincemeat at 7:30 that night and had a reservation for Minetta at 10:45. Worth it for dinner or should I try and hit that for lunch? Could I make it in time! Thank you so much
-    [3] u/ByeSoaps: You should be fine - most reservations have a 15mins arrival window after the official booking time. And doubt people will be lining up waiting to take 10:45pm haha
-      [4] u/Efficient_Cattle_988: lol, is that too late to go? Will people be annoyed lol
+  [2] u/Efficient_Cattle_988 (reply to [1]): This is really amazing. Seeing operation mincemeat at 7:30 that night and had a reservation for Minetta at 10:45. Worth it for dinner or should I try and hit that for lunch? Could I make it in time! Thank you so much
+    [3] u/ByeSoaps (reply to [2]): You should be fine - most reservations have a 15mins arrival window after the official booking time. And doubt people will be lining up waiting to take 10:45pm haha
+      [4] u/Efficient_Cattle_988 (reply to [3]): lol, is that too late to go? Will people be annoyed lol
 [5] u/opinionated18: Are you looking for lunches around fidi/tribeca? Or want to venture out? If the latter it’s a huge range of possibilities. What is it about minetta that you really want? My own personal experience, if you’re not a regular or a known entity the service is meh, food is good but for the price service should be better.
-  [6] u/Efficient_Cattle_988: Good to know. Lunch I am free to go whenever! Single dad out for a solo vacation! In food and wine industry! I booked a pm res for after show at Minetta but I’m open as a book!
+  [6] u/Efficient_Cattle_988 (reply to [5]): Good to know. Lunch I am free to go whenever! Single dad out for a solo vacation! In food and wine industry! I booked a pm res for after show at Minetta but I’m open as a book!
 [7] u/GuideMoney4241: If you’re staying down in Fidi, I’d say crown shy!
-  [8] u/Efficient_Cattle_988: I’ve read so many mixed things on this sub about them and their tasting menu is pricy
-    [9] u/GuideMoney4241: I have as well but went during restaurant week and enjoyed it! Not in Fidi, there’s one in Tribeca but locanda verde is really good!
+  [8] u/Efficient_Cattle_988 (reply to [7]): I’ve read so many mixed things on this sub about them and their tasting menu is pricy
+    [9] u/GuideMoney4241 (reply to [8]): I have as well but went during restaurant week and enjoyed it! Not in Fidi, there’s one in Tribeca but locanda verde is really good!
 === END PACKET 8dd2e45d ===

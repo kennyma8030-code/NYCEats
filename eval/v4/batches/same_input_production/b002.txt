@@ -1,0 +1,313 @@
+NYCEats extraction labeling -- batch b002 -- pass: same_input -- 20 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b002.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET e04da5ff (comment packet) ===
+POST TITLE: Best artisan bread?
+
+POST BODY: I'm moving from CA to NYC and will really miss Tartine sourdough :( Any recommendations for bakeries with great crusty country loaves and/or baguettes? Ideally in Manhattan but I'm willing to make a bit of a trip for good bread!!
+
+COMMENT: She wolf is amazing. Otway good too
+=== END PACKET e04da5ff ===
+
+=== PACKET 93823a56 (comment packet) ===
+POST TITLE: Goku Ramen
+
+COMMENT: It’s this thing where you cash app this account 
+
+1% of your net worth Or 2$ , and by choose wisely 
+
+AFTER you do that you 
+text this number (916) 253-8296 
+Text ONE word, text what you desire most.  and if you’re willing to risk it, a delivery address. 
+Then wait. What you will get in the mail you can’t talk about publicly. But it will all be explained. You must Pass this along and become a part of the the greatest transfer of information that has ever taken place. 
+$begoniababe
+=== END PACKET 93823a56 ===
+
+=== PACKET 3522d104 (comment packet) ===
+POST TITLE: Best sandwich places
+
+POST BODY: Hi UK guy here and arriving with my family in a day or so. 
+I'm looking for best sandwich places for lunch. We are just south of central park but will obviously be travelling around. 
+Also great pizza and burger places for the kids too.
+Thanks in advance for your help.
+
+COMMENT: Going to include sandwiches from different cultures:
+
+-	Banh Mi Co Ut, Ba Xuyen, Banh Anh Em
+-	Patacon Pisao
+-	Arepas Cafe
+-	Xian Famous Foods, Old Luo Yang, Henan Feng Wei
+-	Pecking House
+-	Hen House
+-	Little Kirin
+-	SyKo
+-	Zyara, King of Falafel, Mamoun’s Falafel
+-	Sunny & Annie’s Deli
+-	Defonte’s
+-	Taku Sando
+-	Tokuyamatcha and Onigirazu
+-	Masa Madre
+-	Bolivian Llama Party
+-	Cemitas El Tigre
+-	A&A Bake Doubles and Roti, De Hot Pot, Trinciti
+-	Mama Yoshi Mini Mart
+-	All’Antico Vinaio
+
+More:
+
+[NY Sandwiches!! Looking for inspiration](https://www.reddit.com/r/FoodNYC/comments/1eqmfg0/ny_sandwiches_looking_for_inspiration/)
+
+[Best unusual sandwich places?](https://www.reddit.com/r/FoodNYC/comments/1dzy0tt/best_unusual_sandwich_places/)
+=== END PACKET 3522d104 ===
+
+=== PACKET 87ed8077 (comment packet) ===
+POST TITLE: Good spot for a bite/drink in/near Central Park?
+
+POST BODY: I have a first date coming up and we're going for a walk in central park. We wanted to grab something small to eat/drink either in the park or near Columbus circle. I'm not looking for anything fancy, just yummy good food. We could always just pick up a slice or something but I'd like to snazz it up a bit 😅 any suggestions?
+
+PARENT COMMENT: Walk in the park is a pretty cheap date and your date might get hot or tired so definitely snazz it up a bit.
+
+There is a Le Pan Quotidien right across the street from the Shops at Columbus Circle.
+
+That would be a convenient location to sit down for sandwiches or pastries.
+
+If you want a sit-down restaurant, maybe go to PJ Clarke's on W 63rd after you finish hanging out at the park.
+
+COMMENT: Thanks so much! We had kinda both agreed to do something cheap, so I'm not really worried about "looking" cheap, I just wanted to treat them to something anyway, lol
+=== END PACKET 87ed8077 ===
+
+=== PACKET 68f848c3 (comment packet) ===
+POST TITLE: Tired of fake food influencers. Who are the REAL NYC food Instagram accounts worth following?
+
+POST BODY: I’m fed up with sponsored food posts from accounts being paid by restaurant groups with the biggest budgets.
+
+The VIP List types feel useless. I don’t trust their takes. I want real people who eat everywhere, know food, and give honest opinions. I want creators you can message and get real answers from.
+
+A few smaller accounts I’ve liked:
+• Table___nyc
+• Pesscatariandiet
+• Resyguynyc
+• Spaghetti.a ...
+
+PARENT COMMENT: The best reviews are from people that don't solicit free food from the businesses in exchange for a review (so tacky)
+and don't exclusively post food on their feed. My favorites are the anti-fluencers that shame clout chasers for slandering restos that refuse to comp their meals. 
+
+Tyreaktoldyou, daadisnacks, pictureperfectluis
+
+COMMENT: Speaking of, I finally got my chai popcorn. So good, especially if you like not too sweet snacks.
+=== END PACKET 68f848c3 ===
+
+=== PACKET 30526f7e (comment packet) ===
+POST TITLE: Suggestions for dinner near MSG
+
+POST BODY: Hi all, we’ll be in town for the first week in June and we’re looking for a great dinner spot near MSG. Nothing crazy expensive (maybe $50 entrees?) but looking for a good experience. Obviously, tons of options but would love to hear so local favourites. 
+
+Thanks!
+
+PARENT COMMENT: Jongro BBQ in K Town
+
+COMMENT: Fuck yeah - you have great taste in KBBQ
+=== END PACKET 30526f7e ===
+
+=== PACKET b4f73993 (comment packet) ===
+POST TITLE: Dim Sum with carts
+
+POST BODY: Hi, Coming to the city for the first time in years and looking for the best Dim Sum place in china town. One that still has carts and serves things that I've never seen before. Not looking to trek out to Queens. Thank you.
+
+COMMENT: I would go to the new Jing Fong on Centre Street! 
+
+I wouldn’t go to Golden Unicorn. It used to be my favorite spot. I went on Christmas Day and it was so expensive for the two of us and the food was subpar. It’s gone down hill the past few years.
+=== END PACKET b4f73993 ===
+
+=== PACKET 03ec189d (comment packet) ===
+POST TITLE: I asked this sub for the best pizza rec and got 90k views, so I made it into a live r/FoodNYC leaderboard
+
+POST BODY: A week ago I asked you all for the best pizza spots in NYC for my side project and got 90k views.
+
+
+I took your recommendations and built it: 
+https://www.kinghill.nyc
+
+Think of it as r/FoodNYC’s live ranking reddit style:
+no SEO games, 
+no influencer lists, 
+no sponsorships, 
+NO sign-ups, 
+completely anonymous. 
+FREE to use
+Just real people deciding what deserves to stay on top.
+
+
+The problem:
+We ...
+
+COMMENT: Glad to NOT see the very overrated L'Industrie on the pizza list
+=== END PACKET 03ec189d ===
+
+=== PACKET a715b894 (comment packet) ===
+POST TITLE: West village casual dressed acceptable dining
+
+POST BODY: Bringing my wife to NYC for her 40th birthday mid September. Going to be all over the place that day and ending the evening at The Comedy Cellar. 
+
+I'd like to take her somewhere with good quality eats and a nice vibe for dinner but won't have the time to stop at the hotel to get properly dressed up for anything super high end. 
+
+Can anyone recommend some places that lean more casual in that area?
+
+COMMENT: The clam, emily, minetta, lure, dante, charlie bird
+=== END PACKET a715b894 ===
+
+=== PACKET bd85df98 (comment packet) ===
+POST TITLE: Ny in two weeks. Finalizing my restaurant list
+
+POST BODY: I got a lot of great recommendations on my last list and narrowed it down some this time around. Let me know what yall think! I know I shouldn’t be this stressed about my vacation but there is just tooo many delicious sounds restaurants in NYC! You locals are truly blessed. Please let me know if I’m missing something essential.
+
+PARENT COMMENT: I plan on spending a full day eating in spots in chinatown that look really good. We will prob find a decent sushi spot one day. Thinking one day we will eat at a good pizza spot (johns on Bleeker st?). But yeah thats all i have so far. Is there a good lunch spot you could recommend? wouldn't mind a place that has a great sandwich!
+
+COMMENT: Hey! Depends if you're staying in Manhattan the whole time - try Faiccos Italian Specialties in WV. Or Regina's Grocery LES. 
+
+But go explore more of East Williamsburg and Greenpoint.
+
+Leave some room for spontaneity too and go with the flow.
+
+I also love Pi Bakerie for lunch.
+=== END PACKET bd85df98 ===
+
+=== PACKET afb98761 (comment packet) ===
+POST TITLE: If you could bring back one closed restaurant, what would it be?
+
+POST BODY: This cold winter day’s got me feeling nostalgic. What’s restaurants or eateries of the past would you bring back if given the chance? For me, it’s a tie between Caracas Arepa & Marble Dessert Bar. Oh, how miss dousing their seafood arepa with their signature yellow sauce. And to this day, I still can’t find a dessert tasting quite like Marble’s. Lysee comes close, but it’s not quite the same.
+
+COMMENT: Pravda: Good food and great vibe
+Udon west: biggest beers in the city and reverse happy hour
+Harry’s water taxi beach: a beach bar on Long Island city waterfront
+=== END PACKET afb98761 ===
+
+=== PACKET 199856d2 (comment packet) ===
+POST TITLE: I've heard the Korean food in Fort Lee NJ is better than NYC, what restaurants would you recommend there?
+
+POST BODY: Okay yeah it's not in NYC but every Korean I know who likes food has told me to go to Fort Lee if I want the really good stuff. Can we get a list of some of the food highlights from the Fort Lee/Edgewater/Palisades area worth venturing over the Hudson for? Interested in restaurants but also any bakeries or grocery stores, whoever has good food!
+
+The following places are ones I already saw recommen ...
+
+PARENT COMMENT: How do you not have BCD on there?! probably the best way to try soup+fish/meat combo
+
+Also daeji ssonday is good for pork kbbq (not fort lee but close)
+
+E-castle is good esp during weekday lunch prices
+
+Homung nengmyun is the goated cold noodle place in fort lee that opened last year
+
+COMMENT: Maybe because BCD is overpriced and bland. SGD is superior
+=== END PACKET 199856d2 ===
+
+=== PACKET 8a9873c5 (comment packet) ===
+POST TITLE: How are we looking so far? Looking to avoid tourist traps and overrated/overpriced spots.
+
+POST BODY: We will be traveling there shortly and any help is appreciated, thank you!
+
+PARENT COMMENT: That’s why I’m posting this. I have no idea what’s a tourist trap
+
+COMMENT: L’industrie is kind of tourist trap but good and worth the wait. How many in your party? You could order a pie online,  pick it up and go to the park.  That way you can skip the lines. but you do need enough people to eat it.
+=== END PACKET 8a9873c5 ===
+
+=== PACKET c94373f9 (comment packet) ===
+POST TITLE: Hawksmoor and Comped Drinks
+
+POST BODY: My girlfriend and I just had a meal at the Hawksmoor. We showed up early and got a drink at the bar before our table was ready. When the bill came at the end, I noticed my first martini wasn’t on there. Has anyone had a similar experience? Is this part of their protocol?
+
+Side note we got the porterhouse which was cooked perfectly, the wine was good and the dining room was gorgeous. Not a place to ...
+
+PARENT COMMENT: Are y’all tipping out on that “comp” drink, or just including its proportional percentage?
+
+COMMENT: Yes if it's something I ordered and they comp it to be nice. I was obviously ready to pay full price for the item + tip if I ordered something and I might as well share my good fortune back with my server. 
+
+No if they comped something I never ordered. For example,  something they wanted me to try. Or if they accidentally gave me the wrong thing and then just let me keep the wrong order as well as my original order. At that point, I appreciate free stuff but I don't feel obligated to tip beyond my normal percentages.
+=== END PACKET c94373f9 ===
+
+=== PACKET 04ad27a6 (comment packet) ===
+POST TITLE: Chinese Food in NYC. Roti Canai, Hainan Chicken, Pork Bone Tea, and ABC Ice.
+
+POST BODY: Shout out to Amazing Asia on Kissena.  新馬小館。
+
+You can browse their menu here
+
+https://order.online/store/25944813?pickup=true&redirected=true
+
+PARENT COMMENT: 海南雞 is literally the chicken of China Hainan Island
+
+福建肉骨茶- is literally the Pork bone broth of ethnic Fujian people in Malaysia.
+
+Roti Canai is the only brother from another mother dish.
+
+COMMENT: this is like if you ate hamburgers and said you got german food
+=== END PACKET 04ad27a6 ===
+
+=== PACKET 68ef847b (comment packet) ===
+POST TITLE: Lowerline, BK for Oysters &amp; Cajun
+
+PARENT COMMENT: I’ve lived by this place for years but have never gone because it always seems packed and is so tiny. What were your thoughts?
+
+COMMENT: I live near there now, and often go for lunch. It’s very easy to get a table. I think of it as a very easy and inexpensive option for a full service lunch
+=== END PACKET 68ef847b ===
+
+=== PACKET f3d68e2f (comment packet) ===
+POST TITLE: I'm tired of New Yorkers hating on Katz's Deli just because it's a tourist spot
+
+POST BODY: Yes, some places are popular with tourists. That does not mean they automatically suck. Almost every born and raised New Yorker loves to tell me "Katz's Deli is trash" or "it's the most overrated sandwich on earth." What are they smoking because I'd love some. You can say it's overpriced. I can even entertain the it's overrated angle if you mostly are referring to the price. But to say it is terri ...
+
+PARENT COMMENT: $25 before tax for a sandwich is not expensive? 🤣
+
+COMMENT: comparatively, no.
+=== END PACKET f3d68e2f ===
+
+=== PACKET f268c2cf (comment packet) ===
+POST TITLE: Visiting NYC and bringing wife and daughter for their first time. We are planning to head straight to John’s of Bleeker from LaGuardia. Thoughts?
+
+POST BODY: Is this the absolute pinnacle of pizza I can get and show them? Any other must tries? Considered di fara in Brooklyn. L’industrie?
+
+Also going to hit raoul’s for burgers, have reservations there and at crown shy, San Carlo osteria Piemonte.
+
+Thoughts?
+
+PARENT COMMENT: Go to Prince St. Pizza instead. And like others said, drop off your bags first.
+
+COMMENT: Bleeker Street is easily better than Prince IMO, plus you avoid the bigotry as an extra bonus.
+=== END PACKET f268c2cf ===
+
+=== PACKET 09225a8f (comment packet) ===
+POST TITLE: [serious] why is eating out literally 80-100% more in the past few years and is it ever coming down?
+
+POST BODY: Not looking for this to be a rant but rather a serious/proven answer.  Literally everything is up like 80-100%.  Went for lunch ysy and 2 sammies and 1 fries was $30.  Had I added drinks and another fry it would have been $50.    
+
+
+1. Did commercial rents go up that much?
+2. Did food prices go up that much? (I get covid supply chain at the time, but are we still having problems?)
+3. Because peopl ...
+
+PARENT COMMENT: I used to only eat out on weekends, but literally *only* eat out on weekends (meaning, I'd never eat out / order in during the week unless it was for work etc, but I'd eat out / order in every Friday/Saturday night for years).
+
+Now, I and many others I know are far pickier about where they choose to eat, and I'll cook far more often including the weekends. I pretty much only go to / order from a place I either (1) know will be good or (2) is a cuisine I can't cook very well myself. No more random "oh this place could be good" and next thing you know you're out $50 for an entree and a drink.
+
+It's also crazy that the second you get outside the city (and Hoboken/JC), prices go right back down. Where my parents live in NJ, prices are not much higher now than I remember growing up.
+
+COMMENT: This is what I’m noticing too. Also, realizing you can make most foods at home and they’ll taste better anyway for less money.
+=== END PACKET 09225a8f ===
+
+=== PACKET c5ce6b3c (comment packet) ===
+POST TITLE: Upper Manhattan highlights? Specifically Washington Heights
+
+POST BODY: Please give me any and all recommendations for food in Washington Heights and upper Manhattan. TY!
+
+PARENT COMMENT: Came here to say Malecón! That chicken is SO good!
+
+COMMENT: Get extra green sauce.
+=== END PACKET c5ce6b3c ===

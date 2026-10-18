@@ -1,0 +1,235 @@
+NYCEats extraction labeling -- batch b010 -- pass: same_input -- 20 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b010.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET d72cc898 (comment packet) ===
+POST TITLE: Let's not argue about the best slice in town. Whose is the biggest?
+
+POST BODY: My nomination is Artichoke Basille's. Never went so quickly from "A slice is *how* much?" to "Oh OK, makes sense, actually." when I got this two-plate special.
+
+PARENT COMMENT: I actually think the pepperoni slice is solid, although more of a Detroit style than NYC. The artichoke slice is pretty awful in my opinion, drenched in gallons of greasy white sauce.
+
+COMMENT: yeah it’s super gross. I love a white slice but THAT slice is like something straight out of some shitty U.K. town in the middle of nowhere
+=== END PACKET d72cc898 ===
+
+=== PACKET 87780b7f (comment packet) ===
+POST TITLE: Thai restaurants in Manhattan that are not sweet
+
+POST BODY: I really notice when entrees that I expect to be savory are sweetened.  This has made finding a Thai place a bit rough, because it seems like every Thai place we've tried has become sweeter and sweeter.  Do you have any recommendations?  Bonus for UES or UWS.  TIA!
+
+PARENT COMMENT: Ugh that B rating though…
+
+COMMENT: I didn't know that but it is very good lol
+=== END PACKET 87780b7f ===
+
+=== PACKET 94fdf340 (comment packet) ===
+POST TITLE: What are the popular dishes to order at Dishoom x Pastis?
+
+POST BODY: I don't know much about Dishoom, what are the crowd pleasers?
+
+COMMENT: think the popup just started today and the menu is not 1:1 with dishoom's
+=== END PACKET 94fdf340 ===
+
+=== PACKET a482c09d (comment packet) ===
+POST TITLE: Best KBBQ + Korean Restaurants/Spots for First Timers in NYC
+
+POST BODY: Hello!
+
+My sister and I are coming to NYC for the first time this week and know we are likely going to be eating quite a bit of Korean food while there lol
+
+Seems like most of the places in Koreatown have tons of good reviews, but I am curious what places others here suggest. I did peek thru some older posts, but was hoping to get more recent opinions if possible lol. 
+
+Also, I was surprised to no ...
+
+COMMENT: New Wonjo for the overall experience- veteran ahjummas who serve and take care of you, filling your banchan plates before you need to ask, and the kind of authentic banchan that Koreans actually eat. I do believe Nubiani has great quality meat but terrible side dishes. DubuHaus for everything else.
+=== END PACKET a482c09d ===
+
+=== PACKET 491b5fcc (comment packet) ===
+POST TITLE: Taim in the West Village has abruptly shut down
+
+POST BODY: Closed by Order of the Commissioner of Health and Mental Hygiene.
+
+PARENT COMMENT: Naya opened nearby and was better in every way imo. Taim fell off hard a year or two ago, they used to be so generous with their portions.
+
+COMMENT: I could eat Naya every day
+=== END PACKET 491b5fcc ===
+
+=== PACKET 7450da06 (comment packet) ===
+POST TITLE: Best sandwich/food anything to take to JFK?
+
+POST BODY: basically, i'm flying out of jfk soon and i don't want to pay 20$ for a soggy sandwich like i normally do and so i was wondering does anyone have a fave food or snack they like to take with them to the airport? ideally around lower manhattan and open on a monday
+
+PARENT COMMENT: Is a thick and lumpy soup considered a liquid by TSA?
+
+COMMENT: Yes, the closest thing you can get away with is cookie dough ime
+=== END PACKET 7450da06 ===
+
+=== PACKET 9c4e909d (comment packet) ===
+POST TITLE: Everything this Canadian ate and drank in 4 days in Manhattan and North Jersey
+
+POST BODY: 1. Los Taco no 1 - al pastor con todos (I shouldn’t have gotten the guac)
+2. 787 Coffee - ice coffee 
+3. The Corner Slice (NJ) - assorted slices (great service) 
+4. Barney Greengrass - salmon lox (this cost $35 CAD but was the best thing I ate all week 🥇)
+5. S&P Lunch - pastrami 
+6. Overstory - El Bandito
+7. Hamburger America - fried onion burger (2nd best thing I ate 🥈)
+8. Sake Bar Decibel - sake ...
+
+COMMENT: Sad about Kopitiam. What was disappointing? I know the pandan toast isn’t everyone’s favorite but I enjoy the Nasi Lemak when I go
+=== END PACKET 9c4e909d ===
+
+=== PACKET ff072f4c (comment packet) ===
+POST TITLE: Rezdora
+
+POST BODY: Hi there- I am headed to Rezdora with a party of 4 this weekend for dinner. First timer. Anyone have any feedback on this place and must have dishes? Thanks in advance!
+
+COMMENT: It seems to be a love or hate restaurant and I absolutely love it. If you do decide not to do the tasting, skip the secondi. I like to get a bunch of apps and pastas. The staples for me are the gnocco fritto, cacio pepe salad, ragu modenese and grandma walking through the forest.
+=== END PACKET ff072f4c ===
+
+=== PACKET 73f8232e (comment packet) ===
+POST TITLE: Jewish Food crawl
+
+POST BODY: Hello! I’m taking my Mom into the city to see a show at Lincoln Center on Saturday and I would like to take her for some Jewish food places since she can’t get a lot Jewish food where she lives. I’m looking for best suggestions for meals and for nibbles and snacks.  We have been to Russ and Daughters.  On my list of possibilities are all Lower East Side places: Katz’s, Kossars, Yonah Schimmel, Pic ...
+
+COMMENT: Barney Greengrass 
+
+Zabars
+=== END PACKET 73f8232e ===
+
+=== PACKET 0574f5a4 (comment packet) ===
+POST TITLE: Getting reservation at Bungalow, NYC by chef Vikas Khanna
+
+POST BODY: Im trying to get a reservation at bunglow for months now. And it always shows unavailable on Resy 
+I have checked Resy on the time mentioned on the bungalow website and at random times but I’m never able to get one 
+Did anyone else get the reservation over here then please give me some tips
+
+COMMENT: Have you tried via any of the apps like ResX, Cita, RezyTrader, Wuwwuw, AppointmentTrader, etc.? Check them out.
+=== END PACKET 0574f5a4 ===
+
+=== PACKET 6804acd0 (comment packet) ===
+POST TITLE: Hello! New York realistic food budget suggestions!
+
+POST BODY: Hi everyone!
+
+My partner and I will be visiting NYC in early September, and we're trying to figure out a realistic daily food budget for two people.
+
+We'll be spending most of our time in the Lower East Side, East Village, SoHo, Williamsburg, Greenpoint, Bushwick, and around Midtown (for MoMA). We don't eat meat (but do eat seafood), don't drink alcohol, and our hotel includes breakfast, so we're ...
+
+COMMENT: That budget is absolutely doable and with great cheap food mixed with a couple of fancy sit downs. 
+
+Plan for one big meal a day (buy cold cuts for sandwiches, take an extra bagel or 2 from breakfast, carrots/celery sticks for roughage and no refrigerator needed. Picnic often, September is gorgeous weather). 
+
+Lunch specials at many places are great value. Eat on the later side with leftovers for dinner. 
+
+Visit Queens, Brooklyn and uptown (nosebleed) Manhattan for foodie adventures.
+=== END PACKET 6804acd0 ===
+
+=== PACKET 97340f6a (comment packet) ===
+POST TITLE: What the Best/Favorite Crab Rangoon in NYC?
+
+POST BODY: Hello all! Looking for the best crab rangoon in NYC - doesn't matter what neighborhood but would love to hear any and all suggestions of favorites/ must go places! Trying to try as many places as possible. 
+
+Thanks!
+
+COMMENT: Top Thai Vintage in the WV has great crab rangoons, they’re also one of my favorite restaurants in that area! Delicious food all-around, and awesome bartenders there
+=== END PACKET 97340f6a ===
+
+=== PACKET bd241407 (comment packet) ===
+POST TITLE: Best value tasting menu for solo diner?
+
+POST BODY: Looking for a quality tasting menu, preferably under $200 but willing to pay more for wine/drink pairings. I’m a solo diner and I’m leaning more toward American/Italian/French but open to other suggestions. Bonus points for something near Midtown East or Murray Hill.
+
+PARENT COMMENT: 63 Clinton, huge fan
+
+COMMENT: was just here last night. got out for 240 tip included for 2ppl. wonderful service and food.
+=== END PACKET bd241407 ===
+
+=== PACKET 36ec68c6 (comment packet) ===
+POST TITLE: Need suggestions on (food) things to do on a night crawl on 27 May
+
+POST BODY: I'm touching down at JFK (no checked bags) at 10pm and need to catch an amtrak up to DC at 5am.
+
+I need some suggestions of things to do and food that will still be open at those ungodly hours on a Wednesday.  Especially restaurants those with wifi and a power port.
+
+COMMENT: Restaurants have WiFi. Not a power port. 
+
+Would you want to go to the TWA hotel at JFK and sleep?
+=== END PACKET 36ec68c6 ===
+
+=== PACKET b3bc071b (comment packet) ===
+POST TITLE: good buffalo wing places?
+
+POST BODY: preferably in brooklyn or manhattan
+
+COMMENT: commenting bc I’d like to know as well. 
+
+Haven’t found great wings in NYC yet. Have had many that are good but not great. 
+
+If anyone knows the spot for dry rub particularly, please let me know.
+=== END PACKET b3bc071b ===
+
+=== PACKET 8f9e3d5a (comment packet) ===
+POST TITLE: Pop up bagels
+
+POST BODY: Trying to get a quick bagel before work. I forgot I’m forced to get 3 and a whole fuckin tub of cream cheese
+
+COMMENT: Straight up. 80% normal bagel size too. They're not bad. But Tal is a million times better
+=== END PACKET 8f9e3d5a ===
+
+=== PACKET da147385 (comment packet) ===
+POST TITLE: Seirinkan x Sake No Hana - A different perspective
+
+POST BODY: I will start this off by saying $45 for a pizza is pretty damn overpriced. However, the pizza was amazing and definitely one of the best Neopolitans i’ve had - I would still put Una Pizza and Pizzeria da Ciro in Kyoto above it though. 
+
+I want to talk about the recent negative review though and the complaints about the wait time. In the 45 minutes I spent at Sake no Hana i witnessed 2 different gr ...
+
+PARENT COMMENT: i forgot this sub is a bunch of tech bros who act like they’re food experts because they’ve been to astoria one time
+
+COMMENT: Yeah no idea why you are being downvoted. Thanks for the post. Likely reason is they have never had Japanese pizza. Japanese Italian is by far my favourite cuisine. Next time I’m in NYC will certainly try this.
+=== END PACKET da147385 ===
+
+=== PACKET 963a3a64 (comment packet) ===
+POST TITLE: Best Summer Soups?
+
+POST BODY: Hello and good afternoon, I really love soup at all times of the year even in the dead of summer. What's your favorite summer soup to get in NYC? 
+
+
+I actually never had korean cold noodle soup before so I'm curious what the best kind is, and if there's any other chilled soup that's worth a try!
+
+COMMENT: We love pozole. We don’t eat it cold, but something about the spice, cilantro and lime that feel like summer. And it also doesn’t have to be served super hot.
+=== END PACKET 963a3a64 ===
+
+=== PACKET bbe11085 (comment packet) ===
+POST TITLE: My first Michelin experience. Which would you prefer?
+
+POST BODY: I'm looking for the best experience at the restaurant. Which of these would you prefer if you had to recommend only one? 
+
+* The Modern (most likely will do the Kitchen Table)
+* Daniel 
+* Atera
+* 63 Clinton
+
+Thanks!
+
+PARENT COMMENT: Awesome thanks for the in depth comment. I think I’m edging towards the modern. I was thinking of doing the kitchen table for it. If not the kitchen counter then most likely the main dining room because I do want the tasting menu.
+
+COMMENT: This was a great breakdown. I would say hands down start with the modern. I went to Atera with some friends and there were a couple people there solo, I would recommend for a solo experience but not for the first Michelin experience. 
+Either way you can’t go wrong and enjoy!
+=== END PACKET bbe11085 ===
+
+=== PACKET 5ebaa664 (comment packet) ===
+POST TITLE: Tompkins Square Bagels- everything bagel, Nova Scotia salmon, dill and cucumber cream cheese
+
+PARENT COMMENT: Yeah and salmon is clearly the tastier, healthier, more valuable component here. But I get it, as an immigrant I’ve never had the habit of eating much dairy and just don’t really overdo it, while most Americans love cheese
+
+COMMENT: I'm all for heavy cream cheese but at least stack the fish as well. What's the point in high quality smoked salmon if all I can taste is dill?
+=== END PACKET 5ebaa664 ===

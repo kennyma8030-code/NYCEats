@@ -2,27 +2,42 @@
 
     python eval/v4/packets.py                 # round 1: eval/v4/items.jsonl -> eval/v4/packets.jsonl
     python eval/v4/packets.py --dir eval/v4/round2
+    python eval/v4/packets.py --renderer production   # the pre-v6 same_input packets
 
-same_input     exactly the user message production sends for this unit: the
-               comment-mode message for a single item, the chunk for a thread
-               item. Byte-for-byte the string in items.jsonl.
+same_input     exactly the user message the candidate model gets for this unit.
+               With --renderer v6 (the default, matching the v6 prompts):
+               a single item is production's comment-mode message, which
+               v6_comment.py keeps unchanged, and a thread item is the chunk
+               as v6_thread.render_chunk draws it from the committed
+               items_thread.thread_rows.jsonl (depth-first, explicit parent
+               markers, quoted outside parents). The renderer renumbers the
+               comments, so the packet carries its own same_input_short_ids.
+               Both are checked against the user messages eval/run.py builds
+               for the v6 prompts, so the labels see exactly what a run sends.
+               With --renderer production, a thread item is production's
+               stored chunk (time-ordered, indentation only), byte for byte
+               the string in items.jsonl.
 full_context   the same unit with everything a careful reader would use: the
                full title and body, the whole ancestor chain and the replies
                for a single comment; the whole thread in reply order for a
                chunk (or, past 150 comments, the chunk's comments with all
                their ancestors and direct replies). Nothing is truncated.
-               Bracket numbers match the chunk's, so labels from both passes
-               use the same ids.
+               Bracket numbers are production's (short_ids). Under v6 the
+               same_input pass numbers the chunk its own way, so each pass's
+               key maps its own numbers back to comment ids.
 
 Packets carry no strata, tags, weights, item ids or production output. The
 labeling batches (batches.py) add opaque packet ids on top.
 """
 
 import argparse
+import importlib.util
 import json
 import os
+import sys
 
 HERE = os.path.dirname(os.path.realpath(__file__))
+EVAL = os.path.dirname(HERE)
 
 
 def ind(depth):
@@ -99,28 +114,94 @@ def full_context_thread(it):
     return "\n".join(out)
 
 
-def packets_for(it):
+def load_module(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def chunk_key(it):
+    return f"thread:{it['thread_id']}:{it['thread_chunks'][0]['chunk_index']}"
+
+
+def v6_same_input(it, rows, pt):
+    """A thread item's chunk as v6 draws it, with the bracket numbers v6
+    gives it. rows is the item's sidecar record; it must hold the same
+    comments as production's chunk, or the two passes would label different
+    comments."""
+    rec = rows.get(chunk_key(it))
+    if rec is None or rec["short_ids"] != it["thread_chunks"][0]["short_ids"]:
+        raise SystemExit(f"{it['item_id']}: no matching raw rows for {chunk_key(it)}")
+    text, id_map = pt.render_chunk(rec["title"], rec["selftext"], rec["rows"], rec["outside"])
+    return text, {str(n): cid for n, cid in id_map.items()}
+
+
+def packets_for(it, renderer="production", rows=None, pt=None):
     if it["kind"] == "comment":
         return {"item_id": it["item_id"], "mode": "comment",
                 "same_input": it["inputs"]["comment"]["user_message"],
                 "full_context": full_context_single(it)}
-    return {"item_id": it["item_id"], "mode": "thread",
-            "short_ids": it["thread_chunks"][0]["short_ids"],
-            "same_input": it["thread_chunks"][0]["user_message"],
-            "full_context": full_context_thread(it)}
+    p = {"item_id": it["item_id"], "mode": "thread",
+         "short_ids": it["thread_chunks"][0]["short_ids"],
+         "same_input": it["thread_chunks"][0]["user_message"],
+         "full_context": full_context_thread(it)}
+    if renderer == "v6":
+        p["same_input"], p["same_input_short_ids"] = v6_same_input(it, rows, pt)
+    return p
+
+
+def check_against_run(d, packets):
+    """Every same_input packet must equal the user message eval/run.py builds
+    for the v6 prompts from the split item files, with the same id map. That
+    is what a candidate model run sends, so labels and runs see one input."""
+    sys.path.insert(0, EVAL)
+    import run  # noqa: E402  (no API is touched: build_jobs only renders)
+    by_item = {p["item_id"]: p for p in packets}
+    n = 0
+    for mode, items_file, prompt in (("comment", "items_single.jsonl", "v6_comment.py"),
+                                     ("thread", "items_thread.jsonl", "v6_thread.py")):
+        path = os.path.join(d, items_file)
+        pmod = load_module("v6_" + mode, os.path.join(EVAL, "prompts", prompt))
+        rows = None
+        if mode == "thread":
+            with open(os.path.splitext(path)[0] + ".thread_rows.jsonl", encoding="utf-8") as f:
+                rows = {r["call_key"]: r for r in map(json.loads, f)}
+        jobs = run.build_jobs(run.load_items(path), mode, pmod, custom=True, thread_rows=rows)
+        for j in jobs:
+            for iid in j["item_ids"]:
+                p = by_item[iid]
+                if p["same_input"] != j["user"]:
+                    raise SystemExit(f"{iid}: same_input differs from run.py's {mode}-mode message")
+                if mode == "thread" and p["same_input_short_ids"] != {str(k): v for k, v in j["id_map"].items()}:
+                    raise SystemExit(f"{iid}: bracket numbers differ from run.py's id map")
+                n += 1
+    if n != len(packets):
+        raise SystemExit(f"run.py renders {n} of {len(packets)} packets")
+    return n
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dir", default=HERE)
+    ap.add_argument("--renderer", choices=("v6", "production"), default="v6",
+                    help="how a thread item's same_input chunk is drawn (single items are the same either way)")
     args = ap.parse_args()
     with open(os.path.join(args.dir, "items.jsonl"), encoding="utf-8") as f:
         items = [json.loads(l) for l in f]
+    rows = pt = None
+    if args.renderer == "v6":
+        pt = load_module("v6_thread", os.path.join(EVAL, "prompts", "v6_thread.py"))
+        with open(os.path.join(args.dir, "items_thread.thread_rows.jsonl"), encoding="utf-8") as f:
+            rows = {r["call_key"]: r for r in map(json.loads, f)}
+    packets = [packets_for(it, args.renderer, rows, pt) for it in items]
+    if args.renderer == "v6":
+        print(f"{check_against_run(args.dir, packets)} same_input packets identical to eval/run.py's v6 inputs")
     path = os.path.join(args.dir, "packets.jsonl")
     with open(path, "w", encoding="utf-8") as f:
-        for it in items:
-            f.write(json.dumps(packets_for(it), ensure_ascii=False) + "\n")
-    print(f"{len(items)} items -> {path}")
+        for p in packets:
+            f.write(json.dumps(p, ensure_ascii=False) + "\n")
+    print(f"{len(items)} items -> {path} (same_input renderer: {args.renderer})")
 
 
 if __name__ == "__main__":

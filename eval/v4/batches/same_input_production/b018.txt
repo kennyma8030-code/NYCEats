@@ -1,0 +1,253 @@
+NYCEats extraction labeling -- batch b018 -- pass: same_input -- 20 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b018.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET 67adeb8f (comment packet) ===
+POST TITLE: Lunch in Flatiron
+
+POST BODY: I'll be working in the Flatiron District for a few days in December and am looking for some good lunch spots to check out. Budget isnt an issue although I am not trying to do a tasting menu if that helps. Not a picky eater and am willing to walk 20-30 min outside of the area to go to a place that spikes my interest. Sit down or take out, doesn't matter either.
+
+Appreciate the recs!
+
+PARENT COMMENT: ilili   
+Hawksmoor  
+Her Name is Han   
+Olle   
+Union Square Cafe  
+Valerie
+
+COMMENT: Already had Her Name is Han on my list but wow ilili looks amazing
+=== END PACKET 67adeb8f ===
+
+=== PACKET b4667357 (comment packet) ===
+POST TITLE: First time NYC and willing to try it all grom everywhere
+
+POST BODY: I‘m not a foodie per se but I guess that NYC is great place to try food from the Caribbean, Creole cuisine,  Levanthinian and African kitchen. We‘re a family of four, totally non urban non of US origin farmer‘s family and will be overwhelmed by NYC anyway. But, any ideas on how to start diving into the food adventure would be great. No need for fancy restaurants we‘re totally cool with family kitc ...
+
+COMMENT: Try searching the sub for specific kinds of cuisine you want to try and you'll get plenty of suggestions. Broadly speaking, the best examples of these cuisines will be outside of Manhattan.
+=== END PACKET b4667357 ===
+
+=== PACKET e7847a82 (comment packet) ===
+POST TITLE: Is Chef’s Table at Brooklyn Fare still excellent?
+
+POST BODY: I have never been, but would love to visit.
+
+COMMENT: Quite mid for the price point. Did not feel any of the dishes really stood out. Go elsewhere.
+=== END PACKET e7847a82 ===
+
+=== PACKET 6336ed38 (comment packet) ===
+POST TITLE: Looking for “suburban” Tex Mex places
+
+POST BODY: Not sure if “suburban” is the best term but I’m sure most people are familiar with these places. The kind of places that give free chips and watery salsa, a bunch of combos on the menu with a taco, enchilada, and chalupa or something like that with rice & refried beans on the side, and margs that come in big fishbowl type glasses.
+
+No intention of getting into the NYC Mexican food discourse, I’ve ...
+
+PARENT COMMENT: El Rio Grande in the East 30s is what you want.
+
+COMMENT: Yes - free watery salsa. Huge strong flavored frozen marg in every flavor. The nachos are legit awesome other things are hit or miss.
+=== END PACKET 6336ed38 ===
+
+=== PACKET 2a05c8e7 (comment packet) ===
+POST TITLE: Since when did restaurants start letting dogs inside?
+
+POST BODY: It’s happened twice to me this month at two different Manhattan restaurants where I was led to a table inside by the hostess and was greeted by a dog next table over, either on the person’s lap or on the bench seat - not even tucked away under the table. Both restaurants had robust outdoor dining areas so it’s not like that’s not an option.
+
+I get that yesterday was hot as hell. Then leave your do ...
+
+PARENT COMMENT: Yup, since covid. My theory is that folks got dogs during the pandemic which now all have separation anxiety since they spent the whole like first two years of lives with the owners never leaving their side. People will claim they're service animals in order to avoid leaving them home where they'll tear the house to shreds.
+
+Restaurants just stopped fighting it. But if a dog is being disruptive or if you're highly allergic, it should be within your rights to tell the server.
+
+COMMENT: THIS. this this this this. jesus the number of dogs I know on prozac.
+=== END PACKET 2a05c8e7 ===
+
+=== PACKET 15ab7b8d (comment packet) ===
+POST TITLE: vietnamese banh mi dac biet
+
+POST BODY: I’m feeling a bit homesick and have been craving an authentic banh mi this past week. I always get the classic banh mi dac biet (which is a banh mi with cold cuts and pate). I would love to know if there are any spots I should try.
+
+I plan on visiting the east village this weekend so any places in the EV or near the EV would be ideal. But if I have to travel farther just to get my Banh Mi Che Cali ...
+
+COMMENT: V-Nam Cafe on 1st Ave is very good.
+=== END PACKET 15ab7b8d ===
+
+=== PACKET eb35f59c (comment packet) ===
+POST TITLE: [deleted by user]
+
+POST BODY: [removed]
+
+PARENT COMMENT: Atomix is currently the /r/finedining NYC favorite. Doesn’t fit the description of old school New York, but is arguably the best meal you can get in NYC right now. There is a post on the fine dining subreddit about Atomix from a few days ago, check it out.
+
+COMMENT: Hell yeah. Thank you my friend - this is great. Very generous of you to guide me like this.
+=== END PACKET eb35f59c ===
+
+=== PACKET 344c14bf (comment packet) ===
+POST TITLE: ISO: traditional Bear Claw Donut near NYC ????????
+
+POST BODY: Does anybody know where I can get a not-gentrified bear claw? I’m willing to travel if needed :(
+
+PARENT COMMENT: I'm a yeasted donut slut so mixing a half pound scoop of dough with a big honking handful of apple pie filling and then deep frying it is right up my alley for desserts.
+
+COMMENT: Why doesn’t anyone make an apple fritter à la mode for dessert?!
+=== END PACKET 344c14bf ===
+
+=== PACKET 40a16604 (comment packet) ===
+POST TITLE: NYC Food Instagram Feeds That Aren't Annoying AF
+
+POST BODY: I pretty much stay off Instagram entirely now because food media on there has become all the same people going to the same places saying the same thing, because restaurants asked them to come. No thanks. BUT, I do like a handful of accounts that - THANK GOD - are not doing the exact same thing as everyone else.
+
+Open to discovering others in the comments if you've got 'em.
+
+1. Rob Martinez - @ rob ...
+
+COMMENT: I recommend Nicolas Nuvan (@nicolasnuvan)! He often does wide-ranging videos on culture in the outer boroughs that usually include a restaurant or two! He’s very thoughtful in how he makes his videos and how he depicts marginalized communities.
+=== END PACKET 40a16604 ===
+
+=== PACKET a1e1c904 (comment packet) ===
+POST TITLE: Capitaine - quite pleasant evening in the west village
+
+POST BODY: Visited Capitaine earlier this evening with my parents as they are in town.
+
+I had been to Libertine once previously (the prior concept which was more French bistro style) and no has changed over to Capitaine.
+
+We ordered the following:
+
+\- raw platter of oysters, shrimp, scallops  
+\- bread  
+\- razor clams casino  
+\- Capitaine salad  
+\- whole dorade (smaller fish deboned with skin on)  
+\- lob ...
+
+COMMENT: This might just be my feeling but the menu felt a bit identity-less; compared to the likes of Crevette, cervos and eel bar (even dame) it just seemed a bit bland - for some reason 2/3 of the most memorable dishes to me were sides (the salad and the aioli fries)
+=== END PACKET a1e1c904 ===
+
+=== PACKET 68869f8b (comment packet) ===
+POST TITLE: What's your most controvertial nyc food scene opinion?
+
+POST BODY: Laserwolf would be a fraction as successful without the view.
+
+PARENT COMMENT: I refuse to pay $30 plus a plate for pasta. It’s especially a crime if it’s not fresh, housemade pasta. I’m sorry for flour and eggs are some of the cheapest and most readily available ingredients.
+
+COMMENT: Too many people are okay with overpriced Italian restaurants that serve store bought dry pasta. I just don't understand why people are okay with this, when they could make the same meal of $3 at home in 30 minutes.
+=== END PACKET 68869f8b ===
+
+=== PACKET 2df42ea3 (comment packet) ===
+POST TITLE: Where do I find the best donuts in Manhattan? What are your top 3?
+
+COMMENT: I am donut is pretty good, donut pub as everyone else mentioned, donut plant is solid and homies donuts are fantastic.
+=== END PACKET 2df42ea3 ===
+
+=== PACKET f66e2eb3 (comment packet) ===
+POST TITLE: UWS for four?
+
+POST BODY: Looking for recommendations for a pescatarian friendly, moderately priced restaurant, thinking ~$50-$60pp including a drink and splitting apps. A place with a lively atmosphere. Thanks in advance!
+
+COMMENT: Sushi Yasaka! Great sushi for the price!
+=== END PACKET f66e2eb3 ===
+
+=== PACKET f6b7bae7 (comment packet) ===
+POST TITLE: Best Shanghainese food? Is Joe’s Shanghai worth the hype or are there better spots?
+
+COMMENT: Joe Shanghai is REALLY bad.
+
+I tried it once with a coworker at the old OG Doyer st location, and the soup dumpling tastes... funky. Not good at all.
+
+Had a friend come to visit in down and she never had soup dumplings before. We were midtown and there was no soup dumplings in the area besides for Joe shanghai's mid town spot. 
+
+Thought that maybe last time was a bad batch. Took her there and it was the same thing, just plain bad. It's a shame too because I kept hyping up to her how fucking good soup dumplings were and the ones from Joe Shanghai were terrible. 
+
+Friend visited me again a few years later and I warmed up some frozen soup dumplings from the grocery store, and convinced her to give it another try. She fucking loved it to the point where she brought a bunch of frozen soup dumplings for herself to take home. So yeah, frozen grocery store soup dumplings are better then Joe Shanghai's.
+=== END PACKET f6b7bae7 ===
+
+=== PACKET b5ca74c1 (comment packet) ===
+POST TITLE: New Indigenous Frybread Pop-Up Stand in Ridgewood, NYC!
+
+POST BODY: Hey! My name is Raini and I'm a member of the Lakota tribe. I realized theres been a gap in indigenous foods available so I decided to start my own frybread stand! Complete with toppings such as honey, powdered sugar, and three different types of jelly!
+
+Our first day open will be this Sunday at TV Eye. Starting at Noon and going until supplies last!
+
+Its $5/pc and you wont regret it <3
+
+If you ca ...
+
+COMMENT: This is so cool, can’t wait to try and see your ascension
+=== END PACKET b5ca74c1 ===
+
+=== PACKET 7a5217b7 (comment packet) ===
+POST TITLE: Drag this tourist's list of spots to hit
+
+POST BODY: Hello from across the pond, New Yorkers. My gf and I are visiting the city soon and we're super excited to eat well! I've scoured previous posts on this sub for recommendations and come up with a list of places we'd like to hit, but I'd like to get some feedback.
+
+**Key info:**
+
+\- We're doing a full day in Brooklyn, plus going to a Nets game at Barclay Centre another day. Otherwise, we are stayin ...
+
+COMMENT: Skip Katz', the only thing really worth it is stuff neither of y'all eat (Pastrami and other Jewishy Deli classics).  You can walk by and look in the window when you're going to Russ & Daughters.  PS: Russ & Daughters has 2 locations, one is just the counter where you can get bagel w/ stuff, but I'd suggest the sit down cafe where there's more veg friendly options (she can still get all the fish).
+
+Yay for Superiority and Dirt Candy!
+
+NYC Dosas - There will be a line, but it moves fast.  While in the area look at Pomme Frites (NYC institution, we don't have a lot of Belgian style fries), Doughnut Project (if you come before March, they're closing the end of Feb), Manousheh (Lebanese wraps, phenomenal, veg/vegan friendly).
+
+I think your list is pretty damn solid.  The thing I'd suggest is to expand it if you can, so there's more options everywhere.  Sometimes a place just isn't going to work out, and knowing what's around the corner is good.
+
+A random selection of veg (well mainly vegan) places:
+
+* [Overthrow Hospitality](https://www.overthrowhospitality.com/), if you need another expensive sit down, they have a bunch in all sorts of different styles (food and ambiance), my top is Eterea for Mexican + Tequila in a dark plush environ.  Avant Garden is part of them, I think it's the safest bet, I would describe it as New American and everything that conjures up (does that conjure up anything for non-Americans?).
+* Spicy Moon - A couple locations of great vegan Szechuan.  Stick to things like cumin style or dry pepper style.
+* PLANTA - vegan establishment across the US for 'nice' spaces.
+* jajaja - vegan Mexican, lots of locations.  Goes harder on faux meat than I like, but they're still great.
+=== END PACKET 7a5217b7 ===
+
+=== PACKET 8d709541 (comment packet) ===
+POST TITLE: What are some common myths about the food scene in NYC?
+
+POST BODY: Some common ones I see:
+
+"New York doesn't have good Mexican food!"
+
+That's super outdated, and anyone who makes a bit of effort could find really good, authentic Mexican food. There is a very large Mexican community in NYC that is continuing to grow. 
+
+"You have to go to deep into Queens to get real X food!"
+
+While I absolutely do think people should check out neighborhoods like Corona, Jackson H ...
+
+PARENT COMMENT: Still can't get a decent Cali style burrito anywhere though. Electric Burrito ain't it sorry
+
+COMMENT: Lucha lucha was good. I was disappointed when it closed. The Mexican food thing is absolutely insane Gatekeeping - went to San Diego and LA in the last year (2x to SD) and had some of
+The best Mexican food they had to offer. And they were great! But to say nothing in NY could compare is just asinine.
+=== END PACKET 8d709541 ===
+
+=== PACKET fb0ec407 (comment packet) ===
+POST TITLE: I’m from LA, visiting NYC for the first time and want to try food from ethnicities not widely available in LA. Suggestions?
+
+POST BODY: [removed]
+
+COMMENT: Thai food. The New York Times has said Elmhurst, Queens has the best in the city. The good restaurants are near the Elmhurst Ave subway station on the R train. (The 7 train Elmhurst stop will leave you at a neighborhood with good Hispanic food from many lands.)
+=== END PACKET fb0ec407 ===
+
+=== PACKET ff2fed88 (comment packet) ===
+POST TITLE: What are the top 5 most overrated restaurants in Manhattan?
+
+POST BODY: [deleted]
+
+PARENT COMMENT: Please don’t tell me people unironically call it “the ‘bone.”
+
+COMMENT: The boner community does, yes.
+=== END PACKET ff2fed88 ===
+
+=== PACKET bc2826ae (comment packet) ===
+POST TITLE: Thoughts on Tacombi? (UES)
+
+POST BODY: Got three tacos (well two and a tostada). The Al Pastor which was really good. The LaFrieda ribeye which was horrible. Bland as fuck and the avocado tostada, also fantastic (the best of the three). Also got a large guac and chips for $16. Guac was great ( it’s hard to fuck guac up) and chips were way too hard for me. One thing I notice is that they single wrap their tacos. How do you folks prefer ...
+
+COMMENT: It's a decent, consistent option. They are very lucky that Los Tacos isn't on UES or UWS. When they do come, they will easily be the best tacos in those areas.
+=== END PACKET bc2826ae ===

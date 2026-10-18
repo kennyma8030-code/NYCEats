@@ -80,3 +80,36 @@ def adapt(m):
 
 def adapt_all(mentions):
     return [adapt(m) for m in mentions] if isinstance(mentions, list) else mentions
+
+
+def schema_errors(value, node, root=None, path="$"):
+    """Errors for value against the v6 schema (v6_common.SCHEMA_COMMENT or
+    SCHEMA_THREAD), [] when it is valid. A minimal JSON Schema validator for
+    the subset the v6 schema uses ($ref, type unions, enum, required, closed
+    objects, items), so checking labels needs no extra package. It reads the
+    schema strictly, as structured-output mode would: a missing key, an extra
+    key or an unknown level is an error."""
+    root = root if root is not None else node
+    if "$ref" in node:
+        return schema_errors(value, root["$defs"][node["$ref"].split("/")[-1]], root, path)
+    types = node.get("type")
+    types = types if isinstance(types, list) else [types] if types else []
+    pytype = {"object": dict, "array": list, "string": str, "boolean": bool, "null": type(None)}
+    if types and not any((t == "integer" and isinstance(value, int) and not isinstance(value, bool))
+                         or (t in pytype and isinstance(value, pytype[t])) for t in types):
+        return [f"{path}: {value!r} is not {types}"]
+    errs = []
+    if "enum" in node and value not in node["enum"]:
+        errs.append(f"{path}: {value!r} not in enum")
+    if isinstance(value, dict):
+        props = node.get("properties", {})
+        errs += [f"{path}: missing {k}" for k in node.get("required", []) if k not in value]
+        for k, v in value.items():
+            if k not in props:
+                errs.append(f"{path}: extra key {k}")
+            else:
+                errs += schema_errors(v, props[k], root, f"{path}.{k}")
+    if isinstance(value, list) and "items" in node:
+        for i, v in enumerate(value):
+            errs += schema_errors(v, node["items"], root, f"{path}[{i}]")
+    return errs

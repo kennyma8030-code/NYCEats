@@ -1,0 +1,278 @@
+NYCEats extraction labeling -- batch b019 -- pass: same_input -- 20 packet(s)
+
+Apply the extraction prompt you were given to each packet below. Each packet is
+exactly the input the extraction model receives, so judge it from what is
+shown. Packets are independent: never carry anything from one packet to another.
+
+Write one JSON line per packet to labels/same_input/b019.jsonl:
+  {"packet_id": "<id>", "output": {"mentions": [ ... ]}}
+"output" is the JSON object the prompt asks for. A comment packet's mentions
+carry no "id". A thread packet's mentions each carry "id", the bracket number
+of the comment they come from. Use {"mentions": []} when nothing qualifies.
+
+=== PACKET d40a71d6 (comment packet) ===
+POST TITLE: The BEST bagels I’ve ever had
+
+POST BODY: I recently tried Apollo Bagels in the East Village  and WOW. It blew my socks off! I thought it was just another trendy spot but these bagels are probably the best I’ve ever had. I got the lox and the everything bagel is heavily seasoned (the way I like it) and sooo crispy. I was in shock when I first tried it. Has anyone else tried it? Thoughts??
+
+PARENT COMMENT: The Columbia University Campus is also quite nice
+
+COMMENT: They don’t let you in anymore unless you work/study there
+=== END PACKET d40a71d6 ===
+
+=== PACKET b194dff8 (comment packet) ===
+POST TITLE: 4 days eating through NYC
+
+POST BODY: 1) Zabars for a simple bagel lox 
+
+This was quite good and the lox was amazing. It was also cool to walk around the store and explore the bakery.
+
+2) lunch at torrisi
+
+The tortellini pomodoro is so simple and delicious. We went 30 minutes before opening. Service was great and all the dishes were really polished. I would definitely go back.
+
+3) Dinner at Kabawa
+
+The pepper shrimp and goat were the ...
+
+PARENT COMMENT: We were celebrating getting married!
+
+COMMENT: Phenomenal choices. I've been to the Modern more times than I can count but I haven't ever eaten at the Kitchen Table. Looks really fun.
+=== END PACKET b194dff8 ===
+
+=== PACKET a0e42f7c (comment packet) ===
+POST TITLE: If you work at a restaurant that releases reservations on a particular date and time - TELL US WHEN THAT IS
+
+POST BODY: [removed]
+
+PARENT COMMENT: Damn he had us in the first half, ngl.
+
+I am annoyed by bots snatching up all the reservations. I think I’m actually MORE annoyed by the concept of someone doing the same manual thing as I am just to resell the reservation. 
+
+Just play by the same rules ya lazy fks. OP - not actively judging you so much as your clientele. Get your dollar I guess. Though you should have a badge for this sub that says bot.
+
+COMMENT: How am I a bot???
+
+I’ve actually been offered bot services by another concierge and turned it down. Emphatically. I hate that shit. 
+
+I try at 9/10/12pm/whatever and if I don’t get them then I don’t get them. Same as anyone else. 
+
+I don’t resell anything?? Nor do we ever double book for anyone. Resy, Open Table and Tock have concierge platforms. They are not trying to hinder us from making reservations for others. They encourage it. 
+
+Surely you guys have stayed at hotels with concierge services. This is part of the job. If you’re going on vacation to another city and aren’t asking the concierge at your hotel to assist you arrange/organize your stay then you’re doing it wrong.
+=== END PACKET a0e42f7c ===
+
+=== PACKET 1218ff3d (comment packet) ===
+POST TITLE: What's the worst food you've had in NYC?
+
+POST BODY: You can get thousands of fantastic meals all over the city...
+And for the most part, you could walk into any random restaurant and the food will be at least decent, if not good (and sometimes great!)
+
+All that being said, what has been the absolute worst food you've had - I'm talking stop eating mid-meal and go somewhere else awful.
+
+COMMENT: My "unique" experience at Xiang Hot Pot was pretty god awful. Cousin was about to move from NY to Chicago permanently so it was our last meal in NY together. She had some friends from Cali visiting NY and they insisted on going to Xiang Hot Pot because they are Instagram fanatics.
+
+Apparently they saw the video from Strictly Dumpling (I won't link the video because I don't like that guy and think he's a fucker, but [here's a 2 min video from Yahoo](https://www.yahoo.com/video/bubble-tea-hot-pot-arrived-141237688.html)) going to Xiang Hot Pot and ordering their very "unique" bubble Milk Tea hot pot. Of course in the video, he makes it sound like the best and most innovative shit he's ever eaten in his life. 
+
+Cooking raw meat into bubble tea tastes as fucking awful as it sounds. The first few minutes I'm like "hey, this ain't so bad, I mean it's not amazing but its kind of innovative", you can chomp on some meat and if you want some bubble tea, you just scoop some out from the "soup". Soon I'm like sorry, this does not taste good. At the end I'm hating myself for ever coming to this restaurant and wondering why this monstrosity is even a fucking thing.
+
+I think it would have been fine if we got a regular soup broth for the 2nd half of the pot so we can cook everything in that and just use the other side as a shitty bubble tea drink. BUT NO, the friends also insisted on getting the spicy soup base because it comes with a cute molded spice bear, and they wanted a video of the bear slowly melting into the hot water bath.
+
+Oh and did I mention that NONE OF THEM can eat anything remotely spicy? They literally got the spicy broth fully knowing that they cannot eat spicy just so they can post it on Instagram because you do not get the spice bear with a non spicy broth. I'm "mid" at best at handling spice, I was the only one eating from the spicy side in the group and I was dying.
+
+So we have one fucking side where we have the option to cook meat in the most mediocre bubble tea that's disgustingly chock full of sugar, the other side was a pit of fiery red spicy hell. My stomach was literally churning from all the sugar and the spice and I'm running to the bathroom, shitting out fire with my asshole burning from the spicey ass broth.
+
+The WORST thing was that afterwards, I found out that the restaurant does NOT have this  bubble tea broth on their regular menu. You literally had to call in a few days beforehand and specifically ask the restaurant and preorder it so they can prepare for it ahead of time. I'm pretty sure we had to fucking pay extra for it too.
+
+(This is not to slander Xiang Hot Pot, I think their hot pot is actually pretty good and meat was pretty high quality compared to AYCE hot pot places, just for the love of god, don't get the bubble tea hot pot shit).
+=== END PACKET 1218ff3d ===
+
+=== PACKET 7825cbfd (comment packet) ===
+POST TITLE: Wegman's Next Door
+
+POST BODY: Any thoughts on their high-end sushi restaurant that they just opened up in their Astor Place store? I just don't know how they think people want to go to a high end restaurant in a supermarket - especially in NYC.
+
+PARENT COMMENT: This never even reached legal dispute level because it was so much BS 
+
+* Sakana means fish, there are hundreds of businesses in the US with that name. Both restaurants and stores 
+
+* they get their Japanese fish through a megacorp importer MC fresh, they were a wegmans supplier before the NYC store (since 2009)
+
+* if you actually go to Sakanaya there is nothing special about how they cut it. 
+
+* if anything Osakana gave them good press by saying they are on par with their offerings. They aren’t.
+
+COMMENT: This isn’t really a legal issue - it’s a PR fuckup. Wegmans didn’t have to open a Japanese fish counter three blocks from Osakana. Their Brooklyn store runs a standard seafood section using Uoriki fish (I guess? I've never been there), and they could’ve done the same at Astor Place. Instead, they launched something that closely mirrors Osakana’s setup - same name style, pricing model, even visual feel - right after walking away from deal talks. It looks calculated and cheap.
+
+I agree though that Osakana’s offering wasn’t exactly groundbreaking. Selling quarter-pound cuts and chirashi boxes isn’t a secret and any experienced fish monger can figure out what do they do and how. I've walked past Osakana many times and first of all I thought it was a sushi restaurant, and secondly, even if I knew it was a fish store, I would still walk by. I bet many people that talk about it are just like me lol. Wegmans probably reviewed what they were given under NDA, realized there was nothing worth acquiring, and built a similar concept in-house.
+
+If you think big chains owe small businesses some sort of ethical buffer, sure, it might come off as corporate overreach. But in practice, Wegmans just did what large companies do: took the aesthetic, skipped the middleman, and moved forward. It's a tacky move, but not illegal.
+=== END PACKET 7825cbfd ===
+
+=== PACKET 90ab40de (comment packet) ===
+POST TITLE: Mexican foodtuber tries NYC Mexican food
+
+POST BODY: I came across these videos and found them interesting
+
+The man who runs this channel (La Ruta De Garnacha) reviews almost nothing but street tacos in Mexico, but he comes to the US sometimes and reviews the food here too.
+
+He spoke very positively about Los Tacos and Los Mariscos and said that the food there is very Mexican. 
+
+[https://www.youtube.com/watch?v=84phbfW\_4ao](https://www.youtube.com/ ...
+
+PARENT COMMENT: tbf those never really disappoint lol
+
+COMMENT: Some of those places are mid IMO
+=== END PACKET 90ab40de ===
+
+=== PACKET d395885d (comment packet) ===
+POST TITLE: FreshDirect quality is now abysmal, grocery delivery alternatives?
+
+POST BODY: I have been a FreshDirect customer and DeliveryPass member for a decade, but I have reached a breaking point. Over the last few months, since my area was moved to a third-party delivery service, every order has been unreliable. I no longer feel I can trust the service, particularly regarding the integrity of the cold chain.
+
+Today was a new low: my order was scheduled for a 9–11 PM delivery window ...
+
+PARENT COMMENT: [https://www.bxtimes.com/freshdirect-strike-third-party-delivery/](https://www.bxtimes.com/freshdirect-strike-third-party-delivery/)
+
+"FreshDirect is now proposing to increase that number to 40% this year, 50% in 2027 and 60% in 2028" 😞
+
+COMMENT: Holy crap, this is terrible news! FD was the only reliable cold chain delivery service I knew of in New York City. 
+
+I had tried Amazon Fresh myself this past year, but I don’t live close to the distribution center in my borough; I had to compost 90% of my (within delivery window) order after the cold chain was broken (they refunded me). My understanding is Fresh only preserves the cold chain until the order leaves the distribution center because that’s when Amazon considers the order “fulfilled”; how the delivery person takes it from there is not their problem (orders are batched by region, no insulated bags or refrigerated vehicles need apply).
+
+I was looking forward to resuming FD orders once they restored processing for my payment method in my zip code, but now it sounds like they're not an improvement over the competition at all anymore. How disappointing.
+=== END PACKET d395885d ===
+
+=== PACKET 295471e6 (comment packet) ===
+POST TITLE: Reservation Sales Thread - **READ BEFORE POSTING!!**
+
+POST BODY: This thread exists *solely* to create a space for people to avoid losing their deposits on pre-paid meals. Gouging is not tolerated on this subreddit. The below rules exist to ensure it stays that way. Read them before posting because violations can lead to an immediate permanent ban.  
+
+1. This thread is the only place on the subreddit for selling restaurant reservations. You may not ask to buy r ...
+
+COMMENT: I have a table for 6 at 4 Charles tonight at 9:30 pm. It's a Non Refundable since I missed the deadline to cancel and I'll give it for $300. Please let me know! If not, I'll attend myself but I just have other things I have to take care of and I'd prefer to skip out on this tonight. Thank you!
+=== END PACKET 295471e6 ===
+
+=== PACKET 3f7c87cf (comment packet) ===
+POST TITLE: Stretch Pizza
+
+POST BODY: Second time having their pizza ! It holds up via delivery   . Definitely in my top 3 slices now.
+
+PARENT COMMENT: Sorry to hear. I did Uber Eats, priority delivery and it was great.
+
+COMMENT: will try this (avoid grubhub)!
+=== END PACKET 3f7c87cf ===
+
+=== PACKET 6eea483b (comment packet) ===
+POST TITLE: Blizzard doesn’t stop the classic NY BEC
+
+COMMENT: Goddamn this is making me hungry.
+=== END PACKET 6eea483b ===
+
+=== PACKET 6d716fd2 (comment packet) ===
+POST TITLE: Best non-Chain Coffee/Latte in Midtown East
+
+POST BODY: I'm starting a job near 47th and Lex this week, and the way my commute lines up I usually have 20–30 minutes to grab coffee before work. I'm a flavored latte guy, but the chains nearby (Blank Street, Bluestone, Starbucks) don't do much for me. Any good independent spots with good coffee in the Midtown East/Grand Central area?
+
+COMMENT: I second Little Collins (bw 44th and 45th on 3rd ave), and they absolutely do pick up. Every single thing I have tried on their menu is insanely good, especially for the price. They have a large selection of dishes, which is really hard to find at places that do great coffee. And they look out for you once you are a regular.
+=== END PACKET 6d716fd2 ===
+
+=== PACKET 1f16c9de (comment packet) ===
+POST TITLE: 24 hrs in NYC. What’s your favorite spot in this area?
+
+POST BODY: The pin is my hotel. I’m planning to take my wife to Times Square and Central Park. I’m looking for classic bagel or bacon egg and cheese breakfast, street food for lunch (halal, hot dogs, Chinese), and somewhere to sit for dinner (Italian, steakhouse, seafood). 
+
+I don’t trust google to find a good spot. I trust myself slightly more, but would prefer some firsthand accounts. Any killer stops I sh ...
+
+PARENT COMMENT: Tim Ho Wan is closing (might be closed already.)
+
+COMMENT: Gah! Did not know this, pretty upsetting. It was the best Chinese place in Hell's Kitchen.
+=== END PACKET 1f16c9de ===
+
+=== PACKET 06dac377 (comment packet) ===
+POST TITLE: Whats a food or restaurant you should absolutely try before leaving nyc
+
+PARENT COMMENT: This is a great point. I can find great pizza and bagels in Jersey. Call it the NYC diaspora. I can’t find the amazing Korean food I had the other day. Yubu? Fucking incredible.
+
+COMMENT: fort lee, bergen county..
+=== END PACKET 06dac377 ===
+
+=== PACKET aaba0d9f (comment packet) ===
+POST TITLE: what’s your favorite place to eat that’s near 30 Rock?
+
+POST BODY: i’m at 30 rock and have an hour until my flight. any suggestions? open to all types of food, not craving anything in particular rn.
+
+edit: with such little time, i put my trust in Yelp. Joe’s soup dumplings did not disappoint, though being my first soup dumpling experience i have no baseline to judge it comparatively
+
+COMMENT: Real Kung Fu Little Steam Buns has some of the best pan friend steam pork buns in the area.
+
+Hatsuhana for really solid sushi
+
+(+1 for Katsu-Hama as well)
+=== END PACKET aaba0d9f ===
+
+=== PACKET 6669b516 (comment packet) ===
+POST TITLE: Visiting NYC- Looking for hyper specific recs
+
+POST BODY: Hello all! Visiting NYC in May and looking to fully dive into the nooks and crannies of the food scene. I’m from CDMX so not looking for Mexican food. However, I am looking for really authentic restaurants from hard to find cuisines from around the world, that may only cook a couple of dishes (or be specialized in one dish). 
+
+Prioritizing anything from the African continent, some Asian countries ...
+
+COMMENT: Phayul - Tibetan
+
+Awash - Ethiopian
+
+New World food court in Flushing has a lot of more niche Asian cuisine. I like the Uyghur place there a lot
+
+Masalawala and Sons - Bengali food (specifically from India, not Bangladeshi)
+
+Between the Bagel - Korean owned bagel shop that does cool fusion sandwiches
+
+Ukrainian East Village Restaurant
+=== END PACKET 6669b516 ===
+
+=== PACKET 4acaae00 (comment packet) ===
+POST TITLE: Being a part of this sub since it’s inception makes me laugh how literally every food report has the exact same spots on them. Hope it becomes more common to venture off the beaten path and find the spots that aren’t on TikTok and eater mag. What’s a non hyped spot you tried lately that you enjoyed?
+
+POST BODY: Imagine traveling all the way to nyc and trying the same 10 restaurants everyone hypes and there’s an equal amount of posts online saying how they’re not worth it. 
+
+Just want the money to be spread amongst other small biz that could use it. So many good spots all over the city that people miss out on. People are cheating themselves waiting in crazy lines not trying the spot down the block with th ...
+
+COMMENT: i’m always on here pushing m. wells which pete wells put on his recent top 100 nyc restaurant list at a very respectable no. 50. but it doesn’t get a lot of buzz otherwise
+=== END PACKET 4acaae00 ===
+
+=== PACKET 6e815183 (comment packet) ===
+POST TITLE: Looking for good middle eastern or mexican food?
+
+POST BODY: Staying near hudson yards, but i’m willing to go like 20-30 mins on subway to get it. Takeout or sitdown, i don’t mind either. Hopefully somewhat cheap, (20-30) per person. Thanks in advance guys
+
+COMMENT: I went to the butcher a few months ago and a fellow customer and I were chatting while we waited. He would not shut ip about how much he loved Salam for middle eastern food. It's at 13th and 6th so very accessible to you. I haven't been but it's been on my list for awhile.
+=== END PACKET 6e815183 ===
+
+=== PACKET bf67f2a0 (comment packet) ===
+POST TITLE: Popular/highly rated restaurants you’ve been disappointed by?
+
+POST BODY: I was so excited to snag a reservation at I sodi only to be super disappointed. I ordered the pork Milanese and found it inedible and tasting of old oil. Curious if there are others that have had this experience at popular, hard-to-get-into spots!
+
+PARENT COMMENT: Casa Enrique. When it lost its one and only Michelin Star this year, I was not surprised at all. Service felt rushed as they were trying to flip the table ASAP. The wait staff removed my plate before I was done eating (I'm a slower eater). The mole was nothing special.
+
+COMMENT: Felt the EXACT same re the service!! It was unreal. Several visits that happened.
+=== END PACKET bf67f2a0 ===
+
+=== PACKET c8fde91f (comment packet) ===
+POST TITLE: I guess the Frozen Yogurt lines are no more. Nobody in line 12pm.
+
+PARENT COMMENT: I really can't believe that this is a "back in my day" kind of line, but here we are... That was over 20 years ago. We had lines, but at this volume for waht amounts to a popup? Would have been laughable.
+
+COMMENT: Ten years ago, you had people willing to wait for cronuts, Artichoke, black tap, rainbow bagels. Before that, Magnolia cupcakes, and then I was too young to be conscious of those fads. But I did watch a video recently about how rabid the fans were for Rent and how they would camp out overnight for tickets - and that was the mid 90s.
+=== END PACKET c8fde91f ===
+
+=== PACKET 325c4640 (comment packet) ===
+POST TITLE: Restaurant that serves fois gras, fried prawns, and piña coladas?
+
+POST BODY: Struggling to find one restaurant that serves all of these things. I would love to have james gandolfini’s last meal: four shots of rum, two piña coladas, two beers, two orders of fried prawns, and foie gras.
+
+PARENT COMMENT: Sunken harbor club maybe?
+
+COMMENT: Gage and Tollner is a great call
+=== END PACKET 325c4640 ===

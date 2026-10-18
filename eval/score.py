@@ -153,7 +153,8 @@ def fuzzy(a, b):
 # number stays as it was. `fixes=True` turns on all three:
 #   * street words match their short forms ("2nd avenue deli" = "2nd ave deli");
 #   * a v6 mention whose overall verdict is negative counts as a negative
-#     mention even when no aspect is ("most overrated restaurant… good pizza");
+#     mention even when no aspect is ("most overrated restaurant… good pizza"),
+#     on the model side and, for v4's v6 labels, on the reference side;
 #   * in thread mode, an unmatched v6 mention named from context with no
 #     opinion (a question or aside in a reply) is not a false positive: the
 #     gold doesn't count those, and whether they should count is the owner's call.
@@ -193,8 +194,13 @@ def is_required(g):
     return not g["ambiguous"] and not g.get("out_of_scope", False)
 
 
-def gold_negative(g):
-    return any(v is not None and v <= -1 for v in g["aspects"].values())
+def gold_negative(g, fixes=False):
+    """With fixes, a v6 label (v4's Claude labels keep the v6 mention under
+    "v6") whose overall verdict is negative is a negative mention even when no
+    aspect is, the same rule model_negative applies to the model side."""
+    if any(v is not None and v <= -1 for v in g["aspects"].values()):
+        return True
+    return bool(fixes and (g.get("v6") or {}).get("overall") in NEGATIVE_LEVELS)
 
 
 def model_negative(m, fixes=False):
@@ -291,7 +297,7 @@ def score_comment(gold, preds, mode, alias, excluded, drop_chains, fixes=False):
         if not any(v is not None for v in g["aspects"].values()):
             a.c["reference_n"] += 1
             a.c["reference_hit"] += bool(m)
-        if gold_negative(g):
+        if gold_negative(g, fixes):
             a.c["neg_mention_n"] += 1
             hit = bool(m) and model_negative(m, fixes)
             a.c["neg_mention_hit"] += hit

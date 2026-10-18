@@ -6,6 +6,7 @@ label set, broken down every way the design allows. No database, no model.
     python eval/v4/compare_v4.py --ref full_context eval/runs/x__abc__thread__v4.jsonl
     python eval/v4/compare_v4.py --dirs eval/v4 eval/v4/round2      # pool rounds
     python eval/v4/compare_v4.py --self-test             # production vs itself must be perfect
+    python eval/v4/compare_v4.py --ref same_input --fixes   # v6 runs vs v6 labels: count negative overall
 
 Runs scored by default: production's stored output (production/*.jsonl in
 each round, written by export_production.py after labeling) and every eval/runs/*__v4*.jsonl (run.py ... --items
@@ -57,6 +58,11 @@ import score as S  # noqa: E402
 import corpus  # noqa: E402
 import design as D  # noqa: E402
 import labels as L  # noqa: E402
+
+# score.py's scorer fixes (eval/bench_v6/DIAGNOSIS.md), set by --fixes. With v6
+# labels as the reference, a negative overall verdict is a negative mention on
+# both sides only when this is on.
+FIXES = False
 
 SHOW = ["drop_rate", "mention_recall", "negative_mention_recall", "value_complaint_recall",
         "dish_negative_recall", "sign_accuracy", "mention_precision", "comments"]
@@ -145,7 +151,7 @@ def evaluate(ref, items, preds, covered, run_mode, alias, excluded):
             continue
         if run_mode in ("comment", "thread") and it["mode"] != run_mode:
             continue
-        a = S.score_comment(g, preds.get(cid, []), it["mode"], alias, excluded, True)
+        a = S.score_comment(g, preds.get(cid, []), it["mode"], alias, excluded, True, FIXES)
         for scope in ["all"] + groups_for(it, cid):
             acc[scope].add(a)
         if it.get("weight"):
@@ -186,7 +192,7 @@ def v1_agreement(ref_pass_dirs, ref_name, items, alias, excluded):
     for it in overlap:
         cid = it["comment_id"]
         if cid in covered.get(0, set()):
-            acc.add(S.score_comment(v1[cid], reps[0].get(cid, []), "comment", alias, excluded, True))
+            acc.add(S.score_comment(v1[cid], reps[0].get(cid, []), "comment", alias, excluded, True, FIXES))
     dish = any(isinstance(m.get("dish_sentiment"), list) for ms in reps[0].values() for m in ms)
     return S.summarize(acc, dish)
 
@@ -241,9 +247,14 @@ def main():
     ap.add_argument("--ref", choices=L.PASSES, default="full_context")
     ap.add_argument("--dirs", nargs="*", default=None,
                     help="round directories to pool (default: eval/v4 and every eval/v4/round*)")
+    ap.add_argument("--fixes", action="store_true",
+                    help="score.py's scorer fixes: negative overall counts, street words match, "
+                         "thread context references are not false positives (written to *_fixes.*)")
     ap.add_argument("--self-test", action="store_true",
                     help="use production's stored output as the reference; it must score perfectly")
     args = ap.parse_args()
+    global FIXES
+    FIXES = args.fixes
     dirs = args.dirs or round_dirs()
     items = load_rounds(dirs)
     alias, excluded = S.load_map("alias_overrides.json"), S.load_map("excluded_entities.json")
@@ -300,7 +311,8 @@ def main():
            "snapshots": snaps, "mixed_snapshots": len(set(snaps.values())) > 1,
            "runs": runs, "ceilings": ceilings,
            "v1_overlap_agreement": v1_agreement(dirs, args.ref, items, alias, excluded)}
-    jp, mp = write(os.path.join(dirs[0], "results"), args.ref, out)
+    out["scorer_fixes"] = FIXES
+    jp, mp = write(os.path.join(dirs[0], "results"), args.ref + ("_fixes" if FIXES else ""), out)
     print(jp)
     print(mp)
     for s in ("comment weighted", "thread weighted"):
