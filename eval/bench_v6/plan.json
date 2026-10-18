@@ -1,0 +1,117 @@
+{
+ "model": "anthropic/claude-haiku-5.5",
+ "budget": 4.0,
+ "assumptions": {
+  "('comment', 'medium')": {
+   "reasoning": 1200,
+   "visible": {
+    "v6": 300,
+    "current": 150
+   }
+  },
+  "('thread', 'medium')": {
+   "reasoning": 6700,
+   "visible": {
+    "v6": 2000,
+    "current": 1200
+   }
+  },
+  "('comment', 'low')": {
+   "reasoning": 500,
+   "visible": {
+    "v6": 300,
+    "current": 150
+   }
+  },
+  "('thread', 'low')": {
+   "reasoning": 2700,
+   "visible": {
+    "v6": 2000,
+    "current": 1200
+   }
+  }
+ },
+ "prices_per_token": {
+  "in": 1e-07,
+  "out": 5e-07
+ },
+ "steps": [
+  {
+   "step": "a",
+   "what": "v6 comment, medium, v1 labeled + v2",
+   "calls": 1006,
+   "input_tokens": 2213090,
+   "assumed_output_tokens": 1509000,
+   "est_usd": 0.976,
+   "page_rate_usd": 0.412,
+   "worst_case_usd": 4.32,
+   "cumulative_est_usd": 0.976
+  },
+  {
+   "step": "b",
+   "what": "current comment, medium, same comments",
+   "calls": 1006,
+   "input_tokens": 1989758,
+   "assumed_output_tokens": 1358100,
+   "est_usd": 0.878,
+   "page_rate_usd": 0.412,
+   "worst_case_usd": 4.29,
+   "cumulative_est_usd": 1.854
+  },
+  {
+   "step": "c",
+   "what": "v6 thread, medium, v1 whole threads (render_chunk)",
+   "calls": 24,
+   "input_tokens": 74898,
+   "assumed_output_tokens": 208800,
+   "est_usd": 0.112,
+   "page_rate_usd": null,
+   "worst_case_usd": 0.2,
+   "cumulative_est_usd": 1.966
+  },
+  {
+   "step": "d",
+   "what": "current thread, medium, same chunks (stored rendering)",
+   "calls": 24,
+   "input_tokens": 66767,
+   "assumed_output_tokens": 189600,
+   "est_usd": 0.101,
+   "page_rate_usd": null,
+   "worst_case_usd": 0.2,
+   "cumulative_est_usd": 2.067
+  },
+  {
+   "step": "e-comment",
+   "what": "v6 comment, LOW, 300-comment subset of a",
+   "calls": 300,
+   "input_tokens": 659654,
+   "assumed_output_tokens": 240000,
+   "est_usd": 0.186,
+   "page_rate_usd": 0.123,
+   "worst_case_usd": 1.29,
+   "cumulative_est_usd": 2.253
+  },
+  {
+   "step": "e-thread",
+   "what": "v6 thread, LOW, a third of c's chunks",
+   "calls": 8,
+   "input_tokens": 25782,
+   "assumed_output_tokens": 37600,
+   "est_usd": 0.021,
+   "page_rate_usd": null,
+   "worst_case_usd": 0.07,
+   "cumulative_est_usd": 2.274
+  },
+  {
+   "step": "f",
+   "what": "v6 thread, medium, v2 comments' chunks",
+   "calls": 355,
+   "input_tokens": 1259392,
+   "assumed_output_tokens": 3088500,
+   "est_usd": 1.67,
+   "page_rate_usd": null,
+   "worst_case_usd": 3.01,
+   "cumulative_est_usd": 3.944
+  }
+ ]
+}

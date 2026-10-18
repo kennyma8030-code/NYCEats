@@ -20,6 +20,8 @@ never by an LLM.
 | `build_items.py` | the sampler (read-only DB) |
 | `run.py` | runs model × prompt × mode over the items, caching to `runs/` (`--schema` sends a prompt module's strict JSON schema) |
 | `prompts/v6_*`, `v6_adapter.py`, `v6_selftest.py` | the v6 extraction prompt, schema and design note (`prompts/v6_DESIGN.md`); the adapter that lets `score.py` and `v4/labels.py` read v6 output; its offline test |
+| `bench_v6.py`, `bench_v6/` | the budgeted Haiku 5.5 benchmark of v6: `plan` (no API: dry runs, call counts, cost estimates), `run` (capped by a shared ledger), `compare` (scores every pair on identical comment sets into `bench_v6/compare.json`) |
+| `budget.py`, `budget_selftest.py` | `run.py`'s hard spend cap (`--budget-file`, `--budget`) and its offline test against a fake OpenRouter on 127.0.0.1 |
 | `build_thread_rows.py`, `*.thread_rows.jsonl` | read-only fetch of the raw rows behind every thread chunk, verified against production's renderer, so a prompt with its own `render_chunk` (v6) can re-render thread items in `run.py` |
 | `export_stored.py` | dumps the stored production extraction as a run file (read-only DB) |
 | `score.py` | scores runs against the gold, writing `results/<date>__<run>.md/.csv` |

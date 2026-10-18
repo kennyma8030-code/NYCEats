@@ -21,6 +21,13 @@ Model inputs are the renderings stored in items.jsonl, produced by the repo's
 own builders when the items were built. Thread mode makes one call per
 distinct (thread, chunk), shared by every item in that chunk.
 
+--budget-file PATH --budget USD puts a hard cap on spend across every run that
+shares the ledger (eval/budget.py). Each call's worst case is reserved before
+it is sent, and its OpenRouter-reported cost recorded after. A call the cap
+refuses is not written, and the run exits with status 3, so raising the cap
+and re-running resumes exactly where it stopped. --key-file reads the API key
+from that file only.
+
 Output is appended to eval/runs/<model>__<prompthash>__<mode>.jsonl, one line
 per call and repetition. A call already present (same call_key and rep) is
 skipped, so an interrupted run resumes and --repeat N only adds the missing
@@ -42,6 +49,8 @@ import urllib.error
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import budget  # noqa: E402
 ROOT = os.path.dirname(HERE)
 API_URL = os.environ.get("EVAL_API_URL", "https://openrouter.ai/api/v1/chat/completions")
 KEY_VAR = "OPENROUTER_API_KEY"
@@ -147,15 +156,37 @@ def build_jobs(items, mode, pmod, custom=False, thread_rows=None):
 
 
 # ---------------------------------------------------------------- client
+def api_key(args):
+    """The key from --key-file only, when given, so no other key in the
+    environment can be used by accident. Never printed."""
+    if args.key_file:
+        with open(args.key_file, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line.startswith(KEY_VAR + "="):
+                    return line.split("=", 1)[1].strip().strip('"').strip("'")
+        raise SystemExit(f"{args.key_file} has no {KEY_VAR}")
+    return os.environ.get(KEY_VAR)
+
+
 def call(model, system, user, args):
+    """(body, latency, error, lost). lost counts attempts that may have been
+    billed with no response seen (timeouts, dropped connections)."""
+    sys_content = system
+    if args.cache:
+        # Anthropic caches only marked prefixes; a prompt below the model's
+        # minimum is simply not cached, at no extra charge.
+        sys_content = [{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}]
     payload = {
         "model": model,
-        "messages": [{"role": "system", "content": system},
+        "messages": [{"role": "system", "content": sys_content},
                      {"role": "user", "content": user}],
         "response_format": args.response_format or {"type": "json_object"},
-        "temperature": args.temperature,
         "usage": {"include": True},
     }
+    # Haiku 5.5 rejects non-default sampling parameters, so they can be left out.
+    if not args.omit_temperature:
+        payload["temperature"] = args.temperature
     if args.max_tokens:
         payload["max_tokens"] = args.max_tokens
     if args.provider:
@@ -163,24 +194,29 @@ def call(model, system, user, args):
     if args.reasoning:
         payload["reasoning"] = {"effort": args.reasoning}
     req = urllib.request.Request(API_URL, data=json.dumps(payload).encode(), headers={
-        "Authorization": "Bearer " + os.environ[KEY_VAR],
+        "Authorization": "Bearer " + args.key,
         "Content-Type": "application/json",
     })
-    last = None
+    last, lost = None, 0
     for attempt in range(6):
         t0 = time.time()
         try:
             with urllib.request.urlopen(req, timeout=args.timeout) as r:
                 body = json.load(r)
-            return body, time.time() - t0, None
+            return body, time.time() - t0, None, lost
         except urllib.error.HTTPError as e:
             last = f"http {e.code}: {e.read()[:300]!r}"
             if e.code != 429 and e.code < 500:
                 break
         except Exception as e:  # network; transient
             last = f"{type(e).__name__}: {e}"
+            lost += 1
+            # Under a budget, a request that may have been billed is not sent
+            # again: the reservation covers one attempt, not six.
+            if args.ledger is not None:
+                break
         time.sleep(min(5 * 2 ** attempt, 60))
-    return None, None, last
+    return None, None, last, lost
 
 
 def unfence(raw):
@@ -206,13 +242,31 @@ def parse(raw):
 
 
 def run_job(job, rep, model, system, ph, mode, args):
-    body, latency, err = call(model, system, job["user"], args)
+    """One call, or None when the budget refused it (nothing is written, so a
+    later run with a higher cap picks it up)."""
+    reserve = 0.0
+    if args.ledger is not None:
+        reserve = budget.worst_case(system, job["user"], args.max_tokens)
+        if not args.ledger.reserve(reserve):
+            return None
+    body, latency, err, lost = call(model, system, job["user"], args)
     rec = {"call_key": job["call_key"], "rep": rep, "item_ids": job["item_ids"],
            "model": model, "prompt_hash": ph, "mode": mode,
            # A re-rendered chunk is renumbered, so the stored short ids no longer
            # map the model's ids; keep the map the call actually used.
            **({"id_map": {str(k): v for k, v in job["id_map"].items()}} if job.get("rendered") else {}),
+           "reasoning_effort": args.reasoning, "schema": bool(args.response_format),
            "ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "latency_s": latency, "error": err}
+    if args.ledger is not None:
+        usage = (body or {}).get("usage") or {}
+        if body is not None and usage.get("cost") is not None:
+            cost, estimated = float(usage["cost"]), False
+        elif body is not None:
+            cost, estimated = budget.estimate_cost(usage), "from_tokens"
+        else:
+            cost, estimated = reserve * min(lost, 1), ("lost_attempt" if lost else False)
+        args.ledger.settle(reserve, cost, estimated)
+        rec.update({"ledger_cost": cost, "cost_estimated": estimated})
     if body is None:
         return rec
     msg = (body.get("choices") or [{}])[0].get("message") or {}
@@ -241,6 +295,8 @@ def run_job(job, rep, model, system, ph, mode, args):
                 "bad_ids": bad_ids, "provider": body.get("provider"),
                 "usage": {k: usage.get(k) for k in ("prompt_tokens", "completion_tokens",
                                                      "total_tokens", "cost")},
+                "usage_details": {k: usage.get(k) for k in ("prompt_tokens_details",
+                                                             "completion_tokens_details")},
                 "reasoning_tokens": (usage.get("completion_tokens_details") or {}).get(
                     "reasoning_tokens")})
     return rec
@@ -264,11 +320,24 @@ def main():
     ap.add_argument("--provider", help="comma list; pins OpenRouter routing")
     ap.add_argument("--timeout", type=int, default=180)
     ap.add_argument("--tag", default="", help="suffix for the run file name")
+    ap.add_argument("--runs-dir", default=os.path.join(HERE, "runs"), help="where run files go")
     ap.add_argument("--dry-run", action="store_true", help="print the first calls, no API")
     ap.add_argument("--schema", action="store_true",
                     help="send the prompt module's RESPONSE_FORMAT (strict JSON schema) "
                          "instead of json_object; the provider must support it")
+    ap.add_argument("--omit-temperature", action="store_true",
+                    help="send no temperature (models that reject sampling parameters)")
+    ap.add_argument("--cache", action="store_true",
+                    help="mark the system prompt for provider prompt caching")
+    ap.add_argument("--call-keys", help="file of call keys (one per line); run only those")
+    ap.add_argument("--key-file", help=f"read {KEY_VAR} from this file only (never printed)")
+    ap.add_argument("--budget-file", help="shared spend ledger (JSON); needs --budget and --max-tokens")
+    ap.add_argument("--budget", type=float, help="hard cap in USD across every run on the ledger")
     args = ap.parse_args()
+    if (args.budget_file is None) != (args.budget is None):
+        raise SystemExit("--budget-file and --budget go together")
+    if args.budget_file and not args.max_tokens:
+        raise SystemExit("--budget needs --max-tokens: a call's worst case is reserved before it is sent")
 
     pmod, label = load_prompt(args.prompt, args.mode)
     system = pmod.SYSTEM_PROMPT
@@ -296,12 +365,16 @@ def main():
             thread_rows = {r["call_key"]: r for r in map(json.loads, f)}
     jobs = build_jobs(load_items(args.items, only), args.mode, pmod, thread_rows=thread_rows,
                       custom=args.prompt.startswith("file:"))
+    if args.call_keys:
+        with open(args.call_keys, encoding="utf-8") as f:
+            keep = {l.strip() for l in f if l.strip()}
+        jobs = [j for j in jobs if j["call_key"] in keep]
     if args.limit:
         jobs = jobs[:args.limit]
 
     slug = args.model.replace("/", "_").replace(":", "_")
     name = f"{slug}__{ph}__{args.mode}{('__' + args.tag) if args.tag else ''}.jsonl"
-    out = os.path.join(HERE, "runs", name)
+    out = os.path.join(args.runs_dir, name)
 
     if args.dry_run:
         print(f"prompt {label} hash {ph}; {len(jobs)} calls -> {out}")
@@ -311,8 +384,16 @@ def main():
             print(f"[~{(len(system) + len(j['user'])) // 4:,} input tokens]")
         return
 
-    if not os.environ.get(KEY_VAR):
+    args.key = api_key(args)
+    if not args.key:
         raise SystemExit(f"{KEY_VAR} is not set")
+    args.ledger = budget.Ledger(args.budget_file, args.budget, name) if args.budget_file else None
+    if args.ledger is not None:
+        spent = args.ledger.spent()
+        print(f"budget ${args.budget:.2f}, ${spent:.4f} already spent on {args.budget_file}")
+        if spent >= args.budget:
+            print("budget reached: exhausted before this run; nothing sent")
+            sys.exit(3)
 
     done = set()
     if os.path.exists(out):
@@ -327,13 +408,16 @@ def main():
           f"{len(todo)} calls to make, {len(done)} cached -> {out}")
     os.makedirs(os.path.dirname(out), exist_ok=True)
 
-    stats = {"calls": 0, "json_ok": 0, "errors": 0, "cost": 0.0, "latency": []}
+    stats = {"calls": 0, "json_ok": 0, "errors": 0, "cost": 0.0, "latency": [], "refused": 0}
     with open(out, "a", encoding="utf-8") as f, \
             concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
         futs = [pool.submit(run_job, j, rep, args.model, system, ph, args.mode, args)
                 for j, rep in todo]
         for fut in concurrent.futures.as_completed(futs):
             rec = fut.result()
+            if rec is None:                       # refused by the budget; not written
+                stats["refused"] += 1
+                continue
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
             f.flush()
             stats["calls"] += 1
@@ -347,6 +431,11 @@ def main():
     print(f"calls {stats['calls']}  errors {stats['errors']}  json_ok {stats['json_ok']}  "
           f"cost ${stats['cost']:.4f}  latency p50 {lat[len(lat)//2]:.1f}s "
           f"p90 {lat[int(len(lat)*0.9)]:.1f}s")
+    if stats["refused"]:
+        print(f"budget reached: {stats['refused']} call(s) not sent, ledger at "
+              f"${args.ledger.spent():.4f} of ${args.budget:.2f}. Finished calls are saved; "
+              "rerun with a higher cap to resume.")
+        sys.exit(3)
 
 
 if __name__ == "__main__":
