@@ -134,6 +134,9 @@ STEPS = [
     {"id": "j", "what": "v6 thread, LOW, every chunk of c+f, max_tokens 32k", "prompt": "v6", "mode": "thread",
      "reasoning": "low", "tag": "bench6-low", "max_tokens": 32000,
      "invocations": [inv(V1, only=V1_THREADS), inv(V2)]},
+    {"id": "k", "what": "v6 comment, LOW, all of a's comments (widens e-comment)", "prompt": "v6",
+     "mode": "comment", "reasoning": "low", "tag": "bench6-low", "max_tokens": 16000,
+     "invocations": [inv(V1, labeled=True), inv(V2)]},
 ]
 
 
@@ -564,6 +567,9 @@ def comparisons(P, fixes=False):
         pair("thread_low_vs_medium_full_v1", "j", "c", G1, V1, "", ("low", "medium"))
     if have("j", "f"):
         pair("thread_low_vs_medium_full_v2", "j", "f", G2, V2, "", ("low", "medium"))
+    if have("k", "a"):
+        pair("comment_low_vs_medium_full_v1", "k", "a", G1, V1, stats, ("low", "medium"))
+        pair("comment_low_vs_medium_full_v2", "k", "a", G2, V2, "", ("low", "medium"))
     for name, r in C.items():
         a, b = [k for k in r if isinstance(r[k], dict) and "run" in r[k]]
         r[f"delta_{a}_minus_{b}"] = delta(r[a], r[b])
