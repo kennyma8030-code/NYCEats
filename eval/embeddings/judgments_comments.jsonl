@@ -1563,7 +1563,7 @@
 {"qid": "q017", "doc_id": "t1_nl5sf6c", "grade": 2, "opposite": false}
 {"qid": "q017", "doc_id": "t1_nlaw7lc", "grade": 0, "opposite": false}
 {"qid": "q017", "doc_id": "t1_np1srgs", "grade": 1, "opposite": false}
-{"qid": "q017", "doc_id": "t1_np72ykq", "grade": 2, "opposite": false}
+{"qid": "q017", "doc_id": "t1_np72ykq", "grade": 2, "opposite": false, "source": "fullbody"}
 {"qid": "q017", "doc_id": "t1_nr8l13n", "grade": 2, "opposite": false}
 {"qid": "q017", "doc_id": "t1_nrgqp0m", "grade": 0, "opposite": false}
 {"qid": "q017", "doc_id": "t1_nrwv3be", "grade": 1, "opposite": false}
@@ -2074,7 +2074,7 @@
 {"qid": "q022", "doc_id": "t1_nl5sf6c", "grade": 1, "opposite": false}
 {"qid": "q022", "doc_id": "t1_nmq3pw1", "grade": 0, "opposite": false}
 {"qid": "q022", "doc_id": "t1_nn5ksi5", "grade": 1, "opposite": false}
-{"qid": "q022", "doc_id": "t1_np72ykq", "grade": 2, "opposite": false}
+{"qid": "q022", "doc_id": "t1_np72ykq", "grade": 2, "opposite": false, "source": "fullbody"}
 {"qid": "q022", "doc_id": "t1_nqgvb2x", "grade": 1, "opposite": false}
 {"qid": "q022", "doc_id": "t1_nr5puas", "grade": 1, "opposite": false}
 {"qid": "q022", "doc_id": "t1_nr5q9pe", "grade": 1, "opposite": false}
@@ -3545,7 +3545,7 @@
 {"qid": "q038", "doc_id": "t1_nxpq655", "grade": 1, "opposite": false}
 {"qid": "q038", "doc_id": "t1_nxpsnzg", "grade": 2, "opposite": false}
 {"qid": "q038", "doc_id": "t1_nxqt94g", "grade": 1, "opposite": false}
-{"qid": "q038", "doc_id": "t1_nxqu60o", "grade": 2, "opposite": false}
+{"qid": "q038", "doc_id": "t1_nxqu60o", "grade": 2, "opposite": false, "source": "fullbody"}
 {"qid": "q038", "doc_id": "t1_nxvdqef", "grade": 2, "opposite": false}
 {"qid": "q038", "doc_id": "t1_ny1qb8f", "grade": 1, "opposite": false}
 {"qid": "q038", "doc_id": "t1_ny37sn8", "grade": 2, "opposite": false}
@@ -6096,7 +6096,7 @@
 {"qid": "q071", "doc_id": "t1_pf9kmc2", "grade": 0, "opposite": false}
 {"qid": "q072", "doc_id": "t1_ngk76sh", "grade": 2, "opposite": false}
 {"qid": "q072", "doc_id": "t1_nkc9606", "grade": 0, "opposite": true}
-{"qid": "q072", "doc_id": "t1_nkhbjkd", "grade": 2, "opposite": false}
+{"qid": "q072", "doc_id": "t1_nkhbjkd", "grade": 2, "opposite": false, "source": "fullbody"}
 {"qid": "q072", "doc_id": "t1_nkibrij", "grade": 2, "opposite": false}
 {"qid": "q072", "doc_id": "t1_nmwqt21", "grade": 2, "opposite": false}
 {"qid": "q072", "doc_id": "t1_nmxtk60", "grade": 1, "opposite": false}
@@ -6538,7 +6538,7 @@
 {"qid": "q076", "doc_id": "t1_p09p2le", "grade": 2, "opposite": false}
 {"qid": "q076", "doc_id": "t1_p12dhzm", "grade": 1, "opposite": false}
 {"qid": "q076", "doc_id": "t1_p3jhb6s", "grade": 2, "opposite": false}
-{"qid": "q076", "doc_id": "t1_pa0h0xq", "grade": 1, "opposite": false}
+{"qid": "q076", "doc_id": "t1_pa0h0xq", "grade": 1, "opposite": false, "source": "fullbody"}
 {"qid": "q076", "doc_id": "t1_pba76xm", "grade": 0, "opposite": false}
 {"qid": "q076", "doc_id": "t1_pdbxg23", "grade": 2, "opposite": false}
 {"qid": "q076", "doc_id": "t1_peg8b7x", "grade": 2, "opposite": false}
@@ -8229,7 +8229,7 @@
 {"qid": "q092", "doc_id": "t1_p80n9fp", "grade": 2, "opposite": false}
 {"qid": "q092", "doc_id": "t1_p870rjh", "grade": 2, "opposite": false}
 {"qid": "q092", "doc_id": "t1_p8su7yv", "grade": 1, "opposite": false}
-{"qid": "q092", "doc_id": "t1_pa0h0xq", "grade": 0, "opposite": false}
+{"qid": "q092", "doc_id": "t1_pa0h0xq", "grade": 0, "opposite": false, "source": "fullbody"}
 {"qid": "q092", "doc_id": "t1_pas3plr", "grade": 2, "opposite": false}
 {"qid": "q092", "doc_id": "t1_pbp9wym", "grade": 0, "opposite": false}
 {"qid": "q092", "doc_id": "t1_pbuzapv", "grade": 1, "opposite": false}
@@ -9009,7 +9009,7 @@
 {"qid": "q100", "doc_id": "t1_nxi3ogb", "grade": 0, "opposite": true}
 {"qid": "q100", "doc_id": "t1_nxig6en", "grade": 0, "opposite": false}
 {"qid": "q100", "doc_id": "t1_nxjjts1", "grade": 2, "opposite": false}
-{"qid": "q100", "doc_id": "t1_nxpbarr", "grade": 2, "opposite": false}
+{"qid": "q100", "doc_id": "t1_nxpbarr", "grade": 2, "opposite": false, "source": "fullbody"}
 {"qid": "q100", "doc_id": "t1_o3n4ieh", "grade": 0, "opposite": true}
 {"qid": "q100", "doc_id": "t1_oanxg2y", "grade": 2, "opposite": false}
 {"qid": "q100", "doc_id": "t1_obm5sf5", "grade": 2, "opposite": false}
@@ -9855,7 +9855,7 @@
 {"qid": "q109", "doc_id": "t1_og504a0", "grade": 2, "opposite": false}
 {"qid": "q109", "doc_id": "t1_og8s3sp", "grade": 2, "opposite": false}
 {"qid": "q109", "doc_id": "t1_ogakjlx", "grade": 0, "opposite": false}
-{"qid": "q109", "doc_id": "t1_ogd38we", "grade": 2, "opposite": false}
+{"qid": "q109", "doc_id": "t1_ogd38we", "grade": 2, "opposite": false, "source": "fullbody"}
 {"qid": "q109", "doc_id": "t1_oi6en11", "grade": 1, "opposite": false}
 {"qid": "q109", "doc_id": "t1_omlb5l1", "grade": 1, "opposite": false}
 {"qid": "q109", "doc_id": "t1_omllquk", "grade": 1, "opposite": false}

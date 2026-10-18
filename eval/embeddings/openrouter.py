@@ -184,29 +184,53 @@ class Cache:
         con.commit()
 
 
-def _post(payload, timeout=120):
-    headers = {"Authorization": f"Bearer {openrouter_key()}",
-               "Content-Type": "application/json",
-               "X-Title": "NYCEats embedding benchmark"}
-    last = None
-    for attempt in range(6):
+ATTEMPTS = 6
+_tls = threading.local()
+
+
+def _session():
+    """One keep-alive Session per thread: requests.Session is not safe to
+    share across threads, and reusing the connection skips a TLS handshake
+    per call, which is most of a single query's latency."""
+    s = getattr(_tls, "session", None)
+    if s is None:
+        s = _tls.session = requests.Session()
+        s.headers.update({"Authorization": f"Bearer {openrouter_key()}",
+                          "Content-Type": "application/json",
+                          "X-Title": "NYCEats embedding benchmark"})
+    return s
+
+
+class _Attempt:
+    """The outcome of one HTTP attempt. `may_have_billed` is false only when
+    the provider clearly refused the request before doing any work (a 4xx
+    validation or auth error); a timeout, a dropped connection, a 5xx or a 200
+    without vectors may each have been charged, so they are recorded."""
+
+    def __init__(self, body=None, error=None, may_have_billed=False, retry=True, seconds=0.0):
+        self.body, self.error = body, error
+        self.may_have_billed, self.retry, self.seconds = may_have_billed, retry, seconds
+
+
+def _post_once(payload, timeout=120):
+    t0 = time.perf_counter()
+    try:
+        r = _session().post(URL, json=payload, timeout=timeout)
+    except requests.RequestException as e:
+        return _Attempt(error=repr(e), may_have_billed=True, seconds=time.perf_counter() - t0)
+    dt = time.perf_counter() - t0
+    if r.status_code == 200:
         try:
-            t0 = time.perf_counter()
-            r = requests.post(URL, headers=headers, json=payload, timeout=timeout)
-            dt = time.perf_counter() - t0
-            if r.status_code == 200:
-                body = r.json()
-                if "data" in body:
-                    return body, dt
-                last = f"200 without data: {str(body)[:300]}"
-            else:
-                last = f"{r.status_code}: {r.text[:300]}"
-                if r.status_code in (400, 401, 402, 403, 404):
-                    raise RuntimeError(last)
-        except requests.RequestException as e:
-            last = repr(e)
-        time.sleep(2 ** attempt)
-    raise RuntimeError(f"OpenRouter failed after retries: {last}")
+            body = r.json()
+        except ValueError:
+            return _Attempt(error="200 with unparseable body", may_have_billed=True, seconds=dt)
+        if "data" in body:
+            return _Attempt(body=body, seconds=dt)
+        return _Attempt(error=f"200 without data: {str(body)[:300]}", may_have_billed=True, seconds=dt)
+    msg = f"{r.status_code}: {r.text[:300]}"
+    if r.status_code in (400, 401, 402, 403, 404):
+        return _Attempt(error=msg, retry=False, seconds=dt)
+    return _Attempt(error=msg, may_have_billed=True, seconds=dt)
 
 
 def _decode(e):
@@ -219,31 +243,61 @@ def _decode(e):
 
 
 def raw_embed(model, inputs, extra=None, purpose="", encoding="base64"):
-    """One uncached, budget-checked request. Returns (vectors, response, seconds)."""
+    """One uncached, budget-checked request, retried. Returns (vectors, response, seconds).
+
+    Every attempt reserves its own pessimistic estimate before it is sent, so
+    a run of retries is capped like any other spend. An attempt that may have
+    been billed but returned nothing usable (timeout, 5xx, 200 without
+    vectors) is settled at that estimate and marked `possibly_billed` in the
+    ledger: an overstatement, never a silent undercount. The finally clause
+    releases any reservation an exception left unsettled, so a crash between
+    the request and the ledger write can't strand budget."""
     price = PRICE[model]
     est = sum(count_tokens(t) for t in inputs) * SAFETY * price
     L = ledger()
-    L.reserve(est)
+    payload = {"model": model, "input": inputs, "encoding_format": encoding}
+    payload.update(extra or {})
+    base = {"model": model, "extra": extra or {}, "n_inputs": len(inputs), "est_usd": est,
+            "purpose": purpose}
+    held = False
+    last = None
     try:
-        payload = {"model": model, "input": inputs, "encoding_format": encoding}
-        payload.update(extra or {})
-        body, dt = _post(payload)
-    except Exception:
-        L.release(est)
-        raise
-    usage = body.get("usage") or {}
-    tokens = usage.get("prompt_tokens") or usage.get("total_tokens")
-    if usage.get("cost") is not None:
-        cost = float(usage["cost"])
-    elif tokens is not None:
-        cost = tokens * price
-    else:
-        cost = est  # nothing reported: charge the pessimistic estimate
-    L.settle(est, {"ts": time.time(), "model": model, "extra": extra or {},
-                   "n_inputs": len(inputs), "tokens": tokens, "est_usd": est,
-                   "cost_usd": cost, "reported_cost": usage.get("cost"),
-                   "provider": body.get("provider"), "purpose": purpose,
-                   "seconds": round(dt, 3)})
+        for attempt in range(ATTEMPTS):
+            L.reserve(est)
+            held = True
+            a = _post_once(payload)
+            if a.body is not None:
+                body, dt = a.body, a.seconds
+                usage = body.get("usage") or {}
+                tokens = usage.get("prompt_tokens") or usage.get("total_tokens")
+                if usage.get("cost") is not None:
+                    cost = float(usage["cost"])
+                elif tokens is not None:
+                    cost = tokens * price
+                else:
+                    cost = est  # nothing reported: charge the pessimistic estimate
+                L.settle(est, {**base, "ts": time.time(), "tokens": tokens, "cost_usd": cost,
+                               "reported_cost": usage.get("cost"), "provider": body.get("provider"),
+                               "attempt": attempt, "seconds": round(dt, 3)})
+                held = False
+                break
+            last = a.error
+            if a.may_have_billed:
+                L.settle(est, {**base, "ts": time.time(), "tokens": None, "cost_usd": est,
+                               "reported_cost": None, "provider": None, "attempt": attempt,
+                               "possibly_billed": True, "error": a.error[:200],
+                               "seconds": round(a.seconds, 3)})
+            else:
+                L.release(est)
+            held = False
+            if not a.retry:
+                raise RuntimeError(a.error)
+            time.sleep(2 ** attempt)
+        else:
+            raise RuntimeError(f"OpenRouter failed after {ATTEMPTS} attempts: {last}")
+    finally:
+        if held:
+            L.release(est)
     data = sorted(body["data"], key=lambda d: d["index"])
     vecs = [_decode(d["embedding"]) for d in data]
     if len(vecs) != len(inputs):
@@ -255,7 +309,8 @@ def embed_cached(cfg, texts, purpose="", batch=64, workers=4, progress=True):
     """Embed texts under one config, using and filling the cache.
 
     cfg is an EmbedConfig (see configs.py); texts are the *final* strings, so
-    any query prefix has already been applied by the caller via cfg.format_*.
+    any query or document formatting has already been applied by the caller
+    via the Model's fmt_query / fmt_doc.
     Returns an (n, dim) float32 array, L2-normalised.
     """
     from concurrent.futures import ThreadPoolExecutor, as_completed

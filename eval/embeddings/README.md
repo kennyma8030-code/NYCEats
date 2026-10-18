@@ -47,11 +47,15 @@ $PY run_embed.py --stage queries
 $PY run_embed.py --parallel core full threads   # models in parallel, barrier between stages
 $PY retrieve.py --scope full        # dense, @1024 truncations, BM25, RRF hybrids -> data/runs/
 $PY retrieve.py --scope threads
-$PY pool.py --scope full --depth 20 --tag comments        # pools + blind batches + 10% re-judge batches
+$PY pool.py --scope full --depth 20 --tag comments        # pools + first-pass batches
 $PY pool.py --scope threads --depth 5 --tag threads
-#   judges grade data/judging/<tag>/{batch,rj}_NNN.md per GUIDELINES.md
-#   into out_{batch,rj}_NNN.jsonl (see "Judging" below)
-$PY merge_judgments.py --tag comments   # -> judgments_*.jsonl, rejudgments_*.jsonl, agreement_*.json
+#   judges grade data/judging/<tag>/batch_NNN.md per GUIDELINES.md into out_batch_NNN.jsonl
+$PY merge_judgments.py --tag comments   # first pass -> judgments_comments.jsonl
+$PY pool.py --fullbody comments         # pairs whose comment the first pass cut at 3,000 chars
+$PY pool.py --rejudge comments          # blind 10% consistency pass (salted ids, own directory)
+$PY pool.py --rejudge threads
+#   judges grade data/judging/<tag>_{fullbody,rejudge}/*.md (see "Judging" below)
+$PY merge_judgments.py --tag comments   # full-text grades replace truncated ones; -> agreement_comments.json
 $PY merge_judgments.py --tag threads
 $PY metrics.py --scope full --tag comments      # -> RESULTS_TABLES_comments.md
 $PY metrics.py --scope threads --tag threads    # -> RESULTS_TABLES_threads.md (@5 metrics lead)
@@ -70,12 +74,35 @@ exact corpus, filter its output to `corpus_ids.txt.gz`.
 
 ## Judging
 
-Pairs are pooled TREC-style (union of every system's top 20 per query) and
-written to batches with opaque pair ids, no system names, and shuffled order.
-Each batch was graded by a separate Claude (Opus) subagent given only
-`GUIDELINES.md` and the batch file. A seeded 10% sample was re-shuffled into
-different batches and graded again by different subagents; agreement is in
-`agreement_comments.json`.
+Pairs are pooled TREC-style: the union of every system's top 20 per query for
+comments, top 5 for threads. They are written to batches with opaque pair ids,
+no system names, and shuffled order. Each batch was graded by a separate Claude
+(Opus) subagent given only `GUIDELINES.md` and the batch file, at most three at
+a time.
+
+Every pass after the first is blind to the earlier ones:
+- **Salted ids.** Its pair ids are salted with the pass name, so they don't
+  match the first pass's.
+- **Separate files.** Its batches live in their own directory, and its id keys
+  sit under `data/judging_keys/`.
+- **Locked first pass.** While it was judged, the first-pass directories, the
+  keys, the committed grade files and the corpus text were `chmod 000`, so a
+  judge could not read them even by accident.
+
+`agreement_<tag>.json` has two parts. `blind` is that pass's agreement with
+the first pass. `legacy_not_blind` is the earlier re-judge, whose ids matched
+the first pass and whose outputs shared its directory.
+
+`merge_judgments.py` exits non-zero and writes nothing if any batch of any pass
+has missing, unknown or malformed pairs.
+
+## Spend accounting
+
+Every attempt that may have been billed (a timeout, a dropped connection, a
+5xx, a 200 without vectors) is written to the ledger at its pessimistic
+estimate and marked `possibly_billed`. A clean 4xx rejection is not billed and
+is not retried. The earlier runs predate this, so their unrecorded retries
+show up only in OpenRouter's own usage counter (see RESULTS.md, Spend).
 
 ## Files
 

@@ -1,32 +1,67 @@
 {
-  "voyage-4-large": {
-    "n": 25,
-    "median_ms": 400,
-    "p90_ms": 410,
-    "min_ms": 248
+  "cold": {
+    "voyage-4-large": {
+      "n": 25,
+      "median_ms": 261,
+      "p90_ms": 365,
+      "min_ms": 229
+    },
+    "qwen3-8b": {
+      "n": 25,
+      "median_ms": 276,
+      "p90_ms": 345,
+      "min_ms": 240
+    },
+    "oai-3-large": {
+      "n": 25,
+      "median_ms": 388,
+      "p90_ms": 421,
+      "min_ms": 294
+    },
+    "gemini-2": {
+      "n": 25,
+      "median_ms": 613,
+      "p90_ms": 1044,
+      "min_ms": 520
+    },
+    "oai-3-small": {
+      "n": 25,
+      "median_ms": 336,
+      "p90_ms": 423,
+      "min_ms": 283
+    }
   },
-  "qwen3-8b": {
-    "n": 25,
-    "median_ms": 410,
-    "p90_ms": 436,
-    "min_ms": 261
+  "warm": {
+    "voyage-4-large": {
+      "n": 25,
+      "median_ms": 186,
+      "p90_ms": 239,
+      "min_ms": 167
+    },
+    "qwen3-8b": {
+      "n": 25,
+      "median_ms": 200,
+      "p90_ms": 290,
+      "min_ms": 171
+    },
+    "oai-3-large": {
+      "n": 25,
+      "median_ms": 294,
+      "p90_ms": 347,
+      "min_ms": 262
+    },
+    "gemini-2": {
+      "n": 25,
+      "median_ms": 461,
+      "p90_ms": 600,
+      "min_ms": 420
+    },
+    "oai-3-small": {
+      "n": 25,
+      "median_ms": 234,
+      "p90_ms": 278,
+      "min_ms": 198
+    }
   },
-  "oai-3-large": {
-    "n": 25,
-    "median_ms": 510,
-    "p90_ms": 512,
-    "min_ms": 396
-  },
-  "gemini-2": {
-    "n": 25,
-    "median_ms": 627,
-    "p90_ms": 1026,
-    "min_ms": 570
-  },
-  "oai-3-small": {
-    "n": 25,
-    "median_ms": 410,
-    "p90_ms": 511,
-    "min_ms": 326
-  }
+  "cost_usd": 0.000207
 }

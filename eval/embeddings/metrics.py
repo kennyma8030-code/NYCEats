@@ -21,7 +21,9 @@ ranked by distinct people (comment authors), ties broken by the best comment
 rank; similarity decides which comments count, never the order. A restaurant is
 relevant if at least one of its grouped comments was judged >= 1.
 
-Writes RESULTS_TABLES.md and data/metrics.json.
+Writes RESULTS_TABLES_<tag>.md and data/metrics_<tag>.json. Comments lead
+with @10/@20 metrics (pooled to depth 20); threads lead with @5 metrics,
+their only fully judged depth.
 """
 
 import argparse
