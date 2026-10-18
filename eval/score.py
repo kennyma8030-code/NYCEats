@@ -149,8 +149,26 @@ def fuzzy(a, b):
     return a.startswith(b + " ") or b.startswith(a + " ") or a == b + "s" or b == a + "s"
 
 
-def match(gold_ms, model_ms):
+# Scorer fixes (eval/bench_v6/DIAGNOSIS.md), off by default so every existing
+# number stays as it was. `fixes=True` turns on all three:
+#   * street words match their short forms ("2nd avenue deli" = "2nd ave deli");
+#   * a v6 mention whose overall verdict is negative counts as a negative
+#     mention even when no aspect is ("most overrated restaurant… good pizza");
+#   * in thread mode, an unmatched v6 mention named from context with no
+#     opinion (a question or aside in a reply) is not a false positive: the
+#     gold doesn't count those, and whether they should count is the owner's call.
+STREET_WORDS = {"avenue": "ave", "street": "st", "road": "rd", "boulevard": "blvd", "place": "pl",
+                "parkway": "pkwy", "square": "sq"}
+NEGATIVE_LEVELS = ("negative", "very_negative")
+
+
+def street_norm(key):
+    return " ".join(STREET_WORDS.get(t, t) for t in key.split())
+
+
+def match(gold_ms, model_ms, fixes=False):
     """Greedy one-to-one matching. Returns [(g, m, how)], unmatched model mentions."""
+    nk = street_norm if fixes else (lambda k: k)
     pairs, used, taken = [], set(), set()
     order = sorted(range(len(gold_ms)), key=lambda i: (gold_ms[i]["ambiguous"] or gold_ms[i].get("out_of_scope", False)))
     for how in ("exact", "fuzzy"):
@@ -158,11 +176,11 @@ def match(gold_ms, model_ms):
             if gi in taken:
                 continue
             g = gold_ms[gi]
-            keys = {g["canonical_key"], *g["accept_keys"]}
+            keys = {nk(x) for x in (g["canonical_key"], *g["accept_keys"])}
             for mi, m in enumerate(model_ms):
                 if mi in used:
                     continue
-                k = m["_key"]
+                k = nk(m["_key"])
                 if (how == "exact" and k in keys) or (how == "fuzzy" and any(fuzzy(k, x) for x in keys)):
                     pairs.append((g, m, how))
                     used.add(mi)
@@ -179,11 +197,19 @@ def gold_negative(g):
     return any(v is not None and v <= -1 for v in g["aspects"].values())
 
 
-def model_negative(m):
+def model_negative(m, fixes=False):
     asp = m.get("aspects") if isinstance(m.get("aspects"), dict) else {}
     if any((bucket(asp.get(a)) or 0) < 0 for a in ASPECTS):
         return True
+    if fixes and ((m.get("v6") or {}).get("overall") in NEGATIVE_LEVELS):
+        return True
     return bool(m.get("is_negated"))
+
+
+def context_reference(m):
+    """A v6 mention named from context with no opinion: a question or aside in a reply."""
+    v = m.get("v6") or {}
+    return v.get("named_in") == "context" and v.get("opinion") == "none"
 
 
 def model_value_complaint(m):
@@ -232,14 +258,15 @@ def model_mentions(preds, alias, drop_chains):
     return ms
 
 
-def score_comment(gold, preds, mode, alias, excluded, drop_chains):
+def score_comment(gold, preds, mode, alias, excluded, drop_chains, fixes=False):
     a = Acc()
     ms = model_mentions(preds, alias, drop_chains)
     emits_dishes = any(model_dish_entries(m) is not None for m in ms)
     gms = [g for g in gold["mentions"] if not (drop_chains and g["canonical_key"] in CHAINS)]
     required = [g for g in gms if is_required(g)]
-    pairs, fps = match(gms, ms)
-    fps = [m for m in fps if m["_key"] not in excluded]
+    pairs, fps = match(gms, ms, fixes)
+    fps = [m for m in fps if m["_key"] not in excluded
+           and not (fixes and mode == "thread" and context_reference(m))]
     rk = f"resolvable_{mode}_mode"
     matched = {id(g): m for g, m, _ in pairs}
 
@@ -266,11 +293,11 @@ def score_comment(gold, preds, mode, alias, excluded, drop_chains):
             a.c["reference_hit"] += bool(m)
         if gold_negative(g):
             a.c["neg_mention_n"] += 1
-            hit = bool(m) and model_negative(m)
+            hit = bool(m) and model_negative(m, fixes)
             a.c["neg_mention_hit"] += hit
             if not hit:
                 a.c["neg_miss_context_gap" if gap else "neg_miss_model_error"] += 1
-            if m and not model_negative(m):
+            if m and not model_negative(m, fixes):
                 asp = m.get("aspects") if isinstance(m.get("aspects"), dict) else {}
                 if any((bucket(asp.get(x)) or 0) > 0 for x in ASPECTS):
                     a.c["neg_to_positive"] += 1
@@ -437,7 +464,7 @@ def load_run(path, items):
     return reps, covered, stats, modes.most_common(1)[0][0] if modes else None
 
 
-def evaluate(gold, items, run, alias, excluded, drop_chains, stats_path):
+def evaluate(gold, items, run, alias, excluded, drop_chains, stats_path, fixes=False):
     by_item = {it["item_id"]: it for it in items}
     strata_pop = {}
     if stats_path and os.path.exists(stats_path):
@@ -465,7 +492,7 @@ def evaluate(gold, items, run, alias, excluded, drop_chains, stats_path):
                 prod = it.get("production") or next((c["production"] for c in it.get("comments", [])
                                                      if c["comment_id"] == cid), {})
                 m = PROD_MODE.get(ph) or prod.get("mode") or "thread"
-            a = score_comment(g, preds.get(cid, []), m, alias, excluded, drop_chains)
+            a = score_comment(g, preds.get(cid, []), m, alias, excluded, drop_chains, fixes)
             groups = list(it.get("risk_groups", [])) + list(it.get("weaknesses", []))
             if it.get("split"):
                 groups.append(f"split_{it['split']}")

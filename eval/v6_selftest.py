@@ -399,6 +399,20 @@ def main():
     legacy = {"restaurant_raw": "X", "aspects": {"food": 0.3}, "is_negated": False}
     assert A.adapt(legacy) is legacy
 
+    # 6. scorer fixes (score.py fixes=True), off by default
+    over = A.adapt(M("Lucali", "stated", "negative", taste="positive"))
+    assert not S.model_negative(over) and S.model_negative(over, fixes=True), "overall-negative fix"
+    g = {"canonical_key": "2nd ave deli", "accept_keys": [], "ambiguous": False}
+    mm = [dict(A.adapt(M("2nd avenue deli", "stated", "negative")), _key="2nd avenue deli")]
+    assert not S.match([g], mm)[0] and S.match([g], mm, fixes=True)[0], "street-word fix"
+    ref = dict(A.adapt(M("Pepper House", "none", named_in="context", experience="none")), id=2)
+    line = {"mentions": [], "comment_id": "x"}
+    for fixes, fp in ((False, 1), (True, 0)):
+        a = S.score_comment(line, [ref], "thread", alias, excluded, False, fixes)
+        assert a.c["fp"] == fp, ("context-reference fix", fixes, a.c["fp"])
+    a = S.score_comment(line, [ref], "comment", alias, excluded, False, True)
+    assert a.c["fp"] == 1, "context references still count against precision in comment mode"
+
     if errs:
         print("FAILED")
         for e in errs:

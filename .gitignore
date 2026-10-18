@@ -10,3 +10,4 @@ venv/
 .env.*
 *.json.lock
 *.json.tmp
+eval/bench_v6/merged/

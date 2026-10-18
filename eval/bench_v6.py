@@ -74,6 +74,11 @@ LOW_COMMENTS = 300
 SEED = "nyceats-bench-v6"
 SUBSET_COMMENT = os.path.join(OUT, "subset_comment.txt")
 SUBSET_THREAD = os.path.join(OUT, "subset_thread.txt")
+# The truncated calls of the first medium runs (stop_reason max_tokens), committed so
+# the re-runs h and i are a fixed set. See DIAGNOSIS.md.
+KEYS_H = os.path.join(OUT, "keys_h_thread_truncated.txt")
+KEYS_I = os.path.join(OUT, "keys_i_comment_truncated.txt")
+MERGED = os.path.join(OUT, "merged")        # derived run files for compare; not committed
 
 # Claude Haiku 5.5, USD per token (prompts of 100k tokens or fewer), and the batch discount.
 PRICE_IN, PRICE_OUT, BATCH = 0.10e-6, 0.50e-6, 0.5
@@ -112,6 +117,23 @@ STEPS = [
      "reasoning": "low", "tag": "bench6-low", "invocations": [inv(V1, only=V1_THREADS, call_keys=SUBSET_THREAD)]},
     {"id": "f", "what": "v6 thread, medium, v2 comments' chunks", "prompt": "v6", "mode": "thread",
      "reasoning": "medium", "tag": "bench6-med", "invocations": [inv(V2)]},
+    {"id": "g", "what": "current thread, medium, v2 comments' chunks (baseline for f)", "prompt": "current",
+     "mode": "thread", "reasoning": "medium", "tag": "bench6-med", "invocations": [inv(V2)]},
+    # Re-runs of what medium effort truncated (DIAGNOSIS.md): own tags, so the first
+    # attempts stay as they ran; compare merges them into a second view.
+    {"id": "h", "what": "v6 thread, medium, the truncated chunks of c+f, max_tokens 32k", "prompt": "v6",
+     "mode": "thread", "reasoning": "medium", "tag": "bench6-med32k", "max_tokens": 32000,
+     "assume": {"reasoning": 20000, "visible": 4000},
+     "invocations": [inv(V1, only=V1_THREADS, call_keys=KEYS_H), inv(V2, call_keys=KEYS_H)]},
+    {"id": "i", "what": "v6 comment, medium, the 6 truncated calls of a, max_tokens 16k", "prompt": "v6",
+     "mode": "comment", "reasoning": "medium", "tag": "bench6-med16k", "max_tokens": 16000,
+     "assume": {"reasoning": 6000, "visible": 4000},
+     "invocations": [inv(V1, labeled=True, call_keys=KEYS_I), inv(V2, call_keys=KEYS_I)]},
+    # Low effort on every thread chunk c and f covered. Same tag and run file as
+    # e-thread, so its 8 finished chunks are skipped; the cap stops it if money runs out.
+    {"id": "j", "what": "v6 thread, LOW, every chunk of c+f, max_tokens 32k", "prompt": "v6", "mode": "thread",
+     "reasoning": "low", "tag": "bench6-low", "max_tokens": 32000,
+     "invocations": [inv(V1, only=V1_THREADS), inv(V2)]},
 ]
 
 
@@ -168,6 +190,40 @@ def hashed(keys, n):
     return sorted(keys, key=lambda k: hashlib.sha256(f"{SEED}|{k}".encode()).hexdigest())[:n]
 
 
+def max_tokens(step):
+    return step.get("max_tokens", MAX_TOKENS[step["mode"]])
+
+
+def write_rerun_keys():
+    """The truncated calls of the first medium runs, read (never written) from their
+    run files. Written once; the committed lists are what h and i run on."""
+    for path, step in ((KEYS_H, STEPS[2]), (KEYS_I, STEPS[0])):
+        if os.path.exists(path):
+            continue
+        src = run_file(step, True)
+        keys = sorted({r["call_key"] for r in map(json.loads, open(src, encoding="utf-8"))
+                       if r.get("stop_reason") == "max_tokens" or (r.get("raw") is not None and not r.get("json_ok"))})
+        with open(path, "w", encoding="utf-8") as f:
+            f.write("\n".join(keys) + "\n")
+
+
+def finished(step, schema=True):
+    """Call keys the step's run file already holds a finished record for (read-only)."""
+    path = run_file(step, schema)
+    if not os.path.exists(path):
+        return set()
+    done = set()
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            try:
+                r = json.loads(line)
+            except json.JSONDecodeError:
+                continue                          # a line still being written
+            if r.get("raw") is not None and r.get("rep", 0) == 0:
+                done.add(r["call_key"])
+    return done
+
+
 def write_subsets():
     """Deterministic low-reasoning subsets, drawn from steps a and c."""
     os.makedirs(OUT, exist_ok=True)
@@ -188,9 +244,11 @@ def estimate(step, pmod, jobs, reps=1):
     sys_chars = len(pmod.SYSTEM_PROMPT)
     tin = reps * sum(sys_chars + len(j["user"]) for j in jobs.values()) / CHARS_PER_TOKEN
     a = ASSUME[(step["mode"], step["reasoning"])]
+    a = {"reasoning": step["assume"]["reasoning"], "visible": {step["prompt"]: step["assume"]["visible"]}} \
+        if "assume" in step else a
     tout = reps * len(jobs) * (a["reasoning"] + a["visible"][step["prompt"]])
     tokens_cost = (tin * PRICE_IN_PLAN + tout * PRICE_OUT) * BATCH
-    worst = reps * sum(AB.worst_case(pmod.SYSTEM_PROMPT, j["user"], MAX_TOKENS[step["mode"]], batch=True)
+    worst = reps * sum(AB.worst_case(pmod.SYSTEM_PROMPT, j["user"], max_tokens(step), batch=True)
                        for j in jobs.values())
     page = reps * len(jobs) * PAGE_COMMENT_PER_CALL if step["mode"] == "comment" else None
     return {"calls": len(jobs), "input_tokens": round(tin), "assumed_output_tokens": tout,
@@ -202,7 +260,7 @@ def dry_run_args(step, invocation, schema=False):
     a = [sys.executable, os.path.join(HERE, "run.py"), "--api", "anthropic", "--model", MODEL,
          "--mode", step["mode"], "--prompt", prompt_spec(step), "--items", invocation["items"],
          "--tag", step["tag"], "--reasoning", step["reasoning"],
-         "--max-tokens", str(MAX_TOKENS[step["mode"]]), "--workers", str(WORKERS), "--cache"]
+         "--max-tokens", str(max_tokens(step)), "--workers", str(WORKERS), "--cache"]
     if invocation["only"]:
         a += ["--only", *invocation["only"]]
     if invocation["labeled"]:
@@ -216,13 +274,11 @@ def dry_run_args(step, invocation, schema=False):
 
 def additions():
     """Candidates for leftover budget, in priority order. Proposed, never run by `run`."""
-    a, c, f = STEPS[0], STEPS[2], STEPS[6]
+    a, c = STEPS[0], STEPS[2]
     v1_all = [inv(V1)]
     return [
         ({**a, "id": "+low-all", "reasoning": "low", "what": "low slice widened to all of a (adds ~706 comments)"},
          "low-all", None),
-        ({**f, "id": "+cur-v2-thread", "prompt": "current", "what": "current-prompt thread baseline on v2 chunks (pairs with f)"},
-         None, None),
         ({**a, "id": "+repeat-a", "what": "repeat of a (rep 2) for run-to-run noise"}, None, 1),
         ({**c, "id": "+v6-v1-all-thread", "invocations": v1_all,
           "what": "v6 thread on every v1 chunk (390 more than c; all 769 labeled comments)"}, "minus-c", None),
@@ -233,6 +289,7 @@ def additions():
 
 def plan():
     nc, nt = write_subsets()
+    write_rerun_keys()
     print(f"model {MODEL} (Message Batches, {BATCH:.0%} price); budget ${BUDGET:.2f}; "
           f"subsets: {nc} comment calls, {nt} thread chunks (hashed)\n")
     rows, running = [], 0.0
@@ -245,9 +302,12 @@ def plan():
             print(f"  dry run {step['id']}: {first.split(';')[1].split('->')[0].strip()} "
                   f"({os.path.relpath(i['items'], HERE)})")
         pmod, jobs = step_jobs(step)
-        e = estimate(step, pmod, jobs)
+        done = finished(step) & set(jobs)
+        todo = {k: v for k, v in jobs.items() if k not in done}
+        e = estimate(step, pmod, todo)
         running += e["est_usd"]
-        rows.append({"step": step["id"], "what": step["what"], **e, "cumulative_est_usd": round(running, 3)})
+        rows.append({"step": step["id"], "what": step["what"], **e, "already_done": len(done),
+                     "max_tokens": max_tokens(step), "cumulative_est_usd": round(running, 3)})
 
     _, a_jobs = step_jobs(STEPS[0])
     _, c_jobs = step_jobs(STEPS[2])
@@ -265,11 +325,11 @@ def plan():
 
     def show(rs):
         for r in rs:
-            print(f"{r['step']:18s} {r['calls']:6d} {r['input_tokens']:10,d} {r['est_usd']:7.3f} "
+            print(f"{r['step']:18s} {r.get('already_done', 0):5d} {r['calls']:6d} {r['input_tokens']:10,d} {r['est_usd']:7.3f} "
                   f"{(r['page_rate_usd'] if r['page_rate_usd'] is not None else float('nan')):7.3f} "
                   f"{r['worst_case_usd']:8.2f} {r['cumulative_est_usd']:7.3f}  {r['what']}")
-    head = f"{'step':18s} {'calls':>6s} {'in tok':>10s} {'est $':>7s} {'page $':>7s} {'worst $':>8s} {'cum $':>7s}  what"
-    print("\nPLAN (batch prices)\n" + head)
+    head = f"{'step':18s} {'done':>5s} {'to run':>6s} {'in tok':>10s} {'est $':>7s} {'page $':>7s} {'worst $':>8s} {'cum $':>7s}  what"
+    print("\nPLAN (batch prices; estimates cover only what is not finished yet)\n" + head)
     show(rows)
     print(f"\nPROPOSED ADDITIONS, in priority order (not run unless added to STEPS)\n{head}")
     show(extra)
@@ -344,6 +404,7 @@ def run_all():
     if not (st.get("probe", {}).get("medium", {}).get("ok") and st["probe"].get("low", {}).get("ok")):
         raise SystemExit("run `python eval/bench_v6.py probe` first: both efforts must be accepted")
     write_subsets()
+    write_rerun_keys()
     schema = True
     for step in STEPS:
         status = "done"
@@ -404,12 +465,14 @@ def run_stats(path, keys):
     return s
 
 
-def score(paths_keys, gold_path, items_path, stats_path):
+def score(paths_keys, gold_path, items_path, stats_path, fixes=False):
     """Score several runs on the comments every one of them covered."""
     import score as S
     items = S.load_jsonl(items_path)
     alias, excluded = S.load_map("alias_overrides.json"), S.load_map("excluded_entities.json")
-    loaded = {name: S.load_run(path, items) for name, (path, _) in paths_keys.items()}
+    # Several steps share a run file (c and f; d and g), so each run is cut to its
+    # own step's calls first; otherwise one step's comparison picks up another's.
+    loaded = {name: S.load_run(scoped(path, keys), items) for name, (path, keys) in paths_keys.items()}
     common = None
     for reps, covered, _, _ in loaded.values():
         common = set(covered.get(0, set())) if common is None else common & covered.get(0, set())
@@ -430,7 +493,7 @@ def score(paths_keys, gold_path, items_path, stats_path):
 
     out = {}
     for name, run in loaded.items():
-        per_rep, _, _, _ = S.evaluate(gold, items, run, alias, excluded, True, stats_path)
+        per_rep, _, _, _ = S.evaluate(gold, items, run, alias, excluded, True, stats_path, fixes)
         r0 = per_rep[0]
         res = {"comments": len(gold), "with_mention": sum(g["has_mention"] for g in gold)}
         for scope in ("overall", "reweighted"):
@@ -439,6 +502,22 @@ def score(paths_keys, gold_path, items_path, stats_path):
         path, keys = paths_keys[name]
         res["run"] = run_stats(path, {k for k in keys if behind(k)})
         out[name] = res
+    return out
+
+
+def scoped(path, keys):
+    """A copy of the run file with only the given call keys, under bench_v6/merged/."""
+    os.makedirs(MERGED, exist_ok=True)
+    tag = hashlib.sha256((path + "|" + "|".join(sorted(keys))).encode()).hexdigest()[:12]
+    out = os.path.join(MERGED, f"_scope_{tag}.jsonl")
+    with open(path, encoding="utf-8") as src, open(out, "w", encoding="utf-8") as f:
+        for line in src:
+            try:
+                r = json.loads(line)
+            except json.JSONDecodeError:
+                continue                          # a line still being written
+            if r["call_key"] in keys:
+                f.write(line if line.endswith("\n") else line + "\n")
     return out
 
 
@@ -453,65 +532,129 @@ def delta(a, b, scope="overall"):
     return d
 
 
-def compare():
-    st = load_state()
-    steps = {s["id"]: s for s in STEPS}
-    ran = {k: v for k, v in st.get("steps", {}).items() if os.path.exists(os.path.join(ROOT, v["run_file"]))}
-
-    def pk(sid, inv_filter=None):
-        _, jobs = step_jobs(steps[sid])
-        return os.path.join(ROOT, ran[sid]["run_file"]), set(jobs)
-
+def comparisons(P, fixes=False):
+    """Every comparison the available steps allow. P: {step id: (run file, call keys)}."""
+    G1, G2 = os.path.join(HERE, "gold.jsonl"), os.path.join(HERE, "v2", "gold.jsonl")
     stats = os.path.join(HERE, "sampling_stats.json")
-    out = {"model": MODEL, "api": "anthropic (Message Batches)", "budget": BUDGET, "steps": st.get("steps"),
-           "probe": st.get("probe"), "schema_for_v6": True,
-           "note": ("identical comment sets per comparison (the comments every run in it covered); "
-                    "chains dropped on both sides as production does; 'reweighted' is v1's "
-                    "population estimate over single-comment strata"),
-           "comparisons": {}}
-    if os.path.exists(LEDGER):
-        with open(LEDGER, encoding="utf-8") as f:
-            out["ledger"] = json.load(f)
-    C = out["comparisons"]
-    if "a" in ran and "b" in ran:
-        C["comment_medium_v1"] = score({"v6": pk("a"), "current": pk("b")}, os.path.join(HERE, "gold.jsonl"), V1, stats)
-        C["comment_medium_v2"] = score({"v6": pk("a"), "current": pk("b")},
-                                       os.path.join(HERE, "v2", "gold.jsonl"), V2, "")
-    if "c" in ran and "d" in ran:
-        C["thread_medium_v1"] = score({"v6": pk("c"), "current": pk("d")}, os.path.join(HERE, "gold.jsonl"), V1, "")
-    if "a" in ran and "c" in ran:
-        C["v6_comment_vs_thread_v1"] = score({"comment": pk("a"), "thread": pk("c")},
-                                             os.path.join(HERE, "gold.jsonl"), V1, "")
-    if "a" in ran and "e-comment" in ran:
-        for g, items, tag in ((os.path.join(HERE, "gold.jsonl"), V1, "v1"),
-                              (os.path.join(HERE, "v2", "gold.jsonl"), V2, "v2")):
-            r = score({"low": pk("e-comment"), "medium": pk("a")}, g, items, "")
-            r["delta_low_minus_medium"] = delta(r["low"], r["medium"])
-            C[f"comment_low_vs_medium_{tag}"] = r
-    if "c" in ran and "e-thread" in ran:
-        r = score({"low": pk("e-thread"), "medium": pk("c")}, os.path.join(HERE, "gold.jsonl"), V1, "")
-        r["delta_low_minus_medium"] = delta(r["low"], r["medium"])
-        C["thread_low_vs_medium_v1"] = r
-    if "f" in ran and "a" in ran:
-        C["v6_thread_vs_comment_v2"] = score({"thread": pk("f"), "comment": pk("a")},
-                                             os.path.join(HERE, "v2", "gold.jsonl"), V2, "")
+    C = {}
+
+    def have(*ids):
+        return all(i in P for i in ids)
+
+    def pair(name, a, b, gold, items, st="", label=("", "")):
+        C[name] = score({label[0]: P[a], label[1]: P[b]}, gold, items, st, fixes)
+
+    if have("a", "b"):
+        pair("comment_medium_v1", "a", "b", G1, V1, stats, ("v6", "current"))
+        pair("comment_medium_v2", "a", "b", G2, V2, "", ("v6", "current"))
+    if have("c", "d"):
+        pair("thread_medium_v1", "c", "d", G1, V1, "", ("v6", "current"))
+    if have("f", "g"):
+        pair("thread_medium_v2", "f", "g", G2, V2, "", ("v6", "current"))
+    if have("a", "c"):
+        pair("v6_comment_vs_thread_v1", "a", "c", G1, V1, "", ("comment", "thread"))
+    if have("e-comment", "a"):
+        pair("comment_low_vs_medium_v1", "e-comment", "a", G1, V1, "", ("low", "medium"))
+        pair("comment_low_vs_medium_v2", "e-comment", "a", G2, V2, "", ("low", "medium"))
+    if have("e-thread", "c"):
+        pair("thread_low_vs_medium_v1", "e-thread", "c", G1, V1, "", ("low", "medium"))
+    if have("f", "a"):
+        pair("v6_thread_vs_comment_v2", "f", "a", G2, V2, "", ("thread", "comment"))
+    if have("j", "c"):
+        pair("thread_low_vs_medium_full_v1", "j", "c", G1, V1, "", ("low", "medium"))
+    if have("j", "f"):
+        pair("thread_low_vs_medium_full_v2", "j", "f", G2, V2, "", ("low", "medium"))
     for name, r in C.items():
-        pairs = [k for k in r if isinstance(r[k], dict) and "run" in r[k]]
-        if len(pairs) == 2 and "delta_low_minus_medium" not in r:
-            r["delta_" + "_minus_".join(pairs)] = delta(r[pairs[0]], r[pairs[1]])
-    path = os.path.join(OUT, "compare.json")
-    os.makedirs(OUT, exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1)
+        a, b = [k for k in r if isinstance(r[k], dict) and "run" in r[k]]
+        r[f"delta_{a}_minus_{b}"] = delta(r[a], r[b])
+    return C
+
+
+def merged(base, rerun, name):
+    """The base run file with every call the re-run finished replaced by the re-run's
+    record. Written under bench_v6/merged/ (derived, not committed); the run files
+    themselves are never modified. Returns (path, calls replaced)."""
+    rer = {}
+    if rerun and os.path.exists(rerun):
+        for r in map(json.loads, open(rerun, encoding="utf-8")):
+            if r.get("raw") is not None and r.get("rep", 0) == 0:
+                rer[r["call_key"]] = r
+    os.makedirs(MERGED, exist_ok=True)
+    out = os.path.join(MERGED, name)
+    with open(out, "w", encoding="utf-8") as f:
+        for r in map(json.loads, open(base, encoding="utf-8")):
+            if not (r["call_key"] in rer and r.get("rep", 0) == 0):
+                f.write(json.dumps(r, ensure_ascii=False) + "\n")
+        for r in rer.values():
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    return out, len(rer)
+
+
+def show(title, C):
+    print(f"\n######## {title}")
     for name, r in C.items():
         print(f"== {name}")
         for k, v in r.items():
             if isinstance(v, dict) and "run" in v:
                 o = v.get("overall") or {}
                 print(f"  {k:8s} n={v['comments']:4d}  " + "  ".join(
-                    f"{m.split('_')[0][:6]}:{o.get(m):.3f}" if isinstance(o.get(m), float) else f"{m.split('_')[0][:6]}:{o.get(m)}"
-                    for m in METRICS) + f"  ${v['run']['cost_usd']:.3f}")
-    print(f"written {path}")
+                    f"{m.split('_')[0][:6]}:{o.get(m):.3f}" if isinstance(o.get(m), float)
+                    else f"{m.split('_')[0][:6]}:{o.get(m)}" for m in METRICS) + f"  ${v['run']['cost_usd']:.3f}")
+
+
+def compare():
+    st = load_state()
+    steps = {s["id"]: s for s in STEPS}
+    ran = {k: v for k, v in st.get("steps", {}).items()
+           if k in steps and os.path.exists(os.path.join(ROOT, v["run_file"]))}
+    P = {sid: (os.path.join(ROOT, v["run_file"]), set(step_jobs(steps[sid])[1])) for sid, v in ran.items()}
+
+    out = {"model": MODEL, "api": "anthropic (Message Batches)", "budget": BUDGET, "steps": st.get("steps"),
+           "probe": st.get("probe"), "schema_for_v6": True,
+           "note": ("identical comment sets per comparison (the comments every run in it covered); "
+                    "chains dropped on both sides as production does; 'reweighted' is v1's "
+                    "population estimate over single-comment strata"),
+           "comparisons": comparisons(P)}
+    if os.path.exists(LEDGER):
+        with open(LEDGER, encoding="utf-8") as f:
+            out["ledger"] = json.load(f)
+    show("as run", out["comparisons"])
+
+    # With the truncation re-runs: h's records stand in for truncated v6 thread chunks
+    # (c and f share one run file), i's for truncated v6 comment calls (a).
+    Q = dict(P)
+    notes = {}
+    if "h" in P and ("c" in P or "f" in P):
+        base = P["c"][0] if "c" in P else P["f"][0]
+        path, n = merged(base, P["h"][0], "v6_thread_medium_with_h.jsonl")
+        notes["thread_chunks_replaced_by_h"] = n
+        for sid in ("c", "f"):
+            if sid in P:
+                Q[sid] = (path, P[sid][1] | P["h"][1])
+    if "i" in P and "a" in P:
+        path, n = merged(P["a"][0], P["i"][0], "v6_comment_medium_with_i.jsonl")
+        notes["comment_calls_replaced_by_i"] = n
+        Q["a"] = (path, P["a"][1] | P["i"][1])
+    if notes:
+        out["with_truncation_rerun"] = comparisons(Q)
+        out["with_truncation_rerun_notes"] = dict(notes, cost_note=(
+            "run costs in this view count the re-run's records only; the truncated attempts "
+            "they replace were also paid for (see the as-run view and the ledger)"))
+        show("with truncation re-run", out["with_truncation_rerun"])
+
+    # Scorer fixes (score.py fixes=True): overall-negative counts as a negative mention,
+    # street-word equivalence in key matching, and thread-mode precision without
+    # context-named no-opinion mentions. Same runs as the view above it.
+    out["scorer_fixed"] = comparisons(Q if notes else P, fixes=True)
+    out["scorer_fixed_note"] = ("score.py fixes=True on the " + ("with-re-run" if notes else "as-run") +
+                                " runs; the as-run view keeps the original scorer")
+    show("scorer-fixed", out["scorer_fixed"])
+
+    path = os.path.join(OUT, "compare.json")
+    os.makedirs(OUT, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(out, f, indent=1)
+    print(f"\nwritten {path}")
 
 
 def main():
