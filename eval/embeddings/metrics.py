@@ -70,8 +70,13 @@ def per_query(ranked, rel, opp):
         m["mrr"] = rr
     m["p@10"] = sum(1 for d in ranked[:10] if rel.get(d, 0) >= 1) / 10
     m["p@10_strict"] = sum(1 for d in ranked[:10] if rel.get(d, 0) == 2) / 10
+    # Every system's top 20 is in the pool, so P@20 is fully judged for all of
+    # them. Recall@20 is not a fair separator here: with ~73 relevant comments
+    # per query, its ceiling is ~28 for everyone.
+    m["p@20"] = sum(1 for d in ranked[:20] if rel.get(d, 0) >= 1) / 20
     m["opposite@10"] = sum(1 for d in ranked[:10] if d in opp)
     m["judged@10"] = sum(1 for d in ranked[:10] if d in rel) / 10
+    m["judged@50"] = sum(1 for d in ranked[:50] if d in rel) / max(1, min(50, len(ranked)))
     return m
 
 
@@ -133,7 +138,7 @@ def main():
     runs = {p.stem: json.loads(p.read_text()) for p in sorted(rundir.glob("*.json"))}
 
     qids = [q["qid"] for q in queries if q["qid"] in qrels]
-    metrics_names = ["ndcg@10", "recall@20", "recall@50", "mrr", "p@10", "p@10_strict"]
+    metrics_names = ["ndcg@10", "p@20", "recall@20", "recall@50", "mrr", "p@10", "p@10_strict"]
     per = {}
     for s, run in runs.items():
         per[s] = {}
@@ -154,7 +159,7 @@ def main():
     summary = {}
     for s in runs:
         row = {}
-        for mn in metrics_names + ["rest_rel@10", "rest_judged@10", "opposite@10", "judged@10"]:
+        for mn in metrics_names + ["rest_rel@10", "rest_judged@10", "opposite@10", "judged@10", "judged@50"]:
             vals = [per[s][q].get(mn) for q in usable]
             vals = [v for v in vals if v is not None]
             if vals:
@@ -164,11 +169,11 @@ def main():
 
     order = sorted(summary, key=lambda s: -summary[s]["ndcg@10"][0])
     best = order[0]
-    best_recall = max(summary, key=lambda s: summary[s]["recall@50"][0])
+    paired_metrics = ("ndcg@10", "p@20", "recall@20", "recall@50")
     comp = {}
     for s in order:
         comp[s] = {}
-        for mn in ("ndcg@10", "recall@20", "recall@50"):
+        for mn in paired_metrics:
             ref = best if mn == "ndcg@10" else max(summary, key=lambda x: summary[x][mn][0])
             av = [per[ref][q][mn] for q in usable]
             bv = [per[s][q][mn] for q in usable]
@@ -178,23 +183,46 @@ def main():
              f"{len(usable)} queries with at least one relevant judged document"
              + (f"; {len(empty)} with none, excluded: {', '.join(empty)}" if empty else "") + ".",
              f"Mean with 95% bootstrap CI over queries, x100. Bootstrap {B} resamples.\n",
-             "| system | nDCG@10 | recall@20 | recall@50 | MRR | P@10 | P@10 (grade 2) | judged@10 |",
-             "|---|---|---|---|---|---|---|---|"]
+             "| system | nDCG@10 | P@20 | recall@20 | recall@50 | MRR | P@10 | P@10 (grade 2) | judged@50 |",
+             "|---|---|---|---|---|---|---|---|---|"]
     for s in order:
         r = summary[s]
         lines.append(f"| {s} | " + " | ".join(fmt_ci(r[m]) for m in metrics_names) +
-                     f" | {r['judged@10'][0]*100:.0f}% |")
+                     f" | {r['judged@50'][0]*100:.0f}% |")
 
     lines += ["\n## Paired differences vs the leader\n",
               "Leader minus system, x100, with 95% CI and the share of bootstrap resamples in which the "
               "leader stays ahead. A CI that includes 0 means the gap is within noise.\n",
-              "| system | nDCG@10 vs leader | recall@20 vs leader | recall@50 vs leader |", "|---|---|---|---|"]
+              "| system | nDCG@10 vs leader | P@20 vs leader | recall@20 vs leader | recall@50 vs leader |",
+              "|---|---|---|---|---|"]
     for s in order:
         cells = []
-        for mn in ("ndcg@10", "recall@20", "recall@50"):
+        for mn in paired_metrics:
             ref, d, lo, hi, p = comp[s][mn]
             cells.append("leader" if ref == s else f"{d*100:+.1f} [{lo*100:+.1f}, {hi*100:+.1f}] ({p*100:.0f}%) vs {ref}")
         lines.append(f"| {s} | " + " | ".join(cells) + " |")
+
+    # Head-to-head between the dense models themselves (no hybrids), on the
+    # metrics every system is fully judged on. The leader table above only
+    # compares against one system; choosing a model needs the pairs.
+    dense = [s for s in ("qwen3-8b", "oai-3-large", "gemini-2", "oai-3-small", "voyage-4-large",
+                         "qwen3-8b@1024", "oai-3-large@1024", "gemini-2@1024") if s in per]
+    h2h_metrics = ("ndcg@10", "p@20", "p@10_strict")
+    lines += ["\n## Head-to-head between dense models\n",
+              "Row minus column on the same queries, x100, 95% paired bootstrap CI. **Bold** when the CI "
+              "excludes 0. Only metrics that are fully judged for every system.\n"]
+    for mn in h2h_metrics:
+        lines += [f"\n**{mn}**\n", "| | " + " | ".join(dense) + " |", "|---|" + "---|" * len(dense)]
+        for a_ in dense:
+            cells = []
+            for b_ in dense:
+                if a_ == b_:
+                    cells.append("")
+                    continue
+                d, lo, hi, _ = paired([per[a_][q][mn] for q in usable], [per[b_][q][mn] for q in usable], rng)
+                txt = f"{d*100:+.1f} [{lo*100:+.1f}, {hi*100:+.1f}]"
+                cells.append(f"**{txt}**" if lo > 0 or hi < 0 else txt)
+            lines.append(f"| {a_} | " + " | ".join(cells) + " |")
 
     # Per category and holdout split, nDCG@10 means.
     cats = sorted({qmeta[q]["category"] for q in usable})

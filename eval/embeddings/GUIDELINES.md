@@ -72,3 +72,19 @@ spot" for "date spot".
   rather than 2 when it's genuinely ambiguous.
 - Output one JSON object per pair: `{"pair_id": ..., "grade": 0|1|2,
   "opposite": true|false}`.
+
+## Threads (secondary benchmark)
+
+Added after the comment judging, before any thread results were looked at.
+For thread batches the unit is a whole Reddit post: its title and post text,
+not its replies. A search hit on a thread is useful because its replies are the
+discussion of that need.
+
+- **2:** the thread is clearly about the query's need. Either it asks for
+  exactly this ("Best date night spot in the West Village?" for *date night*)
+  or it is a post that recommends or reviews a place for it.
+- **1:** partly about it: a broader or adjacent ask ("Dinner ideas for this
+  weekend" for *date night*), the right dish or cuisine in the wrong area, or
+  the need appears only in passing.
+- **0:** not about it. The `opposite` flag works as for comments: the post is
+  on the topic but negated or opposite ("Where to avoid for a first date").
