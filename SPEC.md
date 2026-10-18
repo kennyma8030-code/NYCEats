@@ -106,6 +106,102 @@ than the restaurant's.
 
 ---
 
+## Decided — semantic search embeddings
+
+Vectors for semantic search are a **cache**, like every score: three tables
+(`comment_embeddings`, `thread_embeddings`, `embedding_errors`) that can be
+dropped and rebuilt with `embed.py`. They are never columns on `comments`.
+The model was picked by the benchmark on branch `worktree-agent-abf6969e5737447f0`
+(`eval/embeddings/RESULTS.md`).
+
+**What is embedded.**
+- **Comments.** Every comment with at least one `mentions` row (under any
+  prompt hash) whose body is not `[deleted]`/`[removed]`, about 97k. The text
+  is thread title, a blank line, then the comment body. No parent and no
+  selftext: selftext is shared by the whole thread and would pull its comments
+  together. One vector per comment. Search groups by restaurant through
+  `mentions` when it reads, never at embed time.
+- **Threads.** All of them, about 44k. The text is the title, a blank line,
+  then the selftext cut to 1,500 characters (blank if removed).
+- **Nothing is filtered at embed time** for `excluded_entities`, unresolved
+  names, `is_negated` or `reference_only`. Those move with identity decisions
+  and prompt versions, so filtering them belongs to the query.
+
+**The model.** `qwen/qwen3-embedding-8b` through OpenRouter, pinned to
+DeepInfra with no fallback. DeepInfra and Nebius disagree (cos 0.9976).
+The model returns 4,096 dims; the first 1,024 are kept and L2-renormalised, stored as
+`halfvec(1024)`. That scored within noise of full size on comments, and HNSW
+cannot index a halfvec over 4,000 dims. OpenRouter's `dimensions: 1024` was
+checked to give the same vector, so it is sent to shrink responses.
+Documents are embedded raw. Queries get the model card's instruction
+(`embedding.format_query`), because OpenRouter ignores `input_type` for Qwen.
+All of it lives in `embedding.py`. `model` in the tables is
+`embedding.MODEL_KEY` (`qwen/qwen3-embedding-8b@1024:deepinfra`), and vectors
+are only comparable within one value.
+
+**Keys.** `EMBED_OPENROUTER_API_KEY` if set, else `OPENROUTER_API_KEY`. Give
+embeddings their own key with its own limit, so they can never exhaust the
+key extraction runs on.
+
+**Running the backlog.** It costs about $0.09 (8.6M tokens at $0.01/M).
+
+```
+psql "$DATABASE_URL" -f embed_schema.sql     # once: pgvector + the tables
+python embed.py --dry-run                    # rows, tokens, projected cost; no call, no write
+python embed.py --max-usd 0.50               # comments, then threads; resumable
+python embed.py --build-index                # HNSW, only after the backlog has loaded
+```
+
+A row is due when it has no vector for the current `MODEL_KEY`, or its stored
+`input_hash` (sha256 of the exact text) no longer matches. Kill and restart
+freely. A refused input is isolated by splitting its batch, then recorded in
+`embedding_errors` and skipped until its text changes, or until
+`--retry-errors`. An auth, credit or outage failure stops the run instead and
+leaves the rows to do. The spend cap reserves each request before sending it.
+Attempts that may have been billed without returning vectors (timeouts, 5xx,
+a 200 without vectors) are charged against it.
+
+The poller keeps up with new comments when `POLL_EMBED=1`. Each cycle runs
+extract, then embed, then refresh, over the last `POLL_EMBED_DAYS` (3). The
+cycle is capped by `POLL_EMBED_LIMIT` (2,000 rows) and `POLL_EMBED_MAX_USD`
+($0.05). `POLL_EMBED_SCOPE` is `comments` by default, so new threads need
+`both` or a periodic `embed.py --scope threads`. The step is fail-soft: with no
+key it switches off at boot, and an error or outage in it never blocks
+extraction or the refresh.
+
+**The index** is built after the backlog, never before: a graph maintained
+through 140k inserts is far slower than one built once. There is one partial
+index per table and model (`... where model = '<MODEL_KEY>'`). The build is
+`CONCURRENTLY` and serial: Railway's small `/dev/shm` kills parallel builds
+the same way it killed the parallel refresh.
+
+**A model or provider swap** is new rows, not a migration:
+1. Change `MODEL`/`DIMS`/`PROVIDER` in `embedding.py`. That gives a new
+   `MODEL_KEY`.
+2. Run `embed.py`. Every row is due under the new key; the old rows are
+   untouched and search keeps working.
+3. Run `embed.py --build-index` for the new partial index.
+4. Point search at the new key, then
+   `delete from comment_embeddings where model = '<old key>'` (and the same for
+   threads and `embedding_errors`), and drop the old index.
+
+A dims change past 1,024 also needs a new column type, since the columns are
+`halfvec(1024)`.
+
+**What search must do when it reads:**
+- Say `where model = '<MODEL_KEY>'` as a literal, or the partial index is not
+  used.
+- `set hnsw.iterative_scan = relaxed_order` (pgvector 0.8+; production has
+  0.8.6). Otherwise a time window or the filters below empty out the 40
+  candidates HNSW returns, and results silently starve.
+- Filter at read time: mentions of `excluded_entities` (on the resolved key),
+  `is_negated` mentions, and `reference_only` once that column exists.
+- Suppress permalinks where `was_deleted_later` is set, like everywhere else.
+- Embed the query with `embedding.embed_query`. It uses the same model,
+  provider, instruction, cut and keep-alive session.
+
+---
+
 ## Open
 
 - **Entity resolution.** Still the hardest part and most likely to sink it.

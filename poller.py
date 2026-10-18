@@ -7,6 +7,11 @@ With --extract (or POLL_EXTRACT=1, which is what deploy.py sets on Railway)
 each cycle also runs the extraction prompt over the comments that just
 arrived and refreshes the scoring views, so the board moves within one poll
 instead of waiting for someone to run extract.py and sync.py by hand.
+
+With --embed (or POLL_EMBED=1) each cycle also embeds the newly extracted
+comments for semantic search, between extraction and the refresh. That step
+is optional by design: without a key it is switched off at boot, and any
+failure in it is logged and skipped, never allowed to hold up the board.
 """
 
 import argparse
@@ -67,8 +72,16 @@ def settle_once(conn, batches=5):
         print(f"  settled scores for {total} comment(s)")
 
 
+def _since(conn, days):
+    with conn.cursor() as cur:
+        cur.execute("select now() - make_interval(days => %s)", (days,))
+        since = cur.fetchone()[0]
+    conn.commit()
+    return since
+
+
 def extract_once(conn, days, limit, workers):
-    """Extract what arrived recently, then rebuild the board if anything landed.
+    """Extract what arrived recently. Returns how many comments were done.
 
     The window is the safety catch, not a tuning knob. Production holds the
     whole corpus with nothing extracted -- that backlog is done locally and
@@ -77,15 +90,47 @@ def extract_once(conn, days, limit, workers):
     than `days` are eligible, and at most `limit` per cycle.
     """
     import extract
-    import refresh
 
-    with conn.cursor() as cur:
-        cur.execute("select now() - make_interval(days => %s)", (days,))
-        since = cur.fetchone()[0]
-    done, found = extract.run(conn, limit=limit, since=since, workers=workers)
-    if not done:
-        return
-    print(f"  extracted {done} comment(s), {found} mention(s)")
+    done, found = extract.run(conn, limit=limit, since=_since(conn, days), workers=workers)
+    if done:
+        print(f"  extracted {done} comment(s), {found} mention(s)")
+    return done
+
+
+def embed_once(conn, days, limit, max_usd, scope, workers):
+    """Embed the comments that are new enough and already have mentions.
+
+    Same window idea as extract_once: the backlog is embedded by hand with
+    embed.py, and this only keeps up with what arrives. It runs after
+    extraction, because a comment is only eligible once it has a mention.
+
+    It must never hold up the board. The caller runs it in its own try, and
+    it is bounded here: few retries, a short timeout, a per-cycle spend cap,
+    and a deadline after which no new page starts -- so an OpenRouter outage
+    costs one batch's retries, not the refresh behind it.
+    """
+    import embed
+    import embedding
+
+    if not embed.tables_exist(conn):
+        conn.commit()
+        print("  embed: tables missing -- apply embed_schema.sql; skipping")
+        return 0
+    budget = embedding.Budget(max_usd)
+    stats = embed.run(conn, embed.KINDS[scope], budget, limit=limit,
+                      since=_since(conn, days), workers=workers,
+                      attempts=EMBED_ATTEMPTS, timeout=EMBED_TIMEOUT,
+                      deadline=time.monotonic() + EMBED_DEADLINE, log=lambda *_: None)
+    n, failed = sum(stats.embedded.values()), sum(stats.failed.values())
+    if n or failed or stats.stop:
+        print(f"  embedded {n} row(s), {failed} failed, ${budget.spent:.4f}"
+              + (f" -- stopped: {stats.stop}" if stats.stop else ""))
+    return n
+
+
+def refresh_once(conn):
+    """Rebuild the board after new mentions landed."""
+    import refresh
 
     # Serial plan on purpose: Railway's Postgres container has a small
     # /dev/shm, and a parallel refresh of entity_leaderboard dies on it with
@@ -100,6 +145,48 @@ def extract_once(conn, days, limit, workers):
         with conn.cursor() as cur:
             cur.execute("reset max_parallel_workers_per_gather")
         conn.commit()
+
+
+# The embed step's bounds inside one 30-minute cycle. Worst case on an outage
+# is one batch's attempts at the timeout, about three minutes.
+EMBED_ATTEMPTS = 3
+EMBED_TIMEOUT = 60
+EMBED_DEADLINE = 5 * 60
+
+
+def _step(name, fn, conn, *args):
+    """Run one step of a cycle so that its failure is only its own.
+
+    Prints the traceback and rolls back, then returns None, so the next
+    step still runs on a clean connection.
+    """
+    try:
+        return fn(conn, *args)
+    except Exception:
+        print(f"  {name} failed:")
+        traceback.print_exc()
+        conn.rollback()
+        return None
+
+
+def run_cycle(conn, args):
+    """One poll: collect, then extract, then embed, then refresh.
+
+    Each step gets its own try. A failed extraction must not look like a
+    failed poll, a failed poll still leaves earlier arrivals worth
+    extracting, and embedding is strictly optional: an embedding error or an
+    OpenRouter outage never blocks extraction or the refresh.
+    """
+    _step("poll", lambda c: (poll_once(c), settle_once(c)), conn)
+    extracted = 0
+    if args.extract:
+        extracted = _step("extract", extract_once, conn, args.extract_days,
+                          args.extract_limit, args.extract_workers) or 0
+    if args.embed:
+        _step("embed", embed_once, conn, args.embed_days, args.embed_limit,
+              args.embed_max_usd, args.embed_scope, args.embed_workers)
+    if extracted:
+        _step("refresh", refresh_once, conn)
 
 
 def _env_flag(name):
@@ -131,7 +218,36 @@ def main():
     ap.add_argument("--extract-workers", type=int,
                     default=int(os.environ.get("POLL_EXTRACT_WORKERS", "8")),
                     help="concurrent API calls ($POLL_EXTRACT_WORKERS, default 8)")
+    ap.add_argument("--embed", action="store_true", default=_env_flag("POLL_EMBED"),
+                    help="also embed new comments for semantic search each cycle ($POLL_EMBED)")
+    ap.add_argument("--embed-days", type=int,
+                    default=int(os.environ.get("POLL_EMBED_DAYS", "3")),
+                    help="only embed rows from the last N days ($POLL_EMBED_DAYS, default 3)")
+    ap.add_argument("--embed-limit", type=int,
+                    default=int(os.environ.get("POLL_EMBED_LIMIT", "2000")),
+                    help="at most N rows embedded per cycle ($POLL_EMBED_LIMIT, default 2000)")
+    ap.add_argument("--embed-max-usd", type=float,
+                    default=float(os.environ.get("POLL_EMBED_MAX_USD", "0.05")),
+                    help="spend cap per cycle ($POLL_EMBED_MAX_USD, default 0.05)")
+    ap.add_argument("--embed-scope", choices=("comments", "threads", "both"),
+                    default=os.environ.get("POLL_EMBED_SCOPE", "comments"),
+                    help="what to embed ($POLL_EMBED_SCOPE, default comments)")
+    ap.add_argument("--embed-workers", type=int,
+                    default=int(os.environ.get("POLL_EMBED_WORKERS", "2")),
+                    help="concurrent embedding requests ($POLL_EMBED_WORKERS, default 2)")
     args = ap.parse_args()
+
+    if args.embed:
+        import embedding
+        # Unlike extraction, a missing key turns embedding off rather than
+        # failing the deploy: search is optional, the board is not.
+        if not embedding.api_key_var():
+            print(f"embedding OFF: --embed needs {' or '.join(embedding.KEY_VARS)}")
+            args.embed = False
+        else:
+            print(f"embedding on: {embedding.MODEL_KEY} (key from {embedding.api_key_var()}), "
+                  f"{args.embed_scope} from the last {args.embed_days}d, "
+                  f"<= {args.embed_limit}/cycle, <= ${args.embed_max_usd:.2f}/cycle")
 
     if args.extract:
         import extract
@@ -181,23 +297,7 @@ def main():
 
     while True:
         started = time.time()
-        try:
-            poll_once(conn)
-            settle_once(conn)
-        except Exception:
-            traceback.print_exc()
-            conn.rollback()
-
-        # Separate try: a failed extraction must not look like a failed poll,
-        # and a failed poll still leaves earlier arrivals worth extracting.
-        if args.extract:
-            try:
-                extract_once(conn, args.extract_days, args.extract_limit,
-                             args.extract_workers)
-            except Exception:
-                traceback.print_exc()
-                conn.rollback()
-
+        run_cycle(conn, args)
         if args.once:
             break
         sleep = max(0, INTERVAL - (time.time() - started))

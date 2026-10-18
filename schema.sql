@@ -177,3 +177,59 @@ create table if not exists restaurant_images (
 
 create index if not exists restaurant_images_stale_idx
   on restaurant_images(fetched_at) where not locked;
+
+
+-- ---------------------------------------------------------------------------
+-- Embedding caches for semantic search (embed.py, embed_schema.sql).
+--
+-- Same tables as embed_schema.sql, which explains them; that file is the
+-- migration to apply by hand. They are repeated here so a fresh database
+-- gets them like everything else, and guarded because this file runs on
+-- every poller and backfill boot: a Postgres without pgvector (a laptop,
+-- the stale local copy) must still boot, and simply has no embeddings.
+-- tests/test_embed_schema.py keeps the two copies identical.
+-- The HNSW index is deliberately absent: it is built after the backlog
+-- (`python embed.py --build-index`).
+-- ---------------------------------------------------------------------------
+do $$
+begin
+  if not exists (select 1 from pg_available_extensions where name = 'vector') then
+    raise notice 'pgvector is not installed on this server; skipping embedding tables';
+    return;
+  end if;
+  begin
+    create extension if not exists vector;
+  exception when insufficient_privilege then
+    raise notice 'no privilege to create extension vector; skipping embedding tables';
+    return;
+  end;
+
+  create table if not exists comment_embeddings (
+    comment_id  text not null references comments(id),
+    model       text not null,
+    input_hash  text not null,
+    embedding   halfvec(1024) not null,
+    embedded_at timestamptz not null default now(),
+    primary key (comment_id, model)
+  );
+
+  create table if not exists thread_embeddings (
+    thread_id   text not null references threads(id),
+    model       text not null,
+    input_hash  text not null,
+    embedding   halfvec(1024) not null,
+    embedded_at timestamptz not null default now(),
+    primary key (thread_id, model)
+  );
+
+  create table if not exists embedding_errors (
+    kind       text not null,
+    item_id    text not null,
+    model      text not null,
+    input_hash text not null,
+    error      text not null,
+    failures   int not null default 1,
+    failed_at  timestamptz not null default now(),
+    primary key (kind, item_id, model)
+  );
+end $$;

@@ -1,0 +1,515 @@
+"""embed.py against a real, disposable Postgres with pgvector. API stubbed.
+
+    EMBED_TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:55439/embedtest \\
+        python -m unittest discover -s tests
+
+Skipped unless EMBED_TEST_DATABASE_URL is set. These tests DROP AND RECREATE
+the public schema of that database, so the URL must point at a throwaway
+server on this machine: the guard below refuses anything that is not
+localhost, the stale copy on :5433, or a database without "test" in its name.
+Never point it at DATABASE_URL.
+"""
+
+import dataclasses
+import os
+import unittest
+from datetime import datetime, timedelta, timezone
+from unittest import mock
+from urllib.parse import urlparse
+
+import psycopg2
+
+from fakes import FakeOpenRouter, FakeResponse, ok_body, ROOT
+
+import embed
+import embedding as E
+
+URL = os.environ.get("EMBED_TEST_DATABASE_URL")
+
+
+def _guard(url):
+    u = urlparse(url)
+    if u.hostname not in ("127.0.0.1", "localhost", "::1"):
+        raise SystemExit(f"refusing to drop schemas on {u.hostname}: tests need a local throwaway db")
+    if (u.port or 5432) == 5433:
+        raise SystemExit("refusing :5433, the stale local copy")
+    if "test" not in (u.path or "").lstrip("/"):
+        raise SystemExit("refusing a database whose name lacks 'test'")
+    if url == os.environ.get("DATABASE_URL"):
+        raise SystemExit("EMBED_TEST_DATABASE_URL equals DATABASE_URL")
+
+
+NOW = datetime.now(timezone.utc)
+LONG_SELFTEXT = "é" * 1499 + "🍕" + "tail " * 400
+THREADS = [
+    ("t3_a", "Best pizza in Brooklyn?", LONG_SELFTEXT, NOW),
+    ("t3_b", "Café ☕ in 法拉盛", "[removed]", NOW),
+    ("t3_c", "No selftext", None, NOW),
+    ("t3_d", "Deleted post", "[deleted]", NOW),
+    ("t3_e", "Quotes 'and' \\backslashes\\", "line one\r\nline \"two\"\n\n", NOW),
+    ("t3_old", "Old thread", "from last year", NOW - timedelta(days=400)),
+]
+SPECIAL = [
+    # id, thread, body, has_mention, created
+    ("t1_deleted", "t3_a", "[deleted]", True, NOW),
+    ("t1_removed", "t3_a", "[removed]", True, NOW),
+    ("t1_nomention", "t3_a", "I have no mentions", False, NOW),
+    ("t1_unicode", "t3_b", "Dumplings 🥟 at Nan Xiang 南翔, très bien", True, NOW),
+    ("t1_crlf", "t3_e", "it's \\n not a newline\r\nbut this is", True, NOW),
+    ("t1_old", "t3_old", "Old comment about Lucali", True, NOW - timedelta(days=30)),
+]
+N_BULK = 300
+
+
+def bulk_id(i):
+    return f"t1_bulk{i:04d}"
+
+
+class DbCase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        if not URL:
+            raise unittest.SkipTest("EMBED_TEST_DATABASE_URL not set")
+        _guard(URL)
+
+    def setUp(self):
+        self.conn = psycopg2.connect(URL)
+        with self.conn.cursor() as cur:
+            cur.execute("drop schema if exists public cascade; create schema public")
+        self.conn.commit()
+        import db
+        db.init(self.conn, os.path.join(ROOT, "schema.sql"))
+        self.load_fixtures()
+
+    def tearDown(self):
+        self.conn.rollback()
+        self.conn.close()
+
+    def load_fixtures(self):
+        with self.conn.cursor() as cur:
+            for tid, title, selftext, created in THREADS:
+                cur.execute("""insert into threads (id, subreddit, title, selftext, created_utc)
+                               values (%s, 'FoodNYC', %s, %s, %s)""", (tid, title, selftext, created))
+            rows = list(SPECIAL) + [(bulk_id(i), "t3_a", f"Comment {i} about L'Industrie",
+                                     True, NOW) for i in range(N_BULK)]
+            for cid, tid, body, mention, created in rows:
+                cur.execute("""insert into comments (id, thread_id, parent_id, body, permalink,
+                                                     created_utc)
+                               values (%s, %s, %s, %s, '', %s)""", (cid, tid, tid, body, created))
+                if mention:
+                    # Two prompt hashes on some rows: eligibility is "any mention".
+                    for ph in (["p1", "p2"] if cid.endswith("0") else ["p1"]):
+                        cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key,
+                                                             model_version, prompt_hash)
+                                       values (%s, 'X', 'x', 'm', %s)""", (cid, ph))
+        self.conn.commit()
+
+    # helpers
+    def count(self, sql, *args):
+        with self.conn.cursor() as cur:
+            cur.execute(sql, args)
+            return cur.fetchone()[0]
+
+    def eligible_comments(self):
+        return {c[0] for c in SPECIAL
+                if c[3] and c[2] not in ("[deleted]", "[removed]")} | \
+               {bulk_id(i) for i in range(N_BULK)}
+
+    def run_embed(self, scope="both", budget=None, **kw):
+        kw.setdefault("workers", 2)
+        kw.setdefault("attempts", 2)
+        return embed.run(self.conn, embed.KINDS[scope], budget or E.Budget(1.0),
+                         log=lambda *_: None, **kw)
+
+
+class SqlMirrorsFormatter(DbCase):
+    def test_text_and_hash_match_python(self):
+        for kind in (embed.COMMENTS, embed.THREADS):
+            with self.conn.cursor() as cur:
+                cur.execute(f"select src.id, src.a, src.b, src.txt from ({kind.source}) src",
+                            {"after": "", "since": None})
+                rows = cur.fetchall()
+            self.assertTrue(rows)
+            for item_id, a, b, txt in rows:
+                self.assertEqual(txt, kind.fmt(a, b), item_id)
+            for item_id, a, b, h in embed.select_todo(self.conn, kind, "", 10_000):
+                self.assertEqual(h, E.input_hash(kind.fmt(a, b)), item_id)
+
+    def test_long_selftext_cut_at_1500_characters(self):
+        [(_, a, b, _)] = [r for r in embed.select_todo(self.conn, embed.THREADS, "", 100)
+                          if r[0] == "t3_a"]
+        self.assertTrue(E.format_thread(a, b).endswith("🍕"))
+
+
+class Eligibility(DbCase):
+    def test_what_gets_selected(self):
+        got = {r[0] for r in embed.select_todo(self.conn, embed.COMMENTS, "", 10_000)}
+        self.assertEqual(got, self.eligible_comments())
+        threads = {r[0] for r in embed.select_todo(self.conn, embed.THREADS, "", 10_000)}
+        self.assertEqual(threads, {t[0] for t in THREADS})
+
+    def test_since_window(self):
+        since = NOW - timedelta(days=3)
+        got = {r[0] for r in embed.select_todo(self.conn, embed.COMMENTS, "", 10_000, since)}
+        self.assertNotIn("t1_old", got)
+        self.assertIn("t1_unicode", got)
+
+
+class FullRun(DbCase):
+    def test_embeds_everything_once(self):
+        b = E.Budget(1.0)
+        with FakeOpenRouter() as api:
+            stats = self.run_embed(budget=b, batch=64)
+        self.assertIsNone(stats.stop)
+        self.assertEqual(stats.embedded, {"comment": len(self.eligible_comments()),
+                                          "thread": len(THREADS)})
+        self.assertEqual(len(api.inputs), len(self.eligible_comments()) + len(THREADS))
+        self.assertTrue(all(len(r["payload"]["input"]) <= 64 for r in api.requests))
+        self.assertEqual(self.count("select count(*) from comment_embeddings where model = %s",
+                                    E.MODEL_KEY), len(self.eligible_comments()))
+        # stored as unit-length halfvec(1024)
+        with self.conn.cursor() as cur:
+            cur.execute("""select min(vector_dims(embedding)), max(vector_dims(embedding)),
+                                  min(l2_norm(embedding)), max(l2_norm(embedding))
+                           from comment_embeddings""")
+            dmin, dmax, nmin, nmax = cur.fetchone()
+        self.assertEqual((dmin, dmax), (1024, 1024))
+        self.assertAlmostEqual(nmin, 1.0, places=2)
+        self.assertAlmostEqual(nmax, 1.0, places=2)
+        self.conn.rollback()
+
+        with FakeOpenRouter() as again:
+            stats = self.run_embed()
+        self.assertEqual(again.requests, [])
+        self.assertEqual(sum(stats.embedded.values()), 0)
+
+    def test_stored_hash_is_of_the_embedded_text(self):
+        with FakeOpenRouter() as api:
+            self.run_embed(scope="comments")
+        sent = {E.input_hash(t) for t in api.inputs}
+        with self.conn.cursor() as cur:
+            cur.execute("select input_hash from comment_embeddings")
+            stored = {r[0] for r in cur.fetchall()}
+        self.assertEqual(stored, sent)
+
+
+class ChangedText(DbCase):
+    def test_edited_comment_is_embedded_again(self):
+        with FakeOpenRouter():
+            self.run_embed()
+        with self.conn.cursor() as cur:
+            cur.execute("update comments set body = 'edited: now about Lucali' where id = 't1_unicode'")
+        self.conn.commit()
+        with FakeOpenRouter() as api:
+            stats = self.run_embed()
+        self.assertEqual(api.inputs, [E.format_comment("Café ☕ in 法拉盛", "edited: now about Lucali")])
+        self.assertEqual(stats.embedded, {"comment": 1, "thread": 0})
+        self.assertEqual(self.count("select count(*) from comment_embeddings where comment_id = 't1_unicode'"), 1)
+        self.assertEqual(
+            self.count("select input_hash from comment_embeddings where comment_id = 't1_unicode'"),
+            E.input_hash(api.inputs[0]))
+
+    def test_changed_title_reembeds_its_thread_and_comments(self):
+        with FakeOpenRouter():
+            self.run_embed()
+        with self.conn.cursor() as cur:
+            cur.execute("update threads set title = 'Café renamed' where id = 't3_b'")
+        self.conn.commit()
+        with FakeOpenRouter() as api:
+            stats = self.run_embed()
+        self.assertEqual(stats.embedded, {"comment": 1, "thread": 1})
+        self.assertEqual(len(api.inputs), 2)
+
+    def test_other_model_rows_are_left_alone(self):
+        with FakeOpenRouter():
+            self.run_embed(scope="comments")
+        with self.conn.cursor() as cur:
+            cur.execute("update comment_embeddings set model = 'old-model@1024:other'")
+        self.conn.commit()
+        with FakeOpenRouter() as api:
+            self.run_embed(scope="comments")
+        n = len(self.eligible_comments())
+        self.assertEqual(len(api.inputs), n)        # new model: everything is due
+        self.assertEqual(self.count("select count(*) from comment_embeddings"), 2 * n)
+
+
+class Resume(DbCase):
+    def _kill_on_second_store(self, exc):
+        real = embed.store_vectors
+        calls = []
+
+        def store(conn, kind, done):
+            calls.append(1)
+            if len(calls) == 2:
+                raise exc
+            return real(conn, kind, done)
+        return mock.patch.object(embed, "store_vectors", store)
+
+    def test_hard_kill_mid_run_then_resume(self):
+        with FakeOpenRouter(), self._kill_on_second_store(SystemExit("killed")):
+            with self.assertRaises(SystemExit):
+                self.run_embed(scope="comments", batch=50, workers=1)
+        self.conn.rollback()
+        first = self.count("select count(*) from comment_embeddings")
+        self.assertEqual(first, 50)
+        with self.conn.cursor() as cur:
+            cur.execute("select comment_id from comment_embeddings")
+            done = {r[0] for r in cur.fetchall()}
+        self.conn.commit()
+
+        with FakeOpenRouter() as api:
+            stats = self.run_embed(scope="comments", batch=50)
+        self.assertIsNone(stats.stop)
+        resent = {i for i in self.eligible_comments()}
+        self.assertEqual(len(api.inputs), len(resent) - first)
+        self.assertEqual(self.count("select count(*) from comment_embeddings"), len(resent))
+        # nothing that was committed before the kill was paid for twice
+        with self.conn.cursor() as cur:
+            cur.execute("select c.id, t.title, c.body from comments c join threads t on t.id = c.thread_id "
+                        "where c.id = any(%s)", (list(done),))
+            done_texts = {E.format_comment(t, b) for _, t, b in cur.fetchall()}
+        self.assertFalse(done_texts & set(api.inputs))
+
+    def test_ctrl_c_keeps_finished_batches(self):
+        with FakeOpenRouter(), self._kill_on_second_store(KeyboardInterrupt()):
+            stats = self.run_embed(scope="comments", batch=50, workers=1)
+        self.assertIn("interrupted", stats.stop)
+        self.assertEqual(self.count("select count(*) from comment_embeddings"), 50)
+
+
+class PerRowErrors(DbCase):
+    POISON = "t1_bulk0123"
+
+    def poison_handler(self, p):
+        if any("Comment 123 " in t for t in p["input"]):
+            return FakeResponse(400, None, '{"error": "input rejected"}')
+        return FakeResponse(200, ok_body(p))
+
+    def test_bad_input_is_isolated_and_recorded(self):
+        with FakeOpenRouter(self.poison_handler) as api:
+            stats = self.run_embed(scope="comments", batch=128)
+        self.assertIsNone(stats.stop)
+        n = len(self.eligible_comments())
+        self.assertEqual(stats.embedded["comment"], n - 1)
+        self.assertEqual(stats.failed["comment"], 1)
+        # bisection: the batch holding the poison was split down to it
+        self.assertGreater(len(api.requests), -(-n // 128))
+        with self.conn.cursor() as cur:
+            cur.execute("select item_id, kind, model, error, failures from embedding_errors")
+            [(item, kind, model, err, failures)] = cur.fetchall()
+        self.conn.commit()
+        self.assertEqual((item, kind, model, failures), (self.POISON, "comment", E.MODEL_KEY, 1))
+        self.assertIn("rejected", err)
+
+        # skipped while the text is unchanged
+        with FakeOpenRouter(self.poison_handler) as api:
+            self.run_embed(scope="comments")
+        self.assertEqual(api.requests, [])
+
+        # --retry-errors clears it, it fails again, and the count says so
+        with self.conn.cursor() as cur:
+            cur.execute("delete from embedding_errors where model = %s", (E.MODEL_KEY,))
+        self.conn.commit()
+        with FakeOpenRouter(self.poison_handler) as api:
+            self.run_embed(scope="comments")
+        self.assertEqual(len(api.requests), 1)
+        self.assertEqual(self.count("select failures from embedding_errors"), 1)
+
+        # an edit makes it due on its own, and success clears the error
+        with self.conn.cursor() as cur:
+            cur.execute("update comments set body = 'fixed' where id = %s", (self.POISON,))
+        self.conn.commit()
+        with FakeOpenRouter(self.poison_handler) as api:
+            stats = self.run_embed(scope="comments")
+        self.assertEqual(stats.embedded["comment"], 1)
+        self.assertEqual(self.count("select count(*) from embedding_errors"), 0)
+
+    def test_repeat_failures_are_counted(self):
+        def handler(p):
+            if any("Comment 123 " in t for t in p["input"]):
+                body = ok_body(p)
+                for d in body["data"]:
+                    if "Comment 123 " in p["input"][d["index"]]:
+                        d["embedding"] = [0.0] * 1024
+                return FakeResponse(200, body)
+            return FakeResponse(200, ok_body(p))
+        with FakeOpenRouter(handler):
+            self.run_embed(scope="comments")
+        with self.conn.cursor() as cur:
+            cur.execute("update embedding_errors set input_hash = 'stale'")
+        self.conn.commit()
+        with FakeOpenRouter(handler):
+            self.run_embed(scope="comments")
+        with self.conn.cursor() as cur:
+            cur.execute("select failures, error from embedding_errors")
+            [(failures, err)] = cur.fetchall()
+        self.assertEqual(failures, 2)
+        self.assertIn("unusable vector", err)
+
+    def test_outage_stops_the_run_without_stamping_rows(self):
+        with FakeOpenRouter(lambda p: FakeResponse(503, None, "down")):
+            stats = self.run_embed(attempts=2)
+        self.assertIn("ServiceError", stats.stop)
+        self.assertEqual(self.count("select count(*) from embedding_errors"), 0)
+        self.assertEqual(self.count("select count(*) from comment_embeddings"), 0)
+        with FakeOpenRouter() as api:
+            self.run_embed()
+        self.assertEqual(len(api.inputs), len(self.eligible_comments()) + len(THREADS))
+
+    def test_formatter_drift_is_recorded_not_rebought(self):
+        drifted = dataclasses.replace(embed.COMMENTS, fmt=lambda a, b: f"{a}\n{b}")
+        with FakeOpenRouter() as api, mock.patch.dict(embed.KINDS, {"comments": [drifted]}):
+            stats = self.run_embed(scope="comments")
+            self.assertEqual(api.requests, [])
+            self.assertEqual(stats.failed["comment"], len(self.eligible_comments()))
+            stats = self.run_embed(scope="comments")
+        self.assertEqual(sum(stats.failed.values()), 0)
+        self.assertIn("drift", self.count("select min(error) from embedding_errors"))
+
+
+class SpendCap(DbCase):
+    def test_stops_before_the_cap(self):
+        # The reservation for one 50-row batch of these comments:
+        texts = [E.format_comment("Best pizza in Brooklyn?", f"Comment {i} about L'Industrie")
+                 for i in range(50)]
+        per_batch = sum(E.estimate_tokens(t) for t in texts) * E.RESERVE_FACTOR * E.PRICE_PER_TOKEN
+        cap = per_batch * 2.5
+        b = E.Budget(cap)
+        with FakeOpenRouter() as api:
+            stats = self.run_embed(scope="comments", budget=b, batch=50, workers=1)
+        self.assertIn("BudgetExceeded", stats.stop)
+        self.assertLessEqual(b.spent, cap)
+        self.assertEqual(b.reserved, 0)
+        stored = self.count("select count(*) from comment_embeddings")
+        self.assertEqual(stored, len(api.inputs))       # everything paid for was kept
+        self.assertGreater(stored, 0)
+        self.assertLess(stored, len(self.eligible_comments()))
+
+    def test_failed_attempts_count_toward_the_cap(self):
+        b = E.Budget(1e-6)
+        with FakeOpenRouter(lambda p: FakeResponse(502, None, "bad gateway")) as api:
+            stats = self.run_embed(scope="comments", budget=b, batch=128, workers=1,
+                                   attempts=50)
+        self.assertIn("BudgetExceeded", stats.stop)
+        self.assertLess(len(api.requests), 50)
+        self.assertLessEqual(b.spent, b.cap)
+        self.assertEqual(b.possibly_billed, len(api.requests))
+
+
+class DryRun(DbCase):
+    def test_no_call_no_write_on_a_read_only_connection(self):
+        with FakeOpenRouter() as api:
+            self.conn.set_session(readonly=True)
+            totals = embed.dry_run(self.conn, embed.KINDS["both"], log=lambda *_: None)
+            self.conn.set_session(readonly=False)
+        self.assertEqual(api.requests, [])
+        self.assertEqual(dict((s, n) for s, n, _, _ in totals),
+                         {"comments": len(self.eligible_comments()), "threads": len(THREADS)})
+        self.assertEqual(self.count("select count(*) from comment_embeddings"), 0)
+
+    def test_counts_only_what_is_left(self):
+        with FakeOpenRouter():
+            self.run_embed(scope="comments", limit=100, batch=50)
+        totals = embed.dry_run(self.conn, embed.KINDS["comments"], log=lambda *_: None)
+        self.assertEqual(totals[0][1], len(self.eligible_comments()) - 100)
+
+    def test_before_the_migration(self):
+        with self.conn.cursor() as cur:
+            cur.execute("drop table comment_embeddings, thread_embeddings, embedding_errors")
+        self.conn.commit()
+        totals = embed.dry_run(self.conn, embed.KINDS["both"], log=lambda *_: None)
+        self.assertEqual(totals[0][1], len(self.eligible_comments()))
+
+
+class Index(DbCase):
+    def test_build_index_and_search_uses_it(self):
+        with FakeOpenRouter():
+            self.run_embed()
+            q = E.embed_query("pizza")
+        embed.build_index(self.conn, "64MB", log=lambda *_: None)
+        embed.build_index(self.conn, "64MB", log=lambda *_: None)      # idempotent
+        for kind in (embed.COMMENTS, embed.THREADS):
+            self.assertTrue(self.count("""select i.indisvalid from pg_index i
+                                          join pg_class c on c.oid = i.indexrelid
+                                          where c.relname = %s""", embed.index_name(kind)))
+        with self.conn.cursor() as cur:
+            cur.execute("set hnsw.iterative_scan = relaxed_order")
+            cur.execute("set enable_seqscan = off")
+            cur.execute("""explain select comment_id from comment_embeddings
+                           where model = %s
+                           order by embedding <=> %s::halfvec(1024) limit 5""",
+                        (E.MODEL_KEY, E.to_pgvector(q)))
+            plan = "\n".join(r[0] for r in cur.fetchall())
+            cur.execute("""select comment_id from comment_embeddings where model = %s
+                           order by embedding <=> %s::halfvec(1024) limit 5""",
+                        (E.MODEL_KEY, E.to_pgvector(q)))
+            self.assertEqual(len(cur.fetchall()), 5)
+        self.conn.rollback()
+        self.assertIn(embed.index_name(embed.COMMENTS), plan)
+
+    def test_index_names_fit(self):
+        for kind in (embed.COMMENTS, embed.THREADS):
+            self.assertLessEqual(len(embed.index_name(kind)), 63)
+            self.assertIn("1024_deepinfra", embed.index_name(kind))
+
+
+class Schema(DbCase):
+    def test_schema_sql_is_idempotent(self):
+        import db
+        db.init(self.conn, os.path.join(ROOT, "schema.sql"))
+        self.assertEqual(self.count("select count(*) from threads"), len(THREADS))
+
+    def test_migration_matches_schema_sql(self):
+        def columns():
+            with self.conn.cursor() as cur:
+                cur.execute("""select a.attrelid::regclass::text, a.attname,
+                                      format_type(a.atttypid, a.atttypmod), a.attnotnull,
+                                      pg_get_expr(d.adbin, d.adrelid)
+                               from pg_attribute a
+                               left join pg_attrdef d on d.adrelid = a.attrelid and d.adnum = a.attnum
+                               where a.attrelid::regclass::text in ('comment_embeddings',
+                                     'thread_embeddings', 'embedding_errors')
+                                 and a.attnum > 0 and not a.attisdropped
+                               order by 1, 2""")
+                cols = cur.fetchall()
+                cur.execute("""select conrelid::regclass::text, pg_get_constraintdef(oid)
+                               from pg_constraint
+                               where conrelid::regclass::text in ('comment_embeddings',
+                                     'thread_embeddings', 'embedding_errors')
+                               order by 1, 2""")
+                return cols, cur.fetchall()
+        from_schema = columns()
+        with self.conn.cursor() as cur:
+            cur.execute("drop table comment_embeddings, thread_embeddings, embedding_errors")
+            cur.execute("drop extension vector")
+        self.conn.commit()
+        with open(os.path.join(ROOT, "embed_schema.sql"), encoding="utf-8") as f:
+            sql = f.read()
+        with self.conn.cursor() as cur:
+            cur.execute(sql)
+        self.conn.commit()
+        self.assertEqual(columns(), from_schema)
+        self.assertEqual(len(from_schema[0]), 17)
+
+
+class PollerStep(DbCase):
+    def test_embed_once_covers_the_window_only(self):
+        import poller
+        with FakeOpenRouter() as api:
+            n = poller.embed_once(self.conn, 3, 10_000, 0.05, "comments", 2)
+        self.assertEqual(n, len(self.eligible_comments()) - 1)        # not t1_old
+        self.assertFalse(any("Lucali" in t for t in api.inputs))
+        self.assertTrue(all(r["timeout"] == poller.EMBED_TIMEOUT for r in api.requests))
+
+    def test_embed_once_skips_without_tables(self):
+        import poller
+        with self.conn.cursor() as cur:
+            cur.execute("drop table comment_embeddings, thread_embeddings, embedding_errors")
+        self.conn.commit()
+        with FakeOpenRouter() as api:
+            self.assertEqual(poller.embed_once(self.conn, 3, 100, 0.05, "comments", 2), 0)
+        self.assertEqual(api.requests, [])
+
+
+if __name__ == "__main__":
+    unittest.main()
