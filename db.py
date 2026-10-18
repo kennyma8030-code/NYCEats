@@ -62,7 +62,10 @@ def insert_threads(conn, posts):
         p.get("upvote_ratio"),
         p.get("num_comments"),
         p.get("retrieved_on"),
-    ) for p in posts]
+    # Sorted so two writers inserting overlapping batches take row locks in the
+    # same order. The poller and its background backfill both insert threads,
+    # and unsorted batches can deadlock each other.
+    ) for p in sorted(posts, key=lambda p: p["id"])]
     with conn.cursor() as cur:
         inserted = execute_values(cur, """
             insert into threads
@@ -84,10 +87,12 @@ def insert_comments(conn, comments):
     if not comments:
         return 0
     rows = []
-    for c in comments:
+    # Sorted for the same reason as insert_threads: a consistent lock order.
+    for c in sorted(comments, key=lambda c: c["id"]):
         parent = c["parent_id"]
         rows.append((
             "t1_" + c["id"],
+            c["subreddit"],
             c["link_id"],                                  # already t3_-prefixed
             parent,
             parent if parent.startswith("t1_") else None,   # null when top-level
@@ -103,7 +108,7 @@ def insert_comments(conn, comments):
     with conn.cursor() as cur:
         inserted = execute_values(cur, """
             insert into comments
-              (id, thread_id, parent_id, parent_comment_id, author, body,
+              (id, subreddit, thread_id, parent_id, parent_comment_id, author, body,
                permalink, created_utc, retrieved_on, score, controversiality,
                score_settled)
             values %s
@@ -112,7 +117,7 @@ def insert_comments(conn, comments):
         """, rows,
             # A comment already past 36h when it arrives came from the archive,
             # whose score has had its 36h -- there is nothing left to settle.
-            template="(%s,%s,%s,%s,%s,%s,%s,to_timestamp(%s),to_timestamp(%s),%s,%s,"
+            template="(%s,%s,%s,%s,%s,%s,%s,%s,to_timestamp(%s),to_timestamp(%s),%s,%s,"
                      "to_timestamp(%s) < now() - interval '36 hours')",
             fetch=True)
         n = len(inserted)
@@ -254,21 +259,64 @@ def settle_scores(conn, comments, missing_ids=()):
     conn.commit()
 
 
-def get_cursor(conn, kind, default):
+def get_cursor(conn, subreddit, kind, default):
     with conn.cursor() as cur:
-        cur.execute("select cursor_utc from backfill_progress where kind=%s", (kind,))
+        cur.execute("select cursor_utc from backfill_cursors where subreddit=%s and kind=%s",
+                    (subreddit, kind))
         row = cur.fetchone()
         return row[0] if row else default
 
 
-def set_cursor(conn, kind, value):
+def set_cursor(conn, subreddit, kind, value):
     with conn.cursor() as cur:
         cur.execute("""
-            insert into backfill_progress (kind, cursor_utc) values (%s, %s)
-            on conflict (kind) do update
+            insert into backfill_cursors (subreddit, kind, cursor_utc) values (%s, %s, %s)
+            on conflict (subreddit, kind) do update
               set cursor_utc = excluded.cursor_utc, updated_at = now()
-        """, (kind, int(value)))
+        """, (subreddit, kind, int(value)))
     conn.commit()
+
+
+def clear_cursors(conn, names):
+    """Forget where these subreddits' sweeps stopped, so the next starts over.
+
+    r/FoodNYC's old cursor goes too. schema.sql copies it into
+    backfill_cursors whenever the row is missing, so leaving it would let the
+    next boot quietly put back the very cursor this was asked to clear.
+    """
+    with conn.cursor() as cur:
+        cur.execute("delete from backfill_cursors where subreddit = any(%s)", (list(names),))
+        if "FoodNYC" in names:
+            cur.execute("delete from backfill_progress")
+    conn.commit()
+
+
+def newest_stored_utc(conn, subreddit):
+    """Unix time of the newest comment we hold for this subreddit, or None.
+
+    The poller pages back until it reaches this, so one poll can never leave
+    a hole however busy the hour was.
+    """
+    with conn.cursor() as cur:
+        cur.execute("""select extract(epoch from max(created_utc))::bigint
+                       from comments where subreddit = %s""", (subreddit,))
+        return cur.fetchone()[0]
+
+
+def busiest_hour(conn, subreddit, days=7):
+    """Most comments this subreddit posted in any one hour of the last `days`.
+
+    Rides comments_sub_created_idx: a week is a few thousand rows per city.
+    """
+    with conn.cursor() as cur:
+        cur.execute("""
+            select max(n) from (
+              select count(*) as n from comments
+              where subreddit = %s and created_utc > now() - make_interval(days => %s)
+              group by date_trunc('hour', created_utc)
+            ) h
+        """, (subreddit, days))
+        return cur.fetchone()[0] or 0
 
 
 def missing_thread_ids(conn, thread_ids):

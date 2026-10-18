@@ -36,7 +36,13 @@ select
   -- fuzzy merges wrong ("emp" -> EMPIRE, "angel" -> BLUE ANGEL), and no
   -- threshold separates them. Every merge worth having is now an
   -- alias_overrides row; word_similarity tops out at 1.0, so this never fires.
-  1.01::float8  as alias_min_score;       -- TUNE  word_similarity to merge
+  1.01::float8  as alias_min_score,       -- TUNE  word_similarity to merge
+  -- Not a tunable: the one city this board ranks. Other cities share the
+  -- comments table (subreddits.py), and every read of "the subreddit" below
+  -- filters on this first. Must match subreddits.HOME, which this file
+  -- cannot import. Last on purpose -- create or replace view may only add
+  -- columns at the end.
+  'FoodNYC'::text as subreddit;
 
 
 -- ---------------------------------------------------------------------------
@@ -165,6 +171,9 @@ with base as (
   join comments c on c.id = m.comment_id
   join threads  t on t.id = c.thread_id
   left join entity_alias a on a.entity_key = m.entity_key
+  -- Extraction only reads HOME, so today this removes nothing. It is here so
+  -- that extracting a second city cannot quietly fold it into this board.
+  where c.subreddit = (select subreddit from scoring_params)
 ),
 counted as (
   select
@@ -246,6 +255,7 @@ with decayed_corpus as (
                -extract(epoch from (now() - c.created_utc)) / 86400.0 / p.half_life_days))
          as total
   from comments c cross join scoring_params p
+  where c.subreddit = p.subreddit
 ),
 per_entity as (
   select w.entity_key,
@@ -296,11 +306,13 @@ begin
 end $$;
 create materialized view momentum_windows as
 select w.window_days,
-       (select count(*) from comments c
-         where c.created_utc > now() - make_interval(days => w.window_days))
+       (select count(*) from comments c cross join scoring_params p
+         where c.subreddit = p.subreddit
+           and c.created_utc > now() - make_interval(days => w.window_days))
          as recent_comments,
        (select count(*) from comments c cross join scoring_params p
-         where c.created_utc > now() - make_interval(days => p.baseline_days))
+         where c.subreddit = p.subreddit
+           and c.created_utc > now() - make_interval(days => p.baseline_days))
          as baseline_comments
 from (values (14), (30), (90), (180)) as w(window_days);   -- TUNE window ladder
 

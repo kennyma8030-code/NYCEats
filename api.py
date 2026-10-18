@@ -12,6 +12,7 @@ import urllib.parse
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 
 import db
+import subreddits
 
 PORT = int(os.environ.get("PORT", 8000))
 
@@ -143,11 +144,12 @@ def facets(conn, _q):
         cur.execute("""
             select (select count(*) from mentions),
                    (select count(distinct entity_key) from mentions),
-                   (select count(*) from comments),
-                   (select count(*) from comments where extracted_at is not null),
+                   (select count(*) from comments where subreddit = %(sub)s),
+                   (select count(*) from comments
+                     where subreddit = %(sub)s and extracted_at is not null),
                    (select coalesce(string_agg(distinct model_version, ', '), 'none')
                       from mentions)
-        """)
+        """, {"sub": subreddits.HOME})
         m, e, c, x, mv = cur.fetchone()
         out["stats"] = {"mentions": m, "entities": e, "comments": c,
                         "extracted": x, "models": mv}
@@ -175,7 +177,8 @@ def progress(conn, _q):
                    -- produces a nonsense ETA.
                    count(*) filter (where extracted_at > now() - interval '30 min') as recent
             from comments
-        """)
+            where subreddit = %s     -- the only city extraction reads
+        """, (subreddits.HOME,))
         extracted, pending, errored, recent = cur.fetchone()
         cur.execute("select count(*), count(distinct entity_key) from mentions")
         mentions, entities = cur.fetchone()

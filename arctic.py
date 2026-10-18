@@ -54,9 +54,12 @@ def _get(path, params, attempt=0):
     return payload["data"] or []
 
 
-def newest_comments(subreddit, limit=PAGE):
-    return _get("comments/search",
-                {"subreddit": subreddit, "limit": limit, "sort": "desc"})
+def newest_comments(subreddit, limit=PAGE, before=None):
+    """Newest first. `before` (unix seconds) pages further back in time."""
+    params = {"subreddit": subreddit, "limit": limit, "sort": "desc"}
+    if before is not None:
+        params["before"] = before
+    return _get("comments/search", params)
 
 
 def posts_by_id(bare_ids):

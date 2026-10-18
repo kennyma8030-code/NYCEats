@@ -1,36 +1,38 @@
-"""Backfill r/FoodNYC, all of it by default.
+"""Backfill every subreddit in subreddits.py, all of its history by default.
 
-Two bulk passes over the subreddit rather than one request per thread:
+Two bulk passes over each subreddit rather than one request per thread:
 posts first (so the foreign key is satisfiable), then comments. That is
 ~7,600 requests for 5 years instead of ~40,000 thread-by-thread.
 
-Resumable. Progress is a created_utc cursor per pass, written after every
-page, so killing this and restarting picks up where it stopped. Every insert
+Resumable. Progress is a created_utc cursor per (subreddit, pass), written
+after every page, so killing this and restarting picks up where it stopped. Every insert
 is `on conflict do nothing`, so re-running costs nothing but the fetch.
 """
 
 import argparse
+import threading
 import time
 import traceback
 
 import arctic
 import db
 import ingest
+import subreddits
 
-SUBREDDIT = "FoodNYC"
 PAUSE = 0.5          # politeness delay between requests
 PAGE = 100
 TREE_BATCH = 400     # threads to accumulate before rebuilding reply trees
 EPOCH = 1104537600   # 2005-01-01, before Reddit existed. "All time" floor.
 LOG_EVERY = 25       # pages between progress lines (keeps long runs quiet)
+RETRY_AFTER = 5 * 60 # seconds before a failed sweep resumes from its cursor
 
 
-def backfill_posts(conn, start_utc, pause=PAUSE):
+def backfill_posts(conn, subreddit, start_utc, pause=PAUSE):
     """Every post since start_utc. Cheap: ~40k posts = ~400 requests."""
-    cursor = db.get_cursor(conn, "posts", start_utc)
+    cursor = db.get_cursor(conn, subreddit, "posts", start_utc)
     total = new = pages = 0
     while True:
-        page = arctic.search_page("posts", SUBREDDIT, after=cursor)
+        page = arctic.search_page("posts", subreddit, after=cursor)
         if not page:
             break
         new += db.insert_threads(conn, page)
@@ -42,23 +44,23 @@ def backfill_posts(conn, start_utc, pause=PAUSE):
         if newest <= cursor:
             break
         cursor = newest
-        db.set_cursor(conn, "posts", cursor)
+        db.set_cursor(conn, subreddit, "posts", cursor)
         pages += 1
         if pages % LOG_EVERY == 0:
-            print(f"  posts: {total:>7,} seen  {new:>7,} new   at {time.strftime('%Y-%m-%d', time.gmtime(cursor))}", flush=True)
+            print(f"  {subreddit} posts: {total:>7,} seen  {new:>7,} new   at {time.strftime('%Y-%m-%d', time.gmtime(cursor))}", flush=True)
         if cursor >= time.time() - 60:
             break
         time.sleep(pause)
     return total, new
 
 
-def backfill_comments(conn, start_utc, pause=PAUSE):
+def backfill_comments(conn, subreddit, start_utc, pause=PAUSE):
     """Every comment since start_utc, fetching any post we're missing first."""
-    cursor = db.get_cursor(conn, "comments", start_utc)
+    cursor = db.get_cursor(conn, subreddit, "comments", start_utc)
     total = new = rescued = pages = 0
     pending, touched = set(), set()
     while True:
-        page = arctic.search_page("comments", SUBREDDIT, after=cursor)
+        page = arctic.search_page("comments", subreddit, after=cursor)
         if not page:
             break
 
@@ -82,10 +84,10 @@ def backfill_comments(conn, start_utc, pause=PAUSE):
         if newest <= cursor:
             break                        # no forward progress
         cursor = newest
-        db.set_cursor(conn, "comments", cursor)
+        db.set_cursor(conn, subreddit, "comments", cursor)
         pages += 1
         if pages % LOG_EVERY == 0:
-            print(f"  comments: {total:>8,} seen  {new:>8,} new  {rescued:>4} posts rescued"
+            print(f"  {subreddit} comments: {total:>8,} seen  {new:>8,} new  {rescued:>4} posts rescued"
                   f"   at {time.strftime('%Y-%m-%d', time.gmtime(cursor))}", flush=True)
         if cursor >= time.time() - 60:
             break                        # caught up to the present
@@ -96,7 +98,7 @@ def backfill_comments(conn, start_utc, pause=PAUSE):
     return total, new, touched
 
 
-def stale_thread_ids(conn):
+def stale_thread_ids(conn, subreddit):
     """Threads holding a comment whose depth was never computed.
 
     Phase 2 fills trees as it goes, so sweeping every thread afterwards is a
@@ -105,36 +107,81 @@ def stale_thread_ids(conn):
     parent it hangs off.
     """
     with conn.cursor() as cur:
-        cur.execute("select distinct thread_id from comments where depth is null")
+        cur.execute("select distinct thread_id from comments "
+                    "where subreddit = %s and depth is null", (subreddit,))
         return {r[0] for r in cur.fetchall()}
 
 
-def run(conn, years=None, posts_only=False):
-    """Both phases plus the tree sweep. Safe to call repeatedly.
+def run(conn, subreddit, years=None, posts_only=False):
+    """Both phases plus the tree sweep for one subreddit. Safe to call repeatedly.
 
-    years=None sweeps from the beginning of the subreddit.
+    years=None sweeps from the beginning of the subreddit. The cursor wins
+    over `years` once it exists: a sweep only ever moves forward.
     """
     start_utc = EPOCH if not years else int(time.time() - years * 365.25 * 86400)
-    print(f"backfilling from {time.strftime('%Y-%m-%d', time.gmtime(start_utc))}")
+    print(f"backfilling r/{subreddit} from {time.strftime('%Y-%m-%d', time.gmtime(start_utc))}")
 
-    print("phase 1: posts")
-    seen, new = backfill_posts(conn, start_utc)
+    print(f"phase 1: r/{subreddit} posts")
+    seen, new = backfill_posts(conn, subreddit, start_utc)
     print(f"  done: {seen:,} posts, {new:,} new\n")
     if posts_only:
         return
 
-    print("phase 2: comments")
-    seen, new, touched = backfill_comments(conn, start_utc)
+    print(f"phase 2: r/{subreddit} comments")
+    seen, new, touched = backfill_comments(conn, subreddit, start_utc)
     print(f"  done: {seen:,} comments, {new:,} new\n")
 
-    print("phase 3: rebuilding reply trees")
-    ids = touched | stale_thread_ids(conn)
+    print(f"phase 3: r/{subreddit} reply trees")
+    ids = touched | stale_thread_ids(conn, subreddit)
     print(f"  {len(ids):,} thread(s) to check")
     print(f"  updated {db.fill_tree(conn, ids):,} rows\n")
 
 
+def run_all(conn, names, years=None, retry_after=RETRY_AFTER):
+    """Sweep each subreddit in turn until every one has caught up to now.
+
+    A failure is logged and the same subreddit retried after a pause: the
+    cursor makes the retry resume, not restart, and moving on would leave a
+    hole that only the next boot would notice. Order is the caller's, which
+    is how r/FoodNYC's short gap-fill goes first and never waits behind a
+    new city's twelve years.
+    """
+    for name in names:
+        while True:
+            try:
+                run(conn, name, years)
+                break
+            except Exception:
+                traceback.print_exc()
+                try:
+                    conn.rollback()
+                except Exception:
+                    conn = db.connect()          # the connection itself went
+                print(f"[backfill] r/{name} failed -- retrying in {retry_after // 60} min",
+                      flush=True)
+                time.sleep(retry_after)
+    print("[backfill] every subreddit caught up", flush=True)
+
+
+def start_background(names, years=None):
+    """Run the sweeps beside the poller rather than before it.
+
+    A new city's full history is hours of requests, and a poller that waits
+    for it lets every city, r/FoodNYC included, go dark for the whole time.
+    Own connection: psycopg2 connections are not thread-safe. Daemon: it dies
+    with its host, and the cursors mean the next boot carries on.
+    """
+    def target():
+        run_all(db.connect(), names, years)
+    thread = threading.Thread(target=target, name="backfill", daemon=True)
+    thread.start()
+    return thread
+
+
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--subreddit", action="append", choices=subreddits.SUBREDDITS,
+                    help="sweep only this one (repeatable; default: every subreddit)")
     ap.add_argument("--years", type=float, default=0,
                     help="limit to the last N years (default: all time)")
     ap.add_argument("--restart", action="store_true",
@@ -147,11 +194,10 @@ def main():
     conn = db.connect()
     db.init(conn)
 
+    names = args.subreddit or list(subreddits.SUBREDDITS)
     if args.restart:
-        with conn.cursor() as cur:
-            cur.execute("delete from backfill_progress")
-        conn.commit()
-        print("progress reset")
+        db.clear_cursors(conn, names)
+        print(f"progress reset for {', '.join(names)}")
 
     if args.repair:
         with conn.cursor() as cur:
@@ -163,7 +209,8 @@ def main():
 
     began = time.time()
     try:
-        run(conn, args.years or None, posts_only=args.posts_only)
+        for name in names:
+            run(conn, name, args.years or None, posts_only=args.posts_only)
     except KeyboardInterrupt:
         print("\ninterrupted -- progress saved, re-run to resume")
     except Exception:

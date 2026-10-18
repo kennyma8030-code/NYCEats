@@ -45,11 +45,45 @@ update comments set score_settled = true
 where not score_settled
   and first_seen_at > created_utc + interval '36 hours';
 
+-- Several cities share these tables (see subreddits.py), so every reader
+-- filters on subreddit first. threads always had it; comments gets a copy
+-- because the corpus-wide counts in scoring.sql read comments with no join,
+-- and a comment never changes thread, so the copy cannot drift.
+--
+-- The default is not a guess: every comment stored before this column
+-- existed came from r/FoodNYC, and so does every comment written by code that
+-- predates it -- which keeps an older poller sharing this database inserting
+-- instead of failing NOT NULL. New code always passes it explicitly.
+alter table comments add column if not exists subreddit text not null default 'FoodNYC';
+create index if not exists comments_sub_created_idx on comments(subreddit, created_utc);
+create index if not exists threads_sub_created_idx  on threads(subreddit, created_utc);
+
 create table if not exists backfill_progress (
   kind       text primary key,       -- 'posts' | 'comments'
   cursor_utc bigint not null,        -- last created_utc successfully stored
   updated_at timestamptz not null default now()
 );
+
+-- backfill_progress has one cursor per kind, which is one subreddit's worth.
+-- This is the same thing keyed per subreddit. A new table rather than a new
+-- primary key on the old one: older code sharing this database writes
+-- `on conflict (kind)`, and changing that key under it would break its
+-- every page. backfill_progress is now read once, below, and can be dropped
+-- when nothing older is left running.
+create table if not exists backfill_cursors (
+  subreddit  text not null,
+  kind       text not null,          -- 'posts' | 'comments'
+  cursor_utc bigint not null,        -- last created_utc successfully stored
+  updated_at timestamptz not null default now(),
+  primary key (subreddit, kind)
+);
+
+-- Carry r/FoodNYC's progress over, so the first boot resumes where the old
+-- cursor stopped instead of re-sweeping twelve years. Only fills a gap: once
+-- the row exists, the new code owns it.
+insert into backfill_cursors (subreddit, kind, cursor_utc, updated_at)
+select 'FoodNYC', kind, cursor_utc, updated_at from backfill_progress
+on conflict (subreddit, kind) do nothing;
 
 -- extraction state on the raw corpus. A timestamp + prompt hash rather than a
 -- boolean, so a prompt v2 re-run is a query rather than a migration.
