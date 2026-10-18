@@ -28,8 +28,11 @@ recorded as an error rather than re-bought on every run.
 One bad input never stalls the run. A request the provider refuses is split
 until the one input at fault is found, and that row is recorded in
 `embedding_errors` -- a cache table like the vectors, never the truth tables.
-A failure of the service itself (auth, credit, routing, an outage that
-outlasts the retries) stops the run instead, and those rows stay to-do.
+A 400 can be about the request rather than the input, so before the first
+row is marked a one-line canary checks the request itself (RejectGuard).
+A failure of the service itself (auth, credit, routing, a malformed response,
+an outage that outlasts the retries) stops the run instead, and those rows
+stay to-do.
 """
 
 import argparse
@@ -45,7 +48,21 @@ import db
 import embedding as E
 
 WORKERS = 4                     # concurrent requests; the benchmark ran 8 per model
-PAGE = E.DOC_BATCH * WORKERS * 2
+
+# A rejected request is split in two until the bad input is found. 128 inputs
+# need at most 7 splits; deeper than this means something other than one bad
+# input is going on.
+MAX_SPLIT_DEPTH = 8
+# How many rows one run may mark as rejected before it concludes the refusals
+# are about the request, not the inputs, and stops. A real bad input is rare
+# (none in the benchmark's 97k); this only has to stop a runaway.
+MAX_REJECTED = 50
+CANARY = "NYCEats embedding canary"
+
+
+def page_size(batch, workers):
+    """Rows per page: enough for every worker to have two batches queued."""
+    return batch * workers * 2
 
 
 @dataclass(frozen=True)
@@ -55,7 +72,8 @@ class Kind:
     scope: str           # the --scope spelling
     table: str
     key: str
-    source: str          # select id, two text fields and the formatted text as `txt`
+    candidates: str      # eligible ids after %(after)s, in id order, limited
+    source: str          # id, two text fields and the formatted text as `txt`, for %(ids)s
     fmt: object          # embedding.format_comment / format_thread
 
 
@@ -66,27 +84,41 @@ class Kind:
 COMMENTS = Kind(
     "comment", "comments", "comment_embeddings", "comment_id",
     """
+    select c.id
+    from comments c
+    where c.id > %(after)s
+      and c.body not in ('[deleted]', '[removed]')
+      and exists (select 1 from mentions m where m.comment_id = c.id)
+      and (%(since)s::timestamptz is null or c.created_utc >= %(since)s::timestamptz)
+    order by c.id
+    limit %(limit)s
+    """,
+    """
     select c.id, t.title as a, c.body as b,
            coalesce(t.title, '') || E'\\n\\n' || c.body as txt
     from comments c
     join threads t on t.id = c.thread_id
-    where c.body not in ('[deleted]', '[removed]')
-      and exists (select 1 from mentions m where m.comment_id = c.id)
-      and c.id > %(after)s
-      and (%(since)s::timestamptz is null or c.created_utc >= %(since)s::timestamptz)
+    where c.id = any(%(ids)s)
     """,
     E.format_comment)
 
 THREADS = Kind(
     "thread", "threads", "thread_embeddings", "thread_id",
+    """
+    select t.id
+    from threads t
+    where t.id > %(after)s
+      and (%(since)s::timestamptz is null or t.created_utc >= %(since)s::timestamptz)
+    order by t.id
+    limit %(limit)s
+    """,
     f"""
     select t.id, t.title as a, t.selftext as b,
            coalesce(t.title, '') || E'\\n\\n' ||
            left(case when t.selftext in ('[deleted]', '[removed]') then ''
                      else coalesce(t.selftext, '') end, {E.THREAD_SELFTEXT_CHARS}) as txt
     from threads t
-    where t.id > %(after)s
-      and (%(since)s::timestamptz is null or t.created_utc >= %(since)s::timestamptz)
+    where t.id = any(%(ids)s)
     """,
     E.format_thread)
 
@@ -102,48 +134,51 @@ def tables_exist(conn):
 
 
 def select_todo(conn, kind, after, limit, since=None, have_tables=True):
-    """The next rows still to embed, in id order after `after`.
+    """The next page of rows still to embed. Returns (rows, next_after).
 
-    Keyset on id rather than OFFSET, so each page starts where the last one
-    ended and a run is one pass over the table however many pages it takes.
+    Two steps, so each page costs the same however far into the table it is.
+    First the next `limit` eligible ids after `after`, which rides the
+    primary key and stops at the limit. Then the text, the hash and the
+    "already done?" joins for those ids only: hashing every remaining row
+    before the LIMIT would make a pass over the backlog quadratic. The cursor
+    moves past every candidate, done or not, so a page of finished rows is
+    simply empty and the next one starts further on. next_after is None when
+    no candidates are left.
+
     A row is skipped while an error is recorded for the same text; a new
-    text (or --retry-errors) makes it due again.
-
-    `have_tables=False` is for a dry run before the migration: everything is
-    to do. Returns (id, field a, field b, sql_hash) tuples.
+    text (or --retry-errors) makes it due again. `have_tables=False` is for a
+    dry run before the migration: every candidate is to do. Rows are
+    (id, field a, field b, sql_hash).
     """
-    params = {"after": after, "since": since, "limit": limit, "model": E.MODEL_KEY,
-              "kind": kind.name}
-    if have_tables:
-        sql = f"""
-            select s.id, s.a, s.b, s.h
-            from (select src.id, src.a, src.b,
-                         encode(sha256(convert_to(src.txt, 'UTF8')), 'hex') as h
-                  from ({kind.source}) src) s
-            left join {kind.table} e on e.{kind.key} = s.id and e.model = %(model)s
-            left join embedding_errors x
-                   on x.kind = %(kind)s and x.item_id = s.id
-                  and x.model = %(model)s and x.input_hash = s.h
-            where e.input_hash is distinct from s.h
-              and x.item_id is null
-            order by s.id
-            limit %(limit)s
-        """
-    else:
-        sql = f"""
-            select src.id, src.a, src.b,
-                   encode(sha256(convert_to(src.txt, 'UTF8')), 'hex')
-            from ({kind.source}) src
-            order by src.id
-            limit %(limit)s
-        """
     with conn.cursor() as cur:
-        cur.execute(sql, params)
+        cur.execute(kind.candidates, {"after": after, "since": since, "limit": limit})
+        ids = [r[0] for r in cur.fetchall()]
+        if not ids:
+            conn.commit()
+            return [], None
+        hashed = f"""select src.id, src.a, src.b,
+                            encode(sha256(convert_to(src.txt, 'UTF8')), 'hex') as h
+                     from ({kind.source}) src"""
+        if have_tables:
+            sql = f"""
+                select s.id, s.a, s.b, s.h
+                from ({hashed}) s
+                left join {kind.table} e on e.{kind.key} = s.id and e.model = %(model)s
+                left join embedding_errors x
+                       on x.kind = %(kind)s and x.item_id = s.id
+                      and x.model = %(model)s and x.input_hash = s.h
+                where e.input_hash is distinct from s.h
+                  and x.item_id is null
+                order by s.id
+            """
+        else:
+            sql = f"select * from ({hashed}) s order by s.id"
+        cur.execute(sql, {"ids": ids, "model": E.MODEL_KEY, "kind": kind.name})
         rows = cur.fetchall()
     # End the read transaction now: the API calls that follow take seconds,
     # and a connection idle in a transaction holds back vacuum on production.
     conn.commit()
-    return rows
+    return rows, ids[-1]
 
 
 def prepare(kind, rows):
@@ -203,33 +238,90 @@ def store_errors(conn, kind, failed):
     return len(failed)
 
 
-def embed_items(items, budget, stop, attempts, timeout):
+class OutOfTime(Exception):
+    """The run's deadline passed before this batch started."""
+
+
+class RejectGuard:
+    """Decides, once per run, whether a 400 is about the input or the request.
+
+    A request-level 400 (an unsupported parameter, a routing or model error)
+    refuses every batch, and splitting would then walk all ~97k rows down to
+    single inputs and write each one into embedding_errors. So the first time
+    a single input is refused, a one-line canary is sent with the same request
+    shape. If the canary is refused too, the request is at fault: the run
+    stops as a ServiceError and the rows stay to do. If it is accepted, the
+    input really is bad. A run also stops after MAX_REJECTED rows, so nothing
+    can mark the backlog wholesale.
+    """
+
+    def __init__(self, cap=None):
+        self.cap = MAX_REJECTED if cap is None else cap
+        self.rejected = 0
+        self.verified = False
+        self.failed = None
+        self._lock = threading.Lock()
+
+    def confirm(self, error, budget, attempts, timeout):
+        with self._lock:
+            if self.failed is not None:
+                raise self.failed
+            if not self.verified:
+                try:
+                    E.embed_batch([CANARY], budget, attempts=attempts, timeout=timeout)
+                except E.InputRejected as canary:
+                    self.failed = E.ServiceError(
+                        f"request-level 400, the canary is refused too: {canary}")
+                    raise self.failed
+                self.verified = True
+            self.rejected += 1
+            if self.rejected > self.cap:
+                self.failed = E.ServiceError(
+                    f"more than {self.cap} inputs rejected in one run; stopping rather "
+                    f"than marking them all (last: {error})")
+                raise self.failed
+
+
+def embed_items(items, budget, stop, guard, attempts, timeout, deadline=None, depth=0):
     """The network half; runs on a worker thread and touches no database.
 
-    Returns (id, hash, vector, error) per item, or None if the run was
-    stopped before this batch started. A refused request is split in two
-    and each half retried, down to single inputs, so the error lands on the
-    one row at fault.
+    Returns (results, why). results are (id, hash, vector, error) for
+    everything that came back, including what was paid for before something
+    stopped the run; `why` is the exception that should end the run, or
+    None. A refused request is split in two and each half retried, down to
+    single inputs, so the error lands on the one row at fault.
     """
     if stop.is_set():
-        return None
+        return [], None
+    if deadline is not None and time.monotonic() > deadline:
+        stop.set()
+        return [], OutOfTime("out of time for this cycle")
     try:
         got = E.embed_batch([t for _, t, _ in items], budget,
                             attempts=attempts, timeout=timeout)
     except E.InputRejected as e:
-        if len(items) == 1:
-            return [(items[0][0], items[0][2], None, f"rejected: {e}")]
-        mid = len(items) // 2
-        left = embed_items(items[:mid], budget, stop, attempts, timeout)
-        right = embed_items(items[mid:], budget, stop, attempts, timeout)
-        if left is None or right is None:
-            # Stopped half way: keep what was paid for, leave the rest to-do.
-            return (left or []) + (right or [])
-        return left + right
-    except (E.BudgetExceeded, E.ServiceError):
+        if len(items) > 1 and depth < MAX_SPLIT_DEPTH:
+            mid = len(items) // 2
+            left, why = embed_items(items[:mid], budget, stop, guard, attempts, timeout,
+                                    deadline, depth + 1)
+            if why is not None:
+                return left, why
+            right, why = embed_items(items[mid:], budget, stop, guard, attempts, timeout,
+                                     deadline, depth + 1)
+            return left + right, why
+        if len(items) > 1:
+            stop.set()
+            return [], E.ServiceError(f"still refused after {depth} splits: {e}")
+        try:
+            guard.confirm(e, budget, attempts, timeout)
+        except (E.BudgetExceeded, E.ServiceError) as why:
+            stop.set()
+            return [], why
+        return [(items[0][0], items[0][2], None, f"rejected: {e}")], None
+    except (E.BudgetExceeded, E.ServiceError) as why:
         stop.set()
-        raise
-    return [(i, h, v, err) for (i, _, h), (v, err) in zip(items, got)]
+        return [], why
+    return [(i, h, v, err) for (i, _, h), (v, err) in zip(items, got)], None
 
 
 @dataclass
@@ -245,18 +337,40 @@ class Stats:
 
 def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
         batch=E.DOC_BATCH, attempts=E.ATTEMPTS, timeout=E.TIMEOUT,
-        deadline=None, log=print):
+        deadline=None, log=print, stats=None):
     """Embed what is still to do. Returns Stats; Stats.stop says why it ended early.
 
     Requests fan out across threads; every database write stays on this
     thread, because psycopg2 connections are not thread-safe. Vectors that
     were paid for are stored even when another batch stops the run.
-    `deadline` is a time.monotonic() value after which no new page starts --
-    the poller's bound, so an outage cannot hold up the refresh behind it.
+    `deadline` is a time.monotonic() value after which no new batch starts:
+    the poller's bound, so an outage costs one batch's retries at most.
+
+    Ctrl-C stores whatever had already come back, then re-raises, so a
+    caller like the poller stops instead of looping on. Pass `stats` in to
+    read the counts after an interrupt.
     """
-    stats = Stats()
+    stats = stats if stats is not None else Stats()
     stop = threading.Event()
+    guard = RejectGuard()
+    page = page_size(batch, workers)
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=workers)
+    kind, futures, stored = None, [], set()
+
+    def store(f):
+        stored.add(f)
+        try:
+            results, why = f.result()
+        except Exception as e:      # a bug, not a stop: still keep the other batches
+            results, why = [], e
+        if why is not None:
+            stats.stop = stats.stop or f"{type(why).__name__}: {why}"
+            stop.set()
+        stats.embedded[kind.name] += store_vectors(
+            conn, kind, [(i, h, v) for i, h, v, err in results if v is not None])
+        stats.failed[kind.name] += store_errors(
+            conn, kind, [(i, h, err) for i, h, v, err in results if v is None])
+
     try:
         for kind in kinds:
             stats.embedded.setdefault(kind.name, 0)
@@ -266,45 +380,44 @@ def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
                 if limit is not None and stats.attempted >= limit:
                     break
                 if deadline is not None and time.monotonic() > deadline:
-                    stats.stop = "out of time for this cycle"
+                    stats.stop = stats.stop or "OutOfTime: out of time for this cycle"
                     stop.set()
                     break
-                take = PAGE if limit is None else min(PAGE, limit - stats.attempted)
-                rows = select_todo(conn, kind, after, take, since)
-                if not rows:
+                take = page if limit is None else min(page, limit - stats.attempted)
+                rows, after = select_todo(conn, kind, after, take, since)
+                if after is None:
                     break
-                after = rows[-1][0]
                 items, drift = prepare(kind, rows)
                 stats.failed[kind.name] += store_errors(conn, kind, drift)
 
-                futures = [pool.submit(embed_items, items[i:i + batch], budget, stop,
-                                       attempts, timeout)
+                futures = [pool.submit(embed_items, items[i:i + batch], budget, stop, guard,
+                                       attempts, timeout, deadline)
                            for i in range(0, len(items), batch)]
                 for f in concurrent.futures.as_completed(futures):
-                    try:
-                        results = f.result()
-                    except (E.BudgetExceeded, E.ServiceError) as e:
-                        stats.stop = stats.stop or f"{type(e).__name__}: {e}"
-                        continue
-                    if not results:
-                        continue
-                    stats.embedded[kind.name] += store_vectors(
-                        conn, kind, [(i, h, v) for i, h, v, err in results if v is not None])
-                    stats.failed[kind.name] += store_errors(
-                        conn, kind, [(i, h, err) for i, h, v, err in results if v is None])
-                log(f"  {kind.scope}: {stats.embedded[kind.name]:,} embedded, "
-                    f"{stats.failed[kind.name]:,} failed, ${budget.spent:.4f} spent")
+                    store(f)
+                if items:
+                    log(f"  {kind.scope}: {stats.embedded[kind.name]:,} embedded, "
+                        f"{stats.failed[kind.name]:,} failed, ${budget.spent:.4f} spent")
             if stop.is_set():
                 break
     except KeyboardInterrupt:
         stop.set()
+        conn.rollback()          # the interrupt may have landed mid-write
         stats.stop = "interrupted -- finished batches are committed, re-run to resume"
+        for f in futures:
+            if f.done() and f not in stored:
+                try:
+                    store(f)
+                except Exception:
+                    conn.rollback()
+        raise
     finally:
         pool.shutdown(wait=True, cancel_futures=True)
     return stats
 
 
-def dry_run(conn, kinds, since=None, limit=None, log=print):
+def dry_run(conn, kinds, since=None, limit=None, log=print,
+            page=page_size(E.DOC_BATCH, WORKERS)):
     """Walk exactly the rows a real run would, through the same query and
     formatters, and price them. No API call and no write: safe on a
     read-only connection, and before the migration (then everything is to do).
@@ -318,11 +431,10 @@ def dry_run(conn, kinds, since=None, limit=None, log=print):
         nbytes = 0
         after = ""
         while limit is None or n < limit:
-            take = PAGE if limit is None else min(PAGE, limit - n)
-            rows = select_todo(conn, kind, after, take, since, have_tables=have)
-            if not rows:
+            take = page if limit is None else min(page, limit - n)
+            rows, after = select_todo(conn, kind, after, take, since, have_tables=have)
+            if after is None:
                 break
-            after = rows[-1][0]
             items, bad = prepare(kind, rows)
             drift += len(bad)
             n += len(rows)
@@ -435,7 +547,7 @@ def main():
 
     conn = db.connect()
     since = None
-    if args.since_days:
+    if args.since_days is not None:
         with conn.cursor() as cur:
             cur.execute("select now() - make_interval(days => %s)", (args.since_days,))
             since = cur.fetchone()[0]
@@ -471,7 +583,13 @@ def main():
           f"cap ${args.max_usd:.2f}, {args.workers} workers")
     budget = E.Budget(args.max_usd)
     began = time.time()
-    stats = run(conn, kinds, budget, limit=args.limit, since=since, workers=args.workers)
+    stats = Stats()
+    interrupted = False
+    try:
+        run(conn, kinds, budget, limit=args.limit, since=since, workers=args.workers,
+            stats=stats)
+    except KeyboardInterrupt:
+        interrupted = True
 
     print(f"\n{sum(stats.embedded.values()):,} embedded, {sum(stats.failed.values()):,} failed "
           f"({(time.time() - began) / 60:.1f} min)")
@@ -483,6 +601,8 @@ def main():
           + (f"; {budget.possibly_billed} failed attempt(s) charged at estimate"
              if budget.possibly_billed else "")
           + (f"; {budget.unpriced} call(s) priced from tokens" if budget.unpriced else ""))
+    if interrupted:
+        raise SystemExit(130)
 
 
 if __name__ == "__main__":

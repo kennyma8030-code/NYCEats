@@ -48,12 +48,12 @@ class Cycle(unittest.TestCase):
 
     def test_order(self):
         calls, _ = self.run_cycle(args())
-        self.assertEqual(calls, ["poll", "settle", "extract", "embed", "refresh"])
+        self.assertEqual(calls, ["poll", "settle", "extract", "refresh", "embed"])
 
     def test_embed_failure_does_not_block_refresh(self):
         calls, conn = self.run_cycle(
             args(), embed_once=(None, embedding.ServiceError("OpenRouter is down")))
-        self.assertEqual(calls, ["poll", "settle", "extract", "embed", "refresh"])
+        self.assertEqual(calls, ["poll", "settle", "extract", "refresh", "embed"])
         conn.rollback.assert_called()
 
     def test_any_embed_exception_is_contained(self):
@@ -68,7 +68,7 @@ class Cycle(unittest.TestCase):
 
     def test_poll_failure_still_extracts_and_embeds(self):
         calls, _ = self.run_cycle(args(), poll_once=(None, RuntimeError("arctic down")))
-        self.assertEqual(calls, ["poll", "extract", "embed", "refresh"])
+        self.assertEqual(calls, ["poll", "extract", "refresh", "embed"])
 
     def test_nothing_extracted_means_no_refresh(self):
         calls, _ = self.run_cycle(args(), extract_once=(0, None))
@@ -81,6 +81,17 @@ class Cycle(unittest.TestCase):
     def test_embed_without_extract(self):
         calls, _ = self.run_cycle(args(extract=False))
         self.assertEqual(calls, ["poll", "settle", "embed"])
+
+    def test_refresh_runs_before_embed_even_when_embed_hangs(self):
+        # #4: the board is rebuilt before embedding starts, so nothing in
+        # embedding can delay it.
+        calls, _ = self.run_cycle(args(), embed_once=(None, TimeoutError("slow")))
+        self.assertLess(calls.index("refresh"), calls.index("embed"))
+
+    def test_ctrl_c_in_embed_stops_the_poller(self):
+        # #8: _step contains Exception, not KeyboardInterrupt.
+        with self.assertRaises(KeyboardInterrupt):
+            self.run_cycle(args(), embed_once=(None, KeyboardInterrupt()))
 
 
 class Boot(unittest.TestCase):
@@ -110,6 +121,13 @@ class Boot(unittest.TestCase):
         self.assertIn("embedding on: qwen/qwen3-embedding-8b@1024:deepinfra", out)
         self.assertIn("EMBED_OPENROUTER_API_KEY", out)
         self.assertIn("$0.02/cycle", out)
+
+    def test_invalid_scope_turns_embedding_off_at_boot(self):
+        # #9: a default from the environment skips argparse's choices.
+        out = self.boot({"POLL_EMBED": "1", "EMBED_OPENROUTER_API_KEY": "k",
+                         "POLL_EMBED_SCOPE": "comment"}, [])
+        self.assertIn("embedding OFF: POLL_EMBED_SCOPE='comment'", out)
+        self.assertNotIn("embedding on", out)
 
     def test_off_by_default(self):
         out = self.boot({"EMBED_OPENROUTER_API_KEY": "k"}, [])

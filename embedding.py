@@ -350,6 +350,11 @@ def embed_batch(texts, budget, *, attempts=ATTEMPTS, timeout=TIMEOUT, sleep=None
                     # Routing ignored the pin. Storing these would mix two
                     # providers' vectors under one key.
                     raise ServiceError(f"served by {got!r}, pinned to {PROVIDER!r}")
+                shape = _shape_error(a.body["data"])
+                if shape:
+                    # Paid for and settled above; the rest of the run stops
+                    # cleanly rather than crashing on a field it expected.
+                    raise ServiceError(f"malformed response: {shape}")
                 if len(a.body["data"]) == len(texts):
                     body = a.body
                     break
@@ -378,6 +383,24 @@ def embed_batch(texts, budget, *, attempts=ATTEMPTS, timeout=TIMEOUT, sleep=None
         except (ValueError, struct.error, TypeError, KeyError) as e:
             out.append((None, f"unusable vector: {e}"))
     return out
+
+
+def _shape_error(data):
+    """Why `data` is not a list of {index, embedding} covering 0..n-1, or None.
+
+    A count that is merely short is not a shape error; that is retried.
+    """
+    if not isinstance(data, list):
+        return f"data is a {type(data).__name__}, not a list"
+    for d in data:
+        if not isinstance(d, dict) or "embedding" not in d:
+            return f"item without an embedding: {str(d)[:100]}"
+        if not isinstance(d.get("index"), int) or isinstance(d.get("index"), bool):
+            return f"item without an integer index: {str(d)[:100]}"
+    idx = sorted(d["index"] for d in data)
+    if idx != list(range(len(data))):
+        return f"indexes are not 0..{len(data) - 1}"
+    return None
 
 
 def provider_of(body):

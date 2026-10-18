@@ -144,6 +144,10 @@ embeddings their own key with its own limit, so they can never exhaust the
 key extraction runs on.
 
 **Running the backlog.** It costs about $0.09 (8.6M tokens at $0.01/M).
+`embed.py` is a pipeline script like `refresh.py` and `backfill.py`: it
+reads `DATABASE_URL` and writes to production, so it is run on purpose, one
+run at a time, never as an experiment. Only `--dry-run` and
+`--build-index --dry-run` are read-only.
 
 ```
 psql "$DATABASE_URL" -f embed_schema.sql     # once: pgvector + the tables
@@ -156,18 +160,25 @@ A row is due when it has no vector for the current `MODEL_KEY`, or its stored
 `input_hash` (sha256 of the exact text) no longer matches. Kill and restart
 freely. A refused input is isolated by splitting its batch, then recorded in
 `embedding_errors` and skipped until its text changes, or until
-`--retry-errors`. An auth, credit or outage failure stops the run instead and
-leaves the rows to do. The spend cap reserves each request before sending it.
+`--retry-errors`. A 400 can also be about the request rather than the input
+(an unsupported parameter, a routing error), and then every batch is refused.
+So the first time a run gets down to one refused input, it sends a one-line
+canary with the same request shape. If that is refused too, the run stops.
+A run also stops after 50 rejected rows, and never splits deeper than 8
+levels. An auth, credit, outage or malformed-response failure stops the run
+too, and leaves the rows to do. The spend cap reserves each request before sending it.
 Attempts that may have been billed without returning vectors (timeouts, 5xx,
 a 200 without vectors) are charged against it.
 
 The poller keeps up with new comments when `POLL_EMBED=1`. Each cycle runs
-extract, then embed, then refresh, over the last `POLL_EMBED_DAYS` (3). The
-cycle is capped by `POLL_EMBED_LIMIT` (2,000 rows) and `POLL_EMBED_MAX_USD`
-($0.05). `POLL_EMBED_SCOPE` is `comments` by default, so new threads need
-`both` or a periodic `embed.py --scope threads`. The step is fail-soft: with no
-key it switches off at boot, and an error or outage in it never blocks
-extraction or the refresh.
+extract, then refresh, then embed, over the last `POLL_EMBED_DAYS` (3).
+Embedding goes last so it can never delay the board. It is capped by
+`POLL_EMBED_LIMIT` (2,000 rows) and `POLL_EMBED_MAX_USD` ($0.05) per cycle,
+and stops starting new batches after 5 minutes. `POLL_EMBED_SCOPE` is
+`comments` by default, so new threads need `both` or a periodic
+`embed.py --scope threads`. The step is fail-soft: with no key or an invalid
+scope it switches off at boot, and an error or outage in it is logged and
+skipped.
 
 **The index** is built after the backlog, never before: a graph maintained
 through 140k inserts is far slower than one built once. There is one partial

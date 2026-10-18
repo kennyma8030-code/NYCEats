@@ -122,37 +122,111 @@ class DbCase(unittest.TestCase):
                          log=lambda *_: None, **kw)
 
 
+def todo(conn, kind, limit=10_000, since=None):
+    rows, _ = embed.select_todo(conn, kind, "", limit, since)
+    return rows
+
+
 class SqlMirrorsFormatter(DbCase):
     def test_text_and_hash_match_python(self):
         for kind in (embed.COMMENTS, embed.THREADS):
             with self.conn.cursor() as cur:
+                cur.execute(kind.candidates, {"after": "", "since": None, "limit": 10_000})
+                ids = [r[0] for r in cur.fetchall()]
                 cur.execute(f"select src.id, src.a, src.b, src.txt from ({kind.source}) src",
-                            {"after": "", "since": None})
+                            {"ids": ids})
                 rows = cur.fetchall()
             self.assertTrue(rows)
             for item_id, a, b, txt in rows:
                 self.assertEqual(txt, kind.fmt(a, b), item_id)
-            for item_id, a, b, h in embed.select_todo(self.conn, kind, "", 10_000):
+            for item_id, a, b, h in todo(self.conn, kind):
                 self.assertEqual(h, E.input_hash(kind.fmt(a, b)), item_id)
 
     def test_long_selftext_cut_at_1500_characters(self):
-        [(_, a, b, _)] = [r for r in embed.select_todo(self.conn, embed.THREADS, "", 100)
-                          if r[0] == "t3_a"]
+        [(_, a, b, _)] = [r for r in todo(self.conn, embed.THREADS) if r[0] == "t3_a"]
         self.assertTrue(E.format_thread(a, b).endswith("🍕"))
 
 
 class Eligibility(DbCase):
     def test_what_gets_selected(self):
-        got = {r[0] for r in embed.select_todo(self.conn, embed.COMMENTS, "", 10_000)}
+        got = {r[0] for r in todo(self.conn, embed.COMMENTS)}
         self.assertEqual(got, self.eligible_comments())
-        threads = {r[0] for r in embed.select_todo(self.conn, embed.THREADS, "", 10_000)}
+        threads = {r[0] for r in todo(self.conn, embed.THREADS)}
         self.assertEqual(threads, {t[0] for t in THREADS})
 
     def test_since_window(self):
         since = NOW - timedelta(days=3)
-        got = {r[0] for r in embed.select_todo(self.conn, embed.COMMENTS, "", 10_000, since)}
+        got = {r[0] for r in todo(self.conn, embed.COMMENTS, since=since)}
         self.assertNotIn("t1_old", got)
         self.assertIn("t1_unicode", got)
+
+
+class Paging(DbCase):
+    """#5 and #6: pages are bounded by candidate ids, sized from the run."""
+
+    def test_page_of_finished_rows_is_empty_but_moves_on(self):
+        with FakeOpenRouter():
+            self.run_embed(scope="comments", limit=100, batch=50)
+        rows, after = embed.select_todo(self.conn, embed.COMMENTS, "", 10)
+        self.assertEqual(rows, [])
+        self.assertEqual(after, bulk_id(9))
+        rows, after = embed.select_todo(self.conn, embed.COMMENTS, bulk_id(99), 10)
+        self.assertEqual([r[0] for r in rows], [bulk_id(i) for i in range(100, 110)])
+        self.assertEqual(after, bulk_id(109))
+        self.assertEqual(embed.select_todo(self.conn, embed.COMMENTS, "t1_zzz", 10), ([], None))
+
+    def test_only_candidates_are_hashed(self):
+        # The second statement must be restricted to the candidate ids, not
+        # hash every remaining row and filter afterwards.
+        seen = []
+        real = self.conn
+
+        class Conn:
+            def cursor(self):
+                return Spy(real.cursor())
+
+            def commit(self):
+                real.commit()
+
+        class Spy:
+            def __init__(self, cur):
+                self.cur = cur
+
+            def __enter__(self):
+                self.cur.__enter__()
+                return self
+
+            def __exit__(self, *a):
+                return self.cur.__exit__(*a)
+
+            def execute(self, sql, params=None):
+                seen.append((sql, params))
+                return self.cur.execute(sql, params)
+
+            def __getattr__(self, name):
+                return getattr(self.cur, name)
+
+        rows, _ = embed.select_todo(Conn(), embed.COMMENTS, "", 7)
+        self.assertEqual(len(rows), 7)
+        hash_sql, hash_params = seen[1]
+        self.assertIn("any(%(ids)s)", hash_sql)
+        self.assertEqual(len(hash_params["ids"]), 7)
+
+    def test_resume_walks_past_finished_pages_with_a_small_page(self):
+        with FakeOpenRouter():
+            self.run_embed(scope="comments", limit=100, batch=50)
+        limits = []
+        real = embed.select_todo
+
+        def spy(conn, kind, after, limit, *a, **k):
+            limits.append(limit)
+            return real(conn, kind, after, limit, *a, **k)
+        with FakeOpenRouter() as api, mock.patch.object(embed, "select_todo", spy):
+            stats = self.run_embed(scope="comments", batch=5, workers=1)
+        self.assertEqual(stats.embedded["comment"], len(self.eligible_comments()) - 100)
+        self.assertEqual(len(api.inputs), len(self.eligible_comments()) - 100)
+        self.assertEqual(set(limits), {embed.page_size(5, 1)})     # 10, not the import-time 1024
+        self.assertGreater(len(limits), 10)
 
 
 class FullRun(DbCase):
@@ -270,11 +344,18 @@ class Resume(DbCase):
             done_texts = {E.format_comment(t, b) for _, t, b in cur.fetchall()}
         self.assertFalse(done_texts & set(api.inputs))
 
-    def test_ctrl_c_keeps_finished_batches(self):
+    def test_ctrl_c_keeps_finished_batches_and_re_raises(self):
+        # #8: the interrupt propagates, so a poller under Ctrl-C stops.
+        stats = embed.Stats()
         with FakeOpenRouter(), self._kill_on_second_store(KeyboardInterrupt()):
-            stats = self.run_embed(scope="comments", batch=50, workers=1)
+            with self.assertRaises(KeyboardInterrupt):
+                self.run_embed(scope="comments", batch=50, workers=1, stats=stats)
         self.assertIn("interrupted", stats.stop)
-        self.assertEqual(self.count("select count(*) from comment_embeddings"), 50)
+        stored = self.count("select count(*) from comment_embeddings")
+        # the first batch, plus any that had already come back when it hit
+        self.assertGreaterEqual(stored, 50)
+        self.assertLess(stored, len(self.eligible_comments()))
+        self.assertEqual(stored, stats.embedded["comment"])
 
 
 class PerRowErrors(DbCase):
@@ -312,7 +393,10 @@ class PerRowErrors(DbCase):
         self.conn.commit()
         with FakeOpenRouter(self.poison_handler) as api:
             self.run_embed(scope="comments")
-        self.assertEqual(len(api.requests), 1)
+        # the row itself, and the canary that proves the request shape is fine
+        self.assertEqual(sorted(api.inputs),
+                         sorted([embed.CANARY, E.format_comment("Best pizza in Brooklyn?",
+                                                                "Comment 123 about L'Industrie")]))
         self.assertEqual(self.count("select failures from embedding_errors"), 1)
 
         # an edit makes it due on its own, and success clears the error
@@ -365,6 +449,117 @@ class PerRowErrors(DbCase):
             stats = self.run_embed(scope="comments")
         self.assertEqual(sum(stats.failed.values()), 0)
         self.assertIn("drift", self.count("select min(error) from embedding_errors"))
+
+
+class RequestLevelRejections(DbCase):
+    """#2: a 400 about the request must not stamp the backlog."""
+
+    def test_request_level_400_stops_without_marking_rows(self):
+        with FakeOpenRouter(lambda p: FakeResponse(
+                400, None, '{"error": {"message": "dimensions is not supported"}}')) as api:
+            stats = self.run_embed(scope="comments", batch=128, workers=2)
+        self.assertIn("ServiceError", stats.stop)
+        self.assertIn("canary", stats.stop)
+        self.assertEqual(self.count("select count(*) from embedding_errors"), 0)
+        self.assertEqual(self.count("select count(*) from comment_embeddings"), 0)
+        self.assertLess(len(api.requests), 40)          # one descent per worker, not 300 rows
+        self.assertEqual(len(todo(self.conn, embed.COMMENTS)), len(self.eligible_comments()))
+
+    def test_rejected_rows_are_capped_per_run(self):
+        def handler(p):
+            if p["input"] == [embed.CANARY]:
+                return FakeResponse(200, ok_body(p))
+            return FakeResponse(400, None, "bad input")
+        with mock.patch.object(embed, "MAX_REJECTED", 5), FakeOpenRouter(handler):
+            stats = self.run_embed(scope="comments", batch=16, workers=1)
+        self.assertIn("more than 5 inputs rejected", stats.stop)
+        self.assertEqual(self.count("select count(*) from embedding_errors"), 5)
+
+
+class KeepsWhatWasPaidFor(DbCase):
+    def test_left_half_survives_a_failure_in_the_right_half(self):
+        # #1: the first batch (bulk0000-0127) is refused whole; its left half
+        # succeeds; its right half hits an auth error that stops the run.
+        def handler(p):
+            if len(p["input"]) == 128:
+                return FakeResponse(400, None, "one of these is bad")
+            if any("Comment 0 about" in t for t in p["input"]):
+                return FakeResponse(200, ok_body(p))
+            return FakeResponse(401, None, "key revoked")
+        with FakeOpenRouter(handler):
+            stats = self.run_embed(scope="comments", batch=128, workers=1)
+        self.assertIn("ServiceError", stats.stop)
+        self.assertEqual(self.count("select count(*) from comment_embeddings"), 64)
+        self.assertEqual(stats.embedded["comment"], 64)
+        self.assertEqual(self.count("select count(*) from embedding_errors"), 0)
+
+    def test_malformed_response_stops_run_but_keeps_other_batches(self):
+        # #7: the second batch comes back with duplicate indexes.
+        def handler(p):
+            body = ok_body(p)
+            if any("Comment 200 about" in t for t in p["input"]):
+                for d in body["data"]:
+                    d["index"] = 0
+            return FakeResponse(200, body)
+        with FakeOpenRouter(handler):
+            stats = self.run_embed(scope="comments", batch=128, workers=1)
+        self.assertIn("malformed response", stats.stop)
+        self.assertEqual(self.count("select count(*) from comment_embeddings"), 128)
+        self.assertEqual(self.count("select count(*) from embedding_errors"), 0)
+
+
+class Deadline(DbCase):
+    def test_deadline_is_checked_per_batch(self):
+        # #4: one page holds many batches; once the deadline passes, no new
+        # batch starts even though the page is not finished.
+        import time as _time
+
+        def slow(p):
+            _time.sleep(0.3)
+            return FakeResponse(200, ok_body(p))
+        with FakeOpenRouter(slow) as api:
+            stats = self.run_embed(scope="comments", batch=50, workers=1,
+                                   deadline=_time.monotonic() + 0.1)
+        self.assertEqual(len(api.requests), 1)
+        self.assertEqual(self.count("select count(*) from comment_embeddings"), 50)
+        self.assertIn("out of time", stats.stop)
+
+
+class BootSchemaNeverFails(DbCase):
+    def test_any_failure_in_the_embedding_block_is_skipped(self):
+        # #3: a clash (here a stray `halfvec` type) makes create extension
+        # fail. Before, only insufficient_privilege was caught and the whole
+        # boot schema aborted.
+        import db
+        with self.conn.cursor() as cur:
+            cur.execute("drop schema public cascade; create schema public")
+            cur.execute("create domain public.halfvec as int")
+        self.conn.commit()
+        db.init(self.conn, os.path.join(ROOT, "schema.sql"))
+        notices = " ".join(self.conn.notices)
+        self.assertIn("embedding tables skipped", notices)
+        self.assertEqual(self.count("select to_regclass('comments') is not null"), True)
+        self.assertEqual(self.count("select to_regclass('restaurant_images') is not null"), True)
+        self.assertEqual(self.count("select to_regclass('comment_embeddings') is null"), True)
+        self.assertEqual(self.count("select count(*) from pg_extension where extname = 'vector'"), 0)
+
+
+class Cli(DbCase):
+    def main(self, *argv):
+        import io
+        from contextlib import redirect_stdout
+        out = io.StringIO()
+        with mock.patch.object(embed.db, "connect", return_value=self.conn), \
+                mock.patch("sys.argv", ["embed.py", *argv]), redirect_stdout(out):
+            embed.main()
+        return out.getvalue()
+
+    def test_since_days_zero_is_a_window(self):
+        # #10: 0 days means "nothing older than now", not "no window".
+        out = self.main("--dry-run", "--scope", "comments", "--since-days", "0")
+        self.assertRegex(out, r"comments\s+0 ")
+        out = self.main("--dry-run", "--scope", "comments")
+        self.assertRegex(out, rf"comments\s+{len(self.eligible_comments())} ")
 
 
 class SpendCap(DbCase):

@@ -191,18 +191,18 @@ create index if not exists restaurant_images_stale_idx
 -- The HNSW index is deliberately absent: it is built after the backlog
 -- (`python embed.py --build-index`).
 -- ---------------------------------------------------------------------------
+-- Any failure inside is caught, not just a missing extension: no privilege,
+-- a pgvector older than 0.7 (no halfvec), a name clash. The block's work is
+-- rolled back as one, the notice says why, and the rest of this file and
+-- the boot carry on. embed.py then reports the tables as missing.
 do $$
 begin
   if not exists (select 1 from pg_available_extensions where name = 'vector') then
     raise notice 'pgvector is not installed on this server; skipping embedding tables';
     return;
   end if;
-  begin
-    create extension if not exists vector;
-  exception when insufficient_privilege then
-    raise notice 'no privilege to create extension vector; skipping embedding tables';
-    return;
-  end;
+
+  create extension if not exists vector;
 
   create table if not exists comment_embeddings (
     comment_id  text not null references comments(id),
@@ -232,4 +232,7 @@ begin
     failed_at  timestamptz not null default now(),
     primary key (kind, item_id, model)
   );
+exception when others then
+  raise notice 'embedding tables skipped (% %): semantic search is off until this is fixed',
+    sqlstate, sqlerrm;
 end $$;

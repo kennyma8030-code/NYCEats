@@ -9,9 +9,9 @@ arrived and refreshes the scoring views, so the board moves within one poll
 instead of waiting for someone to run extract.py and sync.py by hand.
 
 With --embed (or POLL_EMBED=1) each cycle also embeds the newly extracted
-comments for semantic search, between extraction and the refresh. That step
-is optional by design: without a key it is switched off at boot, and any
-failure in it is logged and skipped, never allowed to hold up the board.
+comments for semantic search, last, after the refresh. That step is optional
+by design: without a key it is switched off at boot, and any failure in it is
+logged and skipped, never allowed to hold up the board.
 """
 
 import argparse
@@ -102,12 +102,12 @@ def embed_once(conn, days, limit, max_usd, scope, workers):
 
     Same window idea as extract_once: the backlog is embedded by hand with
     embed.py, and this only keeps up with what arrives. It runs after
-    extraction, because a comment is only eligible once it has a mention.
+    extraction, because a comment is only eligible once it has a mention,
+    and after the refresh, so it can never delay the board.
 
-    It must never hold up the board. The caller runs it in its own try, and
-    it is bounded here: few retries, a short timeout, a per-cycle spend cap,
-    and a deadline after which no new page starts -- so an OpenRouter outage
-    costs one batch's retries, not the refresh behind it.
+    It is bounded too, so it cannot eat the next cycle: few retries, a short
+    timeout, a per-cycle spend cap, and a deadline after which no new batch
+    starts. An OpenRouter outage costs one batch's retries.
     """
     import embed
     import embedding
@@ -170,23 +170,24 @@ def _step(name, fn, conn, *args):
 
 
 def run_cycle(conn, args):
-    """One poll: collect, then extract, then embed, then refresh.
+    """One poll: collect, then extract, then refresh, then embed.
 
     Each step gets its own try. A failed extraction must not look like a
-    failed poll, a failed poll still leaves earlier arrivals worth
-    extracting, and embedding is strictly optional: an embedding error or an
-    OpenRouter outage never blocks extraction or the refresh.
+    failed poll, and a failed poll still leaves earlier arrivals worth
+    extracting. Embedding is strictly optional, so it goes last: the board
+    is refreshed before it starts, and an embedding error or a slow
+    OpenRouter can never delay extraction or the refresh.
     """
     _step("poll", lambda c: (poll_once(c), settle_once(c)), conn)
     extracted = 0
     if args.extract:
         extracted = _step("extract", extract_once, conn, args.extract_days,
                           args.extract_limit, args.extract_workers) or 0
+    if extracted:
+        _step("refresh", refresh_once, conn)
     if args.embed:
         _step("embed", embed_once, conn, args.embed_days, args.embed_limit,
               args.embed_max_usd, args.embed_scope, args.embed_workers)
-    if extracted:
-        _step("refresh", refresh_once, conn)
 
 
 def _env_flag(name):
@@ -243,6 +244,13 @@ def main():
         # failing the deploy: search is optional, the board is not.
         if not embedding.api_key_var():
             print(f"embedding OFF: --embed needs {' or '.join(embedding.KEY_VARS)}")
+            args.embed = False
+        elif args.embed_scope not in ("comments", "threads", "both"):
+            # argparse checks choices on the command line, not on a default
+            # taken from the environment, so a typo here would otherwise
+            # raise in every cycle.
+            print(f"embedding OFF: POLL_EMBED_SCOPE={args.embed_scope!r} is not "
+                  f"comments, threads or both")
             args.embed = False
         else:
             print(f"embedding on: {embedding.MODEL_KEY} (key from {embedding.api_key_var()}), "
