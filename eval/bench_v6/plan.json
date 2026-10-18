@@ -1,6 +1,12 @@
 {
- "model": "anthropic/claude-haiku-5.5",
+ "model": "claude-haiku-5-5",
+ "api": "anthropic",
+ "batch_discount": 0.5,
  "budget": 4.0,
+ "max_tokens": {
+  "comment": 6000,
+  "thread": 16000
+ },
  "assumptions": {
   "('comment', 'medium')": {
    "reasoning": 1200,
@@ -40,78 +46,135 @@
    "step": "a",
    "what": "v6 comment, medium, v1 labeled + v2",
    "calls": 1006,
-   "input_tokens": 2213090,
+   "input_tokens": 4811065,
    "assumed_output_tokens": 1509000,
-   "est_usd": 0.976,
-   "page_rate_usd": 0.412,
-   "worst_case_usd": 4.32,
-   "cumulative_est_usd": 0.976
+   "est_usd": 0.678,
+   "page_rate_usd": 0.206,
+   "worst_case_usd": 2.04,
+   "cumulative_est_usd": 0.678
   },
   {
    "step": "b",
    "what": "current comment, medium, same comments",
    "calls": 1006,
-   "input_tokens": 1989758,
+   "input_tokens": 4325560,
    "assumed_output_tokens": 1358100,
-   "est_usd": 0.878,
-   "page_rate_usd": 0.412,
-   "worst_case_usd": 4.29,
-   "cumulative_est_usd": 1.854
+   "est_usd": 0.61,
+   "page_rate_usd": 0.206,
+   "worst_case_usd": 2.0,
+   "cumulative_est_usd": 1.288
   },
   {
    "step": "c",
    "what": "v6 thread, medium, v1 whole threads (render_chunk)",
    "calls": 24,
-   "input_tokens": 74898,
+   "input_tokens": 162822,
    "assumed_output_tokens": 208800,
-   "est_usd": 0.112,
+   "est_usd": 0.062,
    "page_rate_usd": null,
-   "worst_case_usd": 0.2,
-   "cumulative_est_usd": 1.966
+   "worst_case_usd": 0.11,
+   "cumulative_est_usd": 1.35
   },
   {
    "step": "d",
    "what": "current thread, medium, same chunks (stored rendering)",
    "calls": 24,
-   "input_tokens": 66767,
+   "input_tokens": 145146,
    "assumed_output_tokens": 189600,
-   "est_usd": 0.101,
+   "est_usd": 0.056,
    "page_rate_usd": null,
-   "worst_case_usd": 0.2,
-   "cumulative_est_usd": 2.067
+   "worst_case_usd": 0.11,
+   "cumulative_est_usd": 1.406
   },
   {
    "step": "e-comment",
    "what": "v6 comment, LOW, 300-comment subset of a",
    "calls": 300,
-   "input_tokens": 659654,
+   "input_tokens": 1434030,
    "assumed_output_tokens": 240000,
-   "est_usd": 0.186,
-   "page_rate_usd": 0.123,
-   "worst_case_usd": 1.29,
-   "cumulative_est_usd": 2.253
+   "est_usd": 0.15,
+   "page_rate_usd": 0.061,
+   "worst_case_usd": 0.61,
+   "cumulative_est_usd": 1.556
   },
   {
    "step": "e-thread",
    "what": "v6 thread, LOW, a third of c's chunks",
    "calls": 8,
-   "input_tokens": 25782,
+   "input_tokens": 56048,
    "assumed_output_tokens": 37600,
-   "est_usd": 0.021,
+   "est_usd": 0.013,
    "page_rate_usd": null,
-   "worst_case_usd": 0.07,
-   "cumulative_est_usd": 2.274
+   "worst_case_usd": 0.04,
+   "cumulative_est_usd": 1.569
   },
   {
    "step": "f",
    "what": "v6 thread, medium, v2 comments' chunks",
    "calls": 355,
-   "input_tokens": 1259392,
+   "input_tokens": 2737810,
    "assumed_output_tokens": 3088500,
-   "est_usd": 1.67,
+   "est_usd": 0.943,
    "page_rate_usd": null,
-   "worst_case_usd": 3.01,
-   "cumulative_est_usd": 3.944
+   "worst_case_usd": 1.69,
+   "cumulative_est_usd": 2.512
+  }
+ ],
+ "proposed_additions": [
+  {
+   "step": "+low-all",
+   "what": "low slice widened to all of a (adds ~706 comments)",
+   "calls": 706,
+   "input_tokens": 3377034,
+   "assumed_output_tokens": 564800,
+   "est_usd": 0.352,
+   "page_rate_usd": 0.145,
+   "worst_case_usd": 1.43,
+   "cumulative_est_usd": 2.864
+  },
+  {
+   "step": "+cur-v2-thread",
+   "what": "current-prompt thread baseline on v2 chunks (pairs with f)",
+   "calls": 355,
+   "input_tokens": 2411495,
+   "assumed_output_tokens": 2804500,
+   "est_usd": 0.852,
+   "page_rate_usd": null,
+   "worst_case_usd": 1.66,
+   "cumulative_est_usd": 3.716
+  },
+  {
+   "step": "+repeat-a",
+   "what": "repeat of a (rep 2) for run-to-run noise",
+   "calls": 1006,
+   "input_tokens": 4811065,
+   "assumed_output_tokens": 1509000,
+   "est_usd": 0.678,
+   "page_rate_usd": 0.206,
+   "worst_case_usd": 2.04,
+   "cumulative_est_usd": 4.394
+  },
+  {
+   "step": "+v6-v1-all-thread",
+   "what": "v6 thread on every v1 chunk (390 more than c; all 769 labeled comments)",
+   "calls": 390,
+   "input_tokens": 3008816,
+   "assumed_output_tokens": 3393000,
+   "est_usd": 1.036,
+   "page_rate_usd": null,
+   "worst_case_usd": 1.85,
+   "cumulative_est_usd": 5.43
+  },
+  {
+   "step": "+cur-v1-all-thread",
+   "what": "current thread on the same 390 chunks (pairs with the line above)",
+   "calls": 390,
+   "input_tokens": 2648470,
+   "assumed_output_tokens": 3081000,
+   "est_usd": 0.936,
+   "page_rate_usd": null,
+   "worst_case_usd": 1.82,
+   "cumulative_est_usd": 6.366
   }
  ]
 }

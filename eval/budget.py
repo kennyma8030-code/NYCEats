@@ -89,13 +89,26 @@ class Ledger:
             finally:
                 fcntl.flock(lf, fcntl.LOCK_UN)
 
-    def spent(self):
+    def _shared(self, key):
         with open(self.path + ".lock", "a") as lf:
             fcntl.flock(lf, fcntl.LOCK_SH)
             try:
-                return float(self._read().get("spent", 0.0))
+                d = self._read()
+                return float(d.get("spent", 0.0)) if key == "spent" else \
+                    float(sum((d.get("inflight") or {}).values()))
             finally:
                 fcntl.flock(lf, fcntl.LOCK_UN)
+
+    def spent(self):
+        return self._shared("spent")
+
+    def inflight(self):
+        """Worst cases held for batches that are submitted but not yet settled."""
+        return self._shared("inflight")
+
+    def remaining(self):
+        with self._lock:
+            return self.budget - self.spent() - self.inflight() - self.reserved
 
     # -- calls
     def reserve(self, amount):
@@ -104,11 +117,52 @@ class Ledger:
         with self._lock:
             if self.stopped:
                 return False
-            if self.spent() + self.reserved + amount > self.budget:
+            if self.spent() + self.inflight() + self.reserved + amount > self.budget:
                 self.stopped = True
                 return False
             self.reserved += amount
             return True
+
+    # -- batches: holds live in the ledger file, so they survive an interruption
+    # and a re-attached run still counts a batch that is still in flight.
+    def hold(self, hold_id, amount):
+        """Persist a hold of `amount` if it fits under the cap. A hold is taken
+        before the batch is submitted, under a provisional id, and renamed to
+        the batch id once the API returns one."""
+        ok = []
+
+        def take(d):
+            held = float(sum((d.get("inflight") or {}).values()))
+            if float(d.get("spent", 0.0)) + held + self.reserved + amount <= self.budget:
+                d.setdefault("inflight", {})[hold_id] = round(amount, 8)
+                d["budget"] = self.budget
+                ok.append(True)
+        with self._lock:
+            self._update(take)
+        return bool(ok)
+
+    def rename_hold(self, old, new):
+        def ren(d):
+            inf = d.setdefault("inflight", {})
+            if old in inf:
+                inf[new] = inf.pop(old)
+        with self._lock:
+            self._update(ren)
+
+    def release(self, hold_id, cost, calls, estimated_calls=0):
+        """Replace a batch's hold with what its requests actually cost."""
+        def rel(d):
+            (d.get("inflight") or {}).pop(hold_id, None)
+            d["budget"] = self.budget
+            d["spent"] = round(float(d.get("spent", 0.0)) + cost, 8)
+            d["calls"] = d.get("calls", 0) + calls
+            d["estimated_calls"] = d.get("estimated_calls", 0) + estimated_calls
+            r = d.setdefault("runs", {}).setdefault(self.run, {"spent": 0.0, "calls": 0, "estimated_calls": 0})
+            r["spent"] = round(r["spent"] + cost, 8)
+            r["calls"] += calls
+            r["estimated_calls"] += estimated_calls
+        with self._lock:
+            self._update(rel)
 
     def settle(self, reserved, cost, estimated):
         """Swap a reservation for the call's real (or estimated) cost."""

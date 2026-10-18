@@ -8,3 +8,5 @@ venv/
 *.out
 *.err
 .env.*
+*.json.lock
+*.json.tmp

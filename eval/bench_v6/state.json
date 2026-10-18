@@ -1,0 +1,35 @@
+{
+ "model": "claude-haiku-5-5",
+ "budget": 4.0,
+ "probe": {
+  "medium": {
+   "ok": true,
+   "exit": 0,
+   "error": null,
+   "cost_usd": 0.0006271999999999998,
+   "thinking_tokens": 67,
+   "output_tokens": 78,
+   "input_tokens": 4746,
+   "stop_reason": "end_turn",
+   "json_ok": true,
+   "mentions": 0,
+   "latency_s": 3.5552797317504883,
+   "run_file": "eval/runs/claude-haiku-5-5__a15cfb978cce__comment__bench6-probe-medium_schema.jsonl"
+  },
+  "low": {
+   "ok": true,
+   "exit": 0,
+   "error": null,
+   "cost_usd": 7.114e-05,
+   "thinking_tokens": 0,
+   "output_tokens": 11,
+   "input_tokens": 4746,
+   "stop_reason": "end_turn",
+   "json_ok": true,
+   "mentions": 0,
+   "latency_s": 1.1182422637939453,
+   "run_file": "eval/runs/claude-haiku-5-5__a15cfb978cce__comment__bench6-probe-low_schema.jsonl"
+  }
+ },
+ "steps": {}
+}

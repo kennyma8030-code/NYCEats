@@ -1,0 +1,18 @@
+{
+ "budget": 4.0,
+ "spent": 0.00069834,
+ "calls": 2,
+ "estimated_calls": 0,
+ "runs": {
+  "claude-haiku-5-5__a15cfb978cce__comment__bench6-probe-medium_schema.jsonl": {
+   "spent": 0.0006272,
+   "calls": 1,
+   "estimated_calls": 0
+  },
+  "claude-haiku-5-5__a15cfb978cce__comment__bench6-probe-low_schema.jsonl": {
+   "spent": 7.114e-05,
+   "calls": 1,
+   "estimated_calls": 0
+  }
+ }
+}

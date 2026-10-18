@@ -138,13 +138,221 @@ def main():
             errs.append("--cache did not mark the system prompt")
     srv.shutdown()
     if errs:
-        print("FAILED")
+        print("FAILED (OpenRouter path)")
         for e in errs:
             print("  " + e)
         sys.exit(1)
-    print(f"budget self-test ok: capped at ${cap} after {len(first)} finished calls "
+    print(f"budget self-test ok (OpenRouter): capped at ${cap} after {len(first)} finished calls "
           f"(ledger ${ledger['spent']:.4f}, {ledger['estimated_calls']} estimated), resumed the rest")
+
+
+# ---------------------------------------------------------------- Anthropic
+AKEY = "sk-ant-test-not-a-real-key"
+A = {"messages": [], "creates": 0, "batches": {}, "seen": {}, "keys": set(), "polls": {}}
+USAGE = {"input_tokens": 200, "cache_read_input_tokens": 2000, "cache_creation_input_tokens": 0,
+         "output_tokens": 900, "output_tokens_details": {"thinking_tokens": 600}}
+
+
+def message(text="{\"mentions\": []}", usage=USAGE):
+    return {"id": "msg_test", "type": "message", "role": "assistant", "model": "claude-haiku-5-5",
+            "content": [{"type": "thinking", "thinking": "", "signature": "sig"},
+                        {"type": "text", "text": text}],
+            "stop_reason": "end_turn", "stop_sequence": None, "usage": usage}
+
+
+class FakeAnthropic(http.server.BaseHTTPRequestHandler):
+    """Messages and Message Batches, shaped like the Claude API. A request's
+    first appearance in a batch errors (retryable) when its text hashes to
+    0 mod 7, and expires at 1 mod 11; its second appearance succeeds."""
+
+    def log_message(self, *a):
+        pass
+
+    def _json(self, obj, code=200):
+        out = json.dumps(obj).encode()
+        self.send_response(code)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(out)))
+        self.end_headers()
+        self.wfile.write(out)
+
+    def _batch(self, bid):
+        b = A["batches"][bid]
+        ended = A["polls"].get(bid, 0) >= 1
+        port = self.server.server_address[1]
+        n = len(b["requests"])
+        return {"id": bid, "type": "message_batch", "processing_status": "ended" if ended else "in_progress",
+                "request_counts": {"processing": 0 if ended else n, "succeeded": n if ended else 0,
+                                   "errored": 0, "canceled": 0, "expired": 0},
+                "created_at": "2026-10-17T00:00:00Z", "ended_at": "2026-10-17T00:01:00Z" if ended else None,
+                "expires_at": "2026-10-18T00:00:00Z", "archived_at": None, "cancel_initiated_at": None,
+                "results_url": f"http://127.0.0.1:{port}/v1/messages/batches/{bid}/results" if ended else None}
+
+    def do_POST(self):
+        body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+        with LOCK:
+            A["keys"].add(self.headers.get("x-api-key"))
+        if self.path.startswith("/v1/messages/batches"):
+            with LOCK:
+                A["creates"] += 1
+                bid = f"msgbatch_test_{A['creates']}"
+                A["batches"][bid] = {"requests": body["requests"]}
+            return self._json(self._batch(bid))
+        with LOCK:
+            A["messages"].append(body)
+        return self._json(message(usage=dict(USAGE, cache_read_input_tokens=0, cache_creation_input_tokens=2000)))
+
+    def do_GET(self):
+        parts = self.path.split("?")[0].strip("/").split("/")
+        bid = parts[3]
+        if parts[-1] == "results":
+            lines = []
+            for r in A["batches"][bid]["requests"]:
+                text = r["params"]["messages"][0]["content"]
+                with LOCK:
+                    n = A["seen"].get(text, 0)
+                    A["seen"][text] = n + 1
+                h = sum(map(ord, text))
+                if n == 0 and h % 7 == 0:
+                    res = {"type": "errored", "error": {"type": "error",
+                                                        "error": {"type": "api_error", "message": "overloaded"}}}
+                elif n == 0 and h % 11 == 1:
+                    res = {"type": "expired"}
+                else:
+                    res = {"type": "succeeded", "message": message()}
+                lines.append(json.dumps({"custom_id": r["custom_id"], "result": res}))
+            out = ("\n".join(lines) + "\n").encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/binary")
+            self.send_header("Content-Length", str(len(out)))
+            self.end_headers()
+            self.wfile.write(out)
+            return
+        with LOCK:
+            A["polls"][bid] = A["polls"].get(bid, 0) + 1
+        return self._json(self._batch(bid))
+
+
+def run_anthropic(tmp, port, budget_usd, limit, extra=()):
+    env = dict(os.environ)
+    for v in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_BASE_URL", "OPENROUTER_API_KEY"):
+        env.pop(v, None)
+    cmd = [sys.executable, os.path.join(HERE, "run.py"), "--api", "anthropic", "--model", "claude-haiku-5-5",
+           "--mode", "comment", "--prompt", "file:" + os.path.join(HERE, "prompts", "v6_comment.py"),
+           "--labeled-only", "--limit", str(limit), "--max-tokens", "2000", "--reasoning", "medium",
+           "--schema", "--cache", "--key-file", os.path.join(tmp, "keys.env"),
+           "--anthropic-base-url", f"http://127.0.0.1:{port}", "--runs-dir", tmp, "--poll-seconds", "0.05",
+           "--budget-file", os.path.join(tmp, "ledger.json"), "--budget", str(budget_usd), *extra]
+    p = subprocess.run(cmd, env=env, capture_output=True, text=True)
+    return p.returncode, p.stdout + p.stderr
+
+
+def anthropic_test():
+    errs = []
+    import anthropic_backend as AB
+    http.server.ThreadingHTTPServer.request_queue_size = 64
+    srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), FakeAnthropic)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    port = srv.server_address[1]
+    expect_batch = AB.cost(USAGE, batch=True)
+    try:
+        # 1. one direct call: the parameters, the key, and the cost at full price
+        with tempfile.TemporaryDirectory() as tmp:
+            with open(os.path.join(tmp, "keys.env"), "w") as f:
+                f.write(f"OPENROUTER_API_KEY=sk-or-wrong\nANTHROPIC_API_KEY={AKEY}\nDATABASE_URL=postgres://x\n")
+            code, out = run_anthropic(tmp, port, 1.0, 1)
+            p = A["messages"][-1] if A["messages"] else {}
+            rec = json.loads(open(next(os.path.join(tmp, f) for f in os.listdir(tmp) if f.endswith(".jsonl"))).readline())
+            schema_txt = json.dumps(p.get("output_config", {}).get("format", {}))
+            checks = [
+                (code == 0, f"direct call exited {code}: {out[-300:]}"),
+                (A["keys"] == {AKEY}, "a key other than ANTHROPIC_API_KEY from the key file was sent"),
+                (AKEY not in out and "sk-or-wrong" not in out, "a key was printed"),
+                (p.get("model") == "claude-haiku-5-5", "wrong model id"),
+                (p.get("thinking") == {"type": "adaptive"}, f"thinking {p.get('thinking')}"),
+                (p.get("output_config", {}).get("effort") == "medium", "effort not medium"),
+                (p.get("output_config", {}).get("format", {}).get("type") == "json_schema", "no json_schema format"),
+                ('"type": ["' not in schema_txt and "anyOf" in schema_txt, "type unions not rewritten as anyOf"),
+                (not any(k in p for k in ("temperature", "top_p", "top_k")), "a sampling parameter was sent"),
+                (p.get("system", [{}])[0].get("cache_control") == {"type": "ephemeral"}, "system prompt not cached"),
+                (abs(rec["ledger_cost"] - AB.cost(dict(USAGE, cache_read_input_tokens=0,
+                                                       cache_creation_input_tokens=2000), batch=False)) < 1e-12,
+                 "direct call cost is not tokens x price"),
+                (rec.get("reasoning_tokens") == 600 and rec.get("json_ok"), "thinking tokens or JSON not recorded"),
+            ]
+            errs += [msg for ok, msg in checks if not ok]
+
+        # 2. batches under a cap that is hit, then resumed with a higher cap
+        with tempfile.TemporaryDirectory() as tmp:
+            with open(os.path.join(tmp, "keys.env"), "w") as f:
+                f.write(f"ANTHROPIC_API_KEY={AKEY}\n")
+            cap = 0.01
+            code, out = run_anthropic(tmp, port, cap, 60, ["--batch"])
+            ledger = json.load(open(os.path.join(tmp, "ledger.json")))
+            runfile = next(os.path.join(tmp, f) for f in os.listdir(tmp) if f.endswith(".jsonl"))
+            recs = [json.loads(l) for l in open(runfile)]
+            ok_recs = [r for r in recs if r.get("raw") is not None]
+            if code != 3 or "budget reached" not in out:
+                errs.append(f"capped batch run should exit 3 (got {code}): {out[-300:]}")
+            if ledger["spent"] > cap + 1e-9 or ledger.get("inflight"):
+                errs.append(f"ledger {ledger['spent']} over cap {cap}, or holds left {ledger.get('inflight')}")
+            if abs(sum(r["ledger_cost"] for r in recs) - ledger["spent"]) > 1e-9:
+                errs.append("batch records do not sum to the ledger")
+            if any(abs(r["ledger_cost"] - expect_batch) > 1e-12 for r in ok_recs):
+                errs.append("a batch record's cost is not tokens x price x 0.5")
+            if not any(r.get("attempt") == 2 for r in recs):
+                errs.append("no errored/expired request was retried")
+            if len({r["call_key"] for r in ok_recs}) != len(ok_recs) or len(ok_recs) >= 60:
+                errs.append(f"{len(ok_recs)} finished records under the cap")
+            creates = A["creates"]
+            code2, out2 = run_anthropic(tmp, port, 1.0, 60, ["--batch"])
+            recs2 = [json.loads(l) for l in open(runfile)]
+            ok2 = {r["call_key"] for r in recs2 if r.get("raw") is not None}
+            if code2 != 0 or len(ok2) != 60:
+                errs.append(f"resume: exit {code2}, {len(ok2)} of 60 finished: {out2[-300:]}")
+            sent_again = [r for r in A["batches"][f"msgbatch_test_{creates + 1}"]["requests"]]
+            done_before = {r["call_key"] for r in ok_recs}
+            state = json.load(open(runfile + ".batches.json"))
+            for bid, info in state["batches"].items():
+                if int(bid.rsplit("_", 1)[1]) > creates:
+                    for k, rep, att in info["requests"].values():
+                        if k in done_before:
+                            errs.append(f"resume resubmitted finished {k}")
+            del sent_again
+
+        # 3. submit without waiting, then re-attach instead of resubmitting
+        with tempfile.TemporaryDirectory() as tmp:
+            with open(os.path.join(tmp, "keys.env"), "w") as f:
+                f.write(f"ANTHROPIC_API_KEY={AKEY}\n")
+            before = A["creates"]
+            code, out = run_anthropic(tmp, port, 1.0, 30, ["--batch", "--no-wait"])
+            ledger = json.load(open(os.path.join(tmp, "ledger.json")))
+            if A["creates"] != before + 1 or not ledger.get("inflight") or ledger["spent"] != 0:
+                errs.append(f"--no-wait should leave one batch held in flight: {ledger}")
+            code, out = run_anthropic(tmp, port, 1.0, 30, ["--batch"])
+            ledger = json.load(open(os.path.join(tmp, "ledger.json")))
+            runfile = next(os.path.join(tmp, f) for f in os.listdir(tmp) if f.endswith(".jsonl"))
+            ok3 = {json.loads(l)["call_key"] for l in open(runfile) if json.loads(l).get("raw") is not None}
+            if "re-attaching" not in out or ledger.get("inflight") or len(ok3) != 30:
+                errs.append(f"re-attach failed: {len(ok3)} finished, inflight {ledger.get('inflight')}: {out[-300:]}")
+            first_batch = A["batches"][f"msgbatch_test_{before + 1}"]["requests"]
+            later = [b for k, b in A["batches"].items() if int(k.rsplit("_", 1)[1]) > before + 1]
+            first_texts = {r["params"]["messages"][0]["content"] for r in first_batch}
+            again = [r for b in later for r in b["requests"] if r["params"]["messages"][0]["content"] in first_texts]
+            # only the first batch's errored/expired requests may appear again (as retries)
+            if len(again) >= len(first_batch):
+                errs.append("re-attach resubmitted the in-flight batch")
+    finally:
+        srv.shutdown()
+    if errs:
+        print("FAILED (Anthropic path)")
+        for e in errs:
+            print("  " + e)
+        sys.exit(1)
+    print(f"budget self-test ok (Anthropic): direct call parameters and cost; batches capped at ${cap}, "
+          f"retried, resumed, and re-attached; {A['creates']} batches created")
 
 
 if __name__ == "__main__":
     main()
+    anthropic_test()

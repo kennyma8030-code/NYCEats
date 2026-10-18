@@ -26,7 +26,15 @@ shares the ledger (eval/budget.py). Each call's worst case is reserved before
 it is sent, and its OpenRouter-reported cost recorded after. A call the cap
 refuses is not written, and the run exits with status 3, so raising the cap
 and re-running resumes exactly where it stopped. --key-file reads the API key
-from that file only.
+from that file only (--key-var names the one variable read).
+
+--api anthropic calls Anthropic's Messages API with the official SDK
+(eval/anthropic_backend.py): adaptive thinking with --reasoning as
+output_config.effort, --schema as output_config.format, --cache marking the
+system prompt. Add --batch to send everything through the Message Batches API
+at half price. Each sub-batch's worst case is held in the ledger, sized to fit
+the cap, and batch ids are kept in <run file>.batches.json, so a re-run
+re-attaches to batches in flight instead of resubmitting them.
 
 Output is appended to eval/runs/<model>__<prompthash>__<mode>.jsonl, one line
 per call and repetition. A call already present (same call_key and rep) is
@@ -51,6 +59,7 @@ import urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import budget  # noqa: E402
+import anthropic_backend as AB  # noqa: E402
 ROOT = os.path.dirname(HERE)
 API_URL = os.environ.get("EVAL_API_URL", "https://openrouter.ai/api/v1/chat/completions")
 KEY_VAR = "OPENROUTER_API_KEY"
@@ -162,11 +171,11 @@ def api_key(args):
     if args.key_file:
         with open(args.key_file, encoding="utf-8") as f:
             for line in f:
-                line = line.strip()
-                if line.startswith(KEY_VAR + "="):
+                line = line.strip().removeprefix("export ")
+                if line.startswith(args.key_var + "="):
                     return line.split("=", 1)[1].strip().strip('"').strip("'")
-        raise SystemExit(f"{args.key_file} has no {KEY_VAR}")
-    return os.environ.get(KEY_VAR)
+        raise SystemExit(f"{args.key_file} has no {args.key_var}")
+    return os.environ.get(args.key_var)
 
 
 def call(model, system, user, args):
@@ -245,18 +254,18 @@ def run_job(job, rep, model, system, ph, mode, args):
     """One call, or None when the budget refused it (nothing is written, so a
     later run with a higher cap picks it up)."""
     reserve = 0.0
+    anth = args.api == "anthropic"
     if args.ledger is not None:
-        reserve = budget.worst_case(system, job["user"], args.max_tokens)
+        reserve = (AB.worst_case(system, job["user"], args.max_tokens, batch=False) if anth
+                   else budget.worst_case(system, job["user"], args.max_tokens))
         if not args.ledger.reserve(reserve):
             return None
-    body, latency, err, lost = call(model, system, job["user"], args)
-    rec = {"call_key": job["call_key"], "rep": rep, "item_ids": job["item_ids"],
-           "model": model, "prompt_hash": ph, "mode": mode,
-           # A re-rendered chunk is renumbered, so the stored short ids no longer
-           # map the model's ids; keep the map the call actually used.
-           **({"id_map": {str(k): v for k, v in job["id_map"].items()}} if job.get("rendered") else {}),
-           "reasoning_effort": args.reasoning, "schema": bool(args.response_format),
-           "ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "latency_s": latency, "error": err}
+    if anth:
+        body, latency, err = AB.call(args.client, anthropic_params(system, job, args))
+        lost = 0
+    else:
+        body, latency, err, lost = call(model, system, job["user"], args)
+    rec = record_head(job, rep, model, ph, mode, args, latency, err)
     if args.ledger is not None:
         usage = (body or {}).get("usage") or {}
         if body is not None and usage.get("cost") is not None:
@@ -267,6 +276,26 @@ def run_job(job, rep, model, system, ph, mode, args):
             cost, estimated = reserve * min(lost, 1), ("lost_attempt" if lost else False)
         args.ledger.settle(reserve, cost, estimated)
         rec.update({"ledger_cost": cost, "cost_estimated": estimated})
+    return fill_record(rec, body, job, mode)
+
+
+def anthropic_params(system, job, args):
+    return AB.params(system, job["user"], args.max_tokens, args.reasoning,
+                     schema=args.schema_obj, cache=args.cache, model=args.model)
+
+
+def record_head(job, rep, model, ph, mode, args, latency, err):
+    return {"call_key": job["call_key"], "rep": rep, "item_ids": job["item_ids"],
+            "model": model, "prompt_hash": ph, "mode": mode,
+            # A re-rendered chunk is renumbered, so the stored short ids no longer
+            # map the model's ids; keep the map the call actually used.
+            **({"id_map": {str(k): v for k, v in job["id_map"].items()}} if job.get("rendered") else {}),
+            "reasoning_effort": args.reasoning, "schema": bool(args.response_format or args.schema_obj),
+            "ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "latency_s": latency, "error": err}
+
+
+def fill_record(rec, body, job, mode):
+    """Parse a response body into the record (shared by every API path)."""
     if body is None:
         return rec
     msg = (body.get("choices") or [{}])[0].get("message") or {}
@@ -299,12 +328,139 @@ def run_job(job, rep, model, system, ph, mode, args):
                                                              "completion_tokens_details")},
                 "reasoning_tokens": (usage.get("completion_tokens_details") or {}).get(
                     "reasoning_tokens")})
+    if body.get("stop_reason"):
+        rec["stop_reason"] = body["stop_reason"]
     return rec
+
+
+# ---------------------------------------------------------------- Anthropic batches
+def run_batches(todo, args, system, ph, out_path, f):
+    """Run the jobs through the Message Batches API under the ledger.
+
+    State lives in <run file>.batches.json: every submitted batch, with each
+    custom_id mapped to [call_key, rep, attempt], its ledger hold, and
+    whether it was collected. A re-run re-attaches to batches still in
+    flight instead of resubmitting them.
+
+    Before a submission the batch's worst case is held in the ledger. The
+    hold is persisted, so an interruption keeps it counted. Sub-batches are
+    sized to fit what remains under the cap. When a batch ends its records
+    are written and the hold becomes the actual cost. Errored requests
+    (except invalid ones, which would fail again) and expired requests get
+    one retry, in a later batch; whatever happens on the retry is written.
+    Returns (written, refused, errors).
+    """
+    state_path = out_path + ".batches.json"
+    state = {"batches": {}}
+    if os.path.exists(state_path):
+        with open(state_path, encoding="utf-8") as sf:
+            state = json.load(sf)
+
+    def save():
+        tmp = state_path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as sf:
+            json.dump(state, sf, indent=1)
+        os.replace(tmp, state_path)
+
+    jobs = {(j["call_key"], rep): j for j, rep in todo}
+    stats = {"written": 0, "refused": 0, "errors": 0}
+    written = set()
+
+    def collect(bid, info):
+        """Wait for a batch, write its records, settle its hold. Returns the
+        keys that get a retry."""
+        b = AB.wait(args.client, bid, args.poll_seconds)
+        res = AB.results(args.client, bid)
+        secs = AB.batch_seconds(b)
+        total, retry = 0.0, []
+        for cid, (key, rep, attempt) in info["requests"].items():
+            k = (key, rep)
+            job = jobs.get(k)
+            if job is None:
+                raise SystemExit(f"batch {bid} holds {key}, which this run did not select; "
+                                 "re-run with the same items and flags to collect it")
+            kind, *rest = res.get(cid, ("missing", None))
+            body = rest[0] if kind == "succeeded" else None
+            if body is None and attempt == 1 and (kind == "expired" or (kind == "errored" and rest[1])):
+                retry.append(k)
+                continue
+            err = None if body is not None else (rest[0] if kind == "errored" else kind)
+            rec = record_head(job, rep, args.model, ph, args.mode, args, None, err)
+            c = float(body["usage"]["cost"]) if body is not None else 0.0
+            total += c
+            rec.update({"batch_id": bid, "batch_seconds": secs, "attempt": attempt,
+                        "ledger_cost": c, "cost_estimated": False})
+            f.write(json.dumps(fill_record(rec, body, job, args.mode), ensure_ascii=False) + "\n")
+            f.flush()
+            written.add(k)
+            stats["written"] += 1
+            stats["errors"] += body is None
+        args.ledger.release(info["hold"], total, len(info["requests"]) - len(retry))
+        info.update({"collected": True, "retry": [list(k) for k in retry], "cost": round(total, 8)})
+        save()
+        print(f"  batch {bid} ended after {secs or 0:.0f}s: ${total:.4f}, "
+              f"{len(info['requests']) - len(retry)} written, {len(retry)} to retry")
+        return retry
+
+    # 1. Re-attach to batches submitted earlier and not yet collected.
+    for bid, info in list(state["batches"].items()):
+        if bid.startswith("pending-"):
+            raise SystemExit(f"{state_path}: a submission was interrupted ({bid}). Check the Console "
+                             "for a batch with these requests, then remove the entry, before re-running")
+        if not info.get("collected"):
+            print(f"re-attaching to batch {bid}")
+            collect(bid, info)
+
+    # 2. Retries owed: requests a collected batch handed back for a retry that
+    #    no later batch has taken yet (this also survives an interruption).
+    retried = {(k, r) for info in state["batches"].values()
+               for k, r, a in info["requests"].values() if a == 2}
+    owed = [tuple(k) for info in state["batches"].values() for k in info.get("retry", [])]
+    queue = [(k, 2) for k in owed if k not in retried and k in jobs and k not in written]
+    queued = {k for k, _ in queue}
+    # Retries go first: they finish work already paid for.
+    queue = queue + [((j["call_key"], rep), 1) for j, rep in todo
+                     if (j["call_key"], rep) not in written and (j["call_key"], rep) not in queued]
+
+    # 3. Submit sub-batches that fit under the cap, collecting each before the next.
+    while queue:
+        remaining = args.ledger.remaining()
+        batch, held = [], 0.0
+        for k, attempt in queue:
+            w = AB.worst_case(system, jobs[k]["user"], args.max_tokens, batch=True)
+            if held + w > remaining or len(batch) >= args.batch_size:
+                break
+            batch.append((k, attempt))
+            held += w
+        if not batch:
+            stats["refused"] += len(queue)
+            break
+        hold_id = f"pending-{int(time.time() * 1000)}-{os.getpid()}"
+        if not args.ledger.hold(hold_id, held):
+            stats["refused"] += len(queue)
+            break
+        queue = queue[len(batch):]
+        reqs = {AB.custom_id(n): [k[0], k[1], a] for n, (k, a) in enumerate(batch)}
+        state["batches"][hold_id] = {"requests": reqs, "hold": hold_id}
+        save()
+        bid = AB.submit(args.client, [(cid, anthropic_params(system, jobs[(r[0], r[1])], args))
+                                      for cid, r in reqs.items()])
+        args.ledger.rename_hold(hold_id, bid)
+        info = state["batches"].pop(hold_id)
+        info.update({"hold": bid, "submitted": time.strftime("%Y-%m-%dT%H:%M:%S")})
+        state["batches"][bid] = info
+        save()
+        print(f"submitted batch {bid}: {len(batch)} requests, worst case ${held:.4f} held")
+        if args.no_wait:
+            continue
+        queue = [(k, 2) for k in collect(bid, info)] + queue
+    return stats["written"], stats["refused"], stats["errors"]
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--model", required=True, help="OpenRouter model slug")
+    ap.add_argument("--model", required=True, help="OpenRouter slug, or an Anthropic model id with --api anthropic")
+    ap.add_argument("--api", choices=["openrouter", "anthropic"], default="openrouter")
     ap.add_argument("--mode", choices=["comment", "thread"], required=True)
     ap.add_argument("--prompt", default="current")
     ap.add_argument("--items", default=os.path.join(HERE, "items.jsonl"))
@@ -330,7 +486,14 @@ def main():
     ap.add_argument("--cache", action="store_true",
                     help="mark the system prompt for provider prompt caching")
     ap.add_argument("--call-keys", help="file of call keys (one per line); run only those")
-    ap.add_argument("--key-file", help=f"read {KEY_VAR} from this file only (never printed)")
+    ap.add_argument("--key-file", help="read the API key from this file only (never printed)")
+    ap.add_argument("--key-var", help="variable to read from --key-file (default OPENROUTER_API_KEY, "
+                                      "or ANTHROPIC_API_KEY with --api anthropic); no other is read")
+    ap.add_argument("--batch", action="store_true", help="--api anthropic: use the Message Batches API")
+    ap.add_argument("--batch-size", type=int, default=2000, help="most requests per sub-batch")
+    ap.add_argument("--poll-seconds", type=float, default=60)
+    ap.add_argument("--no-wait", action="store_true", help="submit the batches that fit, then exit")
+    ap.add_argument("--anthropic-base-url", help="override the API endpoint (tests only)")
     ap.add_argument("--budget-file", help="shared spend ledger (JSON); needs --budget and --max-tokens")
     ap.add_argument("--budget", type=float, help="hard cap in USD across every run on the ledger")
     args = ap.parse_args()
@@ -338,6 +501,12 @@ def main():
         raise SystemExit("--budget-file and --budget go together")
     if args.budget_file and not args.max_tokens:
         raise SystemExit("--budget needs --max-tokens: a call's worst case is reserved before it is sent")
+    if args.api == "anthropic" and not args.max_tokens:
+        raise SystemExit("--api anthropic needs --max-tokens (thinking counts toward it)")
+    if args.batch and (args.api != "anthropic" or not args.budget_file):
+        raise SystemExit("--batch needs --api anthropic and a --budget-file")
+    args.key_var = args.key_var or ("ANTHROPIC_API_KEY" if args.api == "anthropic" else KEY_VAR)
+    args.schema_obj = None
 
     pmod, label = load_prompt(args.prompt, args.mode)
     system = pmod.SYSTEM_PROMPT
@@ -346,7 +515,10 @@ def main():
     if args.schema:
         if not hasattr(pmod, "RESPONSE_FORMAT"):
             raise SystemExit("--schema: this prompt module defines no RESPONSE_FORMAT")
-        args.response_format = pmod.RESPONSE_FORMAT
+        if args.api == "anthropic":
+            args.schema_obj = pmod.SCHEMA          # sent as output_config.format
+        else:
+            args.response_format = pmod.RESPONSE_FORMAT
         # The hash only covers the system prompt, so a schema run needs its own
         # file or it would resume from (and mix with) a json_object run.
         args.tag = (args.tag + "_" if args.tag else "") + "schema"
@@ -386,7 +558,9 @@ def main():
 
     args.key = api_key(args)
     if not args.key:
-        raise SystemExit(f"{KEY_VAR} is not set")
+        raise SystemExit(f"{args.key_var} is not set")
+    if args.api == "anthropic":
+        args.client = AB.client(args.key, args.anthropic_base_url)
     args.ledger = budget.Ledger(args.budget_file, args.budget, name) if args.budget_file else None
     if args.ledger is not None:
         spent = args.ledger.spent()
@@ -407,6 +581,17 @@ def main():
     print(f"{args.model} prompt={label} ({ph}) mode={args.mode}: "
           f"{len(todo)} calls to make, {len(done)} cached -> {out}")
     os.makedirs(os.path.dirname(out), exist_ok=True)
+
+    if args.batch:
+        with open(out, "a", encoding="utf-8") as f:
+            n, refused, errors = run_batches(todo, args, system, ph, out, f)
+        print(f"batch records written {n}, errors {errors}, ledger ${args.ledger.spent():.4f} spent, "
+              f"${args.ledger.inflight():.4f} held for batches in flight")
+        if refused:
+            print(f"budget reached: {refused} request(s) not submitted. Finished results are saved; "
+                  "rerun with a higher cap to resume.")
+            sys.exit(3)
+        return
 
     stats = {"calls": 0, "json_ok": 0, "errors": 0, "cost": 0.0, "latency": [], "refused": 0}
     with open(out, "a", encoding="utf-8") as f, \

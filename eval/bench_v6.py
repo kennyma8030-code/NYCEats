@@ -1,8 +1,19 @@
 """The budgeted Haiku 5.5 benchmark of the v6 prompts: plan, run, compare.
 
     python eval/bench_v6.py plan      # no API: dry-runs every step, counts calls, estimates cost
-    python eval/bench_v6.py run       # spends, capped at BUDGET across every step (eval/budget.py)
+    python eval/bench_v6.py probe     # 2 tiny direct calls (effort medium, then low), counted in the ledger
+    python eval/bench_v6.py run       # Message Batches, capped at BUDGET across every step (eval/budget.py)
     python eval/bench_v6.py compare   # no API: scores what ran -> eval/bench_v6/compare.json
+
+Runs on Anthropic's API directly (anthropic SDK, eval/anthropic_backend.py),
+model claude-haiku-5-5, every step through the Message Batches API at half
+price. Thinking is adaptive (on by default for Haiku 5.5); effort medium is
+the main setting, low the slice. v6 sends its strict schema as
+output_config.format, and the system prompt is marked for caching. Each
+sub-batch's worst case is held in the ledger before it is submitted and
+replaced by the real cost when it ends. Batch ids are persisted next to each
+run file, so an interrupted `run` re-attaches to batches in flight rather
+than resubmitting them.
 
 Steps run in priority order. Each stops cleanly when the shared ledger
 reaches the cap, and so does every step after it. The ledger lives in
@@ -20,12 +31,12 @@ are cached in their run files and never re-sent or re-billed.
   f  if budget remains: v6 thread mode, medium, on the chunks of v2's comments
 
 v1 and v2 share comments. Each step's invocations write to one run file, so a
-comment in both sets is called once. v6 uses the strict schema (--schema)
-if a one-call probe shows the provider accepts it, and json_object
-otherwise. The current prompt has no schema, so a and b differ in that too;
-compare.json records it.
+comment in both sets is called once. v6 uses the strict schema once the
+probe shows it is accepted. The current prompt has no schema (it asks for
+JSON in prose), so a and b differ in that too; compare.json records it.
 
-The key comes only from KEY_FILE and is never printed. No other key is used.
+The key is ANTHROPIC_API_KEY, read in-process from KEY_FILE and never printed;
+no other variable in that file is read.
 """
 
 import argparse
@@ -42,14 +53,19 @@ sys.path.insert(0, HERE)
 import run as R  # noqa: E402
 
 # ---------------------------------------------------------------- settings
-MODEL = "anthropic/claude-haiku-5.5"      # OpenRouter slug, checked against /api/v1/models
+MODEL = "claude-haiku-5-5"                 # Claude API model id (claude-api skill, models.md)
 BUDGET = 4.00                              # USD, owner-approved, across every step
-KEY_FILE = os.path.join(ROOT, ".env.eval")
+# The repo root's .env. From a worktree, that is the main checkout's.
+KEY_FILE = "/Users/kenny/NYCEats/.env"
+KEY_VAR = "ANTHROPIC_API_KEY"
 OUT = os.path.join(HERE, "bench_v6")
 LEDGER = os.path.join(OUT, "ledger.json")
 STATE = os.path.join(OUT, "state.json")
 WORKERS = 8
-MAX_TOKENS = {"comment": 8000, "thread": 16000}   # also each call's reserved worst case
+# Thinking counts toward max_tokens. A comment rarely needs 3k of thinking plus
+# 2k of JSON; a 25-comment chunk took ~6.7k of thinking in the v5 benchmark plus
+# up to ~5k of JSON. Each request's worst case is held before its batch is sent.
+MAX_TOKENS = {"comment": 6000, "thread": 16000}
 V6 = {"comment": "file:" + os.path.join(HERE, "prompts", "v6_comment.py"),
       "thread": "file:" + os.path.join(HERE, "prompts", "v6_thread.py")}
 V1, V2 = os.path.join(HERE, "items.jsonl"), os.path.join(HERE, "v2", "items.jsonl")
@@ -59,16 +75,21 @@ SEED = "nyceats-bench-v6"
 SUBSET_COMMENT = os.path.join(OUT, "subset_comment.txt")
 SUBSET_THREAD = os.path.join(OUT, "subset_thread.txt")
 
-# Haiku 5.5 on OpenRouter, USD per token (prompts under 100k tokens).
-PRICE_IN, PRICE_OUT = 0.10e-6, 0.50e-6
+# Claude Haiku 5.5, USD per token (prompts of 100k tokens or fewer), and the batch discount.
+PRICE_IN, PRICE_OUT, BATCH = 0.10e-6, 0.50e-6, 0.5
+# Measured by the probe (v6 comment, strict schema): 1.84 characters per input token.
+CHARS_PER_TOKEN = 1.84
+# Planning prices input at the cache-write rate: every request marks the system
+# prompt for caching, and in a batch a hit is best effort, so a miss costs 1.25x.
+PRICE_IN_PLAN = 0.125e-6
 # Planning assumptions for output, per call. Reasoning on thread chunks is the
 # v5 benchmark's ~6.7k; the rest are guesses the run will replace.
 ASSUME = {("comment", "medium"): {"reasoning": 1200, "visible": {"v6": 300, "current": 150}},
           ("thread", "medium"): {"reasoning": 6700, "visible": {"v6": 2000, "current": 1200}},
           ("comment", "low"): {"reasoning": 500, "visible": {"v6": 300, "current": 150}},
           ("thread", "low"): {"reasoning": 2700, "visible": {"v6": 2000, "current": 1200}}}
-# The v5 benchmark page: comment ~$0.41 per 1k comments at medium (3x prompt).
-PAGE_COMMENT_PER_CALL = 0.41 / 1000
+# The v5 benchmark page (OpenRouter, full price): comment ~$0.41 per 1k comments at medium.
+PAGE_COMMENT_PER_CALL = 0.41 / 1000 * BATCH
 
 
 def inv(items, only=None, labeled=False, call_keys=None):
@@ -161,25 +182,27 @@ def write_subsets():
 
 
 # ---------------------------------------------------------------- plan
-def estimate(step, pmod, jobs):
+def estimate(step, pmod, jobs, reps=1):
+    """Batch-price estimate. Input is priced uncached (a cache hit only lowers it)."""
+    import anthropic_backend as AB
     sys_chars = len(pmod.SYSTEM_PROMPT)
-    tin = sum(sys_chars + len(j["user"]) for j in jobs.values()) / 4
+    tin = reps * sum(sys_chars + len(j["user"]) for j in jobs.values()) / CHARS_PER_TOKEN
     a = ASSUME[(step["mode"], step["reasoning"])]
-    tout = len(jobs) * (a["reasoning"] + a["visible"][step["prompt"]])
-    tokens_cost = tin * PRICE_IN + tout * PRICE_OUT
-    worst = sum((sys_chars + len(j["user"])) / 3 * PRICE_IN + MAX_TOKENS[step["mode"]] * PRICE_OUT
-                for j in jobs.values())
-    page = len(jobs) * PAGE_COMMENT_PER_CALL if step["mode"] == "comment" else None
+    tout = reps * len(jobs) * (a["reasoning"] + a["visible"][step["prompt"]])
+    tokens_cost = (tin * PRICE_IN_PLAN + tout * PRICE_OUT) * BATCH
+    worst = reps * sum(AB.worst_case(pmod.SYSTEM_PROMPT, j["user"], MAX_TOKENS[step["mode"]], batch=True)
+                       for j in jobs.values())
+    page = reps * len(jobs) * PAGE_COMMENT_PER_CALL if step["mode"] == "comment" else None
     return {"calls": len(jobs), "input_tokens": round(tin), "assumed_output_tokens": tout,
             "est_usd": round(tokens_cost, 3), "page_rate_usd": None if page is None else round(page, 3),
             "worst_case_usd": round(worst, 2)}
 
 
 def dry_run_args(step, invocation, schema=False):
-    a = [sys.executable, os.path.join(HERE, "run.py"), "--model", MODEL, "--mode", step["mode"],
-         "--prompt", prompt_spec(step), "--items", invocation["items"], "--tag", step["tag"],
-         "--reasoning", step["reasoning"], "--max-tokens", str(MAX_TOKENS[step["mode"]]),
-         "--workers", str(WORKERS), "--omit-temperature", "--cache"]
+    a = [sys.executable, os.path.join(HERE, "run.py"), "--api", "anthropic", "--model", MODEL,
+         "--mode", step["mode"], "--prompt", prompt_spec(step), "--items", invocation["items"],
+         "--tag", step["tag"], "--reasoning", step["reasoning"],
+         "--max-tokens", str(MAX_TOKENS[step["mode"]]), "--workers", str(WORKERS), "--cache"]
     if invocation["only"]:
         a += ["--only", *invocation["only"]]
     if invocation["labeled"]:
@@ -191,13 +214,31 @@ def dry_run_args(step, invocation, schema=False):
     return a
 
 
+def additions():
+    """Candidates for leftover budget, in priority order. Proposed, never run by `run`."""
+    a, c, f = STEPS[0], STEPS[2], STEPS[6]
+    v1_all = [inv(V1)]
+    return [
+        ({**a, "id": "+low-all", "reasoning": "low", "what": "low slice widened to all of a (adds ~706 comments)"},
+         "low-all", None),
+        ({**f, "id": "+cur-v2-thread", "prompt": "current", "what": "current-prompt thread baseline on v2 chunks (pairs with f)"},
+         None, None),
+        ({**a, "id": "+repeat-a", "what": "repeat of a (rep 2) for run-to-run noise"}, None, 1),
+        ({**c, "id": "+v6-v1-all-thread", "invocations": v1_all,
+          "what": "v6 thread on every v1 chunk (390 more than c; all 769 labeled comments)"}, "minus-c", None),
+        ({**c, "id": "+cur-v1-all-thread", "prompt": "current", "invocations": v1_all,
+          "what": "current thread on the same 390 chunks (pairs with the line above)"}, "minus-c", None),
+    ]
+
+
 def plan():
     nc, nt = write_subsets()
-    print(f"model {MODEL}; budget ${BUDGET:.2f}; subsets: {nc} comment calls, {nt} thread chunks (hashed)\n")
+    print(f"model {MODEL} (Message Batches, {BATCH:.0%} price); budget ${BUDGET:.2f}; "
+          f"subsets: {nc} comment calls, {nt} thread chunks (hashed)\n")
     rows, running = [], 0.0
     for step in STEPS:
         for i in step["invocations"]:
-            p = subprocess.run(dry_run_args(step, i) + ["--dry-run"], capture_output=True, text=True)
+            p = subprocess.run(dry_run_args(step, i, schema=True) + ["--dry-run"], capture_output=True, text=True)
             if p.returncode != 0:
                 raise SystemExit(f"step {step['id']}: dry run failed\n{p.stderr[-800:]}")
             first = p.stdout.splitlines()[0]
@@ -207,15 +248,36 @@ def plan():
         e = estimate(step, pmod, jobs)
         running += e["est_usd"]
         rows.append({"step": step["id"], "what": step["what"], **e, "cumulative_est_usd": round(running, 3)})
-    print()
-    print(f"{'step':10s} {'calls':>6s} {'in tok':>10s} {'est $':>7s} {'page $':>7s} {'worst $':>8s} {'cum $':>7s}  what")
-    for r in rows:
-        print(f"{r['step']:10s} {r['calls']:6d} {r['input_tokens']:10,d} {r['est_usd']:7.3f} "
-              f"{(r['page_rate_usd'] if r['page_rate_usd'] is not None else float('nan')):7.3f} "
-              f"{r['worst_case_usd']:8.2f} {r['cumulative_est_usd']:7.3f}  {r['what']}")
+
+    _, a_jobs = step_jobs(STEPS[0])
+    _, c_jobs = step_jobs(STEPS[2])
+    low_done = set(open(SUBSET_COMMENT).read().split())
+    extra = []
+    for step, trim, rep in additions():
+        pmod, jobs = step_jobs(step)
+        if trim == "low-all":
+            jobs = {k: v for k, v in a_jobs.items() if k not in low_done}
+        elif trim == "minus-c":
+            jobs = {k: v for k, v in jobs.items() if k not in c_jobs}
+        e = estimate(step, pmod, jobs)
+        running += e["est_usd"]
+        extra.append({"step": step["id"], "what": step["what"], **e, "cumulative_est_usd": round(running, 3)})
+
+    def show(rs):
+        for r in rs:
+            print(f"{r['step']:18s} {r['calls']:6d} {r['input_tokens']:10,d} {r['est_usd']:7.3f} "
+                  f"{(r['page_rate_usd'] if r['page_rate_usd'] is not None else float('nan')):7.3f} "
+                  f"{r['worst_case_usd']:8.2f} {r['cumulative_est_usd']:7.3f}  {r['what']}")
+    head = f"{'step':18s} {'calls':>6s} {'in tok':>10s} {'est $':>7s} {'page $':>7s} {'worst $':>8s} {'cum $':>7s}  what"
+    print("\nPLAN (batch prices)\n" + head)
+    show(rows)
+    print(f"\nPROPOSED ADDITIONS, in priority order (not run unless added to STEPS)\n{head}")
+    show(extra)
     with open(os.path.join(OUT, "plan.json"), "w", encoding="utf-8") as f:
-        json.dump({"model": MODEL, "budget": BUDGET, "assumptions": {str(k): v for k, v in ASSUME.items()},
-                   "prices_per_token": {"in": PRICE_IN, "out": PRICE_OUT}, "steps": rows}, f, indent=1)
+        json.dump({"model": MODEL, "api": "anthropic", "batch_discount": BATCH, "budget": BUDGET,
+                   "max_tokens": MAX_TOKENS, "assumptions": {str(k): v for k, v in ASSUME.items()},
+                   "prices_per_token": {"in": PRICE_IN, "out": PRICE_OUT}, "steps": rows,
+                   "proposed_additions": extra}, f, indent=1)
     print(f"\nwritten {os.path.join(OUT, 'plan.json')}")
 
 
@@ -224,7 +286,7 @@ def load_state():
     if os.path.exists(STATE):
         with open(STATE, encoding="utf-8") as f:
             return json.load(f)
-    return {"model": MODEL, "budget": BUDGET, "schema": None, "steps": {}}
+    return {"model": MODEL, "budget": BUDGET, "probe": {}, "steps": {}}
 
 
 def save_state(st):
@@ -233,64 +295,65 @@ def save_state(st):
         json.dump(st, f, indent=1)
 
 
-def invoke(step, invocation, schema, extra=()):
-    a = dry_run_args(step, invocation, schema) + ["--key-file", KEY_FILE, "--budget-file", LEDGER,
-                                                  "--budget", str(BUDGET), *extra]
-    p = subprocess.run(a, text=True)
-    return p.returncode
+def invoke(step, invocation, schema, extra=(), batch=True):
+    a = dry_run_args(step, invocation, schema) + ["--key-file", KEY_FILE, "--key-var", KEY_VAR,
+                                                  "--budget-file", LEDGER, "--budget", str(BUDGET), *extra]
+    if batch:
+        a += ["--batch"]
+    return subprocess.run(a, text=True).returncode
 
 
-def last_records(path, n=1):
-    if not os.path.exists(path):
-        return []
-    with open(path, encoding="utf-8") as f:
-        return [json.loads(l) for l in f][-n:]
-
-
-def probe_schema(st):
-    """One call with --schema. If the provider rejects it, one without. Any other
-    failure (bad key, rejected parameter) stops the plan before it spends more."""
-    if st.get("schema") is not None:
-        return st["schema"]
-    step, first = STEPS[0], STEPS[0]["invocations"][0]
-    for schema in (True, False):
-        code = invoke(step, first, schema, ["--limit", "1"])
-        recs = last_records(run_file(step, schema))
-        if code == 0 and recs and recs[-1].get("raw") is not None:
-            st["schema"] = schema
-            save_state(st)
-            print(f"probe: {'strict schema accepted' if schema else 'json_object (schema rejected)'}")
-            return schema
-        err = recs[-1].get("error") if recs else f"exit {code}"
-        print(f"probe with schema={schema} failed: {str(err)[:300]}")
-        if code == 3:
-            raise SystemExit("budget already exhausted")
-    raise SystemExit("both probes failed; check the key file, the slug and the parameters before spending more")
-
-
-def run_all():
+def check_key_file():
     if not os.path.exists(KEY_FILE):
         raise SystemExit(f"{KEY_FILE} does not exist")
     with open(KEY_FILE, encoding="utf-8") as f:
-        if not any(l.strip().startswith("OPENROUTER_API_KEY=") for l in f):
-            raise SystemExit(f"{KEY_FILE} has no OPENROUTER_API_KEY line")
-    write_subsets()
+        if not any(l.strip().removeprefix("export ").startswith(KEY_VAR + "=") for l in f):
+            raise SystemExit(f"{KEY_FILE} has no {KEY_VAR} line")
+
+
+def probe():
+    """Two direct (non-batch) calls on one v6 comment item with the strict schema:
+    effort medium, then low. Each is counted in the ledger. Stops after the first
+    if it is rejected, so no more than two calls are ever made."""
+    check_key_file()
     st = load_state()
-    schema = probe_schema(st)
+    a = STEPS[0]
+    for effort in ("medium", "low"):
+        step = {**a, "reasoning": effort, "tag": f"bench6-probe-{effort}"}
+        code = invoke(step, a["invocations"][0], True, ["--limit", "1"], batch=False)
+        path = run_file(step, True)
+        recs = [json.loads(l) for l in open(path, encoding="utf-8")] if os.path.exists(path) else []
+        r = recs[-1] if recs else {}
+        u = r.get("usage") or {}
+        res = {"ok": code == 0 and r.get("raw") is not None, "exit": code, "error": r.get("error"),
+               "cost_usd": r.get("ledger_cost"), "thinking_tokens": r.get("reasoning_tokens"),
+               "output_tokens": u.get("completion_tokens"), "input_tokens": u.get("prompt_tokens"),
+               "stop_reason": r.get("stop_reason"), "json_ok": r.get("json_ok"),
+               "mentions": sum(len(v) for v in (r.get("mentions_by_comment") or {}).values()),
+               "latency_s": r.get("latency_s"), "run_file": os.path.relpath(path, ROOT)}
+        st["probe"][effort] = res
+        save_state(st)
+        print(f"probe effort={effort}: " + json.dumps({k: v for k, v in res.items() if k != "run_file"}))
+        if not res["ok"]:
+            raise SystemExit(f"probe at effort {effort} failed; fix before `run` (no further calls made)")
+
+
+def run_all():
+    check_key_file()
+    st = load_state()
+    if not (st.get("probe", {}).get("medium", {}).get("ok") and st["probe"].get("low", {}).get("ok")):
+        raise SystemExit("run `python eval/bench_v6.py probe` first: both efforts must be accepted")
+    write_subsets()
+    schema = True
     for step in STEPS:
         status = "done"
         for i in step["invocations"]:
-            # A budgeted run never retries a lost attempt itself, so each
-            # invocation gets one more pass that re-sends only errored calls.
-            for _ in range(2):
-                code = invoke(step, i, schema)
-                if code == 3:
-                    status = "capped"
-                    break
-                if code != 0:
-                    status = f"failed (exit {code})"
-                    break
-            if status != "done":
+            code = invoke(step, i, schema)
+            if code == 3:
+                status = "capped"
+                break
+            if code != 0:
+                status = f"failed (exit {code})"
                 break
         st["steps"][step["id"]] = {"status": status, "run_file": os.path.relpath(run_file(step, schema), ROOT),
                                    "schema": bool(schema and step["prompt"] == "v6")}
@@ -300,7 +363,7 @@ def run_all():
             print("budget reached; later steps skipped. `python eval/bench_v6.py compare` scores what ran.")
             break
         if status.startswith("failed"):
-            raise SystemExit(f"step {step['id']} {status}; stopping")
+            raise SystemExit(f"step {step['id']} {status}; stopping (re-run resumes and re-attaches)")
 
 
 # ---------------------------------------------------------------- compare
@@ -312,7 +375,7 @@ def run_stats(path, keys):
     """Cost, calls, tokens and latency for the records of the given call keys."""
     s = {"records": 0, "errors": 0, "json_ok": 0, "cost_usd": 0.0, "estimated_cost_calls": 0,
          "prompt_tokens": 0, "completion_tokens": 0, "reasoning_tokens": 0, "latency": []}
-    seen = set()
+    seen, batch_secs = set(), {}
     for r in map(json.loads, open(path, encoding="utf-8")):
         if r["call_key"] not in keys or r.get("rep", 0) != 0:
             continue
@@ -323,6 +386,8 @@ def run_stats(path, keys):
             s["errors"] += 1
             continue
         seen.add(r["call_key"])
+        if r.get("batch_id") and r.get("batch_seconds") is not None:
+            batch_secs[r["batch_id"]] = r["batch_seconds"]
         s["json_ok"] += bool(r.get("json_ok"))
         u = r.get("usage") or {}
         s["prompt_tokens"] += u.get("prompt_tokens") or 0
@@ -332,6 +397,8 @@ def run_stats(path, keys):
             s["latency"].append(r["latency_s"])
     lat = s.pop("latency")
     s["mean_latency_s"] = round(sum(lat) / len(lat), 2) if lat else None
+    s["batches"] = len(batch_secs)
+    s["batch_wall_seconds"] = round(sum(batch_secs.values()), 1) if batch_secs else None
     s["cost_usd"] = round(s["cost_usd"], 4)
     s["finished_calls"] = len(seen)
     return s
@@ -396,7 +463,8 @@ def compare():
         return os.path.join(ROOT, ran[sid]["run_file"]), set(jobs)
 
     stats = os.path.join(HERE, "sampling_stats.json")
-    out = {"model": MODEL, "budget": BUDGET, "steps": st.get("steps"), "schema_for_v6": st.get("schema"),
+    out = {"model": MODEL, "api": "anthropic (Message Batches)", "budget": BUDGET, "steps": st.get("steps"),
+           "probe": st.get("probe"), "schema_for_v6": True,
            "note": ("identical comment sets per comparison (the comments every run in it covered); "
                     "chains dropped on both sides as production does; 'reweighted' is v1's "
                     "population estimate over single-comment strata"),
@@ -448,9 +516,9 @@ def compare():
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=("plan", "run", "compare"))
+    ap.add_argument("cmd", choices=("plan", "probe", "run", "compare"))
     a = ap.parse_args()
-    {"plan": plan, "run": run_all, "compare": compare}[a.cmd]()
+    {"plan": plan, "probe": probe, "run": run_all, "compare": compare}[a.cmd]()
 
 
 if __name__ == "__main__":
