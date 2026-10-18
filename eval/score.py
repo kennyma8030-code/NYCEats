@@ -149,14 +149,16 @@ def fuzzy(a, b):
     return a.startswith(b + " ") or b.startswith(a + " ") or a == b + "s" or b == a + "s"
 
 
-# Scorer fixes (eval/bench_v6/DIAGNOSIS.md), off by default so every existing
-# number stays as it was. `fixes=True` turns on all three:
+# Scorer fixes (eval/bench_v6/DIAGNOSIS.md, eval/CONVENTIONS.md), on by default.
+# `fixes=False` (score.py --legacy-scorer) reproduces the numbers scored before them.
+# The three fixes:
 #   * street words match their short forms ("2nd avenue deli" = "2nd ave deli");
 #   * a v6 mention whose overall verdict is negative counts as a negative
 #     mention even when no aspect is ("most overrated restaurant… good pizza");
-#   * in thread mode, an unmatched v6 mention named from context with no
-#     opinion (a question or aside in a reply) is not a false positive: the
-#     gold doesn't count those, and whether they should count is the owner's call.
+#   * an unmatched v6 mention named from context with no opinion (a reply that
+#     only asks about a place, or names it in passing) is not a false positive.
+#     The owner counts these as mentions; the v1/v2 gold mostly lacks them
+#     (CONVENTIONS.md lists the gold patches that would add them).
 STREET_WORDS = {"avenue": "ave", "street": "st", "road": "rd", "boulevard": "blvd", "place": "pl",
                 "parkway": "pkwy", "square": "sq"}
 NEGATIVE_LEVELS = ("negative", "very_negative")
@@ -166,7 +168,7 @@ def street_norm(key):
     return " ".join(STREET_WORDS.get(t, t) for t in key.split())
 
 
-def match(gold_ms, model_ms, fixes=False):
+def match(gold_ms, model_ms, fixes=True):
     """Greedy one-to-one matching. Returns [(g, m, how)], unmatched model mentions."""
     nk = street_norm if fixes else (lambda k: k)
     pairs, used, taken = [], set(), set()
@@ -197,7 +199,7 @@ def gold_negative(g):
     return any(v is not None and v <= -1 for v in g["aspects"].values())
 
 
-def model_negative(m, fixes=False):
+def model_negative(m, fixes=True):
     asp = m.get("aspects") if isinstance(m.get("aspects"), dict) else {}
     if any((bucket(asp.get(a)) or 0) < 0 for a in ASPECTS):
         return True
@@ -225,12 +227,67 @@ def model_dish_entries(m):
 
 
 # ---------------------------------------------------------------- scoring
+# Five-level views (the owner's scale): gold's 7 points collapse to 5, with
+# +-3 -> very, +-1/+-2 -> positive/negative, 0 -> neutral. A model float is
+# bucketed to 7 points first, so v6's levels and the old prompts' floats
+# collapse the same way.
+FIVE = {3: "very_positive", 2: "positive", 1: "positive", 0: "neutral",
+        -1: "negative", -2: "negative", -3: "very_negative"}
+V6_LEVEL = {"very_positive": 3, "positive": 2, "neutral": 0, "negative": -2, "very_negative": -3}
+
+
+def five(level7):
+    return None if level7 is None else FIVE[level7]
+
+
+def verdict7(aspects):
+    """A 7-point verdict from aspect levels: food when set (the old convention puts
+    generic verdicts there), else the strongest other aspect, negative on a tie."""
+    if aspects.get("food") is not None:
+        return aspects["food"]
+    vals = [v for v in aspects.values() if v is not None]
+    return min(vals, key=lambda v: (-abs(v), v)) if vals else None
+
+
+def model_verdict7(m):
+    v6 = m.get("v6")
+    if v6 is not None:
+        return V6_LEVEL.get(v6.get("overall"))
+    asp = m.get("aspects") if isinstance(m.get("aspects"), dict) else {}
+    return verdict7({a: bucket(asp.get(a)) for a in ASPECTS})
+
+
+def gold_opinion(g):
+    """'none' (nothing judged), 'stated' (anything beyond a lone +1 food), or None
+    where the gold can't tell an endorsement from mild praise (a lone +1 food)."""
+    asp = g["aspects"]
+    if all(v is None for v in asp.values()) and not any(d["level"] is not None for d in g.get("dish_sentiment", [])):
+        return "none"
+    if asp.get("food") == 1 and all(v is None for k, v in asp.items() if k != "food"):
+        return None
+    return "stated"
+
+
+def model_opinion(m):
+    v6 = m.get("v6")
+    if v6 is not None:
+        return v6.get("opinion")
+    asp = m.get("aspects") if isinstance(m.get("aspects"), dict) else {}
+    lv = {a: bucket(asp.get(a)) for a in ASPECTS}
+    if all(v is None for v in lv.values()):
+        return "none"
+    if lv["food"] == 1 and all(v is None for k, v in lv.items() if k != "food"):
+        return "endorse"
+    return "stated"
+
+
 class Acc:
     def __init__(self):
         self.c = collections.Counter()
         self.food_pairs = []
         self.raw_food = collections.Counter()
         self.levels = collections.Counter()
+        self.food_conf = collections.Counter()
 
     def add(self, o, w=1):
         for k, v in o.c.items():
@@ -239,6 +296,7 @@ class Acc:
             self.food_pairs += o.food_pairs
             self.raw_food.update(o.raw_food)
             self.levels.update(o.levels)
+            self.food_conf.update(o.food_conf)
 
 
 def model_mentions(preds, alias, drop_chains):
@@ -258,7 +316,7 @@ def model_mentions(preds, alias, drop_chains):
     return ms
 
 
-def score_comment(gold, preds, mode, alias, excluded, drop_chains, fixes=False):
+def score_comment(gold, preds, mode, alias, excluded, drop_chains, fixes=True):
     a = Acc()
     ms = model_mentions(preds, alias, drop_chains)
     emits_dishes = any(model_dish_entries(m) is not None for m in ms)
@@ -266,7 +324,7 @@ def score_comment(gold, preds, mode, alias, excluded, drop_chains, fixes=False):
     required = [g for g in gms if is_required(g)]
     pairs, fps = match(gms, ms, fixes)
     fps = [m for m in fps if m["_key"] not in excluded
-           and not (fixes and mode == "thread" and context_reference(m))]
+           and not (fixes and context_reference(m))]
     rk = f"resolvable_{mode}_mode"
     matched = {id(g): m for g, m, _ in pairs}
 
@@ -362,6 +420,26 @@ def score_comment(gold, preds, mode, alias, excluded, drop_chains, fixes=False):
                         a.c["softened"] += mv > near
                 if name == "food":
                     a.food_pairs.append((raw, gv if gv is not None else near))
+        # five-level agreement per aspect, the food confusion table, the overall verdict,
+        # and the opinion type where the gold can tell
+        for name in ASPECTS:
+            gv = g["aspects"].get(name)
+            mv = bucket(asp.get(name))
+            if name == "food":
+                a.food_conf[(five(gv) or "null", five(mv) or "null")] += 1
+            if gv is not None and mv is not None:
+                ok5 = {five(x) for x in (gv, *g["aspect_alternatives"].get(name, [])) if x is not None}
+                a.c[f"l5_n_{name}"] += 1
+                a.c[f"l5_ok_{name}"] += five(mv) in ok5
+        gvd, mvd = verdict7(g["aspects"]), model_verdict7(m)
+        if gvd is not None and mvd is not None:
+            a.c["ov_n"] += 1
+            a.c["ov_ok5"] += five(gvd) == five(mvd)
+            a.c["ov_sign"] += sign(gvd) == sign(mvd)
+        go, mo = gold_opinion(g), model_opinion(m)
+        if go is not None and mo is not None:
+            a.c[f"op_{go}_n"] += 1
+            a.c[f"op_{go}_ok"] += mo == go
         if "is_negated" not in g["uncertain_fields"]:
             a.c["neg_n"] += 1
             a.c["neg_ok"] += bool(m.get("is_negated")) == bool(g["is_negated"])
@@ -419,6 +497,14 @@ def summarize(a, dish_capable):
     out["food_share_0.3_or_0.6"] = ratio(sum(n for v, n in a.raw_food.items() if v in (0.3, 0.6)), tot)
     out["food_top_values"] = ", ".join(f"{v}:{n}" for v, n in a.raw_food.most_common(6))
     out["level_histogram"] = " ".join(f"{k:+d}:{a.levels[k]}" for k in sorted(a.levels))
+    for name in ASPECTS:
+        out[f"{name}_5level_acc"] = ratio(c[f"l5_ok_{name}"], c[f"l5_n_{name}"])
+    out["overall_5level_agree"] = ratio(c["ov_ok5"], c["ov_n"])
+    out["overall_sign_agree"] = ratio(c["ov_sign"], c["ov_n"])
+    out["opinion_type_acc"] = ratio(c["op_none_ok"] + c["op_stated_ok"], c["op_none_n"] + c["op_stated_n"])
+    out["opinion_none_acc"] = ratio(c["op_none_ok"], c["op_none_n"])
+    out["opinion_stated_acc"] = ratio(c["op_stated_ok"], c["op_stated_n"])
+    out["food_confusion"] = {f"{g}->{m}": n for (g, m), n in sorted(a.food_conf.items())}
     return out
 
 
@@ -464,7 +550,7 @@ def load_run(path, items):
     return reps, covered, stats, modes.most_common(1)[0][0] if modes else None
 
 
-def evaluate(gold, items, run, alias, excluded, drop_chains, stats_path, fixes=False):
+def evaluate(gold, items, run, alias, excluded, drop_chains, stats_path, fixes=True):
     by_item = {it["item_id"]: it for it in items}
     strata_pop = {}
     if stats_path and os.path.exists(stats_path):
@@ -635,6 +721,8 @@ def main():
     ap.add_argument("--stats", default=os.path.join(HERE, "sampling_stats.json"),
                     help="strata populations for reweighting ('' to skip)")
     ap.add_argument("--drop-chains", action="store_true", help="drop chains.txt keys on both sides, as production does")
+    ap.add_argument("--legacy-scorer", action="store_true",
+                    help="score without the scorer fixes, reproducing numbers from before them")
     ap.add_argument("--out", default=os.path.join(HERE, "results"))
     ap.add_argument("--tag", default="", help="suffix for result file names")
     ap.add_argument("--self-test", action="store_true")
@@ -655,7 +743,8 @@ def main():
         return
     for path in args.runs:
         run = load_run(path, items)
-        per_rep, cstats, flips, mode = evaluate(gold, items, run, alias, excluded, args.drop_chains, args.stats)
+        per_rep, cstats, flips, mode = evaluate(gold, items, run, alias, excluded, args.drop_chains, args.stats,
+                                                fixes=not args.legacy_scorer)
         md, cs = report(path, per_rep, cstats, flips, mode, args.out, args.tag)
         print(f"{path}\n  -> {md}\n  -> {cs}")
 

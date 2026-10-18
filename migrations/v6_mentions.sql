@@ -80,8 +80,26 @@ alter table mentions
     and atmosphere_level between -2 and 2 and wait_level       between -2 and 2
     and price_level      between -2 and 2) not valid;
 
+-- Mentions from an original post (title + body, extracted in v6's post mode), not
+-- from a comment. thread_id names the post, and comment_id is null for these rows.
+-- Every existing row is a comment mention and keeps its comment_id. Exactly one of
+-- the two is set.
+alter table mentions add column if not exists thread_id text references threads(id);
+alter table mentions alter column comment_id drop not null;
+alter table mentions drop constraint if exists mentions_source_chk;
+alter table mentions
+  add constraint mentions_source_chk check ((comment_id is null) <> (thread_id is null)) not valid;
+
+-- Extraction state for posts, the same cursor comments already have.
+alter table threads add column if not exists extracted_at   timestamptz;
+alter table threads add column if not exists extracted_with text;
+alter table threads add column if not exists extract_error  text;
+
 commit;
 
 -- Optional, run separately (CREATE INDEX CONCURRENTLY cannot run inside a
 -- transaction, and a plain CREATE INDEX blocks the poller's writes):
 --   create index concurrently if not exists mentions_v6_idx on mentions (entity_key) where schema_version = 6;
+-- Post mentions need the same idempotence key that mentions_unique_idx gives comments:
+--   create unique index concurrently if not exists mentions_post_unique_idx
+--     on mentions (thread_id, entity_key, prompt_hash) where comment_id is null;

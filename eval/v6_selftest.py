@@ -195,7 +195,35 @@ CASES_V2 = {
     #  other NYC slice"
     "v0373": [M("Lindustrie", "stated", "negative", taste="positive", wait="negative",
                 notes=[N("compared to other slices", "only a slight step above other NYC slices")])],
+    # Owner decision, comparison losers get a level: "I think I actually prefer Tatiana to Kabawa, and I
+    # don't rate Tatiana too highly anyway. The dishes are just not inventive ... enough to justify the
+    # price. Duck sausage and goat where just nice. Matrimony as dessert was just ridiculous ... The
+    # starters were the best part."
+    "v0427": [M("Kabawa", "stated", "negative", taste="negative", value="negative",
+                dishes=[D("duck sausage", "negative"), D("goat", "negative"), D("Matrimony", "very_negative"),
+                        D("starters", "positive")],
+                notes=[N("comparison", "prefers Tatiana to it", "negative")]),
+              M("Tatiana", "stated", "negative", notes=[N("comparison", "preferred to Kabawa, but not rated highly")])],
+    # "... bCD tofu house is fun ... Prefer Saperavi over Chama Mama ..."
+    "v0476": [M("bCD tofu house", "stated", "positive"),
+              M("Saperavi", "stated", "positive", notes=[N("comparison", "preferred to Chama Mama", "positive")]),
+              M("Chama Mama", "stated", "negative", notes=[N("comparison", "Saperavi preferred", "negative")])],
 }
+
+# Thread comments scored in comment mode by their v1 gold line: line and timing tips are wait negative.
+CASES_BY_COMMENT = {
+    # "Went a few sundays ago, the line started around 4:15 I think" (Red Hook Tavern, from the title)
+    "t1_obkhwb2": [M("Red Hook Tavern", "stated", named_in="context", wait="negative",
+                     notes=[N("best time to go", "the line started around 4:15 on a Sunday", "negative")])],
+    # "Be there at 11:30"
+    "t1_obpxgdx": [M("Red Hook Tavern", "stated", named_in="context", wait="negative",
+                     notes=[N("best time to go", "be there at 11:30", "negative")])],
+}
+
+# Cases where a sign disagreement with the gold is expected under the new conventions
+# (eval/CONVENTIONS.md). Empty: Tatiana's "I don't rate Tatiana too highly" reads as a
+# knock, and the v2 gold already accepts food -1 there.
+EXPECT_SIGN_DISAGREE = set()
 
 # Thread mode, rendered by v6_thread.render_chunk from the read-only sidecar.
 # Keys: (items file, item id, chunk index); values: {new bracket number:
@@ -304,6 +332,8 @@ def main():
     for gold, cases in ((gold_v1, CASES), (gold_v2, CASES_V2)):
         for iid, ms in cases.items():
             scored.append((iid, gold[iid], ms, "comment", common.SCHEMA_COMMENT))
+    for cid, ms in CASES_BY_COMMENT.items():
+        scored.append((cid, by_cid[cid], ms, "comment", common.SCHEMA_COMMENT))
     for (path, iid, ci), outs in THREAD_CASES.items():
         it = next(json.loads(l) for l in open(os.path.join(HERE, path), encoding="utf-8")
                   if json.loads(l)["item_id"] == iid)
@@ -331,7 +361,7 @@ def main():
         for what, ok in (("matching", not c["fn"] and not c["fp"]),
                          ("negative", c["neg_mention_hit"] == c["neg_mention_n"]),
                          ("dish negative", c["dishneg_hit"] == c["dishneg_n"]),
-                         ("sign", c["sign_ok"] == c["sign_n"])):
+                         ("sign", c["sign_ok"] == c["sign_n"] or label in EXPECT_SIGN_DISAGREE)):
             if not ok:
                 errs.append(f"{label}: {what} disagrees with the gold")
         rows.append(f"  {label:16s} tp {c['tp']} fn {c['fn']} fp {c['fp']}  neg {c['neg_mention_hit']}/{c['neg_mention_n']}"
@@ -399,19 +429,33 @@ def main():
     legacy = {"restaurant_raw": "X", "aspects": {"food": 0.3}, "is_negated": False}
     assert A.adapt(legacy) is legacy
 
-    # 6. scorer fixes (score.py fixes=True), off by default
+    # 6. scorer fixes: on by default, fixes=False reproduces the old scorer
     over = A.adapt(M("Lucali", "stated", "negative", taste="positive"))
-    assert not S.model_negative(over) and S.model_negative(over, fixes=True), "overall-negative fix"
+    assert S.model_negative(over) and not S.model_negative(over, fixes=False), "overall-negative fix"
     g = {"canonical_key": "2nd ave deli", "accept_keys": [], "ambiguous": False}
     mm = [dict(A.adapt(M("2nd avenue deli", "stated", "negative")), _key="2nd avenue deli")]
-    assert not S.match([g], mm)[0] and S.match([g], mm, fixes=True)[0], "street-word fix"
+    assert S.match([g], mm)[0] and not S.match([g], mm, fixes=False)[0], "street-word fix"
     ref = dict(A.adapt(M("Pepper House", "none", named_in="context", experience="none")), id=2)
     line = {"mentions": [], "comment_id": "x"}
-    for fixes, fp in ((False, 1), (True, 0)):
-        a = S.score_comment(line, [ref], "thread", alias, excluded, False, fixes)
-        assert a.c["fp"] == fp, ("context-reference fix", fixes, a.c["fp"])
-    a = S.score_comment(line, [ref], "comment", alias, excluded, False, True)
-    assert a.c["fp"] == 1, "context references still count against precision in comment mode"
+    for mode in ("thread", "comment"):
+        for fixes, fp in ((False, 1), (True, 0)):
+            a = S.score_comment(line, [ref], mode, alias, excluded, False, fixes)
+            assert a.c["fp"] == fp, ("context-reference fix", mode, fixes, a.c["fp"])
+
+    # 7. five-level metrics: gold +2 food against very_positive is a miss, +1 against an
+    #    endorsement agrees, and a lone +1 food leaves the opinion type undecided
+    gl = {"comment_id": "y", "mentions": [{"restaurant_raw": "X", "canonical_key": "x", "accept_keys": [],
+          "ambiguous": False, "out_of_scope": False, "aspects": {"food": 2, "value": None, "service": None,
+          "atmosphere": None, "wait": None}, "aspect_alternatives": {}, "expensiveness": None,
+          "value_complaint": False, "dish_sentiment": [], "search_terms": [], "closed": False,
+          "is_negated": False, "is_firsthand": True, "uncertain_fields": []}]}
+    a = S.score_comment(gl, A.adapt_all([M("X", "stated", "very_positive", taste="very_positive")]),
+                        "comment", alias, excluded, False)
+    assert a.c["l5_n_food"] == 1 and a.c["l5_ok_food"] == 0 and a.c["ov_ok5"] == 0 and a.c["ov_sign"] == 1
+    assert a.food_conf[("positive", "very_positive")] == 1 and a.c["op_stated_ok"] == 1
+    gl["mentions"][0]["aspects"]["food"] = 1
+    a = S.score_comment(gl, A.adapt_all([M("X", "endorse", "positive")]), "comment", alias, excluded, False)
+    assert a.c["l5_ok_food"] == 1 and a.c["ov_ok5"] == 1 and not a.c["op_stated_n"] and not a.c["op_none_n"]
 
     if errs:
         print("FAILED")

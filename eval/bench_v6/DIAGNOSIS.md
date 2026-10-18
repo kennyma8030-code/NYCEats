@@ -269,3 +269,30 @@ or listed without a level.
 
 The first two together fit comfortably. Adding the third may need it to
 run after the first settles, which the sub-batch sizing already does.
+
+## Round 2: what was applied
+
+- **Prompt** (live `v6_*`; round 1 is frozen as `v6r1_*`, so steps a–k keep
+  their hashes):
+  - very_positive only for broad superlatives ("my favorite", "a must" and
+    favorites headers are positive, as in the gold);
+  - line and timing tips are wait negative;
+  - every named place counts, landmarks, comparisons and examples included
+    (opinion none);
+  - names kept as typed;
+  - a verdict in the commenter's own voice is firsthand;
+  - comparison losers negative by default (owner);
+  - a reply that only asks about a place is a mention with opinion none
+    (owner);
+  - new post mode for the original post (owner).
+- **Scorer:** the three fixes are now the default. The context-reference
+  fix also applies in comment mode. `--legacy-scorer` / `fixes=False`
+  reproduces the old numbers, and compare writes a `legacy_scorer` view.
+  New metrics: five-level accuracy per aspect, a food confusion table,
+  overall-verdict agreement, and opinion-type accuracy where the gold can
+  tell.
+- **Conventions:** `eval/CONVENTIONS.md`, with gold disagreement counts and
+  107 candidate patches (not applied).
+- **Re-test:** step l, v6 round 2, low effort, a hashed 600 of a's comments
+  (it contains the 300-comment low subset). Expected about $0.11 at round
+  1's measured low rate; about $0.30 if no request hits the cache.

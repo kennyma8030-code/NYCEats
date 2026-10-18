@@ -68,12 +68,20 @@ WORKERS = 8
 MAX_TOKENS = {"comment": 6000, "thread": 16000}
 V6 = {"comment": "file:" + os.path.join(HERE, "prompts", "v6_comment.py"),
       "thread": "file:" + os.path.join(HERE, "prompts", "v6_thread.py")}
+# Round 1 of v6, frozen: every step up to k ran on it, and its run files are keyed by
+# its hash (comment a15cfb978cce, thread 44e1a49c7781). "v6" is the live prompt.
+V6R1 = {"comment": "file:" + os.path.join(HERE, "prompts", "v6r1_comment.py"),
+        "thread": "file:" + os.path.join(HERE, "prompts", "v6r1_thread.py")}
 V1, V2 = os.path.join(HERE, "items.jsonl"), os.path.join(HERE, "v2", "items.jsonl")
 V1_THREADS = [f"t{i:03d}" for i in range(1, 18)]
 LOW_COMMENTS = 300
 SEED = "nyceats-bench-v6"
 SUBSET_COMMENT = os.path.join(OUT, "subset_comment.txt")
 SUBSET_THREAD = os.path.join(OUT, "subset_thread.txt")
+# The round-2 re-test: a hashed 600 of a's comments. Same hash order as the 300-comment
+# low subset, so it contains all of it.
+R2_COMMENTS = 600
+SUBSET_R2 = os.path.join(OUT, "subset_comment_r2.txt")
 # The truncated calls of the first medium runs (stop_reason max_tokens), committed so
 # the re-runs h and i are a fixed set. See DIAGNOSIS.md.
 KEYS_H = os.path.join(OUT, "keys_h_thread_truncated.txt")
@@ -102,47 +110,54 @@ def inv(items, only=None, labeled=False, call_keys=None):
 
 
 STEPS = [
-    {"id": "a", "what": "v6 comment, medium, v1 labeled + v2", "prompt": "v6", "mode": "comment",
+    {"id": "a", "what": "v6 comment, medium, v1 labeled + v2", "prompt": "v6r1", "mode": "comment",
      "reasoning": "medium", "tag": "bench6-med", "invocations": [inv(V1, labeled=True), inv(V2)]},
     {"id": "b", "what": "current comment, medium, same comments", "prompt": "current", "mode": "comment",
      "reasoning": "medium", "tag": "bench6-med", "invocations": [inv(V1, labeled=True), inv(V2)]},
-    {"id": "c", "what": "v6 thread, medium, v1 whole threads (render_chunk)", "prompt": "v6",
+    {"id": "c", "what": "v6 thread, medium, v1 whole threads (render_chunk)", "prompt": "v6r1",
      "mode": "thread", "reasoning": "medium", "tag": "bench6-med", "invocations": [inv(V1, only=V1_THREADS)]},
     {"id": "d", "what": "current thread, medium, same chunks (stored rendering)", "prompt": "current",
      "mode": "thread", "reasoning": "medium", "tag": "bench6-med", "invocations": [inv(V1, only=V1_THREADS)]},
-    {"id": "e-comment", "what": f"v6 comment, LOW, {LOW_COMMENTS}-comment subset of a", "prompt": "v6",
+    {"id": "e-comment", "what": f"v6 comment, LOW, {LOW_COMMENTS}-comment subset of a", "prompt": "v6r1",
      "mode": "comment", "reasoning": "low", "tag": "bench6-low",
      "invocations": [inv(V1, labeled=True, call_keys=SUBSET_COMMENT), inv(V2, call_keys=SUBSET_COMMENT)]},
-    {"id": "e-thread", "what": "v6 thread, LOW, a third of c's chunks", "prompt": "v6", "mode": "thread",
+    {"id": "e-thread", "what": "v6 thread, LOW, a third of c's chunks", "prompt": "v6r1", "mode": "thread",
      "reasoning": "low", "tag": "bench6-low", "invocations": [inv(V1, only=V1_THREADS, call_keys=SUBSET_THREAD)]},
-    {"id": "f", "what": "v6 thread, medium, v2 comments' chunks", "prompt": "v6", "mode": "thread",
+    {"id": "f", "what": "v6 thread, medium, v2 comments' chunks", "prompt": "v6r1", "mode": "thread",
      "reasoning": "medium", "tag": "bench6-med", "invocations": [inv(V2)]},
     {"id": "g", "what": "current thread, medium, v2 comments' chunks (baseline for f)", "prompt": "current",
      "mode": "thread", "reasoning": "medium", "tag": "bench6-med", "invocations": [inv(V2)]},
     # Re-runs of what medium effort truncated (DIAGNOSIS.md): own tags, so the first
     # attempts stay as they ran; compare merges them into a second view.
-    {"id": "h", "what": "v6 thread, medium, the truncated chunks of c+f, max_tokens 32k", "prompt": "v6",
+    {"id": "h", "what": "v6 thread, medium, the truncated chunks of c+f, max_tokens 32k", "prompt": "v6r1",
      "mode": "thread", "reasoning": "medium", "tag": "bench6-med32k", "max_tokens": 32000,
      "assume": {"reasoning": 20000, "visible": 4000},
      "invocations": [inv(V1, only=V1_THREADS, call_keys=KEYS_H), inv(V2, call_keys=KEYS_H)]},
-    {"id": "i", "what": "v6 comment, medium, the 6 truncated calls of a, max_tokens 16k", "prompt": "v6",
+    {"id": "i", "what": "v6 comment, medium, the 6 truncated calls of a, max_tokens 16k", "prompt": "v6r1",
      "mode": "comment", "reasoning": "medium", "tag": "bench6-med16k", "max_tokens": 16000,
      "assume": {"reasoning": 6000, "visible": 4000},
      "invocations": [inv(V1, labeled=True, call_keys=KEYS_I), inv(V2, call_keys=KEYS_I)]},
     # Low effort on every thread chunk c and f covered. Same tag and run file as
     # e-thread, so its 8 finished chunks are skipped; the cap stops it if money runs out.
-    {"id": "j", "what": "v6 thread, LOW, every chunk of c+f, max_tokens 32k", "prompt": "v6", "mode": "thread",
+    {"id": "j", "what": "v6 thread, LOW, every chunk of c+f, max_tokens 32k", "prompt": "v6r1", "mode": "thread",
      "reasoning": "low", "tag": "bench6-low", "max_tokens": 32000,
      "invocations": [inv(V1, only=V1_THREADS), inv(V2)]},
-    {"id": "k", "what": "v6 comment, LOW, all of a's comments (widens e-comment)", "prompt": "v6",
+    {"id": "k", "what": "v6 comment, LOW, all of a's comments (widens e-comment)", "prompt": "v6r1",
      "mode": "comment", "reasoning": "low", "tag": "bench6-low", "max_tokens": 16000,
      "invocations": [inv(V1, labeled=True), inv(V2)]},
+    # Round 2: the live v6 prompt (owner decisions and benchmark fixes, CONVENTIONS.md),
+    # low effort, on a hashed 600 of a's comments. A subset because ~$0.39 is left under
+    # the cap: 1,006 comments would expect ~$0.19 but could reach ~$0.44 with no cache hits.
+    {"id": "l", "what": f"v6 round 2, comment, LOW, a hashed {R2_COMMENTS} of a's comments", "prompt": "v6",
+     "mode": "comment", "reasoning": "low", "tag": "bench6-low-r2", "max_tokens": 16000,
+     "assume": {"reasoning": 400, "visible": 300},
+     "invocations": [inv(V1, labeled=True, call_keys=SUBSET_R2), inv(V2, call_keys=SUBSET_R2)]},
 ]
 
 
 # ---------------------------------------------------------------- jobs
 def prompt_spec(step):
-    return V6[step["mode"]] if step["prompt"] == "v6" else "current"
+    return {"v6": V6, "v6r1": V6R1}[step["prompt"]][step["mode"]] if step["prompt"].startswith("v6") else "current"
 
 
 def load_pmod(step):
@@ -233,6 +248,8 @@ def write_subsets():
     _, a = step_jobs(STEPS[0])
     _, c = step_jobs(STEPS[2])
     comment = hashed(a, LOW_COMMENTS)
+    with open(SUBSET_R2, "w", encoding="utf-8") as f:
+        f.write("\n".join(sorted(hashed(a, R2_COMMENTS))) + "\n")
     thread = hashed(c, math.ceil(len(c) / 3))
     for path, keys in ((SUBSET_COMMENT, comment), (SUBSET_THREAD, thread)):
         with open(path, "w", encoding="utf-8") as f:
@@ -249,7 +266,8 @@ def estimate(step, pmod, jobs, reps=1):
     a = ASSUME[(step["mode"], step["reasoning"])]
     a = {"reasoning": step["assume"]["reasoning"], "visible": {step["prompt"]: step["assume"]["visible"]}} \
         if "assume" in step else a
-    tout = reps * len(jobs) * (a["reasoning"] + a["visible"][step["prompt"]])
+    vis = a["visible"].get(step["prompt"], a["visible"].get("v6" if step["prompt"].startswith("v6") else step["prompt"]))
+    tout = reps * len(jobs) * (a["reasoning"] + vis)
     tokens_cost = (tin * PRICE_IN_PLAN + tout * PRICE_OUT) * BATCH
     worst = reps * sum(AB.worst_case(pmod.SYSTEM_PROMPT, j["user"], max_tokens(step), batch=True)
                        for j in jobs.values())
@@ -270,7 +288,7 @@ def dry_run_args(step, invocation, schema=False):
         a += ["--labeled-only"]
     if invocation["call_keys"]:
         a += ["--call-keys", invocation["call_keys"]]
-    if schema and step["prompt"] == "v6":
+    if schema and step["prompt"].startswith("v6"):
         a += ["--schema"]
     return a
 
@@ -420,7 +438,7 @@ def run_all():
                 status = f"failed (exit {code})"
                 break
         st["steps"][step["id"]] = {"status": status, "run_file": os.path.relpath(run_file(step, schema), ROOT),
-                                   "schema": bool(schema and step["prompt"] == "v6")}
+                                   "schema": bool(schema and step["prompt"].startswith("v6"))}
         save_state(st)
         print(f"step {step['id']}: {status}")
         if status == "capped":
@@ -432,7 +450,11 @@ def run_all():
 
 # ---------------------------------------------------------------- compare
 METRICS = ["drop_rate", "mention_recall", "mention_precision", "negative_mention_recall",
-           "value_complaint_recall", "dish_negative_recall", "sign_accuracy", "is_firsthand_acc"]
+           "value_complaint_recall", "dish_negative_recall", "sign_accuracy", "is_firsthand_acc",
+           # five-level views (score.py): gold's 7 points collapsed to the owner's 5
+           "food_5level_acc", "value_5level_acc", "service_5level_acc", "atmosphere_5level_acc",
+           "wait_5level_acc", "overall_5level_agree", "overall_sign_agree",
+           "opinion_type_acc", "opinion_none_acc", "opinion_stated_acc"]
 
 
 def run_stats(path, keys):
@@ -502,6 +524,7 @@ def score(paths_keys, gold_path, items_path, stats_path, fixes=False):
         for scope in ("overall", "reweighted"):
             if scope in r0:
                 res[scope] = {m: r0[scope].get(m) for m in METRICS}
+        res["food_confusion"] = r0["overall"].get("food_confusion")
         path, keys = paths_keys[name]
         res["run"] = run_stats(path, {k for k in keys if behind(k)})
         out[name] = res
@@ -535,7 +558,7 @@ def delta(a, b, scope="overall"):
     return d
 
 
-def comparisons(P, fixes=False):
+def comparisons(P, fixes=True):
     """Every comparison the available steps allow. P: {step id: (run file, call keys)}."""
     G1, G2 = os.path.join(HERE, "gold.jsonl"), os.path.join(HERE, "v2", "gold.jsonl")
     stats = os.path.join(HERE, "sampling_stats.json")
@@ -567,6 +590,15 @@ def comparisons(P, fixes=False):
         pair("thread_low_vs_medium_full_v1", "j", "c", G1, V1, "", ("low", "medium"))
     if have("j", "f"):
         pair("thread_low_vs_medium_full_v2", "j", "f", G2, V2, "", ("low", "medium"))
+    if have("l", "k"):
+        pair("comment_low_r2_vs_r1_v1", "l", "k", G1, V1, stats, ("r2_low", "r1_low"))
+        pair("comment_low_r2_vs_r1_v2", "l", "k", G2, V2, "", ("r2_low", "r1_low"))
+    if have("l", "a"):
+        pair("comment_low_r2_vs_r1_medium_v1", "l", "a", G1, V1, stats, ("r2_low", "r1_medium"))
+        pair("comment_low_r2_vs_r1_medium_v2", "l", "a", G2, V2, "", ("r2_low", "r1_medium"))
+    if have("l", "b"):
+        pair("comment_low_r2_vs_current_v1", "l", "b", G1, V1, stats, ("r2_low", "current"))
+        pair("comment_low_r2_vs_current_v2", "l", "b", G2, V2, "", ("r2_low", "current"))
     if have("k", "a"):
         pair("comment_low_vs_medium_full_v1", "k", "a", G1, V1, stats, ("low", "medium"))
         pair("comment_low_vs_medium_full_v2", "k", "a", G2, V2, "", ("low", "medium"))
@@ -624,7 +656,7 @@ def compare():
     if os.path.exists(LEDGER):
         with open(LEDGER, encoding="utf-8") as f:
             out["ledger"] = json.load(f)
-    show("as run", out["comparisons"])
+    show("as run (scorer fixes on, the default)", out["comparisons"])
 
     # With the truncation re-runs: h's records stand in for truncated v6 thread chunks
     # (c and f share one run file), i's for truncated v6 comment calls (a).
@@ -648,13 +680,13 @@ def compare():
             "they replace were also paid for (see the as-run view and the ledger)"))
         show("with truncation re-run", out["with_truncation_rerun"])
 
-    # Scorer fixes (score.py fixes=True): overall-negative counts as a negative mention,
-    # street-word equivalence in key matching, and thread-mode precision without
-    # context-named no-opinion mentions. Same runs as the view above it.
-    out["scorer_fixed"] = comparisons(Q if notes else P, fixes=True)
-    out["scorer_fixed_note"] = ("score.py fixes=True on the " + ("with-re-run" if notes else "as-run") +
-                                " runs; the as-run view keeps the original scorer")
-    show("scorer-fixed", out["scorer_fixed"])
+    # The legacy scorer (score.py fixes=False, --legacy-scorer) on the as-run files, to
+    # reproduce the numbers scored before the scorer fixes became the default.
+    out["legacy_scorer"] = comparisons(P, fixes=False)
+    out["legacy_scorer_note"] = ("as-run files scored without the scorer fixes (overall-negative as a "
+                                 "negative mention, street-word matching, context-named no-opinion "
+                                 "mentions not counted as false positives)")
+    show("legacy scorer", out["legacy_scorer"])
 
     path = os.path.join(OUT, "compare.json")
     os.makedirs(OUT, exist_ok=True)

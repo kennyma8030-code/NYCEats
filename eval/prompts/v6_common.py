@@ -80,13 +80,13 @@ PURPOSE = ("Readers see how many people praise or complain about each place, and
            "soften a complaint.")
 
 SCOPE = """WHAT COUNTS
-Every restaurant, cafe, bakery, bar, deli, food truck, cart, stall or chain in New York City that the comment names or clearly refers to: names in a list (the most common case; single-word names like Tong, Keens or Emily are the easiest to miss), questions about a place, places not yet tried, closed places, and places used as comparisons. Not places: cuisines, dishes, neighborhoods, streets, supermarkets and grocery stores, apps and services (Resy, InKind, Beli), people, and places outside NYC. A place named twice is one mention."""
+Every restaurant, cafe, bakery, bar, deli, food truck, cart, stall or chain in New York City that the comment names or clearly refers to: names in a list (the most common case; single-word names like Tong, Keens or Emily are the easiest to miss), places not yet tried, closed places, comparisons, examples, landmarks ("near X"), and places a comment only asks about or names in passing (opinion "none"). Every named place counts. Not places: cuisines, dishes, neighborhoods, streets, supermarkets and grocery stores, apps and services (Resy, InKind, Beli), people, and places outside NYC. A place named twice is one mention."""
 
-FIELDS = """name        The name exactly as typed. Never fix spelling or case, never add words. For a place the comment refers to without naming it, copy the name from the context.
+FIELDS = """name        The name exactly as the comment types it, even shortened or misspelled ("2nd Ave", "lindustrie"); never fix it from the context. Only for a place the comment doesn't name, copy the name from the context.
 named_in    "comment", or "context" when the name was copied from the context.
 location    Where the comment places THIS place ("the LES one", "on 2nd Ave"), else null.
-experience  "firsthand": describes going or eating there, or gives their own pick or verdict. "secondhand": repeats others ("heard great things", "my friend swears by it", "people say it's gone downhill"). "none": anything else (questions, "on my list", a bare fact).
-opinion     "none": only neutral facts or a question ("cash only", "they moved to Bushwick", "is it still good?"). "endorse": offered as a pick with nothing else said (a list item, "try X", "second this" under a rec). "stated": anything else that judges the place, however briefly.
+experience  "firsthand": describes going or eating there, or gives a pick or verdict in their own voice ("mid", "overrated", "get the X") unless they say they haven't been. "secondhand": repeats others ("heard great things", "my friend swears by it", "people say it's gone downhill"). "none": anything else (questions, "on my list", a bare fact).
+opinion     "none": only neutral facts, a question, or a name in passing ("cash only", "they moved to Bushwick", "is it still good?", "near X"). "endorse": offered as a pick with nothing else said (a list item, "try X", "second this" under a rec). "stated": anything else that judges the place, however briefly.
 overall     LEVEL. The verdict on the place as a whole: is it worth going? "Best slice in the city" is overall and taste very_positive; "go early to beat the line" has no overall (null). Always "positive" for "endorse".
 aspects     {taste, value, service, atmosphere, wait}, each a LEVEL or null. Only what is said; never infer one aspect from another or from overall.
               taste: the food and drink. value: worth the money, including portions for the price. service: staff, and how the place is run. atmosphere: room, vibe, noise, crowd. wait: lines, getting a table or reservation, slow food, selling out.
@@ -100,22 +100,22 @@ tags        The commenter's own words for what the place is or is for, as someon
 notes       Everything else said about the place that no field above holds, so nothing is lost: {"about": short label, "text": short paraphrase, "level": LEVEL or null, "dish": dish or null}. Tips ("best time to go"), facts ("accepts InKind"), prices ("$24 a bowl"), comparisons, the specifics behind a verdict ("pasta portions tiny"). No note that only repeats a level."""
 
 SCALE = """LEVELS: "very_positive", "positive", "neutral", "negative", "very_negative", or null.
-  very_positive  superlative or emphatic: "best in the city", "my favorite", "one of the best meals of my life", "god tier", "a must"
-  positive       real praise, a clear yes: "good", "great", "delicious", "pretty solid", "worth it", "get the X"
+  very_positive  a superlative about THIS place against a broad class: "best in the city", "best X I've ever had", "my favorite in NYC", "one of the best meals of my life", "god tier", "life-changing"
+  positive       real praise, a clear yes: "good", "great", "amazing", "so good", "love it", "my favorite", "my go-to", "a must", "delicious", "pretty solid", "worth it", "get the X"
   neutral        a balanced verdict, good and bad weighed evenly: "hit or miss", "great food, awful service". Never for lukewarm words.
   negative       any knock, however mild or polite, lukewarm words included: "fine", "ok", "not bad", "meh", "mid", "nothing special", "overrated", "underwhelming", "bland", "overpriced", "rude", "hard to book", "the line is insane"
   very_negative  strong: "worst I've had", "inedible", "disgusting", "got sick", "never again", "regretted going", "avoid at all costs"
 null means not mentioned. neutral is a verdict, never a stand-in for "not mentioned"."""
 
 RULES = """RULES
-1. opinion "none" is ONLY for facts and questions with no judgment at all. A complaint put as a fact is stated, with a negative level: "impossible to book" and "they sell out by noon" are wait negative; "tiny portions for the price" is value negative; "the sauce comes from a jar now" is taste negative.
+1. opinion "none" is ONLY for facts and questions with no judgment at all. A complaint put as a fact is stated, with a negative level: "impossible to book", "they sell out by noon", "the line started at 4:15", "be there by 11:30" and "busy even in the rain" are wait negative; "tiny portions for the price" is value negative; "the sauce comes from a jar now" is taste negative.
 2. Every complaint lowers a level: the aspect it is about, or overall when none fits. A note adds the detail of a complaint no aspect names (overrated, got sick, portion size, stopped making a dish), with a plain "about" and its level, but never holds a complaint alone.
 3. Lukewarm is negative. On this subreddit "fine", "ok", "not bad" and "meh" are knocks, not praise and not neutral.
-4. Never default to positive. "endorse" is only for a name offered as a pick with nothing else said. A place named in a comparison, as an example, in a question or with any remark is "stated" and leveled by what is said. A complaint replying to a rave is still a complaint.
-5. Shared traits carry over: "as hard to book as X" is wait negative for X too. Losing a comparison, and nothing more ("I prefer A over B"), gives B no level, only a note.
+4. Never default to positive. "endorse" is only for a name offered as a pick with nothing else said. A place with any remark that judges it is "stated" and leveled by what is said; one only asked about or named in passing is "none". A complaint replying to a rave is still a complaint.
+5. A comparison judges both sides; note it on each. The loser is negative by default ("I prefer A over B": B negative), very_negative if the comment says it is far worse, and positive if the comment says both are good ("both great, I just prefer A"). Shared traits carry over: "as hard to book as X" is wait negative for X too.
 6. Money complaints are value negative: "overpriced", "not worth the money", "for the price", "$28 for that is a joke". The dollar figure also goes in a note.
 7. A complaint about one dish is a negative dish entry, even when the place is praised.
-8. A heading or lead-in covers every name under it: "My favorites:" makes each very_positive; "I'd skip all of these: A, B, C" makes all three avoid true, overall negative.
+8. A heading or lead-in covers every name under it: "My favorites:" makes each positive (very_positive only for an item given its own superlative); "I'd skip all of these: A, B, C" makes all three avoid true, overall negative.
 9. "This", "+1" and "second this" take the verdict they agree with: under a rec or praise, endorse; under a knock, stated with the same overall.
 10. Levels are what the commenter thinks NOW. "Used to be great, now mid": overall negative, trend declined. A closed place remembered fondly: overall positive, status closed, timeframe past.
 11. Thread framing and sarcasm decide polarity: "second this" under "worst meal you've had?" is negative.

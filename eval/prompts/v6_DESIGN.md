@@ -8,7 +8,10 @@ leaves the scoring for later, which is still to be decided.
 |---|---|
 | `v6_schema.json` | strict JSON Schema, comment mode. Thread mode adds `id` (`v6_common.SCHEMA_THREAD`) |
 | `v6_common.py` | shared prompt text, both schemas, `response_format` / Anthropic `output_config.format` helpers |
-| `v6_comment.py`, `v6_thread.py` | the two system prompts, for `eval/run.py --prompt file:...`. `v6_thread.py` also has its own chunk renderer, `render_chunk` |
+| `v6_comment.py`, `v6_thread.py` | the live system prompts (round 2), for `eval/run.py --prompt file:...`. `v6_thread.py` also has its own chunk renderer, `render_chunk`. `v6_comment.py` also has post mode: `SYSTEM_PROMPT_POST` and `build_post_message` |
+| `v6r1_common.py`, `v6r1_comment.py`, `v6r1_thread.py` | round 1, frozen exactly as benchmarked (hashes a15cfb978cce / 44e1a49c7781). Benchmark steps a–k run on these |
+| `../CONVENTIONS.md` | the owner's conventions, one rule per case, and where the v1/v2 gold disagrees |
+| `../labels/proposed_convention_patches.py` | candidate gold patches for those conventions. **Not applied** |
 | `../v6_adapter.py` | maps v6 output to the shape the v1/v2 gold and v4 labels use. `score.load_run` and `v4/labels.py` call it automatically |
 | `../build_thread_rows.py` | read-only: fetches the raw rows behind every thread chunk and writes `<items>.thread_rows.jsonl`, verified byte for byte against production's renderer |
 | `../items.thread_rows.jsonl`, `../v2/items.thread_rows.jsonl`, `../v4/items_{single,thread}.thread_rows.jsonl` | those rows (1,032 chunks, all verified), committed so a benchmark needs no database |
@@ -101,8 +104,8 @@ bucket in a people-count means exactly one thing. Storage maps them to
 
 | level | means | real examples |
 |---|---|---|
-| very_positive | superlative or emphatic | *"it is the best halal I've ever had"* (t1_n5qfnmv); *"L'industrie IS in fact fire"* (t1_njj4kjv) |
-| positive | real praise, a clear yes | *"Quality Bistro is pretty solid"* (t1_mohzmwn); *"the quality is always very good"* (t1_pfb25mg) |
+| very_positive | a superlative about this place against a broad class | *"it is the best halal I've ever had"* (t1_n5qfnmv) |
+| positive | real praise, a clear yes, including "great", "amazing", "my favorite", "a must" | *"Quality Bistro is pretty solid"* (t1_mohzmwn); *"the quality is always very good"* (t1_pfb25mg); *"L'industrie IS in fact fire"* (t1_njj4kjv) |
 | neutral | a balanced verdict, good and bad weighed evenly | *"The service was great and everyone was welcoming, but the food wasn't at all memorable"* (t1_pgdrvqi): overall `neutral`, with service `positive` and taste `negative` |
 | negative | any knock, however mild or polite, lukewarm words included | *"Rubirosa is mid"* (t1_njj4kjv); *"Lucali is just really overrated"* (t1_ojnugks); *"Hamburger America was fine. Not bad, not exceptionally good."* (t1_mpf6fit) |
 | very_negative | strong | *"used to be good then turned into slop"* (t1_ntcepjk) |
@@ -121,6 +124,14 @@ bucket in a people-count means exactly one thing. Storage maps them to
 - **Positive needs real praise.** "Good", "pretty solid", "tasty", "worth
   it". "Decent" is not listed either way; in the gold it is mostly a weak
   yes, and the model reads it in context.
+- **Very positive is rare (round 2).** Only a superlative about this place
+  against a broad class: "best in the city", "best X I've ever had", "my
+  favorite in NYC", "god tier", "life-changing". "Great", "amazing", "so
+  good", "love it", "my favorite", "my go-to" and "a must" are positive, and
+  so is every item under a "My favorites:" heading. This follows the gold,
+  where "my favorite" and a favorites header are +2 and only a broad
+  superlative is +3. Round 1 called 107 of the gold's 314 +2 food mentions
+  very_positive.
 - **Neutral is a balance.** Use it only when good and bad are weighed evenly:
   *"The service was great… but the food wasn't at all memorable"*
   (t1_pgdrvqi) is overall neutral, service positive, taste negative. A
@@ -149,8 +160,8 @@ bucket in a people-count means exactly one thing. Storage maps them to
 1. **Endorsements get overall `positive`, with aspects `null`.** Naming a
    place as an answer is a yes. Tying it to `overall` keeps the field
    robust: if the model confuses "try X" (endorse) with "X is good"
-   (stated), `overall` is still positive. `opinion` keeps the two apart,
-   so scoring can count bare endorsements separately (open question 2).
+   (stated), `overall` is still positive. **Owner decision:** a bare
+   endorsement counts as "praised". `opinion` still keeps the two apart.
 2. **Generic praise goes to `overall`, not `taste`.** "X is amazing" sets
    overall only. Taste is set when the food is talked about ("best slice in
    the city" sets both). That keeps the Taste distribution about food. The
@@ -160,13 +171,18 @@ bucket in a people-count means exactly one thing. Storage maps them to
    comment that only complains about one thing still has a negative
    overall when that complaint reads as a verdict (rude service). The test
    is "is it worth going?".
-4. **Losing a comparison gives no level, but a shared trait carries over.**
-   "I prefer A over B" doesn't say B is bad, so B gets a note and no level
-   (the v1 gold scored it −1; open question 8). "As hard to book as X" says
-   something about X, so X gets wait negative. That was the Sushi Sho miss.
-5. **Closed places keep their remembered verdict**, with `timeframe: past`
-   and `status: closed`. The old prompt threw the verdict away. Scoring can
-   ignore past rows; it cannot recover deleted ones.
+4. **The loser of a comparison gets a level (owner decision), and a shared
+   trait carries over.** "I prefer A over B" makes B negative by default.
+   B is very_negative when the comment says it is far worse, and positive
+   when the comment says both are good ("both great, I just prefer A").
+   Each side carries a note with the comparison. The gold already scores
+   losers negative (CONVENTIONS.md). "As hard to book as X" makes X wait
+   negative; that was the Sushi Sho miss.
+5. **Closed places keep their mention and their remembered verdict**, with
+   `timeframe: past` and `status: closed`. **Owner decision:** scoring
+   excludes closed places from rankings but keeps their pages. Past-only
+   opinions count, dated by the comment. "Used to be great, now mid" counts
+   the current verdict.
 6. **`price` only from words.** A dollar figure goes into a note. Its
    meaning depends on the dish ($24 is cheap omakase and dear ramen), and
    v5 got this right. "Overpriced" is value, not a price level. Against the
@@ -344,6 +360,61 @@ Sign, recall and the negative metrics are the comparable numbers.
   labels. Those labels follow whatever prompt the labelers get.
 - Output-token growth per mention.
 
+## Owner decisions (round 2)
+
+- **Comparison losers** get a level (judgment call 4).
+- **Question replies and asides.** A reply that only asks about a place, or
+  names it in passing, counts as a mention with `opinion: none` and no
+  levels, and nothing more. The scorer no longer counts these as false
+  positives when the gold lacks them, in either mode (CONVENTIONS.md).
+- **Bare endorsements** count as "praised" (judgment call 1).
+- **Secondhand opinions count the same as firsthand.** The prompt is
+  unchanged: `experience` records the difference, and scoring treats
+  secondhand and firsthand alike.
+- **Closed and past** (judgment call 5). Closed places keep their mentions,
+  and rankings exclude them. Past-only opinions count, dated by the comment.
+- **The original post is extracted** (post mode, below).
+- **Prompt fixes from the benchmark**, in v6_common.py:
+  - very_positive only for broad superlatives;
+  - line and timing tips are wait negative;
+  - every named place counts, landmarks, comparisons and examples included;
+  - names are kept as the comment types them ("2nd Ave");
+  - a verdict in the commenter's own voice is firsthand.
+
+## Post mode
+
+`v6_comment.py` has a second system prompt, `SYSTEM_PROMPT_POST` (hash
+6826c6c98013), and `build_post_message(title, selftext)`. The post's title
+and body are the text to extract from, the poster is the author, and every
+field and rule is the same. A place the post only asks about ("is X worth
+it?") is a mention with `opinion: none`. The body is cut at 4,000
+characters. Posts average about 1,100 characters, and a post is extracted
+once.
+
+**What production needs** (not built):
+1. A pass over `threads` with non-empty `selftext` that aren't extracted
+   yet. The migration draft adds `extracted_at`, `extracted_with` and
+   `extract_error` to `threads`, the same cursor comments use.
+2. Mentions stored with the post: the draft adds `mentions.thread_id`
+   (a foreign key to `threads`), makes `comment_id` nullable, and checks that
+   exactly one of the two is set. A post-only unique index mirrors the
+   comment one. Downstream joins that go through `comments` (author, score,
+   permalink, `was_deleted_later`) need a post branch through `threads`.
+   The post's permalink comes from its id.
+3. Thread mode can keep sending the post as context. Extracting it there as
+   `[0]` would mix two rules in one prompt, so posts stay a separate pass.
+
+**Eval items for posts don't exist yet.** To add some:
+- draw posts the same way as v4's round 1, read-only from the live
+  database: random plus targeted (titles that name a place; bodies with
+  verdict words);
+- write items of a new `kind: "post"` whose input is `build_post_message`;
+- label them with Claude in the v4 two-pass setup;
+- teach `run.py` a `--mode post` that sends `SYSTEM_PROMPT_POST`, and key
+  the gold by thread id.
+
+About 100 posts would give a first read.
+
 ## Cost
 
 Estimated as characters ÷ 4, the same way for every prompt (there is no
@@ -354,7 +425,9 @@ tokenizer offline):
 | production `prompt.py` | ~1,820 tokens |
 | production `prompt_thread.py` | ~2,170 |
 | rubric_v1 comment / thread | ~1,910 / ~2,330 |
-| **v6 comment / thread** | **~2,050 / ~2,450** (1.12× / 1.13× production) |
+| v6 round 1 comment / thread (frozen) | ~2,050 / ~2,450 (1.12× / 1.13× production) |
+| **v6 round 2 comment / thread** | **~2,220 / ~2,620** (1.22× / 1.21× production) |
+| v6 round 2 post mode | ~2,200 |
 | v5 (lost) | about 3× production |
 
 In thread mode the rendered chunk also grows 15% (see Thread mode
@@ -415,18 +488,13 @@ before reasoning tokens. The benchmark run will give the real figure.
    the reading the owner wants? Should a mixed verdict ("great food, awful
    service") have a neutral overall, or should overall follow the dominant
    side?
-2. **Do bare endorsements count as "praised"?** The majority of mentions
-   are a name given as an answer. v6 records them as `opinion: endorse`,
-   overall positive. They could fill the praised bucket, get their own
-   bucket ("recommended"), or count only toward volume.
+2. ~~Do bare endorsements count as "praised"?~~ **Decided: yes.**
 3. **Do short replies count as people?** "+1", "this", "second this" and
    "agreed" are filtered out today (and so are 20,756 bare-name answers; see
    gap 1). If they count, a popular rec with ten "+1"s has eleven people
    behind it. Per-author caps and the thread divisor already exist to stop
    that from dominating.
-4. **Should the original post be extracted?** Posts often carry a verdict
-   ("went to X last night, it was mid, where should I go instead?"). Only
-   comments are extracted now. Thread mode could send the post as `[0]`.
+4. ~~Should the original post be extracted?~~ **Decided: yes** (post mode).
 5. **Keep chains?** v6 emits them. Should they be stored and filtered at
    query time (recommended: nothing is lost), or still dropped at write?
 6. **Should Taste count generic praise?** "X is amazing" currently sets
@@ -435,12 +503,10 @@ before reasoning tokens. The benchmark run will give the real figure.
 7. **Single-complaint verdicts.** Should "the service was rude" (and
    nothing else) count toward the overall negative distribution, or only
    toward Service?
-8. **The comparison loser.** In "Leo over L'industrie", is that a mild
-   negative for L'industrie (the v1 gold) or nothing (v6)?
-9. **Past and closed opinions.** v6 keeps them with `timeframe: past`.
-   Should they appear in the distributions, in history only, or nowhere?
-10. **Secondhand opinions.** "Heard it's great" has `experience:
-    secondhand`. Count it as a person, down-weight it, or show it apart?
+8. ~~The comparison loser.~~ **Decided:** negative by default (CONVENTIONS.md).
+9. ~~Past and closed opinions.~~ **Decided:** closed places keep their mentions and are left
+   out of rankings; past-only opinions count, dated by the comment.
+10. ~~Secondhand opinions.~~ **Decided:** counted the same as firsthand.
 11. **"Not worth it" as an answer to "which should I pick?"** Is that an
     avoid instruction (the v1 gold) or a negative review? v6 leaves it to
     context.
