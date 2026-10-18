@@ -72,6 +72,9 @@ V6 = {"comment": "file:" + os.path.join(HERE, "prompts", "v6_comment.py"),
 # its hash (comment a15cfb978cce, thread 44e1a49c7781). "v6" is the live prompt.
 V6R1 = {"comment": "file:" + os.path.join(HERE, "prompts", "v6r1_comment.py"),
         "thread": "file:" + os.path.join(HERE, "prompts", "v6r1_thread.py")}
+# Round 2, frozen after step l ran on it (comment 1cb01c0721f4, thread 54d4ad44db68).
+V6R2 = {"comment": "file:" + os.path.join(HERE, "prompts", "v6r2_comment.py"),
+        "thread": "file:" + os.path.join(HERE, "prompts", "v6r2_thread.py")}
 V1, V2 = os.path.join(HERE, "items.jsonl"), os.path.join(HERE, "v2", "items.jsonl")
 V1_THREADS = [f"t{i:03d}" for i in range(1, 18)]
 LOW_COMMENTS = 300
@@ -148,8 +151,14 @@ STEPS = [
     # Round 2: the live v6 prompt (owner decisions and benchmark fixes, CONVENTIONS.md),
     # low effort, on a hashed 600 of a's comments. A subset because ~$0.39 is left under
     # the cap: 1,006 comments would expect ~$0.19 but could reach ~$0.44 with no cache hits.
-    {"id": "l", "what": f"v6 round 2, comment, LOW, a hashed {R2_COMMENTS} of a's comments", "prompt": "v6",
+    {"id": "l", "what": f"v6 round 2, comment, LOW, a hashed {R2_COMMENTS} of a's comments", "prompt": "v6r2",
      "mode": "comment", "reasoning": "low", "tag": "bench6-low-r2", "max_tokens": 16000,
+     "assume": {"reasoning": 400, "visible": 300},
+     "invocations": [inv(V1, labeled=True, call_keys=SUBSET_R2), inv(V2, call_keys=SUBSET_R2)]},
+    # Round 3: round 2's fixes for experience, endorse vs stated, easy-access wait and
+    # food-only landmarks (DIAGNOSIS.md, round 2 results), on l's exact comments.
+    {"id": "m", "what": f"v6 round 3, comment, LOW, the same {R2_COMMENTS} comments as l", "prompt": "v6",
+     "mode": "comment", "reasoning": "low", "tag": "bench6-low-r3", "max_tokens": 16000,
      "assume": {"reasoning": 400, "visible": 300},
      "invocations": [inv(V1, labeled=True, call_keys=SUBSET_R2), inv(V2, call_keys=SUBSET_R2)]},
 ]
@@ -157,7 +166,7 @@ STEPS = [
 
 # ---------------------------------------------------------------- jobs
 def prompt_spec(step):
-    return {"v6": V6, "v6r1": V6R1}[step["prompt"]][step["mode"]] if step["prompt"].startswith("v6") else "current"
+    return {"v6": V6, "v6r1": V6R1, "v6r2": V6R2}[step["prompt"]][step["mode"]] if step["prompt"].startswith("v6") else "current"
 
 
 def load_pmod(step):
@@ -599,6 +608,15 @@ def comparisons(P, fixes=True):
     if have("l", "b"):
         pair("comment_low_r2_vs_current_v1", "l", "b", G1, V1, stats, ("r2_low", "current"))
         pair("comment_low_r2_vs_current_v2", "l", "b", G2, V2, "", ("r2_low", "current"))
+    if have("m", "l"):
+        pair("comment_low_r3_vs_r2_v1", "m", "l", G1, V1, stats, ("r3_low", "r2_low"))
+        pair("comment_low_r3_vs_r2_v2", "m", "l", G2, V2, "", ("r3_low", "r2_low"))
+    if have("m", "a"):
+        pair("comment_low_r3_vs_r1_medium_v1", "m", "a", G1, V1, stats, ("r3_low", "r1_medium"))
+        pair("comment_low_r3_vs_r1_medium_v2", "m", "a", G2, V2, "", ("r3_low", "r1_medium"))
+    if have("m", "b"):
+        pair("comment_low_r3_vs_current_v1", "m", "b", G1, V1, stats, ("r3_low", "current"))
+        pair("comment_low_r3_vs_current_v2", "m", "b", G2, V2, "", ("r3_low", "current"))
     if have("k", "a"):
         pair("comment_low_vs_medium_full_v1", "k", "a", G1, V1, stats, ("low", "medium"))
         pair("comment_low_vs_medium_full_v2", "k", "a", G2, V2, "", ("low", "medium"))

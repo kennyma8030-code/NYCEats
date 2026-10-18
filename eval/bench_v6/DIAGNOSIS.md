@@ -427,3 +427,21 @@ comparison with l. Each sub-batch's worst-case hold is about $0.0045 a
 request at max_tokens 16k, so with ~$0.29 left it runs as about 10
 sub-batches; max_tokens 8k would halve that (round 2's longest output was
 7,060 tokens).
+
+### Round 3 (applied; step m prepared, not run)
+
+The live prompt (comment 6b046d8ed65d, thread 1b87239a557f, post
+1b0a9d4098e3) makes the round-2 fixes. Round 2 is frozen as `v6r2_*`.
+- firsthand is the stated default: secondhand only when crediting someone
+  else; none only for questions, places not yet tried and bare facts;
+- endorse is a bare name or "try X" with no word of praise, and one praise
+  word makes it stated;
+- a "My favorites:" heading makes each item stated and positive;
+- easy walk-ins, "free tables at 4" and "no line on weekdays" are wait
+  positive;
+- landmarks count only when they are food places, and museums, stores,
+  parks and venues are listed as not places.
+
+The prompt is 8,949 characters, 67 more than round 2. Step m reruns
+round 3 at low effort on l's exact 600 comments: about $0.10 expected,
+$0.30 if no request hits the cache.

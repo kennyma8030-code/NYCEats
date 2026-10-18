@@ -10,6 +10,7 @@ leaves the scoring for later, which is still to be decided.
 | `v6_common.py` | shared prompt text, both schemas, `response_format` / Anthropic `output_config.format` helpers |
 | `v6_comment.py`, `v6_thread.py` | the live system prompts (round 2), for `eval/run.py --prompt file:...`. `v6_thread.py` also has its own chunk renderer, `render_chunk`. `v6_comment.py` also has post mode: `SYSTEM_PROMPT_POST` and `build_post_message` |
 | `v6r1_common.py`, `v6r1_comment.py`, `v6r1_thread.py` | round 1, frozen exactly as benchmarked (hashes a15cfb978cce / 44e1a49c7781). Benchmark steps a–k run on these |
+| `v6r2_common.py`, `v6r2_comment.py`, `v6r2_thread.py` | round 2, frozen as benchmarked in step l (1cb01c0721f4 / 54d4ad44db68). The live `v6_*` files are round 3 |
 | `../CONVENTIONS.md` | the owner's conventions, one rule per case, and where the v1/v2 gold disagrees |
 | `../labels/proposed_convention_patches.py` | candidate gold patches for those conventions. **Not applied** |
 | `../v6_adapter.py` | maps v6 output to the shape the v1/v2 gold and v4 labels use. `score.load_run` and `v4/labels.py` call it automatically |
