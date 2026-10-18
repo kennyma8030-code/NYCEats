@@ -155,10 +155,13 @@ def fuzzy(a, b):
 #   * street words match their short forms ("2nd avenue deli" = "2nd ave deli");
 #   * a v6 mention whose overall verdict is negative counts as a negative
 #     mention even when no aspect is ("most overrated restaurant… good pizza");
-#   * an unmatched v6 mention named from context with no opinion (a reply that
-#     only asks about a place, or names it in passing) is not a false positive.
-#     The owner counts these as mentions; the v1/v2 gold mostly lacks them
-#     (CONVENTIONS.md lists the gold patches that would add them).
+#   * an unmatched v6 mention with no opinion (a question, a landmark, a name in
+#     passing, named in the comment or copied from context) is not a false
+#     positive. The owner counts these as mentions; the v1/v2 gold mostly lacks
+#     them (CONVENTIONS.md lists the gold patches that would add them). They are
+#     counted separately as reference_mentions_unmatched.
+# Opinion-type accuracy also skips closed gold mentions, whose aspects the gold
+# nulls by rule, so "none" there is a labeling convention, not a reading.
 STREET_WORDS = {"avenue": "ave", "street": "st", "road": "rd", "boulevard": "blvd", "place": "pl",
                 "parkway": "pkwy", "square": "sq"}
 NEGATIVE_LEVELS = ("negative", "very_negative")
@@ -208,10 +211,9 @@ def model_negative(m, fixes=True):
     return bool(m.get("is_negated"))
 
 
-def context_reference(m):
-    """A v6 mention named from context with no opinion: a question or aside in a reply."""
-    v = m.get("v6") or {}
-    return v.get("named_in") == "context" and v.get("opinion") == "none"
+def reference_mention(m):
+    """A v6 mention with no opinion: a question, a landmark, a name in passing."""
+    return (m.get("v6") or {}).get("opinion") == "none"
 
 
 def model_value_complaint(m):
@@ -323,8 +325,10 @@ def score_comment(gold, preds, mode, alias, excluded, drop_chains, fixes=True):
     gms = [g for g in gold["mentions"] if not (drop_chains and g["canonical_key"] in CHAINS)]
     required = [g for g in gms if is_required(g)]
     pairs, fps = match(gms, ms, fixes)
-    fps = [m for m in fps if m["_key"] not in excluded
-           and not (fixes and context_reference(m))]
+    fps = [m for m in fps if m["_key"] not in excluded]
+    if fixes:
+        a.c["ref_unmatched"] += sum(1 for m in fps if reference_mention(m))
+        fps = [m for m in fps if not reference_mention(m)]
     rk = f"resolvable_{mode}_mode"
     matched = {id(g): m for g, m, _ in pairs}
 
@@ -436,7 +440,7 @@ def score_comment(gold, preds, mode, alias, excluded, drop_chains, fixes=True):
             a.c["ov_n"] += 1
             a.c["ov_ok5"] += five(gvd) == five(mvd)
             a.c["ov_sign"] += sign(gvd) == sign(mvd)
-        go, mo = gold_opinion(g), model_opinion(m)
+        go, mo = (None if (fixes and g["closed"]) else gold_opinion(g)), model_opinion(m)
         if go is not None and mo is not None:
             a.c[f"op_{go}_n"] += 1
             a.c[f"op_{go}_ok"] += mo == go
@@ -504,6 +508,7 @@ def summarize(a, dish_capable):
     out["opinion_type_acc"] = ratio(c["op_none_ok"] + c["op_stated_ok"], c["op_none_n"] + c["op_stated_n"])
     out["opinion_none_acc"] = ratio(c["op_none_ok"], c["op_none_n"])
     out["opinion_stated_acc"] = ratio(c["op_stated_ok"], c["op_stated_n"])
+    out["reference_mentions_unmatched"] = c["ref_unmatched"]
     out["food_confusion"] = {f"{g}->{m}": n for (g, m), n in sorted(a.food_conf.items())}
     return out
 

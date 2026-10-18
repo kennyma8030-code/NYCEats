@@ -296,3 +296,134 @@ run after the first settles, which the sub-batch sizing already does.
 - **Re-test:** step l, v6 round 2, low effort, a hashed 600 of a's comments
   (it contains the 300-comment low subset). Expected about $0.11 at round
   1's measured low rate; about $0.30 if no request hits the cache.
+
+## Round 2 results: the regressions explained
+
+Step l is v6 round 2, low effort, on a hashed 600 of a's comments: v1
+n = 455, v2 n = 287. It cost $0.1039, or $0.000173 per call, with no
+truncation. The wins are in compare.json. Below, l is round-2 low, k is
+round-1 low and a is round-1 medium, all on l's comments. "Medium" numbers
+are round-1 prompt numbers.
+
+### 1. Experience accuracy did not improve: an effort problem, not a rule problem
+
+Errors on gold-firsthand mentions:
+
+| set | run | gold firsthand → none | gold firsthand → secondhand | accuracy |
+|---|---|---:|---:|---:|
+| v1 | l (r2 low) | 57 | 23 | 0.734 |
+| v1 | k (r1 low) | 62 | 13 | 0.751 |
+| v1 | a (r1 medium) | 26 | 3 | 0.888 |
+| v2 | l (r2 low) | 65 | 25 | 0.774 |
+| v2 | k (r1 low) | 68 | 12 | 0.799 |
+| v2 | a (r1 medium) | 42 | 4 | 0.867 |
+
+The own-voice line barely moved "none": low effort still files picks and
+list items as none. *"You could go wait in line at Via Carota… same with
+l'artusi"*: all three places none. In the East Village list, Sobaya, Pig
+and Khao and Saigon Social are none. It also doubled "secondhand" on
+own-voice praise: *"Great burger too"*, *"Their round pies are excellent
+too"*, *"Cote is quite good"*, *"Their loaded grilled cheese is something
+else"*. Medium reads the same definition correctly.
+
+**Fix:** make firsthand the stated default.
+> "experience: firsthand is the default for any pick, list item or verdict
+> in the commenter's own voice. secondhand only when they credit someone
+> else (heard, a friend, reviews, 'people say'). none only for questions,
+> places they haven't been or plan to try, and bare facts."
+
+### 2. Opinion type fell on v1 (0.849 → 0.723): mostly stated read as endorse
+
+Confusions in l on v1 (gold → model): stated→endorse 40 (14 in k, 7 in
+a), stated→none 7, none→stated 13, none→endorse 1.
+
+- **stated → endorse (40)** is the round-2 regression. Praised items came
+  back as bare endorsements: *"Great burger too"* (gold +2), every item
+  under *"Personal favs:"* (gold +2), *"they'd give a table for 4 for walk
+  ins"* (gold wait +1). Round 2 moved favorites headers and "my
+  favorite"-type praise from very_positive to positive, which is the same
+  overall an endorsement gets. At low effort the model then picks
+  "endorse" for them. This is the prompt, not the scorer: the gold is right
+  that praise is "stated".
+- **stated → none (7)** are positive timing tips the gold scores wait +1:
+  *"if you go around 4/4:40ish there always one or two free tables"*,
+  *"Weekdays 12-2 is the best time to go"*. The new line-tip rule covers
+  only lines (negative), so the model filed easy-access tips as facts.
+- **none → stated (13 on v1, 36 on v2)** is mostly convention, not error:
+
+  | cause | v1 | v2 |
+  |---|---:|---:|
+  | closed places the gold nulls by rule; v6 keeps the remembered verdict (*"Omg!! Our favorite spot forever"*, Lin's Garden) | 5 | 18 |
+  | comparison places the new loser rule now levels; the gold leaves them null (so the gold does disagree with the owner's rule on these, which CONVENTIONS.md's narrow regex undercounted) | 5 | 4 |
+  | other | 4 | 14 |
+
+**Scorer fix, applied:** opinion-type accuracy now skips closed gold
+mentions. v1 opinion-none accuracy goes from 0.696 to 0.795. The
+comparison cases need gold patches, which are listed and not applied.
+
+**Prompt fixes:**
+> "endorse is only a bare name or 'try X' with no word of praise; any praise
+> word, a favorites heading or a remark ('great burger too', 'they seat
+> walk-ins') makes it stated."
+>
+> Rule 8: "'My favorites:' makes each item stated, positive."
+>
+> Rule 1: "easy walk-ins, free tables at 4pm, 'no line on weekdays' are wait
+> positive."
+
+### 3. Precision on v1 fell (0.947 → 0.916)
+
+Unmatched mentions on v1, l against k:
+
+| unmatched mention | l | k |
+|---|---:|---:|
+| context-named, no opinion (already not counted against precision) | 22 | 16 |
+| context-named, stated | 17 | 10 |
+| named in the comment, no opinion | 4 | 0 |
+| named in the comment, endorse | 4 | 3 |
+| context-named, endorse | 3 | 2 |
+| named in the comment, stated | 5 | 5 |
+
+- **Convention, not error:** the no-opinion mentions are what the owner's
+  rule now asks for, and the gold lacks them. **Scorer fix, applied:**
+  every no-opinion mention (named in the comment or from context) is
+  neither a true positive nor a false positive when the gold lacks it. It
+  is reported as `reference_mentions_unmatched` (26 for l on v1, 16 for k).
+  v1 precision is now 0.925 against round 1's 0.947.
+- **Real false positives**, from the "landmarks count" rule reaching past
+  food: *The Intrepid*, *The Cloisters*, *Transit Museum*, *Bloomingdale's*.
+  **Prompt fix:** "a landmark counts only when it is a food or drink place;
+  museums, stores, parks and venues never count."
+- **Context-stated, +7:** nameless replies the model attached to a place
+  from context: *"Damn if it aint delicious though"* → Fedoroffs;
+  *"100%, those breakfasts are insane"* → Cheesecake Factory. Some are
+  real reply-mentions the gold lacks or marks ambiguous (gold-patch
+  candidates). Others are a stretch: *"You need to get a grip…"* → Ceres
+  Pizza. That's mixed and small.
+
+### 4. Value complaints and dish negatives: noise
+
+- **Value complaints, v1:** 8 of 9. The one miss is a missed mention, not
+  a missed complaint: *"$25 for a chicken sandwich was a disappointment,
+  solid house slice though"* (Mama's Too, named only in the title).
+- **Dish negatives, v1:** 7 of 14 (k and a: 8 of 14). The misses:
+  - Dame's fish and chips scored neutral (gold −1);
+  - 02 Hot Stone's sauce and kimchi not listed;
+  - Jacob's "needs snacking/crunching pickles" listed as positive pickles;
+  - the Parisi/Parm cutlet sandwich not listed;
+  - the Mama's Too mention above.
+
+  One dish's difference on n = 14 is noise. v2 is unchanged at 30 of 37.
+
+### A fix round
+
+Applying the prompt fixes above (experience default; endorse vs stated;
+rules 1 and 8; food-only landmarks) and re-running low effort on **the
+same 600 comments** would expect about **$0.10**, at round 2's measured
+$0.000173 per call plus one cache write for the new hash. That pairs it
+with l. On all 1,006 comments it would expect about $0.17. Either fits
+the ~$0.25 available. The 600 has the larger margin and gives a direct
+comparison with l. Each sub-batch's worst-case hold is about $0.0045 a
+request at max_tokens 16k, so with ~$0.29 left it runs as about 10
+sub-batches; max_tokens 8k would halve that (round 2's longest output was
+7,060 tokens).

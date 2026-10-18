@@ -454,7 +454,7 @@ METRICS = ["drop_rate", "mention_recall", "mention_precision", "negative_mention
            # five-level views (score.py): gold's 7 points collapsed to the owner's 5
            "food_5level_acc", "value_5level_acc", "service_5level_acc", "atmosphere_5level_acc",
            "wait_5level_acc", "overall_5level_agree", "overall_sign_agree",
-           "opinion_type_acc", "opinion_none_acc", "opinion_stated_acc"]
+           "opinion_type_acc", "opinion_none_acc", "opinion_stated_acc", "reference_mentions_unmatched"]
 
 
 def run_stats(path, keys):

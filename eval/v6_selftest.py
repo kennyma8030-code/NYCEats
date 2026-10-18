@@ -437,10 +437,12 @@ def main():
     assert S.match([g], mm)[0] and not S.match([g], mm, fixes=False)[0], "street-word fix"
     ref = dict(A.adapt(M("Pepper House", "none", named_in="context", experience="none")), id=2)
     line = {"mentions": [], "comment_id": "x"}
+    landmark = A.adapt(M("Doughnut Plant", "none", experience="none"))      # named in the comment, no opinion
     for mode in ("thread", "comment"):
-        for fixes, fp in ((False, 1), (True, 0)):
-            a = S.score_comment(line, [ref], mode, alias, excluded, False, fixes)
-            assert a.c["fp"] == fp, ("context-reference fix", mode, fixes, a.c["fp"])
+        for fixes, fp in ((False, 2), (True, 0)):
+            a = S.score_comment(line, [ref, landmark], mode, alias, excluded, False, fixes)
+            assert a.c["fp"] == fp, ("reference-mention fix", mode, fixes, a.c["fp"])
+            assert a.c["ref_unmatched"] == (2 if fixes else 0)
 
     # 7. five-level metrics: gold +2 food against very_positive is a miss, +1 against an
     #    endorsement agrees, and a lone +1 food leaves the opinion type undecided
