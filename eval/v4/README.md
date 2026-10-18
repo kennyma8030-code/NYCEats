@@ -17,7 +17,8 @@ new, plus 50 overlapping v1 gold). The other 254 sit in 14 thread chunks in
 thread mode. About 30% of the new comments were drawn at random from real
 traffic and 70% by failure-targeted heuristics. Every item carries its
 stratum, every matching heuristic tag, its inclusion probability and its
-weight. Labeling has not started.
+weight. Both passes are labeled with the **v6 prompt** (see [Round 1's v6
+reference labels](#round-1s-v6-reference-labels)).
 
 ## The workflow
 
@@ -69,6 +70,7 @@ without the snapshot reads the database again.
 | `batches.py` | Writes the blind labeling batches `batches/<pass>/bNNN.txt`, plus `keys/<pass>.json` |
 | `labels.py` | Checks label files and exports them to run and gold format |
 | `compare_v4.py` | Scores model runs against Claude's labels per mode, stratum, tag, split and weight; reports Claude's own ceilings |
+| `label_agreement.py` | Claude's v6 labels against themselves in v6's own fields: duplicates, and same_input vs full_context by group |
 | `next_round.py` | Measures candidate models' failure rates against Claude's labels and draws round 2, 3, ... |
 | `items.jsonl` | Round 1: 250 `comment` items and 14 `thread` items. `items_single.jsonl` and `items_thread.jsonl` hold the same items split for `run.py` |
 | `export_production.py` | Optional, not part of the workflow: exports production's stored output for a round into gitignored `production/`, only once both label passes are complete (see the appendix) |
@@ -383,6 +385,72 @@ Run the two passes with separate labelers.
 
 ---
 
+## Round 1's v6 reference labels
+
+Both passes are labeled with the v6 prompts as frozen at commit `d61c91a`:
+`v6_comment.py` (prompt hash `a15cfb978cce`) for comment packets and
+`v6_thread.py` (`44e1a49c7781`) for thread packets. `labels/manifest.json`
+records the files, hashes and full sha256 of each system prompt; `labels.py`
+notes it if a prompt file has changed since.
+
+**What changed in same_input.** v6 keeps production's comment-mode message,
+so the 250 single packets (and their 25 duplicates) are unchanged, byte for
+byte. v6 draws thread chunks with its own renderer, so the 14 chunk packets
+(and their 2 duplicates) were re-rendered with `v6_thread.render_chunk` from
+`items_thread.thread_rows.jsonl`:
+
+- the same 254 comments in the same 14 chunks, but depth-first, so 37 of them
+  get a different bracket number;
+- 132 explicit `(reply to [n])` markers, and 17 quoted stubs for parents
+  outside the chunk (production drew none);
+- comments cut at 1,500 characters instead of 700 (3 comments are now whole),
+  and the post body at 800 instead of 400 (5 chunks show more of it);
+- 51,078 characters in all, against 45,477.
+
+`packets.py` (default `--renderer v6`) checks every same_input packet against
+the user message `eval/run.py` builds for the v6 prompts, including the id
+map, and refuses to write on any difference. The item set, the holdout split,
+the packet ids, the duplicates and the batch cut are unchanged (they depend
+only on item ids); 16 of the 30 batch files changed. The production-rendered
+batches are kept in `batches/same_input_production/` and
+`keys/same_input_production.json`. Because v6 renumbers a chunk, each pass's
+key carries its own `short_ids`. `full_context` is unchanged.
+
+**How it was labeled.** One fresh Claude Opus subagent per batch, at most
+three at a time, given only the system prompt for the batch's mode, the
+batch file, and the note "You are producing the reference answer; follow the
+instructions exactly; output only the JSON the schema requires". No labeler
+saw items, keys, production output, other batches or any model's output, and
+the two passes and the duplicate twins always went to different labelers.
+Each file was checked with `labels.py check --batch` as it landed. All 60
+batch files passed the strict v6 schema check on the first attempt, so there
+were no re-runs.
+
+**Agreement** (`results/label_agreement.md`, v6 fields, places matched by
+`score.py`'s keys):
+
+| | comments | mention F1 | overall sign | overall exact | negative F1 | differ |
+|---|---:|---:|---:|---:|---:|---:|
+| self-consistency, same_input | 71 | 0.965 | 1.00 | 0.92 | 1.00 | 9.9% |
+| self-consistency, full_context | 71 | 0.976 | 1.00 | 0.98 | 1.00 | 7.0% |
+| same_input vs full_context | 504 | 0.975 | 0.996 | 0.95 | 0.968 | 9.5% |
+
+"differ" is a comment whose places, overall sign, overall presence or
+negative status differ. The context the inputs lack shows most in
+`deep_chain_context_gap` (29% of comments differ, mention F1 0.83: the place
+is named two levels up), `dish_complaint` and `neg_wording_nonneg_score`
+(29%), and the v1 overlap items (18%). Thread chunks differ least (6%): v6's
+parent markers and stubs carry most of what the full thread adds.
+
+Against v1's hand gold on the 50 overlap items (`compare_v4.py`, through the
+adapter), the full_context labels have mention recall 1.0, precision 0.96,
+negative recall 1.0, sign accuracy 1.0 and food within one level 1.0. The two
+value-complaint misses are v6 by design: "80% normal bagel size" is a
+portion note (the design's own c0155 case), and "def not worth it" with no
+money word went to overall rather than value.
+
+---
+
 ## Scoring
 
 ```bash
@@ -391,13 +459,18 @@ python eval/v4/labels.py check  --pass full_context
 python eval/v4/labels.py export --pass full_context          # -> labels/full_context.run.jsonl + .gold.jsonl
 python eval/v4/labels.py export --pass same_input
 
-# 2. candidate models on the exact production inputs, mode-matched (OPENROUTER_API_KEY)
-python eval/run.py --model x/y --mode comment --items eval/v4/items_single.jsonl --tag v4 --prompt file:<prompt>
-python eval/run.py --model x/y --mode thread  --items eval/v4/items_thread.jsonl --tag v4 --prompt file:<prompt>
+# 2. candidate models on the v6 inputs, mode-matched (OPENROUTER_API_KEY). Comment mode
+#    sends production's stored message; thread mode re-renders each chunk with
+#    v6_thread.render_chunk from items_thread.thread_rows.jsonl, which is exactly what the
+#    same_input labels saw (packets.py checks this). Add --schema where the provider supports it.
+python eval/run.py --model x/y --mode comment --items eval/v4/items_single.jsonl --tag v4 --prompt file:eval/prompts/v6_comment.py
+python eval/run.py --model x/y --mode thread  --items eval/v4/items_thread.jsonl --tag v4 --prompt file:eval/prompts/v6_thread.py
 
 # 3. compare every eval/runs/*__v4*.jsonl to Claude's labels
 python eval/v4/compare_v4.py --ref full_context    # gold reference
 python eval/v4/compare_v4.py --ref same_input      # same-input reference
+python eval/v4/compare_v4.py --ref same_input --fixes   # also count a negative v6 overall as a negative, both sides
+python eval/v4/label_agreement.py                  # Claude vs itself in v6's own fields
 python eval/v4/selftest.py                         # tooling regression checks (no data needed)
 ```
 

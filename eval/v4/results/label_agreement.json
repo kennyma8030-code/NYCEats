@@ -1,0 +1,3633 @@
+{
+ "self_consistency:same_input": {
+  "all": {
+   "comments": 71,
+   "comment_presence_agreement": 0.915,
+   "comments_same_places": 0.915,
+   "comments_materially_different": 0.099,
+   "mentions": [
+    83,
+    87
+   ],
+   "mention_agreement_f1": 0.965,
+   "matched": 82,
+   "overall_presence_agreement": 0.988,
+   "overall_sign_agreement": 1.0,
+   "overall_exact_agreement": 0.917,
+   "negative_agreement_f1": 1.0,
+   "negatives": [
+    15,
+    15
+   ],
+   "taste": {
+    "presence": 0.976,
+    "set_either": 12,
+    "both_set_of_either": 0.833,
+    "sign": 1.0,
+    "exact": 0.9
+   },
+   "value": {
+    "presence": 0.963,
+    "set_either": 12,
+    "both_set_of_either": 0.75,
+    "sign": 1.0,
+    "exact": 1.0
+   },
+   "service": {
+    "presence": 0.988,
+    "set_either": 14,
+    "both_set_of_either": 0.929,
+    "sign": 1.0,
+    "exact": 1.0
+   },
+   "atmosphere": {
+    "presence": 1.0,
+    "set_either": 0,
+    "both_set_of_either": null,
+    "sign": null,
+    "exact": null
+   },
+   "wait": {
+    "presence": 1.0,
+    "set_either": 0,
+    "both_set_of_either": null,
+    "sign": null,
+    "exact": null
+   },
+   "opinion_agreement": 0.988,
+   "experience_agreement": 0.988,
+   "avoid_agreement": 1.0,
+   "named_in_agreement": 1.0,
+   "timeframe_agreement": 0.988,
+   "status_agreement": 1.0,
+   "trend_agreement": 1.0
+  }
+ },
+ "self_consistency:full_context": {
+  "all": {
+   "comments": 71,
+   "comment_presence_agreement": 0.958,
+   "comments_same_places": 0.944,
+   "comments_materially_different": 0.07,
+   "mentions": [
+    85,
+    83
+   ],
+   "mention_agreement_f1": 0.976,
+   "matched": 82,
+   "overall_presence_agreement": 0.988,
+   "overall_sign_agreement": 1.0,
+   "overall_exact_agreement": 0.979,
+   "negative_agreement_f1": 1.0,
+   "negatives": [
+    14,
+    14
+   ],
+   "taste": {
+    "presence": 0.988,
+    "set_either": 11,
+    "both_set_of_either": 0.909,
+    "sign": 1.0,
+    "exact": 0.9
+   },
+   "value": {
+    "presence": 1.0,
+    "set_either": 11,
+    "both_set_of_either": 1.0,
+    "sign": 1.0,
+    "exact": 0.909
+   },
+   "service": {
+    "presence": 0.976,
+    "set_either": 14,
+    "both_set_of_either": 0.857,
+    "sign": 1.0,
+    "exact": 1.0
+   },
+   "atmosphere": {
+    "presence": 1.0,
+    "set_either": 0,
+    "both_set_of_either": null,
+    "sign": null,
+    "exact": null
+   },
+   "wait": {
+    "presence": 0.988,
+    "set_either": 1,
+    "both_set_of_either": 0.0,
+    "sign": null,
+    "exact": null
+   },
+   "opinion_agreement": 0.963,
+   "experience_agreement": 0.878,
+   "avoid_agreement": 0.988,
+   "named_in_agreement": 1.0,
+   "timeframe_agreement": 1.0,
+   "status_agreement": 1.0,
+   "trend_agreement": 1.0
+  }
+ },
+ "same_input_vs_full": {
+  "all": {
+   "comments": 504,
+   "comment_presence_agreement": 0.966,
+   "comments_same_places": 0.952,
+   "comments_materially_different": 0.095,
+   "mentions": [
+    657,
+    649
+   ],
+   "mention_agreement_f1": 0.975,
+   "matched": 637,
+   "overall_presence_agreement": 0.972,
+   "overall_sign_agreement": 0.996,
+   "overall_exact_agreement": 0.949,
+   "negative_agreement_f1": 0.968,
+   "negatives": [
+    123,
+    125
+   ],
+   "taste": {
+    "presence": 0.961,
+    "set_either": 159,
+    "both_set_of_either": 0.843,
+    "sign": 0.97,
+    "exact": 0.94
+   },
+   "value": {
+    "presence": 0.986,
+    "set_either": 39,
+    "both_set_of_either": 0.769,
+    "sign": 1.0,
+    "exact": 0.9
+   },
+   "service": {
+    "presence": 0.989,
+    "set_either": 32,
+    "both_set_of_either": 0.781,
+    "sign": 1.0,
+    "exact": 0.88
+   },
+   "atmosphere": {
+    "presence": 0.995,
+    "set_either": 22,
+    "both_set_of_either": 0.864,
+    "sign": 1.0,
+    "exact": 1.0
+   },
+   "wait": {
+    "presence": 0.995,
+    "set_either": 25,
+    "both_set_of_either": 0.88,
+    "sign": 1.0,
+    "exact": 0.955
+   },
+   "opinion_agreement": 0.962,
+   "experience_agreement": 0.984,
+   "avoid_agreement": 0.994,
+   "named_in_agreement": 0.994,
+   "timeframe_agreement": 0.997,
+   "status_agreement": 0.998,
+   "trend_agreement": 1.0
+  },
+  "groups": {
+   "depth:reply": {
+    "comments": 140,
+    "comment_presence_agreement": 0.979,
+    "comments_same_places": 0.971,
+    "comments_materially_different": 0.071,
+    "mentions": [
+     115,
+     115
+    ],
+    "mention_agreement_f1": 0.983,
+    "matched": 113,
+    "overall_presence_agreement": 0.956,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.925,
+    "negative_agreement_f1": 0.971,
+    "negatives": [
+     35,
+     35
+    ],
+    "taste": {
+     "presence": 0.947,
+     "set_either": 35,
+     "both_set_of_either": 0.829,
+     "sign": 0.931,
+     "exact": 0.897
+    },
+    "value": {
+     "presence": 0.973,
+     "set_either": 8,
+     "both_set_of_either": 0.625,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.973,
+     "set_either": 13,
+     "both_set_of_either": 0.769,
+     "sign": 1.0,
+     "exact": 0.9
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 4,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 5,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.938,
+    "experience_agreement": 0.973,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 0.991,
+    "timeframe_agreement": 0.991,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "depth:reply 2+": {
+    "comments": 138,
+    "comment_presence_agreement": 0.913,
+    "comments_same_places": 0.891,
+    "comments_materially_different": 0.138,
+    "mentions": [
+     112,
+     105
+    ],
+    "mention_agreement_f1": 0.903,
+    "matched": 98,
+    "overall_presence_agreement": 0.969,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.925,
+    "negative_agreement_f1": 0.945,
+    "negatives": [
+     27,
+     28
+    ],
+    "taste": {
+     "presence": 0.959,
+     "set_either": 16,
+     "both_set_of_either": 0.75,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 0.969,
+     "set_either": 7,
+     "both_set_of_either": 0.571,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.98,
+     "set_either": 9,
+     "both_set_of_either": 0.778,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 0.99,
+     "set_either": 4,
+     "both_set_of_either": 0.75,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 0.99,
+     "set_either": 5,
+     "both_set_of_either": 0.8,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.918,
+    "experience_agreement": 0.959,
+    "avoid_agreement": 0.99,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 0.99,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "depth:top-level": {
+    "comments": 226,
+    "comment_presence_agreement": 0.991,
+    "comments_same_places": 0.978,
+    "comments_materially_different": 0.084,
+    "mentions": [
+     430,
+     429
+    ],
+    "mention_agreement_f1": 0.992,
+    "matched": 426,
+    "overall_presence_agreement": 0.977,
+    "overall_sign_agreement": 0.995,
+    "overall_exact_agreement": 0.956,
+    "negative_agreement_f1": 0.976,
+    "negatives": [
+     61,
+     62
+    ],
+    "taste": {
+     "presence": 0.965,
+     "set_either": 108,
+     "both_set_of_either": 0.861,
+     "sign": 0.978,
+     "exact": 0.946
+    },
+    "value": {
+     "presence": 0.993,
+     "set_either": 24,
+     "both_set_of_either": 0.875,
+     "sign": 1.0,
+     "exact": 0.857
+    },
+    "service": {
+     "presence": 0.995,
+     "set_either": 10,
+     "both_set_of_either": 0.8,
+     "sign": 1.0,
+     "exact": 0.75
+    },
+    "atmosphere": {
+     "presence": 0.995,
+     "set_either": 14,
+     "both_set_of_either": 0.857,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 0.995,
+     "set_either": 15,
+     "both_set_of_either": 0.867,
+     "sign": 1.0,
+     "exact": 0.923
+    },
+    "opinion_agreement": 0.979,
+    "experience_agreement": 0.993,
+    "avoid_agreement": 0.993,
+    "named_in_agreement": 0.993,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 0.998,
+    "trend_agreement": 1.0
+   },
+   "draw:overlap_v1": {
+    "comments": 50,
+    "comment_presence_agreement": 0.92,
+    "comments_same_places": 0.86,
+    "comments_materially_different": 0.18,
+    "mentions": [
+     58,
+     59
+    ],
+    "mention_agreement_f1": 0.906,
+    "matched": 53,
+    "overall_presence_agreement": 0.962,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.977,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     8,
+     8
+    ],
+    "taste": {
+     "presence": 0.981,
+     "set_either": 6,
+     "both_set_of_either": 0.833,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 0.981,
+     "set_either": 1,
+     "both_set_of_either": 0.0,
+     "sign": null,
+     "exact": null
+    },
+    "service": {
+     "presence": 0.981,
+     "set_either": 3,
+     "both_set_of_either": 0.667,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.943,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 0.981,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "draw:random": {
+    "comments": 145,
+    "comment_presence_agreement": 0.972,
+    "comments_same_places": 0.959,
+    "comments_materially_different": 0.076,
+    "mentions": [
+     188,
+     185
+    ],
+    "mention_agreement_f1": 0.981,
+    "matched": 183,
+    "overall_presence_agreement": 0.984,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.947,
+    "negative_agreement_f1": 0.933,
+    "negatives": [
+     22,
+     23
+    ],
+    "taste": {
+     "presence": 0.956,
+     "set_either": 33,
+     "both_set_of_either": 0.758,
+     "sign": 1.0,
+     "exact": 0.92
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.995,
+     "set_either": 5,
+     "both_set_of_either": 0.8,
+     "sign": 1.0,
+     "exact": 0.75
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 5,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 0.989,
+     "set_either": 10,
+     "both_set_of_either": 0.8,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.956,
+    "experience_agreement": 0.978,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 0.995,
+    "timeframe_agreement": 0.989,
+    "status_agreement": 0.995,
+    "trend_agreement": 1.0
+   },
+   "draw:targeted": {
+    "comments": 309,
+    "comment_presence_agreement": 0.971,
+    "comments_same_places": 0.964,
+    "comments_materially_different": 0.091,
+    "mentions": [
+     411,
+     405
+    ],
+    "mention_agreement_f1": 0.983,
+    "matched": 401,
+    "overall_presence_agreement": 0.968,
+    "overall_sign_agreement": 0.993,
+    "overall_exact_agreement": 0.945,
+    "negative_agreement_f1": 0.973,
+    "negatives": [
+     93,
+     94
+    ],
+    "taste": {
+     "presence": 0.96,
+     "set_either": 120,
+     "both_set_of_either": 0.867,
+     "sign": 0.962,
+     "exact": 0.942
+    },
+    "value": {
+     "presence": 0.98,
+     "set_either": 37,
+     "both_set_of_either": 0.784,
+     "sign": 1.0,
+     "exact": 0.897
+    },
+    "service": {
+     "presence": 0.988,
+     "set_either": 24,
+     "both_set_of_either": 0.792,
+     "sign": 1.0,
+     "exact": 0.895
+    },
+    "atmosphere": {
+     "presence": 0.993,
+     "set_either": 17,
+     "both_set_of_either": 0.824,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 0.998,
+     "set_either": 14,
+     "both_set_of_either": 0.929,
+     "sign": 1.0,
+     "exact": 0.923
+    },
+    "opinion_agreement": 0.968,
+    "experience_agreement": 0.985,
+    "avoid_agreement": 0.993,
+    "named_in_agreement": 0.993,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "mode:comment": {
+    "comments": 250,
+    "comment_presence_agreement": 0.948,
+    "comments_same_places": 0.924,
+    "comments_materially_different": 0.128,
+    "mentions": [
+     394,
+     389
+    ],
+    "mention_agreement_f1": 0.966,
+    "matched": 378,
+    "overall_presence_agreement": 0.979,
+    "overall_sign_agreement": 0.994,
+    "overall_exact_agreement": 0.955,
+    "negative_agreement_f1": 0.973,
+    "negatives": [
+     73,
+     75
+    ],
+    "taste": {
+     "presence": 0.968,
+     "set_either": 81,
+     "both_set_of_either": 0.852,
+     "sign": 0.971,
+     "exact": 0.957
+    },
+    "value": {
+     "presence": 0.989,
+     "set_either": 26,
+     "both_set_of_either": 0.846,
+     "sign": 1.0,
+     "exact": 0.864
+    },
+    "service": {
+     "presence": 0.992,
+     "set_either": 18,
+     "both_set_of_either": 0.833,
+     "sign": 1.0,
+     "exact": 0.8
+    },
+    "atmosphere": {
+     "presence": 0.992,
+     "set_either": 17,
+     "both_set_of_either": 0.824,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 0.997,
+     "set_either": 13,
+     "both_set_of_either": 0.923,
+     "sign": 1.0,
+     "exact": 0.917
+    },
+    "opinion_agreement": 0.968,
+    "experience_agreement": 0.987,
+    "avoid_agreement": 0.989,
+    "named_in_agreement": 0.992,
+    "timeframe_agreement": 0.995,
+    "status_agreement": 0.997,
+    "trend_agreement": 1.0
+   },
+   "mode:thread": {
+    "comments": 254,
+    "comment_presence_agreement": 0.984,
+    "comments_same_places": 0.98,
+    "comments_materially_different": 0.063,
+    "mentions": [
+     263,
+     260
+    ],
+    "mention_agreement_f1": 0.99,
+    "matched": 259,
+    "overall_presence_agreement": 0.961,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.937,
+    "negative_agreement_f1": 0.96,
+    "negatives": [
+     50,
+     50
+    ],
+    "taste": {
+     "presence": 0.95,
+     "set_either": 78,
+     "both_set_of_either": 0.833,
+     "sign": 0.969,
+     "exact": 0.923
+    },
+    "value": {
+     "presence": 0.981,
+     "set_either": 13,
+     "both_set_of_either": 0.615,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.985,
+     "set_either": 14,
+     "both_set_of_either": 0.714,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 5,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 0.992,
+     "set_either": 12,
+     "both_set_of_either": 0.833,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.954,
+    "experience_agreement": 0.981,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 0.996,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:avoid_or_strong_negative": {
+    "comments": 12,
+    "comment_presence_agreement": 1.0,
+    "comments_same_places": 1.0,
+    "comments_materially_different": 0.167,
+    "mentions": [
+     36,
+     36
+    ],
+    "mention_agreement_f1": 1.0,
+    "matched": 36,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.969,
+    "negative_agreement_f1": 0.917,
+    "negatives": [
+     11,
+     13
+    ],
+    "taste": {
+     "presence": 0.944,
+     "set_either": 8,
+     "both_set_of_either": 0.75,
+     "sign": 0.833,
+     "exact": 0.833
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 4,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 0.972,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:chunk_failure_dense": {
+    "comments": 40,
+    "comment_presence_agreement": 0.95,
+    "comments_same_places": 0.95,
+    "comments_materially_different": 0.05,
+    "mentions": [
+     66,
+     64
+    ],
+    "mention_agreement_f1": 0.985,
+    "matched": 64,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.915,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     2,
+     2
+    ],
+    "taste": {
+     "presence": 0.984,
+     "set_either": 8,
+     "both_set_of_either": 0.875,
+     "sign": 1.0,
+     "exact": 0.857
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 0.953,
+    "experience_agreement": 0.984,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:chunk_misattached": {
+    "comments": 75,
+    "comment_presence_agreement": 0.987,
+    "comments_same_places": 0.973,
+    "comments_materially_different": 0.04,
+    "mentions": [
+     34,
+     34
+    ],
+    "mention_agreement_f1": 0.971,
+    "matched": 33,
+    "overall_presence_agreement": 0.939,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.895,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     15,
+     15
+    ],
+    "taste": {
+     "presence": 0.97,
+     "set_either": 16,
+     "both_set_of_either": 0.938,
+     "sign": 0.867,
+     "exact": 0.8
+    },
+    "value": {
+     "presence": 0.939,
+     "set_either": 5,
+     "both_set_of_either": 0.6,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.939,
+     "set_either": 11,
+     "both_set_of_either": 0.818,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 0.97,
+     "set_either": 1,
+     "both_set_of_either": 0.0,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 0.939,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:chunk_parent_outside": {
+    "comments": 43,
+    "comment_presence_agreement": 1.0,
+    "comments_same_places": 1.0,
+    "comments_materially_different": 0.047,
+    "mentions": [
+     46,
+     46
+    ],
+    "mention_agreement_f1": 1.0,
+    "matched": 46,
+    "overall_presence_agreement": 0.957,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 1.0,
+    "negative_agreement_f1": 0.973,
+    "negatives": [
+     18,
+     19
+    ],
+    "taste": {
+     "presence": 0.913,
+     "set_either": 25,
+     "both_set_of_either": 0.84,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 3,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 5,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:chunk_title_names_place": {
+    "comments": 36,
+    "comment_presence_agreement": 1.0,
+    "comments_same_places": 1.0,
+    "comments_materially_different": 0.111,
+    "mentions": [
+     41,
+     41
+    ],
+    "mention_agreement_f1": 1.0,
+    "matched": 41,
+    "overall_presence_agreement": 0.902,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.842,
+    "negative_agreement_f1": 0.667,
+    "negatives": [
+     2,
+     1
+    ],
+    "taste": {
+     "presence": 0.951,
+     "set_either": 14,
+     "both_set_of_either": 0.857,
+     "sign": 1.0,
+     "exact": 0.917
+    },
+    "value": {
+     "presence": 0.927,
+     "set_either": 4,
+     "both_set_of_either": 0.25,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.976,
+     "set_either": 1,
+     "both_set_of_either": 0.0,
+     "sign": null,
+     "exact": null
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 0.902,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:deep_chain_context_gap": {
+    "comments": 17,
+    "comment_presence_agreement": 0.765,
+    "comments_same_places": 0.765,
+    "comments_materially_different": 0.294,
+    "mentions": [
+     14,
+     10
+    ],
+    "mention_agreement_f1": 0.833,
+    "matched": 10,
+    "overall_presence_agreement": 0.9,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.667,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     2,
+     2
+    ],
+    "taste": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 0.9,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:dish_complaint": {
+    "comments": 14,
+    "comment_presence_agreement": 0.929,
+    "comments_same_places": 0.929,
+    "comments_materially_different": 0.286,
+    "mentions": [
+     28,
+     27
+    ],
+    "mention_agreement_f1": 0.982,
+    "matched": 27,
+    "overall_presence_agreement": 0.926,
+    "overall_sign_agreement": 0.955,
+    "overall_exact_agreement": 0.864,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     15,
+     15
+    ],
+    "taste": {
+     "presence": 0.889,
+     "set_either": 15,
+     "both_set_of_either": 0.8,
+     "sign": 0.917,
+     "exact": 0.917
+    },
+    "value": {
+     "presence": 0.926,
+     "set_either": 5,
+     "both_set_of_either": 0.6,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 0.5
+    },
+    "atmosphere": {
+     "presence": 0.926,
+     "set_either": 5,
+     "both_set_of_either": 0.6,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 0.963,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:long_list": {
+    "comments": 10,
+    "comment_presence_agreement": 1.0,
+    "comments_same_places": 0.9,
+    "comments_materially_different": 0.1,
+    "mentions": [
+     60,
+     61
+    ],
+    "mention_agreement_f1": 0.992,
+    "matched": 60,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 1.0,
+    "negative_agreement_f1": null,
+    "negatives": [
+     0,
+     0
+    ],
+    "taste": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:neg_wording_nonneg_score": {
+    "comments": 14,
+    "comment_presence_agreement": 0.929,
+    "comments_same_places": 0.929,
+    "comments_materially_different": 0.286,
+    "mentions": [
+     25,
+     23
+    ],
+    "mention_agreement_f1": 0.958,
+    "matched": 23,
+    "overall_presence_agreement": 0.957,
+    "overall_sign_agreement": 0.944,
+    "overall_exact_agreement": 0.944,
+    "negative_agreement_f1": 0.923,
+    "negatives": [
+     7,
+     6
+    ],
+    "taste": {
+     "presence": 1.0,
+     "set_either": 9,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "service": {
+     "presence": 0.957,
+     "set_either": 2,
+     "both_set_of_either": 0.5,
+     "sign": 1.0,
+     "exact": 0.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.957,
+    "experience_agreement": 0.957,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:none": {
+    "comments": 104,
+    "comment_presence_agreement": 0.99,
+    "comments_same_places": 0.99,
+    "comments_materially_different": 0.058,
+    "mentions": [
+     136,
+     135
+    ],
+    "mention_agreement_f1": 0.996,
+    "matched": 135,
+    "overall_presence_agreement": 0.978,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.935,
+    "negative_agreement_f1": 0.914,
+    "negatives": [
+     17,
+     18
+    ],
+    "taste": {
+     "presence": 0.948,
+     "set_either": 29,
+     "both_set_of_either": 0.759,
+     "sign": 1.0,
+     "exact": 0.955
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.993,
+     "set_either": 4,
+     "both_set_of_either": 0.75,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 5,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 0.985,
+     "set_either": 9,
+     "both_set_of_either": 0.778,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.948,
+    "experience_agreement": 0.978,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 0.993,
+    "timeframe_agreement": 0.985,
+    "status_agreement": 0.993,
+    "trend_agreement": 1.0
+   },
+   "stratum:overlap_v1": {
+    "comments": 50,
+    "comment_presence_agreement": 0.92,
+    "comments_same_places": 0.86,
+    "comments_materially_different": 0.18,
+    "mentions": [
+     58,
+     59
+    ],
+    "mention_agreement_f1": 0.906,
+    "matched": 53,
+    "overall_presence_agreement": 0.962,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.977,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     8,
+     8
+    ],
+    "taste": {
+     "presence": 0.981,
+     "set_either": 6,
+     "both_set_of_either": 0.833,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 0.981,
+     "set_either": 1,
+     "both_set_of_either": 0.0,
+     "sign": null,
+     "exact": null
+    },
+    "service": {
+     "presence": 0.981,
+     "set_either": 3,
+     "both_set_of_either": 0.667,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.943,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 0.981,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:price_complaint": {
+    "comments": 14,
+    "comment_presence_agreement": 1.0,
+    "comments_same_places": 0.929,
+    "comments_materially_different": 0.071,
+    "mentions": [
+     20,
+     20
+    ],
+    "mention_agreement_f1": 0.95,
+    "matched": 19,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 1.0,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     8,
+     8
+    ],
+    "taste": {
+     "presence": 1.0,
+     "set_either": 8,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 0.947,
+     "set_either": 13,
+     "both_set_of_either": 0.923,
+     "sign": 1.0,
+     "exact": 0.75
+    },
+    "service": {
+     "presence": 0.947,
+     "set_either": 2,
+     "both_set_of_either": 0.5,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 0.947,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:question_or_unvisited": {
+    "comments": 14,
+    "comment_presence_agreement": 0.929,
+    "comments_same_places": 0.929,
+    "comments_materially_different": 0.071,
+    "mentions": [
+     24,
+     23
+    ],
+    "mention_agreement_f1": 0.979,
+    "matched": 23,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.929,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     8,
+     8
+    ],
+    "taste": {
+     "presence": 0.826,
+     "set_either": 7,
+     "both_set_of_either": 0.429,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 3,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 0.667
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 0.913,
+    "avoid_agreement": 0.87,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:reply_ancestor_named": {
+    "comments": 24,
+    "comment_presence_agreement": 0.958,
+    "comments_same_places": 0.917,
+    "comments_materially_different": 0.083,
+    "mentions": [
+     23,
+     22
+    ],
+    "mention_agreement_f1": 0.933,
+    "matched": 21,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 1.0,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     3,
+     3
+    ],
+    "taste": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 4,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 0.75
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 0.81,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:short_opinion_reply": {
+    "comments": 14,
+    "comment_presence_agreement": 0.929,
+    "comments_same_places": 0.929,
+    "comments_materially_different": 0.071,
+    "mentions": [
+     9,
+     11
+    ],
+    "mention_agreement_f1": 0.9,
+    "matched": 9,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 1.0,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     3,
+     3
+    ],
+    "taste": {
+     "presence": 1.0,
+     "set_either": 3,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:stuck_default_with_opinion": {
+    "comments": 13,
+    "comment_presence_agreement": 1.0,
+    "comments_same_places": 1.0,
+    "comments_materially_different": 0.077,
+    "mentions": [
+     35,
+     35
+    ],
+    "mention_agreement_f1": 1.0,
+    "matched": 35,
+    "overall_presence_agreement": 0.971,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.969,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     4,
+     4
+    ],
+    "taste": {
+     "presence": 1.0,
+     "set_either": 8,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 0.943,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "stratum:zero_mentions_suspicious": {
+    "comments": 10,
+    "comment_presence_agreement": 1.0,
+    "comments_same_places": 1.0,
+    "comments_materially_different": 0.0,
+    "mentions": [
+     2,
+     2
+    ],
+    "mention_agreement_f1": 1.0,
+    "matched": 2,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 1.0,
+    "negative_agreement_f1": null,
+    "negatives": [
+     0,
+     0
+    ],
+    "taste": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "atmosphere": {
+     "presence": 0.5,
+     "set_either": 1,
+     "both_set_of_either": 0.0,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:avoid_or_strong_negative": {
+    "comments": 38,
+    "comment_presence_agreement": 1.0,
+    "comments_same_places": 1.0,
+    "comments_materially_different": 0.105,
+    "mentions": [
+     75,
+     75
+    ],
+    "mention_agreement_f1": 1.0,
+    "matched": 75,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 0.985,
+    "overall_exact_agreement": 0.908,
+    "negative_agreement_f1": 0.949,
+    "negatives": [
+     29,
+     30
+    ],
+    "taste": {
+     "presence": 0.947,
+     "set_either": 15,
+     "both_set_of_either": 0.733,
+     "sign": 0.818,
+     "exact": 0.818
+    },
+    "value": {
+     "presence": 0.987,
+     "set_either": 6,
+     "both_set_of_either": 0.833,
+     "sign": 1.0,
+     "exact": 0.6
+    },
+    "service": {
+     "presence": 0.987,
+     "set_either": 4,
+     "both_set_of_either": 0.75,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 4,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 3,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.947,
+    "experience_agreement": 0.987,
+    "avoid_agreement": 0.987,
+    "named_in_agreement": 0.973,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:chunk_failure_dense": {
+    "comments": 65,
+    "comment_presence_agreement": 0.969,
+    "comments_same_places": 0.969,
+    "comments_materially_different": 0.046,
+    "mentions": [
+     99,
+     97
+    ],
+    "mention_agreement_f1": 0.99,
+    "matched": 97,
+    "overall_presence_agreement": 0.99,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.942,
+    "negative_agreement_f1": 0.974,
+    "negatives": [
+     19,
+     20
+    ],
+    "taste": {
+     "presence": 0.959,
+     "set_either": 23,
+     "both_set_of_either": 0.826,
+     "sign": 1.0,
+     "exact": 0.947
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 3,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 5,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.969,
+    "experience_agreement": 0.99,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:chunk_later": {
+    "comments": 75,
+    "comment_presence_agreement": 0.987,
+    "comments_same_places": 0.973,
+    "comments_materially_different": 0.04,
+    "mentions": [
+     55,
+     55
+    ],
+    "mention_agreement_f1": 0.982,
+    "matched": 54,
+    "overall_presence_agreement": 0.963,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 1.0,
+    "negative_agreement_f1": 0.984,
+    "negatives": [
+     30,
+     31
+    ],
+    "taste": {
+     "presence": 0.926,
+     "set_either": 19,
+     "both_set_of_either": 0.789,
+     "sign": 1.0,
+     "exact": 0.933
+    },
+    "value": {
+     "presence": 0.963,
+     "set_either": 7,
+     "both_set_of_either": 0.714,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.963,
+     "set_either": 11,
+     "both_set_of_either": 0.818,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 0.981,
+     "set_either": 6,
+     "both_set_of_either": 0.833,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 0.981,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:chunk_misattached": {
+    "comments": 75,
+    "comment_presence_agreement": 0.987,
+    "comments_same_places": 0.973,
+    "comments_materially_different": 0.04,
+    "mentions": [
+     34,
+     34
+    ],
+    "mention_agreement_f1": 0.971,
+    "matched": 33,
+    "overall_presence_agreement": 0.939,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.895,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     15,
+     15
+    ],
+    "taste": {
+     "presence": 0.97,
+     "set_either": 16,
+     "both_set_of_either": 0.938,
+     "sign": 0.867,
+     "exact": 0.8
+    },
+    "value": {
+     "presence": 0.939,
+     "set_either": 5,
+     "both_set_of_either": 0.6,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.939,
+     "set_either": 11,
+     "both_set_of_either": 0.818,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 0.97,
+     "set_either": 1,
+     "both_set_of_either": 0.0,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 0.939,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:chunk_never_extracted": {
+    "comments": 125,
+    "comment_presence_agreement": 1.0,
+    "comments_same_places": 1.0,
+    "comments_materially_different": 0.08,
+    "mentions": [
+     140,
+     140
+    ],
+    "mention_agreement_f1": 1.0,
+    "matched": 140,
+    "overall_presence_agreement": 0.943,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.921,
+    "negative_agreement_f1": 0.938,
+    "negatives": [
+     32,
+     32
+    ],
+    "taste": {
+     "presence": 0.943,
+     "set_either": 50,
+     "both_set_of_either": 0.84,
+     "sign": 0.952,
+     "exact": 0.929
+    },
+    "value": {
+     "presence": 0.979,
+     "set_either": 6,
+     "both_set_of_either": 0.5,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.986,
+     "set_either": 2,
+     "both_set_of_either": 0.0,
+     "sign": null,
+     "exact": null
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 3,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 0.993,
+     "set_either": 11,
+     "both_set_of_either": 0.909,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.943,
+    "experience_agreement": 0.979,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 0.993,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:chunk_parent_outside": {
+    "comments": 93,
+    "comment_presence_agreement": 0.989,
+    "comments_same_places": 0.978,
+    "comments_materially_different": 0.043,
+    "mentions": [
+     68,
+     68
+    ],
+    "mention_agreement_f1": 0.985,
+    "matched": 67,
+    "overall_presence_agreement": 0.955,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 1.0,
+    "negative_agreement_f1": 0.984,
+    "negatives": [
+     31,
+     32
+    ],
+    "taste": {
+     "presence": 0.925,
+     "set_either": 29,
+     "both_set_of_either": 0.828,
+     "sign": 1.0,
+     "exact": 0.958
+    },
+    "value": {
+     "presence": 0.97,
+     "set_either": 8,
+     "both_set_of_either": 0.75,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.97,
+     "set_either": 11,
+     "both_set_of_either": 0.818,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 0.985,
+     "set_either": 6,
+     "both_set_of_either": 0.833,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 0.985,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:chunk_title_names_place": {
+    "comments": 61,
+    "comment_presence_agreement": 0.984,
+    "comments_same_places": 0.967,
+    "comments_materially_different": 0.098,
+    "mentions": [
+     57,
+     57
+    ],
+    "mention_agreement_f1": 0.982,
+    "matched": 56,
+    "overall_presence_agreement": 0.911,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.87,
+    "negative_agreement_f1": 0.957,
+    "negatives": [
+     12,
+     11
+    ],
+    "taste": {
+     "presence": 0.964,
+     "set_either": 16,
+     "both_set_of_either": 0.875,
+     "sign": 1.0,
+     "exact": 0.929
+    },
+    "value": {
+     "presence": 0.911,
+     "set_either": 9,
+     "both_set_of_either": 0.444,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.946,
+     "set_either": 12,
+     "both_set_of_either": 0.75,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 0.982,
+     "set_either": 1,
+     "both_set_of_either": 0.0,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 0.929,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:deep_chain_context_gap": {
+    "comments": 32,
+    "comment_presence_agreement": 0.812,
+    "comments_same_places": 0.812,
+    "comments_materially_different": 0.219,
+    "mentions": [
+     23,
+     17
+    ],
+    "mention_agreement_f1": 0.85,
+    "matched": 17,
+    "overall_presence_agreement": 0.941,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.875,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     5,
+     5
+    ],
+    "taste": {
+     "presence": 0.882,
+     "set_either": 5,
+     "both_set_of_either": 0.6,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 0.941,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:dish_complaint": {
+    "comments": 16,
+    "comment_presence_agreement": 0.938,
+    "comments_same_places": 0.938,
+    "comments_materially_different": 0.25,
+    "mentions": [
+     32,
+     31
+    ],
+    "mention_agreement_f1": 0.984,
+    "matched": 31,
+    "overall_presence_agreement": 0.935,
+    "overall_sign_agreement": 0.962,
+    "overall_exact_agreement": 0.885,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     17,
+     17
+    ],
+    "taste": {
+     "presence": 0.903,
+     "set_either": 19,
+     "both_set_of_either": 0.842,
+     "sign": 0.938,
+     "exact": 0.938
+    },
+    "value": {
+     "presence": 0.935,
+     "set_either": 7,
+     "both_set_of_either": 0.714,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 3,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 0.667
+    },
+    "atmosphere": {
+     "presence": 0.935,
+     "set_either": 5,
+     "both_set_of_either": 0.6,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 0.968,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:extracted_no_mentions": {
+    "comments": 138,
+    "comment_presence_agreement": 0.942,
+    "comments_same_places": 0.92,
+    "comments_materially_different": 0.101,
+    "mentions": [
+     62,
+     56
+    ],
+    "mention_agreement_f1": 0.881,
+    "matched": 52,
+    "overall_presence_agreement": 0.942,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 1.0,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     17,
+     17
+    ],
+    "taste": {
+     "presence": 0.981,
+     "set_either": 8,
+     "both_set_of_either": 0.875,
+     "sign": 1.0,
+     "exact": 0.857
+    },
+    "value": {
+     "presence": 0.962,
+     "set_either": 5,
+     "both_set_of_either": 0.6,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.962,
+     "set_either": 14,
+     "both_set_of_either": 0.857,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 0.981,
+     "set_either": 1,
+     "both_set_of_either": 0.0,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 0.981,
+     "set_either": 1,
+     "both_set_of_either": 0.0,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 0.904,
+    "experience_agreement": 0.981,
+    "avoid_agreement": 0.981,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:long_list": {
+    "comments": 29,
+    "comment_presence_agreement": 1.0,
+    "comments_same_places": 0.966,
+    "comments_materially_different": 0.138,
+    "mentions": [
+     169,
+     170
+    ],
+    "mention_agreement_f1": 0.997,
+    "matched": 169,
+    "overall_presence_agreement": 0.994,
+    "overall_sign_agreement": 0.994,
+    "overall_exact_agreement": 0.969,
+    "negative_agreement_f1": 0.947,
+    "negatives": [
+     9,
+     10
+    ],
+    "taste": {
+     "presence": 0.982,
+     "set_either": 17,
+     "both_set_of_either": 0.824,
+     "sign": 0.857,
+     "exact": 0.786
+    },
+    "value": {
+     "presence": 0.994,
+     "set_either": 6,
+     "both_set_of_either": 0.833,
+     "sign": 1.0,
+     "exact": 0.8
+    },
+    "service": {
+     "presence": 0.994,
+     "set_either": 1,
+     "both_set_of_either": 0.0,
+     "sign": null,
+     "exact": null
+    },
+    "atmosphere": {
+     "presence": 0.994,
+     "set_either": 7,
+     "both_set_of_either": 0.857,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.97,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 0.994,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:mixed_prompt_mentions": {
+    "comments": 30,
+    "comment_presence_agreement": 0.967,
+    "comments_same_places": 0.967,
+    "comments_materially_different": 0.033,
+    "mentions": [
+     64,
+     63
+    ],
+    "mention_agreement_f1": 0.992,
+    "matched": 63,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.932,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     2,
+     2
+    ],
+    "taste": {
+     "presence": 0.952,
+     "set_either": 15,
+     "both_set_of_either": 0.8,
+     "sign": 1.0,
+     "exact": 0.917
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 0.937,
+    "experience_agreement": 0.984,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:neg_wording_nonneg_score": {
+    "comments": 19,
+    "comment_presence_agreement": 0.947,
+    "comments_same_places": 0.947,
+    "comments_materially_different": 0.263,
+    "mentions": [
+     31,
+     29
+    ],
+    "mention_agreement_f1": 0.967,
+    "matched": 29,
+    "overall_presence_agreement": 0.931,
+    "overall_sign_agreement": 0.955,
+    "overall_exact_agreement": 0.955,
+    "negative_agreement_f1": 0.952,
+    "negatives": [
+     11,
+     10
+    ],
+    "taste": {
+     "presence": 0.966,
+     "set_either": 13,
+     "both_set_of_either": 0.923,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "service": {
+     "presence": 0.966,
+     "set_either": 2,
+     "both_set_of_either": 0.5,
+     "sign": 1.0,
+     "exact": 0.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 3,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.966,
+    "experience_agreement": 0.966,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:never_extracted": {
+    "comments": 250,
+    "comment_presence_agreement": 0.976,
+    "comments_same_places": 0.972,
+    "comments_materially_different": 0.092,
+    "mentions": [
+     377,
+     374
+    ],
+    "mention_agreement_f1": 0.988,
+    "matched": 371,
+    "overall_presence_agreement": 0.97,
+    "overall_sign_agreement": 0.996,
+    "overall_exact_agreement": 0.94,
+    "negative_agreement_f1": 0.953,
+    "negatives": [
+     73,
+     76
+    ],
+    "taste": {
+     "presence": 0.951,
+     "set_either": 99,
+     "both_set_of_either": 0.818,
+     "sign": 0.951,
+     "exact": 0.926
+    },
+    "value": {
+     "presence": 0.984,
+     "set_either": 25,
+     "both_set_of_either": 0.76,
+     "sign": 1.0,
+     "exact": 0.842
+    },
+    "service": {
+     "presence": 0.992,
+     "set_either": 12,
+     "both_set_of_either": 0.75,
+     "sign": 1.0,
+     "exact": 0.778
+    },
+    "atmosphere": {
+     "presence": 0.995,
+     "set_either": 15,
+     "both_set_of_either": 0.867,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 0.995,
+     "set_either": 18,
+     "both_set_of_either": 0.889,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.97,
+    "experience_agreement": 0.984,
+    "avoid_agreement": 0.992,
+    "named_in_agreement": 0.989,
+    "timeframe_agreement": 0.995,
+    "status_agreement": 0.997,
+    "trend_agreement": 1.0
+   },
+   "tag:original_thread_prompt": {
+    "comments": 201,
+    "comment_presence_agreement": 0.955,
+    "comments_same_places": 0.925,
+    "comments_materially_different": 0.114,
+    "mentions": [
+     203,
+     200
+    ],
+    "mention_agreement_f1": 0.948,
+    "matched": 191,
+    "overall_presence_agreement": 0.963,
+    "overall_sign_agreement": 0.993,
+    "overall_exact_agreement": 0.972,
+    "negative_agreement_f1": 0.989,
+    "negatives": [
+     46,
+     45
+    ],
+    "taste": {
+     "presence": 0.984,
+     "set_either": 44,
+     "both_set_of_either": 0.932,
+     "sign": 1.0,
+     "exact": 0.976
+    },
+    "value": {
+     "presence": 0.984,
+     "set_either": 14,
+     "both_set_of_either": 0.786,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.979,
+     "set_either": 19,
+     "both_set_of_either": 0.789,
+     "sign": 1.0,
+     "exact": 0.933
+    },
+    "atmosphere": {
+     "presence": 0.995,
+     "set_either": 6,
+     "both_set_of_either": 0.833,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 0.995,
+     "set_either": 6,
+     "both_set_of_either": 0.833,
+     "sign": 1.0,
+     "exact": 0.8
+    },
+    "opinion_agreement": 0.953,
+    "experience_agreement": 0.984,
+    "avoid_agreement": 0.995,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:price_complaint": {
+    "comments": 18,
+    "comment_presence_agreement": 1.0,
+    "comments_same_places": 0.944,
+    "comments_materially_different": 0.056,
+    "mentions": [
+     25,
+     25
+    ],
+    "mention_agreement_f1": 0.96,
+    "matched": 24,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.9,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     13,
+     13
+    ],
+    "taste": {
+     "presence": 1.0,
+     "set_either": 11,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 0.917,
+     "set_either": 17,
+     "both_set_of_either": 0.882,
+     "sign": 1.0,
+     "exact": 0.8
+    },
+    "service": {
+     "presence": 0.958,
+     "set_either": 5,
+     "both_set_of_either": 0.8,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 0.958,
+     "set_either": 3,
+     "both_set_of_either": 0.667,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 0.958,
+    "named_in_agreement": 0.958,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:question_or_unvisited": {
+    "comments": 19,
+    "comment_presence_agreement": 0.947,
+    "comments_same_places": 0.947,
+    "comments_materially_different": 0.053,
+    "mentions": [
+     27,
+     26
+    ],
+    "mention_agreement_f1": 0.981,
+    "matched": 26,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.938,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     9,
+     9
+    ],
+    "taste": {
+     "presence": 0.846,
+     "set_either": 8,
+     "both_set_of_either": 0.5,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 0.962,
+     "set_either": 2,
+     "both_set_of_either": 0.5,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 3,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 0.667
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 0.923,
+    "avoid_agreement": 0.885,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:reply_ancestor_named": {
+    "comments": 80,
+    "comment_presence_agreement": 0.9,
+    "comments_same_places": 0.875,
+    "comments_materially_different": 0.163,
+    "mentions": [
+     69,
+     63
+    ],
+    "mention_agreement_f1": 0.909,
+    "matched": 60,
+    "overall_presence_agreement": 0.95,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.933,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     11,
+     11
+    ],
+    "taste": {
+     "presence": 0.967,
+     "set_either": 8,
+     "both_set_of_either": 0.75,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 0.983,
+     "set_either": 2,
+     "both_set_of_either": 0.5,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 6,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 0.833
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 3,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.9,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 0.983,
+    "named_in_agreement": 0.983,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:short_opinion_reply": {
+    "comments": 40,
+    "comment_presence_agreement": 0.975,
+    "comments_same_places": 0.975,
+    "comments_materially_different": 0.05,
+    "mentions": [
+     33,
+     35
+    ],
+    "mention_agreement_f1": 0.971,
+    "matched": 33,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 1.0,
+    "negative_agreement_f1": 0.968,
+    "negatives": [
+     16,
+     15
+    ],
+    "taste": {
+     "presence": 0.909,
+     "set_either": 11,
+     "both_set_of_either": 0.727,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 0.97,
+     "set_either": 2,
+     "both_set_of_either": 0.5,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "opinion_agreement": 0.97,
+    "experience_agreement": 0.97,
+    "avoid_agreement": 0.97,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:stuck_default_with_opinion": {
+    "comments": 27,
+    "comment_presence_agreement": 1.0,
+    "comments_same_places": 0.963,
+    "comments_materially_different": 0.074,
+    "mentions": [
+     94,
+     97
+    ],
+    "mention_agreement_f1": 0.984,
+    "matched": 94,
+    "overall_presence_agreement": 0.989,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.943,
+    "negative_agreement_f1": 1.0,
+    "negatives": [
+     7,
+     7
+    ],
+    "taste": {
+     "presence": 0.989,
+     "set_either": 15,
+     "both_set_of_either": 0.933,
+     "sign": 1.0,
+     "exact": 0.929
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 2,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "atmosphere": {
+     "presence": 1.0,
+     "set_either": 4,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 0.936,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   },
+   "tag:zero_mentions_suspicious": {
+    "comments": 28,
+    "comment_presence_agreement": 0.893,
+    "comments_same_places": 0.893,
+    "comments_materially_different": 0.107,
+    "mentions": [
+     8,
+     7
+    ],
+    "mention_agreement_f1": 0.8,
+    "matched": 6,
+    "overall_presence_agreement": 1.0,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 1.0,
+    "negative_agreement_f1": null,
+    "negatives": [
+     0,
+     0
+    ],
+    "taste": {
+     "presence": 1.0,
+     "set_either": 1,
+     "both_set_of_either": 1.0,
+     "sign": 1.0,
+     "exact": 1.0
+    },
+    "value": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "service": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "atmosphere": {
+     "presence": 0.833,
+     "set_either": 1,
+     "both_set_of_either": 0.0,
+     "sign": null,
+     "exact": null
+    },
+    "wait": {
+     "presence": 1.0,
+     "set_either": 0,
+     "both_set_of_either": null,
+     "sign": null,
+     "exact": null
+    },
+    "opinion_agreement": 1.0,
+    "experience_agreement": 1.0,
+    "avoid_agreement": 1.0,
+    "named_in_agreement": 1.0,
+    "timeframe_agreement": 1.0,
+    "status_agreement": 1.0,
+    "trend_agreement": 1.0
+   }
+  },
+  "differing_comments": [
+   {
+    "comment_id": "t1_in412eo",
+    "item_id": "s0059",
+    "stratum": "dish_complaint",
+    "a": [
+     "Tiger Sugar:positive",
+     "Yi Fang:positive",
+     "Ten Ren:positive",
+     "Taiyaki:negative",
+     "Chinatown Ice cream factory:positive",
+     "Minus Celcius Ice Cream:neutral",
+     "Eileen Cheese cake:very_positive",
+     "T-Swirl Crepe:positive",
+     "Keki Modern Cake:positive",
+     "Jing Fong:positive",
+     "Golden Unicorn:positive",
+     "Nom Wah:positive"
+    ],
+    "b": [
+     "Tiger Sugar:positive",
+     "Yi Fang:positive",
+     "Ten Ren:positive",
+     "Taiyaki:-",
+     "Chinatown Ice cream factory:positive",
+     "Minus Celcius Ice Cream:neutral",
+     "Eileen Cheese cake:very_positive",
+     "T-Swirl Crepe:positive",
+     "Keki Modern Cake:positive",
+     "Jing Fong:positive",
+     "Golden Unicorn:positive",
+     "Nom Wah:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_in735l5",
+    "item_id": "s0166",
+    "stratum": "price_complaint",
+    "a": [
+     "Margon:positive",
+     "Park Gourmet:positive",
+     "B and H dairy:positive",
+     "Jin Fong:positive"
+    ],
+    "b": [
+     "Margon:positive",
+     "Park Gourmet:positive",
+     "B and H dairy:positive",
+     "Jin Fong Dim Sum:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_ja08qkn",
+    "item_id": "s0219",
+    "stratum": "reply_ancestor_named",
+    "a": [
+     "Carbone:-"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_jet6pjh",
+    "item_id": "t006",
+    "stratum": "chunk_title_names_place",
+    "a": [
+     "Wildair:-"
+    ],
+    "b": [
+     "Wildair:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_jetx5gt",
+    "item_id": "t006",
+    "stratum": "chunk_title_names_place",
+    "a": [
+     "Aquavit:-"
+    ],
+    "b": [
+     "Aquavit:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_jeweq3l",
+    "item_id": "t006",
+    "stratum": "chunk_title_names_place",
+    "a": [
+     "contra:-",
+     "wildair:-"
+    ],
+    "b": [
+     "wildair:positive",
+     "contra:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_jrq379k",
+    "item_id": "s0160",
+    "stratum": "dish_complaint",
+    "a": [
+     "Dominique Ansel’s Bakery:negative"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_jzi07eu",
+    "item_id": "s0113",
+    "stratum": "dish_complaint",
+    "a": [
+     "Xiang Hot Pot:positive"
+    ],
+    "b": [
+     "Xiang Hot Pot:neutral"
+    ]
+   },
+   {
+    "comment_id": "t1_ke2vnjx",
+    "item_id": "t009",
+    "stratum": "none",
+    "a": [
+     "Moono:positive",
+     "Her Name is Han:-"
+    ],
+    "b": [
+     "Moono:-",
+     "Her Name is Han:-"
+    ]
+   },
+   {
+    "comment_id": "t1_ke4os0n",
+    "item_id": "t009",
+    "stratum": "none",
+    "a": [
+     "CDG:very_positive"
+    ],
+    "b": [
+     "CDG:very_positive"
+    ]
+   },
+   {
+    "comment_id": "t1_ke5j7eg",
+    "item_id": "t009",
+    "stratum": "none",
+    "a": [
+     "Cho Dang Gol:-"
+    ],
+    "b": [
+     "Cho Dang Gol:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_kk9pewm",
+    "item_id": "s0115",
+    "stratum": "avoid_or_strong_negative",
+    "a": [
+     "Katz':negative:avoid",
+     "Russ & Daughters:positive",
+     "Superiority:positive",
+     "Dirt Candy:positive",
+     "NYC Dosas:-",
+     "Pomme Frites:positive",
+     "Doughnut Project:positive",
+     "Manousheh:very_positive",
+     "Overthrow Hospitality:positive",
+     "Eterea:very_positive",
+     "Avant Garden:positive",
+     "Spicy Moon:positive",
+     "PLANTA:positive",
+     "jajaja:positive"
+    ],
+    "b": [
+     "Katz':negative:avoid",
+     "Russ & Daughters:positive",
+     "Superiority:positive",
+     "Dirt Candy:positive",
+     "NYC Dosas:-",
+     "Pomme Frites:positive",
+     "Doughnut Project:positive",
+     "Manousheh:very_positive",
+     "Overthrow Hospitality:positive",
+     "Eterea:very_positive",
+     "Avant Garden:positive",
+     "Spicy Moon:positive",
+     "PLANTA:positive",
+     "jajaja:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_ktrqlp1",
+    "item_id": "t010",
+    "stratum": "chunk_parent_outside",
+    "a": [
+     "Guissepinas:-"
+    ],
+    "b": [
+     "Guissepinas:negative"
+    ]
+   },
+   {
+    "comment_id": "t1_ktu7nch",
+    "item_id": "s0128",
+    "stratum": "deep_chain_context_gap",
+    "a": [
+     "Rowdy Rooster:-"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_l4t6lks",
+    "item_id": "s0032",
+    "stratum": "short_opinion_reply",
+    "a": [],
+    "b": [
+     "Los Tacos:negative",
+     "Los Mariscos:negative"
+    ]
+   },
+   {
+    "comment_id": "t1_l93oz1p",
+    "item_id": "s0068",
+    "stratum": "question_or_unvisited",
+    "a": [
+     "Bungalow:-"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_lp2rzev",
+    "item_id": "s0004",
+    "stratum": "avoid_or_strong_negative",
+    "a": [
+     "Panna Too:neutral",
+     "Woojrip:positive",
+     "Picnic Garden:positive",
+     "Antoya:positive",
+     "HanGawi:very_negative:avoid",
+     "Pio Pio:positive"
+    ],
+    "b": [
+     "Panna Too:neutral",
+     "Woojrip:positive",
+     "Picnic Garden:positive",
+     "Antoya:positive",
+     "HanGawi:very_negative:avoid",
+     "Pio Pio:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_lqmn4ll",
+    "item_id": "s0074",
+    "stratum": "deep_chain_context_gap",
+    "a": [
+     "Artichoke Basille's:very_negative"
+    ],
+    "b": [
+     "Artichoke Basille's:-"
+    ]
+   },
+   {
+    "comment_id": "t1_m0mq79b",
+    "item_id": "t002",
+    "stratum": "chunk_misattached",
+    "a": [
+     "Keen's:-"
+    ],
+    "b": [
+     "Keen's:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_m3nx9r7",
+    "item_id": "s0212",
+    "stratum": "deep_chain_context_gap",
+    "a": [
+     "Zabb PuTawn:positive"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_mbs3npn",
+    "item_id": "t007",
+    "stratum": "none",
+    "a": [
+     "Fiacco’s:-"
+    ],
+    "b": [
+     "Fiacco’s:-"
+    ]
+   },
+   {
+    "comment_id": "t1_mg3ddyn",
+    "item_id": "t014",
+    "stratum": "chunk_title_names_place",
+    "a": [
+     "Atomix:-"
+    ],
+    "b": [
+     "Atomix:-"
+    ]
+   },
+   {
+    "comment_id": "t1_myb1xfg",
+    "item_id": "s0131",
+    "stratum": "none",
+    "a": [
+     "Gammeok:-"
+    ],
+    "b": [
+     "Gammeok:negative"
+    ]
+   },
+   {
+    "comment_id": "t1_n6yt6bq",
+    "item_id": "s0045",
+    "stratum": "deep_chain_context_gap",
+    "a": [
+     "Jack's Wife Freda:negative"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_nmr9d4o",
+    "item_id": "s0052",
+    "stratum": "neg_wording_nonneg_score",
+    "a": [
+     "Kopitiam:positive"
+    ],
+    "b": [
+     "Kopitiam:-"
+    ]
+   },
+   {
+    "comment_id": "t1_nvy9q9g",
+    "item_id": "t012",
+    "stratum": "chunk_failure_dense",
+    "a": [
+     "Nakazawa:-"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_nwekg2n",
+    "item_id": "s0236",
+    "stratum": "overlap_v1",
+    "a": [
+     "gargiulos:positive"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_nzlqfr1",
+    "item_id": "s0033",
+    "stratum": "neg_wording_nonneg_score",
+    "a": [
+     "Stretch Pizza:-"
+    ],
+    "b": [
+     "Stretch Pizza:-"
+    ]
+   },
+   {
+    "comment_id": "t1_o0pgywp",
+    "item_id": "t008",
+    "stratum": "chunk_failure_dense",
+    "a": [
+     "Sigiri:very_positive"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_o3bt6da",
+    "item_id": "t013",
+    "stratum": "chunk_parent_outside",
+    "a": [
+     "dokodemo:-"
+    ],
+    "b": [
+     "dokodemo:negative"
+    ]
+   },
+   {
+    "comment_id": "t1_o8txycc",
+    "item_id": "s0146",
+    "stratum": "long_list",
+    "a": [
+     "Phayul:positive",
+     "Awash:positive",
+     "New World food court:positive",
+     "Masalawala and Sons:positive",
+     "Between the Bagel:positive",
+     "Ukrainian East Village Restaurant:positive"
+    ],
+    "b": [
+     "Phayul:positive",
+     "Awash:positive",
+     "New World food court:positive",
+     "Uyghur place:positive",
+     "Masalawala and Sons:positive",
+     "Between the Bagel:positive",
+     "Ukrainian East Village Restaurant:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_o9jchty",
+    "item_id": "s0165",
+    "stratum": "overlap_v1",
+    "a": [
+     "Dani's:positive"
+    ],
+    "b": [
+     "Lucky Charlie:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_o9y91ml",
+    "item_id": "t011",
+    "stratum": "none",
+    "a": [
+     "Ohayo:very_positive"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_oh61yef",
+    "item_id": "s0132",
+    "stratum": "overlap_v1",
+    "a": [
+     "the Modern:very_positive"
+    ],
+    "b": [
+     "torrisi:very_positive",
+     "Kabawa:very_positive",
+     "the Modern:very_positive",
+     "Kitchen Table:very_positive"
+    ]
+   },
+   {
+    "comment_id": "t1_oo7b7dn",
+    "item_id": "t004",
+    "stratum": "chunk_misattached",
+    "a": [
+     "Isla& co:negative"
+    ],
+    "b": [
+     "Isla& co:-",
+     "Boqueria:-"
+    ]
+   },
+   {
+    "comment_id": "t1_ooaak08",
+    "item_id": "t004",
+    "stratum": "chunk_misattached",
+    "a": [
+     "Boqueria:-"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_orfx26n",
+    "item_id": "s0144",
+    "stratum": "overlap_v1",
+    "a": [
+     "S&P:-"
+    ],
+    "b": [
+     "S&P:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_os4cd1h",
+    "item_id": "s0100",
+    "stratum": "overlap_v1",
+    "a": [
+     "Molly’s:positive"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_ot7m1z7",
+    "item_id": "s0007",
+    "stratum": "overlap_v1",
+    "a": [
+     "Ammazzacaffee:-"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_ouru1xq",
+    "item_id": "s0111",
+    "stratum": "deep_chain_context_gap",
+    "a": [
+     "Po:-"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_ower5z6",
+    "item_id": "s0093",
+    "stratum": "overlap_v1",
+    "a": [
+     "Verlain:positive"
+    ],
+    "b": [
+     "Verlain:-"
+    ]
+   },
+   {
+    "comment_id": "t1_p066j3d",
+    "item_id": "s0155",
+    "stratum": "reply_ancestor_named",
+    "a": [
+     "Joe’s:negative"
+    ],
+    "b": [
+     "L’industrie:negative"
+    ]
+   },
+   {
+    "comment_id": "t1_p0vu820",
+    "item_id": "s0037",
+    "stratum": "overlap_v1",
+    "a": [],
+    "b": [
+     "Pies n Thighs:-"
+    ]
+   },
+   {
+    "comment_id": "t1_p0xw8lm",
+    "item_id": "s0230",
+    "stratum": "overlap_v1",
+    "a": [
+     "lakotafrybreadco:positive"
+    ],
+    "b": [
+     "Indigenous Frybread Pop-Up Stand:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_p2n3bra",
+    "item_id": "s0102",
+    "stratum": "neg_wording_nonneg_score",
+    "a": [
+     "Maman:neutral",
+     "Caffe Panna:positive"
+    ],
+    "b": [
+     "Maman:negative",
+     "Caffe Panna:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_p3oqld2",
+    "item_id": "s0149",
+    "stratum": "dish_complaint",
+    "a": [
+     "Roma:neutral"
+    ],
+    "b": [
+     "Roma:-"
+    ]
+   },
+   {
+    "comment_id": "t1_p913sta",
+    "item_id": "s0195",
+    "stratum": "neg_wording_nonneg_score",
+    "a": [
+     "Goldees:very_positive",
+     "Bark:positive"
+    ],
+    "b": []
+   },
+   {
+    "comment_id": "t1_p98iff5",
+    "item_id": "s0002",
+    "stratum": "stuck_default_with_opinion",
+    "a": [
+     "Boishakhi:-",
+     "Hyderabadi Ziaqa:very_positive"
+    ],
+    "b": [
+     "Boishakhi:negative",
+     "Hyderabadi Ziaqa:very_positive"
+    ]
+   }
+  ]
+ }
+}

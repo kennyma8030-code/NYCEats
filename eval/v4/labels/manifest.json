@@ -18,7 +18,190 @@
   "labeler": "Claude Opus 5.5 (claude-opus-5-5) subagents, one fresh agent per batch, given only the v6 system prompt for the batch's mode (verbatim), the batch file and a short note",
   "reruns": [],
   "renderer": "v6",
-  "inputs": "production's comment-mode message for single items; v6_thread.render_chunk for chunks"
+  "inputs": "production's comment-mode message for single items; v6_thread.render_chunk for chunks",
+  "attempts": {
+   "b001": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b002": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b003": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b004": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b005": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b006": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b007": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b008": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b009": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b010": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b011": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b012": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b013": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b014": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b015": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b016": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b017": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b018": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b019": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b020": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b021": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b022": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b023": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b024": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b025": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b026": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b027": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b028": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b029": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b030": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ]
+  },
+  "labeled_on": "2026-10-18"
  },
  "full_context": {
   "schema": "v6",
@@ -39,6 +222,189 @@
   "labeler": "Claude Opus 5.5 (claude-opus-5-5) subagents, one fresh agent per batch, given only the v6 system prompt for the batch's mode (verbatim), the batch file and a short note",
   "reruns": [],
   "renderer": "full_context",
-  "inputs": "packets.py full_context: the whole ancestor chain and replies, or the whole thread in reply order"
+  "inputs": "packets.py full_context: the whole ancestor chain and replies, or the whole thread in reply order",
+  "attempts": {
+   "b001": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b002": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b003": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b004": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b005": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b006": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b007": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b008": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b009": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b010": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b011": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b012": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b013": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b014": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b015": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b016": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b017": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b018": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b019": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b020": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b021": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b022": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b023": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b024": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b025": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b026": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b027": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b028": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b029": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ],
+   "b030": [
+    {
+     "attempt": 1,
+     "result": "accepted"
+    }
+   ]
+  },
+  "labeled_on": "2026-10-18"
  }
 }
