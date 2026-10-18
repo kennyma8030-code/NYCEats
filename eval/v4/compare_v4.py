@@ -6,7 +6,7 @@ label set, broken down every way the design allows. No database, no model.
     python eval/v4/compare_v4.py --ref full_context eval/runs/x__abc__thread__v4.jsonl
     python eval/v4/compare_v4.py --dirs eval/v4 eval/v4/round2      # pool rounds
     python eval/v4/compare_v4.py --self-test             # production vs itself must be perfect
-    python eval/v4/compare_v4.py --ref same_input --fixes   # v6 runs vs v6 labels: count negative overall
+    python eval/v4/compare_v4.py --ref same_input --fixes off   # without score.py's fixes (on by default for v6 labels)
 
 Runs scored by default: production's stored output (production/*.jsonl in
 each round, written by export_production.py after labeling) and every eval/runs/*__v4*.jsonl (run.py ... --items
@@ -58,11 +58,6 @@ import score as S  # noqa: E402
 import corpus  # noqa: E402
 import design as D  # noqa: E402
 import labels as L  # noqa: E402
-
-# score.py's scorer fixes (eval/bench_v6/DIAGNOSIS.md), set by --fixes. With v6
-# labels as the reference, a negative overall verdict is a negative mention on
-# both sides only when this is on.
-FIXES = False
 
 SHOW = ["drop_rate", "mention_recall", "negative_mention_recall", "value_complaint_recall",
         "dish_negative_recall", "sign_accuracy", "mention_precision", "comments"]
@@ -137,7 +132,7 @@ def groups_for(it, cid):
     return g
 
 
-def evaluate(ref, items, preds, covered, run_mode, alias, excluded):
+def evaluate(ref, items, preds, covered, run_mode, alias, excluded, fixes=False):
     """ref: gold lines. preds: {comment_id: [mentions]}. Returns {scope: metrics}."""
     by_item = {it["item_id"]: it for it in items}
     acc = collections.defaultdict(S.Acc)
@@ -151,7 +146,7 @@ def evaluate(ref, items, preds, covered, run_mode, alias, excluded):
             continue
         if run_mode in ("comment", "thread") and it["mode"] != run_mode:
             continue
-        a = S.score_comment(g, preds.get(cid, []), it["mode"], alias, excluded, True, FIXES)
+        a = S.score_comment(g, preds.get(cid, []), it["mode"], alias, excluded, True, fixes)
         for scope in ["all"] + groups_for(it, cid):
             acc[scope].add(a)
         if it.get("weight"):
@@ -167,17 +162,17 @@ def evaluate(ref, items, preds, covered, run_mode, alias, excluded):
     return out
 
 
-def score_run(name, paths, ref, items, alias, excluded, rep=0, both_modes=False):
+def score_run(name, paths, ref, items, alias, excluded, rep=0, both_modes=False, fixes=False):
     """both_modes: Claude's label files hold comment and thread packets
     together, so they are scored on every item rather than one mode's."""
     reps, covered, mode = load_runs(paths, items)
     if both_modes:
         mode = "labels"
-    res = evaluate(ref, items, reps.get(rep, {}), covered.get(rep, set()), mode, alias, excluded)
+    res = evaluate(ref, items, reps.get(rep, {}), covered.get(rep, set()), mode, alias, excluded, fixes)
     return {"name": name, "files": [os.path.relpath(p, EVAL) for p in paths], "mode": mode, "metrics": res}
 
 
-def v1_agreement(ref_pass_dirs, ref_name, items, alias, excluded):
+def v1_agreement(ref_pass_dirs, ref_name, items, alias, excluded, fixes=False):
     """The reference labels scored against v1's hand gold on the overlap items."""
     v1 = {g["comment_id"]: g for g in load_jsonl(os.path.join(EVAL, "gold.jsonl"))}
     overlap = [it for it in items if it["draw"] == "overlap_v1" and it["comment_id"] in v1]
@@ -192,7 +187,7 @@ def v1_agreement(ref_pass_dirs, ref_name, items, alias, excluded):
     for it in overlap:
         cid = it["comment_id"]
         if cid in covered.get(0, set()):
-            acc.add(S.score_comment(v1[cid], reps[0].get(cid, []), "comment", alias, excluded, True, FIXES))
+            acc.add(S.score_comment(v1[cid], reps[0].get(cid, []), "comment", alias, excluded, True, fixes))
     dish = any(isinstance(m.get("dish_sentiment"), list) for ms in reps[0].values() for m in ms)
     return S.summarize(acc, dish)
 
@@ -222,7 +217,8 @@ def write(out_dir, ref_name, out):
     lines = [f"# v4 comparison, reference = {ref_name} labels", "",
              f"Reference: {out['reference']['comments']} comments, "
              f"{out['reference']['with_mention']} with a required mention. "
-             "'weighted' is re-weighted to real traffic; ceilings are Claude against itself.", ""]
+             "'weighted' is re-weighted to real traffic; ceilings are Claude against itself. "
+             f"score.py's scorer fixes: {'on' if out.get('scorer_fixes') else 'off'}.", ""]
     for s in main:
         lines += [f"## {s}", "", md_table(rows, s), ""]
     lines += ["## By draw, stratum and heuristic", ""]
@@ -247,15 +243,17 @@ def main():
     ap.add_argument("--ref", choices=L.PASSES, default="full_context")
     ap.add_argument("--dirs", nargs="*", default=None,
                     help="round directories to pool (default: eval/v4 and every eval/v4/round*)")
-    ap.add_argument("--fixes", action="store_true",
-                    help="score.py's scorer fixes: negative overall counts, street words match, "
-                         "thread context references are not false positives (written to *_fixes.*)")
+    ap.add_argument("--fixes", choices=("auto", "on", "off"), default="auto",
+                    help="score.py's scorer fixes: a current negative v6 overall counts as a negative, "
+                         "street words match, thread context references are not false positives. "
+                         "auto (default) turns them on when the reference pass was labeled with v6, "
+                         "as next_round.py does; a non-default choice is written to *_fixes/_nofixes.*")
     ap.add_argument("--self-test", action="store_true",
                     help="use production's stored output as the reference; it must score perfectly")
     args = ap.parse_args()
-    global FIXES
-    FIXES = args.fixes
     dirs = args.dirs or round_dirs()
+    auto = L.default_fixes(dirs, args.ref)
+    fixes = auto if args.fixes == "auto" else args.fixes == "on"
     items = load_rounds(dirs)
     alias, excluded = S.load_map("alias_overrides.json"), S.load_map("excluded_entities.json")
     prod = [p for d in dirs for p in sorted(glob.glob(os.path.join(d, "production", "*.jsonl")))]
@@ -280,23 +278,23 @@ def main():
 
     runs = []
     if prod:
-        runs.append(score_run("production (stored)", prod, ref, items, alias, excluded))
+        runs.append(score_run("production (stored)", prod, ref, items, alias, excluded, fixes=fixes))
     extra = args.runs or sorted(glob.glob(os.path.join(EVAL, "runs", "*__v4*.jsonl")))
     for p in extra:
-        runs.append(score_run(os.path.basename(p).removesuffix(".jsonl"), [p], ref, items, alias, excluded))
+        runs.append(score_run(os.path.basename(p).removesuffix(".jsonl"), [p], ref, items, alias, excluded, fixes=fixes))
 
     ceilings = []
     own = [os.path.join(d, "labels", args.ref + ".run.jsonl") for d in dirs]
     own = [p for p in own if os.path.exists(p)]
     if own:
         ceilings.append(score_run(f"claude self-consistency ({args.ref})", own, ref, items, alias, excluded,
-                                  rep=1, both_modes=True))
+                                  rep=1, both_modes=True, fixes=fixes))
     if args.ref == "full_context":
         si = [os.path.join(d, "labels", "same_input.run.jsonl") for d in dirs]
         si = [p for p in si if os.path.exists(p)]
         if si:
             ceilings.append(score_run("claude same_input vs full_context", si, ref, items, alias, excluded,
-                                      both_modes=True))
+                                      both_modes=True, fixes=fixes))
 
     snaps = {}
     for d in dirs:
@@ -310,9 +308,9 @@ def main():
            "dirs": [os.path.relpath(d, EVAL) for d in dirs],
            "snapshots": snaps, "mixed_snapshots": len(set(snaps.values())) > 1,
            "runs": runs, "ceilings": ceilings,
-           "v1_overlap_agreement": v1_agreement(dirs, args.ref, items, alias, excluded)}
-    out["scorer_fixes"] = FIXES
-    jp, mp = write(os.path.join(dirs[0], "results"), args.ref + ("_fixes" if FIXES else ""), out)
+           "v1_overlap_agreement": v1_agreement(dirs, args.ref, items, alias, excluded, fixes)}
+    out["scorer_fixes"] = fixes
+    jp, mp = write(os.path.join(dirs[0], "results"), args.ref + ("" if fixes == auto else "_fixes" if fixes else "_nofixes"), out)
     print(jp)
     print(mp)
     for s in ("comment weighted", "thread weighted"):

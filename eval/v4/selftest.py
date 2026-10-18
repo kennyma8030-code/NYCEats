@@ -9,8 +9,14 @@
    packet labeled twice, a schema failure or a missing label, and succeeds
    on a clean pass.
    A pass the manifest marks v6 also fails on anything the strict v6
-   schema rejects, and exports the adapted mentions with the v6 original.
-3. batches.py never crashes when a duplicate has nowhere to go, and never
+   schema rejects or on a key that is not the one the labels were made
+   against, and exports the adapted mentions with the v6 original. check
+   --batch fails on an unknown batch, export rejects --batch, and a changed
+   renderer is reported as drift.
+3. Scoring: the fixes' negative-overall rule skips closed and past
+   mentions on both sides, next_round types failures with the same switch,
+   and schema_errors refuses keywords it does not implement.
+4. batches.py never crashes when a duplicate has nowhere to go, and never
    puts both copies of an item in one batch.
 """
 
@@ -129,8 +135,13 @@ def check_v6_label_export():
     on a comment packet) refuses the whole export."""
     def v6_dir(lines):
         d = label_dir(lines)
+        key = json.load(open(os.path.join(d, "keys", "same_input.json")))
+        fp = L.key_fingerprint(key)
+        with open(os.path.join(d, "keys", "same_input.meta.json"), "w") as f:
+            json.dump({"renderer": "v6", "short_ids_sha256": fp}, f)
         with open(os.path.join(d, "labels", L.MANIFEST), "w") as f:
-            json.dump({"same_input": {"schema": "v6", "prompts": {}}}, f)
+            json.dump({"same_input": {"schema": "v6", "prompts": {},
+                                      "key": {"renderer": "v6", "short_ids_sha256": fp}}}, f)
         return d
 
     good_c = {"packet_id": "pc", "output": {"mentions": [v6_mention("Lucali")]}}
@@ -167,7 +178,98 @@ def check_v6_label_export():
         else:
             raise AssertionError(f"v6 export accepted a {what}")
         assert not os.path.exists(os.path.join(d, "labels", "same_input.gold.jsonl")), what
+
+    # The key must be the one the labels were made against. A key rebuilt
+    # with another renderer, or with other bracket numbers, refuses export.
+    for what, change in (("renderer", production_renderer),
+                         ("bracket numbers", renumber),
+                         ("missing meta", lambda d: os.remove(os.path.join(d, "keys", "same_input.meta.json")))):
+        d = v6_dir({"b001": [good_c], "b002": [good_t]})
+        change(d)
+        try:
+            L.export(d, "same_input")
+        except L.LabelError as e:
+            assert e.code, what
+        else:
+            raise AssertionError(f"v6 export accepted a key with a different {what}")
+        assert not os.path.exists(os.path.join(d, "labels", "same_input.gold.jsonl")), what
+
+    # check --batch fails on a batch the key does not have; export rejects --batch.
+    d = v6_dir({"b001": [good_c], "b002": [good_t]})
+    for argv, ok in ((["check", "--pass", "same_input", "--dir", d, "--batch", "b001"], True),
+                     (["check", "--pass", "same_input", "--dir", d, "--batch", "b999"], False),
+                     (["export", "--pass", "same_input", "--dir", d, "--batch", "b001"], False)):
+        sys.argv = ["labels.py"] + argv
+        try:
+            L.main()
+            code = 0
+        except SystemExit as e:
+            code = e.code if isinstance(e.code, int) else 1
+        assert (code == 0) == ok, (argv, code)
+
+    # Drift: a changed renderer, builder or schema since labeling is reported.
+    spec = {"inputs": L.input_fingerprints(), "prompts": L.prompt_fingerprints()}
+    assert not L.drift(spec), L.drift(spec)
+    spec["inputs"]["thread_renderer"] = dict(spec["inputs"]["thread_renderer"], sha256="0" * 64)
+    assert any("thread_renderer" in w for w in L.drift(spec))
     print("v6 label export ok")
+
+
+def production_renderer(d):
+    """Rewrite the key's meta as if packets.py had run with --renderer production."""
+    meta = os.path.join(d, "keys", "same_input.meta.json")
+    rec = json.load(open(meta))
+    json.dump(dict(rec, renderer="production"), open(meta, "w"))
+
+
+def renumber(d):
+    """Swap a thread packet's bracket numbers, as a different renderer would."""
+    path = os.path.join(d, "keys", "same_input.json")
+    key = json.load(open(path))
+    key["pt"]["short_ids"] = {"1": "t1_b", "2": "t1_a"}
+    json.dump(key, open(path, "w"))
+
+
+def check_scoring():
+    """score.py's fixes count a current negative v6 overall as a negative on
+    both sides, but not a closed place or a past verdict; next_round types
+    failures with the same switch; schema_errors refuses keywords it does not
+    implement and reads additionalProperties as JSON Schema does."""
+    import score as S
+    import v6_adapter as A
+    import next_round as NR
+
+    def v6(overall, **kw):
+        return {"name": "X", "named_in": "comment", "location": None, "experience": "firsthand",
+                "opinion": "stated", "overall": overall,
+                "aspects": {"taste": "positive", "value": None, "service": None, "atmosphere": None, "wait": None},
+                "avoid": False, "dishes": [], "price": None, "timeframe": kw.get("timeframe", "current"),
+                "trend": None, "status": kw.get("status"), "tags": [], "notes": []}
+
+    alias, excluded = {}, {}
+    gold_of = lambda m: L.as_gold_mention(A.adapt(m), alias, excluded)  # noqa: E731
+    now, closed, past = v6("negative"), v6("negative", status="closed"), v6("negative", timeframe="past")
+    assert S.gold_negative(gold_of(now), True) and not S.gold_negative(gold_of(now))
+    assert not S.gold_negative(gold_of(closed), True) and not S.gold_negative(gold_of(past), True)
+    assert S.model_negative(A.adapt(now), True) and not S.model_negative(A.adapt(past), True)
+
+    line = {"mentions": [gold_of(now)]}
+    model_pos = [A.adapt(v6("positive"))]
+    assert "missed_negative" in NR.failures(line, model_pos, alias, excluded, "comment", fixes=True)
+    assert "missed_negative" not in NR.failures(line, model_pos, alias, excluded, "comment", fixes=False)
+    assert "missed_negative" not in NR.failures(line, [A.adapt(now)], alias, excluded, "comment", fixes=True)
+
+    closed_schema = {"type": "object", "properties": {"a": {"type": "string"}}, "additionalProperties": False}
+    assert A.schema_errors({"a": "x", "b": 1}, closed_schema) == ["$: extra key b"]
+    assert A.schema_errors({"a": "x", "b": 1}, dict(closed_schema, additionalProperties=True)) == []
+    assert A.schema_errors({"a": "x", "b": 1}, dict(closed_schema, additionalProperties={"type": "string"}))
+    for bad in ({"type": "string", "maxLength": 3}, {"type": "array", "minItems": 1}, {"$ref": "other.json#/x"}):
+        try:
+            A.schema_errors("x", bad)
+        except A.UnsupportedSchema:
+            continue
+        raise AssertionError(f"schema_errors ignored {bad}")
+    print("scoring ok")
 
 
 def check_batches():
@@ -186,5 +288,6 @@ if __name__ == "__main__":
     check_misattachment()
     check_label_export()
     check_v6_label_export()
+    check_scoring()
     check_batches()
     print("selftest ok")

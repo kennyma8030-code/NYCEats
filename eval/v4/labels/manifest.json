@@ -17,8 +17,6 @@
   },
   "labeler": "Claude Opus 5.5 (claude-opus-5-5) subagents, one fresh agent per batch, given only the v6 system prompt for the batch's mode (verbatim), the batch file and a short note",
   "reruns": [],
-  "renderer": "v6",
-  "inputs": "production's comment-mode message for single items; v6_thread.render_chunk for chunks",
   "attempts": {
    "b001": [
     {
@@ -201,7 +199,29 @@
     }
    ]
   },
-  "labeled_on": "2026-10-18"
+  "labeled_on": "2026-10-18",
+  "packets": "production's comment-mode message for single items; v6_thread.render_chunk for chunks",
+  "inputs": {
+   "thread_renderer": {
+    "file": "eval/prompts/v6_thread.py",
+    "what": "render_chunk, depth_first, _flat, _cut and the cut limits",
+    "sha256": "5714575aba42fb92e0b75ee3a7242a654dfaba6ff5cb68aca3f201164977ee03"
+   },
+   "comment_builder": {
+    "file": "eval/prompts/v6_comment.py",
+    "what": "build_user_message",
+    "defined": false,
+    "sha256": "505ed5e87f335dfb65854af0f9c54ee119cf3352f6efe99d59752f2a78444226"
+   },
+   "schema": {
+    "file": "eval/prompts/v6_schema.json",
+    "sha256": "12319214260d28baf85be3fcabf94eab2dae04e3cf0aec58e50e81680cde1096"
+   }
+  },
+  "key": {
+   "renderer": "v6",
+   "short_ids_sha256": "ca90a055455940f04f2f4bd8adf784a8a976216d443b0e7fc19758105c3de74c"
+  }
  },
  "full_context": {
   "schema": "v6",
@@ -221,8 +241,6 @@
   },
   "labeler": "Claude Opus 5.5 (claude-opus-5-5) subagents, one fresh agent per batch, given only the v6 system prompt for the batch's mode (verbatim), the batch file and a short note",
   "reruns": [],
-  "renderer": "full_context",
-  "inputs": "packets.py full_context: the whole ancestor chain and replies, or the whole thread in reply order",
   "attempts": {
    "b001": [
     {
@@ -405,6 +423,28 @@
     }
    ]
   },
-  "labeled_on": "2026-10-18"
+  "labeled_on": "2026-10-18",
+  "packets": "packets.py full_context: the whole ancestor chain and replies, or the whole thread in reply order",
+  "inputs": {
+   "thread_renderer": {
+    "file": "eval/prompts/v6_thread.py",
+    "what": "render_chunk, depth_first, _flat, _cut and the cut limits",
+    "sha256": "5714575aba42fb92e0b75ee3a7242a654dfaba6ff5cb68aca3f201164977ee03"
+   },
+   "comment_builder": {
+    "file": "eval/prompts/v6_comment.py",
+    "what": "build_user_message",
+    "defined": false,
+    "sha256": "505ed5e87f335dfb65854af0f9c54ee119cf3352f6efe99d59752f2a78444226"
+   },
+   "schema": {
+    "file": "eval/prompts/v6_schema.json",
+    "sha256": "12319214260d28baf85be3fcabf94eab2dae04e3cf0aec58e50e81680cde1096"
+   }
+  },
+  "key": {
+   "renderer": "full_context",
+   "short_ids_sha256": "7f708c2eb3c444e94e2adf55f26e289d436c699b2ccac6c22e31b8e0b94c8f9e"
+  }
  }
 }

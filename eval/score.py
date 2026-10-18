@@ -154,7 +154,8 @@ def fuzzy(a, b):
 #   * street words match their short forms ("2nd avenue deli" = "2nd ave deli");
 #   * a v6 mention whose overall verdict is negative counts as a negative
 #     mention even when no aspect is ("most overrated restaurant… good pizza"),
-#     on the model side and, for v4's v6 labels, on the reference side;
+#     on the model side and, for v4's v6 labels, on the reference side, unless
+#     the place is closed or the verdict is about the past;
 #   * in thread mode, an unmatched v6 mention named from context with no
 #     opinion (a question or aside in a reply) is not a false positive: the
 #     gold doesn't count those, and whether they should count is the owner's call.
@@ -194,20 +195,30 @@ def is_required(g):
     return not g["ambiguous"] and not g.get("out_of_scope", False)
 
 
+def v6_overall_negative(m):
+    """The fixes rule: a v6 mention whose overall verdict is negative, about
+    the place as it is now. A closed place or a past-timeframe verdict is
+    left out, because the adapter deliberately nulls a closed place's aspects
+    and the old gold never required those as negatives."""
+    v = m.get("v6") or {}
+    return (v.get("overall") in NEGATIVE_LEVELS and v.get("status") != "closed"
+            and v.get("timeframe") != "past")
+
+
 def gold_negative(g, fixes=False):
     """With fixes, a v6 label (v4's Claude labels keep the v6 mention under
-    "v6") whose overall verdict is negative is a negative mention even when no
-    aspect is, the same rule model_negative applies to the model side."""
+    "v6") whose current overall verdict is negative is a negative mention even
+    when no aspect is, the same rule model_negative applies to the model side."""
     if any(v is not None and v <= -1 for v in g["aspects"].values()):
         return True
-    return bool(fixes and (g.get("v6") or {}).get("overall") in NEGATIVE_LEVELS)
+    return bool(fixes and v6_overall_negative(g))
 
 
 def model_negative(m, fixes=False):
     asp = m.get("aspects") if isinstance(m.get("aspects"), dict) else {}
     if any((bucket(asp.get(a)) or 0) < 0 for a in ASPECTS):
         return True
-    if fixes and ((m.get("v6") or {}).get("overall") in NEGATIVE_LEVELS):
+    if fixes and v6_overall_negative(m):
         return True
     return bool(m.get("is_negated"))
 

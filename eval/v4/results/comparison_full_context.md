@@ -1,6 +1,6 @@
 # v4 comparison, reference = full_context labels
 
-Reference: 504 comments, 370 with a required mention. 'weighted' is re-weighted to real traffic; ceilings are Claude against itself.
+Reference: 504 comments, 370 with a required mention. 'weighted' is re-weighted to real traffic; ceilings are Claude against itself. score.py's scorer fixes: on.
 
 ## comment weighted
 

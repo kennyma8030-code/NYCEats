@@ -1,27 +1,27 @@
-# v4 comparison, reference = full_context_fixes labels
+# v4 comparison, reference = full_context_nofixes labels
 
-Reference: 504 comments, 370 with a required mention. 'weighted' is re-weighted to real traffic; ceilings are Claude against itself.
+Reference: 504 comments, 370 with a required mention. 'weighted' is re-weighted to real traffic; ceilings are Claude against itself. score.py's scorer fixes: off.
 
 ## comment weighted
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
 | claude self-consistency (full_context) | 0.029 | 0.973 | 1.0 | 1.0 | – | 1.0 | 1.0 | 22 |
-| claude same_input vs full_context | 0.023 | 0.983 | 0.941 | 0.972 | 0.911 | 0.998 | 0.992 | 200 |
+| claude same_input vs full_context | 0.023 | 0.983 | 0.940 | 0.972 | 0.911 | 0.998 | 0.992 | 200 |
 
 ## comment
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
 | claude self-consistency (full_context) | 0.053 | 0.960 | 1.0 | 1.0 | – | 1.0 | 0.960 | 25 |
-| claude same_input vs full_context | 0.059 | 0.958 | 0.929 | 0.867 | 0.826 | 0.992 | 0.971 | 250 |
+| claude same_input vs full_context | 0.059 | 0.958 | 0.928 | 0.867 | 0.826 | 0.992 | 0.971 | 250 |
 
 ## comment weighted tuning
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
 | claude self-consistency (full_context) | 0.030 | 0.972 | 1.0 | 1.0 | – | 1.0 | 1.0 | 20 |
-| claude same_input vs full_context | 0.018 | 0.985 | 0.935 | 0.971 | 1.0 | 0.998 | 0.990 | 160 |
+| claude same_input vs full_context | 0.018 | 0.985 | 0.934 | 0.971 | 1.0 | 0.998 | 0.990 | 160 |
 
 ## comment weighted holdout
 
@@ -78,7 +78,7 @@ Reference: 504 comments, 370 with a required mention. 'weighted' is re-weighted 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
 | claude self-consistency (full_context) | 0.062 | 0.955 | 1.0 | 1.0 | – | 1.0 | 1.0 | 20 |
-| claude same_input vs full_context | 0.046 | 0.969 | 0.945 | 0.857 | 0.789 | 0.987 | 0.986 | 140 |
+| claude same_input vs full_context | 0.046 | 0.969 | 0.944 | 0.857 | 0.789 | 0.987 | 0.986 | 140 |
 
 ### comment holdout
 
@@ -182,7 +182,7 @@ Reference: 504 comments, 370 with a required mention. 'weighted' is re-weighted 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
 | claude self-consistency (full_context) | 0.000 | 1.0 | 1.0 | – | – | 1.0 | 1.0 | 2 |
-| claude same_input vs full_context | 0.000 | 1.0 | 0.900 | 0.750 | 0.750 | 0.944 | 1.0 | 25 |
+| claude same_input vs full_context | 0.000 | 1.0 | 0.895 | 0.750 | 0.750 | 0.944 | 1.0 | 25 |
 
 ### comment tag:deep_chain_context_gap
 
@@ -229,7 +229,7 @@ Reference: 504 comments, 370 with a required mention. 'weighted' is re-weighted 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
 | claude self-consistency (full_context) | 0.125 | 0.909 | 1.0 | 1.0 | – | 1.0 | 1.0 | 10 |
-| claude same_input vs full_context | 0.049 | 0.974 | 0.951 | 0.818 | 1.0 | 0.987 | 0.987 | 125 |
+| claude same_input vs full_context | 0.049 | 0.974 | 0.950 | 0.818 | 1.0 | 0.987 | 0.987 | 125 |
 
 ### comment tag:original_thread_prompt
 
@@ -285,7 +285,7 @@ Reference: 504 comments, 370 with a required mention. 'weighted' is re-weighted 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
 | claude self-consistency (full_context) | 0.059 | 0.952 | 1.0 | 1.0 | – | 1.0 | 0.952 | 23 |
-| claude same_input vs full_context | 0.056 | 0.961 | 0.931 | 0.857 | 1.0 | 0.993 | 0.977 | 200 |
+| claude same_input vs full_context | 0.056 | 0.961 | 0.930 | 0.857 | 1.0 | 0.993 | 0.977 | 200 |
 
 ### thread draw:random
 

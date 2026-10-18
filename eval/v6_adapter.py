@@ -82,16 +82,33 @@ def adapt_all(mentions):
     return [adapt(m) for m in mentions] if isinstance(mentions, list) else mentions
 
 
+SCHEMA_KEYWORDS = {"$ref", "type", "enum", "properties", "required", "additionalProperties", "items"}
+SCHEMA_ANNOTATIONS = {"$schema", "$id", "$defs", "title", "description"}
+
+
+class UnsupportedSchema(ValueError):
+    """The schema uses a keyword schema_errors does not implement."""
+
+
 def schema_errors(value, node, root=None, path="$"):
     """Errors for value against the v6 schema (v6_common.SCHEMA_COMMENT or
     SCHEMA_THREAD), [] when it is valid. A minimal JSON Schema validator for
-    the subset the v6 schema uses ($ref, type unions, enum, required, closed
-    objects, items), so checking labels needs no extra package. It reads the
-    schema strictly, as structured-output mode would: a missing key, an extra
-    key or an unknown level is an error."""
+    the subset the v6 schema uses ($ref, type unions, enum, properties,
+    required, additionalProperties, items), so checking labels needs no extra
+    package. A keyword outside that subset raises UnsupportedSchema rather
+    than being skipped: a validator that ignores a constraint would pass
+    labels the schema forbids. additionalProperties is read as JSON Schema
+    defines it: false forbids extra keys, a schema validates them, and true or
+    absent allows them (the v6 schema closes every object)."""
     root = root if root is not None else node
+    unknown = set(node) - SCHEMA_KEYWORDS - SCHEMA_ANNOTATIONS
+    if unknown:
+        raise UnsupportedSchema(f"{path}: schema keyword(s) {sorted(unknown)} are not implemented")
     if "$ref" in node:
-        return schema_errors(value, root["$defs"][node["$ref"].split("/")[-1]], root, path)
+        ref = node["$ref"]
+        if not ref.startswith("#/$defs/"):
+            raise UnsupportedSchema(f"{path}: only local #/$defs/ references are implemented, not {ref}")
+        return schema_errors(value, root["$defs"][ref.split("/")[-1]], root, path)
     types = node.get("type")
     types = types if isinstance(types, list) else [types] if types else []
     pytype = {"object": dict, "array": list, "string": str, "boolean": bool, "null": type(None)}
@@ -103,12 +120,15 @@ def schema_errors(value, node, root=None, path="$"):
         errs.append(f"{path}: {value!r} not in enum")
     if isinstance(value, dict):
         props = node.get("properties", {})
+        extra = node.get("additionalProperties", True)
         errs += [f"{path}: missing {k}" for k in node.get("required", []) if k not in value]
         for k, v in value.items():
-            if k not in props:
-                errs.append(f"{path}: extra key {k}")
-            else:
+            if k in props:
                 errs += schema_errors(v, props[k], root, f"{path}.{k}")
+            elif extra is False:
+                errs.append(f"{path}: extra key {k}")
+            elif isinstance(extra, dict):
+                errs += schema_errors(v, extra, root, f"{path}.{k}")
     if isinstance(value, list) and "items" in node:
         for i, v in enumerate(value):
             errs += schema_errors(v, node["items"], root, f"{path}[{i}]")

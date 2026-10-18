@@ -390,8 +390,15 @@ Run the two passes with separate labelers.
 Both passes are labeled with the v6 prompts as frozen at commit `d61c91a`:
 `v6_comment.py` (prompt hash `a15cfb978cce`) for comment packets and
 `v6_thread.py` (`44e1a49c7781`) for thread packets. `labels/manifest.json`
-records the files, hashes and full sha256 of each system prompt; `labels.py`
-notes it if a prompt file has changed since.
+(written by `labels.py init`) records the sha256 of each system prompt, of
+the code that draws a candidate's input (v6's thread renderer; v6 comment
+mode defines no builder and sends production's stored message) and of
+`v6_schema.json`, and the key the labels were made against: its renderer
+and a fingerprint of its bracket numbers, which `batches.py` also writes to
+`keys/<pass>.meta.json`. `labels.py` refuses labels whose key no longer
+matches (rebuilding packets with `--renderer production` would renumber the
+chunks and move every thread label onto the wrong comment), and notes any
+prompt, renderer or schema change since labeling.
 
 **What changed in same_input.** v6 keeps production's comment-mode message,
 so the 250 single packets (and their 25 duplicates) are unchanged, byte for
@@ -426,20 +433,27 @@ Each file was checked with `labels.py check --batch` as it landed. All 60
 batch files passed the strict v6 schema check on the first attempt, so there
 were no re-runs.
 
-**Agreement** (`results/label_agreement.md`, v6 fields, places matched by
-`score.py`'s keys):
+**Agreement** (`label_agreement.py` → `results/label_agreement.md`, v6
+fields, places keyed exactly as `score.py` keys a run: chains and excluded
+entities dropped, street words normalized):
 
-| | comments | mention F1 | overall sign | overall exact | negative F1 | differ |
+| | comments | mention F1 | overall sign | overall exact | matched negative F1 | differ |
 |---|---:|---:|---:|---:|---:|---:|
-| self-consistency, same_input | 71 | 0.965 | 1.00 | 0.92 | 1.00 | 9.9% |
-| self-consistency, full_context | 71 | 0.976 | 1.00 | 0.98 | 1.00 | 7.0% |
-| same_input vs full_context | 504 | 0.975 | 0.996 | 0.95 | 0.968 | 9.5% |
+| self-consistency, same_input | 71 | 0.964 | 1.00 | 0.92 | 1.00 | 9.9% |
+| self-consistency, full_context | 71 | 0.982 | 1.00 | 0.98 | 1.00 | 5.6% |
+| same_input vs full_context | 504 | 0.975 | 0.998 | 0.96 | 0.96 | 9.3% |
 
-"differ" is a comment whose places, overall sign, overall presence or
+"matched negative F1" looks only at places both sides found and asks
+whether both call them negative, under `score.py`'s negative rule with its
+fixes (a negative aspect, avoid, or a current negative overall). It is not
+`compare_v4.py`'s `negative_mention_recall`, which reads one side as the
+reference and also counts a negative the other side dropped as a miss
+(same_input against full_context: 0.93 in comment mode, 0.91 in thread
+mode). "differ" is a comment whose places, overall sign, overall presence or
 negative status differ. The context the inputs lack shows most in
 `deep_chain_context_gap` (29% of comments differ, mention F1 0.83: the place
-is named two levels up), `dish_complaint` and `neg_wording_nonneg_score`
-(29%), and the v1 overlap items (18%). Thread chunks differ least (6%): v6's
+is named two levels up), `dish_complaint` (29%), `neg_wording_nonneg_score`
+(21%) and the v1 overlap items (18%). Thread chunks differ least (7%): v6's
 parent markers and stubs carry most of what the full thread adds.
 
 Against v1's hand gold on the 50 overlap items (`compare_v4.py`, through the
@@ -469,10 +483,19 @@ python eval/run.py --model x/y --mode thread  --items eval/v4/items_thread.jsonl
 # 3. compare every eval/runs/*__v4*.jsonl to Claude's labels
 python eval/v4/compare_v4.py --ref full_context    # gold reference
 python eval/v4/compare_v4.py --ref same_input      # same-input reference
-python eval/v4/compare_v4.py --ref same_input --fixes   # also count a negative v6 overall as a negative, both sides
+python eval/v4/compare_v4.py --ref same_input --fixes off   # without score.py's scorer fixes
 python eval/v4/label_agreement.py                  # Claude vs itself in v6's own fields
 python eval/v4/selftest.py                         # tooling regression checks (no data needed)
 ```
+
+With v6 labels as the reference, `compare_v4.py` and `next_round.py` both
+turn on `score.py`'s scorer fixes by default (`--fixes auto`): a current
+negative v6 `overall` counts as a negative on both sides (a closed place or
+a past verdict does not, matching the adapter, which nulls a closed place's
+aspects), street words match their short forms, and in thread mode a
+context-named mention with no opinion is not a false positive. Reporting
+and round 2's failure typing therefore use the same rules. `--fixes off`
+writes `*_nofixes.*`.
 
 `labels.py export` fails with a nonzero exit and writes nothing in any of
 these cases:
@@ -482,7 +505,12 @@ these cases:
 - a packet is labeled twice;
 - a mention fails the schema, including a thread `id` that is not a
   bracket number;
+- for a v6 pass, an output fails the strict v6 schema, or the key is not
+  the one the manifest recorded;
 - a packet is unlabeled (`--allow-missing` exports a partial pass).
+
+`check --batch bNNN` checks one labeler's file and fails on a batch the key
+does not have; `export` always writes the whole pass and rejects `--batch`.
 
 Nothing is silently dropped or overwritten.
 
@@ -524,9 +552,22 @@ round's `snapshot_at` with `mixed_snapshots: true`.
 python eval/v4/next_round.py eval/runs/*__v4.jsonl --dry-run          # failure rates + proposed allocation
 EVAL_DB_URL=... python eval/v4/next_round.py eval/runs/*__v4.jsonl    # draws eval/v4/round2/ (read-only DB)
 python eval/v4/packets.py --dir eval/v4/round2 && python eval/v4/batches.py --dir eval/v4/round2
-# label round2/batches/*, labels.py export --pass ... --dir eval/v4/round2,
-# run the models on round2/items_single.jsonl and items_thread.jsonl, then compare_v4.py (pools all rounds)
+python eval/v4/labels.py init --dir eval/v4/round2 --pass same_input --commit <rev>     # and --pass full_context
+# label round2/batches/* (labels.py check --batch bNNN --dir ... as each file lands),
+# labels.py export --pass ... --dir eval/v4/round2, run the models with the v6 prompts on
+# round2/items_single.jsonl (comment) and items_thread.jsonl (thread), then compare_v4.py (pools all rounds)
 ```
+
+The draw also writes `items_single.thread_rows.jsonl` and
+`items_thread.thread_rows.jsonl`, the raw rows v6's thread renderer draws
+from, read-only and verified against production's rendering exactly as
+`eval/build_thread_rows.py` does; a chunk that does not verify stops the
+draw before `round<N>/` exists. `packets.py` (v6 by default) and `run.py`
+both need them. For a round drawn before this, run
+`eval/build_thread_rows.py` on its two item files first. The whole path
+after the draw (sidecars, packets, batches, `labels.py init`, `check
+--batch`) was tested on a scratch copy of round 1's items, and rebuilt
+round 1's sidecars, batches and key byte for byte.
 
 `next_round.py` takes one or more candidate model run files. A path that
 doesn't exist, such as an unexpanded glob, stops it with a message. It

@@ -59,8 +59,9 @@ The database is only read, and only when drawing (to render the new items).
    and every thread an earlier round took a chunk from, is excluded, as are
    the v1/v2 sets. The round is built in a hidden temp dir and renamed to
    round<N>/ only when complete (items.jsonl, design.json,
-   failure_rates.json). Then run packets.py and batches.py with --dir, and
-   label it.
+   failure_rates.json, and the .thread_rows.jsonl sidecars v6's thread
+   renderer needs). Then run packets.py and batches.py with --dir,
+   labels.py init for each pass, and label it.
 """
 
 import argparse
@@ -80,6 +81,8 @@ import score as S  # noqa: E402
 import corpus  # noqa: E402
 import design as D  # noqa: E402
 import compare_v4 as CV  # noqa: E402
+import labels as L  # noqa: E402
+import build_thread_rows as BTR  # noqa: E402  (raw rows for the v6 thread renderer)
 from extract import CHAINS  # noqa: E402
 
 FAILURES = ["dropped_comment", "dropped_mention", "wrong_place", "spurious_mention", "wrong_sign",
@@ -90,12 +93,18 @@ SHORT = dict(zip(FAILURES, ["drop_cmt", "drop_mnt", "wrong_pl", "spurious", "sig
 RANDOM_SHARE = 0.30
 
 
-def failures(g, preds, alias, excluded):
+def failures(g, preds, alias, excluded, mode, fixes=False):
+    """The failure types of one system on one labeled comment. fixes turns on
+    score.py's scorer fixes exactly as score_comment applies them (street
+    words in matching, a current negative v6 overall as a negative on both
+    sides, thread-mode context references not counted as spurious), so round
+    2 is drawn from the failures compare_v4.py reports."""
     ms = S.model_mentions(preds, alias, True)
     gms = [x for x in g["mentions"] if x["canonical_key"] not in CHAINS]
     required = [x for x in gms if S.is_required(x)]
-    pairs, fps = S.match(gms, ms)
-    fps = [m for m in fps if m["_key"] not in excluded]
+    pairs, fps = S.match(gms, ms, fixes)
+    fps = [m for m in fps if m["_key"] not in excluded
+           and not (fixes and mode == "thread" and S.context_reference(m))]
     matched = {id(x): m for x, m, _ in pairs}
     F = set()
     if required and not [m for m in ms if m["_key"] not in excluded]:
@@ -111,7 +120,7 @@ def failures(g, preds, alias, excluded):
         m = matched.get(id(x))
         dish_negs = [d for d in x.get("dish_sentiment", []) if (d["level"] is not None and d["level"] <= -1) or d["avoid"]]
         if m is None:
-            if S.gold_negative(x):
+            if S.gold_negative(x, fixes):
                 F.add("missed_negative")
             if x.get("value_complaint"):
                 F.add("missed_price_complaint")
@@ -125,7 +134,7 @@ def failures(g, preds, alias, excluded):
                 F.add("wrong_sign")
             if gv is not None and gv <= -1 and (mv is None or mv > gv):
                 F.add("scored_milder")
-        if S.gold_negative(x) and not S.model_negative(m):
+        if S.gold_negative(x, fixes) and not S.model_negative(m, fixes):
             F.add("missed_negative")
         if x["is_negated"] and not m.get("is_negated"):
             F.add("missed_negation")
@@ -152,7 +161,7 @@ def new_tally():
             {m: collections.Counter() for m in MODES})
 
 
-def measure_file(by_item, ref, path, items, alias, excluded, per, wsum):
+def measure_file(by_item, ref, path, items, alias, excluded, per, wsum, fixes=False):
     """Add one run file's failures to per / wsum. Mirrors compare_v4.evaluate:
     a comment-mode run counts on single items, a thread-mode run on chunks,
     any other mode (production's "stored") on both. Returns how many gold
@@ -170,7 +179,7 @@ def measure_file(by_item, ref, path, items, alias, excluded, per, wsum):
             continue
         if run_mode in MODES and it["mode"] != run_mode:
             continue
-        F = failures(g, preds.get(cid, []), alias, excluded)
+        F = failures(g, preds.get(cid, []), alias, excluded, it["mode"], fixes)
         mode = it["mode"]
         tags = set(it["tags"]) | {f"stratum:{it['stratum']}", "all"}
         if it["kind"] == "thread":
@@ -183,6 +192,26 @@ def measure_file(by_item, ref, path, items, alias, excluded, per, wsum):
             for f in F:
                 wsum[mode][f] += it["weight"]
     return missing
+
+
+def write_thread_rows(round_dir, conn):
+    """Write <items>.thread_rows.jsonl next to items_single.jsonl and
+    items_thread.jsonl, as eval/build_thread_rows.py does: the raw rows v6's
+    thread renderer draws from, which packets.py and run.py need for any
+    thread chunk. Read-only, and every chunk is verified against production's
+    rendering first; any problem stops the draw before the round exists."""
+    built = {}
+    for name in ("items_single.jsonl", "items_thread.jsonl"):
+        path = os.path.join(round_dir, name)
+        records, problems = BTR.build(path, conn)
+        if problems:
+            raise SystemExit(f"{name}: raw rows do not reproduce {len(problems)} chunk(s), e.g. {problems[:3]}")
+        built[path] = records
+    for path, records in built.items():
+        with open(BTR.sidecar_path(path), "w", encoding="utf-8") as f:
+            for r in records:
+                f.write(json.dumps(r, ensure_ascii=False) + "\n")
+    return {os.path.basename(p): len(r) for p, r in built.items()}
 
 
 def model_of(path):
@@ -243,6 +272,9 @@ def main():
     ap.add_argument("--comments-per-mode", type=int, default=250)
     ap.add_argument("--dry-run", action="store_true", help="report failures and allocation; draw nothing")
     ap.add_argument("--base", default=HERE, help="round 1 directory; later rounds live in <base>/round<N>")
+    ap.add_argument("--fixes", choices=("auto", "on", "off"), default="auto",
+                    help="score.py's scorer fixes when typing failures; auto (default) turns them on when "
+                         "the reference pass was labeled with v6, the same default compare_v4.py uses")
     args = ap.parse_args()
     args.modes = [m.strip() for m in args.modes.split(",") if m.strip()]
     if not args.modes or set(args.modes) - set(MODES):
@@ -252,6 +284,7 @@ def main():
     dirs = CV.round_dirs(base)
     round_no = args.round or len(dirs) + 1
     items = CV.load_rounds(dirs)
+    fixes = L.default_fixes(dirs, args.ref) if args.fixes == "auto" else args.fixes == "on"
     ref = [g for d in dirs for p in [os.path.join(d, "labels", args.ref + ".gold.jsonl")]
            if os.path.exists(p) for g in CV.load_jsonl(p)]
     if not ref:
@@ -276,7 +309,8 @@ def main():
     for paths in models.values():
         per_m, wsum_m = new_tally()
         for p in paths:
-            missing = max(missing, measure_file(by_item, ref, p, items, alias, excluded, per_m, wsum_m))
+            missing = max(missing, measure_file(by_item, ref, p, items, alias, excluded, per_m, wsum_m,
+                                                fixes))
         tallies.append((per_m, wsum_m))
     if missing:
         print(f"warning: {missing} labeled comment(s) belong to items that are not loaded; skipped",
@@ -306,7 +340,7 @@ def main():
             "thread": {"random_comments": (budget - tgt) if "thread" in args.modes else 0,
                        "strata_comments": q_t},
             "overlap_v1": 0}
-    report = {"round": round_no, "reference": args.ref,
+    report = {"round": round_no, "reference": args.ref, "scorer_fixes": fixes,
               "models": {k: [os.path.relpath(p, EVAL) for p in v] for k, v in models.items()},
               "model_weighting": "equal per model: failure rates averaged across models",
               "allocation_basis": basis, "skipped_unloaded_gold_lines": missing,
@@ -316,6 +350,7 @@ def main():
                                  **{f + "_rate": round(c[f] / c["n"], 3) for f in FAILURES if c[f]}}
                              for t, c in sorted(per[m].items())} for m in per},
               "spec": spec}
+    print(f"scorer fixes: {'on' if fixes else 'off'}")
     print(f"models (equal weight): {', '.join(f'{k} ({len(v)} file(s))' for k, v in models.items())}")
     for m in MODES:
         print(f"\n== {m} mode ({basis[m]}): failure rate by heuristic, averaged over models "
@@ -359,25 +394,31 @@ def main():
     singles, stratum_c, d_c = D.draw_comments(cp, spec["comment"], seed, cp.old_ids | prior | in_chunks)
     design = {"thread": d_t, "comment": d_c}
     conn = corpus.connect()
-    new, mismatches = D.build_items(conn, cp, singles, chunks, stratum_c, stratum_t, design, round_no, seed)
-    conn.close()
-    D.assign_splits(new, seed)
-    meta = D.summarize(cp, new, design, mismatches, round_no, seed, spec)
-    # Build in a hidden temp dir and rename at the end: a draw that fails
-    # leaves no half-written round<N>/ for load_rounds to pick up.
-    tmp = tempfile.mkdtemp(prefix=f".round{round_no}-", dir=base)
     try:
-        D.write_round(tmp, new, meta)
-        with open(os.path.join(tmp, "failure_rates.json"), "w", encoding="utf-8") as f:
-            json.dump(report, f, indent=1)
-        os.rename(tmp, out_dir)
-    except BaseException:
-        shutil.rmtree(tmp, ignore_errors=True)
-        raise
+        new, mismatches = D.build_items(conn, cp, singles, chunks, stratum_c, stratum_t, design, round_no, seed)
+        D.assign_splits(new, seed)
+        meta = D.summarize(cp, new, design, mismatches, round_no, seed, spec)
+        # Build in a hidden temp dir and rename at the end: a draw that fails
+        # leaves no half-written round<N>/ for load_rounds to pick up.
+        tmp = tempfile.mkdtemp(prefix=f".round{round_no}-", dir=base)
+        try:
+            D.write_round(tmp, new, meta)
+            write_thread_rows(tmp, conn)
+            with open(os.path.join(tmp, "failure_rates.json"), "w", encoding="utf-8") as f:
+                json.dump(report, f, indent=1)
+            os.rename(tmp, out_dir)
+        except BaseException:
+            shutil.rmtree(tmp, ignore_errors=True)
+            raise
+    finally:
+        conn.close()
     print(json.dumps(meta["counts"], indent=1))
     print(f"\nnext: python eval/v4/packets.py --dir {out_dir} && python eval/v4/batches.py --dir {out_dir}")
-    print("      label both passes, then labels.py export --dir ... for each pass")
-    print(f"      run the candidate models on {out_dir}/items_single.jsonl and items_thread.jsonl, then compare_v4.py")
+    print(f"      python eval/v4/labels.py init --dir {out_dir} --pass same_input --commit <rev>   (and full_context)")
+    print("      label both passes (labels.py check --batch as each file lands), then labels.py export --dir ... "
+          "for each pass")
+    print(f"      run the candidate models with the v6 prompts on {out_dir}/items_single.jsonl (comment mode) and "
+          f"items_thread.jsonl (thread mode), then compare_v4.py")
 
 
 if __name__ == "__main__":

@@ -6,21 +6,21 @@
    "comments_same_places": 0.915,
    "comments_materially_different": 0.099,
    "mentions": [
-    83,
-    87
+    82,
+    86
    ],
-   "mention_agreement_f1": 0.965,
-   "matched": 82,
+   "mention_agreement_f1": 0.964,
+   "matched": 81,
    "overall_presence_agreement": 0.988,
    "overall_sign_agreement": 1.0,
-   "overall_exact_agreement": 0.917,
-   "negative_agreement_f1": 1.0,
+   "overall_exact_agreement": 0.915,
+   "matched_negative_f1": 1.0,
    "negatives": [
     15,
     15
    ],
    "taste": {
-    "presence": 0.976,
+    "presence": 0.975,
     "set_either": 12,
     "both_set_of_either": 0.833,
     "sign": 1.0,
@@ -67,18 +67,18 @@
   "all": {
    "comments": 71,
    "comment_presence_agreement": 0.958,
-   "comments_same_places": 0.944,
-   "comments_materially_different": 0.07,
+   "comments_same_places": 0.958,
+   "comments_materially_different": 0.056,
    "mentions": [
-    85,
+    84,
     83
    ],
-   "mention_agreement_f1": 0.976,
+   "mention_agreement_f1": 0.982,
    "matched": 82,
    "overall_presence_agreement": 0.988,
    "overall_sign_agreement": 1.0,
    "overall_exact_agreement": 0.979,
-   "negative_agreement_f1": 1.0,
+   "matched_negative_f1": 1.0,
    "negatives": [
     14,
     14
@@ -132,30 +132,30 @@
    "comments": 504,
    "comment_presence_agreement": 0.966,
    "comments_same_places": 0.952,
-   "comments_materially_different": 0.095,
+   "comments_materially_different": 0.093,
    "mentions": [
-    657,
-    649
+    639,
+    631
    ],
    "mention_agreement_f1": 0.975,
-   "matched": 637,
-   "overall_presence_agreement": 0.972,
-   "overall_sign_agreement": 0.996,
-   "overall_exact_agreement": 0.949,
-   "negative_agreement_f1": 0.968,
+   "matched": 619,
+   "overall_presence_agreement": 0.971,
+   "overall_sign_agreement": 0.998,
+   "overall_exact_agreement": 0.958,
+   "matched_negative_f1": 0.96,
    "negatives": [
-    123,
-    125
+    112,
+    111
    ],
    "taste": {
-    "presence": 0.961,
-    "set_either": 159,
-    "both_set_of_either": 0.843,
-    "sign": 0.97,
-    "exact": 0.94
+    "presence": 0.96,
+    "set_either": 156,
+    "both_set_of_either": 0.84,
+    "sign": 0.969,
+    "exact": 0.939
    },
    "value": {
-    "presence": 0.986,
+    "presence": 0.985,
     "set_either": 39,
     "both_set_of_either": 0.769,
     "sign": 1.0,
@@ -182,8 +182,8 @@
     "sign": 1.0,
     "exact": 0.955
    },
-   "opinion_agreement": 0.962,
-   "experience_agreement": 0.984,
+   "opinion_agreement": 0.961,
+   "experience_agreement": 0.985,
    "avoid_agreement": 0.994,
    "named_in_agreement": 0.994,
    "timeframe_agreement": 0.997,
@@ -195,23 +195,23 @@
     "comments": 140,
     "comment_presence_agreement": 0.979,
     "comments_same_places": 0.971,
-    "comments_materially_different": 0.071,
+    "comments_materially_different": 0.079,
     "mentions": [
-     115,
-     115
+     112,
+     112
     ],
-    "mention_agreement_f1": 0.983,
-    "matched": 113,
-    "overall_presence_agreement": 0.956,
+    "mention_agreement_f1": 0.982,
+    "matched": 110,
+    "overall_presence_agreement": 0.955,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.925,
-    "negative_agreement_f1": 0.971,
+    "overall_exact_agreement": 0.969,
+    "matched_negative_f1": 0.951,
     "negatives": [
-     35,
-     35
+     31,
+     30
     ],
     "taste": {
-     "presence": 0.947,
+     "presence": 0.945,
      "set_either": 35,
      "both_set_of_either": 0.829,
      "sign": 0.931,
@@ -245,7 +245,7 @@
      "sign": 1.0,
      "exact": 1.0
     },
-    "opinion_agreement": 0.938,
+    "opinion_agreement": 0.936,
     "experience_agreement": 0.973,
     "avoid_agreement": 1.0,
     "named_in_agreement": 0.991,
@@ -259,15 +259,15 @@
     "comments_same_places": 0.891,
     "comments_materially_different": 0.138,
     "mentions": [
-     112,
-     105
+     111,
+     104
     ],
-    "mention_agreement_f1": 0.903,
-    "matched": 98,
+    "mention_agreement_f1": 0.902,
+    "matched": 97,
     "overall_presence_agreement": 0.969,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.925,
-    "negative_agreement_f1": 0.945,
+    "overall_exact_agreement": 0.923,
+    "matched_negative_f1": 0.945,
     "negatives": [
      27,
      28
@@ -287,7 +287,7 @@
      "exact": 1.0
     },
     "service": {
-     "presence": 0.98,
+     "presence": 0.979,
      "set_either": 9,
      "both_set_of_either": 0.778,
      "sign": 1.0,
@@ -319,27 +319,27 @@
     "comments": 226,
     "comment_presence_agreement": 0.991,
     "comments_same_places": 0.978,
-    "comments_materially_different": 0.084,
+    "comments_materially_different": 0.075,
     "mentions": [
-     430,
-     429
+     416,
+     415
     ],
     "mention_agreement_f1": 0.992,
-    "matched": 426,
-    "overall_presence_agreement": 0.977,
-    "overall_sign_agreement": 0.995,
-    "overall_exact_agreement": 0.956,
-    "negative_agreement_f1": 0.976,
+    "matched": 412,
+    "overall_presence_agreement": 0.976,
+    "overall_sign_agreement": 0.997,
+    "overall_exact_agreement": 0.961,
+    "matched_negative_f1": 0.972,
     "negatives": [
-     61,
-     62
+     54,
+     53
     ],
     "taste": {
-     "presence": 0.965,
-     "set_either": 108,
-     "both_set_of_either": 0.861,
+     "presence": 0.964,
+     "set_either": 105,
+     "both_set_of_either": 0.857,
      "sign": 0.978,
-     "exact": 0.946
+     "exact": 0.944
     },
     "value": {
      "presence": 0.993,
@@ -369,8 +369,8 @@
      "sign": 1.0,
      "exact": 0.923
     },
-    "opinion_agreement": 0.979,
-    "experience_agreement": 0.993,
+    "opinion_agreement": 0.978,
+    "experience_agreement": 0.995,
     "avoid_agreement": 0.993,
     "named_in_agreement": 0.993,
     "timeframe_agreement": 1.0,
@@ -383,35 +383,35 @@
     "comments_same_places": 0.86,
     "comments_materially_different": 0.18,
     "mentions": [
-     58,
-     59
+     51,
+     52
     ],
-    "mention_agreement_f1": 0.906,
-    "matched": 53,
-    "overall_presence_agreement": 0.962,
+    "mention_agreement_f1": 0.893,
+    "matched": 46,
+    "overall_presence_agreement": 0.957,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.977,
-    "negative_agreement_f1": 1.0,
+    "overall_exact_agreement": 0.974,
+    "matched_negative_f1": 1.0,
     "negatives": [
-     8,
-     8
+     7,
+     7
     ],
     "taste": {
-     "presence": 0.981,
+     "presence": 0.978,
      "set_either": 6,
      "both_set_of_either": 0.833,
      "sign": 1.0,
      "exact": 1.0
     },
     "value": {
-     "presence": 0.981,
+     "presence": 0.978,
      "set_either": 1,
      "both_set_of_either": 0.0,
      "sign": null,
      "exact": null
     },
     "service": {
-     "presence": 0.981,
+     "presence": 0.978,
      "set_either": 3,
      "both_set_of_either": 0.667,
      "sign": 1.0,
@@ -431,9 +431,9 @@
      "sign": 1.0,
      "exact": 1.0
     },
-    "opinion_agreement": 0.943,
+    "opinion_agreement": 0.935,
     "experience_agreement": 1.0,
-    "avoid_agreement": 0.981,
+    "avoid_agreement": 0.978,
     "named_in_agreement": 1.0,
     "timeframe_agreement": 1.0,
     "status_agreement": 1.0,
@@ -445,25 +445,25 @@
     "comments_same_places": 0.959,
     "comments_materially_different": 0.076,
     "mentions": [
-     188,
-     185
+     182,
+     179
     ],
     "mention_agreement_f1": 0.981,
-    "matched": 183,
-    "overall_presence_agreement": 0.984,
+    "matched": 177,
+    "overall_presence_agreement": 0.983,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.947,
-    "negative_agreement_f1": 0.933,
+    "overall_exact_agreement": 0.966,
+    "matched_negative_f1": 0.93,
     "negatives": [
-     22,
-     23
+     21,
+     22
     ],
     "taste": {
-     "presence": 0.956,
-     "set_either": 33,
-     "both_set_of_either": 0.758,
+     "presence": 0.955,
+     "set_either": 32,
+     "both_set_of_either": 0.75,
      "sign": 1.0,
-     "exact": 0.92
+     "exact": 0.917
     },
     "value": {
      "presence": 1.0,
@@ -473,7 +473,7 @@
      "exact": 1.0
     },
     "service": {
-     "presence": 0.995,
+     "presence": 0.994,
      "set_either": 5,
      "both_set_of_either": 0.8,
      "sign": 1.0,
@@ -493,39 +493,39 @@
      "sign": 1.0,
      "exact": 1.0
     },
-    "opinion_agreement": 0.956,
-    "experience_agreement": 0.978,
+    "opinion_agreement": 0.955,
+    "experience_agreement": 0.977,
     "avoid_agreement": 1.0,
-    "named_in_agreement": 0.995,
+    "named_in_agreement": 0.994,
     "timeframe_agreement": 0.989,
-    "status_agreement": 0.995,
+    "status_agreement": 0.994,
     "trend_agreement": 1.0
    },
    "draw:targeted": {
     "comments": 309,
     "comment_presence_agreement": 0.971,
     "comments_same_places": 0.964,
-    "comments_materially_different": 0.091,
+    "comments_materially_different": 0.087,
     "mentions": [
-     411,
-     405
+     406,
+     400
     ],
     "mention_agreement_f1": 0.983,
-    "matched": 401,
-    "overall_presence_agreement": 0.968,
-    "overall_sign_agreement": 0.993,
-    "overall_exact_agreement": 0.945,
-    "negative_agreement_f1": 0.973,
+    "matched": 396,
+    "overall_presence_agreement": 0.967,
+    "overall_sign_agreement": 0.997,
+    "overall_exact_agreement": 0.951,
+    "matched_negative_f1": 0.964,
     "negatives": [
-     93,
-     94
+     84,
+     82
     ],
     "taste": {
      "presence": 0.96,
-     "set_either": 120,
-     "both_set_of_either": 0.867,
-     "sign": 0.962,
-     "exact": 0.942
+     "set_either": 118,
+     "both_set_of_either": 0.864,
+     "sign": 0.961,
+     "exact": 0.941
     },
     "value": {
      "presence": 0.98,
@@ -535,30 +535,30 @@
      "exact": 0.897
     },
     "service": {
-     "presence": 0.988,
+     "presence": 0.987,
      "set_either": 24,
      "both_set_of_either": 0.792,
      "sign": 1.0,
      "exact": 0.895
     },
     "atmosphere": {
-     "presence": 0.993,
+     "presence": 0.992,
      "set_either": 17,
      "both_set_of_either": 0.824,
      "sign": 1.0,
      "exact": 1.0
     },
     "wait": {
-     "presence": 0.998,
+     "presence": 0.997,
      "set_either": 14,
      "both_set_of_either": 0.929,
      "sign": 1.0,
      "exact": 0.923
     },
-    "opinion_agreement": 0.968,
-    "experience_agreement": 0.985,
-    "avoid_agreement": 0.993,
-    "named_in_agreement": 0.993,
+    "opinion_agreement": 0.967,
+    "experience_agreement": 0.987,
+    "avoid_agreement": 0.992,
+    "named_in_agreement": 0.992,
     "timeframe_agreement": 1.0,
     "status_agreement": 1.0,
     "trend_agreement": 1.0
@@ -567,27 +567,27 @@
     "comments": 250,
     "comment_presence_agreement": 0.948,
     "comments_same_places": 0.924,
-    "comments_materially_different": 0.128,
+    "comments_materially_different": 0.12,
     "mentions": [
-     394,
-     389
+     379,
+     374
     ],
-    "mention_agreement_f1": 0.966,
-    "matched": 378,
-    "overall_presence_agreement": 0.979,
-    "overall_sign_agreement": 0.994,
-    "overall_exact_agreement": 0.955,
-    "negative_agreement_f1": 0.973,
+    "mention_agreement_f1": 0.964,
+    "matched": 363,
+    "overall_presence_agreement": 0.978,
+    "overall_sign_agreement": 0.997,
+    "overall_exact_agreement": 0.97,
+    "matched_negative_f1": 0.97,
     "negatives": [
-     73,
-     75
+     66,
+     66
     ],
     "taste": {
-     "presence": 0.968,
-     "set_either": 81,
-     "both_set_of_either": 0.852,
-     "sign": 0.971,
-     "exact": 0.957
+     "presence": 0.967,
+     "set_either": 79,
+     "both_set_of_either": 0.848,
+     "sign": 0.97,
+     "exact": 0.955
     },
     "value": {
      "presence": 0.989,
@@ -617,11 +617,11 @@
      "sign": 1.0,
      "exact": 0.917
     },
-    "opinion_agreement": 0.968,
-    "experience_agreement": 0.987,
+    "opinion_agreement": 0.967,
+    "experience_agreement": 0.989,
     "avoid_agreement": 0.989,
     "named_in_agreement": 0.992,
-    "timeframe_agreement": 0.995,
+    "timeframe_agreement": 0.994,
     "status_agreement": 0.997,
     "trend_agreement": 1.0
    },
@@ -629,37 +629,37 @@
     "comments": 254,
     "comment_presence_agreement": 0.984,
     "comments_same_places": 0.98,
-    "comments_materially_different": 0.063,
+    "comments_materially_different": 0.067,
     "mentions": [
-     263,
-     260
+     260,
+     257
     ],
     "mention_agreement_f1": 0.99,
-    "matched": 259,
+    "matched": 256,
     "overall_presence_agreement": 0.961,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.937,
-    "negative_agreement_f1": 0.96,
+    "overall_exact_agreement": 0.936,
+    "matched_negative_f1": 0.945,
     "negatives": [
-     50,
-     50
+     46,
+     45
     ],
     "taste": {
-     "presence": 0.95,
-     "set_either": 78,
-     "both_set_of_either": 0.833,
+     "presence": 0.949,
+     "set_either": 77,
+     "both_set_of_either": 0.831,
      "sign": 0.969,
-     "exact": 0.923
+     "exact": 0.922
     },
     "value": {
-     "presence": 0.981,
+     "presence": 0.98,
      "set_either": 13,
      "both_set_of_either": 0.615,
      "sign": 1.0,
      "exact": 1.0
     },
     "service": {
-     "presence": 0.985,
+     "presence": 0.984,
      "set_either": 14,
      "both_set_of_either": 0.714,
      "sign": 1.0,
@@ -679,8 +679,8 @@
      "sign": 1.0,
      "exact": 1.0
     },
-    "opinion_agreement": 0.954,
-    "experience_agreement": 0.981,
+    "opinion_agreement": 0.953,
+    "experience_agreement": 0.98,
     "avoid_agreement": 1.0,
     "named_in_agreement": 0.996,
     "timeframe_agreement": 1.0,
@@ -691,23 +691,23 @@
     "comments": 12,
     "comment_presence_agreement": 1.0,
     "comments_same_places": 1.0,
-    "comments_materially_different": 0.167,
+    "comments_materially_different": 0.083,
     "mentions": [
-     36,
-     36
+     35,
+     35
     ],
     "mention_agreement_f1": 1.0,
-    "matched": 36,
+    "matched": 35,
     "overall_presence_agreement": 1.0,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.969,
-    "negative_agreement_f1": 0.917,
+    "overall_exact_agreement": 1.0,
+    "matched_negative_f1": 0.952,
     "negatives": [
-     11,
-     13
+     10,
+     11
     ],
     "taste": {
-     "presence": 0.944,
+     "presence": 0.943,
      "set_either": 8,
      "both_set_of_either": 0.75,
      "sign": 0.833,
@@ -744,7 +744,7 @@
     "opinion_agreement": 1.0,
     "experience_agreement": 1.0,
     "avoid_agreement": 1.0,
-    "named_in_agreement": 0.972,
+    "named_in_agreement": 0.971,
     "timeframe_agreement": 1.0,
     "status_agreement": 1.0,
     "trend_agreement": 1.0
@@ -763,7 +763,7 @@
     "overall_presence_agreement": 1.0,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 0.915,
-    "negative_agreement_f1": 1.0,
+    "matched_negative_f1": 1.0,
     "negatives": [
      2,
      2
@@ -815,7 +815,7 @@
     "comments": 75,
     "comment_presence_agreement": 0.987,
     "comments_same_places": 0.973,
-    "comments_materially_different": 0.04,
+    "comments_materially_different": 0.053,
     "mentions": [
      34,
      34
@@ -825,10 +825,10 @@
     "overall_presence_agreement": 0.939,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 0.895,
-    "negative_agreement_f1": 1.0,
+    "matched_negative_f1": 0.963,
     "negatives": [
-     15,
-     15
+     14,
+     13
     ],
     "taste": {
      "presence": 0.97,
@@ -879,23 +879,23 @@
     "comments_same_places": 1.0,
     "comments_materially_different": 0.047,
     "mentions": [
-     46,
-     46
+     45,
+     45
     ],
     "mention_agreement_f1": 1.0,
-    "matched": 46,
-    "overall_presence_agreement": 0.957,
+    "matched": 45,
+    "overall_presence_agreement": 0.956,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 1.0,
-    "negative_agreement_f1": 0.973,
+    "matched_negative_f1": 0.971,
     "negatives": [
-     18,
-     19
+     17,
+     18
     ],
     "taste": {
-     "presence": 0.913,
-     "set_either": 25,
-     "both_set_of_either": 0.84,
+     "presence": 0.911,
+     "set_either": 24,
+     "both_set_of_either": 0.833,
      "sign": 1.0,
      "exact": 1.0
     },
@@ -949,10 +949,10 @@
     "overall_presence_agreement": 0.902,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 0.842,
-    "negative_agreement_f1": 0.667,
+    "matched_negative_f1": 0.0,
     "negatives": [
-     2,
-     1
+     1,
+     0
     ],
     "taste": {
      "presence": 0.951,
@@ -1011,7 +1011,7 @@
     "overall_presence_agreement": 0.9,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 0.667,
-    "negative_agreement_f1": 1.0,
+    "matched_negative_f1": 1.0,
     "negatives": [
      2,
      2
@@ -1073,10 +1073,10 @@
     "overall_presence_agreement": 0.926,
     "overall_sign_agreement": 0.955,
     "overall_exact_agreement": 0.864,
-    "negative_agreement_f1": 1.0,
+    "matched_negative_f1": 0.96,
     "negatives": [
-     15,
-     15
+     13,
+     12
     ],
     "taste": {
      "presence": 0.889,
@@ -1135,7 +1135,7 @@
     "overall_presence_agreement": 1.0,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 1.0,
-    "negative_agreement_f1": null,
+    "matched_negative_f1": null,
     "negatives": [
      0,
      0
@@ -1187,24 +1187,24 @@
     "comments": 14,
     "comment_presence_agreement": 0.929,
     "comments_same_places": 0.929,
-    "comments_materially_different": 0.286,
+    "comments_materially_different": 0.214,
     "mentions": [
-     25,
-     23
+     24,
+     22
     ],
-    "mention_agreement_f1": 0.958,
-    "matched": 23,
-    "overall_presence_agreement": 0.957,
-    "overall_sign_agreement": 0.944,
-    "overall_exact_agreement": 0.944,
-    "negative_agreement_f1": 0.923,
+    "mention_agreement_f1": 0.957,
+    "matched": 22,
+    "overall_presence_agreement": 0.955,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 1.0,
+    "matched_negative_f1": 0.889,
     "negatives": [
-     7,
-     6
+     5,
+     4
     ],
     "taste": {
      "presence": 1.0,
-     "set_either": 9,
+     "set_either": 8,
      "both_set_of_either": 1.0,
      "sign": 1.0,
      "exact": 1.0
@@ -1217,7 +1217,7 @@
      "exact": null
     },
     "service": {
-     "presence": 0.957,
+     "presence": 0.955,
      "set_either": 2,
      "both_set_of_either": 0.5,
      "sign": 1.0,
@@ -1237,8 +1237,8 @@
      "sign": 1.0,
      "exact": 1.0
     },
-    "opinion_agreement": 0.957,
-    "experience_agreement": 0.957,
+    "opinion_agreement": 0.955,
+    "experience_agreement": 0.955,
     "avoid_agreement": 1.0,
     "named_in_agreement": 1.0,
     "timeframe_agreement": 1.0,
@@ -1251,21 +1251,21 @@
     "comments_same_places": 0.99,
     "comments_materially_different": 0.058,
     "mentions": [
-     136,
-     135
+     131,
+     130
     ],
     "mention_agreement_f1": 0.996,
-    "matched": 135,
-    "overall_presence_agreement": 0.978,
+    "matched": 130,
+    "overall_presence_agreement": 0.977,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.935,
-    "negative_agreement_f1": 0.914,
+    "overall_exact_agreement": 0.961,
+    "matched_negative_f1": 0.909,
     "negatives": [
-     17,
-     18
+     16,
+     17
     ],
     "taste": {
-     "presence": 0.948,
+     "presence": 0.946,
      "set_either": 29,
      "both_set_of_either": 0.759,
      "sign": 1.0,
@@ -1279,7 +1279,7 @@
      "exact": 1.0
     },
     "service": {
-     "presence": 0.993,
+     "presence": 0.992,
      "set_either": 4,
      "both_set_of_either": 0.75,
      "sign": 1.0,
@@ -1299,12 +1299,12 @@
      "sign": 1.0,
      "exact": 1.0
     },
-    "opinion_agreement": 0.948,
-    "experience_agreement": 0.978,
+    "opinion_agreement": 0.946,
+    "experience_agreement": 0.977,
     "avoid_agreement": 1.0,
-    "named_in_agreement": 0.993,
+    "named_in_agreement": 0.992,
     "timeframe_agreement": 0.985,
-    "status_agreement": 0.993,
+    "status_agreement": 0.992,
     "trend_agreement": 1.0
    },
    "stratum:overlap_v1": {
@@ -1313,35 +1313,35 @@
     "comments_same_places": 0.86,
     "comments_materially_different": 0.18,
     "mentions": [
-     58,
-     59
+     51,
+     52
     ],
-    "mention_agreement_f1": 0.906,
-    "matched": 53,
-    "overall_presence_agreement": 0.962,
+    "mention_agreement_f1": 0.893,
+    "matched": 46,
+    "overall_presence_agreement": 0.957,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.977,
-    "negative_agreement_f1": 1.0,
+    "overall_exact_agreement": 0.974,
+    "matched_negative_f1": 1.0,
     "negatives": [
-     8,
-     8
+     7,
+     7
     ],
     "taste": {
-     "presence": 0.981,
+     "presence": 0.978,
      "set_either": 6,
      "both_set_of_either": 0.833,
      "sign": 1.0,
      "exact": 1.0
     },
     "value": {
-     "presence": 0.981,
+     "presence": 0.978,
      "set_either": 1,
      "both_set_of_either": 0.0,
      "sign": null,
      "exact": null
     },
     "service": {
-     "presence": 0.981,
+     "presence": 0.978,
      "set_either": 3,
      "both_set_of_either": 0.667,
      "sign": 1.0,
@@ -1361,9 +1361,9 @@
      "sign": 1.0,
      "exact": 1.0
     },
-    "opinion_agreement": 0.943,
+    "opinion_agreement": 0.935,
     "experience_agreement": 1.0,
-    "avoid_agreement": 0.981,
+    "avoid_agreement": 0.978,
     "named_in_agreement": 1.0,
     "timeframe_agreement": 1.0,
     "status_agreement": 1.0,
@@ -1383,7 +1383,7 @@
     "overall_presence_agreement": 1.0,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 1.0,
-    "negative_agreement_f1": 1.0,
+    "matched_negative_f1": 1.0,
     "negatives": [
      8,
      8
@@ -1437,21 +1437,21 @@
     "comments_same_places": 0.929,
     "comments_materially_different": 0.071,
     "mentions": [
-     24,
-     23
+     22,
+     21
     ],
-    "mention_agreement_f1": 0.979,
-    "matched": 23,
+    "mention_agreement_f1": 0.977,
+    "matched": 21,
     "overall_presence_agreement": 1.0,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.929,
-    "negative_agreement_f1": 1.0,
+    "overall_exact_agreement": 0.917,
+    "matched_negative_f1": 1.0,
     "negatives": [
      8,
      8
     ],
     "taste": {
-     "presence": 0.826,
+     "presence": 0.81,
      "set_either": 7,
      "both_set_of_either": 0.429,
      "sign": 1.0,
@@ -1486,8 +1486,8 @@
      "exact": 0.667
     },
     "opinion_agreement": 1.0,
-    "experience_agreement": 0.913,
-    "avoid_agreement": 0.87,
+    "experience_agreement": 0.952,
+    "avoid_agreement": 0.857,
     "named_in_agreement": 1.0,
     "timeframe_agreement": 1.0,
     "status_agreement": 1.0,
@@ -1507,7 +1507,7 @@
     "overall_presence_agreement": 1.0,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 1.0,
-    "negative_agreement_f1": 1.0,
+    "matched_negative_f1": 1.0,
     "negatives": [
      3,
      3
@@ -1569,7 +1569,7 @@
     "overall_presence_agreement": 1.0,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 1.0,
-    "negative_agreement_f1": 1.0,
+    "matched_negative_f1": 1.0,
     "negatives": [
      3,
      3
@@ -1623,22 +1623,22 @@
     "comments_same_places": 1.0,
     "comments_materially_different": 0.077,
     "mentions": [
-     35,
-     35
+     34,
+     34
     ],
     "mention_agreement_f1": 1.0,
-    "matched": 35,
+    "matched": 34,
     "overall_presence_agreement": 0.971,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.969,
-    "negative_agreement_f1": 1.0,
+    "overall_exact_agreement": 0.968,
+    "matched_negative_f1": 1.0,
     "negatives": [
-     4,
-     4
+     3,
+     3
     ],
     "taste": {
      "presence": 1.0,
-     "set_either": 8,
+     "set_either": 7,
      "both_set_of_either": 1.0,
      "sign": 1.0,
      "exact": 1.0
@@ -1671,7 +1671,7 @@
      "sign": null,
      "exact": null
     },
-    "opinion_agreement": 0.943,
+    "opinion_agreement": 0.941,
     "experience_agreement": 1.0,
     "avoid_agreement": 1.0,
     "named_in_agreement": 1.0,
@@ -1693,7 +1693,7 @@
     "overall_presence_agreement": 1.0,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 1.0,
-    "negative_agreement_f1": null,
+    "matched_negative_f1": null,
     "negatives": [
      0,
      0
@@ -1745,37 +1745,37 @@
     "comments": 38,
     "comment_presence_agreement": 1.0,
     "comments_same_places": 1.0,
-    "comments_materially_different": 0.105,
+    "comments_materially_different": 0.079,
     "mentions": [
-     75,
-     75
+     74,
+     74
     ],
     "mention_agreement_f1": 1.0,
-    "matched": 75,
+    "matched": 74,
     "overall_presence_agreement": 1.0,
-    "overall_sign_agreement": 0.985,
-    "overall_exact_agreement": 0.908,
-    "negative_agreement_f1": 0.949,
+    "overall_sign_agreement": 0.984,
+    "overall_exact_agreement": 0.922,
+    "matched_negative_f1": 0.943,
     "negatives": [
-     29,
-     30
+     27,
+     26
     ],
     "taste": {
-     "presence": 0.947,
+     "presence": 0.946,
      "set_either": 15,
      "both_set_of_either": 0.733,
      "sign": 0.818,
      "exact": 0.818
     },
     "value": {
-     "presence": 0.987,
+     "presence": 0.986,
      "set_either": 6,
      "both_set_of_either": 0.833,
      "sign": 1.0,
      "exact": 0.6
     },
     "service": {
-     "presence": 0.987,
+     "presence": 0.986,
      "set_either": 4,
      "both_set_of_either": 0.75,
      "sign": 1.0,
@@ -1795,9 +1795,9 @@
      "sign": 1.0,
      "exact": 1.0
     },
-    "opinion_agreement": 0.947,
-    "experience_agreement": 0.987,
-    "avoid_agreement": 0.987,
+    "opinion_agreement": 0.946,
+    "experience_agreement": 0.986,
+    "avoid_agreement": 0.986,
     "named_in_agreement": 0.973,
     "timeframe_agreement": 1.0,
     "status_agreement": 1.0,
@@ -1817,10 +1817,10 @@
     "overall_presence_agreement": 0.99,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 0.942,
-    "negative_agreement_f1": 0.974,
+    "matched_negative_f1": 0.973,
     "negatives": [
-     19,
-     20
+     18,
+     19
     ],
     "taste": {
      "presence": 0.959,
@@ -1879,10 +1879,10 @@
     "overall_presence_agreement": 0.963,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 1.0,
-    "negative_agreement_f1": 0.984,
+    "matched_negative_f1": 0.983,
     "negatives": [
-     30,
-     31
+     29,
+     30
     ],
     "taste": {
      "presence": 0.926,
@@ -1931,7 +1931,7 @@
     "comments": 75,
     "comment_presence_agreement": 0.987,
     "comments_same_places": 0.973,
-    "comments_materially_different": 0.04,
+    "comments_materially_different": 0.053,
     "mentions": [
      34,
      34
@@ -1941,10 +1941,10 @@
     "overall_presence_agreement": 0.939,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 0.895,
-    "negative_agreement_f1": 1.0,
+    "matched_negative_f1": 0.963,
     "negatives": [
-     15,
-     15
+     14,
+     13
     ],
     "taste": {
      "presence": 0.97,
@@ -1993,7 +1993,7 @@
     "comments": 125,
     "comment_presence_agreement": 1.0,
     "comments_same_places": 1.0,
-    "comments_materially_different": 0.08,
+    "comments_materially_different": 0.088,
     "mentions": [
      140,
      140
@@ -2003,10 +2003,10 @@
     "overall_presence_agreement": 0.943,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 0.921,
-    "negative_agreement_f1": 0.938,
+    "matched_negative_f1": 0.912,
     "negatives": [
-     32,
-     32
+     29,
+     28
     ],
     "taste": {
      "presence": 0.943,
@@ -2057,25 +2057,25 @@
     "comments_same_places": 0.978,
     "comments_materially_different": 0.043,
     "mentions": [
-     68,
-     68
+     67,
+     67
     ],
     "mention_agreement_f1": 0.985,
-    "matched": 67,
+    "matched": 66,
     "overall_presence_agreement": 0.955,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 1.0,
-    "negative_agreement_f1": 0.984,
+    "matched_negative_f1": 0.984,
     "negatives": [
-     31,
-     32
+     30,
+     31
     ],
     "taste": {
-     "presence": 0.925,
-     "set_either": 29,
-     "both_set_of_either": 0.828,
+     "presence": 0.924,
+     "set_either": 28,
+     "both_set_of_either": 0.821,
      "sign": 1.0,
-     "exact": 0.958
+     "exact": 0.957
     },
     "value": {
      "presence": 0.97,
@@ -2127,10 +2127,10 @@
     "overall_presence_agreement": 0.911,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 0.87,
-    "negative_agreement_f1": 0.957,
+    "matched_negative_f1": 0.952,
     "negatives": [
-     12,
-     11
+     11,
+     10
     ],
     "taste": {
      "presence": 0.964,
@@ -2189,7 +2189,7 @@
     "overall_presence_agreement": 0.941,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 0.875,
-    "negative_agreement_f1": 1.0,
+    "matched_negative_f1": 1.0,
     "negatives": [
      5,
      5
@@ -2251,10 +2251,10 @@
     "overall_presence_agreement": 0.935,
     "overall_sign_agreement": 0.962,
     "overall_exact_agreement": 0.885,
-    "negative_agreement_f1": 1.0,
+    "matched_negative_f1": 0.966,
     "negatives": [
-     17,
-     17
+     15,
+     14
     ],
     "taste": {
      "presence": 0.903,
@@ -2305,57 +2305,57 @@
     "comments_same_places": 0.92,
     "comments_materially_different": 0.101,
     "mentions": [
-     62,
-     56
+     61,
+     55
     ],
-    "mention_agreement_f1": 0.881,
-    "matched": 52,
-    "overall_presence_agreement": 0.942,
+    "mention_agreement_f1": 0.879,
+    "matched": 51,
+    "overall_presence_agreement": 0.941,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 1.0,
-    "negative_agreement_f1": 1.0,
+    "matched_negative_f1": 1.0,
     "negatives": [
      17,
      17
     ],
     "taste": {
-     "presence": 0.981,
+     "presence": 0.98,
      "set_either": 8,
      "both_set_of_either": 0.875,
      "sign": 1.0,
      "exact": 0.857
     },
     "value": {
-     "presence": 0.962,
+     "presence": 0.961,
      "set_either": 5,
      "both_set_of_either": 0.6,
      "sign": 1.0,
      "exact": 1.0
     },
     "service": {
-     "presence": 0.962,
+     "presence": 0.961,
      "set_either": 14,
      "both_set_of_either": 0.857,
      "sign": 1.0,
      "exact": 1.0
     },
     "atmosphere": {
-     "presence": 0.981,
+     "presence": 0.98,
      "set_either": 1,
      "both_set_of_either": 0.0,
      "sign": null,
      "exact": null
     },
     "wait": {
-     "presence": 0.981,
+     "presence": 0.98,
      "set_either": 1,
      "both_set_of_either": 0.0,
      "sign": null,
      "exact": null
     },
-    "opinion_agreement": 0.904,
-    "experience_agreement": 0.981,
-    "avoid_agreement": 0.981,
+    "opinion_agreement": 0.902,
+    "experience_agreement": 0.98,
+    "avoid_agreement": 0.98,
     "named_in_agreement": 1.0,
     "timeframe_agreement": 1.0,
     "status_agreement": 1.0,
@@ -2365,20 +2365,20 @@
     "comments": 29,
     "comment_presence_agreement": 1.0,
     "comments_same_places": 0.966,
-    "comments_materially_different": 0.138,
+    "comments_materially_different": 0.103,
     "mentions": [
-     169,
-     170
+     167,
+     168
     ],
     "mention_agreement_f1": 0.997,
-    "matched": 169,
+    "matched": 167,
     "overall_presence_agreement": 0.994,
     "overall_sign_agreement": 0.994,
     "overall_exact_agreement": 0.969,
-    "negative_agreement_f1": 0.947,
+    "matched_negative_f1": 0.933,
     "negatives": [
-     9,
-     10
+     8,
+     7
     ],
     "taste": {
      "presence": 0.982,
@@ -2429,21 +2429,21 @@
     "comments_same_places": 0.967,
     "comments_materially_different": 0.033,
     "mentions": [
-     64,
-     63
+     62,
+     61
     ],
     "mention_agreement_f1": 0.992,
-    "matched": 63,
+    "matched": 61,
     "overall_presence_agreement": 1.0,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.932,
-    "negative_agreement_f1": 1.0,
+    "overall_exact_agreement": 0.93,
+    "matched_negative_f1": 1.0,
     "negatives": [
-     2,
-     2
+     1,
+     1
     ],
     "taste": {
-     "presence": 0.952,
+     "presence": 0.951,
      "set_either": 15,
      "both_set_of_either": 0.8,
      "sign": 1.0,
@@ -2477,7 +2477,7 @@
      "sign": null,
      "exact": null
     },
-    "opinion_agreement": 0.937,
+    "opinion_agreement": 0.934,
     "experience_agreement": 0.984,
     "avoid_agreement": 1.0,
     "named_in_agreement": 1.0,
@@ -2489,25 +2489,25 @@
     "comments": 19,
     "comment_presence_agreement": 0.947,
     "comments_same_places": 0.947,
-    "comments_materially_different": 0.263,
+    "comments_materially_different": 0.211,
     "mentions": [
-     31,
-     29
+     30,
+     28
     ],
-    "mention_agreement_f1": 0.967,
-    "matched": 29,
-    "overall_presence_agreement": 0.931,
-    "overall_sign_agreement": 0.955,
-    "overall_exact_agreement": 0.955,
-    "negative_agreement_f1": 0.952,
+    "mention_agreement_f1": 0.966,
+    "matched": 28,
+    "overall_presence_agreement": 0.929,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 1.0,
+    "matched_negative_f1": 0.923,
     "negatives": [
-     11,
-     10
+     7,
+     6
     ],
     "taste": {
-     "presence": 0.966,
-     "set_either": 13,
-     "both_set_of_either": 0.923,
+     "presence": 0.964,
+     "set_either": 12,
+     "both_set_of_either": 0.917,
      "sign": 1.0,
      "exact": 1.0
     },
@@ -2519,7 +2519,7 @@
      "exact": null
     },
     "service": {
-     "presence": 0.966,
+     "presence": 0.964,
      "set_either": 2,
      "both_set_of_either": 0.5,
      "sign": 1.0,
@@ -2539,8 +2539,8 @@
      "sign": 1.0,
      "exact": 1.0
     },
-    "opinion_agreement": 0.966,
-    "experience_agreement": 0.966,
+    "opinion_agreement": 0.964,
+    "experience_agreement": 0.964,
     "avoid_agreement": 1.0,
     "named_in_agreement": 1.0,
     "timeframe_agreement": 1.0,
@@ -2553,18 +2553,18 @@
     "comments_same_places": 0.972,
     "comments_materially_different": 0.092,
     "mentions": [
-     377,
-     374
+     372,
+     369
     ],
     "mention_agreement_f1": 0.988,
-    "matched": 371,
+    "matched": 366,
     "overall_presence_agreement": 0.97,
     "overall_sign_agreement": 0.996,
-    "overall_exact_agreement": 0.94,
-    "negative_agreement_f1": 0.953,
+    "overall_exact_agreement": 0.95,
+    "matched_negative_f1": 0.941,
     "negatives": [
-     73,
-     76
+     68,
+     68
     ],
     "taste": {
      "presence": 0.951,
@@ -2602,7 +2602,7 @@
      "exact": 1.0
     },
     "opinion_agreement": 0.97,
-    "experience_agreement": 0.984,
+    "experience_agreement": 0.986,
     "avoid_agreement": 0.992,
     "named_in_agreement": 0.989,
     "timeframe_agreement": 0.995,
@@ -2613,59 +2613,59 @@
     "comments": 201,
     "comment_presence_agreement": 0.955,
     "comments_same_places": 0.925,
-    "comments_materially_different": 0.114,
+    "comments_materially_different": 0.109,
     "mentions": [
-     203,
-     200
+     192,
+     189
     ],
-    "mention_agreement_f1": 0.948,
-    "matched": 191,
-    "overall_presence_agreement": 0.963,
-    "overall_sign_agreement": 0.993,
-    "overall_exact_agreement": 0.972,
-    "negative_agreement_f1": 0.989,
+    "mention_agreement_f1": 0.945,
+    "matched": 180,
+    "overall_presence_agreement": 0.961,
+    "overall_sign_agreement": 1.0,
+    "overall_exact_agreement": 0.985,
+    "matched_negative_f1": 0.988,
     "negatives": [
-     46,
-     45
+     41,
+     40
     ],
     "taste": {
-     "presence": 0.984,
-     "set_either": 44,
-     "both_set_of_either": 0.932,
+     "presence": 0.983,
+     "set_either": 41,
+     "both_set_of_either": 0.927,
      "sign": 1.0,
-     "exact": 0.976
+     "exact": 0.974
     },
     "value": {
-     "presence": 0.984,
+     "presence": 0.983,
      "set_either": 14,
      "both_set_of_either": 0.786,
      "sign": 1.0,
      "exact": 1.0
     },
     "service": {
-     "presence": 0.979,
+     "presence": 0.978,
      "set_either": 19,
      "both_set_of_either": 0.789,
      "sign": 1.0,
      "exact": 0.933
     },
     "atmosphere": {
-     "presence": 0.995,
+     "presence": 0.994,
      "set_either": 6,
      "both_set_of_either": 0.833,
      "sign": 1.0,
      "exact": 1.0
     },
     "wait": {
-     "presence": 0.995,
+     "presence": 0.994,
      "set_either": 6,
      "both_set_of_either": 0.833,
      "sign": 1.0,
      "exact": 0.8
     },
-    "opinion_agreement": 0.953,
-    "experience_agreement": 0.984,
-    "avoid_agreement": 0.995,
+    "opinion_agreement": 0.95,
+    "experience_agreement": 0.983,
+    "avoid_agreement": 0.994,
     "named_in_agreement": 1.0,
     "timeframe_agreement": 1.0,
     "status_agreement": 1.0,
@@ -2685,7 +2685,7 @@
     "overall_presence_agreement": 1.0,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 0.9,
-    "negative_agreement_f1": 1.0,
+    "matched_negative_f1": 1.0,
     "negatives": [
      13,
      13
@@ -2739,28 +2739,28 @@
     "comments_same_places": 0.947,
     "comments_materially_different": 0.053,
     "mentions": [
-     27,
-     26
+     25,
+     24
     ],
-    "mention_agreement_f1": 0.981,
-    "matched": 26,
+    "mention_agreement_f1": 0.98,
+    "matched": 24,
     "overall_presence_agreement": 1.0,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.938,
-    "negative_agreement_f1": 1.0,
+    "overall_exact_agreement": 0.929,
+    "matched_negative_f1": 1.0,
     "negatives": [
      9,
      9
     ],
     "taste": {
-     "presence": 0.846,
+     "presence": 0.833,
      "set_either": 8,
      "both_set_of_either": 0.5,
      "sign": 1.0,
      "exact": 1.0
     },
     "value": {
-     "presence": 0.962,
+     "presence": 0.958,
      "set_either": 2,
      "both_set_of_either": 0.5,
      "sign": 1.0,
@@ -2788,8 +2788,8 @@
      "exact": 0.667
     },
     "opinion_agreement": 1.0,
-    "experience_agreement": 0.923,
-    "avoid_agreement": 0.885,
+    "experience_agreement": 0.958,
+    "avoid_agreement": 0.875,
     "named_in_agreement": 1.0,
     "timeframe_agreement": 1.0,
     "status_agreement": 1.0,
@@ -2801,21 +2801,21 @@
     "comments_same_places": 0.875,
     "comments_materially_different": 0.163,
     "mentions": [
-     69,
-     63
+     68,
+     62
     ],
-    "mention_agreement_f1": 0.909,
-    "matched": 60,
-    "overall_presence_agreement": 0.95,
+    "mention_agreement_f1": 0.908,
+    "matched": 59,
+    "overall_presence_agreement": 0.949,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.933,
-    "negative_agreement_f1": 1.0,
+    "overall_exact_agreement": 0.931,
+    "matched_negative_f1": 1.0,
     "negatives": [
      11,
      11
     ],
     "taste": {
-     "presence": 0.967,
+     "presence": 0.966,
      "set_either": 8,
      "both_set_of_either": 0.75,
      "sign": 1.0,
@@ -2849,7 +2849,7 @@
      "sign": 1.0,
      "exact": 1.0
     },
-    "opinion_agreement": 0.9,
+    "opinion_agreement": 0.898,
     "experience_agreement": 1.0,
     "avoid_agreement": 0.983,
     "named_in_agreement": 0.983,
@@ -2871,10 +2871,10 @@
     "overall_presence_agreement": 1.0,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 1.0,
-    "negative_agreement_f1": 0.968,
+    "matched_negative_f1": 0.963,
     "negatives": [
-     16,
-     15
+     14,
+     13
     ],
     "taste": {
      "presence": 0.909,
@@ -2925,25 +2925,25 @@
     "comments_same_places": 0.963,
     "comments_materially_different": 0.074,
     "mentions": [
-     94,
-     97
+     91,
+     94
     ],
     "mention_agreement_f1": 0.984,
-    "matched": 94,
+    "matched": 91,
     "overall_presence_agreement": 0.989,
     "overall_sign_agreement": 1.0,
-    "overall_exact_agreement": 0.943,
-    "negative_agreement_f1": 1.0,
+    "overall_exact_agreement": 0.941,
+    "matched_negative_f1": 1.0,
     "negatives": [
-     7,
-     7
+     6,
+     6
     ],
     "taste": {
      "presence": 0.989,
-     "set_either": 15,
-     "both_set_of_either": 0.933,
+     "set_either": 14,
+     "both_set_of_either": 0.929,
      "sign": 1.0,
-     "exact": 0.929
+     "exact": 0.923
     },
     "value": {
      "presence": 1.0,
@@ -2973,7 +2973,7 @@
      "sign": null,
      "exact": null
     },
-    "opinion_agreement": 0.936,
+    "opinion_agreement": 0.934,
     "experience_agreement": 1.0,
     "avoid_agreement": 1.0,
     "named_in_agreement": 1.0,
@@ -2995,7 +2995,7 @@
     "overall_presence_agreement": 1.0,
     "overall_sign_agreement": 1.0,
     "overall_exact_agreement": 1.0,
-    "negative_agreement_f1": null,
+    "matched_negative_f1": null,
     "negatives": [
      0,
      0
@@ -3195,43 +3195,6 @@
     ]
    },
    {
-    "comment_id": "t1_kk9pewm",
-    "item_id": "s0115",
-    "stratum": "avoid_or_strong_negative",
-    "a": [
-     "Katz':negative:avoid",
-     "Russ & Daughters:positive",
-     "Superiority:positive",
-     "Dirt Candy:positive",
-     "NYC Dosas:-",
-     "Pomme Frites:positive",
-     "Doughnut Project:positive",
-     "Manousheh:very_positive",
-     "Overthrow Hospitality:positive",
-     "Eterea:very_positive",
-     "Avant Garden:positive",
-     "Spicy Moon:positive",
-     "PLANTA:positive",
-     "jajaja:positive"
-    ],
-    "b": [
-     "Katz':negative:avoid",
-     "Russ & Daughters:positive",
-     "Superiority:positive",
-     "Dirt Candy:positive",
-     "NYC Dosas:-",
-     "Pomme Frites:positive",
-     "Doughnut Project:positive",
-     "Manousheh:very_positive",
-     "Overthrow Hospitality:positive",
-     "Eterea:very_positive",
-     "Avant Garden:positive",
-     "Spicy Moon:positive",
-     "PLANTA:positive",
-     "jajaja:positive"
-    ]
-   },
-   {
     "comment_id": "t1_ktrqlp1",
     "item_id": "t010",
     "stratum": "chunk_parent_outside",
@@ -3311,6 +3274,17 @@
     ],
     "b": [
      "Keen's:positive"
+    ]
+   },
+   {
+    "comment_id": "t1_m0oqg68",
+    "item_id": "t002",
+    "stratum": "chunk_misattached",
+    "a": [
+     "Keen's:-"
+    ],
+    "b": [
+     "Keen's:-"
     ]
    },
    {
@@ -3579,19 +3553,6 @@
     ],
     "b": [
      "Indigenous Frybread Pop-Up Stand:positive"
-    ]
-   },
-   {
-    "comment_id": "t1_p2n3bra",
-    "item_id": "s0102",
-    "stratum": "neg_wording_nonneg_score",
-    "a": [
-     "Maman:neutral",
-     "Caffe Panna:positive"
-    ],
-    "b": [
-     "Maman:negative",
-     "Caffe Panna:positive"
     ]
    },
    {

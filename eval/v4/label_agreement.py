@@ -17,7 +17,11 @@ For each comparison: mention agreement (places matched by score.py's keying:
 normalize_entity, alias overrides, then the fuzzy rule with street words),
 whether a comment has any mention at all, and on matched mentions the
 overall verdict (null or not, sign, exact level), the five aspects, opinion,
-experience, avoid, named_in and whether the mention is negative. The
+experience, avoid and named_in, and matched_negative_f1: on mentions both
+sides have, how often both call it negative under score.py's rule with its
+fixes (2 x both / (negatives in a + negatives in b)). That is not
+compare_v4's negative_mention_recall, which also counts a negative the other
+side dropped as a miss and reads one side as the reference. The
 same_input-vs-full_context comparison is also broken down by mode, stratum,
 heuristic tag and reply depth, with the comments that differ listed, so the
 kinds of comment that need context stand out.
@@ -39,22 +43,26 @@ SIGN = {"very_positive": 1, "positive": 1, "neutral": 0, "negative": -1, "very_n
 FIELDS = ("opinion", "experience", "avoid", "named_in", "timeframe", "status", "trend")
 
 
-def labels(pass_name, rep, alias):
-    """{comment_id: [v6 mention with _key]} for one pass and copy."""
+def labels(pass_name, rep, alias, excluded):
+    """{comment_id: [v6 mention with _key and _legacy]} for one pass and copy.
+
+    Keyed the way score.py keys a run (score.model_mentions: normalize_entity,
+    alias overrides, one mention per key, chains dropped), with excluded
+    entities dropped too and street words normalized as the scorer fixes do,
+    so a place counts here exactly when compare_v4 would count it."""
     out = {}
     for r in S.load_jsonl(os.path.join(HERE, "labels", pass_name + ".run.jsonl")):
         if r["rep"] != rep:
             continue
         for cid, ms in r["mentions_by_comment"].items():
-            keyed, seen = [], set()
-            for m in ms:
+            keyed = []
+            for m in S.model_mentions(ms, alias, True):
                 v = m.get("v6")
                 if not isinstance(v, dict):
                     raise SystemExit(f"{pass_name}: a label without its v6 mention; re-export with labels.py")
-                k = S.street_norm(S.model_key(m, alias))
-                if k and k not in seen:
-                    seen.add(k)
-                    keyed.append(dict(v, _key=k))
+                if m["_key"] in excluded:
+                    continue
+                keyed.append(dict(v, _key=S.street_norm(m["_key"]), _legacy=m))
             out[cid] = keyed
     return out
 
@@ -76,9 +84,11 @@ def match(a, b):
 
 
 def negative(m):
-    return (SIGN.get(m.get("overall")) == -1 or m.get("avoid")
-            or any(SIGN.get((m.get("aspects") or {}).get(a)) == -1 for a in ASPECTS)
-            or any(SIGN.get(d.get("level")) == -1 or d.get("avoid") for d in m.get("dishes") or []))
+    """score.py's negative mention with its scorer fixes on, the rule
+    compare_v4 uses for v6 labels: a negative aspect, avoid, or a current
+    negative overall (not a closed place, not a past verdict). Dish knocks
+    are scored separately there (dish_negative_recall), so not here either."""
+    return S.model_negative(m["_legacy"], fixes=True)
 
 
 class Tally:
@@ -137,7 +147,7 @@ class Tally:
             "overall_presence_agreement": r(c["overall_presence_agree"], c["matched"]),
             "overall_sign_agreement": r(c["overall_sign_agree"], c["overall_both"]),
             "overall_exact_agreement": r(c["overall_exact_agree"], c["overall_both"]),
-            "negative_agreement_f1": r(2 * c["negative_both"], c["negative_a"] + c["negative_b"]),
+            "matched_negative_f1": r(2 * c["negative_both"], c["negative_a"] + c["negative_b"]),
             "negatives": [c["negative_a"], c["negative_b"]],
         }
         for asp in ASPECTS:
@@ -188,19 +198,19 @@ def compare(a, b, idx, by_group=False):
 
 
 def main():
-    alias = S.load_map("alias_overrides.json")
+    alias, excluded = S.load_map("alias_overrides.json"), S.load_map("excluded_entities.json")
     idx = item_index()
     res = {}
     for p in ("same_input", "full_context"):
-        res[f"self_consistency:{p}"] = compare(labels(p, 0, alias), labels(p, 1, alias), idx)
-    res["same_input_vs_full"] = compare(labels("full_context", 0, alias), labels("same_input", 0, alias), idx,
+        res[f"self_consistency:{p}"] = compare(labels(p, 0, alias, excluded), labels(p, 1, alias, excluded), idx)
+    res["same_input_vs_full"] = compare(labels("full_context", 0, alias, excluded), labels("same_input", 0, alias, excluded), idx,
                                         by_group=True)
     os.makedirs(os.path.join(HERE, "results"), exist_ok=True)
     with open(os.path.join(HERE, "results", "label_agreement.json"), "w", encoding="utf-8") as f:
         json.dump(res, f, indent=1, ensure_ascii=False)
 
     keys = ("comments", "comment_presence_agreement", "mention_agreement_f1", "overall_presence_agreement",
-            "overall_sign_agreement", "overall_exact_agreement", "negative_agreement_f1",
+            "overall_sign_agreement", "overall_exact_agreement", "matched_negative_f1",
             "comments_materially_different")
     lines = ["# Claude's v6 labels: agreement with themselves", "",
              "a = primary copy (self-consistency) or full_context (same_input_vs_full); b = the other.", "",
@@ -215,12 +225,12 @@ def main():
             for a in ASPECTS) + " |")
     g = res["same_input_vs_full"]["groups"]
     lines += ["", "## same_input vs full_context by group (most different first)", "",
-              "| group | comments | materially different | mention F1 | overall sign | negative F1 |",
+              "| group | comments | materially different | mention F1 | overall sign | matched negative F1 |",
               "|---|---|---|---|---|---|"]
     for k, v in sorted(g.items(), key=lambda kv: -(kv[1]["comments_materially_different"] or 0)):
         if v["comments"] >= 5:
             lines.append(f"| {k} | {v['comments']} | {v['comments_materially_different']} | "
-                         f"{v['mention_agreement_f1']} | {v['overall_sign_agreement']} | {v['negative_agreement_f1']} |")
+                         f"{v['mention_agreement_f1']} | {v['overall_sign_agreement']} | {v['matched_negative_f1']} |")
     lines += ["", "## Comments that differ (full_context -> same_input)", ""]
     for d in res["same_input_vs_full"]["differing_comments"]:
         lines.append(f"- {d['item_id']} {d['comment_id']} ({d['stratum']}): {d['a']} -> {d['b']}")

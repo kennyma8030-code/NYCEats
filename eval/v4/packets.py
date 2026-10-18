@@ -31,13 +31,14 @@ labeling batches (batches.py) add opaque packet ids on top.
 """
 
 import argparse
-import importlib.util
 import json
 import os
 import sys
 
 HERE = os.path.dirname(os.path.realpath(__file__))
 EVAL = os.path.dirname(HERE)
+sys.path.insert(0, EVAL)
+import prompt_modules as PM  # noqa: E402
 
 
 def ind(depth):
@@ -114,13 +115,6 @@ def full_context_thread(it):
     return "\n".join(out)
 
 
-def load_module(name, path):
-    spec = importlib.util.spec_from_file_location(name, path)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
 def chunk_key(it):
     return f"thread:{it['thread_id']}:{it['thread_chunks'][0]['chunk_index']}"
 
@@ -138,11 +132,14 @@ def v6_same_input(it, rows, pt):
 
 
 def packets_for(it, renderer="production", rows=None, pt=None):
+    """Both packets for one item. same_input_renderer names how same_input
+    was drawn, so batches.py can record it in the key and labels.py can refuse
+    labels made against another rendering."""
     if it["kind"] == "comment":
-        return {"item_id": it["item_id"], "mode": "comment",
+        return {"item_id": it["item_id"], "mode": "comment", "same_input_renderer": renderer,
                 "same_input": it["inputs"]["comment"]["user_message"],
                 "full_context": full_context_single(it)}
-    p = {"item_id": it["item_id"], "mode": "thread",
+    p = {"item_id": it["item_id"], "mode": "thread", "same_input_renderer": renderer,
          "short_ids": it["thread_chunks"][0]["short_ids"],
          "same_input": it["thread_chunks"][0]["user_message"],
          "full_context": full_context_thread(it)}
@@ -159,10 +156,9 @@ def check_against_run(d, packets):
     import run  # noqa: E402  (no API is touched: build_jobs only renders)
     by_item = {p["item_id"]: p for p in packets}
     n = 0
-    for mode, items_file, prompt in (("comment", "items_single.jsonl", "v6_comment.py"),
-                                     ("thread", "items_thread.jsonl", "v6_thread.py")):
+    for mode, items_file in (("comment", "items_single.jsonl"), ("thread", "items_thread.jsonl")):
         path = os.path.join(d, items_file)
-        pmod = load_module("v6_" + mode, os.path.join(EVAL, "prompts", prompt))
+        pmod = PM.load("v6_" + mode)
         rows = None
         if mode == "thread":
             with open(os.path.splitext(path)[0] + ".thread_rows.jsonl", encoding="utf-8") as f:
@@ -191,8 +187,13 @@ def main():
         items = [json.loads(l) for l in f]
     rows = pt = None
     if args.renderer == "v6":
-        pt = load_module("v6_thread", os.path.join(EVAL, "prompts", "v6_thread.py"))
-        with open(os.path.join(args.dir, "items_thread.thread_rows.jsonl"), encoding="utf-8") as f:
+        pt = PM.load("v6_thread")
+        side = os.path.join(args.dir, "items_thread.thread_rows.jsonl")
+        if not os.path.exists(side):
+            raise SystemExit(f"{side} is missing: v6 draws chunks from raw rows. next_round.py writes it "
+                             "for a new round; for an older one run eval/build_thread_rows.py (read-only) "
+                             "on items_single.jsonl and items_thread.jsonl")
+        with open(side, encoding="utf-8") as f:
             rows = {r["call_key"]: r for r in map(json.loads, f)}
     packets = [packets_for(it, args.renderer, rows, pt) for it in items]
     if args.renderer == "v6":

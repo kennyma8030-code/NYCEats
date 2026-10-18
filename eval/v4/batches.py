@@ -19,6 +19,8 @@ Writes, per pass:
                                  packet between delimiter lines, verbatim
   batches/<pass>/packets.jsonl   the same packets as JSON, for API-driven labeling
   keys/<pass>.json               packet id -> item, copy, batch. NOT for labelers.
+  keys/<pass>.meta.json          the renderer the pass's packets were drawn with and
+                                 a fingerprint of the key's bracket numbers
 
 Nothing in batches/ names an item, a stratum, a weight or production output.
 Production's output is not even exported until both passes are labeled
@@ -35,6 +37,7 @@ import sys
 HERE = os.path.dirname(os.path.realpath(__file__))
 sys.path.insert(0, HERE)
 from design import h  # noqa: E402  (one md5 ordering for every v4 draw)
+import labels as L  # noqa: E402  (the key fingerprint labels.py checks)
 SEED = "nyceats-eval-v4-batches"
 BATCH_SIZE = 20
 DUP_SHARE = 0.10
@@ -114,6 +117,17 @@ def cut(packets, pass_name):
     return [(f"b{n:03d}", g) for n, g in enumerate(allg, start=1)]
 
 
+def renderer_of(packets, pass_name):
+    """The one renderer every packet of the pass was drawn with. Packets
+    written before packets.py recorded it were production's."""
+    if pass_name == "full_context":
+        return "full_context"
+    found = {p.get("same_input_renderer", "production") for p in packets}
+    if len(found) != 1:
+        raise SystemExit(f"packets mix same_input renderers {sorted(found)}; rebuild them with packets.py")
+    return found.pop()
+
+
 def render_batch(batch_id, units, pass_name):
     out = [HEADER[pass_name].format(batch=batch_id, n=len(units))]
     for pid, p, _ in units:
@@ -156,6 +170,12 @@ def main():
                                 **({"short_ids": sids} if p["mode"] == "thread" else {})}
         with open(os.path.join(args.dir, "keys", pass_name + ".json"), "w", encoding="utf-8") as f:
             json.dump(key, f, indent=1)
+        # The key's meta file says how the pass's packets were drawn, so
+        # labels.py can refuse labels made against another rendering (v6
+        # renumbers thread chunks; production's renderer does not).
+        with open(os.path.join(args.dir, "keys", pass_name + ".meta.json"), "w", encoding="utf-8") as f:
+            json.dump({"renderer": renderer_of(packets, pass_name),
+                       "short_ids_sha256": L.key_fingerprint(key)}, f, indent=1)
         n_dup = sum(1 for v in key.values() if v["copy"])
         print(f"{pass_name}: {len(batches)} batches, {len(key)} packets ({n_dup} duplicates) -> {bdir}")
 

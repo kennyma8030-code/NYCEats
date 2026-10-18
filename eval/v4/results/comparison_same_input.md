@@ -1,6 +1,6 @@
 # v4 comparison, reference = same_input labels
 
-Reference: 504 comments, 357 with a required mention. 'weighted' is re-weighted to real traffic; ceilings are Claude against itself.
+Reference: 504 comments, 357 with a required mention. 'weighted' is re-weighted to real traffic; ceilings are Claude against itself. score.py's scorer fixes: on.
 
 ## comment weighted
 
@@ -30,19 +30,19 @@ Reference: 504 comments, 357 with a required mention. 'weighted' is re-weighted 
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
-| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.901 | 46 |
+| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.958 | 46 |
 
 ## thread
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
-| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.935 | 46 |
+| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.967 | 46 |
 
 ## thread weighted tuning
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
-| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.901 | 46 |
+| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.958 | 46 |
 
 ## By draw, stratum and heuristic
 
@@ -230,7 +230,7 @@ Reference: 504 comments, 357 with a required mention. 'weighted' is re-weighted 
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
-| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.935 | 46 |
+| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.967 | 46 |
 
 ### thread stratum:chunk_failure_dense
 
@@ -242,7 +242,7 @@ Reference: 504 comments, 357 with a required mention. 'weighted' is re-weighted 
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
-| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.842 | 25 |
+| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.941 | 25 |
 
 ### thread tag:avoid_or_strong_negative
 
@@ -260,25 +260,25 @@ Reference: 504 comments, 357 with a required mention. 'weighted' is re-weighted 
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
-| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.842 | 25 |
+| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.941 | 25 |
 
 ### thread tag:chunk_misattached
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
-| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.842 | 25 |
+| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.941 | 25 |
 
 ### thread tag:chunk_parent_outside
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
-| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.842 | 25 |
+| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.941 | 25 |
 
 ### thread tag:chunk_title_names_place
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
-| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.842 | 25 |
+| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.941 | 25 |
 
 ### thread tag:deep_chain_context_gap
 
@@ -290,7 +290,7 @@ Reference: 504 comments, 357 with a required mention. 'weighted' is re-weighted 
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
-| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.833 | 29 |
+| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.938 | 29 |
 
 ### thread tag:long_list
 
@@ -308,7 +308,7 @@ Reference: 504 comments, 357 with a required mention. 'weighted' is re-weighted 
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
-| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.842 | 25 |
+| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.941 | 25 |
 
 ### thread tag:question_or_unvisited
 
@@ -344,7 +344,7 @@ Reference: 504 comments, 357 with a required mention. 'weighted' is re-weighted 
 
 | run | drop_rate | mention_recall | negative_mention_recall | value_complaint_recall | dish_negative_recall | sign_accuracy | mention_precision | comments |
 |---|---|---|---|---|---|---|---|---|
-| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.935 | 46 |
+| claude self-consistency (same_input) | 0.000 | 1.0 | 1.0 | 1.0 | – | 1.0 | 0.967 | 46 |
 
 ## Claude vs v1 hand gold (overlap items)
 
