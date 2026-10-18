@@ -1,0 +1,1565 @@
+{
+ "packet": "r014",
+ "items": [
+  {
+   "item_id": "Q0326",
+   "comment_id": "t1_obvlp3r",
+   "model_view": "POST TITLE: Need help with good dinner places\n\nPOST BODY: Hey everyone,\n\nI'm heading to NYC next week and I need some recommendations for places where I can go to have dinner (sit down places preferably). I'll be there with my sister and we've got a couple of places we want to go to but we're not sure whether we want to go to these places for dinner or rather have some food on the go.\n\nThese are the places we've picked out so far, some we've found online ...\n\nCOMMENT: Unless you plan to be on the upper west side I wouldn’t go out of my way for sushi yasaka. It is very good, nyc just has so many sushi places but if you plan to stay in that area or go to the natural history museum, it’s worth it! \n\nI haven’t Been to a lot of these places listed but I would try to avoid really popular pizza places for dinner and just go there for an early lunch when they open. Depends on location but Los tacos No. 1 would probably have a shortish line for dinner compared to lunch. \n\nI live very close to levain bakery and it breaks my heart to see visitors  hitting up crumble cookies. You can get crumble cookies in a random strip mall in Virginia!",
+   "context": {
+    "title": "Need help with good dinner places",
+    "selftext": "Hey everyone,\n\nI'm heading to NYC next week and I need some recommendations for places where I can go to have dinner (sit down places preferably). I'll be there with my sister and we've got a couple of places we want to go to but we're not sure whether we want to go to these places for dinner or rather have some food on the go.\n\nThese are the places we've picked out so far, some we've found online and a few were recommended by a friend:\n\n\\- Song' E Napule\n\n\\- Chalong Southern Thai\n\n\\- John's Pizzeria\n\n\\- Prince Street Pizza\n\n\\- Wo Hop\n\n\\- Levain Bakery\n\n\\- Hatsuhana\n\n\\- Sushi Yasaka\n\n\\- Russ & Daughters\n\n\\- L’industrie Pizzeria\n\n\\- LOS TACOS No.1\n\n\\- ICHIRAN Ramen\n\n\\- Katz’s Delicatessen\n\n  \nFeel free to give better alternatives as well to the ones above. I'm especially looking for really good asian food (japanese, thai, vietnamese, chinese...). But like I said my main question is which places I could go for dinner.\n\nThanks in advance!",
+    "ancestors": [],
+    "author": "SelfReporter",
+    "body": "Unless you plan to be on the upper west side I wouldn’t go out of my way for sushi yasaka. It is very good, nyc just has so many sushi places but if you plan to stay in that area or go to the natural history museum, it’s worth it! \n\nI haven’t Been to a lot of these places listed but I would try to avoid really popular pizza places for dinner and just go there for an early lunch when they open. Depends on location but Los tacos No. 1 would probably have a shortish line for dinner compared to lunch. \n\nI live very close to levain bakery and it breaks my heart to see visitors  hitting up crumble cookies. You can get crumble cookies in a random strip mall in Virginia! ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "sushi yasaka",
+     "named_in": "comment",
+     "location": "Upper West Side",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "sushi"
+     ],
+     "notes": [
+      {
+       "about": "location",
+       "text": "not worth going out of the way unless staying on the Upper West Side or visiting the Natural History Museum",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "competition",
+       "text": "NYC has many sushi places",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Los Tacos No. 1",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "tacos"
+     ],
+     "notes": [
+      {
+       "about": "best time to go",
+       "text": "dinner line is shorter than lunch line",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Levain Bakery",
+     "named_in": "comment",
+     "location": "very close to the commenter's home",
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bakery"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Crumble Cookies",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "cookies"
+     ],
+     "notes": [
+      {
+       "about": "visitors",
+       "text": "commenter is upset visitors go to Crumble Cookies instead of better options",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "availability",
+       "text": "same cookies sold in a random Virginia strip mall, so not special to NYC",
+       "level": "negative",
+       "dish": "crumble cookies"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0327",
+   "comment_id": "t1_olec4ws",
+   "model_view": "POST TITLE: Greenpoint's Ilis Announces Closure, Citing Building Sale\n\nPARENT COMMENT: Regardless of what you thought of ilis, it's sad that another interesting converted warehouse building space will be demolishes for generic housing especially with the loss of the adjacent art gallery farschou\n\nCOMMENT: So depends on the type of housing I guess.",
+   "context": {
+    "title": "Greenpoint's Ilis Announces Closure, Citing Building Sale",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "tushshtup",
+      "body": "Regardless of what you thought of ilis, it's sad that another interesting converted warehouse building space will be demolishes for generic housing especially with the loss of the adjacent art gallery farschou"
+     }
+    ],
+    "author": "MaroonHenderson",
+    "body": "So depends on the type of housing I guess. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0328",
+   "comment_id": "t1_op85a71",
+   "model_view": "POST TITLE: Where can I find the best Spanish omelette/tortilla espagnola in NYC?\n\nPOST BODY: I had never liked Spanish omelettes/tortilla espagnola until I went to Spain for vacation a few years back. There, I immediately fell in love them, and ordered them at every single tapas spot - it was an obsession. After returning from vacation, I could not find a single Spanish tortilla that I’ve liked. Everything tasted bland, over cooked, lacking in depth of flavor (or any flavor, or seasoning) ...\n\nPARENT COMMENT: It’s either Bocqueria or Ernesto’s. They def scratch the itch for me but they don’t hit like Spanish tortillas do in Spain for me personally.\n\nCOMMENT: Ernesto’s for sure! That place is great.",
+   "context": {
+    "title": "Where can I find the best Spanish omelette/tortilla espagnola in NYC?",
+    "selftext": "I had never liked Spanish omelettes/tortilla espagnola until I went to Spain for vacation a few years back. There, I immediately fell in love them, and ordered them at every single tapas spot - it was an obsession. After returning from vacation, I could not find a single Spanish tortilla that I’ve liked. Everything tasted bland, over cooked, lacking in depth of flavor (or any flavor, or seasoning). The best ones here are still not great (I lived in California before and had no luck there either).\n\nSo, I’m humbly turning to you Reddit. Where do I go to find an authentic tortilla espagnola in NYC?",
+    "ancestors": [
+     {
+      "author": "Kooky_Comb6051",
+      "body": "It’s either Bocqueria or Ernesto’s. They def scratch the itch for me but they don’t hit like Spanish tortillas do in Spain for me personally."
+     }
+    ],
+    "author": "squalor1929",
+    "body": "Ernesto’s for sure! That place is great. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Ernesto's",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "tortilla espagnola",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "spanish",
+      "tapas"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0329",
+   "comment_id": "t1_okcrc8i",
+   "model_view": "POST TITLE: Best NYC treats/chocolates to bring to a West Coast office? (Must travel well!)\n\nPOST BODY: I work in NYC and am heading out to visit our California office next week. I want to bring a little \"taste of New York\" for about 20 coworkers to share, but I have a few specific constraints:  \n• **Quantity:** Needs to be enough for roughly 15 people.  \n• **Shelf Life:** I’m buying them about a week before the trip, so they need to stay fresh at room temperature.  \n• **Travel:** They’ll be in my c ...\n\nPARENT COMMENT: Bagels that you store in a freezer until your flight? Just be sure to slice them before freezing them.\n\nCOMMENT: For a WEek before absolutely not",
+   "context": {
+    "title": "Best NYC treats/chocolates to bring to a West Coast office? (Must travel well!)",
+    "selftext": "I work in NYC and am heading out to visit our California office next week. I want to bring a little \"taste of New York\" for about 20 coworkers to share, but I have a few specific constraints:  \n• **Quantity:** Needs to be enough for roughly 15 people.  \n• **Shelf Life:** I’m buying them about a week before the trip, so they need to stay fresh at room temperature.  \n• **Travel:** They’ll be in my carry-on for a 6-hour flight, so nothing too fragile or temperature-sensitive (no Magnolia banana pudding, unfortunately!).\n\nI’m considering some Li lac chocolates or the magnolia cookies.\n\nDoes anyone have better suggestions for NYC treats that are easy to share in an office and actually taste good after a week?",
+    "ancestors": [
+     {
+      "author": "ko8sd",
+      "body": "Bagels that you store in a freezer until your flight? Just be sure to slice them before freezing them."
+     }
+    ],
+    "author": "GlitteringElevator",
+    "body": "For a WEek before absolutely not ",
+    "replies": [
+     {
+      "author": "misstheolddaysfan",
+      "body": "why not? I've done it plenty of times. If you can freeze for a day you can freeze for a week."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0330",
+   "comment_id": "t1_p3x6c50",
+   "model_view": "POST TITLE: After being turned away at Cervos for drinks/apps on a Friday evening. Where should I go on Saturday evening for drinks/apps?\n\nPOST BODY: I’m considering - \n\nDon Angie \n\nMinetta Tavern (maybe dessert/drinks) \n\nBalthazar\n\nEel Bar \n\nWild Cherry\n\nPARENT COMMENT: I’ll say it. Cervos is gross and overrated.\n\nCOMMENT: i don’t think it’s gross but agree with overrated. mostly think it’s overpriced",
+   "context": {
+    "title": "After being turned away at Cervos for drinks/apps on a Friday evening. Where should I go on Saturday evening for drinks/apps?",
+    "selftext": "I’m considering - \n\nDon Angie \n\nMinetta Tavern (maybe dessert/drinks) \n\nBalthazar\n\nEel Bar \n\nWild Cherry",
+    "ancestors": [
+     {
+      "author": "kpscl",
+      "body": "I’ll say it. Cervos is gross and overrated.  "
+     }
+    ],
+    "author": "petit_aubergine",
+    "body": "i don’t think it’s gross but agree with overrated. mostly think it’s overpriced ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Cervos",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "overrated",
+       "text": "agrees it's overrated",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0331",
+   "comment_id": "t1_owm2qt2",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nPARENT COMMENT: It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\"  Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it.\n\nRespectfully, a chef.\n\nCOMMENT: As a chef, you should know that jerky refers more to the process of making it than “beef” because it’s not just beef. Pork jerky is the more popular choice in China and if you haven’t tried bak kwa you should because you need to open your mind. Same with a “steak.” Have you never heard of a calamari steak? Pork steak? Tofu steak? Steak is a slab of something. So yes, a cauliflower steak absolutely qualifies. \n\nNobody is claiming to milk an oat. But can you make a milk like product out of it? Sure. Would you be more comfortable if it was called oat water? Because that’s not accurate either. Many of them are called oat beverages, just so you know. That process is WAY less manipulated than cheese making. So how are you a purist if you enjoy cheese?\n\nYou might be great in the kitchen, but don’t limit yourself because you don’t understand how language can be flexible.",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!"
+     },
+     {
+      "author": "mycateatstoenails",
+      "body": "vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb. "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\"  Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it.\n\nRespectfully, a chef."
+     }
+    ],
+    "author": "flythearc",
+    "body": "As a chef, you should know that jerky refers more to the process of making it than “beef” because it’s not just beef. Pork jerky is the more popular choice in China and if you haven’t tried bak kwa you should because you need to open your mind. Same with a “steak.” Have you never heard of a calamari steak? Pork steak? Tofu steak? Steak is a slab of something. So yes, a cauliflower steak absolutely qualifies. \n\nNobody is claiming to milk an oat. But can you make a milk like product out of it? Sure. Would you be more comfortable if it was called oat water? Because that’s not accurate either. Many of them are called oat beverages, just so you know. That process is WAY less manipulated than cheese making. So how are you a purist if you enjoy cheese?\n\nYou might be great in the kitchen, but don’t limit yourself because you don’t understand how language can be flexible.",
+    "replies": [
+     {
+      "author": "SpongeyBobaruu",
+      "body": "My primary problem with western veganism is how it is market. Yes, there are other forms of jerky. You can do it with any meat. You can't do it with vegetables...ya just can't. So why even call it that? "
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0332",
+   "comment_id": "t1_o639nq5",
+   "model_view": "POST TITLE: what do you guys do when you can't decide where to order from?\n\nPOST BODY: me and my roommate literally spend more time picking a place than eating the food. happens like every other night\n\nwondering if anyone has a system or something they use to just make a decision faste\n\nCOMMENT: why are you trying to outsource thinking for yourself? asking people how to pick what YOU want to eat is crazy",
+   "context": {
+    "title": "what do you guys do when you can't decide where to order from?",
+    "selftext": "me and my roommate literally spend more time picking a place than eating the food. happens like every other night\n\nwondering if anyone has a system or something they use to just make a decision faste",
+    "ancestors": [],
+    "author": "codename_kd",
+    "body": "why are you trying to outsource thinking for yourself? asking people how to pick what YOU want to eat is crazy",
+    "replies": [
+     {
+      "author": "Artistic_Relation366",
+      "body": "consider it a market research for the app that helps you randomly pick a restaurant for dinner "
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0333",
+   "comment_id": "t1_ocx1852",
+   "model_view": "POST TITLE: Just another reminder that seamless/grubhub is a scam\n\nPOST BODY: Fortunate to live near all the wonderful spots near Columbia, we decided to pick up from Milano Market (UWS). Just for shits and giggles, I plugged our order into seamless. Even with some BS Amazon savings, we would’ve been up charged 50% (a third sandwich) just in fees.\n\nCOMMENT: We all love the convenience of apps like Grubbyhub, but they’re becoming a slow motion disaster for independent NYC restaurants. Even with the 15% fee cap, once you factor in the marketing “shakedowns” and the fact that these platforms hoard all the customer data, most small spots are barely breaking even, or straight-up losing money on every delivery. Between the shutdown of services like Relay and those new “NYC Response Fees” hitting our bills, the math just isn't working for the little guy anymore. If you want to make sure your favorite neighborhood joint stays in business, skip the middleman and order directly through their website or just give them a call. It’s the only way to ensure 100% of your money actually hits their kitchen.",
+   "context": {
+    "title": "Just another reminder that seamless/grubhub is a scam",
+    "selftext": "Fortunate to live near all the wonderful spots near Columbia, we decided to pick up from Milano Market (UWS). Just for shits and giggles, I plugged our order into seamless. Even with some BS Amazon savings, we would’ve been up charged 50% (a third sandwich) just in fees.",
+    "ancestors": [],
+    "author": "Omnium78",
+    "body": "We all love the convenience of apps like Grubbyhub, but they’re becoming a slow motion disaster for independent NYC restaurants. Even with the 15% fee cap, once you factor in the marketing “shakedowns” and the fact that these platforms hoard all the customer data, most small spots are barely breaking even, or straight-up losing money on every delivery. Between the shutdown of services like Relay and those new “NYC Response Fees” hitting our bills, the math just isn't working for the little guy anymore. If you want to make sure your favorite neighborhood joint stays in business, skip the middleman and order directly through their website or just give them a call. It’s the only way to ensure 100% of your money actually hits their kitchen.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0334",
+   "comment_id": "t1_o78zhdw",
+   "model_view": "POST TITLE: Jean-George Vongerichten’s Tin Building Has Closed\n\nPARENT COMMENT: 100% on this.  They were the last place downtown with consistently excellent pastries and I still miss Arcade- Frenchette is just not the same.\n\nCOMMENT: I honestly haven’t even tried Frenchette bc I saw what their croissants look like and knew it wouldn’t come close. Petrossian (it was near Central Park before covid) and arcade were my two faves for pastries and baked goods. Lots of places in nyc for good pastries but nowhere really exceptional after those two closed. Petrossian is in meatpacking now but now they only sell caviar. So lame",
+   "context": {
+    "title": "Jean-George Vongerichten’s Tin Building Has Closed",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Spiritual_Option4465",
+      "body": "So sad. I wish JGV would open a standalone bakery. The bakery in there was excellent"
+     },
+     {
+      "author": "wmjoh1",
+      "body": "100% on this.  They were the last place downtown with consistently excellent pastries and I still miss Arcade- Frenchette is just not the same."
+     }
+    ],
+    "author": "Spiritual_Option4465",
+    "body": "I honestly haven’t even tried Frenchette bc I saw what their croissants look like and knew it wouldn’t come close. Petrossian (it was near Central Park before covid) and arcade were my two faves for pastries and baked goods. Lots of places in nyc for good pastries but nowhere really exceptional after those two closed. Petrossian is in meatpacking now but now they only sell caviar. So lame",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Frenchette",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "croissants",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "croissants",
+       "text": "judged from photos of the croissants, doesn't think they'd come close to Arcade or Petrossian",
+       "level": "negative",
+       "dish": "croissants"
+      }
+     ]
+    },
+    {
+     "name": "Petrossian",
+     "named_in": "comment",
+     "location": "meatpacking now; used to be near Central Park",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "pastries",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": "declined",
+     "status": "moved",
+     "tags": [
+      "caviar"
+     ],
+     "notes": [
+      {
+       "about": "menu",
+       "text": "used to be a favorite for pastries and baked goods, now only sells caviar",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Arcade",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "pastries",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "tags": [
+      "bakery"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0335",
+   "comment_id": "t1_o306hvo",
+   "model_view": "POST TITLE: Reservation today\n\nPOST BODY: Big ask here but it’s my husband’s 30th birthday today. Anyone here can help / recommendations on where to find a last minute good reservation for 4? I had a great one for two for gramercy tavern that he wanted to go to but his family has suprised us and i now need a table for 4 for early dinner (4/5pm) Any thoughts welcomed! Long shot but i’m think monkey bar, torrisi, etc..\n\nCOMMENT: You could go wait in line at Via Carota they’d give a table for 4 for walk ins for early dinners, same with l’artusi. Shmone wine bar is walk ins only and has smaller plates but still some of the same dishes from the restaurant next door with a star. If you’re willing to go further uptown Bad Roman looks like they have an opening. Call/ Put on alerts for anywhere you’d want to go and then scour Beli and ResX for people trying to get rid of reservations last min",
+   "context": {
+    "title": "Reservation today",
+    "selftext": "Big ask here but it’s my husband’s 30th birthday today. Anyone here can help / recommendations on where to find a last minute good reservation for 4? I had a great one for two for gramercy tavern that he wanted to go to but his family has suprised us and i now need a table for 4 for early dinner (4/5pm) Any thoughts welcomed! Long shot but i’m think monkey bar, torrisi, etc.. ",
+    "ancestors": [],
+    "author": "sliceofanything",
+    "body": "You could go wait in line at Via Carota they’d give a table for 4 for walk ins for early dinners, same with l’artusi. Shmone wine bar is walk ins only and has smaller plates but still some of the same dishes from the restaurant next door with a star. If you’re willing to go further uptown Bad Roman looks like they have an opening. Call/ Put on alerts for anywhere you’d want to go and then scour Beli and ResX for people trying to get rid of reservations last min",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Via Carota",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "walk-ins"
+     ],
+     "notes": [
+      {
+       "about": "best time to go",
+       "text": "gives a table for 4 to walk-ins for early dinners",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "L'Artusi",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "walk-ins"
+     ],
+     "notes": [
+      {
+       "about": "best time to go",
+       "text": "gives a table for 4 to walk-ins for early dinners",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Shmone wine bar",
+     "named_in": "comment",
+     "location": "next door to a starred restaurant",
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "wine bar",
+      "walk-ins only"
+     ],
+     "notes": [
+      {
+       "about": "menu",
+       "text": "smaller plates, some of the same dishes as the starred restaurant next door",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Bad Roman",
+     "named_in": "comment",
+     "location": "further uptown",
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "availability",
+       "text": "looks like they have an opening",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0336",
+   "comment_id": "t1_oknglrk",
+   "model_view": "POST TITLE: What Coffee Shops Have DJs?\n\nPOST BODY: Didn’t know where else to put this post, even though this post is more about ambience and coffee  than food. I listen to these kind of videos, so I can also have a background visual. They’re typically DJs with lounge sets, RnB, alt or house. Overall just very chill. \n\nI saw this comment and I thought it was strange, being from NYC, but then I thought about it and I’ve never set foot in a cafe that ...\n\nCOMMENT: I’m so tired of DJs in every establishment. Give it a rest. \n\nhttps://youtu.be/75pUDRiKgog?si=xP4kTMdnWoBFN1rX",
+   "context": {
+    "title": "What Coffee Shops Have DJs?",
+    "selftext": "Didn’t know where else to put this post, even though this post is more about ambience and coffee  than food. I listen to these kind of videos, so I can also have a background visual. They’re typically DJs with lounge sets, RnB, alt or house. Overall just very chill. \n\nI saw this comment and I thought it was strange, being from NYC, but then I thought about it and I’ve never set foot in a cafe that had a DJ! I know they’re not daily, but do you know of any cafes that have encourage DJs to come mix during the day? ",
+    "ancestors": [],
+    "author": "thats-gold-jerry",
+    "body": "I’m so tired of DJs in every establishment. Give it a rest. \n\nhttps://youtu.be/75pUDRiKgog?si=xP4kTMdnWoBFN1rX",
+    "replies": [
+     {
+      "author": "BombardierIsTrash",
+      "body": "DJ nowadays means asshole blasting whatever trending music from tiktok videos this week on the world’s shittiest speakers. Please no."
+     },
+     {
+      "author": "justflipping",
+      "body": "Yea no thanks"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0337",
+   "comment_id": "t1_jrqd79z",
+   "model_view": "POST TITLE: List of terrible restaurants in NYC with great customer reviews\n\nPOST BODY: Wo hop\nAiththi \nSpice Symphony\nPongisiri \nkarahi\nTipsy Shanghai\nSOL Mexican\n\nPARENT COMMENT: - marsalawala—my shrimp was completely disintegrated mush in the curry, which probably means it sat in the shells too long. They did refund me but wouldn’t acknowledge the shrimp were bad or offer to remake it. They said they were supposed to be that way. \n\n- parm-bland as hell\n\n- ugly baby- totally overpriced with shitty attitude. Food was ok.\n\n-magnolia bakery-driest cupcakes I’ve ever eaten\n\nCOMMENT: My sister and her Bf basically live at Parm. Are there once had to return the meatballs cause they seemed undercooked. \n\nMagnolia Bakery is only good for that Banana Pudding",
+   "context": {
+    "title": "List of terrible restaurants in NYC with great customer reviews",
+    "selftext": "Wo hop\nAiththi \nSpice Symphony\nPongisiri \nkarahi\nTipsy Shanghai\nSOL Mexican",
+    "ancestors": [
+     {
+      "author": "Artistic-Dot-2279",
+      "body": "- marsalawala—my shrimp was completely disintegrated mush in the curry, which probably means it sat in the shells too long. They did refund me but wouldn’t acknowledge the shrimp were bad or offer to remake it. They said they were supposed to be that way. \n\n- parm-bland as hell\n\n- ugly baby- totally overpriced with shitty attitude. Food was ok.\n\n-magnolia bakery-driest cupcakes I’ve ever eaten"
+     }
+    ],
+    "author": "plainbagel11",
+    "body": "My sister and her Bf basically live at Parm. Are there once had to return the meatballs cause they seemed undercooked. \n\nMagnolia Bakery is only good for that Banana Pudding",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Parm",
+     "named_in": "comment",
+     "location": null,
+     "experience": "secondhand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "meatballs",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "italian"
+     ],
+     "notes": [
+      {
+       "about": "regular customers",
+       "text": "sister and her boyfriend basically live there",
+       "level": "positive",
+       "dish": null
+      },
+      {
+       "about": "undercooked meatballs",
+       "text": "sister had to return meatballs that seemed undercooked",
+       "level": "negative",
+       "dish": "meatballs"
+      }
+     ]
+    },
+    {
+     "name": "Magnolia Bakery",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "banana pudding",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bakery",
+      "dessert"
+     ],
+     "notes": [
+      {
+       "about": "other items",
+       "text": "only good for the banana pudding",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0338",
+   "comment_id": "t1_mjgunf2",
+   "model_view": "POST TITLE: At Ceres Pizza — when the fuck did this become okay???\n\nPARENT COMMENT: People in the comments seem to be worried about dander and cleanliness of an animal. These could easily apply to a bodega cat too. If this dog were catching mice, would they feel better about them hanging around the restaurant? If anything, a dog that hangs out for 30 mins exposes people to way less germs than would a cat that lives there all day every day. Just saying\n\nCOMMENT: People in the comments also say they don’t care about service dogs. Working animals are fine. \n\nBut if you want to get all transplant-like and try to take down NYC icons like bodega cats just because someone’s designer poodle hybrid shouldn’t sit at a restaurant then… I guess go off?",
+   "context": {
+    "title": "At Ceres Pizza — when the fuck did this become okay???",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "PrincessGwyn",
+      "body": "Curious if people who dislike dogs in restaurants are also against bodega cats? I mean the dogs are contained by their owners. The cats roam freely and bodegas also usually sell prepared food. Is there a difference? I’ve never seen a post complaining about bodega cats 🤷‍♀️"
+     },
+     {
+      "author": "m1kasa4ckerman",
+      "body": "You either get bodega cats or bodega mice & rats. Your choice!"
+     },
+     {
+      "author": "PrincessGwyn",
+      "body": "I love bodega cats. But at the end of the day it’s pretty much the same as this little dog in a pizza shop in the picture above 🤷‍♀️"
+     },
+     {
+      "author": "m1kasa4ckerman",
+      "body": "Not really. The cats are there to deter rodents. They’re live-in pest control, they’re employees. That dog is just visiting and hanging out."
+     },
+     {
+      "author": "lawlgyroscopes",
+      "body": "People in the comments seem to be worried about dander and cleanliness of an animal. These could easily apply to a bodega cat too. If this dog were catching mice, would they feel better about them hanging around the restaurant? If anything, a dog that hangs out for 30 mins exposes people to way less germs than would a cat that lives there all day every day. Just saying"
+     }
+    ],
+    "author": "m1kasa4ckerman",
+    "body": "People in the comments also say they don’t care about service dogs. Working animals are fine. \n\nBut if you want to get all transplant-like and try to take down NYC icons like bodega cats just because someone’s designer poodle hybrid shouldn’t sit at a restaurant then… I guess go off?",
+    "replies": [
+     {
+      "author": "lawlgyroscopes",
+      "body": "I was asking the functional difference between two different types of animals in a space with food. U didn't rly answer the question. I'm all for bodega cats! And I also dgaf about dogs in a restaurant (well behaved dogs, that is)"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0339",
+   "comment_id": "t1_omk46wd",
+   "model_view": "POST TITLE: Went to Bong (Cambodian) tonight. Would not recommend.\n\nPOST BODY: I was able to snatch a last minute one person reservation for tonight and was pretty excited, cuz I know it’s hard to get into this place. \n\nThe experience was, well, underwhelming. \n\nThe food itself wasn’t bad; it’s not mind blowing, a bit uneven, but generally pretty decent. There aren’t many Cambodian restaurants in NYC, so I welcome the addition. \n\nThe problem is the price. I ordered one dish ...\n\nCOMMENT: Chiming in to add my experience. I am not big into the “spending big money on trendy restaurant” scene, but Bong was a special occasion meal for my boyfriend and I. We knew that this isn’t a “fancy” restaurant per se but we both live in the neighborhood and had been wanting to give it a try. We split 4 dishes (2 small, 1 medium, 1 large), a glass of wine, and a beer for $168 + tax and tip. We were so full that we couldn’t even finish the fish. Though expensive, I felt that this was a good deal for the amount of food we got. The crab salad & shrimp were excellent (I normally don’t love shrimp but the flavor was incredible), and so was the whole dorade fish. The ode to chicken right side was the only one I would skip, it was a bit dry and the sauce was very salty. Everyone in there was incredibly warm and welcoming. I would 100% go again.",
+   "context": {
+    "title": "Went to Bong (Cambodian) tonight. Would not recommend.",
+    "selftext": "I was able to snatch a last minute one person reservation for tonight and was pretty excited, cuz I know it’s hard to get into this place. \n\nThe experience was, well, underwhelming. \n\nThe food itself wasn’t bad; it’s not mind blowing, a bit uneven, but generally pretty decent. There aren’t many Cambodian restaurants in NYC, so I welcome the addition. \n\nThe problem is the price. I ordered one dish from each section (head on shrimps, clams, the popular fried fish) as recommended by my server, a non-alcoholic drink, and a dessert (a nondescript gelato). After tax, tips, 3% surcharge for card transactions (debit card included), the total came to…$184.\n\nNow I know restaurants are expensive these days, especially in NYC. And how much a restaurant should charge people (or how much people are willing to pay) is ultimately an open question. But if you are willing to spend $180 on a meal (and go through the trouble of navigating Resy), you have a lot of strong options to choose from.\n\nBong is not that option. The food is simply not good enough to justify the hard stools, the cramped space, the obnoxiously loud music, and the fact that you are sitting 3 feet from the restroom, which is probably one of the most dimly lit restrooms I’ve seen. The drink menu is too short and too generic; there is no dessert menu. Granted, a lot of restaurants don’t have those and do just fine. But those restaurants don’t cost $180. Conversely, Kabawa, which I was lucky enough to try earlier this week, has a extensive drink menu, actual seats for people to sit on, a restroom with lights tucked away in a corner, and most importantly, genuinely incredible food. I also spent $180 there. \n\nIn many ways Bong strikes me as the hip, Cambodian cousin of Mắm. Except Mắm is probably around $50 per person (and they don’t charge tips), easier to get a reservation, and more convenient to get to. \n\nSo yeah, the tl;dr: if you have to set an alarm to get a reservation, try Kabawa. ",
+    "ancestors": [],
+    "author": "operationivyleague",
+    "body": "Chiming in to add my experience. I am not big into the “spending big money on trendy restaurant” scene, but Bong was a special occasion meal for my boyfriend and I. We knew that this isn’t a “fancy” restaurant per se but we both live in the neighborhood and had been wanting to give it a try. We split 4 dishes (2 small, 1 medium, 1 large), a glass of wine, and a beer for $168 + tax and tip. We were so full that we couldn’t even finish the fish. Though expensive, I felt that this was a good deal for the amount of food we got. The crab salad & shrimp were excellent (I normally don’t love shrimp but the flavor was incredible), and so was the whole dorade fish. The ode to chicken right side was the only one I would skip, it was a bit dry and the sauce was very salty. Everyone in there was incredibly warm and welcoming. I would 100% go again. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Bong",
+     "named_in": "context",
+     "location": "neighborhood spot the commenter lives near",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": "positive",
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "crab salad",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "shrimp",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "whole dorade fish",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "ode to chicken right side",
+       "level": "negative",
+       "avoid": true
+      }
+     ],
+     "price": "expensive",
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "Cambodian",
+      "special occasion",
+      "date night"
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "$168 + tax and tip for two people, 4 dishes, a glass of wine and a beer",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "portions",
+       "text": "split 4 dishes, so full they couldn't finish the fish",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "ode to chicken",
+       "text": "a bit dry and the sauce was very salty",
+       "level": "negative",
+       "dish": "ode to chicken right side"
+      },
+      {
+       "about": "staff",
+       "text": "everyone incredibly warm and welcoming",
+       "level": "positive",
+       "dish": null
+      },
+      {
+       "about": "return",
+       "text": "would 100% go again",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0340",
+   "comment_id": "t1_omhbn0q",
+   "model_view": "POST TITLE: Anyone been to Sofreh in Prospect Heights and can recommend some dishes for my bday dinner?\n\nPOST BODY: Hi! I am going to Sofreh for the first time this week for my birthday dinner. It will be me and 5 friends.\n\nI’ve never been - would someone so kindly recommend some good dishes to get? Is it a place to share food our get our own entrees? Tysm <3\n\nCOMMENT: Literally anything, sharing recommended.",
+   "context": {
+    "title": "Anyone been to Sofreh in Prospect Heights and can recommend some dishes for my bday dinner?",
+    "selftext": "Hi! I am going to Sofreh for the first time this week for my birthday dinner. It will be me and 5 friends.\n\nI’ve never been - would someone so kindly recommend some good dishes to get? Is it a place to share food our get our own entrees? Tysm <3",
+    "ancestors": [],
+    "author": "Other-Aside-1170",
+    "body": "Literally anything, sharing recommended. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sofreh",
+     "named_in": "context",
+     "location": "Prospect Heights",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "sharing"
+     ],
+     "notes": [
+      {
+       "about": "how to order",
+       "text": "sharing recommended",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0341",
+   "comment_id": "t1_of9onsd",
+   "model_view": "POST TITLE: Where can I find New England / Massachusetts-style American Chinese food in NYC??\n\nPOST BODY: I grew up eating Chinese takeout in Massachusetts / New England and I feel like it’s VERY different from what I’ve been finding in NYC.\n\nBoneless spare ribs that are sweet, a little sticky, slightly fatty (not dry or super lean)\n\nCrispy crab Rangoon’s that are super thin\n\nAnd duck sauce that has apple sauce base\n\nExtra points if I can get a combo plate with lo mein and two mains!!!!\n\nEverything I’ ...\n\nCOMMENT: Every takeout chinese food place, the closer to the hood the better\n\n[One](https://maps.app.goo.gl/qJqxDJwpAhVadTJt6)\n\n[Two](https://maps.app.goo.gl/vEdSpCEhMPFwkjUc6) \n\nJust some example but there are 1000s and you wont find them in certain areas",
+   "context": {
+    "title": "Where can I find New England / Massachusetts-style American Chinese food in NYC??",
+    "selftext": "I grew up eating Chinese takeout in Massachusetts / New England and I feel like it’s VERY different from what I’ve been finding in NYC.\n\nBoneless spare ribs that are sweet, a little sticky, slightly fatty (not dry or super lean)\n\nCrispy crab Rangoon’s that are super thin\n\nAnd duck sauce that has apple sauce base\n\nExtra points if I can get a combo plate with lo mein and two mains!!!!\n\nEverything I’ve tried in NYC is either too authentic (which is great not what I’m looking for) or just… not the same flavor/texture at all\n\nDoes anyone know spots in Manhattan, Brooklyn or Queens that matched that vibe??\n\nI attached a photo for reference of what I’m looking for:) ",
+    "ancestors": [],
+    "author": "TerriblyRare",
+    "body": "Every takeout chinese food place, the closer to the hood the better\n\n[One](https://maps.app.goo.gl/qJqxDJwpAhVadTJt6)\n\n[Two](https://maps.app.goo.gl/vEdSpCEhMPFwkjUc6) \n\nJust some example but there are 1000s and you wont find them in certain areas",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0342",
+   "comment_id": "t1_p0hwhxl",
+   "model_view": "POST TITLE: Solid day of eats @ Mama’s Too & Red Gate Bakery 🍕 🍪\n\nPOST BODY: Had no plans on this beautiful Saturday, so treated myself to a very large lunch 😅 \n\nMama’s Too in WV - house slice, bruschetta, and vodka chicken sandwich. Arrived around 12:30 and in total, it was 20-30 minutes from stepping in line to getting my food. It would have been faster, but they were waiting for a new house pie to be put out. I must say, it was worth the short wait. The bruschetta was m ...\n\nPARENT COMMENT: I know I'm 3 days late, but I want to +1 this. I'm a pretty big cutlet sandwich hater because usually it's just old, microwaved chicken on bread, but the way Faicco's makes an almost pesto out of the broccoli rabe is so good\n\nCOMMENT: Idk their cutlet sandwich is so disappointing to me. But to be fair most Manhattan to go cutlet spots r mid so really what option is there. Faiccos is too cold. Parisi not enough breading. Parm too thick. Mamas too looks overly popular so that means the quality is probably shite. Caponne meh. The only real options for a parm is a sit down which is ridiculous cuz u know it’s gonna be pricey aka more than 20 bucks. Like emilios ballato or Arthur and sons. Maybe im too picky",
+   "context": {
+    "title": "Solid day of eats @ Mama’s Too & Red Gate Bakery 🍕 🍪",
+    "selftext": "Had no plans on this beautiful Saturday, so treated myself to a very large lunch 😅 \n\nMama’s Too in WV - house slice, bruschetta, and vodka chicken sandwich. Arrived around 12:30 and in total, it was 20-30 minutes from stepping in line to getting my food. It would have been faster, but they were waiting for a new house pie to be put out. I must say, it was worth the short wait. The bruschetta was my favorite of the three. \n\nRed Gate Bakery in EV - choco toffee cookie. One of my favorite chocolate chip cookies in the city. Waited in line about 15 min total, so not bad. I wanted the corn cake, but apparently they sold out within the first hour of the day so I was no where near close to achieving that goal. \n\nNot pictured - the juice I got after my morning run, and the ice cream I got at the end of the day 😋\n\nOverall a strong day of eats. 10/10. I love a solo day of walking around and eating ",
+    "ancestors": [
+     {
+      "author": "dummonger",
+      "body": "Looks great and great pics! Next time walk a couple blocks from mamas and try faiccos for a chicken cutlet sando!"
+     },
+     {
+      "author": "Interesting-Shop4638",
+      "body": "I know I'm 3 days late, but I want to +1 this. I'm a pretty big cutlet sandwich hater because usually it's just old, microwaved chicken on bread, but the way Faicco's makes an almost pesto out of the broccoli rabe is so good"
+     }
+    ],
+    "author": "why_squ1rtle",
+    "body": "Idk their cutlet sandwich is so disappointing to me. But to be fair most Manhattan to go cutlet spots r mid so really what option is there. Faiccos is too cold. Parisi not enough breading. Parm too thick. Mamas too looks overly popular so that means the quality is probably shite. Caponne meh. The only real options for a parm is a sit down which is ridiculous cuz u know it’s gonna be pricey aka more than 20 bucks. Like emilios ballato or Arthur and sons. Maybe im too picky ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Faiccos",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "cutlet sandwich",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "cutlet",
+      "sandwich"
+     ],
+     "notes": [
+      {
+       "about": "temperature",
+       "text": "food is too cold",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Parisi",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "cutlet",
+      "parm"
+     ],
+     "notes": [
+      {
+       "about": "breading",
+       "text": "not enough breading on the cutlet",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Parm",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "cutlet",
+      "parm"
+     ],
+     "notes": [
+      {
+       "about": "texture",
+       "text": "parm is too thick",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Mamas too",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "popularity",
+       "text": "looks overly popular, so commenter assumes quality is poor",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Caponne",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "cutlet"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Emilios Ballato",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "sit down",
+      "parm"
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "sit-down parm spots are pricey, more than 20 bucks",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Arthur and sons",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "sit down",
+      "parm"
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "sit-down parm spots are pricey, more than 20 bucks",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0343",
+   "comment_id": "t1_od4b46g",
+   "model_view": "POST TITLE: Last minute brunch today near Lincoln Center\n\nPOST BODY: A friend is in town. Is she seeing a matinee at Lincoln Center this afternoon. She suggested brunch. I know there’s the Smith…. that’s the obvious choice. I’m afraid it will be packed and I haven’t a reservation. Any place else near Lincoln or on the UWS?\n\nCOMMENT: Old John's Luncheonette - a few blocks from Lincoln Center",
+   "context": {
+    "title": "Last minute brunch today near Lincoln Center",
+    "selftext": "A friend is in town. Is she seeing a matinee at Lincoln Center this afternoon. She suggested brunch. I know there’s the Smith…. that’s the obvious choice. I’m afraid it will be packed and I haven’t a reservation. Any place else near Lincoln or on the UWS? ",
+    "ancestors": [],
+    "author": "Ajeelynn",
+    "body": "Old John's Luncheonette - a few blocks from Lincoln Center ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Old John's Luncheonette",
+     "named_in": "comment",
+     "location": "a few blocks from Lincoln Center",
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "luncheonette"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0344",
+   "comment_id": "t1_o4gb64l",
+   "model_view": "POST TITLE: BLT from Fay Da. Don't sleep on the Chinese bakeries for awesome cheap sandwiches\n\nPOST BODY: [https://fayda.com/](https://fayda.com/)\n\nThis was from the one on 6th Ave.  Given how things have been progressing around here, with Papaya Dog and Menkoi Sato (hopefully just temporarily) closing, and that stupid cheese wheel pasta place opening around the corner along with the soulless Cinnabon-Carvel-Auntie Anne's cluster, I've been feeling extra-grateful for local gems like this.  Picked this ...\n\nCOMMENT: I used to get fay da all the time but after finding a hair in my food for the second time I had to say goodbye forever. Which is sad because I really do like the food",
+   "context": {
+    "title": "BLT from Fay Da. Don't sleep on the Chinese bakeries for awesome cheap sandwiches",
+    "selftext": "[https://fayda.com/](https://fayda.com/)\n\nThis was from the one on 6th Ave.  Given how things have been progressing around here, with Papaya Dog and Menkoi Sato (hopefully just temporarily) closing, and that stupid cheese wheel pasta place opening around the corner along with the soulless Cinnabon-Carvel-Auntie Anne's cluster, I've been feeling extra-grateful for local gems like this.  Picked this and a baked pork bun up this morning; the pork in that bun was quite good, a little leaner than Mei Lai Wah's.  \n\nThey got everything, baked pork buns, beef curry puffs, sandwiches, steamed buns, you name it.  Plenty of sweet stuff too of course, but I'm a savory hound and I treasure it when i find it.  And one of these sandwiches takes care of me for less $ than at a deli or sandwich shop.",
+    "ancestors": [],
+    "author": "stonedsour",
+    "body": "I used to get fay da all the time but after finding a hair in my food for the second time I had to say goodbye forever. Which is sad because I really do like the food",
+    "replies": [
+     {
+      "author": "beepboop787",
+      "body": "Extra protein! "
+     },
+     {
+      "author": "littlebrownsnail",
+      "body": "They changed their recipes for a few things last year and I haven't returned. I was a ride or die for them back in the day"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Fay Da",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": "very_negative",
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "past",
+     "trend": "declined",
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "hygiene",
+       "text": "found a hair in food twice",
+       "level": "very_negative",
+       "dish": null
+      },
+      {
+       "about": "stopped going",
+       "text": "commenter stopped going after second hair incident",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0345",
+   "comment_id": "t1_ozwbi85",
+   "model_view": "POST TITLE: Solid day of eats @ Mama’s Too & Red Gate Bakery 🍕 🍪\n\nPOST BODY: Had no plans on this beautiful Saturday, so treated myself to a very large lunch 😅 \n\nMama’s Too in WV - house slice, bruschetta, and vodka chicken sandwich. Arrived around 12:30 and in total, it was 20-30 minutes from stepping in line to getting my food. It would have been faster, but they were waiting for a new house pie to be put out. I must say, it was worth the short wait. The bruschetta was m ...\n\nPARENT COMMENT: I'm curious about what more people think of red gate bakery. I had a not great experience there a year or 2 ago (the inner part of my pumpkin loaf slice was just raw), so I've been hesitant to go back. It sounds like the cookie was really good though!\n\nCOMMENT: I’ve been happy with everything I had there. Unfortunately, you got unlucky. May be worth another try.",
+   "context": {
+    "title": "Solid day of eats @ Mama’s Too & Red Gate Bakery 🍕 🍪",
+    "selftext": "Had no plans on this beautiful Saturday, so treated myself to a very large lunch 😅 \n\nMama’s Too in WV - house slice, bruschetta, and vodka chicken sandwich. Arrived around 12:30 and in total, it was 20-30 minutes from stepping in line to getting my food. It would have been faster, but they were waiting for a new house pie to be put out. I must say, it was worth the short wait. The bruschetta was my favorite of the three. \n\nRed Gate Bakery in EV - choco toffee cookie. One of my favorite chocolate chip cookies in the city. Waited in line about 15 min total, so not bad. I wanted the corn cake, but apparently they sold out within the first hour of the day so I was no where near close to achieving that goal. \n\nNot pictured - the juice I got after my morning run, and the ice cream I got at the end of the day 😋\n\nOverall a strong day of eats. 10/10. I love a solo day of walking around and eating ",
+    "ancestors": [
+     {
+      "author": "furmangirl08",
+      "body": "I'm curious about what more people think of red gate bakery. I had a not great experience there a year or 2 ago (the inner part of my pumpkin loaf slice was just raw), so I've been hesitant to go back. It sounds like the cookie was really good though!"
+     }
+    ],
+    "author": "justflipping",
+    "body": "I’ve been happy with everything I had there. Unfortunately, you got unlucky. May be worth another try.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Red Gate Bakery",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bakery"
+     ],
+     "notes": [
+      {
+       "about": "bad experience",
+       "text": "parent's raw pumpkin loaf was a one-time bad luck, commenter says to retry",
+       "level": "neutral",
+       "dish": "pumpkin loaf"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0346",
+   "comment_id": "t1_ourw1b5",
+   "model_view": "POST TITLE: Where is the best french toast in midtown (or brunch overall)?\n\nPOST BODY: When my friends and I go to the city in a few months I know they want either a great brunch or diner. Since I'm the one in charge of research, I'm going out of my way to look for a good french toast.\n\n  \nAs a side note, is the Tick Tock Diner overrated?\n\nCOMMENT: If you're willing to branch out from the typical brunch spots, I'd honestly recommend Mangia. They have the best French toast I've ever had, and I'm pretty picky about French toast.\n\nEverything there is genuinely delicious and the quality is excellent. You can either order hot food from the chef or grab items from the self-serve section. The cool thing is that even the self-serve food is made by professional chefs- Mangia is actually a high-end catering company first, and during the week they open their kitchens to the public as a food spot.\n\nThey have a few locations around Midtown/Manhattan (I think 3–4), so it's usually pretty convenient too. It's one of those places I don't think gets recommended enough.",
+   "context": {
+    "title": "Where is the best french toast in midtown (or brunch overall)?",
+    "selftext": "When my friends and I go to the city in a few months I know they want either a great brunch or diner. Since I'm the one in charge of research, I'm going out of my way to look for a good french toast.\n\n  \nAs a side note, is the Tick Tock Diner overrated?",
+    "ancestors": [],
+    "author": "Leather-Yard-5183",
+    "body": "If you're willing to branch out from the typical brunch spots, I'd honestly recommend Mangia. They have the best French toast I've ever had, and I'm pretty picky about French toast.\n\nEverything there is genuinely delicious and the quality is excellent. You can either order hot food from the chef or grab items from the self-serve section. The cool thing is that even the self-serve food is made by professional chefs- Mangia is actually a high-end catering company first, and during the week they open their kitchens to the public as a food spot.\n\nThey have a few locations around Midtown/Manhattan (I think 3–4), so it's usually pretty convenient too. It's one of those places I don't think gets recommended enough.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mangia",
+     "named_in": "comment",
+     "location": "a few locations around Midtown/Manhattan",
+     "experience": "none",
+     "opinion": "stated",
+     "overall": "very_positive",
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "French toast",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "brunch",
+      "self-serve",
+      "catering company"
+     ],
+     "notes": [
+      {
+       "about": "locations",
+       "text": "3-4 locations around Midtown/Manhattan, convenient",
+       "level": "positive",
+       "dish": null
+      },
+      {
+       "about": "underrated",
+       "text": "doesn't get recommended enough",
+       "level": "positive",
+       "dish": null
+      },
+      {
+       "about": "food quality",
+       "text": "everything delicious, excellent quality",
+       "level": "positive",
+       "dish": null
+      },
+      {
+       "about": "chef-made self-serve",
+       "text": "self-serve food also made by professional chefs; open kitchens to public on weekdays",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0347",
+   "comment_id": "t1_ock1s1g",
+   "model_view": "POST TITLE: Mini dumpling buns in NYC?\n\nPOST BODY: Are there any places in the city that do these type of dumplings other than din soup dumplings in brooklyn?  theyre my favorite but i cant find anywhere else that does them\n\nhttps://preview.redd.it/egtdatympuqg1.jpg?width=360&format=pjpg&auto=webp&s=72a3e0f79bb9ff0a4456f5e9717792f72005d4b3\n\nCOMMENT: closest store bought approximation if you pan dry :\n\nhttps://www.hmart.com/juicy-pork-vegetables-dumplings-21-2-oz--601g--1/p",
+   "context": {
+    "title": "Mini dumpling buns in NYC?",
+    "selftext": "Are there any places in the city that do these type of dumplings other than din soup dumplings in brooklyn?  theyre my favorite but i cant find anywhere else that does them\n\nhttps://preview.redd.it/egtdatympuqg1.jpg?width=360&format=pjpg&auto=webp&s=72a3e0f79bb9ff0a4456f5e9717792f72005d4b3\n\n",
+    "ancestors": [],
+    "author": "amandabug",
+    "body": "closest store bought approximation if you pan dry :\n\nhttps://www.hmart.com/juicy-pork-vegetables-dumplings-21-2-oz--601g--1/p",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0348",
+   "comment_id": "t1_p26itzj",
+   "model_view": "POST TITLE: Elder, brand new Indian/British restaurant in Hudson Yards\n\nCOMMENT: Interiors look decent food looks mid",
+   "context": {
+    "title": "Elder, brand new Indian/British restaurant in Hudson Yards",
+    "selftext": "",
+    "ancestors": [],
+    "author": "RowExternal8411",
+    "body": "Interiors look decent food looks mid",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Elder",
+     "named_in": "context",
+     "location": "Hudson Yards",
+     "experience": "none",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": "opened",
+     "tags": [
+      "indian",
+      "british"
+     ],
+     "notes": [
+      {
+       "about": "food looks",
+       "text": "food looks mid from photos",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "interiors",
+       "text": "interiors look decent",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0349",
+   "comment_id": "t1_owln6y9",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nPARENT COMMENT: I care more about their vegan soft serve\n\nCOMMENT: Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     }
+    ],
+    "author": "SpongeyBobaruu",
+    "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!",
+    "replies": [
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "Actually, I'm not vegan at all, but I enjoy the taste of their freezes"
+     },
+     {
+      "author": "mycateatstoenails",
+      "body": "vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb. "
+     },
+     {
+      "author": "FoodNYC-ModTeam",
+      "body": "No hate, flamewars, rude comments, etc"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0350",
+   "comment_id": "t1_nl1njov",
+   "model_view": "POST TITLE: Looking for a dive bar along the 1 train between Lincoln Center and the Hudson stop\n\nPOST BODY: I know it’s a tough area because Times Square and MSG are right in the middle of this route. Basically looking for somewhere quiet and not crazy expensive to catch up and have a drink with a friend.\n\nPARENT COMMENT: In the corner of my eye,\n\nI saw you at Rudy’s,\n\nYou were very high…\n\nCOMMENT: *Yooooou* were high\n\nIt was a cryin’ disgrace",
+   "context": {
+    "title": "Looking for a dive bar along the 1 train between Lincoln Center and the Hudson stop",
+    "selftext": "I know it’s a tough area because Times Square and MSG are right in the middle of this route. Basically looking for somewhere quiet and not crazy expensive to catch up and have a drink with a friend.",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     },
+     {
+      "author": "JoeyBoomBox",
+      "body": "In the corner of my eye,\n\nI saw you at Rudy’s,\n\nYou were very high…"
+     }
+    ],
+    "author": "Sandusky666",
+    "body": "*Yooooou* were high\n\nIt was a cryin’ disgrace",
+    "replies": []
+   },
+   "shown": []
+  }
+ ]
+}

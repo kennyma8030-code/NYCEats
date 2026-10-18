@@ -1,0 +1,2071 @@
+{
+ "packet": "r012",
+ "items": [
+  {
+   "item_id": "Q0276",
+   "comment_id": "t1_p320q1f",
+   "model_view": "POST TITLE: Eleven Madison Park, Lunch.  Menu, drinks, and a game.\n\nPOST BODY: I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\nPARENT COMMENT: This looks pretty uninspired IMO\n\nCOMMENT: Ah... I get it now.  You're an amateur 'Neg'-ologist... looking at your post history, you seem to really truly enjoy sharing negative, shit-stirring, controversial, or plain aggressive comments.\n\nWell done.",
+   "context": {
+    "title": "Eleven Madison Park, Lunch.  Menu, drinks, and a game.",
+    "selftext": "I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\n",
+    "ancestors": [
+     {
+      "author": "CheckItWhileIWreckIt",
+      "body": "This looks pretty uninspired IMO"
+     }
+    ],
+    "author": "MTonmyMind",
+    "body": "Ah... I get it now.  You're an amateur 'Neg'-ologist... looking at your post history, you seem to really truly enjoy sharing negative, shit-stirring, controversial, or plain aggressive comments.\n\nWell done.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0277",
+   "comment_id": "t1_nt7oq88",
+   "model_view": "POST TITLE: If you could bring back one closed restaurant, what would it be?\n\nPOST BODY: This cold winter day’s got me feeling nostalgic. What’s restaurants or eateries of the past would you bring back if given the chance? For me, it’s a tie between Caracas Arepa & Marble Dessert Bar. Oh, how miss dousing their seafood arepa with their signature yellow sauce. And to this day, I still can’t find a dessert tasting quite like Marble’s. Lysee comes close, but it’s not quite the same.\n\nPARENT COMMENT: Lin's Garden, on Bayard Street. \n\nIf you know, you know.\n\nCOMMENT: Omg!! Our favorite spot forever ❤️",
+   "context": {
+    "title": "If you could bring back one closed restaurant, what would it be?",
+    "selftext": "This cold winter day’s got me feeling nostalgic. What’s restaurants or eateries of the past would you bring back if given the chance? For me, it’s a tie between Caracas Arepa & Marble Dessert Bar. Oh, how miss dousing their seafood arepa with their signature yellow sauce. And to this day, I still can’t find a dessert tasting quite like Marble’s. Lysee comes close, but it’s not quite the same. ",
+    "ancestors": [
+     {
+      "author": "North_Ad8063",
+      "body": "Lin's Garden, on Bayard Street. \n\nIf you know, you know."
+     }
+    ],
+    "author": "deefinest",
+    "body": "Omg!! Our favorite spot forever ❤️",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Lin's Garden",
+     "named_in": "context",
+     "location": "Bayard Street",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "tags": [],
+     "notes": [
+      {
+       "about": "favorite spot",
+       "text": "their favorite spot forever",
+       "level": "very_positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0278",
+   "comment_id": "t1_ornog7a",
+   "model_view": "POST TITLE: Best deli pickles in NYC (preferably near manhattan)\n\nPOST BODY: Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!\n\nCOMMENT: I’m enjoying a sour pickle from Tashkent Market, from the cooler section right as you enter the store above the W 4th station. \nSimple but just right!",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [],
+    "author": "halermine",
+    "body": "I’m enjoying a sour pickle from Tashkent Market, from the cooler section right as you enter the store above the W 4th station. \nSimple but just right! ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0279",
+   "comment_id": "t1_omfwqb1",
+   "model_view": "POST TITLE: Anyone been to Sofreh in Prospect Heights and can recommend some dishes for my bday dinner?\n\nPOST BODY: Hi! I am going to Sofreh for the first time this week for my birthday dinner. It will be me and 5 friends.\n\nI’ve never been - would someone so kindly recommend some good dishes to get? Is it a place to share food our get our own entrees? Tysm <3\n\nCOMMENT: Tahini and date salad, the cauliflower, eggplant dip, squash, pomegranate beef and half chicken, desserts are all great",
+   "context": {
+    "title": "Anyone been to Sofreh in Prospect Heights and can recommend some dishes for my bday dinner?",
+    "selftext": "Hi! I am going to Sofreh for the first time this week for my birthday dinner. It will be me and 5 friends.\n\nI’ve never been - would someone so kindly recommend some good dishes to get? Is it a place to share food our get our own entrees? Tysm <3",
+    "ancestors": [],
+    "author": "Garconavecunreve",
+    "body": "Tahini and date salad, the cauliflower, eggplant dip, squash, pomegranate beef and half chicken, desserts are all great ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sofreh",
+     "named_in": "context",
+     "location": "Prospect Heights",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "tahini and date salad",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "cauliflower",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "eggplant dip",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "squash",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "pomegranate beef",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "half chicken",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "desserts",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0280",
+   "comment_id": "t1_p6732eo",
+   "model_view": "POST TITLE: Mama’s Too in NYC has some of my favorite slices ever!!\n\nCOMMENT: Gonna be honest I don’t like their pizza 🍕 like lindustry",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "bigkapex",
+    "body": "Gonna be honest I don’t like their pizza 🍕 like lindustry ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama’s Too",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "pizza",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "notes": [
+      {
+       "about": "opinion",
+       "text": "commenter does not like their pizza, despite the title's praise",
+       "level": "negative",
+       "dish": "pizza"
+      }
+     ]
+    },
+    {
+     "name": "lindustry",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "pizza",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "commenter also dislikes this place's pizza, compared to Mama’s Too",
+       "level": "negative",
+       "dish": "pizza"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0281",
+   "comment_id": "t1_o65rrko",
+   "model_view": "POST TITLE: What upscale indian restaurant is easiest to get a reservation for?\n\nPOST BODY: Visiting mid march and trying to plan :)\n\nCOMMENT: Bungalow. There's a specific time you're supposed to book..resy mentions when they open their slots.\n\nWe went very recently. Didn't order the more popular dishes but lamb and biryani. Biryani was underwhelming but the lamb was amazing",
+   "context": {
+    "title": "What upscale indian restaurant is easiest to get a reservation for?",
+    "selftext": "Visiting mid march and trying to plan :)",
+    "ancestors": [],
+    "author": "truth_bespoken",
+    "body": "Bungalow. There's a specific time you're supposed to book..resy mentions when they open their slots.\n\nWe went very recently. Didn't order the more popular dishes but lamb and biryani. Biryani was underwhelming but the lamb was amazing",
+    "replies": [
+     {
+      "author": "[deleted]",
+      "body": "[deleted]"
+     },
+     {
+      "author": "truth_bespoken",
+      "body": "I liked the lamb starter so just a recommendation if someone goes"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Bungalow",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "neutral",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "lamb",
+       "level": "very_positive",
+       "avoid": false
+      },
+      {
+       "dish": "biryani",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "indian",
+      "upscale"
+     ],
+     "notes": [
+      {
+       "about": "booking",
+       "text": "Resy has a specific time slots open, must book when they release them",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "popular dishes",
+       "text": "they didn't order the more popular dishes",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0282",
+   "comment_id": "t1_orp1myy",
+   "model_view": "POST TITLE: Best deli pickles in NYC (preferably near manhattan)\n\nPOST BODY: Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!\n\nCOMMENT: Pickle Guys on Grand and Essex in Manhattan. All they do is pickles. It’s near Kossar’s Bialys and the Doughnut Plant. Walking distance to Katz’s and Russ and Daughter.",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [],
+    "author": "Admirable_Tear_1438",
+    "body": "Pickle Guys on Grand and Essex in Manhattan. All they do is pickles. It’s near Kossar’s Bialys and the Doughnut Plant. Walking distance to Katz’s and Russ and Daughter. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Pickle Guys",
+     "named_in": "comment",
+     "location": "Grand and Essex in Manhattan",
+     "experience": "secondhand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pickles",
+      "specialty shop"
+     ],
+     "notes": [
+      {
+       "about": "specialty",
+       "text": "All they do is pickles",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Kossar's Bialys",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "landmark",
+       "text": "Near Pickle Guys",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Doughnut Plant",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "landmark",
+       "text": "Near Pickle Guys",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Katz's",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "landmark",
+       "text": "Walking distance from Pickle Guys",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Russ and Daughters",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "landmark",
+       "text": "Walking distance from Pickle Guys",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0283",
+   "comment_id": "t1_nobth7a",
+   "model_view": "POST TITLE: Thoughts on the following list?\n\nPOST BODY: If there is anything to add or remove, I would love your suggestions. Some of these might be overhyped.... We are staying in LONG ISLAND CITY so some of these are over in that area...\n\nII POSTO ACCANTO\n\nTASTE OF HEAVEN\n\nTAQUERIA RAMIREZ\n\nBODEGA CITY\n\nRUSS AND DAUGHERES\n\nLEON'S BAGELS\n\nTOMPKINS SQUARE BAGELS\n\nLOST TACOS #1\n\nL INDUSTRIE PIZZA... (QUESTIONABLE)\n\nJOE'S PIZZA\n\nPRINCE STREET PIZZA\n\nTHE ...\n\nCOMMENT: Taqueria Ramirez: very good al pastor tacos. There might be a line and there’s barely any seating. \n\nRuss and Daughter’s: go to the Hudson Yard’s location for no wait and seating. Lox and cream cheese are elite but apparently the bagels themselves aren’t up to par. \n\nTompkins Square Bagels: consistently good but will have a line and barely any seating.\n\nLos Tacos #1: idk why everyone is raving about this place; to me it’s average tacos with huge lines. Ramirez and El Bronco are way better.\n\nL’Industrie: the hype is worth it. Fig jam bacon and Buratta slices are elite. Go to the Williamsburg one for a shorter line (guaranteed a line of some sort) and proximity to LIC.\n\nJoe’s + Prince St: skip entirely and go to any of the following\n•Village Square\n•Bleeker St. Pizza (line)\n•Slicehaus\n•Scarr’s\n•Upside\n•Grand Street\n•Cello’s\n•NY Pizza Suprema\n•Unregular\n•Marinara\n\nWah Fung: extremely consistent and unbelievably cheap for the quality and quantity of food but as 30min + line except if you show up before 10:30am (they open at 9am). No seating so you have to eat it at a park across the street that’s a bit dirty. Get the char siu and crackling pork belly.\n\nKatz’s: Worth it. Sandwich is expensive but the portions are huge. Line is long and service is snappy though.",
+   "context": {
+    "title": "Thoughts on the following list?",
+    "selftext": "If there is anything to add or remove, I would love your suggestions. Some of these might be overhyped.... We are staying in LONG ISLAND CITY so some of these are over in that area...\n\nII POSTO ACCANTO\n\nTASTE OF HEAVEN\n\nTAQUERIA RAMIREZ\n\nBODEGA CITY\n\nRUSS AND DAUGHERES\n\nLEON'S BAGELS\n\nTOMPKINS SQUARE BAGELS\n\nLOST TACOS #1\n\nL INDUSTRIE PIZZA... (QUESTIONABLE)\n\nJOE'S PIZZA\n\nPRINCE STREET PIZZA\n\nTHE SOUL SPOT\n\nWAH FUNG NO 1.\n\nCHARLES PAN FRIED CHICKEN\n\nSARGE'S DELI\n\nBLEECKER STREET PIZZA\n\nKATZ",
+    "ancestors": [],
+    "author": "Reign-Alex1993",
+    "body": "Taqueria Ramirez: very good al pastor tacos. There might be a line and there’s barely any seating. \n\nRuss and Daughter’s: go to the Hudson Yard’s location for no wait and seating. Lox and cream cheese are elite but apparently the bagels themselves aren’t up to par. \n\nTompkins Square Bagels: consistently good but will have a line and barely any seating.\n\nLos Tacos #1: idk why everyone is raving about this place; to me it’s average tacos with huge lines. Ramirez and El Bronco are way better.\n\nL’Industrie: the hype is worth it. Fig jam bacon and Buratta slices are elite. Go to the Williamsburg one for a shorter line (guaranteed a line of some sort) and proximity to LIC.\n\nJoe’s + Prince St: skip entirely and go to any of the following\n•Village Square\n•Bleeker St. Pizza (line)\n•Slicehaus\n•Scarr’s\n•Upside\n•Grand Street\n•Cello’s\n•NY Pizza Suprema\n•Unregular\n•Marinara\n\nWah Fung: extremely consistent and unbelievably cheap for the quality and quantity of food but as 30min + line except if you show up before 10:30am (they open at 9am). No seating so you have to eat it at a park across the street that’s a bit dirty. Get the char siu and crackling pork belly.\n\nKatz’s: Worth it. Sandwich is expensive but the portions are huge. Line is long and service is snappy though.",
+    "replies": [
+     {
+      "author": "GetawaysByTiffany",
+      "body": "Thanks. Looking for more cheap, quick eat spots for teens if you have any suggestions. I will switch up the Pizza options. Thank you!"
+     },
+     {
+      "author": "GetawaysByTiffany",
+      "body": "I forgot to ask...suggestions for Chinatown?"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0284",
+   "comment_id": "t1_odz9pr0",
+   "model_view": "POST TITLE: Rate our food tour\n\nPOST BODY: So every time my friend visits town from SLC, we do a full day food tour. So far we’ve done flushing (8 spots), pizza slices (15 spots), and burgers (8 spots). \n\nThis time we’re going to do a sandwich tour, what do you all think, are these the best places to get those kinds of sandwiches? Should we add another sandwich we might be missing?\n\nPastrami Sandwich - Katz Delicatessen\n\nBahn Mi - Saigutte ...\n\nCOMMENT: Add S&P, skip Milano market, Cafe Habana and replace Saigutte with Banh And Em.  Love Grays but it's way out of your way and Katz's has better hotdogs.Add in Taqueria Ramirez (close enough). Crossing a river to Frankel's is a long way to go for a BEC.",
+   "context": {
+    "title": "Rate our food tour",
+    "selftext": "So every time my friend visits town from SLC, we do a full day food tour. So far we’ve done flushing (8 spots), pizza slices (15 spots), and burgers (8 spots). \n\nThis time we’re going to do a sandwich tour, what do you all think, are these the best places to get those kinds of sandwiches? Should we add another sandwich we might be missing?\n\nPastrami Sandwich - Katz Delicatessen\n\nBahn Mi - Saigutte\n\nItalian Sub - Faicco's Italian Specialties\n\nChicken Caesar Wrap - Milano Market\n\nCuban - Cafe Habana\n\nBacon, Egg and Cheese - Frankel's Delicatessen & Appetizing\n\nHot Dog - Gray's Papaya\n\nPhilly Cheesesteak - Danny & Coop's",
+    "ancestors": [],
+    "author": "Cpalms139",
+    "body": "Add S&P, skip Milano market, Cafe Habana and replace Saigutte with Banh And Em.  Love Grays but it's way out of your way and Katz's has better hotdogs.Add in Taqueria Ramirez (close enough). Crossing a river to Frankel's is a long way to go for a BEC.",
+    "replies": [
+     {
+      "author": "Malsperanza",
+      "body": "Saiguette is pretty damn good if they're doing an UWS crawl. Lox and bagel at Barney Greengrass would also fit. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "S&P",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    },
+    {
+     "name": "Milano Market",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": true,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    },
+    {
+     "name": "Cafe Habana",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": true,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    },
+    {
+     "name": "Saigutte",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bahn mi"
+     ],
+     "notes": [
+      {
+       "about": "replacement",
+       "text": "suggested replacing it with Banh And Em",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Banh And Em",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bahn mi"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Grays",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "hot dogs",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "location",
+       "text": "way out of your way",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "comparison",
+       "text": "Katz's has better hot dogs",
+       "level": "negative",
+       "dish": "hot dogs"
+      }
+     ]
+    },
+    {
+     "name": "Katz's Delicatessen",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "hot dogs",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "better hot dogs than Grays",
+       "level": "positive",
+       "dish": "hot dogs"
+      }
+     ]
+    },
+    {
+     "name": "Taqueria Ramirez",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "taqueria"
+     ],
+     "notes": [
+      {
+       "about": "fit",
+       "text": "close enough to add to the tour",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Frankel's",
+     "named_in": "comment",
+     "location": "across a river, in Brooklyn",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "BEC",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "location",
+       "text": "a long way to go for a BEC",
+       "level": "negative",
+       "dish": "BEC"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0285",
+   "comment_id": "t1_o3a6fi4",
+   "model_view": "POST TITLE: Noksu vs Traif & Corima, or third option?\n\nPOST BODY: Heading to NYC later this week, and trying to decide what to do about dinner.\n\n3 related questions:\n\n1) Weighing a visit to Noksu against a combination of cheaper tasting menus, say Traif and/or Corima, or another suggestion. What would you advise?\n\n2) Also, I went to 63 Clinton in December and loved it. The updated menu is completely different, as is the price tag. Worth the increase? And worth a ...\n\nPARENT COMMENT: I’ve never been to Noksu or Corima, but Traif is one of my favorite restaurants. Love their seasonal menus, and the service is great. They also do automatic 20% gratuity so it’s a pretty consistent bill each time for the tasting menu.\n\nCOMMENT: have you gone recently? wondering if quality has changed it’s on my list but a lot of reviews are from years ago!",
+   "context": {
+    "title": "Noksu vs Traif & Corima, or third option?",
+    "selftext": "Heading to NYC later this week, and trying to decide what to do about dinner.\n\n3 related questions:\n\n1) Weighing a visit to Noksu against a combination of cheaper tasting menus, say Traif and/or Corima, or another suggestion. What would you advise?\n\n2) Also, I went to 63 Clinton in December and loved it. The updated menu is completely different, as is the price tag. Worth the increase? And worth a return visit, or go elsewhere?\n\n3) For spots that offer beverage pairings (either alcoholic or n/a), are they any good or would I be better off a la carte?\n\nGrateful for any advice, particularly if you've been to each of these places fairly recently. \n\nThanks!\n\n",
+    "ancestors": [
+     {
+      "author": "Ok_Goose_771",
+      "body": "I’ve never been to Noksu or Corima, but Traif is one of my favorite restaurants. Love their seasonal menus, and the service is great. They also do automatic 20% gratuity so it’s a pretty consistent bill each time for the tasting menu."
+     }
+    ],
+    "author": "nim_run16",
+    "body": "have you gone recently? wondering if quality has changed it’s on my list but a lot of reviews are from years ago!",
+    "replies": [
+     {
+      "author": "Ok_Goose_771",
+      "body": "I went 6(?) months ago .. I will say the main disappointment I had last time I went were the scallops being off the menu. It's tied as my favorite dish with the snapper. They had prawns over risotto instead, and it seemed to be a temporary sub due to the seasonal menu at the time. Hopefully they've brought it back!!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Noksu",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "reviews dated",
+       "text": "asks if quality has changed since reviews are from years ago",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0286",
+   "comment_id": "t1_nrnbdly",
+   "model_view": "POST TITLE: my favorite spots in Hell’s Kitchen\n\nPOST BODY: when i moved here, i didn’t expect to find great food spots. never been more happy to be proven wrong. \n\nthonglor - tasty affordable thai!\n\nzoralie - really good cheap dominican food \n\nmiss nellie’s - loved these bee pollen pancakes. other menu items seemed good too.\n\nlovely’s old fashioned - tasty burgers and tasty unique fries. pretty reasonable \n\nsullivan street bakery - kinda pricy but great p ...\n\nCOMMENT: The fries stuck to the cheeseburger is a real mood. \n\nOther recs:\n\n-\tHyderabadi Zaiqa\n-\tUncle Ray’s Chicken Rice\n-\tAriana Afghan Kebab\n-\tToribro\n-\tLum Lum\n-\tJerk House Caribbean Restaurant",
+   "context": {
+    "title": "my favorite spots in Hell’s Kitchen",
+    "selftext": "when i moved here, i didn’t expect to find great food spots. never been more happy to be proven wrong. \n\nthonglor - tasty affordable thai!\n\nzoralie - really good cheap dominican food \n\nmiss nellie’s - loved these bee pollen pancakes. other menu items seemed good too.\n\nlovely’s old fashioned - tasty burgers and tasty unique fries. pretty reasonable \n\nsullivan street bakery - kinda pricy but great pastries \n\ncubby’s - very good burgers and i love their affordable combo meals (which includes ice cream!)\n\nredpoke - i’m addicted to this place. like a poke chipotle. \n\nvalla table - another great affordable thai restaurant in HK\n\nat nine restaurant and bar (not pictured) - ANOTHER thai restaurant that was pretty good.😂\n\ni think thai is where HK shine. valla table is my fave so far of the three that i tried. \n\nany more suggestions you all have? i look forward to trying more spots and frequenting the above places! \n\n\n\n\n\n\n\n\n\n\n",
+    "ancestors": [],
+    "author": "justflipping",
+    "body": "The fries stuck to the cheeseburger is a real mood. \n\nOther recs:\n\n-\tHyderabadi Zaiqa\n-\tUncle Ray’s Chicken Rice\n-\tAriana Afghan Kebab\n-\tToribro\n-\tLum Lum\n-\tJerk House Caribbean Restaurant",
+    "replies": [
+     {
+      "author": "Full-Cat-9897",
+      "body": "thanks!"
+     },
+     {
+      "author": "meehoynonoymeenoy",
+      "body": "I am obsessed with Uncle Rays Chicken Rice, I’ve been getting it once a week lately"
+     },
+     {
+      "author": "hiimomgkek",
+      "body": "I love hyderabadi Zaiqa when there aren’t cockroaches running around the walls when I’m trying to eat 😭😭😭"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Lovely's Old Fashioned",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "cheeseburger",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "burgers"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Hyderabadi Zaiqa",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "hyderabadi",
+      "indian"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Uncle Ray's Chicken Rice",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "chicken rice"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Ariana Afghan Kebab",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "afghan",
+      "kebab"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Toribro",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    },
+    {
+     "name": "Lum Lum",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    },
+    {
+     "name": "Jerk House Caribbean Restaurant",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "jamaican",
+      "caribbean"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0287",
+   "comment_id": "t1_p7mleh2",
+   "model_view": "POST TITLE: Finally went to 4 Charles: Im appalled. Anyone else?\n\nPOST BODY: Finally made it to 4 Charles last night. Girlfriend could not go so I was dining solo. Now.. the food really was phenomenal, but I was literally put on a gurney and carted out of the restaurant. I am so embarrassed and need to know who else had this experience??\n\nStarted out with the King Crab. I went with the 3/4lb because the missus wasn't there. Ugh this was great but just felt like a bit much. ...\n\nPARENT COMMENT: The reference https://reddit.com/r/FoodNYC/comments/1w4wfrj/just_ate_at_au_cheval_made_a_cardiologist/\n\nCOMMENT: indeed! Very helpful to post the link here, well played!",
+   "context": {
+    "title": "Finally went to 4 Charles: Im appalled. Anyone else?",
+    "selftext": "Finally made it to 4 Charles last night. Girlfriend could not go so I was dining solo. Now.. the food really was phenomenal, but I was literally put on a gurney and carted out of the restaurant. I am so embarrassed and need to know who else had this experience??\n\nStarted out with the King Crab. I went with the 3/4lb because the missus wasn't there. Ugh this was great but just felt like a bit much. \n\nNext, was trying to keep it light so I did the Smoked Salmon Caesar. This was really a highlight.. that smoked salmon is so good. \n\nObviously, its 4 Charles so I had to do the prime rib. I couldn't decide between doing the roast or sandwich - so I did both. One King Cut and One Sandwich. And you know I also got the burger.. had to do bacon and an egg. Simply put: delectable. \n\nAfter I put this down though I was already started to feel a little full. Weird, but whatever..\n\nI followed this up with 2 sides of the bacon because it was just so good. And then for dessert? Lemon Meringue Pie & the Sundae. I just couldn't decide! \n\nPost dessert I was looking over the menu when it hit me, I was really full. Like, really really full. I almost felt sick. I couldn't even get up! I paid my check and discreetly told the waiters about my problem and they brought a gurney out of the back and carted me out!! I could not believe it. \n\nObviously other people must have experienced something like this before?? I cannot believe how heavy their food is. Like.. it is just too rich or something. Why is it so popular when you literally can't walk after eating?? \n\n",
+    "ancestors": [
+     {
+      "author": "Yomatius",
+      "body": "Lol, I got the reference. :)"
+     },
+     {
+      "author": "justflipping",
+      "body": "The reference https://reddit.com/r/FoodNYC/comments/1w4wfrj/just_ate_at_au_cheval_made_a_cardiologist/"
+     }
+    ],
+    "author": "Yomatius",
+    "body": "indeed! Very helpful to post the link here, well played! ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0288",
+   "comment_id": "t1_ofnmpk3",
+   "model_view": "POST TITLE: CARBONES OR DON ANGIE\n\nPOST BODY: First time in New York for a short period of time. I am between these two restaurants for a nice Italian dinner. Which should I pick? Solely based on food/atmosphere reservation will be taken care of.\n\nCOMMENT: Carbone's picks you so Don Agnie is probably your best bet.",
+   "context": {
+    "title": "CARBONES OR DON ANGIE",
+    "selftext": "First time in New York for a short period of time. I am between these two restaurants for a nice Italian dinner. Which should I pick? Solely based on food/atmosphere reservation will be taken care of.",
+    "ancestors": [],
+    "author": "krum",
+    "body": "Carbone's picks you so Don Agnie is probably your best bet.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Carbone's",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "reservations",
+       "text": "hard to get into, picks you rather than you picking it",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Don Agnie",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0289",
+   "comment_id": "t1_orlc6qq",
+   "model_view": "POST TITLE: Does anyone know where I can find Vietnamese La Lot leaves?\n\nPOST BODY: I was recently in Vietnam and had the yummiest leaf. It was wrapped around ground pork and its peppery in flavor. There HAS to be some here in NYC! Does anyone know??   \nAny Vietnamese here? #vietnam #nyc\n\nCOMMENT: Are you looking for just the leaves itself? If so, you can try Tan Tin Hung Supermarket, which specializes in Vietnamese goods.",
+   "context": {
+    "title": "Does anyone know where I can find Vietnamese La Lot leaves?",
+    "selftext": "I was recently in Vietnam and had the yummiest leaf. It was wrapped around ground pork and its peppery in flavor. There HAS to be some here in NYC! Does anyone know??   \nAny Vietnamese here? #vietnam #nyc",
+    "ancestors": [],
+    "author": "justflipping",
+    "body": "Are you looking for just the leaves itself? If so, you can try Tan Tin Hung Supermarket, which specializes in Vietnamese goods.",
+    "replies": [
+     {
+      "author": "Starblackart",
+      "body": "Yes! Thank you! I’ll check them out"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0290",
+   "comment_id": "t1_pamcjpd",
+   "model_view": "POST TITLE: They advertise one thing but you need this entirely unrelated other thing on their menu instead\n\nPOST BODY: Where else can I go that says they do one thing but actually the star of the show is another thing entirely?\n\nI live off the Hudson line but commute in at least once a week so I’m often in the dining concourse of GCT.\n\nIt’s been nearly 4 years of this so you may be surprised to learn that I visited Frankie’s Dogs To Go for the first time only this week. I try to make it a point not to pay more tha ...\n\nPARENT COMMENT: The fries are my favorite part of the red hook burger meal\n\nCOMMENT: Honestly the burger is my least favorite thing on the RHT menu after having it several times. The cavatelli , pork chop , head on prawns , chicken are all excellent.  I go fairly often - and with folks who are going for the first time I usually recommend we split the burger as an appetizer and try the other stuff and it’s always received well.",
+   "context": {
+    "title": "They advertise one thing but you need this entirely unrelated other thing on their menu instead",
+    "selftext": "Where else can I go that says they do one thing but actually the star of the show is another thing entirely?\n\nI live off the Hudson line but commute in at least once a week so I’m often in the dining concourse of GCT.\n\nIt’s been nearly 4 years of this so you may be surprised to learn that I visited Frankie’s Dogs To Go for the first time only this week. I try to make it a point not to pay more than $5 for a hot dog so it never crossed my mind to even go there.\n\nBut I happened to glance the case as I passed by Luke’s Lobster and spotted what looked like a beef patty. And I wanted something quick and hot for my train ride (yeah I hear how that sounds). So I got in line and I ordered a spicy and $6 later (criminal) I was legit impressed. Just what I needed. Tasted so good. Didn’t hold back on the heat. And I never would have known if I hadn’t taken another look past the name of the place.",
+    "ancestors": [
+     {
+      "author": "SteveFrench12",
+      "body": "The fries are my favorite part of the red hook burger meal"
+     }
+    ],
+    "author": "Salty_Simmer_Sauce",
+    "body": "Honestly the burger is my least favorite thing on the RHT menu after having it several times. The cavatelli , pork chop , head on prawns , chicken are all excellent.  I go fairly often - and with folks who are going for the first time I usually recommend we split the burger as an appetizer and try the other stuff and it’s always received well.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "RHT",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "burger",
+       "level": "negative",
+       "avoid": false
+      },
+      {
+       "dish": "cavatelli",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "pork chop",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "head on prawns",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "chicken",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "tip",
+       "text": "split the burger as an appetizer and order the other dishes",
+       "level": null,
+       "dish": "burger"
+      },
+      {
+       "about": "first-timers",
+       "text": "first-time visitors always receive the recommended order well",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0291",
+   "comment_id": "t1_o25705p",
+   "model_view": "POST TITLE: Weightloss veg orders in NYC\n\nPOST BODY: I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.\n\nCOMMENT: I managed to drop about 18lbs before. My tip is eat less for lunch and more at the evening to sleep well at night. For lunch at weekdays i suggest Le Botaniste with their Cal labelled warm bowl",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [],
+    "author": "Accomplished_Big3114",
+    "body": "I managed to drop about 18lbs before. My tip is eat less for lunch and more at the evening to sleep well at night. For lunch at weekdays i suggest Le Botaniste with their Cal labelled warm bowl",
+    "replies": [
+     {
+      "author": "shegothis",
+      "body": "Omg this looks so good. Def gonna order"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Le Botaniste",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "warm bowl",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "lunch",
+      "healthy",
+      "plant-based"
+     ],
+     "notes": [
+      {
+       "about": "calorie labels",
+       "text": "menu labels calories on the warm bowl",
+       "level": null,
+       "dish": "warm bowl"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0292",
+   "comment_id": "t1_ot7m1z7",
+   "model_view": "POST TITLE: Your top Italian place under $50/person, give me the reccomendations!\n\nPOST BODY: ciao, \n\nI just moved to NY and have a friend visiting soon and they wanted to have Italian food. From my research I only found were well rated places that were $100+. \n\nWondering what are your top 'chill and delicious' reccomendations. Preferrably in Manhattan but open to a short subway ride (he is coming from NJ). \n\nThanks in advance.\n\nPARENT COMMENT: Lol what region? The entire menu is made up dishes\n\nCOMMENT: Really? A cursory google search shows their dishes like Reginette are from Naples, Garganelli from Emilia-Romagna, Agnolotti from Piedmont…\n\nEither way, there are some regions for you, you can research the rest if you’d like or be more specific with what you think is made up.",
+   "context": {
+    "title": "Your top Italian place under $50/person, give me the reccomendations!",
+    "selftext": "ciao, \n\nI just moved to NY and have a friend visiting soon and they wanted to have Italian food. From my research I only found were well rated places that were $100+. \n\nWondering what are your top 'chill and delicious' reccomendations. Preferrably in Manhattan but open to a short subway ride (he is coming from NJ). \n\nThanks in advance.",
+    "ancestors": [
+     {
+      "author": "SarcasticallyPolish",
+      "body": "Ammazzacaffee is great"
+     },
+     {
+      "author": "gloriamuntz",
+      "body": "This is good but fusion. Not real italian"
+     },
+     {
+      "author": "SarcasticallyPolish",
+      "body": "Hmm, never heard anyone call it fusion. Seemed like a the entire menu was regional Italian dishes."
+     },
+     {
+      "author": "gloriamuntz",
+      "body": "Lol what region? The entire menu is made up dishes"
+     }
+    ],
+    "author": "SarcasticallyPolish",
+    "body": "Really? A cursory google search shows their dishes like Reginette are from Naples, Garganelli from Emilia-Romagna, Agnolotti from Piedmont…\n\nEither way, there are some regions for you, you can research the rest if you’d like or be more specific with what you think is made up.",
+    "replies": [
+     {
+      "author": "gloriamuntz",
+      "body": "At best it's italian-inspired. It's good,  don't get me wrong. I'm italian.  Its just not authentic. "
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0293",
+   "comment_id": "t1_oo5dnbd",
+   "model_view": "POST TITLE: Best halal cart in NYC that is not Adel’s or Mido’s?\n\nPOST BODY: I had Adel’s and it’s for sure my #1, but not worth the line. Mido’s felt like a bootleg Adel’s to me so I didn’t really enjoy it too much since I was just comparing it to Adel’s the whole time. Is there any other halal cart in NYC that is worth the travel? And I’m talking about packed with flavor, color, superb white sauce, etc.\n\nCOMMENT: check out the one on 46th and 6th, heard it's bomb and way less of a wait than the usual spots. white sauce game strong too lol",
+   "context": {
+    "title": "Best halal cart in NYC that is not Adel’s or Mido’s?",
+    "selftext": "I had Adel’s and it’s for sure my #1, but not worth the line. Mido’s felt like a bootleg Adel’s to me so I didn’t really enjoy it too much since I was just comparing it to Adel’s the whole time. Is there any other halal cart in NYC that is worth the travel? And I’m talking about packed with flavor, color, superb white sauce, etc.",
+    "ancestors": [],
+    "author": "Extension-Respond289",
+    "body": "check out the one on 46th and 6th, heard it's bomb and way less of a wait than the usual spots. white sauce game strong too lol",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "the one on 46th and 6th",
+     "named_in": "comment",
+     "location": "46th and 6th",
+     "experience": "secondhand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "white sauce",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "halal cart"
+     ],
+     "notes": [
+      {
+       "about": "wait",
+       "text": "way less of a wait than the usual spots",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0294",
+   "comment_id": "t1_o6hxdke",
+   "model_view": "POST TITLE: The Best Dumplings in NYC are in an abandoned mall\n\nPOST BODY: If you have not yet tried Fu Zhou Wei Zhong Wei Jia Xiang Feng Wei you need to immediately for the best friend dumplings and pork buns you’ll ever have. If you pardon the ambiance you’ll see them making everything by had and PACKING those buns with flavor. 100/10 recommend. \n\nEater.com/23598627/fu-zhao-wei-zhong-dumplings-chinatown-mall\n\nCOMMENT: Yes - these dumplings are best in the city (actually, I’m a gatekeeping asshole and happy for traffic to grow at this spot instead - my fave is busy enough as it is!)",
+   "context": {
+    "title": "The Best Dumplings in NYC are in an abandoned mall",
+    "selftext": "If you have not yet tried Fu Zhou Wei Zhong Wei Jia Xiang Feng Wei you need to immediately for the best friend dumplings and pork buns you’ll ever have. If you pardon the ambiance you’ll see them making everything by had and PACKING those buns with flavor. 100/10 recommend. \n\nEater.com/23598627/fu-zhao-wei-zhong-dumplings-chinatown-mall",
+    "ancestors": [],
+    "author": "jagarico",
+    "body": "Yes - these dumplings are best in the city (actually, I’m a gatekeeping asshole and happy for traffic to grow at this spot instead - my fave is busy enough as it is!)",
+    "replies": [
+     {
+      "author": "nilas_november",
+      "body": "So then ur fave probably isn't a gate kept secret lmao I dont understand ppl gate keeping"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Fu Zhou Wei Zhong Wei Jia Xiang Feng Wei",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_positive",
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "dumplings",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "dumplings"
+     ],
+     "notes": [
+      {
+       "about": "crowds",
+       "text": "commenter says it's already busy and would prefer less traffic",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0295",
+   "comment_id": "t1_nxw2fgf",
+   "model_view": "POST TITLE: Non-pork ramen styles like tsukemen, mazemen/mazesoba, etc? Or other authentic bowls?\n\nPOST BODY: Hi all! I've looked through a bunch of threads about ramen and have a little list of places to try for chicken-based bowls, but I'd really love to try some of the other styles out there besides just tori paitan. Anyone know any leads for this stuff? I'm not AGAINST vegetarian/vegan versions, but I have had some pretty disappointing veggie based ramens so I am a bit hesitant unless you think there' ...\n\nCOMMENT: Mazemen:\n\n- Shuya\n- Susuru Ramen\n- Okonomi / Yuji Ramen\n- Kajiken\n\nTsukemen:\n\n- Ramen Ishida Chelsea\n- Shuya\n\nStandout vegetarian ramen:\n\n- Tabetomo\n- Shuya\n- Susuru\n- Ramen Ishida\n- Karazishi Botan\n\nNote that Menkoi Sato is temporarily closed for now.",
+   "context": {
+    "title": "Non-pork ramen styles like tsukemen, mazemen/mazesoba, etc? Or other authentic bowls?",
+    "selftext": "Hi all! I've looked through a bunch of threads about ramen and have a little list of places to try for chicken-based bowls, but I'd really love to try some of the other styles out there besides just tori paitan. Anyone know any leads for this stuff? I'm not AGAINST vegetarian/vegan versions, but I have had some pretty disappointing veggie based ramens so I am a bit hesitant unless you think there's a real standout!\n\nPlaces on my list already:\n\n- Ivan's ramen\n- Toribro\n- Menkoi sato\n- Okiboru",
+    "ancestors": [],
+    "author": "justflipping",
+    "body": "Mazemen:\n\n- Shuya\n- Susuru Ramen\n- Okonomi / Yuji Ramen\n- Kajiken\n\nTsukemen:\n\n- Ramen Ishida Chelsea\n- Shuya\n\nStandout vegetarian ramen:\n\n- Tabetomo\n- Shuya\n- Susuru\n- Ramen Ishida\n- Karazishi Botan\n\nNote that Menkoi Sato is temporarily closed for now.",
+    "replies": [
+     {
+      "author": "Livid-Ad9682",
+      "body": "Nakamura is still there but Slurpeak closed--I went sometime towards the end of the year just before the end. They gave me one of their home/instant boxes. Seems like he's shifting his business focus to that?"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Shuya",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "mazemen",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "tsukemen",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "vegetarian ramen",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "mazemen",
+      "tsukemen",
+      "vegetarian ramen"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Susuru Ramen",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "mazemen",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "vegetarian ramen",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "mazemen",
+      "vegetarian ramen"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Okonomi / Yuji Ramen",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "mazemen",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "mazemen"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Kajiken",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "mazemen",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "mazemen"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Ramen Ishida Chelsea",
+     "named_in": "comment",
+     "location": "Chelsea",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "tsukemen",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "vegetarian ramen",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "tsukemen",
+      "vegetarian ramen"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Tabetomo",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "vegetarian ramen",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "vegetarian ramen"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Karazishi Botan",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "vegetarian ramen",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "vegetarian ramen"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Menkoi Sato",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": "closed",
+     "tags": [],
+     "notes": [
+      {
+       "about": "temporary closure",
+       "text": "temporarily closed for now",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0296",
+   "comment_id": "t1_p64hhwb",
+   "model_view": "POST TITLE: Mama’s Too in NYC has some of my favorite slices ever!!\n\nCOMMENT: That place was so good, I liked it more than L’Industrie",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Ampersand4221",
+    "body": "That place was so good, I liked it more than L’Industrie",
+    "replies": [
+     {
+      "author": "RumPunchKid",
+      "body": "I like both for different reasons"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "slice shop"
+     ],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "liked it more than L'Industrie",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "L'Industrie",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "liked Mama's Too more",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0297",
+   "comment_id": "t1_ox2u9mb",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nPARENT COMMENT: The CEO of Juice Press and Related got into a huge tit-for-tat 2 years ago. Related went ahead and pulled all the juice press locations out of all the Equinox gyms in NYC. Since then, Related started a contract with CA based company, Earth bar. I’m positive that suddenly losing 30+ high traffic locations hasn’t had the best impact on Juice Presses revenue.\n\nCOMMENT: I dont think that was the only trouble juice press has been running into, obviously picking a fight with one of the most powerful real estate developers and owners in the city is not going to go your way for a retail business, but a few of their non equinox locations near me the last 6 months or so before closing had regular 2 for 1 smoothie deals going so I was in pretty much every morning and still never saw them making something for anyone else or another customer in at the same time for months, business was visibly dead compared to a few years ago.",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Buddhafi",
+      "body": "The CEO of Juice Press and Related got into a huge tit-for-tat 2 years ago. Related went ahead and pulled all the juice press locations out of all the Equinox gyms in NYC. Since then, Related started a contract with CA based company, Earth bar. I’m positive that suddenly losing 30+ high traffic locations hasn’t had the best impact on Juice Presses revenue. "
+     }
+    ],
+    "author": "Desperate_Wallaby966",
+    "body": "I dont think that was the only trouble juice press has been running into, obviously picking a fight with one of the most powerful real estate developers and owners in the city is not going to go your way for a retail business, but a few of their non equinox locations near me the last 6 months or so before closing had regular 2 for 1 smoothie deals going so I was in pretty much every morning and still never saw them making something for anyone else or another customer in at the same time for months, business was visibly dead compared to a few years ago.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "juice press",
+     "named_in": "comment",
+     "location": "a few non-Equinox locations near me",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "past",
+     "trend": "declined",
+     "status": "closed",
+     "tags": [
+      "smoothies",
+      "juice bar"
+     ],
+     "notes": [
+      {
+       "about": "business health",
+       "text": "business visibly dead for months before closing, rarely any customers",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "deals",
+       "text": "regular 2 for 1 smoothie deals in the months before closing",
+       "level": null,
+       "dish": "smoothie"
+      },
+      {
+       "about": "reason for decline",
+       "text": "picking a fight with a major real estate developer hurt the retail business",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0298",
+   "comment_id": "t1_nwfo45o",
+   "model_view": "POST TITLE: Brooklyn Restaurant Rec - No Dairy/Soy\n\nPOST BODY: Hey folks, were in NY for one night staying at the Ace Brooklyn to visit family. My wife can't eat dairy or soy because she's breastfeeding our baby who has an allergy.\n\nCan you recommend any favorite estaurants that could easily accommodate this allergy without us causing too much pain for the kitchen? The allergy includes food fried in soybean oil.\n\nWe'll be spending our time between Ace, Brookl ...\n\nPARENT COMMENT: Yeah good point. I don't doubt a lot of restaurants could and would happily make a meal that accommodates us. That said we both worked in restaurants for years elsewhere and we're probably excessively worried about being a pain as guests. I also figured there might be like an awesome middle Eastern restaurant where some one's favorite dish happens to be dairy free, ya know? \n\nSushi could be good if they don't brush fish with soy, etc. Any favorite sushi spots in the area?\n\nCOMMENT: I'm not local enough to that area to have great recs. I did go to an upscale seafood place in Ft Greene called Strange Delight, but TBH it was loud, overpriced, and they got all fussy about the correct way for us to place an order. Cannot recommend.\n\nI wouldn't worry about needing some special attention. I don't think that would be considered a PITA.",
+   "context": {
+    "title": "Brooklyn Restaurant Rec - No Dairy/Soy",
+    "selftext": "Hey folks, were in NY for one night staying at the Ace Brooklyn to visit family. My wife can't eat dairy or soy because she's breastfeeding our baby who has an allergy.\n\nCan you recommend any favorite estaurants that could easily accommodate this allergy without us causing too much pain for the kitchen? The allergy includes food fried in soybean oil.\n\nWe'll be spending our time between Ace, Brooklyn Heights and Prospect Park. Would love any ideas for breakfast lunch and dinner.\n\nThank you in advance!!",
+    "ancestors": [
+     {
+      "author": "Malsperanza",
+      "body": "In general, restaurants are very attentive to allergy requests, if for no other reason than liability. There are certainly vegan places around, but they're likely to use soy. \n\nSo probably best to pick a place that looks nice to you and call ahead. Maybe sushi?"
+     },
+     {
+      "author": "cavicchia",
+      "body": "Yeah good point. I don't doubt a lot of restaurants could and would happily make a meal that accommodates us. That said we both worked in restaurants for years elsewhere and we're probably excessively worried about being a pain as guests. I also figured there might be like an awesome middle Eastern restaurant where some one's favorite dish happens to be dairy free, ya know? \n\nSushi could be good if they don't brush fish with soy, etc. Any favorite sushi spots in the area?"
+     }
+    ],
+    "author": "Malsperanza",
+    "body": "I'm not local enough to that area to have great recs. I did go to an upscale seafood place in Ft Greene called Strange Delight, but TBH it was loud, overpriced, and they got all fussy about the correct way for us to place an order. Cannot recommend.\n\nI wouldn't worry about needing some special attention. I don't think that would be considered a PITA.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Strange Delight",
+     "named_in": "comment",
+     "location": "Ft Greene",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_negative",
+     "aspects": {
+      "taste": null,
+      "value": "negative",
+      "service": "negative",
+      "atmosphere": "negative",
+      "wait": null
+     },
+     "avoid": true,
+     "dishes": [],
+     "price": "expensive",
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "upscale seafood"
+     ],
+     "notes": [
+      {
+       "about": "noise",
+       "text": "it was loud",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "ordering",
+       "text": "got fussy about the correct way to place an order",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "recommendation",
+       "text": "cannot recommend",
+       "level": "very_negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0299",
+   "comment_id": "t1_oulahyh",
+   "model_view": "POST TITLE: Remember this bar in the East Village back in 2012/2013?\n\nPOST BODY: Hey! I used to hang out at this bar in the East Village back in 2012/2013-ish. Here's what I remember:\n\n\\-- Dark bar, walk through to the back to a really nice back patio/garden\n\n\\-- It was outdoors, but it was covered. Lots of plants. Big fountain!\n\n\\-- My photo captions said, \"beer garden\" but I'm sure it was just a dive...\n\n\\-- Would've been (I THINK) between 1st and 14th, somewhere on A/1st/2n ...\n\nPARENT COMMENT: There was a fatal explosion on 2nd Ave in 2015 a few blocks from here. I heard that’s part of why they closed but I may be wrong. At any rate, they’re coming back also!\n\nCOMMENT: RIP Stage Restaurant too",
+   "context": {
+    "title": "Remember this bar in the East Village back in 2012/2013?",
+    "selftext": "Hey! I used to hang out at this bar in the East Village back in 2012/2013-ish. Here's what I remember:\n\n\\-- Dark bar, walk through to the back to a really nice back patio/garden\n\n\\-- It was outdoors, but it was covered. Lots of plants. Big fountain!\n\n\\-- My photo captions said, \"beer garden\" but I'm sure it was just a dive...\n\n\\-- Would've been (I THINK) between 1st and 14th, somewhere on A/1st/2nd/3rd.\n\n\\-- There's a chance there was a photobooth OR hookah... but those could've been different bars.\n\nIf you can remember—THANK YOU!!!",
+    "ancestors": [
+     {
+      "author": "Elegant-Increase-726",
+      "body": "They closed after the explosion. I miss that place "
+     },
+     {
+      "author": "liquilife",
+      "body": "What… what explosion?"
+     },
+     {
+      "author": "Elegant-Increase-726",
+      "body": "There was a fatal explosion on 2nd Ave in 2015 a few blocks from here. I heard that’s part of why they closed but I may be wrong. At any rate, they’re coming back also! "
+     }
+    ],
+    "author": "Possible-Source-2454",
+    "body": "RIP Stage Restaurant too",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Stage Restaurant",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0300",
+   "comment_id": "t1_oomuqgw",
+   "model_view": "POST TITLE: Where can we get mie gorang? Preferably in Brooklyn.\n\nPOST BODY: Looking for this specific Indonesian dish, but also welcome Indonesian recs in general!\n\nCOMMENT: indo mix in clinton hill!",
+   "context": {
+    "title": "Where can we get mie gorang? Preferably in Brooklyn.",
+    "selftext": "Looking for this specific Indonesian dish, but also welcome Indonesian recs in general! ",
+    "ancestors": [],
+    "author": "orca_eel",
+    "body": "indo mix in clinton hill!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "indo mix",
+     "named_in": "comment",
+     "location": "clinton hill",
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "indonesian"
+     ],
+     "notes": []
+    }
+   ]
+  }
+ ]
+}

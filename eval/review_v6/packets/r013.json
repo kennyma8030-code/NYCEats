@@ -1,0 +1,1521 @@
+{
+ "packet": "r013",
+ "items": [
+  {
+   "item_id": "Q0301",
+   "comment_id": "t1_p658uvy",
+   "model_view": "POST TITLE: $19 for a 4oz taco de costilla at El Califa de Leon\n\nPOST BODY: From Instagram\n\nHas there ever been a more expensive taco in the city?\n\nPARENT COMMENT: These are some of the best tacos in Mexico. It’s the first street vendor in Mexico to receive a Michelin star. For context\n\nCOMMENT: what does Michelin know about tacos ffs",
+   "context": {
+    "title": "$19 for a 4oz taco de costilla at El Califa de Leon",
+    "selftext": "From Instagram\n\nHas there ever been a more expensive taco in the city? ",
+    "ancestors": [
+     {
+      "author": "elacoollegume",
+      "body": "Absolutely Ridiculous "
+     },
+     {
+      "author": "KiefBull",
+      "body": "These are some of the best tacos in Mexico. It’s the first street vendor in Mexico to receive a Michelin star. For context"
+     }
+    ],
+    "author": "Mental_Complaint_238",
+    "body": "what does Michelin know about tacos ffs",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "El Califa de Leon",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "tacos"
+     ],
+     "notes": [
+      {
+       "about": "Michelin star",
+       "text": "dismisses the Michelin star praise as meaningless for tacos",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0302",
+   "comment_id": "t1_p6549gx",
+   "model_view": "POST TITLE: Mama’s Too in NYC has some of my favorite slices ever!!\n\nCOMMENT: Everything from Mama's Too does not miss, but I always need to get a vodka slice when I go there.",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Mak_daddy623",
+    "body": "Everything from Mama's Too does not miss, but I always need to get a vodka slice when I go there.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "vodka slice",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ],
+     "notes": [
+      {
+       "about": "consistency",
+       "text": "everything on the menu is consistently excellent",
+       "level": "very_positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0303",
+   "comment_id": "t1_nj60vhm",
+   "model_view": "POST TITLE: Interview with simon kim of cote and coqodaq\n\nPOST BODY: Did a whole podcast with him for a new show I'm launching [https://youtu.be/Y3XJs1ptMjY?si=eR6lqBUm8UJmc-DE](https://youtu.be/Y3XJs1ptMjY?si=eR6lqBUm8UJmc-DE)\n\nCOMMENT: All talk with no action. His restaurants have bad service. Pretentious to make it look like they’re doing something but makes a lot of amateur mistakes and is actually terrible. Don’t get me started on the cocodaq menu items.",
+   "context": {
+    "title": "Interview with simon kim of cote and coqodaq",
+    "selftext": "Did a whole podcast with him for a new show I'm launching [https://youtu.be/Y3XJs1ptMjY?si=eR6lqBUm8UJmc-DE](https://youtu.be/Y3XJs1ptMjY?si=eR6lqBUm8UJmc-DE)",
+    "ancestors": [],
+    "author": "misterstepsss",
+    "body": "All talk with no action. His restaurants have bad service. Pretentious to make it look like they’re doing something but makes a lot of amateur mistakes and is actually terrible. Don’t get me started on the cocodaq menu items.",
+    "replies": [
+     {
+      "author": "Jisoooya",
+      "body": "Coqodaq is the epitome of pretentious and hype. Fine dining fried chicken? Come on"
+     },
+     {
+      "author": "zlayne",
+      "body": "We went to coqodaq a few weeks ago. Literally the opposite experience of what he's describing. Rushed service. Steering you towards the bucket and no dessert bc they wanted you out so they could cycle more people through. Awful experience."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "coqodaq",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "menu items",
+       "level": "very_negative",
+       "avoid": true
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "korean fried chicken"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0304",
+   "comment_id": "t1_omzrcs0",
+   "model_view": "POST TITLE: Trying to decide if Carbone is worth it for lunch?\n\nPOST BODY: I snagged a lunch reservation for Carbone and I’m trying to decide if it lives up to its hype. It would be taking a tween during a vacation. We would be dressed nice but casual (think dark jean, sweater (this weekend is cold) and Nikes. \n\nWould our attire be alright?\n\nUltimately, is it worth the hype?\n\nCOMMENT: Take them to parm same menu for the pasta & more casual",
+   "context": {
+    "title": "Trying to decide if Carbone is worth it for lunch?",
+    "selftext": "I snagged a lunch reservation for Carbone and I’m trying to decide if it lives up to its hype. It would be taking a tween during a vacation. We would be dressed nice but casual (think dark jean, sweater (this weekend is cold) and Nikes. \n\nWould our attire be alright?\n\nUltimately, is it worth the hype? ",
+    "ancestors": [],
+    "author": "Grand-Economist5066",
+    "body": "Take them to parm same menu for the pasta & more casual ",
+    "replies": [
+     {
+      "author": "Jog212",
+      "body": "The last 2 times I went to parm it was lousy.   It wasn't slightly off.  It was very bad.   Service, quality both bad.   Chicken was totally over cooked. "
+     },
+     {
+      "author": "bearleft4",
+      "body": "This \\^"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "parm",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "casual",
+      "same menu as carbone"
+     ],
+     "notes": [
+      {
+       "about": "menu",
+       "text": "same menu as Carbone, more casual, good for a tween",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Carbone",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0305",
+   "comment_id": "t1_npgf0w0",
+   "model_view": "POST TITLE: My favorite spots after a week in NYC\n\nPOST BODY: This was my fifth trip to NYC and my goal for this one was to only go to more under-the-radar food spots and avoid the hyped/touristy destinations so you won't be seeing any L'Industrie, Joe's, Katz, or Russ & Daughters in this post! With that said, since Reddit only allows for 20 pictures, this will include my 20 favorite places:\n\n1. Playground (Jackson Heights, Queens): one of my goals for this ...\n\nCOMMENT: Wow bravo amazing list.",
+   "context": {
+    "title": "My favorite spots after a week in NYC",
+    "selftext": "This was my fifth trip to NYC and my goal for this one was to only go to more under-the-radar food spots and avoid the hyped/touristy destinations so you won't be seeing any L'Industrie, Joe's, Katz, or Russ & Daughters in this post! With that said, since Reddit only allows for 20 pictures, this will include my 20 favorite places:\n\n1. Playground (Jackson Heights, Queens): one of my goals for this trip was to try out Thai food in Queens and my god, was this place good. This place does NOT skimp on spiciness which is often an issue I have with a lot of Thai restaurants but this place delivers the heat if you request it. I got the pad kra pao at a max spiciness level twice and it was awesome, to say the least. Also, the lemon Thai tea is one of the best beverages I've ever had and they also make a mean Thai tea, I made sure to get at least one of either beverage every time I visited (I went here 5 times!). Best Thai restaurant I've ever been to and my favorite spot of the trip. 9.7/10\n2. Xi'an Cuisines (Stall 28 in the New World Mall in Flushing, Queens): this was the first stop I made after landing and these are definitely some of my favorite hand-pulled noodles - they had the perfect chew, the lamb was really tender, and the spices they used added a great complexity to the dish. I went here twice during my visit and the second time, the lamb was a little dry but since the first time was outrageously good, I'd go with a 9.4/10\n3. Gino's Pastry Shop & Cafe (Arthur Avenue, Bronx): I don't eat a lot of cannolis, but their chocolate-dipped one was incredibly good and I made sure to stop by here twice during my visit. The filling was a perfect sweetness level and the chocolate used for them had a great flavor. The wafers also had a perfect crunch and weren't stale at all. Best dessert spot of my trip. 9.3/10\n4. Gia's Pizza (Astoria, Queens): this place seemed to be a sleeper hit and I made sure to stop by here when I did a Queens pizza crawl. Their sauce was very savory and had the perfect amount of tanginess and honestly might be one of the best sauces I've ever had on any pizza. Their plain slice was definitely my favorite, but their tomato grandma slice was no slouch either! 9.2/10\n5. Momo Crave (Jackson Heights, Queens): I did a momo crawl in Queens and I was definitely the most impressed with this spot compared to the other ones I tried (Nepali Bancha Ghar and Lhasa Fast Food). I got their chili momos three times during my visit and I was really impressed with all of the flavors going on here, with the spiciness, cilantro, and fresh vegetables all culminating in a complex dish. The chicken filling was fresh and flavorful too and I liked the slight crunch on the outside of the fried momos. Oddly enough, these really satisfied my craving for General Tso's much more than a spot I tried for that in Chinatown. 9.2/10\n6. Tino's Delicatessen (Arthur Avenue, Bronx): this deli is a bit more under-the-radar than nearby Casa Della Mozzarella and I thought they made a better sandwich, primarily because I wasn't the biggest fan of Casa's bread. Besides the bread, all of the other ingredients were top-notch and this is definitely one of the best Italian sandwiches I've had outside of Italy. Also, their bocconcinis were perfect to snack on too. 9.2/10\n7. Andrea's Pizza (East Village, Manhattan): I found out about this place through Reddit and wanted to try them out and they did not disappoint! I loved their plain and margherita slices, their ingredients were extremely fresh and high quality. Apparently Andrea used to work at Scarr's and L'Industrie, but I thought this was way better than those spots. 9/10\n8. Wegmans (Astor Place, Manhattan): I heard good things about their chocolate chip cookies and needed to try them out for myself and yeah, these cookies are amazing. I got an ultimate chocolate chip and double chocolate chip cookie to sample after buying them and immediately went back to buy boxes of both flavors to eat throughout the week. I love the chocolate they used for these and the ultimate chocolate chip cookies had a great chew. Best chocolate chip cookies of my trip. 9/10\n9. YongChuan (SoHo, Manhattan): I found out about this place through a Reddit post as well and was enamored at how tender and crispy the peking duck looked so I had to try this. The duck was indeed very tender and crispy and I loved the hoisin sauce, veggies and wraps they provided to make your own peking duck wraps. I went here twice during my visit. 9/10\n10. Bagel Shop (UES, Manhattan): I tried a few bagel spots during my trip and this one was definitely the best, they have amazing cream cheeses and fresh bagels. The first time I went here, I got a bagel fresh out of the oven and it was pretty much perfection with a soft interior and crispy exterior. The other times (went here three times) I needed to get them toasted, one time not toasted quite enough but the other times were done really well. 9/10\n11. Lanzhou Handmade Noodle (Stall 14 in the New World Mall in Flushing, Queens): I loved the lamb noodle dish I got from here and felt this was like a high quality lo mein with excellent noodles, fresh vegetables, and a lot of spices. I absolutely loved their chili oil too and made sure to add plenty of it to the noodles. 9/10\n12. Macao Trading Company (SoHo, Manhattan): I heard about this place through a friend and I really enjoyed their drunken dragon's milk cocktail which has pandan, Thai basil, and green tea vodka in it. I tried all of their mocktails as well which I really enjoyed. As I went here multiple times, they were a little inconsistent with their drinks but overall, this place was fantastic. 9/10\n13. Zuma (Midtown, Manhattan): even though they're not exclusive to NYC and I probably wouldn't order any food here, I really loved their cocktails and stopped by here twice during my trip. Their drinks were a great sweetness level and didn't taste too strong at all. 9/10\n14. The Pastry Box (East Village, Manhattan): I heard good things about these cookies and really enjoyed them - even if they're a bit too thin and crunchy on the outside for me, I loved the chewiness in the middle, the chocolate chips, and the sea salt they used. I ended up getting two cookies from here. 8.9/10\n15. Nan Bei Ho (Bayside, Queens): I'm a big fan of Taiwanese breakfast and wanted to check out an authentic spot in NYC during my visit. The sweet soy milk and egg pancakes were extremely good and go toe-to-toe with my favorite breakfast places I tried in Taiwan. The pancake and and the eggs inside it were extremely fresh. I did like the salty rice roll as well, but felt it went a bit too heavy with the salt as I normally like to dip them in soy sauce but adding the soy sauce was a bit much. The sweet rice roll similarly had a bit too much sugar too. Being in Bayside, getting to this place was a trek, but totally worth the visit! 8.9/10\n16. Tai Pan Bakery (Manhattan Chinatown & Flushing, Queens): I tried egg tarts from several Chinatown bakeries and these were my favorite - I do wish the crust was a bit crunchier, but I loved the sweet custard filling and the caramelized bits on the Portuguese ones. 8.8/10\n17. Pizza Loves Sauce (SoHo, Manhattan): I went here on a previous trip so I knew it was going to be good and yes, it indeed was good again during this visit lol. I loved the crispy crust and salty cheese, even if I think they could have added more sauce to their pizza (a little ironic considering their name). 8.7/10\n18. Casa Della Mozzarella (Arthur Avenue, Bronx): as I mentioned with Tino's, I don't think Casa's sandwich (the Casa) was as good because of the bread (it was a bit stale), but the rest of the ingredients were extremely flavorful with some of the best prosciutto and mozzarella I've had outside of Italy. I also loved the balsamic glaze they added to it. 8.7/10\n19. Pan Bao 66 (Stall 29 in the New World Mall in Flushing, Queens): I went here on a previous trip as well and knew it was going to be good and yeah, it was still really good lol. I love the crisp on the bottom of the pork baos and the soup inside them. They were a bit too sweet for my liking, but still great regardless. 8.7/10\n20. New Cameron Bakery (Chinatown, Manhattan): a Chinese bakery I randomly stumbled upon, I think this place had the best egg tart crust out of the ones I tried which was really crispy. I did enjoy the egg tart custard too, but wish it was a bit more sweet. 8.6/10",
+    "ancestors": [],
+    "author": "richonarampage",
+    "body": "Wow bravo amazing list.",
+    "replies": [
+     {
+      "author": "SimonBelmont91",
+      "body": "Thanks, this isn't even a totally inclusive list either 😂"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0306",
+   "comment_id": "t1_o3l3uo7",
+   "model_view": "POST TITLE: Noona's Ice Cream\n\nPOST BODY: Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasic ...\n\nPARENT COMMENT: looks so yummy! How much was your cup??\n\nCOMMENT: It usually ends up being around $8 (this includes a topping and drizzle of your choice).",
+   "context": {
+    "title": "Noona's Ice Cream",
+    "selftext": "Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)",
+    "ancestors": [
+     {
+      "author": "Head_Lab5137",
+      "body": "looks so yummy! How much was your cup??"
+     }
+    ],
+    "author": "Hour_Ad5821",
+    "body": "It usually ends up being around $8 (this includes a topping and drizzle of your choice).",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0307",
+   "comment_id": "t1_p43wt6b",
+   "model_view": "POST TITLE: One more before they close the door for good from the neighborhood\n\nPOST BODY: Sweet Chick (LES) closing after today\n\nCOMMENT: Damn last time I went to the Bedford Sweet Chick my order came out undercooked and haven't been back but in their hayday it was such a nice treat",
+   "context": {
+    "title": "One more before they close the door for good from the neighborhood",
+    "selftext": "Sweet Chick (LES) closing after today ",
+    "ancestors": [],
+    "author": "thechangbang",
+    "body": "Damn last time I went to the Bedford Sweet Chick my order came out undercooked and haven't been back but in their hayday it was such a nice treat ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sweet Chick",
+     "named_in": "context",
+     "location": "Bedford",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "past",
+     "trend": "declined",
+     "status": "closed",
+     "tags": [],
+     "notes": [
+      {
+       "about": "undercooked order",
+       "text": "last visit the order came out undercooked",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "past glory",
+       "text": "in its heyday it was a nice treat",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0308",
+   "comment_id": "t1_p64gzqa",
+   "model_view": "POST TITLE: Mama’s Too in NYC has some of my favorite slices ever!!\n\nPARENT COMMENT: Overrated AF\n\nCOMMENT: You're one of those, huh?",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     }
+    ],
+    "author": "watchernyc",
+    "body": "You're one of those, huh?",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0309",
+   "comment_id": "t1_ow8iwda",
+   "model_view": "POST TITLE: First Time Visitor to eat list in, Food suggestions.\n\nPOST BODY: Hi New Yorkers,\n\nI am finally planning to visit the Big Apple next month and wanted some recommendations for places that aren’t tourist traps and offer an authentic NYC experience. Any input is appreciated \n\nHere are types of places/cuisines I would like to try -\n\nAdel’s, Pizza - Joe’s/Scarr’s/Prince Street, Katz’s Deli, A bagel spot, a classic steak and frites place, a red sauce joint like Rao’s, ...\n\nCOMMENT: You’ve basically listed the standard tourist spots to be honest… \n\nBagel: Tompkins square, liberty or Leo’s for Manhattan \n\nHalal cart: the closest convenient one (don’t pay more than $12 for meat and rice please) \n\nPizza - joes is an institution and def worth a visit but avoid the times sq location (and carmine st seems to have raised prices). Lucia of ave x, Jonnys and diamond slice for actual great slices \n\nSteak frites - Lori Jane is the best default option, search the sub for more alternatives",
+   "context": {
+    "title": "First Time Visitor to eat list in, Food suggestions.",
+    "selftext": "Hi New Yorkers,\n\nI am finally planning to visit the Big Apple next month and wanted some recommendations for places that aren’t tourist traps and offer an authentic NYC experience. Any input is appreciated \n\nHere are types of places/cuisines I would like to try -\n\nAdel’s, Pizza - Joe’s/Scarr’s/Prince Street, Katz’s Deli, A bagel spot, a classic steak and frites place, a red sauce joint like Rao’s, A nice cocktail bar in a high rise with great views, A Sabrett Hot Dog cart/Billy’s Hot Dog Cart & Los Tacos No.1.\n\nIs there anything I am missing, or anything I should skip from the list?\n\nSorry if this has been asked too many times.\n\nTIA",
+    "ancestors": [],
+    "author": "Garconavecunreve",
+    "body": "You’ve basically listed the standard tourist spots to be honest… \n\nBagel: Tompkins square, liberty or Leo’s for Manhattan \n\nHalal cart: the closest convenient one (don’t pay more than $12 for meat and rice please) \n\nPizza - joes is an institution and def worth a visit but avoid the times sq location (and carmine st seems to have raised prices). Lucia of ave x, Jonnys and diamond slice for actual great slices \n\nSteak frites - Lori Jane is the best default option, search the sub for more alternatives",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Tompkins square",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bagel"
+     ],
+     "notes": []
+    },
+    {
+     "name": "liberty",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bagel"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Leo's",
+     "named_in": "comment",
+     "location": "Manhattan",
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bagel"
+     ],
+     "notes": []
+    },
+    {
+     "name": "joes",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ],
+     "notes": [
+      {
+       "about": "times sq location",
+       "text": "avoid the Times Sq location",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "carmine st",
+     "named_in": "comment",
+     "location": "Carmine St",
+     "experience": "secondhand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": "very_positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": "declined",
+     "status": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ],
+     "notes": [
+      {
+       "about": "prices",
+       "text": "seems to have raised prices",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Lucia",
+     "named_in": "comment",
+     "location": "Ave X",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Jonnys",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ],
+     "notes": []
+    },
+    {
+     "name": "diamond slice",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Lori Jane",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "steak frites"
+     ],
+     "notes": [
+      {
+       "about": "alternatives",
+       "text": "search the sub for more steak frites alternatives",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0310",
+   "comment_id": "t1_p6gxxzo",
+   "model_view": "POST TITLE: Why does Korean food in Brooklyn suck? Any recommendations?\n\nPOST BODY: I grew up in Bayside and miss good/authentic Korean food. And not talking about bbq or fusion.   \nI’ve been in Carroll Gardens since 2019 and have yet to find ONE great Korean place and I think I’ve been to almost all of them except Haenyo in PS. \n\nSooo…. Any really fantastic Korean places you’ve been to in Brooklyn?!\n\nPARENT COMMENT: I'm Korean and was raised in the Fort Lee area. I honestly end up cooking more because it's often not great, expensive, or both. That being said I have two delivery spots that I enjoy: Woori (Fort Greene) and Chingoo (Williamsburg). No idea how in person is though. I wouldn't call them fantastic but they are comforting to me and I don't feel bad getting it instead of cooking myself lol.\n\nAlso I can't help but mention Cafe Lily (Bensonhurst I think?). Not traditional Korean but a Korean-Uzbek place.\n\nCOMMENT: Tang Maru in Fort Lee >>>",
+   "context": {
+    "title": "Why does Korean food in Brooklyn suck? Any recommendations?",
+    "selftext": "I grew up in Bayside and miss good/authentic Korean food. And not talking about bbq or fusion.   \nI’ve been in Carroll Gardens since 2019 and have yet to find ONE great Korean place and I think I’ve been to almost all of them except Haenyo in PS. \n\nSooo…. Any really fantastic Korean places you’ve been to in Brooklyn?! ",
+    "ancestors": [
+     {
+      "author": "zuttozutto",
+      "body": "I'm Korean and was raised in the Fort Lee area. I honestly end up cooking more because it's often not great, expensive, or both. That being said I have two delivery spots that I enjoy: Woori (Fort Greene) and Chingoo (Williamsburg). No idea how in person is though. I wouldn't call them fantastic but they are comforting to me and I don't feel bad getting it instead of cooking myself lol.\n\nAlso I can't help but mention Cafe Lily (Bensonhurst I think?). Not traditional Korean but a Korean-Uzbek place.\n\n"
+     }
+    ],
+    "author": "Lucky-Profile-9695",
+    "body": "Tang Maru in Fort Lee >>>",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0311",
+   "comment_id": "t1_p8rmvk2",
+   "model_view": "POST TITLE: Which taquerias in NYC are actually better than Los Tacos?\n\nPOST BODY: I recently went to Los Tacos for the first time in a while (Penn Station location), and I was blown away by how good it was. The adobada was tender, juicy, and super savory. It was honestly better than most of the adobada/al pastor I had in Mexico.\n\nThe tortillas are excellent, and they even nixtamalize their own corn.\n\nPlus they have a nice salsa bar (served in molcajetes), which includes salsa m ...\n\nPARENT COMMENT: I agree that El Taco can be inconsistent, but the quality is high more often than not. And the specials are always fantastic and unique.\n\nCOMMENT: I've had El Taco twice, and it was awful the second time. That was enough for me to not go back ever again. I'd rather make the trek to Los Tacos, where the tacos are always consistent. \n\nBut that's just my prerogative.",
+   "context": {
+    "title": "Which taquerias in NYC are actually better than Los Tacos?",
+    "selftext": "I recently went to Los Tacos for the first time in a while (Penn Station location), and I was blown away by how good it was. The adobada was tender, juicy, and super savory. It was honestly better than most of the adobada/al pastor I had in Mexico.\n\nThe tortillas are excellent, and they even nixtamalize their own corn.\n\nPlus they have a nice salsa bar (served in molcajetes), which includes salsa matcha (not that common in NYC). \n\nYet loads of people on here and social media insist that it's terrible and random spot X that they won't name is actually better. I have eaten from dozens of taco trucks and taquerias in Brooklyn and Queens and few of them even come close in my opinion (Taqueria Al Pastor is also excellent).\n\nIt's rare for anywhere in NYC to really nail that tender, delicious al pastor + high quality tortilla combo. The carne is also very good (especially on their flour tortillas), but I think the adobada is really the star.\n\nSome of my other thoughts:\n\n\\-The ordering system is probably not the most efficient, though I assume this is by design to make it feel more rustic and not too computerized\n\n\\-it costs $2 more per taco than average in NYC. Factoring in extremely high rents and the quality of the food, I think that's fair. As long as it doesn't get much higher than that, I feel like it's a good enough value.\n\n\\-The workers in their work their ass off, the idea that they should charge $1 per taco to make redditors happy is ridiculous. \n\n\\-I hope they make a \"Los Burros\" spinoff, their breakfast burritos are excellent but limited in terms of availability\n\n\\-I hope Private Equity doesn't end up ruining this place",
+    "ancestors": [
+     {
+      "author": "IvoShandor",
+      "body": "El Taco - UES/Second Ave.   The always have specials.  Stand up/counter type of space.\n\n[Home | El Taco](https://www.eltacospotnyc.com/)\n\n"
+     },
+     {
+      "author": "BearFish2",
+      "body": "I agree that El Taco can be inconsistent, but the quality is high more often than not. And the specials are always fantastic and unique. "
+     }
+    ],
+    "author": "justaman_nyc",
+    "body": "I've had El Taco twice, and it was awful the second time. That was enough for me to not go back ever again. I'd rather make the trek to Los Tacos, where the tacos are always consistent. \n\nBut that's just my prerogative. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "El Taco",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_negative",
+     "aspects": {
+      "taste": "very_negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "taqueria"
+     ],
+     "notes": [
+      {
+       "about": "consistency",
+       "text": "visited twice, second visit awful, will never go back",
+       "level": "very_negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Los Tacos",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "taqueria"
+     ],
+     "notes": [
+      {
+       "about": "consistency",
+       "text": "tacos always consistent",
+       "level": "positive",
+       "dish": null
+      },
+      {
+       "about": "preference",
+       "text": "commenter would make the trek to Los Tacos over El Taco",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0312",
+   "comment_id": "t1_ornphy1",
+   "model_view": "POST TITLE: Best deli pickles in NYC (preferably near manhattan)\n\nPOST BODY: Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!\n\nPARENT COMMENT: I used to go to my neighborhood deli and get a free bucket of pickles with anything I ordered, like an actual bucket, paint can sized. Those were the days… It’s been about 4 years since that place closed and I still think about them.\n\nOtherwise I go to Liebmans, but I don’t particularly like any Manhattan based Delis, sorry. \n\nJacob’s Pickles and The Pickle Guys are pretty famous but I’d honestly say their pickles are mid and not worth the time or money (because you would also usually order other food when visiting them too).\n\nIf you’re purely going to delis for pickles, and not any other food, it might be easier to just pick up a jar from a market/store and eat them on a park bench with your fingers as god intended. Grillos pickles (while not kosher pickles) eaten cold in the sun, slaps.\n\nCOMMENT: I like pickle guys fruit, oddly enough. Other stuff seems average in a nice atmosphere.",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [
+     {
+      "author": "guatemamaLF",
+      "body": "I used to go to my neighborhood deli and get a free bucket of pickles with anything I ordered, like an actual bucket, paint can sized. Those were the days… It’s been about 4 years since that place closed and I still think about them.\n\nOtherwise I go to Liebmans, but I don’t particularly like any Manhattan based Delis, sorry. \n\nJacob’s Pickles and The Pickle Guys are pretty famous but I’d honestly say their pickles are mid and not worth the time or money (because you would also usually order other food when visiting them too).\n\nIf you’re purely going to delis for pickles, and not any other food, it might be easier to just pick up a jar from a market/store and eat them on a park bench with your fingers as god intended. Grillos pickles (while not kosher pickles) eaten cold in the sun, slaps. "
+     }
+    ],
+    "author": "Relative_Prize9052",
+    "body": "I like pickle guys fruit, oddly enough. Other stuff seems average in a nice atmosphere.",
+    "replies": [
+     {
+      "author": "helcat",
+      "body": "The Pickle Guys is the first time I've ever had pickled pineapple. Goddamn that was good. Now I make my own. "
+     },
+     {
+      "author": "bmsa131",
+      "body": "I LOVE their pickled mango.  🥭 "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "pickle guys",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "neutral",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "fruit",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0313",
+   "comment_id": "t1_nwqkz99",
+   "model_view": "POST TITLE: Classic no-frills Filipino food\n\nPOST BODY: Where’s the best place in the city? Willing to travel anywhere, I know it’ll probably be in queens. I do not want anywhere fancy!\n\nPARENT COMMENT: Mama Fina’s in LES is great. Amazing Sisig. \n\nTito Rad’s in woodside for ultra-straightforward Filipino food\n\nCOMMENT: Looks like mama finas is permanently closed :( but thank you!! Seems like woodside is the place to be",
+   "context": {
+    "title": "Classic no-frills Filipino food",
+    "selftext": "Where’s the best place in the city? Willing to travel anywhere, I know it’ll probably be in queens. I do not want anywhere fancy! ",
+    "ancestors": [
+     {
+      "author": "IamChicharon",
+      "body": "Mama Fina’s in LES is great. Amazing Sisig. \n\nTito Rad’s in woodside for ultra-straightforward Filipino food"
+     }
+    ],
+    "author": "ivyleagueburnout",
+    "body": "Looks like mama finas is permanently closed :( but thank you!! Seems like woodside is the place to be",
+    "replies": [
+     {
+      "author": "IamChicharon",
+      "body": "Oh that is terrible news. That’s been my go-to for years."
+     },
+     {
+      "author": "BerryMagic_",
+      "body": "That's so sad! I loved their sisig.\n\n2nd best sisig for me is Max's in Jersey City (they have a Woodside location too but it's not as crispy for some reason), unfortunately they've been closed for renovations for several months now. Not sure when they're coming back..."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "mama finas",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "tags": [],
+     "notes": []
+    },
+    {
+     "name": "Tito Rad's",
+     "named_in": "context",
+     "location": "woodside",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "filipino"
+     ],
+     "notes": [
+      {
+       "about": "neighborhood",
+       "text": "woodside is the place to be",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0314",
+   "comment_id": "t1_ng0smla",
+   "model_view": "POST TITLE: Need help finding a restaurant\n\nPOST BODY: Hi, looking to host a breakfast for 30-40 people in the midtown area. Have a budget of about 5k. Finance type people. Would love a private room. Any suggestions?\n\nCOMMENT: Not a possibility.",
+   "context": {
+    "title": "Need help finding a restaurant",
+    "selftext": "Hi, looking to host a breakfast for 30-40 people in the midtown area. Have a budget of about 5k. Finance type people. Would love a private room. Any suggestions? ",
+    "ancestors": [],
+    "author": "ReliabilityTalkinGuy",
+    "body": "Not a possibility. ",
+    "replies": [
+     {
+      "author": "some1105",
+      "body": "OP is willing to pay $150 a head for *breakfast* and you’re in first saying that’s not a possibility?  You might want to powder your nards there."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0315",
+   "comment_id": "t1_nkagudu",
+   "model_view": "POST TITLE: Best tocino around?\n\nPOST BODY: Had it in the Philippines several years and it was my favorite breakfast of all time. Looking for some here at home — with a nice runny fried egg included. Props if it's in Brooklyn but of course the entire city is fair game. Thanks!\n\nCOMMENT: I like Cafe Pri which is a Filipino owned cafe with locations in Ridgewood, though imo it's more of a drop by in the neighborhood type place, I also saw Patok by Rach opened at Dekalb Market but have only tried their food as popup vendors\n\nBut your best bet is head to Woodside and take your pick, I would start with Ihawan, Renee's, Kalye bistro, Tito Rad's, plenty of Filipino food there",
+   "context": {
+    "title": "Best tocino around?",
+    "selftext": "Had it in the Philippines several years and it was my favorite breakfast of all time. Looking for some here at home — with a nice runny fried egg included. Props if it's in Brooklyn but of course the entire city is fair game. Thanks!",
+    "ancestors": [],
+    "author": "air-",
+    "body": "I like Cafe Pri which is a Filipino owned cafe with locations in Ridgewood, though imo it's more of a drop by in the neighborhood type place, I also saw Patok by Rach opened at Dekalb Market but have only tried their food as popup vendors\n\nBut your best bet is head to Woodside and take your pick, I would start with Ihawan, Renee's, Kalye bistro, Tito Rad's, plenty of Filipino food there",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Patok by Rach",
+     "named_in": "comment",
+     "location": "Dekalb Market",
+     "experience": "firsthand",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": "opened",
+     "tags": [
+      "filipino"
+     ],
+     "notes": [
+      {
+       "about": "history",
+       "text": "previously only tried as popup vendor",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Ihawan",
+     "named_in": "comment",
+     "location": "Woodside",
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "filipino"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Renee's",
+     "named_in": "comment",
+     "location": "Woodside",
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "filipino"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Kalye bistro",
+     "named_in": "comment",
+     "location": "Woodside",
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "filipino",
+      "bistro"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Tito Rad's",
+     "named_in": "comment",
+     "location": "Woodside",
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "filipino"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0316",
+   "comment_id": "t1_o2843ho",
+   "model_view": "POST TITLE: Weightloss veg orders in NYC\n\nPOST BODY: I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.\n\nPARENT COMMENT: Most places they can make it vegetarian / without pork.\n\nCOMMENT: In nyc at Korean / Chinese places I have not found that. Maybe less traditional places I’ve seen mapo tofu offered as vegetarian. But I haven’t found places that will give you an option of with or without meat.",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [
+     {
+      "author": "WindjammerX",
+      "body": "how about some mabo/mapo tofu from Chinese takeout places? You can also get it with steamed brown rice (some places have it, some don't). That should suffice?"
+     },
+     {
+      "author": "_jyoo_",
+      "body": "A lot of mapo tofu is made with pork. Not always of course but I believe it’s traditionally with pork. Plus it can be on the oily side"
+     },
+     {
+      "author": "cute_polarbear",
+      "body": "Most places they can make it vegetarian / without pork."
+     }
+    ],
+    "author": "_jyoo_",
+    "body": "In nyc at Korean / Chinese places I have not found that. Maybe less traditional places I’ve seen mapo tofu offered as vegetarian. But I haven’t found places that will give you an option of with or without meat.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0317",
+   "comment_id": "t1_nxolwat",
+   "model_view": "POST TITLE: what if you want some good pastrami but don’t want to wait ridiculous lines at Katz?\n\nCOMMENT: The other big two delis are second ave deli and pastrami queen. Katz’s is my favorite but probably not worth the line. My favorite thing to do is go get drinks and snacks in the area and then after go to Katz’s around 9 or 10. There’s no line by then",
+   "context": {
+    "title": "what if you want some good pastrami but don’t want to wait ridiculous lines at Katz?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "cinnamonbun993",
+    "body": "The other big two delis are second ave deli and pastrami queen. Katz’s is my favorite but probably not worth the line. My favorite thing to do is go get drinks and snacks in the area and then after go to Katz’s around 9 or 10. There’s no line by then",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "second ave deli",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "deli",
+      "pastrami"
+     ],
+     "notes": []
+    },
+    {
+     "name": "pastrami queen",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "deli",
+      "pastrami"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Katz’s",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "deli",
+      "pastrami"
+     ],
+     "notes": [
+      {
+       "about": "best time to go",
+       "text": "go around 9 or 10 after drinks and snacks nearby, no line by then",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0318",
+   "comment_id": "t1_o25uojf",
+   "model_view": "POST TITLE: Weightloss veg orders in NYC\n\nPOST BODY: I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.\n\nCOMMENT: There’s a new slop bowl place in Noho called Matter that has build your own bowls with all the nutritional facts and calories painstakingly listed out.",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [],
+    "author": "walkingthecowww",
+    "body": "There’s a new slop bowl place in Noho called Matter that has build your own bowls with all the nutritional facts and calories painstakingly listed out.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Matter",
+     "named_in": "comment",
+     "location": "Noho",
+     "experience": "secondhand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": "opened",
+     "tags": [
+      "build your own bowls"
+     ],
+     "notes": [
+      {
+       "about": "calorie info",
+       "text": "build-your-own bowls with nutritional facts and calories listed",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0319",
+   "comment_id": "t1_p1e9hem",
+   "model_view": "POST TITLE: Hello! New York realistic food budget suggestions!\n\nPOST BODY: Hi everyone!\n\nMy partner and I will be visiting NYC in early September, and we're trying to figure out a realistic daily food budget for two people.\n\nWe'll be spending most of our time in the Lower East Side, East Village, SoHo, Williamsburg, Greenpoint, Bushwick, and around Midtown (for MoMA). We don't eat meat (but do eat seafood), don't drink alcohol, and our hotel includes breakfast, so we're ...\n\nCOMMENT: That budget is absolutely doable and with great cheap food mixed with a couple of fancy sit downs. \n\nPlan for one big meal a day (buy cold cuts for sandwiches, take an extra bagel or 2 from breakfast, carrots/celery sticks for roughage and no refrigerator needed. Picnic often, September is gorgeous weather). \n\nLunch specials at many places are great value. Eat on the later side with leftovers for dinner. \n\nVisit Queens, Brooklyn and uptown (nosebleed) Manhattan for foodie adventures.",
+   "context": {
+    "title": "Hello! New York realistic food budget suggestions!",
+    "selftext": "Hi everyone!\n\nMy partner and I will be visiting NYC in early September, and we're trying to figure out a realistic daily food budget for two people.\n\nWe'll be spending most of our time in the Lower East Side, East Village, SoHo, Williamsburg, Greenpoint, Bushwick, and around Midtown (for MoMA). We don't eat meat (but do eat seafood), don't drink alcohol, and our hotel includes breakfast, so we're mainly budgeting for coffee, lunch, dinner, and the occasional dessert or snack. We'd also like to do one or two nicer sit-down dinners during the trip, but otherwise we're happy eating at casual restaurants and cafés.\n\nWould a budget of around $100–150 per day for two people be realistic for this type of trip, or should we plan for more? If you've eaten in these neighborhoods recently, I'd love to hear what you found to be a reasonable daily budget.\n\nThanks!",
+    "ancestors": [],
+    "author": "herewegoagain_2500",
+    "body": "That budget is absolutely doable and with great cheap food mixed with a couple of fancy sit downs. \n\nPlan for one big meal a day (buy cold cuts for sandwiches, take an extra bagel or 2 from breakfast, carrots/celery sticks for roughage and no refrigerator needed. Picnic often, September is gorgeous weather). \n\nLunch specials at many places are great value. Eat on the later side with leftovers for dinner. \n\nVisit Queens, Brooklyn and uptown (nosebleed) Manhattan for foodie adventures. \n\n",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0320",
+   "comment_id": "t1_ol26t5w",
+   "model_view": "POST TITLE: What’s the non-touristy Cheesecake Factory of NYC?\n\nPOST BODY: I know people love to clown on Cheesecake Factory, but hear me out. Massive menu, decent portions, open late, comfortable booths, good for groups, solid cocktails/desserts, and everyone can usually find something they want.\n\nWhat’s the NYC equivalent of that? Not necessarily fancy or trendy and preferably not a tourist trap. Just a reliable spot with a huge menu/vibe where you can go with almost a ...\n\nPARENT COMMENT: I'm of the opinion that most of their breakfast constitutes dessert, especially the bread pudding french toast. Yum! I think they have shakes/malts too. Unfortunately, they are lacking in the cocktails/open late department.\n\nCOMMENT: 100%, those breakfasts are insane. i wonder if theyd let you eat an entree and then order pancakes or something as a second course. i feel like that would have been a “get the fuck out” in kennys day",
+   "context": {
+    "title": "What’s the non-touristy Cheesecake Factory of NYC?",
+    "selftext": "I know people love to clown on Cheesecake Factory, but hear me out. Massive menu, decent portions, open late, comfortable booths, good for groups, solid cocktails/desserts, and everyone can usually find something they want.\n\nWhat’s the NYC equivalent of that? Not necessarily fancy or trendy and preferably not a tourist trap. Just a reliable spot with a huge menu/vibe where you can go with almost anyone and have a good time.",
+    "ancestors": [
+     {
+      "author": "Dirac3974",
+      "body": "Shopsins "
+     },
+     {
+      "author": "Thin-Animal7809",
+      "body": "this is a great take that i think kenny would have appreciated. it just occurred to me, does shopsins even have desserts?"
+     },
+     {
+      "author": "Dirac3974",
+      "body": "I'm of the opinion that most of their breakfast constitutes dessert, especially the bread pudding french toast. Yum! I think they have shakes/malts too. Unfortunately, they are lacking in the cocktails/open late department. "
+     }
+    ],
+    "author": "Thin-Animal7809",
+    "body": "100%, those breakfasts are insane. i wonder if theyd let you eat an entree and then order pancakes or something as a second course. i feel like that would have been a “get the fuck out” in kennys day",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0321",
+   "comment_id": "t1_p7mghpt",
+   "model_view": "POST TITLE: Finally went to 4 Charles: Im appalled. Anyone else?\n\nPOST BODY: Finally made it to 4 Charles last night. Girlfriend could not go so I was dining solo. Now.. the food really was phenomenal, but I was literally put on a gurney and carted out of the restaurant. I am so embarrassed and need to know who else had this experience??\n\nStarted out with the King Crab. I went with the 3/4lb because the missus wasn't there. Ugh this was great but just felt like a bit much. ...\n\nPARENT COMMENT: Lol, I got the reference. :)\n\nCOMMENT: The reference https://reddit.com/r/FoodNYC/comments/1w4wfrj/just_ate_at_au_cheval_made_a_cardiologist/",
+   "context": {
+    "title": "Finally went to 4 Charles: Im appalled. Anyone else?",
+    "selftext": "Finally made it to 4 Charles last night. Girlfriend could not go so I was dining solo. Now.. the food really was phenomenal, but I was literally put on a gurney and carted out of the restaurant. I am so embarrassed and need to know who else had this experience??\n\nStarted out with the King Crab. I went with the 3/4lb because the missus wasn't there. Ugh this was great but just felt like a bit much. \n\nNext, was trying to keep it light so I did the Smoked Salmon Caesar. This was really a highlight.. that smoked salmon is so good. \n\nObviously, its 4 Charles so I had to do the prime rib. I couldn't decide between doing the roast or sandwich - so I did both. One King Cut and One Sandwich. And you know I also got the burger.. had to do bacon and an egg. Simply put: delectable. \n\nAfter I put this down though I was already started to feel a little full. Weird, but whatever..\n\nI followed this up with 2 sides of the bacon because it was just so good. And then for dessert? Lemon Meringue Pie & the Sundae. I just couldn't decide! \n\nPost dessert I was looking over the menu when it hit me, I was really full. Like, really really full. I almost felt sick. I couldn't even get up! I paid my check and discreetly told the waiters about my problem and they brought a gurney out of the back and carted me out!! I could not believe it. \n\nObviously other people must have experienced something like this before?? I cannot believe how heavy their food is. Like.. it is just too rich or something. Why is it so popular when you literally can't walk after eating?? \n\n",
+    "ancestors": [
+     {
+      "author": "Yomatius",
+      "body": "Lol, I got the reference. :)"
+     }
+    ],
+    "author": "justflipping",
+    "body": "The reference https://reddit.com/r/FoodNYC/comments/1w4wfrj/just_ate_at_au_cheval_made_a_cardiologist/",
+    "replies": [
+     {
+      "author": "Yomatius",
+      "body": "indeed! Very helpful to post the link here, well played! "
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0322",
+   "comment_id": "t1_nzeamqs",
+   "model_view": "POST TITLE: Let the discussion begin : The 17 best bagels in New York City Right Now\n\nPOST BODY: https://www.nytimes.com/article/best-bagels-nyc.html?unlocked\\_article\\_code=1.EFA.OA3C.BQyXJ3aoquF\\_&smid=nytcore-ios-share\n\nPARENT COMMENT: Let the discussion begin.... about an article from October 2024?\n\nCOMMENT: It makes me very happy that Peter Pan is nowhere on this list Becuase it is hands down the best bagels I’ve ever had in my life in NY or anywhere. The size of the bagel the freshness the toast, and any of the sandwiches are flawless.",
+   "context": {
+    "title": "Let the discussion begin : The 17 best bagels in New York City Right Now",
+    "selftext": "https://www.nytimes.com/article/best-bagels-nyc.html?unlocked\\_article\\_code=1.EFA.OA3C.BQyXJ3aoquF\\_&smid=nytcore-ios-share",
+    "ancestors": [
+     {
+      "author": "JayMoots",
+      "body": "Let the discussion begin.... about an article from October 2024?"
+     }
+    ],
+    "author": "Kissfromarose01",
+    "body": "It makes me very happy that Peter Pan is nowhere on this list Becuase it is hands down the best bagels I’ve ever had in my life in NY or anywhere. The size of the bagel the freshness the toast, and any of the sandwiches are flawless.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Peter Pan",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_positive",
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "bagels",
+       "level": "very_positive",
+       "avoid": false
+      },
+      {
+       "dish": "sandwiches",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bagels",
+      "bagel shop"
+     ],
+     "notes": [
+      {
+       "about": "bagel size",
+       "text": "size of the bagel is great",
+       "level": "positive",
+       "dish": "bagels"
+      },
+      {
+       "about": "freshness",
+       "text": "bagels are fresh",
+       "level": "positive",
+       "dish": "bagels"
+      },
+      {
+       "about": "toast",
+       "text": "the toast is flawless",
+       "level": "very_positive",
+       "dish": "bagels"
+      },
+      {
+       "about": "list snub",
+       "text": "happy Peter Pan is not on the list",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0323",
+   "comment_id": "t1_oleabss",
+   "model_view": "POST TITLE: Authentic Gözleme in the city? (any borough will do)\n\nPOST BODY: Traveled to Istanbul a couple of years ago and still think about the Gözleme I had there!\n\nCOMMENT: They have it in Taskin Bakery outpost, midtown east.",
+   "context": {
+    "title": "Authentic Gözleme in the city? (any borough will do)",
+    "selftext": "Traveled to Istanbul a couple of years ago and still think about the Gözleme I had there!",
+    "ancestors": [],
+    "author": "zrnyc",
+    "body": "They have it in Taskin Bakery outpost, midtown east.",
+    "replies": [
+     {
+      "author": "Spare_Handle_6554",
+      "body": "I think the location in the city closed"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Taskin Bakery",
+     "named_in": "comment",
+     "location": "midtown east",
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "Gözleme",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bakery",
+      "gözleme"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0324",
+   "comment_id": "t1_oh3dsah",
+   "model_view": "POST TITLE: Help Finding Cheap Prosciutto Chunks?\n\nPOST BODY: Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!\n\nCOMMENT: Try western beef or any Italian market just ask for the ends",
+   "context": {
+    "title": "Help Finding Cheap Prosciutto Chunks?",
+    "selftext": "Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!",
+    "ancestors": [],
+    "author": "kaptiankuff",
+    "body": "Try western beef or any Italian market just ask for the ends ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Western Beef",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "supermarket"
+     ],
+     "notes": [
+      {
+       "about": "tip",
+       "text": "ask for the ends",
+       "level": null,
+       "dish": "prosciutto"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0325",
+   "comment_id": "t1_p31z3t5",
+   "model_view": "POST TITLE: Eleven Madison Park, Lunch.  Menu, drinks, and a game.\n\nPOST BODY: I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\nPARENT COMMENT: This is the best that EMP has looked to me in a hot minute. Are they actually trying again?\n\nCOMMENT: Were they not 'trying' in the past? or is that just a dig at their changed menu in the past?",
+   "context": {
+    "title": "Eleven Madison Park, Lunch.  Menu, drinks, and a game.",
+    "selftext": "I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\n",
+    "ancestors": [
+     {
+      "author": "constanto",
+      "body": "This is the best that EMP has looked to me in a hot minute. Are they actually trying again?"
+     }
+    ],
+    "author": "MTonmyMind",
+    "body": "Were they not 'trying' in the past? or is that just a dig at their changed menu in the past?",
+    "replies": [
+     {
+      "author": "constanto",
+      "body": "To me this shows a degree of inventiveness, playfulness, and cohesion that was lacking the last time that I was there in the fall. That menu, after the return to meat, seemed as though they were just playing the hits.\n\nAnd I get that, it is like going to Per Se or Le Bernardin or seeing Bruce Springsteen. You are paying hundreds of dollars to see people doing the best that they have ever done it; you want to eat Oysters and Pearls, the pounded tuna and foie, to hear Born to Run. So when people went back to EMP for the meats they wanted the potato and duck, damnit.\n\nBut there's a difference between limping your way through the hits, like they did last fall and for which I would not return, and this menu which seems like something that I would be willing to go back there for."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "EMP",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "menu change",
+       "text": "asks whether the place was not trying in the past or if the parent comment was a dig at its changed menu",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
