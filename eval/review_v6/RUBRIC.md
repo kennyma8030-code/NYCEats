@@ -29,9 +29,9 @@ you'd read it differently. Where they don't, say so in `rule_questions`.
 
 1. **Blind read.** From the comment (and the context), write `own_read`:
    every place mentioned, and for each place `overall`, the five
-   `aspects`, `experience`, `opinion`, `avoid` and `dishes` (each with
-   `level` and `avoid`). The field definitions are below. No place is
-   `own_read: []`.
+   `aspects`, `experience`, `opinion`, `avoid`, `dishes` (each with
+   `level` and `avoid`), `timeframe`, `trend` and `status`. The field
+   definitions are below. No place is `own_read: []`.
 2. **Read Haiku's output.**
 3. **Compare.** Wherever your `own_read` and Haiku differ on a scored field,
    or on whether a place is a mention at all, re-read the comment and write
@@ -47,10 +47,10 @@ you'd read it differently. Where they don't, say so in `rule_questions`.
    something important a reader would want: a tip, a price, a dish verdict,
    a fact).
 
-   **Price, timeframe, trend, status** aren't in your blind read. When
-   Haiku's value for one of them is wrong, add a `compare` entry for it with
-   `own: null`, the `final` value and `right: "judge"`. No entry means it
-   was right.
+   **Price** isn't in your blind read. When Haiku's price is wrong, add a
+   `compare` entry for it with `own: null`, the `final` value and
+   `right: "judge"`. No entry means it was right. Timeframe, trend and
+   status are in your blind read and are compared like any other field.
 6. **rule_questions.** Any case this rubric doesn't decide. One sentence each.
 7. **overall_item_ok**: true only if every `final` value equals Haiku's and
    nothing is missed.
