@@ -48,12 +48,17 @@ $PY run_embed.py --parallel core full threads   # models in parallel, barrier be
 $PY retrieve.py --scope full        # dense, @1024 truncations, BM25, RRF hybrids -> data/runs/
 $PY retrieve.py --scope threads
 $PY pool.py --scope full --depth 20 --tag comments        # pools + blind batches + 10% re-judge batches
-$PY pool.py --scope threads --depth 10 --tag threads
+$PY pool.py --scope threads --depth 5 --tag threads
 #   judges grade data/judging/<tag>/{batch,rj}_NNN.md per GUIDELINES.md
 #   into out_{batch,rj}_NNN.jsonl (see "Judging" below)
 $PY merge_judgments.py --tag comments   # -> judgments_*.jsonl, rejudgments_*.jsonl, agreement_*.json
-$PY metrics.py --scope full --tag comments
-$PY metrics.py --scope threads --tag threads
+$PY merge_judgments.py --tag threads
+$PY metrics.py --scope full --tag comments      # -> RESULTS_TABLES_comments.md
+$PY metrics.py --scope threads --tag threads    # -> RESULTS_TABLES_threads.md (@5 metrics lead)
+$PY depth50.py sample               # 150 unjudged top-50 comments per system -> blind batches
+#   judges grade data/judging/comments_d50/batch_NNN.md
+$PY merge_judgments.py --tag comments_d50
+$PY depth50.py estimate             # -> DEPTH50.md, recall@50 corrected for pool depth
 $PY measure_latency.py
 $PY spend.py --write
 ```
@@ -85,6 +90,7 @@ different batches and graded again by different subagents; agreement is in
 | `retrieve.py` | dense, truncated, BM25 and RRF hybrid runs |
 | `pool.py` | pools and blind judging batches |
 | `merge_judgments.py` | completeness checks, merged judgments, agreement |
-| `metrics.py` | nDCG/recall/MRR/P@10, bootstrap CIs, categories, negation, restaurant view |
+| `metrics.py` | nDCG/recall/MRR/P@k, bootstrap CIs, head-to-heads, categories, negation, restaurant view |
+| `depth50.py` | sampled judging of unjudged top-50 comments; recall@50 corrected for pool depth |
 | `measure_latency.py` | live single-query embedding latency |
 | `spend.py` | ledger summary |

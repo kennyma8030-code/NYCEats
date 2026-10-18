@@ -59,6 +59,10 @@ def per_query(ranked, rel, opp):
     relset = {d for d, g in rel.items() if g >= 1}
     m = {}
     m["ndcg@10"] = ndcg(ranked, rel)
+    # Threads are pooled only to depth 5, so @5 is their only fully judged depth.
+    m["ndcg@5"] = ndcg(ranked, rel, k=5)
+    m["p@5"] = sum(1 for d in ranked[:5] if rel.get(d, 0) >= 1) / 5
+    m["p@5_strict"] = sum(1 for d in ranked[:5] if rel.get(d, 0) == 2) / 5
     if relset:
         m["recall@20"] = len(relset & set(ranked[:20])) / len(relset)
         m["recall@50"] = len(relset & set(ranked[:50])) / len(relset)
@@ -138,7 +142,20 @@ def main():
     runs = {p.stem: json.loads(p.read_text()) for p in sorted(rundir.glob("*.json"))}
 
     qids = [q["qid"] for q in queries if q["qid"] in qrels]
-    metrics_names = ["ndcg@10", "p@20", "recall@20", "recall@50", "mrr", "p@10", "p@10_strict"]
+    # Lead with metrics the pool fully judges for every system: comments were
+    # pooled to depth 20, threads only to depth 5.
+    if kind == "threads":
+        metrics_names = ["ndcg@5", "p@5", "p@5_strict", "mrr", "ndcg@10", "p@10"]
+        paired_metrics = ("ndcg@5", "p@5")
+        h2h_metrics = ("ndcg@5", "p@5")
+    else:
+        metrics_names = ["ndcg@10", "p@20", "recall@20", "recall@50", "mrr", "p@10", "p@10_strict"]
+        paired_metrics = ("ndcg@10", "p@20", "recall@20", "recall@50")
+        h2h_metrics = ("ndcg@10", "p@20", "p@10_strict")
+    lead = metrics_names[0]
+    labels = {"ndcg@10": "nDCG@10", "ndcg@5": "nDCG@5", "p@20": "P@20", "p@5": "P@5", "p@5_strict": "P@5 (grade 2)",
+              "recall@20": "recall@20", "recall@50": "recall@50", "mrr": "MRR", "p@10": "P@10",
+              "p@10_strict": "P@10 (grade 2)"}
     per = {}
     for s, run in runs.items():
         per[s] = {}
@@ -167,14 +184,13 @@ def main():
         row["queries_with_opposite@10"] = sum(1 for q in usable if per[s][q]["opposite@10"] > 0)
         summary[s] = row
 
-    order = sorted(summary, key=lambda s: -summary[s]["ndcg@10"][0])
+    order = sorted(summary, key=lambda s: -summary[s][lead][0])
     best = order[0]
-    paired_metrics = ("ndcg@10", "p@20", "recall@20", "recall@50")
     comp = {}
     for s in order:
         comp[s] = {}
         for mn in paired_metrics:
-            ref = best if mn == "ndcg@10" else max(summary, key=lambda x: summary[x][mn][0])
+            ref = best if mn == lead else max(summary, key=lambda x: summary[x][mn][0])
             av = [per[ref][q][mn] for q in usable]
             bv = [per[s][q][mn] for q in usable]
             comp[s][mn] = (ref,) + paired(av, bv, rng)
@@ -183,18 +199,18 @@ def main():
              f"{len(usable)} queries with at least one relevant judged document"
              + (f"; {len(empty)} with none, excluded: {', '.join(empty)}" if empty else "") + ".",
              f"Mean with 95% bootstrap CI over queries, x100. Bootstrap {B} resamples.\n",
-             "| system | nDCG@10 | P@20 | recall@20 | recall@50 | MRR | P@10 | P@10 (grade 2) | judged@50 |",
-             "|---|---|---|---|---|---|---|---|---|"]
+             "| system | " + " | ".join(labels[m] for m in metrics_names) + " | judged@10 | judged@50 |",
+             "|---|" + "---|" * (len(metrics_names) + 2)]
     for s in order:
         r = summary[s]
         lines.append(f"| {s} | " + " | ".join(fmt_ci(r[m]) for m in metrics_names) +
-                     f" | {r['judged@50'][0]*100:.0f}% |")
+                     f" | {r['judged@10'][0]*100:.0f}% | {r['judged@50'][0]*100:.0f}% |")
 
     lines += ["\n## Paired differences vs the leader\n",
               "Leader minus system, x100, with 95% CI and the share of bootstrap resamples in which the "
               "leader stays ahead. A CI that includes 0 means the gap is within noise.\n",
-              "| system | nDCG@10 vs leader | P@20 vs leader | recall@20 vs leader | recall@50 vs leader |",
-              "|---|---|---|---|---|"]
+              "| system | " + " | ".join(f"{labels[m]} vs leader" for m in paired_metrics) + " |",
+              "|---|" + "---|" * len(paired_metrics)]
     for s in order:
         cells = []
         for mn in paired_metrics:
@@ -207,7 +223,6 @@ def main():
     # compares against one system; choosing a model needs the pairs.
     dense = [s for s in ("qwen3-8b", "oai-3-large", "gemini-2", "oai-3-small", "voyage-4-large",
                          "qwen3-8b@1024", "oai-3-large@1024", "gemini-2@1024") if s in per]
-    h2h_metrics = ("ndcg@10", "p@20", "p@10_strict")
     lines += ["\n## Head-to-head between dense models\n",
               "Row minus column on the same queries, x100, 95% paired bootstrap CI. **Bold** when the CI "
               "excludes 0. Only metrics that are fully judged for every system.\n"]
@@ -224,27 +239,30 @@ def main():
                 cells.append(f"**{txt}**" if lo > 0 or hi < 0 else txt)
             lines.append(f"| {a_} | " + " | ".join(cells) + " |")
 
-    # Per category and holdout split, nDCG@10 means.
+    # Per category and holdout split, on the lead metric.
+    L = labels[lead]
+    second = "recall@50" if kind == "comments" else "p@5"
     cats = sorted({qmeta[q]["category"] for q in usable})
-    lines += ["\n## nDCG@10 by query category (x100)\n",
+    lines += [f"\n## {L} by query category (x100)\n",
               "| system | " + " | ".join(f"{c} (n={sum(qmeta[q]['category']==c for q in usable)})" for c in cats) + " |",
               "|---|" + "---|" * len(cats)]
-    catmean = {s: {c: float(np.mean([per[s][q]["ndcg@10"] for q in usable if qmeta[q]["category"] == c]))
+    catmean = {s: {c: float(np.mean([per[s][q][lead] for q in usable if qmeta[q]["category"] == c]))
                    for c in cats} for s in order}
     for s in order:
         lines.append(f"| {s} | " + " | ".join(
             (f"**{catmean[s][c]*100:.1f}**" if catmean[s][c] == max(catmean[x][c] for x in order)
              else f"{catmean[s][c]*100:.1f}") for c in cats) + " |")
-    lines += ["\nCategory winners (nDCG@10): " + "; ".join(
+    lines += [f"\nCategory winners ({L}): " + "; ".join(
         f"{c}: {max(order, key=lambda s: catmean[s][c])}" for c in cats)]
 
-    lines += ["\n## Holdout vs tuning queries (nDCG@10, recall@50, x100 with 95% CI)\n",
+    lines += [f"\n## Holdout vs tuning queries ({L}, {labels[second]}, x100 with 95% CI)\n",
               "Nothing was tuned on any queries (RRF k=60, prompts and stopwords were fixed in advance), "
               "so the split is a check that conclusions don't hinge on a subset.\n",
-              "| system | tuning nDCG@10 | holdout nDCG@10 | tuning recall@50 | holdout recall@50 |", "|---|---|---|---|---|"]
+              f"| system | tuning {L} | holdout {L} | tuning {labels[second]} | holdout {labels[second]} |",
+              "|---|---|---|---|---|"]
     for s in order:
         cells = []
-        for mn in ("ndcg@10", "recall@50"):
+        for mn in (lead, second):
             for h in (False, True):
                 vals = [per[s][q][mn] for q in usable if qmeta[q]["holdout"] == h]
                 cells.append(fmt_ci(boot(vals, rng)))
