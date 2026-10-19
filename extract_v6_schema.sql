@@ -8,8 +8,19 @@
 -- carries the same block (tests/test_extract_v6_schema.py keeps the two
 -- identical), so a fresh database gets it on boot like everything else, and a
 -- deploy that skipped this step would apply it on the poller's first boot.
--- It is idempotent: each change is guarded, so a second run, and every boot
--- after the first, takes no lock on mentions at all.
+-- It is idempotent: each change is guarded by a catalog check, so a second
+-- run, and every boot after the first, alters nothing and takes no lock on
+-- mentions or on live_mentions (only catalog reads and the one-row insert
+-- into extraction_settings).
+--
+-- The first run does take locks: an ACCESS EXCLUSIVE lock on mentions for the
+-- ALTERs (catalog-only, so brief once granted) and a SHARE lock while the
+-- partial index is built. Waiting for them behind a long query would stall
+-- the app's reads queued behind it, so the waits are capped by
+-- lock_timeout = 5s: if it fires, the whole step rolls back (the ALTERs are
+-- one statement), nothing is half-applied, and you simply run it again,
+-- ideally at a quiet moment.
+set lock_timeout = '5s';
 --
 -- What changes for the live site: nothing. Old rows keep every new column
 -- null, extraction_settings starts at 'legacy', and live_mentions in legacy
@@ -33,6 +44,11 @@
 -- v6-extraction-schema:begin
 do $$
 begin
+  -- Transaction-local, so on the poller's boot (where this block runs inside
+  -- db.init's one transaction, last) it ends with the boot's commit and never
+  -- leaks into the poller's session. A timeout there fails the boot, and
+  -- Railway's restart policy retries it.
+  perform set_config('lock_timeout', '5s', true);
   if not exists (select 1 from information_schema.columns
                  where table_schema = current_schema() and table_name = 'mentions'
                    and column_name = 'schema_version') then
@@ -99,9 +115,17 @@ end $$;
 
 -- Post mentions need the idempotence key mentions_unique_idx gives comments
 -- (its comment_id is null for them, and nulls never conflict). The partial
--- index is empty until post mode runs, but building it reads mentions once.
-create unique index if not exists mentions_post_unique_idx
-  on mentions(thread_id, entity_key, prompt_hash) where comment_id is null;
+-- index is empty until post mode runs, but building it reads mentions once,
+-- under a SHARE lock. Checked in the catalog first, because CREATE INDEX IF
+-- NOT EXISTS takes that lock before it notices the index is there.
+do $$
+begin
+  perform set_config('lock_timeout', '5s', true);
+  if to_regclass('mentions_post_unique_idx') is null then
+    create unique index mentions_post_unique_idx
+      on mentions(thread_id, entity_key, prompt_hash) where comment_id is null;
+  end if;
+end $$;
 
 -- The v6 cursor, one row per item (a t1_ comment or a t3_ post) and version.
 -- Its own table rather than comments.extracted_at: that column is the old
@@ -131,8 +155,12 @@ create index if not exists extraction_state_batch_idx
 -- Every Message Batch extract_v6.py submits, so a re-run re-attaches to the
 -- ones in flight instead of paying for them twice. hold_usd is the batch's
 -- worst case, counted against the spend cap until the batch is collected.
--- An id starting 'pending-' means the process stopped between taking the
--- hold and hearing back from the API; see extract_v6.py --resolve-pending.
+-- An id starting 'pending-' means a submission whose outcome is unknown (the
+-- process died, or the API timed out or answered 5xx after it may have
+-- accepted the batch); the next run matches it against the API's batch list,
+-- or see extract_v6.py --resolve-pending. 'lost' is a batch the API answers
+-- 404 for (past retention, or another key): no longer re-attached, its items
+-- held back until --drop-batch.
 create table if not exists extract_batches (
   id           text primary key,
   version      text not null,
@@ -140,7 +168,7 @@ create table if not exists extract_batches (
   hold_usd     numeric(12, 6) not null,
   cost_usd     numeric(12, 8),
   status       text not null default 'pending'
-               check (status in ('pending', 'submitted', 'collected')),
+               check (status in ('pending', 'submitted', 'collected', 'lost')),
   created_at   timestamptz not null default now(),
   submitted_at timestamptz,
   collected_at timestamptz
@@ -162,14 +190,23 @@ insert into extraction_settings default values on conflict do nothing;
 -- (groceries, brands, venues, companies, other), chains.txt names, and post
 -- mentions, which scoring cannot place yet (it joins every mention to a
 -- comment for its author and date). Those rows are still in mentions.
-create or replace view live_mentions as
-select m.*
-from mentions m
-where case (select read_version from extraction_settings)
-        when 'v6' then m.schema_version = 6
-                   and m.comment_id is not null
-                   and coalesce(m.kind, '') not in ('grocery', 'brand', 'venue', 'company', 'other')
-                   and not coalesce(m.is_chain, false)
-        else m.schema_version is null
-      end;
+-- Created only when missing: replacing a view takes an exclusive lock on it,
+-- which every board read would queue behind on every boot. To change its
+-- definition later, run the `create or replace view` by hand (with
+-- lock_timeout set), then `python refresh.py`.
+do $$
+begin
+  if to_regclass('live_mentions') is null then
+    create view live_mentions as
+    select m.*
+    from mentions m
+    where case (select read_version from extraction_settings)
+            when 'v6' then m.schema_version = 6
+                       and m.comment_id is not null
+                       and coalesce(m.kind, '') not in ('grocery', 'brand', 'venue', 'company', 'other')
+                       and not coalesce(m.is_chain, false)
+            else m.schema_version is null
+          end;
+  end if;
+end $$;
 -- v6-extraction-schema:end

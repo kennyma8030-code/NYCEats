@@ -34,8 +34,13 @@ class SchemaCopies(unittest.TestCase):
         # It runs on every boot of the poller, against production.
         sql = re.sub(r"--[^\n]*", "", block("extract_v6_schema.sql")).lower()
         for m in re.finditer(r"\bcreate (unique index|index|table|view|or replace view)\b([^;]*)", sql):
-            self.assertTrue(m.group(1) == "or replace view" or m.group(2).lstrip().startswith("if not exists"),
-                            m.group(0)[:80])
+            # Either IF NOT EXISTS, or inside a catalog check that skips it
+            # (and its lock) once it exists. Never CREATE OR REPLACE: that
+            # takes an exclusive lock on every boot.
+            guarded = m.group(2).lstrip().startswith("if not exists") \
+                or "is null then" in sql[max(0, m.start() - 120):m.start()]
+            self.assertTrue(guarded and m.group(1) != "or replace view", m.group(0)[:80])
+        self.assertIn("set_config('lock_timeout', '5s', true)", sql)
         self.assertNotRegex(sql, r"drop (table|view|index|constraint|column)")
         self.assertNotRegex(sql, r"\bupdate\b|\bdelete\b|\btruncate\b")
         self.assertIn("on conflict do nothing", sql)
