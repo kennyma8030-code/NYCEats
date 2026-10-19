@@ -345,6 +345,37 @@ def neighborhoods(conn, entity_key, fetch_all):
     """, (entity_key,))
 
 
+def permalink_sql(alias):
+    """The permalink of `alias`'s row, or NULL once it was deleted from Reddit.
+
+    SPEC.md makes click-through non-negotiable, and the other half of that
+    promise is never linking something that 404s. Written once, here, so no
+    query can return a link without the rule.
+    """
+    return f"case when {alias}.was_deleted_later then null else {alias}.permalink end"
+
+
+# What every mention-returning query selects, in the shape models.Mention
+# reads. Needs `m` (mentions), `c` (comments) and `t` (threads) in scope.
+#
+# The jsonb columns are typed here rather than trusted: two legacy rows store
+# descriptors as a bare string, and each of those turned a whole restaurant's
+# comment list into a 500. A value of the wrong shape reads as absent.
+MENTION_COLUMNS = f"""
+    m.id as mention_id, m.comment_id, m.restaurant_raw,
+    m.entity_key as typed_key,
+    case when jsonb_typeof(m.aspects) = 'object' then m.aspects end as aspects,
+    case when jsonb_typeof(m.dishes) = 'array' then m.dishes end as dishes,
+    case when jsonb_typeof(m.descriptors) = 'array' then m.descriptors end as descriptors,
+    m.expensiveness, m.is_firsthand, m.is_negated,
+    m.neighborhood_hint,
+    c.author, c.score, c.controversiality, c.created_utc, c.body,
+    {permalink_sql("c")} as permalink,
+    c.was_deleted_later,
+    t.id as thread_id, t.title as thread_title
+"""
+
+
 MENTION_SORTS = {
     "recent": "c.created_utc desc",
     "oldest": "c.created_utc asc",
@@ -388,15 +419,7 @@ def mentions_page(conn, entity_key, q, fetch_all, fetch_value):
 
     total = fetch_value(conn, f"select count(*) {base}", params, default=0)
     rows = fetch_all(conn, f"""
-        select m.id as mention_id, m.comment_id, m.restaurant_raw,
-               m.entity_key as typed_key, m.aspects, m.dishes, m.descriptors,
-               m.expensiveness, m.is_firsthand, m.is_negated,
-               m.neighborhood_hint,
-               c.author, c.score, c.controversiality, c.created_utc, c.body,
-               case when c.was_deleted_later then null else c.permalink end
-                 as permalink,
-               c.was_deleted_later,
-               t.id as thread_id, t.title as thread_title
+        select {MENTION_COLUMNS}
         {base}
         order by {MENTION_SORTS[q.sort]}, m.id
         limit %s offset %s
@@ -460,7 +483,7 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
           limit %(limit)s
         )
         select p.kind, p.id, p.author, p.score, p.created_utc, p.body,
-               case when p.was_deleted_later then null else p.permalink end as permalink,
+               {permalink_sql("p")} as permalink,
                p.was_deleted_later, t.title,
                case when p.kind = 'post' then
                  greatest(t.num_comments, (select count(*) from comments x where x.thread_id = t.id))
@@ -487,16 +510,8 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
 def standout_negatives(conn, entity_key, limit, fetch_all):
     """The comments behind a v2 flag: recent, firsthand, strongly negative,
     harshest and most upvoted first. Same shape as mentions_page so the UI renders both alike."""
-    return fetch_all(conn, """
-        select m.id as mention_id, m.comment_id, m.restaurant_raw,
-               m.entity_key as typed_key, m.aspects, m.dishes, m.descriptors,
-               m.expensiveness, m.is_firsthand, m.is_negated,
-               m.neighborhood_hint,
-               c.author, c.score, c.controversiality, c.created_utc, c.body,
-               case when c.was_deleted_later then null else c.permalink end
-                 as permalink,
-               c.was_deleted_later,
-               t.id as thread_id, t.title as thread_title
+    return fetch_all(conn, f"""
+        select {MENTION_COLUMNS}
         from mention_v2 v
         join mentions m on m.id = v.mention_id
         join comments c on c.id = v.comment_id
