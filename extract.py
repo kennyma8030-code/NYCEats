@@ -1,5 +1,8 @@
 """Run the extraction prompt over the comment corpus and store the mentions.
 
+This is the old (legacy) extractor, and still the default. `--v6` hands the
+whole command line to extract_v6.py, the benchmarked v6 pipeline.
+
 Resumable by construction: `comments.extracted_at` and `comments.extract_error`
 are the cursor, so killing this mid-run and restarting picks up exactly where it
 stopped. One bad comment never stalls the run -- the error is written to its row
@@ -286,6 +289,14 @@ def run(conn, limit=None, since=None, workers=WORKERS):
 
 
 def main():
+    # v6 is its own script with its own flags (batch, spend cap, dry run);
+    # `extract.py --v6 ...` is a doorway to it, so the old commands keep
+    # meaning exactly what they did.
+    import sys
+    if "--v6" in sys.argv[1:]:
+        import extract_v6
+        sys.exit(extract_v6.main([a for a in sys.argv[1:] if a != "--v6"]) or 0)
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=None,
                     help="stop after N comments")

@@ -15,7 +15,8 @@ the chores pass also runs the extraction prompt over the comments that just
 arrived and refreshes the scoring views, so the board moves within half an
 hour instead of waiting for someone to run extract.py and sync.py by hand.
 Extraction only ever reads subreddits.HOME; the other cities are collected,
-not scored.
+not scored. EXTRACT_VERSION=v6 swaps the old extractor for the benchmarked v6
+one (extract_v6.py), which also extracts new posts; unset, nothing changes.
 
 With --embed (or POLL_EMBED=1) the chores pass also embeds the newly
 extracted r/FoodNYC rows for semantic search, last, after the refresh. That
@@ -185,6 +186,37 @@ def extract_once(conn, days, limit, workers):
     return done
 
 
+def extract_v6_once(conn, days, limit, workers, max_usd):
+    """extract_once for EXTRACT_VERSION=v6: new r/FoodNYC comments, then posts,
+    through the benchmarked v6 prompt with direct calls at effort medium.
+
+    Same window and limit as the old path, plus a spend cap per pass. A
+    request the API refuses outright (a 4xx other than 429: a bad parameter,
+    a dead key, no credit) stops the pass loudly and marks nothing, and so
+    does an outage that outlasts the backoff; the next pass tries again.
+    Whatever was stored before the stop still counts.
+    """
+    import anthropic_v6
+    import extract_v6
+
+    if not extract_v6.schema_ready(conn):
+        print("  extract v6: tables missing -- apply extract_v6_schema.sql; skipping")
+        return 0
+    budget = extract_v6.Budget(max_usd)
+    stats = extract_v6.Stats()
+    cl = anthropic_v6.client(anthropic_v6.api_key())
+    try:
+        extract_v6.run_direct(conn, cl, budget, limit=limit, since=_since(conn, days),
+                              workers=workers, stats=stats)
+    except anthropic_v6.FatalAPIError as e:
+        print(f"  EXTRACTION STOPPED -- the API rejected the request itself, nothing was marked: {e}")
+    except anthropic_v6.TransientAPIError as e:
+        print(f"  extract v6 stopped early, will retry next pass: {e}")
+    if stats.done or stats.failed or stats.refused:
+        print(f"  extract v6: {stats.line()}")
+    return stats.done
+
+
 def embed_once(conn, days, limit, max_usd, scope, workers):
     """Embed r/FoodNYC's recent rows: comments with mentions, and threads by scope.
 
@@ -325,7 +357,10 @@ def run_chores(conn, args):
     """
     _, conn = _step("settle", settle_once, conn)
     extracted = 0
-    if args.extract:
+    if args.extract and getattr(args, "extract_version", "legacy") == "v6":
+        extracted, conn = _step("extract", extract_v6_once, conn, args.extract_days,
+                                args.extract_limit, args.extract_workers, args.extract_max_usd)
+    elif args.extract:
         extracted, conn = _step("extract", extract_once, conn, args.extract_days,
                                 args.extract_limit, args.extract_workers)
     if extracted:
@@ -368,6 +403,9 @@ def main():
     ap.add_argument("--extract-workers", type=int,
                     default=int(os.environ.get("POLL_EXTRACT_WORKERS", "8")),
                     help="concurrent API calls ($POLL_EXTRACT_WORKERS, default 8)")
+    ap.add_argument("--extract-max-usd", type=float,
+                    default=float(os.environ.get("POLL_EXTRACT_MAX_USD", "1.00")),
+                    help="v6 only: spend cap per 30-min pass ($POLL_EXTRACT_MAX_USD, default 1.00)")
     ap.add_argument("--embed", action="store_true", default=_env_flag("POLL_EMBED"),
                     help="also embed new r/FoodNYC rows for semantic search every 30 min ($POLL_EMBED)")
     ap.add_argument("--embed-days", type=int,
@@ -406,7 +444,25 @@ def main():
                   f"{args.embed_scope} from the last {args.embed_days}d, "
                   f"<= {args.embed_limit}/cycle, <= ${args.embed_max_usd:.2f}/cycle")
 
-    if args.extract:
+    # Which extractor the chores pass runs. Unset means the old one, so
+    # deploying the v6 code changes nothing until the owner sets
+    # EXTRACT_VERSION=v6 (docs/handoffs/extraction-v6.md).
+    args.extract_version = os.environ.get("EXTRACT_VERSION", "").strip().lower() or "legacy"
+    if args.extract_version not in ("legacy", "v6"):
+        raise SystemExit(f"EXTRACT_VERSION={args.extract_version!r} is not legacy or v6")
+
+    if args.extract and args.extract_version == "v6":
+        import anthropic_v6
+        import prompt_v6
+        # Fail the deploy, like the old path: without a key every pass would
+        # stop on its first request.
+        if not anthropic_v6.api_key():
+            raise SystemExit(f"EXTRACT_VERSION=v6 needs {anthropic_v6.KEY_VAR}")
+        print(f"inference on: v6 ({prompt_v6.MODEL}, effort {prompt_v6.EFFORT}, prompt "
+              f"{prompt_v6.PROMPT_HASH}/{prompt_v6.PROMPT_HASH_POST}), r/{subreddits.HOME} comments "
+              f"and posts from the last {args.extract_days}d, <= {args.extract_limit}/cycle, "
+              f"<= ${args.extract_max_usd:.2f}/cycle, {args.extract_workers} workers")
+    elif args.extract:
         import extract
         # Fail the deploy, not every comment: a missing key would otherwise
         # stamp each new comment with the same extract_error.
@@ -421,6 +477,14 @@ def main():
     # schema.sql is all "create ... if not exists", so this is safe every boot
     # and means a fresh Railway deploy needs no manual setup step.
     db.init(conn)
+
+    if args.extract and args.extract_version == "v6":
+        import extract_v6
+        if extract_v6.read_version(conn) != "v6":
+            # Legal, but it means the board gets no new mentions: the old
+            # extractor is off and the board still reads the old rows.
+            print("WARNING: EXTRACT_VERSION=v6 but the board still reads legacy mentions, so new "
+                  "comments will not reach it until `extract_v6.py --read v6`")
 
     # First boot on a fresh database: pull the NYC restaurant list. No-op after.
     n = restaurants.ensure_loaded(conn)
