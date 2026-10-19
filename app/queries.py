@@ -20,6 +20,7 @@ from mention_weights or mention_v2 may use mentions: those ids are already
 live ones.
 """
 
+import refresh
 import subreddits
 
 from .models import ASPECTS, DEFAULT_SORT, SORTS, V2_SORTS
@@ -46,10 +47,16 @@ V2_COLUMNS = """,
 BOARDS = {"v1": "entity_leaderboard", "v2": "entity_leaderboard_v2"}
 
 
+def like_escape(text):
+    """`text` with LIKE's own wildcards escaped, so a search for "100%" or
+    "a_b" means those characters and not "anything"."""
+    return text.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+
+
 def like_pattern(text):
-    """`text` as a contains-pattern with LIKE's own wildcards escaped, so a
-    search for "100%" or "a_b" means those characters and not "anything"."""
-    return "%" + text.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"
+    """`text` as an escaped contains-pattern. Every LIKE on caller input goes
+    through this or like_escape."""
+    return "%" + like_escape(text) + "%"
 
 
 def _columns(algo):
@@ -121,7 +128,7 @@ def _board_filters(f):
         # Both the typed key and the city's display name, so searching
         # "delicatessen" finds katzs whether or not anyone typed it that way.
         where.append("(l.entity_key ilike %s or l.official_name ilike %s)")
-        params += [f"%{f.search}%", f"%{f.search}%"]
+        params += [like_pattern(f.search)] * 2
     if f.cuisine:
         where.append("l.cuisine = %s")
         params.append(f.cuisine)
@@ -201,7 +208,7 @@ def leaderboard_page(conn, f, fetch_all, fetch_value):
     where, params = _named(*_board_filters(f))
     cte, join, extra = "", "", ""
     if f.topic:
-        params.update(topic=f"%{f.topic}%", algo=algo)
+        params.update(topic=like_pattern(f.topic), algo=algo)
         cuisine_reach = "l.recent_reach" if algo == "v2" else "1"
         cte = "with " + TOPIC_HITS.format(board=board, cuisine_reach=cuisine_reach,
                                           text_match=TOPIC_TEXT_MATCH)
@@ -345,6 +352,37 @@ def neighborhoods(conn, entity_key, fetch_all):
     """, (entity_key,))
 
 
+def permalink_sql(alias):
+    """The permalink of `alias`'s row, or NULL once it was deleted from Reddit.
+
+    SPEC.md makes click-through non-negotiable, and the other half of that
+    promise is never linking something that 404s. Written once, here, so no
+    query can return a link without the rule.
+    """
+    return f"case when {alias}.was_deleted_later then null else {alias}.permalink end"
+
+
+# What every mention-returning query selects, in the shape models.Mention
+# reads. Needs `m` (mentions), `c` (comments) and `t` (threads) in scope.
+#
+# The jsonb columns are typed here rather than trusted: two legacy rows store
+# descriptors as a bare string, and each of those turned a whole restaurant's
+# comment list into a 500. A value of the wrong shape reads as absent.
+MENTION_COLUMNS = f"""
+    m.id as mention_id, m.comment_id, m.restaurant_raw,
+    m.entity_key as typed_key,
+    case when jsonb_typeof(m.aspects) = 'object' then m.aspects end as aspects,
+    case when jsonb_typeof(m.dishes) = 'array' then m.dishes end as dishes,
+    case when jsonb_typeof(m.descriptors) = 'array' then m.descriptors end as descriptors,
+    m.expensiveness, m.is_firsthand, m.is_negated,
+    m.neighborhood_hint,
+    c.author, c.score, c.controversiality, c.created_utc, c.body,
+    {permalink_sql("c")} as permalink,
+    c.was_deleted_later,
+    t.id as thread_id, t.title as thread_title
+"""
+
+
 MENTION_SORTS = {
     "recent": "c.created_utc desc",
     "oldest": "c.created_utc asc",
@@ -388,15 +426,7 @@ def mentions_page(conn, entity_key, q, fetch_all, fetch_value):
 
     total = fetch_value(conn, f"select count(*) {base}", params, default=0)
     rows = fetch_all(conn, f"""
-        select m.id as mention_id, m.comment_id, m.restaurant_raw,
-               m.entity_key as typed_key, m.aspects, m.dishes, m.descriptors,
-               m.expensiveness, m.is_firsthand, m.is_negated,
-               m.neighborhood_hint,
-               c.author, c.score, c.controversiality, c.created_utc, c.body,
-               case when c.was_deleted_later then null else c.permalink end
-                 as permalink,
-               c.was_deleted_later,
-               t.id as thread_id, t.title as thread_title
+        select {MENTION_COLUMNS}
         {base}
         order by {MENTION_SORTS[q.sort]}, m.id
         limit %s offset %s
@@ -460,7 +490,7 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
           limit %(limit)s
         )
         select p.kind, p.id, p.author, p.score, p.created_utc, p.body,
-               case when p.was_deleted_later then null else p.permalink end as permalink,
+               {permalink_sql("p")} as permalink,
                p.was_deleted_later, t.title,
                case when p.kind = 'post' then
                  greatest(t.num_comments, (select count(*) from comments x where x.thread_id = t.id))
@@ -487,16 +517,8 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
 def standout_negatives(conn, entity_key, limit, fetch_all):
     """The comments behind a v2 flag: recent, firsthand, strongly negative,
     harshest and most upvoted first. Same shape as mentions_page so the UI renders both alike."""
-    return fetch_all(conn, """
-        select m.id as mention_id, m.comment_id, m.restaurant_raw,
-               m.entity_key as typed_key, m.aspects, m.dishes, m.descriptors,
-               m.expensiveness, m.is_firsthand, m.is_negated,
-               m.neighborhood_hint,
-               c.author, c.score, c.controversiality, c.created_utc, c.body,
-               case when c.was_deleted_later then null else c.permalink end
-                 as permalink,
-               c.was_deleted_later,
-               t.id as thread_id, t.title as thread_title
+    return fetch_all(conn, f"""
+        select {MENTION_COLUMNS}
         from mention_v2 v
         join mentions m on m.id = v.mention_id
         join comments c on c.id = v.comment_id
@@ -528,7 +550,18 @@ def search(conn, q, limit, fetch_all):
                  similarity(l.entity_key, %s) desc,
                  l.raw_mentions desc nulls last
         limit %s
-    """, (f"%{q}%", f"%{q}%", f"{q}%", q, limit))
+    """, (like_pattern(q), like_pattern(q), like_escape(q) + "%", q, limit))
+
+
+def facets_version(conn, fetch_value):
+    """A cheap fingerprint of what facets() reads, so its result can be kept
+    until a refresh changes it.
+
+    The newest mention the scoring layer has weighed moves on every refresh
+    that brought in new evidence, and is an index lookup (mention_weights_pk)
+    rather than the full scan of mentions that the descriptor counts cost.
+    """
+    return fetch_value(conn, "select max(mention_id) from mention_weights")
 
 
 def facets(conn, fetch_all):
@@ -549,8 +582,7 @@ def facets(conn, fetch_all):
     """)
     # The vocabulary is open by design (the prompt says so), so this reports
     # what the model actually produced rather than a fixed list. A full scan of
-    # mentions; fine at this size, and the obvious thing to materialize if the
-    # corpus grows an order of magnitude.
+    # mentions, so the router keeps the result until facets_version moves.
     descriptors = fetch_all(conn, """
         select v as name, count(*) as n
         from live_mentions m
@@ -598,15 +630,18 @@ def view_health(conn, fetch_all):
 
     A view that has never been populated is the difference between an empty
     leaderboard and a broken one, and the API should be able to say which.
+    The list is refresh.VIEWS, the one refresh.py rebuilds, so a view added
+    there is reported here without anyone remembering to; a missing one
+    reads as False rather than vanishing from the answer.
     """
+    names = [name for name, _ in refresh.VIEWS]
     rows = fetch_all(conn, """
         select matviewname as name, ispopulated
         from pg_matviews
-        where matviewname in ('entity_alias', 'mention_weights',
-                              'momentum_windows', 'entity_leaderboard',
-                              'mention_v2', 'entity_leaderboard_v2')
-    """)
-    return {r["name"]: bool(r["ispopulated"]) for r in rows}
+        where schemaname = current_schema() and matviewname = any(%s)
+    """, (names,))
+    populated = {r["name"]: bool(r["ispopulated"]) for r in rows}
+    return {name: populated.get(name, False) for name in names}
 
 
 def unresolved(conn, limit, offset, fetch_all, fetch_value):

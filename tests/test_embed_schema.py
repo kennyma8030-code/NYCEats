@@ -29,6 +29,22 @@ class SchemaCopies(unittest.TestCase):
         self.assertEqual(set(a), {"comment_embeddings", "thread_embeddings", "embedding_errors"})
         self.assertEqual(a, b)
 
+    def test_same_window_index_in_both_files(self):
+        # The guarded build of mentions_created_idx, statement for statement.
+        def guard(path):
+            with open(os.path.join(ROOT, path), encoding="utf-8") as f:
+                sql = re.sub(r"--[^\n]*", "", f.read())
+            m = re.search(r"if to_regclass\('mentions_created_idx'\) is null then(.*?)end;\s*end if;",
+                          sql, re.S)
+            self.assertIsNotNone(m, path)
+            return " ".join(m.group(1).split())
+        a, b = guard("schema.sql"), guard("embed_schema.sql")
+        # schema.sql alone catches a lock timeout, so it skips only the index.
+        a = re.sub(r" exception when lock_not_available then raise notice '[^']*';", "", a)
+        self.assertEqual(a, b)
+        self.assertIn("create index mentions_created_idx on mentions (created_at);", b)
+        self.assertIn("set_config('lock_timeout', '5s', true)", b)
+
     def test_column_dims_match_the_client(self):
         for name in ("comment_embeddings", "thread_embeddings"):
             self.assertIn(f"halfvec({E.DIMS})", tables("embed_schema.sql")[name])

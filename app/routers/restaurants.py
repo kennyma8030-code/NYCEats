@@ -6,15 +6,18 @@ a slug would be a second name-to-identity mapping to keep in sync, which is
 the exact problem entity_alias exists to solve.
 """
 
+import os
+import threading
 from typing import Annotated, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Path, Query, Response
+from fastapi import APIRouter, Depends, Header, HTTPException, Path, Query, Response
 
 from .. import images, queries
-from ..db import fetch_all, fetch_one, fetch_value, get_conn
+from ..db import connection, fetch_all, fetch_one, fetch_value, get_conn
 from ..models import (Algo, AspectDetail, ImageOut, Mention, MentionQuery,
                       MentionSort, MomentumWindow, Page, RestaurantDetail,
                       LeaderboardRow, Spelling)
+from .admin import require_token
 
 router = APIRouter(prefix="/api/restaurants")
 
@@ -115,13 +118,27 @@ def standout_negatives(
     return queries.standout_negatives(conn, entity_key, limit, fetch_all)
 
 
+# Resolution is up to a minute of outbound HTTP to Wikidata and Commons. Each
+# one holds a Starlette worker thread, and the threadpool is shared with every
+# other request, so only a few run at once per process; the rest are told
+# "error" (not cached) and fall back to the monogram until a later load.
+RESOLVE_CONCURRENCY = int(os.environ.get("IMAGE_RESOLVE_CONCURRENCY", "2"))
+RESOLVE_WAIT = float(os.environ.get("IMAGE_RESOLVE_WAIT", "2"))
+_resolving = threading.BoundedSemaphore(RESOLVE_CONCURRENCY)
+
+
+def _image_out(row):
+    return ImageOut(**{k: v for k, v in row.items() if k != "locked"})
+
+
 @router.get("/{entity_key}/image", response_model=ImageOut,
             summary="A picture of the place, if one exists")
 def image(
     entity_key: EntityKey,
     refresh: Annotated[bool, Query(
-        description="Re-run the provider chain, ignoring the cached result")] = False,
-    conn=Depends(get_conn),
+        description="Re-run the provider chain, ignoring the cached result. "
+                    "Needs X-Admin-Token: it writes, and costs upstream calls")] = False,
+    x_admin_token: Annotated[Optional[str], Header()] = None,
 ):
     """Lazily resolved, then cached in Postgres forever.
 
@@ -134,25 +151,44 @@ def image(
     FAILURE is not: status 'error' means we could not find out, and the next
     request tries again. Callers that get 'none' or 'error' should fall back
     to /monogram.svg.
-    """
-    cached = images.get_cached(conn, entity_key, fetch_one)
-    if cached and (cached["locked"] or not refresh):
-        return ImageOut(**{k: v for k, v in cached.items() if k != "locked"})
 
-    row = _require_entity(conn, entity_key)
-    resolved, cacheable = images.resolve(
-        entity_key, row.get("official_name") or entity_key)
+    No pooled connection is held while the providers are called: one short
+    checkout reads the cache, another stores the result. Holding one across
+    a minute of someone else's API would starve the pool for every other
+    page on the site.
+    """
+    if refresh:
+        # Anyone could otherwise make the site overwrite cached pictures and
+        # spend its upstream rate limit, one request per restaurant.
+        require_token(x_admin_token)
+
+    with connection() as conn:
+        cached = images.get_cached(conn, entity_key, fetch_one)
+        if cached and (cached["locked"] or not refresh):
+            return _image_out(cached)
+        row = _require_entity(conn, entity_key)
+
+    if not _resolving.acquire(timeout=RESOLVE_WAIT):
+        return ImageOut(entity_key=entity_key, **dict(images.MISS, status="error"))
+    try:
+        resolved, cacheable = images.resolve(
+            entity_key, row.get("official_name") or entity_key)
+    finally:
+        _resolving.release()
     if not cacheable:
         # Leave whatever was there alone and say so, rather than recording a
         # bad minute as a permanent fact about this restaurant.
         return ImageOut(entity_key=entity_key, **{k: v for k, v in resolved.items()
                                                   if k != "entity_key"})
 
-    stored = images.store(conn, entity_key, resolved, fetch_one)
-    # store() skips locked rows, which returns nothing; the cached row stands.
-    final = stored or cached or dict(resolved, entity_key=entity_key,
-                                     fetched_at=None, locked=False)
-    return ImageOut(**{k: v for k, v in final.items() if k != "locked"})
+    with connection() as conn:
+        stored = images.store(conn, entity_key, resolved, fetch_one)
+        if stored is None:
+            # store() skips locked rows, which returns nothing. Read back the
+            # row that stands: it may have been locked since the first read.
+            stored = images.get_cached(conn, entity_key, fetch_one)
+    final = stored or dict(resolved, entity_key=entity_key, fetched_at=None, locked=False)
+    return _image_out(final)
 
 
 @router.get("/{entity_key}/monogram.svg", response_class=Response,

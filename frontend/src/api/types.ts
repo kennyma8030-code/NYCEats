@@ -43,8 +43,14 @@ export interface LedgerResponse {
   category: Category;
   window_days: WindowDays;
   bucket_days: 1 | 7;
+  // Every filter the rows were ranked under, echoed so a stale list can be
+  // told from a current one (lib/fresh.ts).
   algo: Algo;
   topic: string | null;
+  cuisine: string | null;
+  borough: string | null;
+  needs: Need[];
+  flaws: Flaw[];
   total: number;
   items: LedgerItem[];
 }

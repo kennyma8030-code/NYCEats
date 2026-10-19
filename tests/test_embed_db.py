@@ -10,8 +10,10 @@ but a local throwaway. Never point it at DATABASE_URL.
 """
 
 import dataclasses
+import io
 import os
 import unittest
+from contextlib import redirect_stdout
 from datetime import datetime, timedelta, timezone
 from unittest import mock
 
@@ -93,10 +95,12 @@ class DbCase(unittest.TestCase):
                                values (%s, %s, %s, %s, '', %s)""", (cid, tid, tid, body, created))
                 if mention:
                     # Two prompt hashes on some rows: eligibility is "any mention".
+                    # Each stored when its comment was new, as the poller does;
+                    # the embed window is on this time, not the comment's.
                     for ph in (["p1", "p2"] if cid.endswith("0") else ["p1"]):
                         cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key,
-                                                             model_version, prompt_hash)
-                                       values (%s, 'X', 'x', 'm', %s)""", (cid, ph))
+                                                             model_version, prompt_hash, created_at)
+                                       values (%s, 'X', 'x', 'm', %s, %s)""", (cid, ph, created))
         self.conn.commit()
 
     # helpers
@@ -155,6 +159,66 @@ class Eligibility(DbCase):
         got = {r[0] for r in todo(self.conn, embed.COMMENTS, since=since)}
         self.assertNotIn("t1_old", got)
         self.assertIn("t1_unicode", got)
+        threads = {r[0] for r in todo(self.conn, embed.THREADS, since=since)}
+        self.assertEqual(threads, {t[0] for t in THREADS} - {"t3_old"})
+
+    def add_mention(self, cid, created_at=None, ph="p6"):
+        with self.conn.cursor() as cur:
+            cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key,
+                                                 model_version, prompt_hash, created_at)
+                           values (%s, 'Late', 'late', 'v6', %s, coalesce(%s, now()))""",
+                        (cid, ph, created_at))
+        self.conn.commit()
+
+    def test_window_is_on_when_the_mention_was_stored(self):
+        # A month-old comment whose first mention arrives today (a v6
+        # backfill, an extraction retry) is in the window; the comment's own
+        # date does not matter.
+        since = NOW - timedelta(days=3)
+        with self.conn.cursor() as cur:
+            cur.execute("update comments set created_utc = now() - interval '200 days' "
+                        "where id = 't1_nomention'")
+        self.conn.commit()
+        self.assertNotIn("t1_nomention", {r[0] for r in todo(self.conn, embed.COMMENTS, since=since)})
+        self.add_mention("t1_nomention")
+        self.assertIn("t1_nomention", {r[0] for r in todo(self.conn, embed.COMMENTS, since=since)})
+        # a mention stored long ago does not bring a comment into the window
+        self.add_mention("t1_old", NOW - timedelta(days=10), ph="p5")
+        self.assertNotIn("t1_old", {r[0] for r in todo(self.conn, embed.COMMENTS, since=since)})
+        self.add_mention("t1_old")
+        self.assertIn("t1_old", {r[0] for r in todo(self.conn, embed.COMMENTS, since=since)})
+
+    def test_window_skips_rows_that_already_have_a_vector(self):
+        since = NOW - timedelta(days=3)
+        with FakeOpenRouter():
+            self.run_embed(scope="comments")
+        # A backfill re-extracts everything: every comment gets a new mention
+        # now, but nothing in the window is to do, and no page is walked.
+        with self.conn.cursor() as cur:
+            cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key,
+                                                 model_version, prompt_hash)
+                           select comment_id, 'Again', 'again', 'v6', 'p6' from mentions
+                           group by comment_id""")
+        self.conn.commit()
+        self.assertEqual(embed.select_todo(self.conn, embed.COMMENTS, "", 10, since), ([], None))
+
+    def test_the_window_has_its_index(self):
+        # Whether the planner picks it depends on table sizes, so this checks
+        # it exists, in both copies of the schema; the plan was measured on
+        # production-sized data instead.
+        index = """select indexdef from pg_indexes where indexname = 'mentions_created_idx'"""
+        self.assertIn("(created_at)", self.count(index))
+        with self.conn.cursor() as cur:
+            cur.execute("drop index mentions_created_idx")
+            cur.execute("drop table comment_embeddings, thread_embeddings, embedding_errors")
+        self.conn.commit()
+        with open(os.path.join(ROOT, "embed_schema.sql"), encoding="utf-8") as f:
+            sql = f.read()
+        for _ in range(2):           # and applying it again changes nothing
+            with self.conn.cursor() as cur:
+                cur.execute(sql)
+            self.conn.commit()
+        self.assertIn("(created_at)", self.count(index))
 
 
 class OnlyHome(DbCase):
@@ -373,6 +437,69 @@ class Resume(DbCase):
             done_texts = {E.format_comment(t, b) for _, t, b in cur.fetchall()}
         self.assertFalse(done_texts & set(api.inputs))
 
+    def slow(self, p):
+        import time as _time
+        _time.sleep(0.05)
+        return FakeResponse(200, ok_body(p))
+
+    def test_a_dropped_connection_still_keeps_what_was_in_flight(self):
+        # The run's connection is really killed (pg_terminate_backend, as a
+        # Postgres restart or a dropped proxy would) just before its second
+        # write. Batches already on the wire were paid for: the run waits for
+        # them, stores them over a fresh connection, and re-raises the
+        # original error.
+        victim = psycopg2.connect(URL)
+        real = embed.store_vectors
+        calls = []
+
+        def store(conn, kind, done):
+            calls.append(1)
+            if len(calls) == 2:
+                with self.conn.cursor() as cur:
+                    cur.execute("select pg_terminate_backend(%s)", (victim.get_backend_pid(),))
+                self.conn.commit()
+            return real(conn, kind, done)
+        stats = embed.Stats()
+        fresh = []
+
+        def connect():
+            fresh.append(psycopg2.connect(URL))
+            return fresh[-1]
+        with FakeOpenRouter(self.slow) as api, \
+                mock.patch.object(embed, "store_vectors", store), \
+                mock.patch.object(embed.db, "connect", connect):
+            with self.assertRaises(psycopg2.OperationalError) as e:
+                embed.run(victim, embed.KINDS["comments"], E.Budget(1.0), log=lambda *_: None,
+                          batch=20, workers=4, attempts=2, stats=stats)
+        self.assertTrue(victim.closed)
+        self.assertEqual(len(fresh), 1)
+        self.assertTrue(fresh[0].closed)                     # salvage closed its own
+        self.assertNotIsInstance(e.exception, psycopg2.InterfaceError)   # the original error
+        self.assertIn("OperationalError", stats.stop)
+        stored = self.count("select count(*) from comment_embeddings")
+        self.assertGreater(len(api.inputs), 40)              # more than the one written in order
+        self.assertEqual(stored, len(api.inputs))            # every paid-for vector kept
+        self.assertEqual(stored, stats.embedded["comment"])
+        self.assertLess(stored, len(self.eligible_comments()))
+
+    def test_vectors_are_not_counted_twice_when_the_error_write_fails(self):
+        # store_vectors commits on its own; if store_errors then fails, the
+        # retry writes the errors again but must not count the vectors again.
+        real = embed.store_errors
+        calls = []
+
+        def store_errors(conn, kind, failed):
+            calls.append(1)
+            if len(calls) == 2:
+                raise psycopg2.OperationalError("blip")
+            return real(conn, kind, failed)
+        stats = embed.Stats()
+        with FakeOpenRouter(self.slow), mock.patch.object(embed, "store_errors", store_errors):
+            with self.assertRaises(psycopg2.OperationalError):
+                self.run_embed(scope="comments", batch=20, workers=4, stats=stats)
+        self.assertEqual(stats.embedded["comment"],
+                         self.count("select count(*) from comment_embeddings"))
+
     def test_ctrl_c_keeps_finished_batches_and_re_raises(self):
         # #8: the interrupt propagates, so a poller under Ctrl-C stops.
         stats = embed.Stats()
@@ -448,9 +575,9 @@ class PerRowErrors(DbCase):
             return FakeResponse(200, ok_body(p))
         with FakeOpenRouter(handler):
             self.run_embed(scope="comments")
-        with self.conn.cursor() as cur:
-            cur.execute("update embedding_errors set input_hash = 'stale'")
-        self.conn.commit()
+        # Due for its automatic retry (was: a stale hash, which now resets
+        # the count, because the count is per text).
+        self.age_errors()
         with FakeOpenRouter(handler):
             self.run_embed(scope="comments")
         with self.conn.cursor() as cur:
@@ -458,6 +585,80 @@ class PerRowErrors(DbCase):
             [(failures, err)] = cur.fetchall()
         self.assertEqual(failures, 2)
         self.assertIn("unusable vector", err)
+
+    def age_errors(self, by="25 hours"):
+        with self.conn.cursor() as cur:
+            cur.execute("update embedding_errors set failed_at = failed_at - %s::interval", (by,))
+        self.conn.commit()
+
+    def zero_vector_for_123(self, p):
+        body = ok_body(p)
+        for d in body["data"]:
+            if "Comment 123 " in p["input"][d["index"]]:
+                d["embedding"] = [0.0] * 1024
+        return FakeResponse(200, body)
+
+    def test_errors_are_retried_after_a_cooldown_at_most_three_times(self):
+        with FakeOpenRouter(self.zero_vector_for_123):
+            self.run_embed(scope="comments")
+        self.assertEqual(self.count("select failures from embedding_errors"), 1)
+        # not again within the cooldown
+        with FakeOpenRouter(self.zero_vector_for_123) as api:
+            self.run_embed(scope="comments")
+        self.assertEqual(api.requests, [])
+        # a day later: once, twice, then it stays put
+        for want in (2, 3):
+            self.age_errors()
+            with FakeOpenRouter(self.zero_vector_for_123) as api:
+                self.run_embed(scope="comments")
+            self.assertEqual(len(api.inputs), 1)
+            self.assertEqual(self.count("select failures from embedding_errors"), want)
+        self.age_errors("30 days")
+        with FakeOpenRouter(self.zero_vector_for_123) as api:
+            self.run_embed(scope="comments")
+        self.assertEqual(api.requests, [])
+        self.assertEqual(len(todo(self.conn, embed.COMMENTS)), 0)
+
+    def test_a_retry_that_succeeds_clears_the_error(self):
+        with FakeOpenRouter(self.zero_vector_for_123):
+            self.run_embed(scope="comments")
+        self.age_errors()
+        with FakeOpenRouter():
+            stats = self.run_embed(scope="comments")
+        self.assertEqual(stats.embedded["comment"], 1)
+        self.assertEqual(self.count("select count(*) from embedding_errors"), 0)
+        self.assertEqual(self.count("select count(*) from comment_embeddings where comment_id = %s",
+                                    self.POISON), 1)
+
+    def test_a_new_text_starts_the_count_again(self):
+        with FakeOpenRouter(self.zero_vector_for_123):
+            self.run_embed(scope="comments")
+        with self.conn.cursor() as cur:
+            cur.execute("update embedding_errors set failures = 3")
+            cur.execute("update comments set body = 'Comment 123 again' where id = %s",
+                        (self.POISON,))
+        self.conn.commit()
+        with FakeOpenRouter(self.zero_vector_for_123):
+            self.run_embed(scope="comments")
+        self.assertEqual(self.count("select failures from embedding_errors"), 1)
+
+    def test_the_poller_retries_errors_outside_its_window(self):
+        import poller
+        with FakeOpenRouter(self.zero_vector_for_123):
+            self.run_embed(scope="comments")
+        # the comment and its mention are long out of the poller's window
+        with self.conn.cursor() as cur:
+            cur.execute("update mentions set created_at = now() - interval '60 days' "
+                        "where comment_id = %s", (self.POISON,))
+        self.conn.commit()
+        with FakeOpenRouter() as api:
+            self.assertEqual(poller.embed_once(self.conn, 3, 100, 0.05, "comments", 1), 0)
+        self.assertEqual(api.requests, [])          # still cooling down
+        self.age_errors()
+        with FakeOpenRouter() as api:
+            self.assertEqual(poller.embed_once(self.conn, 3, 100, 0.05, "comments", 1), 1)
+        self.assertEqual(len(api.inputs), 1)
+        self.assertEqual(self.count("select count(*) from embedding_errors"), 0)
 
     def test_outage_stops_the_run_without_stamping_rows(self):
         with FakeOpenRouter(lambda p: FakeResponse(503, None, "down")):
@@ -674,7 +875,20 @@ class Index(DbCase):
     def test_index_names_fit(self):
         for kind in (embed.COMMENTS, embed.THREADS):
             self.assertLessEqual(len(embed.index_name(kind)), 63)
-            self.assertIn("1024_deepinfra", embed.index_name(kind))
+            self.assertTrue(embed.index_name(kind).startswith(
+                f"{kind.table}_hnsw_qwen3_embedding_8b_1024"), embed.index_name(kind))
+
+    def test_keys_that_differ_only_at_the_end_get_different_indexes(self):
+        # The endpoint and quantization are the tail of the key; a plain
+        # 63-byte cut would give both of these one name, and the second
+        # build would be skipped as "already exists".
+        names = set()
+        for key in (E.MODEL_KEY, E.MODEL_KEY.replace(":unknown", ":bf16"),
+                    E.MODEL_KEY.replace("deepinfra/us", "deepinfra/us-east")):
+            with mock.patch.object(E, "MODEL_KEY", key):
+                names.add(embed.index_name(embed.COMMENTS))
+        self.assertEqual(len(names), 3)
+        self.assertTrue(all(len(n) <= 63 for n in names))
 
 
 class Schema(DbCase):
@@ -714,6 +928,84 @@ class Schema(DbCase):
         self.conn.commit()
         self.assertEqual(columns(), from_schema)
         self.assertEqual(len(from_schema[0]), 17)
+
+
+class OneRunAtATime(DbCase):
+    """embed.py and the poller's pass share one advisory lock."""
+
+    def setUp(self):
+        super().setUp()
+        self.other = psycopg2.connect(URL)      # another process: a manual run, or the poller
+
+    def tearDown(self):
+        self.other.close()
+        super().tearDown()
+
+    def main(self, *argv):
+        with mock.patch.object(embed.db, "connect", return_value=self.conn), \
+                mock.patch.dict(os.environ, {"EMBED_OPENROUTER_API_KEY": "k"}), \
+                mock.patch("sys.argv", ["embed.py", *argv]), redirect_stdout(io.StringIO()):
+            embed.main()
+
+    def test_poller_skips_while_another_run_holds_it(self):
+        import poller
+        self.assertTrue(embed.try_lock(self.other))
+        out = io.StringIO()
+        with FakeOpenRouter() as api, redirect_stdout(out):
+            self.assertEqual(poller.embed_once(self.conn, 3, 100, 0.05, "comments", 1), 0)
+        self.assertEqual(api.requests, [])
+        self.assertIn("holds the lock", out.getvalue())
+        embed.unlock(self.other)
+        with FakeOpenRouter() as api:
+            self.assertGreater(poller.embed_once(self.conn, 3, 100, 0.05, "comments", 1), 0)
+        # and the pass let go of it: the other session can take it now
+        self.assertTrue(embed.try_lock(self.other))
+        embed.unlock(self.other)
+
+    def test_embed_py_refuses_while_another_run_holds_it(self):
+        self.assertTrue(embed.try_lock(self.other))
+        with FakeOpenRouter() as api:
+            with self.assertRaises(SystemExit) as e:
+                self.main("--scope", "comments", "--retry-errors")
+        self.assertIn("holds the lock", str(e.exception))
+        self.assertEqual(api.requests, [])
+        embed.unlock(self.other)
+        with FakeOpenRouter() as api:
+            self.main("--scope", "comments", "--limit", "10")
+        self.assertEqual(len(api.inputs), 10)
+        self.assertTrue(embed.try_lock(self.other))     # released at the end
+        embed.unlock(self.other)
+
+    def test_spend_is_reported_when_the_run_dies(self):
+        out = io.StringIO()
+
+        def dies(conn, kinds, budget, **kw):
+            budget.spent = 0.0123
+            raise RuntimeError("bug")
+        with mock.patch.object(embed.db, "connect", return_value=self.conn), \
+                mock.patch.dict(os.environ, {"EMBED_OPENROUTER_API_KEY": "k"}), \
+                mock.patch.object(embed, "run", dies), \
+                mock.patch("sys.argv", ["embed.py", "--scope", "comments"]), redirect_stdout(out):
+            with self.assertRaises(RuntimeError):
+                embed.main()
+        self.assertIn("cost $0.0123", out.getvalue())
+        self.assertTrue(embed.try_lock(self.other))     # and the lock was let go
+        embed.unlock(self.other)
+
+    def test_a_dry_run_needs_no_lock(self):
+        self.assertTrue(embed.try_lock(self.other))
+        with FakeOpenRouter() as api:
+            self.main("--dry-run", "--scope", "comments")
+        self.assertEqual(api.requests, [])
+        embed.unlock(self.other)
+
+    def test_lock_is_released_when_the_pass_fails(self):
+        import poller
+        with self.assertRaises(RuntimeError), \
+                mock.patch.object(embed, "run", side_effect=RuntimeError("bug")):
+            poller.embed_once(self.conn, 3, 100, 0.05, "comments", 1)
+        self.assertTrue(embed.try_lock(self.other))
+        embed.unlock(self.other)
 
 
 class PollerStep(DbCase):

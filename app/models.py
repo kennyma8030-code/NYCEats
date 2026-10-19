@@ -10,7 +10,7 @@ you let it, so the annotations are load-bearing.
 from datetime import datetime
 from typing import Any, Generic, Literal, Optional, TypeVar
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 ASPECTS = ("food", "value", "service", "atmosphere", "wait")
 
@@ -249,6 +249,25 @@ class Mention(BaseModel):
     thread_id: Optional[str] = None
     thread_title: Optional[str] = None
 
+    # The SQL already nulls a jsonb column of the wrong shape
+    # (queries.MENTION_COLUMNS). These hold the same line for any query that
+    # does not go through it, because one malformed row 500ing a whole page
+    # of evidence is worse than that row showing no tags.
+    @field_validator("dishes", "descriptors", mode="before")
+    @classmethod
+    def _list_or_none(cls, v):
+        return v if isinstance(v, list) else None
+
+    @field_validator("aspects", mode="before")
+    @classmethod
+    def _aspects_or_none(cls, v):
+        if not isinstance(v, dict):
+            return None
+        # A non-numeric score is unmeasured, never 0.0 (module docstring).
+        return {k: (float(x) if isinstance(x, (int, float)) and not isinstance(x, bool)
+                    else None)
+                for k, x in v.items()}
+
 
 class FacetValue(BaseModel):
     name: str
@@ -406,7 +425,14 @@ class Ledger(BaseModel):
     category: LedgerCategory
     window_days: int
     bucket_days: int
-    algo: Algo = "v1"                 # which ranking and topic these rows came from,
-    topic: Optional[str] = None       # so a client can tell a stale list from a current one
+    # Every filter these rows were ranked under, echoed back, so a client can
+    # tell a stale list from a current one and never show one under the
+    # other's heading.
+    algo: Algo = "v1"
+    topic: Optional[str] = None
+    cuisine: Optional[str] = None
+    borough: Optional[str] = None
+    needs: list[str] = Field(default_factory=list)
+    flaws: list[str] = Field(default_factory=list)
     total: int
     items: list[LedgerItem]

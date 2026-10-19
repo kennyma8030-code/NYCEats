@@ -259,6 +259,15 @@ without `--yes` are read-only.
    holds of about $10.40 each (about $166), which an N of $300 does.
    Watch for disk: the v6 rows plus `extraction_state.output` add roughly
    0.5 GB to a 922 MB database (an estimate, not measured).
+   **Then embed what the backfill made eligible:**
+   `python embed.py --dry-run`, then `python embed.py --max-usd <N>` (N from
+   the dry run, with headroom; the whole comment backlog is about $0.09).
+   Do this after every extraction backfill, and after step 8 too. A comment
+   whose first mention the backfill wrote has no vector yet. The poller's
+   embed pass does pick up mentions stored in its last 3 days, but only
+   2,000 rows a pass and only inside that window. Comments that already had
+   a vector are not bought again: a vector counts mentions of any extraction.
+   `embed.py` exits if the poller's embed pass holds the lock; run it again.
 8. **Close the gap.** Just before the switch, run
    `python extract_v6.py --batch --max-usd 10`, with **no `--since`**. The
    anti-join selects exactly what is due, which is what arrived since step 7

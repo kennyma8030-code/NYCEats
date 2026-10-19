@@ -4,6 +4,7 @@ import type { Algo, LedgerItem, WindowDays } from "./api/types";
 import { restaurantFromUrl, setRestaurantInUrl, setViewInUrl, useFilters, viewFromUrl, type View } from "./state/filters";
 import { useLedger } from "./hooks/useLedger";
 import { useFacets } from "./hooks/useFacets";
+import { ledgerMatches } from "./lib/fresh";
 import type { NameHit } from "./lib/search";
 import { Rail } from "./components/rail/Rail";
 import { LedgerList } from "./components/ledger/LedgerList";
@@ -48,14 +49,11 @@ export default function App() {
     [select, filters.window, filters.algo, topic],
   );
 
-  // The current list, only when it is for the period, ranking and topic on
-  // screen: useFetch keeps the previous result while the next one loads, and
-  // its rows must never be shown under the new algo's label.
+  // The current list, only when it was ranked under the filters on screen:
+  // useFetch keeps the previous result while the next one loads, and a row
+  // opened from it must carry the numbers the list now shows.
   const d = ledger.data;
-  const listed =
-    d && d.window_days === filters.window && d.algo === filters.algo && (d.topic ?? "") === topic
-      ? d.items
-      : null;
+  const listed = d && ledgerMatches(d, filters) ? d.items : null;
 
   /** Open any restaurant by key: its row from the list if it is there,
    *  otherwise the same row built for it alone. */
