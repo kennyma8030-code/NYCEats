@@ -271,6 +271,23 @@ class BatchReads(unittest.TestCase):
         self.assertIn("529", str(cm.exception))
         self.assertGreater(sum(AV.GET_WAITS), 5 * 60)          # several minutes before a run stops
 
+    def test_only_decoding_errors_are_retried_not_every_value_error(self):
+        import json
+        seq = [json.JSONDecodeError("cut", "{", 1)]
+
+        def cut_then_ok():
+            if seq:
+                raise seq.pop()
+            return "ok"
+        self.assertEqual(AV._get("x", cut_then_ok, sleep=self.waits.append, log=QUIET), "ok")
+        self.assertEqual(len(self.waits), 1)
+
+        def bug():
+            raise ValueError("a bug in our own parsing")
+        with self.assertRaises(ValueError):
+            AV._get("x", bug, sleep=self.waits.append, log=QUIET)
+        self.assertEqual(len(self.waits), 1)
+
     def test_4xx_is_fatal_at_once(self):
         self.api.get_failures = [F.error(401, "authentication_error")]
         with self.assertRaises(AV.FatalAPIError):

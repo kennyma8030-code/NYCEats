@@ -336,7 +336,9 @@ GET_WAITS = (5, 10, 20, 40, 60, 60, 60, 60, 60, 60)
 def _stream_errors():
     """What the SDK's HTTP library raises while a body is being read (a
     dropped connection, a truncated stream), which the SDK does not wrap."""
-    out = [OSError, ValueError]           # ValueError: a results line cut mid-JSON
+    # A results line cut mid-JSON or mid-character, not every ValueError: a
+    # ValueError from a bug in our own parsing must surface, not be retried.
+    out = [OSError, json.JSONDecodeError, UnicodeDecodeError]
     for name in ("httpx2", "httpx"):
         try:
             mod = __import__(name)

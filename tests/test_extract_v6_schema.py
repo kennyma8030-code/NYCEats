@@ -46,7 +46,7 @@ class SchemaCopies(unittest.TestCase):
                 guarded = re.search(r"is null\s+or\s+position\([^;]*pg_get_viewdef[^;]*\)\s*=\s*0\s+then\s*$",
                                     before) is not None
             else:
-                guarded = re.search(r"to_regclass\('[a-z_]+'\) is null then\s*$", before) is not None
+                guarded = re.search(r"to_regclass\('[a-z_]+'\) is null then\s*(begin\s*)?$", before) is not None
             self.assertTrue(guarded, m.group(0)[:80])
         self.assertIn("set_config('lock_timeout', '5s', true)", sql)
         self.assertNotRegex(sql, r"drop (table|view|index|constraint|column)")

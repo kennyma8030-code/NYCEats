@@ -172,6 +172,24 @@ class BootTakesNoLock(DbCase):
             other.rollback()
             other.close()
 
+    def test_the_first_seen_index_is_skipped_on_a_lock_timeout(self):
+        # It is an optimisation: behind a long write to comments, the boot
+        # goes on without it, and a later boot builds it.
+        with self.conn.cursor() as cur:
+            cur.execute("drop index comments_first_seen_idx")
+        self.conn.commit()
+        other = pgtest.connect()
+        try:
+            with other.cursor() as cur:
+                cur.execute("update comments set score = 1 where id = 't1_top'")
+            self.apply("extract_v6_schema.sql")
+            self.assertEqual(self.q("select to_regclass('comments_first_seen_idx') is null"), [(True,)])
+        finally:
+            other.rollback()
+            other.close()
+        self.apply("extract_v6_schema.sql")
+        self.assertEqual(self.q("select to_regclass('comments_first_seen_idx') is null"), [(False,)])
+
     def test_first_view_is_upgraded_once(self):
         old = """create or replace view live_mentions as select m.* from mentions m
                  where case (select read_version from extraction_settings)
@@ -231,6 +249,21 @@ class PendingSettles(DbCase):
             self.assertEqual(api.batch_requests[len(HOME_LIVE):], [])      # nothing sent again
         self.assertEqual(self.q("select status from extract_batches where id = %s", (pid,)), [("pending",)])
 
+    def test_a_slow_upload_landing_after_the_window_is_not_none(self):
+        # The API did make the batch, but its upload took so long that it was
+        # created after MATCH_AFTER: not adopted blindly, and never called none.
+        with F.FakeAnthropic() as api:
+            api.accept_then_fail = F.error(503, "api_error")
+            with self.assertRaises(AV.AmbiguousSubmit):
+                batch(self.conn, api, kinds=("comment",))
+            pid = self.q("select id from extract_batches")[0][0]
+            self.age(pid, 60)
+            with self.assertRaises(SystemExit):
+                batch(self.conn, api, kinds=("comment",))
+            self.assertEqual(len(api.batch_requests), len(HOME_LIVE))       # nothing sent again
+        self.assertEqual(self.q("select status from extract_batches where id = %s", (pid,)), [("pending",)])
+        self.assertEqual(X.candidate_ids(self.conn, "comment"), [])
+
     def test_an_outage_while_polling_is_ridden_out(self):
         with F.FakeAnthropic(polls_until_ended=1) as api:
             real = AV.retrieve
@@ -249,27 +282,47 @@ class PendingSettles(DbCase):
 
 # ---------------------------------------------------------------- 4. late arrivals
 class LateArrivals(DbCase):
-    def poll(self):
+    def poll(self, env=None):
         import poller
         real = AV.client
         with F.FakeAnthropic() as api, mock.patch.object(AV, "client", lambda key: real(key, api.base_url)), \
-                mock.patch.dict(os.environ, {"EXTRACT_ANTHROPIC_API_KEY": "k"}), redirect_stdout(io.StringIO()):
+                mock.patch.dict(os.environ, {"EXTRACT_ANTHROPIC_API_KEY": "k", **(env or {})}), \
+                redirect_stdout(io.StringIO()) as out:
             poller.extract_v6_once(self.conn, 3, 1000, 2, 1.0)
+        return out.getvalue()
 
     def test_the_poller_window_is_on_first_seen(self):
-        # Last year's comment and post reached the database just now (a
-        # backfill, a re-read thread): new to v6, so the poller takes them.
+        # A comment written five days ago reached the database just now (a
+        # re-read thread): new to v6, and recent enough for the poller.
         with self.conn.cursor() as cur:
-            cur.execute("update comments set first_seen_at = now() where id = 't1_old'")
-            cur.execute("update threads set first_seen_at = now() where id = 't3_old'")
+            cur.execute("update comments set created_utc = now() - interval '5 days', first_seen_at = now() "
+                        "where id = 't1_old'")
             # and a recent comment first seen long ago is not in the window
             cur.execute("update comments set first_seen_at = now() - interval '10 days' where id = 't1_top'")
         self.conn.commit()
         self.poll()
         done = self.done_ids()
         self.assertIn("t1_old", done)
-        self.assertIn("t3_old", done)
         self.assertNotIn("t1_top", done)
+
+    def test_bulk_inserts_of_old_items_are_left_for_a_batch(self):
+        # Last year's post and comment arrive now, as a backfill (or the
+        # poller's own boot gap-fill) would insert them: the direct path,
+        # at twice the batch price, leaves them and says so.
+        with self.conn.cursor() as cur:
+            cur.execute("update comments set first_seen_at = now() where id = 't1_old'")
+            cur.execute("update threads set first_seen_at = now() where id = 't3_old'")
+        self.conn.commit()
+        out = self.poll()
+        done = self.done_ids()
+        self.assertNotIn("t1_old", done)
+        self.assertNotIn("t3_old", done)
+        self.assertIn("t1_top", done)
+        self.assertIn("left 2 item(s)", out)
+        self.assertIn("t1_old", X.candidate_ids(self.conn, "comment"))     # the batch catch-up takes them
+        # The bound is $POLL_EXTRACT_V6_MAX_AGE_DAYS.
+        self.poll({"POLL_EXTRACT_V6_MAX_AGE_DAYS": "500"})
+        self.assertIn("t1_old", self.done_ids())
 
     def test_catch_up_without_since_takes_late_arrivals(self):
         since = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=1)
@@ -331,6 +384,17 @@ class ResetHash(DbCase):
         self.assertEqual(self.q("select count(*) from mentions where thread_id is not null"), [(0,)])
         self.assertEqual(self.q("select count(*) from mentions where prompt_hash = %s", (OLD,)), [(10,)])
 
+    def test_cli_refreshes_the_board_when_it_reads_v6(self):
+        with mock.patch.object(db, "DATABASE_URL", URL), redirect_stdout(io.StringIO()), \
+                mock.patch("refresh.refresh_views") as refresh_views:
+            X.main(["--reset-hash", OLD, "--scope", "posts", "--yes"])      # legacy board: no refresh
+            self.assertEqual(refresh_views.call_count, 0)
+            X.set_read_version(self.conn, "v6", refresh_views=False)
+            X.main(["--reset-hash", OLD, "--yes"])
+            self.assertEqual(refresh_views.call_count, 1)
+            X.main(["--reset-hash", OLD, "--yes"])                         # nothing left: nothing to refresh
+            self.assertEqual(refresh_views.call_count, 1)
+
     def test_a_stale_hash_is_never_live(self):
         with redirect_stdout(io.StringIO()):
             X.set_read_version(self.conn, "v6", refresh_views=False)
@@ -363,7 +427,7 @@ class FlipSafety(DbCase):
         super().setUp()
         with self.conn.cursor() as cur:
             # what the old extractor read: everything over 15 characters
-            cur.execute("update comments set extracted_at = now() where length(body) > 15")
+            cur.execute("update comments set extracted_at = now() - interval '1 day' where length(body) > 15")
         self.conn.commit()
         self.legacy = {r[0] for r in self.q("select id from comments where extracted_at is not null "
                                             "and subreddit = 'FoodNYC' and body not in ('[deleted]', '[removed]')")}
@@ -397,6 +461,32 @@ class FlipSafety(DbCase):
         flip.assert_called_once()
         with mock.patch.object(X, "FLIP_MAX_PARKED_SHARE", 0.5), mock.patch.object(X, "set_read_version"):
             self.assertIsNone(self.main()[0])
+
+    def test_the_old_pollers_last_passes_are_forgiven(self):
+        # v6 covers everything, then the old poller (still running until it
+        # is switched) extracts one more comment ten minutes before the flip.
+        with F.FakeAnthropic() as api:
+            batch(self.conn, api, kinds=("comment",))
+        with self.conn.cursor() as cur:
+            cur.execute("""insert into comments (id, subreddit, thread_id, parent_id, author, body, permalink,
+                                                 created_utc, extracted_at)
+                           values ('t1_late', 'FoodNYC', 't3_a', 't3_a', 'zed', 'PlaceLate is a fine spot',
+                                   '/r/x/t1_late', now(), now() - interval '10 minutes')""")
+        self.conn.commit()
+        counts, reasons = X.flip_check(self.conn)
+        self.assertEqual((counts["missing"], counts["recent"], reasons), (0, 1, []))
+        with mock.patch.object(X, "set_read_version") as flip:
+            err, out = self.main()
+        self.assertIsNone(err)
+        self.assertIn("1 more from the last 2h (allowed)", out)
+        flip.assert_called_once()
+        # Still meaningful: with no grace, or once it is older than the grace, it refuses.
+        err, _ = self.main("--flip-grace-hours", "0")
+        self.assertIn("1 r/FoodNYC comment(s)", err)
+        with self.conn.cursor() as cur:
+            cur.execute("update comments set extracted_at = now() - interval '3 hours' where id = 't1_late'")
+        self.conn.commit()
+        self.assertIn("1 r/FoodNYC comment(s)", self.main()[0])
 
     def test_legacy_needs_no_check(self):
         with mock.patch.object(X, "set_read_version") as flip:

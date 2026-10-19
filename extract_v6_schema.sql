@@ -170,12 +170,19 @@ end $$;
 -- comments once under a SHARE lock (seconds), which holds up the poller's
 -- inserts but no reads; checked in the catalog first, so it happens once. On
 -- first_seen_at alone, so this file does not need comments.subreddit, which
--- the deploy adds.
+-- the deploy adds. It is only an optimisation: a lock timeout skips it with a
+-- notice (the window scans comments until a later run or boot builds it)
+-- instead of failing the boot. On a boot its SHARE lock lasts until the whole
+-- schema transaction commits.
 do $$
 begin
   perform set_config('lock_timeout', '5s', true);
   if to_regclass('comments_first_seen_idx') is null then
-    create index comments_first_seen_idx on comments(first_seen_at);
+    begin
+      create index comments_first_seen_idx on comments(first_seen_at);
+    exception when lock_not_available then
+      raise notice 'comments_first_seen_idx skipped (lock wait over 5s): the poller''s v6 window scans comments until a later boot builds it';
+    end;
   end if;
 end $$;
 

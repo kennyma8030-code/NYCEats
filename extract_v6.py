@@ -260,6 +260,26 @@ def candidate_ids(conn, kind, limit=None, since=None, ids=None, max_chars=None, 
     return out
 
 
+def late_backlog(conn, seen_since, written_before):
+    """How many due r/FoodNYC items reached the database since seen_since but
+    were written before written_before: the late arrivals the poller leaves
+    for a batch catch-up rather than buy at the direct price."""
+    with conn.cursor() as cur:
+        cur.execute(f"""
+            select (select count(*) from comments c
+                    left join extraction_state s on s.item_id = c.id and s.version = %(v)s
+                    where c.subreddit = %(home)s and btrim(c.body) not in ('', '[deleted]', '[removed]')
+                      and {QUEUED} and c.first_seen_at >= %(seen)s and c.created_utc < %(before)s)
+                 + (select count(*) from threads t
+                    left join extraction_state s on s.item_id = t.id and s.version = %(v)s
+                    where t.subreddit = %(home)s
+                      and {QUEUED} and t.first_seen_at >= %(seen)s and t.created_utc < %(before)s)""",
+                    {"v": VERSION, "home": subreddits.HOME, "seen": seen_since, "before": written_before})
+        n = cur.fetchone()[0]
+    conn.commit()
+    return n
+
+
 class Item:
     __slots__ = ("kind", "id", "system", "user", "prompt_hash", "attempts")
 
@@ -895,8 +915,12 @@ def pending_matches(conn, cl, pending_id):
 
     Returns (ids, settled). settled is True when an empty answer is final:
     the row is older than MATCH_AFTER (by the database's clock, which set
-    created_at), so any batch it made has long been listed, and the listing
-    reached back past created - MATCH_BEFORE, so no match was left unread."""
+    created_at), so any batch it made has long been listed; the listing
+    reached back past created - MATCH_BEFORE, so nothing was left unread;
+    and no unowned batch of that size is in it at any time after that. The
+    adoption window's upper bound does not apply to that last test: an
+    upload slow enough to land after MATCH_AFTER is not a match to adopt
+    blindly, but it is a reason to refuse "none" and leave it to a person."""
     with conn.cursor() as cur:
         cur.execute("""select created_at, requests, now() - created_at > %s from extract_batches
                        where id = %s and status = 'pending'""", (MATCH_AFTER, pending_id))
@@ -907,14 +931,16 @@ def pending_matches(conn, cl, pending_id):
     if row is None:
         raise SystemExit(f"no pending batch {pending_id}")
     created, n, old = row
-    out = []
+    out, later = [], []
     listed, covered = AV.recent_batches(cl, until=created - MATCH_BEFORE)
     for b in listed:
         c = b.request_counts
         total = c.processing + c.succeeded + c.errored + c.canceled + c.expired
-        if b.id not in ours and total == n and created - MATCH_BEFORE <= b.created_at <= created + MATCH_AFTER:
-            out.append(b.id)
-    return out, bool(old and covered)
+        if b.id not in ours and total == n and created - MATCH_BEFORE <= b.created_at:
+            later.append(b.id)
+            if b.created_at <= created + MATCH_AFTER:
+                out.append(b.id)
+    return out, bool(old and covered and not later)
 
 
 def resolve_pending_auto(conn, cl, pending_id, log=print):
@@ -934,7 +960,8 @@ def resolve_pending_auto(conn, cl, pending_id, log=print):
         return "none"
     log(f"pending submission {pending_id}: {len(found)} matching batch(es) in the API's list"
         + (f" ({', '.join(found)})" if found else "")
-        + ("" if found else " (too soon, or the list did not reach back far enough, to call it none)"))
+        + ("" if found else " (too soon, the list did not reach back far enough, or a batch of that size "
+                             "was created later: not settled as none)"))
     return None
 
 
@@ -1069,34 +1096,47 @@ def set_read_version(conn, version, refresh_views=True, log=print):
 FLIP_MAX_PARKED_SHARE = 0.002
 
 
-def flip_check(conn):
-    """What --read v6 checks before it flips: {"missing", "parked", "done",
-    "max_parked"} and a list of reasons to refuse (empty when it may go).
+# The old poller keeps extracting (and setting extracted_at) until it is
+# switched to v6, right after the flip, so the newest of its comments can be
+# a pass or two ahead of the last v6 sweep. The check forgives those, and
+# only those.
+FLIP_GRACE = dt.timedelta(hours=2)
+
+
+def flip_check(conn, grace=FLIP_GRACE):
+    """What --read v6 checks before it flips: {"missing", "recent", "parked",
+    "done", "max_parked"} and a list of reasons to refuse (empty when it may go).
 
     missing is every r/FoodNYC comment the old extractor read (extracted_at
-    set) that v6 has not finished: no state row, owed a retry, or in a batch.
-    Those comments' mentions would disappear from the board at the flip.
-    Comments now [deleted]/[removed]/blank are not counted (v6 never takes
-    them), and parked ones are counted apart, against the threshold."""
+    set) more than `grace` ago that v6 has not finished: no state row, owed a
+    retry, or in a batch. Those comments' mentions would disappear from the
+    board at the flip. recent is the same for the last `grace`, which the old
+    poller is still adding to; it is reported, not refused. Comments now
+    [deleted]/[removed]/blank are not counted (v6 never takes them), and
+    parked ones are counted apart, against the threshold."""
     with conn.cursor() as cur:
-        cur.execute("""select count(*) from comments c
+        cur.execute("""select count(*) filter (where c.extracted_at < now() - %s),
+                              count(*) filter (where c.extracted_at >= now() - %s)
+                       from comments c
                        left join extraction_state s on s.item_id = c.id and s.version = %s
                        where c.subreddit = %s and c.extracted_at is not null
                          and btrim(c.body) not in ('', '[deleted]', '[removed]')
                          and (s.item_id is null or (s.extracted_at is null and s.extract_error is null))""",
-                    (VERSION, subreddits.HOME))
-        missing = cur.fetchone()[0]
+                    (grace, grace, VERSION, subreddits.HOME))
+        missing, recent = cur.fetchone()
         cur.execute("""select count(*) filter (where extract_error is not null),
                               count(*) filter (where extracted_at is not null)
                        from extraction_state where version = %s""", (VERSION,))
         parked, done = cur.fetchone()
     conn.commit()
     max_parked = int(FLIP_MAX_PARKED_SHARE * (done + parked))
-    out = {"missing": missing, "parked": parked, "done": done, "max_parked": max_parked}
+    out = {"missing": missing, "recent": recent, "parked": parked, "done": done, "max_parked": max_parked}
     reasons = []
     if missing:
-        reasons.append(f"{missing:,} r/FoodNYC comment(s) the old extractor read have no finished v6 extraction "
-                       "(run the catch-up: extract_v6.py --batch --max-usd N, with no --since)")
+        hours = grace.total_seconds() / 3600
+        reasons.append(f"{missing:,} r/FoodNYC comment(s) the old extractor read over {hours:g}h ago have no "
+                       "finished v6 extraction (run the catch-up: extract_v6.py --batch --max-usd N with no "
+                       "--since, then extract_v6.py --max-usd 1)")
     if parked > max_parked:
         reasons.append(f"{parked:,} v6 item(s) are parked, over the {max_parked:,} allowed "
                        f"({FLIP_MAX_PARKED_SHARE:.1%} of {done + parked:,}); see --status, then --retry-errors")
@@ -1234,6 +1274,9 @@ def main(argv=None):
                     help="delete the v6 mentions and cursor rows of this prompt hash (by --scope), so those "
                          "items are extracted again; counts only, unless --yes")
     ap.add_argument("--yes", action="store_true", help="with --reset-hash: really delete")
+    ap.add_argument("--flip-grace-hours", type=float, default=FLIP_GRACE.total_seconds() / 3600,
+                    help="with --read v6: forgive comments the old extractor read this recently "
+                         "(default 2; it keeps running until the poller is switched)")
     ap.add_argument("--force", action="store_true",
                     help="with --read v6: flip even though v6 has not covered the old extractor's comments "
                          "or too many items are parked")
@@ -1263,16 +1306,23 @@ def main(argv=None):
 def _main_locked(conn, args, kinds, since, ids):
     if args.read:
         if args.read == VERSION:
-            counts, reasons = flip_check(conn)
+            counts, reasons = flip_check(conn, dt.timedelta(hours=args.flip_grace_hours))
             print(f"v6 coverage: {counts['done']:,} item(s) done, {counts['parked']:,} parked "
                   f"(at most {counts['max_parked']:,}), {counts['missing']:,} old-extractor comment(s) "
-                  "without a finished v6 extraction")
+                  f"without a finished v6 extraction, and {counts['recent']:,} more from the last "
+                  f"{args.flip_grace_hours:g}h (allowed)")
             if reasons and not args.force:
                 raise SystemExit("not flipping:\n  " + "\n  ".join(reasons) + "\n(--force flips anyway)")
         set_read_version(conn, args.read)
         return 0
     if args.reset_hash:
-        reset_hash(conn, args.reset_hash, kinds, yes=args.yes)
+        items, mentions = reset_hash(conn, args.reset_hash, kinds, yes=args.yes)
+        # Deleting live rows changes what the API reads at once; refresh the
+        # materialized board too, as set_read_version does, so the two agree.
+        if args.yes and (items or mentions) and read_version(conn) == VERSION:
+            import refresh
+            print("refreshing scoring views")
+            refresh.refresh_views(conn)
         return 0
     if args.drop_batch:
         print(f"{drop_batch(conn, args.drop_batch):,} item(s) of {args.drop_batch} returned to the queue")

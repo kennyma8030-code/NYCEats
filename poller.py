@@ -186,13 +186,22 @@ def extract_once(conn, days, limit, workers):
     return done
 
 
-def extract_v6_once(conn, days, limit, workers, max_usd):
+def extract_v6_once(conn, days, limit, workers, max_usd, max_age_days=None):
     """extract_once for EXTRACT_VERSION=v6: new r/FoodNYC comments, then posts,
     through the benchmarked v6 prompt with direct calls at effort medium.
 
-    Same window length and limit as the old path, but the window is on
-    first_seen_at, so late arrivals are extracted too, plus a spend cap per pass. A
-    request the API refuses outright (a 4xx other than 429: a bad parameter,
+    Same window length and limit as the old path, plus a spend cap per pass,
+    but the window is on first_seen_at (when the item reached this database),
+    so a comment that lands a few days after it was written is extracted too.
+    It is also bounded by age: only items written in the last max_age_days
+    ($POLL_EXTRACT_V6_MAX_AGE_DAYS, default 7). A bulk insert of old comments
+    (backfill.py, this poller's own gap-fill backfill on boot, a re-sweep)
+    makes every one of them "first seen" now, and taking those here would buy
+    them at the direct price, up to POLL_EXTRACT_MAX_USD a pass (some $30 to
+    $48 a day). They are left for a batch catch-up (extract_v6.py --batch,
+    with no --since) at half that, and each pass says how many it left.
+
+    A request the API refuses outright (a 4xx other than 429: a bad parameter,
     a dead key, no credit) stops the pass loudly and marks nothing, and so
     does an outage that outlasts the backoff; the next pass tries again.
     Whatever was stored before the stop still counts.
@@ -208,21 +217,22 @@ def extract_v6_once(conn, days, limit, workers, max_usd):
         # pick the same due items and pay for them twice.
         print("  extract v6: another v6 run holds the lock; skipping this pass")
         return 0
+    if max_age_days is None:
+        max_age_days = int(os.environ.get("POLL_EXTRACT_V6_MAX_AGE_DAYS", "7"))
+    max_age_days = max(max_age_days, days)
     budget = extract_v6.Budget(max_usd)
     stats = extract_v6.Stats()
     cl = anthropic_v6.client(anthropic_v6.api_key())
-    # The window is on when an item reached this database (first_seen_at),
-    # not when it was written: a comment backfilled or re-read days late is
-    # still new to v6, and a created_utc window would never extract it.
-    since = _since(conn, days)
+    seen = _since(conn, days)
+    written = _since(conn, max_age_days)
     # Posts first, with a tenth of the limit: a busy hour of comments would
     # otherwise take the whole limit every pass and posts would never run.
     post_limit = max(1, limit // 10)
     try:
-        extract_v6.run_direct(conn, cl, budget, kinds=("post",), limit=post_limit, seen_since=since,
-                              workers=workers, stats=stats)
+        extract_v6.run_direct(conn, cl, budget, kinds=("post",), limit=post_limit, since=written,
+                              seen_since=seen, workers=workers, stats=stats)
         extract_v6.run_direct(conn, cl, budget, kinds=("comment",), limit=max(limit - stats.done, 0),
-                              seen_since=since, workers=workers, stats=stats)
+                              since=written, seen_since=seen, workers=workers, stats=stats)
     except anthropic_v6.FatalAPIError as e:
         print(f"  EXTRACTION STOPPED -- the API rejected the request itself, nothing was marked: {e}")
     except anthropic_v6.TransientAPIError as e:
@@ -231,6 +241,10 @@ def extract_v6_once(conn, days, limit, workers, max_usd):
         extract_v6.unlock(conn)
     if stats.done or stats.failed or stats.refused:
         print(f"  extract v6: {stats.line()}")
+    left = extract_v6.late_backlog(conn, seen, written)
+    if left:
+        print(f"  extract v6: left {left:,} item(s) first seen in the last {days}d but written over "
+              f"{max_age_days}d ago, for a batch catch-up (extract_v6.py --batch, no --since)")
     return stats.done
 
 
