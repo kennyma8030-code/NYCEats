@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import type { LedgerItem, LedgerResponse } from "../../api/types";
+import { visibleLedgerItems } from "../../lib/fresh";
 import { activeFilterCount, categoryOf, FLAWS, NEEDS, windowOf, type Filters } from "../../state/filters";
 import { LedgerRow } from "./LedgerRow";
 import "./LedgerList.css";
@@ -27,7 +28,9 @@ export function LedgerList({ filters, data, loading, error, selectedKey, onSelec
     ...filters.flaws.map((k) => FLAWS.find((n) => n.k === k)?.label.toLowerCase() ?? k),
   ].filter(Boolean);
   const filtered = activeFilterCount(filters) > 0;
-  const items = data?.items ?? [];
+  // Only rows ranked under these filters, or the previous filters' rows
+  // dimmed while these load; nothing from before once a request has failed.
+  const { items, current } = visibleLedgerItems(data, filters, loading, error);
 
   // FLIP: rows that move slide from their old position, new rows fade in.
   const listRef = useRef<HTMLOListElement>(null);
@@ -70,7 +73,7 @@ export function LedgerList({ filters, data, loading, error, selectedKey, onSelec
 
       {error && <p className="err">{error}</p>}
 
-      {!error && data && items.length === 0 && !loading ? (
+      {!error && current && items.length === 0 && !loading ? (
         <div className="empty">
           <p>Nothing matches{filtered ? " these filters" : ""} for the last {W.long}.</p>
           {filtered && (
@@ -91,7 +94,7 @@ export function LedgerList({ filters, data, loading, error, selectedKey, onSelec
               onSelect={onSelect}
             />
           ))}
-          {!data && loading && Array.from({ length: 8 }, (_, i) => <li key={i} className="row skel" aria-hidden="true" />)}
+          {items.length === 0 && loading && Array.from({ length: 8 }, (_, i) => <li key={i} className="row skel" aria-hidden="true" />)}
         </ol>
       )}
     </main>

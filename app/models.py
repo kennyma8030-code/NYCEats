@@ -425,7 +425,14 @@ class Ledger(BaseModel):
     category: LedgerCategory
     window_days: int
     bucket_days: int
-    algo: Algo = "v1"                 # which ranking and topic these rows came from,
-    topic: Optional[str] = None       # so a client can tell a stale list from a current one
+    # Every filter these rows were ranked under, echoed back, so a client can
+    # tell a stale list from a current one and never show one under the
+    # other's heading.
+    algo: Algo = "v1"
+    topic: Optional[str] = None
+    cuisine: Optional[str] = None
+    borough: Optional[str] = None
+    needs: list[str] = Field(default_factory=list)
+    flaws: list[str] = Field(default_factory=list)
     total: int
     items: list[LedgerItem]
