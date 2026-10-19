@@ -31,6 +31,8 @@ the official API, captures ~20s after posting, and re-captures at 36h.
   hour of the past week fills half a page, clamped to 10–60 min.
 - Every boot resumes a per-subreddit backfill cursor in the background; a
   city never swept starts from its first post.
+- Settling scores, extraction, the scoring refresh and embedding run on one
+  30-minute timer of their own, not per city poll.
 - Unknown thread -> fetch the post, then every comment in it, before inserting.
 - Dedup on the `t1_`/`t3_` fullname. All inserts idempotent.
 - History available back to 2014-08-24 (~747k comments, ~47k posts).
@@ -121,14 +123,16 @@ dropped and rebuilt with `embed.py`. They are never columns on `comments`.
 The model was picked by the benchmark on branch `worktree-agent-abf6969e5737447f0`
 (`eval/embeddings/RESULTS.md`).
 
-**What is embedded.**
+**What is embedded.** Only r/FoodNYC (`subreddits.HOME`). The other cities
+are collected but not searched, and embedding their backfilled history would
+be paid for and never read, so both candidate queries filter on `subreddit`.
 - **Comments.** Every comment with at least one `mentions` row (under any
   prompt hash) whose body is not `[deleted]`/`[removed]`, about 97k. The text
   is thread title, a blank line, then the comment body. No parent and no
   selftext: selftext is shared by the whole thread and would pull its comments
   together. One vector per comment. Search groups by restaurant through
   `mentions` when it reads, never at embed time.
-- **Threads.** All of them, about 44k. The text is the title, a blank line,
+- **Threads.** All of r/FoodNYC's, about 44k. The text is the title, a blank line,
   then the selftext cut to 1,500 characters (blank if removed).
 - **Nothing is filtered at embed time** for `excluded_entities`, unresolved
   names, `is_negated` or `reference_only`. Those move with identity decisions
@@ -177,11 +181,13 @@ too, and leaves the rows to do. The spend cap reserves each request before sendi
 Attempts that may have been billed without returning vectors (timeouts, 5xx,
 a 200 without vectors) are charged against it.
 
-The poller keeps up with new comments when `POLL_EMBED=1`. Each cycle runs
-extract, then refresh, then embed, over the last `POLL_EMBED_DAYS` (3).
+The poller keeps up with new comments when `POLL_EMBED=1`. Its 30-minute
+chores pass runs settle, extract, refresh, then embed, over the last
+`POLL_EMBED_DAYS` (3).
 Embedding goes last so it can never delay the board. It is capped by
-`POLL_EMBED_LIMIT` (2,000 rows) and `POLL_EMBED_MAX_USD` ($0.05) per cycle,
-and stops starting new batches after 5 minutes. `POLL_EMBED_SCOPE` is
+`POLL_EMBED_LIMIT` (2,000 rows) and `POLL_EMBED_MAX_USD` ($0.05) per pass,
+and stops starting new batches after 5 minutes; the city polls wait behind
+it, which costs freshness, not comments, since each poll pages back. `POLL_EMBED_SCOPE` is
 `comments` by default, so new threads need `both` or a periodic
 `embed.py --scope threads`. The step is fail-soft: with no key or an invalid
 scope it switches off at boot, and an error or outage in it is logged and

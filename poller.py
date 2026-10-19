@@ -170,15 +170,15 @@ def extract_once(conn, days, limit, workers):
 
 
 def embed_once(conn, days, limit, max_usd, scope, workers):
-    """Embed the comments that are new enough and already have mentions.
+    """Embed r/FoodNYC's recent rows: comments with mentions, and threads by scope.
 
     Same window idea as extract_once: the backlog is embedded by hand with
     embed.py, and this only keeps up with what arrives. It runs after
     extraction, because a comment is only eligible once it has a mention,
     and after the refresh, so it can never delay the board.
 
-    It is bounded too, so it cannot eat the next cycle: few retries, a short
-    timeout, a per-cycle spend cap, and a deadline after which no new batch
+    It is bounded too, so it cannot hold up the polls for long: few retries,
+    a short timeout, a per-pass spend cap, and a deadline after which no new batch
     starts. An OpenRouter outage costs one batch's retries.
     """
     import embed
@@ -304,27 +304,27 @@ def main():
     # Defaults come from the environment so Railway can switch inference on
     # and off with a variable (deploy.py) instead of a start-command edit.
     ap.add_argument("--extract", action="store_true", default=_env_flag("POLL_EXTRACT"),
-                    help="also run extraction on new comments each cycle ($POLL_EXTRACT)")
+                    help="also run extraction on new comments every 30 min ($POLL_EXTRACT)")
     ap.add_argument("--extract-days", type=int,
                     default=int(os.environ.get("POLL_EXTRACT_DAYS", "3")),
                     help="only extract comments from the last N days ($POLL_EXTRACT_DAYS, default 3)")
     ap.add_argument("--extract-limit", type=int,
                     default=int(os.environ.get("POLL_EXTRACT_LIMIT", "1000")),
-                    help="at most N extractions per cycle ($POLL_EXTRACT_LIMIT, default 1000)")
+                    help="at most N extractions per 30-min pass ($POLL_EXTRACT_LIMIT, default 1000)")
     ap.add_argument("--extract-workers", type=int,
                     default=int(os.environ.get("POLL_EXTRACT_WORKERS", "8")),
                     help="concurrent API calls ($POLL_EXTRACT_WORKERS, default 8)")
     ap.add_argument("--embed", action="store_true", default=_env_flag("POLL_EMBED"),
-                    help="also embed new comments for semantic search each cycle ($POLL_EMBED)")
+                    help="also embed new r/FoodNYC rows for semantic search every 30 min ($POLL_EMBED)")
     ap.add_argument("--embed-days", type=int,
                     default=int(os.environ.get("POLL_EMBED_DAYS", "3")),
                     help="only embed rows from the last N days ($POLL_EMBED_DAYS, default 3)")
     ap.add_argument("--embed-limit", type=int,
                     default=int(os.environ.get("POLL_EMBED_LIMIT", "2000")),
-                    help="at most N rows embedded per cycle ($POLL_EMBED_LIMIT, default 2000)")
+                    help="at most N rows embedded per 30-min pass ($POLL_EMBED_LIMIT, default 2000)")
     ap.add_argument("--embed-max-usd", type=float,
                     default=float(os.environ.get("POLL_EMBED_MAX_USD", "0.05")),
-                    help="spend cap per cycle ($POLL_EMBED_MAX_USD, default 0.05)")
+                    help="spend cap per 30-min pass ($POLL_EMBED_MAX_USD, default 0.05)")
     ap.add_argument("--embed-scope", choices=("comments", "threads", "both"),
                     default=os.environ.get("POLL_EMBED_SCOPE", "comments"),
                     help="what to embed ($POLL_EMBED_SCOPE, default comments)")

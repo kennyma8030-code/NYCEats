@@ -23,6 +23,7 @@ from fakes import FakeOpenRouter, FakeResponse, ok_body, ROOT
 
 import embed
 import embedding as E
+import subreddits
 
 URL = os.environ.get("EMBED_TEST_DATABASE_URL")
 
@@ -131,7 +132,8 @@ class SqlMirrorsFormatter(DbCase):
     def test_text_and_hash_match_python(self):
         for kind in (embed.COMMENTS, embed.THREADS):
             with self.conn.cursor() as cur:
-                cur.execute(kind.candidates, {"after": "", "since": None, "limit": 10_000})
+                cur.execute(kind.candidates, {"after": "", "since": None, "limit": 10_000,
+                                              "sub": subreddits.HOME})
                 ids = [r[0] for r in cur.fetchall()]
                 cur.execute(f"select src.id, src.a, src.b, src.txt from ({kind.source}) src",
                             {"ids": ids})
@@ -159,6 +161,39 @@ class Eligibility(DbCase):
         got = {r[0] for r in todo(self.conn, embed.COMMENTS, since=since)}
         self.assertNotIn("t1_old", got)
         self.assertIn("t1_unicode", got)
+
+
+class OnlyHome(DbCase):
+    """The poller stores six other cities beside r/FoodNYC; none of it is embedded."""
+
+    def setUp(self):
+        super().setUp()
+        with self.conn.cursor() as cur:
+            cur.execute("""insert into threads (id, subreddit, title, selftext, created_utc)
+                           values ('t3_chi', 'chicagofood', 'Best Italian beef?', 'go', %s)""",
+                        (NOW,))
+            # A mention on another city's comment cannot happen today (extraction
+            # reads HOME only); this checks embedding does not lean on that alone.
+            cur.execute("""insert into comments (id, subreddit, thread_id, parent_id, body,
+                                                 permalink, created_utc)
+                           values ('t1_chi', 'chicagofood', 't3_chi', 't3_chi',
+                                   'Johnnie''s Beef, every time', '', %s)""", (NOW,))
+            cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key,
+                                                 model_version, prompt_hash)
+                           values ('t1_chi', 'X', 'x', 'm', 'p1')""")
+        self.conn.commit()
+
+    def test_other_cities_are_not_candidates(self):
+        self.assertEqual({r[0] for r in todo(self.conn, embed.COMMENTS)}, self.eligible_comments())
+        self.assertEqual({r[0] for r in todo(self.conn, embed.THREADS)}, {t[0] for t in THREADS})
+
+    def test_full_run_never_embeds_them(self):
+        with FakeOpenRouter():
+            self.run_embed()
+        self.assertEqual(self.count("select count(*) from comment_embeddings "
+                                    "where comment_id = 't1_chi'"), 0)
+        self.assertEqual(self.count("select count(*) from thread_embeddings "
+                                    "where thread_id = 't3_chi'"), 0)
 
 
 class Paging(DbCase):

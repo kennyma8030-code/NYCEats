@@ -12,6 +12,8 @@ What gets a vector (see the "Semantic search" section of SPEC.md):
   whose body is not [deleted] or [removed] -- embedded as thread title +
   comment body;
 - every thread -- title + selftext cut to 1,500 characters.
+Both only from r/FoodNYC (subreddits.HOME); the other cities the poller
+collects are stored, not searched.
 Nothing is filtered for excluded_entities, unresolved names, is_negated or
 reference_only. Those lists move with identity decisions and prompt versions,
 and a vector is expensive to recompute only in comparison with a WHERE
@@ -46,6 +48,7 @@ from psycopg2.extras import execute_values
 
 import db
 import embedding as E
+import subreddits
 
 WORKERS = 4                     # concurrent requests; the benchmark ran 8 per model
 
@@ -77,6 +80,13 @@ class Kind:
     fmt: object          # embedding.format_comment / format_thread
 
 
+# Candidates are r/FoodNYC's only (subreddits.HOME). The tables hold every
+# city the poller collects, and search serves the NYC board: embedding the
+# other cities' millions of backfilled rows would be paid for and never read.
+# A mentioned comment is HOME's already, because extraction reads nothing
+# else; the filter says so anyway, and lets the poller's recent-window page
+# use comments_sub_created_idx instead of walking every city's primary key.
+#
 # Each `txt` expression must build the same string as its formatter, byte
 # for byte, or every row looks changed. tests/test_embed_db.py checks that
 # against a real Postgres, unicode and edge cases included. left() counts
@@ -87,6 +97,7 @@ COMMENTS = Kind(
     select c.id
     from comments c
     where c.id > %(after)s
+      and c.subreddit = %(sub)s
       and c.body not in ('[deleted]', '[removed]')
       and exists (select 1 from mentions m where m.comment_id = c.id)
       and (%(since)s::timestamptz is null or c.created_utc >= %(since)s::timestamptz)
@@ -108,6 +119,7 @@ THREADS = Kind(
     select t.id
     from threads t
     where t.id > %(after)s
+      and t.subreddit = %(sub)s
       and (%(since)s::timestamptz is null or t.created_utc >= %(since)s::timestamptz)
     order by t.id
     limit %(limit)s
@@ -151,7 +163,8 @@ def select_todo(conn, kind, after, limit, since=None, have_tables=True):
     (id, field a, field b, sql_hash).
     """
     with conn.cursor() as cur:
-        cur.execute(kind.candidates, {"after": after, "since": since, "limit": limit})
+        cur.execute(kind.candidates, {"after": after, "since": since, "limit": limit,
+                                      "sub": subreddits.HOME})
         ids = [r[0] for r in cur.fetchall()]
         if not ids:
             conn.commit()

@@ -1,5 +1,8 @@
 """The poller's embed step must fail soft: nothing in it may block extraction
-or the refresh. No database and no network; every step is stubbed."""
+or the refresh. No database and no network; every step is stubbed.
+
+Embedding runs in the 30-minute chores pass (run_chores), beside settling and
+extraction, not in the per-city polls (poll_due)."""
 
 import io
 import os
@@ -22,8 +25,8 @@ def args(**kw):
     return types.SimpleNamespace(**base)
 
 
-class Cycle(unittest.TestCase):
-    def run_cycle(self, a, **steps):
+class Chores(unittest.TestCase):
+    def run_chores(self, a, **steps):
         calls = []
 
         def stub(name, result=None, exc=None):
@@ -34,7 +37,7 @@ class Cycle(unittest.TestCase):
                 return result
             return f
         patches = {
-            "poll_once": stub("poll"), "settle_once": stub("settle"),
+            "settle_once": stub("settle"),
             "extract_once": stub("extract", result=5), "embed_once": stub("embed", result=3),
             "refresh_once": stub("refresh"),
         }
@@ -43,55 +46,93 @@ class Cycle(unittest.TestCase):
         conn = mock.Mock()
         with mock.patch.multiple(poller, **patches), \
                 redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
-            poller.run_cycle(conn, a)
+            poller.run_chores(conn, a)
         return calls, conn
 
     def test_order(self):
-        calls, _ = self.run_cycle(args())
-        self.assertEqual(calls, ["poll", "settle", "extract", "refresh", "embed"])
+        calls, _ = self.run_chores(args())
+        self.assertEqual(calls, ["settle", "extract", "refresh", "embed"])
 
     def test_embed_failure_does_not_block_refresh(self):
-        calls, conn = self.run_cycle(
+        calls, conn = self.run_chores(
             args(), embed_once=(None, embedding.ServiceError("OpenRouter is down")))
-        self.assertEqual(calls, ["poll", "settle", "extract", "refresh", "embed"])
+        self.assertEqual(calls, ["settle", "extract", "refresh", "embed"])
         conn.rollback.assert_called()
 
     def test_any_embed_exception_is_contained(self):
         for exc in (RuntimeError("bug"), embedding.BudgetExceeded("cap"),
                     ConnectionError("reset"), ValueError("bad vector")):
-            calls, _ = self.run_cycle(args(), embed_once=(None, exc))
+            calls, _ = self.run_chores(args(), embed_once=(None, exc))
             self.assertIn("refresh", calls, exc)
 
     def test_extract_failure_still_embeds(self):
-        calls, _ = self.run_cycle(args(), extract_once=(None, RuntimeError("deepseek down")))
-        self.assertEqual(calls, ["poll", "settle", "extract", "embed"])
+        calls, _ = self.run_chores(args(), extract_once=(None, RuntimeError("deepseek down")))
+        self.assertEqual(calls, ["settle", "extract", "embed"])
 
-    def test_poll_failure_still_extracts_and_embeds(self):
-        calls, _ = self.run_cycle(args(), poll_once=(None, RuntimeError("arctic down")))
-        self.assertEqual(calls, ["poll", "extract", "refresh", "embed"])
+    def test_settle_failure_still_extracts_and_embeds(self):
+        calls, _ = self.run_chores(args(), settle_once=(None, RuntimeError("arctic down")))
+        self.assertEqual(calls, ["settle", "extract", "refresh", "embed"])
 
     def test_nothing_extracted_means_no_refresh(self):
-        calls, _ = self.run_cycle(args(), extract_once=(0, None))
-        self.assertEqual(calls, ["poll", "settle", "extract", "embed"])
+        calls, _ = self.run_chores(args(), extract_once=(0, None))
+        self.assertEqual(calls, ["settle", "extract", "embed"])
 
     def test_embed_off(self):
-        calls, _ = self.run_cycle(args(embed=False))
+        calls, _ = self.run_chores(args(embed=False))
         self.assertNotIn("embed", calls)
 
     def test_embed_without_extract(self):
-        calls, _ = self.run_cycle(args(extract=False))
-        self.assertEqual(calls, ["poll", "settle", "embed"])
+        calls, _ = self.run_chores(args(extract=False))
+        self.assertEqual(calls, ["settle", "embed"])
 
     def test_refresh_runs_before_embed_even_when_embed_hangs(self):
         # #4: the board is rebuilt before embedding starts, so nothing in
         # embedding can delay it.
-        calls, _ = self.run_cycle(args(), embed_once=(None, TimeoutError("slow")))
+        calls, _ = self.run_chores(args(), embed_once=(None, TimeoutError("slow")))
         self.assertLess(calls.index("refresh"), calls.index("embed"))
 
     def test_ctrl_c_in_embed_stops_the_poller(self):
         # #8: _step contains Exception, not KeyboardInterrupt.
         with self.assertRaises(KeyboardInterrupt):
-            self.run_cycle(args(), embed_once=(None, KeyboardInterrupt()))
+            self.run_chores(args(), embed_once=(None, KeyboardInterrupt()))
+
+
+class Polls(unittest.TestCase):
+    """The per-city polls never run the chores, and a failed one is rescheduled."""
+
+    def poll(self, names, due, fail=(), interval=None):
+        calls = []
+
+        def poll_once(_c, name):
+            calls.append(name)
+            if name in fail:
+                raise RuntimeError("arctic down")
+
+        def interval_for(_c, name):
+            if interval is None:
+                raise RuntimeError("db hiccup")
+            return interval
+        conn = mock.Mock()
+        with mock.patch.multiple(poller, poll_once=poll_once, interval_for=interval_for,
+                                 extract_once=mock.Mock(side_effect=AssertionError),
+                                 embed_once=mock.Mock(side_effect=AssertionError)), \
+                mock.patch.object(poller.time, "time", return_value=1000.0), \
+                redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+            poller.poll_due(conn, names, due)
+        return calls, conn
+
+    def test_only_due_cities_are_polled(self):
+        due = {"FoodNYC": 0.0, "chicagofood": 5000.0}
+        calls, _ = self.poll(list(due), due, interval=900)
+        self.assertEqual(calls, ["FoodNYC"])
+        self.assertEqual(due, {"FoodNYC": 1900.0, "chicagofood": 5000.0})
+
+    def test_failed_poll_is_rolled_back_and_retried_soon(self):
+        due = {"FoodNYC": 0.0, "chicagofood": 0.0}
+        calls, conn = self.poll(list(due), due, fail={"FoodNYC"}, interval=None)
+        self.assertEqual(calls, ["FoodNYC", "chicagofood"])
+        conn.rollback.assert_called()
+        self.assertEqual(set(due.values()), {1000.0 + poller.MIN_INTERVAL})
 
 
 class Boot(unittest.TestCase):
