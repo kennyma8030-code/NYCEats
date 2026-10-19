@@ -23,7 +23,7 @@ class AdminRefresh(AppCase):
         return self.client.post("/api/admin/refresh", headers={"X-Admin-Token": "s3cret"}).json()
 
     def test_a_refresh_elsewhere_holds_this_one_off(self):
-        # Another process (the poller, the other uvicorn worker) holds the lock.
+        # The other uvicorn worker is running an admin refresh, so holds the lock.
         other = pgtest.connect()
         try:
             self.assertTrue(locks.try_lock(other))

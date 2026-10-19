@@ -1,16 +1,19 @@
-"""Postgres advisory locks shared between the API and the pipeline.
+"""The Postgres advisory lock that serialises scoring-view refreshes.
 
-A threading.Lock only stops two refreshes in one process. Production runs
-two uvicorn workers and a poller that refreshes after every extraction, so
-the one lock that means "a refresh is running" has to live in the database.
+A threading.Lock only stops two refreshes in one process, and production
+runs two uvicorn workers. Today ONLY /api/admin/refresh takes this lock, so
+what it guarantees is one admin refresh at a time across the web workers.
+It does not yet hold off refresh.py, extract_v6.py or the poller, which
+refresh without it; wiring them to the same key belongs to the branch that
+owns those scripts.
 
-Kept free of app imports so a pipeline script (poller.py, refresh.py) can
-take the same lock with `from app.locks import ...` -- the key is defined
-here and nowhere else.
+Kept free of app imports so those scripts can take it with
+`from app.locks import REFRESH_LOCK_KEY, try_lock, unlock` once they do.
 """
 
-# "nycR" "efsh": any 64-bit constant works, as long as everything that
-# refreshes the scoring views uses this one.
+# The ASCII bytes "nycRefsh": 0x6E796352_65667368 = 7960503021893743464.
+# Keep this value stable: it is shared by every process that refreshes, and
+# two processes holding different keys would each think they ran alone.
 REFRESH_LOCK_KEY = 0x6E796352_65667368
 
 

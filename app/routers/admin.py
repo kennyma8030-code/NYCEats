@@ -120,10 +120,12 @@ def refresh_views(background: BackgroundTasks):
     against a previous run's identities. refresh.py owns that ordering and
     this reuses it rather than restating it.
 
-    One refresh at a time across every process: two concurrent REFRESH
-    MATERIALIZED VIEW runs queue on the same locks and double the time
-    everything is stale. The advisory lock (app/locks.py) is taken here,
+    One admin refresh at a time across the web workers: two concurrent
+    REFRESH MATERIALIZED VIEW runs queue on the same locks and double the
+    time everything is stale. The advisory lock (app/locks.py) is taken here,
     before answering, so `started` says whether this call is the one running.
+    It does not yet see a refresh the poller or refresh.py is running; those
+    do not take the lock (see app/locks.py).
     """
     conn = pipeline_db.connect()
     try:
