@@ -243,11 +243,28 @@ current_user`). Without one the block logs a notice, the boot carries on,
 and embedding stays off until a superuser applies `embed_schema.sql`.
 
 ```
-psql "$DATABASE_URL" -f embed_schema.sql     # once: pgvector + the tables
+psql "$DATABASE_URL" -f embed_schema.sql     # once: pgvector, the tables, mentions_created_idx
 python embed.py --dry-run                    # rows, tokens, projected cost; no call, no write
 python embed.py --max-usd 0.50               # comments, then threads; resumable
 python embed.py --build-index                # HNSW, only after the backlog has loaded
 ```
+
+In this order, and with these preconditions:
+1. **Deploy first.** Both candidate queries filter on `comments.subreddit`
+   and `threads.subreddit`, which the multi-city deploy adds. Production did
+   not have `comments.subreddit` yet on 2026-10-19, so until then even
+   `embed.py --dry-run` fails on the missing column.
+2. **The migration** (`embed_schema.sql`, or the boot after the deploy as a
+   superuser). Its index on `mentions` takes a lock that blocks writes to
+   `mentions` for well under a second, and gives up after waiting 5 s.
+3. **The dry run**, then the backlog. Only one run at a time: `embed.py`
+   exits if the poller's embed pass holds the lock, and the pass skips while
+   `embed.py` holds it.
+4. **The index build** needs at least 1 GB of free disk and about 256 MB
+   of RAM headroom (`--index-mem 256MB`, serial). Expect the database to grow
+   by about 0.75 GB in all: roughly 0.3 GB of `halfvec(1024)` rows for 141k
+   vectors, and as much again for the two HNSW graphs. That is an estimate,
+   not a measurement; check free disk on the Railway volume before the build.
 
 A row is due when it has no vector for the current `MODEL_KEY`, or its stored
 `input_hash` (sha256 of the exact text) no longer matches. Kill and restart
@@ -320,6 +337,12 @@ A dims change past 1,024 also needs a new column type, since the columns are
 - Filter at read time: mentions of `excluded_entities` (on the resolved key),
   `is_negated` mentions, and `reference_only` once that column exists.
 - Suppress permalinks where `was_deleted_later` is set, like everywhere else.
+  This matters more here than on the board: vectors are kept when a comment
+  is later deleted (nothing in `embed.py` removes them, and the text they
+  were made from stays in `comments`), so a deleted comment can still be a
+  top search hit. Search must read `was_deleted_later` from `comments` for
+  every hit and return no permalink when it is set, as `app/queries.py`
+  does for the board's comment lists.
 - Embed the query with `embedding.embed_query`. It uses the same model,
   provider, instruction, cut and keep-alive session.
 
