@@ -1,8 +1,10 @@
 """The read endpoints: LIKE escaping, health, the facets cache."""
 
+import threading
+import time
 from unittest import mock
 
-from apptest import AppCase, build_views
+from apptest import AppCase, build_views, in_use
 import refresh
 from app.routers import public
 
@@ -34,6 +36,18 @@ class FacetsCache(AppCase):
 
     def descriptors(self):
         return {d["name"]: d["n"] for d in self.client.get("/api/facets").json()["descriptors"]}
+
+    def test_a_request_waiting_on_the_scan_holds_no_connection(self):
+        result = {}
+        with public._facets_lock:            # a scan is running elsewhere
+            t = threading.Thread(target=lambda: result.update(r=self.client.get("/api/facets")))
+            t.start()
+            time.sleep(0.5)                  # long enough to reach the lock
+            self.assertTrue(t.is_alive())
+            self.assertEqual(in_use(), 0)
+        t.join(10)
+        self.assertEqual(result["r"].status_code, 200)
+        self.assertEqual(in_use(), 0)
 
     def test_descriptors_are_kept_until_a_refresh_brings_new_mentions(self):
         self.assertEqual(self.descriptors(), {"cash only": 3})
