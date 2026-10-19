@@ -6,6 +6,7 @@
     python extract_v6.py --max-usd 1 --ids t1_abc,t3_def   direct calls, a few items
     python extract_v6.py --status                          cursor, errors, batches in flight, spend
     python extract_v6.py --read v6                         make the board count v6 rows (and refresh)
+    python extract_v6.py --reset-hash 979dcd6b9267 --yes   redo what that prompt extracted (after a fix)
 
 `extract.py --v6 ...` runs this too. Like every pipeline script it reads
 DATABASE_URL and writes to production, so it is run on purpose, one run at a
@@ -65,7 +66,7 @@ import sys
 import threading
 import time
 
-from psycopg2.extras import Json
+from psycopg2.extras import Json, execute_values
 
 import anthropic_v6 as AV
 import db
@@ -81,6 +82,10 @@ POLL_SECONDS = 60
 WORKERS = 8
 # An item gets one retry: the first failure queues it again, the second parks it.
 MAX_ATTEMPTS = 2
+# Items stored per transaction when a batch is collected: few enough that a
+# refused row costs one chunk's retry item by item, many enough that a
+# 2,000-item batch is stored in ten transactions of a few statements each.
+WRITE_CHUNK = 200
 GONE = ("", "[deleted]", "[removed]")
 
 
@@ -207,16 +212,21 @@ class Stats:
 QUEUED = "(s.item_id is null or (s.extracted_at is null and s.extract_error is null and s.batch_id is null))"
 
 
-def candidate_ids(conn, kind, limit=None, since=None, ids=None, max_chars=None):
+def candidate_ids(conn, kind, limit=None, since=None, ids=None, max_chars=None, seen_since=None):
     """Item ids still due under v6, in processing order.
 
     r/FoodNYC only (subreddits.HOME): the other cities are collected, never
     extracted. A comment is due unless it is [deleted]/[removed]/blank,
     however short. Comments come thread by thread, so an interrupted run
     leaves whole threads finished; posts oldest first.
+
+    `since` is on created_utc (when it was written), `seen_since` on
+    first_seen_at (when this database got it). The poller uses the second:
+    a comment can arrive days after it was written (a backfill, a thread
+    re-read, ~280 a week), and a window on created_utc never sees it.
     """
     p = {"home": subreddits.HOME, "v": VERSION, "since": since, "ids": list(ids) if ids else None,
-         "max_chars": max_chars, "limit": limit}
+         "max_chars": max_chars, "limit": limit, "seen": seen_since}
     if kind == "comment":
         sql = f"""
             select c.id from comments c
@@ -225,6 +235,9 @@ def candidate_ids(conn, kind, limit=None, since=None, ids=None, max_chars=None):
               and btrim(c.body) not in ('', '[deleted]', '[removed]')
               and {QUEUED}
               and (%(since)s::timestamptz is null or c.created_utc >= %(since)s::timestamptz)
+              -- first_seen_at is NOT NULL (default now() on insert), so it needs no
+              -- coalesce with created_utc, and comments_first_seen_idx can serve it.
+              and (%(seen)s::timestamptz is null or c.first_seen_at >= %(seen)s::timestamptz)
               and (%(ids)s::text[] is null or c.id = any(%(ids)s::text[]))
               and (%(max_chars)s::int is null or length(btrim(c.body)) <= %(max_chars)s::int)
             order by c.thread_id, c.created_utc, c.id
@@ -236,6 +249,7 @@ def candidate_ids(conn, kind, limit=None, since=None, ids=None, max_chars=None):
             where t.subreddit = %(home)s
               and {QUEUED}
               and (%(since)s::timestamptz is null or t.created_utc >= %(since)s::timestamptz)
+              and (%(seen)s::timestamptz is null or t.first_seen_at >= %(seen)s::timestamptz)
               and (%(ids)s::text[] is null or t.id = any(%(ids)s::text[]))
             order by t.created_utc, t.id
             limit %(limit)s"""
@@ -337,91 +351,183 @@ COLUMNS = ("comment_id", "thread_id", "restaurant_raw", "entity_key", "neighborh
            "overall_level", "taste_level", "value_level", "service_level", "atmosphere_level",
            "wait_level", "avoid", "dish_opinions", "notes", "tags", "price_level", "timeframe",
            "trend", "status", "is_chain")
-_INSERT = (f"insert into mentions ({', '.join(COLUMNS)}) values ({', '.join(['%s'] * len(COLUMNS))}) "
+_INSERT = (f"insert into mentions ({', '.join(COLUMNS)}) values %s "
            # Must match mentions_unique_idx / mentions_post_unique_idx exactly.
-           "on conflict {target} do nothing")
+           "on conflict {target} do nothing returning id")
 _TARGET = {"comment": "(comment_id, entity_key, prompt_hash)",
            "post": "(thread_id, entity_key, prompt_hash) where comment_id is null"}
 
+# The state rows of many items in one statement. Every column is set from the
+# values, so a row reads the same whether it was inserted or updated; the
+# previous attempts and cost are read first and added to in Python, as before.
+_STATE_DONE = """
+    insert into extraction_state (item_id, version, kind, prompt_hash, model, batch_id, attempts,
+                                  extracted_at, extract_error, output, usage, cost_usd)
+    values %s
+    on conflict (item_id, version) do update set
+      prompt_hash = excluded.prompt_hash, model = excluded.model, batch_id = null,
+      attempts = excluded.attempts, extracted_at = excluded.extracted_at, extract_error = null,
+      output = excluded.output, usage = excluded.usage, cost_usd = excluded.cost_usd, updated_at = now()"""
+# A failure leaves `output` as it was.
+_STATE_FAILED = """
+    insert into extraction_state (item_id, version, kind, prompt_hash, model, batch_id, attempts,
+                                  extracted_at, extract_error, usage, cost_usd)
+    values %s
+    on conflict (item_id, version) do update set
+      prompt_hash = excluded.prompt_hash, model = excluded.model, batch_id = null,
+      attempts = excluded.attempts, extracted_at = null, extract_error = excluded.extract_error,
+      usage = excluded.usage, cost_usd = excluded.cost_usd, updated_at = now()"""
 
-def _state(cur, item, **f):
-    """Upsert the item's extraction_state row with these fields set."""
-    cols = ["item_id", "version", "kind"] + list(f)
-    vals = [item.id, VERSION, item.kind] + list(f.values())
-    sets = ", ".join(f"{k} = excluded.{k}" for k in f)
-    cur.execute(f"""insert into extraction_state ({', '.join(cols)}) values ({', '.join(['%s'] * len(cols))})
-                    on conflict (item_id, version) do update set {sets}, updated_at = now()""", vals)
+
+class Done:
+    """An answer to store: the item, the parsed output, what it cost."""
+    __slots__ = ("item", "output", "usage", "cost")
+
+    def __init__(self, item, output, usage, cost):
+        self.item, self.output, self.usage, self.cost = item, output, usage, cost
 
 
-def store(conn, item, output, usage, cost, batch_id=None):
-    """Write one item's mentions and mark it done, in one transaction.
+class Failed:
+    """An item that got no usable answer, and why."""
+    __slots__ = ("item", "code", "usage", "cost")
+
+    def __init__(self, item, code, usage=None, cost=0.0):
+        self.item, self.code, self.usage, self.cost = item, code, usage, cost
+
+
+def write(conn, entries):
+    """Store many items' outcomes in one transaction, in a handful of
+    statements whatever their number: one select for the previous attempts,
+    one insert of mention rows per kind, one upsert of state rows per outcome.
+
+    From a laptop each statement is a ~325 ms round trip to production, so a
+    statement per item or per mention made a 2,000-item batch take close to
+    an hour to store; in chunks of WRITE_CHUNK this takes about twenty
+    seconds. Returns (mention rows written, ids of the items that are now
+    parked). Raises if the database refuses any row, and then nothing of the
+    call is kept (the caller rolls back).
 
     Two mentions of one place in an item (the model spelling it two ways)
     share an entity_key and are one row, as in the old writer; the second is
     still in extraction_state.output with everything else the model said.
-    Returns the number of mention rows written.
     """
-    rows = [r for r in (mention_row(item, m) for m in output["mentions"]) if r]
-    n = 0
+    if not entries:
+        return 0, set()
+    now = dt.datetime.now(dt.timezone.utc)
+    by_kind = {}
+    for e in entries:
+        if isinstance(e, Done):
+            # Unique on the conflict target within one statement: Postgres
+            # refuses an INSERT ... ON CONFLICT that would touch a row twice.
+            rows = by_kind.setdefault(e.item.kind, {})
+            for r in (mention_row(e.item, m) for m in e.output["mentions"]):
+                if r:
+                    rows.setdefault((r["comment_id"] or r["thread_id"], r["entity_key"]), r)
+    n, parked = 0, set()
     with conn.cursor() as cur:
-        sql = _INSERT.format(target=_TARGET[item.kind])
-        for r in rows:
-            cur.execute(sql, [r[c] for c in COLUMNS])
-            n += cur.rowcount
-        cur.execute("""select coalesce(cost_usd, 0), attempts from extraction_state
-                       where item_id = %s and version = %s""", (item.id, VERSION))
-        prev = cur.fetchone() or (0, 0)
-        _state(cur, item, prompt_hash=item.prompt_hash, model=prompt_v6.MODEL, batch_id=None,
-               attempts=prev[1] + 1, extracted_at=dt.datetime.now(dt.timezone.utc), extract_error=None,
-               output=Json(output), usage=Json(usage), cost_usd=float(prev[0]) + cost)
+        cur.execute("select item_id, attempts, coalesce(cost_usd, 0) from extraction_state "
+                    "where version = %s and item_id = any(%s)", (VERSION, [e.item.id for e in entries]))
+        prev = {r[0]: (r[1], float(r[2])) for r in cur.fetchall()}
+        for kind, rows in by_kind.items():
+            if rows:
+                got = execute_values(cur, _INSERT.format(target=_TARGET[kind]),
+                                     [[r[c] for c in COLUMNS] for r in rows.values()],
+                                     page_size=len(rows), fetch=True)
+                n += len(got)
+        done, failed = [], []
+        for e in entries:
+            it = e.item
+            attempts, cost = prev.get(it.id, (0, 0.0))
+            attempts += 1
+            if isinstance(e, Done):
+                done.append((it.id, VERSION, it.kind, it.prompt_hash, prompt_v6.MODEL, None, attempts, now,
+                             None, Json(e.output), Json(e.usage), cost + e.cost))
+            else:
+                park = attempts >= MAX_ATTEMPTS
+                if park:
+                    parked.add(it.id)
+                failed.append((it.id, VERSION, it.kind, it.prompt_hash, prompt_v6.MODEL, None, attempts, None,
+                               str(e.code)[:500] if park else None, Json(e.usage) if e.usage else None,
+                               cost + e.cost))
+        for sql, vals in ((_STATE_DONE, done), (_STATE_FAILED, failed)):
+            if vals:
+                execute_values(cur, sql, vals, page_size=len(vals))
     conn.commit()
-    return n
+    return n, parked
+
+
+def store(conn, item, output, usage, cost, batch_id=None):
+    """Write one item's mentions and mark it done, in one transaction.
+    Returns the number of mention rows written."""
+    return write(conn, [Done(item, output, usage, cost)])[0]
 
 
 def record_failure(conn, item, code, usage=None, cost=0.0, batch_id=None):
     """The item got no usable answer. The first time it is queued again; the
     second it is parked with extract_error until --retry-errors. Returns True
     when parked."""
-    with conn.cursor() as cur:
-        cur.execute("""select coalesce(cost_usd, 0), attempts from extraction_state
-                       where item_id = %s and version = %s""", (item.id, VERSION))
-        prev = cur.fetchone() or (0, 0)
-        attempts = prev[1] + 1
-        parked = attempts >= MAX_ATTEMPTS
-        _state(cur, item, prompt_hash=item.prompt_hash, model=prompt_v6.MODEL, batch_id=None,
-               attempts=attempts, extracted_at=None,
-               extract_error=str(code)[:500] if parked else None,
-               usage=Json(usage) if usage else None, cost_usd=float(prev[0]) + cost)
-    conn.commit()
+    return item.id in write(conn, [Failed(item, code, usage, cost)])[1]
+
+
+def _outcome(item, message, cost, stats):
+    """One answer as a Done or a Failed (an ItemError: cut off, refused, not JSON)."""
+    usage = AV.usage_of(message)
+    stats.add_usage(usage, cost)
+    try:
+        return Done(item, AV.parse(message), usage, cost)
+    except AV.ItemError as e:
+        return Failed(item, str(e), usage, cost)
+
+
+def _write_counted(conn, entries, stats, log=print):
+    """write() the entries and count them. Returns the ids now parked.
+
+    If the database refuses a row (a check constraint, say), the whole chunk
+    rolls back and is written again one item at a time, so the refusal parks
+    that item with the reason, and the run carries on."""
+    try:
+        n, parked = write(conn, entries)
+    except Exception:
+        conn.rollback()
+        if len(entries) == 1:
+            raise
+        parked = set()
+        for e in entries:
+            parked |= (_write_counted(conn, [e], stats, log) if isinstance(e, Failed)
+                       else _store_one(conn, e, stats, log))
+        return parked
+    stats.mentions += n
+    for e in entries:
+        if isinstance(e, Done):
+            stats.done += 1
+        else:
+            stats.failed += 1
+    stats.parked += len(parked)
     return parked
+
+
+def _store_one(conn, e, stats, log):
+    try:
+        return _write_counted(conn, [e], stats, log)
+    except Exception as err:
+        conn.rollback()
+        log(f"  {e.item.id}: store failed ({type(err).__name__}: {err})")
+        return _write_counted(conn, [Failed(e.item, f"store_error: {type(err).__name__}: {err}",
+                                            e.usage, e.cost)], stats, log)
 
 
 def _handle(conn, item, message, cost, stats, batch_id=None, log=print):
     """Parse and store one answer, or record why it is not one."""
-    usage = AV.usage_of(message)
-    stats.add_usage(usage, cost)
-    try:
-        output = AV.parse(message)
-    except AV.ItemError as e:
-        stats.failed += 1
-        stats.parked += record_failure(conn, item, str(e), usage, cost, batch_id)
-        return
-    try:
-        stats.mentions += store(conn, item, output, usage, cost, batch_id)
-    except Exception as e:
-        # A row the database refuses (a check constraint, say) is this item's
-        # problem, not the run's: park it with the reason and carry on.
-        conn.rollback()
-        stats.failed += 1
-        stats.parked += record_failure(conn, item, f"store_error: {type(e).__name__}: {e}", usage, cost, batch_id)
-        log(f"  {item.id}: store failed ({type(e).__name__}: {e})")
-        return
-    stats.done += 1
+    e = _outcome(item, message, cost, stats)
+    if isinstance(e, Failed):
+        _write_counted(conn, [e], stats, log)
+    else:
+        _store_one(conn, e, stats, log)
 
 
 # ---------------------------------------------------------------- direct
 def run_direct(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, max_chars=None,
-               workers=WORKERS, log=print, stats=None):
+               workers=WORKERS, log=print, stats=None, seen_since=None):
     """Extract due items with direct calls, `workers` at a time. Returns Stats.
 
     The network half runs on threads and touches no database; every write is
@@ -436,7 +542,8 @@ def run_direct(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, 
     for kind in kinds:
         if left is not None and left <= 0:
             break
-        todo = candidate_ids(conn, kind, left, since, ids, max_chars if kind == "comment" else None)
+        todo = candidate_ids(conn, kind, left, since, ids, max_chars if kind == "comment" else None,
+                             seen_since)
         lists.append((kind, todo))
         if left is not None:
             left -= len(todo)
@@ -533,11 +640,23 @@ def _submit(conn, cl, budget, batch, log):
     stops the next run rather than risk paying for the batch twice."""
     held = sum(it.worst(batch=True) for it in batch)
     pid = f"pending-{int(time.time() * 1000)}-{os.getpid()}"
+    # One statement for the ledger row and every member's state row, and a
+    # transaction that ends straight after it: a statement per item made this
+    # 2,000 round trips (~10 minutes from a laptop) inside one open
+    # transaction, holding row locks the whole time.
     with conn.cursor() as cur:
-        cur.execute("insert into extract_batches (id, version, requests, hold_usd) values (%s, %s, %s, %s)",
-                    (pid, VERSION, len(batch), held))
-        for it in batch:
-            _state(cur, it, prompt_hash=it.prompt_hash, model=prompt_v6.MODEL, batch_id=pid)
+        cur.execute("""
+            with b as (insert into extract_batches (id, version, requests, hold_usd)
+                       values (%(pid)s, %(v)s, %(n)s, %(held)s))
+            insert into extraction_state (item_id, version, kind, prompt_hash, model, batch_id)
+            select u.item_id, %(v)s, u.kind, u.prompt_hash, %(model)s, %(pid)s
+            from unnest(%(ids)s::text[], %(kinds)s::text[], %(hashes)s::text[]) as u(item_id, kind, prompt_hash)
+            on conflict (item_id, version) do update set
+              prompt_hash = excluded.prompt_hash, model = excluded.model, batch_id = excluded.batch_id,
+              updated_at = now()""",
+                    {"pid": pid, "v": VERSION, "n": len(batch), "held": held, "model": prompt_v6.MODEL,
+                     "ids": [it.id for it in batch], "kinds": [it.kind for it in batch],
+                     "hashes": [it.prompt_hash for it in batch]})
     conn.commit()
     budget.hold(pid, held, force=True)
     try:
@@ -545,8 +664,9 @@ def _submit(conn, cl, budget, batch, log):
     except (AV.TransientAPIError, AV.FatalAPIError):
         # A refusal (4xx, 429): the API created nothing, so undo the bookkeeping.
         with conn.cursor() as cur:
-            cur.execute("update extraction_state set batch_id = null where batch_id = %s", (pid,))
-            cur.execute("delete from extract_batches where id = %s", (pid,))
+            cur.execute("""with b as (delete from extract_batches where id = %(pid)s)
+                           update extraction_state set batch_id = null where batch_id = %(pid)s""",
+                        {"pid": pid})
         conn.commit()
         budget.release(pid, 0.0)
         raise
@@ -557,23 +677,25 @@ def _submit(conn, cl, budget, batch, log):
         log(f"  submission of {pid} has an unknown outcome; kept as pending, run stops")
         raise
     with conn.cursor() as cur:
-        cur.execute("""update extract_batches set id = %s, status = 'submitted', submitted_at = now()
-                       where id = %s""", (bid, pid))
-        cur.execute("update extraction_state set batch_id = %s where batch_id = %s", (bid, pid))
+        cur.execute("""with b as (update extract_batches set id = %(bid)s, status = 'submitted',
+                                                          submitted_at = now()
+                                  where id = %(pid)s)
+                       update extraction_state set batch_id = %(bid)s where batch_id = %(pid)s""",
+                    {"bid": bid, "pid": pid})
     conn.commit()
     budget.rename(pid, bid)
     log(f"submitted batch {bid}: {len(batch)} requests, worst case ${held:.4f} held")
     return bid
 
 
-def _collect(conn, cl, budget, bid, stats, log):
+def _collect(conn, cl, budget, bid, stats, log, sleep=None):
     """Store a finished batch's answers and settle its hold. Returns the
     items owed a retry (rendered again, so they go out as they would fresh).
 
     An invalid_request_error inside a batch is the batch-shaped version of a
     direct 4xx: those items are left due and unmarked, the rest is stored, and
     FatalAPIError is raised once the batch is settled."""
-    res = AV.results(cl, bid)
+    res = AV.results(cl, bid, sleep=sleep, log=log)
     with conn.cursor() as cur:
         cur.execute("select item_id, kind, prompt_hash from extraction_state where batch_id = %s", (bid,))
         members = cur.fetchall()
@@ -585,27 +707,32 @@ def _collect(conn, cl, budget, bid, stats, log):
     stray = set(costs) - {m[0] for m in members}
     if stray:
         log(f"  batch {bid}: {len(stray)} answer(s) for items no longer attached to it, counted, not stored")
-    retry, invalid = [], []
+    # Everything is parsed first, then written WRITE_CHUNK items per
+    # transaction (see write()). A crash part way leaves the chunks already
+    # committed done and detached from the batch; the next run re-attaches,
+    # stores the rest, and counts the stored ones' cost as stray answers.
+    entries, rebatch, invalid, invalid_ids = [], set(), [], []
     for item_id, kind, ph in members:
         item = Item(kind, item_id, None, None, ph)
         r = res.get(item_id, ("missing",))
         if r[0] == "succeeded":
-            _handle(conn, item, r[1], costs[item_id], stats, batch_id=bid, log=log)
-            continue
-        if r[0] == "errored" and r[1] == "invalid_request_error":
+            entries.append(_outcome(item, r[1], costs[item_id], stats))
+        elif r[0] == "errored" and r[1] == "invalid_request_error":
             invalid.append(f"{item_id}: {r[2]}")
-            with conn.cursor() as cur:
-                cur.execute("update extraction_state set batch_id = null where item_id = %s and version = %s",
-                            (item_id, VERSION))
-            conn.commit()
-            continue
-        code = f"batch_{r[0]}" + (f": {r[1]}: {r[2]}" if r[0] == "errored" else "")
-        stats.failed += 1
-        parked = record_failure(conn, item, code, batch_id=bid)
-        stats.parked += parked
-        if not parked:
-            retry.append((kind, item_id))
+            invalid_ids.append(item_id)
+        else:
+            # Only these are sent again in this run; an answer that could not
+            # be used is queued for the next run, as on the direct path.
+            entries.append(Failed(item, f"batch_{r[0]}" + (f": {r[1]}: {r[2]}" if r[0] == "errored" else "")))
+            rebatch.add(item_id)
+    parked = set()
+    for start in range(0, len(entries), WRITE_CHUNK):
+        parked |= _write_counted(conn, entries[start:start + WRITE_CHUNK], stats, log)
+    retry = [(e.item.kind, e.item.id) for e in entries if e.item.id in rebatch and e.item.id not in parked]
     with conn.cursor() as cur:
+        if invalid_ids:
+            cur.execute("update extraction_state set batch_id = null where version = %s and item_id = any(%s)",
+                        (VERSION, invalid_ids))
         cur.execute("""update extract_batches set status = 'collected', cost_usd = %s, collected_at = now()
                        where id = %s""", (total, bid))
     conn.commit()
@@ -712,7 +839,7 @@ def run_batch(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, m
             continue
         inflight.remove(ended)
         try:
-            retry = _collect(conn, cl, budget, ended, stats, log)
+            retry = _collect(conn, cl, budget, ended, stats, log, sleep=sleep)
         except AV.NotFound as e:          # results past retention
             _lost(conn, budget, ended, e, log)
             capped = False
@@ -936,6 +1063,123 @@ def set_read_version(conn, version, refresh_views=True, log=print):
         refresh.refresh_views(conn)
 
 
+# --read v6 refuses while more than this share of v6 items is parked: a board
+# missing that many comments' mentions is a worse board, and parked items
+# mostly need a look (and --retry-errors), not a flip.
+FLIP_MAX_PARKED_SHARE = 0.002
+
+
+def flip_check(conn):
+    """What --read v6 checks before it flips: {"missing", "parked", "done",
+    "max_parked"} and a list of reasons to refuse (empty when it may go).
+
+    missing is every r/FoodNYC comment the old extractor read (extracted_at
+    set) that v6 has not finished: no state row, owed a retry, or in a batch.
+    Those comments' mentions would disappear from the board at the flip.
+    Comments now [deleted]/[removed]/blank are not counted (v6 never takes
+    them), and parked ones are counted apart, against the threshold."""
+    with conn.cursor() as cur:
+        cur.execute("""select count(*) from comments c
+                       left join extraction_state s on s.item_id = c.id and s.version = %s
+                       where c.subreddit = %s and c.extracted_at is not null
+                         and btrim(c.body) not in ('', '[deleted]', '[removed]')
+                         and (s.item_id is null or (s.extracted_at is null and s.extract_error is null))""",
+                    (VERSION, subreddits.HOME))
+        missing = cur.fetchone()[0]
+        cur.execute("""select count(*) filter (where extract_error is not null),
+                              count(*) filter (where extracted_at is not null)
+                       from extraction_state where version = %s""", (VERSION,))
+        parked, done = cur.fetchone()
+    conn.commit()
+    max_parked = int(FLIP_MAX_PARKED_SHARE * (done + parked))
+    out = {"missing": missing, "parked": parked, "done": done, "max_parked": max_parked}
+    reasons = []
+    if missing:
+        reasons.append(f"{missing:,} r/FoodNYC comment(s) the old extractor read have no finished v6 extraction "
+                       "(run the catch-up: extract_v6.py --batch --max-usd N, with no --since)")
+    if parked > max_parked:
+        reasons.append(f"{parked:,} v6 item(s) are parked, over the {max_parked:,} allowed "
+                       f"({FLIP_MAX_PARKED_SHARE:.1%} of {done + parked:,}); see --status, then --retry-errors")
+    return out, reasons
+
+
+def reset_hash(conn, prompt_hash, kinds=KINDS, yes=False, chunk=5000, log=print):
+    """Undo every v6 extraction made with this prompt hash, so the items are
+    due again (and go out under the current prompt): their mention rows and
+    their extraction_state rows are deleted, `chunk` items per transaction,
+    an item's mentions and its state row in the same one, so an interruption
+    never leaves an item marked done with its mentions gone. Old (legacy)
+    rows are never touched: only schema_version 6 rows are.
+
+    Refuses while any item of that hash is in a batch (pending, submitted or
+    lost): its answers would come back to nothing, or the batch would be paid
+    for twice. Without yes=True it only counts. Returns (items, mentions)."""
+    kinds = list(kinds)
+    with conn.cursor() as cur:
+        cur.execute("""select count(*) filter (where batch_id is not null and extracted_at is null),
+                              count(*)
+                       from extraction_state where version = %s and prompt_hash = %s and kind = any(%s)""",
+                    (VERSION, prompt_hash, kinds))
+        inflight, items = cur.fetchone()
+        cur.execute("""select count(*) from mentions
+                       where schema_version = %s and prompt_hash = %s
+                         and ((comment_id is not null and 'comment' = any(%s))
+                              or (comment_id is null and 'post' = any(%s)))""",
+                    (prompt_v6.SCHEMA_VERSION, prompt_hash, kinds, kinds))
+        mentions = cur.fetchone()[0]
+    conn.commit()
+    log(f"prompt {prompt_hash} ({', '.join(kinds)}): {items:,} item(s) in extraction_state, "
+        f"{mentions:,} v6 mention row(s)")
+    if inflight:
+        raise SystemExit(f"{inflight:,} item(s) of prompt {prompt_hash} are in a batch (pending, submitted or "
+                         "lost): let it finish (re-run to collect) or settle it with --resolve-pending / "
+                         "--drop-batch first")
+    if not yes:
+        log("nothing deleted; re-run with --yes to delete them and queue the items again")
+        return items, mentions
+    with conn.cursor() as cur:
+        cur.execute("select item_id, kind from extraction_state where version = %s and prompt_hash = %s "
+                    "and kind = any(%s) order by item_id", (VERSION, prompt_hash, kinds))
+        todo = cur.fetchall()
+    conn.commit()
+    gone_items = gone_mentions = 0
+    for start in range(0, len(todo), chunk):
+        part = todo[start:start + chunk]
+        cids = [i for i, k in part if k == "comment"]
+        tids = [i for i, k in part if k == "post"]
+        with conn.cursor() as cur:
+            cur.execute("""delete from mentions where schema_version = %s and prompt_hash = %s
+                           and comment_id = any(%s)""", (prompt_v6.SCHEMA_VERSION, prompt_hash, cids))
+            gone_mentions += cur.rowcount
+            cur.execute("""delete from mentions where schema_version = %s and prompt_hash = %s
+                           and comment_id is null and thread_id = any(%s)""",
+                        (prompt_v6.SCHEMA_VERSION, prompt_hash, tids))
+            gone_mentions += cur.rowcount
+            cur.execute("delete from extraction_state where version = %s and prompt_hash = %s "
+                        "and item_id = any(%s)", (VERSION, prompt_hash, cids + tids))
+            gone_items += cur.rowcount
+        conn.commit()
+        log(f"  {min(start + chunk, len(todo)):,} / {len(todo):,} item(s) reset")
+    # Rows of that hash whose state row is gone or names another hash (an
+    # item since re-extracted under a newer prompt): the view already hides
+    # them; delete them too, by id, in chunks.
+    with conn.cursor() as cur:
+        cur.execute("""select id from mentions where schema_version = %s and prompt_hash = %s
+                         and ((comment_id is not null and 'comment' = any(%s))
+                              or (comment_id is null and 'post' = any(%s)))""",
+                    (prompt_v6.SCHEMA_VERSION, prompt_hash, kinds, kinds))
+        stray = [r[0] for r in cur.fetchall()]
+    conn.commit()
+    for start in range(0, len(stray), chunk):
+        with conn.cursor() as cur:
+            cur.execute("delete from mentions where id = any(%s)", (stray[start:start + chunk],))
+            gone_mentions += cur.rowcount
+        conn.commit()
+    log(f"reset prompt {prompt_hash}: {gone_items:,} item(s) are due again, {gone_mentions:,} mention row(s) "
+        "deleted")
+    return gone_items, gone_mentions
+
+
 def read_version(conn):
     with conn.cursor() as cur:
         cur.execute("select read_version from extraction_settings")
@@ -986,6 +1230,13 @@ def main(argv=None):
                          "'none' if it made none, or 'auto' to match the API's batch list")
     ap.add_argument("--drop-batch", metavar="BATCH_ID",
                     help="return a lost batch's items to the queue (only once the Console confirms it is gone)")
+    ap.add_argument("--reset-hash", metavar="PROMPT_HASH",
+                    help="delete the v6 mentions and cursor rows of this prompt hash (by --scope), so those "
+                         "items are extracted again; counts only, unless --yes")
+    ap.add_argument("--yes", action="store_true", help="with --reset-hash: really delete")
+    ap.add_argument("--force", action="store_true",
+                    help="with --read v6: flip even though v6 has not covered the old extractor's comments "
+                         "or too many items are parked")
     args = ap.parse_args(argv)
     kinds = {"comments": ("comment",), "posts": ("post",), "both": KINDS}[args.scope]
     since, ids = _parse_since(args.since), _parse_ids(args.ids)
@@ -1011,7 +1262,17 @@ def main(argv=None):
 
 def _main_locked(conn, args, kinds, since, ids):
     if args.read:
+        if args.read == VERSION:
+            counts, reasons = flip_check(conn)
+            print(f"v6 coverage: {counts['done']:,} item(s) done, {counts['parked']:,} parked "
+                  f"(at most {counts['max_parked']:,}), {counts['missing']:,} old-extractor comment(s) "
+                  "without a finished v6 extraction")
+            if reasons and not args.force:
+                raise SystemExit("not flipping:\n  " + "\n  ".join(reasons) + "\n(--force flips anyway)")
         set_read_version(conn, args.read)
+        return 0
+    if args.reset_hash:
+        reset_hash(conn, args.reset_hash, kinds, yes=args.yes)
         return 0
     if args.drop_batch:
         print(f"{drop_batch(conn, args.drop_batch):,} item(s) of {args.drop_batch} returned to the queue")

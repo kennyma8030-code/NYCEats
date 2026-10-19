@@ -190,7 +190,8 @@ def extract_v6_once(conn, days, limit, workers, max_usd):
     """extract_once for EXTRACT_VERSION=v6: new r/FoodNYC comments, then posts,
     through the benchmarked v6 prompt with direct calls at effort medium.
 
-    Same window and limit as the old path, plus a spend cap per pass. A
+    Same window length and limit as the old path, but the window is on
+    first_seen_at, so late arrivals are extracted too, plus a spend cap per pass. A
     request the API refuses outright (a 4xx other than 429: a bad parameter,
     a dead key, no credit) stops the pass loudly and marks nothing, and so
     does an outage that outlasts the backoff; the next pass tries again.
@@ -210,15 +211,18 @@ def extract_v6_once(conn, days, limit, workers, max_usd):
     budget = extract_v6.Budget(max_usd)
     stats = extract_v6.Stats()
     cl = anthropic_v6.client(anthropic_v6.api_key())
+    # The window is on when an item reached this database (first_seen_at),
+    # not when it was written: a comment backfilled or re-read days late is
+    # still new to v6, and a created_utc window would never extract it.
     since = _since(conn, days)
     # Posts first, with a tenth of the limit: a busy hour of comments would
     # otherwise take the whole limit every pass and posts would never run.
     post_limit = max(1, limit // 10)
     try:
-        extract_v6.run_direct(conn, cl, budget, kinds=("post",), limit=post_limit, since=since,
+        extract_v6.run_direct(conn, cl, budget, kinds=("post",), limit=post_limit, seen_since=since,
                               workers=workers, stats=stats)
         extract_v6.run_direct(conn, cl, budget, kinds=("comment",), limit=max(limit - stats.done, 0),
-                              since=since, workers=workers, stats=stats)
+                              seen_since=since, workers=workers, stats=stats)
     except anthropic_v6.FatalAPIError as e:
         print(f"  EXTRACTION STOPPED -- the API rejected the request itself, nothing was marked: {e}")
     except anthropic_v6.TransientAPIError as e:
