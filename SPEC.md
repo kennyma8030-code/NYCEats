@@ -65,6 +65,65 @@ root costs tokens and usually lands on something unrelated.
 `selftext` dominates the prompt. If cost matters, truncate it or extract
 per-thread instead of per-comment.
 
+This is the old extractor's input (`prompt.py`). v6 replaces it once switched
+on (next section): the benchmark's review traced most missed mentions to the
+place being named above the parent or past the post cut, so v6 passes up to
+five ancestors.
+
+---
+
+## Decided — v6 extraction
+
+Built in `extract_v6.py`, `prompt_v6.py`, `anthropic_v6.py` and
+`extract_v6_schema.sql`, from the benchmark on branch `extraction-v6`
+(`eval/prompts/v6_DESIGN.md`, `eval/review_v6r4/`). Off until the owner
+switches it on; the handoff is `docs/handoffs/extraction-v6.md`.
+
+**Exactly what was benchmarked.** Comment mode, round-4 prompt (hash
+`979dcd6b9267`; post mode `436d834d7edd`). The prompt, schema and v6-to-legacy
+mapping are the branch's files copied byte for byte into `prompts_v6/`, and
+`tests/test_prompt_v6.py` pins their hashes and diffs them against the branch.
+Model `claude-haiku-5-5`, adaptive thinking, effort `medium`, strict
+`json_schema` output (nullable unions as `anyOf`), `cache_control` on the
+system prompt, `max_tokens` 16,000, no sampling parameters. The benchmark's
+code validators are not used at medium. Key: `EXTRACT_ANTHROPIC_API_KEY`,
+nothing else.
+
+**Input.** `<post_title>`, `<post_body>` (cut at 1,200; `author="you"` when
+the commenter wrote the post), `<thread_above>` (up to five ancestors, oldest
+first: the parent cut at 1,500, the rest at 300, labelled OP / you, earlier /
+another user, deleted and missing ones marked), `<comment_to_extract>` with
+`>` quotes marked. Rows are read from the database the way the benchmark's
+builder read them, and `tests/test_extract_v6_db.py` checks the bytes match.
+
+**What is extracted.** r/FoodNYC only. Every comment that is not
+`[deleted]`/`[removed]`/blank, however short ("keens" and "+1" are evidence;
+the old `length > 15` cut is gone). Every post, in post mode (title plus body
+cut at 4,000), whose mentions name the thread instead of a comment.
+
+**Storage.** v6 rows go into `mentions` beside the old ones, which are never
+touched: `schema_version = 6`, the v6 fields as columns (levels as -2..2,
+kind, opinion, experience, avoid, dish opinions, notes, tags, timeframe,
+trend, status, price), each mention's raw JSON, and the legacy columns filled
+through the benchmark's adapter so scoring reads v6 rows unchanged.
+`extraction_state` is the v6 cursor (not `comments.extracted_at`, so both
+extractors can run at once) and keeps the model's whole answer per item.
+Chains are kept with `is_chain` instead of deleted; excluded kinds (grocery,
+brand, venue, company, other) are kept with their kind.
+
+**One switch for readers.** scoring, resolve and the API read `live_mentions`,
+a view over `mentions` chosen by the one row in `extraction_settings`:
+`legacy` (default: exactly today's rows) or `v6` (v6 rows minus excluded
+kinds, chains.txt names and post mentions, which scoring cannot place yet).
+`extract_v6.py --read v6` flips it and refreshes. Separately,
+`EXTRACT_VERSION=v6` makes the poller extract new rows with v6.
+
+**Failures.** max_tokens, refusal and invalid JSON are the item's: retried
+once, then parked with a coded `extract_error`. A 4xx other than 429 stops
+the pass and marks nothing. 429/5xx back off, then stop the pass if they
+persist. Spend is capped by reserving each request's worst case (16k tokens
+out, all input as cache writes) before it is sent.
+
 ---
 
 ## Decided — storage
