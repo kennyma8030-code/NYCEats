@@ -85,17 +85,42 @@ server standing in for the API.
   16,000 output tokens: about $0.0103 direct, $0.0051 batched). Each batch
   holds the sum for its requests, and is cut to fit what remains. Holds turn
   into actual cost as results arrive, so the cap bounds real spend plus what
-  is in flight. Batches re-attached from an earlier run count against the cap
-  until they are collected. The cost is computed from usage at $0.10/MTok
+  is in flight. A direct request that times out may have been billed: it is
+  charged its worst case, and its retry goes out only if a fresh worst case
+  still fits, so retries can never take spend past the cap (the poller's
+  `POLL_EXTRACT_MAX_USD` likewise). Batches re-attached from an earlier run
+  count against the cap until they are collected. The cost is computed from usage at $0.10/MTok
   in, $0.50 out (thinking included), $0.01 cache read and $0.125 cache write,
   halved in a batch. It is logged per run and per poller pass.
 - **Batches.** Each sub-batch is recorded in `extract_batches` before it is
   submitted, and its items carry its id. A re-run re-attaches to
-  uncollected batches instead of resubmitting them. If a run dies between
-  taking the hold and hearing the batch id, a `pending-...` row stops the
-  next run until `--resolve-pending PENDING_ID <batch id from the Console | none>`.
+  uncollected batches instead of resubmitting them, and a batch is priced from
+  every answer it returned. A submission that times out, drops, or gets a 5xx
+  may still have been accepted, so it is never retried: its `pending-...` row
+  and hold stay and the run stops. The next run looks for it in the API's
+  batch list (created near the row's time, same number of requests) and
+  adopts it if exactly one matches; otherwise it stops until
+  `--resolve-pending PENDING_ID <batch id from the Console | none | auto>`.
+  A batch the API answers 404 for (past retention, or another key) is marked
+  `lost` instead of failing every later run; its items stay out of the queue
+  until a person checks the Console and runs `--drop-batch BATCH_ID`.
   At most 4 sub-batches of 2,000 are in flight. The cap limits that further:
   at `--max-usd 70`, about 13,700 requests' worst case fits at once.
+- **One run at a time.** Every v6 run that writes takes a Postgres advisory
+  lock. A manual run exits if the poller's pass holds it; the poller's pass
+  skips if a manual run (the backfill) holds it. Leaving the poller on
+  `EXTRACT_VERSION=v6` during a backfill is therefore safe, but its passes
+  do nothing until the backfill ends.
+- **Ctrl-C** stops a direct run without sending anything more: requests on
+  the wire finish, the rest of the page is cancelled.
+- **The poller's v6 pass** does posts first, with a tenth of
+  `POLL_EXTRACT_LIMIT`, then comments with the rest, so a busy hour cannot
+  starve posts.
+- **Old tools.** `extract.py --reset` refuses the v6 hashes (v6 has its own
+  cursor). `sync.py` sends only old rows. `migrate_keys.py` keys post rows
+  on their thread. `embed.py` embeds comments with mentions of any
+  extraction, deliberately: a vector must not need re-buying when the board
+  flips.
 
 ## Production steps, in order
 
@@ -115,6 +140,10 @@ writes to production. Only `--dry-run` and `--status` are read-only.
    `schema.sql`, so the poller's first boot would apply it anyway. But the
    web app reads `live_mentions` as soon as it deploys. Apply first, or the
    API errors until the worker has booted.
+   Lock waits are capped at 5 s (`lock_timeout`). If one fires, that step
+   rolls back whole (nothing half-applied); run the file again, ideally at a
+   quiet hour. Every later run, and every boot, alters nothing and takes no
+   lock on `mentions` or `live_mentions`.
 2. **Deploy** (merge to `main`). This changes nothing visible:
    `EXTRACT_VERSION` is unset, so the poller keeps the old extractor, and
    `read_version` is `legacy`.
@@ -130,7 +159,14 @@ writes to production. Only `--dry-run` and `--status` are read-only.
    - `python extract_v6.py --batch --scope posts --since 2026-08-01 --limit 200 --max-usd 1`
    - `python extract_v6.py --batch --scope comments --max-chars 15 --limit 200 --max-usd 1`
    - `python extract_v6.py --status` shows done, parked by code, batches and spend.
-6. **Review the pilot** (read-only queries). Compare v6 against the old rows
+6. **Review the pilot** (read-only queries). **Two slices were never
+   benchmarked and must be checked by hand, explicitly:** post mode (the
+   benchmark built it but every measured run was comment mode) and comments
+   of 15 characters or fewer (every benchmark item came from production's
+   `length > 15` pool). Read a sample of each against its output before the
+   backfill: do bare names, "+1" and "this" under a recommendation get the
+   verdict the prompt's rules give them, and do posts extract the places the
+   poster asks about with opinion "none"? Then compare v6 against the old rows
    on the same comments:
    `select comment_id, entity_key, schema_version, overall_level, aspects from mentions where comment_id in (...)`.
    Look at the parked errors, the excluded kinds
@@ -151,8 +187,12 @@ writes to production. Only `--dry-run` and `--status` are read-only.
    The old extractor kept serving the board meanwhile. This brings v6 up to
    now.
 9. **Flip the board.** `python extract_v6.py --read v6`. This sets
-   `extraction_settings.read_version = 'v6'` and refreshes the scoring views
-   in one go. To undo it: `python extract_v6.py --read legacy`.
+   `extraction_settings.read_version = 'v6'` and then refreshes the scoring
+   views. Not in one transaction: `momentum_windows` cannot refresh
+   concurrently, and holding its lock to the end would block board reads.
+   So for as long as the refresh takes (minutes), a place's mention list,
+   dishes and the feed already read v6 while the leaderboard still ranks the
+   old rows. Flip at a quiet hour. To undo it: `python extract_v6.py --read legacy`.
 10. **Flip the poller.** On Railway, set `EXTRACT_VERSION=v6` and
     `EXTRACT_ANTHROPIC_API_KEY`, and optionally `POLL_EXTRACT_MAX_USD` (the
     per-pass cap, default $1.00). Keep `POLL_EXTRACT=1`, then redeploy. The
@@ -189,9 +229,9 @@ writes to production. Only `--dry-run` and `--status` are read-only.
 ## Testing
 
 `TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:<port>/<name>test python -m pytest tests`
-was run against throwaway Postgres 17.11 and 18.6. The result was 175 passed
-and 38 skipped. The skipped tests are the embedding tests: neither server
-had pgvector. The v6 tests cover:
+was run against a throwaway Postgres 18.6 (the first version also against
+17.11). The result was 192 passed and 38 skipped. The skipped tests are the
+embedding tests: the server had no pgvector. The v6 tests cover:
 
 - prompt and schema parity, by hash and against the branch
 - rendering parity with the benchmark's builder, on fixture rows
@@ -212,5 +252,14 @@ had pgvector. The v6 tests cover:
 - the dry run writing nothing
 - the CLI
 - the poller's v6 step and boot checks
+- the review's fixes: an ambiguous batch submission (5xx after acceptance,
+  timeout) kept pending and adopted by the next run without resubmitting,
+  or stopped for a person when no single batch matches; timeouts unable to
+  push spend past `--max-usd` or `POLL_EXTRACT_MAX_USD`; Ctrl-C sending
+  nothing more; the advisory lock keeping the poller and a manual run apart;
+  a batch priced from all its answers; a 404 batch marked lost and dropped by
+  hand; posts' share of the poller's limit; `--reset`, `sync.py` and
+  `migrate_keys.py` leaving v6 rows alone; guarded, lock-free re-runs of the
+  migration
 
 No paid call was made, and production was never connected to.

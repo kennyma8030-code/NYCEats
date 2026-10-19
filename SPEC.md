@@ -122,7 +122,10 @@ kinds, chains.txt names and post mentions, which scoring cannot place yet).
 once, then parked with a coded `extract_error`. A 4xx other than 429 stops
 the pass and marks nothing. 429/5xx back off, then stop the pass if they
 persist. Spend is capped by reserving each request's worst case (16k tokens
-out, all input as cache writes) before it is sent.
+out, all input as cache writes) before it is sent, and again before any
+retry after a timeout that may have been billed. A batch submission whose
+outcome is unknown is never resubmitted; it stays pending until matched to
+the API's batch list. One v6 run at a time, by advisory lock.
 
 ---
 
