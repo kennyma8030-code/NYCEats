@@ -113,7 +113,10 @@ server standing in for the API.
   batch list (created near the row's time, same number of requests) and
   adopts it if exactly one matches. If none matches, the row is over 30
   minutes old (`MATCH_AFTER`), and the listing (read page by page) reached
-  back past the row's time minus 5 minutes, the submission made nothing: the
+  back past the row's time minus 5 minutes, and no unowned batch with the
+  same number of requests was created at any time after that (a slow upload
+  can land past the 30-minute adoption window: that blocks "none" and stops
+  for a person), the submission made nothing: the
   row is dropped and its items are due again. Otherwise it stops until
   `--resolve-pending PENDING_ID <batch id from the Console | none | auto>`.
   Reading a batch back (status, results, the batch list) is safe to repeat,
@@ -138,10 +141,18 @@ server standing in for the API.
   the item reached this database, not on `created_utc`, so late arrivals are
   extracted. `first_seen_at` is NOT NULL with default `now()` on both
   `comments` and `threads`, so no coalesce with `created_utc` is needed; the
-  migration adds `comments_first_seen_idx` for it. One consequence: a big
-  archive load (`backfill.py`) makes every loaded comment "new", and the
-  poller would extract them at the direct price, `POLL_EXTRACT_MAX_USD` per
-  pass. After such a load, run a batch catch-up by hand instead.
+  migration adds `comments_first_seen_idx` for it (an optimisation: if its
+  build waits over 5 s for a lock it is skipped with a notice, and a later
+  boot builds it). The window is also bounded by age: the pass takes only
+  items written in the last `POLL_EXTRACT_V6_MAX_AGE_DAYS` (default 7).
+  Any bulk insert of old r/FoodNYC comments makes every one of them "first
+  seen" now: `backfill.py`, **the poller's own gap-fill backfill on boot**,
+  or a re-sweep. Without the bound the poller would buy them at the direct
+  price, up to `POLL_EXTRACT_MAX_USD` a pass ($30 to $48 a day). Older late
+  arrivals are left for a batch catch-up
+  (`extract_v6.py --batch --max-usd N`, no `--since`) at half the price, and
+  each pass logs `left N item(s) ... for a batch catch-up`. When that number
+  grows, run the catch-up.
 - **Redoing a prompt.** `extract_v6.py --reset-hash H [--scope ...]` counts
   the v6 mention rows and cursor rows of prompt hash H; with `--yes` it
   deletes them, 5,000 items per transaction (an item's mentions and its
@@ -151,11 +162,16 @@ server standing in for the API.
   counts a v6 row only while its comment's `extraction_state` row carries
   the same prompt hash, so rows of a superseded hash are never live, even
   before they are deleted. The legacy branch of the view is unchanged.
+  While the board reads v6, a reset that deleted anything refreshes the
+  scoring views, as the switch does.
 - **Flip safety.** `--read v6` prints the coverage and refuses (unless
-  `--force`) while any r/FoodNYC comment the old extractor read (and that is
-  not now deleted or removed) has no finished v6 extraction, or while more
-  than 0.2% of v6 items are parked (`FLIP_MAX_PARKED_SHARE`). `--read legacy`
-  is never checked.
+  `--force`) while any r/FoodNYC comment the old extractor read more than
+  2 hours ago (`--flip-grace-hours`), and that is not now deleted or
+  removed, has no finished v6 extraction, or while more than 0.2% of v6
+  items are parked (`FLIP_MAX_PARKED_SHARE`). The old poller keeps
+  extracting about 500 comments a day until step 11 switches it, so its
+  last pass or two are forgiven and reported as "allowed". Anything older
+  must be covered. `--read legacy` is never checked.
 - **Old tools.** `extract.py --reset` refuses the v6 hashes (v6 has its own
   cursor). `sync.py` sends only old rows. `migrate_keys.py` keys post rows
   on their thread. `embed.py` embeds comments with mentions of any
@@ -262,21 +278,13 @@ without `--yes` are read-only.
    **Then embed what the backfill made eligible:**
    `python embed.py --dry-run`, then `python embed.py --max-usd <N>` (N from
    the dry run, with headroom; the whole comment backlog is about $0.09).
-   Do this after every extraction backfill, and after step 8 too. A comment
+   Do this after every extraction backfill, and after step 9 too. A comment
    whose first mention the backfill wrote has no vector yet. The poller's
    embed pass does pick up mentions stored in its last 3 days, but only
    2,000 rows a pass and only inside that window. Comments that already had
    a vector are not bought again: a vector counts mentions of any extraction.
    `embed.py` exits if the poller's embed pass holds the lock; run it again.
-8. **Close the gap.** Just before the switch, run
-   `python extract_v6.py --batch --max-usd 10`, with **no `--since`**. The
-   anti-join selects exactly what is due, which is what arrived since step 7
-   began plus every late arrival: comments that landed with an old
-   `created_utc` (about 280 a week) and posts. A `--since` on the day step 7
-   started would miss those, because it filters on `created_utc`. The old
-   extractor kept serving the board meanwhile. Then `--status`: nothing
-   should be in a batch or owed a retry.
-9. **Make scoring v6-aware (scoring v3) BEFORE the flip. The flip is
+8. **Make scoring v6-aware (scoring v3) BEFORE the flip. The flip is
    blocked until this ships.** Today's scoring reads v6 rows through the
    legacy columns, and three of its rules misread them:
    - v2's bare-mention test compares food to exactly 0.3, but v6 writes 0.33
@@ -289,30 +297,59 @@ without `--yes` are read-only.
    `opinion`, ...) or be re-tuned on v6 rows first. `--read v6`'s own check
    (step 10) only checks coverage and parked items. It does not know about
    scoring, so this step is enforced by process, not code.
+
+Steps 9 to 11 go **back to back, at a quiet hour**. The old poller keeps
+extracting about 500 comments a day, and setting `extracted_at` on them,
+until step 11 switches it. So the closer the last v6 sweep is to the flip,
+the less there is between them. `--read v6` forgives only the old
+extractor's last 2 hours (`--flip-grace-hours`).
+
+9. **Close the gap.**
+   - `python extract_v6.py --batch --max-usd 10`, with **no `--since`**. The
+     anti-join selects exactly what is due, which is what arrived since step 7
+     began plus every late arrival: comments that landed with an old
+     `created_utc` (about 280 a week, and the poller's boot backfills) and
+     posts. A `--since` on the day step 7 started would miss those, because
+     it filters on `created_utc`. The old extractor kept serving the board
+     meanwhile. Then `--status`: nothing should be in a batch or owed a retry.
+   - **Immediately before the flip**, sweep what arrived during that batch's
+     turnaround with direct calls: `python extract_v6.py --max-usd 1` (no
+     filters; usually tens of items, cents).
 10. **Flip the board.** `python extract_v6.py --read v6`. It first prints
-   the coverage and refuses while any r/FoodNYC comment the old extractor
-   read has no finished v6 extraction (run step 8 again), or while more
-   than 0.2% of v6 items are parked (see `--status`, then `--retry-errors`).
-   `--force` overrides both. Then it sets
+   the coverage, then refuses while any r/FoodNYC comment the old extractor
+   read over 2 hours ago has no finished v6 extraction (run step 9's sweep
+   again), or while more than 0.2% of v6 items are parked (see `--status`,
+   then `--retry-errors`). What the old poller extracted in the last 2 hours
+   is counted and allowed. `--force` overrides both checks. Do not use it to
+   get past a coverage refusal: that number is comments whose mentions would
+   vanish from the board. Then it sets
    `extraction_settings.read_version = 'v6'` and refreshes the scoring
    views. Not in one transaction: `momentum_windows` cannot refresh
    concurrently, and holding its lock to the end would block board reads.
    So for as long as the refresh takes (minutes), a place's mention list,
    dishes and the feed already read v6 while the leaderboard still ranks the
-   old rows. Flip at a quiet hour. To undo it: `python extract_v6.py --read legacy`.
-11. **Flip the poller.** On Railway, set `EXTRACT_VERSION=v6` and
+   old rows. To undo it: `python extract_v6.py --read legacy`.
+11. **Flip the poller, right after.** On Railway, set `EXTRACT_VERSION=v6` and
     `EXTRACT_ANTHROPIC_API_KEY`, and optionally `POLL_EXTRACT_MAX_USD` (the
-    per-pass cap, default $1.00). Keep `POLL_EXTRACT=1`, then redeploy. The
+    per-pass cap, default $1.00) and `POLL_EXTRACT_V6_MAX_AGE_DAYS` (default
+    7). Keep `POLL_EXTRACT=1`, then redeploy. The
     boot log says `inference on: v6 (claude-haiku-5-5, effort medium, prompt 979dcd6b9267/436d834d7edd)`.
-    If `EXTRACT_VERSION=v6` is set while the board still reads `legacy`, the
-    boot warns: the board would get no new mentions. So do 10 before 11, and
-    close together. To undo it: unset `EXTRACT_VERSION` and redeploy.
+    Between steps 10 and 11 the old poller's new mentions are not on the v6
+    board. Its first v6 pass takes those comments, because their
+    `first_seen_at` is inside its window. If `EXTRACT_VERSION=v6` is set
+    while the board still reads `legacy`, the boot warns that the board
+    would get no new mentions. So do 10 before 11, and close together. To
+    undo it: unset `EXTRACT_VERSION` and redeploy. Afterwards, watch the
+    poller's `left N item(s) ... for a batch catch-up` line (old items that
+    a boot backfill or `backfill.py` inserted). Run the batch catch-up when
+    it grows.
 
 **After a prompt fix**, re-extract what the old prompt did with
 `python extract_v6.py --reset-hash <old hash> [--scope comments|posts]`.
 It only counts. Add `--yes` to delete, then run a batch. While the board
-reads v6, the reset items' mentions are off the board until they come back.
-Rows of a superseded hash are never live anyway (see Redoing a prompt).
+reads v6, the reset items' mentions are off the board until they come back
+(the reset refreshes the scoring views). Rows of a superseded hash are never
+live anyway (see Redoing a prompt).
 
 ## Open questions
 
@@ -389,5 +426,14 @@ embedding tests: the server had no pgvector. The v6 tests cover:
   deleting in chunks, refusing a hash with items in a batch, and leaving old
   rows alone; a superseded hash never live, the legacy view unchanged; and
   `--read v6` refusing on coverage and on parked items, and `--force`
+- the review's follow-ups (same file; 250 passed, 53 skipped after merging
+  main): the old poller's last 2 hours forgiven by the flip check but not
+  older ones, nor any with `--flip-grace-hours 0`; a slow upload landing
+  after the adoption window blocking "none"; the poller leaving old bulk
+  inserts for a batch and saying how many, and `POLL_EXTRACT_V6_MAX_AGE_DAYS`
+  moving the bound; `--reset-hash` refreshing the views only when the board
+  reads v6 and something was deleted; `comments_first_seen_idx` skipped on a
+  lock timeout and built by the next run; a `ValueError` from our own code
+  not retried as a stream error
 
 No paid call was made, and production was never connected to.
