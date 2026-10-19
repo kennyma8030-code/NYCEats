@@ -202,16 +202,29 @@ def extract_v6_once(conn, days, limit, workers, max_usd):
     if not extract_v6.schema_ready(conn):
         print("  extract v6: tables missing -- apply extract_v6_schema.sql; skipping")
         return 0
+    if not extract_v6.try_lock(conn):
+        # A manual extract_v6.py run (the backfill, say) holds it; both would
+        # pick the same due items and pay for them twice.
+        print("  extract v6: another v6 run holds the lock; skipping this pass")
+        return 0
     budget = extract_v6.Budget(max_usd)
     stats = extract_v6.Stats()
     cl = anthropic_v6.client(anthropic_v6.api_key())
+    since = _since(conn, days)
+    # Posts first, with a tenth of the limit: a busy hour of comments would
+    # otherwise take the whole limit every pass and posts would never run.
+    post_limit = max(1, limit // 10)
     try:
-        extract_v6.run_direct(conn, cl, budget, limit=limit, since=_since(conn, days),
+        extract_v6.run_direct(conn, cl, budget, kinds=("post",), limit=post_limit, since=since,
                               workers=workers, stats=stats)
+        extract_v6.run_direct(conn, cl, budget, kinds=("comment",), limit=max(limit - stats.done, 0),
+                              since=since, workers=workers, stats=stats)
     except anthropic_v6.FatalAPIError as e:
         print(f"  EXTRACTION STOPPED -- the API rejected the request itself, nothing was marked: {e}")
     except anthropic_v6.TransientAPIError as e:
         print(f"  extract v6 stopped early, will retry next pass: {e}")
+    finally:
+        extract_v6.unlock(conn)
     if stats.done or stats.failed or stats.refused:
         print(f"  extract v6: {stats.line()}")
     return stats.done

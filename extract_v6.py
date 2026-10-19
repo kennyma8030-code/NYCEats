@@ -34,9 +34,19 @@ Spend: --max-usd is a hard cap for this invocation. Each request's worst case
 (all input billed as a cache write, all 16k tokens out) is held before it is
 sent; a batch holds the sum of its requests, and is sized to what remains.
 Holds become actual cost as results come back, so the cap is on real spend
-plus what is in flight. Attempts that may have been billed without an answer
-(timeouts) are charged at their worst case. Batches re-attached from an
-earlier run count against this run's cap until collected.
+plus what is in flight. An attempt that may have been billed without an
+answer (a timeout) is charged its worst case, and its retry must reserve
+again or is not sent. Batches re-attached from an earlier run count against
+this run's cap until collected.
+
+One v6 run at a time: every run that writes takes a Postgres advisory lock
+(try_lock), and the poller's pass skips while a manual run holds it.
+
+A batch submission that times out or gets a 5xx may still have been
+accepted, so it is never resubmitted: its 'pending-' row stays, the run
+stops, and the next run adopts the one batch in the API's list that matches
+it (or stops for --resolve-pending). A batch the API answers 404 for is
+marked lost, its items held back until --drop-batch.
 
 An item that gets no usable answer (stop_reason max_tokens or refusal,
 invalid JSON, a batch request that errored or expired) is retried once, then
@@ -87,6 +97,28 @@ def schema_ready(conn):
         ok = cur.fetchone()[0]
     conn.commit()
     return ok
+
+
+# One v6 run at a time, across processes: the poller's pass and a manual
+# backfill would otherwise both pick the same due items and pay for them
+# twice. A session-level advisory lock, so it survives the commits a run
+# makes and goes away by itself if the process or its connection dies.
+LOCK_KEY = 0x6E796336_7636            # "nyc6" "v6"
+
+
+def try_lock(conn):
+    with conn.cursor() as cur:
+        cur.execute("select pg_try_advisory_lock(%s)", (LOCK_KEY,))
+        ok = cur.fetchone()[0]
+    conn.commit()
+    return ok
+
+
+def unlock(conn):
+    conn.rollback()           # a failed statement may have left the transaction aborted
+    with conn.cursor() as cur:
+        cur.execute("select pg_advisory_unlock(%s)", (LOCK_KEY,))
+    conn.commit()
 
 
 def require_schema(conn):
@@ -393,37 +425,59 @@ def run_direct(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, 
     The network half runs on threads and touches no database; every write is
     on this thread, because psycopg2 connections are not thread-safe. A
     FatalAPIError or TransientAPIError stops the pass after the answers
-    already received are stored; items not sent stay due.
+    already received are stored; items not sent stay due. When the cap stops
+    it, stats.refused counts every due item that was not sent.
     """
     stats = stats or Stats()
-    stop = threading.Event()
-    left = limit
+    stop, capped = threading.Event(), threading.Event()
+    lists, left = [], limit
     for kind in kinds:
-        if stop.is_set() or (left is not None and left <= 0):
+        if left is not None and left <= 0:
             break
         todo = candidate_ids(conn, kind, left, since, ids, max_chars if kind == "comment" else None)
+        lists.append((kind, todo))
         if left is not None:
             left -= len(todo)
-        for start in range(0, len(todo), 200):
+    for n, (kind, todo) in enumerate(lists):
+        for start in range(0, len(todo), PAGE):
             if stop.is_set():
-                break
-            items = render_items(conn, kind, todo[start:start + 200])
-            _direct_page(conn, cl, budget, items, workers, stats, stop, log)
+                if capped.is_set():
+                    stats.refused += len(todo) - start + sum(len(t) for _, t in lists[n + 1:])
+                return stats
+            items = render_items(conn, kind, todo[start:start + PAGE])
+            _direct_page(conn, cl, budget, items, workers, stats, stop, capped, log)
     return stats
 
 
-def _direct_page(conn, cl, budget, items, workers, stats, stop, log):
+PAGE = 200
+
+
+def _direct_page(conn, cl, budget, items, workers, stats, stop, capped, log):
     def work(item):
         if stop.is_set():
-            return item, None, 0.0
+            return item, "skipped", 0.0
         w = item.worst(batch=False)
         if not budget.reserve(w):
+            capped.set()
             stop.set()
-            return item, "refused", 0.0
+            return item, "skipped", 0.0
+        held = [True]
+
+        def again():
+            # The attempt that just timed out may have been billed: charge it
+            # its worst case, and hold a fresh worst case for the retry.
+            budget.settle(w, w)
+            held[0] = budget.reserve(w)
+            return held[0]
         try:
-            msg = AV.call(cl, item.params(), log=log, on_lost=lambda n: budget.charge(w * n))
+            msg = AV.call(cl, item.params(), log=log, retry_ok=again)
+        except AV.CapReached:
+            capped.set()
+            stop.set()
+            return item, "skipped", 0.0
         except (AV.FatalAPIError, AV.TransientAPIError) as e:
-            budget.settle(w, 0.0)
+            if held[0]:
+                budget.settle(w, w if getattr(e, "maybe_billed", False) else 0.0)
             stop.set()
             return item, e, 0.0
         c = AV.cost(AV.usage_of(msg), batch=False)
@@ -431,17 +485,24 @@ def _direct_page(conn, cl, budget, items, workers, stats, stop, log):
         return item, msg, c
 
     halt = None
-    with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
+    pool = concurrent.futures.ThreadPoolExecutor(max_workers=workers)
+    try:
         for fut in concurrent.futures.as_completed([pool.submit(work, it) for it in items]):
             item, res, c = fut.result()
-            if res is None:
-                continue
             if isinstance(res, str):
-                stats.refused += 1
+                stats.refused += capped.is_set()
             elif isinstance(res, Exception):
                 halt = halt or res
             else:
                 _handle(conn, item, res, c, stats, log=log)
+    except BaseException:
+        # Ctrl-C, or a bug while storing: nothing queued may go out after this.
+        # Requests already on the wire finish (their spend is counted); the
+        # rest are cancelled, and the work() of any that start sees stop.
+        stop.set()
+        pool.shutdown(wait=True, cancel_futures=True)
+        raise
+    pool.shutdown(wait=True)
     if halt is not None:
         raise halt
 
@@ -479,20 +540,19 @@ def _submit(conn, cl, budget, batch, log):
     budget.hold(pid, held, force=True)
     try:
         bid = AV.submit(cl, [(it.id, it.params()) for it in batch])
-    except AV.TransientAPIError:
-        # Nothing was created (the API said so), so undo the bookkeeping.
+    except (AV.TransientAPIError, AV.FatalAPIError):
+        # A refusal (4xx, 429): the API created nothing, so undo the bookkeeping.
         with conn.cursor() as cur:
             cur.execute("update extraction_state set batch_id = null where batch_id = %s", (pid,))
             cur.execute("delete from extract_batches where id = %s", (pid,))
         conn.commit()
         budget.release(pid, 0.0)
         raise
-    except AV.FatalAPIError:
-        with conn.cursor() as cur:
-            cur.execute("update extraction_state set batch_id = null where batch_id = %s", (pid,))
-            cur.execute("delete from extract_batches where id = %s", (pid,))
-        conn.commit()
-        budget.release(pid, 0.0)
+    except AV.AmbiguousSubmit:
+        # The batch may exist and be billing. The pending row and its hold
+        # stay, and the run stops; the next one matches it against the API's
+        # batch list before anything else is sent (resolve_pending_auto).
+        log(f"  submission of {pid} has an unknown outcome; kept as pending, run stops")
         raise
     with conn.cursor() as cur:
         cur.execute("""update extract_batches set id = %s, status = 'submitted', submitted_at = now()
@@ -516,14 +576,19 @@ def _collect(conn, cl, budget, bid, stats, log):
         cur.execute("select item_id, kind, prompt_hash from extraction_state where batch_id = %s", (bid,))
         members = cur.fetchall()
     conn.commit()
-    total, retry, invalid = 0.0, [], []
+    # The batch's cost is every answer it returned, whether or not its item
+    # is still attached here: what was billed is what the cap must count.
+    costs = {cid: AV.cost(AV.usage_of(r[1]), batch=True) for cid, r in res.items() if r[0] == "succeeded"}
+    total = sum(costs.values())
+    stray = set(costs) - {m[0] for m in members}
+    if stray:
+        log(f"  batch {bid}: {len(stray)} answer(s) for items no longer attached to it, counted, not stored")
+    retry, invalid = [], []
     for item_id, kind, ph in members:
         item = Item(kind, item_id, None, None, ph)
         r = res.get(item_id, ("missing",))
         if r[0] == "succeeded":
-            c = AV.cost(AV.usage_of(r[1]), batch=True)
-            total += c
-            _handle(conn, item, r[1], c, stats, batch_id=bid, log=log)
+            _handle(conn, item, r[1], costs[item_id], stats, batch_id=bid, log=log)
             continue
         if r[0] == "errored" and r[1] == "invalid_request_error":
             invalid.append(f"{item_id}: {r[2]}")
@@ -556,19 +621,24 @@ def run_batch(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, m
               log=print, sleep=time.sleep, stats=None):
     """Extract due items through Message Batches under the cap. Returns Stats.
 
-    1. A 'pending-' batch row means a submission was interrupted: stop, and
-       let a person check the Console (--resolve-pending).
+    1. A 'pending-' batch row means a submission whose outcome is unknown.
+       It is matched against the API's batch list (resolve_pending_auto):
+       exactly one match is adopted; anything else stops the run for a
+       person to decide with --resolve-pending, so nothing is sent twice.
     2. Re-attach to batches submitted earlier and not collected; their holds
-       count against this run's cap until they are.
+       count against this run's cap until they are. One the API no longer
+       knows (404) is marked lost, not fatal (see _lost).
     3. Submit sub-batches that fit what remains under the cap, up to
        max_inflight at once; collect each as it ends, and send the items it
        hands back for a retry first.
     """
     stats = stats or Stats()
-    pend = _pending(conn)
-    if pend:
-        raise SystemExit(f"interrupted submission(s) {', '.join(pend)}: check the Console for a batch "
-                         "submitted at that time, then run --resolve-pending ID BATCH_ID (or none)")
+    for pid in _pending(conn):
+        bid = resolve_pending_auto(conn, cl, pid, log)
+        if bid is None:
+            raise SystemExit(f"submission {pid} has an unknown outcome and no single batch in the API's "
+                             "list matches it: check the Console, then run --resolve-pending "
+                             f"{pid} <batch id | none>")
     inflight = []
     for bid, hold in _inflight(conn):
         budget.hold(bid, hold, force=True)
@@ -616,12 +686,21 @@ def run_batch(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, m
         if not inflight:
             break
         # Wait for one to end.
-        ended = None
+        ended, b, lost = None, None, None
         for bid in inflight:
-            b = AV.retrieve(cl, bid)
+            try:
+                b = AV.retrieve(cl, bid)
+            except AV.NotFound as e:
+                lost = bid
+                _lost(conn, budget, bid, e, log)
+                break
             if b.processing_status == "ended":
                 ended = bid
                 break
+        if lost is not None:
+            inflight.remove(lost)
+            capped = False
+            continue
         if ended is None:
             c = getattr(b, "request_counts", None)
             if c is not None:
@@ -630,13 +709,89 @@ def run_batch(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, m
             sleep(poll_seconds)
             continue
         inflight.remove(ended)
-        retry = _collect(conn, cl, budget, ended, stats, log)
+        try:
+            retry = _collect(conn, cl, budget, ended, stats, log)
+        except AV.NotFound as e:          # results past retention
+            _lost(conn, budget, ended, e, log)
+            capped = False
+            continue
         # Retries go first: they finish work already paid for. The hold just
         # became the (much smaller) actual cost, so there may be room again.
         queue = retry + queue
         capped = False
     stats.refused += len(queue)
     return stats
+
+
+def _lost(conn, budget, bid, err, log):
+    """The API answered 404 for a batch we hold: expired past retention, or
+    made under another key. Mark it lost so it stops being re-attached (and
+    stops failing every later run), release its hold, and leave its items
+    attached so nothing is resubmitted until a person says so with
+    --drop-batch, which returns them to the queue."""
+    with conn.cursor() as cur:
+        cur.execute("update extract_batches set status = 'lost', collected_at = now() where id = %s", (bid,))
+    conn.commit()
+    budget.release(bid, 0.0)
+    log(f"  BATCH LOST: {bid} ({err}). Its items stay out of the queue; if the Console confirms it is "
+        f"gone, `extract_v6.py --drop-batch {bid}` returns them")
+
+
+def drop_batch(conn, bid):
+    """Return a lost (or abandoned) batch's items to the queue. Only after a
+    person has checked the Console: if the batch is in fact still running,
+    this pays for those items twice."""
+    with conn.cursor() as cur:
+        cur.execute("update extract_batches set status = 'lost', collected_at = coalesce(collected_at, now()) "
+                    "where id = %s and status in ('lost', 'submitted')", (bid,))
+        if cur.rowcount != 1:
+            conn.rollback()
+            raise SystemExit(f"no lost or submitted batch {bid}")
+        cur.execute("""update extraction_state set batch_id = null, updated_at = now()
+                       where batch_id = %s and extracted_at is null""", (bid,))
+        n = cur.rowcount
+    conn.commit()
+    return n
+
+
+# A pending row's batch, if the API made one, was created within this window
+# of the row (database clock against API clock, and a slow submission).
+MATCH_BEFORE = dt.timedelta(minutes=5)
+MATCH_AFTER = dt.timedelta(minutes=30)
+
+
+def pending_matches(conn, cl, pending_id):
+    """Batches in the API's list that could be this pending submission: created
+    near the row's time, with its number of requests, and not already ours."""
+    with conn.cursor() as cur:
+        cur.execute("select created_at, requests from extract_batches where id = %s and status = 'pending'",
+                    (pending_id,))
+        row = cur.fetchone()
+        cur.execute("select id from extract_batches")
+        ours = {r[0] for r in cur.fetchall()}
+    conn.commit()
+    if row is None:
+        raise SystemExit(f"no pending batch {pending_id}")
+    created, n = row
+    out = []
+    for b in AV.recent_batches(cl):
+        c = b.request_counts
+        total = c.processing + c.succeeded + c.errored + c.canceled + c.expired
+        if b.id not in ours and total == n and created - MATCH_BEFORE <= b.created_at <= created + MATCH_AFTER:
+            out.append(b.id)
+    return out
+
+
+def resolve_pending_auto(conn, cl, pending_id, log=print):
+    """Adopt the one batch that matches a pending row; None if not exactly one."""
+    found = pending_matches(conn, cl, pending_id)
+    if len(found) == 1:
+        resolve_pending(conn, pending_id, found[0])
+        log(f"pending submission {pending_id} matched batch {found[0]}: re-attaching to it")
+        return found[0]
+    log(f"pending submission {pending_id}: {len(found)} matching batch(es) in the API's list"
+        + (f" ({', '.join(found)})" if found else ""))
+    return None
 
 
 def resolve_pending(conn, pending_id, batch_id):
@@ -745,7 +900,14 @@ def status(conn, log=print):
 def set_read_version(conn, version, refresh_views=True, log=print):
     """The board's switch: which extraction live_mentions (and so scoring and
     the API) reads. Refreshes the scoring views straight after, so the
-    materialized board and the API's direct reads agree again."""
+    materialized board and the API's direct reads agree again.
+
+    Not one transaction, on purpose: momentum_windows cannot refresh
+    concurrently, and inside one transaction its exclusive lock would block
+    every board read until the last view was done. So there is a window, as
+    long as the refresh (minutes), in which the API's direct reads (a place's
+    mention list, dishes, the feed's places) already show the new extraction
+    while the leaderboard still ranks the old one. Flip at a quiet hour."""
     with conn.cursor() as cur:
         cur.execute("update extraction_settings set read_version = %s, updated_at = now()", (version,))
         if cur.rowcount == 0:
@@ -803,7 +965,10 @@ def main(argv=None):
     ap.add_argument("--status", action="store_true", help="print the v6 cursor, errors, batches and spend")
     ap.add_argument("--read", choices=("legacy", "v6"), help="switch what the board reads, then refresh")
     ap.add_argument("--resolve-pending", nargs=2, metavar=("PENDING_ID", "BATCH_ID"),
-                    help="adopt the batch an interrupted submission created, or 'none' to drop it")
+                    help="settle a submission with an unknown outcome: the batch id the Console shows, "
+                         "'none' if it made none, or 'auto' to match the API's batch list")
+    ap.add_argument("--drop-batch", metavar="BATCH_ID",
+                    help="return a lost batch's items to the queue (only once the Console confirms it is gone)")
     args = ap.parse_args(argv)
     kinds = {"comments": ("comment",), "posts": ("post",), "both": KINDS}[args.scope]
     since, ids = _parse_since(args.since), _parse_ids(args.ids)
@@ -814,19 +979,39 @@ def main(argv=None):
     if args.status:
         status(conn)
         return 0
-    if args.read:
-        set_read_version(conn, args.read)
-        return 0
-    if args.resolve_pending:
-        resolve_pending(conn, *args.resolve_pending)
-        return 0
     if args.dry_run:
         dry_run(conn, kinds, args.limit, since, ids, args.max_chars)
         return 0
+    # Everything below changes v6 state, so it waits for no other v6 run.
+    if not try_lock(conn):
+        raise SystemExit("another v6 extraction is running (the poller's pass or a manual run); "
+                         "try again when it is done")
+    try:
+        return _main_locked(conn, args, kinds, since, ids)
+    finally:
+        unlock(conn)
+
+
+def _main_locked(conn, args, kinds, since, ids):
+    if args.read:
+        set_read_version(conn, args.read)
+        return 0
+    if args.drop_batch:
+        print(f"{drop_batch(conn, args.drop_batch):,} item(s) of {args.drop_batch} returned to the queue")
+        return 0
+    if args.resolve_pending and args.resolve_pending[1] != "auto":
+        resolve_pending(conn, *args.resolve_pending)
+        return 0
+
+    key = AV.api_key()
+    if args.resolve_pending:
+        if not key:
+            raise SystemExit(f"{AV.KEY_VAR} is not set")
+        found = resolve_pending_auto(conn, AV.client(key), args.resolve_pending[0])
+        return 0 if found else 4
 
     if args.max_usd is None:
         raise SystemExit("--max-usd is required: every run that calls the API has a hard cap")
-    key = AV.api_key()
     if not key:
         raise SystemExit(f"{AV.KEY_VAR} is not set (extraction uses its own key and no other)")
     if args.retry_errors:
@@ -849,6 +1034,10 @@ def main(argv=None):
         else:
             run_direct(conn, cl, budget, kinds, args.limit, since, ids, args.max_chars, args.workers,
                        stats=stats)
+    except AV.AmbiguousSubmit as e:
+        print(f"\nSTOPPED: a batch submission's outcome is unknown ({e}). It is kept as pending; the "
+              "next run matches it against the API's batch list, or use --resolve-pending")
+        code = 2
     except (AV.FatalAPIError, AV.TransientAPIError) as e:
         print(f"\nSTOPPED: {type(e).__name__}: {e}\nnothing unsent was marked; fix the cause and re-run")
         code = 2

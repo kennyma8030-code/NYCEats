@@ -114,11 +114,11 @@ class Errors(unittest.TestCase):
 
         def answer(params):
             return seq.pop(0) if seq else F.ok([])
-        waits, lost = [], []
+        waits = []
         with F.FakeAnthropic(answer) as api:
             try:
                 out = AV.call(AV.client("k", api.base_url), AV.params("s", "u"), attempts=attempts,
-                              sleep=waits.append, log=lambda *_: None, on_lost=lost.append)
+                              sleep=waits.append, log=lambda *_: None)
             except Exception as e:
                 out = e
         return out, waits, len(api.requests)
@@ -149,13 +149,64 @@ class Errors(unittest.TestCase):
         self.assertIsInstance(out, AV.TransientAPIError)
         self.assertEqual((n, len(waits)), (3, 2))
 
-    def test_connection_failure_counts_as_possibly_billed(self):
-        lost = []
+    def test_connection_failure_asks_before_retrying(self):
+        asked = []
         cl = AV.client("k", "http://127.0.0.1:9")          # nothing listens on the discard port
+        with self.assertRaises(AV.TransientAPIError) as cm:
+            AV.call(cl, AV.params("s", "u"), attempts=3, sleep=lambda s: None, log=lambda *_: None,
+                    retry_ok=lambda: asked.append(1) or True)
+        self.assertEqual(asked, [1, 1])                   # before each retry, not after the last
+        self.assertTrue(cm.exception.maybe_billed)
+
+    def test_no_room_to_retry_gives_up(self):
+        cl = AV.client("k", "http://127.0.0.1:9")
+        with self.assertRaises(AV.CapReached):
+            AV.call(cl, AV.params("s", "u"), attempts=3, sleep=lambda s: None, log=lambda *_: None,
+                    retry_ok=lambda: False)
+
+    def test_status_errors_do_not_ask(self):
+        # A 429/5xx answer was not billed, so retrying needs no new reservation.
+        asked = []
+        seq = [F.error(529, "overloaded_error")]
+        with F.FakeAnthropic(lambda p: seq.pop(0) if seq else F.ok([])) as api:
+            AV.call(AV.client("k", api.base_url), AV.params("s", "u"), attempts=3, sleep=lambda s: None,
+                    log=lambda *_: None, retry_ok=lambda: asked.append(1) or True)
+        self.assertEqual(asked, [])
+
+
+class BatchCalls(unittest.TestCase):
+    def test_submit_outcomes(self):
+        with F.FakeAnthropic() as api:
+            cl = AV.client("k", api.base_url)
+            api.submit_status = F.error(400, "invalid_request_error")
+            with self.assertRaises(AV.FatalAPIError):
+                AV.submit(cl, [("t1_a", AV.params("s", "u"))])
+            api.submit_status = F.error(429, "rate_limit_error")
+            with self.assertRaises(AV.TransientAPIError):
+                AV.submit(cl, [("t1_a", AV.params("s", "u"))])
+            self.assertEqual(api.batches, {})
+            api.accept_then_fail = F.error(500, "api_error")
+            with self.assertRaises(AV.AmbiguousSubmit):
+                AV.submit(cl, [("t1_a", AV.params("s", "u"))])
+            self.assertEqual(len(api.batches), 1)          # it exists, and would bill
+        with self.assertRaises(AV.AmbiguousSubmit):
+            AV.submit(AV.client("k", "http://127.0.0.1:9"), [("t1_a", AV.params("s", "u"))])
+
+    def test_404_is_not_found_everywhere(self):
+        with F.FakeAnthropic() as api:
+            cl = AV.client("k", api.base_url)
+            with self.assertRaises(AV.NotFound):
+                AV.retrieve(cl, "msgbatch_nope")
+            bid = AV.submit(cl, [("t1_a", AV.params("s", "u"))])
+            AV.retrieve(cl, bid)
+            api.forgotten.add(bid)
+            with self.assertRaises(AV.NotFound):
+                AV.results(cl, bid)
+            self.assertEqual([b.id for b in AV.recent_batches(cl)], [bid])
+
+    def test_results_errors_are_mapped(self):
         with self.assertRaises(AV.TransientAPIError):
-            AV.call(cl, AV.params("s", "u"), attempts=2, sleep=lambda s: None, log=lambda *_: None,
-                    on_lost=lost.append)
-        self.assertEqual(lost, [1, 1])
+            AV.results(AV.client("k", "http://127.0.0.1:9"), "msgbatch_x")
 
 
 if __name__ == "__main__":

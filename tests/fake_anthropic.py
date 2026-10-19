@@ -10,6 +10,7 @@ starting with "Place" (so "PlaceAlpha and PlaceBeta" gives two), with usage
 in the shape Haiku 5.5 reports. Helpers build the other outcomes.
 """
 
+import datetime as dt
 import json
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -67,7 +68,9 @@ class FakeAnthropic:
         self.requests = []          # direct /v1/messages bodies
         self.batch_requests = []    # every request inside every created batch
         self.batches = {}
-        self.submit_status = None   # (status, body) to fail the next batch create
+        self.submit_status = None   # (status, body) to refuse the next batch create
+        self.accept_then_fail = None  # (status, body): create the next batch, then answer this
+        self.forgotten = set()      # batch ids that answer 404 (past retention, another key)
         self._lock = threading.Lock()
         self._n = 0
 
@@ -101,8 +104,15 @@ class FakeAnthropic:
 
             def do_GET(self):
                 parts = self.path.split("?")[0].strip("/").split("/")
+                if len(parts) == 3:                    # v1/messages/batches: the list
+                    data = [fake._batch(b) for b in sorted(fake.batches, reverse=True)]
+                    return self._send(200, {"data": data, "has_more": False,
+                                            "first_id": data[0]["id"] if data else None,
+                                            "last_id": data[-1]["id"] if data else None})
                 # v1/messages/batches/<id>[/results]
                 bid = parts[3]
+                if bid not in fake.batches or bid in fake.forgotten:
+                    return self._send(*error(404, "not_found_error", f"no batch {bid}"))
                 if len(parts) == 5 and parts[4] == "results":
                     return self._send(200, fake._results(bid), "application/binary")
                 return self._send(200, fake._batch(bid, poll=True))
@@ -139,7 +149,11 @@ class FakeAnthropic:
                     st, msg = self.answer(r["params"])
                     out[r["custom_id"]] = ({"type": "succeeded", "message": msg} if st == 200 else
                                            {"type": "errored", "error": msg})
-            self.batches[bid] = {"results": out, "polls": 0, "n": len(body["requests"])}
+            self.batches[bid] = {"results": out, "polls": 0, "n": len(body["requests"]),
+                                 "created": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%fZ")}
+        if self.accept_then_fail is not None:
+            st, self.accept_then_fail = self.accept_then_fail, None
+            return st
         return 200, self._batch(bid)
 
     def _batch(self, bid, poll=False):
@@ -152,7 +166,7 @@ class FakeAnthropic:
                 "processing_status": "ended" if ended else "in_progress",
                 "request_counts": {"processing": 0 if ended else n, "succeeded": n if ended else 0,
                                    "errored": 0, "canceled": 0, "expired": 0},
-                "created_at": "2026-10-19T00:00:00Z", "expires_at": "2026-10-20T00:00:00Z",
+                "created_at": b["created"], "expires_at": "2099-01-01T00:00:00Z",
                 "ended_at": "2026-10-19T00:10:00Z" if ended else None,
                 "cancel_initiated_at": None, "archived_at": None,
                 "results_url": f"{self.base_url}/v1/messages/batches/{bid}/results" if ended else None}

@@ -11,6 +11,7 @@ import datetime as dt
 import importlib.util
 import io
 import os
+import threading
 import unittest
 from contextlib import redirect_stdout
 from unittest import mock
@@ -439,7 +440,7 @@ class Direct(DbCase):
         with F.FakeAnthropic() as api:
             s = self.run_direct(api, budget=w * 0.9, workers=1, kinds=("comment",))
         self.assertEqual((len(api.requests), s.done), (0, 0))      # not even one worst case fits
-        self.assertGreater(s.refused, 0)
+        self.assertEqual(s.refused, len(HOME_LIVE))                # every due item, counted once
 
         # Each answer costs 0.6 of a worst case: the first fits under 1.5, the
         # second's worst case would not (0.6 + 1.0 > 1.5), so it is never sent.
@@ -655,6 +656,207 @@ class Poller(DbCase):
         self.assertIn("EXTRACTION STOPPED", out.getvalue())
         self.assertIn("key revoked", out.getvalue())
         self.assertEqual(self.q("select count(*) from extraction_state"), [(0,)])
+
+
+def timing_out(delay=1.0):
+    """An answer that outlasts the client's timeout (patch AV.TIMEOUT below it)."""
+    def answer(p):
+        threading.Event().wait(delay)
+        return F.default_answer(p)
+    return answer
+
+
+class ReviewFixes(DbCase):
+    """The code review's findings on 2ebfc1e, one test each."""
+
+    def batch(self, api, budget=10.0, **kw):
+        stats = X.Stats()
+        X.run_batch(self.conn, AV.client("k", api.base_url), X.Budget(budget), log=QUIET,
+                    sleep=lambda s: None, poll_seconds=0, stats=stats, **kw)
+        return stats
+
+    # (1) an ambiguous batch submission is never resubmitted
+    def test_ambiguous_submit_keeps_pending_and_the_next_run_adopts_it(self):
+        with F.FakeAnthropic() as api:
+            api.accept_then_fail = F.error(500, "api_error")
+            with self.assertRaises(AV.AmbiguousSubmit):
+                self.batch(api, kinds=("comment",))
+            self.assertEqual(len(api.batches), 1)                     # the API did create it
+            pend = self.q("select id, status from extract_batches")
+            self.assertEqual(len(pend), 1)
+            self.assertTrue(pend[0][0].startswith("pending-"))
+            self.assertEqual(self.q("select count(*) from extraction_state where batch_id = %s", (pend[0][0],)),
+                             [(len(HOME_LIVE),)])
+            self.assertEqual(X.candidate_ids(self.conn, "comment"), [])   # its items are not due
+            sent = len(api.batch_requests)
+            self.batch(api, kinds=("comment",))
+        self.assertEqual(len(api.batch_requests), sent)               # adopted, not resubmitted
+        self.assertEqual(self.done_ids(), HOME_LIVE)
+        self.assertEqual(self.q("select id, status from extract_batches"), [(next(iter(api.batches)), "collected")])
+
+    def test_ambiguous_submit_with_no_single_match_stops_for_a_person(self):
+        with F.FakeAnthropic() as api:
+            api.accept_then_fail = F.error(503, "api_error")
+            with self.assertRaises(AV.AmbiguousSubmit):
+                self.batch(api, kinds=("comment",))
+            pid = self.q("select id from extract_batches")[0][0]
+            api.forgotten.update(api.batches)                         # no longer in reach
+            api.batches.clear()
+            with self.assertRaises(SystemExit) as cm:
+                self.batch(api, kinds=("comment",))
+            self.assertIn("--resolve-pending", str(cm.exception))
+            X.resolve_pending(self.conn, pid, "none")
+            self.batch(api, kinds=("comment",))
+        self.assertEqual(self.done_ids(), HOME_LIVE)
+
+    # (2) retries after a possibly-billed timeout reserve again
+    def test_timeouts_cannot_spend_past_the_cap(self):
+        it = X.render_items(self.conn, "comment", ["t1_top"])[0]
+        w = it.worst(batch=False)
+        budget = X.Budget(w * 2.5)
+        with F.FakeAnthropic(timing_out()) as api, mock.patch.object(AV, "TIMEOUT", 0.2), \
+                mock.patch.object(AV, "MAX_WAIT", 0):
+            stats = X.Stats()
+            X.run_direct(self.conn, AV.client("k", api.base_url), budget, kinds=("comment",), workers=1,
+                         log=QUIET, stats=stats)
+        # first attempt (w), its retry (w), then a second retry would be 3w > 2.5w
+        self.assertEqual(len(api.requests), 2)
+        self.assertLessEqual(budget.spent + budget.reserved, budget.max + 1e-12)
+        self.assertAlmostEqual(budget.spent, 2 * w)
+        self.assertEqual(stats.refused, len(HOME_LIVE))
+        self.assertEqual(self.q("select count(*) from extraction_state"), [(0,)])
+
+    def test_poller_pass_cannot_spend_past_its_cap(self):
+        import poller
+        it = X.render_items(self.conn, "post", ["t3_a"])[0]
+        w = it.worst(batch=False)
+        real = AV.client
+        with F.FakeAnthropic(timing_out()) as api, mock.patch.object(AV, "TIMEOUT", 0.2), \
+                mock.patch.object(AV, "MAX_WAIT", 0), \
+                mock.patch.object(AV, "client", lambda key: real(key, api.base_url)), \
+                mock.patch.dict(os.environ, {"EXTRACT_ANTHROPIC_API_KEY": "k"}), redirect_stdout(io.StringIO()):
+            poller.extract_v6_once(self.conn, 3, 1000, 1, w * 1.5)
+        self.assertEqual(len(api.requests), 1)                     # a retry would need 2w
+
+    # (3) Ctrl-C stops queued requests
+    def test_interrupt_sends_nothing_more(self):
+        calls = []
+
+        def boom(*a, **k):
+            calls.append(1)
+            raise KeyboardInterrupt
+        with F.FakeAnthropic(timing_out(0.3)) as api, mock.patch.object(X, "_handle", boom):
+            with self.assertRaises(KeyboardInterrupt):
+                X.run_direct(self.conn, AV.client("k", api.base_url), X.Budget(10), kinds=("comment",),
+                             workers=2, log=QUIET)
+        # At most what was on the wire when the first answer came back (one
+        # per worker, and each worker may have just started its next), never
+        # the rest of the page.
+        self.assertLessEqual(len(api.requests), 4)
+        self.assertGreater(len(HOME_LIVE), 10)
+
+    # (4) one v6 run at a time; a batch is priced from all its answers
+    def test_lock_keeps_runs_apart(self):
+        import poller
+        other = pgtest.connect()
+        try:
+            self.assertTrue(X.try_lock(other))
+            with F.FakeAnthropic() as api, redirect_stdout(io.StringIO()) as out, \
+                    mock.patch.dict(os.environ, {"EXTRACT_ANTHROPIC_API_KEY": "k"}):
+                self.assertEqual(poller.extract_v6_once(self.conn, 3, 100, 1, 1.0), 0)
+                with mock.patch.object(db, "DATABASE_URL", URL), self.assertRaises(SystemExit) as cm:
+                    X.main(["--max-usd", "1"])
+            self.assertEqual(api.requests, [])
+            self.assertIn("holds the lock", out.getvalue())
+            self.assertIn("another v6 extraction is running", str(cm.exception))
+            X.unlock(other)
+            self.assertTrue(X.try_lock(self.conn))                  # released, and takeable again
+            X.unlock(self.conn)
+        finally:
+            other.close()
+
+    def test_batch_cost_counts_answers_for_detached_items(self):
+        real, calls = X._collect, []
+
+        def interrupted(*a, **k):
+            calls.append(1)
+            if len(calls) == 1:
+                raise KeyboardInterrupt
+            return real(*a, **k)
+        with F.FakeAnthropic() as api, mock.patch.object(X, "_collect", interrupted):
+            with self.assertRaises(KeyboardInterrupt):
+                self.batch(api, kinds=("comment",))
+            with self.conn.cursor() as cur:
+                cur.execute("update extraction_state set batch_id = null where item_id = 't1_r2'")
+            self.conn.commit()
+            self.batch(api, kinds=("comment",), ids=["t1_top"])
+        cost = float(self.q("select cost_usd from extract_batches order by created_at limit 1")[0][0])
+        self.assertAlmostEqual(cost, AV.cost(F.USAGE, True) * len(HOME_LIVE), places=8)
+
+    # minor: a batch the API forgot (404) is lost, not fatal for every later run
+    def test_forgotten_batch_is_marked_lost_and_can_be_dropped(self):
+        real, calls = X._collect, []
+
+        def interrupted(*a, **k):
+            calls.append(1)
+            if len(calls) == 1:
+                raise KeyboardInterrupt
+            return real(*a, **k)
+        with F.FakeAnthropic() as api:
+            with mock.patch.object(X, "_collect", interrupted), self.assertRaises(KeyboardInterrupt):
+                self.batch(api, kinds=("comment",))
+            bid = next(iter(api.batches))
+            api.forgotten.add(bid)
+            self.batch(api, kinds=("comment",))                      # no exception
+            self.assertEqual(self.q("select status from extract_batches where id = %s", (bid,)), [("lost",)])
+            self.assertEqual(X.candidate_ids(self.conn, "comment"), [])   # held back until a person says
+            self.batch(api, kinds=("comment",))                      # still fine, nothing re-attached
+            self.assertEqual(X.drop_batch(self.conn, bid), len(HOME_LIVE))
+            self.batch(api, kinds=("comment",))
+        self.assertEqual(self.done_ids(), HOME_LIVE)
+
+    # minor: posts get a share of the poller's limit
+    def test_poller_reserves_a_share_for_posts(self):
+        import poller
+        real = AV.client
+        with F.FakeAnthropic() as api, mock.patch.object(AV, "client", lambda key: real(key, api.base_url)), \
+                mock.patch.dict(os.environ, {"EXTRACT_ANTHROPIC_API_KEY": "k"}), redirect_stdout(io.StringIO()):
+            n = poller.extract_v6_once(self.conn, 3, 5, 1, 1.0)
+        done = self.done_ids()
+        self.assertEqual(n, 5)
+        self.assertEqual(len([i for i in done if i.startswith("t3_")]), 1)
+        self.assertEqual(len([i for i in done if i.startswith("t1_")]), 4)
+
+    # minor: the old tools leave v6 rows alone
+    def test_reset_refuses_v6_hashes(self):
+        import extract
+        for h in (prompt_v6.PROMPT_HASH, prompt_v6.PROMPT_HASH_POST):
+            with mock.patch("sys.argv", ["extract.py", "--reset", h]), self.assertRaises(SystemExit) as cm:
+                extract.main()
+            self.assertIn("v6 prompt", str(cm.exception))
+
+    def test_migrate_keys_keeps_post_mentions_of_different_threads(self):
+        import migrate_keys
+        for tid in ("t3_a", "t3_c"):
+            X.store(self.conn, X.Item("post", tid, None, None, prompt_v6.PROMPT_HASH_POST),
+                    {"mentions": [F.mention("PlaceSame")]}, {}, 0.0)
+        updates, deletes = migrate_keys.plan_mentions(self.conn)
+        self.assertEqual(deletes, [])
+
+    def test_sync_sends_only_old_rows(self):
+        import sync
+        db.insert_mentions(self.conn, "t1_top", [{"restaurant_raw": "PlaceAlpha", "entity_key": "placealpha"}],
+                           "deepseek", "oldhash")
+        X.store(self.conn, X.Item("comment", "t1_top", None, None, prompt_v6.PROMPT_HASH), OUTPUT, {}, 0.0)
+        X.store(self.conn, X.Item("post", "t3_c", None, None, prompt_v6.PROMPT_HASH_POST),
+                {"mentions": [F.mention("PlacePost")]}, {}, 0.0)
+        rem = pgtest.connect()
+        try:
+            with redirect_stdout(io.StringIO()):
+                total, new, skipped = sync.push_mentions(self.conn, rem, dry_run=True)
+        finally:
+            rem.close()
+        self.assertEqual(total, 1)
 
 
 if __name__ == "__main__":

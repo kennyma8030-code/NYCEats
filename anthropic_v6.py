@@ -26,7 +26,11 @@ Failures are sorted three ways, and the callers act on the sort:
     marking anything;
   * 429, 5xx (529 overloaded included) and connection failures are
     transient: they are retried with backoff, and if they outlast it,
-    TransientAPIError stops the pass, again without marking anything.
+    TransientAPIError stops the pass, again without marking anything. A
+    timeout may have been billed, so its retry needs a fresh reservation
+    under the cap (call's retry_ok), or the request is given up (CapReached);
+  * a batch submission that times out or gets a 5xx may have been accepted
+    anyway: AmbiguousSubmit, which the caller must never resubmit.
 
 Cost is computed from the usage block at Haiku 5.5's prices: $0.10/MTok in,
 $0.50 out (thinking included), $0.01 cache reads, $0.125 cache writes, all
@@ -79,6 +83,21 @@ class ItemError(Exception):
 
 class FatalAPIError(Exception):
     """A request-level refusal (4xx other than 429). Stop the pass; mark nothing."""
+
+
+class CapReached(Exception):
+    """A retry after a possibly-billed attempt would not fit under the spend cap."""
+
+
+class AmbiguousSubmit(Exception):
+    """A batch submission whose outcome is unknown (timeout, dropped connection,
+    5xx): the batch may exist and be billing. Never resubmit; resolve the
+    pending row first (extract_v6.py --resolve-pending)."""
+
+
+class NotFound(Exception):
+    """The API has no such batch for this key (404): expired past retention,
+    or made under another key."""
 
 
 class TransientAPIError(Exception):
@@ -221,19 +240,23 @@ def _retry_after(e):
         return None
 
 
-def call(cl, p, attempts=None, sleep=None, log=print, on_lost=None):
-    """One direct request. Returns the Message (SDK object); raises FatalAPIError
-    or TransientAPIError. ItemError is the caller's: parse() the result.
+def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None):
+    """One direct request. Returns the Message (SDK object); raises FatalAPIError,
+    TransientAPIError or CapReached. ItemError is the caller's: parse() the result.
 
-    on_lost(n) is told about attempts that may have been billed with nothing
-    to show for it (a timeout, a dropped connection after sending), so the
-    spend cap can count them.
+    A timeout or a dropped connection may have been billed with nothing to
+    show for it. Before retrying after one, retry_ok() is asked: the caller
+    charges the lost attempt and reserves the next one, and if that does not
+    fit under the cap it returns False and the request is given up
+    (CapReached). A 429 or 5xx answer was not billed, so it is retried
+    without asking.
     """
     import anthropic
     attempts = attempts or ATTEMPTS
     sleep = sleep or time.sleep
     last = None
     for attempt in range(attempts):
+        billed = False
         try:
             return cl.messages.create(**p)
         except anthropic.APIStatusError as e:
@@ -243,36 +266,59 @@ def call(cl, p, attempts=None, sleep=None, log=print, on_lost=None):
                 raise FatalAPIError(f"http {status}: {_body(e)[:500]}") from e
             last = f"http {status}"
             wait = _retry_after(e)
-        except (anthropic.APITimeoutError, anthropic.APIConnectionError) as e:
+        except anthropic.APIConnectionError as e:          # APITimeoutError included
             last = f"{type(e).__name__}: {e}"
             wait = None
-            if on_lost:
-                on_lost(1)
+            billed = True
         if attempt == attempts - 1:
             break
+        if billed and retry_ok is not None and not retry_ok():
+            raise CapReached(f"no room under the cap to retry after {last}")
         wait = min(MAX_WAIT, wait if wait is not None else 5 * 2 ** attempt + random.uniform(0, 1))
         log(f"  anthropic {last}, retrying in {wait:.0f}s")
         sleep(wait)
-    raise TransientAPIError(f"gave up after {attempts} attempts: {last}")
+    e = TransientAPIError(f"gave up after {attempts} attempts: {last}")
+    e.maybe_billed = billed          # the last attempt timed out: charge it
+    raise e
 
 
 # ---------------------------------------------------------------- batches
+def _batch_errors(what, e):
+    """Map an SDK error on a batch endpoint to ours. 404 is NotFound: the batch
+    is gone or belongs to another key, which is a fact about that batch, not
+    about the run."""
+    import anthropic
+    if isinstance(e, anthropic.APIStatusError):
+        if e.status_code == 404:
+            return NotFound(f"{what}: http 404: {_body(e)[:300]}")
+        if e.status_code != 429 and e.status_code < 500:
+            return FatalAPIError(f"{what}: http {e.status_code}: {_body(e)[:500]}")
+        return TransientAPIError(f"{what}: http {e.status_code}")
+    return TransientAPIError(f"{what}: {type(e).__name__}: {e}")
+
+
 def submit(cl, requests):
     """requests: [(custom_id, params)]. Returns the batch id.
 
-    A 4xx here is about the whole batch (too large, a bad parameter), so it is
-    fatal like a direct call's; 429 and 5xx are transient, and submission is
-    not retried: the caller still holds the pending row and can re-run.
+    Three outcomes the caller must keep apart:
+      * a 4xx other than 429 is a refusal of the whole batch (too large, a bad
+        parameter), so nothing was created: FatalAPIError;
+      * a 429 is a refusal too, nothing created: TransientAPIError;
+      * a timeout, a dropped connection or a 5xx may come after the API
+        accepted the batch, which then runs and bills: AmbiguousSubmit. The
+        caller keeps its pending row and stops; resubmitting could pay twice.
     """
     import anthropic
     try:
         b = cl.messages.batches.create(requests=[{"custom_id": cid, "params": p} for cid, p in requests])
     except anthropic.APIStatusError as e:
-        if e.status_code != 429 and e.status_code < 500:
+        if e.status_code == 429:
+            raise TransientAPIError("batch submit http 429") from e
+        if e.status_code < 500:
             raise FatalAPIError(f"batch submit http {e.status_code}: {_body(e)[:500]}") from e
-        raise TransientAPIError(f"batch submit http {e.status_code}") from e
+        raise AmbiguousSubmit(f"batch submit http {e.status_code}: {_body(e)[:300]}") from e
     except anthropic.APIConnectionError as e:
-        raise TransientAPIError(f"batch submit: {type(e).__name__}: {e}") from e
+        raise AmbiguousSubmit(f"batch submit: {type(e).__name__}: {e}") from e
     return b.id
 
 
@@ -280,12 +326,18 @@ def retrieve(cl, batch_id):
     import anthropic
     try:
         return cl.messages.batches.retrieve(batch_id)
-    except anthropic.APIStatusError as e:
-        if e.status_code != 429 and e.status_code < 500:
-            raise FatalAPIError(f"batch {batch_id} http {e.status_code}: {_body(e)[:500]}") from e
-        raise TransientAPIError(f"batch {batch_id} http {e.status_code}") from e
-    except anthropic.APIConnectionError as e:
-        raise TransientAPIError(f"batch {batch_id}: {type(e).__name__}: {e}") from e
+    except (anthropic.APIStatusError, anthropic.APIConnectionError) as e:
+        raise _batch_errors(f"batch {batch_id}", e) from e
+
+
+def recent_batches(cl, limit=100):
+    """The key's most recent batches (newest first), for matching a pending row."""
+    import anthropic
+    try:
+        page = cl.messages.batches.list(limit=limit)
+        return list(page.data)
+    except (anthropic.APIStatusError, anthropic.APIConnectionError) as e:
+        raise _batch_errors("batch list", e) from e
 
 
 def results(cl, batch_id):
@@ -294,15 +346,20 @@ def results(cl, batch_id):
     Results arrive in any order; they are keyed by custom_id, which is the
     item id itself.
     """
+    import anthropic
     out = {}
-    for r in cl.messages.batches.results(batch_id):
-        res = r.result
-        if res.type == "succeeded":
-            out[r.custom_id] = ("succeeded", res.message)
-        elif res.type == "errored":
-            err = _dump(res.error) or {}
-            inner = err.get("error") or {}
-            out[r.custom_id] = ("errored", inner.get("type") or "error", str(inner.get("message") or "")[:300])
-        else:
-            out[r.custom_id] = (res.type,)
+    try:
+        for r in cl.messages.batches.results(batch_id):
+            res = r.result
+            if res.type == "succeeded":
+                out[r.custom_id] = ("succeeded", res.message)
+            elif res.type == "errored":
+                err = _dump(res.error) or {}
+                inner = err.get("error") or {}
+                out[r.custom_id] = ("errored", inner.get("type") or "error",
+                                    str(inner.get("message") or "")[:300])
+            else:
+                out[r.custom_id] = (res.type,)
+    except (anthropic.APIStatusError, anthropic.APIConnectionError) as e:
+        raise _batch_errors(f"batch {batch_id} results", e) from e
     return out
