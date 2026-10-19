@@ -12,22 +12,19 @@ someone else's.
 """
 
 import os
-import threading
 
 from fastapi import APIRouter, BackgroundTasks, Depends, Header, HTTPException
 from typing import Annotated, Optional
 
-from .. import queries
-from ..db import connection, fetch_all, fetch_one, fetch_value, get_conn
+import db as pipeline_db
+
+from .. import locks, queries
+from ..db import fetch_all, fetch_one, fetch_value, get_conn
 from ..models import AliasIn, AliasOut, JobAccepted, Page, UnresolvedRow
 
 router = APIRouter(prefix="/api/admin")
 
 ADMIN_TOKEN = os.environ.get("ADMIN_TOKEN")
-
-# One refresh at a time. Two concurrent REFRESH MATERIALIZED VIEW runs would
-# queue on the same locks and double the time everything is stale.
-_refreshing = threading.Lock()
 
 
 def require_token(x_admin_token: Annotated[Optional[str], Header()] = None):
@@ -92,17 +89,23 @@ def delete_alias(entity_key: str, conn=Depends(get_conn)):
     return None
 
 
-def _run_refresh():
-    """Own connection, not a pooled one: a full refresh takes minutes and must
-    not hold a slot the request path needs."""
+def _run_refresh(conn):
+    """Runs after the response, on the connection that already holds the lock.
+
+    Its own connection, not a pooled one: a full refresh takes minutes and
+    must not hold a slot the request path needs.
+    """
     try:
         import refresh
-        with connection() as conn:
-            refresh.refresh_views(conn, verbose=True)
+        refresh.refresh_views(conn, verbose=True)
     except Exception as e:
         print(f"[admin] refresh failed: {type(e).__name__}: {e}", flush=True)
     finally:
-        _refreshing.release()
+        try:
+            locks.unlock(conn)
+        except Exception:
+            pass              # closing the session releases it anyway
+        conn.close()
 
 
 @router.post("/refresh", response_model=JobAccepted, status_code=202,
@@ -116,10 +119,22 @@ def refresh_views(background: BackgroundTasks):
     board reads all three, so refreshing out of order scores current mentions
     against a previous run's identities. refresh.py owns that ordering and
     this reuses it rather than restating it.
+
+    One refresh at a time across every process: two concurrent REFRESH
+    MATERIALIZED VIEW runs queue on the same locks and double the time
+    everything is stale. The advisory lock (app/locks.py) is taken here,
+    before answering, so `started` says whether this call is the one running.
     """
-    if not _refreshing.acquire(blocking=False):
+    conn = pipeline_db.connect()
+    try:
+        taken = locks.try_lock(conn)
+    except Exception:
+        conn.close()
+        raise
+    if not taken:
+        conn.close()
         return JobAccepted(job="refresh", started=False,
                            detail="a refresh is already running")
-    background.add_task(_run_refresh)
+    background.add_task(_run_refresh, conn)
     return JobAccepted(job="refresh", started=True,
                        detail="running in the background; poll /healthz")
