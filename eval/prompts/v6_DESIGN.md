@@ -50,8 +50,12 @@ turning it off loses negations that point at the parent comment.
 
 Round 4 is built from the Opus review of round 3 (`../review_v6/report.md` and
 `../review_v6/analysis/`: errors, Haiku guidance, schema, input, red team, decisions)
-and the owner's final decisions. The prompt now states the rubric's rules exactly,
-and `../review_v6r4/RUBRIC.md` states the prompt's.
+the code review of the first draft, the Opus pre-check of that draft against all 535
+round-3 errors (`../review_v6/analysis/precheck_r4.md`), and the owner's final decisions.
+The judges' rules are the prompt's, word for word: the rules half of
+`../review_v6r4/RUBRIC.md` is generated from the prompt (`../review_v6r4/rubric.py`), and
+`v6_selftest` fails if they drift apart. `../review_v6r4/PARITY.md` lists where each
+decision lives.
 
 - **Prompt.** XML sections; the five round-3 lines that contradicted the rubric are
   gone; the owner's decisions are written in (untried reactions carry no level; a
@@ -63,7 +67,11 @@ and `../review_v6r4/RUBRIC.md` states the prompt's.
   their stalls; old visits are current; one branch closing leaves status null;
   timing tips; "for the price"). Experience asks whose opinion it is. Five short
   contrastive examples replace the one JSON example, and a `<before_answering>`
-  checklist asks for thinking: half of round 3's low-effort calls had none.
+  checklist asks for thinking: half of round 3's low-effort calls had none. Every
+  phrase the reviews found copied from eval comments is paraphrased, and `v6_selftest`
+  now fails on any rare 4-word run shared with an eval text, any distinctive eval
+  place-name bigram, or any of those phrases coming back. About 22k characters, 7.7k
+  tokens, cached.
 - **Schema.** Level labels that state their test (`superlative_praise`, `praise`,
   `mixed`, `knock`, `extreme_knock`), mapped back to the owner's five by
   `v6_adapter.normalize`; `kind` per place, with groceries, brands, venues,
@@ -77,12 +85,14 @@ and `../review_v6r4/RUBRIC.md` states the prompt's.
   1,200 characters, up to five ancestors with `OP` / `you, earlier` / `another
   user`, `author="you"` when the commenter wrote the post, deleted parents and
   `> quotes` marked.
-- **Validators** (`../v6_validate.py`): endorse → positive, very_* needs its word,
-  none → firsthand, secondhand needs a credit word, closed → past, and the
-  owner's lone-verdict overall. Together they fixed 120 fields and broke 28 on
-  round 3's output.
+- **Validators** (`../v6_validate.py`): endorse with no overall → positive, very_*
+  needs its word near the name, none → firsthand, secondhand needs a credit word,
+  and the owner's lone-verdict overall. Together they fixed 125 fields and broke 39 on
+  round 3's output, against the old rubric's finals.
+- **Review.** Every round-4 output is judged fresh under the new rubric; round 3's
+  finals are not reused, and round 3 is scored against the new finals instead.
 - **Benchmark.** `bench_v6.py` steps n (low, the 600 + 60 hard + 300 fresh) and o
-  (medium, the 600 + 60 hard), prepared, not run.
+  (medium, the 600 + 60 hard), prepared, not run; cap $7, step o refused past $5.50.
 
 ## The output
 

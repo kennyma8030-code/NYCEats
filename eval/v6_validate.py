@@ -14,28 +14,35 @@ Every rule was measured on the 542 real items of the round-3 review (eval/review
 against the judges' final values, before it was allowed into DEFAULT: a rule is kept
 only when the fields it fixes clearly outnumber the fields it breaks. The table, from
 `measure`, is in eval/review_v6/validators.json; the reasons are next to each rule.
-Measured on round 3, scored fields the rule fixed / broke (dish entries counted apart):
+Measured on round 3, scored fields the rule fixed / broke against the round-3 judges'
+finals (dish entries counted apart). Patterns are matched only around the place's name
+(150 characters before, 350 after; the whole comment for a context-named place), plus the
+parent for an agreement reply, and the superlative and extreme lists are the prompt's own.
 
-  rule                     what it does                                          fixed broken
-  endorse_positive         endorse -> overall positive (owner rule)                  1      0  kept
-  very_needs_word          very_* with no superlative or extreme word in the        40     13  kept
-                           comment -> one step down (+7 dish levels)
-  none_to_firsthand        experience none on a stated or endorse mention ->        28      7  kept
-                           firsthand, unless the comment has untried words
-  secondhand_needs_credit  secondhand with no credit word -> firsthand              22      4  kept
-  closed_past              status closed -> timeframe past                           5      2  kept
-  lone_aspect_overall      stated, overall null, one-signed non-wait aspects or     24      2  kept
-                           dish levels -> overall (the owner's lone-verdict rule)
-  note_dish                a dish only in a note -> a dish entry                     0      0  dropped: +2 dish
-                           (round 4's notes have no dish slot anyway)                            entries, no field
-  stated_all_null_none     stated with nothing leveled -> opinion none               3      2  dropped: no clear gain
-  avoid_positive           avoid true with overall positive                      flag only (1 flagged, 1 real)
-  kind_excluded            kind grocery, brand, venue, company, other -> out     round 4 only (round 3 has no kind)
+  rule                          what it does                                     fixed broken
+  endorse_positive              endorse with overall null -> positive (owner rule;   1      0  kept
+                                never overrides a set overall)
+  very_needs_word               very_* with no superlative or extreme word near     49     24  kept
+                                the name -> one step down (+5 dish levels)
+  none_to_firsthand             experience none on a stated or endorse mention ->   31      9  kept
+                                firsthand, unless untried words are near the name
+  secondhand_needs_credit       secondhand with no credit word -> firsthand (none   24      4  kept
+                                when opinion is none)
+  lone_aspect_overall           stated, overall null, one non-wait aspect (and its  20      2  kept
+                                dishes), one sign, no untried words -> overall
+  opinion_none_experience_none  opinion none -> experience none (the prompt's rule)   4      7  dropped
+  closed_past                   status closed, no branch location -> past            1      2  dropped
+  note_dish                     a dish only in a note -> a dish entry                0      0  dropped
+  stated_all_null_none          stated with nothing leveled -> opinion none          3      2  dropped
+  avoid_positive                avoid true with overall positive                 flag only (1 flagged, 1 real)
+  kind_excluded                 kind grocery, brand, venue, company, other -> out   round 4 only
 
-All six kept together: 120 fields fixed, 28 broken, 99 more right fields (overall +37,
-experience +39). Most of very_needs_word's "breaks" are knocks the round-3 judges
-called very_negative under the old calibration ("terrible", "sucks"), which the owner's
-round-4 decision makes negative; under the new rubric the rule is better than measured.
+The five kept together: 125 fields fixed, 39 broken, 91 more right fields (overall +31,
+experience +42). The finals are the old rubric's: 16 of very_needs_word's 24 "breaks" are
+levels the owner's round-4 calibration moves to the validator's answer ("terrible", "sucks",
+"an abomination", "best on the UES", the asker's "best"), so under the new rubric it does
+better than measured. The two dropped rules that follow round-4 rules (experience none for
+no opinion, closed means past) lose against the old finals; re-measure them on round 4's.
 """
 
 import collections
@@ -52,26 +59,64 @@ import v6_adapter as A  # noqa: E402
 POS, NEG = ("very_positive", "positive"), ("very_negative", "negative")
 ASPECTS = ("taste", "value", "service", "atmosphere", "wait")
 
-# Words that let a very_* level stand. The owner's tests: a superlative against the
-# whole city or wider, or an extreme (worst, inedible, disgusting, got sick, avoid at
-# all costs). The check is deliberately loose (any such word anywhere in the comment):
-# it only removes very_* levels that have no basis at all.
-SUPERLATIVE = re.compile(r"\b(best|greatest|favou?rites?( \w+){0,3} (in|of)|number one|#1|top (spot|pick) in|of my life|"
-                         r"ever (had|eaten|tasted)|i'?ve ever|nothing (else )?(in \w+ )?(comes close|compares)|"
-                         r"no(where| one) (else )?(comes close|compares|does it better)|unmatched|unrivaled|"
-                         r"goat|best of the best)\b", re.I)
-EXTREME = re.compile(r"\b(worst|inedible|disgusting|vile|got sick|food poisoning|poison(ed|ing)?|threw up|"
-                     r"vomit\w*|avoid (it )?at all costs|stay away|roach(es)?|rats?|mice|bugs? in|hair in|"
-                     r"inexcusable|abomination)\b", re.I)
-UNTRIED = re.compile(r"(never been|haven'?t (ever |even )?(been|tried|eaten|gone)|have not been|never tried|not tried|"
-                     r"\blooks?\b|\blooked\b|\bsounds?\b|bucket list|never go|"
-                     r"(want|wanna|gonna|going|need|have|got) to (try|go|check)|wanna try|gotta try|will (try|check)|"
-                     r"can'?t wait|saved|bookmark|on my list|"
-                     r"been meaning|thanks|thank you|planning|plan to|next time i'?m|added to)", re.I)
+# The words that let a very_* level stand: the prompt's own lists (v6_common.SCALE),
+# superlative_praise and extreme_knock, written as patterns. Nothing beyond them: the
+# prompt calls "vile", "stay away" or "an abomination" a knock, so they don't count.
+BROAD = r"(the )?(city|nyc|ny|new york|town|the world|the country|the us|america|the states)"
+SUPERLATIVE = re.compile(
+    r"\b(best|greatest|top)\b[^.!?\n]{0,40}\b(in|of) " + BROAD + r"\b|"
+    r"\b(nyc|new york|the city)'?s? (best|greatest|top)\b|"
+    r"\b(best|greatest)\b[^.!?\n]{0,40}\b(i'?ve|i have|i) ever\b|\bever (had|eaten|tasted)\b|"
+    r"\bfavou?rite\b[^.!?\n]{0,30}\bin " + BROAD + r"\b|"
+    r"\bof my life\b|\bbest [^.!?\n]{0,30}anywhere\b|"
+    r"\bnothing (else )?(in \w+ )?(comes close|compares)\b|"
+    r"\bno(where| one) (else )?(in \w+ )?(comes close|compares|does it better)\b", re.I)
+# "worst" against anything ("some of the worst ribs") is the prompt's worst-I've-had; "the
+# worst part is" is not a verdict.
+EXTREME = re.compile(
+    r"\bworst\b(?! (part|thing about|case|time to))|"
+    r"\binedible\b|\bdisgusting\b|\bgot (really |so )?sick\b|\bfood poisoning\b|\bavoid (it |this place )?at all costs\b", re.I)
+UNTRIED = re.compile(
+    r"never been|haven't (ever |even )?(been|tried|eaten)(?! in a while| lately| in)|have not been|never tried|"
+    r"\blook(s|ed)?\b(?! like)|\bsounds?\b|bucket list|never go\b|"
+    r"(want|wanna|gonna|going|have|got) to (try|check)|wanna try|gotta try|will (try|check)|can't wait|"
+    r"\bsaved\b|bookmark|on my list|been meaning|first time (going|trying)|\bthanks?\b|thank you", re.I)
 CREDIT = re.compile(r"\b(friends?|heard|hear|people|apparently|reviews?|say|says|said|told|according|supposedly|"
                     r"word is|reddit(ors)?|they say|my (wife|husband|partner|bf|gf|boyfriend|girlfriend|sister|"
                     r"brother|mom|mother|dad|father|coworkers?|colleagues?|family|roommates?|cousin|son|daughter|"
                     r"kids?)|rumou?r)\b", re.I)
+AGREE = re.compile(r"^\W*(this|\+1|agreed?|same|exactly|seconded|second(ed)? this|so true|yes+|100%|facts|truth|"
+                   r"this is the (way|answer)|came here to say)\b", re.I)
+SENT = re.compile(r"(?<=[.!?\n])\s+")
+SHORT_NAME_WORDS = {"the", "a", "an", "and", "of", "on", "in", "at", "nyc", "cafe", "bar", "pizza", "deli", "bakery",
+                    "restaurant", "house", "kitchen", "place", "shop", "grill"}
+
+
+class Ctx:
+    """What a rule may look at: the comment, the parent (for agreement replies), and for
+    each mention the part of the comment that is about it."""
+
+    def __init__(self, comment, parent=None):
+        # curly apostrophes (Reddit's mobile keyboards) would hide "haven't" from the patterns
+        self.comment = (comment or "").replace("\u2019", "'").replace("\u2018", "'")
+        self.parent = (parent or "").replace("\u2019", "'").replace("\u2018", "'")
+        self.agreement = bool(AGREE.search(self.comment)) and len(self.comment) < 120
+        self.sentences = [s for s in SENT.split(self.comment) if s.strip()]
+
+    def scope(self, m):
+        """The comment around each place the mention's name appears (150 characters before,
+        350 after), else the whole comment (a context-named place, or a name the comment
+        spells differently); plus the parent for an agreement reply, which takes the parent's
+        verdict."""
+        words = [w for w in re.findall(r"[a-z0-9']+", (m.get("name") or "").lower())
+                 if len(w) >= 3 and w not in SHORT_NAME_WORDS]
+        low = self.comment.lower()
+        spans = [(max(0, x.start() - 150), x.end() + 350) for w in words for x in re.finditer(re.escape(w), low)]
+        if spans and m.get("named_in") != "context":
+            text = " ... ".join(self.comment[a:b] for a, b in sorted(spans))
+        else:
+            text = self.comment
+        return text + ("\n" + self.parent if self.agreement else "")
 
 
 def _very(level, text):
@@ -82,12 +127,14 @@ def _very(level, text):
     return level
 
 
-def r_endorse_positive(m, text):
-    if m.get("opinion") == "endorse" and m.get("overall") != "positive":
+def r_endorse_positive(m, ctx):
+    """Owner rule: an endorsement is praise. Only fills a missing overall; never overrides one."""
+    if m.get("opinion") == "endorse" and m.get("overall") is None:
         return {"overall": "positive"}
 
 
-def r_very_needs_word(m, text):
+def r_very_needs_word(m, ctx):
+    text = ctx.scope(m)
     ch = {}
     if _very(m.get("overall"), text) != m.get("overall"):
         ch["overall"] = _very(m["overall"], text)
@@ -101,22 +148,31 @@ def r_very_needs_word(m, text):
     return ch
 
 
-def r_none_to_firsthand(m, text):
-    if m.get("experience") == "none" and m.get("opinion") in ("stated", "endorse") and not UNTRIED.search(text):
+def r_none_to_firsthand(m, ctx):
+    if m.get("experience") == "none" and m.get("opinion") in ("stated", "endorse") \
+            and not UNTRIED.search(ctx.scope(m)):
         return {"experience": "firsthand"}
 
 
-def r_secondhand_needs_credit(m, text):
-    if m.get("experience") == "secondhand" and not CREDIT.search(text):
-        return {"experience": "firsthand"}
+def r_secondhand_needs_credit(m, ctx):
+    if m.get("experience") == "secondhand" and not CREDIT.search(ctx.comment):
+        return {"experience": "none" if m.get("opinion") == "none" else "firsthand"}
 
 
-def r_closed_past(m, text):
-    if m.get("status") == "closed" and m.get("timeframe") != "past":
+def r_opinion_none_experience_none(m, ctx):
+    """The prompt's rule: a mention with no opinion has experience none."""
+    if m.get("opinion") == "none" and m.get("experience") != "none":
+        return {"experience": "none"}
+
+
+def r_closed_past(m, ctx):
+    """Closed means the whole place; a status with a branch location is a branch closing,
+    which the prompt says leaves status null, so it doesn't move timeframe."""
+    if m.get("status") == "closed" and m.get("timeframe") != "past" and not m.get("location"):
         return {"timeframe": "past"}
 
 
-def r_note_dish(m, text):
+def r_note_dish(m, ctx):
     have = {(d.get("dish") or "").lower() for d in m.get("dishes") or []}
     add = []
     for n in m.get("notes") or []:
@@ -132,7 +188,7 @@ def _levels(m):
     return [v for v in (m.get("aspects") or {}).values() if v] + [d.get("level") for d in m.get("dishes") or [] if d.get("level")]
 
 
-def r_stated_all_null_none(m, text):
+def r_stated_all_null_none(m, ctx):
     if m.get("opinion") == "stated" and not m.get("overall") and not _levels(m):
         return {"opinion": "none"}
 
@@ -140,35 +196,40 @@ def r_stated_all_null_none(m, text):
 STRENGTH = {"very_positive": 2, "positive": 1, "neutral": 0, "negative": -1, "very_negative": -2}
 
 
-def r_lone_aspect_overall(m, text):
+def r_lone_aspect_overall(m, ctx):
     """The owner's rule: a lone taste, value, service or atmosphere verdict (a dish verdict is
-    taste) sets overall; a wait-only remark does not."""
-    if m.get("opinion") != "stated" or m.get("overall"):
+    taste) sets overall; the wait never does. Only a truly lone verdict: one non-wait aspect
+    (with the dishes behind it, if any), all one sign, and no untried words near the name, so
+    a reaction to a photo or a second misread aspect is never lifted into overall."""
+    if m.get("opinion") != "stated" or m.get("overall") or UNTRIED.search(ctx.scope(m)):
         return None
-    vals = [v for a, v in (m.get("aspects") or {}).items() if v and a != "wait"]
-    vals += [d.get("level") for d in m.get("dishes") or [] if d.get("level")]
+    asp = {a: v for a, v in (m.get("aspects") or {}).items() if v and a != "wait"}
+    dish = [d.get("level") for d in m.get("dishes") or [] if d.get("level")]
+    if len(asp) > 1 or (dish and set(asp) - {"taste"}):
+        return None
+    vals = list(asp.values()) + dish
     if not vals:
         return None
     signs = {(STRENGTH[v] > 0) - (STRENGTH[v] < 0) for v in vals}
     if len(signs) != 1 or 0 in signs:
         return None
-    # the strongest of them, but never an extreme for overall from one dish
     best = max(vals, key=lambda v: abs(STRENGTH[v]))
     return {"overall": {"very_positive": "positive", "very_negative": "negative"}.get(best, best)}
 
 
-def f_avoid_positive(m, text):
+def f_avoid_positive(m, ctx):
     return bool(m.get("avoid")) and m.get("overall") in POS
 
 
 RULES = {"endorse_positive": r_endorse_positive, "very_needs_word": r_very_needs_word,
          "none_to_firsthand": r_none_to_firsthand, "secondhand_needs_credit": r_secondhand_needs_credit,
+         "opinion_none_experience_none": r_opinion_none_experience_none,
          "closed_past": r_closed_past, "note_dish": r_note_dish, "stated_all_null_none": r_stated_all_null_none,
          "lone_aspect_overall": r_lone_aspect_overall}
 FLAGS = {"avoid_positive": f_avoid_positive}
 # Kept after measurement on round 3 (see the docstring and eval/review_v6/validators.json).
 DEFAULT = ("endorse_positive", "very_needs_word", "none_to_firsthand", "secondhand_needs_credit",
-           "closed_past", "lone_aspect_overall")
+           "lone_aspect_overall")
 
 
 def _set(m, field, value):
@@ -178,9 +239,11 @@ def _set(m, field, value):
         m[field] = value
 
 
-def apply(mentions, comment_text, rules=DEFAULT, drop_excluded=True):
+def apply(mentions, comment_text, rules=DEFAULT, drop_excluded=True, parent_text=None):
     """(new mentions, {rule: [(mention name, field, old, new)]}, flags) for one comment's output.
-    Mentions are normalized to the owner's level names first (v6_adapter.normalize)."""
+    Mentions are normalized to the owner's level names first (v6_adapter.normalize).
+    parent_text is the parent comment, read only for an agreement reply ("+1", "this")."""
+    ctx = Ctx(comment_text, parent_text)
     out, changes, flags = [], collections.defaultdict(list), collections.defaultdict(list)
     for m in mentions or []:
         if not isinstance(m, dict):
@@ -190,13 +253,13 @@ def apply(mentions, comment_text, rules=DEFAULT, drop_excluded=True):
             changes["kind_excluded"].append((m.get("name"), "_mention", "present", None))
             continue
         for name in rules:
-            ch = RULES[name](m, comment_text or "") or {}
+            ch = RULES[name](m, ctx) or {}
             for field, value in ch.items():
                 old = m.get(field) if not field.startswith("aspects.") else (m.get("aspects") or {}).get(field[8:])
                 changes[name].append((m.get("name"), field, old, value))
                 _set(m, field, value)
         for name, f in FLAGS.items():
-            if f(m, comment_text or ""):
+            if f(m, ctx):
                 flags[name].append(m.get("name"))
         out.append(m)
     return out, dict(changes), dict(flags)
@@ -234,6 +297,10 @@ def measure():
     def text_of(it):
         return (it["context"] or {}).get("body") or ""
 
+    def parent_of(it):
+        anc = (it["context"] or {}).get("ancestors") or []
+        return (anc[-1].get("body") or "") if anc else ""
+
     cases = []
     for iid, j in got.items():
         if iid in key:
@@ -244,7 +311,7 @@ def measure():
         acc = collections.defaultdict(lambda: [0, 0])
         changed = 0
         for it, finals, ms in cases:
-            new, ch, _ = apply(ms, text_of(it), rules, drop_excluded=False)
+            new, ch, _ = apply(ms, text_of(it), rules, drop_excluded=False, parent_text=parent_of(it))
             changed += sum(len(v) for v in ch.values())
             for f, (a, n) in score(new, finals).items():
                 acc[f][0] += a
@@ -260,7 +327,7 @@ def measure():
         # fixed / broken, counted per field change
         fixed = broken = 0
         for it, finals, ms in cases:
-            new, ch, _ = apply(ms, text_of(it), rules, drop_excluded=False)
+            new, ch, _ = apply(ms, text_of(it), rules, drop_excluded=False, parent_text=parent_of(it))
             for mname, field, old, value in [c for v in ch.values() for c in v]:
                 fin = next((fn for n, fn, _, _ in finals if J.same(n, mname)), None)
                 if fin is None:
@@ -276,7 +343,7 @@ def measure():
     flags = collections.Counter()
     flag_right = collections.Counter()
     for it, finals, ms in cases:
-        _, _, fl = apply(ms, text_of(it), (), drop_excluded=False)
+        _, _, fl = apply(ms, text_of(it), (), drop_excluded=False, parent_text=parent_of(it))
         for name, names in fl.items():
             for mname in names:
                 flags[name] += 1

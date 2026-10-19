@@ -7,14 +7,20 @@
 The judgment line is round 3's (eval/review_v6/RUBRIC.md), with timeframe, trend and
 status compared like the other blind fields and a kind grade in notes_grade.
 
-Final values come from three places. A judged item's finals are its judge's (own read
-where it agrees with the output shown, the compare entry's final where it doesn't, plus
-missed places). An auto-resolved output (build.py) takes the round-3 finals it equalled,
-or, for a medium output identical to low's, low's finals. Haiku's real output is then
-scored against the finals of its comment, per source: round 3's 600, the hard cases, the
-fresh held-out set, low and medium effort. Each is reported without and with the
-validators (eval/v6_validate.py, DEFAULT), and round 3's output on the same 600 is
-scored against the same finals, so round 3 and round 4 compare on one answer key.
+A judged item's finals are its judge's: the own read where it agrees with the output
+shown, the compare entry's final where it doesn't, plus missed places. A medium output
+identical to low's takes low's finals (and low's planted-change exclusions). Nothing comes
+from round 3's review. Haiku's real output is then scored against the finals of its
+comment, per source: round 3's 600, the hard cases, the fresh held-out set, low and
+medium effort. Each is reported without and with the validators (eval/v6_validate.py,
+DEFAULT).
+
+Round 3's output on the 600 is scored against the same new finals, field by field, so
+rounds 3 and 4 compare on one answer key. A round-3 mention no judge saw (the judge
+read round 4's output, and listed every place blind, but never ruled on a name only round
+3 produced) is counted as unjudged, not as a false positive; the report gives that
+coverage. A name the judge explicitly rejected (a _mention compare with final null) is a
+false positive for round 3 too.
 
 Planted items are scored too, since a blind own read gives finals for every field,
 except the planted field (or dropped mention, or dropped dish) itself. The planted
@@ -169,9 +175,11 @@ def negative(fields):
         fields.get(f"aspects.{a}") in NEGATIVE for a in B.ASPECTS)
 
 
-def score(ms, finals, skip=None, acc=None):
+def score(ms, finals, skip=None, acc=None, rejected=None):
     """Add one output's agreement with its finals to acc. skip: (name, field) pairs left out
-    (a planted change); field "_mention" leaves the whole place out."""
+    (a planted change); field "_mention" leaves the whole place out. rejected: when given
+    (scoring an output the judge never saw), an output mention that matches no final is a
+    false positive only if its name is in rejected, and otherwise unjudged."""
     acc = acc if acc is not None else collections.Counter()
     skip = skip or set()
     gone = {n for n, f in skip if f == "_mention"}
@@ -197,10 +205,18 @@ def score(ms, finals, skip=None, acc=None):
         for dn, v in fin["dishes"].items():
             if any(J3.same(name, n) and sf.startswith("dish:") and J3.S.lenient_same(sf[5:], dn) for n, sf in skip):
                 continue
-            hv = next((x for d, x in mine["dishes"].items() if J3.S.lenient_same(d, dn)), None)
+            hv = mine["dishes"][dn] if dn in mine["dishes"] else \
+                next((x for d, x in mine["dishes"].items() if J3.S.lenient_same(d, dn)), None)
             acc["n|dishes"] += 1
             acc["ok|dishes"] += hv == v
-    acc["output_mentions"] += len(ms)
+    if rejected is None:
+        acc["output_mentions"] += len(ms)
+    else:
+        extra = [m for i, m in enumerate(ms) if i not in used]
+        bad = sum(any(J3.same(m.get("name"), r) for r in rejected) for m in extra)
+        acc["output_mentions"] += len(used) + bad
+        acc["unjudged_mentions"] += len(extra) - bad
+        acc["all_output_mentions"] += len(ms)
     acc["output_kept"] += len(used)
     acc["items"] += 1
     acc["items_ok"] += B.equal_to_finals(ms, finals) if not skip else 0
@@ -214,6 +230,9 @@ def summary(acc):
            "mention_recall": r("found", "final_mentions"), "mention_precision": r("output_kept", "output_mentions"),
            "negative_recall": r("negative_caught", "final_negative"),
            "final_mentions": acc["final_mentions"], "final_negative_mentions": acc["final_negative"]}
+    if acc["all_output_mentions"]:
+        out["unjudged_mentions"] = acc["unjudged_mentions"]
+        out["judged_coverage"] = round(1 - acc["unjudged_mentions"] / acc["all_output_mentions"], 3)
     out["field_accuracy"] = {f: {"acc": r(f"ok|{f}", f"n|{f}"), "n": acc[f"n|{f}"]} for f in B.FIELDS + ["dishes"]}
     return out
 
@@ -230,24 +249,30 @@ def aggregate(paths=B.Paths(), r3_run=None, write=True):
     got, problems, items = read(paths)
     rows, _ = B.rows_and_contexts()
     runs = {"low": raw_outputs(key["runs_path"]["low"]), "med": raw_outputs(key["runs_path"]["medium"])}
-    old = B.old_finals()
-    # finals per (source, comment)
-    finals, judged_source = {}, {}
+    # finals per (source, comment), and the names each judge rejected
+    finals, rejected = {}, {}
     for iid, meta in key["items"].items():
         if iid in got:
-            finals[(meta["source"], meta["comment_id"])] = final_places(got[iid], items[iid]["shown"])
-            judged_source[iid] = meta
-    for a in key["auto"]:
-        if "reused" in a:
-            finals[(a["source"], a["comment_id"])] = old[a["comment_id"]][0]
-    for a in key["auto"]:
-        if "same_as" in a and (a["same_as"], a["comment_id"]) in finals:
-            finals[(a["source"], a["comment_id"])] = finals[(a["same_as"], a["comment_id"])]
+            k = (meta["source"], meta["comment_id"])
+            finals[k] = final_places(got[iid], items[iid]["shown"])
+            rejected[k] = [c.get("name") for c in got[iid].get("compare") or []
+                           if c.get("field") == "_mention" and c.get("final") is None]
     skips = collections.defaultdict(set)
     for iid, meta in key["items"].items():
         p = meta.get("planted")
         if p:
             skips[(meta["source"], meta["comment_id"])].add((p["mention"], p["field"]))
+    # a medium output identical to low's takes low's finals, and low's planted exclusions:
+    # where the judge missed a planted change, low's final for that field is the planted value
+    for a in key["auto"]:
+        low_k = (a["same_as"], a["comment_id"])
+        if low_k in finals:
+            finals[(a["source"], a["comment_id"])] = finals[low_k]
+            skips[(a["source"], a["comment_id"])] = skips.get(low_k, set())
+
+    def parent(cid):
+        anc = (rows.get(cid) or {}).get("ancestors") or []
+        return anc[-1]["body"] if anc and anc[-1].get("state") == "ok" else ""
     by_source = collections.defaultdict(collections.Counter)
     by_source_v = collections.defaultdict(collections.Counter)
     for (src, cid), fin in finals.items():
@@ -256,7 +281,7 @@ def aggregate(paths=B.Paths(), r3_run=None, write=True):
             continue
         text = rows[cid]["body"] if cid in rows else ""
         score(B.shown_form(raw), fin, skips.get((src, cid)), by_source[src])
-        validated, _, _ = V.apply(raw, text)
+        validated, _, _ = V.apply(raw, text, parent_text=parent(cid))
         score(validated, fin, skips.get((src, cid)), by_source_v[src])
     report = {"judged_items": len(got), "judged_expected": len(key["items"]), "problems": problems[:200],
               "auto_resolved": collections.Counter(a["source"] for a in key["auto"]),
@@ -270,8 +295,10 @@ def aggregate(paths=B.Paths(), r3_run=None, write=True):
         for (src, cid), fin in finals.items():
             if src == "r600-low" and cid in r3:
                 sk = skips.get((src, cid))           # the same exclusions as round 4's low output
-                score(B.shown_form(r3[cid]), fin, sk, acc3)
-                score(V.apply(r3[cid], rows[cid]["body"] if cid in rows else "")[0], fin, sk, acc3v)
+                rj = rejected.get((src, cid), [])
+                score(B.shown_form(r3[cid]), fin, sk, acc3, rejected=rj)
+                score(V.apply(r3[cid], rows[cid]["body"] if cid in rows else "", parent_text=parent(cid))[0],
+                      fin, sk, acc3v, rejected=rj)
         report["round3_on_same_finals"] = summary(acc3)
         report["round3_on_same_finals_with_validators"] = summary(acc3v)
     # judges: first-read accuracy, overturned share, planted catch rate, rule questions
@@ -354,9 +381,13 @@ def markdown(rep):
 # ---------------------------------------------------------------- self-test
 def self_test():
     """Build packets from stand-in outputs (round 3's low run as round 4 low, round 1's
-    medium run as medium, empty outputs for the hard and fresh sets) in a temp dir, then
-    judge them with two synthetic judges: one that copies the output (catches nothing)
-    and one that knows the planted changes (catches all). Both must pass the checker."""
+    medium run as medium, empty outputs for the hard and fresh sets, and one hard comment
+    with no low output) in a temp dir, then judge them with two synthetic judges: one that
+    copies the output (catches nothing) and one that knows the planted changes (catches
+    all). Both must pass the checker. Every low output must be judged; a medium output
+    with no low twin must be judged; and the rubber-stamp judge's finals equal the outputs
+    it saw, so every source must score 1.0 on every field once planted changes are left
+    out, which fails if a medium copy of a planted low item didn't inherit its exclusions."""
     import copy
     tmp = tempfile.mkdtemp()
     try:
@@ -364,7 +395,8 @@ def self_test():
         r1m = os.path.join(EVAL, "runs", "claude-haiku-5-5__a15cfb978cce__comment__bench6-med_schema.jsonl")
         sets = B.comment_sets()
         low_path, med_path = os.path.join(tmp, "low.jsonl"), os.path.join(tmp, "med.jsonl")
-        for src, extra, out in ((r3, sets["hard"] + sets["fresh"], low_path), (r1m, sets["hard"], med_path)):
+        no_low = sets["hard"][0]
+        for src, extra, out in ((r3, sets["hard"][1:] + sets["fresh"], low_path), (r1m, sets["hard"], med_path)):
             keep = {f"comment:{c}" for c in sets["r600"]}
             with open(out, "w", encoding="utf-8") as f:
                 for line in open(src, encoding="utf-8"):
@@ -376,12 +408,14 @@ def self_test():
         paths = B.Paths(tmp)
         s = B.build(low_path, med_path, paths, quiet=True)
         key = json.load(open(paths.key))
-        assert s["judged_items"] > 0 and s["planted"] > 0, s
-        assert s["auto_resolved_by_source"].get("r600-low", 0) > 0, "round 3's output must equal many old finals"
-        # round 3's own output equals its finals exactly where the old judge found it fully right
-        n_auto = s["auto_resolved_by_source"]["r600-low"]
-        old = B.old_finals()
-        assert all(a["reused"] in {v[2] for v in old.values()} for a in key["auto"] if "reused" in a)
+        assert s["planted"] > 0, s
+        jb = s["judged_by_source"]
+        assert jb["r600-low"] == len(sets["r600"]) and jb["fresh-low"] == len(sets["fresh"]) \
+            and jb["hard-low"] == len(sets["hard"]) - 1, jb
+        assert not any("reused" in a for a in key["auto"]), "round-3 finals must not be reused"
+        assert any(v["source"] == "hard-med" and v["comment_id"] == no_low for v in key["items"].values()), \
+            "a medium output with no low twin must be judged"
+        n_auto = sum(s["auto_resolved_by_source"].values())
         for mode in ("rubber_stamp", "oracle"):
             jdir = paths.judgments = os.path.join(tmp, "judgments_" + mode)
             os.makedirs(jdir)
@@ -424,6 +458,10 @@ def self_test():
                                             "rule_questions": [], "overall_item_ok": ok}) + "\n")
             rep = aggregate(paths, r3_run=r3, write=False)
             assert not rep["problems"], rep["problems"][:5]
+            if mode == "rubber_stamp":
+                for src, sm in rep["by_source"].items():
+                    bad = {f: v["acc"] for f, v in sm["field_accuracy"].items() if v["n"] and v["acc"] != 1.0}
+                    assert not bad and sm["mention_recall"] in (None, 1.0), (src, bad)
             assert rep["judged_items"] == rep["judged_expected"] == s["judged_items"]
             rate = rep["planted_catch_rate_all"]
             assert rate == (0.0 if mode == "rubber_stamp" else 1.0), (mode, rep["planted_catch_rate"])
@@ -431,7 +469,8 @@ def self_test():
             # the stand-in low output is round 3's: on its own finals it scores like round 3
             assert low["items"] == len(sets["r600"]), low["items"]
             assert rep["round3_on_same_finals"]["field_accuracy"]["overall"] == low["field_accuracy"]["overall"]
-            print(f"self-test {mode}: {rep['judged_items']} judged, {n_auto} auto-resolved low outputs, "
+            assert rep["round3_on_same_finals"]["judged_coverage"] == 1.0
+            print(f"self-test {mode}: {rep['judged_items']} judged, {n_auto} medium outputs equal to low, "
                   f"catch rate {rate}, r600-low overall acc {low['field_accuracy']['overall']['acc']}, "
                   f"with validators {rep['by_source_with_validators']['r600-low']['field_accuracy']['overall']['acc']}")
         # an own read that differs from the output with no compare entry must be reported

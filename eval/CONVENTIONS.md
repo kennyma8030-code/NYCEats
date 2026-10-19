@@ -36,20 +36,26 @@ decision wins. `eval/review_v6r4/RUBRIC.md` and the round-4 prompt state them in
 | case | rule |
 |---|---|
 | **Untried reactions** | "looks so good", "sounds amazing", "can't wait to try", "saved it": a mention with opinion none and no levels. |
-| **Wait-only remarks** | A remark only about the wait sets wait and leaves overall null, unless the commenter draws a bottom line from it. A lone taste, value, service or atmosphere verdict does set overall; otherwise overall follows the bottom line, else the strongest non-wait point. |
+| **Wait-only remarks** | The wait never sets or lowers overall: a remark only about the wait sets wait and leaves overall null, and "my favorite, but not worth the line" is overall positive with wait negative. A pick whose only words are about getting in is an endorsement, overall positive. A lone taste, value, service or atmosphere verdict does set overall; otherwise overall follows the bottom line, else the strongest non-wait point. |
 | **Mild words** | "decent", "solid", "good for what it is": positive. "average", "mediocre", "not worth the trip", "fine", "ok", "not bad", "meh", "mid": negative. |
 | **Extremes** | "terrible", "awful", "never again", "regretted going" are negative. very_negative only for extremes (worst ever, inedible, disgusting, got sick, avoid at all costs). very_positive only for city-wide-or-broader superlatives; local, recent and classless hyperbole ("to die for", "unreal", "10/10", "best on the UES") is positive. |
 | **Scores** | 8/10 and up positive; 5 to 7 negative; below 5 negative, very_negative only with extreme words. |
-| **Bare answers** | take the question's polarity, aspect and dish, never its superlative. Names given only as examples are opinion none. |
+| **Bare answers** | take the question's polarity and dish, and its aspect only when the question asks about that aspect (a reservation worry in the post doesn't count), never its superlative. A bare name answering a negative question is opinion stated with the knock. A place offered as an answer is a pick even when only facts are given; names given only as examples are opinion none. |
 | **Comparisons** | the loser loses only on what was compared; a swap for fit lowers nothing; no loser without a named winner; ranked picks are all positive. |
 | **Boycotts** | politics, business deals, a chef's persona: no level, a note only. |
 | **Stores, halls** | a gourmet grocer is a mention when the comment is about food it serves to eat, not groceries. A food hall or night market is a mention, and so is each named stall. |
 | **Old visits** | timeframe current unless the comment ties the verdict to an earlier time. |
 | **Chain branches** | one branch closing, opening or moving: status null, the branch in location and a note. |
 | **Timing tips** | wait negative when you plan around a wait, positive when getting in is easy. |
-| **"for the price"** | praise or complaint by the word before it. |
+| **"for the price"** | praise or complaint by the word before it. A price word alone is price, not value. |
+| **Mild and extreme words** | "gross" is negative; very_negative only with inedible, disgusting, got sick, food poisoning, worst ever, avoid at all costs. |
+| **Untried, refined** | reactions to someone else's report with nothing from their own visit carry no level; "haven't been, but heard it's great" is secondhand with that verdict; "haven't been in a while" means they have been; "going today" is untried. |
+| **Earlier verdicts** | levels come only from what this comment says; the commenter's earlier comment or post is counted where they wrote it, never copied into this one. |
+| **No opinion, no experience** | when opinion is none, experience is none. |
+| **Described vendors** | an unnamed vendor identifiable by what and where ("the tamale lady at X", "the halal cart on 53rd and 6th") is a mention, named by that description. |
+| **Tags, not levels** | "healthy" is a tag, not taste; second-guessing a business decision is a note, no level. |
 
-The "settle" decisions in `review_v6/analysis/decisions.md` (13 to 25) apply as recommended.
+The "settle" decisions in `review_v6/analysis/decisions.md` (13 to 25) and the wording fixes in `review_v6/analysis/precheck_r4.md` apply as recommended.
 
 ## Where the v1/v2 gold disagrees
 

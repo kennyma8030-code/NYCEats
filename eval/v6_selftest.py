@@ -99,6 +99,118 @@ def validate(value, node, root, path="$"):
     return errs
 
 
+# ------------------------------------------------------------ leak check
+# Three tests, all on lowercased word sequences (punctuation and curly quotes ignored):
+#   * phrases the round-3 reviews found copied from eval comments, which must never return;
+#   * any run of 4 or more words shared with an eval text (comment, ancestor, reply, title or
+#     post of any items file) that 3 or fewer eval texts contain: a run that rare is a copy,
+#     not common English. LEAK_ALLOW lists the owner's own level vocabulary and plain
+#     instruction phrases that happen to be that rare;
+#   * a bigram of an eval place name made of two distinctive words (neither a stopword nor a
+#     word in 5 or more place names, like "pizza" or "bakery").
+LEAK_BANNED = (
+    "jg mellon style", "best on the ues", "sounds amazing", "that's what i was afraid of",
+    "thanks will check it out", "not the best or worst price", "too bad it closed", "the deli counter",
+    "great for the price", "walked right in", "love the hash wrap", "free tables at 4", "be there by 11 30",
+    "it's a small business", "mazemen", "best chicken salad", "easiest walk ins", "should be burned down",
+    "brutal lines", "those lines are brutal", "it's not that bad", "in that order", "barely any seating",
+    "prix fixe only", "great brisket", "packed and lively", "make it yourself", "poor quality",
+    "not a real slice", "don't tell anyone", "100 steaks", "the line started", "busy even in the rain",
+    "tiny portions for the price", "comes from a jar", "lindustrie", "2nd ave", "tong or keens",
+    "on rivington", "the les one", "looks so good", "can't wait to try", "deserves its star",
+    "heard great things", "best hand pulled noodles", "loved the cumin lamb", "they take walk ins",
+    "is your best bet", "couldn't get a reservation", "it's fine not worth the trip",
+    "adding it to my list", "the tamale lady", "53rd and 6th", "only 12 pieces", "outrageous price",
+    "if you're a tourist", "same menu", "the tacos are always consistent", "sickeningly rare",
+    "that's cool they", "absolutely disgusting", "kids activity", "looks like they have an opening")
+LEAK_ALLOW = {
+    "when the place is", "only in the context", "anything that is not", "the place in the", "food or drink is",
+    "new york city food", "in a new york", "avoid at all costs", "my favorite in nyc", "best meal i've had",
+    "what it is a", "the food and drink", "not worth the trip", "good for what it", "worst i've ever had",
+    "good for what it is"}
+STOP = {"the", "a", "an", "and", "of", "on", "in", "at", "by", "to", "for", "one", "that", "this", "is", "it",
+        "my", "your", "new", "york", "nyc", "place", "spot", "table", "pick", "st", "ave"}
+
+
+def _words(text):
+    return re.findall(r"[a-z0-9$#&']+", (text or "").lower().replace("’", "'").replace("‘", "'"))
+
+
+def _eval_texts():
+    keys = {"body", "thread_title", "thread_selftext", "title", "selftext", "comment_input"}
+    out = set()
+
+    def walk(o):
+        if isinstance(o, dict):
+            for k, v in o.items():
+                if k in keys and isinstance(v, str):
+                    out.add(v)
+                else:
+                    walk(v)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v)
+    for path in ("items.jsonl", "v2/items.jsonl", "v2/topup_items.jsonl", "v4/items.jsonl",
+                 "v4/items_single.jsonl", "v4/items_thread.jsonl", "hard/items.jsonl", "fresh/items.jsonl"):
+        for line in open(os.path.join(HERE, path), encoding="utf-8"):
+            walk(json.loads(line))
+    return out
+
+
+def _eval_names():
+    import glob
+    names = set()
+
+    def walk(o):
+        if isinstance(o, dict):
+            for k, v in o.items():
+                if k in ("restaurant_raw", "canonical_key", "name") and isinstance(v, str):
+                    names.add(v)
+                else:
+                    walk(v)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v)
+    for path in ["gold.jsonl", "v2/gold.jsonl", "review_v6/analysis/errors.jsonl"] + \
+            sorted(glob.glob(os.path.join(HERE, "review_v6", "judgments", "*.jsonl"))):
+        for line in open(os.path.join(HERE, path), encoding="utf-8"):
+            walk(json.loads(line))
+    return names
+
+
+def leak_check(texts, banned_only=()):
+    errs = []
+    joined = [" ".join(_words(t)) for t in texts]
+    for phrase in LEAK_BANNED:
+        p = " ".join(_words(phrase))
+        if any(f" {p} " in f" {j} " for j in joined + [" ".join(_words(t)) for t in banned_only]):
+            errs.append(f"leak: banned eval phrase {phrase!r} is back")
+    grams = set()
+    for j in joined:
+        w = j.split()
+        grams |= {" ".join(w[i:i + 4]) for i in range(len(w) - 3)}
+    df = {}
+    for t in _eval_texts():
+        w = _words(t)
+        for g in {" ".join(w[i:i + 4]) for i in range(len(w) - 3)} & grams:
+            df[g] = df.get(g, 0) + 1
+    for g, n in sorted(df.items()):
+        if n <= 3 and g not in LEAK_ALLOW:
+            errs.append(f"leak: '{g}' is in {n} eval text(s)")
+    names = _eval_names()
+    freq = {}
+    for n in names:
+        for w in set(_words(n)):
+            freq[w] = freq.get(w, 0) + 1
+    generic = STOP | {w for w, c in freq.items() if c >= 5}
+    pairs = {(a, b) for n in names for a, b in zip(_words(n), _words(n)[1:]) if a not in generic and b not in generic}
+    for j in joined:
+        w = j.split()
+        for a, b in set(zip(w, w[1:])) & pairs:
+            errs.append(f"leak: '{a} {b}' is part of an eval place name")
+    return sorted(set(errs))
+
+
 # ------------------------------------------------------------ fixtures
 TO_LABEL = {v: k for k, v in A.LEVEL_MAP.items()}
 
@@ -355,19 +467,24 @@ def main():
     assert load("v6r3_comment").PROMPT_HASH_POST == "1b0a9d4098e3"
     assert not hasattr(load("v6r3_comment"), "build_user_message"), "round 3 must keep production's rendering"
 
-    # 2. no eval comment in a prompt: neither a whole body nor any 7-word run of one
-    prompts = " ".join(" ".join(m.SYSTEM_PROMPT.lower().split()) for m in (pc, pt))
-    shingles = {" ".join(w[i:i + 7]) for w in [prompts.split()] for i in range(len(w) - 6)}
-    leaks = 0
-    for path in ("items.jsonl", "v2/items.jsonl", "v2/topup_items.jsonl", "v4/items.jsonl",
-                 "hard/items.jsonl", "fresh/items.jsonl"):
-        for line in open(os.path.join(HERE, path), encoding="utf-8"):
-            for body in re.findall(r'"body": "((?:[^"\\]|\\.){25,}?)"', line):
-                w = " ".join(json.loads(f'"{body}"').lower().split()).split()
-                if any(" ".join(w[i:i + 7]) in shingles for i in range(len(w) - 6)):
-                    leaks += 1
-    if leaks:
-        errs.append(f"{leaks} eval comment(s) share a 7-word run with a prompt")
+    # 2. no eval text in a prompt, the examples included (and none in the round-4 rubric)
+    # The rubric is read by judges, not the model: only the banned phrases are checked in its
+    # hand-written part (its rules section is the prompt's text, checked above).
+    errs += leak_check([pc.SYSTEM_PROMPT, pc.SYSTEM_PROMPT_POST, pt.SYSTEM_PROMPT],
+                       banned_only=[open(os.path.join(HERE, "review_v6r4", "RUBRIC.md"), encoding="utf-8").read()])
+    for bad in ("I love the hash wrap there", "free tables at 4 on weekdays", "Mazemen: Shuya, Susuru"):
+        assert leak_check([bad]), f"the leak check must catch {bad!r}"
+    # the judges' rules are the prompt's, word for word (eval/review_v6r4/rubric.py)
+    spec = importlib.util.spec_from_file_location("rubric_r4", os.path.join(HERE, "review_v6r4", "rubric.py"))
+    rb = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rb)
+    text, i, j = rb.current()
+    if text[i:j] != rb.generated():
+        errs.append("review_v6r4/RUBRIC.md rules differ from the prompt: run eval/review_v6r4/rubric.py")
+    # an endorsement validator fills a missing overall and never overrides one
+    import v6_validate as VV
+    out, _, _ = VV.apply([r4(M("X", "endorse", None)), r4(M("Y", "endorse", "negative"))], "X or Y")
+    assert out[0]["overall"] == "positive" and out[1]["overall"] == "negative", out
 
     # 3. hand-written outputs vs the v1 and v2 gold (comment mode), and the
     #    rendered thread chunks vs the v1 gold (thread mode)

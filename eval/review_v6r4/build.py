@@ -8,15 +8,15 @@ saw, the wider thread context, a divider, then Haiku's output. The judge writes 
 read before looking, compares, and records final values (RUBRIC.md here, which carries
 the owner's round-4 decisions). What gets judged:
 
-  * round 3's 600 comments, low effort. The Opus finals from round 3 are reused where
-    round 4's output equals them exactly (every place, every scored field, every dish),
-    so only outputs that differ go to a judge. An old item is judged again anyway if
-    its judge raised a rule question or marked a field "neither": those finals were
-    unsettled, and most rule questions are exactly what the owner has since decided;
-  * the 60 red-team hard cases and the 300 fresh held-out comments, low effort: all;
-  * medium effort on the 600 and the 60, only where medium's output differs from low's.
-    Medium's own item goes to a different packet than low's, so a judge reads the
-    comment fresh; where medium equals low it takes low's result.
+  * every low-effort output: round 3's 600 comments, the 60 red-team hard cases and the
+    300 fresh held-out comments. Nothing is reused from round 3's review (owner
+    decision): the owner's round-4 rules moved the answer on many of its finals, so all
+    of them are judged fresh under the new rubric, and round 3's output is scored
+    against these new finals instead;
+  * medium effort on the 600 and the 60, only where medium's output differs from low's
+    (or low has no output for the comment). Medium's own item goes to a different packet
+    than low's, so a judge reads the comment fresh; where medium equals low it takes
+    low's finals, and low's planted-change exclusions with them.
 
 Haiku's output is shown as the counts will use it: the level labels mapped to the
 owner's five (v6_adapter.normalize) and places of an excluded kind removed. Validators
@@ -25,9 +25,9 @@ are not applied; judgments.py scores with and without them.
 Planted errors check that judging is careful, as in round 3: about 8% of the judged
 items show an output with one change (an overall sign flipped, a mention dropped, a
 negative upgraded to very_positive, the experience changed, a dish dropped). Which
-items, which source (low or medium, which set) each item is, and which round-3 finals
-were reused are all in .sealed/key.json, which the packets don't reference and this
-script regenerates byte for byte from the run files.
+items, and which source (low or medium, which set) each item is, are in
+.sealed/key.json, which the packets don't reference and this script regenerates byte
+for byte from the run files.
 """
 
 import argparse
@@ -43,7 +43,7 @@ EVAL = os.path.dirname(HERE)
 sys.path.insert(0, EVAL)
 sys.path.insert(0, os.path.join(EVAL, "review_v6"))
 import v6_adapter as A  # noqa: E402
-import judgments as J3  # noqa: E402  round 3's checker: helpers and the old finals
+import judgments as J3  # noqa: E402  round 3's checker: the comparison helpers
 
 
 def _load(name, path):
@@ -149,7 +149,8 @@ def equal_to_finals(shown, finals):
         if len(mine["dishes"]) != len(fin["dishes"]):
             return False
         for dn, v in fin["dishes"].items():
-            hv = next((x for d, x in mine["dishes"].items() if J3.S.lenient_same(d, dn)), "absent")
+            hv = mine["dishes"][dn] if dn in mine["dishes"] else \
+                next((x for d, x in mine["dishes"].items() if J3.S.lenient_same(d, dn)), "absent")
             if hv != v:
                 return False
     return True
@@ -160,25 +161,14 @@ def same_output(a, b):
     return equal_to_finals(a, [(m.get("name"), place_fields(m)) for m in b])
 
 
-def old_finals():
-    """{comment_id: (finals [(name, fields)], unsettled)} from the round-3 review."""
-    got, _, shown = J3.read()
-    by_cid = {}
-    for iid, j in got.items():
-        fin = []
-        for name, f, _, _ in J3.final_places(j, shown[iid]):
-            fin.append((name, f))
-        unsettled = bool(j.get("rule_questions")) or any(c.get("right") == "neither" for c in j.get("compare") or [])
-        by_cid[j["comment_id"]] = (fin, unsettled, iid)
-    return by_cid
-
-
 # ---------------------------------------------------------------- render
 def render(name, items):
     out = [f"# Review packet {name}: {len(items)} comments", "",
            "Judge every item with `eval/review_v6r4/RUBRIC.md`. For each item, write your `own_read` "
            "**before** reading below the divider. Write one JSON line per item to "
-           f"`eval/review_v6r4/judgments/{name}.jsonl`, in this order.", ""]
+           f"`eval/review_v6r4/judgments/{name}.jsonl`, in this order. Open nothing else: not "
+           "`eval/review_v6/`, `eval/runs/`, `eval/bench_v6/`, any `.sealed/` directory, gold or label "
+           "files, or other packets and judgments.", ""]
     for it in items:
         c = it["context"]
         out += [f"## {it['item_id']}: comment {it['comment_id']}", "",
@@ -204,29 +194,22 @@ def build(low_path, med_path, paths=Paths(), quiet=False):
     sets = comment_sets()
     rows, ctx = rows_and_contexts()
     low, med = outputs(low_path), outputs(med_path)
-    finals3 = old_finals()
     key = {"items": {}, "auto": [], "missing_outputs": []}
     todo = []                          # (order key, source, comment_id, shown)
     for setname, cids in sets.items():
         for cid in cids:
-            if cid not in low:
-                key["missing_outputs"].append({"source": f"{setname}-low", "comment_id": cid})
-                continue
-            old = finals3.get(cid) if setname == "r600" else None
-            if old and not old[1] and equal_to_finals(low[cid], old[0]):
-                key["auto"].append({"source": f"{setname}-low", "comment_id": cid, "reused": old[2]})
-            else:
+            if cid in low:
                 todo.append((0, h("low|" + cid), f"{setname}-low", cid, low[cid]))
+            else:
+                key["missing_outputs"].append({"source": f"{setname}-low", "comment_id": cid})
             if setname == "fresh":
                 continue
             if cid not in med:
                 if med:
                     key["missing_outputs"].append({"source": f"{setname}-med", "comment_id": cid})
                 continue
-            if same_output(med[cid], low[cid]):
+            if cid in low and same_output(med[cid], low[cid]):
                 key["auto"].append({"source": f"{setname}-med", "comment_id": cid, "same_as": f"{setname}-low"})
-            elif old and not old[1] and equal_to_finals(med[cid], old[0]):
-                key["auto"].append({"source": f"{setname}-med", "comment_id": cid, "reused": old[2]})
             else:
                 todo.append((1, h("med|" + cid), f"{setname}-med", cid, med[cid]))
     todo.sort()

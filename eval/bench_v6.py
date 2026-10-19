@@ -33,7 +33,7 @@ are cached in their run files and never re-sent or re-billed.
   n  round 4, comment, LOW, on round 3's 600 comments, the 60 red-team hard cases and 300
      fresh held-out comments (eval/hard, eval/fresh), rendered by v6_comment.build_user_message
   o  round 4, comment, MEDIUM, on the 600 and the 60 hard cases: the fair medium test
-     (max_tokens 16k, so nothing truncates). Refused if the ledger is past $4.60 after n
+     (max_tokens 16k, so nothing truncates). Refused if the ledger is past $5.50 before it starts
 
 `plan` also prints a cost estimate for n and o from round 3's measured token rates
 (measured_estimate); the owner raised the cap to $7 for them, as headroom so each step
@@ -91,7 +91,7 @@ V6R3 = {"comment": "file:" + os.path.join(HERE, "prompts", "v6r3_comment.py"),
 # fresh hashed draw no eval or tuning ever used.
 HARD, FRESH = os.path.join(HERE, "hard", "items.jsonl"), os.path.join(HERE, "fresh", "items.jsonl")
 # Step o starts only if the ledger shows no more than this after n (owner's guard).
-O_GUARD_SPENT = 4.60
+O_GUARD_SPENT = 5.50
 V1, V2 = os.path.join(HERE, "items.jsonl"), os.path.join(HERE, "v2", "items.jsonl")
 V1_THREADS = [f"t{i:03d}" for i in range(1, 18)]
 LOW_COMMENTS = 300
@@ -772,6 +772,11 @@ def compare():
 
     out = {"model": MODEL, "api": "anthropic (Message Batches)", "budget": BUDGET, "steps": st.get("steps"),
            "probe": st.get("probe"), "schema_for_v6": True,
+           "kind_filter_note": ("round 4 (steps n, o) drops its own mentions of an excluded kind (grocery, brand, "
+                                "venue, company, other) before scoring, as production will; the v1/v2 gold has no "
+                                "kind, so its mentions of such places stay in. Gold already leaves out most of them "
+                                "(eval/excluded_entities.json), but where it keeps one round 4 loses recall that "
+                                "earlier rounds, which have no kind, keep: a small bias against round 4"),
            "note": ("identical comment sets per comparison (the comments every run in it covered); "
                     "chains dropped on both sides as production does; 'reweighted' is v1's "
                     "population estimate over single-comment strata"),

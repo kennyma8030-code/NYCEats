@@ -23,7 +23,7 @@ The round-3 review traced 40 failing items and 28 of 39 missed mentions to it
     and "> quote" lines from someone else read as the commenter's words. Both
     are marked now.
 On the 600 benchmark comments the message grows from about 210 to about 340 tokens,
-uncached; the system prompt grows more (about 5.7k tokens against 3.1k), but it is
+uncached; the system prompt grows more (about 7.7k tokens against 3.1k), but it is
 cached.
 
 Post mode (SYSTEM_PROMPT_POST, build_post_message) extracts the original post itself.
@@ -47,7 +47,8 @@ SYSTEM_PROMPT = f"""You extract restaurant opinions from ONE Reddit comment in a
 
 <input>
 The message has labelled parts: <post_title> and <post_body> (author="you" when the commenter wrote the post), <thread_above> (the comments this one sits under, oldest first: "OP" is the post's author, "you, earlier" the commenter's own earlier comments), and <comment_to_extract>. Extract from <comment_to_extract> only; everything else is context. A <quote> inside the comment is someone else's words being answered.
-A place named only in the context is a mention only when the comment refers to it: by name, as "it", "they" or "this place", or by replying to what was said about it ("v mid", "the line is brutal", "hard disagree"); then named_in is "context". Places the context names that the comment doesn't refer to are not its mentions, and a claim in the context is the commenter's only when they wrote it or agree with it. A comment that answers the post's general question, or talks about restaurants in general, doesn't mention the places the post names. When a nameless reply could mean two places, use the one its words fit; if neither fits, skip it.
+A place named only in the context is a mention only when the comment refers to it: by name, as "it", "they" or "this place", by replying to what was said about it ("so mid", "hard disagree"), or by answering a <quote> that names it; then named_in is "context". Places the context names that the comment doesn't refer to are not its mentions. A comment that answers the post's general question, or talks about restaurants in general, doesn't mention the places the post names. When a nameless reply could mean two places, use the one its words fit; if neither fits, skip it.
+Use the post and your own earlier comments only to understand this comment. Levels, opinion and experience come only from what <comment_to_extract> says, plus a claim in the context that this comment agrees with ("+1", "exactly"); your earlier verdicts were counted where you wrote them.
 </input>
 
 One object per place; {{"mentions": []}} when the comment refers to no place.

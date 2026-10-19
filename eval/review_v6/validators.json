@@ -37,40 +37,40 @@
    }
   },
   "very_needs_word": {
-   "field_changes": 69,
-   "fixed": 40,
-   "broken": 13,
-   "net_right_fields": 34,
+   "field_changes": 93,
+   "fixed": 49,
+   "broken": 24,
+   "net_right_fields": 30,
    "delta_by_field": {
-    "overall": 14,
-    "aspects.taste": 7,
+    "overall": 12,
+    "aspects.taste": 4,
     "aspects.value": 1,
-    "aspects.service": 2,
-    "aspects.atmosphere": 2,
+    "aspects.service": 4,
+    "aspects.atmosphere": 3,
     "aspects.wait": 1,
-    "dishes": 7
+    "dishes": 5
    },
    "accuracy_after": {
-    "aspects.atmosphere": 0.9831,
-    "aspects.service": 0.9797,
-    "aspects.taste": 0.9237,
+    "aspects.atmosphere": 0.9847,
+    "aspects.service": 0.9831,
+    "aspects.taste": 0.9186,
     "aspects.value": 0.978,
     "aspects.wait": 0.9831,
     "avoid": 0.9847,
-    "dishes": 0.8061,
+    "dishes": 0.7985,
     "experience": 0.8644,
     "opinion": 0.9034,
-    "overall": 0.8288,
+    "overall": 0.8254,
     "timeframe": 0.9712
    }
   },
   "none_to_firsthand": {
-   "field_changes": 38,
-   "fixed": 28,
-   "broken": 7,
-   "net_right_fields": 21,
+   "field_changes": 43,
+   "fixed": 31,
+   "broken": 9,
+   "net_right_fields": 22,
    "delta_by_field": {
-    "experience": 21
+    "experience": 22
    },
    "accuracy_after": {
     "aspects.atmosphere": 0.9797,
@@ -80,7 +80,7 @@
     "aspects.wait": 0.9814,
     "avoid": 0.9847,
     "dishes": 0.7795,
-    "experience": 0.9,
+    "experience": 0.9017,
     "opinion": 0.9034,
     "overall": 0.8051,
     "timeframe": 0.9712
@@ -88,11 +88,11 @@
   },
   "secondhand_needs_credit": {
    "field_changes": 36,
-   "fixed": 22,
+   "fixed": 24,
    "broken": 4,
-   "net_right_fields": 18,
+   "net_right_fields": 20,
    "delta_by_field": {
-    "experience": 18
+    "experience": 20
    },
    "accuracy_after": {
     "aspects.atmosphere": 0.9797,
@@ -102,19 +102,41 @@
     "aspects.wait": 0.9814,
     "avoid": 0.9847,
     "dishes": 0.7795,
-    "experience": 0.8949,
+    "experience": 0.8983,
+    "opinion": 0.9034,
+    "overall": 0.8051,
+    "timeframe": 0.9712
+   }
+  },
+  "opinion_none_experience_none": {
+   "field_changes": 18,
+   "fixed": 4,
+   "broken": 7,
+   "net_right_fields": -3,
+   "delta_by_field": {
+    "experience": -3
+   },
+   "accuracy_after": {
+    "aspects.atmosphere": 0.9797,
+    "aspects.service": 0.9763,
+    "aspects.taste": 0.9119,
+    "aspects.value": 0.9763,
+    "aspects.wait": 0.9814,
+    "avoid": 0.9847,
+    "dishes": 0.7795,
+    "experience": 0.8593,
     "opinion": 0.9034,
     "overall": 0.8051,
     "timeframe": 0.9712
    }
   },
   "closed_past": {
-   "field_changes": 7,
-   "fixed": 5,
+   "field_changes": 3,
+   "fixed": 1,
    "broken": 2,
-   "net_right_fields": 3,
+   "net_right_fields": -1,
    "delta_by_field": {
-    "timeframe": 3
+    "timeframe": -1
    },
    "accuracy_after": {
     "aspects.atmosphere": 0.9797,
@@ -127,7 +149,7 @@
     "experience": 0.8644,
     "opinion": 0.9034,
     "overall": 0.8051,
-    "timeframe": 0.9763
+    "timeframe": 0.9695
    }
   },
   "note_dish": {
@@ -175,12 +197,12 @@
    }
   },
   "lone_aspect_overall": {
-   "field_changes": 31,
-   "fixed": 24,
+   "field_changes": 25,
+   "fixed": 20,
    "broken": 2,
-   "net_right_fields": 22,
+   "net_right_fields": 18,
    "delta_by_field": {
-    "overall": 22
+    "overall": 18
    },
    "accuracy_after": {
     "aspects.atmosphere": 0.9797,
@@ -192,38 +214,37 @@
     "dishes": 0.7795,
     "experience": 0.8644,
     "opinion": 0.9034,
-    "overall": 0.8424,
+    "overall": 0.8356,
     "timeframe": 0.9712
    }
   },
   "DEFAULT": {
-   "field_changes": 182,
-   "fixed": 120,
-   "broken": 28,
-   "net_right_fields": 99,
+   "field_changes": 198,
+   "fixed": 125,
+   "broken": 39,
+   "net_right_fields": 91,
    "delta_by_field": {
-    "overall": 37,
-    "aspects.taste": 7,
+    "overall": 31,
+    "aspects.taste": 4,
     "aspects.value": 1,
-    "aspects.service": 2,
-    "aspects.atmosphere": 2,
+    "aspects.service": 4,
+    "aspects.atmosphere": 3,
     "aspects.wait": 1,
-    "experience": 39,
-    "timeframe": 3,
-    "dishes": 7
+    "experience": 42,
+    "dishes": 5
    },
    "accuracy_after": {
-    "aspects.atmosphere": 0.9831,
-    "aspects.service": 0.9797,
-    "aspects.taste": 0.9237,
+    "aspects.atmosphere": 0.9847,
+    "aspects.service": 0.9831,
+    "aspects.taste": 0.9186,
     "aspects.value": 0.978,
     "aspects.wait": 0.9831,
     "avoid": 0.9847,
-    "dishes": 0.8061,
-    "experience": 0.9305,
+    "dishes": 0.7985,
+    "experience": 0.9356,
     "opinion": 0.9034,
-    "overall": 0.8678,
-    "timeframe": 0.9763
+    "overall": 0.8576,
+    "timeframe": 0.9712
    }
   }
  },
