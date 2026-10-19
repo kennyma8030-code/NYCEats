@@ -253,11 +253,22 @@ def embed_once(conn, days, limit, max_usd, scope, workers):
         conn.commit()
         print("  embed: tables missing -- apply embed_schema.sql; skipping")
         return 0
+    if not embed.try_lock(conn):
+        # A manual embed.py run (the backlog, say) holds it; both would pick
+        # the same due rows and pay for them twice.
+        print("  embed: another embedding run holds the lock; skipping this pass")
+        return 0
     budget = embedding.Budget(max_usd)
-    stats = embed.run(conn, embed.KINDS[scope], budget, limit=limit,
-                      since=_since(conn, days), workers=workers,
-                      attempts=EMBED_ATTEMPTS, timeout=EMBED_TIMEOUT,
-                      deadline=time.monotonic() + EMBED_DEADLINE, log=lambda *_: None)
+    try:
+        stats = embed.run(conn, embed.KINDS[scope], budget, limit=limit,
+                          since=_since(conn, days), workers=workers,
+                          attempts=EMBED_ATTEMPTS, timeout=EMBED_TIMEOUT,
+                          deadline=time.monotonic() + EMBED_DEADLINE, log=lambda *_: None)
+    finally:
+        try:
+            embed.unlock(conn)
+        except Exception:
+            pass         # a dead connection has already dropped the lock; _step recovers it
     n, failed = sum(stats.embedded.values()), sum(stats.failed.values())
     if n or failed or stats.stop:
         print(f"  embedded {n} row(s), {failed} failed, ${budget.spent:.4f}"

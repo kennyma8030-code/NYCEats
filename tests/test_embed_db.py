@@ -10,8 +10,10 @@ but a local throwaway. Never point it at DATABASE_URL.
 """
 
 import dataclasses
+import io
 import os
 import unittest
+from contextlib import redirect_stdout
 from datetime import datetime, timedelta, timezone
 from unittest import mock
 
@@ -863,6 +865,68 @@ class Schema(DbCase):
         self.conn.commit()
         self.assertEqual(columns(), from_schema)
         self.assertEqual(len(from_schema[0]), 17)
+
+
+class OneRunAtATime(DbCase):
+    """embed.py and the poller's pass share one advisory lock."""
+
+    def setUp(self):
+        super().setUp()
+        self.other = psycopg2.connect(URL)      # another process: a manual run, or the poller
+
+    def tearDown(self):
+        self.other.close()
+        super().tearDown()
+
+    def main(self, *argv):
+        with mock.patch.object(embed.db, "connect", return_value=self.conn), \
+                mock.patch.dict(os.environ, {"EMBED_OPENROUTER_API_KEY": "k"}), \
+                mock.patch("sys.argv", ["embed.py", *argv]), redirect_stdout(io.StringIO()):
+            embed.main()
+
+    def test_poller_skips_while_another_run_holds_it(self):
+        import poller
+        self.assertTrue(embed.try_lock(self.other))
+        out = io.StringIO()
+        with FakeOpenRouter() as api, redirect_stdout(out):
+            self.assertEqual(poller.embed_once(self.conn, 3, 100, 0.05, "comments", 1), 0)
+        self.assertEqual(api.requests, [])
+        self.assertIn("holds the lock", out.getvalue())
+        embed.unlock(self.other)
+        with FakeOpenRouter() as api:
+            self.assertGreater(poller.embed_once(self.conn, 3, 100, 0.05, "comments", 1), 0)
+        # and the pass let go of it: the other session can take it now
+        self.assertTrue(embed.try_lock(self.other))
+        embed.unlock(self.other)
+
+    def test_embed_py_refuses_while_another_run_holds_it(self):
+        self.assertTrue(embed.try_lock(self.other))
+        with FakeOpenRouter() as api:
+            with self.assertRaises(SystemExit) as e:
+                self.main("--scope", "comments", "--retry-errors")
+        self.assertIn("holds the lock", str(e.exception))
+        self.assertEqual(api.requests, [])
+        embed.unlock(self.other)
+        with FakeOpenRouter() as api:
+            self.main("--scope", "comments", "--limit", "10")
+        self.assertEqual(len(api.inputs), 10)
+        self.assertTrue(embed.try_lock(self.other))     # released at the end
+        embed.unlock(self.other)
+
+    def test_a_dry_run_needs_no_lock(self):
+        self.assertTrue(embed.try_lock(self.other))
+        with FakeOpenRouter() as api:
+            self.main("--dry-run", "--scope", "comments")
+        self.assertEqual(api.requests, [])
+        embed.unlock(self.other)
+
+    def test_lock_is_released_when_the_pass_fails(self):
+        import poller
+        with self.assertRaises(RuntimeError), \
+                mock.patch.object(embed, "run", side_effect=RuntimeError("bug")):
+            poller.embed_once(self.conn, 3, 100, 0.05, "comments", 1)
+        self.assertTrue(embed.try_lock(self.other))
+        embed.unlock(self.other)
 
 
 class PollerStep(DbCase):

@@ -81,6 +81,28 @@ def page_size(batch, workers):
 RETRY_FAILURES = 3
 RETRY_AFTER = "1 day"
 
+# One embedding run at a time, across processes: embed.py and the poller's
+# pass would otherwise pick the same due rows and pay for them twice. A
+# session-level advisory lock, so it survives the commits a run makes and
+# goes away by itself if the process or its connection dies. Its own key,
+# not extract_v6's: embedding and extraction may run side by side.
+LOCK_KEY = 0x6E796365_6D62             # "nyce" "mb"
+
+
+def try_lock(conn):
+    with conn.cursor() as cur:
+        cur.execute("select pg_try_advisory_lock(%s)", (LOCK_KEY,))
+        ok = cur.fetchone()[0]
+    conn.commit()
+    return ok
+
+
+def unlock(conn):
+    conn.rollback()           # a failed statement may have left the transaction aborted
+    with conn.cursor() as cur:
+        cur.execute("select pg_advisory_unlock(%s)", (LOCK_KEY,))
+    conn.commit()
+
 
 @dataclass(frozen=True)
 class Kind:
@@ -695,24 +717,31 @@ def main():
                          f"(in .env next to DATABASE_URL)")
     if not tables_exist(conn):
         raise SystemExit("embedding tables are missing: apply embed_schema.sql first")
+    if not try_lock(conn):
+        raise SystemExit("another embedding run holds the lock (the poller's embed pass, "
+                         "or a second embed.py); run again once it ends")
 
-    if args.retry_errors:
-        with conn.cursor() as cur:
-            cur.execute("delete from embedding_errors where model = %s", (E.MODEL_KEY,))
-            print(f"cleared {cur.rowcount:,} error(s)")
-        conn.commit()
-
-    print(f"embedding {args.scope} with {E.MODEL_KEY} (key from {E.api_key_var()}), "
-          f"cap ${args.max_usd:.2f}, {args.workers} workers")
     budget = E.Budget(args.max_usd)
     began = time.time()
     stats = Stats()
     interrupted = False
     try:
+        if args.retry_errors:
+            with conn.cursor() as cur:
+                cur.execute("delete from embedding_errors where model = %s", (E.MODEL_KEY,))
+                print(f"cleared {cur.rowcount:,} error(s)")
+            conn.commit()
+        print(f"embedding {args.scope} with {E.MODEL_KEY} (key from {E.api_key_var()}), "
+              f"cap ${args.max_usd:.2f}, {args.workers} workers")
         run(conn, kinds, budget, limit=args.limit, since=since, workers=args.workers,
             stats=stats)
     except KeyboardInterrupt:
         interrupted = True
+    finally:
+        try:
+            unlock(conn)
+        except Exception:
+            pass             # a dead connection has already dropped the lock
 
     print(f"\n{sum(stats.embedded.values()):,} embedded, {sum(stats.failed.values()):,} failed "
           f"({(time.time() - began) / 60:.1f} min)")
