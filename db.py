@@ -40,6 +40,14 @@ def connect():
                             keepalives_interval=10, keepalives_count=3)
 
 
+def has_column(conn, table, column):
+    """Whether a column exists, for scripts that must run on either side of a
+    migration (extract_v6_schema.sql adds mentions.schema_version/thread_id)."""
+    return bool(_read(conn, """select 1 from information_schema.columns
+                               where table_schema = current_schema()
+                                 and table_name = %s and column_name = %s""", (table, column)))
+
+
 def init(conn, schema_path="schema.sql"):
     with open(schema_path, encoding="utf-8") as f:
         sql = f.read()

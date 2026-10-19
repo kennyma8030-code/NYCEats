@@ -313,6 +313,12 @@ def main():
 
     # --reset needs no API key and must run before the key check.
     if args.reset:
+        # --reset undoes an old-cursor run. v6 rows have their own cursor
+        # (extraction_state), and deleting them here would leave every v6
+        # item marked done with no mentions: refuse rather than half-undo.
+        import prompt_v6
+        if args.reset in (prompt_v6.PROMPT_HASH, prompt_v6.PROMPT_HASH_POST):
+            raise SystemExit(f"{args.reset} is a v6 prompt; --reset only undoes the old extractor's runs")
         conn = db.connect()
         with conn.cursor() as cur:
             cur.execute("delete from mentions where prompt_hash = %s", (args.reset,))

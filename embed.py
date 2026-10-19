@@ -99,6 +99,10 @@ COMMENTS = Kind(
     where c.id > %(after)s
       and c.subreddit = %(sub)s
       and c.body not in ('[deleted]', '[removed]')
+      -- Any extraction's rows, v6 included, and not live_mentions: which
+      -- extraction the board reads can flip, and a vector must not have to
+      -- be re-bought when it does. v6 rows of excluded kinds or chains are
+      -- filtered when search reads, like every other identity decision.
       and exists (select 1 from mentions m where m.comment_id = c.id)
       and (%(since)s::timestamptz is null or c.created_utc >= %(since)s::timestamptz)
     order by c.id

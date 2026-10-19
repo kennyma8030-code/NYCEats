@@ -30,8 +30,13 @@ import restaurants
 
 def plan_mentions(conn):
     """Which mention rows change key, and which become duplicates."""
+    # A v6 post mention has no comment_id; its source is the thread. Keying
+    # on comment_id alone would make every post's mentions of one place
+    # "duplicates" of each other (all None) and delete all but the first.
+    source = "coalesce(comment_id, thread_id)" if db.has_column(conn, "mentions", "thread_id") \
+        else "comment_id"
     with conn.cursor() as cur:
-        cur.execute("select id, comment_id, restaurant_raw, entity_key, prompt_hash "
+        cur.execute(f"select id, {source}, restaurant_raw, entity_key, prompt_hash "
                     "from mentions order by id")
         rows = cur.fetchall()
 

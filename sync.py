@@ -71,7 +71,12 @@ def push_mentions(loc, rem, dry_run):
     lc, rc = loc.cursor(), rem.cursor()
     rc.execute("select id from comments where extracted_at is not null")
     owned = {r[0] for r in rc.fetchall()}
-    lc.execute(f"select {', '.join(MENTION_COLS)} from mentions order by id")
+    # Old-extractor rows only. A v6 row carries columns MENTION_COLS does not
+    # send (schema_version among them), so copied this way it would land as
+    # a legacy row the board counts; and post rows have no comment_id. v6
+    # never runs locally anyway: it writes straight to DATABASE_URL.
+    legacy = " where schema_version is null" if db.has_column(loc, "mentions", "schema_version") else ""
+    lc.execute(f"select {', '.join(MENTION_COLS)} from mentions{legacy} order by id")
     total = new = skipped = 0
     while True:
         rows = lc.fetchmany(BATCH)
