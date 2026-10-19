@@ -406,8 +406,34 @@ create table if not exists extraction_state (
   updated_at    timestamptz not null default now(),
   primary key (item_id, version)
 );
-create index if not exists extraction_state_batch_idx
-  on extraction_state(batch_id) where batch_id is not null;
+-- Checked in the catalog first, like the other indexes: CREATE INDEX IF NOT
+-- EXISTS takes a SHARE lock on extraction_state before it notices the index is
+-- there, and behind a run's open write that wait hits lock_timeout and fails
+-- the poller's boot.
+do $$
+begin
+  perform set_config('lock_timeout', '5s', true);
+  if to_regclass('extraction_state_batch_idx') is null then
+    create index extraction_state_batch_idx
+      on extraction_state(batch_id) where batch_id is not null;
+  end if;
+end $$;
+
+-- The poller's v6 window is on first_seen_at, when a comment reached this
+-- database, so a comment that arrives days after it was written (a backfill,
+-- a re-read thread) is still extracted. This index serves that window, which
+-- would otherwise read every comment on every pass. Building it reads
+-- comments once under a SHARE lock (seconds), which holds up the poller's
+-- inserts but no reads; checked in the catalog first, so it happens once. On
+-- first_seen_at alone, so this file does not need comments.subreddit, which
+-- the deploy adds.
+do $$
+begin
+  perform set_config('lock_timeout', '5s', true);
+  if to_regclass('comments_first_seen_idx') is null then
+    create index comments_first_seen_idx on comments(first_seen_at);
+  end if;
+end $$;
 
 -- Every Message Batch extract_v6.py submits, so a re-run re-attaches to the
 -- ones in flight instead of paying for them twice. hold_usd is the batch's
@@ -447,14 +473,22 @@ insert into extraction_settings default values on conflict do nothing;
 -- (groceries, brands, venues, companies, other), chains.txt names, and post
 -- mentions, which scoring cannot place yet (it joins every mention to a
 -- comment for its author and date). Those rows are still in mentions.
--- Created only when missing: replacing a view takes an exclusive lock on it,
--- which every board read would queue behind on every boot. To change its
--- definition later, run the `create or replace view` by hand (with
--- lock_timeout set), then `python refresh.py`.
+-- A v6 row is live only while its comment's extraction_state row carries the
+-- same prompt hash: after a prompt fix, rows of the old hash can never be
+-- counted beside the new ones, even before `extract_v6.py --reset-hash`
+-- deletes them. The legacy branch is unchanged.
+-- Created when missing, and replaced once where the first version (without
+-- the hash check) is in place; a definition that already checks the hash is
+-- left alone. Replacing a view takes an exclusive lock on it, which every
+-- board read would queue behind on every boot, hence the check and the
+-- lock_timeout. To change its definition later, change the check with it,
+-- then `python refresh.py`.
 do $$
 begin
-  if to_regclass('live_mentions') is null then
-    create view live_mentions as
+  perform set_config('lock_timeout', '5s', true);
+  if to_regclass('live_mentions') is null
+     or position('extraction_state' in pg_get_viewdef(to_regclass('live_mentions'))) = 0 then
+    create or replace view live_mentions as
     select m.*
     from mentions m
     where case (select read_version from extraction_settings)
@@ -462,6 +496,9 @@ begin
                        and m.comment_id is not null
                        and coalesce(m.kind, '') not in ('grocery', 'brand', 'venue', 'company', 'other')
                        and not coalesce(m.is_chain, false)
+                       and exists (select 1 from extraction_state s
+                                   where s.item_id = m.comment_id and s.version = 'v6'
+                                     and s.prompt_hash = m.prompt_hash)
             else m.schema_version is null
           end;
   end if;

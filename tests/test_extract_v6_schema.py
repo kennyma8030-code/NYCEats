@@ -34,12 +34,20 @@ class SchemaCopies(unittest.TestCase):
         # It runs on every boot of the poller, against production.
         sql = re.sub(r"--[^\n]*", "", block("extract_v6_schema.sql")).lower()
         for m in re.finditer(r"\bcreate (unique index|index|table|view|or replace view)\b([^;]*)", sql):
-            # Either IF NOT EXISTS, or inside a catalog check that skips it
-            # (and its lock) once it exists. Never CREATE OR REPLACE: that
+            # A table may use IF NOT EXISTS. Anything else sits inside a
+            # catalog check that skips it (and its lock) once it exists: CREATE
+            # INDEX IF NOT EXISTS takes its SHARE lock before it looks. CREATE
+            # OR REPLACE only behind a check of the current definition, or it
             # takes an exclusive lock on every boot.
-            guarded = m.group(2).lstrip().startswith("if not exists") \
-                or "is null then" in sql[max(0, m.start() - 120):m.start()]
-            self.assertTrue(guarded and m.group(1) != "or replace view", m.group(0)[:80])
+            before = sql[max(0, m.start() - 250):m.start()]
+            if m.group(1) == "table":
+                guarded = m.group(2).lstrip().startswith("if not exists")
+            elif m.group(1) == "or replace view":
+                guarded = re.search(r"is null\s+or\s+position\([^;]*pg_get_viewdef[^;]*\)\s*=\s*0\s+then\s*$",
+                                    before) is not None
+            else:
+                guarded = re.search(r"to_regclass\('[a-z_]+'\) is null then\s*$", before) is not None
+            self.assertTrue(guarded, m.group(0)[:80])
         self.assertIn("set_config('lock_timeout', '5s', true)", sql)
         self.assertNotRegex(sql, r"drop (table|view|index|constraint|column)")
         self.assertNotRegex(sql, r"\bupdate\b|\bdelete\b|\btruncate\b")
