@@ -29,6 +29,15 @@ are cached in their run files and never re-sent or re-billed.
      a third of (c)'s chunks. Hashed choice, own run files, so low and medium compare
      on identical items
   f  if budget remains: v6 thread mode, medium, on the chunks of v2's comments
+  ... (g to m: baselines, truncation re-runs, low-effort widenings, rounds 2 and 3; see STEPS)
+  n  round 4, comment, LOW, on round 3's 600 comments, the 60 red-team hard cases and 300
+     fresh held-out comments (eval/hard, eval/fresh), rendered by v6_comment.build_user_message
+  o  round 4, comment, MEDIUM, on the 600 and the 60 hard cases: the fair medium test
+     (max_tokens 16k, so nothing truncates). Refused if the ledger is past $4.60 after n
+
+`plan` also prints a cost estimate for n and o from round 3's measured token rates
+(measured_estimate); the owner raised the cap to $7 for them, as headroom so each step
+goes out in one or two batches.
 
 v1 and v2 share comments. Each step's invocations write to one run file, so a
 comment in both sets is called once. v6 uses the strict schema once the
@@ -54,7 +63,7 @@ import run as R  # noqa: E402
 
 # ---------------------------------------------------------------- settings
 MODEL = "claude-haiku-5-5"                 # Claude API model id (claude-api skill, models.md)
-BUDGET = 4.00                              # USD, owner-approved, across every step
+BUDGET = 7.00                              # USD, owner-approved, across every step (was 4.00 to step m)
 # The repo root's .env. From a worktree, that is the main checkout's.
 KEY_FILE = "/Users/kenny/NYCEats/.env"
 KEY_VAR = "ANTHROPIC_API_KEY"
@@ -75,6 +84,14 @@ V6R1 = {"comment": "file:" + os.path.join(HERE, "prompts", "v6r1_comment.py"),
 # Round 2, frozen after step l ran on it (comment 1cb01c0721f4, thread 54d4ad44db68).
 V6R2 = {"comment": "file:" + os.path.join(HERE, "prompts", "v6r2_comment.py"),
         "thread": "file:" + os.path.join(HERE, "prompts", "v6r2_thread.py")}
+# Round 3, frozen after step m ran on it and Opus reviewed it (comment 6b046d8ed65d).
+V6R3 = {"comment": "file:" + os.path.join(HERE, "prompts", "v6r3_comment.py"),
+        "thread": "file:" + os.path.join(HERE, "prompts", "v6r3_thread.py")}
+# Round 4's new item sets (eval/build_comment_rows.py): the red-team hard cases and a
+# fresh hashed draw no eval or tuning ever used.
+HARD, FRESH = os.path.join(HERE, "hard", "items.jsonl"), os.path.join(HERE, "fresh", "items.jsonl")
+# Step o starts only if the ledger shows no more than this after n (owner's guard).
+O_GUARD_SPENT = 4.60
 V1, V2 = os.path.join(HERE, "items.jsonl"), os.path.join(HERE, "v2", "items.jsonl")
 V1_THREADS = [f"t{i:03d}" for i in range(1, 18)]
 LOW_COMMENTS = 300
@@ -157,16 +174,30 @@ STEPS = [
      "invocations": [inv(V1, labeled=True, call_keys=SUBSET_R2), inv(V2, call_keys=SUBSET_R2)]},
     # Round 3: round 2's fixes for experience, endorse vs stated, easy-access wait and
     # food-only landmarks (DIAGNOSIS.md, round 2 results), on l's exact comments.
-    {"id": "m", "what": f"v6 round 3, comment, LOW, the same {R2_COMMENTS} comments as l", "prompt": "v6",
+    {"id": "m", "what": f"v6 round 3, comment, LOW, the same {R2_COMMENTS} comments as l", "prompt": "v6r3",
      "mode": "comment", "reasoning": "low", "tag": "bench6-low-r3", "max_tokens": 16000,
      "assume": {"reasoning": 400, "visible": 300},
      "invocations": [inv(V1, labeled=True, call_keys=SUBSET_R2), inv(V2, call_keys=SUBSET_R2)]},
+    # Round 4 (eval/prompts/v6_common.py: the owner's final decisions, level labels, kind,
+    # evidence-first schema, new input rendering), on m's 600 comments plus the hard and
+    # fresh sets. Scored against the Opus finals where they exist, and reviewed again in
+    # eval/review_v6r4.
+    {"id": "n", "what": f"v6 round 4, comment, LOW, m's {R2_COMMENTS} + 60 hard + 300 fresh", "prompt": "v6",
+     "mode": "comment", "reasoning": "low", "tag": "bench6-low-r4", "max_tokens": 16000,
+     "assume": {"reasoning": 450, "visible": 300},
+     "invocations": [inv(V1, labeled=True, call_keys=SUBSET_R2), inv(V2, call_keys=SUBSET_R2),
+                     inv(HARD), inv(FRESH)]},
+    {"id": "o", "what": f"v6 round 4, comment, MEDIUM, m's {R2_COMMENTS} + 60 hard (max_tokens 16k)", "prompt": "v6",
+     "mode": "comment", "reasoning": "medium", "tag": "bench6-med-r4", "max_tokens": 16000,
+     "assume": {"reasoning": 900, "visible": 300}, "max_spent_before": O_GUARD_SPENT,
+     "invocations": [inv(V1, labeled=True, call_keys=SUBSET_R2), inv(V2, call_keys=SUBSET_R2), inv(HARD)]},
 ]
 
 
 # ---------------------------------------------------------------- jobs
 def prompt_spec(step):
-    return {"v6": V6, "v6r1": V6R1, "v6r2": V6R2}[step["prompt"]][step["mode"]] if step["prompt"].startswith("v6") else "current"
+    return {"v6": V6, "v6r1": V6R1, "v6r2": V6R2, "v6r3": V6R3}[step["prompt"]][step["mode"]] \
+        if step["prompt"].startswith("v6") else "current"
 
 
 def load_pmod(step):
@@ -187,8 +218,9 @@ def jobs_for(step, invocation):
         side = os.path.splitext(invocation["items"])[0] + ".thread_rows.jsonl"
         with open(side, encoding="utf-8") as f:
             rows = {r["call_key"]: r for r in map(json.loads, f)}
+    crows = R.load_comment_rows(invocation["items"], pmod, prompt_spec(step), step["mode"])
     jobs = R.build_jobs(R.load_items(invocation["items"], only), step["mode"], pmod,
-                        custom=custom, thread_rows=rows)
+                        custom=custom, thread_rows=rows, comment_rows=crows)
     if invocation["call_keys"]:
         with open(invocation["call_keys"], encoding="utf-8") as f:
             keep = {l.strip() for l in f if l.strip()}
@@ -317,6 +349,53 @@ def additions():
     ]
 
 
+def measured_estimate(step):
+    """A batch-price estimate for a round-4 step from round 3's measured tokens (step m's run
+    file) and, for medium, round 1's medium run on the same comments (step a). Input: the
+    cached prefix grows with the system prompt (round 3 measured 4,805 prefix tokens for
+    8,949 characters of prompt, the rest being the schema's and thinking's own prompt), and
+    each call's own input scales with its rendered message; the share of prefix tokens read
+    from cache rather than written is round 3's. Output: round 3's (low) or round 1's
+    (medium) mean output per call; "more_thinking" adds half again, in case the checklist
+    makes low effort think as much as it is asked to."""
+    m = next(s for s in STEPS if s["id"] == "m")
+    r3_path = run_file(m, True)
+    recs = [r for r in map(json.loads, open(r3_path, encoding="utf-8")) if r.get("raw") is not None]
+    pmod3 = load_pmod(m)
+    _, jobs3 = step_jobs(m)
+    n3 = len(recs)
+    pre = sum((r["usage_details"]["prompt_tokens_details"].get("cached_tokens") or 0) +
+              (r["usage_details"]["prompt_tokens_details"].get("cache_write_tokens") or 0) for r in recs)
+    wrote = sum(r["usage_details"]["prompt_tokens_details"].get("cache_write_tokens") or 0 for r in recs)
+    own = sum(r["usage"]["prompt_tokens"] for r in recs) - pre
+    prefix3 = pre / n3
+    sys_tok_per_char = 3086 / len(pmod3.SYSTEM_PROMPT)        # round 3: ~2.9 chars per token
+    overhead = prefix3 - len(pmod3.SYSTEM_PROMPT) * sys_tok_per_char
+    user_tok_per_char = own / sum(len(jobs3[r["call_key"]]["user"]) for r in recs if r["call_key"] in jobs3)
+    write_share = wrote / pre
+    if step["reasoning"] == "low":
+        out_per_call = sum(r["usage"]["completion_tokens"] for r in recs) / n3
+    else:
+        a = next(s for s in STEPS if s["id"] == "a")
+        keep = set(open(SUBSET_R2).read().split())
+        ra = [r for r in map(json.loads, open(run_file(a, True), encoding="utf-8"))
+              if r.get("raw") is not None and r["call_key"] in keep]
+        out_per_call = sum(r["usage"]["completion_tokens"] for r in ra) / len(ra)
+    pmod, jobs = step_jobs(step)
+    import anthropic_backend as AB
+    prefix = len(pmod.SYSTEM_PROMPT) * sys_tok_per_char + overhead
+    n = len(jobs)
+    tin_own = sum(len(j["user"]) for j in jobs.values()) * user_tok_per_char
+    cost_in = (n * prefix * (write_share * AB.PRICES["cache_write"] + (1 - write_share) * AB.PRICES["cache_read"])
+               + tin_own * AB.PRICES["in"])
+    exp = (cost_in + n * out_per_call * AB.PRICES["out"]) * BATCH
+    more = (cost_in + n * out_per_call * 1.5 * AB.PRICES["out"]) * BATCH
+    worst = sum(AB.worst_case(pmod.SYSTEM_PROMPT, j["user"], max_tokens(step), batch=True) for j in jobs.values())
+    return {"calls": n, "prefix_tokens": round(prefix), "own_input_tokens_per_call": round(tin_own / n),
+            "cache_write_share": round(write_share, 3), "output_tokens_per_call": round(out_per_call),
+            "expected_usd": round(exp, 3), "more_thinking_usd": round(more, 3), "worst_case_usd": round(worst, 2)}
+
+
 def plan():
     nc, nt = write_subsets()
     write_rerun_keys()
@@ -353,6 +432,8 @@ def plan():
         running += e["est_usd"]
         extra.append({"step": step["id"], "what": step["what"], **e, "cumulative_est_usd": round(running, 3)})
 
+    measured = {s["id"]: measured_estimate(s) for s in STEPS if s["id"] in ("n", "o")}
+
     def show(rs):
         for r in rs:
             print(f"{r['step']:18s} {r.get('already_done', 0):5d} {r['calls']:6d} {r['input_tokens']:10,d} {r['est_usd']:7.3f} "
@@ -363,11 +444,15 @@ def plan():
     show(rows)
     print(f"\nPROPOSED ADDITIONS, in priority order (not run unless added to STEPS)\n{head}")
     show(extra)
+    print("\nROUND 4 FROM MEASURED RATES (batch prices; round 3's tokens per call, scaled to round 4's prompt)")
+    for sid, e in measured.items():
+        print(f"  {sid}: {e['calls']} calls  expected ${e['expected_usd']:.3f}  "
+              f"(more thinking: ${e['more_thinking_usd']:.3f})  worst case ${e['worst_case_usd']:.2f}")
     with open(os.path.join(OUT, "plan.json"), "w", encoding="utf-8") as f:
         json.dump({"model": MODEL, "api": "anthropic", "batch_discount": BATCH, "budget": BUDGET,
                    "max_tokens": MAX_TOKENS, "assumptions": {str(k): v for k, v in ASSUME.items()},
                    "prices_per_token": {"in": PRICE_IN, "out": PRICE_OUT}, "steps": rows,
-                   "proposed_additions": extra}, f, indent=1)
+                   "proposed_additions": extra, "round4_measured": measured}, f, indent=1)
     print(f"\nwritten {os.path.join(OUT, 'plan.json')}")
 
 
@@ -438,6 +523,20 @@ def run_all():
     schema = True
     for step in STEPS:
         status = "done"
+        guard = step.get("max_spent_before")
+        if guard is not None and step["id"] not in {k for k, v in st["steps"].items() if v.get("status") == "done"}:
+            # what everything before this step spent; the step's own spend (a resumed
+            # run) doesn't count against its guard
+            led = json.load(open(LEDGER, encoding="utf-8")) if os.path.exists(LEDGER) else {}
+            own = ((led.get("runs") or {}).get(os.path.basename(run_file(step, schema))) or {}).get("spent", 0.0)
+            spent = float(led.get("spent", 0.0)) - float(own)
+            if spent > guard:
+                st["steps"][step["id"]] = {"status": f"refused: ledger ${spent:.2f} > ${guard:.2f}",
+                                           "run_file": os.path.relpath(run_file(step, schema), ROOT)}
+                save_state(st)
+                print(f"step {step['id']}: refused, ${spent:.2f} spent is past the ${guard:.2f} guard; "
+                      "later steps skipped")
+                break
         for i in step["invocations"]:
             code = invoke(step, i, schema)
             if code == 3:
@@ -617,6 +716,12 @@ def comparisons(P, fixes=True):
     if have("m", "b"):
         pair("comment_low_r3_vs_current_v1", "m", "b", G1, V1, stats, ("r3_low", "current"))
         pair("comment_low_r3_vs_current_v2", "m", "b", G2, V2, "", ("r3_low", "current"))
+    if have("n", "m"):
+        pair("comment_low_r4_vs_r3_v1", "n", "m", G1, V1, stats, ("r4_low", "r3_low"))
+        pair("comment_low_r4_vs_r3_v2", "n", "m", G2, V2, "", ("r4_low", "r3_low"))
+    if have("o", "n"):
+        pair("comment_r4_medium_vs_low_v1", "o", "n", G1, V1, stats, ("r4_medium", "r4_low"))
+        pair("comment_r4_medium_vs_low_v2", "o", "n", G2, V2, "", ("r4_medium", "r4_low"))
     if have("k", "a"):
         pair("comment_low_vs_medium_full_v1", "k", "a", G1, V1, stats, ("low", "medium"))
         pair("comment_low_vs_medium_full_v2", "k", "a", G2, V2, "", ("low", "medium"))

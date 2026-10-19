@@ -1,4 +1,6 @@
-# Judging Haiku's v6 extraction: rubric
+# Judging Haiku's v6 extraction: rubric (round 3)
+
+Round 4 is judged with `eval/review_v6r4/RUBRIC.md`, which carries the owner's final decisions.
 
 You are judging how well a small model (Claude Haiku 5.5) turned r/FoodNYC
 comments into structured restaurant opinions. You read each comment

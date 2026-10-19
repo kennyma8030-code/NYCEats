@@ -12,3 +12,4 @@ venv/
 *.json.tmp
 eval/bench_v6/merged/
 eval/review_v6/.sealed/
+eval/review_v6r4/.sealed/

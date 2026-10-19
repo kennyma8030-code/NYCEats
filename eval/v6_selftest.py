@@ -14,6 +14,13 @@
 4. The same outputs pass v4/labels.py's label check and convert to gold, in
    comment and thread mode, and a production-shaped mention passes through
    the adapter unchanged.
+5. Round 4: the fixtures are written in the owner's level names and converted
+   to round 4's schema form (level labels, kind, notes without level or dish)
+   before they are validated and adapted, so the adapter's label mapping is
+   exercised on every case. The frozen rounds keep their hashes and their
+   schema, the round-4 schema stays within the strict-mode union limit, every
+   comment_rows sidecar renders with build_user_message, and excluded kinds
+   drop out of the counts.
 """
 
 import importlib.util
@@ -93,17 +100,34 @@ def validate(value, node, root, path="$"):
 
 
 # ------------------------------------------------------------ fixtures
+TO_LABEL = {v: k for k, v in A.LEVEL_MAP.items()}
+
+
 def M(name, opinion, overall=None, *, named_in="comment", experience="firsthand", taste=None,
       value=None, service=None, atmosphere=None, wait=None, avoid=False,
       dishes=(), price=None, timeframe="current", trend=None, status=None, tags=(), notes=(),
-      location=None):
-    return {"name": name, "named_in": named_in, "location": location, "experience": experience,
+      location=None, kind="restaurant"):
+    """A mention in the owner's level names; r4() turns it into round 4's schema form."""
+    return {"name": name, "named_in": named_in, "kind": kind, "location": location, "experience": experience,
             "opinion": opinion, "overall": overall,
             "aspects": {"taste": taste, "value": value, "service": service,
                         "atmosphere": atmosphere, "wait": wait},
             "avoid": avoid, "dishes": list(dishes), "price": price,
             "timeframe": timeframe, "trend": trend, "status": status, "tags": list(tags),
             "notes": list(notes)}
+
+
+def r4(m):
+    """Round 4's output form of a fixture: level labels, notes with only about and text."""
+    lab = lambda v: TO_LABEL.get(v, v)  # noqa: E731
+    out = dict(m, overall=lab(m["overall"]), aspects={k: lab(v) for k, v in m["aspects"].items()},
+               dishes=[dict(d, level=lab(d["level"])) for d in m["dishes"]],
+               notes=[{"about": n["about"], "text": n["text"]} for n in m["notes"]])
+    return out
+
+
+def R4(ms):
+    return [r4(m) for m in ms]
 
 
 def D(dish, level, avoid=False):
@@ -300,19 +324,43 @@ def main():
     for mod in (pc, pt):
         for key in ("SYSTEM_PROMPT", "PROMPT_HASH", "RESPONSE_FORMAT", "ANTHROPIC_OUTPUT_FORMAT"):
             assert getattr(mod, key), key
-        ex = re.findall(r'\{"mentions":\[.*\]\}', mod.SYSTEM_PROMPT)
-        for e in ex:
-            errs += [f"prompt example: {x}" for x in validate(json.loads(e), common.SCHEMA_COMMENT,
-                                                            common.SCHEMA_COMMENT)]
-    line3 = next(l for l in pt.SYSTEM_PROMPT.splitlines() if l.startswith('{"id":3'))
-    errs += [f"thread example: {x}" for x in validate({"mentions": [json.loads(line3)]},
-                                                      common.SCHEMA_THREAD, common.SCHEMA_THREAD)]
+        # every level label and kind the prompt teaches is one the schema accepts, and back
+        for lab in common.LEVELS:
+            assert lab in mod.SYSTEM_PROMPT, lab
+        for word in re.findall(r"\b(superlative_praise|praise|mixed|knock|extreme_knock)\b", mod.SYSTEM_PROMPT):
+            assert word in common.LEVELS
+    lv = common.SCHEMA_COMMENT["$defs"]["level"]["enum"]
+    assert set(lv) - {None} == set(common.LEVELS) == set(A.LEVEL_MAP), "labels, schema and adapter disagree"
+    kinds = common.SCHEMA_COMMENT["$defs"]["mention"]["properties"]["kind"]["enum"]
+    assert set(kinds) == set(common.KINDS_COUNTED) | set(common.KINDS_EXCLUDED)
+    assert set(common.KINDS_EXCLUDED) == set(A.EXCLUDED_KINDS)
+    # strict structured outputs allow at most 16 parameters with a type union (anyOf)
+    import anthropic_backend as AB
+    defs = common.SCHEMA_THREAD["$defs"]
+    unions = json.dumps(AB.strict_schema(common.SCHEMA_THREAD)).count('"anyOf"')
+    refs = sum(json.dumps(defs[d]).count('"#/$defs/level"') for d in defs if d != "level")
+    n_union = unions - 1 + refs                    # the level def is one anyOf, used at each $ref
+    if n_union > 16:
+        errs.append(f"{n_union} union-typed parameters; strict mode allows 16")
+    print(f"round-4 schema: {n_union} union-typed parameters (limit 16)")
+    # the frozen rounds keep their hashes and the schema of rounds 1 to 3
+    for name, want in (("v6r1_comment", "a15cfb978cce"), ("v6r1_thread", "44e1a49c7781"),
+                       ("v6r2_comment", "1cb01c0721f4"), ("v6r2_thread", "54d4ad44db68"),
+                       ("v6r3_comment", "6b046d8ed65d"), ("v6r3_thread", "1b87239a557f")):
+        mod = load(name)
+        if mod.PROMPT_HASH != want:
+            errs.append(f"{name} hash {mod.PROMPT_HASH}, frozen at {want}")
+        if mod.SCHEMA["$defs"]["level"]["enum"][0] != "very_positive":
+            errs.append(f"{name} lost the round 1-3 schema")
+    assert load("v6r3_comment").PROMPT_HASH_POST == "1b0a9d4098e3"
+    assert not hasattr(load("v6r3_comment"), "build_user_message"), "round 3 must keep production's rendering"
 
     # 2. no eval comment in a prompt: neither a whole body nor any 7-word run of one
     prompts = " ".join(" ".join(m.SYSTEM_PROMPT.lower().split()) for m in (pc, pt))
     shingles = {" ".join(w[i:i + 7]) for w in [prompts.split()] for i in range(len(w) - 6)}
     leaks = 0
-    for path in ("items.jsonl", "v2/items.jsonl", "v2/topup_items.jsonl", "v4/items.jsonl"):
+    for path in ("items.jsonl", "v2/items.jsonl", "v2/topup_items.jsonl", "v4/items.jsonl",
+                 "hard/items.jsonl", "fresh/items.jsonl"):
         for line in open(os.path.join(HERE, path), encoding="utf-8"):
             for body in re.findall(r'"body": "((?:[^"\\]|\\.){25,}?)"', line):
                 w = " ".join(json.loads(f'"{body}"').lower().split()).split()
@@ -350,6 +398,7 @@ def main():
     total, rows = S.Acc(), []
     misses = {"expensiveness": set(), "value_complaint": set()}
     for label, g, ms, mode, schema in scored:
+        ms = R4(ms)
         errs += [f"{label}: {e}" for e in validate({"mentions": ms}, schema, schema)]
         a = S.score_comment(g, A.adapt_all(ms), mode, alias, excluded, False)
         total.add(a)
@@ -458,6 +507,40 @@ def main():
     gl["mentions"][0]["aspects"]["food"] = 1
     a = S.score_comment(gl, A.adapt_all([M("X", "endorse", "positive")]), "comment", alias, excluded, False)
     assert a.c["l5_ok_food"] == 1 and a.c["ov_ok5"] == 1 and not a.c["op_stated_n"] and not a.c["op_none_n"]
+
+    # 8. round 4: labels map back, excluded kinds drop out, and every comment renders
+    out = A.adapt_all(R4([M("Golden Lotus", "stated", "very_negative", taste="negative",
+                            dishes=[D("noodles", "very_positive")]),
+                          M("Hilltop Market", "stated", "positive", kind="grocery")]))
+    assert len(out) == 1 and out[0]["v6"]["overall"] == "very_negative", out
+    assert out[0]["v6"]["aspects"]["taste"] == "negative" and out[0]["v6"]["dishes"][0]["level"] == "very_positive"
+    assert out[0]["aspects"]["food"] == -0.67 and out[0]["dish_sentiment"][0]["level"] == 1.0
+    synth = {"author": "me", "thread_author": "me", "title": "Best  noodles?", "selftext": "x" * 1300,
+             "body": "> Golden Lotus is great\n> really\nhard disagree", "ancestors_total": 7,
+             "ancestors": [{"author": "op", "body": "a", "state": "ok"}, {"author": None, "body": None,
+                           "state": "deleted"}, {"author": "me", "body": "b " * 400, "state": "ok"},
+                           {"author": "zed", "body": "c " * 300, "state": "ok"},
+                           {"author": "yul", "body": "d", "state": "ok"},
+                           {"author": "me", "body": "e " * 900, "state": "ok"}]}
+    msg = pc.build_user_message(synth)
+    want_bits = ['<post_title author="you">Best noodles?</post_title>', "(2 earlier comments not shown)",
+                 "[2] you, earlier: " + ("b " * 150).strip() + " ...", "[1] (a deleted comment)",
+                 "<quote>Golden Lotus is great really</quote>\nhard disagree", "[5] you, earlier: e e"]
+    for bit in want_bits:
+        if bit not in msg:
+            errs.append(f"build_user_message: missing {bit!r}\n{msg}")
+    if len(msg.split("<post_body")[1].split("</post_body>")[0]) > pc.POST_BODY_CHARS + 20:
+        errs.append("post body not cut")
+    if len(msg.split("[5] you, earlier: ")[1].split("\n")[0]) > pc.PARENT_CHARS + 4:
+        errs.append("parent not cut")
+    n_rendered = 0
+    for side in ("items", "v2/items", "hard/items", "fresh/items"):
+        for rec in map(json.loads, open(os.path.join(HERE, side + ".comment_rows.jsonl"), encoding="utf-8")):
+            m = pc.build_user_message(rec)
+            n_rendered += 1
+            if not m.rstrip().endswith("</comment_to_extract>") or "<comment_to_extract>" not in m:
+                errs.append(f"{side} {rec['call_key']}: bad rendering")
+    print(f"comment rendering: {n_rendered} sidecar rows render")
 
     if errs:
         print("FAILED")

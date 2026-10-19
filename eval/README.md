@@ -23,6 +23,9 @@ never by an LLM.
 | `bench_v6.py`, `bench_v6/` | the budgeted Claude Haiku 5.5 benchmark of v6 on Anthropic's API (Message Batches): `plan` (no API: dry runs, call counts, cost estimates, proposed additions), `probe` (two tiny direct calls), `run` (capped by the shared ledger, re-attaches to batches in flight), `compare` (scores every pair on identical comment sets into `bench_v6/compare.json`) |
 | `anthropic_backend.py` | `run.py --api anthropic [--batch]`: the anthropic SDK path (adaptive thinking with effort, strict schema in `output_config.format`, prompt caching, batches, cost from usage tokens) |
 | `budget.py`, `budget_selftest.py` | `run.py`'s hard spend cap (`--budget-file`, `--budget`, with persisted holds for batches in flight) and its offline test against fake OpenRouter and Anthropic endpoints on 127.0.0.1 |
+| `build_comment_rows.py`, `*.comment_rows.jsonl`, `hard/`, `fresh/` | read-only fetch of the raw rows v6 round 4's comment renderer needs (verified against production's renderer), and the round-4 sets: 60 red-team hard cases and 300 fresh held-out comments no eval or tuning used |
+| `v6_validate.py` | deterministic rules applied after v6 extraction, measured on round 3 against the Opus finals (`review_v6/validators.json`) |
+| `review_v6/`, `review_v6r4/` | the Opus reviews of v6 rounds 3 and 4: rubric, blind-first packets, checker and aggregator |
 | `build_thread_rows.py`, `*.thread_rows.jsonl` | read-only fetch of the raw rows behind every thread chunk, verified against production's renderer, so a prompt with its own `render_chunk` (v6) can re-render thread items in `run.py` |
 | `export_stored.py` | dumps the stored production extraction as a run file (read-only DB) |
 | `score.py` | scores runs against the gold, writing `results/<date>__<run>.md/.csv` |

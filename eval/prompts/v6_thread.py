@@ -1,4 +1,7 @@
-"""v6, thread mode: one post plus a chunk of its comment tree in, opinions out.
+"""v6 round 4, thread mode: one post plus a chunk of its comment tree in, opinions out.
+
+The fields, levels, rules, examples and checklist are v6_common's (round 4); only the
+input section and the thread example are thread mode's own.
 
 Plugs into eval/run.py as --prompt file:eval/prompts/v6_thread.py. Unlike
 the comment prompt, this one brings its own renderer, render_chunk, because
@@ -116,27 +119,25 @@ def render_chunk(title, selftext, rows, outside=None):
 
 SYSTEM_PROMPT = f"""You extract restaurant opinions from a Reddit thread in a New York City food subreddit. {_c.PURPOSE}
 
-You get the post, then a chunk of its comments. Each comment starts with a number in brackets. Extract from the comments only; the post, and the comment a reply answers, are its context. Every mention carries "id", the bracket number of the comment it came from. Never use a number that is not in brackets. Go through EVERY comment, one-word replies included: they are easy to skip and often hold the only complaint.
+<input>
+You get the post, then a chunk of its comments, each starting with a number in brackets. Extract from the comments only; the post, and the comment a reply answers, are its context. Every mention carries "id", the bracket number of the comment it came from; never use a number that is not in brackets. Go through EVERY comment, one-word replies included: they are easy to skip and often hold the only complaint.
+Each reply follows the comment it answers and says which one: "(reply to [3])". Trust that marker over position or indentation. A reply to a comment outside this chunk quotes it: (reply to u/zed, not in this chunk: "..."). The quote is context only; never extract from it, but a reply that judges the quoted place is a mention of that place.
+A reply is about the place in the comment it answers unless it names another, and the mention takes the REPLY's id, with named_in "context": "overrated" under a rec is a knock on that place; "hard disagree" under "X is overrated" is praise for X. A claim in another comment is this commenter's only when they wrote it or agree with it. If the place still cannot be told (a reply to a deleted comment), skip it rather than guess. Most comments name no place and need no deliberation.
+</input>
 
-Output only JSON, {{"mentions": [...]}}, one object per place per comment, every field present.
-
-READING THE COMMENTS
-Each reply follows the comment it answers and says which one: "(reply to [3])". Trust that marker over position or indentation.
-A reply to a comment outside this chunk quotes it: (reply to u/zed, not in this chunk: "..."). The quote is context only; never extract from it, but a reply that judges the quoted place is a mention of that place.
-A reply is about the place in the comment it answers unless it names another, and the mention takes the REPLY's id: "overrated" under a rec is a negative mention of that place; "hard disagree" under "X is overrated" is positive for X. If the place still cannot be told (a reply to a deleted comment), skip it rather than guess.
-Read the comments once, in order. A comment's own words and the comment it answers are all you need; most comments name no place and need no deliberation.
+One object per place per comment.
 
 {_c.SCOPE}
 
-FIELDS
-id          The bracket number of the comment.
-{_c.FIELDS}
+{_c.FIELDS.replace("<fields>", "<fields>" + chr(10) + "id          The bracket number of the comment.", 1)}
 
 {_c.SCALE}
 
 {_c.RULES}
 
-EXAMPLE (invented places)
+{_c.EXAMPLES}
+
+<thread_example>
 POST: Best noodles in Queens?
 
 [1] u/ann: Golden Lotus, and Pepper House if you can stand the line
@@ -146,13 +147,15 @@ POST: Best noodles in Queens?
 [5] u/cal (reply to u/zed, not in this chunk: "Noodle Lab for hand-pulled, skip the dumplings"): it's fine. not worth the trip
 [6] u/dee: is Noodle Lab still cash only?
 
-1: Golden Lotus endorse (overall positive). Pepper House stated: overall positive, wait negative.
-2: pepper house: overall negative, value negative, dish noodles (level null), notes {{"about":"overrated","text":"overrated","level":"negative","dish":null}} and {{"about":"price","text":"$28 for noodles","level":"negative","dish":"noodles"}}.
-3: pepper house, named_in "context":
-{{"id":3,"name":"pepper house","named_in":"context","location":null,"experience":"firsthand","opinion":"stated","overall":"positive","aspects":{{"taste":"positive","value":null,"service":null,"atmosphere":null,"wait":null}},"avoid":false,"dishes":[{{"dish":"cumin lamb","level":"positive","avoid":false}}],"price":null,"timeframe":"current","trend":null,"status":null,"tags":[],"notes":[]}}
-4: golden lotus, named_in "context": overall and taste negative ("mid").
-5: Noodle Lab, named_in "context" (from the quote): overall negative ("fine" is lukewarm, and "not worth the trip").
-6: Noodle Lab: opinion none, experience none, every level null."""
+1: Golden Lotus endorse, overall praise. Pepper House stated: wait knock; overall praise (the pick is the bottom line; the line is only the wait).
+2: pepper house: overall knock ("overrated"), value knock, dish noodles (level null), note "$28 for noodles".
+3: pepper house (named_in "context"): stated, overall praise, taste praise, dish cumin lamb praise.
+4: golden lotus (named_in "context"): overall and taste knock ("mid").
+5: Noodle Lab (named_in "context", from the quote): overall knock ("fine" is lukewarm, "not worth the trip").
+6: Noodle Lab: opinion none, experience none, every level null.
+</thread_example>
+
+{_c.CHECK}"""
 
 SCHEMA = _c.SCHEMA_THREAD
 RESPONSE_FORMAT = _c.response_format(SCHEMA)

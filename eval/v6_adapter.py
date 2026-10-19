@@ -25,6 +25,13 @@ convention v6 deliberately dropped:
 
 The untranslated mention stays available under "v6", so a v6-aware scorer
 never has to re-parse the run file.
+
+Round 4 (eval/prompts/v6_common.py) names its levels by their test
+(superlative_praise, praise, mixed, knock, extreme_knock) and adds a kind per
+place. normalize() maps the labels back to the owner's five, so "v6" always
+holds the owner's level names whatever round wrote the output, and adapt_all()
+leaves out the kinds the counts exclude (groceries, brands, venues, companies,
+other), as production will.
 """
 
 LEVEL_NUM = {"very_positive": 1.0, "positive": 0.67, "neutral": 0.0,
@@ -32,6 +39,10 @@ LEVEL_NUM = {"very_positive": 1.0, "positive": 0.67, "neutral": 0.0,
 PRICE_NUM = {"very_cheap": -1.0, "cheap": -0.67, "moderate": 0.0,
              "expensive": 0.67, "very_expensive": 1.0}
 ENDORSE_FOOD = 0.33
+# Round 4's level labels -> the owner's five levels (round 1-3 output passes through).
+LEVEL_MAP = {"superlative_praise": "very_positive", "praise": "positive", "mixed": "neutral",
+             "knock": "negative", "extreme_knock": "very_negative"}
+EXCLUDED_KINDS = ("grocery", "brand", "venue", "company", "other")
 OTHER_ASPECTS = ("value", "service", "atmosphere", "wait")
 
 
@@ -39,12 +50,38 @@ def is_v6(m):
     return isinstance(m, dict) and "opinion" in m and "name" in m and "restaurant_raw" not in m
 
 
+def owner_level(level):
+    return LEVEL_MAP.get(level, level)
+
+
+def normalize(m):
+    """A v6 mention with round 4's level labels mapped to the owner's five (a copy).
+    Output from rounds 1 to 3 comes back unchanged."""
+    if not is_v6(m):
+        return m
+    out = dict(m)
+    out["overall"] = owner_level(m.get("overall"))
+    if isinstance(m.get("aspects"), dict):
+        out["aspects"] = {k: owner_level(v) for k, v in m["aspects"].items()}
+    out["dishes"] = [dict(d, level=owner_level(d.get("level"))) if isinstance(d, dict) else d
+                     for d in (m.get("dishes") or [])]
+    out["notes"] = [dict(n, level=owner_level(n.get("level"))) if isinstance(n, dict) and "level" in n else n
+                    for n in (m.get("notes") or [])]
+    return out
+
+
+def counted(m):
+    """False for a round-4 mention whose kind the counts leave out."""
+    return not (is_v6(m) and m.get("kind") in EXCLUDED_KINDS)
+
+
 def num(level):
     return LEVEL_NUM.get(level) if isinstance(level, str) else None
 
 
 def to_legacy(m):
-    """One v6 mention -> production/rubric shape (plus the original under "v6")."""
+    """One v6 mention -> production/rubric shape (plus the original, normalized, under "v6")."""
+    m = normalize(m)
     asp = m.get("aspects") if isinstance(m.get("aspects"), dict) else {}
     closed = m.get("status") == "closed"
     food = num(asp.get("taste"))
@@ -79,4 +116,4 @@ def adapt(m):
 
 
 def adapt_all(mentions):
-    return [adapt(m) for m in mentions] if isinstance(mentions, list) else mentions
+    return [adapt(m) for m in mentions if counted(m)] if isinstance(mentions, list) else mentions

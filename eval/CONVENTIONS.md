@@ -14,6 +14,10 @@ as ±3 → very, ±1/±2 → positive/negative, 0 → neutral.
 
 ## The rules
 
+Round 4 adds the owner's final decisions below the first table; where a row of the
+first table disagrees with them (line tips, very negative, closed and past), the
+decision wins. `eval/review_v6r4/RUBRIC.md` and the round-4 prompt state them in full.
+
 | case | rule | example |
 |---|---|---|
 | **Comparison losers** | The loser gets a level. Negative by default. Very_negative when the comment says it is far worse. Positive when the comment says both are good ("both great, I just prefer A"). Note the comparison on both places. | "Prefer Saperavi over Chama Mama": Saperavi positive, Chama Mama negative |
@@ -26,6 +30,26 @@ as ±3 → very, ±1/±2 → positive/negative, 0 → neutral.
 | **Bare endorsements** | A name offered as a pick with nothing said is `opinion: endorse`, overall positive, aspects null. It counts as "praised". | "Lucali" under "best pizza?" |
 | **Secondhand** | Secondhand opinions are extracted and leveled like firsthand ones (`experience: secondhand`), and scoring counts them the same. A verdict in the commenter's own voice ("mid", "overrated", "get the X") is firsthand unless they say they haven't been. | "heard it's great": positive, secondhand |
 | **Closed and past** | A closed place keeps its mention, with `status: closed` and its remembered verdict (`timeframe: past`). Rankings exclude closed places, but their pages stay. Past-only opinions count, dated by the comment. "Used to be great, now mid" counts the current verdict (negative) with `trend: declined`. | "I loved Alta, but it closed": positive, closed, past |
+
+## Owner decisions for round 4 (final)
+
+| case | rule |
+|---|---|
+| **Untried reactions** | "looks so good", "sounds amazing", "can't wait to try", "saved it": a mention with opinion none and no levels. |
+| **Wait-only remarks** | A remark only about the wait sets wait and leaves overall null, unless the commenter draws a bottom line from it. A lone taste, value, service or atmosphere verdict does set overall; otherwise overall follows the bottom line, else the strongest non-wait point. |
+| **Mild words** | "decent", "solid", "good for what it is": positive. "average", "mediocre", "not worth the trip", "fine", "ok", "not bad", "meh", "mid": negative. |
+| **Extremes** | "terrible", "awful", "never again", "regretted going" are negative. very_negative only for extremes (worst ever, inedible, disgusting, got sick, avoid at all costs). very_positive only for city-wide-or-broader superlatives; local, recent and classless hyperbole ("to die for", "unreal", "10/10", "best on the UES") is positive. |
+| **Scores** | 8/10 and up positive; 5 to 7 negative; below 5 negative, very_negative only with extreme words. |
+| **Bare answers** | take the question's polarity, aspect and dish, never its superlative. Names given only as examples are opinion none. |
+| **Comparisons** | the loser loses only on what was compared; a swap for fit lowers nothing; no loser without a named winner; ranked picks are all positive. |
+| **Boycotts** | politics, business deals, a chef's persona: no level, a note only. |
+| **Stores, halls** | a gourmet grocer is a mention when the comment is about food it serves to eat, not groceries. A food hall or night market is a mention, and so is each named stall. |
+| **Old visits** | timeframe current unless the comment ties the verdict to an earlier time. |
+| **Chain branches** | one branch closing, opening or moving: status null, the branch in location and a note. |
+| **Timing tips** | wait negative when you plan around a wait, positive when getting in is easy. |
+| **"for the price"** | praise or complaint by the word before it. |
+
+The "settle" decisions in `review_v6/analysis/decisions.md` (13 to 25) apply as recommended.
 
 ## Where the v1/v2 gold disagrees
 

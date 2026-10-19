@@ -45,7 +45,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 LEVELS = ("very_positive", "positive", "neutral", "negative", "very_negative")
 
-with open(os.path.join(HERE, "v6_schema.json"), encoding="utf-8") as _f:
+with open(os.path.join(HERE, "v6r3_schema.json"), encoding="utf-8") as _f:  # rounds 1-3 shared one schema
     SCHEMA_COMMENT = json.load(_f)
 
 

@@ -15,7 +15,9 @@
                      are re-rendered from raw rows instead of the stored
                      rendering. Thread re-rendering reads
                      <items>.thread_rows.jsonl, written read-only by
-                     eval/build_thread_rows.py.
+                     eval/build_thread_rows.py. A module that sets
+                     COMMENT_ROWS renders each comment from
+                     <items>.comment_rows.jsonl (eval/build_comment_rows.py).
 
 Model inputs are the renderings stored in items.jsonl, produced by the repo's
 own builders when the items were built. Thread mode makes one call per
@@ -108,7 +110,7 @@ def load_items(path, ids=None):
     return items
 
 
-def build_jobs(items, mode, pmod, custom=False, thread_rows=None):
+def build_jobs(items, mode, pmod, custom=False, thread_rows=None, comment_rows=None):
     """One job per model call: {call_key, item_ids, user, id_map}.
 
     id_map maps whatever id the model returns to a comment_id: the short
@@ -118,9 +120,14 @@ def build_jobs(items, mode, pmod, custom=False, thread_rows=None):
     chunk with pmod.render_chunk. The renderer may renumber the comments, so
     its own id map replaces the stored one; a chunk whose sidecar is missing,
     or was built from a different chunking, stops the run rather than quietly
-    mixing renderings."""
+    mixing renderings.
+
+    comment_rows ({call_key: sidecar record}) does the same for comment mode:
+    every comment is rendered with pmod.build_user_message(record), and a
+    comment with no row stops the run."""
     jobs = {}
-    rerender = custom and mode == "comment" and hasattr(pmod, "build_user_message")
+    rerender = custom and mode == "comment" and hasattr(pmod, "build_user_message") \
+        and comment_rows is None and not getattr(pmod, "COMMENT_ROWS", False)
     for it in items:
         if mode == "comment":
             if it["kind"] == "comment":
@@ -128,7 +135,13 @@ def build_jobs(items, mode, pmod, custom=False, thread_rows=None):
             else:
                 units = [(c["comment_id"], c["comment_input"], None) for c in it["comments"]]
             for cid, user, ctx in units:
-                if rerender and ctx is not None:
+                if comment_rows is not None:
+                    rec = comment_rows.get(f"comment:{cid}")
+                    if rec is None:
+                        raise SystemExit(f"comment:{cid}: no raw rows; run eval/build_comment_rows.py rows "
+                                         "on this items file")
+                    user = pmod.build_user_message(rec)
+                elif rerender and ctx is not None:
                     parent = ctx["ancestors"][-1]["body"] if ctx["ancestors"] and \
                         not ctx["ancestors"][-1].get("missing") else None
                     user = pmod.build_user_message(ctx["body"], ctx["thread_title"],
@@ -162,6 +175,19 @@ def build_jobs(items, mode, pmod, custom=False, thread_rows=None):
         print("note: prompt module defines build_message; thread inputs still use the "
               "stored rendering (define render_chunk to re-render)", file=sys.stderr)
     return list(jobs.values())
+
+
+def load_comment_rows(items_path, pmod, prompt_spec, mode):
+    """{call_key: row} from <items>.comment_rows.jsonl when a file: prompt renders comment
+    mode from raw rows (COMMENT_ROWS), else None."""
+    if not (prompt_spec.startswith("file:") and mode == "comment" and getattr(pmod, "COMMENT_ROWS", False)):
+        return None
+    side = os.path.splitext(items_path)[0] + ".comment_rows.jsonl"
+    if not os.path.exists(side):
+        raise SystemExit(f"{side} is missing: this prompt re-renders comments. Build it read-only "
+                         f"with eval/build_comment_rows.py rows {items_path} --env-file ...")
+    with open(side, encoding="utf-8") as f:
+        return {r["call_key"]: r for r in map(json.loads, f)}
 
 
 # ---------------------------------------------------------------- client
@@ -535,8 +561,9 @@ def main():
                              f"read-only with eval/build_thread_rows.py {args.items} --env-file ...")
         with open(side, encoding="utf-8") as f:
             thread_rows = {r["call_key"]: r for r in map(json.loads, f)}
+    comment_rows = load_comment_rows(args.items, pmod, args.prompt, args.mode)
     jobs = build_jobs(load_items(args.items, only), args.mode, pmod, thread_rows=thread_rows,
-                      custom=args.prompt.startswith("file:"))
+                      custom=args.prompt.startswith("file:"), comment_rows=comment_rows)
     if args.call_keys:
         with open(args.call_keys, encoding="utf-8") as f:
             keep = {l.strip() for l in f if l.strip()}

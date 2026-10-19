@@ -6,16 +6,20 @@ leaves the scoring for later, which is still to be decided.
 
 | file | what |
 |---|---|
-| `v6_schema.json` | strict JSON Schema, comment mode. Thread mode adds `id` (`v6_common.SCHEMA_THREAD`) |
+| `v6_schema.json` | strict JSON Schema, comment mode (round 4: level labels, `kind`, evidence before verdict, notes without level). Thread mode adds `id` (`v6_common.SCHEMA_THREAD`) |
 | `v6_common.py` | shared prompt text, both schemas, `response_format` / Anthropic `output_config.format` helpers |
-| `v6_comment.py`, `v6_thread.py` | the live system prompts (round 2), for `eval/run.py --prompt file:...`. `v6_thread.py` also has its own chunk renderer, `render_chunk`. `v6_comment.py` also has post mode: `SYSTEM_PROMPT_POST` and `build_post_message` |
+| `v6_comment.py`, `v6_thread.py` | the live system prompts (round 4), for `eval/run.py --prompt file:...`. `v6_thread.py` also has its own chunk renderer, `render_chunk`. `v6_comment.py` has its own comment renderer, `build_user_message` (from `<items>.comment_rows.jsonl`), and post mode: `SYSTEM_PROMPT_POST` and `build_post_message` |
 | `v6r1_common.py`, `v6r1_comment.py`, `v6r1_thread.py` | round 1, frozen exactly as benchmarked (hashes a15cfb978cce / 44e1a49c7781). Benchmark steps a–k run on these |
-| `v6r2_common.py`, `v6r2_comment.py`, `v6r2_thread.py` | round 2, frozen as benchmarked in step l (1cb01c0721f4 / 54d4ad44db68). The live `v6_*` files are round 3 |
+| `v6r2_common.py`, `v6r2_comment.py`, `v6r2_thread.py` | round 2, frozen as benchmarked in step l (1cb01c0721f4 / 54d4ad44db68) |
+| `v6r3_common.py`, `v6r3_comment.py`, `v6r3_thread.py`, `v6r3_schema.json` | round 3, frozen as benchmarked in step m and reviewed by Opus in `../review_v6` (6b046d8ed65d / 1b87239a557f, post 1b0a9d4098e3). `v6r3_schema.json` is the schema rounds 1 to 3 shared. The live `v6_*` files are round 4 (see "Round 4" below) |
 | `../CONVENTIONS.md` | the owner's conventions, one rule per case, and where the v1/v2 gold disagrees |
 | `../labels/proposed_convention_patches.py` | candidate gold patches for those conventions. **Not applied** |
 | `../v6_adapter.py` | maps v6 output to the shape the v1/v2 gold and v4 labels use. `score.load_run` and `v4/labels.py` call it automatically |
 | `../build_thread_rows.py` | read-only: fetches the raw rows behind every thread chunk and writes `<items>.thread_rows.jsonl`, verified byte for byte against production's renderer |
 | `../items.thread_rows.jsonl`, `../v2/items.thread_rows.jsonl`, `../v4/items_{single,thread}.thread_rows.jsonl` | those rows (1,032 chunks, all verified), committed so a benchmark needs no database |
+| `../build_comment_rows.py`, `../*.comment_rows.jsonl`, `../hard/`, `../fresh/` | read-only: the raw rows round 4's comment renderer needs (verified byte for byte against production's renderer), and the round-4 hard and fresh item sets |
+| `../v6_validate.py` | deterministic post-extraction rules, each measured on round 3 against the Opus finals before it was kept |
+| `../review_v6r4/` | the round-4 Opus review: rubric with the owner's final decisions, packet builder, checker and aggregator |
 | `../v6_selftest.py` | offline checks: schema strictness, no eval text in the prompts, 20 real gold comments and 5 rendered thread comments scored through the adapter, and the renderer checked on every real chunk |
 | `../../migrations/v6_mentions.sql` | storage draft. **Not applied.** |
 
@@ -41,6 +45,44 @@ file (`..._schema.jsonl`). Keep reasoning on: commit 512c016 measured that
 turning it off loses negations that point at the parent comment.
 
 ---
+
+## Round 4
+
+Round 4 is built from the Opus review of round 3 (`../review_v6/report.md` and
+`../review_v6/analysis/`: errors, Haiku guidance, schema, input, red team, decisions)
+and the owner's final decisions. The prompt now states the rubric's rules exactly,
+and `../review_v6r4/RUBRIC.md` states the prompt's.
+
+- **Prompt.** XML sections; the five round-3 lines that contradicted the rubric are
+  gone; the owner's decisions are written in (untried reactions carry no level; a
+  wait-only remark leaves overall null; "decent"/"solid" praise and
+  "average"/"mediocre"/"fine" knocks; very_* only for city-wide superlatives and
+  extremes; scores; bare answers take the question's polarity, aspect and dish but
+  never its superlative; a comparison loser loses only on what was compared;
+  boycotts carry no level; stores count for the food they serve; food halls and
+  their stalls; old visits are current; one branch closing leaves status null;
+  timing tips; "for the price"). Experience asks whose opinion it is. Five short
+  contrastive examples replace the one JSON example, and a `<before_answering>`
+  checklist asks for thinking: half of round 3's low-effort calls had none.
+- **Schema.** Level labels that state their test (`superlative_praise`, `praise`,
+  `mixed`, `knock`, `extreme_knock`), mapped back to the owner's five by
+  `v6_adapter.normalize`; `kind` per place, with groceries, brands, venues,
+  companies and other dropped from the counts in code; dishes, notes and aspects
+  before opinion and overall; notes are `{about, text}`. 11 union-typed fields,
+  under strict mode's 16. The `said`/quote redesign (`analysis/schema.md` §4.4)
+  was left out: it would fit the union limit (about 14), but it replaces aspects,
+  opinion and notes with derived values, needs a new adapter, rubric and review
+  format, and can't be A/B tested inside a round meant to be final.
+- **Input.** `v6_comment.build_user_message`: labelled sections, the post body to
+  1,200 characters, up to five ancestors with `OP` / `you, earlier` / `another
+  user`, `author="you"` when the commenter wrote the post, deleted parents and
+  `> quotes` marked.
+- **Validators** (`../v6_validate.py`): endorse → positive, very_* needs its word,
+  none → firsthand, secondhand needs a credit word, closed → past, and the
+  owner's lone-verdict overall. Together they fixed 120 fields and broke 28 on
+  round 3's output.
+- **Benchmark.** `bench_v6.py` steps n (low, the 600 + 60 hard + 300 fresh) and o
+  (medium, the 600 + 60 hard), prepared, not run.
 
 ## The output
 
