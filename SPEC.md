@@ -23,7 +23,14 @@ dropped and rebuilt.
 registration requires manual approval since late 2025. Arctic Shift retrieves via
 the official API, captures ~20s after posting, and re-captures at 36h.
 
-- Poll `/comments/search?subreddit=FoodNYC&limit=100&sort=desc` every 30 min.
+- Collect the seven largest city food subreddits (`subreddits.py`) into the
+  same tables, told apart by `subreddit`. Only r/FoodNYC is extracted and
+  scored; every reader of the corpus filters on `subreddit` first.
+- Poll `/comments/search?subreddit=X&limit=100&sort=desc` per city, paging
+  back until the page reaches stored comments. Interval sized so the busiest
+  hour of the past week fills half a page, clamped to 10–60 min.
+- Every boot resumes a per-subreddit backfill cursor in the background; a
+  city never swept starts from its first post.
 - Unknown thread -> fetch the post, then every comment in it, before inserting.
 - Dedup on the `t1_`/`t3_` fullname. All inserts idempotent.
 - History available back to 2014-08-24 (~747k comments, ~47k posts).

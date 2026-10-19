@@ -18,6 +18,7 @@ import re
 import time
 
 import db
+import subreddits
 
 MODEL = "stringmatch"
 PROMPT_HASH = "stringmatch"
@@ -58,12 +59,13 @@ def scan(conn, names, since_months=6, limit=None):
     with conn.cursor() as cur:
         cur.execute("""
             select c.id, c.body from comments c
-            where c.body not in ('[deleted]','[removed]')
+            where c.subreddit = %s       -- NYC's names, so NYC's comments
+              and c.body not in ('[deleted]','[removed]')
               and length(c.body) > 15
               and c.created_utc >= now() - make_interval(months => %s)
             order by c.created_utc desc
             limit %s
-        """, (since_months, limit))
+        """, (subreddits.HOME, since_months, limit))
         rows = cur.fetchall()
 
     found, scanned = 0, 0

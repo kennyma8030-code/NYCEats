@@ -19,6 +19,7 @@ import urllib.request
 
 import db
 import prompt
+import subreddits
 
 # Provider is configurable because the same model is reachable through
 # DeepSeek directly or through OpenRouter, with different slugs and prices.
@@ -156,6 +157,10 @@ def next_batch(conn, limit=200, since=None):
 
     Ordering by thread_id rides the partial index and keeps a thread's comments
     adjacent, so an interrupted run leaves whole threads finished.
+
+    HOME only. Other cities are collected but have no restaurant list to
+    resolve against, so extracting them would buy mentions that match NYC
+    names by accident -- and every one would be paid for.
     """
     with conn.cursor() as cur:
         cur.execute("""
@@ -163,14 +168,15 @@ def next_batch(conn, limit=200, since=None):
             from comments c
             join threads t on t.id = c.thread_id
             left join comments p on p.id = c.parent_comment_id
-            where c.extracted_at is null
+            where c.subreddit = %s
+              and c.extracted_at is null
               and c.extract_error is null
               and c.body not in ('[deleted]', '[removed]')
               and length(c.body) > 15
               and (%s is null or c.created_utc >= %s)
             order by c.thread_id, c.created_utc
             limit %s
-        """, (since, since, limit))
+        """, (subreddits.HOME, since, since, limit))
         return cur.fetchall()
 
 
@@ -331,9 +337,11 @@ def main():
             since = cur.fetchone()[0]
         with conn.cursor() as cur:
             cur.execute("""select count(*) from comments
-                           where extracted_at is null and extract_error is null
+                           where subreddit = %s
+                             and extracted_at is null and extract_error is null
                              and body not in ('[deleted]','[removed]')
-                             and length(body) > 15 and created_utc >= %s""", (since,))
+                             and length(body) > 15 and created_utc >= %s""",
+                        (subreddits.HOME, since))
             print(f"{cur.fetchone()[0]:,} comments from the last {args.since} months")
 
     done, found = run(conn, args.limit, since, args.workers)

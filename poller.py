@@ -1,17 +1,26 @@
-"""Poll r/FoodNYC comments every 30 minutes.
+"""Poll every subreddit in subreddits.py, each as often as its activity needs.
+
+A poll takes the newest page of comments and, if that page is still all
+news, keeps paging back until it reaches what we already hold. So how often
+a city is polled decides how fresh it is, never whether comments are lost.
+The cadence is set from each city's busiest hour of the past week: r/chicagofood
+peaks above 200 comments an hour and is polled every ~15 minutes;
+r/FoodSanDiego peaks near 70 and waits ~40.
 
 When a comment arrives on a thread we've never seen, backfill that whole
 thread (the post plus every comment in it) before storing the comment.
 
 With --extract (or POLL_EXTRACT=1, which is what deploy.py sets on Railway)
-each cycle also runs the extraction prompt over the comments that just
-arrived and refreshes the scoring views, so the board moves within one poll
-instead of waiting for someone to run extract.py and sync.py by hand.
+the chores pass also runs the extraction prompt over the comments that just
+arrived and refreshes the scoring views, so the board moves within half an
+hour instead of waiting for someone to run extract.py and sync.py by hand.
+Extraction only ever reads subreddits.HOME; the other cities are collected,
+not scored.
 
-With --embed (or POLL_EMBED=1) each cycle also embeds the newly extracted
-comments for semantic search, last, after the refresh. That step is optional
-by design: without a key it is switched off at boot, and any failure in it is
-logged and skipped, never allowed to hold up the board.
+With --embed (or POLL_EMBED=1) the chores pass also embeds the newly
+extracted r/FoodNYC rows for semantic search, last, after the refresh. That
+step is optional by design: without a key it is switched off at boot, and
+any failure in it is logged and skipped, never allowed to hold up the board.
 """
 
 import argparse
@@ -24,9 +33,24 @@ import db
 import ingest
 import restaurants
 import rss
+import subreddits
 
-SUBREDDIT = "FoodNYC"
-INTERVAL = 30 * 60
+# Seconds between polls of one subreddit. Sized so the busiest hour of the
+# last week fills half a page per poll: headroom for a burst before paging
+# back costs a second request. Clamped, because a city that went quiet for a
+# week should still be looked at hourly, and a viral thread should not have
+# us hammering a free archive every minute.
+PAGE_TARGET = arctic.PAGE // 2
+MIN_INTERVAL = 10 * 60
+MAX_INTERVAL = 60 * 60
+# How far back one poll will page after downtime: 2,000 comments is a few
+# days of even the busiest city. Past that the backfill cursor, which every
+# boot resumes, is what closes the gap.
+MAX_PAGES = 20
+# Settling scores and extraction run on one clock of their own, the old 30
+# minutes: they are not per city, and refreshing the scoring views every time
+# any city is polled would rebuild the board several times an hour.
+CHORE_INTERVAL = 30 * 60
 
 
 def pull_threads(conn, bare_ids):
@@ -38,9 +62,41 @@ def pull_threads(conn, bare_ids):
         time.sleep(1)
 
 
-def poll_once(conn):
-    comments = arctic.newest_comments(SUBREDDIT)
-    print(f"fetched {len(comments)} newest comments")
+def fetch_new(conn, subreddit):
+    """Every comment newer than the newest one stored, plus the page it sits on.
+
+    One page covers a normal poll. A full page whose oldest comment is still
+    newer than anything we hold did not reach back far enough -- a burst, or
+    the poller was down -- so page back until it does. A subreddit with
+    nothing stored yet gets one page; its history is the backfill's job.
+    """
+    held = db.newest_stored_utc(conn, subreddit)
+    got = {}
+    page = arctic.newest_comments(subreddit)
+    for pages in range(1, MAX_PAGES + 1):
+        for c in page:
+            got[c["id"]] = c
+        if held is None or len(page) < arctic.PAGE:
+            break
+        oldest = min(c["created_utc"] for c in page)
+        if oldest <= held:
+            break
+        if pages == MAX_PAGES:
+            print(f"  r/{subreddit}: still no overlap after {pages} pages; "
+                  f"the next boot's backfill will close the gap")
+            return list(got.values())
+        time.sleep(1)
+        # +1: `before` is exclusive, and a comment posted in the same second
+        # as this page's oldest would otherwise fall between the two pages.
+        page = arctic.newest_comments(subreddit, before=oldest + 1)
+    if pages > 1:
+        print(f"  r/{subreddit}: paged back {pages} pages to reach stored comments")
+    return list(got.values())
+
+
+def poll_once(conn, subreddit):
+    comments = fetch_new(conn, subreddit)
+    print(f"r/{subreddit}: fetched {len(comments)} newest comments")
     if not comments:
         return
 
@@ -56,8 +112,24 @@ def poll_once(conn):
     print(f"  inserted {new} new comment(s)")
 
 
+def interval_for(conn, subreddit):
+    """Seconds until this subreddit's next poll. See PAGE_TARGET.
+
+    A city with no week of history yet gets the shortest interval; its first
+    polls are what fill the week in.
+    """
+    peak = db.busiest_hour(conn, subreddit)
+    if not peak:
+        return MIN_INTERVAL
+    return max(MIN_INTERVAL, min(MAX_INTERVAL, PAGE_TARGET / peak * 3600))
+
+
 def settle_once(conn, batches=5):
-    """Finalise scores for comments past 36h. ~6 requests/day at this volume."""
+    """Finalise scores for comments past 36h, every city at once.
+
+    ~3,000 comments a day across the seven cities is ~30 requests; five
+    batches per chores pass is room for 240.
+    """
     total = 0
     for _ in range(batches):
         ids = db.unsettled_comment_ids(conn, limit=100)
@@ -147,15 +219,16 @@ def refresh_once(conn):
         conn.commit()
 
 
-# The embed step's bounds inside one 30-minute cycle. Worst case on an outage
-# is one batch's attempts at the timeout, about three minutes.
+# The embed step's bounds inside one chores pass. Worst case on an outage is
+# one batch's attempts at the timeout, about three minutes. The polls wait
+# behind it, which costs freshness, never comments: the next poll pages back.
 EMBED_ATTEMPTS = 3
 EMBED_TIMEOUT = 60
 EMBED_DEADLINE = 5 * 60
 
 
 def _step(name, fn, conn, *args):
-    """Run one step of a cycle so that its failure is only its own.
+    """Run one step so that its failure is only its own.
 
     Prints the traceback and rolls back, then returns None, so the next
     step still runs on a clean connection.
@@ -169,16 +242,35 @@ def _step(name, fn, conn, *args):
         return None
 
 
-def run_cycle(conn, args):
-    """One poll: collect, then extract, then refresh, then embed.
+def poll_due(conn, names, due):
+    """Poll every subreddit whose time has come, then set its next due time.
+
+    A failed poll still gets a next time, the shortest one: retrying at once
+    would spin on an outage, and waiting a full interval would leave a busy
+    city stale.
+    """
+    for name in names:
+        if due[name] > time.time():
+            continue
+        _step(f"poll r/{name}", poll_once, conn, name)
+        wait = _step(f"interval r/{name}", interval_for, conn, name)
+        due[name] = time.time() + (wait or MIN_INTERVAL)
+
+
+def run_chores(conn, args):
+    """The 30-minute pass: settle, then extract, then refresh, then embed.
 
     Each step gets its own try. A failed extraction must not look like a
-    failed poll, and a failed poll still leaves earlier arrivals worth
+    failed settle, and a failed settle still leaves earlier arrivals worth
     extracting. Embedding is strictly optional, so it goes last: the board
     is refreshed before it starts, and an embedding error or a slow
     OpenRouter can never delay extraction or the refresh.
+
+    Every step here is r/FoodNYC's except settling, which is every city's:
+    extraction reads HOME only, and embedding reads what extraction wrote
+    plus HOME's threads, so the other cities' history is never billed.
     """
-    _step("poll", lambda c: (poll_once(c), settle_once(c)), conn)
+    _step("settle", settle_once, conn)
     extracted = 0
     if args.extract:
         extracted = _step("extract", extract_once, conn, args.extract_days,
@@ -196,7 +288,10 @@ def _env_flag(name):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--once", action="store_true", help="run one cycle and exit")
+    ap.add_argument("--once", action="store_true",
+                    help="poll each subreddit once, run the chores, and exit")
+    ap.add_argument("--subreddit", action="append", choices=subreddits.SUBREDDITS,
+                    help="poll and backfill only this one (repeatable; default: all)")
     ap.add_argument("--no-rss", action="store_true",
                     help="do not run the RSS fallback collector")
     ap.add_argument("--no-backfill", action="store_true",
@@ -284,32 +379,51 @@ def main():
     import refresh
     refresh.apply_sql(conn)
 
-    # Before the backfill, not after: a first-boot sweep runs for hours and
-    # the fallback should be collecting through all of it.
+    # Its own thread, like the backfill below: the fallback should keep
+    # collecting whatever the main path is busy with. r/FoodNYC only -- it is
+    # insurance for the board, and seven feeds every five minutes is the kind
+    # of traffic Reddit answers with a 429.
     if not args.no_rss:
         rss.start_background()
         print(f"rss fallback polling every {rss.INTERVAL // 60} min")
 
+    names = args.subreddit or list(subreddits.SUBREDDITS)
+
     if not args.no_backfill:
         import backfill
         if args.rescan:
-            with conn.cursor() as cur:
-                cur.execute("delete from backfill_progress")
-            conn.commit()
-            print("cursor cleared -- re-sweeping from the beginning")
+            db.clear_cursors(conn, names)
+            print("cursors cleared -- re-sweeping from the beginning")
         # Runs on every boot, and that is the point: after downtime it resumes
         # at the last comment we stored and pages forward to now, filling the
-        # gap the 30-minute poll would have skipped straight over. Caught up,
-        # it costs one empty page.
-        backfill.run(conn, args.backfill_years or None)
+        # gap the polls would have skipped straight over. Caught up, it costs
+        # one empty page per city. A city never swept starts from its first
+        # post, which is hours -- hence a thread beside the polls, not a step
+        # before them.
+        # --once exits after one pass and a daemon dies with it, so there
+        # the sweep runs first, the way it always did.
+        if args.once:
+            backfill.run_all(conn, names, args.backfill_years or None)
+        else:
+            backfill.start_background(names, args.backfill_years or None)
+            print(f"backfill sweeping {len(names)} subreddit(s) in the background")
 
+    # Everything is due at boot.
+    due = dict.fromkeys(names, 0.0)
+    chores_due = 0.0
     while True:
-        started = time.time()
-        run_cycle(conn, args)
+        poll_due(conn, names, due)
+        if time.time() >= chores_due:
+            run_chores(conn, args)
+            chores_due = time.time() + CHORE_INTERVAL
+
         if args.once:
             break
-        sleep = max(0, INTERVAL - (time.time() - started))
-        print(f"sleeping {sleep / 60:.1f} min\n")
+        nxt = min(due, key=due.get)
+        wake = min(due[nxt], chores_due)
+        sleep = max(0, wake - time.time())
+        label = f"r/{nxt}" if due[nxt] <= chores_due else "chores"
+        print(f"sleeping {sleep / 60:.1f} min (next: {label})\n")
         time.sleep(sleep)
 
 

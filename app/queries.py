@@ -13,6 +13,8 @@ Two rules hold throughout:
     typed. Joining them directly silently drops every merged spelling.
 """
 
+import subreddits
+
 from .models import ASPECTS, DEFAULT_SORT, SORTS, V2_SORTS
 
 # The columns the leaderboard exposes. Listed rather than `l.*` so a change to
@@ -410,9 +412,11 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
     is ~0.1s for a common word and ~1s for one that is in nothing. Posts are
     few enough (~43k) to scan.
     """
-    c_where = ["c.body not in ('[deleted]', '[removed]')"]
-    t_where = ["true"]
-    params = {"limit": limit}
+    # The feed is r/FoodNYC's, and the tables hold every city. Filtered first,
+    # where comments_sub_created_idx can walk one city's comments in order.
+    c_where = ["c.subreddit = %(sub)s", "c.body not in ('[deleted]', '[removed]')"]
+    t_where = ["t.subreddit = %(sub)s"]
+    params = {"limit": limit, "sub": subreddits.HOME}
     if q:
         c_where.append("c.body ilike %(q)s")
         t_where.append("(t.title ilike %(q)s or t.selftext ilike %(q)s)")
@@ -553,17 +557,23 @@ def facets(conn, fetch_all):
 
 
 def stats(conn, fetch_one):
+    """Corpus counts for the board's own city; the other cities collected
+    beside it are not what these numbers describe."""
     return fetch_one(conn, """
         select (select count(*) from mentions)                        as mentions,
                (select count(distinct resolved_key) from entity_alias) as entities,
-               (select count(*) from comments)                        as comments,
                (select count(*) from comments
-                 where extracted_at is not null)                      as extracted,
-               (select count(*) from threads)                         as threads,
+                 where subreddit = %(sub)s)                           as comments,
+               (select count(*) from comments
+                 where subreddit = %(sub)s
+                   and extracted_at is not null)                      as extracted,
+               (select count(*) from threads
+                 where subreddit = %(sub)s)                           as threads,
                (select string_agg(distinct model_version, ', ')
                   from mentions)                                      as models,
-               (select max(created_utc) from comments)                as newest_comment
-    """)
+               (select max(created_utc) from comments
+                 where subreddit = %(sub)s)                           as newest_comment
+    """, {"sub": subreddits.HOME})
 
 
 def view_health(conn, fetch_all):

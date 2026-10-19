@@ -20,6 +20,7 @@ import traceback
 import db
 import extract
 import prompt_thread
+import subreddits
 
 # A thread larger than this is split. Threads run to 1,096 comments and one
 # call that size is slow, expensive to retry, and past the point where the
@@ -44,14 +45,15 @@ def pending_threads(conn, since=None, limit=500):
         cur.execute("""
             select c.thread_id, count(*) as n
             from comments c
-            where c.extracted_at is null and c.extract_error is null
+            where c.subreddit = %s           -- HOME only; see extract.next_batch
+              and c.extracted_at is null and c.extract_error is null
               and c.body not in ('[deleted]', '[removed]')
               and length(c.body) > 15
               and (%s is null or c.created_utc >= %s)
             group by c.thread_id
             order by n desc
             limit %s
-        """, (since, since, limit))
+        """, (subreddits.HOME, since, since, limit))
         return cur.fetchall()
 
 
@@ -70,13 +72,13 @@ def thread_rows(conn, thread_id, since=None):
         cur.execute("""
             select c.id, coalesce(c.depth, 0), c.author, c.body
             from comments c
-            where c.thread_id = %s
+            where c.thread_id = %s and c.subreddit = %s
               and c.extracted_at is null and c.extract_error is null
               and c.body not in ('[deleted]', '[removed]')
               and length(c.body) > 15
               and (%s is null or c.created_utc >= %s)
             order by coalesce(c.root_comment_id, c.id), c.created_utc
-        """, (thread_id, since, since))
+        """, (thread_id, subreddits.HOME, since, since))
         return (title, selftext), cur.fetchall()
 
 
