@@ -431,6 +431,12 @@ def newest_stored_utc(conn, subreddit):
                           from comments where subreddit = %s""", (subreddit,))[0][0]
 
 
+def oldest_stored_utc(conn, subreddit):
+    """Unix time of the oldest comment we hold for this subreddit, or None."""
+    return _read(conn, """select extract(epoch from min(created_utc))::bigint
+                          from comments where subreddit = %s""", (subreddit,))[0][0]
+
+
 def busiest_hour(conn, subreddit, days=7):
     """Most comments this subreddit posted in any one hour of the last `days`.
 

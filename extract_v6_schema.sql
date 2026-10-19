@@ -47,8 +47,8 @@ do $$
 begin
   -- Transaction-local, so on the poller's boot (where this block runs inside
   -- db.init's one transaction, last) it ends with the boot's commit and never
-  -- leaks into the poller's session. A timeout there fails the boot, and
-  -- Railway's restart policy retries it.
+  -- leaks into the poller's session. A timeout there rolls the whole file
+  -- back, and db.init retries it after a pause (db.with_lock_retry).
   perform set_config('lock_timeout', '5s', true);
   if not exists (select 1 from information_schema.columns
                  where table_schema = current_schema() and table_name = 'mentions'

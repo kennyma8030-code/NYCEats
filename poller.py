@@ -75,6 +75,12 @@ ORPHAN_MAX = 1000
 # every half hour.
 RESWEEP_HOURS = float(os.environ.get("POLL_RESWEEP_HOURS", "48"))
 RESWEEP_EVERY = float(os.environ.get("POLL_RESWEEP_EVERY_HOURS", "6")) * 3600
+# The board is refreshed after every chores pass that extracted something,
+# and otherwise at least this often. Scores decay with now(), and edits to
+# alias_overrides or excluded_entities, or a replaced live_mentions, change
+# the board without a single new mention; this bounds how long those wait.
+# A boot that did not rebuild the views refreshes in its first chores pass.
+REFRESH_EVERY = float(os.environ.get("POLL_REFRESH_HOURS", "6")) * 3600
 
 
 def pull_threads(conn, bare_ids):
@@ -109,8 +115,9 @@ def fetch_new(subreddit, held, lag=None):
         if oldest <= held - lag:
             break
         if pages == MAX_PAGES:
-            print(f"  r/{subreddit}: still no overlap after {pages} pages; "
-                  f"the re-sweep or the next boot's backfill will close the gap")
+            print(f"  r/{subreddit}: still no overlap after {pages} pages; the re-sweep "
+                  f"closes what is under {RESWEEP_HOURS:g}h old, and older only the boot "
+                  f"backfill, for the cities it sweeps")
             return list(got.values())
         time.sleep(1)
         # +1: `before` is exclusive, and a comment posted in the same second
@@ -130,19 +137,25 @@ def remember_orphans(pending, link_ids, now=None):
         del pending[lid]
 
 
-def store(conn, comments, pending=None):
+def store(conn, comments, pending=None, pull=True):
     """Store fetched comments, pulling in any thread we have never seen.
 
     Comments whose post the archive cannot return yet are dropped (they
     cannot satisfy the foreign key) and their threads go into `pending`,
-    to be looked for again. Returns how many comments were new.
+    to be looked for again. With pull=False a new thread gets its post but
+    not the rest of its comments. Returns how many comments were new.
     """
     if not comments:
         return 0
     storable, got, discovered = ingest.ensure_threads(conn, comments)
-    if got:
+    if got and pull:
         print(f"  {got} unknown thread(s), backfilling")
         pull_threads(conn, discovered)
+    if pending and discovered:
+        # Just found, and pulled whole above if pull is on: nothing left to
+        # look for, and retry_orphans would pull the same thread again.
+        for pid in discovered:
+            pending.pop("t3_" + pid, None)
     if len(storable) < len(comments):
         dropped = {c["link_id"] for c in comments} - {c["link_id"] for c in storable}
         print(f"  skipping {len(comments) - len(storable)} comment(s) with no post yet "
@@ -260,16 +273,27 @@ def resweep_once(conn, subreddit, hours=None, pending=None):
     """
     hours = RESWEEP_HOURS if hours is None else hours
     start = int(time.time() - hours * 3600)
+    # Never before the oldest comment we hold for the city: a city polled
+    # for a day has no history to re-check, and reading the hours before
+    # its first poll would be a backfill nobody opted into.
+    oldest = db.oldest_stored_utc(conn, subreddit)
+    if oldest is None:
+        return 0
+    start = max(start, oldest)
     fetched = new = 0
 
     def fetch(after):
         return arctic.search_page("comments", subreddit, after=after)
+    # pull=False: the sweep reads every comment of its window itself, so a
+    # new thread needs only its post. Pulling whole threads here is what
+    # turned a city's first sweep into hundreds of requests.
     for fresh, page in arctic.forward(fetch, start, pause=1.0):
         fetched += len(fresh)
-        new += store(conn, fresh, pending)
+        new += store(conn, fresh, pending, pull=False)
         if max(c["created_utc"] for c in page) >= time.time() - 60:
             break
-    print(f"  re-swept r/{subreddit}'s last {hours:g}h: {fetched} comment(s), {new} were missing")
+    print(f"  re-swept r/{subreddit} since {time.strftime('%m-%d %H:%M', time.gmtime(start))}: "
+          f"{fetched} comment(s), {new} were missing")
     return new
 
 
@@ -448,6 +472,7 @@ def refresh_once(conn):
     try:
         refresh.refresh_views(conn, verbose=False)
         print("  refreshed scoring views")
+        return True
     finally:
         conn.rollback()      # a failed refresh leaves the transaction aborted
         with conn.cursor() as cur:
@@ -543,8 +568,14 @@ def run_chores(conn, args):
     elif args.extract:
         extracted, conn = _step("extract", extract_once, conn, args.extract_days,
                                 args.extract_limit, args.extract_workers)
-    if extracted:
-        _, conn = _step("refresh", refresh_once, conn)
+    # Only the poller's own loop sets refresh_every (main); without it, the
+    # refresh follows extraction alone, as before.
+    every = getattr(args, "refresh_every", None)
+    stale = every is not None and time.time() - getattr(args, "refreshed_at", 0) >= every
+    if extracted or stale:
+        done, conn = _step("refresh", refresh_once, conn)
+        if done:
+            args.refreshed_at = time.time()
     if args.embed:
         _, conn = _step("embed", embed_once, conn, args.embed_days, args.embed_limit,
                         args.embed_max_usd, args.embed_scope, args.embed_workers)
@@ -678,7 +709,14 @@ def main():
     # why production has no scoring views. Every statement in them is
     # create-or-replace, so this is safe on every boot.
     import refresh
-    refresh.apply_sql(conn)
+    rebuilt = refresh.apply_sql(conn)
+    # Rebuilt views are populated as they are created. Skipped ones hold
+    # whatever the last refresh left, which a schema change this boot (a
+    # replaced live_mentions, say) can have made stale: refresh them in the
+    # first chores pass, off the boot's critical path, and every
+    # REFRESH_EVERY after that.
+    args.refresh_every = REFRESH_EVERY
+    args.refreshed_at = time.time() if rebuilt == list(refresh.SQL_FILES) else 0.0
 
     # Its own thread, like the backfill below: the fallback should keep
     # collecting whatever the main path is busy with. r/FoodNYC only -- it is

@@ -11,6 +11,7 @@ No network, no database.
 
 import io
 import random
+import types
 import unittest
 from contextlib import redirect_stdout
 from unittest import mock
@@ -89,6 +90,9 @@ class Store:
     def newest_stored_utc(self, conn, subreddit):
         return max((c["created_utc"] for c in self.comments.values()), default=None)
 
+    def oldest_stored_utc(self, conn, subreddit):
+        return min((c["created_utc"] for c in self.comments.values()), default=None)
+
     def existing_thread_ids(self, conn, ids):
         return {i for i in ids if i in self.threads}
 
@@ -150,6 +154,7 @@ class Replay(unittest.TestCase):
                                 search_page=archive.search_page,
                                 posts_by_id=archive.posts_by_id, _get=archive.get),
             mock.patch.multiple("db", newest_stored_utc=store.newest_stored_utc,
+                                oldest_stored_utc=store.oldest_stored_utc,
                                 existing_thread_ids=store.existing_thread_ids,
                                 missing_thread_ids=store.missing_thread_ids,
                                 insert_threads=store.insert_threads,
@@ -264,7 +269,7 @@ class ResweepSchedule(unittest.TestCase):
     def test_run_chores_resweeps_due_cities_and_survives_a_failure(self):
         r = poller.Resweep(["FoodNYC", "chicagofood"], {}, hours=48, every=HOUR)
         r.last = {"FoodNYC": 0, "chicagofood": 0}
-        args = mock.Mock(extract=False, embed=False, resweep=r)
+        args = types.SimpleNamespace(extract=False, embed=False, resweep=r)
         calls = []
 
         def resweep_once(conn, name, hours, pending):

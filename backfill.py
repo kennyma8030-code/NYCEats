@@ -87,9 +87,25 @@ def backfill_posts(conn, subreddit, start_utc, pause=PAUSE):
 def backfill_comments(conn, subreddit, start_utc, pause=PAUSE):
     """Every comment since start_utc, fetching any post we're missing first."""
     cursor = db.get_cursor(conn, subreddit, "comments", start_utc)
-    total = new = rescued = pages = 0
     pending, touched = set(), set()
     check_disk(conn, subreddit)
+    try:
+        total, new = _sweep_comments(conn, subreddit, cursor, pause, pending, touched)
+    except DiskBudget:
+        # Stored comments whose reply trees have not been filled yet: fill
+        # them before giving up, or their depth stays null until a rescan.
+        if pending:
+            db.fill_tree(conn, pending)
+        raise
+
+    if pending:
+        db.fill_tree(conn, pending)
+    return total, new, touched
+
+
+def _sweep_comments(conn, subreddit, cursor, pause, pending, touched):
+    """backfill_comments' page loop. Returns (comments stored, of them new)."""
+    total = new = rescued = pages = 0
     for fresh, page in arctic.forward(_search("comments", subreddit), cursor, pause):
         # From the page as fetched, before comments with no post are dropped:
         # a page whose every comment is orphaned must still move the cursor,
@@ -122,10 +138,7 @@ def backfill_comments(conn, subreddit, start_utc, pause=PAUSE):
             check_disk(conn, subreddit)
         if cursor >= time.time() - 60:
             break                        # caught up to the present
-
-    if pending:
-        db.fill_tree(conn, pending)
-    return total, new, touched
+    return total, new
 
 
 def stale_thread_ids(conn, subreddit):
@@ -192,7 +205,9 @@ def scope(home_years=None, only=None, env=None):
     try:
         other = None if raw == "all" else float(raw)
     except ValueError:
-        raise SystemExit(f"BACKFILL_YEARS_OTHER={raw!r} is not a number of years or 'all'")
+        other = -1
+    if other is not None and other < 0:
+        raise SystemExit(f"BACKFILL_YEARS_OTHER={raw!r} is not 'all' or a number of years >= 0")
     out, years = [], {}
     for name in names:
         if name != subreddits.HOME and other == 0:

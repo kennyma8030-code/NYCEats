@@ -327,7 +327,10 @@ create index if not exists restaurant_images_stale_idx
 -- Any failure inside is caught, not just a missing extension: no privilege,
 -- a pgvector older than 0.7 (no halfvec), a name clash. The block's work is
 -- rolled back as one, the notice says why, and the rest of this file and
--- the boot carry on. embed.py then reports the tables as missing.
+-- the boot carry on. embed.py then reports the tables as missing. A lock
+-- timeout is the exception: it is a busy moment, not a broken setup, so it
+-- goes up to db.init, which retries the whole file, rather than leaving
+-- semantic search off until some later boot.
 do $$
 begin
   if not exists (select 1 from pg_available_extensions where name = 'vector') then
@@ -377,9 +380,12 @@ begin
       raise notice 'mentions_created_idx skipped (lock wait over 5s): the embed window scans mentions until a later boot builds it';
     end;
   end if;
-exception when others then
-  raise notice 'embedding tables skipped (% %): semantic search is off until this is fixed',
-    sqlstate, sqlerrm;
+exception
+  when lock_not_available then
+    raise;
+  when others then
+    raise notice 'embedding tables skipped (% %): semantic search is off until this is fixed',
+      sqlstate, sqlerrm;
 end $$;
 
 
@@ -397,8 +403,8 @@ do $$
 begin
   -- Transaction-local, so on the poller's boot (where this block runs inside
   -- db.init's one transaction, last) it ends with the boot's commit and never
-  -- leaks into the poller's session. A timeout there fails the boot, and
-  -- Railway's restart policy retries it.
+  -- leaks into the poller's session. A timeout there rolls the whole file
+  -- back, and db.init retries it after a pause (db.with_lock_retry).
   perform set_config('lock_timeout', '5s', true);
   if not exists (select 1 from information_schema.columns
                  where table_schema = current_schema() and table_name = 'mentions'
