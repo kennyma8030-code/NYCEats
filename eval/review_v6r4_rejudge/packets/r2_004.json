@@ -1,0 +1,1169 @@
+{
+ "packet": "r2_004",
+ "items": [
+  {
+   "item_id": "S076",
+   "comment_id": "t1_o1ghv4z",
+   "model_view": "<post_title author=\"you\">Colombian corn arepas</post_title>\n<post_body author=\"you\">Does anyone know good mom/pop stores that sell corn arepas? Not the masapan ones but actual ground corn.</post_body>\n<thread_above>\n[1] another user: They are called arepas de choclo. The yellow ones? Search for: arepas de choclo buy nyc\n</thread_above>\n<comment_to_extract>\nNot the choclo ones, they are sweeter and I have a place already where I get those. I’m looking for like the big thinner unsalted corn arepas that are for breakfasts. They have yellow ones too but they tend to crumble more.\n</comment_to_extract>",
+   "context": {
+    "title": "Colombian corn arepas",
+    "selftext": "Does anyone know good mom/pop stores that sell corn arepas? Not the masapan ones but actual ground corn. ",
+    "ancestors": [
+     {
+      "author": "JeanCerise",
+      "body": "They are called arepas de choclo.  The yellow ones?  Search for: arepas de choclo buy nyc"
+     }
+    ],
+    "author": "Romarewolf",
+    "body": "Not the choclo ones, they are sweeter and I have a place already where I get those. I’m looking for like the big thinner unsalted corn arepas that are for breakfasts. They have yellow ones too but they tend to crumble more.",
+    "replies": [
+     {
+      "author": "JeanCerise",
+      "body": "Then search: corn arepas buy nyc.  Still works."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S077",
+   "comment_id": "t1_ldq6px9",
+   "model_view": "<post_title>Best matcha and croissant place</post_title>\n<post_body>I’m gonna have a short trip to NYC and I’m excited to try matcha drinks and the “supreme croissants” can I have some recommendations pleaseee. Thanksss</post_body>\n<comment_to_extract>\nSetsugekka and cha an in East village are good for more premium matcha, matcha cafe maiko in Chinatown is a really solid staple for a standard matcha latte (or soft serve).\n\nI would steer clear of cha cha matcha on principle cuz the founders absolutely suck https://ny.eater.com/2020/7/9/21308552/cha-cha-matcha-owners-under-fire\n</comment_to_extract>",
+   "context": {
+    "title": "Best matcha and croissant place ",
+    "selftext": "I’m gonna have a short trip to NYC and I’m excited to try matcha drinks and the “supreme croissants” can I have some recommendations pleaseee. Thanksss",
+    "ancestors": [],
+    "author": "5100474throwaway",
+    "body": "Setsugekka and cha an in East village are good for more premium matcha, matcha cafe maiko in Chinatown is a really solid staple for a standard matcha latte (or soft serve).\n\nI would steer clear of cha cha matcha on principle cuz the founders absolutely suck https://ny.eater.com/2020/7/9/21308552/cha-cha-matcha-owners-under-fire",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Setsugekka",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "East Village",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "premium matcha",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "matcha",
+      "cafe"
+     ]
+    },
+    {
+     "name": "cha an",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "East Village",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "premium matcha",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "matcha",
+      "cafe"
+     ]
+    },
+    {
+     "name": "matcha cafe maiko",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "Chinatown",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "matcha latte",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "soft serve",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "matcha",
+      "cafe",
+      "staple"
+     ]
+    },
+    {
+     "name": "cha cha matcha",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "boycott",
+       "text": "Commenter avoids it over the founders' conduct, not the food."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": true,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "matcha"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S078",
+   "comment_id": "t1_j45g2uu",
+   "model_view": "<post_title>Most expensive traditional meals in Manhattan?</post_title>\n<post_body>What are the most expensive restaurants in Manhattan? Any that are worth it? I don’t care for Michelin artsy modern cuisine with foam and gels or gold encrusted foods. Just amazing tasting traditional meals in beautiful surroundings. Traveling to NYC in June looking to reserve now.</post_body>\n<comment_to_extract>\nPer se truffle tasting 2000 pp, pretty nice.\n</comment_to_extract>",
+   "context": {
+    "title": "Most expensive traditional meals in Manhattan?",
+    "selftext": "What are the most expensive restaurants in Manhattan? Any that are worth it? I don’t care for Michelin artsy modern cuisine with foam and gels or gold encrusted foods. Just amazing tasting traditional meals in beautiful surroundings. Traveling to NYC in June looking to reserve now.",
+    "ancestors": [],
+    "author": "AbaloneEither3110",
+    "body": "Per se truffle tasting 2000 pp, pretty nice.",
+    "replies": [
+     {
+      "author": "[deleted]",
+      "body": "[deleted]"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Per se",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "truffle tasting",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "$2000 per person for the truffle tasting"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tasting menu",
+      "truffle"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S079",
+   "comment_id": "t1_n9xh4f6",
+   "model_view": "<post_title>Bad Mexican food is a myth</post_title>\n<post_body>I just got back from LA & San Diego and dare I say I was disappointed. They no doubt have great Mexican food, but there’s so many spots in NYC that are at the same level. The idea New York doesn’t have good Mexican is an outdated myth. In Manhattan alone the following spots would also be great by SoCal standards - \n\nCarnitas Ramirez, Quique Crudo, Son del North, Taqueria El Prieto, Cocina Consuelo, Los Tacos No 1, Cosme, Santos Tacos, El Jalapeño Truck, Zaragoza, Ollin, Birria Landia, Santo Taco, Los Mariscos, Carinito Tacos, Electric Burrito, Tacos 1986, Casa Birria, Animo! \n\nThen in the other boroughs you got amazing spots like - \n\nTaqueria Ramirez, Casa Enrique, Mariscos El Submarino, Oxomoco, Super Burrito, Taqueria Tlaxcalli, Tlayuda Oaxaquena SR San Pablo, soooo many more…\n\nAnd that’s not even mentioning the countless other trucks or hole-in-the-walls, often with much more affordable pricing. I’m sick of people complaining about Mexican here, just venture outside the Rosa Mexicanos of the world!</post_body>\n<thread_above>\n[1] another user: there are some good mexican places in NYC. there’s also a lot of really bad mexican places. and even then, the good nyc tacos are $6 each vs $2 in socal. some of the hate comes from how much you have to spend to get decent mexican food.\n[2] another user: This cost argument never made sense to me. Of course tacos in NYC, one of the most densely populated and expensive cities in the world, is going to be more expensive than a taco shop in a random strip mall/on the sidewalk in Boyle Heights.\n[3] another user: But when it comes to an authentic taco, a low price is literally baked in to it \"being so good\". Take the best taco in Mexico and charge $18 for three of them. Nobody is going to like that. Charge $5 for the same plate and its Michelin worthy. I'm from Chicago, where we have plenty of mexican options at a reasonable price. That being said, I get my tamales out of a cooler in the parking lot of a laundromat. You can't beat black market, unlicensed Mexican street food in terms of price/authenticity. I'm certain NYC has similar setups, but you just got to know where to look. Heck, I did a three year stint in Nashville (where Mexican food literally sucks) and even there I managed to find a plug for home-made tamales sold out of a cooler.\n</thread_above>\n<comment_to_extract>\n“I get my tamales out of a cooler” \n(so do I, in Windsor Terrace) \n\n“NYC has similar setups, but you just got to know where to look.” \n(this is the answer in NYC, LA, Chicago, or CDMX.)\n</comment_to_extract>",
+   "context": {
+    "title": "Bad Mexican food is a myth",
+    "selftext": "I just got back from LA & San Diego and dare I say I was disappointed. They no doubt have great Mexican food, but there’s so many spots in NYC that are at the same level. The idea New York doesn’t have good Mexican is an outdated myth. In Manhattan alone the following spots would also be great by SoCal standards - \n\nCarnitas Ramirez, Quique Crudo, Son del North, Taqueria El Prieto, Cocina Consuelo, Los Tacos No 1, Cosme, Santos Tacos, El Jalapeño Truck, Zaragoza, Ollin, Birria Landia, Santo Taco, Los Mariscos, Carinito Tacos, Electric Burrito, Tacos 1986, Casa Birria, Animo! \n\nThen in the other boroughs you got amazing spots like - \n\nTaqueria Ramirez, Casa Enrique, Mariscos El Submarino, Oxomoco, Super Burrito, Taqueria Tlaxcalli, Tlayuda Oaxaquena SR San Pablo, soooo many more…\n\nAnd that’s not even mentioning the countless other trucks or hole-in-the-walls, often with much more affordable pricing. I’m sick of people complaining about Mexican here, just venture outside the Rosa Mexicanos of the world!\n\n ",
+    "ancestors": [
+     {
+      "author": "childpeas",
+      "body": "there are some good mexican places in NYC. there’s also a lot of really bad mexican places. and even then, the good nyc tacos are $6 each vs $2 in socal. some of the hate comes from how much you have to spend to get decent mexican food. "
+     },
+     {
+      "author": "supcutie",
+      "body": "This cost argument never made sense to me. Of course tacos in NYC, one of the most densely populated and expensive cities in the world, is going to be more expensive than a taco shop in a random strip mall/on the sidewalk in Boyle Heights."
+     },
+     {
+      "author": "Vladimir-Putin",
+      "body": "But when it comes to an authentic taco, a low price is literally baked in to it \"being so good\". \n\nTake the best taco in Mexico and charge $18 for three of them. Nobody is going to like that. \n\nCharge $5 for the same plate and its Michelin worthy. \n\nI'm from Chicago, where we have plenty of mexican options at a reasonable price. That being said, I get my tamales out of a cooler in the parking lot of a laundromat. You can't beat black market, unlicensed Mexican street food in terms of price/authenticity. I'm certain NYC has similar setups, but you just got to know where to look. \n\nHeck, I did a three year stint in Nashville (where Mexican food literally sucks) and even there I managed to find a plug for home-made tamales sold out of a cooler."
+     }
+    ],
+    "author": "loudonfast",
+    "body": "\n“I get my tamales out of a cooler” \n(so do I, in Windsor Terrace) \n\n“NYC has similar setups, but you just got to know where to look.” \n(this is the answer in NYC, LA, Chicago, or CDMX.)",
+    "replies": [
+     {
+      "author": "rumfortheborder",
+      "body": "shoutout guy in front of mr kiwi or the fame that did this forever in front of the pizza joint"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S080",
+   "comment_id": "t1_o668u5q",
+   "model_view": "<post_title>Best grilled octopus?</post_title>\n<post_body>I recently tried octopus at Theodora and it changed my world. Anyone have any grilled octopus recs, preferably in manhattan or bk? TYIA. Bonus points if it’s an entree not an app!</post_body>\n<thread_above>\n[1] another user: I like octopus so much but I feel so bad eating them. They are intelligent creatures. My guilt just can't do it anymore, so it's the one ethical food choice that I follow.\n</thread_above>\n<comment_to_extract>\nThe octopus is an intelligent killer that will devour any other animal that it can overtake. I have no problem eating them because they would sure as hell eat me if they could.\n</comment_to_extract>",
+   "context": {
+    "title": "Best grilled octopus?",
+    "selftext": "I recently tried octopus at Theodora and it changed my world. Anyone have any grilled octopus recs, preferably in manhattan or bk? TYIA. Bonus points if it’s an entree not an app! ",
+    "ancestors": [
+     {
+      "author": "joobtastic",
+      "body": "I like octopus so much but I feel so bad eating them. They are intelligent creatures. My guilt just can't do it anymore, so it's the one ethical food choice that I follow."
+     }
+    ],
+    "author": "Phil_ODendron",
+    "body": "The octopus is an intelligent killer that will devour any other animal that it can overtake. I have no problem eating them because they would sure as hell eat me if they could.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S081",
+   "comment_id": "t1_mz0ixbf",
+   "model_view": "<post_title>Salt Hanks on Bleecker St.</post_title>\n<post_body>The French Dip combo at Salt Hanks which is literally right next to John's of Bleecker. The bread was nice and crunchy even after dipping it. Highly recommend.</post_body>\n<thread_above>\n[1] another user: $?\n[2] OP: The combo came out to $38.11. You get fries and drink also.\n</thread_above>\n<comment_to_extract>\nI can imagine how delicious this was, but almost $40 for a sandwich and fry combo is a bit excessive, no? I get it’s up to what the individual finds appropriate and I don’t have to pay for it, but goddamn! 🤣\n</comment_to_extract>",
+   "context": {
+    "title": "Salt Hanks on Bleecker St.",
+    "selftext": "The French Dip combo at Salt Hanks which is literally right next to John's of Bleecker. The bread was nice and crunchy even after dipping it. Highly recommend. ",
+    "ancestors": [
+     {
+      "author": "Oreos_and",
+      "body": "$?"
+     },
+     {
+      "author": "DozaOT",
+      "body": "The combo came out to $38.11. You get fries and drink also."
+     }
+    ],
+    "author": "Otherwiseaware",
+    "body": "I can imagine how delicious this was, but almost $40 for a sandwich and fry combo is a bit excessive, no? I get it’s up to what the individual finds appropriate and I don’t have to pay for it, but goddamn! 🤣",
+    "replies": [
+     {
+      "author": "RedditGotSoulDoubt",
+      "body": "We’ve got to agree collectively to stop paying absurd prices but the hype zombie TikTok acolytes won’t allow that."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Salt Hanks",
+     "named_in": "context",
+     "kind": "deli",
+     "location": "Bleecker St.",
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "French Dip combo",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "combo price",
+       "text": "Combo with sandwich, fries and drink came to $38.11; commenter calls almost $40 excessive but hasn't eaten there"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwich",
+      "french dip"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S082",
+   "comment_id": "t1_lg2ga9s",
+   "model_view": "<post_title>If you had to eliminate one internationally known cusine from the face of NYC, what would you choose?</post_title>\n<comment_to_extract>\nif british food isn’t cheating then i am willing to sacrifice dame\n</comment_to_extract>",
+   "context": {
+    "title": "If you had to eliminate one internationally known cusine from the face of NYC, what would you choose?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "CatPillar",
+    "body": "if british food isn’t cheating then i am willing to sacrifice dame",
+    "replies": [
+     {
+      "author": "Ricemap",
+      "body": "There's only a handful of British places, I vote for Chinese takeout.  We have more authentic Chinese to take its place anyway"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S083",
+   "comment_id": "t1_k4phwhq",
+   "model_view": "<post_title>Brooklyn Neighborhood of the Week: Windsor Terrace, Kensington and Prospect Park South</post_title>\n<post_body>This week, we're featuring **Windsor Terrace, Kensington** and **Prospect Park South**\n\nWe're going by this unofficial [Google Map overlay](https://www.google.com/maps/d/viewer?mid=1VYN-6Vkk01byUCF7P13rT6ORT5g) as a GENERAL outline as to what the neighborhoods are. It's not a strict requirement but try not to go too far outside of the boundaries.\n\nSome optional prompts:\n\n* What are some of your favorite food spots or \"hidden gems\"?\n* Any \"must have\" or go to dishes from those particular spots?\n* Are there any points of interest or events that is worth going out of the way to visit?\n\n[Link to previous weeks](https://www.reddit.com/r/FoodNYC/comments/14rflbt/comment/jqrv7um/?utm_source=share&utm_medium=web2x&context=3)</post_body>\n<thread_above>\n[1] another user: Mexico Diner, Cozie's Pizza, Hamilton's, Manchego\n</thread_above>\n<comment_to_extract>\nMexico diner is gem. Such a good spot!\n</comment_to_extract>",
+   "context": {
+    "title": "Brooklyn Neighborhood of the Week: Windsor Terrace, Kensington and Prospect Park South",
+    "selftext": "This week, we're featuring **Windsor Terrace, Kensington** and **Prospect Park South**\n\nWe're going by this unofficial [Google Map overlay](https://www.google.com/maps/d/viewer?mid=1VYN-6Vkk01byUCF7P13rT6ORT5g) as a GENERAL outline as to what the neighborhoods are. It's not a strict requirement but try not to go too far outside of the boundaries.\n\nSome optional prompts:\n\n* What are some of your favorite food spots or \"hidden gems\"?\n* Any \"must have\" or go to dishes from those particular spots?\n* Are there any points of interest or events that is worth going out of the way to visit?\n\n[Link to previous weeks](https://www.reddit.com/r/FoodNYC/comments/14rflbt/comment/jqrv7um/?utm_source=share&utm_medium=web2x&context=3)",
+    "ancestors": [
+     {
+      "author": "LongIsland1995",
+      "body": "Mexico Diner, Cozie's Pizza, Hamilton's, Manchego"
+     }
+    ],
+    "author": "jdt2337",
+    "body": "Mexico diner is gem. Such a good spot!",
+    "replies": [
+     {
+      "author": "crappymedium",
+      "body": "Is it? Maria and ricardo’s across the street was recommended to me and i havent strayed"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Mexico diner",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "hidden gem"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S084",
+   "comment_id": "t1_krjy12o",
+   "model_view": "<post_title>Favorite unique sandwiches in Brooklyn?</post_title>\n<post_body>I'm looking for your favorite sandwiches themselves (not the shop). Ideally in the panini/hot sandwich realm rather than hero/sub/cold cuts. \n\nGive me your favorite paninis, french dips, etc. I'm craving the sort of sandwich that you bite into and say 'ohmygod'.</post_body>\n<thread_above>\n[1] another user: Not really a sammy- but unique- Scallion Bacon Egg and Cheese from Win Son I also love the Pastrami Egg and Cheese from Frankel's\n</thread_above>\n<comment_to_extract>\nOmg I can here to say the pastrami egg and cheese from Frankels. I just ate it this morning. It’s easily my favorite pastrami.\n</comment_to_extract>",
+   "context": {
+    "title": "Favorite unique sandwiches in Brooklyn?",
+    "selftext": "I'm looking for your favorite sandwiches themselves (not the shop). Ideally in the panini/hot sandwich realm rather than hero/sub/cold cuts. \n\nGive me your favorite paninis, french dips, etc. I'm craving the sort of sandwich that you bite into and say 'ohmygod'. ",
+    "ancestors": [
+     {
+      "author": "DC25NYC",
+      "body": "Not really a sammy- but unique- Scallion Bacon Egg and Cheese from Win Son\n\nI also love the Pastrami Egg and Cheese from Frankel's"
+     }
+    ],
+    "author": "ASymphonyOfQueefs",
+    "body": "Omg I can here to say the pastrami egg and cheese from Frankels. I just ate it this morning. It’s easily my favorite pastrami.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Frankels",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pastrami egg and cheese",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwich",
+      "breakfast",
+      "pastrami"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S085",
+   "comment_id": "t1_oy5q7nh",
+   "model_view": "<post_title>A Cult-Favorite Froyo Spot With Notorious Lines Is Coming To The Upper East Side</post_title>\n<thread_above>\n[1] another user: They couldn’t just say Mimi’s?\n</thread_above>\n<comment_to_extract>\nYes, this specific User spams multiple threads with patch articles to get clicks\n\nI don’t understand why they’re not banned\n</comment_to_extract>",
+   "context": {
+    "title": "A Cult-Favorite Froyo Spot With Notorious Lines Is Coming To The Upper East Side",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Ricky1280",
+      "body": "They couldn’t just say Mimi’s? "
+     }
+    ],
+    "author": "JustP2",
+    "body": "Yes, this specific User spams multiple threads with patch articles to get clicks\n\nI don’t understand why they’re not banned",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S086",
+   "comment_id": "t1_kqmpj6a",
+   "model_view": "<post_title>Taking my SO to the city! Whats your favorite Asian cuisine near grand central?</post_title>\n<post_body>I am a college student taking my SO to NYC this weekend, I’d greatly appreciate your suggestions for spots 20 minutes or less walk from Grand Central. I’m looking to spend $15-40 a person, and the specific cuisine doesn’t matter!</post_body>\n<comment_to_extract>\nMomosan. It’s Morimoto’s ramen bar.\n</comment_to_extract>",
+   "context": {
+    "title": "Taking my SO to the city! Whats your favorite Asian cuisine near grand central?",
+    "selftext": "I am a college student taking my SO to NYC this weekend, I’d greatly appreciate your suggestions for spots 20 minutes or less walk from Grand Central. I’m looking to spend $15-40 a person, and the specific cuisine doesn’t matter! ",
+    "ancestors": [],
+    "author": "RealPantosaurusRex",
+    "body": "Momosan. It’s Morimoto’s ramen bar.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Momosan",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "concept",
+       "text": "Morimoto's ramen bar"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ramen",
+      "japanese"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S087",
+   "comment_id": "t1_mxlh5s7",
+   "model_view": "<post_title>[x-post] [AMA] We’re the new chief restaurant critics for The New York Times. Ask us anything!</post_title>\n<comment_to_extract>\nYou don't have to hire your identity anymore? So every restaurant now knows who you are?\n</comment_to_extract>",
+   "context": {
+    "title": "[x-post] [AMA] We’re the new chief restaurant critics for The New York Times. Ask us anything!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Flat-Adhesiveness317",
+    "body": "You don't have to hire your identity anymore? So every restaurant now knows who you are?",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S088",
+   "comment_id": "t1_mf0qgkz",
+   "model_view": "<post_title>Best Cookies in New York City</post_title>\n<post_body>Wanted to ask what was everyone's favorite cookie spot in New York. Mine is Culture Espresso. They have two spots in midtown west or near 36th street west side. They have the best chocolate chip cookies in the city. 10x better than insomnia (which they made smaller and crappier once they grew larger), 10x better than crumbl, which is just sugar on top of sugar with weak taste, and a lot better than levain (just heavy brownie called cookie). Trust me. Get a culture espresso cookie and tell me these are the best chocolate chip cookies in New York City, and possibly one of the best in the city.\n\nhttps://preview.redd.it/sedaxdnswjle1.png?width=225&format=png&auto=webp&s=2cb2396819683f64c49fbcd03943f8f3974c6c46</post_body>\n<thread_above>\n[1] you, earlier: I am kind of a chocolate chip cookie psycho. I've read/made basically every meaningfully significant recipe under the son. For a couple of months during college I was baking a batch of cookies a day tweaking every single variable. The cookie that inspired me to start doing this was: Jacques Torres. ...\n[2] another user: What’s your best cookie recipe? Looking for something that’s soft on the inside but has a crispy buttery bottom. Lots of caramel flavor. If you have specific brands for ingredients please share.\n[3] you, earlier: I have a recipe I like personally. But I think it depends what you like! I always ask people to describe their favorite cookie before I make them one and I tailor the recipe to their tastes. Based on what you describe there are two ways I would go about it. 1. Bon Appetit's Toffee Chocolate Chip Coo ...\n[4] another user: Thanks for the suggestion. I’m going to make one this weekend. Prob the bon appetite one unless you tell me number 2 is your favorite. If not, let me have it. What’s your favorite recipe and what’s the difference in how they come out between that and the other 2.\n</thread_above>\n<comment_to_extract>\nMy personal favorite is the Bon Appetit Recipe the only change is:  \n  \n180g AP King Arthur Flour. 70g King Arthur Bread Flour.\n\nI like a thin cookie. Not a lot of bakeries cater to that. Variations in Dark Brown Sugar (whether it be molasses content or measuring) means sometimes the Bon appetit cookie can come out a little dark and a little thin. Bread flour gives it more structure. This will hit the sweet spot of thin, crispy, yet still chewy without being a soft-baked or veg oil cookie.\n</comment_to_extract>",
+   "context": {
+    "title": "Best Cookies in New York City",
+    "selftext": "Wanted to ask what was everyone's favorite cookie spot in New York. Mine is Culture Espresso. They have two spots in midtown west or near 36th street west side. They have the best chocolate chip cookies in the city. 10x better than insomnia (which they made smaller and crappier once they grew larger), 10x better than crumbl, which is just sugar on top of sugar with weak taste, and a lot better than levain (just heavy brownie called cookie). Trust me. Get a culture espresso cookie and tell me these are the best chocolate chip cookies in New York City, and possibly one of the best in the city.\n\nhttps://preview.redd.it/sedaxdnswjle1.png?width=225&format=png&auto=webp&s=2cb2396819683f64c49fbcd03943f8f3974c6c46\n\n",
+    "ancestors": [
+     {
+      "author": "Embarrassed_Cod8120",
+      "body": "I am kind of a chocolate chip cookie psycho. I've read/made basically every meaningfully significant recipe under the son.   \n  \nFor a couple of months during college I was baking a batch of cookies a day tweaking every single variable.   \n  \nThe cookie that inspired me to start doing this was: Jacques Torres. I was obsessed with recreating it and once I did I just kept going. Still enjoy their cookie. Their cookie mix is still good and it is literally the same as their publically available recipe.\n\nMy favorite USED TO BE: Mah-Ze-Dahr. Boy oh boy how have their cookies have fallen.   \n  \nPre-pandemic. They used to have nicely browned, delightfully chewy, chocolate chip cookies. They were excellent, not too thick like crumbl, chip city, or levain, not too wide large but still crispy. For a while, if you came in the afternoon, they were sold out. Because they were that good. Year over year I have watched as their cookies have slowly gotten worse. Every time I have gone in the past 2 years that have looked worse than the last. The last time I went, (11 days ago for my birthday), they were DISGUSTING. Pale, did not seem fully baked, STALE. No clue what has happened. I don't know if the staff just does not know how to bake them anymore or if they've made a change in their dough. All their other pastries are FINE. But man, I saw they were selling their dough and 4 years ago I would have JUMPED at the chance to examine their dough. Cookie was too bad for me to even consider it. /end rant\n\nSchmackery's is solid never had a problem with them. Laduree in SoHo has a good cookie but it's inconsistent. Chip City THINs are actually, to me, much better than their normal cookies (cheaper too). Jacques Torres still my favorite. Dominique's is okay, its HEAVY on the butter. Tastes better than it looks.  I'll be honest, I think Levain and Milk Bar are trash cookies. I think back of the bag tollhouse is a better recipe.\n\nNever had Culture Espresso, will give it a try! Didn't know Radio Bakery had cookies, too busy buying their focaccia. \n\nTo be honest, the floor on cookies is really high, but the ceiling isn't. I've had chocolate chip cookies from a couple of Michelin star restaurants and they were EXCELLENT but there's really no secrets. Good butter, good chocolate, good vanilla. The sugar, flour, eggs, and extras are all just chemistry."
+     },
+     {
+      "author": "R-O-U-Ssdontexist",
+      "body": "What’s your best cookie recipe? Looking for something that’s soft on the inside but has a crispy buttery bottom. Lots of caramel flavor.\n\nIf you have specific brands for ingredients please share."
+     },
+     {
+      "author": "Embarrassed_Cod8120",
+      "body": "I have a recipe I like personally. But I think it depends what you like! I always ask people to describe their favorite cookie before I make them one and I tailor the recipe to their tastes. Based on what you describe there are two ways I would go about it.\n\n1. Bon Appetit's Toffee Chocolate Chip Cookie recipe will get you very close. One of my favorites (although I don't follow them very much anymore. Very crisp bottom, the dark brown sugar and brown butter means theyll stay soft for days. HOWEVER, they can be a bit thin. Their sugar/flour ratio is pretty high. Standard cookies are 300g sugar to 300g flour. Theirs is 300g sugar to 250g flour. If they're too out their for you I'd up the flour or do an AP and Bread flour split.\n\n2. This I made for the office this week. Classic cream together wet. Then add dry ingredients.  \nWET  \n2 sticks brown butter (melted, dont cook the eggs with the heat of the butter)  \n100g white sugar  \n100g light brown sugar  \n75g dark brown sugar  \n2 tablespoons milk powder (add in with sugar)  \n1 tablespoon light corn syrup (add in with sugar)  \n1 egg  \n2 egg yolk  \n1 tsp vanilla\n\nDRY  \n1 teaspoon baking soda  \n1 teaspoon baking powder  \n3/4 tsp salt (this assumes you're using normal salt, diamond crystal kosher use 1tsp)  \n300g flour  \n40-60% chocolate depending on your preference (I like the Guittard 48% baking wafers)  \nFlaky Salt on the cookies before putting in the oven\n\n375. 8-10 minutes.\n\nAge for at least a day for improved flavor.\n\nThe milk powder + corn syrup interacts in a really interesting way with the brown butter that makes them super butterscotch caramely...I could go on...press your dough gently into the pan so it makes contact and spreads the same way every time...somebody stop me..."
+     },
+     {
+      "author": "R-O-U-Ssdontexist",
+      "body": "Thanks for the suggestion. I’m going to make one this weekend. Prob the bon appetite one unless you tell me number 2 is your favorite. \n\nIf not, let me have it. What’s your favorite recipe and what’s the difference in how they come out between that and the other 2."
+     }
+    ],
+    "author": "Embarrassed_Cod8120",
+    "body": "My personal favorite is the Bon Appetit Recipe the only change is:  \n  \n180g AP King Arthur Flour. 70g King Arthur Bread Flour.\n\nI like a thin cookie. Not a lot of bakeries cater to that. Variations in Dark Brown Sugar (whether it be molasses content or measuring) means sometimes the Bon appetit cookie can come out a little dark and a little thin. Bread flour gives it more structure. This will hit the sweet spot of thin, crispy, yet still chewy without being a soft-baked or veg oil cookie.",
+    "replies": [
+     {
+      "author": "R-O-U-Ssdontexist",
+      "body": "lol; you certainly know your chocolate chip cookies. It would be cool to open a store just serving chocolate chip cookies; where customers describe what they want and you guide them to THEIR perfect cookie. I think it could work in NYC. Let me know if you need an investor/business partner.\n\nAt the very least it could be a class that i bet people would take particularly if you taught them what was causing the differences and maybe had a som prepare the perfect wine and cocktail for chocolate chip cookies. \n\nIt could work as a book/science instruction guide on how to experiment with making different types of cookies. \n\nLet me know if you want to try out the class; I can get a small group of friends together but all the stuff and try to find a kitchen or someone to host. You could just come up with the curriculum/lesson plan."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S089",
+   "comment_id": "t1_l5nlpu2",
+   "model_view": "<post_title>Where would you go if you only had one meal? From nyc but haven’t lived there in years, coming back for one night in June</post_title>\n<post_body>Any area, ideally $$-$$$. I’ve done a lot of the 2 and 3 star Michelin restaurants so looking more for new exciting spots.</post_body>\n<comment_to_extract>\nThe Capital Grille. Went there last week for a relatives bday. Hands down the best lamb chops and filet mignon I’ve had\n</comment_to_extract>",
+   "context": {
+    "title": "Where would you go if you only had one meal? From nyc but haven’t lived there in years, coming back for one night in June ",
+    "selftext": "Any area, ideally $$-$$$. I’ve done a lot of the 2 and 3 star Michelin restaurants so looking more for new exciting spots. ",
+    "ancestors": [],
+    "author": "MessageSecret4585",
+    "body": "The Capital Grille. Went there last week for a relatives bday. Hands down the best lamb chops and filet mignon I’ve had",
+    "replies": [
+     {
+      "author": "sandwichofwonder",
+      "body": "I still think about their mashed potatoes all the damn time"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "The Capital Grille",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "lamb chops",
+       "level": "very_positive",
+       "avoid": false
+      },
+      {
+       "dish": "filet mignon",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "occasion",
+       "text": "relative's birthday dinner, visited last week"
+      }
+     ],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "birthday dinner"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S090",
+   "comment_id": "t1_ndorn9j",
+   "model_view": "<post_title>The Feast of San Gennaro starts today in Little Italy</post_title>\n<thread_above>\n[1] another user: Why is everyone in this thread such a hater? If you grew up here, especially downtown, you likely be going down there and having a blast... just like every other year. Not everything is so serious. Yeah, a lot of the food is not the same as it was 20yrs ago, but neither is anything here. Sometimes \"good food\" is just wanting to eat some fried shit and hopefully bump into old acquaintances. SMH.\n</thread_above>\n<comment_to_extract>\nI agree, yeah the food is overpriced and mid but so is a lot of festival/fair food.  It's more about the celebration.  IMO it's all the food I frankly would never get usually like Zeppole, Fried Oreos, Sausage and Peppers, Torrone, ect.  What more can you expect from Little Italy?  The place is a dying tourist trap\n</comment_to_extract>",
+   "context": {
+    "title": "The Feast of San Gennaro starts today in Little Italy",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "enuffofthiscrap",
+      "body": "Why is everyone in this thread such a hater?\n\nIf you grew up here, especially downtown, you likely be going down there and having a blast... just like every other year. \n\nNot everything is so serious.  \n\nYeah, a lot of the food is not the same as it was 20yrs ago, but neither is anything here. \n\nSometimes \"good food\" is just wanting to eat some fried shit and hopefully bump into old acquaintances.\n\n\nSMH."
+     }
+    ],
+    "author": "Cold-Metal-2737",
+    "body": "I agree, yeah the food is overpriced and mid but so is a lot of festival/fair food.  It's more about the celebration.  IMO it's all the food I frankly would never get usually like Zeppole, Fried Oreos, Sausage and Peppers, Torrone, ect.  What more can you expect from Little Italy?  The place is a dying tourist trap",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S091",
+   "comment_id": "t1_ml9equr",
+   "model_view": "<post_title>Speakeasy-ish bars in Chelsea for early cocktail</post_title>\n<post_body>Looking take some friends from London out tomorrow. We have dinner reservations but I would love to take them for cocktails around 5:30. Raines Law Room is on the short list but I have heard bad things about it. Wondering if there are any better options I’m unaware of. It doesn’t have to be a speakeasy as long as it has that “only in NYC” vibe</post_body>\n<comment_to_extract>\nI'm visiting for a few days and went to a spot called Do Not Disturb last night. https://www.dnd-nyc.com\n\nI thought it was really cool. Kind of place you could easily miss cos it's kind of hidden.\n</comment_to_extract>",
+   "context": {
+    "title": "Speakeasy-ish bars in Chelsea for early cocktail",
+    "selftext": "Looking take some friends from London out tomorrow. We have dinner reservations but I would love to take them for cocktails around 5:30. Raines Law Room is on the short list but I have heard bad things about it. Wondering if there are any better options I’m unaware of. It doesn’t have to be a speakeasy as long as it has that “only in NYC” vibe ",
+    "ancestors": [],
+    "author": "1066Woody",
+    "body": "I'm visiting for a few days and went to a spot called Do Not Disturb last night. https://www.dnd-nyc.com\n\nI thought it was really cool. Kind of place you could easily miss cos it's kind of hidden.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Do Not Disturb",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "hidden entrance",
+       "text": "Hidden and easy to miss, per the commenter."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "hidden"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S092",
+   "comment_id": "t1_ozn3guu",
+   "model_view": "<post_title>I give up, I can't drink coffee in this city anymore</post_title>\n<post_body>I can't with the light roast sour espresso everywhere. I just can't stand the taste. Why do all coffee place - and I mean 99% of them - have these disgusting espresso shots?\n\nI want a normal, old school espresso, no milk no sugar, like the ones you get in Italy (and don't get me started about the price).\n\nWhat's going on? Why can't you find these anywhere?</post_body>\n<comment_to_extract>\nso true and third wave cafes pull really long shots too like why is a sour espresso also 3-4oz. i go to Fortunato bros for italian style espresso and make my own at home.\n</comment_to_extract>",
+   "context": {
+    "title": "I give up, I can't drink coffee in this city anymore",
+    "selftext": "I can't with the light roast sour espresso everywhere. I just can't stand the taste. Why do all coffee place - and I mean 99% of them - have these disgusting espresso shots?\n\nI want a normal, old school espresso, no milk no sugar, like the ones you get in Italy (and don't get me started about the price).\n\nWhat's going on? Why can't you find these anywhere?",
+    "ancestors": [],
+    "author": "Turbulent_Bit9154",
+    "body": "so true and third wave cafes pull really long shots too like why is a sour espresso also 3-4oz. i go to Fortunato bros for italian style espresso and make my own at home.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Fortunato bros",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "italian style espresso",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian espresso"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S093",
+   "comment_id": "t1_pco8gtg",
+   "model_view": "<post_title>Wonder paying for fake reviews/AI slop photos on Google</post_title>\n<post_body>As if you needed another reason not to patronize. Google Maps is probably just going to leave it up too.</post_body>\n<comment_to_extract>\nCan Wonder be sued for defrauding consumers or taken to task by the CFPB (when a real admin returns)\n</comment_to_extract>",
+   "context": {
+    "title": "Wonder paying for fake reviews/AI slop photos on Google",
+    "selftext": "As if you needed another reason not to patronize. Google Maps is probably just going to leave it up too.",
+    "ancestors": [],
+    "author": "TheFlyingBoat",
+    "body": "Can Wonder be sued for defrauding consumers or taken to task by the CFPB (when a real admin returns)",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S094",
+   "comment_id": "t1_jmcxx5r",
+   "model_view": "<post_title>Veggie burgers</post_title>\n<post_body>I’m craving veggie burgers but it’s hard to find ones that I like. I’m not really into impossible/imitation meat; I prefer mushrooms or chickpeas/lentils etc etc. Any recommendations are welcome! Tyia~</post_body>\n<thread_above>\n[1] another user: Sweetwater in Williamsburg and Sisters in Clinton Hill both have great lentil based veggie burgers\n</thread_above>\n<comment_to_extract>\nSisters is just okay to me tbh. Like. It’s fine ..?\n</comment_to_extract>",
+   "context": {
+    "title": "Veggie burgers",
+    "selftext": "I’m craving veggie burgers but it’s hard to find ones that I like. I’m not really into impossible/imitation meat; I prefer mushrooms or chickpeas/lentils etc etc. Any recommendations are welcome! Tyia~",
+    "ancestors": [
+     {
+      "author": "Lower-Natural2488",
+      "body": "Sweetwater in Williamsburg and Sisters in Clinton Hill both have great lentil based veggie burgers"
+     }
+    ],
+    "author": "WizardsAreNeverWrong",
+    "body": "Sisters is just okay to me tbh. Like. It’s fine ..?",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sisters",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Clinton Hill",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "veggie burger",
+      "burger"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S095",
+   "comment_id": "t1_jzf6uzx",
+   "model_view": "<post_title>Is Adel's Famous Halal Food really better than Halal Guys?</post_title>\n<post_body>We got Halal Guys here in Toronto 4 years ago. I remember it like it was yesterday, halal guys took a nose dive in quality since the pandemic. I'm planning on travelling to NYC just to eat Adel's, is there anything better than Adel's that has a similar street shawarma taste to halal guys? Or is Adel's the goat?</post_body>\n<thread_above>\n[1] you, earlier: NYC Halal Cart food is tasty in the way Cheetos are tasty. I like that it's highly seasoned and it serves a purpose. For a quick office lunch or late night meal it’s hard to beat. However now that prices have gone up and if I'm going to travel or wait on top of that.. I'd much rather just get real s ...\n[2] another user: Got a good recommendation for real shawarma?\n[3] you, earlier: Sadly it’s much, much, much harder to find than it used to be. There once was more quality places in Queens and near ocean parkway in Brooklyn but many have closed over the years. I think the profit margins aren’t high enough and their isn’t as much of an audience with an appreciation for the real s ...\n[4] another user: Mamouns on macdougal but they’ve increased the prices a little bit\n</thread_above>\n<comment_to_extract>\nFor my taste and my personal opinion:\n\nMamouns is good for Falafel but strictly the actual fried falafel is respectable.  Everything else is bodega grade quality: the lettuce , tahini , tomatoes are just there as filler and the pita is just a container / vessel with no taste. \n\nSame goes for their spicy sauce it is not a harissa, not schug , not tatbila not Shatta , not Avjar , not Ajika not chermoula  …it’s just crushed chilis with no seasoning . It adds heat but no extra flavor.\n\nAll that said when a falafel pita was less than two dollars it was an amazing cheap eat, especially if you were already in the area and even more so when not sober.\n\nUnless it changed in recent years : The shawarma however was never any good (from the 90s through the 2010s) it was just more filling and if you had to have meat because falafel wasn’t cutting it you would get it. Honestly though in this instance the halal gyro meat actually tastes better and it was / is cheaper .\n</comment_to_extract>",
+   "context": {
+    "title": "Is Adel's Famous Halal Food really better than Halal Guys?",
+    "selftext": "We got Halal Guys here in Toronto 4 years ago. I remember it like it was yesterday, halal guys took a nose dive in quality since the pandemic. I'm planning on travelling to NYC just to eat Adel's, is there anything better than Adel's that has a similar street shawarma taste to halal guys? Or is Adel's the goat?",
+    "ancestors": [
+     {
+      "author": "Sad_Hungry",
+      "body": "NYC Halal Cart food is tasty in the way Cheetos are tasty. I like that it's highly seasoned and it serves a purpose. For a quick office lunch or late night meal it’s hard to beat. \n\nHowever now that prices have gone up and if I'm going to travel or wait on top of that.. I'd much rather just get real shawarma off the spit with quality Tahini, humus, schug, toum and amba with pickled turnips , pickles, pickled peppers, cabbage salad etc.. and some rice or a fluffy fresh pita or laffa. Maybe even chips (french fries) or some foul medamas  if I'm going full glutton mode."
+     },
+     {
+      "author": "thewonderfulpooper",
+      "body": "Got a good recommendation for real shawarma?"
+     },
+     {
+      "author": "Sad_Hungry",
+      "body": "Sadly it’s much, much, much harder to find than it used to be. There once was more quality places in Queens and near ocean parkway in Brooklyn but many have closed over the years. I think the profit margins aren’t high enough and their isn’t as much of an audience with an appreciation for the real stuff outside of highly Arabic or highly orthodox communities.\n\nAnyway :\n\nDuzan in Astoria is usually solid (I haven’t gone in a bit I heard they fell off a bit but there was a time where they were legitimately good)\n\nGrill Point (multiple locations ) hit or miss but when \nright it’s good just you will have to deal with blatant rip off prices because it’s Kosher which is annoying but it is what it is.\n\nZyara (pitas are crap in comparison but the meat is pretty reliable ) \n\nOtherwise there’s also restaurant versions that are okay but it’s not the same as when it’s a legit Shawarma location."
+     },
+     {
+      "author": "SeaBite1366",
+      "body": "Mamouns on macdougal but they’ve increased the prices a little bit"
+     }
+    ],
+    "author": "Sad_Hungry",
+    "body": "For my taste and my personal opinion:\n\nMamouns is good for Falafel but strictly the actual fried falafel is respectable.  Everything else is bodega grade quality: the lettuce , tahini , tomatoes are just there as filler and the pita is just a container / vessel with no taste. \n\nSame goes for their spicy sauce it is not a harissa, not schug , not tatbila not Shatta , not Avjar , not Ajika not chermoula  …it’s just crushed chilis with no seasoning . It adds heat but no extra flavor.\n\nAll that said when a falafel pita was less than two dollars it was an amazing cheap eat, especially if you were already in the area and even more so when not sober.\n\nUnless it changed in recent years : The shawarma however was never any good (from the 90s through the 2010s) it was just more filling and if you had to have meat because falafel wasn’t cutting it you would get it. Honestly though in this instance the halal gyro meat actually tastes better and it was / is cheaper .",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mamouns",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Macdougal Street",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "falafel",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "shawarma",
+       "level": "negative",
+       "avoid": false
+      },
+      {
+       "dish": "spicy sauce",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "falafel pita price",
+       "text": "a falafel pita used to cost under $2 and was an amazing cheap eat, especially when drinking"
+      },
+      {
+       "about": "quality hedge",
+       "text": "commenter says shawarma was never good from the 90s through the 2010s, unless it changed in recent years"
+      },
+      {
+       "about": "ingredients",
+       "text": "lettuce, tahini and tomatoes are filler, and the pita is just a vessel with no taste; bodega-grade quality"
+      },
+      {
+       "about": "comparison",
+       "text": "halal gyro meat from carts tastes better and costs less than Mamouns shawarma"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "price": "cheap",
+     "tags": [
+      "falafel",
+      "shawarma",
+      "cheap eats",
+      "middle eastern"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S096",
+   "comment_id": "t1_jgutq3r",
+   "model_view": "<post_title>Places you go for the vibe and staff but not for the food?</post_title>\n<post_body>This sub has plenty of posts for “the best” food but what about the neighborhood joints that just create an atmosphere that keeps you coming back but their food is just 7/10?\n\nObviously the food has to be good enough but I find myself lately preferring to go to a spot where the vibe is solid and staff are friendly and welcoming. Generally a smaller intimate spot versus a massive institutional restaurant. They’re pretty easy to find in Brooklyn but I’m curious to know what others enjoy hitting up when they’re just looking to get out of the house and find their place of comfort.</post_body>\n<thread_above>\n[1] another user: I'm a big fan of Evelina in ft Greene. The food is just ok Italian but it's a sexy space and the ppl there are having fun. A little pricey tho but overall like it. Second option here is LaLou in prospect heights. The food is actually good it's just a real limited menu and isn't a standout type place. Third, the Long Island bar on Atlantic Ave. Again leans closer to a bar but a great old school vibe. Great question btw as much as I love food and debate about food - sometimes you just want to go out and have fun somewhere and the food takes a backseat. Honorable mention: Sake bar decibel in the village.\n</thread_above>\n<comment_to_extract>\nSake bar decibel is a good example of a place with mediocre food but excellent vibe.\n</comment_to_extract>",
+   "context": {
+    "title": "Places you go for the vibe and staff but not for the food?",
+    "selftext": "This sub has plenty of posts for “the best” food but what about the neighborhood joints that just create an atmosphere that keeps you coming back but their food is just 7/10?\n\nObviously the food has to be good enough but I find myself lately preferring to go to a spot where the vibe is solid and staff are friendly and welcoming. Generally a smaller intimate spot versus a massive institutional restaurant. They’re pretty easy to find in Brooklyn but I’m curious to know what others enjoy hitting up when they’re just looking to get out of the house and find their place of comfort.",
+    "ancestors": [
+     {
+      "author": "IManageTacoBell",
+      "body": "I'm a big fan of Evelina in ft Greene. The food is just ok Italian but it's a sexy space and the ppl there are having fun. A little pricey tho but overall like it. \n\nSecond option here is LaLou in prospect heights. The food is actually good it's just a real limited menu and isn't a standout type place. \n\nThird, the Long Island bar on Atlantic Ave. Again leans closer to a bar but a great old school vibe. \n\nGreat question btw as much as I love food and debate about food - sometimes you just want to go out and have fun somewhere and the food takes a backseat. \n\nHonorable mention:\n\nSake bar decibel in the village."
+     }
+    ],
+    "author": "IvenaDarcy",
+    "body": "Sake bar decibel is a good example of a place with mediocre food but excellent vibe.",
+    "replies": [
+     {
+      "author": "avtchrd345",
+      "body": "I’ve been there many times. Never even occurred to me that they had food."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Sake bar decibel",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sake bar"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S097",
+   "comment_id": "t1_nrswqk6",
+   "model_view": "<post_title>My procrastinating ass can’t find a bar to accommodate 15 for Saturday</post_title>\n<post_body>Appealing to your collective experience out of desperation. I have a lovely friend turning 30 this weekend. I am a terrible person and took too long to put together a plan for a place 10-15 of our friends can have a drink Saturday night. I’ve been reaching out to a few bars in Manhattan and have struck out on a private reservation. Does anyone have any recommendations for places where we have a reasonable chance of finding space for a walk-in party of this size? We’re having dinner in tribeca beforehand but doesn’t necessarily have to be nearby.</post_body>\n<comment_to_extract>\nTry terroir since youre already in tribeca. I see plenty of large reservations on resy (and you can definitely flex to fit more given their setup). Incredible wine list and a great vibe\n</comment_to_extract>",
+   "context": {
+    "title": "My procrastinating ass can’t find a bar to accommodate 15 for Saturday",
+    "selftext": "Appealing to your collective experience out of desperation. I have a lovely friend turning 30 this weekend. I am a terrible person and took too long to put together a plan for a place 10-15 of our friends can have a drink Saturday night. I’ve been reaching out to a few bars in Manhattan and have struck out on a private reservation. Does anyone have any recommendations for places where we have a reasonable chance of finding space for a walk-in party of this size? We’re having dinner in tribeca beforehand but doesn’t necessarily have to be nearby. ",
+    "ancestors": [],
+    "author": "xobasb",
+    "body": "Try terroir since youre already in tribeca. I see plenty of large reservations on resy (and you can definitely flex to fit more given their setup). Incredible wine list and a great vibe",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "terroir",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": "Tribeca",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "group reservations",
+       "text": "Plenty of large-party reservations on Resy, and the venue can flex to fit more people"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": "positive"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "wine bar",
+      "group friendly"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S098",
+   "comment_id": "t1_nhd4ftb",
+   "model_view": "<post_title>“Pongal in 1 Minute 🍲 | Quick South Indian Recipe #Shorts #trendingreels #food, #reels, #tasty</post_title>\n<comment_to_extract>\nWelcome to r/FoodNYC!  As a new participant your post has been filtered for further review due to the influx of low effort, unresearched posts here.  Please be patient and your post will be approved (or not) shortly!\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/FoodNYC) if you have any questions or concerns.*\n</comment_to_extract>",
+   "context": {
+    "title": "“Pongal in 1 Minute 🍲 | Quick South Indian Recipe #Shorts #trendingreels #food, #reels, #tasty",
+    "selftext": "[removed]",
+    "ancestors": [],
+    "author": "AutoModerator",
+    "body": "Welcome to r/FoodNYC!  As a new participant your post has been filtered for further review due to the influx of low effort, unresearched posts here.  Please be patient and your post will be approved (or not) shortly!\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/FoodNYC) if you have any questions or concerns.*",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S099",
+   "comment_id": "t1_ng6is08",
+   "model_view": "<post_title>Child friendly restaurant near W 50th and 8th?</post_title>\n<post_body>We are taking our grandchildren, ages 6 and 10, to an off Broadway matinee and then to dinner. They are vegetarian. Any suggestions for a good restaurant that kids would enjoy near West 50th and 8th or 9th Avenues? It doesn’t have to be a vegetarian restaurant as long as there are some vegetarian options in the menu that kids would like.</post_body>\n<comment_to_extract>\nKashkaval garden is on 9th ave and 55th. Among many other things, they do cheese fondue with veggies and bread, which is a really fun thing for kids to try. Prices are reasonable, too.\n</comment_to_extract>",
+   "context": {
+    "title": "Child friendly restaurant near W 50th and 8th?",
+    "selftext": "We are taking our grandchildren, ages 6 and 10, to an off Broadway matinee and then to dinner. They are vegetarian. Any suggestions for a good restaurant that kids would enjoy near West 50th and 8th or 9th Avenues? It doesn’t have to be a vegetarian restaurant as long as there are some vegetarian options in the menu that kids would like. ",
+    "ancestors": [],
+    "author": "thatsreallynotok",
+    "body": "Kashkaval garden is on 9th ave and 55th. Among many other things, they do cheese fondue with veggies and bread, which is a really fun thing for kids to try. Prices are reasonable, too.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Kashkaval garden",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "9th Ave and 55th",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cheese fondue with veggies and bread",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "kids",
+       "text": "cheese fondue with veggies and bread is a fun thing for kids to try"
+      },
+      {
+       "about": "menu",
+       "text": "many other things on the menu"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "fondue",
+      "kid friendly",
+      "vegetarian options"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S100",
+   "comment_id": "t1_m7vnvqb",
+   "model_view": "<post_title>4 Charles prime reservation ?</post_title>\n<post_body>Hi!! \n\nIt’s my bfs birthday on 2/3 and I’m DYING to get us a reservation at 4 Charles prime (he reallllly wants to go ). \n\nHow the hell do people get reservations? If anyone has one , id literally PAY you for the reservation.</post_body>\n<thread_above>\n(1 earlier comments not shown)\n[1] another user: The ambiance is pretty cool though.\n[2] you, earlier: Totally agreed. If it’s all about the aesthetics that place is difficult to beat.\n[3] another user: The food is very, very good though. It's not like it's Corner Bar where people are going because Taylor Swift goes. It's very good food in a small place with a great vibe and 9 tables.\n[4] you, earlier: You’re literally referring to a place Taylor Swift has reported to have been seen. You’re not making the argument you think you are. https://www.instagram.com/backgrid_usa/p/Cy7ZPjEL-71/\n[5] another user: 4 Charles has 9 tables and since day 1 they have been always booked. The majority of the tables are held by regulars. I'm not saying no celebrity has ever visited the place, I'm saying that the place isn't popular because it's a celeb hotspot. The food is very, very, good.\n</thread_above>\n<comment_to_extract>\nIt’s an import from Chicago. lol\n</comment_to_extract>",
+   "context": {
+    "title": "4 Charles prime reservation ? ",
+    "selftext": "Hi!! \n\nIt’s my bfs birthday on 2/3 and I’m DYING to get us a reservation at 4 Charles prime (he reallllly wants to go ). \n\nHow the hell do people get reservations? If anyone has one , id literally PAY you for the reservation. ",
+    "ancestors": [
+     {
+      "author": "ReliabilityTalkinGuy",
+      "body": "This isn’t the answer you want, but it’s just hype. It’s not actually that amazing. Find him an actually great restaurant to go to, instead. "
+     },
+     {
+      "author": "MSPCSchertzer",
+      "body": "The ambiance is pretty cool though."
+     },
+     {
+      "author": "ReliabilityTalkinGuy",
+      "body": "Totally agreed. If it’s all about the aesthetics that place is difficult to beat. "
+     },
+     {
+      "author": "bruiserbrody45",
+      "body": "The food is very, very good though. It's not like it's Corner Bar where people are going because Taylor Swift goes. It's very good food in a small place with a great vibe and 9 tables."
+     },
+     {
+      "author": "ReliabilityTalkinGuy",
+      "body": "You’re literally referring to a place Taylor Swift has reported to have been seen. You’re not making the argument you think you are. \n\nhttps://www.instagram.com/backgrid_usa/p/Cy7ZPjEL-71/"
+     },
+     {
+      "author": "bruiserbrody45",
+      "body": "4 Charles has 9 tables and since day 1 they have been always booked. The majority of the tables are held by regulars. I'm not saying no celebrity has ever visited the place, I'm saying that the place isn't popular because it's a celeb hotspot. The food is very, very, good."
+     }
+    ],
+    "author": "ReliabilityTalkinGuy",
+    "body": "It’s an import from Chicago. lol",
+    "replies": [
+     {
+      "author": "bruiserbrody45",
+      "body": "Not sure what your point is? 4 Charles was a unique to NY concept from a Chicago based restaurant group."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "4 Charles Prime",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "origin",
+       "text": "Commenter says it is an import from Chicago (a jab-like aside, no verdict stated)"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  }
+ ]
+}

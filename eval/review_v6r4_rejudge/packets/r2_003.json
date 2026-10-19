@@ -1,0 +1,1256 @@
+{
+ "packet": "r2_003",
+ "items": [
+  {
+   "item_id": "S051",
+   "comment_id": "t1_kh03jfa",
+   "model_view": "<post_title>Semma for 1 - Worth it?</post_title>\n<post_body>For those who have been to Semma, do you think it would be worth it to go by yourself while still being able to try a few different items? Their menu seems to be more conducive to sharing with another person/larger group, so just curious if it might be a waste to go by yourself.\n\nThanks in advance!</post_body>\n<comment_to_extract>\nI went in a group of 6 and we shared everything. I think one person is fine. Realistically you can still eat the most important dishes, you're not missing THAT much. The dosa was the bomb. A lot of the appetizers were what was good.\n</comment_to_extract>",
+   "context": {
+    "title": "Semma for 1 - Worth it?",
+    "selftext": "For those who have been to Semma, do you think it would be worth it to go by yourself while still being able to try a few different items? Their menu seems to be more conducive to sharing with another person/larger group, so just curious if it might be a waste to go by yourself.\n\nThanks in advance!",
+    "ancestors": [],
+    "author": "Rindhallow",
+    "body": "I went in a group of 6 and we shared everything. I think one person is fine. Realistically you can still eat the most important dishes, you're not missing THAT much. The dosa was the bomb. A lot of the appetizers were what was good.",
+    "replies": [
+     {
+      "author": "Gas7248",
+      "body": "Thanks! What would you say are the most important dishes to try? Sounds like the gunpowder dosa is a must"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Semma",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "dosa",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "appetizers",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "solo visit",
+       "text": "Menu is built for sharing, but one person can still eat the most important dishes and miss little"
+      },
+      {
+       "about": "group visit",
+       "text": "Commenter went in a group of 6 and shared everything"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "south indian",
+      "solo dining",
+      "sharing plates"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S052",
+   "comment_id": "t1_oudfdoa",
+   "model_view": "<post_title>Which restaurants recently exceeded your expectations despite you already being excited?</post_title>\n<post_body>We all often research pretty intensely before we choose where to eat. Which places recently have, despite you already researching and being excited, still exceeded those expectations? Which dishes stood out? \n\nMine was the Russ & Daughters Holland Herring. I saw their owner hyping up the Nieuw Holland Herring on ig. I was so excited to try it. Regardless, it still blew me away. Incredible sashimi texture and the cornichons and chopped onion add that needed crunch. Knowing it's only available during a seasonal window added to the joy of it. And I thought the $13 price point was fair.</post_body>\n<thread_above>\n[1] another user: bahn mi saigon was so good i started tearing up while eating my sandwich in front of the grandma's\n[2] another user: its sooo perfect every time and affordable too\n[3] another user: I remember when it was $3.75 for a #1😭\n</thread_above>\n<comment_to_extract>\ncame here to say this 🥲 the vegan curry chicken one is also a sleeper hit when i’m feeling crazy\n</comment_to_extract>",
+   "context": {
+    "title": "Which restaurants recently exceeded your expectations despite you already being excited?",
+    "selftext": "We all often research pretty intensely before we choose where to eat. Which places recently have, despite you already researching and being excited, still exceeded those expectations? Which dishes stood out? \n\nMine was the Russ & Daughters Holland Herring. I saw their owner hyping up the Nieuw Holland Herring on ig. I was so excited to try it. Regardless, it still blew me away. Incredible sashimi texture and the cornichons and chopped onion add that needed crunch. Knowing it's only available during a seasonal window added to the joy of it. And I thought the $13 price point was fair. ",
+    "ancestors": [
+     {
+      "author": "Venous",
+      "body": "bahn mi saigon was so good i started tearing up while eating my sandwich in front of the grandma's"
+     },
+     {
+      "author": "oakman26",
+      "body": "its sooo perfect every time and affordable too"
+     },
+     {
+      "author": "crzyyy",
+      "body": "I remember when it was $3.75 for a #1😭"
+     }
+    ],
+    "author": "bo0o0ty",
+    "body": "came here to say this 🥲 the vegan curry chicken one is also a sleeper hit when i’m feeling crazy",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "bahn mi saigon",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "vegan curry chicken bahn mi",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "ordering tip",
+       "text": "the vegan curry chicken sandwich is a sleeper hit for adventurous orders"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "vietnamese",
+      "sandwich"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S053",
+   "comment_id": "t1_lgvjrw3",
+   "model_view": "<post_title author=\"you\">best bites in the Bronx 🙏🏻</post_title>\n<post_body author=\"you\">got a couple hours to kill with my dad before a yankees game, he mentioned Arthur Avenue since he’s never been but we’re open to any suggestions, Italian or otherwise! the only thing he doesn’t like is sushi (‘I don’t eat bait’) 🤣 old school</post_body>\n<thread_above>\n[1] another user: Don't leave Arthur Avenue without trying a cannoli. The best cannoli are filled to order and not sitting in a bakery case. Madonia Bakery and Gino's have some of the best cannoli in the city. Cannoli are best eaten shortly after being filled so keep what you order to the amount you plan to consume within the next few hours. At Gino's I recommend sticking to the large cannoli rather than the small as the proportion of cream to shell is much better. Be aware that Madonia is cash only. They also have one of my favorite pignoli cookies which I found much better than Ferrara's in Manhattan. For rainbow cookies, I love Morrone's. And for other Italian cookies, I lean towards Delillo's. Delillo's has an amazing sfogliatella they fill with cannoli cream that I like. I usually steer away from sfogliatella that isn't fresh from the oven but I make an exception for this one, especially with cannoli cream. If you ever find yourself in Queens, Ceresella makes my absolute favorite sfogliatella since they serve them warm from the oven and is one of the few Italian bakeries in NYC who use sheep's milk ricotta. Fortunato Brothers and Villabate in Brooklyn are the others using sheep's milk ricotta in their products that come to mind. Also, grab a sandwich from Casa della Mozzarella to eat at the game. Their homemade mozzarella is just as good as in Italy and is used in many of their sandwiches. Get The Casa on ciabatta bread. I prefer the ciabatta over the hero roll option. Their bread comes f ...\n</thread_above>\n<comment_to_extract>\nthank you sooooo muchhhhh for this detailed response!!! i trust you with my LIFE\n</comment_to_extract>",
+   "context": {
+    "title": "best bites in the Bronx 🙏🏻",
+    "selftext": "got a couple hours to kill with my dad before a yankees game, he mentioned Arthur Avenue since he’s never been but we’re open to any suggestions, Italian or otherwise! the only thing he doesn’t like is sushi (‘I don’t eat bait’) 🤣 old school ",
+    "ancestors": [
+     {
+      "author": "Shota_Kazehaya",
+      "body": "Don't leave Arthur Avenue without trying a cannoli. The best cannoli are filled to order and not sitting in a bakery case. Madonia Bakery and Gino's have some of the best cannoli in the city. Cannoli are best eaten shortly after being filled so keep what you order to the amount you plan to consume within the next few hours. At Gino's I recommend sticking to the large cannoli rather than the small as the proportion of cream to shell is much better. Be aware that Madonia is cash only. They also have one of my favorite pignoli cookies which I found much better than Ferrara's in Manhattan. For rainbow cookies, I love Morrone's. And for other Italian cookies, I lean towards Delillo's. Delillo's has an amazing sfogliatella they fill with cannoli cream that I like. I usually steer away from sfogliatella that isn't fresh from the oven but I make an exception for this one, especially with cannoli cream. If you ever find yourself in Queens, Ceresella makes my absolute favorite sfogliatella since they serve them warm from the oven and is one of the few Italian bakeries in NYC who use sheep's milk ricotta. Fortunato Brothers and Villabate in Brooklyn are the others using sheep's milk ricotta in their products that come to mind. Also, grab a sandwich from Casa della Mozzarella to eat at the game. Their homemade mozzarella is just as good as in Italy and is used in many of their sandwiches. Get The Casa on ciabatta bread. I prefer the ciabatta over the hero roll option. Their bread comes from Madonia Bakery btw. Also upgrade the prosciutto to prosciutto di parma which is worth the extra $3 imo."
+     }
+    ],
+    "author": "melanieissleepy",
+    "body": "thank you sooooo muchhhhh for this detailed response!!! i trust you with my LIFE",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S054",
+   "comment_id": "t1_jo6ssl2",
+   "model_view": "<post_title>Where can I get big bao buns with pork, Chinese sausage, and egg in Manhattan?</post_title>\n<post_body>It's a request for my Dad and I think the place in Chinatown he told me to go to doesn't make them anymore. I don't know that just any Chinatown bakery would have this kind?</post_body>\n<thread_above>\n[1] another user: Golden Steamer has a \"big bun\" that has pork/egg/sausage inside. They have locations in Brooklyn's Chinatown (Both Bensonhurst and 8th ave) too.\n[2] another user: Second this so good and you can get frozen to take home\n</thread_above>\n<comment_to_extract>\nBeing a third on this.  Just delicious.\n</comment_to_extract>",
+   "context": {
+    "title": "Where can I get big bao buns with pork, Chinese sausage, and egg in Manhattan?",
+    "selftext": "It's a request for my Dad and I think the place in Chinatown he told me to go to doesn't make them anymore. I don't know that just any Chinatown bakery would have this kind?",
+    "ancestors": [
+     {
+      "author": "crazeman",
+      "body": "Golden Steamer has a \"big bun\" that has pork/egg/sausage inside.\n\nThey have locations in Brooklyn's Chinatown (Both Bensonhurst and 8th ave) too."
+     },
+     {
+      "author": "Djpizzle13",
+      "body": "Second this so good and you can get frozen to take home"
+     }
+    ],
+    "author": "Easy-Concentrate2636",
+    "body": "Being a third on this.  Just delicious.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Golden Steamer",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "big bun",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bao"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S055",
+   "comment_id": "t1_mobfmnq",
+   "model_view": "<post_title>Best mini chocolate cake in lower Manhattan / downtown Brooklyn please?</post_title>\n<comment_to_extract>\nBlackout cake from Claude or Little Cupcake Bakeshop? Not sure they have mini options though.\n</comment_to_extract>",
+   "context": {
+    "title": "Best mini chocolate cake in lower Manhattan / downtown Brooklyn please?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "abrokebroker",
+    "body": "Blackout cake from Claude or Little Cupcake Bakeshop? Not sure they have mini options though.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Claude",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "mini options",
+       "text": "Commenter is unsure whether they offer mini cakes"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cake"
+     ]
+    },
+    {
+     "name": "Little Cupcake Bakeshop",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "blackout cake",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "mini options",
+       "text": "Commenter is unsure whether they offer mini cakes"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cake",
+      "cupcakes"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S056",
+   "comment_id": "t1_l448xkr",
+   "model_view": "<post_title>Intimate, Dimly-Lit Birthday Dinner Manhattan $175pp Max</post_title>\n<post_body>Hi all,\n\nFinancé's birthday is coming up and I'm looking for a nice restaurant to take her in Manhattan. Not a place that is too loud nor that has tables crammed too tightly together so that you're basically brushing up against your neighbor.\n\nMy only requirements not listed in the title are: 1) that it's not ridiculously hard to get a reservation and 2) no French places. Anything else I am totally open too!\n\nJust the two of us so $350 Max budget.\n\nThanks a ton!</post_body>\n<thread_above>\n[1] another user: I’d try Hawksmoor or Barbuto\n</thread_above>\n<comment_to_extract>\nHawksmoor is not really dimly lit unless you’re sitting in the quiet area in the back of the bar side. The main dining room is very bright and loud.\n</comment_to_extract>",
+   "context": {
+    "title": "Intimate, Dimly-Lit Birthday Dinner Manhattan $175pp Max",
+    "selftext": "Hi all,\n\nFinancé's birthday is coming up and I'm looking for a nice restaurant to take her in Manhattan. Not a place that is too loud nor that has tables crammed too tightly together so that you're basically brushing up against your neighbor.\n\nMy only requirements not listed in the title are: 1) that it's not ridiculously hard to get a reservation and 2) no French places. Anything else I am totally open too!\n\nJust the two of us so $350 Max budget.\n\nThanks a ton!",
+    "ancestors": [
+     {
+      "author": "beernerd6",
+      "body": "I’d try Hawksmoor or Barbuto"
+     }
+    ],
+    "author": "NewRazzmatazz2455",
+    "body": "Hawksmoor is not really dimly lit unless you’re sitting in the quiet area in the back of the bar side. The main dining room is very bright and loud.",
+    "replies": [
+     {
+      "author": "akmalhot",
+      "body": "When I went to Hawksmoor it was pretty empty, suddenly at 11pm 3 groups came it separately. It was 1 guy and 12 want to be models..what's the story w that .\n\n\nGave me a flash back to the last time I went to tao 6+ yrs ago and suddenly a train of women walked in - obviously brought in by the venue "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Hawksmoor",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "lighting",
+       "text": "Only dimly lit in the quiet back area of the bar side; the main dining room is very bright and loud"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "negative",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "S057",
+   "comment_id": "t1_k4vuvli",
+   "model_view": "<post_title>I'm tired of New Yorkers hating on Katz's Deli just because it's a tourist spot</post_title>\n<post_body>Yes, some places are popular with tourists. That does not mean they automatically suck. Almost every born and raised New Yorker loves to tell me \"Katz's Deli is trash\" or \"it's the most overrated sandwich on earth.\" What are they smoking because I'd love some. You can say it's overpriced. I can even entertain the it's overrated angle if you mostly are referring to the price. But to say it is terrible is just annoying New Yorker contrarian pretentious behavior. I bet most of them have never even had it before and are just saying that to sound cool. It is objectively a fantastic sandwich. Yes it is overpriced but so is every pastrami sandwich on earth now.</post_body>\n<thread_above>\n[1] another user: Where is the original Carnegie Deli when you need them?\n</thread_above>\n<comment_to_extract>\nAt Madison Square Garden. It’s the only place I eat at Ranger games.\n</comment_to_extract>",
+   "context": {
+    "title": "I'm tired of New Yorkers hating on Katz's Deli just because it's a tourist spot",
+    "selftext": "Yes, some places are popular with tourists. That does not mean they automatically suck. Almost every born and raised New Yorker loves to tell me \"Katz's Deli is trash\" or \"it's the most overrated sandwich on earth.\" What are they smoking because I'd love some. You can say it's overpriced. I can even entertain the it's overrated angle if you mostly are referring to the price. But to say it is terrible is just annoying New Yorker contrarian pretentious behavior. I bet most of them have never even had it before and are just saying that to sound cool. It is objectively a fantastic sandwich. Yes it is overpriced but so is every pastrami sandwich on earth now.",
+    "ancestors": [
+     {
+      "author": "metromade",
+      "body": "Where is the original Carnegie Deli when you need them?"
+     }
+    ],
+    "author": "superdad0206",
+    "body": "At Madison Square Garden. It’s the only place I eat at Ranger games.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Carnegie Deli",
+     "named_in": "context",
+     "kind": "deli",
+     "location": "Madison Square Garden",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "location",
+       "text": "At Madison Square Garden; the commenter's only place to eat at Ranger games"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "deli"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S058",
+   "comment_id": "t1_jvmpghp",
+   "model_view": "<post_title>Restaurant Week just as expensive as a regular menu? A case study at Fish Cheeks.</post_title>\n<post_body>Am I severely misunderstanding how the pricing works? \nFish Cheeks RW menu for dinner is $60 for Restaurant Week. \n\nLooking at their regular menu, I could order the following items that are on the RW menu. \nZaab Wings: $15\nCoconut Crab Curry: $30\nIce Cream Bo Lan: $15\nTotal = $60\n\nRW menu: chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://assets.ctfassets.net/1aemqu6a6t65/6mouPvDXeBIfEZABZnd2CI/fff8e32eeb878e8ab745d186cb0a3969/PDFsam_merge.pdf\n\nRegular menu: \nhttps://www.fishcheeksnyc.com/menus/#main-menu-copy-1</post_body>\n<thread_above>\n(1 earlier comments not shown)\n[1] another user: right, but regardless of price if you go to a restaurant you've been wanting to go to, why would you limit yourself?\n[2] you, earlier: Umm.... I know this one! PRICE!\n[3] another user: i mean, why go to a restaurant youve been wanting to go to just to get half the experience?\n[4] you, earlier: Here's a shocker. I live in NYC. I can go to any high end restaurant I have some curiosity about at full price. But if I'm about to drop $800 on dinner, I'd rather give it a $60 test drive before I have my birthday dinner there.\n[5] another user: RW is less of a test drive than a limited sampler with shittier service\n</thread_above>\n<comment_to_extract>\nYou are entitled.\n\nTo your opinion.\n</comment_to_extract>",
+   "context": {
+    "title": "Restaurant Week just as expensive as a regular menu? A case study at Fish Cheeks.",
+    "selftext": "Am I severely misunderstanding how the pricing works? \nFish Cheeks RW menu for dinner is $60 for Restaurant Week. \n\nLooking at their regular menu, I could order the following items that are on the RW menu. \nZaab Wings: $15\nCoconut Crab Curry: $30\nIce Cream Bo Lan: $15\nTotal = $60\n\nRW menu: chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://assets.ctfassets.net/1aemqu6a6t65/6mouPvDXeBIfEZABZnd2CI/fff8e32eeb878e8ab745d186cb0a3969/PDFsam_merge.pdf\n\nRegular menu: \nhttps://www.fishcheeksnyc.com/menus/#main-menu-copy-1",
+    "ancestors": [
+     {
+      "author": "cgfn",
+      "body": "Restaurant week has been a scam for years. Nothing new here"
+     },
+     {
+      "author": "lunacraz",
+      "body": "right, but regardless of price if you go to a restaurant you've been wanting to go to, why would you limit yourself?"
+     },
+     {
+      "author": "samtresler",
+      "body": "Umm.... I know this one! \n\nPRICE!"
+     },
+     {
+      "author": "lunacraz",
+      "body": "i mean, why go to a restaurant youve been wanting to go to just to get half the experience?"
+     },
+     {
+      "author": "samtresler",
+      "body": "Here's a shocker. I live in NYC. I can go to any high end restaurant I have some curiosity about at full price. \n\nBut if I'm about to drop $800 on dinner, I'd rather give it a $60 test drive before I have my birthday dinner there."
+     },
+     {
+      "author": "lunacraz",
+      "body": "RW is less of a test drive than a limited sampler with shittier service"
+     }
+    ],
+    "author": "samtresler",
+    "body": "You are entitled.\n\nTo your opinion.",
+    "replies": [
+     {
+      "author": "lunacraz",
+      "body": "i mean, the OP (both of this thread and the original post) compares the prices and theyre basically the same, except RW is incredibly limiting and service staff dont like the RW crowd\n\nmy whole point was even if there was a price difference, you're not getting the actual experience of what the restaurant is actually like, so whats the point?\n\nand to your $800 -> $60 point... you can absolutely get a taste for $60 without RW ruining your experience ..."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S059",
+   "comment_id": "t1_kcu5q87",
+   "model_view": "<post_title>Non-Americans of NYC -- which restaurant in the city has the best version/showcase of your home country's food?</post_title>\n<thread_above>\n(2 earlier comments not shown)\n[1] another user: I got downvoted in the past for saying that Rana seemed too expensive to be worth it. Then I tried it, and yeah, it is. Shitty kahvaltı with shittier service for an exorbitant price. Turkish expats seem to love it, which really confuses me because it lacks everything that makes Turkish food in Turke ...\n[2] you, earlier: 30 bucks for almost every dish you can find in the cuisine is expensive? Get a grip on where you live and its market maybe?\n[3] another user: If you think Rana serves “almost every dish you can find in the cuisine,” I’d advise you to pick up a Turkish cookbook (Akin’s *Essential Turkish Cuisine* is pretty comprehensive) or look at the menus of restaurants in Turkey that focus on lesser-known regional dishes, like [Çiya](http://www.ciya.co ...\n[4] you, earlier: Lol, I told I meant breakfast. I doubt that you’re reading my messages.\n[5] another user: I think you’re confusing me with the other person who replied to you. But alright!\n</thread_above>\n<comment_to_extract>\nI apologize! My bad I’m running around but I’ve been getting strange insults for a while now for suggesting a place with breakfast and dinner in mind at the same time. This whole thread was supposed to help people enjoy food but here we are arguing over picking one and dismissing others. Very strange, indeed!\n</comment_to_extract>",
+   "context": {
+    "title": "Non-Americans of NYC -- which restaurant in the city has the best version/showcase of your home country's food?",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "obayol",
+      "body": "Turkish - Rana Fifteen in Park Slope"
+     },
+     {
+      "author": "naturecomesfirst",
+      "body": "Such a limited, pricey menu though. How about Taci’s Beyti in Midwood?"
+     },
+     {
+      "author": "eleazarius",
+      "body": "I got downvoted in the past for saying that Rana seemed too expensive to be worth it. Then I tried it, and yeah, it is. Shitty kahvaltı with shittier service for an exorbitant price. Turkish expats seem to love it, which really confuses me because it lacks everything that makes Turkish food in Turkey so great!"
+     },
+     {
+      "author": "obayol",
+      "body": "30 bucks for almost every dish you can find in the cuisine is expensive? Get a grip on where you live and its market maybe?"
+     },
+     {
+      "author": "eleazarius",
+      "body": "If you think Rana serves “almost every dish you can find in the cuisine,” I’d advise you to pick up a Turkish cookbook (Akin’s *Essential Turkish Cuisine* is pretty comprehensive) or look at the menus of restaurants in Turkey that focus on lesser-known regional dishes, like [Çiya](http://www.ciya.com.tr/index_en.php?food). Rana’s menu is limited, uninteresting, and very expensive compared to other restaurants in the neighborhood."
+     },
+     {
+      "author": "obayol",
+      "body": "Lol, I told I meant breakfast. I doubt that you’re reading my messages."
+     },
+     {
+      "author": "eleazarius",
+      "body": "I think you’re confusing me with the other person who replied to you. But alright!"
+     }
+    ],
+    "author": "obayol",
+    "body": "I apologize! My bad I’m running around but I’ve been getting strange insults for a while now for suggesting a place with breakfast and dinner in mind at the same time. This whole thread was supposed to help people enjoy food but here we are arguing over picking one and dismissing others. Very strange, indeed!",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S060",
+   "comment_id": "t1_m5cup7j",
+   "model_view": "<post_title>Advice on Katz’s or Alternatives</post_title>\n<post_body>Hi — I am a  prof taking a 12 college students from the midwest to NYC for spring break (early March; Monday - Wednesday).  Having done this several times before, one stop we have always made was lunch @ Katz’s.   Lately, however, online I have been seeing crazy long lines to get in, which I don’t want to waste time on as it's a school trip with lot’s of activities packed in.  Last time I went in 2023 I reserved space for the group in the private room which was good, but it included waiter service and omitted the “walking in line and getting food from the cutters” experience, which I really enjoy.   So my questions are \n\n1) Is there a “good time” to eat there where it won’t be mobbed with people and my students can wait in line without too long of a delay?\n\n2) If the popularity is such that I cannot expect a short wait, and I would rather not do the “private room” option, is there another good Jewish deli in NYC (relatively close to a subway line) that doesn’t have crazy waits and can handle a group of 14 sitting down for lunch? \n\n  \nThanks in advance for any advice!</post_body>\n<thread_above>\n[1] you, earlier: There is a branch of Katz in the DeKalb market food hall in Brooklyn. Never had a long wait to get my order. Maybe a challenge finding seating for everyone. So if you go scout out a table first and then send some to order and bring the food.\n[2] another user: This was going to be my suggestion too! Is the BK Juniors pastrami any good? My friends and I havent had that in our Juniors regular rotation yet. BKJuniors would def be super doable with 12 and is an NY institution.\n</thread_above>\n<comment_to_extract>\nNo, Junior’s is not remotely close\n</comment_to_extract>",
+   "context": {
+    "title": "Advice on Katz’s or Alternatives",
+    "selftext": "Hi — I am a  prof taking a 12 college students from the midwest to NYC for spring break (early March; Monday - Wednesday).  Having done this several times before, one stop we have always made was lunch @ Katz’s.   Lately, however, online I have been seeing crazy long lines to get in, which I don’t want to waste time on as it's a school trip with lot’s of activities packed in.  Last time I went in 2023 I reserved space for the group in the private room which was good, but it included waiter service and omitted the “walking in line and getting food from the cutters” experience, which I really enjoy.   So my questions are \n\n1) Is there a “good time” to eat there where it won’t be mobbed with people and my students can wait in line without too long of a delay?\n\n2) If the popularity is such that I cannot expect a short wait, and I would rather not do the “private room” option, is there another good Jewish deli in NYC (relatively close to a subway line) that doesn’t have crazy waits and can handle a group of 14 sitting down for lunch? \n\n  \nThanks in advance for any advice!\n\n",
+    "ancestors": [
+     {
+      "author": "BartBeachGuy",
+      "body": "There is a branch of Katz in the DeKalb market food hall in Brooklyn. Never had a long wait to get my order. Maybe a challenge finding seating for everyone. So if you go scout out a table first and then send some to order and bring the food."
+     },
+     {
+      "author": "HRHchickenfarmer",
+      "body": "This was going to be my suggestion too! Is the BK Juniors pastrami any good? My friends and I havent had that in our Juniors regular rotation yet. BKJuniors would def be super doable with 12 and is an NY institution."
+     }
+    ],
+    "author": "BartBeachGuy",
+    "body": "No, Junior’s is not remotely close",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S061",
+   "comment_id": "t1_o8ohhq5",
+   "model_view": "<post_title>Do you like music in restaurants?</post_title>\n<post_body>Personally I find it annoying and unnecessary.\n\n[View Poll](https://www.reddit.com/poll/1rky2k1)</post_body>\n<comment_to_extract>\nI find myself wishing for some music more than no music.  Music adds to the ambiance, and everything is suddenly delicious if its 80's New wave\n</comment_to_extract>",
+   "context": {
+    "title": "Do you like music in restaurants?",
+    "selftext": "Personally I find it annoying and unnecessary.\n\n[View Poll](https://www.reddit.com/poll/1rky2k1)",
+    "ancestors": [],
+    "author": "Various-Struggle-714",
+    "body": "I find myself wishing for some music more than no music.  Music adds to the ambiance, and everything is suddenly delicious if its 80's New wave  ",
+    "replies": [
+     {
+      "author": "cute_polarbear",
+      "body": "I have to Google whats 80's new wave\n...isn't that just mostly 80's pop?"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S062",
+   "comment_id": "t1_nxutisp",
+   "model_view": "<post_title>paysan breton french butter</post_title>\n<post_body>hello I am looking for where I can buy paysan breton french butter in new york (ideally lower manhattan or williamsburg / greenpoint). Thanks!!!</post_body>\n<comment_to_extract>\nIf you're willing to go a little farther into Brooklyn, Le French Tart Deli should have it. They have two locations, one on 5th Ave in Park Slope and one on Court Street in Carroll Gardens.\n</comment_to_extract>",
+   "context": {
+    "title": "paysan breton french butter",
+    "selftext": "hello I am looking for where I can buy paysan breton french butter in new york (ideally lower manhattan or williamsburg / greenpoint). Thanks!!!",
+    "ancestors": [],
+    "author": "laurazabs",
+    "body": "If you're willing to go a little farther into Brooklyn, Le French Tart Deli should have it. They have two locations, one on 5th Ave in Park Slope and one on Court Street in Carroll Gardens.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Le French Tart Deli",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": "5th Ave in Park Slope and Court Street in Carroll Gardens",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "paysan breton butter",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "locations",
+       "text": "Two locations: one on 5th Ave in Park Slope, one on Court Street in Carroll Gardens"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "french",
+      "deli",
+      "butter"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S063",
+   "comment_id": "t1_l9m6hj9",
+   "model_view": "<post_title>Best no-tipping restaurants?</post_title>\n<post_body>What's out there like this right now?</post_body>\n<comment_to_extract>\nUnion square cafe\n</comment_to_extract>",
+   "context": {
+    "title": "Best no-tipping restaurants?",
+    "selftext": "What's out there like this right now?",
+    "ancestors": [],
+    "author": "sammichmaster123",
+    "body": "Union square cafe",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Union square cafe",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "no-tipping"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S064",
+   "comment_id": "t1_jrla6e6",
+   "model_view": "<post_title>Best restaurant to celebrate a proposal</post_title>\n<post_body>Looking for somewhere around Manhattan to celebrate popping the question? Not very picky looking for around $100-$150 per person.</post_body>\n<comment_to_extract>\nNot enough info for a meaningful convo imo\n</comment_to_extract>",
+   "context": {
+    "title": "Best restaurant to celebrate a proposal",
+    "selftext": "Looking for somewhere around Manhattan to celebrate popping the question? Not very picky looking for around $100-$150 per person.",
+    "ancestors": [],
+    "author": "Walt198989",
+    "body": "Not enough info for a meaningful convo imo",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S065",
+   "comment_id": "t1_k7q5gdf",
+   "model_view": "<post_title>Best chicken tenders in the city??</post_title>\n<thread_above>\n[1] another user: i fucking love Raising Cane's\n[2] another user: they are so bad compared to canes in southern cities and even chicago suburbs. all nyc fried chicken is a dark brown color from being over fried or too oily or maybe its the burners? idk\n</thread_above>\n<comment_to_extract>\nI thought Raising Canes in Arkansas was bland and not that great.\n</comment_to_extract>",
+   "context": {
+    "title": "Best chicken tenders in the city??",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "creativeuniquename69",
+      "body": "i fucking love Raising Cane's"
+     },
+     {
+      "author": "aberrantdinosaur",
+      "body": "they are so bad compared to canes in southern cities and even chicago suburbs. all nyc fried chicken is a dark brown color from being over fried or too oily or maybe its the burners? idk"
+     }
+    ],
+    "author": "moomooraincloud",
+    "body": "I thought Raising Canes in Arkansas was bland and not that great.",
+    "replies": [
+     {
+      "author": "ResearchBot15",
+      "body": "I personally don’t eat that type of dipping sauce and I thought the chicken itself was incredibly bland and lacking salt. Toast was great though"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S066",
+   "comment_id": "t1_j6426wh",
+   "model_view": "<post_title>Havent been to NYC in over 15 years. What is everyone's go-to Thai spot?</post_title>\n<post_body>I've heard great things about Thai Villa, Soothr, Up Thai, and Thep Thai? Which one should I go to? Any other suggestions are welcome too!</post_body>\n<thread_above>\n[1] another user: Soothr, Somtum Der, Wayla!\n</thread_above>\n<comment_to_extract>\nI second somtum der\n</comment_to_extract>",
+   "context": {
+    "title": "Havent been to NYC in over 15 years. What is everyone's go-to Thai spot?",
+    "selftext": "I've heard great things about Thai Villa, Soothr, Up Thai, and Thep Thai? Which one should I go to? Any other suggestions are welcome too!",
+    "ancestors": [
+     {
+      "author": "Old_Library6027",
+      "body": "Soothr, Somtum Der, Wayla!"
+     }
+    ],
+    "author": "wushwick",
+    "body": "I second somtum der",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S067",
+   "comment_id": "t1_nv40l1k",
+   "model_view": "<post_title>Food Hall Recommendations?</post_title>\n<post_body>Hi all! Trying to plan an outing next month with around 5-10 people and am looking for food halls that have different vendors or variety food options and also ample seating. I was eyeing DeKalb Market Food Hall (i love the variety) in Brooklyn but was unsure if they had ample seating? So basically anywhere in Manhattan / Brooklyn or Queens (but closer to Manhattan) with different vendors where you can just go and order and take your food to your table.</post_body>\n<comment_to_extract>\nTimeout marker in Brooklyn has a lot of seating. I’m not sure about their new union square location. Pier 57 is another option. Chelsea market sucks for seating.\n</comment_to_extract>",
+   "context": {
+    "title": "Food Hall Recommendations?",
+    "selftext": "Hi all! Trying to plan an outing next month with around 5-10 people and am looking for food halls that have different vendors or variety food options and also ample seating. I was eyeing DeKalb Market Food Hall (i love the variety) in Brooklyn but was unsure if they had ample seating? So basically anywhere in Manhattan / Brooklyn or Queens (but closer to Manhattan) with different vendors where you can just go and order and take your food to your table. ",
+    "ancestors": [],
+    "author": "BklynFuhgeddaboudit",
+    "body": "Timeout marker in Brooklyn has a lot of seating. I’m not sure about their new union square location. Pier 57 is another option. Chelsea market sucks for seating.",
+    "replies": [
+     {
+      "author": "Rhino_Thunder",
+      "body": "The union square location looks really overpriced\n\nSource: I walked through last week and didn’t stop for anything"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Timeout marker",
+     "named_in": "comment",
+     "kind": "food_hall",
+     "location": "Brooklyn",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "food hall"
+     ]
+    },
+    {
+     "name": "Timeout marker",
+     "named_in": "comment",
+     "kind": "food_hall",
+     "location": "Union Square",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "Union Square branch",
+       "text": "Commenter is unsure about this new location."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "food hall"
+     ]
+    },
+    {
+     "name": "Pier 57",
+     "named_in": "comment",
+     "kind": "food_hall",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "food hall"
+     ]
+    },
+    {
+     "name": "Chelsea market",
+     "named_in": "comment",
+     "kind": "food_hall",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "negative",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "food hall"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S068",
+   "comment_id": "t1_iviomrc",
+   "model_view": "<post_title>Which neighborhood do you think has the best Mexican food?</post_title>\n<post_body>I do find it silly when people insist that you have to go to neighborhood X to find good Mexican food, as the Mexican population in NYC is quite large and likely expanding. Not only are there large Mexican communities all over the city (Bushwick, Sunset Park, Corona/Jackson Heights/Elmhurst/Woodside, Port Richmond, etc.), but you can totally get good, authentic Mexican food in other places like Lower Manhattan.\n\nHowever, I do wonder which neighborhood is the best for this, factoring in variety and quality. Like, if you had to take a tourist and show them the best of the best in terms of Mexican food in NYC, where would you pick?</post_body>\n<comment_to_extract>\nCorona (with a lot in North Corona) and Sunset Park are generally the best. My favorite place for cheap enmoladas/enchillada with mole is Mama Lupita’s Bistro in Sunset Park. I've also been to a torta truck in Corona which was outstanding (pretty sure it was Tortas Neza)\n\nAs an alternative, the cool thing however about doing Jackson Heights instead is that if you somehow get bored of Mexican food, there's literally just about every other cuisine that's not Eastern European there.\n</comment_to_extract>",
+   "context": {
+    "title": "Which neighborhood do you think has the best Mexican food?",
+    "selftext": "I do find it silly when people insist that you have to go to neighborhood X to find good Mexican food, as the Mexican population in NYC is quite large and likely expanding. Not only are there large Mexican communities all over the city (Bushwick, Sunset Park, Corona/Jackson Heights/Elmhurst/Woodside, Port Richmond, etc.), but you can totally get good, authentic Mexican food in other places like Lower Manhattan.\n\nHowever, I do wonder which neighborhood is the best for this, factoring in variety and quality. Like, if you had to take a tourist and show them the best of the best in terms of Mexican food in NYC, where would you pick?",
+    "ancestors": [],
+    "author": "CabassoG",
+    "body": "Corona (with a lot in North Corona) and Sunset Park are generally the best. My favorite place for cheap enmoladas/enchillada with mole is Mama Lupita’s Bistro in Sunset Park. I've also been to a torta truck in Corona which was outstanding (pretty sure it was Tortas Neza)\n\nAs an alternative, the cool thing however about doing Jackson Heights instead is that if you somehow get bored of Mexican food, there's literally just about every other cuisine that's not Eastern European there.",
+    "replies": [
+     {
+      "author": "LongIsland1995",
+      "body": "good point about Jackson Heights. It's also next to Woodside"
+     },
+     {
+      "author": "Legofan970",
+      "body": "Seconding Corona, go to Corona Plaza on a weekend and it feels like you've entered a different country. I'm a big fan of La Espiga, which is a few blocks away.\n\nI also saw a lot of good-looking Mexican food in the South Bronx, near the 3rd Ave/149th St station. Does anyone have recs around there?"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Mama Lupita's Bistro",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Sunset Park",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "enmoladas/enchiladas with mole",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": "cheap",
+     "tags": [
+      "mole"
+     ]
+    },
+    {
+     "name": "Tortas Neza",
+     "named_in": "comment",
+     "kind": "truck_or_cart",
+     "location": "Corona",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "torta",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "torta truck"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S069",
+   "comment_id": "t1_mizbgyv",
+   "model_view": "<post_title author=\"you\">Radio Bakery chocolate peanut croissants</post_title>\n<post_body author=\"you\">These were perfect. I know some people think Radio is overrated but it’s my local bakery and I’ve never had a bad bite there.</post_body>\n<thread_above>\n[1] another user: They do a savory mushroom pastry I had once while I was doing a job in the area and I think about it constantly. It was possibly the most delicious pastry I’ve had in my life.\n</thread_above>\n<comment_to_extract>\nI love the mushroom tart! So good\n</comment_to_extract>",
+   "context": {
+    "title": "Radio Bakery chocolate peanut croissants",
+    "selftext": "These were perfect. I know some people think Radio is overrated but it’s my local bakery and I’ve never had a bad bite there.",
+    "ancestors": [
+     {
+      "author": "Benbeanbenbean",
+      "body": "They do a savory mushroom pastry I had once while I was doing a job in the area and I think about it constantly. It was possibly the most delicious pastry I’ve had in my life."
+     }
+    ],
+    "author": "tstc111",
+    "body": "I love the mushroom tart! So good",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Radio Bakery",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "mushroom tart",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pastry"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S070",
+   "comment_id": "t1_k7fyu5l",
+   "model_view": "<post_title>Atomix: If anyone has a seating for 3 for Dec 23 or 30th that they plan on getting rid of I would be very grateful you messaged me about it</post_title>\n<post_body>Those reservations went away in less than 10 seconds i swear</post_body>\n<comment_to_extract>\nPlease post your reservation sales in the weekly thread.\n</comment_to_extract>",
+   "context": {
+    "title": "Atomix: If anyone has a seating for 3 for Dec 23 or 30th that they plan on getting rid of I would be very grateful you messaged me about it",
+    "selftext": "Those reservations went away in less than 10 seconds i swear",
+    "ancestors": [],
+    "author": "FoodNYC-ModTeam",
+    "body": "Please post your reservation sales in the weekly thread.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S071",
+   "comment_id": "t1_j3xqz8f",
+   "model_view": "<post_title>Best Filipino spots in the city - Go!</post_title>\n<post_body>(Side Note: if anyone has any recommendations for the best Asian supermarkets in the city that’s also appreciated!)</post_body>\n<thread_above>\n[1] another user: [Kabisera](https://www.kabisera.com/) has delicious desserts, specifically their biko and bibingka! Highly recommend it.\n</thread_above>\n<comment_to_extract>\nWas impressed by this little shop too, a super underrated spot to work/hang as well\n</comment_to_extract>",
+   "context": {
+    "title": "Best Filipino spots in the city - Go!",
+    "selftext": "(Side Note: if anyone has any recommendations for the best Asian supermarkets in the city that’s also appreciated!)",
+    "ancestors": [
+     {
+      "author": "poketherice",
+      "body": "[Kabisera](https://www.kabisera.com/) has delicious desserts, specifically their biko and bibingka! Highly recommend it."
+     }
+    ],
+    "author": "ThatParanoidPenguin",
+    "body": "Was impressed by this little shop too, a super underrated spot to work/hang as well",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Kabisera",
+     "named_in": "context",
+     "kind": "cafe",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "good for working or hanging out",
+       "text": "Described as a super underrated spot to work or hang out."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "filipino",
+      "dessert",
+      "work-friendly"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S072",
+   "comment_id": "t1_ju07ovh",
+   "model_view": "<post_title>Why do New Yorkers not like their bagels toasted?</post_title>\n<post_body>Where can I find a good toasted bagel in NYC? The famous places I’ve gone to look at me like I’m crazy when I ask for my bagel toasted.\nI tried Edith’s and Russ and Daughters.</post_body>\n<thread_above>\n[1] another user: Because it's like buying a cheeseburger that was cooked to perfection on a BBQ grill and then asking to put it in a microwave while it's still hot and fresh 90% of bagel places worth their salt are cranking out warm bagels consistently through the day. The texture and temp of them baked out of the o ...\n[2] you, earlier: I don’t get toasted bagels, but, like I do at donut shops, I ask what’s the freshest. This is because I’ve gotten a bagel and my friend got a bagel at the same time and the same place and one is warmer and tastier than the other. When I ask this though, I get pretty mixed results. People saying they ...\n[3] another user: >Why is it hard to get this information? I would say it's because the people making the bagels aren't the same people that are working the cash register. So how does a cashier who's busy with the line of customers pay attention to every time the baker comes and dumps some new bagels into the bins? How do they keep track of how long it's been since each type of bagel has been dumped into each bin? I'm sure they have a lot of other things to worry about. If you want a guaranteed hot and fresh bagel go to Pop up bagels on Thompson st. It's a permanent storefront for these guys from Connecticut who make the best bagel I've ever had in my 20 odd years of eating New York bagels. They only make three kinds and they don't make sandwiches or put the cream cheese on for you You can buy a set of three with a schmear and that's it. They're not even cut you just rip into them and dip them in the cream cheese they're so hot and fresh.\n</thread_above>\n<comment_to_extract>\nI will try it, thank you!  I have asked register people as well as the guys literally taking the bagels out of the oven (but not putting them up in the front yet :/ )\n</comment_to_extract>",
+   "context": {
+    "title": "Why do New Yorkers not like their bagels toasted?",
+    "selftext": "Where can I find a good toasted bagel in NYC? The famous places I’ve gone to look at me like I’m crazy when I ask for my bagel toasted.\nI tried Edith’s and Russ and Daughters.",
+    "ancestors": [
+     {
+      "author": "Suitable-Peanut",
+      "body": "Because it's like buying a cheeseburger that was cooked to perfection on a BBQ grill and then asking to put it in a microwave while it's still hot and fresh \n\n90% of bagel places worth their salt are cranking out warm bagels consistently through the day. The texture and temp of them baked out of the oven is the texture and temperature that they were meant to be eaten at.\n\nAlso like someone else commented, it tends to make the cream cheese runnier and weird if it's that hot. To me even a bagel untoasted and a couple hours old is better than a fresh toasted bagel. I prefer chewy over crispy and charred.\n\nThe only bagels that are improved from toasting are ones that weren't good in the first place, or good bagels that you have taken home and frozen for later."
+     },
+     {
+      "author": "mayonuki",
+      "body": "I don’t get toasted bagels, but, like I do at donut shops, I ask what’s the freshest. This is because I’ve gotten a bagel and my friend got a bagel at the same time and the same place and one is warmer and tastier than the other. When I ask this though, I get pretty mixed results. People saying they don’t understand. People saying everything’s fresh and acting annoyed before eventually saying some thing specific. Why is it hard to get this information?  Is there a secret to getting the best?  I’ve found everything’s tend to be worse than average and plains to be better than average."
+     },
+     {
+      "author": "Suitable-Peanut",
+      "body": ">Why is it hard to get this information?\n\nI would say it's because the people making the bagels aren't the same people that are working the cash register. So how does a cashier who's busy with the line of customers pay attention to every time the baker comes and dumps some new bagels into the bins? How do they keep track of how long it's been since each type of bagel has been dumped into each bin? I'm sure they have a lot of other things to worry about.\n\nIf you want a guaranteed hot and fresh bagel go to Pop up bagels on Thompson st. It's a permanent storefront for these guys from Connecticut who make the best bagel I've ever had in my 20 odd years of eating New York bagels. They only make three kinds and they don't make sandwiches or put the cream cheese on for you You can buy a set of three with a schmear and that's it. They're not even cut you just rip into them and dip them in the cream cheese they're so hot and fresh."
+     }
+    ],
+    "author": "mayonuki",
+    "body": "I will try it, thank you!  I have asked register people as well as the guys literally taking the bagels out of the oven (but not putting them up in the front yet :/ )",
+    "replies": [
+     {
+      "author": "btrd_toast",
+      "body": "I second Pop Up. It's amazing."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Pop up bagels",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": "Thompson St",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "untried",
+       "text": "Commenter plans to try it after the recommendation; asked staff at other places about freshness, not here"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels",
+      "hot and fresh"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S073",
+   "comment_id": "t1_i6z1st0",
+   "model_view": "<post_title>Help please! MUST HAVE Food in NYC</post_title>\n<post_body>I’m taking my wife to a Broadway show for our 1 year wedding anniversary and we are staying a few days in the city. I found this sub in hopes that y’all can make this an awesome experience for her. I would like to find out:\n\n-A few places we HAVE to eat while we’re in NYC. (Best pizza, Asian cuisine, hotdog stands, etc.)\n-Things to do on the day of the show while on Broadway.\n- Other fun things to do in NYC!\n\nWe want to get tickets to another show, and we are just looking for some fun things to do on our trip! Thanks in advance!</post_body>\n<comment_to_extract>\nR u familiar with the search function\n</comment_to_extract>",
+   "context": {
+    "title": "Help please! MUST HAVE Food in NYC",
+    "selftext": "I’m taking my wife to a Broadway show for our 1 year wedding anniversary and we are staying a few days in the city. I found this sub in hopes that y’all can make this an awesome experience for her. I would like to find out:\n\n-A few places we HAVE to eat while we’re in NYC. (Best pizza, Asian cuisine, hotdog stands, etc.)\n-Things to do on the day of the show while on Broadway.\n- Other fun things to do in NYC!\n\nWe want to get tickets to another show, and we are just looking for some fun things to do on our trip! Thanks in advance!",
+    "ancestors": [],
+    "author": "gjggbbbhgvbnjhhgvv",
+    "body": "R u familiar with the search function",
+    "replies": [
+     {
+      "author": "nasatrainer",
+      "body": "Hi, looking for best $0.99 slice in NYC. My only criteria is that it has to be real cheese."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S074",
+   "comment_id": "t1_pfj3wc2",
+   "model_view": "<post_title>Petition to help save Taco Mahal</post_title>\n<thread_above>\n[1] another user: Never understood this place. Putting chicken tikka masala inside of a folded naan and calling it Indian-Mexican fusion is hilarious. It's just Indian food, except they made a taco out of the same stuff that you'd normally just eat from a plate. Plenty of better / less gimmicky restaurants came and w ...\n[2] another user: I was so excited a few years back when I saw that they were Mexican-Indian fusion, and then I saw their menu and decided that I didn't need to go there. But now I want an actual Mexican-Indian fusion place because that sounds fire.\n[3] you, earlier: Ages ago there also used to be Goa Taco on the LES making \"paratha tacos\", granted never ate there sober, but damn did it hit the spot some nights. Was also more in the genre of \"let's throw things from one culture in a flatbread and call it fusion\", but like, it did hit...\n[4] another user: Oh wow, thank you for reminding me about Goa Taco. Actually liked those paratha tacos!\n</thread_above>\n<comment_to_extract>\nYeah, Top Hops and Goa Taco was like a fundamental part of my early and mid 20's... Damn do I miss them.\n</comment_to_extract>",
+   "context": {
+    "title": "Petition to help save Taco Mahal",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "CheckItWhileIWreckIt",
+      "body": "Never understood this place. Putting chicken tikka masala inside of a folded naan and calling it Indian-Mexican fusion is hilarious. It's just Indian food, except they made a taco out of the same stuff that you'd normally just eat from a plate. Plenty of better / less gimmicky restaurants came and went over the years in this city.\n\nBesides, don't they already have a second location?"
+     },
+     {
+      "author": "Ancient-Carrot8447",
+      "body": "I was so excited a few years back when I saw that they were Mexican-Indian fusion, and then I saw their menu and decided that I didn't need to go there. But now I want an actual Mexican-Indian fusion place because that sounds fire."
+     },
+     {
+      "author": "IlezAji",
+      "body": "Ages ago there also used to be Goa Taco on the LES making \"paratha tacos\", granted never ate there sober, but damn did it hit the spot some nights.\n\nWas also more in the genre of \"let's throw things from one culture in a flatbread and call it fusion\", but like, it did hit..."
+     },
+     {
+      "author": "lerenardetlarose",
+      "body": "Oh wow, thank you for reminding me about Goa  Taco. Actually liked those paratha tacos!"
+     }
+    ],
+    "author": "IlezAji",
+    "body": "Yeah, Top Hops and Goa Taco was like a fundamental part of my early and mid 20's... Damn do I miss them.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Top Hops",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "beer"
+     ]
+    },
+    {
+     "name": "Goa Taco",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "fusion",
+      "tacos"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S075",
+   "comment_id": "t1_icznqaj",
+   "model_view": "<post_title>I’m coming to NYC from the UK in April 2023 with my wife and 2 kids, it’s my 40th while we’re there and I’d like some suggestions on amazing family friendly restaurants where I can enjoy birthday meal please?! TIA</post_title>\n<thread_above>\n[1] another user: There's hundreds of good options for this. * What do you like to eat? Don't like? Can't eat? What's game breakers for the fam? * How much do you want to/can spend? * Where are you staying? Where are you willing to travel to? * How old are the kids?\n[2] OP: Food wise, no sushi (probably an unpopular opinion 😂) happy with anything else I want it to be something to remember so willing to pay so probably thinking $750 max for all 4 of us We’re staying in Midtown East so happy to go anywhere in lower Manhattan and Williamsburg Kids will be 12 and 9\n[3] another user: $750 for 4 only really puts top end tasting menus out the door, so you have a lot of room to work with. Your kids are also of an age where what will work with them is down to you (I wouldn't have sat still for something fancy at age 9, but my brother 100% would have). The obvious (to me) option is the steakhouse (I'm a fan of a steakhouse for birthdays). Here's a brief rundown of options (if you decide a steakhouse fits the bill. There are plenty of other good options as well): * Keens - classic old school NYC, you're not going to be surprised by anything, but it's an institution. * Quality Meats/Italian - a lot of people are fans, and it's near where you're staying. I liked them, but wasn't blown away. Much more modern. * St. Anselm - My favorite steakhouse in NYC. Setting is very informal, the rib eye is always the thing to get (I think that large format steaks for the table are always the right option at any steakhouse). They really stand out w/ their sides, almost everything comes off their wood burning grill. * Cote - The most unusual, a Korean take on the steakhouse. They have 2 tasting menus that show off a bunch of different cuts, and there's a lot of options for addons (If you do the Butcher's feast, you can add some Wagyu as something special). * 4 Charles for prime rib, good luck getting a rez that's at a time where your kids will be a awake. * This is far from an exhaustive list, but it's a few of the front runners. Also, my current reach for reservations (I need ...\n</thread_above>\n<comment_to_extract>\nid add peter leugers to that steakhouse list!\n</comment_to_extract>",
+   "context": {
+    "title": "I’m coming to NYC from the UK in April 2023 with my wife and 2 kids, it’s my 40th while we’re there and I’d like some suggestions on amazing family friendly restaurants where I can enjoy birthday meal please?! TIA",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "thansal",
+      "body": "There's hundreds of good options for this.\n\n* What do you like to eat? Don't like? Can't eat?  What's game breakers for the fam?\n* How much do you want to/can spend?\n* Where are you staying? Where are you willing to travel to?\n* How old are the kids?"
+     },
+     {
+      "author": "No_Needleworker_2266",
+      "body": "Food wise, no sushi (probably an unpopular opinion 😂) happy with anything else\n\nI want it to be something to remember so willing to pay so probably thinking $750 max for all 4 of us\n\nWe’re staying in Midtown East so happy to go anywhere in lower Manhattan and Williamsburg \n\nKids will be 12 and 9"
+     },
+     {
+      "author": "thansal",
+      "body": "$750 for 4 only really puts top end tasting menus out the door, so you have a lot of room to work with.  Your kids are also of an age where what will work with them is down to you (I wouldn't have sat still for something fancy at age 9, but my brother 100% would have).\n\nThe obvious (to me) option is the steakhouse (I'm a fan of a steakhouse for birthdays).  Here's a brief rundown of options (if you decide a steakhouse fits the bill.  There are plenty of other good options as well):\n\n* Keens - classic old school NYC, you're not going to be surprised by anything, but it's an institution.\n* Quality Meats/Italian - a lot of people are fans, and it's near where you're staying.  I liked them, but wasn't blown away.  Much more modern.\n* St. Anselm - My favorite steakhouse in NYC.  Setting is very informal, the rib eye is always the thing to get (I think that large format steaks for the table are always the right option at any steakhouse).  They really stand out w/ their sides, almost everything comes off their wood burning grill.\n* Cote - The most unusual, a Korean take on the steakhouse. They have 2 tasting menus that show off a bunch of different cuts, and there's a lot of options for addons (If you do the Butcher's feast, you can add some Wagyu as something special).\n* 4 Charles for prime rib, good luck getting a rez that's at a time where your kids will be a awake.\n* This is far from an exhaustive list, but it's a few of the front runners.\n\nAlso, my current reach for reservations (I need to snag a time that works w/ people): Rabbit from Dhamaka.  I'm a huge fan of the restaurant group behind Dhamaka, but haven't been to Dhamaka itself yet, and would love to get their whole rabbit (one a night, book well in advance).\n\nAnd as one April '83 baby to another: happy early birthday :) Now I need to start thinking about what I want to do for my 40th in April as well..."
+     }
+    ],
+    "author": "New_Independent_9221",
+    "body": "id add peter leugers to that steakhouse list!",
+    "replies": [
+     {
+      "author": "stevehobbes",
+      "body": "Are you drunk? Why?"
+     },
+     {
+      "author": "lasagnaman",
+      "body": "Absolutely not, lol"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "peter leugers",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse"
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1196 @@
+{
+ "packet": "r2_005",
+ "items": [
+  {
+   "item_id": "S101",
+   "comment_id": "t1_oumb0bo",
+   "model_view": "<post_title>My girlfriend found at least 3 different roach bodies in her dish at 888 Hudson Thai uptown and just wanted to warn everyone else as it may signal a deeper issue</post_title>\n<post_body>I'd suggest not rolling the dice there. She's on the phone with the inspector. Anyone else know of any other places like this? I wonder if this is like a step up from Jacob's pickles because she used to love that place too but I guess she just has a lot of bad luck</post_body>\n<thread_above>\n[1] another user: Hi. I would like to unsee this please.\n[2] OP: Just eat with the lights off and ignore the gritty texture between your teeth and remember to floss the roach legs from the crevices of your teeth. Luckily they're not cockroaches and luckily at least the food is seasoned well.\n[3] another user: Ever since I was a kid my mom instilled in me never to eat in the dark because you need to be able to see your food. She even told a couple of stories, about people accidentally eating gross stuff in the dark, that I’m pretty sure were urban legends.\n</thread_above>\n<comment_to_extract>\nMy dad's buddy grilled a steak at a campfire once, at night ,and let it sit for a while next to him. When he took a bit he remarked how spicy the sauce is because he felt tingling in his mouth. turns out the steakbgot covered in ants while it was sitting next to him :)\n</comment_to_extract>",
+   "context": {
+    "title": "My girlfriend found at least 3 different roach bodies in her dish at 888 Hudson Thai uptown and just wanted to warn everyone else as it may signal a deeper issue",
+    "selftext": "I'd suggest not rolling the dice there. She's on the phone with the inspector. Anyone else know of any other places like this? I wonder if this is like a step up from Jacob's pickles because she used to love that place too but I guess she just has a lot of bad luck ",
+    "ancestors": [
+     {
+      "author": "iluvplanes208",
+      "body": "Hi. I would like to unsee this please. "
+     },
+     {
+      "author": "ImLearningStuffIHope",
+      "body": "Just eat with the lights off and ignore the gritty texture between your teeth and remember to floss the roach legs from the crevices of your teeth. Luckily they're not cockroaches and luckily at least the food is seasoned well. "
+     },
+     {
+      "author": "KickBallFever",
+      "body": "Ever since I was a kid my mom instilled in me never to eat in the dark because you need to be able to see your food. She even told a couple of stories, about people accidentally eating gross stuff in the dark, that I’m pretty sure were urban legends. "
+     }
+    ],
+    "author": "syringistic",
+    "body": "My dad's buddy grilled a steak at a campfire once, at night ,and let it sit for a while next to him. When he took a bit he remarked how spicy the sauce is because he felt tingling in his mouth. turns out the steakbgot covered in ants while it was sitting next to him :)",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S102",
+   "comment_id": "t1_ow54w4k",
+   "model_view": "<post_title>I know it’s right across from Bryant Park - but $20 for halal cart chicken rice is kinda crazy?</post_title>\n<post_body>Is this how much they all charge in tourist areas? I know most don’t even bother posting prices</post_body>\n<thread_above>\n[1] you, earlier: Wow, I could get a restaurant dinner for $20 before the Biden years. :( That's crazy - $20 for a Philly Cheese \"Stake\".\n[2] another user: you can go to Dallas BBq and get the special two meals for this price\n</thread_above>\n<comment_to_extract>\nI ordered a bucket of wings from Dallas BBQ a couple of months ago.  $23.  It was at most $12 back in 2020, and you can't blame bird flu for it because there's plenty of chickens and eggs now.\n</comment_to_extract>",
+   "context": {
+    "title": "I know it’s right across from Bryant Park - but $20 for halal cart chicken rice is kinda crazy?",
+    "selftext": "Is this how much they all charge in tourist areas? I know most don’t even bother posting prices ",
+    "ancestors": [
+     {
+      "author": "LightenUpPeeps",
+      "body": "Wow, I could get a restaurant dinner for $20 before the Biden years.  :(  That's crazy - $20 for a Philly Cheese \"Stake\"."
+     },
+     {
+      "author": "Good_Split_3749",
+      "body": "you can go to Dallas BBq and get the special two meals for this price"
+     }
+    ],
+    "author": "LightenUpPeeps",
+    "body": "I ordered a bucket of wings from Dallas BBQ a couple of months ago.  $23.  It was at most $12 back in 2020, and you can't blame bird flu for it because there's plenty of chickens and eggs now.  ",
+    "replies": [
+     {
+      "author": "Good_Split_3749",
+      "body": "only one thing to get there, early bird special. One of the best deals in Manhattan. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Dallas BBQ",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "wings",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "Bucket of wings cost $23 a couple of months ago; was at most $12 in 2020"
+      },
+      {
+       "about": "bird flu excuse",
+       "text": "Commenter says bird flu doesn't explain the higher price since chicken and egg supply is plentiful now"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bbq",
+      "wings"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S103",
+   "comment_id": "t1_ktaqmj9",
+   "model_view": "<post_title>Bazaar by Jose Andres</post_title>\n<post_body>I’m going to Bazaar in NYC this weekend. I was wondering if it was worth getting the tasting menu or just order a la carte? Has anyone been there and have a recommendation?</post_body>\n<thread_above>\n[1] another user: horrendous, paying for style, not substance - all the food is oversalted to hide how low qual the ingredients are (so everything tastes about the same). the menu is having an identity crisis, and yes I'm still upset about my experience a month ago - had not had a meal leave such a bad taste in my mo ...\n[2] you, earlier: which tasting menu did you do? the bazaar classic or the Jose creative experience?\n[3] another user: jose creative, but it doesn't really matter - the flavors clash in a pungent mess, with no distinct traits you usually expect from the individual food items coming through. felt like I ate a bunch of the same thing with different textures, and slightly different temperatures. would have been happier paying $50 for a bigmac meal at mcd's\n</thread_above>\n<comment_to_extract>\nDamn lol, thanks for saving me $500+   \n\n\nIt's probably one of those things that in the right hands it could be great but execution is not there right now.  I bet the DC Bazaar or the Vegas one would be more interesting\n</comment_to_extract>",
+   "context": {
+    "title": "Bazaar by Jose Andres",
+    "selftext": "I’m going to Bazaar in NYC this weekend. I was wondering if it was worth getting the tasting menu or just order a la carte? Has anyone been there and have a recommendation?",
+    "ancestors": [
+     {
+      "author": "unisexunicorn",
+      "body": "horrendous, paying for style, not substance - all the food is oversalted to hide how low qual the ingredients are (so everything tastes about the same). the menu is having an identity crisis, and yes I'm still upset about my experience a month ago - had not had a meal leave such a bad taste in my mouth in years (literally and figuratively). the bar / lounge area is nice.. but you're better off going anywhere else with the same spend"
+     },
+     {
+      "author": "MifuneKinski",
+      "body": "which tasting menu did you do? the bazaar classic or the Jose creative experience?"
+     },
+     {
+      "author": "unisexunicorn",
+      "body": "jose creative, but it doesn't really matter - the flavors clash in a pungent mess, with no distinct traits you usually expect from the individual food items coming through. felt like I ate a bunch of the same thing with different textures, and slightly different temperatures. would have been happier paying $50 for a bigmac meal at mcd's"
+     }
+    ],
+    "author": "MifuneKinski",
+    "body": "Damn lol, thanks for saving me $500+   \n\n\nIt's probably one of those things that in the right hands it could be great but execution is not there right now.  I bet the DC Bazaar or the Vegas one would be more interesting",
+    "replies": [
+     {
+      "author": "unisexunicorn",
+      "body": "haha you're most welcome, and perhaps - my friend said the bazaar in vegas was amazing, but I also take his food opinion with a large grain of salt so I cannot say. \n\nyour $500 is definitely much better spent elsewhere, at least for now. if it's japanese you're looking for, or wagyu that doesn't taste like a soggy speed defrost I'd recommend something like EN brasserie"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Bazaar",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tasting menu"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S104",
+   "comment_id": "t1_jbojutb",
+   "model_view": "<post_title>Momofuku Noodle Bar + Ssam bar</post_title>\n<post_body>BF just read Eat A Peach and wants to try Momofuku noodle bar- east vil or Columbus circle? We would wanna do Ssam bar but seems like for 2 it a commitment and a half, and better off with at least 4 people (thoughts)?</post_body>\n<thread_above>\n[1] another user: One of the best thing at Momofuku are the buns, and the dry rubbed wings. The buns are the same at both locations, but the \"good\" wings are only at the Columbus Circle location AFAIK. If that's still true, they're worth the trip on their own imo (the noodle dishes are medicore. The smoked pork ramen is decent). The wings at the east village location really suck IMO.\n</thread_above>\n<comment_to_extract>\nI agree with you. The ramen at Momofuku is subpar. It's all the other dishes that are really great.\n</comment_to_extract>",
+   "context": {
+    "title": "Momofuku Noodle Bar + Ssam bar",
+    "selftext": "BF just read Eat A Peach and wants to try Momofuku noodle bar- east vil or Columbus circle? We would wanna do Ssam bar but seems like for 2 it a commitment and a half, and better off with at least 4 people (thoughts)?",
+    "ancestors": [
+     {
+      "author": "phoenixmatrix",
+      "body": "One of the best thing at Momofuku are the buns, and the dry rubbed wings. The buns are the same at both locations, but the \"good\" wings are only at the Columbus Circle location AFAIK. If that's still true, they're worth the trip on their own imo (the noodle dishes are medicore. The smoked pork ramen is decent). The wings at the east village location really suck IMO."
+     }
+    ],
+    "author": "10throwaway123456789",
+    "body": "I agree with you. The ramen at Momofuku is subpar. It's all the other dishes that are really great.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Momofuku",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "ramen",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ramen",
+      "noodle bar"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S105",
+   "comment_id": "t1_lai5yy2",
+   "model_view": "<post_title>What’s the strangest food you have ever tried in NYC?</post_title>\n<post_body>Basically I am talking about foods that have a strang yet oddly delicious taste as I don’t know how to explain it, but it’s unusual food with a unique flavor to it.</post_body>\n<thread_above>\n[1] you, earlier: A lot of Americans dislike the smell of jackfruit/durian. I personally love it. A couple Thai spots offer durian sticky rice and I love it.\n[2] another user: Yeah get some Durian somewhere. I know Flushing has some. Just won’t be as good as in Malaysia.\n</thread_above>\n<comment_to_extract>\nBest spot unless you order the pricey stuff from Miami Fruit is at Pata Market in Elmhurst. They also have some durian snacks\n</comment_to_extract>",
+   "context": {
+    "title": "What’s the strangest food you have ever tried in NYC?",
+    "selftext": "Basically I am talking about foods that have a strang yet oddly delicious taste as I don’t know how to explain it, but it’s unusual food with a unique flavor to it.",
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A lot of Americans dislike the smell of jackfruit/durian. I personally love it. A couple Thai spots offer durian sticky rice and I love it."
+     },
+     {
+      "author": "Alone-Course3048",
+      "body": "Yeah get some Durian somewhere. I know Flushing has some. Just won’t be as good as in Malaysia."
+     }
+    ],
+    "author": "CabassoG",
+    "body": "Best spot unless you order the pricey stuff from Miami Fruit is at Pata Market in Elmhurst. They also have some durian snacks",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S106",
+   "comment_id": "t1_juzguq6",
+   "model_view": "<post_title>What are the best by the slice pizzas in New York?</post_title>\n<post_body>Most of the places regarded as having the best pizza in New York only serve by the pie. But sometimes I just wanna grab a slice without having to find other people to split it with or ration out over the course of several days. And I personally have not been able to find many lists online that make the distinction between the two.</post_body>\n<comment_to_extract>\nGrandma slice (and only that) at Louie's in Elmhurst.\n</comment_to_extract>",
+   "context": {
+    "title": "What are the best by the slice pizzas in New York?",
+    "selftext": "Most of the places regarded as having the best pizza in New York only serve by the pie. But sometimes I just wanna grab a slice without having to find other people to split it with or ration out over the course of several days. And I personally have not been able to find many lists online that make the distinction between the two.",
+    "ancestors": [],
+    "author": "AcceptableDepth5970",
+    "body": "Grandma slice (and only that) at Louie's in Elmhurst.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Louie's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Elmhurst",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "grandma slice",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "what to order",
+       "text": "get only the grandma slice"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S107",
+   "comment_id": "t1_jp232jo",
+   "model_view": "<post_title>Fireee chopped cheese at Prince Gourmet Deli in queens👌🤘</post_title>\n<thread_above>\n(19 earlier comments not shown)\n[1] OP: Lmfao ohhh you're brain dead, sorry about that son\n[2] you, earlier: again, the irony if you don’t know a word, google is your friend\n[3] OP: Yikess now you're just repeating yourself? Loser alert\n[4] you, earlier: you’re telling on yourself so hard\n[5] OP: Lmaoo what are the odds two retards comment on a post about a sandwich 😆😆I'm crying of laughter\n</thread_above>\n<comment_to_extract>\nOdds are pretty high since it was your post to begin with so you always got one covered.\n\n<quote>I'm crying of laughter</quote>\n\nsureee buddy we can all tell you are seething\n</comment_to_extract>",
+   "context": {
+    "title": "Fireee chopped cheese at Prince Gourmet Deli in queens👌🤘",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Himothy_HimHimolton",
+      "body": "Eww, hell no, throw that shit out before you batch aids"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Are you dumb or are you retarded? You clearly don't have a clue about good deli eats"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "dam bro relax lol"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Lol Nah I'm relaxed, he deserved it ^"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "i mean he was rude yea but like sheesh man"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Nopeee well deserved, I simply return the same energy"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "Nopeee calling someone “retarded” over a sandwich or really in genera is not well adjusted behavior no matter what they said"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Lmaooo😆😆😆ppl act retarded every day and best believe I'ma call them out on it every time"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "enjoy being stuck in 2012 I guess?"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Enjoy being sensitive in 2023 😂"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "i mean i’m not offended it just makes you sound kind of dumb tbh"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Lmaoo bro I really don't care I promise you, like I said I simply return the same energy I receive. Ask stupid questions and you get stupid responses, really simple."
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "you’re responses sure make it seem like you care lol but hey whatever man"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Lol and your responses make it seem like you're offended, but hey whatever man 🥴"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "sure fella"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Cringeee buddy"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "the irony"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Frrrr Sucks to suck right"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "you aren’t helping the dumb allegations with this one lmfao"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Lmfao ohhh you're brain dead, sorry about that son"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "again, the irony\n\nif you don’t know a word, google is your friend"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Yikess now you're just repeating yourself? Loser alert"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "you’re telling on yourself so hard"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Lmaoo what are the odds two retards comment on a post about a sandwich 😆😆I'm crying of laughter"
+     }
+    ],
+    "author": "somethinsbruin",
+    "body": "Odds are pretty high since it was your post to begin with so you always got one covered.\n\n>I'm crying of laughter\n\nsureee buddy we can all tell you are seething",
+    "replies": [
+     {
+      "author": "BarlosAndres",
+      "body": "Lol Seething about what? You're clearly mad bc you felt the need to defend that other retard, now look at you now. Two peas in a pod"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S108",
+   "comment_id": "t1_kw2h0vc",
+   "model_view": "<post_title>Restaurants that you miss in NYC?</post_title>\n<post_body>This is not a recommendation thread, but rather I just wanted to see if there were any defunct places that people missed dining in as that's all I wanted to discuss.\n\n&#x200B;\n\nFor instance, a place that I miss dining in was Pizza D'Amore in Avenue U as they made really good pizza there, but recently they had closed down, but I did enjoy their food.</post_body>\n<thread_above>\n[1] you, earlier: Hillstone on 54th street, Taboon, Daddy O, Takashi\n[2] another user: Taboons reopening next week! Wooooooo. New name same chef\n[3] you, earlier: Thats awesome to hear. Same location?\n[4] another user: yeah! It's BEAUTIFUL! They had a private party/soft opening last night, it looked great. I used to live next door and would go a few times a week. I still work a few blocks away so I'm gonna try and make it opening night on the 27th!\n</thread_above>\n<comment_to_extract>\nSo glad to hear it\n</comment_to_extract>",
+   "context": {
+    "title": "Restaurants that you miss in NYC?",
+    "selftext": "This is not a recommendation thread, but rather I just wanted to see if there were any defunct places that people missed dining in as that's all I wanted to discuss.\n\n&#x200B;\n\nFor instance, a place that I miss dining in was Pizza D'Amore in Avenue U as they made really good pizza there, but recently they had closed down, but I did enjoy their food.",
+    "ancestors": [
+     {
+      "author": "QnsPrince",
+      "body": "Hillstone on 54th street, Taboon, Daddy O, Takashi"
+     },
+     {
+      "author": "hotdogaholic",
+      "body": "Taboons reopening next week!   Wooooooo.  New name same chef"
+     },
+     {
+      "author": "QnsPrince",
+      "body": "Thats awesome to hear. Same location?"
+     },
+     {
+      "author": "hotdogaholic",
+      "body": "yeah!  It's BEAUTIFUL!  They had a private party/soft opening last night, it looked great.  \n\nI used to live next door and would go a few times a week.  I still work a few blocks away so I'm gonna try and make it opening night on the 27th!"
+     }
+    ],
+    "author": "QnsPrince",
+    "body": "So glad to hear it",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S109",
+   "comment_id": "t1_j7a8w7v",
+   "model_view": "<post_title>I plan on seeing NY through pizza.</post_title>\n<post_body>1. John's\n2. Di Fara\n3. Scarr's\n4. Emmy Squared\n5. Emily\n6. Patsy's\n7. Newpark\n8. Rubirosa\n9. Rizzo's\n10. Lombardi's\n11. L & B Spumoni\n12. Prince Street\n13. Bleecker Street\n14. Roberta's\n15. Joe's\n16. Artichoke\n17. Emmett's\n18. Lucali\n19. Julian's\n20. Grimaldi's\n21. Sauce\n22. Totonno's \n23. Sac's Place\n24. Keste\n25. Umberto's\n26. Fazio's\n27. Ignazio's\n28. Williamsburg\n29. Joe & Pat's\n30. Denino's\n31. Rose's\n32. Rosie's\n33. Nick's\n34. Sorrento's\n35. Rose & Joe's\n36. Luigi's\n37. Pelham \n\nAny I should add/omit?</post_body>\n<thread_above>\n[1] another user: L’industrie might be the best in the city and didn’t even make the list lol. Also Best Pizza in WB is excellent and about a 7 min walk from Lindustrie\n</thread_above>\n<comment_to_extract>\nI got a slice from L’Industrie recently and was not impressed whatsoever. Cannot believe how many people hail it as the city’s best. It’s not bad obviously, but out of all the notorious spots I’ve had here, it’s by far the biggest let down\n</comment_to_extract>",
+   "context": {
+    "title": "I plan on seeing NY through pizza.",
+    "selftext": "1. John's\n2. Di Fara\n3. Scarr's\n4. Emmy Squared\n5. Emily\n6. Patsy's\n7. Newpark\n8. Rubirosa\n9. Rizzo's\n10. Lombardi's\n11. L & B Spumoni\n12. Prince Street\n13. Bleecker Street\n14. Roberta's\n15. Joe's\n16. Artichoke\n17. Emmett's\n18. Lucali\n19. Julian's\n20. Grimaldi's\n21. Sauce\n22. Totonno's \n23. Sac's Place\n24. Keste\n25. Umberto's\n26. Fazio's\n27. Ignazio's\n28. Williamsburg\n29. Joe & Pat's\n30. Denino's\n31. Rose's\n32. Rosie's\n33. Nick's\n34. Sorrento's\n35. Rose & Joe's\n36. Luigi's\n37. Pelham \n\nAny I should add/omit?",
+    "ancestors": [
+     {
+      "author": "kissmyash24",
+      "body": "L’industrie might be the best in the city and didn’t even make the list lol. Also Best Pizza in WB is excellent and about a 7 min walk from Lindustrie"
+     }
+    ],
+    "author": "Khal-Stevo",
+    "body": "I got a slice from L’Industrie recently and was not impressed whatsoever. Cannot believe how many people hail it as the city’s best. It’s not bad obviously, but out of all the notorious spots I’ve had here, it’s by far the biggest let down",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "L’Industrie",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "slice",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "reputation",
+       "text": "Commenter says it's widely hailed as the city's best but found it a big let down; says it's not bad."
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "slice shop",
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S110",
+   "comment_id": "t1_leunkyh",
+   "model_view": "<post_title>One night only. Best place to grab a burger on a Sunday?</post_title>\n<post_body>My cousin and I are coming into town and hitting the comedy cellar for some shows Sunday night on the way to Philly in a few weeks. Looking for a good recommendation for a place a good burger and an atmosphere (or nearby neighborhood atmosphere) for some Sunday day drinking in the city.  Looking at Minetta, Au Cheval, and Redhook right now.  Will be there August 4, if that helps.  We’re into the neighborhood bar, good vibes, reasonable drinks, outside if possible kind of situations… \n\n\nWe’re coming in from the Midwest and know nothing about anything, so be kind! Haha \n\n\nThanks everyone!</post_body>\n<thread_above>\n[1] another user: Take Red Hook Tavern off your list due to travel time alone - that neighborhood is isolated and not very transit accessible compared to other great burger options. With one night only, minimize travel time and stay in Manhattan.\n</thread_above>\n<comment_to_extract>\nRed Hook is actually really accessible if you use the NYC Ferry from Pier 11/ Wall St. It’s a nice ride with great views of bridges, lower Manhattan and Brooklyn. It’s also the first stop, which is a 10 min ride and then a short walk from there. So I think it’s probably worth it.\n</comment_to_extract>",
+   "context": {
+    "title": "One night only. Best place to grab a burger on a Sunday?",
+    "selftext": "My cousin and I are coming into town and hitting the comedy cellar for some shows Sunday night on the way to Philly in a few weeks. Looking for a good recommendation for a place a good burger and an atmosphere (or nearby neighborhood atmosphere) for some Sunday day drinking in the city.  Looking at Minetta, Au Cheval, and Redhook right now.  Will be there August 4, if that helps.  We’re into the neighborhood bar, good vibes, reasonable drinks, outside if possible kind of situations… \n\n\nWe’re coming in from the Midwest and know nothing about anything, so be kind! Haha \n\n\nThanks everyone! ",
+    "ancestors": [
+     {
+      "author": "chipperclocker",
+      "body": "Take Red Hook Tavern off your list due to travel time alone - that neighborhood is isolated and not very transit accessible compared to other great burger options. With one night only, minimize travel time and stay in Manhattan."
+     }
+    ],
+    "author": "gary_a_gooner",
+    "body": "Red Hook is actually really accessible if you use the NYC Ferry from Pier 11/ Wall St. It’s a nice ride with great views of bridges, lower Manhattan and Brooklyn. It’s also the first stop, which is a 10 min ride and then a short walk from there. So I think it’s probably worth it.",
+    "replies": [
+     {
+      "author": "ZombieLifter",
+      "body": "I actually did this on a weekend for fun once. I highly recommend it. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Red Hook Tavern",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Red Hook, Brooklyn",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "getting there",
+       "text": "Reachable by NYC Ferry from Pier 11/Wall St, first stop, about a 10 min ride plus a short walk; nice views"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "S111",
+   "comment_id": "t1_oyl429b",
+   "model_view": "<post_title>Do you have a recommendation for an Italian restaurant in New York City?</post_title>\n<post_body>I am traveling to New York City in October and staying there for 4 nights. Does anyone have a recommendation on where to eat for high quality Italian food?</post_body>\n<comment_to_extract>\nIl Posto Accanto in East Village is the best homestyle Italian food I’ve had in NYC.  Go on Sundays especially, when they have lasagna.\n</comment_to_extract>",
+   "context": {
+    "title": "Do you have a recommendation for an Italian restaurant in New York City?",
+    "selftext": "I am traveling to New York City in October and staying there for 4 nights. Does anyone have a recommendation on where to eat for high quality Italian food? ",
+    "ancestors": [],
+    "author": "djs-code",
+    "body": "Il Posto Accanto in East Village is the best homestyle Italian food I’ve had in NYC.  Go on Sundays especially, when they have lasagna.",
+    "replies": [
+     {
+      "author": "chocolatesalad4",
+      "body": "Agreed, it’s fantastic "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Il Posto Accanto",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "East Village",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "lasagna",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "best day to go",
+       "text": "Go on Sundays, when they have lasagna"
+      }
+     ],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian",
+      "homestyle italian"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S112",
+   "comment_id": "t1_l6l7z0j",
+   "model_view": "<post_title>Anyone ever go to Rockaway Queens for the seafood?</post_title>\n<post_body>Just curious if anyone ever enjoys going to that specific area of NYC as how do I put it? I feel like there is some good seafood found over there, but I don’t know how to explain it, but the little island has some wonderful dining spots.</post_body>\n<thread_above>\n[1] another user: I would rather go out further out into long island to get \"fresher\" seafood if I to pick a region of NYC for that.\n[2] OP: That’s fine as I respect your decision.\n[3] another user: Go to Astoria Seafood , Abuqir or Sabrys. I can vouch that everything’s super fresh and you get decent value\n[4] OP: Thanks as I can go there for that kind of food as I enjoy stuff like shrimp.\n</thread_above>\n<comment_to_extract>\nNYC has no local shrimp, so a restaurant's location has no impact on the freshness of shrimp. (Rare exceptions for those extremely few places that bring in, for example, sweet shrimp from Maine... but that's different.) I do wish more places served local seafood in general, but lots of customers don't know or appreciate the difference.\n</comment_to_extract>",
+   "context": {
+    "title": "Anyone ever go to Rockaway Queens for the seafood?",
+    "selftext": "Just curious if anyone ever enjoys going to that specific area of NYC as how do I put it? I feel like there is some good seafood found over there, but I don’t know how to explain it, but the little island has some wonderful dining spots.",
+    "ancestors": [
+     {
+      "author": "killerasp",
+      "body": "I would rather go out further out into long island to get \"fresher\" seafood if I to pick a region of NYC for that."
+     },
+     {
+      "author": "KaleidoArachnid",
+      "body": "That’s fine as I respect your decision."
+     },
+     {
+      "author": "grackychan",
+      "body": "Go to Astoria Seafood , Abuqir or Sabrys. I can vouch that everything’s super fresh and you get decent value"
+     },
+     {
+      "author": "KaleidoArachnid",
+      "body": "Thanks as I can go there for that kind of food as I enjoy stuff like shrimp."
+     }
+    ],
+    "author": "naranja_sanguina",
+    "body": "NYC has no local shrimp, so a restaurant's location has no impact on the freshness of shrimp. (Rare exceptions for those extremely few places that bring in, for example, sweet shrimp from Maine... but that's different.) I do wish more places served local seafood in general, but lots of customers don't know or appreciate the difference.",
+    "replies": [
+     {
+      "author": "KaleidoArachnid",
+      "body": "Oh I didn’t know that actually."
+     },
+     {
+      "author": "natty_points",
+      "body": "It’s worth seeking out [local royal red shrimp (eater article)](https://ny.eater.com/2024/4/23/24138326/royal-red-shrimp-dock-to-dish-greenpoint-fish-and-lobster-long-island) if you’re curious! They harvest off of Montauk."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S113",
+   "comment_id": "t1_k31e9dq",
+   "model_view": "<post_title>Best NY Style Pizza - Sit Down Dining, Whole Pie</post_title>\n<post_body>Hi all,\n\nLooking for recommendations for the best place for a NY Style Pizza when we visit next month. We want to sit down and order a pie, not grab a slice and go. We'll be staying in China Town so lower Manhattan would be ideal. Tempted to go for Scarr's but I've read mixed opinions. Any better places to check out?\n\nAppreciate any pointers.</post_body>\n<thread_above>\n[1] you, earlier: Hands down go to Rubirosa. Book in advance on Resy as it’s hard to get into. It’s right on Mulberry St near where you will be. You won’t be disappointed. I practically live in this place. The pizza and pasta is probably the best in the area.\n[2] another user: I think emporio one street over is actuslly even better\n</thread_above>\n<comment_to_extract>\nHi. Sitting in Emporio right now. The pizza is definitely good, thank you for the recommendation and I will return here but I think Rubirosa is better.\nJust my opinion.\nThank you again, it is really good.\n</comment_to_extract>",
+   "context": {
+    "title": "Best NY Style Pizza - Sit Down Dining, Whole Pie",
+    "selftext": "Hi all,\n\nLooking for recommendations for the best place for a NY Style Pizza when we visit next month. We want to sit down and order a pie, not grab a slice and go. We'll be staying in China Town so lower Manhattan would be ideal. Tempted to go for Scarr's but I've read mixed opinions. Any better places to check out?\n\nAppreciate any pointers.",
+    "ancestors": [
+     {
+      "author": "Hopeful-Mirror1664",
+      "body": "Hands down go to Rubirosa. Book in advance on Resy as it’s hard to get into. It’s right on Mulberry St near where you will be. You won’t be disappointed.\nI practically live in this place. The pizza and pasta is probably the best in the area."
+     },
+     {
+      "author": "willb",
+      "body": "I think emporio one street over is actuslly even better"
+     }
+    ],
+    "author": "Hopeful-Mirror1664",
+    "body": "Hi. Sitting in Emporio right now. The pizza is definitely good, thank you for the recommendation and I will return here but I think Rubirosa is better.\nJust my opinion.\nThank you again, it is really good.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Emporio",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pizza",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "sit down"
+     ]
+    },
+    {
+     "name": "Rubirosa",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "sit down"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S114",
+   "comment_id": "t1_jrxn2ej",
+   "model_view": "<post_title author=\"you\">Weekend in NYC - need recommendations!</post_title>\n<post_body author=\"you\">Hey everyone! \n\nI’ll be in NYC for the weekend of the 28th, and I’ll be staying in Greenwich Village West. I’d like a recco for some of the best eats in the city for different categories. Here’s my list so far, thoughts? \n\nRESTAURANTS \nLILIA (already booked the reservation)\n\nPIZZA\nJohn’s of Bleeker\nMama’s Too \nJoe’s\nScarr’s \nUna (thinking of getting a reservation, thoughts?)\n\n\nDINERS\nLabonbonnier\nWah Fung Fast Food (Chinese)\nXi’An Famous Foods\n\nSWEETS\nMah Ze Der Bakery\nMagnolia Banana Pudding\nYeh’s bakery\nJoe’s Sicilian bakery\nSuper moon bakery\n\nI’d like more recommendations for sweets, maybe donuts? Or other really incredible eats in the city!</post_body>\n<thread_above>\n[1] another user: Out of sheer curiosity, by \"Greenwich Village West,\" do you mean the West Village?\n</thread_above>\n<comment_to_extract>\nYes! Sorry, I’m not familiar with the proper names of neighbourhoods yet!\n</comment_to_extract>",
+   "context": {
+    "title": "Weekend in NYC - need recommendations!",
+    "selftext": "Hey everyone! \n\nI’ll be in NYC for the weekend of the 28th, and I’ll be staying in Greenwich Village West. I’d like a recco for some of the best eats in the city for different categories. Here’s my list so far, thoughts? \n\nRESTAURANTS \nLILIA (already booked the reservation)\n\nPIZZA\nJohn’s of Bleeker\nMama’s Too \nJoe’s\nScarr’s \nUna (thinking of getting a reservation, thoughts?)\n\n\nDINERS\nLabonbonnier\nWah Fung Fast Food (Chinese)\nXi’An Famous Foods\n\nSWEETS\nMah Ze Der Bakery\nMagnolia Banana Pudding\nYeh’s bakery\nJoe’s Sicilian bakery\nSuper moon bakery\n\nI’d like more recommendations for sweets, maybe donuts? Or other really incredible eats in the city!",
+    "ancestors": [
+     {
+      "author": "bkrunnergirl25",
+      "body": "Out of sheer curiosity, by \"Greenwich Village West,\" do you mean the West Village?"
+     }
+    ],
+    "author": "Brenkin",
+    "body": "Yes! Sorry, I’m not familiar with the proper names of neighbourhoods yet!",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S115",
+   "comment_id": "t1_o1y1my9",
+   "model_view": "<post_title>Reservation Sales Thread - **READ BEFORE POSTING!!**</post_title>\n<post_body>This thread exists *solely* to create a space for people to avoid losing their deposits on pre-paid meals. Gouging is not tolerated on this subreddit. The below rules exist to ensure it stays that way. Read them before posting because violations can lead to an immediate permanent ban.  \n\n1. This thread is the only place on the subreddit for selling restaurant reservations. You may not ask to buy reservations.\n2. You may ONLY sell non-refundable reservations for below or equal to face value. (plus all taxes and fees)\n3. You must clearly state both the price you paid and the price you're looking for in the post.\n4. We do not know every restaurant's deposit and cancellation policies. If you do not make it clear that you're operating by the rules above, we will assume you're not. \n\nGood post:\n\n> I have a table for 4 at Eleven Madison Park at 8:30 PM on Sunday, February 3rd. Tickets are nonrefundable and a business emergency came up. Paid $1589.58, willing to take $1200 OBO. Transfer on Resy.\n\nBad post:\n\n> Got a table for 2 at 4 Charles. DM for details.\n\nThe mods of [/r/FoodNYC](https://old.reddit.com/r/FoodNYC) accept no responsibility for these transactions. Tock and Resy both allow t ...</post_body>\n<thread_above>\n[1] another user: Atomix Chef's Table for 1 person Tuesday, February 10, 5:30 pm Paid $466.09, asking the same. Transfer on Tock. Can't make it because of an important work event. .\n</thread_above>\n<comment_to_extract>\nUnable to DM you\n</comment_to_extract>",
+   "context": {
+    "title": "Reservation Sales Thread - **READ BEFORE POSTING!!**",
+    "selftext": "This thread exists *solely* to create a space for people to avoid losing their deposits on pre-paid meals. Gouging is not tolerated on this subreddit. The below rules exist to ensure it stays that way. Read them before posting because violations can lead to an immediate permanent ban.  \n\n1. This thread is the only place on the subreddit for selling restaurant reservations. You may not ask to buy reservations.\n2. You may ONLY sell non-refundable reservations for below or equal to face value. (plus all taxes and fees)\n3. You must clearly state both the price you paid and the price you're looking for in the post.\n4. We do not know every restaurant's deposit and cancellation policies. If you do not make it clear that you're operating by the rules above, we will assume you're not. \n\nGood post:\n\n> I have a table for 4 at Eleven Madison Park at 8:30 PM on Sunday, February 3rd. Tickets are nonrefundable and a business emergency came up. Paid $1589.58, willing to take $1200 OBO. Transfer on Resy.\n\nBad post:\n\n> Got a table for 2 at 4 Charles. DM for details.\n\nThe mods of [/r/FoodNYC](https://old.reddit.com/r/FoodNYC) accept no responsibility for these transactions. Tock and Resy both allow transfers on the website - if someone tells you otherwise it's a scam. Do your own research on your transaction before handing over any money to a third party. Check with the restaurant, check account ages, meet in person if feasible.",
+    "ancestors": [
+     {
+      "author": "Toutress",
+      "body": "Atomix Chef's Table for 1 person\nTuesday, February 10, 5:30 pm\nPaid $466.09, asking the same. \nTransfer on Tock.\nCan't make it because of an important work event. ."
+     }
+    ],
+    "author": "inatcto",
+    "body": "Unable to DM you",
+    "replies": [
+     {
+      "author": "Toutress",
+      "body": "Just messaged"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S116",
+   "comment_id": "t1_nfsgev5",
+   "model_view": "<post_title>Best dishes/dumplings in Flushing</post_title>\n<comment_to_extract>\nThe best dumplings in flushing are at New Northern Dumpling King at 41-22 Main St, you must order their chive dumplings! I also really like their chive and egg bao but it’s always sold out by the afternoon fyi\n</comment_to_extract>",
+   "context": {
+    "title": "Best dishes/dumplings in Flushing",
+    "selftext": "[removed]",
+    "ancestors": [],
+    "author": "pocariz",
+    "body": "The best dumplings in flushing are at New Northern Dumpling King at 41-22 Main St, you must order their chive dumplings! I also really like their chive and egg bao but it’s always sold out by the afternoon fyi",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "New Northern Dumpling King",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "41-22 Main St, Flushing",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "chive dumplings",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "chive and egg bao",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "sells out",
+       "text": "Chive and egg bao is always sold out by the afternoon."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "dumplings",
+      "bao"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S117",
+   "comment_id": "t1_j2c2c8r",
+   "model_view": "<post_title>What’s a restaurant in NYC that is unlike anything else on earth?</post_title>\n<post_body>I’m talking 4charles burgers (except Chicago), prince street pizza, (except LA), that sandwich place in Times Square (except Italy)</post_body>\n<comment_to_extract>\nLove it or hate it, Serendipity 3.\n</comment_to_extract>",
+   "context": {
+    "title": "What’s a restaurant in NYC that is unlike anything else on earth?",
+    "selftext": "I’m talking 4charles burgers (except Chicago), prince street pizza, (except LA), that sandwich place in Times Square (except Italy)",
+    "ancestors": [],
+    "author": "DawgsWorld",
+    "body": "Love it or hate it, Serendipity 3.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Serendipity 3",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "polarizing",
+       "text": "Commenter says people either love it or hate it."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "S118",
+   "comment_id": "t1_ncwewhl",
+   "model_view": "<post_title>Where are the service industry peeps dining?</post_title>\n<post_body>When I travel, I love asking my bartenders and servers where they love to get booze and/or bites!!\n\nComing in October and I don’t really care to hit the #1 spots: the carbones, etc. \n\nThank you!</post_body>\n<comment_to_extract>\nlol dive bars that are open\n</comment_to_extract>",
+   "context": {
+    "title": "Where are the service industry peeps dining?",
+    "selftext": "When I travel, I love asking my bartenders and servers where they love to get booze and/or bites!!\n\nComing in October and I don’t really care to hit the #1 spots: the carbones, etc. \n\nThank you! ",
+    "ancestors": [],
+    "author": "andthrewaway1",
+    "body": "lol dive bars that are open",
+    "replies": [
+     {
+      "author": "JelloDarkness",
+      "body": "You're EATING at the dive bars?!"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S119",
+   "comment_id": "t1_mgujmi3",
+   "model_view": "<post_title>Brennan and Carr may not be fancy but this place is iconic for a reason</post_title>\n<post_body>Roast beef with onions dipped , cheese fries and the coldest bud I’ve ever had .</post_body>\n<comment_to_extract>\nI need to get down there. It's further from the subway than I'd like, but that didn't stop me from getting to Roll-N-Roaster (of which I have a higher opinion than you)\n</comment_to_extract>",
+   "context": {
+    "title": "Brennan and Carr may not be fancy but this place is iconic for a reason",
+    "selftext": "Roast beef with onions dipped , cheese fries and the coldest bud I’ve ever had .",
+    "ancestors": [],
+    "author": "eldersveld",
+    "body": "I need to get down there. It's further from the subway than I'd like, but that didn't stop me from getting to Roll-N-Roaster (of which I have a higher opinion than you)",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Roll-N-Roaster",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Commenter has a higher opinion of it than the post's author"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "roast beef"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "S120",
+   "comment_id": "t1_leyz6yk",
+   "model_view": "<post_title>Family friendly yet trendy recs</post_title>\n<post_body>My mom, sister and niece (ages 27-75) are visiting in Sept and my bf and I want to do a brunch/lunch before the Mets game that weekend - either in midtown (to stay close to GC) or downtown/tribeca. Would love something with a view or on the water. Will be in game attire so casual yet trendy. Any recs? I’m stuck on my go to spots on Pazza Notte and City Vineyard but want to branch out. No Chinese cuisine please as we will be doing dinner in Flushjng after the game! Thank you!</post_body>\n<comment_to_extract>\nABCV by Jean Georges!\n</comment_to_extract>",
+   "context": {
+    "title": "Family friendly yet trendy recs",
+    "selftext": "My mom, sister and niece (ages 27-75) are visiting in Sept and my bf and I want to do a brunch/lunch before the Mets game that weekend - either in midtown (to stay close to GC) or downtown/tribeca. Would love something with a view or on the water. Will be in game attire so casual yet trendy. Any recs? I’m stuck on my go to spots on Pazza Notte and City Vineyard but want to branch out. No Chinese cuisine please as we will be doing dinner in Flushjng after the game! Thank you!",
+    "ancestors": [],
+    "author": "Special-Guidance5659",
+    "body": "ABCV by Jean Georges!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "ABCV by Jean Georges",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "S121",
+   "comment_id": "t1_kw04iay",
+   "model_view": "<post_title>Where can I get tacos de canasta?</post_title>\n<post_body>I love basket tacos (tacos de canasta) like you can get at Los Especiales in Mexico City. Where can I get those here? Willing to travel anywhere via subway for them.</post_body>\n<thread_above>\n[1] you, earlier: Aldama\n[2] OP: I’m looking at the menu and don’t see basket tacos on there. Is it something you have to ask for?\n</thread_above>\n<comment_to_extract>\nTacos de canasta\n</comment_to_extract>",
+   "context": {
+    "title": "Where can I get tacos de canasta?",
+    "selftext": "I love basket tacos (tacos de canasta) like you can get at Los Especiales in Mexico City. Where can I get those here? Willing to travel anywhere via subway for them. ",
+    "ancestors": [
+     {
+      "author": "Cartadimusica",
+      "body": "Aldama"
+     },
+     {
+      "author": "DMmepicsofyourdog",
+      "body": "I’m looking at the menu and don’t see basket tacos on there. Is it something you have to ask for?"
+     }
+    ],
+    "author": "Cartadimusica",
+    "body": "Tacos de canasta",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S122",
+   "comment_id": "t1_pahn584",
+   "model_view": "<post_title>$16.50 for 1 potato @ abc cocina. absolutely absurd</post_title>\n<post_body>understand every restaurant has to pay their rent! but this feels nuts. on the bright side, they do throw in 1/2 a lime to sweeten the deal!</post_body>\n<comment_to_extract>\nWow having a minority hand deliver you a single cooked potato is expensive? I’m hearing this for the first time.\n</comment_to_extract>",
+   "context": {
+    "title": "$16.50 for 1 potato @ abc cocina. absolutely absurd",
+    "selftext": "understand every restaurant has to pay their rent! but this feels nuts. on the bright side, they do throw in 1/2 a lime to sweeten the deal! ",
+    "ancestors": [],
+    "author": "BombardierIsTrash",
+    "body": "Wow having a minority hand deliver you a single cooked potato is expensive? I’m hearing this for the first time.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S123",
+   "comment_id": "t1_lhjwmmu",
+   "model_view": "<post_title>You blink in this city and you’re done</post_title>\n<post_body>Two friends. And me. Regular spot in Chelsea - not even a tourist trap. 2 orders of wings, 2 beers, 1 entree, 1 cocktail. $129. No tip. \n\nGood luck to everyone. I’m done done going out. ✌️</post_body>\n<comment_to_extract>\nHow much did you expect to pay? lol.\n</comment_to_extract>",
+   "context": {
+    "title": "You blink in this city and you’re done",
+    "selftext": "Two friends. And me. Regular spot in Chelsea - not even a tourist trap. 2 orders of wings, 2 beers, 1 entree, 1 cocktail. $129. No tip. \n\nGood luck to everyone. I’m done done going out. ✌️",
+    "ancestors": [],
+    "author": "banallthemusic",
+    "body": "How much did you expect to pay? lol.",
+    "replies": [
+     {
+      "author": "Odd_Firefighter_5407",
+      "body": "$80-$90. Not $130."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S124",
+   "comment_id": "t1_omnck7w",
+   "model_view": "<post_title>Soon to be First time in NYC as an Irish person. Im doing a lot of research into restaurants and was looking for some advice on a couple of things.</post_title>\n<post_body>(Have exhausted this subreddit for reference just looking for some fresh views)\n\nI Will be staying in Hells kitchen in September and I am very excited but finding the research overwhelming with the sheer amount of what appears to be very nice places to eat.\n\nThe budget for eating would be moderate but would be willing to spend up for things that are REALLY worth it for one or two special dinners.\n\nIs it recommended to always book a restaurant in NYC?\n\nSteak restaurants. Would you recommend going to one of the famous, white table cloth old timey steak places or are there any more \" normal \" more casual places that hold their own.\n\nBreakfast.  American style breakfast is similar but differs to Ireland and I wouldn't mind experiencing some elements of the traditional Dinner style breakfasts perhaps with good quality. Perhaps somewhere close to hells kitchen or midtown of anyone has any suggestions of popular places or hidden gems.\n\nLastly recommendations for Bistro style restaurants. At least  that's how what I'd call them here. The type of place that would have steak, chicken dishes, fish for mains and things like soup, fishcakes etc. for Starters.\n\nIf you were in my shoes, you're st ...</post_body>\n<thread_above>\n[1] another user: What's up mate, not sure what your vibe is but NYC has some of the most diverse cuisine in the world. If I were a tourist, I'd look to try some food that might be a bit tougher to get back home. If you're interested in some slightly more mid-priced spots that punch above their weight, there are so many recommendations. Not to mention that some of the best food in the city is outside of Manhattan! Feel free to message me for some spots, and 26+6=1.\n</thread_above>\n<comment_to_extract>\nYea Hell's Kitchen alone has incredible Thai food.\n</comment_to_extract>",
+   "context": {
+    "title": "Soon to be First time in NYC as an Irish person. Im doing a lot of research into restaurants and was looking for some advice on a couple of things.",
+    "selftext": "(Have exhausted this subreddit for reference just looking for some fresh views)\n\nI Will be staying in Hells kitchen in September and I am very excited but finding the research overwhelming with the sheer amount of what appears to be very nice places to eat.\n\nThe budget for eating would be moderate but would be willing to spend up for things that are REALLY worth it for one or two special dinners.\n\nIs it recommended to always book a restaurant in NYC?\n\nSteak restaurants. Would you recommend going to one of the famous, white table cloth old timey steak places or are there any more \" normal \" more casual places that hold their own.\n\nBreakfast.  American style breakfast is similar but differs to Ireland and I wouldn't mind experiencing some elements of the traditional Dinner style breakfasts perhaps with good quality. Perhaps somewhere close to hells kitchen or midtown of anyone has any suggestions of popular places or hidden gems.\n\nLastly recommendations for Bistro style restaurants. At least  that's how what I'd call them here. The type of place that would have steak, chicken dishes, fish for mains and things like soup, fishcakes etc. for Starters.\n\nIf you were in my shoes, you're staying in Hells kitchen, you have a. Reservation in the evening for a place in lower Manhattan, how would you travel there. Uber, subway etc \n\nThank you to anyone who replies and I will definitely be researching any and all recommendations. Apologies if my questions are noobie. ",
+    "ancestors": [
+     {
+      "author": "RealXavierMcCormick",
+      "body": "What's up mate, not sure what your vibe is but NYC has some of the most diverse cuisine in the world. If I were a tourist, I'd look to try some food that might be a bit tougher to get back home.\n\nIf you're interested in some slightly more mid-priced spots that punch above their weight, there are so many recommendations. Not to mention that some of the best food in the city is outside of Manhattan!\n\nFeel free to message me for some spots, and 26+6=1."
+     }
+    ],
+    "author": "justflipping",
+    "body": "Yea Hell's Kitchen alone has incredible Thai food.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "S125",
+   "comment_id": "t1_ior1bqh",
+   "model_view": "<post_title>best fried chicken in NYC?</post_title>\n<comment_to_extract>\nReally depends if we're talking Southern fried chicken, Korean fried chicken, japanese karaage, etc\n\nSome of my faves, in no particular order:\n\n- blue ribbon fried chicken \n\n- pelicana\n\n- Jollibee\n\n- chochin was a hidden Japanese izakaya on E 93rd St with the best karaage, but unfortunately they didn't survive COVID. I never found a good replacement since then and am taking all the suggestions.\n</comment_to_extract>",
+   "context": {
+    "title": "best fried chicken in NYC?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "CasinoMagic",
+    "body": "Really depends if we're talking Southern fried chicken, Korean fried chicken, japanese karaage, etc\n\nSome of my faves, in no particular order:\n\n- blue ribbon fried chicken \n\n- pelicana\n\n- Jollibee\n\n- chochin was a hidden Japanese izakaya on E 93rd St with the best karaage, but unfortunately they didn't survive COVID. I never found a good replacement since then and am taking all the suggestions.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "blue ribbon fried chicken",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "fried chicken",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "southern fried chicken",
+      "fried chicken"
+     ]
+    },
+    {
+     "name": "pelicana",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "korean fried chicken"
+     ]
+    },
+    {
+     "name": "Jollibee",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "fast food",
+      "filipino"
+     ]
+    },
+    {
+     "name": "chochin",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "E 93rd St",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "karaage",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "closed",
+       "text": "Did not survive COVID; the commenter has not found a good replacement since."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "izakaya",
+      "japanese",
+      "hidden gem"
+     ]
+    }
+   ]
+  }
+ ]
+}
