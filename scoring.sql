@@ -381,6 +381,11 @@ order by entity_key,
 -- ---------------------------------------------------------------------------
 -- 4. Longevity. Undecayed and weight-free on purpose: this axis asks whether a
 --    place has been *present* for years, not how loudly it was discussed.
+--
+--    Months and gaps are grouped once and joined, not looked up per entity.
+--    The correlated subqueries this used to run rescanned every entity's
+--    months for each of ~28k entities, which made building entity_leaderboard
+--    take two minutes on production; grouped, it is seconds, same rows.
 -- ---------------------------------------------------------------------------
 create or replace view entity_longevity as
 with active_months as (
@@ -397,6 +402,16 @@ gaps as (
          month_idx - lag(month_idx) over (partition by entity_key
                                           order by month_idx) as step
   from active_months
+),
+months as (
+  -- One row per active month, so count(*) is months active. step counts
+  -- consecutive months as 1, so silence = step - 1; max() skips the first
+  -- month's null step, and an entity seen in one month has no gap at all.
+  select entity_key,
+         count(*)          as months_active,
+         max(step) - 1     as longest_gap
+  from gaps
+  group by entity_key
 ),
 totals as (
   -- Resolved here too. active_months is keyed on the resolved name, so a
@@ -415,13 +430,10 @@ select t.entity_key,
        t.first_seen,
        t.last_seen,
        t.total_mentions,
-       (select count(*) from active_months a where a.entity_key = t.entity_key)
-         as months_active,
-       -- step counts consecutive months as 1, so silence = step - 1.
-       coalesce((select max(g.step) - 1 from gaps g
-                  where g.entity_key = t.entity_key and g.step is not null), 0)
-         as longest_gap_months
-from totals t;
+       coalesce(mo.months_active, 0) as months_active,
+       coalesce(mo.longest_gap, 0)   as longest_gap_months
+from totals t
+left join months mo on mo.entity_key = t.entity_key;
 
 
 -- ---------------------------------------------------------------------------
@@ -510,7 +522,7 @@ group by 1;
 --    Materialised, and this is the one that mattered most. As a plain view,
 --    every request re-ran entity_volume -- whose decayed_corpus CTE is a
 --    sum(power(2.0, ...)) across all 750k comments -- plus entity_longevity's
---    per-entity correlated subqueries, before a single filter was applied.
+--    per-entity work, before a single filter was applied.
 --
 --    It cannot be response-cached instead: a leaderboard is (sort x filters),
 --    and search x cuisine x borough x status x five aspect thresholds x

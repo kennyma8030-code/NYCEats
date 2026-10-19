@@ -1,8 +1,11 @@
 """Postgres writes. Everything is idempotent: re-running inserts nothing new."""
 
 import os
+import time
+import traceback
 
 import psycopg2
+import psycopg2.errors
 from psycopg2.extras import Json, execute_values
 
 import subreddits
@@ -48,12 +51,110 @@ def has_column(conn, table, column):
                                  and table_name = %s and column_name = %s""", (table, column)))
 
 
-def init(conn, schema_path="schema.sql"):
+# How long a boot's DDL may wait for a lock before giving up, and how long it
+# then waits before trying again. A worker that is still running the old code
+# can sit "idle in transaction" holding a lock on comments for minutes; with
+# no timeout the boot would queue behind it forever, and every board read of
+# comments would queue behind the boot. Giving up after 5 s and retrying
+# keeps the board readable, and the retries outlast a short holdup. If the
+# holder never lets go the boot fails loudly and Railway restarts it.
+LOCK_TIMEOUT = "5s"
+LOCK_RETRY_WAITS = (10, 30, 60, 120)
+
+
+def _lock_holders(conn):
+    """The oldest other open transactions, for the log line on a lock timeout.
+
+    By the time this runs our own transaction has rolled back, so there is
+    no waiting lock left to ask pg_blocking_pids about. The holder is almost
+    always the oldest open transaction -- an old worker idle in one, or a
+    long refresh -- so that is what gets named.
+    """
+    try:
+        rows = _read(conn, """
+            select pid, state, coalesce(application_name, ''),
+                   extract(epoch from now() - xact_start)::int
+            from pg_stat_activity
+            where datname = current_database() and pid <> pg_backend_pid()
+              and xact_start is not null
+            order by xact_start limit 3""", ())
+    except Exception:
+        conn.rollback()
+        return "unknown"
+    return ", ".join(f"pid {p} {s} for {age}s {app}".strip() for p, s, app, age in rows) or "none now"
+
+
+def with_lock_retry(conn, what, fn, waits=LOCK_RETRY_WAITS, log=print):
+    """Run fn(cursor) in one transaction with LOCK_TIMEOUT, retrying on a lock timeout.
+
+    The transaction is all or nothing, so a timeout leaves nothing half
+    applied, and the retry starts from scratch. Anything other than a lock
+    timeout is raised at once: retrying a broken file would only hide it.
+    """
+    for attempt in range(len(waits) + 1):
+        try:
+            with conn.cursor() as cur:
+                cur.execute("select set_config('lock_timeout', %s, true)", (LOCK_TIMEOUT,))
+                fn(cur)
+            conn.commit()
+            return
+        except psycopg2.errors.LockNotAvailable as e:
+            conn.rollback()
+            if attempt == len(waits):
+                log(f"{what}: still waiting for a lock after {attempt + 1} tries, giving up. "
+                    f"Holders: {_lock_holders(conn)}")
+                raise
+            # The first CONTEXT line names the statement that waited.
+            lines = str(e).strip().splitlines()
+            where = next((ln.replace("CONTEXT:", "").strip() for ln in lines
+                          if ln.startswith("CONTEXT:")), lines[0] if lines else "")
+            log(f"{what}: lock wait over {LOCK_TIMEOUT} at {where[:160]}; "
+                f"holders: {_lock_holders(conn)}; retrying in {waits[attempt]}s")
+            time.sleep(waits[attempt])
+
+
+def init(conn, schema_path="schema.sql", waits=LOCK_RETRY_WAITS):
+    """Apply schema.sql (or another schema file) in one transaction.
+
+    schema.sql runs on every boot, so it is written to take no lock on
+    comments, threads or mentions once the database is current. A boot that
+    does need one (the first after a migration) waits at most LOCK_TIMEOUT
+    for it and retries, rather than hanging behind an older worker.
+    """
     with open(schema_path, encoding="utf-8") as f:
         sql = f.read()
-    with conn.cursor() as cur:
-        cur.execute(sql)
-    conn.commit()
+    with_lock_retry(conn, f"apply {os.path.basename(schema_path)}",
+                    lambda cur: cur.execute(sql), waits)
+
+
+def recover(conn, log=print):
+    """A clean connection after a failed step: rolled back, or a new one.
+
+    A step can fail because the connection itself went (a Postgres restart,
+    a dropped proxy). Rolling back a closed connection raises, and raising
+    here would end the poller, the backfill thread or the RSS thread over
+    something the next cycle can survive. So reconnect instead; if even that
+    fails, hand back the dead one (or None) and let the next step try again.
+    Never raises.
+    """
+    try:
+        if conn is not None and not conn.closed:
+            conn.rollback()
+            return conn
+    except Exception:
+        traceback.print_exc()
+    log("  database connection lost -- reconnecting")
+    try:
+        return connect()
+    except Exception:
+        traceback.print_exc()
+        log("  reconnect failed; the next step will try again")
+        return conn
+
+
+def database_size_mb(conn):
+    """The database's size on disk, in MB, as Postgres counts it (no WAL)."""
+    return float(_read(conn, "select pg_database_size(current_database()) / 1048576.0", ())[0][0])
 
 
 def _read(conn, sql, params):

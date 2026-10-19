@@ -1,3 +1,20 @@
+-- This file runs on every poller and backfill boot, inside one transaction
+-- (db.init), while the web app reads the same tables. So nothing here may
+-- wait long for a lock: an older worker sitting "idle in transaction" holds
+-- one on comments, and DDL queued behind it would in turn queue every board
+-- read behind itself. Waits are capped at 5 s (db.init sets the same before
+-- it runs this, and retries the whole file). Transaction-local, so it never
+-- outlives the boot, and only if the caller set no cap of its own. By hand,
+-- run the file as one transaction too, or this line covers only itself:
+--   psql "$DATABASE_URL" -1 -f schema.sql
+select set_config('lock_timeout', '5s', true) where current_setting('lock_timeout') = '0';
+
+-- Statements on comments, threads and mentions below are checked in the
+-- catalog first. "add column if not exists" and "create index if not
+-- exists" both take their lock before they notice there is nothing to do,
+-- and ADD COLUMN's is ACCESS EXCLUSIVE, so unguarded they would block the
+-- board on every boot. Guarded, a boot of a current database locks none of
+-- them. (create table if not exists is checked before any lock is taken.)
 create table if not exists threads (
   id            text primary key,          -- t3_1wi6dmw
   subreddit     text not null,
@@ -31,19 +48,40 @@ create table if not exists comments (
   first_seen_at     timestamptz not null default now()
 );
 
-create index if not exists comments_thread_idx      on comments(thread_id);
-create index if not exists comments_parent_idx      on comments(parent_comment_id);
-create index if not exists comments_root_idx        on comments(root_comment_id);
-create index if not exists comments_created_idx     on comments(created_utc);
-create index if not exists comments_unsettled_idx   on comments(created_utc) where not score_settled;
+do $$
+begin
+  if to_regclass('comments_thread_idx') is null then
+    create index comments_thread_idx on comments(thread_id);
+  end if;
+  if to_regclass('comments_parent_idx') is null then
+    create index comments_parent_idx on comments(parent_comment_id);
+  end if;
+  if to_regclass('comments_root_idx') is null then
+    create index comments_root_idx on comments(root_comment_id);
+  end if;
+  if to_regclass('comments_created_idx') is null then
+    create index comments_created_idx on comments(created_utc);
+  end if;
+  if to_regclass('comments_unsettled_idx') is null then
+    create index comments_unsettled_idx on comments(created_utc) where not score_settled;
+  end if;
+end $$;
 
 -- Backfilled comments were inserted unsettled, so scoring ignored their real
 -- archive scores (avg 5.2) and weighed all 604k at 1.0. Anything first seen
--- 36h+ after posting arrived with a final score. Idempotent; after the first
--- boot it only touches the few thousand live comments the index covers.
-update comments set score_settled = true
-where not score_settled
-  and first_seen_at > created_utc + interval '36 hours';
+-- 36h+ after posting arrived with a final score. Idempotent. Looked for
+-- first, through the unsettled index, so a boot with nothing to fix only
+-- reads comments and never takes the row-exclusive lock an UPDATE does.
+do $$
+begin
+  if exists (select 1 from comments
+             where not score_settled
+               and first_seen_at > created_utc + interval '36 hours') then
+    update comments set score_settled = true
+    where not score_settled
+      and first_seen_at > created_utc + interval '36 hours';
+  end if;
+end $$;
 
 -- Several cities share these tables (see subreddits.py), so every reader
 -- filters on subreddit first. threads always had it; comments gets a copy
@@ -54,9 +92,26 @@ where not score_settled
 -- existed came from r/FoodNYC, and so does every comment written by code that
 -- predates it -- which keeps an older poller sharing this database inserting
 -- instead of failing NOT NULL. New code always passes it explicitly.
-alter table comments add column if not exists subreddit text not null default 'FoodNYC';
-create index if not exists comments_sub_created_idx on comments(subreddit, created_utc);
-create index if not exists threads_sub_created_idx  on threads(subreddit, created_utc);
+--
+-- The column is catalog-only (a constant default), but ADD COLUMN still needs
+-- ACCESS EXCLUSIVE once. The two indexes are built under a SHARE lock, which
+-- blocks writes while they build; to avoid even that, create them by hand
+-- first with CREATE INDEX CONCURRENTLY (docs/handoffs/subreddit-poller.md) and
+-- this finds them and skips.
+do $$
+begin
+  if not exists (select 1 from pg_attribute
+                 where attrelid = 'comments'::regclass and attname = 'subreddit'
+                   and not attisdropped) then
+    alter table comments add column if not exists subreddit text not null default 'FoodNYC';
+  end if;
+  if to_regclass('comments_sub_created_idx') is null then
+    create index comments_sub_created_idx on comments(subreddit, created_utc);
+  end if;
+  if to_regclass('threads_sub_created_idx') is null then
+    create index threads_sub_created_idx on threads(subreddit, created_utc);
+  end if;
+end $$;
 
 create table if not exists backfill_progress (
   kind       text primary key,       -- 'posts' | 'comments'
@@ -87,9 +142,17 @@ on conflict (subreddit, kind) do nothing;
 
 -- extraction state on the raw corpus. A timestamp + prompt hash rather than a
 -- boolean, so a prompt v2 re-run is a query rather than a migration.
-alter table comments add column if not exists extracted_at   timestamptz;
-alter table comments add column if not exists extracted_with text;
-alter table comments add column if not exists extract_error  text;
+do $$
+begin
+  if (select count(*) from pg_attribute
+      where attrelid = 'comments'::regclass and not attisdropped
+        and attname in ('extracted_at', 'extracted_with', 'extract_error')) < 3 then
+    alter table comments
+      add column if not exists extracted_at   timestamptz,
+      add column if not exists extracted_with text,
+      add column if not exists extract_error  text;
+  end if;
+end $$;
 -- Partial on HOME as well, because only HOME is ever extracted: the other
 -- cities' millions of comments are never-extracted forever and would
 -- otherwise fill an index meant to hold only the backlog. The literal must
@@ -105,10 +168,12 @@ begin
                and indexdef not like '%subreddit = ''FoodNYC''%') then
     drop index comments_unextracted_idx;
   end if;
+  if to_regclass('comments_unextracted_idx') is null then
+    create index comments_unextracted_idx
+      on comments(thread_id)
+      where subreddit = 'FoodNYC' and extracted_at is null and extract_error is null;
+  end if;
 end $$;
-create index if not exists comments_unextracted_idx
-  on comments(thread_id)
-  where subreddit = 'FoodNYC' and extracted_at is null and extract_error is null;
 
 -- append-only source of truth for everything downstream.
 create table if not exists mentions (
@@ -129,9 +194,18 @@ create table if not exists mentions (
   created_at     timestamptz not null default now()
 );
 
-create index if not exists mentions_entity_idx  on mentions(entity_key);
-create index if not exists mentions_comment_idx on mentions(comment_id);
-create index if not exists mentions_desc_idx    on mentions using gin(descriptors);
+do $$
+begin
+  if to_regclass('mentions_entity_idx') is null then
+    create index mentions_entity_idx on mentions(entity_key);
+  end if;
+  if to_regclass('mentions_comment_idx') is null then
+    create index mentions_comment_idx on mentions(comment_id);
+  end if;
+  if to_regclass('mentions_desc_idx') is null then
+    create index mentions_desc_idx on mentions using gin(descriptors);
+  end if;
+end $$;
 
 -- Extraction commits mentions and then marks the comment done; a crash between
 -- the two would duplicate on re-run. Making the pair unique lets the retry be
@@ -140,8 +214,12 @@ create index if not exists mentions_desc_idx    on mentions using gin(descriptor
 -- several times in one comment with different apostrophes ("l'industrie",
 -- "l’industrie", "L'industrie"), and those are distinct raw strings. The
 -- normalized key is what makes them one mention.
-create unique index if not exists mentions_unique_idx
-  on mentions(comment_id, entity_key, prompt_hash);
+do $$
+begin
+  if to_regclass('mentions_unique_idx') is null then
+    create unique index mentions_unique_idx on mentions(comment_id, entity_key, prompt_hash);
+  end if;
+end $$;
 
 -- Trigram matching for the restaurant list. Needed before its index; a fresh
 -- Railway database has no extensions enabled.
