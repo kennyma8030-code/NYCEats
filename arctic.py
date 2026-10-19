@@ -84,9 +84,13 @@ def forward(fetch, start, pause=0.0):
     """Page forward through created_utc from `start` (inclusive), each item once.
 
     fetch(after) returns one page, oldest first, of items created strictly
-    after `after`. Yields (fresh, page) per page: the items not yielded
-    before, and the page as fetched, whose newest is where a caller's
-    cursor goes.
+    after `after`, or from the very first item when `after` is None. A
+    `start` of None asks for that: Arctic answers HTTP 400 ("'after' must be
+    a valid date") to a small number like 0 or -1, so an open start must
+    leave the parameter out, never send 0.
+
+    Yields (fresh, page) per page: the items not yielded before, and the
+    page as fetched, whose newest is where a caller's cursor goes.
 
     `after` is exclusive, so asking for after = the page's newest would skip
     every item posted in that same second that did not fit on the page.
@@ -96,7 +100,7 @@ def forward(fetch, start, pause=0.0):
     more than a page of items in one second; those beyond the first page
     cannot be reached by time and are skipped, loudly.
     """
-    after, boundary = start - 1, set()
+    after, boundary = (None if start is None else start - 1), set()
     while True:
         page = fetch(after)
         if not page:
@@ -115,7 +119,8 @@ def forward(fetch, start, pause=0.0):
         at_newest = {x["id"] for x in page if x["created_utc"] == newest}
         # Still in the same second as last time (the whole page sat in it):
         # what earlier pages saw there counts too.
-        boundary = boundary | at_newest if newest == after + 1 else at_newest
+        same_second = after is not None and newest == after + 1
+        boundary = boundary | at_newest if same_second else at_newest
         after = newest - 1
         if pause:
             time.sleep(pause)
@@ -126,11 +131,13 @@ def all_thread_comments(bare_link_id, pause=1.0):
     out = {}
 
     def fetch(after):
-        return _get("comments/search", {"link_id": bare_link_id, "limit": PAGE,
-                                        "sort": "asc", "after": after})
+        params = {"link_id": bare_link_id, "limit": PAGE, "sort": "asc"}
+        if after is not None:
+            params["after"] = after
+        return _get("comments/search", params)
     # A short page is the last one here: one thread is never sparse enough
     # for the archive to return fewer than it has.
-    for fresh, page in forward(fetch, 0, pause):
+    for fresh, page in forward(fetch, None, pause):
         for c in fresh:
             out[c["id"]] = c
         if len(page) < PAGE:

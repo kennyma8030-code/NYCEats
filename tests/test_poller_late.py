@@ -34,6 +34,13 @@ class Clock:
         return self.t
 
 
+def check_after(after):
+    """Arctic answers HTTP 400 to an `after` that is not a plausible date
+    (checked live: -1, 0 and 1 fail, 1000000000 works)."""
+    if after is not None and after < 1_000_000_000:
+        raise AssertionError(f"Arctic answers 400 for after={after}")
+
+
 class Archive:
     """Arctic Shift as seen at clock(): only what is visible by then."""
 
@@ -51,6 +58,7 @@ class Archive:
 
     def search_page(self, kind, subreddit, after=None, before=None, limit=arctic.PAGE):
         assert kind == "comments"
+        check_after(after)
         self.requests += 1
         rows = [c for c in self._visible() if after is None or c["created_utc"] > after]
         return sorted(rows, key=lambda c: (c["created_utc"], c["id"]))[:limit]
@@ -60,9 +68,16 @@ class Archive:
         return [p for p in self.posts.values()
                 if p["id"] in set(bare_ids) and p["visible_at"] <= self.clock()]
 
-    def all_thread_comments(self, bare_link_id, pause=1.0):
+    def get(self, path, params):
+        """arctic._get, for the one call left unpatched: a thread's comments,
+        so the real arctic.all_thread_comments and its paging run."""
+        assert path == "comments/search" and "link_id" in params, (path, params)
+        after = params.get("after")
+        check_after(after)
         self.requests += 1
-        return [c for c in self._visible() if c["link_id"] == "t3_" + bare_link_id]
+        rows = [c for c in self._visible() if c["link_id"] == "t3_" + params["link_id"]
+                and (after is None or c["created_utc"] > after)]
+        return sorted(rows, key=lambda c: (c["created_utc"], c["id"]))[:params["limit"]]
 
 
 class Store:
@@ -133,8 +148,7 @@ class Replay(unittest.TestCase):
         patches = [
             mock.patch.multiple(arctic, newest_comments=archive.newest_comments,
                                 search_page=archive.search_page,
-                                posts_by_id=archive.posts_by_id,
-                                all_thread_comments=archive.all_thread_comments),
+                                posts_by_id=archive.posts_by_id, _get=archive.get),
             mock.patch.multiple("db", newest_stored_utc=store.newest_stored_utc,
                                 existing_thread_ids=store.existing_thread_ids,
                                 missing_thread_ids=store.missing_thread_ids,

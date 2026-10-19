@@ -19,8 +19,21 @@ import backfill
 import subreddits
 
 
+# Times are offsets from T, a real 2023 timestamp: Arctic Shift rejects an
+# `after` that is not a plausible date (checked live: -1, 0 and 1 answer
+# HTTP 400 "'after' must be a valid date"; 1000000000 is accepted), and the
+# fakes below do the same.
+T = 1_700_000_000
+MIN_AFTER = 1_000_000_000
+
+
+def check_after(after):
+    if after is not None and after < MIN_AFTER:
+        raise AssertionError(f"Arctic answers 400 for after={after}")
+
+
 def item(i, t, sub="chicagofood", link="t3_x"):
-    return {"id": f"c{i:05d}", "created_utc": t, "subreddit": sub, "link_id": link,
+    return {"id": f"c{i:05d}", "created_utc": T + t, "subreddit": sub, "link_id": link,
             "parent_id": link, "body": "b"}
 
 
@@ -32,8 +45,10 @@ class Asc:
         self.calls = []
 
     def __call__(self, after):
+        check_after(after)
         self.calls.append(after)
-        return [x for x in self.items if x["created_utc"] > after][:arctic.PAGE]
+        return [x for x in self.items
+                if after is None or x["created_utc"] > after][:arctic.PAGE]
 
 
 def ties(n, per_second=3, start=1_000):
@@ -50,13 +65,13 @@ class Forward(unittest.TestCase):
 
     def test_same_second_ties_at_every_page_edge(self):
         items = ties(350)
-        got, fake = self.collect(items, 1_000)
+        got, fake = self.collect(items, T + 1_000)
         self.assertEqual(sorted(x["id"] for x in got), sorted(x["id"] for x in items))
         self.assertEqual(len(got), len({x["id"] for x in got}), "an item came back twice")
 
     def test_the_old_exclusive_cursor_lost_them(self):
         # What backfill.py and arctic.all_thread_comments did: after = newest.
-        items, fake, seen, after = ties(350), None, set(), 999
+        items, fake, seen, after = ties(350), None, set(), T + 999
         fake = Asc(items)
         while True:
             page = fake(after)
@@ -70,15 +85,25 @@ class Forward(unittest.TestCase):
         self.assertLess(len(seen), 350)
 
     def test_start_is_inclusive(self):
-        got, fake = self.collect([item(1, 1_000), item(2, 1_001)], 1_000)
+        got, fake = self.collect([item(1, 1_000), item(2, 1_001)], T + 1_000)
         self.assertEqual([x["id"] for x in got], ["c00001", "c00002"])
-        self.assertEqual(fake.calls[0], 999)
+        self.assertEqual(fake.calls[0], T + 999)
+
+    def test_open_start_sends_no_after(self):
+        got, fake = self.collect([item(1, 1_000), item(2, 1_001)], None)
+        self.assertEqual(len(got), 2)
+        self.assertIsNone(fake.calls[0])
+
+    def test_fake_rejects_what_arctic_rejects(self):
+        for bad in (-1, 0, 1):
+            with self.assertRaises(AssertionError):
+                Asc([])(bad)
 
     def test_more_than_a_page_in_one_second_ends(self):
         # 150 items in one second: the first 100 are reachable, the rest are
         # not (the API pages by time only). It must move on, not spin.
         items = [item(i, 2_000) for i in range(150)] + [item(1_000 + i, 2_001 + i) for i in range(5)]
-        got, fake = self.collect(items, 1_000)
+        got, fake = self.collect(items, T + 1_000)
         ids = {x["id"] for x in got}
         self.assertEqual(len(ids), 105)
         self.assertTrue({f"c{1_000 + i:05d}" for i in range(5)} <= ids)
@@ -87,17 +112,23 @@ class Forward(unittest.TestCase):
     def test_whole_page_in_one_second_then_more(self):
         # Exactly a page in the boundary second, then the next second.
         items = [item(i, 2_000) for i in range(100)] + [item(500 + i, 2_001) for i in range(30)]
-        got, _ = self.collect(items, 2_000)
+        got, _ = self.collect(items, T + 2_000)
         self.assertEqual(len({x["id"] for x in got}), 130)
 
     def test_all_thread_comments_keeps_ties(self):
         items = ties(250)
+        sent = []
 
         def get(path, params):
-            return Asc(items)(params["after"])
+            sent.append(dict(params))
+            return Asc(items)(params.get("after"))
         with mock.patch.object(arctic, "_get", get), mock.patch.object(arctic.time, "sleep"):
             got = arctic.all_thread_comments("x")
         self.assertEqual(len(got), 250)
+        # The first request asks from the thread's beginning by leaving
+        # `after` out: any small number there is a 400.
+        self.assertEqual(sent[0], {"link_id": "x", "limit": arctic.PAGE, "sort": "asc"})
+        self.assertTrue(all(p["after"] >= MIN_AFTER for p in sent[1:]))
 
 
 class BackfillComments(unittest.TestCase):
@@ -122,7 +153,7 @@ class BackfillComments(unittest.TestCase):
 
     def test_every_tie_is_stored(self):
         items = ties(350)
-        stored, db, _ = self.sweep(items, 1_000)
+        stored, db, _ = self.sweep(items, T + 1_000)
         self.assertEqual(set(stored), {x["id"] for x in items})
         self.assertEqual(db.set_cursor.call_args.args[-1], max(x["created_utc"] for x in items))
 
@@ -130,16 +161,16 @@ class BackfillComments(unittest.TestCase):
         # A run stopped with cursor 1_010; comments at 1_010 that the last
         # page did not hold must still come in.
         items = ties(60)
-        stored, _, fake = self.sweep(items, 1_010)
-        self.assertEqual(fake.calls[0], 1_009)
-        self.assertTrue({x["id"] for x in items if x["created_utc"] >= 1_010} <= set(stored))
+        stored, _, fake = self.sweep(items, T + 1_010)
+        self.assertEqual(fake.calls[0], T + 1_009)
+        self.assertTrue({x["id"] for x in items if x["created_utc"] >= T + 1_010} <= set(stored))
 
     def test_posts_pass_keeps_ties_too(self):
         items = ties(250)
         fake = Asc(items)
         stored = {}
         db = mock.Mock()
-        db.get_cursor.return_value = 1_000
+        db.get_cursor.return_value = T + 1_000
         db.insert_threads.side_effect = lambda conn, ps: (stored.update({p["id"]: p for p in ps}),
                                                            len(ps))[1]
         with mock.patch.object(backfill.arctic, "search_page",
@@ -218,7 +249,7 @@ class Disk(unittest.TestCase):
         items = [item(i, 1_000 + i) for i in range(5_000)]
         fake = Asc(items)
         db = mock.Mock()
-        db.get_cursor.return_value = 1_000
+        db.get_cursor.return_value = T + 1_000
         db.database_size_mb.side_effect = [100.0, 5_000.0]
         db.insert_comments.return_value = 100
         db.fill_tree.return_value = 0
