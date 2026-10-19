@@ -93,10 +93,12 @@ class DbCase(unittest.TestCase):
                                values (%s, %s, %s, %s, '', %s)""", (cid, tid, tid, body, created))
                 if mention:
                     # Two prompt hashes on some rows: eligibility is "any mention".
+                    # Each stored when its comment was new, as the poller does;
+                    # the embed window is on this time, not the comment's.
                     for ph in (["p1", "p2"] if cid.endswith("0") else ["p1"]):
                         cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key,
-                                                             model_version, prompt_hash)
-                                       values (%s, 'X', 'x', 'm', %s)""", (cid, ph))
+                                                             model_version, prompt_hash, created_at)
+                                       values (%s, 'X', 'x', 'm', %s, %s)""", (cid, ph, created))
         self.conn.commit()
 
     # helpers
@@ -155,6 +157,66 @@ class Eligibility(DbCase):
         got = {r[0] for r in todo(self.conn, embed.COMMENTS, since=since)}
         self.assertNotIn("t1_old", got)
         self.assertIn("t1_unicode", got)
+        threads = {r[0] for r in todo(self.conn, embed.THREADS, since=since)}
+        self.assertEqual(threads, {t[0] for t in THREADS} - {"t3_old"})
+
+    def add_mention(self, cid, created_at=None, ph="p6"):
+        with self.conn.cursor() as cur:
+            cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key,
+                                                 model_version, prompt_hash, created_at)
+                           values (%s, 'Late', 'late', 'v6', %s, coalesce(%s, now()))""",
+                        (cid, ph, created_at))
+        self.conn.commit()
+
+    def test_window_is_on_when_the_mention_was_stored(self):
+        # A month-old comment whose first mention arrives today (a v6
+        # backfill, an extraction retry) is in the window; the comment's own
+        # date does not matter.
+        since = NOW - timedelta(days=3)
+        with self.conn.cursor() as cur:
+            cur.execute("update comments set created_utc = now() - interval '200 days' "
+                        "where id = 't1_nomention'")
+        self.conn.commit()
+        self.assertNotIn("t1_nomention", {r[0] for r in todo(self.conn, embed.COMMENTS, since=since)})
+        self.add_mention("t1_nomention")
+        self.assertIn("t1_nomention", {r[0] for r in todo(self.conn, embed.COMMENTS, since=since)})
+        # a mention stored long ago does not bring a comment into the window
+        self.add_mention("t1_old", NOW - timedelta(days=10), ph="p5")
+        self.assertNotIn("t1_old", {r[0] for r in todo(self.conn, embed.COMMENTS, since=since)})
+        self.add_mention("t1_old")
+        self.assertIn("t1_old", {r[0] for r in todo(self.conn, embed.COMMENTS, since=since)})
+
+    def test_window_skips_rows_that_already_have_a_vector(self):
+        since = NOW - timedelta(days=3)
+        with FakeOpenRouter():
+            self.run_embed(scope="comments")
+        # A backfill re-extracts everything: every comment gets a new mention
+        # now, but nothing in the window is to do, and no page is walked.
+        with self.conn.cursor() as cur:
+            cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key,
+                                                 model_version, prompt_hash)
+                           select comment_id, 'Again', 'again', 'v6', 'p6' from mentions
+                           group by comment_id""")
+        self.conn.commit()
+        self.assertEqual(embed.select_todo(self.conn, embed.COMMENTS, "", 10, since), ([], None))
+
+    def test_the_window_has_its_index(self):
+        # Whether the planner picks it depends on table sizes, so this checks
+        # it exists, in both copies of the schema; the plan was measured on
+        # production-sized data instead.
+        index = """select indexdef from pg_indexes where indexname = 'mentions_created_idx'"""
+        self.assertIn("(created_at)", self.count(index))
+        with self.conn.cursor() as cur:
+            cur.execute("drop index mentions_created_idx")
+            cur.execute("drop table comment_embeddings, thread_embeddings, embedding_errors")
+        self.conn.commit()
+        with open(os.path.join(ROOT, "embed_schema.sql"), encoding="utf-8") as f:
+            sql = f.read()
+        for _ in range(2):           # and applying it again changes nothing
+            with self.conn.cursor() as cur:
+                cur.execute(sql)
+            self.conn.commit()
+        self.assertIn("(created_at)", self.count(index))
 
 
 class OnlyHome(DbCase):
@@ -448,9 +510,9 @@ class PerRowErrors(DbCase):
             return FakeResponse(200, ok_body(p))
         with FakeOpenRouter(handler):
             self.run_embed(scope="comments")
-        with self.conn.cursor() as cur:
-            cur.execute("update embedding_errors set input_hash = 'stale'")
-        self.conn.commit()
+        # Due for its automatic retry (was: a stale hash, which now resets
+        # the count, because the count is per text).
+        self.age_errors()
         with FakeOpenRouter(handler):
             self.run_embed(scope="comments")
         with self.conn.cursor() as cur:
@@ -458,6 +520,80 @@ class PerRowErrors(DbCase):
             [(failures, err)] = cur.fetchall()
         self.assertEqual(failures, 2)
         self.assertIn("unusable vector", err)
+
+    def age_errors(self, by="25 hours"):
+        with self.conn.cursor() as cur:
+            cur.execute("update embedding_errors set failed_at = failed_at - %s::interval", (by,))
+        self.conn.commit()
+
+    def zero_vector_for_123(self, p):
+        body = ok_body(p)
+        for d in body["data"]:
+            if "Comment 123 " in p["input"][d["index"]]:
+                d["embedding"] = [0.0] * 1024
+        return FakeResponse(200, body)
+
+    def test_errors_are_retried_after_a_cooldown_at_most_three_times(self):
+        with FakeOpenRouter(self.zero_vector_for_123):
+            self.run_embed(scope="comments")
+        self.assertEqual(self.count("select failures from embedding_errors"), 1)
+        # not again within the cooldown
+        with FakeOpenRouter(self.zero_vector_for_123) as api:
+            self.run_embed(scope="comments")
+        self.assertEqual(api.requests, [])
+        # a day later: once, twice, then it stays put
+        for want in (2, 3):
+            self.age_errors()
+            with FakeOpenRouter(self.zero_vector_for_123) as api:
+                self.run_embed(scope="comments")
+            self.assertEqual(len(api.inputs), 1)
+            self.assertEqual(self.count("select failures from embedding_errors"), want)
+        self.age_errors("30 days")
+        with FakeOpenRouter(self.zero_vector_for_123) as api:
+            self.run_embed(scope="comments")
+        self.assertEqual(api.requests, [])
+        self.assertEqual(len(todo(self.conn, embed.COMMENTS)), 0)
+
+    def test_a_retry_that_succeeds_clears_the_error(self):
+        with FakeOpenRouter(self.zero_vector_for_123):
+            self.run_embed(scope="comments")
+        self.age_errors()
+        with FakeOpenRouter():
+            stats = self.run_embed(scope="comments")
+        self.assertEqual(stats.embedded["comment"], 1)
+        self.assertEqual(self.count("select count(*) from embedding_errors"), 0)
+        self.assertEqual(self.count("select count(*) from comment_embeddings where comment_id = %s",
+                                    self.POISON), 1)
+
+    def test_a_new_text_starts_the_count_again(self):
+        with FakeOpenRouter(self.zero_vector_for_123):
+            self.run_embed(scope="comments")
+        with self.conn.cursor() as cur:
+            cur.execute("update embedding_errors set failures = 3")
+            cur.execute("update comments set body = 'Comment 123 again' where id = %s",
+                        (self.POISON,))
+        self.conn.commit()
+        with FakeOpenRouter(self.zero_vector_for_123):
+            self.run_embed(scope="comments")
+        self.assertEqual(self.count("select failures from embedding_errors"), 1)
+
+    def test_the_poller_retries_errors_outside_its_window(self):
+        import poller
+        with FakeOpenRouter(self.zero_vector_for_123):
+            self.run_embed(scope="comments")
+        # the comment and its mention are long out of the poller's window
+        with self.conn.cursor() as cur:
+            cur.execute("update mentions set created_at = now() - interval '60 days' "
+                        "where comment_id = %s", (self.POISON,))
+        self.conn.commit()
+        with FakeOpenRouter() as api:
+            self.assertEqual(poller.embed_once(self.conn, 3, 100, 0.05, "comments", 1), 0)
+        self.assertEqual(api.requests, [])          # still cooling down
+        self.age_errors()
+        with FakeOpenRouter() as api:
+            self.assertEqual(poller.embed_once(self.conn, 3, 100, 0.05, "comments", 1), 1)
+        self.assertEqual(len(api.inputs), 1)
+        self.assertEqual(self.count("select count(*) from embedding_errors"), 0)
 
     def test_outage_stops_the_run_without_stamping_rows(self):
         with FakeOpenRouter(lambda p: FakeResponse(503, None, "down")):

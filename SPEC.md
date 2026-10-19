@@ -252,8 +252,11 @@ python embed.py --build-index                # HNSW, only after the backlog has 
 A row is due when it has no vector for the current `MODEL_KEY`, or its stored
 `input_hash` (sha256 of the exact text) no longer matches. Kill and restart
 freely. A refused input is isolated by splitting its batch, then recorded in
-`embedding_errors` and skipped until its text changes, or until
-`--retry-errors`. A 400 can also be about the request rather than the input
+`embedding_errors`. A recorded error is retried by itself once a day has
+passed since it failed, while it has failed fewer than 3 times on the same
+text, by `embed.py` and the poller alike (the poller retries them wherever
+they fall in time). After that it waits for a new text, which starts the
+count again, or `--retry-errors`. A 400 can also be about the request rather than the input
 (an unsupported parameter, a routing error), and then every batch is refused.
 So the first time a run gets down to one refused input, it sends a one-line
 canary with the same request shape. If that is refused too, the run stops.
@@ -265,7 +268,20 @@ a 200 without vectors) are charged against it.
 
 The poller keeps up with new comments when `POLL_EMBED=1`. Its 30-minute
 chores pass runs settle, extract, refresh, then embed, over the last
-`POLL_EMBED_DAYS` (3).
+`POLL_EMBED_DAYS` (3). For comments that window is on when a mention was
+stored (`mentions.created_at`, indexed by `mentions_created_idx`), not when
+the comment was written: a comment can get its first mention long after it
+was posted (a v6 backfill, an extraction retry), and a window on
+`comments.created_utc` never embedded those. Inside the window only rows
+with no vector yet are taken. Nothing the poller does rewrites a comment's
+or a thread's text, and without that filter a backfill that touched every
+mentioned comment would have each pass walk all of them for three days.
+Changed text is found by a run without `--since-days`. Threads are
+windowed on when they were posted.
+**After every extraction backfill, run `python embed.py --max-usd <N>`.**
+The poller would get there, but at 2,000 rows a pass, and only for mentions
+stored in its last 3 days; anything it has not reached by then is left for
+`embed.py`.
 Embedding goes last so it can never delay the board. It is capped by
 `POLL_EMBED_LIMIT` (2,000 rows) and `POLL_EMBED_MAX_USD` ($0.05) per pass,
 and stops starting new batches after 5 minutes; the city polls wait behind

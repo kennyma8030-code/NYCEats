@@ -63,4 +63,26 @@ create table if not exists embedding_errors (
   primary key (kind, item_id, model)
 );
 
+-- The poller's embedding window is on when a comment's mention was stored,
+-- not when the comment was written, so a comment whose first mention comes
+-- late (a v6 backfill, an extraction retry) is still embedded. This index
+-- keeps that window a range read instead of a scan of mentions on every
+-- page. mentions.created_at is the insert time (its default; no writer sets
+-- it). Guarded by a catalog check, so once it exists neither this file nor
+-- a boot takes a lock on mentions for it; the first build blocks writes to
+-- mentions for well under a second (149k rows), and gives up after 5s
+-- waiting for its lock. In schema.sql a timeout skips only the index.
+do $$
+begin
+  if to_regclass('mentions_created_idx') is null then
+    declare
+      lt text := current_setting('lock_timeout');
+    begin
+      perform set_config('lock_timeout', '5s', true);
+      create index mentions_created_idx on mentions (created_at);
+      perform set_config('lock_timeout', lt, true);
+    end;
+  end if;
+end $$;
+
 commit;
