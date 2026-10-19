@@ -27,17 +27,30 @@ the official API, captures ~20s after posting, and re-captures at 36h.
   same tables, told apart by `subreddit`. Only r/FoodNYC is extracted and
   scored; every reader of the corpus filters on `subreddit` first.
 - Poll `/comments/search?subreddit=X&limit=100&sort=desc` per city, paging
-  back until the page reaches the newest comment the previous poll of that
-  city saw (kept in memory, seeded from the table at boot -- not the table's
-  max, which thread pulls and the backfill move ahead of the poll). Interval
-  sized so the busiest hour of the past week fills half a page, clamped to
-  10–60 min.
-- Every boot resumes a per-subreddit backfill cursor in the background; a
-  city never swept starts from its first post. A city that fails three
-  times in a row goes to the back of the queue rather than stalling the rest.
-- Settling scores, extraction, the scoring refresh and embedding run on one
-  30-minute timer of their own, not per city poll.
+  back until the page is 8 hours (`POLL_LAG_HOURS`) behind the newest
+  comment the previous poll of that city saw (kept in memory, seeded from
+  the table at boot -- not the table's max, which thread pulls and the
+  backfill move ahead of the poll). The lag is because Arctic Shift
+  publishes out of order: comments turn up as much as 8.8 h (p99) after
+  newer ones, and stopping at the previous newest lost ~1%. Interval sized
+  so the busiest hour of the past week fills half a page, clamped to
+  10–60 min. Which cities are polled: `POLL_SUBREDDITS`, default all seven.
+- Every boot resumes a per-subreddit backfill cursor in the background.
+  Only r/FoodNYC by default: another city's history is swept only when
+  `BACKFILL_SUBREDDITS` lists it and `BACKFILL_YEARS_OTHER` is not 0, and
+  stops once the database passes `BACKFILL_MAX_DB_MB` (3,500). A city that
+  fails three times in a row goes to the back of the queue rather than
+  stalling the rest.
+- Paging forward (backfill, thread pulls, re-sweep) asks for
+  `after = newest - 1` and drops ids already seen: `after` is exclusive, and
+  `after = newest` lost the rest of a page's last second.
+- Settling scores, a re-sweep of each city's last 48 h (every 6 h),
+  extraction, the scoring refresh and embedding run on one 30-minute timer
+  of their own, not per city poll.
 - Unknown thread -> fetch the post, then every comment in it, before inserting.
+  A post the archive does not have yet (posts can trail their comments by
+  ~20 h) is asked for again on later polls for 48 h; when it appears its
+  whole thread is pulled.
 - Dedup on the `t1_`/`t3_` fullname. All inserts idempotent.
 - History available back to 2014-08-24 (~747k comments, ~47k posts).
 
