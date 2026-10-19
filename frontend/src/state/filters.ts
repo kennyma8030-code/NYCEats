@@ -70,22 +70,31 @@ function storeAlgo(a: Algo) {
 export const windowOf = (d: WindowDays) => WINDOWS.find((w) => w.d === d) ?? WINDOWS[0];
 export const categoryOf = (k: Category) => CATEGORIES.find((c) => c.k === k) ?? CATEGORIES[0];
 
-// The URL is the source of truth on load, so a filtered view can be shared.
-function fromUrl(): Filters {
-  const p = new URLSearchParams(window.location.search);
+const uniq = <T,>(xs: T[]) => [...new Set(xs)];
+
+/** Filters from a query string. Repeated needs and flaws collapse to one, as
+ *  the API collapses them: ?need=value&need=value is one filter, and a list
+ *  that kept both would never match the response that echoes one. */
+export function filtersFromQuery(search: string, stored: Algo | null): Filters {
+  const p = new URLSearchParams(search);
   const cat = p.get("category");
   const win = Number(p.get("window"));
   const algo = p.get("algo");
   return {
-    algo: algo === "v1" || algo === "v2" ? algo : storedAlgo() ?? DEFAULT_FILTERS.algo,
+    algo: algo === "v1" || algo === "v2" ? algo : stored ?? DEFAULT_FILTERS.algo,
     topic: p.get("topic") ?? "",
     category: CATEGORIES.some((c) => c.k === cat) ? (cat as Category) : DEFAULT_FILTERS.category,
     window: WINDOWS.some((w) => w.d === win) ? (win as WindowDays) : DEFAULT_FILTERS.window,
     cuisine: p.get("cuisine") ?? "",
     borough: p.get("borough") ?? "",
-    needs: p.getAll("need").filter((n): n is Need => NEEDS.some((x) => x.k === n)),
-    flaws: p.getAll("flaw").filter((n): n is Flaw => FLAWS.some((x) => x.k === n)),
+    needs: uniq(p.getAll("need").filter((n): n is Need => NEEDS.some((x) => x.k === n))),
+    flaws: uniq(p.getAll("flaw").filter((n): n is Flaw => FLAWS.some((x) => x.k === n))),
   };
+}
+
+// The URL is the source of truth on load, so a filtered view can be shared.
+function fromUrl(): Filters {
+  return filtersFromQuery(window.location.search, storedAlgo());
 }
 
 function toUrl(f: Filters) {

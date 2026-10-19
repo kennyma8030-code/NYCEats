@@ -33,6 +33,18 @@ test("a response matches only the filters it echoes", () => {
   }
 });
 
+test("a repeated need is one filter, in the URL and against the echo", async () => {
+  const { filtersFromQuery } = await import("../src/state/filters.ts");
+  const f = filtersFromQuery("?need=value&need=value&flaw=food&flaw=food", null);
+  assert.deepEqual(f.needs, ["value"]);
+  assert.deepEqual(f.flaws, ["food"]);
+  // The API echoes the de-duplicated list; even a doubled client list matches it.
+  const echoed = response(f, ["a"]);
+  assert.ok(ledgerMatches(echoed, f));
+  assert.ok(ledgerMatches(echoed, { ...f, needs: ["value", "value"] }));
+  assert.ok(!ledgerMatches(echoed, { ...f, needs: ["value", "service"] }));
+});
+
 test("an error never shows the previous filters' rows", () => {
   const old = response(filters, ["a", "b"]);
   const now: Filters = { ...filters, borough: "Brooklyn" };

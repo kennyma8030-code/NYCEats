@@ -9,8 +9,13 @@
 import type { LedgerItem, LedgerResponse } from "../api/types";
 import type { Filters } from "../state/filters";
 
-const sameSet = (a: readonly string[], b: readonly string[]) =>
-  a.length === b.length && [...a].sort().join("\u0000") === [...b].sort().join("\u0000");
+// As sets: the API de-duplicates needs and flaws before echoing them, so
+// ["value", "value"] and ["value"] are the same filter.
+const sameSet = (a: readonly string[], b: readonly string[]) => {
+  const x = new Set(a);
+  const y = new Set(b);
+  return x.size === y.size && [...x].every((v) => y.has(v));
+};
 
 /** Whether a ledger response was ranked under exactly these filters, read
  *  from the parameters the API echoes back. The topic is compared trimmed,
