@@ -437,26 +437,68 @@ class Resume(DbCase):
             done_texts = {E.format_comment(t, b) for _, t, b in cur.fetchall()}
         self.assertFalse(done_texts & set(api.inputs))
 
-    def test_a_failed_write_keeps_what_was_in_flight(self):
-        # The second write fails (say the connection blipped). Batches that
-        # were already on the wire were paid for: the run waits for them and
-        # stores them, retries the failed write once, and then re-raises.
+    def slow(self, p):
         import time as _time
+        _time.sleep(0.05)
+        return FakeResponse(200, ok_body(p))
 
-        def slow(p):
-            _time.sleep(0.05)
-            return FakeResponse(200, ok_body(p))
+    def test_a_dropped_connection_still_keeps_what_was_in_flight(self):
+        # The run's connection is really killed (pg_terminate_backend, as a
+        # Postgres restart or a dropped proxy would) just before its second
+        # write. Batches already on the wire were paid for: the run waits for
+        # them, stores them over a fresh connection, and re-raises the
+        # original error.
+        victim = psycopg2.connect(URL)
+        real = embed.store_vectors
+        calls = []
+
+        def store(conn, kind, done):
+            calls.append(1)
+            if len(calls) == 2:
+                with self.conn.cursor() as cur:
+                    cur.execute("select pg_terminate_backend(%s)", (victim.get_backend_pid(),))
+                self.conn.commit()
+            return real(conn, kind, done)
         stats = embed.Stats()
-        with FakeOpenRouter(slow) as api, \
-                self._kill_on_second_store(psycopg2.OperationalError("server closed the connection")):
-            with self.assertRaises(psycopg2.OperationalError):
-                self.run_embed(scope="comments", batch=20, workers=4, stats=stats)
+        fresh = []
+
+        def connect():
+            fresh.append(psycopg2.connect(URL))
+            return fresh[-1]
+        with FakeOpenRouter(self.slow) as api, \
+                mock.patch.object(embed, "store_vectors", store), \
+                mock.patch.object(embed.db, "connect", connect):
+            with self.assertRaises(psycopg2.OperationalError) as e:
+                embed.run(victim, embed.KINDS["comments"], E.Budget(1.0), log=lambda *_: None,
+                          batch=20, workers=4, attempts=2, stats=stats)
+        self.assertTrue(victim.closed)
+        self.assertEqual(len(fresh), 1)
+        self.assertTrue(fresh[0].closed)                     # salvage closed its own
+        self.assertNotIsInstance(e.exception, psycopg2.InterfaceError)   # the original error
         self.assertIn("OperationalError", stats.stop)
         stored = self.count("select count(*) from comment_embeddings")
-        self.assertGreater(len(api.inputs), 40)              # more than the two written in order
+        self.assertGreater(len(api.inputs), 40)              # more than the one written in order
         self.assertEqual(stored, len(api.inputs))            # every paid-for vector kept
         self.assertEqual(stored, stats.embedded["comment"])
         self.assertLess(stored, len(self.eligible_comments()))
+
+    def test_vectors_are_not_counted_twice_when_the_error_write_fails(self):
+        # store_vectors commits on its own; if store_errors then fails, the
+        # retry writes the errors again but must not count the vectors again.
+        real = embed.store_errors
+        calls = []
+
+        def store_errors(conn, kind, failed):
+            calls.append(1)
+            if len(calls) == 2:
+                raise psycopg2.OperationalError("blip")
+            return real(conn, kind, failed)
+        stats = embed.Stats()
+        with FakeOpenRouter(self.slow), mock.patch.object(embed, "store_errors", store_errors):
+            with self.assertRaises(psycopg2.OperationalError):
+                self.run_embed(scope="comments", batch=20, workers=4, stats=stats)
+        self.assertEqual(stats.embedded["comment"],
+                         self.count("select count(*) from comment_embeddings"))
 
     def test_ctrl_c_keeps_finished_batches_and_re_raises(self):
         # #8: the interrupt propagates, so a poller under Ctrl-C stops.
@@ -932,6 +974,22 @@ class OneRunAtATime(DbCase):
             self.main("--scope", "comments", "--limit", "10")
         self.assertEqual(len(api.inputs), 10)
         self.assertTrue(embed.try_lock(self.other))     # released at the end
+        embed.unlock(self.other)
+
+    def test_spend_is_reported_when_the_run_dies(self):
+        out = io.StringIO()
+
+        def dies(conn, kinds, budget, **kw):
+            budget.spent = 0.0123
+            raise RuntimeError("bug")
+        with mock.patch.object(embed.db, "connect", return_value=self.conn), \
+                mock.patch.dict(os.environ, {"EMBED_OPENROUTER_API_KEY": "k"}), \
+                mock.patch.object(embed, "run", dies), \
+                mock.patch("sys.argv", ["embed.py", "--scope", "comments"]), redirect_stdout(out):
+            with self.assertRaises(RuntimeError):
+                embed.main()
+        self.assertIn("cost $0.0123", out.getvalue())
+        self.assertTrue(embed.try_lock(self.other))     # and the lock was let go
         embed.unlock(self.other)
 
     def test_a_dry_run_needs_no_lock(self):

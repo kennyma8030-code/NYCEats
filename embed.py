@@ -377,6 +377,14 @@ def store_errors(conn, kind, failed):
     return len(failed)
 
 
+def _rollback(conn):
+    """Roll back if the connection can; a closed one has nothing to undo."""
+    try:
+        conn.rollback()
+    except Exception:
+        pass
+
+
 class OutOfTime(Exception):
     """The run's deadline passed before this batch started."""
 
@@ -495,9 +503,12 @@ def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
     guard = RejectGuard()
     page = page_size(batch, workers)
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=workers)
-    kind, futures, stored = None, [], set()
+    # A future is in `stored` once both its writes are committed, and in
+    # `vectors_stored` once its vectors are: store_vectors commits on its own,
+    # so if store_errors then fails, a retry must not count the vectors twice.
+    kind, futures, stored, vectors_stored = None, [], set(), set()
 
-    def store(f):
+    def store(f, c=conn):
         try:
             results, why = f.result()
         except Exception as e:      # a bug, not a stop: still keep the other batches
@@ -505,26 +516,43 @@ def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
         if why is not None:
             stats.stop = stats.stop or f"{type(why).__name__}: {why}"
             stop.set()
-        stats.embedded[kind.name] += store_vectors(
-            conn, kind, [(i, h, v) for i, h, v, err in results if v is not None])
+        if f not in vectors_stored:
+            stats.embedded[kind.name] += store_vectors(
+                c, kind, [(i, h, v) for i, h, v, err in results if v is not None])
+            vectors_stored.add(f)
         stats.failed[kind.name] += store_errors(
-            conn, kind, [(i, h, err) for i, h, v, err in results if v is None])
+            c, kind, [(i, h, err) for i, h, v, err in results if v is None])
         stored.add(f)               # only once written, so salvage() retries a failed write
 
     def salvage():
         """After a failure: wait for the requests already on the wire, which
         were paid for, then store everything that came back and is not
-        stored yet. A write that fails again is given up on; its rows stay
-        to do, and the next run buys them again."""
+        stored yet. If the failure was the connection itself (a restart, a
+        dropped proxy), the writes go over a fresh one, closed afterwards;
+        the caller's dead connection is left for it to recover. A write that
+        fails again is given up on; its rows stay to do, and the next run
+        buys them again. Never raises: the caller re-raises the original."""
         stop.set()
-        conn.rollback()             # the failure may have landed mid-write
+        _rollback(conn)             # the failure may have landed mid-write
         pool.shutdown(wait=True, cancel_futures=True)
-        for f in futures:
-            if f.done() and not f.cancelled() and f not in stored:
+        pending = [f for f in futures if f.done() and not f.cancelled() and f not in stored]
+        if not pending:
+            return
+        c = conn
+        if conn.closed:
+            try:
+                c = db.connect()
+            except Exception:
+                return
+        try:
+            for f in pending:
                 try:
-                    store(f)
+                    store(f, c)
                 except Exception:
-                    conn.rollback()
+                    _rollback(c)
+        finally:
+            if c is not conn:
+                c.close()
 
     try:
         for kind in kinds:
@@ -764,7 +792,14 @@ def main():
             unlock(conn)
         except Exception:
             pass             # a dead connection has already dropped the lock
+        # Also when the run died of an error: what was spent is worth knowing
+        # most then, and the traceback follows it.
+        report(stats, budget, began)
+    if interrupted:
+        raise SystemExit(130)
 
+
+def report(stats, budget, began):
     print(f"\n{sum(stats.embedded.values()):,} embedded, {sum(stats.failed.values()):,} failed "
           f"({(time.time() - began) / 60:.1f} min)")
     for name in stats.embedded:
@@ -775,8 +810,6 @@ def main():
           + (f"; {budget.possibly_billed} failed attempt(s) charged at estimate"
              if budget.possibly_billed else "")
           + (f"; {budget.unpriced} call(s) priced from tokens" if budget.unpriced else ""))
-    if interrupted:
-        raise SystemExit(130)
 
 
 if __name__ == "__main__":
