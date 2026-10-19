@@ -90,8 +90,25 @@ on conflict (subreddit, kind) do nothing;
 alter table comments add column if not exists extracted_at   timestamptz;
 alter table comments add column if not exists extracted_with text;
 alter table comments add column if not exists extract_error  text;
+-- Partial on HOME as well, because only HOME is ever extracted: the other
+-- cities' millions of comments are never-extracted forever and would
+-- otherwise fill an index meant to hold only the backlog. The literal must
+-- match subreddits.HOME (tests/test_home_literal.py checks it), and stays a
+-- literal because a partial index cannot read scoring_params. A database
+-- built before this has the old predicate under the same name, and "if not
+-- exists" would keep it, so that one is dropped first -- once; after that the
+-- check finds the new definition and does nothing.
+do $$
+begin
+  if exists (select 1 from pg_indexes
+             where indexname = 'comments_unextracted_idx'
+               and indexdef not like '%subreddit = ''FoodNYC''%') then
+    drop index comments_unextracted_idx;
+  end if;
+end $$;
 create index if not exists comments_unextracted_idx
-  on comments(thread_id) where extracted_at is null and extract_error is null;
+  on comments(thread_id)
+  where subreddit = 'FoodNYC' and extracted_at is null and extract_error is null;
 
 -- append-only source of truth for everything downstream.
 create table if not exists mentions (

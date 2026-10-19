@@ -1,13 +1,12 @@
 """embed.py against a real, disposable Postgres with pgvector. API stubbed.
 
-    EMBED_TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:55439/embedtest \\
-        python -m unittest discover -s tests
+    TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:55439/embedtest \\
+        python -m pytest tests
 
-Skipped unless EMBED_TEST_DATABASE_URL is set. These tests DROP AND RECREATE
-the public schema of that database, so the URL must point at a throwaway
-server on this machine: the guard below refuses anything that is not
-localhost, the stale copy on :5433, or a database without "test" in its name.
-Never point it at DATABASE_URL.
+(EMBED_TEST_DATABASE_URL works too.) Skipped without a URL, or when that
+server has no pgvector. These tests DROP AND RECREATE the public schema of
+that database; tests/pgtest.py has the guard that keeps them off anything
+but a local throwaway. Never point it at DATABASE_URL.
 """
 
 import dataclasses
@@ -15,29 +14,18 @@ import os
 import unittest
 from datetime import datetime, timedelta, timezone
 from unittest import mock
-from urllib.parse import urlparse
 
 import psycopg2
 
 from fakes import FakeOpenRouter, FakeResponse, ok_body, ROOT
+import pgtest
 
 import embed
 import embedding as E
 import subreddits
 
-URL = os.environ.get("EMBED_TEST_DATABASE_URL")
-
-
-def _guard(url):
-    u = urlparse(url)
-    if u.hostname not in ("127.0.0.1", "localhost", "::1"):
-        raise SystemExit(f"refusing to drop schemas on {u.hostname}: tests need a local throwaway db")
-    if (u.port or 5432) == 5433:
-        raise SystemExit("refusing :5433, the stale local copy")
-    if "test" not in (u.path or "").lstrip("/"):
-        raise SystemExit("refusing a database whose name lacks 'test'")
-    if url == os.environ.get("DATABASE_URL"):
-        raise SystemExit("EMBED_TEST_DATABASE_URL equals DATABASE_URL")
+URL = pgtest.URL
+_guard = pgtest.guard
 
 
 NOW = datetime.now(timezone.utc)
@@ -70,8 +58,14 @@ class DbCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         if not URL:
-            raise unittest.SkipTest("EMBED_TEST_DATABASE_URL not set")
+            raise unittest.SkipTest(pgtest.SKIP_REASON)
         _guard(URL)
+        conn = psycopg2.connect(URL)
+        try:
+            if not pgtest.has_pgvector(conn):
+                raise unittest.SkipTest("embedding tests skipped: the test server has no pgvector")
+        finally:
+            conn.close()
 
     def setUp(self):
         self.conn = psycopg2.connect(URL)

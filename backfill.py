@@ -25,6 +25,7 @@ TREE_BATCH = 400     # threads to accumulate before rebuilding reply trees
 EPOCH = 1104537600   # 2005-01-01, before Reddit existed. "All time" floor.
 LOG_EVERY = 25       # pages between progress lines (keeps long runs quiet)
 RETRY_AFTER = 5 * 60 # seconds before a failed sweep resumes from its cursor
+MAX_TRIES = 3        # failures in a row before a city goes to the back of the queue
 
 
 def backfill_posts(conn, subreddit, start_utc, pause=PAUSE):
@@ -63,6 +64,10 @@ def backfill_comments(conn, subreddit, start_utc, pause=PAUSE):
         page = arctic.search_page("comments", subreddit, after=cursor)
         if not page:
             break
+        # From the page as fetched, before comments with no post are dropped:
+        # a page whose every comment is orphaned must still move the cursor,
+        # or the sweep would fetch it again forever.
+        newest = max(c["created_utc"] for c in page)
 
         # Rare after the posts pass: a post older than the window, or one the
         # archive skipped.
@@ -80,7 +85,6 @@ def backfill_comments(conn, subreddit, start_utc, pause=PAUSE):
             db.fill_tree(conn, pending)
             pending.clear()
 
-        newest = max(c["created_utc"] for c in page)
         if newest <= cursor:
             break                        # no forward progress
         cursor = newest
@@ -137,42 +141,92 @@ def run(conn, subreddit, years=None, posts_only=False):
     print(f"  updated {db.fill_tree(conn, ids):,} rows\n")
 
 
-def run_all(conn, names, years=None, retry_after=RETRY_AFTER):
+def _fresh(conn):
+    """The same connection rolled back, or a new one if it went.
+
+    A failed connect is not raised: the next attempt fails fast on the dead
+    connection, counts as one more failure, and reconnects again.
+    """
+    try:
+        if not conn.closed:
+            conn.rollback()
+            return conn
+    except Exception:
+        pass
+    try:
+        return db.connect()
+    except Exception:
+        traceback.print_exc()
+        return conn
+
+
+def run_all(conn, names, years=None, retry_after=RETRY_AFTER, tries=MAX_TRIES,
+            rounds=None):
     """Sweep each subreddit in turn until every one has caught up to now.
 
     A failure is logged and the same subreddit retried after a pause: the
-    cursor makes the retry resume, not restart, and moving on would leave a
-    hole that only the next boot would notice. Order is the caller's, which
-    is how r/FoodNYC's short gap-fill goes first and never waits behind a
-    new city's twelve years.
+    cursor makes the retry resume, not restart. After `tries` failures in a
+    row the city goes to the back of the queue, loudly, so one bad page or
+    an outage on one name cannot stall every city after it. Order is
+    otherwise the caller's, which is how r/FoodNYC's short gap-fill goes
+    first and never waits behind a new city's twelve years.
+
+    `rounds` caps how many times one city is queued: None keeps cycling
+    (the background thread, which should outlast any outage), a number
+    lets --once finish. Returns the subreddits that never caught up.
     """
-    for name in names:
-        while True:
+    queue = [(name, 1) for name in names]
+    failed = []
+    while queue:
+        name, round_ = queue.pop(0)
+        for attempt in range(1, tries + 1):
             try:
                 run(conn, name, years)
                 break
             except Exception:
                 traceback.print_exc()
-                try:
-                    conn.rollback()
-                except Exception:
-                    conn = db.connect()          # the connection itself went
-                print(f"[backfill] r/{name} failed -- retrying in {retry_after // 60} min",
-                      flush=True)
+                conn = _fresh(conn)
+                if attempt < tries:
+                    print(f"[backfill] r/{name} failed -- retrying in {retry_after // 60} min",
+                          flush=True)
+                    time.sleep(retry_after)
+        else:
+            if rounds is not None and round_ >= rounds:
+                print(f"[backfill] r/{name} FAILED {tries} times in round {round_} -- "
+                      f"giving up until the next run; its cursor is kept", flush=True)
+                failed.append(name)
+            else:
+                print(f"[backfill] r/{name} FAILED {tries} times in a row -- moving on, "
+                      f"will retry it after the others", flush=True)
+                queue.append((name, round_ + 1))
                 time.sleep(retry_after)
-    print("[backfill] every subreddit caught up", flush=True)
+    if failed:
+        print(f"[backfill] not caught up: {', '.join(failed)}", flush=True)
+    else:
+        print("[backfill] every subreddit caught up", flush=True)
+    return failed
 
 
-def start_background(names, years=None):
+def start_background(names, years=None, retry_after=RETRY_AFTER):
     """Run the sweeps beside the poller rather than before it.
 
     A new city's full history is hours of requests, and a poller that waits
     for it lets every city, r/FoodNYC included, go dark for the whole time.
     Own connection: psycopg2 connections are not thread-safe. Daemon: it dies
-    with its host, and the cursors mean the next boot carries on.
+    with its host, and the cursors mean the next boot carries on. Nothing
+    may end it silently: a failed connect or anything run_all lets escape is
+    logged and the sweep starts over from the cursors after a pause.
     """
     def target():
-        run_all(db.connect(), names, years)
+        while True:
+            try:
+                run_all(db.connect(), names, years, retry_after)
+                return
+            except Exception:
+                traceback.print_exc()
+                print(f"[backfill] thread error -- restarting in {retry_after // 60} min",
+                      flush=True)
+                time.sleep(retry_after)
     thread = threading.Thread(target=target, name="backfill", daemon=True)
     thread.start()
     return thread

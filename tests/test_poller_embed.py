@@ -43,7 +43,7 @@ class Chores(unittest.TestCase):
         }
         for name, (result, exc) in steps.items():
             patches[name] = stub(name.replace("_once", ""), result, exc)
-        conn = mock.Mock()
+        conn = mock.Mock(closed=0)
         with mock.patch.multiple(poller, **patches), \
                 redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
             poller.run_chores(conn, a)
@@ -103,7 +103,7 @@ class Polls(unittest.TestCase):
     def poll(self, names, due, fail=(), interval=None):
         calls = []
 
-        def poll_once(_c, name):
+        def poll_once(_c, name, _seen):
             calls.append(name)
             if name in fail:
                 raise RuntimeError("arctic down")
@@ -112,13 +112,13 @@ class Polls(unittest.TestCase):
             if interval is None:
                 raise RuntimeError("db hiccup")
             return interval
-        conn = mock.Mock()
+        conn = mock.Mock(closed=0)
         with mock.patch.multiple(poller, poll_once=poll_once, interval_for=interval_for,
                                  extract_once=mock.Mock(side_effect=AssertionError),
                                  embed_once=mock.Mock(side_effect=AssertionError)), \
                 mock.patch.object(poller.time, "time", return_value=1000.0), \
                 redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
-            poller.poll_due(conn, names, due)
+            poller.poll_due(conn, names, due, {})
         return calls, conn
 
     def test_only_due_cities_are_polled(self):

@@ -5,6 +5,8 @@ import os
 import psycopg2
 from psycopg2.extras import Json, execute_values
 
+import subreddits
+
 def _load_dotenv(path=".env"):
     """Minimal .env reader so local runs don't need an exported variable."""
     if not os.path.exists(path):
@@ -46,12 +48,28 @@ def init(conn, schema_path="schema.sql"):
     conn.commit()
 
 
+def _read(conn, sql, params):
+    """Run one read and end its transaction before returning the rows.
+
+    psycopg2 opens a transaction on the first statement and keeps it until a
+    commit. The poller reads, then sleeps for up to an hour; left open, that
+    read parks the connection "idle in transaction", holding a lock on
+    comments and a snapshot that holds back vacuum and makes a concurrent
+    refresh wait. Every read helper the long-lived loops call goes through
+    here so none of them can leave one behind.
+    """
+    with conn.cursor() as cur:
+        cur.execute(sql, params)
+        rows = cur.fetchall()
+    conn.commit()
+    return rows
+
+
 def existing_thread_ids(conn, thread_ids):
     if not thread_ids:
         return set()
-    with conn.cursor() as cur:
-        cur.execute("select id from threads where id = any(%s)", (list(thread_ids),))
-        return {r[0] for r in cur.fetchall()}
+    rows = _read(conn, "select id from threads where id = any(%s)", (list(thread_ids),))
+    return {r[0] for r in rows}
 
 
 def insert_threads(conn, posts):
@@ -231,15 +249,14 @@ def fill_tree(conn, thread_ids):
 
 def unsettled_comment_ids(conn, limit=100):
     """Comments past the 36h mark whose score we haven't finalised yet."""
-    with conn.cursor() as cur:
-        cur.execute("""
-            select id from comments
-            where not score_settled
-              and created_utc < now() - interval '36 hours'
-            order by created_utc
-            limit %s
-        """, (limit,))
-        return [r[0] for r in cur.fetchall()]
+    rows = _read(conn, """
+        select id from comments
+        where not score_settled
+          and created_utc < now() - interval '36 hours'
+        order by created_utc
+        limit %s
+    """, (limit,))
+    return [r[0] for r in rows]
 
 
 def settle_scores(conn, comments, missing_ids=()):
@@ -266,11 +283,9 @@ def settle_scores(conn, comments, missing_ids=()):
 
 
 def get_cursor(conn, subreddit, kind, default):
-    with conn.cursor() as cur:
-        cur.execute("select cursor_utc from backfill_cursors where subreddit=%s and kind=%s",
-                    (subreddit, kind))
-        row = cur.fetchone()
-        return row[0] if row else default
+    rows = _read(conn, "select cursor_utc from backfill_cursors where subreddit=%s and kind=%s",
+                 (subreddit, kind))
+    return rows[0][0] if rows else default
 
 
 def set_cursor(conn, subreddit, kind, value):
@@ -292,7 +307,7 @@ def clear_cursors(conn, names):
     """
     with conn.cursor() as cur:
         cur.execute("delete from backfill_cursors where subreddit = any(%s)", (list(names),))
-        if "FoodNYC" in names:
+        if subreddits.HOME in names:
             cur.execute("delete from backfill_progress")
     conn.commit()
 
@@ -303,10 +318,8 @@ def newest_stored_utc(conn, subreddit):
     The poller pages back until it reaches this, so one poll can never leave
     a hole however busy the hour was.
     """
-    with conn.cursor() as cur:
-        cur.execute("""select extract(epoch from max(created_utc))::bigint
-                       from comments where subreddit = %s""", (subreddit,))
-        return cur.fetchone()[0]
+    return _read(conn, """select extract(epoch from max(created_utc))::bigint
+                          from comments where subreddit = %s""", (subreddit,))[0][0]
 
 
 def busiest_hour(conn, subreddit, days=7):
@@ -314,15 +327,13 @@ def busiest_hour(conn, subreddit, days=7):
 
     Rides comments_sub_created_idx: a week is a few thousand rows per city.
     """
-    with conn.cursor() as cur:
-        cur.execute("""
-            select max(n) from (
-              select count(*) as n from comments
-              where subreddit = %s and created_utc > now() - make_interval(days => %s)
-              group by date_trunc('hour', created_utc)
-            ) h
-        """, (subreddit, days))
-        return cur.fetchone()[0] or 0
+    return _read(conn, """
+        select max(n) from (
+          select count(*) as n from comments
+          where subreddit = %s and created_utc > now() - make_interval(days => %s)
+          group by date_trunc('hour', created_utc)
+        ) h
+    """, (subreddit, days))[0][0] or 0
 
 
 def missing_thread_ids(conn, thread_ids):

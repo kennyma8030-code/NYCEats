@@ -62,15 +62,16 @@ def pull_threads(conn, bare_ids):
         time.sleep(1)
 
 
-def fetch_new(conn, subreddit):
-    """Every comment newer than the newest one stored, plus the page it sits on.
+def fetch_new(subreddit, held):
+    """Every comment newer than `held`, plus the page it sits on.
 
-    One page covers a normal poll. A full page whose oldest comment is still
-    newer than anything we hold did not reach back far enough -- a burst, or
-    the poller was down -- so page back until it does. A subreddit with
-    nothing stored yet gets one page; its history is the backfill's job.
+    `held` is the newest created_utc the previous poll of this subreddit saw
+    (None if nothing has been seen). One page covers a normal poll. A full
+    page whose oldest comment is still newer than `held` did not reach back
+    far enough -- a burst, or the poller was down -- so page back until it
+    does. A subreddit with nothing held yet gets one page; its history is
+    the backfill's job.
     """
-    held = db.newest_stored_utc(conn, subreddit)
     got = {}
     page = arctic.newest_comments(subreddit)
     for pages in range(1, MAX_PAGES + 1):
@@ -94,8 +95,21 @@ def fetch_new(conn, subreddit):
     return list(got.values())
 
 
-def poll_once(conn, subreddit):
-    comments = fetch_new(conn, subreddit)
+def poll_once(conn, subreddit, seen):
+    """Fetch, store, and move this subreddit's overlap point forward.
+
+    `seen` maps subreddit -> newest created_utc a poll has fetched. It is
+    the poller's own memory, not max(created_utc) in the table, because other
+    writers move that: pulling a newly found thread stores replies newer than
+    the poll's page, and the background backfill pages up to the present.
+    Paging back only to their newest would skip whatever arrived elsewhere
+    in between. At boot there is no memory yet, so the first poll starts
+    from the table; the boot backfill is what closes a gap from before it.
+    It moves only after the insert, so a poll that fails pages back again.
+    """
+    if subreddit not in seen:
+        seen[subreddit] = db.newest_stored_utc(conn, subreddit)
+    comments = fetch_new(subreddit, seen[subreddit])
     print(f"r/{subreddit}: fetched {len(comments)} newest comments")
     if not comments:
         return
@@ -110,6 +124,8 @@ def poll_once(conn, subreddit):
     new = db.insert_comments(conn, storable)
     db.fill_tree(conn, {c["link_id"] for c in storable})
     print(f"  inserted {new} new comment(s)")
+    newest = max(c["created_utc"] for c in comments)
+    seen[subreddit] = newest if seen[subreddit] is None else max(seen[subreddit], newest)
 
 
 def interval_for(conn, subreddit):
@@ -227,34 +243,70 @@ EMBED_TIMEOUT = 60
 EMBED_DEADLINE = 5 * 60
 
 
+def _recover(conn):
+    """A clean connection after a failed step: rolled back, or a new one.
+
+    A step can fail because the connection itself went (a Postgres restart,
+    a dropped proxy). Rolling back a closed connection raises, and raising
+    here would end the poller over something the next cycle can survive. So
+    reconnect instead; if even that fails, keep the dead one and let the
+    next step try again, rather than exit.
+    """
+    try:
+        if not conn.closed:
+            conn.rollback()
+            return conn
+    except Exception:
+        traceback.print_exc()
+    print("  database connection lost -- reconnecting")
+    try:
+        return db.connect()
+    except Exception:
+        traceback.print_exc()
+        print("  reconnect failed; the next step will try again")
+        return conn
+
+
 def _step(name, fn, conn, *args):
     """Run one step so that its failure is only its own.
 
-    Prints the traceback and rolls back, then returns None, so the next
-    step still runs on a clean connection.
+    Returns (result, conn). On failure prints the traceback, returns None,
+    and a connection the next step can use -- the same one rolled back, or a
+    new one if it was lost.
     """
     try:
-        return fn(conn, *args)
+        return fn(conn, *args), conn
     except Exception:
         print(f"  {name} failed:")
         traceback.print_exc()
-        conn.rollback()
-        return None
+        return None, _recover(conn)
 
 
-def poll_due(conn, names, due):
+def _idle(conn):
+    """End any open transaction before the loop sleeps.
+
+    Every read helper commits already; this is the backstop, so nothing a
+    step left open can sit "idle in transaction" through a sleep of up to
+    an hour, holding a lock on comments and a snapshot back from vacuum.
+    """
+    _, conn = _step("commit", lambda c: c.commit(), conn)
+    return conn
+
+
+def poll_due(conn, names, due, seen):
     """Poll every subreddit whose time has come, then set its next due time.
 
     A failed poll still gets a next time, the shortest one: retrying at once
     would spin on an outage, and waiting a full interval would leave a busy
-    city stale.
+    city stale. Returns the connection to carry on with.
     """
     for name in names:
         if due[name] > time.time():
             continue
-        _step(f"poll r/{name}", poll_once, conn, name)
-        wait = _step(f"interval r/{name}", interval_for, conn, name)
+        _, conn = _step(f"poll r/{name}", poll_once, conn, name, seen)
+        wait, conn = _step(f"interval r/{name}", interval_for, conn, name)
         due[name] = time.time() + (wait or MIN_INTERVAL)
+    return conn
 
 
 def run_chores(conn, args):
@@ -269,17 +321,19 @@ def run_chores(conn, args):
     Every step here is r/FoodNYC's except settling, which is every city's:
     extraction reads HOME only, and embedding reads what extraction wrote
     plus HOME's threads, so the other cities' history is never billed.
+    Returns the connection to carry on with.
     """
-    _step("settle", settle_once, conn)
+    _, conn = _step("settle", settle_once, conn)
     extracted = 0
     if args.extract:
-        extracted = _step("extract", extract_once, conn, args.extract_days,
-                          args.extract_limit, args.extract_workers) or 0
+        extracted, conn = _step("extract", extract_once, conn, args.extract_days,
+                                args.extract_limit, args.extract_workers)
     if extracted:
-        _step("refresh", refresh_once, conn)
+        _, conn = _step("refresh", refresh_once, conn)
     if args.embed:
-        _step("embed", embed_once, conn, args.embed_days, args.embed_limit,
-              args.embed_max_usd, args.embed_scope, args.embed_workers)
+        _, conn = _step("embed", embed_once, conn, args.embed_days, args.embed_limit,
+                        args.embed_max_usd, args.embed_scope, args.embed_workers)
+    return conn
 
 
 def _env_flag(name):
@@ -401,21 +455,25 @@ def main():
         # post, which is hours -- hence a thread beside the polls, not a step
         # before them.
         # --once exits after one pass and a daemon dies with it, so there
-        # the sweep runs first, the way it always did.
+        # the sweep runs first, the way it always did. Two rounds, not
+        # forever: a city that keeps failing is reported and the run goes on.
         if args.once:
-            backfill.run_all(conn, names, args.backfill_years or None)
+            backfill.run_all(conn, names, args.backfill_years or None, rounds=2)
+            conn = _recover(conn)        # run_all may have had to replace it
         else:
             backfill.start_background(names, args.backfill_years or None)
             print(f"backfill sweeping {len(names)} subreddit(s) in the background")
 
     # Everything is due at boot.
     due = dict.fromkeys(names, 0.0)
+    seen = {}
     chores_due = 0.0
     while True:
-        poll_due(conn, names, due)
+        conn = poll_due(conn, names, due, seen)
         if time.time() >= chores_due:
-            run_chores(conn, args)
+            conn = run_chores(conn, args)
             chores_due = time.time() + CHORE_INTERVAL
+        conn = _idle(conn)
 
         if args.once:
             break
