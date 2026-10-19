@@ -202,11 +202,97 @@ class BatchCalls(unittest.TestCase):
             api.forgotten.add(bid)
             with self.assertRaises(AV.NotFound):
                 AV.results(cl, bid)
-            self.assertEqual([b.id for b in AV.recent_batches(cl)], [bid])
+            listed, covered = AV.recent_batches(cl)
+            self.assertEqual(([b.id for b in listed], covered), ([bid], True))
+            self.assertEqual(api.gets, 4)                      # a 404 is not retried
 
     def test_results_errors_are_mapped(self):
+        waits = []
         with self.assertRaises(AV.TransientAPIError):
-            AV.results(AV.client("k", "http://127.0.0.1:9"), "msgbatch_x")
+            AV.results(AV.client("k", "http://127.0.0.1:9"), "msgbatch_x", sleep=waits.append, log=QUIET)
+        self.assertEqual(len(waits), len(AV.GET_WAITS))
+
+
+QUIET = lambda *a, **k: None  # noqa: E731
+
+
+class BatchReads(unittest.TestCase):
+    """Reading a batch back is safe to repeat, so a multi-day run rides out
+    outages there instead of stopping (finding 3 of the v6 audit)."""
+
+    def setUp(self):
+        self.api = F.FakeAnthropic().__enter__()
+        self.cl = AV.client("k", self.api.base_url)
+        self.bid = AV.submit(self.cl, [("t1_a", AV.params("s", "u")), ("t1_b", AV.params("s", "u"))])
+        self.waits = []
+
+    def tearDown(self):
+        self.api.__exit__(None, None, None)
+
+    def read(self, fn, *a):
+        return fn(self.cl, *a, sleep=self.waits.append, log=QUIET)
+
+    def test_5xx_429_and_resets_on_retrieve_are_retried(self):
+        self.api.get_failures = [F.error(529, "overloaded_error"), F.error(500, "api_error"),
+                                 F.error(429, "rate_limit_error")]
+        self.assertEqual(self.read(AV.retrieve, self.bid).id, self.bid)
+        self.assertEqual(len(self.waits), 3)
+        self.assertEqual(self.waits[2], 0)                      # retry-after honoured
+
+    def test_a_truncated_results_stream_is_read_again(self):
+        self.api.truncate_results = 2
+        got = self.read(AV.results, self.bid)
+        self.assertEqual(set(got), {"t1_a", "t1_b"})
+        self.assertEqual(len(self.waits), 2)
+
+    def test_a_missing_results_url_is_transient(self):
+        self.api.no_results_url = 1
+        self.assertEqual(set(self.read(AV.results, self.bid)), {"t1_a", "t1_b"})
+        self.assertEqual(len(self.waits), 1)
+
+    def test_list_retries_and_pages(self):
+        for _ in range(4):
+            AV.submit(self.cl, [("t1_c", AV.params("s", "u"))])
+        self.api.get_failures = [F.error(503, "api_error")]
+        listed, covered = self.read(lambda cl, **kw: AV.recent_batches(cl, limit=2, **kw))
+        self.assertEqual(len(listed), 5)
+        self.assertTrue(covered)
+        self.assertEqual(len(self.waits), 1)
+        # Stopping short of the end, with nothing older than `until` seen, is not coverage.
+        import datetime as dt
+        listed, covered = self.read(lambda cl, **kw: AV.recent_batches(
+            cl, until=dt.datetime(2000, 1, 1, tzinfo=dt.timezone.utc), limit=2, max_pages=2, **kw))
+        self.assertEqual((len(listed), covered), (4, False))
+
+    def test_outlasting_the_retries_is_transient(self):
+        self.api.get_failures = [F.error(529, "overloaded_error")] * (len(AV.GET_WAITS) + 1)
+        with self.assertRaises(AV.TransientAPIError) as cm:
+            self.read(AV.retrieve, self.bid)
+        self.assertIn("529", str(cm.exception))
+        self.assertGreater(sum(AV.GET_WAITS), 5 * 60)          # several minutes before a run stops
+
+    def test_only_decoding_errors_are_retried_not_every_value_error(self):
+        import json
+        seq = [json.JSONDecodeError("cut", "{", 1)]
+
+        def cut_then_ok():
+            if seq:
+                raise seq.pop()
+            return "ok"
+        self.assertEqual(AV._get("x", cut_then_ok, sleep=self.waits.append, log=QUIET), "ok")
+        self.assertEqual(len(self.waits), 1)
+
+        def bug():
+            raise ValueError("a bug in our own parsing")
+        with self.assertRaises(ValueError):
+            AV._get("x", bug, sleep=self.waits.append, log=QUIET)
+        self.assertEqual(len(self.waits), 1)
+
+    def test_4xx_is_fatal_at_once(self):
+        self.api.get_failures = [F.error(401, "authentication_error")]
+        with self.assertRaises(AV.FatalAPIError):
+            self.read(AV.retrieve, self.bid)
+        self.assertEqual(self.waits, [])
 
 
 if __name__ == "__main__":

@@ -217,8 +217,16 @@ be paid for and never read, so both candidate queries filter on `subreddit`.
   names, `is_negated` or `reference_only`. Those move with identity decisions
   and prompt versions, so filtering them belongs to the query.
 
-**The model.** `qwen/qwen3-embedding-8b` through OpenRouter, pinned to
-DeepInfra with no fallback. DeepInfra and Nebius disagree (cos 0.9976).
+**The model.** `qwen/qwen3-embedding-8b` through OpenRouter, pinned to one
+DeepInfra endpoint with no fallback. DeepInfra and Nebius disagree (cos 0.9976).
+The pin is the endpoint's exact tag, `deepinfra/us` (`order` and `only`),
+plus its quantization label, `unknown` (`quantizations`), as OpenRouter's
+endpoint listing gave them on 2026-10-19. A bare `deepinfra` would match
+every DeepInfra endpoint, so a second region or a quantized variant could be
+mixed in while the response still said DeepInfra. The response names only
+the provider, so that is all `embedding.py` can check on the way back; the
+tag and quantization rest on the routing. If the endpoint is renamed or
+relabelled, requests get a 404 and the run stops; nothing is stored.
 The model returns 4,096 dims; the first 1,024 are kept and L2-renormalised, stored as
 `halfvec(1024)`. That scored within noise of full size on comments, and HNSW
 cannot index a halfvec over 4,000 dims. OpenRouter's `dimensions: 1024` was
@@ -226,8 +234,9 @@ checked to give the same vector, so it is sent to shrink responses.
 Documents are embedded raw. Queries get the model card's instruction
 (`embedding.format_query`), because OpenRouter ignores `input_type` for Qwen.
 All of it lives in `embedding.py`. `model` in the tables is
-`embedding.MODEL_KEY` (`qwen/qwen3-embedding-8b@1024:deepinfra`), and vectors
-are only comparable within one value.
+`embedding.MODEL_KEY` (`qwen/qwen3-embedding-8b@1024:deepinfra/us:unknown`:
+model, dims, endpoint tag, quantization), and vectors are only comparable
+within one value.
 
 **Keys.** `EMBED_OPENROUTER_API_KEY` if set, else `OPENROUTER_API_KEY`. Give
 embeddings their own key with its own limit, so they can never exhaust the
@@ -247,17 +256,78 @@ current_user`). Without one the block logs a notice, the boot carries on,
 and embedding stays off until a superuser applies `embed_schema.sql`.
 
 ```
-psql "$DATABASE_URL" -f embed_schema.sql     # once: pgvector + the tables
+psql "$DATABASE_URL" -f embed_schema.sql     # once: pgvector, the tables, mentions_created_idx
 python embed.py --dry-run                    # rows, tokens, projected cost; no call, no write
 python embed.py --max-usd 0.50               # comments, then threads; resumable
 python embed.py --build-index                # HNSW, only after the backlog has loaded
 ```
 
+In this order, and with these preconditions:
+1. **Deploy before the dry run.** Both candidate queries filter on `comments.subreddit`
+   and `threads.subreddit`, which the multi-city deploy adds. Production did
+   not have `comments.subreddit` yet on 2026-10-19, so until then even
+   `embed.py --dry-run` fails on the missing column.
+2. **The migration** (`embed_schema.sql`, or the boot after the deploy as a
+   superuser). It can go before the deploy: it reads no `subreddit` column.
+   Its index on `mentions` takes a SHARE lock, which blocks writes to
+   `mentions`, and gives up after waiting 5 s for it. The build itself is
+   well under a second, but the lock is held until the transaction commits.
+   Applied by hand that is the file's own `commit`, right after. Left to the
+   boot it is the end of the whole `schema.sql` transaction, v6 block
+   included. Applying the file by hand first keeps it off the boot.
+3. **Check the routing with one request**, right after the deploy and
+   before any run. The quantization filter (`quantizations: ["unknown"]`)
+   could not be tried without a paid call while this was built. This sends
+   the exact routing `embedding.ROUTING` sends, for one short input, at a
+   cost of about four tokens ($0.00000004). It writes nothing:
+   ```
+   curl -s https://openrouter.ai/api/v1/embeddings \
+     -H "Authorization: Bearer $EMBED_OPENROUTER_API_KEY" -H 'Content-Type: application/json' \
+     -d '{"model": "qwen/qwen3-embedding-8b", "input": ["NYCEats routing check"],
+          "dimensions": 1024, "encoding_format": "base64",
+          "provider": {"order": ["deepinfra/us"], "only": ["deepinfra/us"],
+                       "quantizations": ["unknown"], "allow_fallbacks": false}}' \
+     | jq '{provider, usage, error}'
+   ```
+   - A 200 with `"provider": "DeepInfra"` and a `usage` block: the pin works.
+   - A 404 (no endpoint matches) or a 400 about the routing: first read the
+     free listing,
+     `curl -s https://openrouter.ai/api/v1/models/qwen/qwen3-embedding-8b/endpoints | jq '.data.endpoints[] | {tag, quantization}'`.
+     If it still shows `deepinfra/us` with `"unknown"`, the filter is what
+     fails. Delete the `"quantizations"` entry from `embedding.ROUTING`,
+     keeping `only` and `order` (and update `PIN` in
+     `tests/test_embedding.py`). `MODEL_KEY` stays as it is: the endpoint is
+     the same, and the key's quantization records the listing's label. If
+     the tag is gone or the label changed, that is a different endpoint:
+     change `ENDPOINT`/`QUANTIZATION`, which is a model swap (below).
+   `embed.py` would hit the same 404 on its first request and stop without
+   storing or marking anything, so a skipped check costs nothing worse than a
+   failed run.
+4. **The dry run**, then the backlog. Only one run at a time: `embed.py`
+   exits if the poller's embed pass holds the lock, and the pass skips while
+   `embed.py` holds it. The lock belongs to a Postgres session. If the
+   connection holding it goes half-open (the client vanished, say a dropped
+   proxy, and the server never saw the connection close), the server keeps
+   that session, and the lock, until its TCP keepalive reaps it. Until then
+   every run reports "holds the lock". It heals by itself. To see who holds
+   it (read-only):
+   `select a.pid, a.state, a.backend_start, a.client_addr from pg_locks l join pg_stat_activity a using (pid) where l.locktype = 'advisory' and l.classid = 28281 and l.objid = 1667591522`
+   (`embed.LOCK_KEY` split into its high and low 32 bits).
+   `pg_terminate_backend(pid)` frees it at once, with the owner's go-ahead.
+5. **The index build** needs at least 1 GB of free disk and about 256 MB
+   of RAM headroom (`--index-mem 256MB`, serial). Expect the database to grow
+   by about 0.75 GB in all: roughly 0.3 GB of `halfvec(1024)` rows for 141k
+   vectors, and as much again for the two HNSW graphs. That is an estimate,
+   not a measurement; check free disk on the Railway volume before the build.
+
 A row is due when it has no vector for the current `MODEL_KEY`, or its stored
 `input_hash` (sha256 of the exact text) no longer matches. Kill and restart
 freely. A refused input is isolated by splitting its batch, then recorded in
-`embedding_errors` and skipped until its text changes, or until
-`--retry-errors`. A 400 can also be about the request rather than the input
+`embedding_errors`. A recorded error is retried by itself once a day has
+passed since it failed, while it has failed fewer than 3 times on the same
+text, by `embed.py` and the poller alike (the poller retries them wherever
+they fall in time). After that it waits for a new text, which starts the
+count again, or `--retry-errors`. A 400 can also be about the request rather than the input
 (an unsupported parameter, a routing error), and then every batch is refused.
 So the first time a run gets down to one refused input, it sends a one-line
 canary with the same request shape. If that is refused too, the run stops.
@@ -269,7 +339,20 @@ a 200 without vectors) are charged against it.
 
 The poller keeps up with new comments when `POLL_EMBED=1`. Its 30-minute
 chores pass runs settle, extract, refresh, then embed, over the last
-`POLL_EMBED_DAYS` (3).
+`POLL_EMBED_DAYS` (3). For comments that window is on when a mention was
+stored (`mentions.created_at`, indexed by `mentions_created_idx`), not when
+the comment was written: a comment can get its first mention long after it
+was posted (a v6 backfill, an extraction retry), and a window on
+`comments.created_utc` never embedded those. Inside the window only rows
+with no vector yet are taken. Nothing the poller does rewrites a comment's
+or a thread's text, and without that filter a backfill that touched every
+mentioned comment would have each pass walk all of them for three days.
+Changed text is found by a run without `--since-days`. Threads are
+windowed on when they were posted.
+**After every extraction backfill, run `python embed.py --max-usd <N>`.**
+The poller would get there, but at 2,000 rows a pass, and only for mentions
+stored in its last 3 days; anything it has not reached by then is left for
+`embed.py`.
 Embedding goes last so it can never delay the board. It is capped by
 `POLL_EMBED_LIMIT` (2,000 rows) and `POLL_EMBED_MAX_USD` ($0.05) per pass,
 and stops starting new batches after 5 minutes; the city polls wait behind
@@ -285,9 +368,10 @@ index per table and model (`... where model = '<MODEL_KEY>'`). The build is
 `CONCURRENTLY` and serial: Railway's small `/dev/shm` kills parallel builds
 the same way it killed the parallel refresh.
 
-**A model or provider swap** is new rows, not a migration:
-1. Change `MODEL`/`DIMS`/`PROVIDER` in `embedding.py`. That gives a new
-   `MODEL_KEY`.
+**A model, endpoint or quantization swap** is new rows, not a migration:
+1. Change `MODEL`/`DIMS`/`PROVIDER`/`ENDPOINT`/`QUANTIZATION` in
+   `embedding.py`. That gives a new `MODEL_KEY`, and a new index name (a
+   long one ends in a hash of the key, so two keys never share one).
 2. Run `embed.py`. Every row is due under the new key; the old rows are
    untouched and search keeps working.
 3. Run `embed.py --build-index` for the new partial index.
@@ -307,6 +391,12 @@ A dims change past 1,024 also needs a new column type, since the columns are
 - Filter at read time: mentions of `excluded_entities` (on the resolved key),
   `is_negated` mentions, and `reference_only` once that column exists.
 - Suppress permalinks where `was_deleted_later` is set, like everywhere else.
+  This matters more here than on the board: vectors are kept when a comment
+  is later deleted (nothing in `embed.py` removes them, and the text they
+  were made from stays in `comments`), so a deleted comment can still be a
+  top search hit. Search must read `was_deleted_later` from `comments` for
+  every hit and return no permalink when it is set, as `app/queries.py`
+  does for the board's comment lists.
 - Embed the query with `embedding.embed_query`. It uses the same model,
   provider, instruction, cut and keep-alive session.
 

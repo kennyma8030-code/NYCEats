@@ -14,7 +14,7 @@ export function StandoutNegatives({ item }: Props) {
   const state = useFetch(item.flagged ? key : null, async () => ({ key, mentions: await api.standoutNegatives(key) }));
   // useFetch keeps the last result while loading; never show one
   // restaurant's complaints under another's name.
-  const data = state.data && state.data.key === key ? state.data.mentions : null;
+  const data = state.current && state.data?.key === key ? state.data.mentions : null;
   if (!item.flagged) return null;
   const share = Math.round((item.strong_neg_share ?? 0) * 100);
 

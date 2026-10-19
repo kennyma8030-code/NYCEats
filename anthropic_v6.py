@@ -30,7 +30,10 @@ Failures are sorted three ways, and the callers act on the sort:
     timeout may have been billed, so its retry needs a fresh reservation
     under the cap (call's retry_ok), or the request is given up (CapReached);
   * a batch submission that times out or gets a 5xx may have been accepted
-    anyway: AmbiguousSubmit, which the caller must never resubmit.
+    anyway: AmbiguousSubmit, which the caller must never resubmit;
+  * reading a batch back (status, results, the list) is safe to repeat, so
+    any failure there short of a 404 or another 4xx is retried for several
+    minutes before it becomes TransientAPIError (GET_WAITS).
 
 Cost is computed from the usage block at Haiku 5.5's prices: $0.10/MTok in,
 $0.50 out (thinking included), $0.01 cache reads, $0.125 cache writes, all
@@ -322,33 +325,96 @@ def submit(cl, requests):
     return b.id
 
 
-def retrieve(cl, batch_id):
+# Reading a batch (its status, its results, the key's batch list) changes
+# nothing on the API's side, so it is safe to repeat. A backfill polls for a
+# day or more, and one 529, a reset connection or a stream cut halfway through
+# a results file must not end it: these are retried for several minutes
+# (GET_WAITS adds up to about seven) before TransientAPIError stops the run.
+GET_WAITS = (5, 10, 20, 40, 60, 60, 60, 60, 60, 60)
+
+
+def _stream_errors():
+    """What the SDK's HTTP library raises while a body is being read (a
+    dropped connection, a truncated stream), which the SDK does not wrap."""
+    # A results line cut mid-JSON or mid-character, not every ValueError: a
+    # ValueError from a bug in our own parsing must surface, not be retried.
+    out = [OSError, json.JSONDecodeError, UnicodeDecodeError]
+    for name in ("httpx2", "httpx"):
+        try:
+            mod = __import__(name)
+        except ImportError:
+            continue
+        out += [mod.HTTPError, mod.StreamError]
+    return tuple(out)
+
+
+def _get(what, fn, sleep=None, log=print):
+    """fn() with retries, for a read that is safe to repeat. NotFound and
+    FatalAPIError are facts about the batch or the request and are raised at
+    once. Everything else is retried, then raised as TransientAPIError: 429,
+    5xx, connection and stream failures, and the SDK's own errors (a missing
+    results_url, say)."""
     import anthropic
-    try:
-        return cl.messages.batches.retrieve(batch_id)
-    except (anthropic.APIStatusError, anthropic.APIConnectionError) as e:
-        raise _batch_errors(f"batch {batch_id}", e) from e
+    sleep = sleep or time.sleep
+    waits = GET_WAITS
+    stream = _stream_errors()
+    last = cause = None
+    for attempt in range(len(waits) + 1):
+        wait = None
+        try:
+            return fn()
+        except (anthropic.APIStatusError, anthropic.APIConnectionError) as e:
+            err = _batch_errors(what, e)
+            if not isinstance(err, TransientAPIError):
+                raise err from e
+            last, cause = err, e
+            if isinstance(e, anthropic.APIStatusError):
+                wait = _retry_after(e)
+        except (anthropic.AnthropicError, *stream) as e:
+            last, cause = TransientAPIError(f"{what}: {type(e).__name__}: {e}"), e
+        if attempt == len(waits):
+            break
+        wait = min(MAX_WAIT, wait if wait is not None else waits[attempt] + random.uniform(0, 1))
+        log(f"  {last}, retrying in {wait:.0f}s")
+        sleep(wait)
+    raise TransientAPIError(f"gave up after {len(waits) + 1} attempts: {last}") from cause
 
 
-def recent_batches(cl, limit=100):
-    """The key's most recent batches (newest first), for matching a pending row."""
-    import anthropic
-    try:
-        page = cl.messages.batches.list(limit=limit)
-        return list(page.data)
-    except (anthropic.APIStatusError, anthropic.APIConnectionError) as e:
-        raise _batch_errors("batch list", e) from e
+def retrieve(cl, batch_id, sleep=None, log=print):
+    return _get(f"batch {batch_id}", lambda: cl.messages.batches.retrieve(batch_id), sleep, log)
 
 
-def results(cl, batch_id):
+def recent_batches(cl, until=None, limit=100, max_pages=50, sleep=None, log=print):
+    """The key's batches, newest first, back to the first one created before
+    `until` (or to the end of the list), at most max_pages pages.
+
+    Returns (batches, covered). covered says the listing reached a batch older
+    than `until`, or the end of the list, so a batch created after `until`
+    that is not in it does not exist. A pending row may only be settled as
+    "none" on a covered listing."""
+    out, after = [], None
+    for _ in range(max_pages):
+        kw = {"limit": limit} if after is None else {"limit": limit, "after_id": after}
+        page = _get("batch list", lambda: cl.messages.batches.list(**kw), sleep, log)
+        data = list(page.data)
+        out += data
+        if until is not None and any(b.created_at < until for b in data):
+            return out, True
+        if not data or not getattr(page, "has_more", False):
+            return out, True
+        after = getattr(page, "last_id", None) or data[-1].id
+    return out, False
+
+
+def results(cl, batch_id, sleep=None, log=print):
     """{custom_id: ("succeeded", message) | ("errored", error_type, message) | ("expired"|"canceled",)}.
 
     Results arrive in any order; they are keyed by custom_id, which is the
-    item id itself.
+    item id itself. The whole file is read inside the retry, so a stream cut
+    halfway is read again from the start, never half-used.
     """
-    import anthropic
-    out = {}
-    try:
+    def read():
+        out = {}
         for r in cl.messages.batches.results(batch_id):
             res = r.result
             if res.type == "succeeded":
@@ -360,6 +426,5 @@ def results(cl, batch_id):
                                     str(inner.get("message") or "")[:300])
             else:
                 out[r.custom_id] = (res.type,)
-    except (anthropic.APIStatusError, anthropic.APIConnectionError) as e:
-        raise _batch_errors(f"batch {batch_id} results", e) from e
-    return out
+        return out
+    return _get(f"batch {batch_id} results", read, sleep, log)

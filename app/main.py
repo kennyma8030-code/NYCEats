@@ -16,18 +16,23 @@ psycopg2 -- a blocking call on the event loop stalls every request in the
 process.
 """
 
+import logging
 import os
 from contextlib import asynccontextmanager
 
 import psycopg2
+import psycopg2.errors
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from .db import close_pool, open_pool
+from .db import PoolTimeout, close_pool, open_pool
 from .routers import admin, feed, ledger, public, restaurants
+
+# uvicorn configures this logger, so a line here lands in the Railway log.
+log = logging.getLogger("uvicorn.error")
 
 DESCRIPTION = """
 A read API over r/FoodNYC.
@@ -73,19 +78,43 @@ app.add_middleware(
 )
 
 
+@app.exception_handler(PoolTimeout)
+def pool_timeout(request: Request, exc: PoolTimeout):
+    """Every connection stayed busy for the whole wait: a burst, not a fault.
+
+    503 with Retry-After rather than a 500, because the request was fine and
+    the same one a second later will very likely succeed.
+    """
+    return JSONResponse(status_code=503, headers={"Retry-After": "1"},
+                        content={"error": "busy",
+                                 "detail": "the server is busy; try again shortly"})
+
+
 @app.exception_handler(psycopg2.Error)
 def database_error(request: Request, exc: psycopg2.Error):
     """Report a database failure as one, rather than as a blank 500.
 
-    The most likely cause by far is a missing scoring layer on a fresh
-    database, so say so instead of leaking a relation-does-not-exist trace.
+    The detail goes to the log, not the client: Postgres error text names
+    tables, columns and sometimes values, and this API is anonymous. The
+    most likely cause by far is a missing scoring layer on a fresh database,
+    so that one gets a hint, keyed on the error class rather than its text.
     """
     message = str(getattr(exc, "pgerror", None) or exc).strip()
-    hint = ("run `python refresh.py --apply` to build the scoring views"
-            if "does not exist" in message else None)
+    log.error("database error on %s %s: %s: %s", request.method, request.url.path,
+              type(exc).__name__, message)
+    if isinstance(exc, psycopg2.errors.QueryCanceled):
+        # statement_timeout (app/db.py) fired: too slow, not broken.
+        return JSONResponse(status_code=503, headers={"Retry-After": "5"},
+                            content={"error": "database timeout",
+                                     "detail": "the query took too long"})
+    missing = isinstance(exc, (psycopg2.errors.UndefinedTable,
+                               psycopg2.errors.UndefinedObject,
+                               psycopg2.errors.UndefinedColumn))
+    hint = "run `python refresh.py --apply` to build the scoring views" if missing else None
     return JSONResponse(status_code=500,
                         content={"error": "database error",
-                                 "detail": message, "hint": hint})
+                                 "detail": "the database could not answer this request",
+                                 "hint": hint})
 
 
 app.include_router(public.router)

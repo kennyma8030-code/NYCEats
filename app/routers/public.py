@@ -1,11 +1,14 @@
 """The read endpoints: board, search, facets, corpus stats, health."""
 
+import threading
+import time
+
 from typing import Annotated, Literal, Optional
 
 from fastapi import APIRouter, Depends, Query
 
 from .. import queries
-from ..db import fetch_all, fetch_one, fetch_value, get_conn
+from ..db import connection, fetch_all, fetch_one, fetch_value, get_conn
 from ..models import (Algo, Facets, Health, LeaderboardQuery, LeaderboardRow,
                       Page, SearchHit, SortKey, Stats)
 
@@ -87,15 +90,55 @@ def search(q: Annotated[str, Query(min_length=1, max_length=100)],
     return queries.search(conn, q, limit, fetch_all)
 
 
+# The last facets answer and the facets_version it was computed at. Per
+# process, which is fine: each worker pays the scan once per refresh.
+_facets_cache = {"version": None, "at": 0.0, "value": None}
+_facets_lock = threading.Lock()
+# A refresh that only re-resolved identities (an alias edit) can move the
+# cuisine counts without moving facets_version, so nothing is kept longer
+# than this either.
+FACETS_MAX_AGE = 1800
+
+
+def _cached_facets(version):
+    c = _facets_cache
+    if (c["value"] is not None and c["version"] == version
+            and time.monotonic() - c["at"] <= FACETS_MAX_AGE):
+        return c["value"]
+    return None
+
+
 @router.get("/api/facets", response_model=Facets, summary="Filter values")
-def facets(conn=Depends(get_conn)):
+def facets():
     """Values for the filter controls, drawn from what is actually present.
 
     `descriptors` is the commenters' own open vocabulary -- the prompt asks
     for their words, not a fixed list -- so this reports what the model
     produced rather than what we expected.
+
+    Counting it scans every mention, and every page load asks, so the answer
+    is kept until the scoring layer next takes in new mentions. The lock
+    makes a burst after a refresh do the scan once rather than once each;
+    a request that finds the answer current never waits on it.
+
+    Connections are taken here rather than through get_conn, so a request
+    queued on the lock holds none: a burst waiting on one scan must not
+    drain the pool for every other page.
     """
-    return Facets(**queries.facets(conn, fetch_all))
+    with connection() as conn:
+        hit = _cached_facets(queries.facets_version(conn, fetch_value))
+    if hit is not None:
+        return hit
+    with _facets_lock:
+        with connection() as conn:
+            # Read again under the lock: the request ahead may have just
+            # computed it, or a refresh may have moved the version since.
+            version = queries.facets_version(conn, fetch_value)
+            hit = _cached_facets(version)
+            if hit is None:
+                hit = Facets(**queries.facets(conn, fetch_all))
+                _facets_cache.update(version=version, at=time.monotonic(), value=hit)
+        return hit
 
 
 @router.get("/api/stats", response_model=Stats, summary="Corpus counters")

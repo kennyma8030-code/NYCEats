@@ -328,12 +328,22 @@ def extract_once(conn, days, limit, workers):
     return done
 
 
-def extract_v6_once(conn, days, limit, workers, max_usd):
+def extract_v6_once(conn, days, limit, workers, max_usd, max_age_days=None):
     """extract_once for EXTRACT_VERSION=v6: new r/FoodNYC comments, then posts,
     through the benchmarked v6 prompt with direct calls at effort medium.
 
-    Same window and limit as the old path, plus a spend cap per pass. A
-    request the API refuses outright (a 4xx other than 429: a bad parameter,
+    Same window length and limit as the old path, plus a spend cap per pass,
+    but the window is on first_seen_at (when the item reached this database),
+    so a comment that lands a few days after it was written is extracted too.
+    It is also bounded by age: only items written in the last max_age_days
+    ($POLL_EXTRACT_V6_MAX_AGE_DAYS, default 7). A bulk insert of old comments
+    (backfill.py, this poller's own gap-fill backfill on boot, a re-sweep)
+    makes every one of them "first seen" now, and taking those here would buy
+    them at the direct price, up to POLL_EXTRACT_MAX_USD a pass (some $30 to
+    $48 a day). They are left for a batch catch-up (extract_v6.py --batch,
+    with no --since) at half that, and each pass says how many it left.
+
+    A request the API refuses outright (a 4xx other than 429: a bad parameter,
     a dead key, no credit) stops the pass loudly and marks nothing, and so
     does an outage that outlasts the backoff; the next pass tries again.
     Whatever was stored before the stop still counts.
@@ -349,18 +359,22 @@ def extract_v6_once(conn, days, limit, workers, max_usd):
         # pick the same due items and pay for them twice.
         print("  extract v6: another v6 run holds the lock; skipping this pass")
         return 0
+    if max_age_days is None:
+        max_age_days = int(os.environ.get("POLL_EXTRACT_V6_MAX_AGE_DAYS", "7"))
+    max_age_days = max(max_age_days, days)
     budget = extract_v6.Budget(max_usd)
     stats = extract_v6.Stats()
     cl = anthropic_v6.client(anthropic_v6.api_key())
-    since = _since(conn, days)
+    seen = _since(conn, days)
+    written = _since(conn, max_age_days)
     # Posts first, with a tenth of the limit: a busy hour of comments would
     # otherwise take the whole limit every pass and posts would never run.
     post_limit = max(1, limit // 10)
     try:
-        extract_v6.run_direct(conn, cl, budget, kinds=("post",), limit=post_limit, since=since,
-                              workers=workers, stats=stats)
+        extract_v6.run_direct(conn, cl, budget, kinds=("post",), limit=post_limit, since=written,
+                              seen_since=seen, workers=workers, stats=stats)
         extract_v6.run_direct(conn, cl, budget, kinds=("comment",), limit=max(limit - stats.done, 0),
-                              since=since, workers=workers, stats=stats)
+                              since=written, seen_since=seen, workers=workers, stats=stats)
     except anthropic_v6.FatalAPIError as e:
         print(f"  EXTRACTION STOPPED -- the API rejected the request itself, nothing was marked: {e}")
     except anthropic_v6.TransientAPIError as e:
@@ -369,6 +383,10 @@ def extract_v6_once(conn, days, limit, workers, max_usd):
         extract_v6.unlock(conn)
     if stats.done or stats.failed or stats.refused:
         print(f"  extract v6: {stats.line()}")
+    left = extract_v6.late_backlog(conn, seen, written)
+    if left:
+        print(f"  extract v6: left {left:,} item(s) first seen in the last {days}d but written over "
+              f"{max_age_days}d ago, for a batch catch-up (extract_v6.py --batch, no --since)")
     return stats.done
 
 
@@ -376,9 +394,13 @@ def embed_once(conn, days, limit, max_usd, scope, workers):
     """Embed r/FoodNYC's recent rows: comments with mentions, and threads by scope.
 
     Same window idea as extract_once: the backlog is embedded by hand with
-    embed.py, and this only keeps up with what arrives. It runs after
-    extraction, because a comment is only eligible once it has a mention,
-    and after the refresh, so it can never delay the board.
+    embed.py, and this only keeps up with what arrives. For comments the
+    window is on when a mention was stored, not when the comment was
+    written, so a comment that gets its first mention late (a v6 backfill,
+    an extraction retry) is still picked up; only rows with no vector yet
+    count, plus recorded errors due for a retry (embed.RETRY_FAILURES). It
+    runs after extraction, because a comment is only eligible once it has a
+    mention, and after the refresh, so it can never delay the board.
 
     It is bounded too, so it cannot hold up the polls for long: few retries,
     a short timeout, a per-pass spend cap, and a deadline after which no new batch
@@ -391,11 +413,22 @@ def embed_once(conn, days, limit, max_usd, scope, workers):
         conn.commit()
         print("  embed: tables missing -- apply embed_schema.sql; skipping")
         return 0
+    if not embed.try_lock(conn):
+        # A manual embed.py run (the backlog, say) holds it; both would pick
+        # the same due rows and pay for them twice.
+        print("  embed: another embedding run holds the lock; skipping this pass")
+        return 0
     budget = embedding.Budget(max_usd)
-    stats = embed.run(conn, embed.KINDS[scope], budget, limit=limit,
-                      since=_since(conn, days), workers=workers,
-                      attempts=EMBED_ATTEMPTS, timeout=EMBED_TIMEOUT,
-                      deadline=time.monotonic() + EMBED_DEADLINE, log=lambda *_: None)
+    try:
+        stats = embed.run(conn, embed.KINDS[scope], budget, limit=limit,
+                          since=_since(conn, days), workers=workers,
+                          attempts=EMBED_ATTEMPTS, timeout=EMBED_TIMEOUT,
+                          deadline=time.monotonic() + EMBED_DEADLINE, log=lambda *_: None)
+    finally:
+        try:
+            embed.unlock(conn)
+        except Exception:
+            pass         # a dead connection has already dropped the lock; _step recovers it
     n, failed = sum(stats.embedded.values()), sum(stats.failed.values())
     if n or failed or stats.stop:
         print(f"  embedded {n} row(s), {failed} failed, ${budget.spent:.4f}"
@@ -559,7 +592,8 @@ def main():
                     help="also embed new r/FoodNYC rows for semantic search every 30 min ($POLL_EMBED)")
     ap.add_argument("--embed-days", type=int,
                     default=int(os.environ.get("POLL_EMBED_DAYS", "3")),
-                    help="only embed rows from the last N days ($POLL_EMBED_DAYS, default 3)")
+                    help="embed comments whose mentions were stored in the last N days, and "
+                         "threads posted in them ($POLL_EMBED_DAYS, default 3)")
     ap.add_argument("--embed-limit", type=int,
                     default=int(os.environ.get("POLL_EMBED_LIMIT", "2000")),
                     help="at most N rows embedded per 30-min pass ($POLL_EMBED_LIMIT, default 2000)")

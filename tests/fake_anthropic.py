@@ -14,6 +14,7 @@ import datetime as dt
 import json
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from urllib.parse import parse_qs
 
 MODEL = "claude-haiku-5-5"
 
@@ -71,6 +72,10 @@ class FakeAnthropic:
         self.submit_status = None   # (status, body) to refuse the next batch create
         self.accept_then_fail = None  # (status, body): create the next batch, then answer this
         self.forgotten = set()      # batch ids that answer 404 (past retention, another key)
+        self.get_failures = []      # (status, body) answers for the next GETs, one each, then normal
+        self.truncate_results = 0   # the next N results downloads stop halfway through the body
+        self.no_results_url = 0     # the next N batch reads say ended but carry no results_url
+        self.gets = 0               # every GET served
         self._lock = threading.Lock()
         self._n = 0
 
@@ -103,10 +108,21 @@ class FakeAnthropic:
                 self._send(404, {"type": "error", "error": {"type": "not_found_error", "message": self.path}})
 
             def do_GET(self):
-                parts = self.path.split("?")[0].strip("/").split("/")
-                if len(parts) == 3:                    # v1/messages/batches: the list
-                    data = [fake._batch(b) for b in sorted(fake.batches, reverse=True)]
-                    return self._send(200, {"data": data, "has_more": False,
+                with fake._lock:
+                    fake.gets += 1
+                    fail = fake.get_failures.pop(0) if fake.get_failures else None
+                if fail is not None:
+                    return self._send(*fail)
+                path, _, query = self.path.partition("?")
+                parts = path.strip("/").split("/")
+                if len(parts) == 3:                    # v1/messages/batches: the list, newest first
+                    q = parse_qs(query)
+                    ids = sorted(fake.batches, reverse=True)
+                    if "after_id" in q:
+                        ids = [b for b in ids if b < q["after_id"][0]]
+                    limit = int(q.get("limit", ["20"])[0])
+                    data = [fake._batch(b) for b in ids[:limit]]
+                    return self._send(200, {"data": data, "has_more": len(ids) > limit,
                                             "first_id": data[0]["id"] if data else None,
                                             "last_id": data[-1]["id"] if data else None})
                 # v1/messages/batches/<id>[/results]
@@ -114,8 +130,24 @@ class FakeAnthropic:
                 if bid not in fake.batches or bid in fake.forgotten:
                     return self._send(*error(404, "not_found_error", f"no batch {bid}"))
                 if len(parts) == 5 and parts[4] == "results":
-                    return self._send(200, fake._results(bid), "application/binary")
-                return self._send(200, fake._batch(bid, poll=True))
+                    data = fake._results(bid)
+                    if fake.truncate_results:
+                        fake.truncate_results -= 1
+                        # Promise the whole body, send half, hang up: a stream cut mid-download.
+                        self.send_response(200)
+                        self.send_header("content-type", "application/binary")
+                        self.send_header("content-length", str(len(data)))
+                        self.end_headers()
+                        self.wfile.write(data[:len(data) // 2])
+                        self.wfile.flush()
+                        self.close_connection = True
+                        return
+                    return self._send(200, data, "application/binary")
+                b = fake._batch(bid, poll=True)
+                if fake.no_results_url and b["processing_status"] == "ended":
+                    fake.no_results_url -= 1
+                    b["results_url"] = None
+                return self._send(200, b)
 
         class Server(ThreadingHTTPServer):
             # The SDK keeps connections alive in its pool; closing the server

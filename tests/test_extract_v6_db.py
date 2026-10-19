@@ -80,17 +80,22 @@ class DbCase(unittest.TestCase):
         self.conn.close()
 
     def load(self):
+        # Every row is first seen when it was written, as when the poller
+        # collects it live; the late-arrival tests move first_seen_at.
         with self.conn.cursor() as cur:
             for tid, sub, title, selftext, author, created in THREADS:
-                cur.execute("""insert into threads (id, subreddit, title, selftext, author, created_utc)
-                               values (%s, %s, %s, %s, %s, %s)""", (tid, sub, title, selftext, author, created))
+                cur.execute("""insert into threads (id, subreddit, title, selftext, author, created_utc,
+                                 first_seen_at)
+                               values (%s, %s, %s, %s, %s, %s, %s)""",
+                            (tid, sub, title, selftext, author, created, created))
             for cid, tid, parent, author, body, off in COMMENTS:
                 sub = next(t[1] for t in THREADS if t[0] == tid)
                 created = next(t[5] for t in THREADS if t[0] == tid) + dt.timedelta(minutes=off)
                 cur.execute("""insert into comments (id, subreddit, thread_id, parent_id, parent_comment_id,
-                                 author, body, permalink, created_utc)
-                               values (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                            (cid, sub, tid, parent or tid, parent, author, body, f"/r/x/{cid}", created))
+                                 author, body, permalink, created_utc, first_seen_at)
+                               values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                            (cid, sub, tid, parent or tid, parent, author, body, f"/r/x/{cid}", created,
+                             created))
         self.conn.commit()
         db.fill_tree(self.conn, [t[0] for t in THREADS])
 

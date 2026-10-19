@@ -87,6 +87,7 @@ def ledger(
                                 needs, flaws, limit, fetch_all,
                                 algo=algo, topic=topic)
     return Ledger(category=category, window_days=window, bucket_days=bucket, algo=algo, topic=topic,
+                  cuisine=cuisine, borough=borough, needs=needs, flaws=flaws,
                   total=rows[0]["total"] if rows else 0,
                   items=_build_items(conn, rows, window, bucket, topic))
 
