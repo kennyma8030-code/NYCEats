@@ -249,6 +249,7 @@ def aggregate(paths=B.Paths(), r3_run=None, write=True):
     got, problems, items = read(paths)
     rows, _ = B.rows_and_contexts()
     runs = {"low": raw_outputs(key["runs_path"]["low"]), "med": raw_outputs(key["runs_path"]["medium"])}
+    by_src_runs = {src: raw_outputs(path) for src, path in (key.get("runs_path_by_source") or {}).items()}
     # finals per (source, comment), and the names each judge rejected
     finals, rejected = {}, {}
     for iid, meta in key["items"].items():
@@ -276,7 +277,7 @@ def aggregate(paths=B.Paths(), r3_run=None, write=True):
     by_source = collections.defaultdict(collections.Counter)
     by_source_v = collections.defaultdict(collections.Counter)
     for (src, cid), fin in finals.items():
-        raw = runs["low" if src.endswith("-low") else "med"].get(cid)
+        raw = (by_src_runs.get(src) or runs["low" if src.endswith("-low") else "med"]).get(cid)
         if raw is None:
             continue
         text = rows[cid]["body"] if cid in rows else ""
@@ -416,10 +417,11 @@ def self_test():
         assert any(v["source"] == "hard-med" and v["comment_id"] == no_low for v in key["items"].values()), \
             "a medium output with no low twin must be judged"
         n_auto = sum(s["auto_resolved_by_source"].values())
-        for mode in ("rubber_stamp", "oracle"):
-            jdir = paths.judgments = os.path.join(tmp, "judgments_" + mode)
-            os.makedirs(jdir)
+        def synth(paths, key, jdir, mode, only=None):
+            """Write a synthetic judge's judgments for every packet (or only the named ones)."""
             for name, its in packets(paths).items():
+                if only is not None and name not in only:
+                    continue
                 with open(os.path.join(jdir, name + ".jsonl"), "w") as f:
                     for it in its:
                         own = [{k: m.get(k) for k in ("name", "overall", "aspects", "experience", "opinion", "avoid",
@@ -456,6 +458,11 @@ def self_test():
                         f.write(json.dumps({"item_id": it["item_id"], "comment_id": it["comment_id"], "own_read": own,
                                             "compare": compare, "missed": [], "notes_grade": grades,
                                             "rule_questions": [], "overall_item_ok": ok}) + "\n")
+
+        for mode in ("rubber_stamp", "oracle"):
+            jdir = paths.judgments = os.path.join(tmp, "judgments_" + mode)
+            os.makedirs(jdir)
+            synth(paths, key, jdir, mode)
             rep = aggregate(paths, r3_run=r3, write=False)
             assert not rep["problems"], rep["problems"][:5]
             if mode == "rubber_stamp":
@@ -473,6 +480,41 @@ def self_test():
             print(f"self-test {mode}: {rep['judged_items']} judged, {n_auto} medium outputs equal to low, "
                   f"catch rate {rate}, r600-low overall acc {low['field_accuracy']['overall']['acc']}, "
                   f"with validators {rep['by_source_with_validators']['r600-low']['field_accuracy']['overall']['acc']}")
+        # fresh medium added later (step p): new packets only, numbered on, old ones untouched
+        import hashlib as _h
+        before = {fn: _h.sha256(open(os.path.join(paths.packets, fn), "rb").read()).hexdigest()
+                  for fn in os.listdir(paths.packets)}
+        fake = {"name": "Brindle", "named_in": "comment", "kind": "restaurant", "location": None,
+                "experience": "firsthand", "dishes": [{"dish": "pasta", "level": "praise", "avoid": False}],
+                "notes": [], "aspects": {"taste": "praise", "value": None, "service": None, "atmosphere": None,
+                                         "wait": None}, "opinion": "stated", "overall": "praise", "avoid": False,
+                "timeframe": "current", "trend": None, "status": None, "price": None, "tags": []}
+        with open(med_path, "a", encoding="utf-8") as f:
+            for n, c in enumerate(sets["fresh"]):
+                raw = {"mentions": [dict(fake, name=f"Brindle {n}")]} if n % 2 else {"mentions": []}
+                f.write(json.dumps({"call_key": f"comment:{c}", "rep": 0, "raw": json.dumps(raw)}) + "\n")
+        last = max(int(fn[1:4]) for fn in before)
+        inc = B.build_fresh_med(paths, quiet=True)
+        after = {fn: _h.sha256(open(os.path.join(paths.packets, fn), "rb").read()).hexdigest()
+                 for fn in os.listdir(paths.packets) if fn in before}
+        assert after == before, "the incremental build must not touch existing packets"
+        assert inc["packets"][0] == f"p{last + 1:03d}" and inc["judged_items"] == 150 and inc["same_as_low"] == 150, inc
+        assert inc["planted"] == round(150 * B.PLANT_SHARE), inc
+        try:
+            B.build_fresh_med(paths, quiet=True)
+            raise AssertionError("a second fresh-med build must refuse")
+        except SystemExit:
+            pass
+        key = json.load(open(paths.key))
+        paths.judgments = os.path.join(tmp, "judgments_rubber_stamp")
+        synth(paths, key, paths.judgments, "rubber_stamp", only=set(inc["packets"]))
+        rep = aggregate(paths, r3_run=r3, write=False)
+        assert not rep["problems"], rep["problems"][:5]
+        fm = rep["by_source"]["fresh-med"]
+        assert fm["items"] == 300 and all(v["acc"] in (None, 1.0) for v in fm["field_accuracy"].values()), fm
+        assert "fresh-med" in markdown(rep)
+        print(f"self-test fresh-med increment: packets {inc['packets'][0]}-{inc['packets'][-1]}, "
+              f"{inc['judged_items']} judged, {inc['same_as_low']} equal to low, {inc['planted']} planted")
         # an own read that differs from the output with no compare entry must be reported
         it = next(i for its in packets(paths).values() for i in its if i["shown"])
         bad = {"item_id": it["item_id"], "comment_id": it["comment_id"], "own_read": [], "compare": [], "missed": [],

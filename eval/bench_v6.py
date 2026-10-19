@@ -34,6 +34,8 @@ are cached in their run files and never re-sent or re-billed.
      fresh held-out comments (eval/hard, eval/fresh), rendered by v6_comment.build_user_message
   o  round 4, comment, MEDIUM, on the 600 and the 60 hard cases: the fair medium test
      (max_tokens 16k, so nothing truncates). Refused if the ledger is past $5.50 before it starts
+  p  round 4, comment, MEDIUM, on the 300 fresh comments, into o's run file; the same guard.
+     `run --steps p` runs only this step
 
 `plan` also prints a cost estimate for n and o from round 3's measured token rates
 (measured_estimate); the owner raised the cap to $7 for them, as headroom so each step
@@ -191,6 +193,13 @@ STEPS = [
      "mode": "comment", "reasoning": "medium", "tag": "bench6-med-r4", "max_tokens": 16000,
      "assume": {"reasoning": 900, "visible": 300}, "max_spent_before": O_GUARD_SPENT,
      "invocations": [inv(V1, labeled=True, call_keys=SUBSET_R2), inv(V2, call_keys=SUBSET_R2), inv(HARD)]},
+    # Medium on the 300 fresh held-out comments, the only set no prompt work saw: o left them
+    # out, and medium won everywhere it ran. Same prompt and tag as o, so it shares o's run
+    # file and its records sit beside o's.
+    {"id": "p", "what": "v6 round 4, comment, MEDIUM, the 300 fresh comments (max_tokens 16k)", "prompt": "v6",
+     "mode": "comment", "reasoning": "medium", "tag": "bench6-med-r4", "max_tokens": 16000,
+     "assume": {"reasoning": 900, "visible": 300}, "max_spent_before": O_GUARD_SPENT,
+     "invocations": [inv(FRESH)]},
 ]
 
 
@@ -432,7 +441,7 @@ def plan():
         running += e["est_usd"]
         extra.append({"step": step["id"], "what": step["what"], **e, "cumulative_est_usd": round(running, 3)})
 
-    measured = {s["id"]: measured_estimate(s) for s in STEPS if s["id"] in ("n", "o")}
+    measured = {s["id"]: measured_estimate(s) for s in STEPS if s["id"] in ("n", "o", "p")}
 
     def show(rs):
         for r in rs:
@@ -513,7 +522,7 @@ def probe():
             raise SystemExit(f"probe at effort {effort} failed; fix before `run` (no further calls made)")
 
 
-def run_all():
+def run_all(only=None):
     check_key_file()
     st = load_state()
     if not (st.get("probe", {}).get("medium", {}).get("ok") and st["probe"].get("low", {}).get("ok")):
@@ -522,6 +531,8 @@ def run_all():
     write_rerun_keys()
     schema = True
     for step in STEPS:
+        if only and step["id"] not in only:
+            continue
         status = "done"
         guard = step.get("max_spent_before")
         if guard is not None and step["id"] not in {k for k, v in st["steps"].items() if v.get("status") == "done"}:
@@ -826,8 +837,11 @@ def compare():
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("cmd", choices=("plan", "probe", "run", "compare"))
+    ap.add_argument("--steps", nargs="*", help="run: only these step ids (e.g. --steps p)")
     a = ap.parse_args()
-    {"plan": plan, "probe": probe, "run": run_all, "compare": compare}[a.cmd]()
+    if a.cmd == "run":
+        return run_all(set(a.steps) if a.steps else None)
+    {"plan": plan, "probe": probe, "compare": compare}[a.cmd]()
 
 
 if __name__ == "__main__":

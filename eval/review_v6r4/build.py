@@ -2,6 +2,7 @@
 
     python eval/review_v6r4/build.py                    # outputs of bench_v6 steps n (low) and o (medium)
     python eval/review_v6r4/build.py --low RUN [--medium RUN]
+    python eval/review_v6r4/build.py --add fresh-med     # after step p: new packets only, p050 on
 
 Same blind-first format as eval/review_v6 (round 3): each item shows what the model
 saw, the wider thread context, a divider, then Haiku's output. The judge writes an own
@@ -281,6 +282,80 @@ def build(low_path, med_path, paths=Paths(), quiet=False):
     return summary
 
 
+def build_fresh_med(paths=Paths(), med_path=None, quiet=False):
+    """Add medium effort on the fresh set (bench_v6 step p) to a review already built and
+    judged, without touching it: new items and packets only, numbered after the last ones.
+
+    As in build(): a fresh-med output identical to fresh-low's inherits fresh-low's finals
+    (and its planted-change exclusions, which judgments.py copies across); one that differs
+    is judged; about 8% of the judged ones carry a planted change; sources and plants go in
+    the sealed key, which keeps every existing entry."""
+    key = json.load(open(paths.key, encoding="utf-8"))
+    if any(v["source"] == "fresh-med" for v in list(key["items"].values()) + key["auto"]):
+        raise SystemExit("fresh-med is already in the key; nothing written")
+    med_path = med_path or key["runs_path"]["medium"]
+    low, med = outputs(key["runs_path"]["low"]), outputs(med_path)
+    rows, ctx = rows_and_contexts()
+    todo, new_auto, missing = [], [], []
+    for cid in comment_sets()["fresh"]:
+        if cid not in med:
+            missing.append({"source": "fresh-med", "comment_id": cid})
+        elif cid in low and same_output(med[cid], low[cid]):
+            new_auto.append({"source": "fresh-med", "comment_id": cid, "same_as": "fresh-low"})
+        else:
+            todo.append((h("fresh-med|" + cid), "fresh-med", cid, med[cid]))
+    if not todo and not new_auto:
+        raise SystemExit(f"no fresh-med outputs in {med_path}: run bench_v6 step p first")
+    todo.sort()
+    plant, k = {}, 0
+    for _, src, cid, shown in sorted(todo, key=lambda t: h("plant-fresh-med|" + t[2])):
+        if k >= round(len(todo) * PLANT_SHARE):
+            break
+        if not shown:
+            continue
+        order = B3.KINDS[k % len(B3.KINDS):] + B3.KINDS[:k % len(B3.KINDS)]
+        for kind in order:
+            res = B3.perturb(shown, kind)
+            if res:
+                plant[cid] = (res[0], {"kind": kind, **res[1]})
+                k += 1
+                break
+    first_item = max(int(i[1:]) for i in key["items"]) + 1
+    names = sorted(fn[:-5] for fn in os.listdir(paths.packets) if fn.endswith(".json"))
+    first_packet = max(int(n[1:]) for n in names) + 1
+    items = []
+    for n, (_, src, cid, shown) in enumerate(todo, first_item):
+        pl = plant.get(cid)
+        items.append({"item_id": f"R{n:04d}", "comment_id": cid, "model_view": PC.build_user_message(rows[cid]),
+                      "context": ctx[cid], "shown": pl[0] if pl else shown})
+        key["items"][f"R{n:04d}"] = {"source": src, "comment_id": cid, **({"planted": pl[1]} if pl else {})}
+    packets = [items[i:i + PER_PACKET] for i in range(0, len(items), PER_PACKET)]
+    written = []
+    for i, group in enumerate(packets, first_packet):
+        name = f"p{i:03d}"
+        for ext in (".md", ".json"):
+            if os.path.exists(os.path.join(paths.packets, name + ext)):
+                raise SystemExit(f"{name}{ext} exists; nothing written")
+        written.append((name, group))
+    for name, group in written:
+        with open(os.path.join(paths.packets, name + ".md"), "w", encoding="utf-8") as f:
+            f.write(render(name, group))
+        with open(os.path.join(paths.packets, name + ".json"), "w", encoding="utf-8") as f:
+            json.dump({"packet": name, "items": group}, f, ensure_ascii=False, indent=1)
+    key["auto"] += new_auto
+    key["missing_outputs"] = key.get("missing_outputs", []) + missing
+    key.setdefault("runs_path_by_source", {})["fresh-med"] = med_path
+    key.setdefault("increments", []).append({"source": "fresh-med", "packets": [n for n, _ in written],
+                                             "items": [it["item_id"] for it in items]})
+    with open(paths.key, "w", encoding="utf-8") as f:
+        json.dump(key, f, ensure_ascii=False, indent=1, sort_keys=True)
+    summary = {"judged_items": len(items), "packets": [n for n, _ in written], "same_as_low": len(new_auto),
+               "planted": len(plant), "missing_outputs": len(missing)}
+    if not quiet:
+        print(json.dumps(summary, indent=1))
+    return summary
+
+
 def default_runs():
     sys.path.insert(0, EVAL)
     import bench_v6 as BV
@@ -292,7 +367,11 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--low", help="round-4 low-effort run file (default: bench_v6 step n's)")
     ap.add_argument("--medium", help="round-4 medium-effort run file (default: bench_v6 step o's)")
+    ap.add_argument("--add", choices=["fresh-med"],
+                    help="add a source to the existing review without touching its packets (fresh-med: step p)")
     a = ap.parse_args()
+    if a.add == "fresh-med":
+        return build_fresh_med(med_path=a.medium)
     low, med = default_runs()
     low, med = a.low or low, a.medium or med
     if not os.path.exists(low):
