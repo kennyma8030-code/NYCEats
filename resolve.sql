@@ -51,7 +51,7 @@ select
     else                                            'unverified' -- 1-2 people, no match
   end as status
 
-from mentions m
+from live_mentions m
 join comments c on c.id = m.comment_id
 left join restaurants r_exact on r_exact.name_key = m.entity_key
 left join lateral (

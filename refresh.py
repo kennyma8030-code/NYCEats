@@ -101,7 +101,9 @@ def main():
     run(conn, apply_first=args.apply)
 
     with conn.cursor() as cur:
-        cur.execute("""select (select count(*) from mentions),
+        # live_mentions, not mentions: with two extractions side by side the
+        # weights only ever cover the one the board reads.
+        cur.execute("""select (select count(*) from live_mentions),
                               (select count(*) from mention_weights),
                               (select count(*) from entity_alias),
                               (select count(distinct resolved_key) from entity_alias),

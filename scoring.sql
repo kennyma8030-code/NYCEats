@@ -2,6 +2,9 @@
 -- NYCEats scoring.
 --
 -- Everything is computed at query time from `mentions` + the raw corpus.
+-- Mentions are read through `live_mentions` (extract_v6_schema.sql), which
+-- holds the one extraction the board counts: the old prompts' rows or v6's,
+-- per extraction_settings. Both live in mentions side by side.
 -- There is no stored score, no decay job, no window maintenance: a score is a
 -- cache, and this file is how the cache is rebuilt.
 --
@@ -71,7 +74,7 @@ begin
   end if;
 end $$;
 create materialized view entity_alias as
-with keys as (select distinct entity_key from mentions),
+with keys as (select distinct entity_key from live_mentions),
 matched as (
   select k.entity_key,
          x.name_key  as exact_key,
@@ -167,7 +170,7 @@ with base as (
       ' ' || m.entity_key || ' '
     ) > 0 as prompted
 
-  from mentions m
+  from live_mentions m
   join comments c on c.id = m.comment_id
   join threads  t on t.id = c.thread_id
   left join entity_alias a on a.entity_key = m.entity_key
@@ -384,7 +387,7 @@ with active_months as (
   select coalesce(a.resolved_key, m.entity_key) as entity_key,
          extract(year from c.created_utc)::int * 12
            + extract(month from c.created_utc)::int as month_idx
-  from mentions m
+  from live_mentions m
   join comments c on c.id = m.comment_id
   left join entity_alias a on a.entity_key = m.entity_key
   group by 1, 2
@@ -403,7 +406,7 @@ totals as (
          min(c.created_utc) as first_seen,
          max(c.created_utc) as last_seen,
          count(*)           as total_mentions
-  from mentions m
+  from live_mentions m
   join comments c on c.id = m.comment_id
   left join entity_alias a on a.entity_key = m.entity_key
   group by 1
@@ -491,7 +494,7 @@ select coalesce(a.resolved_key, m.entity_key) as entity_key,
          as distinct_authors,
        count(*) filter (where m.is_firsthand) as firsthand_mentions,
        count(*) filter (where m.is_negated)   as negated_mentions
-from mentions m
+from live_mentions m
 join comments c on c.id = m.comment_id
 left join entity_alias a on a.entity_key = m.entity_key
 group by 1;

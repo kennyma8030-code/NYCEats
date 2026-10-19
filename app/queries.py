@@ -11,6 +11,13 @@ Two rules hold throughout:
   * Anything keyed on an entity reaches its evidence through `entity_alias`.
     l.entity_key is a RESOLVED key; mentions are keyed on what people actually
     typed. Joining them directly silently drops every merged spelling.
+
+Evidence is read from `live_mentions`, not `mentions`. Two extractions write
+into mentions side by side (the old prompts and v6), and live_mentions is the
+one the board counts, chosen by extraction_settings (extract_v6_schema.sql).
+Reading mentions directly would show both. Joins on a mention id that came
+from mention_weights or mention_v2 may use mentions: those ids are already
+live ones.
 """
 
 import subreddits
@@ -151,7 +158,7 @@ def _board_filters(f):
         # Reached through entity_alias because descriptors hang off the typed
         # spelling, not the resolved one.
         where.append("""exists (
-            select 1 from mentions m
+            select 1 from live_mentions m
             join entity_alias al on al.entity_key = m.entity_key
             where al.resolved_key = l.entity_key
               and jsonb_typeof(m.descriptors) = 'array'
@@ -281,7 +288,7 @@ def spellings(conn, entity_key, fetch_all):
     """Which typed names merged into this entity, and by what method."""
     return fetch_all(conn, """
         select a.entity_key, a.method, a.score,
-               (select count(*) from mentions m where m.entity_key = a.entity_key)
+               (select count(*) from live_mentions m where m.entity_key = a.entity_key)
                  as mentions
         from entity_alias a
         where a.resolved_key = %s
@@ -307,7 +314,7 @@ def _jsonb_top(conn, entity_key, column, fetch_all, limit=15):
     """
     return fetch_all(conn, f"""
         select v as name, count(*) as n
-        from mentions m
+        from live_mentions m
         join entity_alias al on al.entity_key = m.entity_key
         cross join lateral jsonb_array_elements_text(m.{column}) v
         where al.resolved_key = %s
@@ -329,7 +336,7 @@ def top_descriptors(conn, entity_key, fetch_all):
 def neighborhoods(conn, entity_key, fetch_all):
     return fetch_all(conn, """
         select m.neighborhood_hint as name, count(*) as n
-        from mentions m
+        from live_mentions m
         join entity_alias al on al.entity_key = m.entity_key
         where al.resolved_key = %s and m.neighborhood_hint is not null
         group by 1
@@ -372,7 +379,7 @@ def mentions_page(conn, entity_key, q, fetch_all, fetch_value):
         where.append("c.was_deleted_later = false")
 
     base = f"""
-        from mentions m
+        from live_mentions m
         join comments c on c.id = m.comment_id
         join threads  t on t.id = c.thread_id
         join entity_alias al on al.entity_key = m.entity_key
@@ -422,7 +429,7 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
         t_where.append("(t.title ilike %(q)s or t.selftext ilike %(q)s)")
         params["q"] = like_pattern(q)
     if places_only:
-        c_where.append("exists (select 1 from mentions m where m.comment_id = c.id)")
+        c_where.append("exists (select 1 from live_mentions m where m.comment_id = c.id)")
     for cursor, op, name in ((before, "<", "b"), (after, ">", "a")):
         if cursor:
             c_where.append(f"(c.created_utc, c.id) {op} (%({name}_at)s, %({name}_id)s)")
@@ -466,7 +473,7 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
                           order by x.first) as places
           from (
             select al.resolved_key as key, min(m.id) as first, max(l.official_name) as official_name
-            from mentions m
+            from live_mentions m
             join entity_alias al on al.entity_key = m.entity_key
             join entity_leaderboard l on l.entity_key = al.resolved_key
             where m.comment_id = p.id
@@ -546,7 +553,7 @@ def facets(conn, fetch_all):
     # corpus grows an order of magnitude.
     descriptors = fetch_all(conn, """
         select v as name, count(*) as n
-        from mentions m
+        from live_mentions m
         cross join lateral jsonb_array_elements_text(m.descriptors) v
         where jsonb_typeof(m.descriptors) = 'array' and v is not null
         group by 1 having count(*) >= 3
@@ -560,17 +567,27 @@ def stats(conn, fetch_one):
     """Corpus counts for the board's own city; the other cities collected
     beside it are not what these numbers describe."""
     return fetch_one(conn, """
-        select (select count(*) from mentions)                        as mentions,
+        select (select count(*) from live_mentions)                   as mentions,
                (select count(distinct resolved_key) from entity_alias) as entities,
                (select count(*) from comments
                  where subreddit = %(sub)s)                           as comments,
-               (select count(*) from comments
-                 where subreddit = %(sub)s
-                   and extracted_at is not null)                      as extracted,
+               -- Each extraction keeps its own cursor (extract_v6_schema.sql),
+               -- so "extracted" follows the one the board is reading.
+               (select case (select read_version from extraction_settings)
+                         when 'v6' then
+                           (select count(*) from extraction_state s
+                              join comments c on c.id = s.item_id
+                             where s.version = 'v6' and s.extracted_at is not null
+                               and c.subreddit = %(sub)s)
+                         else
+                           (select count(*) from comments
+                             where subreddit = %(sub)s
+                               and extracted_at is not null)
+                       end)                                           as extracted,
                (select count(*) from threads
                  where subreddit = %(sub)s)                           as threads,
                (select string_agg(distinct model_version, ', ')
-                  from mentions)                                      as models,
+                  from live_mentions)                                 as models,
                (select max(created_utc) from comments
                  where subreddit = %(sub)s)                           as newest_comment
     """, {"sub": subreddits.HOME})
@@ -923,7 +940,7 @@ def top_neighborhoods(conn, keys, fetch_all):
     return fetch_all(conn, """
         select distinct on (al.resolved_key)
                al.resolved_key as entity_key, m.neighborhood_hint as name
-        from mentions m
+        from live_mentions m
         join entity_alias al on al.entity_key = m.entity_key
         where al.resolved_key = any(%s) and m.neighborhood_hint is not null
         group by al.resolved_key, m.neighborhood_hint
