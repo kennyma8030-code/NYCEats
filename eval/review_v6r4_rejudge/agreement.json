@@ -1,0 +1,414 @@
+{
+ "items_compared": 150,
+ "items_in_b": 150,
+ "not_in_a": 0,
+ "problems": [],
+ "field_agreement": {
+  "_mention": {
+   "agree": 115,
+   "n": 118,
+   "rate": 0.975
+  },
+  "aspects.atmosphere": {
+   "agree": 114,
+   "n": 115,
+   "rate": 0.991
+  },
+  "aspects.service": {
+   "agree": 115,
+   "n": 115,
+   "rate": 1.0
+  },
+  "aspects.taste": {
+   "agree": 111,
+   "n": 115,
+   "rate": 0.965
+  },
+  "aspects.value": {
+   "agree": 115,
+   "n": 115,
+   "rate": 1.0
+  },
+  "aspects.wait": {
+   "agree": 113,
+   "n": 115,
+   "rate": 0.983
+  },
+  "avoid": {
+   "agree": 115,
+   "n": 115,
+   "rate": 1.0
+  },
+  "dishes": {
+   "agree": 56,
+   "n": 59,
+   "rate": 0.949
+  },
+  "experience": {
+   "agree": 111,
+   "n": 111,
+   "rate": 1.0
+  },
+  "opinion": {
+   "agree": 114,
+   "n": 115,
+   "rate": 0.991
+  },
+  "overall": {
+   "agree": 109,
+   "n": 111,
+   "rate": 0.982
+  },
+  "price": {
+   "agree": 114,
+   "n": 115,
+   "rate": 0.991
+  },
+  "status": {
+   "agree": 114,
+   "n": 115,
+   "rate": 0.991
+  },
+  "timeframe": {
+   "agree": 115,
+   "n": 115,
+   "rate": 1.0
+  },
+  "trend": {
+   "agree": 115,
+   "n": 115,
+   "rate": 1.0
+  }
+ },
+ "item_ok_agreement": {
+  "n": 137,
+  "agree": 128,
+  "rate": 0.934,
+  "A_ok": 120,
+  "B_ok": 117
+ },
+ "haiku_under_A": {
+  "item_ok_rate": 0.876,
+  "mention_recall": 0.966,
+  "mention_precision": 0.974,
+  "negative_recall": 0.882,
+  "overall": 0.936,
+  "aspects.taste": 0.912,
+  "dishes": 0.804,
+  "experience": 0.954,
+  "opinion": 0.947
+ },
+ "haiku_under_B": {
+  "item_ok_rate": 0.854,
+  "mention_recall": 0.966,
+  "mention_precision": 0.966,
+  "negative_recall": 0.833,
+  "overall": 0.926,
+  "aspects.taste": 0.893,
+  "dishes": 0.833,
+  "experience": 0.963,
+  "opinion": 0.946
+ },
+ "haiku_difference_B_minus_A": {
+  "item_ok_rate": -0.022,
+  "mention_recall": 0.0,
+  "mention_precision": -0.008,
+  "negative_recall": -0.049,
+  "overall": -0.01,
+  "aspects.taste": -0.019,
+  "dishes": 0.029,
+  "experience": 0.009,
+  "opinion": -0.001
+ },
+ "planted_catch_rate_B": {
+  "drop_dish": {
+   "caught": 1,
+   "n": 1
+  },
+  "drop_mention": {
+   "caught": 3,
+   "n": 3
+  },
+  "flip_overall": {
+   "caught": 1,
+   "n": 1
+  },
+  "upgrade_negative": {
+   "caught": 2,
+   "n": 2
+  },
+  "wrong_experience": {
+   "caught": 2,
+   "n": 2
+  }
+ },
+ "planted_catch_rate_B_all": 1.0,
+ "disagreements_by_cause": {
+  "levels: other": [
+   {
+    "item": "S071",
+    "first_review_item": "R0955",
+    "comment_id": "t1_j3xqz8f",
+    "place": "Kabisera",
+    "field": "aspects.taste",
+    "A": null,
+    "B": "positive",
+    "A_reason": "'impressed by this little shop too' judges the shop, not the parent's desserts specifically; no '+1'-style adoption of the food claim",
+    "B_reason": "'impressed ... too' agrees with the parent's dessert praise (rule 8)",
+    "title": "Best Filipino spots in the city - Go!",
+    "comment": "Was impressed by this little shop too, a super underrated spot to work/hang as well"
+   },
+   {
+    "item": "S129",
+    "first_review_item": "R1270",
+    "comment_id": "t1_k9fj69q",
+    "place": "Le'Baratin",
+    "field": "aspects.atmosphere",
+    "A": null,
+    "B": "positive",
+    "A_reason": null,
+    "B_reason": "a pick answering 'cozy/cute restaurants' takes the atmosphere the question asks about",
+    "title": "Cute West Village restaurants",
+    "comment": "Le’Baratin is great"
+   },
+   {
+    "item": "S005",
+    "first_review_item": "R1241",
+    "comment_id": "t1_mf3ozh7",
+    "place": "ovelia",
+    "field": "aspects.taste",
+    "A": "positive",
+    "B": null,
+    "A_reason": "'for greek with a few twists, ovelia is great' judges its food style",
+    "B_reason": "'ovelia is great' judges the place; taste is never copied from overall",
+    "title": "What ethnic foods can we agree that NY is a top 3 city for?",
+    "comment": "for super traditional greek - bahari estiatorio has just as good of food as kyclades for better prices but half the crowds!! for greek with a few twists - ovelia is great but honestly, I think it'd be hard for a bad greek restaurant to survive long in astoria, there's too much competition."
+   }
+  ],
+  "dish naming and dish levels": [
+   {
+    "item": "S094",
+    "first_review_item": "R0332",
+    "comment_id": "t1_jmcxx5r",
+    "place": "Sisters",
+    "field": "dish:veggie burger",
+    "A": {
+     "level": "negative",
+     "avoid": false
+    },
+    "B": null,
+    "A_reason": "'just okay' replies to the parent's praise of Sisters' lentil veggie burger, the dish the thread asks about",
+    "B_reason": "the comment names no dish; the knock on the food sits in taste",
+    "title": "Veggie burgers",
+    "comment": "Sisters is just okay to me tbh. Like. It’s fine ..?"
+   },
+   {
+    "item": "S008",
+    "first_review_item": "R1253",
+    "comment_id": "t1_liti6xq",
+    "place": "Raku",
+    "field": "dish:Kani Maze",
+    "A": {
+     "level": "neutral",
+     "avoid": false
+    },
+    "B": {
+     "level": "negative",
+     "avoid": false
+    },
+    "A_reason": null,
+    "B_reason": "'good but didn't enjoy it as much as I'd hoped': the disappointment is the bottom line (rule 4)",
+    "title": "Raku reservation ?",
+    "comment": "My friend had the kaisen don that iirc is only at the HK location. I had the Kani Maze which was good but i just didn't enjoy it as much as id hoped. I did enjoy the pork gyoza. Have a great dinner!"
+   },
+   {
+    "item": "S097",
+    "first_review_item": "R1248",
+    "comment_id": "t1_nrswqk6",
+    "place": "terroir",
+    "field": "dish:wine list",
+    "A": {
+     "level": "positive",
+     "avoid": false
+    },
+    "B": null,
+    "A_reason": "'Incredible wine list' is a drink verdict; every drink named goes in dishes",
+    "B_reason": "a wine list is the selection, not a dish or drink; the praise sits in taste",
+    "title": "My procrastinating ass can’t find a bar to accommodate 15 for Saturday",
+    "comment": "Try terroir since youre already in tribeca. I see plenty of large reservations on resy (and you can definitely flex to fit more given their setup). Incredible wine list and a great vibe"
+   }
+  ],
+  "wait and overall": [
+   {
+    "item": "S026",
+    "first_review_item": "R1305",
+    "comment_id": "t1_i1zlls8",
+    "place": "Lucali",
+    "field": "aspects.wait",
+    "A": null,
+    "B": "negative",
+    "A_reason": null,
+    "B_reason": "showed up at 4:10 for a 5:45 pickup slot: a long wait they planned around",
+    "title": "Lucali wait",
+    "comment": "Thanks man! It was awesome, showed up at like 4:10, got a pickup time for 5:45 and it was incredible, went to luigis in the mean time and sadly luigis did not live up to the hype. Lucali the best I’ve had in NY, new haven is still incredible it’s almost impossible to say which is better 😂"
+   },
+   {
+    "item": "S129",
+    "first_review_item": "R1270",
+    "comment_id": "t1_k9fj69q",
+    "place": "Le'Baratin",
+    "field": "aspects.wait",
+    "A": null,
+    "B": "positive",
+    "A_reason": null,
+    "B_reason": "the question asks for places not impossible to book, so the pick takes wait praise, as in the walk-ins example",
+    "title": "Cute West Village restaurants",
+    "comment": "Le’Baratin is great"
+   }
+  ],
+  "it/they references and context places": [
+   {
+    "item": "S105",
+    "first_review_item": "R1254",
+    "comment_id": "t1_lai5yy2",
+    "place": "Pata Market",
+    "field": "_mention",
+    "A": "present",
+    "B": null,
+    "A_reason": "named as the best spot for durian to eat, plus durian snacks: a food place, missing (dropped or kinded grocery)",
+    "B_reason": null,
+    "title": "What’s the strangest food you have ever tried in NYC?",
+    "comment": "Best spot unless you order the pricey stuff from Miami Fruit is at Pata Market in Elmhurst. They also have some durian snacks"
+   },
+   {
+    "item": "S024",
+    "first_review_item": "R1223",
+    "comment_id": "t1_ljg4yvk",
+    "place": "Milano Market UES",
+    "field": "_mention",
+    "A": "present",
+    "B": null,
+    "A_reason": "two branches compared; I merged them, a mention per branch is fine",
+    "B_reason": "same place as the UWS entry; a place named twice is one mention",
+    "title": "Chicken caesar wrap from Milano Market UWS (left) vs. UES (right)",
+    "comment": "UWS for the win with the drenched -in-dressing look but UES has better -looking chicken imo"
+   }
+  ],
+  "mixed versus a bottom line": [
+   {
+    "item": "S008",
+    "first_review_item": "R1253",
+    "comment_id": "t1_liti6xq",
+    "place": "Raku",
+    "field": "overall",
+    "A": "positive",
+    "B": "neutral",
+    "A_reason": null,
+    "B_reason": "no bottom line; strongest point is the mixed food verdict",
+    "title": "Raku reservation ?",
+    "comment": "My friend had the kaisen don that iirc is only at the HK location. I had the Kani Maze which was good but i just didn't enjoy it as much as id hoped. I did enjoy the pork gyoza. Have a great dinner!"
+   },
+   {
+    "item": "S008",
+    "first_review_item": "R1253",
+    "comment_id": "t1_liti6xq",
+    "place": "Raku",
+    "field": "aspects.taste",
+    "A": "positive",
+    "B": "neutral",
+    "A_reason": null,
+    "B_reason": "one dish knocked, one praised: taste mixed",
+    "title": "Raku reservation ?",
+    "comment": "My friend had the kaisen don that iirc is only at the HK location. I had the Kani Maze which was good but i just didn't enjoy it as much as id hoped. I did enjoy the pork gyoza. Have a great dinner!"
+   }
+  ],
+  "superlatives: is 'the best' city-wide?": [
+   {
+    "item": "S133",
+    "first_review_item": "R1301",
+    "comment_id": "t1_nsp8yka",
+    "place": "Halal food truck on E 225th St (White Plains Rd), Bronx",
+    "field": "overall",
+    "A": "positive",
+    "B": "very_positive",
+    "A_reason": "'Best Halal food truck' has no city-wide scope (and 'Best Halal' is also a truck name); praise",
+    "B_reason": "'Best Halal food truck', unqualified, ranks the truck against all others",
+    "title": "What’s your favorite “hole in the wall” that you swear is deserves more hype?",
+    "comment": "Best Halal food truck is right outside on E 225th st Bronx, white plains road. I‘ve been going to that truck religiously for over 7 years"
+   },
+   {
+    "item": "S133",
+    "first_review_item": "R1301",
+    "comment_id": "t1_nsp8yka",
+    "place": "Halal food truck on E 225th St (White Plains Rd), Bronx",
+    "field": "aspects.taste",
+    "A": null,
+    "B": "very_positive",
+    "A_reason": "the praise is of the truck as a place; no food verdict",
+    "B_reason": "a halal truck's ranking is a ranking of its food, so taste is set, at the superlative level",
+    "title": "What’s your favorite “hole in the wall” that you swear is deserves more hype?",
+    "comment": "Best Halal food truck is right outside on E 225th st Bronx, white plains road. I‘ve been going to that truck religiously for over 7 years"
+   }
+  ],
+  "time, trend and closure": [
+   {
+    "item": "S038",
+    "first_review_item": "R0869",
+    "comment_id": "t1_hlskybk",
+    "place": "Chito Grvito",
+    "field": "status",
+    "A": null,
+    "B": "opened",
+    "A_reason": null,
+    "B_reason": "'my fave of the new Georgian spots opening up': a newly opened place",
+    "title": "i've been to NYC multiple times now and have tried all of the \"must eats.\" what are local favorites?",
+    "comment": "Try Chito Grvito, my fave of the new Georgian spots opening up. Georgian food is so good."
+   }
+  ],
+  "price and value": [
+   {
+    "item": "S095",
+    "first_review_item": "R0644",
+    "comment_id": "t1_jzf6uzx",
+    "place": "Mamouns",
+    "field": "price",
+    "A": "cheap",
+    "B": null,
+    "A_reason": null,
+    "B_reason": "'cheap eat' describes the past under-$2 price, not now",
+    "title": "Is Adel's Famous Halal Food really better than Halal Guys?",
+    "comment": "For my taste and my personal opinion: Mamouns is good for Falafel but strictly the actual fried falafel is respectable. Everything else is bodega grade quality: the lettuce , tahini , tomatoes are just there as filler and the pita is just a container / vessel with no taste. Same goes for their spicy"
+   }
+  ],
+  "untried reactions": [
+   {
+    "item": "S146",
+    "first_review_item": "R0008",
+    "comment_id": "t1_m11c60a",
+    "place": "Monterey",
+    "field": "opinion",
+    "A": "endorse",
+    "B": "stated",
+    "A_reason": "rule 8: a pick passed on from a friend ('my friend loved it') is secondhand endorse",
+    "B_reason": "'my friend loved it' passes on a judging word, not just a pick, so it is stated",
+    "title": "Replacements for Monkey Bar for a nice, classic NYC restaurant?",
+    "comment": "I’ve never been, but my friend loved it - Monterey"
+   }
+  ],
+  "whether a name counts (kind, passing names, non-places)": [
+   {
+    "item": "S001",
+    "first_review_item": "R0227",
+    "comment_id": "t1_nk7hy6e",
+    "place": "Lori Jayne",
+    "field": "_mention",
+    "A": null,
+    "B": "present",
+    "A_reason": null,
+    "B_reason": "a named NYC restaurant the commenter loves having found; Haiku dropped it",
+    "title": "Following on the spirited debate re: food influencers, what are some smaller publications/sources you trust to learn about nyc food/restaurant news (i.e., NOT infatuation, grub street, eater, etc.)?",
+    "comment": "I found out about Lori Jayne from Rob Martinez and I'll always love him for that, he\"s awesome"
+   }
+  ]
+ }
+}
