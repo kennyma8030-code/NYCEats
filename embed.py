@@ -17,7 +17,14 @@ collects are stored, not searched.
 Nothing is filtered for excluded_entities, unresolved names, is_negated or
 reference_only. Those lists move with identity decisions and prompt versions,
 and a vector is expensive to recompute only in comparison with a WHERE
-clause, so search filters them when it reads.
+clause, so search filters them when it reads. Nor is a vector removed when
+its comment is later deleted on Reddit: search must check
+comments.was_deleted_later for every hit and suppress its permalink.
+
+Run it one at a time (an advisory lock makes a second run exit, and the
+poller's pass skip), after the deploy that adds comments.subreddit, and
+again after every extraction backfill: the poller only catches up on
+mentions stored in its last few days, 2,000 rows a pass.
 
 Resumable the same way extract.py is: a row is still to do when it has no
 vector for the current embedding.MODEL_KEY, or its stored input_hash no longer
@@ -30,6 +37,9 @@ recorded as an error rather than re-bought on every run.
 One bad input never stalls the run. A request the provider refuses is split
 until the one input at fault is found, and that row is recorded in
 `embedding_errors` -- a cache table like the vectors, never the truth tables.
+A recorded error is retried by itself a day later, up to three failures on
+the same text, by embed.py and the poller alike; after that only a new text
+or --retry-errors brings the row back.
 A 400 can be about the request rather than the input, so before the first
 row is marked a one-line canary checks the request itself (RejectGuard).
 A failure of the service itself (auth, credit, routing, a malformed response,
@@ -39,6 +49,7 @@ stay to-do.
 
 import argparse
 import concurrent.futures
+import hashlib
 import re
 import threading
 import time
@@ -68,6 +79,41 @@ def page_size(batch, workers):
     return batch * workers * 2
 
 
+# A recorded error is retried on its own, a bounded number of times: a
+# provider glitch (a zero vector, a transient refusal) should not block a row
+# forever, and a row that really is bad should not be paid for every pass.
+# While a row has failed fewer than RETRY_FAILURES times on the same text, it
+# is due again once RETRY_AFTER has passed since the last failure. After that
+# it waits for a new text or --retry-errors.
+RETRY_FAILURES = 3
+RETRY_AFTER = "1 day"
+
+# One embedding run at a time, across processes: embed.py and the poller's
+# pass would otherwise pick the same due rows and pay for them twice. A
+# session-level advisory lock, so it survives the commits a run makes and
+# goes away by itself if the process or its connection dies. Its own key,
+# not extract_v6's: embedding and extraction may run side by side. A
+# half-open connection (the client gone, the server unaware) keeps its
+# session's lock until the server's TCP keepalive reaps it; SPEC.md has the
+# query that shows who holds it.
+LOCK_KEY = 0x6E796365_6D62             # "nyce" "mb"
+
+
+def try_lock(conn):
+    with conn.cursor() as cur:
+        cur.execute("select pg_try_advisory_lock(%s)", (LOCK_KEY,))
+        ok = cur.fetchone()[0]
+    conn.commit()
+    return ok
+
+
+def unlock(conn):
+    conn.rollback()           # a failed statement may have left the transaction aborted
+    with conn.cursor() as cur:
+        cur.execute("select pg_advisory_unlock(%s)", (LOCK_KEY,))
+    conn.commit()
+
+
 @dataclass(frozen=True)
 class Kind:
     """One embeddable table, and the SQL that mirrors its Python formatter."""
@@ -76,6 +122,7 @@ class Kind:
     table: str
     key: str
     candidates: str      # eligible ids after %(after)s, in id order, limited
+    recent: str          # the same inside a %(since)s window; {retry} and {missing} filled in
     source: str          # id, two text fields and the formatted text as `txt`, for %(ids)s
     fmt: object          # embedding.format_comment / format_thread
 
@@ -84,8 +131,21 @@ class Kind:
 # city the poller collects, and search serves the NYC board: embedding the
 # other cities' millions of backfilled rows would be paid for and never read.
 # A mentioned comment is HOME's already, because extraction reads nothing
-# else; the filter says so anyway, and lets the poller's recent-window page
-# use comments_sub_created_idx instead of walking every city's primary key.
+# else; the filter says so anyway.
+#
+# The window (`recent`, for the poller and --since-days) is on when a
+# comment's mention was stored, mentions.created_at, not when the comment was
+# written. A comment can get its first mention long after it was posted: a
+# v6 backfill, an extraction error retried days later. A window on
+# comments.created_utc never saw those, so the poller never embedded them.
+# mentions_created_idx (embed_schema.sql) keeps that window an index range.
+# Inside a window only rows with no vector yet are candidates ({missing}):
+# the poller never rewrites a comment's or a thread's text (both inserts are
+# `on conflict do nothing`), and without it a backfill that touched 97k
+# already-embedded comments would have every pass walk all of them for
+# days. Changed text is found by a run with no window. {retry} adds rows
+# whose recorded error is due for a retry, wherever they are in time, so the
+# poller retries them too. Both are empty for a dry run before the migration.
 #
 # Each `txt` expression must build the same string as its formatter, byte
 # for byte, or every row looks changed. tests/test_embed_db.py checks that
@@ -104,7 +164,27 @@ COMMENTS = Kind(
       -- be re-bought when it does. v6 rows of excluded kinds or chains are
       -- filtered when search reads, like every other identity decision.
       and exists (select 1 from mentions m where m.comment_id = c.id)
-      and (%(since)s::timestamptz is null or c.created_utc >= %(since)s::timestamptz)
+    order by c.id
+    limit %(limit)s
+    """,
+    # {missing} refers to `w.id`. It sits inside the window's subquery, with
+    # the cursor, so the planner anti-joins the window's few rows rather than
+    # walking comments in id order: after a backfill that touched every
+    # mentioned comment, about 30 ms a page instead of 2.2 s (measured on
+    # 770k comments, 240k mentions, 96k vectors).
+    """
+    select c.id
+    from comments c
+    where c.id > %(after)s
+      and c.subreddit = %(sub)s
+      and c.body not in ('[deleted]', '[removed]')
+      and c.id in (select w.id
+                   from (select comment_id as id, created_at from mentions) w
+                   where w.created_at >= %(since)s::timestamptz
+                     and w.id > %(after)s
+                     {missing}
+                   {retry})
+      and exists (select 1 from mentions m where m.comment_id = c.id)   -- for the retries
     order by c.id
     limit %(limit)s
     """,
@@ -124,7 +204,21 @@ THREADS = Kind(
     from threads t
     where t.id > %(after)s
       and t.subreddit = %(sub)s
-      and (%(since)s::timestamptz is null or t.created_utc >= %(since)s::timestamptz)
+    order by t.id
+    limit %(limit)s
+    """,
+    # A thread needs no mention, so its window is when it was posted.
+    """
+    select t.id
+    from threads t
+    where t.id > %(after)s
+      and t.subreddit = %(sub)s
+      and t.id in (select w.id from threads w
+                   where w.subreddit = %(sub)s
+                     and w.created_utc >= %(since)s::timestamptz
+                     and w.id > %(after)s
+                     {missing}
+                   {retry})
     order by t.id
     limit %(limit)s
     """,
@@ -161,14 +255,36 @@ def select_todo(conn, kind, after, limit, since=None, have_tables=True):
     simply empty and the next one starts further on. next_after is None when
     no candidates are left.
 
-    A row is skipped while an error is recorded for the same text; a new
-    text (or --retry-errors) makes it due again. `have_tables=False` is for a
-    dry run before the migration: every candidate is to do. Rows are
+    With `since`, the candidates are the window's (Kind.recent): comments
+    with a mention stored since then, threads posted since then, either way
+    only those with no vector yet, plus every row whose error is due for a
+    retry.
+
+    A row is skipped while an error is recorded for the same text, until the
+    error is due for a retry (RETRY_FAILURES, RETRY_AFTER); a new text (or
+    --retry-errors) makes it due at once. `have_tables=False` is for a dry
+    run before the migration: every candidate is to do. Rows are
     (id, field a, field b, sql_hash).
     """
+    params = {"after": after, "since": since, "limit": limit, "sub": subreddits.HOME,
+              "model": E.MODEL_KEY, "kind": kind.name,
+              "max_failures": RETRY_FAILURES, "cooldown": RETRY_AFTER}
+    if since is None:
+        candidates = kind.candidates
+    elif have_tables:
+        candidates = kind.recent.format(
+            retry="""union all
+                     select x.item_id from embedding_errors x
+                     where x.kind = %(kind)s and x.model = %(model)s
+                       and x.failures < %(max_failures)s
+                       and x.failed_at < now() - %(cooldown)s::interval""",
+            missing=f"""and not exists (select 1 from {kind.table} e
+                                        where e.{kind.key} = w.id
+                                          and e.model = %(model)s)""")
+    else:
+        candidates = kind.recent.format(retry="", missing="")
     with conn.cursor() as cur:
-        cur.execute(kind.candidates, {"after": after, "since": since, "limit": limit,
-                                      "sub": subreddits.HOME})
+        cur.execute(candidates, params)
         ids = [r[0] for r in cur.fetchall()]
         if not ids:
             conn.commit()
@@ -177,6 +293,8 @@ def select_todo(conn, kind, after, limit, since=None, have_tables=True):
                             encode(sha256(convert_to(src.txt, 'UTF8')), 'hex') as h
                      from ({kind.source}) src"""
         if have_tables:
+            # The join finds only errors that still block the row: same text,
+            # and not yet due for a retry.
             sql = f"""
                 select s.id, s.a, s.b, s.h
                 from ({hashed}) s
@@ -184,13 +302,15 @@ def select_todo(conn, kind, after, limit, since=None, have_tables=True):
                 left join embedding_errors x
                        on x.kind = %(kind)s and x.item_id = s.id
                       and x.model = %(model)s and x.input_hash = s.h
+                      and not (x.failures < %(max_failures)s
+                               and x.failed_at < now() - %(cooldown)s::interval)
                 where e.input_hash is distinct from s.h
                   and x.item_id is null
                 order by s.id
             """
         else:
             sql = f"select * from ({hashed}) s order by s.id"
-        cur.execute(sql, {"ids": ids, "model": E.MODEL_KEY, "kind": kind.name})
+        cur.execute(sql, {**params, "ids": ids})
         rows = cur.fetchall()
     # End the read transaction now: the API calls that follow take seconds,
     # and a connection idle in a transaction holds back vacuum on production.
@@ -238,7 +358,11 @@ def store_vectors(conn, kind, done):
 
 
 def store_errors(conn, kind, failed):
-    """failed: (id, hash, message). Counted, so a row that keeps failing shows it."""
+    """failed: (id, hash, message). Counted, so a row that keeps failing shows it.
+
+    The count is per text: a new text starts again at one, so the bounded
+    retries (RETRY_FAILURES) are about this text, not an older one.
+    """
     if not failed:
         return 0
     with conn.cursor() as cur:
@@ -248,11 +372,20 @@ def store_errors(conn, kind, failed):
             on conflict (kind, item_id, model) do update
               set input_hash = excluded.input_hash,
                   error = excluded.error,
-                  failures = embedding_errors.failures + 1,
+                  failures = case when embedding_errors.input_hash = excluded.input_hash
+                                  then embedding_errors.failures + 1 else 1 end,
                   failed_at = now()
         """, [(kind.name, i, E.MODEL_KEY, h, msg[:500]) for i, h, msg in failed])
     conn.commit()
     return len(failed)
+
+
+def _rollback(conn):
+    """Roll back if the connection can; a closed one has nothing to undo."""
+    try:
+        conn.rollback()
+    except Exception:
+        pass
 
 
 class OutOfTime(Exception):
@@ -363,7 +496,8 @@ def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
     `deadline` is a time.monotonic() value after which no new batch starts:
     the poller's bound, so an outage costs one batch's retries at most.
 
-    Ctrl-C stores whatever had already come back, then re-raises, so a
+    Ctrl-C, or an error on this thread (a failed write), waits for the
+    requests already sent, stores whatever came back, then re-raises, so a
     caller like the poller stops instead of looping on. Pass `stats` in to
     read the counts after an interrupt.
     """
@@ -372,10 +506,12 @@ def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
     guard = RejectGuard()
     page = page_size(batch, workers)
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=workers)
-    kind, futures, stored = None, [], set()
+    # A future is in `stored` once both its writes are committed, and in
+    # `vectors_stored` once its vectors are: store_vectors commits on its own,
+    # so if store_errors then fails, a retry must not count the vectors twice.
+    kind, futures, stored, vectors_stored = None, [], set(), set()
 
-    def store(f):
-        stored.add(f)
+    def store(f, c=conn):
         try:
             results, why = f.result()
         except Exception as e:      # a bug, not a stop: still keep the other batches
@@ -383,10 +519,43 @@ def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
         if why is not None:
             stats.stop = stats.stop or f"{type(why).__name__}: {why}"
             stop.set()
-        stats.embedded[kind.name] += store_vectors(
-            conn, kind, [(i, h, v) for i, h, v, err in results if v is not None])
+        if f not in vectors_stored:
+            stats.embedded[kind.name] += store_vectors(
+                c, kind, [(i, h, v) for i, h, v, err in results if v is not None])
+            vectors_stored.add(f)
         stats.failed[kind.name] += store_errors(
-            conn, kind, [(i, h, err) for i, h, v, err in results if v is None])
+            c, kind, [(i, h, err) for i, h, v, err in results if v is None])
+        stored.add(f)               # only once written, so salvage() retries a failed write
+
+    def salvage():
+        """After a failure: wait for the requests already on the wire, which
+        were paid for, then store everything that came back and is not
+        stored yet. If the failure was the connection itself (a restart, a
+        dropped proxy), the writes go over a fresh one, closed afterwards;
+        the caller's dead connection is left for it to recover. A write that
+        fails again is given up on; its rows stay to do, and the next run
+        buys them again. Never raises: the caller re-raises the original."""
+        stop.set()
+        _rollback(conn)             # the failure may have landed mid-write
+        pool.shutdown(wait=True, cancel_futures=True)
+        pending = [f for f in futures if f.done() and not f.cancelled() and f not in stored]
+        if not pending:
+            return
+        c = conn
+        if conn.closed:
+            try:
+                c = db.connect()
+            except Exception:
+                return
+        try:
+            for f in pending:
+                try:
+                    store(f, c)
+                except Exception:
+                    _rollback(c)
+        finally:
+            if c is not conn:
+                c.close()
 
     try:
         for kind in kinds:
@@ -418,15 +587,14 @@ def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
             if stop.is_set():
                 break
     except KeyboardInterrupt:
-        stop.set()
-        conn.rollback()          # the interrupt may have landed mid-write
         stats.stop = "interrupted -- finished batches are committed, re-run to resume"
-        for f in futures:
-            if f.done() and f not in stored:
-                try:
-                    store(f)
-                except Exception:
-                    conn.rollback()
+        salvage()
+        raise
+    except Exception as e:
+        # A failed write (the database went away, a constraint) used to end
+        # the run with the batches still in flight thrown away, paid for.
+        stats.stop = stats.stop or f"{type(e).__name__}: {e}"
+        salvage()
         raise
     finally:
         pool.shutdown(wait=True, cancel_futures=True)
@@ -479,9 +647,17 @@ def _slug(s):
 
 def index_name(kind):
     """One partial index per (table, model), named after the model, so a new
-    model's index can be built beside the old one before the swap."""
+    model's index can be built beside the old one before the swap.
+
+    Postgres cuts names at 63 bytes, and the endpoint and quantization sit at
+    the end of the key, so a plain cut could give two keys one name, and
+    `if not exists` would then skip the new model's build. A long name ends
+    in a hash of the whole key instead.
+    """
     name = f"{kind.table}_hnsw_{_slug(E.MODEL_KEY.split('/', 1)[-1])}"
-    return name[:63]
+    if len(name) <= 63:
+        return name
+    return f"{name[:54]}_{hashlib.sha256(E.MODEL_KEY.encode()).hexdigest()[:8]}"
 
 
 def index_statements(mem):
@@ -543,7 +719,8 @@ def main():
                     help="spend cap for this run, checked before every request (default 1.00)")
     ap.add_argument("--workers", type=int, default=WORKERS, help="concurrent requests")
     ap.add_argument("--since-days", type=int, default=None,
-                    help="only rows created in the last N days")
+                    help="only comments with a mention stored in the last N days (threads: "
+                         "posted), still without a vector, plus errors due for a retry")
     ap.add_argument("--retry-errors", action="store_true",
                     help="clear this model's recorded errors so those rows are tried again")
     ap.add_argument("--build-index", action="store_true",
@@ -574,10 +751,14 @@ def main():
     if args.dry_run:
         if args.retry_errors and tables_exist(conn):
             with conn.cursor() as cur:
-                cur.execute("select count(*) from embedding_errors where model = %s",
-                            (E.MODEL_KEY,))
-                print(f"--retry-errors would clear {cur.fetchone()[0]:,} error(s); "
-                      f"the counts below do not include them")
+                cur.execute("""select count(*),
+                                       count(*) filter (where failures < %s and
+                                                        failed_at < now() - %s::interval)
+                                from embedding_errors where model = %s""",
+                            (RETRY_FAILURES, RETRY_AFTER, E.MODEL_KEY))
+                n, due = cur.fetchone()
+                print(f"--retry-errors would clear {n:,} error(s); the counts below "
+                      f"include only the {due:,} already due for an automatic retry")
             conn.commit()
         dry_run(conn, kinds, since, args.limit)
         return
@@ -589,25 +770,39 @@ def main():
                          f"(in .env next to DATABASE_URL)")
     if not tables_exist(conn):
         raise SystemExit("embedding tables are missing: apply embed_schema.sql first")
+    if not try_lock(conn):
+        raise SystemExit("another embedding run holds the lock (the poller's embed pass, "
+                         "or a second embed.py); run again once it ends")
 
-    if args.retry_errors:
-        with conn.cursor() as cur:
-            cur.execute("delete from embedding_errors where model = %s", (E.MODEL_KEY,))
-            print(f"cleared {cur.rowcount:,} error(s)")
-        conn.commit()
-
-    print(f"embedding {args.scope} with {E.MODEL_KEY} (key from {E.api_key_var()}), "
-          f"cap ${args.max_usd:.2f}, {args.workers} workers")
     budget = E.Budget(args.max_usd)
     began = time.time()
     stats = Stats()
     interrupted = False
     try:
+        if args.retry_errors:
+            with conn.cursor() as cur:
+                cur.execute("delete from embedding_errors where model = %s", (E.MODEL_KEY,))
+                print(f"cleared {cur.rowcount:,} error(s)")
+            conn.commit()
+        print(f"embedding {args.scope} with {E.MODEL_KEY} (key from {E.api_key_var()}), "
+              f"cap ${args.max_usd:.2f}, {args.workers} workers")
         run(conn, kinds, budget, limit=args.limit, since=since, workers=args.workers,
             stats=stats)
     except KeyboardInterrupt:
         interrupted = True
+    finally:
+        try:
+            unlock(conn)
+        except Exception:
+            pass             # a dead connection has already dropped the lock
+        # Also when the run died of an error: what was spent is worth knowing
+        # most then, and the traceback follows it.
+        report(stats, budget, began)
+    if interrupted:
+        raise SystemExit(130)
 
+
+def report(stats, budget, began):
     print(f"\n{sum(stats.embedded.values()):,} embedded, {sum(stats.failed.values()):,} failed "
           f"({(time.time() - began) / 60:.1f} min)")
     for name in stats.embedded:
@@ -618,8 +813,6 @@ def main():
           + (f"; {budget.possibly_billed} failed attempt(s) charged at estimate"
              if budget.possibly_billed else "")
           + (f"; {budget.unpriced} call(s) priced from tokens" if budget.unpriced else ""))
-    if interrupted:
-        raise SystemExit(130)
 
 
 if __name__ == "__main__":

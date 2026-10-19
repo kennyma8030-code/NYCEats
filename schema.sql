@@ -239,6 +239,10 @@ create index if not exists restaurant_images_stale_idx
 -- every poller and backfill boot: a Postgres without pgvector (a laptop,
 -- the stale local copy) must still boot, and simply has no embeddings.
 -- tests/test_embed_schema.py keeps the two copies identical.
+-- mentions_created_idx is the embedding window's (embed_schema.sql says
+-- why); a lock timeout on it skips only the index, not the tables. On the
+-- boot that first builds it, its SHARE lock on mentions (no writes) lasts
+-- until this whole file's transaction commits, not just the build.
 -- The HNSW index is deliberately absent: it is built after the backlog
 -- (`python embed.py --build-index`).
 -- ---------------------------------------------------------------------------
@@ -283,6 +287,18 @@ begin
     failed_at  timestamptz not null default now(),
     primary key (kind, item_id, model)
   );
+
+  if to_regclass('mentions_created_idx') is null then
+    declare
+      lt text := current_setting('lock_timeout');
+    begin
+      perform set_config('lock_timeout', '5s', true);
+      create index mentions_created_idx on mentions (created_at);
+      perform set_config('lock_timeout', lt, true);
+    exception when lock_not_available then
+      raise notice 'mentions_created_idx skipped (lock wait over 5s): the embed window scans mentions until a later boot builds it';
+    end;
+  end if;
 exception when others then
   raise notice 'embedding tables skipped (% %): semantic search is off until this is fixed',
     sqlstate, sqlerrm;
