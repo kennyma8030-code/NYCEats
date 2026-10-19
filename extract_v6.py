@@ -45,8 +45,10 @@ One v6 run at a time: every run that writes takes a Postgres advisory lock
 A batch submission that times out or gets a 5xx may still have been
 accepted, so it is never resubmitted: its 'pending-' row stays, the run
 stops, and the next run adopts the one batch in the API's list that matches
-it (or stops for --resolve-pending). A batch the API answers 404 for is
-marked lost, its items held back until --drop-batch.
+it. If none matches once the row is over half an hour old and the list has
+been read back past it, it made none, and its items are due again; anything
+else stops for --resolve-pending. A batch the API answers 404 for is marked
+lost, its items held back until --drop-batch.
 
 An item that gets no usable answer (stop_reason max_tokens or refusal,
 invalid JSON, a batch request that errored or expired) is retried once, then
@@ -689,7 +691,7 @@ def run_batch(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, m
         ended, b, lost = None, None, None
         for bid in inflight:
             try:
-                b = AV.retrieve(cl, bid)
+                b = AV.retrieve(cl, bid, sleep=sleep, log=log)
             except AV.NotFound as e:
                 lost = bid
                 _lost(conn, budget, bid, e, log)
@@ -762,35 +764,50 @@ MATCH_AFTER = dt.timedelta(minutes=30)
 
 def pending_matches(conn, cl, pending_id):
     """Batches in the API's list that could be this pending submission: created
-    near the row's time, with its number of requests, and not already ours."""
+    near the row's time, with its number of requests, and not already ours.
+
+    Returns (ids, settled). settled is True when an empty answer is final:
+    the row is older than MATCH_AFTER (by the database's clock, which set
+    created_at), so any batch it made has long been listed, and the listing
+    reached back past created - MATCH_BEFORE, so no match was left unread."""
     with conn.cursor() as cur:
-        cur.execute("select created_at, requests from extract_batches where id = %s and status = 'pending'",
-                    (pending_id,))
+        cur.execute("""select created_at, requests, now() - created_at > %s from extract_batches
+                       where id = %s and status = 'pending'""", (MATCH_AFTER, pending_id))
         row = cur.fetchone()
         cur.execute("select id from extract_batches")
         ours = {r[0] for r in cur.fetchall()}
     conn.commit()
     if row is None:
         raise SystemExit(f"no pending batch {pending_id}")
-    created, n = row
+    created, n, old = row
     out = []
-    for b in AV.recent_batches(cl):
+    listed, covered = AV.recent_batches(cl, until=created - MATCH_BEFORE)
+    for b in listed:
         c = b.request_counts
         total = c.processing + c.succeeded + c.errored + c.canceled + c.expired
         if b.id not in ours and total == n and created - MATCH_BEFORE <= b.created_at <= created + MATCH_AFTER:
             out.append(b.id)
-    return out
+    return out, bool(old and covered)
 
 
 def resolve_pending_auto(conn, cl, pending_id, log=print):
-    """Adopt the one batch that matches a pending row; None if not exactly one."""
-    found = pending_matches(conn, cl, pending_id)
+    """Adopt the one batch that matches a pending row. When none matches and
+    that answer is final (see pending_matches), the submission made nothing:
+    drop the row and return its items to the queue. Returns the batch id,
+    "none", or None when a person has to decide."""
+    found, settled = pending_matches(conn, cl, pending_id)
     if len(found) == 1:
         resolve_pending(conn, pending_id, found[0])
         log(f"pending submission {pending_id} matched batch {found[0]}: re-attaching to it")
         return found[0]
+    if not found and settled:
+        resolve_pending(conn, pending_id, "none")
+        log(f"pending submission {pending_id}: no batch in the API's list was created near it, and it is "
+            f"over {MATCH_AFTER.seconds // 60} minutes old, so it made none; its items are due again")
+        return "none"
     log(f"pending submission {pending_id}: {len(found)} matching batch(es) in the API's list"
-        + (f" ({', '.join(found)})" if found else ""))
+        + (f" ({', '.join(found)})" if found else "")
+        + ("" if found else " (too soon, or the list did not reach back far enough, to call it none)"))
     return None
 
 
