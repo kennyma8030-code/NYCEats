@@ -88,6 +88,46 @@ class Pool(AppCase):
                 self.assertNotEqual(appdb.fetch_value(conn, "select pg_backend_pid()"), pid)
             self.assertEqual(self.client.get("/api/stats").status_code, 200)
 
+    def test_any_failure_in_the_checkout_check_gives_the_slot_back(self):
+        # Not a connection error at all: the check itself blows up. The
+        # connection must still leave the pool, or each one leaks a slot.
+        with mock.patch.object(appdb, "POOL_MAX", 2), mock.patch.object(appdb, "POOL_MIN", 2):
+            with appdb.connection() as conn:
+                pass
+            conn.returned_at = None             # time.monotonic() - None raises TypeError
+            for _ in range(3):
+                with appdb.connection() as c1, appdb.connection() as c2:
+                    self.assertEqual(appdb.fetch_value(c1, "select 1"), 1)
+                    self.assertEqual(appdb.fetch_value(c2, "select 1"), 1)
+            self.assertEqual(in_use(), 0)
+            self.assertNotIn(conn, appdb._pool._pool)
+
+    def test_connections_stay_warm_after_a_burst(self):
+        # psycopg2 closes every returned connection beyond minconn. With the
+        # minimum defaulting to the maximum, a second burst reuses the first
+        # one's backends instead of opening new ones.
+        self.assertEqual(appdb.POOL_MIN, appdb.POOL_MAX)
+
+        def burst():
+            pids, lock, go = set(), threading.Lock(), threading.Barrier(4)
+
+            def work():
+                with appdb.connection() as conn:
+                    go.wait(5)
+                    with lock:
+                        pids.add(appdb.fetch_value(conn, "select pg_backend_pid()"))
+
+            threads = [threading.Thread(target=work) for _ in range(4)]
+            for t in threads:
+                t.start()
+            for t in threads:
+                t.join()
+            return pids
+
+        first = burst()
+        self.assertEqual(len(first), 4)
+        self.assertEqual(burst(), first)
+
 
 class Errors(unittest.TestCase):
     """The handlers themselves; no database needed."""

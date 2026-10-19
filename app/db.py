@@ -35,8 +35,14 @@ from psycopg2.pool import ThreadedConnectionPool
 
 import db as pipeline_db          # DATABASE_URL + the .env loader already live there
 
-POOL_MIN = int(os.environ.get("DB_POOL_MIN", "1"))
 POOL_MAX = int(os.environ.get("DB_POOL_MAX", "10"))
+# psycopg2's pool keeps at most POOL_MIN connections idle and CLOSES every
+# other one as it comes back, so a minimum of 1 meant nearly every concurrent
+# request paid a fresh TCP + TLS + backend fork -- the cost this module exists
+# to avoid. Defaulting it to the maximum keeps them all warm. The price is
+# opening POOL_MAX connections per worker at boot (2 x 10 of the database's
+# 100), which the sizing above already budgets for.
+POOL_MIN = min(int(os.environ.get("DB_POOL_MIN", str(POOL_MAX))), POOL_MAX)
 # How long a request waits for a connection before answering 503.
 POOL_TIMEOUT = float(os.environ.get("DB_POOL_TIMEOUT", "5"))
 # Every read endpoint is one statement over materialized views; one that runs
@@ -114,17 +120,21 @@ def _usable(conn):
     The local checks are free and catch a connection libpq already knows is
     broken. The ping costs a round trip, so it only runs on one that has sat
     idle long enough for the server to have gone away under it.
+
+    Any failure means "not usable", not just the connection-loss errors: an
+    exception escaping from here would leave the connection checked out of
+    the pool for good, one slot lost each time.
     """
-    if conn.closed or conn.info.transaction_status == psycopg2.extensions.TRANSACTION_STATUS_UNKNOWN:
-        return False
-    if time.monotonic() - conn.returned_at < PING_AFTER:
-        return True
     try:
+        if conn.closed or conn.info.transaction_status == psycopg2.extensions.TRANSACTION_STATUS_UNKNOWN:
+            return False
+        if time.monotonic() - conn.returned_at < PING_AFTER:
+            return True
         conn.autocommit = True
         with conn.cursor() as cur:
             cur.execute("select 1")
         return True
-    except (psycopg2.OperationalError, psycopg2.InterfaceError):
+    except Exception:
         return False
 
 
