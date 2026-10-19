@@ -32,11 +32,11 @@ class FakeArctic:
 
 
 class FetchNew(unittest.TestCase):
-    def fetch(self, comments, held):
+    def fetch(self, comments, held, lag=0):
         fake = FakeArctic(comments)
         with mock.patch.object(poller.arctic, "newest_comments", fake), \
                 mock.patch.object(poller.time, "sleep"), redirect_stdout(io.StringIO()):
-            got = poller.fetch_new("chicagofood", held)
+            got = poller.fetch_new("chicagofood", held, lag=lag)
         return {c["id"] for c in got}, fake
 
     def test_pages_back_across_ties_and_misses_nothing(self):
@@ -55,6 +55,17 @@ class FetchNew(unittest.TestCase):
         got, fake = self.fetch([comment(i, held - 50 + i) for i in range(150)], held)
         self.assertEqual(len(fake.calls), 1)
         self.assertEqual(len(got), 100)
+
+    def test_pages_back_lag_seconds_behind_what_was_seen(self):
+        # One comment a second; the last poll saw up to 1,000. With a lag of
+        # 250 s the poll must reach 750 or older, three pages back.
+        held = 1_000
+        got, fake = self.fetch([comment(i, i) for i in range(1, 1_051)], held, lag=250)
+        self.assertEqual(len(fake.calls), 4)
+        self.assertTrue({f"c{i:05d}" for i in range(750, 1_051)} <= got)
+
+    def test_default_lag_is_eight_hours(self):
+        self.assertEqual(poller.LAG, 8 * 3600)
 
     def test_nothing_held_takes_one_page(self):
         got, fake = self.fetch([comment(i, 10_000 + i) for i in range(500)], None)
@@ -174,7 +185,7 @@ class Connection(unittest.TestCase):
         dead, fresh = mock.Mock(closed=2), mock.Mock(closed=0)
         used = []
 
-        def poll_once(c, name, seen):
+        def poll_once(c, name, seen, orphans=None):
             used.append((name, c))
             if c is dead:
                 raise RuntimeError("gone")

@@ -42,6 +42,13 @@ class HomeLiteral(unittest.TestCase):
             found = set(re.findall(rf"'({names})'", code(read(name)), flags=re.I))
             self.assertLessEqual(found, {subreddits.HOME}, name)
 
+    def test_rss_feed_is_home(self):
+        import rss
+        self.assertIs(rss.SUBREDDIT, subreddits.HOME)
+        src = read("rss.py")
+        self.assertNotIn("'FoodNYC'", src)
+        self.assertNotIn('"FoodNYC"', src)
+
     def test_clear_cursors_uses_home(self):
         import inspect
         src = inspect.getsource(db.clear_cursors)

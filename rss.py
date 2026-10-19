@@ -30,8 +30,11 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 
 import db
+import subreddits
 
-SUBREDDIT = "FoodNYC"
+# The board's city only: seven feeds every five minutes is the kind of
+# traffic Reddit answers with a 429.
+SUBREDDIT = subreddits.HOME
 INTERVAL = 5 * 60
 LIMIT = 25              # the feed's own page size; asking for more changes nothing
 UA = {"User-Agent": "foodnyc-tracker/0.1 (personal project)"}
@@ -151,22 +154,26 @@ def run_forever(interval=INTERVAL, verbose=False):
     psycopg2 connections are not thread-safe, so this opens its own rather than
     sharing the poller's. A cycle that fails is logged and forgotten; the feed
     only holds 25 comments, so a missed cycle costs only what arrived in five
-    minutes, and the next one picks the rest up.
+    minutes, and the next one picks the rest up. That includes the database
+    being down: connecting, the schema and reconnecting all happen inside
+    the cycle's try, through db.recover, which never raises -- a reconnect
+    attempt that raised out of the except is what used to end this thread.
     """
-    conn = db.connect()
-    db.init(conn, SCHEMA)
+    conn, ready = None, False
     while True:
         started = time.time()
         try:
+            if conn is None or conn.closed:
+                conn = db.connect()
+            if not ready:
+                db.init(conn, SCHEMA)
+                ready = True
             t, c = poll_once(conn)
             if c or verbose:
                 print(f"[rss] +{c} comment(s), +{t} thread(s)", flush=True)
         except Exception as e:
             print(f"[rss] {type(e).__name__}: {e}", flush=True)
-            try:
-                conn.rollback()
-            except Exception:
-                conn = db.connect()          # the connection itself went
+            conn = db.recover(conn, log=lambda msg: print(f"[rss] {msg.strip()}", flush=True))
         time.sleep(max(0, interval - (time.time() - started)))
 
 

@@ -1,8 +1,12 @@
 """Poll every subreddit in subreddits.py, each as often as its activity needs.
 
-A poll takes the newest page of comments and, if that page is still all
-news, keeps paging back until it reaches what we already hold. So how often
-a city is polled decides how fresh it is, never whether comments are lost.
+A poll takes the newest page of comments and keeps paging back until it is
+LAG hours behind the newest comment the previous poll saw. So how often a
+city is polled decides how fresh it is, never whether comments are lost.
+The lag is there because Arctic Shift does not publish in order: a comment
+can turn up hours after newer ones (p99 8.8h on r/FoodNYC), and a poll that
+stopped at what it last saw would step over it. What even that misses, the
+chores pass catches by sweeping each city's last 48 hours again.
 The cadence is set from each city's busiest hour of the past week: r/chicagofood
 peaks above 200 comments an hour and is polled every ~15 minutes;
 r/FoodSanDiego peaks near 70 and waits ~40.
@@ -52,6 +56,25 @@ MAX_PAGES = 20
 # minutes: they are not per city, and refreshing the scoring views every time
 # any city is polled would rebuild the board several times an hour.
 CHORE_INTERVAL = 30 * 60
+# How far behind the previous poll's newest comment each poll pages back.
+# Arctic Shift makes comments visible out of order -- measured on r/FoodNYC,
+# p99 8.8 hours after newer ones -- so stopping at the previous newest lost
+# about 1% of comments. Eight hours is two or three pages per poll at
+# today's rates; the chores re-sweep below catches the tail beyond it.
+LAG = float(os.environ.get("POLL_LAG_HOURS", "8")) * 3600
+# A comment can also arrive before its post does (up to ~20h), and it cannot
+# be stored without it. Its thread is remembered and looked for again on
+# every later poll of that city, for up to two days. Bounded, because a
+# post deleted for good is never coming.
+ORPHAN_TTL = 48 * 3600
+ORPHAN_MAX = 1000
+# The chores pass re-reads each polled city's last RESWEEP_HOURS forward
+# from the archive, every RESWEEP_EVERY. Late comments past the poll's lag
+# and orphans whose post finally appeared land here. About 6,000 comments
+# across the seven cities, ~60 requests, so it runs a few times a day, not
+# every half hour.
+RESWEEP_HOURS = float(os.environ.get("POLL_RESWEEP_HOURS", "48"))
+RESWEEP_EVERY = float(os.environ.get("POLL_RESWEEP_EVERY_HOURS", "6")) * 3600
 
 
 def pull_threads(conn, bare_ids):
@@ -63,16 +86,18 @@ def pull_threads(conn, bare_ids):
         time.sleep(1)
 
 
-def fetch_new(subreddit, held):
-    """Every comment newer than `held`, plus the page it sits on.
+def fetch_new(subreddit, held, lag=None):
+    """Every comment created after `held - lag`, each once.
 
     `held` is the newest created_utc the previous poll of this subreddit saw
-    (None if nothing has been seen). One page covers a normal poll. A full
-    page whose oldest comment is still newer than `held` did not reach back
-    far enough -- a burst, or the poller was down -- so page back until it
-    does. A subreddit with nothing held yet gets one page; its history is
-    the backfill's job.
+    (None if nothing has been seen). A full page whose oldest comment is
+    still newer than `held - lag` did not reach back far enough, so page
+    back until it does. The lag (LAG) is what catches comments the archive
+    published late; the overlap costs a page or two and is deduped here and
+    by the insert. A subreddit with nothing held yet gets one page; its
+    history is the backfill's job.
     """
+    lag = LAG if lag is None else lag
     got = {}
     page = arctic.newest_comments(subreddit)
     for pages in range(1, MAX_PAGES + 1):
@@ -81,22 +106,89 @@ def fetch_new(subreddit, held):
         if held is None or len(page) < arctic.PAGE:
             break
         oldest = min(c["created_utc"] for c in page)
-        if oldest <= held:
+        if oldest <= held - lag:
             break
         if pages == MAX_PAGES:
             print(f"  r/{subreddit}: still no overlap after {pages} pages; "
-                  f"the next boot's backfill will close the gap")
+                  f"the re-sweep or the next boot's backfill will close the gap")
             return list(got.values())
         time.sleep(1)
         # +1: `before` is exclusive, and a comment posted in the same second
         # as this page's oldest would otherwise fall between the two pages.
         page = arctic.newest_comments(subreddit, before=oldest + 1)
     if pages > 1:
-        print(f"  r/{subreddit}: paged back {pages} pages to reach stored comments")
+        print(f"  r/{subreddit}: paged back {pages} pages, to {lag / 3600:g}h before the last poll")
     return list(got.values())
 
 
-def poll_once(conn, subreddit, seen):
+def remember_orphans(pending, link_ids, now=None):
+    """Note threads whose post the archive did not have yet. Bounded: oldest go."""
+    now = time.time() if now is None else now
+    for lid in link_ids:
+        pending.setdefault(lid, now)
+    for lid in sorted(pending, key=pending.get)[:max(0, len(pending) - ORPHAN_MAX)]:
+        del pending[lid]
+
+
+def store(conn, comments, pending=None):
+    """Store fetched comments, pulling in any thread we have never seen.
+
+    Comments whose post the archive cannot return yet are dropped (they
+    cannot satisfy the foreign key) and their threads go into `pending`,
+    to be looked for again. Returns how many comments were new.
+    """
+    if not comments:
+        return 0
+    storable, got, discovered = ingest.ensure_threads(conn, comments)
+    if got:
+        print(f"  {got} unknown thread(s), backfilling")
+        pull_threads(conn, discovered)
+    if len(storable) < len(comments):
+        dropped = {c["link_id"] for c in comments} - {c["link_id"] for c in storable}
+        print(f"  skipping {len(comments) - len(storable)} comment(s) with no post yet "
+              f"({len(dropped)} thread(s), will look again)")
+        if pending is not None:
+            remember_orphans(pending, dropped)
+    new = db.insert_comments(conn, storable)
+    db.fill_tree(conn, {c["link_id"] for c in storable})
+    return new
+
+
+def retry_orphans(conn, pending, now=None):
+    """Look again for the posts of threads whose comments were dropped.
+
+    A post that has turned up -- in the archive, or in our table by another
+    route -- gets its whole thread pulled, which brings back the comments
+    dropped earlier. One request per 50 threads still missing. Threads
+    still missing after ORPHAN_TTL are given up; the boot backfill and the
+    re-sweep are the last chances. Returns how many threads were recovered.
+    """
+    if not pending:
+        return 0
+    now = time.time() if now is None else now
+    for lid in [lid for lid, t in pending.items() if now - t > ORPHAN_TTL]:
+        print(f"  giving up on {lid}: no post after {ORPHAN_TTL // 3600}h")
+        del pending[lid]
+    if not pending:
+        return 0
+    found = db.existing_thread_ids(conn, pending)
+    missing = set(pending) - found
+    if missing:
+        posts = arctic.posts_by_id(sorted(m[3:] for m in missing))
+        if posts:
+            db.insert_threads(conn, posts)
+            found |= {"t3_" + p["id"] for p in posts}
+    if not found:
+        return 0
+    print(f"  {len(found)} late post(s) arrived; pulling their threads")
+    pull_threads(conn, {f[3:] for f in found})
+    db.fill_tree(conn, found)
+    for lid in found:
+        pending.pop(lid, None)
+    return len(found)
+
+
+def poll_once(conn, subreddit, seen, orphans=None):
     """Fetch, store, and move this subreddit's overlap point forward.
 
     `seen` maps subreddit -> newest created_utc a poll has fetched. It is
@@ -107,26 +199,23 @@ def poll_once(conn, subreddit, seen):
     in between. At boot there is no memory yet, so the first poll starts
     from the table; the boot backfill is what closes a gap from before it.
     It moves only after the insert, so a poll that fails pages back again.
+
+    `orphans` maps subreddit -> {thread id: when first dropped}, the threads
+    whose post had not reached the archive yet; each poll looks for them again.
     """
     if subreddit not in seen:
         seen[subreddit] = db.newest_stored_utc(conn, subreddit)
+    pending = None if orphans is None else orphans.setdefault(subreddit, {})
     comments = fetch_new(subreddit, seen[subreddit])
     print(f"r/{subreddit}: fetched {len(comments)} newest comments")
-    if not comments:
-        return
-
-    storable, got, discovered = ingest.ensure_threads(conn, comments)
-    if got:
-        print(f"  {got} unknown thread(s), backfilling")
-        pull_threads(conn, discovered)
-    if len(storable) < len(comments):
-        print(f"  skipping {len(comments) - len(storable)} comment(s) with no post")
-
-    new = db.insert_comments(conn, storable)
-    db.fill_tree(conn, {c["link_id"] for c in storable})
-    print(f"  inserted {new} new comment(s)")
-    newest = max(c["created_utc"] for c in comments)
-    seen[subreddit] = newest if seen[subreddit] is None else max(seen[subreddit], newest)
+    if comments:
+        new = store(conn, comments, pending)
+        print(f"  inserted {new} new comment(s)")
+        newest = max(c["created_utc"] for c in comments)
+        seen[subreddit] = newest if seen[subreddit] is None else max(seen[subreddit], newest)
+    # After the overlap point moved: a failure here is the orphans' alone.
+    if pending:
+        retry_orphans(conn, pending)
 
 
 def interval_for(conn, subreddit):
@@ -159,6 +248,59 @@ def settle_once(conn, batches=5):
         time.sleep(1)
     if total:
         print(f"  settled scores for {total} comment(s)")
+
+
+def resweep_once(conn, subreddit, hours=None, pending=None):
+    """Read this city's last `hours` again, oldest first, and store what is missing.
+
+    The poll's lag covers most late arrivals; this is for the rest, and for
+    comments dropped because their post was late. Pages forward with
+    arctic.forward, so no same-second comment falls between pages. Returns
+    how many comments were new -- in the log, that is the poll's loss rate.
+    """
+    hours = RESWEEP_HOURS if hours is None else hours
+    start = int(time.time() - hours * 3600)
+    fetched = new = 0
+
+    def fetch(after):
+        return arctic.search_page("comments", subreddit, after=after)
+    for fresh, page in arctic.forward(fetch, start, pause=1.0):
+        fetched += len(fresh)
+        new += store(conn, fresh, pending)
+        if max(c["created_utc"] for c in page) >= time.time() - 60:
+            break
+    print(f"  re-swept r/{subreddit}'s last {hours:g}h: {fetched} comment(s), {new} were missing")
+    return new
+
+
+def disk_once(conn):
+    """Log the database's size every chores pass, and warn past the backfill's limit.
+
+    The Railway volume is 5,000 MB and holds the WAL too. Past
+    BACKFILL_MAX_DB_MB the backfill stops sweeping other cities (backfill.py);
+    polling goes on, because missing comments are worse than a full disk
+    warning, and a person has to decide what gives.
+    """
+    import backfill
+
+    size, limit = db.database_size_mb(conn), backfill.max_db_mb()
+    flag = "  <- OVER BACKFILL_MAX_DB_MB; other cities' backfill is stopped" if size > limit else ""
+    print(f"  database {size:,.0f} MB (backfill limit {limit:,.0f} MB){flag}")
+    return size
+
+
+class Resweep:
+    """Which cities the chores pass re-sweeps, and when each was last done."""
+
+    def __init__(self, names, orphans, hours=None, every=None):
+        self.names, self.orphans = list(names), orphans
+        self.hours = RESWEEP_HOURS if hours is None else hours
+        self.every = RESWEEP_EVERY if every is None else every
+        self.last = {}
+
+    def due(self, now=None):
+        now = time.time() if now is None else now
+        return [n for n in self.names if now - self.last.get(n, 0) >= self.every]
 
 
 def _since(conn, days):
@@ -289,27 +431,8 @@ EMBED_DEADLINE = 5 * 60
 
 
 def _recover(conn):
-    """A clean connection after a failed step: rolled back, or a new one.
-
-    A step can fail because the connection itself went (a Postgres restart,
-    a dropped proxy). Rolling back a closed connection raises, and raising
-    here would end the poller over something the next cycle can survive. So
-    reconnect instead; if even that fails, keep the dead one and let the
-    next step try again, rather than exit.
-    """
-    try:
-        if not conn.closed:
-            conn.rollback()
-            return conn
-    except Exception:
-        traceback.print_exc()
-    print("  database connection lost -- reconnecting")
-    try:
-        return db.connect()
-    except Exception:
-        traceback.print_exc()
-        print("  reconnect failed; the next step will try again")
-        return conn
+    """A clean connection after a failed step (db.recover): rolled back, or new."""
+    return db.recover(conn)
 
 
 def _step(name, fn, conn, *args):
@@ -338,7 +461,7 @@ def _idle(conn):
     return conn
 
 
-def poll_due(conn, names, due, seen):
+def poll_due(conn, names, due, seen, orphans=None):
     """Poll every subreddit whose time has come, then set its next due time.
 
     A failed poll still gets a next time, the shortest one: retrying at once
@@ -348,14 +471,15 @@ def poll_due(conn, names, due, seen):
     for name in names:
         if due[name] > time.time():
             continue
-        _, conn = _step(f"poll r/{name}", poll_once, conn, name, seen)
+        extra = () if orphans is None else (orphans,)
+        _, conn = _step(f"poll r/{name}", poll_once, conn, name, seen, *extra)
         wait, conn = _step(f"interval r/{name}", interval_for, conn, name)
         due[name] = time.time() + (wait or MIN_INTERVAL)
     return conn
 
 
 def run_chores(conn, args):
-    """The 30-minute pass: settle, then extract, then refresh, then embed.
+    """The 30-minute pass: log the disk, settle, re-sweep, extract, refresh, embed.
 
     Each step gets its own try. A failed extraction must not look like a
     failed settle, and a failed settle still leaves earlier arrivals worth
@@ -363,12 +487,22 @@ def run_chores(conn, args):
     is refreshed before it starts, and an embedding error or a slow
     OpenRouter can never delay extraction or the refresh.
 
-    Every step here is r/FoodNYC's except settling, which is every city's:
+    Every step here is r/FoodNYC's except settling and the re-sweep, which
+    are every polled city's:
     extraction reads HOME only, and embedding reads what extraction wrote
     plus HOME's threads, so the other cities' history is never billed.
     Returns the connection to carry on with.
     """
+    _, conn = _step("disk", disk_once, conn)
     _, conn = _step("settle", settle_once, conn)
+    resweep = getattr(args, "resweep", None)
+    if resweep is not None:
+        for name in resweep.due():
+            _, conn = _step(f"re-sweep r/{name}", resweep_once, conn, name, resweep.hours,
+                            resweep.orphans.setdefault(name, {}))
+            # Failed or not, wait a full interval: retrying at once would
+            # spin on an archive outage, and the next poll pages back anyway.
+            resweep.last[name] = time.time()
     extracted = 0
     if args.extract and getattr(args, "extract_version", "legacy") == "v6":
         extracted, conn = _step("extract", extract_v6_once, conn, args.extract_days,
@@ -393,13 +527,15 @@ def main():
     ap.add_argument("--once", action="store_true",
                     help="poll each subreddit once, run the chores, and exit")
     ap.add_argument("--subreddit", action="append", choices=subreddits.SUBREDDITS,
-                    help="poll and backfill only this one (repeatable; default: all)")
+                    help="poll only this one, and backfill it if BACKFILL_SUBREDDITS and "
+                         "BACKFILL_YEARS_OTHER allow (repeatable; default: $POLL_SUBREDDITS)")
     ap.add_argument("--no-rss", action="store_true",
                     help="do not run the RSS fallback collector")
     ap.add_argument("--no-backfill", action="store_true",
                     help="start polling immediately, skipping the catch-up sweep")
     ap.add_argument("--backfill-years", type=float, default=0,
-                    help="limit the catch-up sweep to the last N years (default: all time)")
+                    help="limit r/FoodNYC's catch-up sweep to the last N years (default: all "
+                         "time); other cities take $BACKFILL_YEARS_OTHER (backfill.scope)")
     ap.add_argument("--rescan", action="store_true",
                     help="throw away the saved cursor and re-sweep from the beginning; "
                          "the only way to recover comments lost from behind the cursor")
@@ -518,12 +654,24 @@ def main():
         rss.start_background()
         print(f"rss fallback polling every {rss.INTERVAL // 60} min")
 
-    names = args.subreddit or list(subreddits.SUBREDDITS)
+    # Which cities are polled, and which are swept. Polling a city stores
+    # what it says from now on, ~2,500 comments a day for the six beyond
+    # r/FoodNYC (about 2.3 MB a day, under 1 GB a year). Sweeping its history
+    # is ~3.5M comments for the six, which the volume cannot hold today, so
+    # that is opt-in (backfill.scope).
+    names = args.subreddit or subreddits.parse(os.environ.get("POLL_SUBREDDITS"),
+                                               subreddits.SUBREDDITS)
+    print(f"polling {', '.join('r/' + n for n in names)}")
+    orphans = {}
 
     if not args.no_backfill:
         import backfill
+        sweep, years = backfill.scope(args.backfill_years or None, only=args.subreddit)
+        depth = [f"r/{n} ({years[n] or 'all'} years)" for n in sweep]
+        print(f"backfill: {', '.join(depth) or 'none'}; "
+              f"stops other cities past {backfill.max_db_mb():,.0f} MB")
         if args.rescan:
-            db.clear_cursors(conn, names)
+            db.clear_cursors(conn, sweep)
             print("cursors cleared -- re-sweeping from the beginning")
         # Runs on every boot, and that is the point: after downtime it resumes
         # at the last comment we stored and pages forward to now, filling the
@@ -535,18 +683,24 @@ def main():
         # the sweep runs first, the way it always did. Two rounds, not
         # forever: a city that keeps failing is reported and the run goes on.
         if args.once:
-            backfill.run_all(conn, names, args.backfill_years or None, rounds=2)
+            backfill.run_all(conn, sweep, years, rounds=2)
             conn = _recover(conn)        # run_all may have had to replace it
         else:
-            backfill.start_background(names, args.backfill_years or None)
-            print(f"backfill sweeping {len(names)} subreddit(s) in the background")
+            backfill.start_background(sweep, years)
+            print(f"backfill sweeping {len(sweep)} subreddit(s) in the background")
 
     # Everything is due at boot.
     due = dict.fromkeys(names, 0.0)
     seen = {}
+    # The re-sweep waits one interval after boot. r/FoodNYC's backfill and
+    # every city's first polls already read the recent hours, and for a city
+    # new to the table a sweep now would pull every thread of its last two
+    # days at once, holding up the polls behind it.
+    args.resweep = Resweep(names, orphans)
+    args.resweep.last = dict.fromkeys(names, time.time())
     chores_due = 0.0
     while True:
-        conn = poll_due(conn, names, due, seen)
+        conn = poll_due(conn, names, due, seen, orphans)
         if time.time() >= chores_due:
             conn = run_chores(conn, args)
             chores_due = time.time() + CHORE_INTERVAL
