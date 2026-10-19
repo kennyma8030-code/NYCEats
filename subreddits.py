@@ -29,3 +29,29 @@ SUBREDDITS = (
     "denverfood",
     "FoodToronto",
 )
+
+
+def parse(value, default):
+    """Subreddit names from a comma-separated setting, in SUBREDDITS order.
+
+    For POLL_SUBREDDITS and BACKFILL_SUBREDDITS. Unset or blank is
+    `default`; "all" is every one. Matched case-insensitively and returned
+    in the spelling above, because the stored column and every filter use
+    that spelling. An unknown name fails the boot: a typo here would
+    otherwise quietly stop collecting a city.
+    """
+    if value is None or not value.strip():
+        return list(default)
+    if value.strip().lower() == "all":
+        return list(SUBREDDITS)
+    known = {s.lower(): s for s in SUBREDDITS}
+    wanted = set()
+    for part in value.split(","):
+        name = part.strip().removeprefix("r/").lower()
+        if not name:
+            continue
+        if name not in known:
+            raise SystemExit(f"unknown subreddit {part.strip()!r}: expected 'all' or some of "
+                             f"{', '.join(SUBREDDITS)}")
+        wanted.add(known[name])
+    return [s for s in SUBREDDITS if s in wanted]

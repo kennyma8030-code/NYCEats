@@ -80,22 +80,61 @@ def comments_by_id(bare_ids):
     return out
 
 
+def forward(fetch, start, pause=0.0):
+    """Page forward through created_utc from `start` (inclusive), each item once.
+
+    fetch(after) returns one page, oldest first, of items created strictly
+    after `after`. Yields (fresh, page) per page: the items not yielded
+    before, and the page as fetched, whose newest is where a caller's
+    cursor goes.
+
+    `after` is exclusive, so asking for after = the page's newest would skip
+    every item posted in that same second that did not fit on the page.
+    Each request asks for after = newest - 1 instead, and the items already
+    seen in that second are dropped. A page with nothing new means the end:
+    unless it is a full page of one second already seen, which can only be
+    more than a page of items in one second; those beyond the first page
+    cannot be reached by time and are skipped, loudly.
+    """
+    after, boundary = start - 1, set()
+    while True:
+        page = fetch(after)
+        if not page:
+            return
+        # boundary holds every id seen in second after + 1, the only second
+        # a new page can share with what came before.
+        fresh = [x for x in page if x["id"] not in boundary]
+        newest = max(x["created_utc"] for x in page)
+        if not fresh:
+            if len(page) < PAGE:
+                return
+            print(f"    more than {PAGE} items at {newest}; skipping the rest of that second")
+            after, boundary = newest, set()
+            continue
+        yield fresh, page
+        at_newest = {x["id"] for x in page if x["created_utc"] == newest}
+        # Still in the same second as last time (the whole page sat in it):
+        # what earlier pages saw there counts too.
+        boundary = boundary | at_newest if newest == after + 1 else at_newest
+        after = newest - 1
+        if pause:
+            time.sleep(pause)
+
+
 def all_thread_comments(bare_link_id, pause=1.0):
     """Every comment in one thread, paginated forward through created_utc."""
-    out, after = {}, None
-    while True:
-        params = {"link_id": bare_link_id, "limit": PAGE, "sort": "asc"}
-        if after is not None:
-            params["after"] = after
-        page = _get("comments/search", params)
-        fresh = [c for c in page if c["id"] not in out]
-        for c in page:
+    out = {}
+
+    def fetch(after):
+        return _get("comments/search", {"link_id": bare_link_id, "limit": PAGE,
+                                        "sort": "asc", "after": after})
+    # A short page is the last one here: one thread is never sparse enough
+    # for the archive to return fewer than it has.
+    for fresh, page in forward(fetch, 0, pause):
+        for c in fresh:
             out[c["id"]] = c
-        # Short page = last page. No new ids = we're stuck on a timestamp tie.
-        if len(page) < PAGE or not fresh:
+        if len(page) < PAGE:
             break
-        after = max(c["created_utc"] for c in page)
-        time.sleep(pause)
     return list(out.values())
 
 

@@ -107,6 +107,7 @@ class OrphanPage(unittest.TestCase):
         db = mock.Mock()
         db.get_cursor.return_value = 500
         db.insert_comments.return_value = 0
+        db.database_size_mb.return_value = 900.0
         with mock.patch.object(backfill.arctic, "search_page", lambda *a, **k: next(pages)), \
                 mock.patch.object(backfill.ingest, "ensure_threads", return_value=([], 0, set())), \
                 mock.patch.object(backfill, "db", db), \

@@ -10,6 +10,7 @@ is `on conflict do nothing`, so re-running costs nothing but the fetch.
 """
 
 import argparse
+import os
 import threading
 import time
 import traceback
@@ -26,32 +27,60 @@ EPOCH = 1104537600   # 2005-01-01, before Reddit existed. "All time" floor.
 LOG_EVERY = 25       # pages between progress lines (keeps long runs quiet)
 RETRY_AFTER = 5 * 60 # seconds before a failed sweep resumes from its cursor
 MAX_TRIES = 3        # failures in a row before a city goes to the back of the queue
+DISK_EVERY = 10      # pages between database size checks while sweeping another city
+
+
+class DiskBudget(RuntimeError):
+    """The database is past BACKFILL_MAX_DB_MB: stop sweeping other cities."""
+
+
+def max_db_mb():
+    """BACKFILL_MAX_DB_MB, default 3,500 of the Railway volume's 5,000.
+
+    The volume also holds WAL, which a long sweep writes as fast as it
+    inserts, so the line sits well below the volume's size.
+    """
+    return float(os.environ.get("BACKFILL_MAX_DB_MB", "3500"))
+
+
+def check_disk(conn, subreddit):
+    """Refuse to keep sweeping another city's history once the database is too big.
+
+    HOME is never stopped: its sweep is the board's own gap-fill, a few pages
+    after downtime, and stopping it would cost the board comments.
+    """
+    if subreddit == subreddits.HOME:
+        return
+    size, limit = db.database_size_mb(conn), max_db_mb()
+    if size > limit:
+        raise DiskBudget(f"database is {size:,.0f} MB, over BACKFILL_MAX_DB_MB={limit:,.0f}; "
+                         f"not sweeping r/{subreddit} any further")
+
+
+def _search(kind, subreddit):
+    return lambda after: arctic.search_page(kind, subreddit, after=after)
 
 
 def backfill_posts(conn, subreddit, start_utc, pause=PAUSE):
     """Every post since start_utc. Cheap: ~40k posts = ~400 requests."""
     cursor = db.get_cursor(conn, subreddit, "posts", start_utc)
     total = new = pages = 0
-    while True:
-        page = arctic.search_page("posts", subreddit, after=cursor)
-        if not page:
-            break
-        new += db.insert_threads(conn, page)
-        total += len(page)
-        newest = max(p["created_utc"] for p in page)
-        # A short page is NOT the end -- the API returns fewer than `limit`
-        # for sparse ranges. Only an empty page, no forward progress, or
-        # reaching the present means we're done.
-        if newest <= cursor:
-            break
-        cursor = newest
+    check_disk(conn, subreddit)
+    # A short page is NOT the end -- the API returns fewer than `limit` for
+    # sparse ranges. Only an empty page, a page with nothing new, or reaching
+    # the present means we're done (arctic.forward).
+    for fresh, page in arctic.forward(_search("posts", subreddit), cursor, pause):
+        new += db.insert_threads(conn, fresh)
+        total += len(fresh)
+        cursor = max(p["created_utc"] for p in page)
         db.set_cursor(conn, subreddit, "posts", cursor)
         pages += 1
         if pages % LOG_EVERY == 0:
             print(f"  {subreddit} posts: {total:>7,} seen  {new:>7,} new   at {time.strftime('%Y-%m-%d', time.gmtime(cursor))}", flush=True)
+        if pages % DISK_EVERY == 0:
+            check_disk(conn, subreddit)
         if cursor >= time.time() - 60:
             break
-        time.sleep(pause)
     return total, new
 
 
@@ -60,10 +89,8 @@ def backfill_comments(conn, subreddit, start_utc, pause=PAUSE):
     cursor = db.get_cursor(conn, subreddit, "comments", start_utc)
     total = new = rescued = pages = 0
     pending, touched = set(), set()
-    while True:
-        page = arctic.search_page("comments", subreddit, after=cursor)
-        if not page:
-            break
+    check_disk(conn, subreddit)
+    for fresh, page in arctic.forward(_search("comments", subreddit), cursor, pause):
         # From the page as fetched, before comments with no post are dropped:
         # a page whose every comment is orphaned must still move the cursor,
         # or the sweep would fetch it again forever.
@@ -71,31 +98,30 @@ def backfill_comments(conn, subreddit, start_utc, pause=PAUSE):
 
         # Rare after the posts pass: a post older than the window, or one the
         # archive skipped.
-        page, got, _ = ingest.ensure_threads(conn, page, pause)
+        stored, got, _ = ingest.ensure_threads(conn, fresh, pause)
         rescued += got
 
-        new += db.insert_comments(conn, page)
-        total += len(page)
+        new += db.insert_comments(conn, stored)
+        total += len(stored)
 
         # fill_tree is a recursive CTE; running it per page doubles wall time.
         # Batch it -- late-arriving parents are picked up by the next flush.
-        pending.update(c["link_id"] for c in page)
-        touched.update(c["link_id"] for c in page)
+        pending.update(c["link_id"] for c in stored)
+        touched.update(c["link_id"] for c in stored)
         if len(pending) >= TREE_BATCH:
             db.fill_tree(conn, pending)
             pending.clear()
 
-        if newest <= cursor:
-            break                        # no forward progress
         cursor = newest
         db.set_cursor(conn, subreddit, "comments", cursor)
         pages += 1
         if pages % LOG_EVERY == 0:
             print(f"  {subreddit} comments: {total:>8,} seen  {new:>8,} new  {rescued:>4} posts rescued"
                   f"   at {time.strftime('%Y-%m-%d', time.gmtime(cursor))}", flush=True)
+        if pages % DISK_EVERY == 0:
+            check_disk(conn, subreddit)
         if cursor >= time.time() - 60:
             break                        # caught up to the present
-        time.sleep(pause)
 
     if pending:
         db.fill_tree(conn, pending)
@@ -141,23 +167,45 @@ def run(conn, subreddit, years=None, posts_only=False):
     print(f"  updated {db.fill_tree(conn, ids):,} rows\n")
 
 
-def _fresh(conn):
-    """The same connection rolled back, or a new one if it went.
+def scope(home_years=None, only=None, env=None):
+    """Which subreddits the boot sweep covers, and how far back each one starts.
 
-    A failed connect is not raised: the next attempt fails fast on the dead
-    connection, counts as one more failure, and reconnects again.
+    Safe by default: r/FoodNYC only. The six other cities' full history is
+    ~3.5M comments, about 3.1 GB plus the WAL to write it, on a 5 GB volume
+    that holds 1.3 GB today -- so it waits for the owner to opt in:
+
+      BACKFILL_SUBREDDITS   comma list or "all"; default FoodNYC
+      BACKFILL_YEARS_OTHER  years of history for a city other than HOME:
+                            0 (default) = none, the city is not swept;
+                            N = the last N years; "all" = all time
+
+    HOME's depth is --backfill-years (0 = all time), as before; its sweep
+    is the board's gap-fill after downtime and is never skipped. `only`
+    (--subreddit) narrows the list further. Once a city has a cursor, the
+    cursor wins over its years. Returns (names, {name: years or None}).
     """
+    env = os.environ if env is None else env
+    names = subreddits.parse(env.get("BACKFILL_SUBREDDITS"), (subreddits.HOME,))
+    if only:
+        names = [n for n in names if n in only]
+    raw = (env.get("BACKFILL_YEARS_OTHER") or "0").strip().lower()
     try:
-        if not conn.closed:
-            conn.rollback()
-            return conn
-    except Exception:
-        pass
-    try:
-        return db.connect()
-    except Exception:
-        traceback.print_exc()
-        return conn
+        other = None if raw == "all" else float(raw)
+    except ValueError:
+        raise SystemExit(f"BACKFILL_YEARS_OTHER={raw!r} is not a number of years or 'all'")
+    out, years = [], {}
+    for name in names:
+        if name != subreddits.HOME and other == 0:
+            print(f"[backfill] r/{name} is in BACKFILL_SUBREDDITS but BACKFILL_YEARS_OTHER is 0; "
+                  f"not sweeping it", flush=True)
+            continue
+        out.append(name)
+        years[name] = home_years if name == subreddits.HOME else other
+    return out, years
+
+
+def _years(years, name):
+    return years.get(name) if isinstance(years, dict) else years
 
 
 def run_all(conn, names, years=None, retry_after=RETRY_AFTER, tries=MAX_TRIES,
@@ -174,6 +222,11 @@ def run_all(conn, names, years=None, retry_after=RETRY_AFTER, tries=MAX_TRIES,
     `rounds` caps how many times one city is queued: None keeps cycling
     (the background thread, which should outlast any outage), a number
     lets --once finish. Returns the subreddits that never caught up.
+
+    `years` is one depth for every city or a {name: years} map (scope()).
+    A city that finds the database past BACKFILL_MAX_DB_MB is not retried,
+    and no other city but HOME is swept after it: more history would only
+    fill the disk faster.
     """
     queue = [(name, 1) for name in names]
     failed = []
@@ -181,11 +234,18 @@ def run_all(conn, names, years=None, retry_after=RETRY_AFTER, tries=MAX_TRIES,
         name, round_ = queue.pop(0)
         for attempt in range(1, tries + 1):
             try:
-                run(conn, name, years)
+                run(conn, name, _years(years, name))
+                break
+            except DiskBudget as e:
+                print(f"[backfill] STOPPED: {e}. Raise BACKFILL_MAX_DB_MB or grow the "
+                      f"volume to go on; cursors are kept.", flush=True)
+                stopped = [name] + [n for n, _ in queue if n != subreddits.HOME]
+                queue = [(n, r) for n, r in queue if n == subreddits.HOME]
+                failed += stopped
                 break
             except Exception:
                 traceback.print_exc()
-                conn = _fresh(conn)
+                conn = db.recover(conn)
                 if attempt < tries:
                     print(f"[backfill] r/{name} failed -- retrying in {retry_after // 60} min",
                           flush=True)
