@@ -69,9 +69,14 @@ create table if not exists embedding_errors (
 -- keeps that window a range read instead of a scan of mentions on every
 -- page. mentions.created_at is the insert time (its default; no writer sets
 -- it). Guarded by a catalog check, so once it exists neither this file nor
--- a boot takes a lock on mentions for it; the first build blocks writes to
--- mentions for well under a second (149k rows), and gives up after 5s
--- waiting for its lock. In schema.sql a timeout skips only the index.
+-- a boot takes a lock on mentions for it. The first build takes a SHARE
+-- lock, which blocks writes to mentions, and gives up after 5s waiting for
+-- it. The build itself is well under a second (149k rows), but the lock is
+-- held until the transaction commits: here that is this file's `commit`,
+-- right below; on a boot, schema.sql runs as one transaction, so it is held
+-- until the whole file has run (the v6 block after it included). Apply this
+-- file before the deploy to keep that off the boot. In schema.sql a timeout
+-- skips only the index.
 do $$
 begin
   if to_regclass('mentions_created_idx') is null then

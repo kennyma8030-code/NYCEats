@@ -250,17 +250,58 @@ python embed.py --build-index                # HNSW, only after the backlog has 
 ```
 
 In this order, and with these preconditions:
-1. **Deploy first.** Both candidate queries filter on `comments.subreddit`
+1. **Deploy before the dry run.** Both candidate queries filter on `comments.subreddit`
    and `threads.subreddit`, which the multi-city deploy adds. Production did
    not have `comments.subreddit` yet on 2026-10-19, so until then even
    `embed.py --dry-run` fails on the missing column.
 2. **The migration** (`embed_schema.sql`, or the boot after the deploy as a
-   superuser). Its index on `mentions` takes a lock that blocks writes to
-   `mentions` for well under a second, and gives up after waiting 5 s.
-3. **The dry run**, then the backlog. Only one run at a time: `embed.py`
+   superuser). It can go before the deploy: it reads no `subreddit` column.
+   Its index on `mentions` takes a SHARE lock, which blocks writes to
+   `mentions`, and gives up after waiting 5 s for it. The build itself is
+   well under a second, but the lock is held until the transaction commits.
+   Applied by hand that is the file's own `commit`, right after. Left to the
+   boot it is the end of the whole `schema.sql` transaction, v6 block
+   included. Applying the file by hand first keeps it off the boot.
+3. **Check the routing with one request**, right after the deploy and
+   before any run. The quantization filter (`quantizations: ["unknown"]`)
+   could not be tried without a paid call while this was built. This sends
+   the exact routing `embedding.ROUTING` sends, for one short input, at a
+   cost of about four tokens ($0.00000004). It writes nothing:
+   ```
+   curl -s https://openrouter.ai/api/v1/embeddings \
+     -H "Authorization: Bearer $EMBED_OPENROUTER_API_KEY" -H 'Content-Type: application/json' \
+     -d '{"model": "qwen/qwen3-embedding-8b", "input": ["NYCEats routing check"],
+          "dimensions": 1024, "encoding_format": "base64",
+          "provider": {"order": ["deepinfra/us"], "only": ["deepinfra/us"],
+                       "quantizations": ["unknown"], "allow_fallbacks": false}}' \
+     | jq '{provider, usage, error}'
+   ```
+   - A 200 with `"provider": "DeepInfra"` and a `usage` block: the pin works.
+   - A 404 (no endpoint matches) or a 400 about the routing: first read the
+     free listing,
+     `curl -s https://openrouter.ai/api/v1/models/qwen/qwen3-embedding-8b/endpoints | jq '.data.endpoints[] | {tag, quantization}'`.
+     If it still shows `deepinfra/us` with `"unknown"`, the filter is what
+     fails. Delete the `"quantizations"` entry from `embedding.ROUTING`,
+     keeping `only` and `order` (and update `PIN` in
+     `tests/test_embedding.py`). `MODEL_KEY` stays as it is: the endpoint is
+     the same, and the key's quantization records the listing's label. If
+     the tag is gone or the label changed, that is a different endpoint:
+     change `ENDPOINT`/`QUANTIZATION`, which is a model swap (below).
+   `embed.py` would hit the same 404 on its first request and stop without
+   storing or marking anything, so a skipped check costs nothing worse than a
+   failed run.
+4. **The dry run**, then the backlog. Only one run at a time: `embed.py`
    exits if the poller's embed pass holds the lock, and the pass skips while
-   `embed.py` holds it.
-4. **The index build** needs at least 1 GB of free disk and about 256 MB
+   `embed.py` holds it. The lock belongs to a Postgres session. If the
+   connection holding it goes half-open (the client vanished, say a dropped
+   proxy, and the server never saw the connection close), the server keeps
+   that session, and the lock, until its TCP keepalive reaps it. Until then
+   every run reports "holds the lock". It heals by itself. To see who holds
+   it (read-only):
+   `select a.pid, a.state, a.backend_start, a.client_addr from pg_locks l join pg_stat_activity a using (pid) where l.locktype = 'advisory' and l.classid = 28281 and l.objid = 1667591522`
+   (`embed.LOCK_KEY` split into its high and low 32 bits).
+   `pg_terminate_backend(pid)` frees it at once, with the owner's go-ahead.
+5. **The index build** needs at least 1 GB of free disk and about 256 MB
    of RAM headroom (`--index-mem 256MB`, serial). Expect the database to grow
    by about 0.75 GB in all: roughly 0.3 GB of `halfvec(1024)` rows for 141k
    vectors, and as much again for the two HNSW graphs. That is an estimate,

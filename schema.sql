@@ -240,7 +240,9 @@ create index if not exists restaurant_images_stale_idx
 -- the stale local copy) must still boot, and simply has no embeddings.
 -- tests/test_embed_schema.py keeps the two copies identical.
 -- mentions_created_idx is the embedding window's (embed_schema.sql says
--- why); a lock timeout on it skips only the index, not the tables.
+-- why); a lock timeout on it skips only the index, not the tables. On the
+-- boot that first builds it, its SHARE lock on mentions (no writes) lasts
+-- until this whole file's transaction commits, not just the build.
 -- The HNSW index is deliberately absent: it is built after the backlog
 -- (`python embed.py --build-index`).
 -- ---------------------------------------------------------------------------

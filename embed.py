@@ -92,7 +92,10 @@ RETRY_AFTER = "1 day"
 # pass would otherwise pick the same due rows and pay for them twice. A
 # session-level advisory lock, so it survives the commits a run makes and
 # goes away by itself if the process or its connection dies. Its own key,
-# not extract_v6's: embedding and extraction may run side by side.
+# not extract_v6's: embedding and extraction may run side by side. A
+# half-open connection (the client gone, the server unaware) keeps its
+# session's lock until the server's TCP keepalive reaps it; SPEC.md has the
+# query that shows who holds it.
 LOCK_KEY = 0x6E796365_6D62             # "nyce" "mb"
 
 
