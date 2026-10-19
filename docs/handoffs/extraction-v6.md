@@ -60,9 +60,21 @@ server standing in for the API.
   `comments.extracted_at` neither hides comments from v6 nor is touched by
   it. The candidate query does not use `comments_unextracted_idx`, which
   belongs to the old cursor. With `--since` it uses `comments_sub_created_idx`.
-  The full backlog is one anti-join.
-- **Writer.** One transaction per item: the mention rows, then the state row
-  (done, the model's whole answer, usage, cost). Legacy columns are filled
+  The full backlog is one anti-join. `--since` is on `created_utc`, so it
+  misses late arrivals (comments that land days after they were written,
+  about 280 a week, and posts likewise); a run with no `--since` selects
+  exactly what is due, late arrivals included.
+- **Writer.** Batched, because the backfill runs from a laptop about 325 ms
+  from production per round trip. Submitting a batch is one statement for the
+  ledger row and every member's state row, in a transaction that ends at once.
+  Collecting one parses every answer first, then writes 200 items per
+  transaction in a few statements (the previous attempts, the mention rows,
+  the state rows: done, the model's whole answer, usage, cost). If the
+  database refuses a row, that chunk is written again one item at a time, so
+  only the bad item is parked. The direct path writes each item the same way,
+  as a chunk of one. Measured through a proxy adding a ~394 ms round trip, a
+  2,000-item batch took 3.7 s to submit and 19.5 s to collect, against about
+  12 and 67 minutes before. Legacy columns are filled
   through `prompts_v6/v6_adapter.py`'s `to_legacy`. v6 columns hold levels as
   -2..2. `raw` is each mention as returned. Two spellings of one place in one
   item make one row, as before, and the second spelling stays in
@@ -99,8 +111,15 @@ server standing in for the API.
   may still have been accepted, so it is never retried: its `pending-...` row
   and hold stay and the run stops. The next run looks for it in the API's
   batch list (created near the row's time, same number of requests) and
-  adopts it if exactly one matches; otherwise it stops until
+  adopts it if exactly one matches. If none matches, the row is over 30
+  minutes old (`MATCH_AFTER`), and the listing (read page by page) reached
+  back past the row's time minus 5 minutes, the submission made nothing: the
+  row is dropped and its items are due again. Otherwise it stops until
   `--resolve-pending PENDING_ID <batch id from the Console | none | auto>`.
+  Reading a batch back (status, results, the batch list) is safe to repeat,
+  so a 429, a 5xx, a dropped connection, a results stream cut halfway, or
+  the SDK's own errors there (a missing `results_url`) are retried for about
+  seven minutes before the run stops. A 404 or another 4xx is not retried.
   A batch the API answers 404 for (past retention, or another key) is marked
   `lost` instead of failing every later run; its items stay out of the queue
   until a person checks the Console and runs `--drop-batch BATCH_ID`.
@@ -115,7 +134,28 @@ server standing in for the API.
   the wire finish, the rest of the page is cancelled.
 - **The poller's v6 pass** does posts first, with a tenth of
   `POLL_EXTRACT_LIMIT`, then comments with the rest, so a busy hour cannot
-  starve posts.
+  starve posts. Its window (`POLL_EXTRACT_DAYS`) is on `first_seen_at`, when
+  the item reached this database, not on `created_utc`, so late arrivals are
+  extracted. `first_seen_at` is NOT NULL with default `now()` on both
+  `comments` and `threads`, so no coalesce with `created_utc` is needed; the
+  migration adds `comments_first_seen_idx` for it. One consequence: a big
+  archive load (`backfill.py`) makes every loaded comment "new", and the
+  poller would extract them at the direct price, `POLL_EXTRACT_MAX_USD` per
+  pass. After such a load, run a batch catch-up by hand instead.
+- **Redoing a prompt.** `extract_v6.py --reset-hash H [--scope ...]` counts
+  the v6 mention rows and cursor rows of prompt hash H; with `--yes` it
+  deletes them, 5,000 items per transaction (an item's mentions and its
+  state row together), so those items are due again and go out under the
+  current prompt. Old (legacy) rows are never touched. It refuses while any
+  item of H is in a batch (pending, submitted or lost). `live_mentions`
+  counts a v6 row only while its comment's `extraction_state` row carries
+  the same prompt hash, so rows of a superseded hash are never live, even
+  before they are deleted. The legacy branch of the view is unchanged.
+- **Flip safety.** `--read v6` prints the coverage and refuses (unless
+  `--force`) while any r/FoodNYC comment the old extractor read (and that is
+  not now deleted or removed) has no finished v6 extraction, or while more
+  than 0.2% of v6 items are parked (`FLIP_MAX_PARKED_SHARE`). `--read legacy`
+  is never checked.
 - **Old tools.** `extract.py --reset` refuses the v6 hashes (v6 has its own
   cursor). `sync.py` sends only old rows. `migrate_keys.py` keys post rows
   on their thread. `embed.py` embeds comments with mentions of any
@@ -127,15 +167,25 @@ server standing in for the API.
 Each step needs the owner's go-ahead. The orchestrator runs them one at a
 time. All of them run from `.claude/worktrees/backend` after
 fast-forwarding it to `main`, which reads `DATABASE_URL` from its `.env` and
-writes to production. Only `--dry-run` and `--status` are read-only.
+writes to production. Only `--dry-run`, `--status` and `--reset-hash`
+without `--yes` are read-only.
 
 1. **Apply the migration, before deploying.**
-   `psql "$DATABASE_URL" -f extract_v6_schema.sql`. It adds nullable columns
+   `psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f extract_v6_schema.sql; echo "exit $?"`.
+   Exit 0 means every step applied. Anything else means psql stopped at the
+   failing statement and ran nothing after it: read the error, fix the
+   cause (or wait for a quiet moment if it was a lock timeout), and run the
+   same command again. Without `ON_ERROR_STOP`, psql reports the error, goes
+   on with the rest and still exits 0. It adds nullable columns
    to `mentions` (catalog-only). It drops NOT NULL on `mentions.comment_id`.
    It adds `mentions.thread_id` (FK to threads), two NOT VALID checks, the
    partial unique index `mentions_post_unique_idx` (one read of mentions),
-   `extraction_state`, `extract_batches`, `extraction_settings` (`legacy`)
-   and the view `live_mentions`. Old rows are untouched, and the board reads
+   `extraction_state` and its batch index, `comments_first_seen_idx` (one
+   read of comments under a SHARE lock, seconds, during which the poller's
+   inserts wait), `extract_batches`, `extraction_settings` (`legacy`)
+   and the view `live_mentions`. If an earlier version of that view is in
+   place (one without the prompt-hash check), it is replaced, once. Old rows
+   are untouched, and the board reads
    exactly what it reads today. The same block is at the end of
    `schema.sql`, so the poller's first boot would apply it anyway. But the
    web app reads `live_mentions` as soon as it deploys. Apply first, or the
@@ -143,22 +193,38 @@ writes to production. Only `--dry-run` and `--status` are read-only.
    Lock waits are capped at 5 s (`lock_timeout`). If one fires, that step
    rolls back whole (nothing half-applied); run the file again, ideally at a
    quiet hour. Every later run, and every boot, alters nothing and takes no
-   lock on `mentions` or `live_mentions`.
+   lock on `mentions`, `comments`, `extraction_state` or `live_mentions`. The
+   file does not need `comments.subreddit`.
 2. **Deploy** (merge to `main`). This changes nothing visible:
    `EXTRACT_VERSION` is unset, so the poller keeps the old extractor, and
    `read_version` is `legacy`.
 3. **Add the key.** Put `EXTRACT_ANTHROPIC_API_KEY` in the backend
    worktree's `.env`, for the pilot and the backfill. Give it its own
    Console workspace limit if possible. No other key is ever used.
-4. **Dry run.** `python extract_v6.py --dry-run --since 2026-09-15 --limit 3000 --scope comments`,
+4. **Dry run, after the deploy.** The candidate query filters on
+   `comments.subreddit`, which step 2's deploy adds (`schema.sql`, on the
+   poller's boot). Against a database that does not have it yet, the dry run
+   fails. Check with
+   `select 1 from information_schema.columns where table_name = 'comments' and column_name = 'subreddit'`.
+   Then run `python extract_v6.py --dry-run --since 2026-09-15 --limit 3000 --scope comments`,
    then the same with no filters, for the whole backlog. It renders and
    prices, and sends and writes nothing. Check the item counts and the
    estimate.
-5. **Pilot** (about $3 to $5 expected, capped):
+5. **Pilot** (about $1 expected at the measured $0.30 per 1,000; the dry
+   run's estimate is more conservative; $7 of caps in all):
    - `python extract_v6.py --batch --scope comments --since 2026-09-15 --limit 3000 --max-usd 5`
    - `python extract_v6.py --batch --scope posts --since 2026-08-01 --limit 200 --max-usd 1`
    - `python extract_v6.py --batch --scope comments --max-chars 15 --limit 200 --max-usd 1`
    - `python extract_v6.py --status` shows done, parked by code, batches and spend.
+
+   The cap holds each batch request's worst case, about $0.0051 to $0.0053,
+   until its batch is collected. So `--max-usd 5` fits about 940 to 980
+   requests in flight at once, not 3,000. The first command therefore goes
+   out as about **four sub-batches, one after another** (about 960, 900,
+   850, then the last 280 or so). Each waits for the one before to end and
+   free its hold. Expect four batch turnarounds, not one. `--max-usd 16` would
+   send it as two sub-batches at once (2,000 and 1,000), still spending
+   about $1.
 6. **Review the pilot** (read-only queries). **Two slices were never
    benchmarked and must be checked by hand, explicitly:** post mode (the
    benchmark built it but every measured run was comment mode) and comments
@@ -179,27 +245,65 @@ writes to production. Only `--dry-run` and `--status` are read-only.
    per year of r/FoodNYC at today's activity. The whole history (about 747k comments and 47k
    posts) is therefore about $230 to $260. Take N from step 4's dry run, with
    headroom. A larger N also lets more sub-batches run at once. The run is
-   resumable: kill it and re-run freely, and it re-attaches. Expect hours.
+   resumable: kill it and re-run freely, and it re-attaches.
+   **How long.** About 794k items make about 397 sub-batches of 2,000. The
+   laptop's share is serial: rendering, submitting and collecting a batch
+   take about 20 s of database work at 325 ms a round trip (measured through
+   a latency proxy). That is about 2.2 hours for the whole backlog, against
+   about 18 days before the writes were batched. Uploading the requests is
+   about 58 MB per batch (23 GB in all), so a slow uplink adds hours. The
+   rest is the API's batch turnaround T, with `--max-inflight` batches at
+   once: about 397 × T / max-inflight. At the default of 4, that is about
+   25 hours if batches end in 15 minutes and about 100 hours if they take an
+   hour. `--max-inflight 16` cuts that by four. It needs N to cover 16
+   holds of about $10.40 each (about $166), which an N of $300 does.
    Watch for disk: the v6 rows plus `extraction_state.output` add roughly
    0.5 GB to a 922 MB database (an estimate, not measured).
 8. **Close the gap.** Just before the switch, run
-   `python extract_v6.py --batch --since <the day step 7 started> --max-usd 5`.
-   The old extractor kept serving the board meanwhile. This brings v6 up to
-   now.
-9. **Flip the board.** `python extract_v6.py --read v6`. This sets
-   `extraction_settings.read_version = 'v6'` and then refreshes the scoring
+   `python extract_v6.py --batch --max-usd 10`, with **no `--since`**. The
+   anti-join selects exactly what is due, which is what arrived since step 7
+   began plus every late arrival: comments that landed with an old
+   `created_utc` (about 280 a week) and posts. A `--since` on the day step 7
+   started would miss those, because it filters on `created_utc`. The old
+   extractor kept serving the board meanwhile. Then `--status`: nothing
+   should be in a batch or owed a retry.
+9. **Make scoring v6-aware (scoring v3) BEFORE the flip. The flip is
+   blocked until this ships.** Today's scoring reads v6 rows through the
+   legacy columns, and three of its rules misread them:
+   - v2's bare-mention test compares food to exactly 0.3, but v6 writes 0.33
+     for an endorsement, so no v6 bare name is recognised as bare;
+   - a v6 knock is -0.67, which crosses v2's -0.6 strong-negative cut, so
+     every plain knock counts as a standout negative;
+   - the adapter fills food from overall when taste is null, so a verdict on
+     the place reads as a verdict on the food.
+   Scoring has to read the v6 columns (`overall_level`, `taste_level`,
+   `opinion`, ...) or be re-tuned on v6 rows first. `--read v6`'s own check
+   (step 10) only checks coverage and parked items. It does not know about
+   scoring, so this step is enforced by process, not code.
+10. **Flip the board.** `python extract_v6.py --read v6`. It first prints
+   the coverage and refuses while any r/FoodNYC comment the old extractor
+   read has no finished v6 extraction (run step 8 again), or while more
+   than 0.2% of v6 items are parked (see `--status`, then `--retry-errors`).
+   `--force` overrides both. Then it sets
+   `extraction_settings.read_version = 'v6'` and refreshes the scoring
    views. Not in one transaction: `momentum_windows` cannot refresh
    concurrently, and holding its lock to the end would block board reads.
    So for as long as the refresh takes (minutes), a place's mention list,
    dishes and the feed already read v6 while the leaderboard still ranks the
    old rows. Flip at a quiet hour. To undo it: `python extract_v6.py --read legacy`.
-10. **Flip the poller.** On Railway, set `EXTRACT_VERSION=v6` and
+11. **Flip the poller.** On Railway, set `EXTRACT_VERSION=v6` and
     `EXTRACT_ANTHROPIC_API_KEY`, and optionally `POLL_EXTRACT_MAX_USD` (the
     per-pass cap, default $1.00). Keep `POLL_EXTRACT=1`, then redeploy. The
     boot log says `inference on: v6 (claude-haiku-5-5, effort medium, prompt 979dcd6b9267/436d834d7edd)`.
     If `EXTRACT_VERSION=v6` is set while the board still reads `legacy`, the
-    boot warns: the board would get no new mentions. So do 9 before 10, and
+    boot warns: the board would get no new mentions. So do 10 before 11, and
     close together. To undo it: unset `EXTRACT_VERSION` and redeploy.
+
+**After a prompt fix**, re-extract what the old prompt did with
+`python extract_v6.py --reset-hash <old hash> [--scope comments|posts]`.
+It only counts. Add `--yes` to delete, then run a batch. While the board
+reads v6, the reset items' mentions are off the board until they come back.
+Rows of a superseded hash are never live anyway (see Redoing a prompt).
 
 ## Open questions
 
@@ -261,5 +365,20 @@ embedding tests: the server had no pgvector. The v6 tests cover:
   hand; posts' share of the poller's limit; `--reset`, `sync.py` and
   `migrate_keys.py` leaving v6 rows alone; guarded, lock-free re-runs of the
   migration
+- the audit's fixes (`tests/test_extract_v6_audit.py`), run against a
+  throwaway Postgres 17.11 with 216 passed and 38 skipped (pgvector again):
+  submitting a batch in two statements, and collecting it in a few
+  statements per 200-item chunk however many mentions it holds (counted on
+  the wire); the batched writer matching the per-item one, and a refused
+  row parking only its item; the migration and the whole boot schema
+  applying at once behind an open write to `extraction_state` and open board
+  reads (main's version waits 5 s and fails); the first `live_mentions`
+  replaced once, then left alone; batch reads retried through 529, 500, 502,
+  429, a truncated results stream and a missing `results_url`, the list paged,
+  4xx and 404 not retried; a pending row settled as none only when old and
+  covered; the poller's window on `first_seen_at`; `--reset-hash` counting,
+  deleting in chunks, refusing a hash with items in a batch, and leaving old
+  rows alone; a superseded hash never live, the legacy view unchanged; and
+  `--read v6` refusing on coverage and on parked items, and `--force`
 
 No paid call was made, and production was never connected to.
