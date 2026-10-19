@@ -437,6 +437,27 @@ class Resume(DbCase):
             done_texts = {E.format_comment(t, b) for _, t, b in cur.fetchall()}
         self.assertFalse(done_texts & set(api.inputs))
 
+    def test_a_failed_write_keeps_what_was_in_flight(self):
+        # The second write fails (say the connection blipped). Batches that
+        # were already on the wire were paid for: the run waits for them and
+        # stores them, retries the failed write once, and then re-raises.
+        import time as _time
+
+        def slow(p):
+            _time.sleep(0.05)
+            return FakeResponse(200, ok_body(p))
+        stats = embed.Stats()
+        with FakeOpenRouter(slow) as api, \
+                self._kill_on_second_store(psycopg2.OperationalError("server closed the connection")):
+            with self.assertRaises(psycopg2.OperationalError):
+                self.run_embed(scope="comments", batch=20, workers=4, stats=stats)
+        self.assertIn("OperationalError", stats.stop)
+        stored = self.count("select count(*) from comment_embeddings")
+        self.assertGreater(len(api.inputs), 40)              # more than the two written in order
+        self.assertEqual(stored, len(api.inputs))            # every paid-for vector kept
+        self.assertEqual(stored, stats.embedded["comment"])
+        self.assertLess(stored, len(self.eligible_comments()))
+
     def test_ctrl_c_keeps_finished_batches_and_re_raises(self):
         # #8: the interrupt propagates, so a poller under Ctrl-C stops.
         stats = embed.Stats()

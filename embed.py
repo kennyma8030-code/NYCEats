@@ -17,7 +17,14 @@ collects are stored, not searched.
 Nothing is filtered for excluded_entities, unresolved names, is_negated or
 reference_only. Those lists move with identity decisions and prompt versions,
 and a vector is expensive to recompute only in comparison with a WHERE
-clause, so search filters them when it reads.
+clause, so search filters them when it reads. Nor is a vector removed when
+its comment is later deleted on Reddit: search must check
+comments.was_deleted_later for every hit and suppress its permalink.
+
+Run it one at a time (an advisory lock makes a second run exit, and the
+poller's pass skip), after the deploy that adds comments.subreddit, and
+again after every extraction backfill: the poller only catches up on
+mentions stored in its last few days, 2,000 rows a pass.
 
 Resumable the same way extract.py is: a row is still to do when it has no
 vector for the current embedding.MODEL_KEY, or its stored input_hash no longer
@@ -478,7 +485,8 @@ def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
     `deadline` is a time.monotonic() value after which no new batch starts:
     the poller's bound, so an outage costs one batch's retries at most.
 
-    Ctrl-C stores whatever had already come back, then re-raises, so a
+    Ctrl-C, or an error on this thread (a failed write), waits for the
+    requests already sent, stores whatever came back, then re-raises, so a
     caller like the poller stops instead of looping on. Pass `stats` in to
     read the counts after an interrupt.
     """
@@ -490,7 +498,6 @@ def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
     kind, futures, stored = None, [], set()
 
     def store(f):
-        stored.add(f)
         try:
             results, why = f.result()
         except Exception as e:      # a bug, not a stop: still keep the other batches
@@ -502,6 +509,22 @@ def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
             conn, kind, [(i, h, v) for i, h, v, err in results if v is not None])
         stats.failed[kind.name] += store_errors(
             conn, kind, [(i, h, err) for i, h, v, err in results if v is None])
+        stored.add(f)               # only once written, so salvage() retries a failed write
+
+    def salvage():
+        """After a failure: wait for the requests already on the wire, which
+        were paid for, then store everything that came back and is not
+        stored yet. A write that fails again is given up on; its rows stay
+        to do, and the next run buys them again."""
+        stop.set()
+        conn.rollback()             # the failure may have landed mid-write
+        pool.shutdown(wait=True, cancel_futures=True)
+        for f in futures:
+            if f.done() and not f.cancelled() and f not in stored:
+                try:
+                    store(f)
+                except Exception:
+                    conn.rollback()
 
     try:
         for kind in kinds:
@@ -533,15 +556,14 @@ def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
             if stop.is_set():
                 break
     except KeyboardInterrupt:
-        stop.set()
-        conn.rollback()          # the interrupt may have landed mid-write
         stats.stop = "interrupted -- finished batches are committed, re-run to resume"
-        for f in futures:
-            if f.done() and f not in stored:
-                try:
-                    store(f)
-                except Exception:
-                    conn.rollback()
+        salvage()
+        raise
+    except Exception as e:
+        # A failed write (the database went away, a constraint) used to end
+        # the run with the batches still in flight thrown away, paid for.
+        stats.stop = stats.stop or f"{type(e).__name__}: {e}"
+        salvage()
         raise
     finally:
         pool.shutdown(wait=True, cancel_futures=True)
