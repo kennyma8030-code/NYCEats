@@ -97,10 +97,13 @@ def apply_sql(conn, verbose=True, force=False, waits=db.LOCK_RETRY_WAITS):
 
     The files that do run go in ONE transaction, so a view dropped in one
     file and recreated in the next is never missing as far as a reader can
-    tell: board reads wait for the commit instead of failing with "relation
-    does not exist". Lock waits are capped (db.LOCK_TIMEOUT) and the whole
-    transaction retried, so a long refresh elsewhere delays a boot instead of
-    freezing the board behind a DDL lock queued on it.
+    tell: no read fails with "relation does not exist". Reads queue for the
+    commit instead -- about half a minute at production size -- and the web
+    app's statement timeout (10 s) turns most of that wait into 503s, so a
+    changed scoring file is a deploy to make at a quiet hour. Lock waits are
+    capped (db.LOCK_TIMEOUT) and the whole transaction retried, so a long
+    refresh elsewhere delays a boot instead of freezing the board behind a
+    DDL lock queued on it.
     """
     files = []
     for name in SQL_FILES:

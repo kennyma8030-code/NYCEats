@@ -57,8 +57,9 @@ daily and hourly aggregate endpoint.
   comment turns up as much as 8.8 hours (p99) after newer ones, and stopping
   at the previous newest lost about 1% of comments (production on
   2026-10-19: 466 of the 15,524 RSS comments older than a day are not in
-  `comments`). It costs two or three pages per poll instead of one; the
-  overlap is deduped. The interval affects how fresh the data is, never
+  `comments`). It costs more pages per poll: two or three for r/FoodNYC,
+  up to ~8 for r/chicagofood in its busiest hours (8 h at ~100 comments an
+  hour), where one used to do. The overlap is deduped. The interval affects how fresh the data is, never
   whether comments are lost. Capped at 20 pages (2,000 comments) per poll.
 - A comment whose post the archive does not have yet is dropped (it cannot
   satisfy the foreign key), and its thread is remembered in memory, at most
@@ -69,9 +70,13 @@ daily and hourly aggregate endpoint.
 - The chores pass re-sweeps each polled city's last `POLL_RESWEEP_HOURS`
   (48) forward from the archive every `POLL_RESWEEP_EVERY_HOURS` (6), with
   the same tie-safe paging as the backfill. It catches what was later than
-  the lag and orphans whose post came late. About 6,000 comments, ~60
-  requests across the seven cities, four times a day. The log line
-  `re-swept r/X's last 48h: N comment(s), M were missing` is the poll's
+  the lag and orphans whose post came late. It never reaches back before the
+  oldest comment held for the city, so a newly polled city is re-read only
+  from its first poll, and it fetches a new thread's post but not the rest
+  of the thread (the sweep reads its own window whole). About 6,000
+  comments, ~60 requests across the seven cities, four times a day; the
+  first one waits one interval after boot. The log line
+  `re-swept r/X since <time>: N comment(s), M were missing` is the poll's
   loss rate; M should be near zero.
 - "What the previous poll saw" is kept in memory per city, not read as
   `max(created_utc)`: pulling a newly found thread stores replies newer than
@@ -85,6 +90,13 @@ daily and hourly aggregate endpoint.
   opt-in embed step (`POLL_EMBED`, r/FoodNYC only) run on their own
   30-minute timer, the "chores" pass. It starts by logging the database size
   (`database 1,340 MB (backfill limit 3,500 MB)`).
+- The board is refreshed after a pass that extracted something, and
+  otherwise at least every `POLL_REFRESH_HOURS` (6). Boots no longer rebuild
+  it every time (see below), so a boot that did not rebuild the scoring
+  views refreshes them in its first chores pass, which picks up a replaced
+  `live_mentions` or anything else `schema.sql` changed. Edits to
+  `alias_overrides` or `excluded_entities` reach the board within six
+  hours; for sooner, run `python refresh.py` from the backend worktree.
 - Every step runs in its own try. A step that fails because the connection
   itself went (Postgres restart, dropped proxy) gets a new connection rather
   than ending the process; a failed reconnect is retried by the next step.
@@ -123,6 +135,7 @@ daily and hourly aggregate endpoint.
 | `BACKFILL_MAX_DB_MB` | `3500` | stop sweeping other cities past this database size |
 | `POLL_LAG_HOURS` | `8` | how far behind the last poll's newest each poll pages back |
 | `POLL_RESWEEP_HOURS` / `POLL_RESWEEP_EVERY_HOURS` | `48` / `6` | the chores re-sweep |
+| `POLL_REFRESH_HOURS` | `6` | refresh the board at least this often, extraction or not |
 
 Names are matched case-insensitively and stored in `subreddits.py`'s
 spelling; an unknown name fails the boot. Once a city has a cursor, the
@@ -177,34 +190,46 @@ boot; there is no separate migration script.
   catalog first, so **a boot of a current database takes no lock on them**
   beyond a read (tested under an EXCLUSIVE lock held by another session).
 - The **first** boot needs ACCESS EXCLUSIVE on `comments` once, for
-  `add column subreddit` (catalog-only), and builds three indexes under it:
-  `comments_sub_created_idx`, `threads_sub_created_idx`, and the rebuilt
-  `comments_unextracted_idx`. On production-shaped data that is **3.1 s**
-  during which reads of `comments` wait.
-- If the lock is not granted in 5 s, the whole transaction rolls back and is
-  retried after 10, 30, 60 and 120 s, each retry logging who holds it
-  (`holders: pid 81409 idle in transaction for 56s`). After that the boot
-  fails and Railway's `ON_FAILURE` policy restarts it. While it waits, reads
-  of `comments` wait at most 5 s per try.
+  `add column subreddit` (catalog-only), and builds under it
+  `comments_sub_created_idx`, `threads_sub_created_idx`, the rebuilt
+  `comments_unextracted_idx` and v6's `comments_first_seen_idx`; it also
+  alters `mentions` for v6 and builds `mentions_post_unique_idx` and, with
+  pgvector, `mentions_created_idx`. All of that holds until the file
+  commits: **2.6 s** of `db.init` on production-shaped data, during which
+  reads of `comments` wait (worst measured 2.5 s). Step 2 below takes it to
+  nothing.
+- If a lock is not granted in 5 s, the whole transaction rolls back and is
+  retried after 10, 30, 60 and 120 s, each retry logging the oldest open
+  transactions (`holders: pid 81409 idle in transaction for 56s`). After
+  that the boot fails and Railway's `ON_FAILURE` policy restarts it. While
+  an attempt waits for its lock, new reads of `comments` queue behind it,
+  for up to those 5 s (worst measured 4.85 s); between attempts nothing
+  waits; the attempt that gets the lock holds it to the end of `db.init`
+  (the 2.6 s above). A lock timeout inside the embedding block now reaches
+  this retry too instead of quietly skipping the embedding tables.
 - `refresh.apply_sql` skips any scoring file whose views already carry its
   hash (a comment on each view), so a normal boot rebuilds nothing. When a
   file changed, it and every file after it are re-run **in one
-  transaction**: board reads wait for the commit instead of failing with
-  `relation "entity_leaderboard_v2" does not exist`. Same lock timeout and
-  retries.
+  transaction**, so no reader ever sees `relation "entity_leaderboard_v2"
+  does not exist`. Readers wait for the commit instead, and that wait is
+  long: **25–53 s** on production-sized data, the first time. The web app
+  cancels a statement after `DB_STATEMENT_TIMEOUT_MS` (10 s, lock waits
+  included), so for most of that minute board requests answer **503** with
+  Retry-After rather than waiting. Same lock timeout and retries.
 
 Measured on a throwaway Postgres 18.6 holding production's rows (copied
-read-only), from the ee72a46 schema, with a session idle in transaction on
-`comments`/`threads` that lets go after 60 s:
+read-only, since deleted), from the ee72a46 schema, with a session idle in
+transaction on `comments`/`threads` that lets go after 60 s. "This branch"
+is the branch merged with main at 13a4176 (v6, embedding and app fixes):
 
 | | main (fa26141) | this branch |
 |---|---|---|
-| boot 1, `db.init` | 61.3 s, blocked the whole time behind the holder; every `comments` read blocked 61 s | 117.7 s of retries; `comments` reads waited at most 5.0 s |
-| boot 1, `apply_sql` | 144.3 s (`entity_longevity` alone 123 s) | 25.1 s (`entity_longevity` 1.4 s), once |
-| board reads during boot 1 | blocked up to 138 s, and 19 `does not exist` errors | blocked up to 24.8 s, no errors |
+| boot 1, `db.init` | 61.3 s, blocked the whole time behind the holder; every `comments` read blocked 61 s | 117.8 s of retries; `comments` reads waited at most 4.85 s |
+| boot 1, `apply_sql` | 144.3 s (`entity_longevity` alone 123 s) | 33.7 s (`entity_longevity` 1.4 s), once |
+| board reads during boot 1 | blocked up to 138 s, and 19 `does not exist` errors | waited up to 33.5 s, no errors (past 10 s the app answers 503) |
 | boot 2, total | 147.0 s, the same again | 0.1 s, no lock on the raw tables |
-| boot 1 with no holder | — | `db.init` 3.1 s, `apply_sql` 25–40 s |
-| boot 1 after the pre-step below | — | `db.init` 0.1 s, `comments` reads never waited |
+| boot 1 with no holder | — | `db.init` 2.6 s, `apply_sql` 25–53 s across runs |
+| boot 1 after the pre-steps below | — | `db.init` 0.0 s, `comments` reads never waited (0.01 s) |
 
 ### Steps, each with the owner's go-ahead
 
@@ -220,24 +245,49 @@ read-only), from the ee72a46 schema, with a session idle in transaction on
    `holders: pid N idle in transaction`, end that session with
    `select pg_terminate_backend(N);`. The new code never sits idle in a
    transaction, so this is needed once.
-2. **Optional, recommended: pre-build the new indexes without blocking.**
-   With the old worker stopped (CONCURRENTLY waits for every open
-   transaction, including an idle one), from the backend worktree:
+2. **Recommended: do the first boot's DDL by hand, without blocking.** With
+   the old worker stopped (CONCURRENTLY waits for every open transaction,
+   an idle one included), from the backend worktree, in this order:
 
        psql "$DATABASE_URL" -v ON_ERROR_STOP=1 \
          -c "set lock_timeout = '5s'" \
          -c "alter table comments add column if not exists subreddit text not null default 'FoodNYC'" \
+         -c "alter table mentions add column if not exists thread_id text references threads(id)" \
          -c "create index concurrently if not exists comments_sub_created_idx on comments(subreddit, created_utc)" \
          -c "create index concurrently if not exists threads_sub_created_idx on threads(subreddit, created_utc)" \
          -c "create index concurrently if not exists comments_unextracted_home_idx on comments(thread_id) where subreddit = 'FoodNYC' and extracted_at is null and extract_error is null" \
          -c "drop index concurrently if exists comments_unextracted_idx" \
-         -c "alter index comments_unextracted_home_idx rename to comments_unextracted_idx"
+         -c "alter index comments_unextracted_home_idx rename to comments_unextracted_idx" \
+         -c "create index concurrently if not exists comments_first_seen_idx on comments(first_seen_at)" \
+         -c "create index concurrently if not exists mentions_created_idx on mentions (created_at)" \
+         -c "create unique index concurrently if not exists mentions_post_unique_idx on mentions(thread_id, entity_key, prompt_hash) where comment_id is null"
+       psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f extract_v6_schema.sql
 
-   Rehearsed on the production-shaped copy: the ALTER held its lock 6 ms,
-   the indexes took 1.8 s and 2.4 s without blocking anyone, and the boot
-   that followed did nothing to `comments`. If a CONCURRENTLY build is
-   interrupted it leaves an INVALID index; drop it
-   (`drop index concurrently <name>`) and run the line again.
+   `thread_id` is added first, alone, with the same definition
+   `extract_v6_schema.sql` uses, because the post index cannot be built
+   before its column exists; the migration then adds the other v6 columns
+   and skips `thread_id`. Each definition here is the one `schema.sql`
+   would build, which checks only the name. Measured on the
+   production-shaped copy:
+
+   | Statement | Time | Lock |
+   |---|---|---|
+   | add `comments.subreddit` | 9 ms | ACCESS EXCLUSIVE on comments, for those 9 ms |
+   | add `mentions.thread_id` + FK | 1 ms | ACCESS EXCLUSIVE on mentions, SHARE ROW EXCLUSIVE on threads |
+   | `comments_sub_created_idx` | 1.35 s | none that blocks reads or writes |
+   | `threads_sub_created_idx` | 0.03 s | " |
+   | `comments_unextracted_home_idx` | 2.15 s | " |
+   | drop old `comments_unextracted_idx`, rename | 3 ms | brief |
+   | `comments_first_seen_idx` | 0.71 s | none that blocks reads or writes |
+   | `mentions_created_idx` | 0.06 s | " |
+   | `mentions_post_unique_idx` | 0.01 s | " |
+   | `extract_v6_schema.sql` | longest statement 12 ms (its column ALTER on mentions) | ACCESS EXCLUSIVE on mentions, for that statement |
+
+   The boot that followed changed nothing in `schema.sql` (0.0 s) and no
+   read of `comments` waited. If a CONCURRENTLY build is interrupted it
+   leaves an INVALID index under its name, which the boot's name check
+   would then accept: drop it (`drop index concurrently <name>`) and run
+   that line again. `mentions_created_idx` is harmless without pgvector.
 3. **pgvector.** The guarded block in `schema.sql` runs
    `create extension if not exists vector` and creates the three empty
    embedding tables. pgvector is not a trusted extension, so this needs a
@@ -246,15 +296,22 @@ read-only), from the ee72a46 schema, with a session idle in transaction on
    If that is false, the block logs a notice and skips; the boot carries on
    and embedding stays off until a superuser runs `embed_schema.sql`.
 4. **Deploy order.** The web service does not apply the schema, but it
-   filters on `comments.subreddit`. If it starts before the worker has run
-   `schema.sql`, the feed and stats return errors until the worker boots.
-   Deploy the worker first and let it finish booting, or do step 2 (or
-   `psql "$DATABASE_URL" -1 -f schema.sql`) first. `-1` matters: without it
-   each statement is its own transaction and the file's lock timeout covers
-   only itself.
-5. **Scoring views.** The first boot rebuilds all three scoring files in one
-   transaction (25–40 s on production-sized data, board reads wait, nothing
-   errors). Every later boot skips them until a file changes.
+   filters on `comments.subreddit` and reads `live_mentions`. If it starts
+   before step 2 or the worker's first boot, the feed and stats return
+   errors until then. Do step 2, or deploy the worker first and let it
+   finish booting. Applying `schema.sql` by hand needs
+   `psql "$DATABASE_URL" -1 -f schema.sql`: without `-1` each statement is
+   its own transaction and the file's lock timeout covers only itself.
+5. **Scoring views: about a minute of 503s.** The first boot rebuilds all
+   three scoring files in one transaction, 25–53 s on production-sized
+   data. Board reads queue for it and the web app gives up after its 10 s
+   statement timeout, so expect 503s (with Retry-After) for most of that
+   time; nothing errors with a missing view. To have them wait instead,
+   set `DB_STATEMENT_TIMEOUT_MS=90000` on the web service before the worker
+   deploys and remove it once the worker logs
+   `committed 3 scoring file(s)`. Waiting requests hold pool connections, so
+   under traffic some still get the pool's 503. Do it at a quiet hour
+   either way. Later boots skip the rebuild until a scoring file changes.
 6. **Backfill.** By default only r/FoodNYC's gap-fill runs. The other six
    cities are polled from the first boot (2.3 MB a day). Their history waits
    for the owner: see Settings above, and check the volume first.

@@ -44,9 +44,10 @@ the official API, captures ~20s after posting, and re-captures at 36h.
 - Paging forward (backfill, thread pulls, re-sweep) asks for
   `after = newest - 1` and drops ids already seen: `after` is exclusive, and
   `after = newest` lost the rest of a page's last second.
-- Settling scores, a re-sweep of each city's last 48 h (every 6 h),
-  extraction, the scoring refresh and embedding run on one 30-minute timer
-  of their own, not per city poll.
+- Settling scores, a re-sweep of each city's last 48 h (every 6 h, never
+  before the city's oldest stored comment), extraction, the scoring refresh
+  (after any extraction, and at least every 6 h) and embedding run on one
+  30-minute timer of their own, not per city poll.
 - Unknown thread -> fetch the post, then every comment in it, before inserting.
   A post the archive does not have yet (posts can trail their comments by
   ~20 h) is asked for again on later polls for 48 h; when it appears its

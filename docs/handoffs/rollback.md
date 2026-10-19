@@ -39,7 +39,8 @@ a commit on `main` (a revert plus the patch), not a redeploy.
   takes ACCESS EXCLUSIVE on `comments` with no lock timeout, so nothing may
   be idle in transaction when it boots. The newer code never is.
 - Nothing else. Its boots drop the hash comments on the scoring views, so
-  the first boot after rolling forward again rebuilds them once (25–40 s).
+  the first boot after rolling forward again rebuilds them once (25–53 s,
+  with the web app's 503s for most of it; see subreddit-poller.md, step 5).
 
 ## Back to ee72a46
 
@@ -60,7 +61,8 @@ files, in one transaction, before its first boot:
 
 The cascade takes every scoring view and materialized view with it, and the
 three files put them back. `-1` keeps that one transaction: board reads wait
-(measured 137 s) instead of failing, and an error rolls all of it back. After
+(measured 137 s) instead of seeing a missing view, though past the web app's
+10 s statement timeout they answer 503, and an error rolls all of it back. After
 this, ee72a46's own boots apply its files cleanly.
 
 ### 2. If v6 rows exist: exclude them, permanently
@@ -130,5 +132,5 @@ mentions on the board. Roll back to fa26141 instead.
 
 Nothing to do by hand except dropping `comments_unextracted_legacy_idx` if
 it was made. The first boot finds the scoring views without their hash
-comments and rebuilds all three files in one transaction (25–40 s, reads
+comments and rebuilds all three files in one transaction (25–53 s, reads
 wait). `schema.sql` finds the columns and indexes in place and locks nothing.
