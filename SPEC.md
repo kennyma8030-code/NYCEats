@@ -27,10 +27,14 @@ the official API, captures ~20s after posting, and re-captures at 36h.
   same tables, told apart by `subreddit`. Only r/FoodNYC is extracted and
   scored; every reader of the corpus filters on `subreddit` first.
 - Poll `/comments/search?subreddit=X&limit=100&sort=desc` per city, paging
-  back until the page reaches stored comments. Interval sized so the busiest
-  hour of the past week fills half a page, clamped to 10–60 min.
+  back until the page reaches the newest comment the previous poll of that
+  city saw (kept in memory, seeded from the table at boot -- not the table's
+  max, which thread pulls and the backfill move ahead of the poll). Interval
+  sized so the busiest hour of the past week fills half a page, clamped to
+  10–60 min.
 - Every boot resumes a per-subreddit backfill cursor in the background; a
-  city never swept starts from its first post.
+  city never swept starts from its first post. A city that fails three
+  times in a row goes to the back of the queue rather than stalling the rest.
 - Settling scores, extraction, the scoring refresh and embedding run on one
   30-minute timer of their own, not per city poll.
 - Unknown thread -> fetch the post, then every comment in it, before inserting.
@@ -159,6 +163,13 @@ key extraction runs on.
 reads `DATABASE_URL` and writes to production, so it is run on purpose, one
 run at a time, never as an experiment. Only `--dry-run` and
 `--build-index --dry-run` are read-only.
+
+Production has pgvector 0.8.6 available but not installed (checked
+2026-10-19). The next poller boot installs it through the guarded block in
+`schema.sql`, which needs a superuser role because pgvector is not a
+trusted extension (`select rolsuper from pg_roles where rolname =
+current_user`). Without one the block logs a notice, the boot carries on,
+and embedding stays off until a superuser applies `embed_schema.sql`.
 
 ```
 psql "$DATABASE_URL" -f embed_schema.sql     # once: pgvector + the tables
