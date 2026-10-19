@@ -204,8 +204,16 @@ be paid for and never read, so both candidate queries filter on `subreddit`.
   names, `is_negated` or `reference_only`. Those move with identity decisions
   and prompt versions, so filtering them belongs to the query.
 
-**The model.** `qwen/qwen3-embedding-8b` through OpenRouter, pinned to
-DeepInfra with no fallback. DeepInfra and Nebius disagree (cos 0.9976).
+**The model.** `qwen/qwen3-embedding-8b` through OpenRouter, pinned to one
+DeepInfra endpoint with no fallback. DeepInfra and Nebius disagree (cos 0.9976).
+The pin is the endpoint's exact tag, `deepinfra/us` (`order` and `only`),
+plus its quantization label, `unknown` (`quantizations`), as OpenRouter's
+endpoint listing gave them on 2026-10-19. A bare `deepinfra` would match
+every DeepInfra endpoint, so a second region or a quantized variant could be
+mixed in while the response still said DeepInfra. The response names only
+the provider, so that is all `embedding.py` can check on the way back; the
+tag and quantization rest on the routing. If the endpoint is renamed or
+relabelled, requests get a 404 and the run stops; nothing is stored.
 The model returns 4,096 dims; the first 1,024 are kept and L2-renormalised, stored as
 `halfvec(1024)`. That scored within noise of full size on comments, and HNSW
 cannot index a halfvec over 4,000 dims. OpenRouter's `dimensions: 1024` was
@@ -213,8 +221,9 @@ checked to give the same vector, so it is sent to shrink responses.
 Documents are embedded raw. Queries get the model card's instruction
 (`embedding.format_query`), because OpenRouter ignores `input_type` for Qwen.
 All of it lives in `embedding.py`. `model` in the tables is
-`embedding.MODEL_KEY` (`qwen/qwen3-embedding-8b@1024:deepinfra`), and vectors
-are only comparable within one value.
+`embedding.MODEL_KEY` (`qwen/qwen3-embedding-8b@1024:deepinfra/us:unknown`:
+model, dims, endpoint tag, quantization), and vectors are only comparable
+within one value.
 
 **Keys.** `EMBED_OPENROUTER_API_KEY` if set, else `OPENROUTER_API_KEY`. Give
 embeddings their own key with its own limit, so they can never exhaust the
@@ -272,9 +281,10 @@ index per table and model (`... where model = '<MODEL_KEY>'`). The build is
 `CONCURRENTLY` and serial: Railway's small `/dev/shm` kills parallel builds
 the same way it killed the parallel refresh.
 
-**A model or provider swap** is new rows, not a migration:
-1. Change `MODEL`/`DIMS`/`PROVIDER` in `embedding.py`. That gives a new
-   `MODEL_KEY`.
+**A model, endpoint or quantization swap** is new rows, not a migration:
+1. Change `MODEL`/`DIMS`/`PROVIDER`/`ENDPOINT`/`QUANTIZATION` in
+   `embedding.py`. That gives a new `MODEL_KEY`, and a new index name (a
+   long one ends in a hash of the key, so two keys never share one).
 2. Run `embed.py`. Every row is due under the new key; the old rows are
    untouched and search keeps working.
 3. Run `embed.py --build-index` for the new partial index.

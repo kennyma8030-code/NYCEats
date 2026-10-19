@@ -24,10 +24,10 @@ create extension if not exists vector;
 
 -- One vector per comment per model. Search groups by restaurant when it
 -- reads, through mentions, never here.
--- `model` is embedding.MODEL_KEY: the model slug, the dims it was cut to and
--- the provider it was pinned to. Vectors are only comparable within one
--- value, so a model or provider swap is new rows beside the old, not a
--- migration.
+-- `model` is embedding.MODEL_KEY: the model slug, the dims it was cut to,
+-- and the endpoint tag and quantization it was pinned to. Vectors are only
+-- comparable within one value, so a model or endpoint swap is new rows
+-- beside the old, not a migration.
 -- `input_hash` is sha256 of the exact text embedded; when the text changes
 -- (an edited comment, a changed formatter) the row is due again.
 create table if not exists comment_embeddings (

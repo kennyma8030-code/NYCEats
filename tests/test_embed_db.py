@@ -674,7 +674,20 @@ class Index(DbCase):
     def test_index_names_fit(self):
         for kind in (embed.COMMENTS, embed.THREADS):
             self.assertLessEqual(len(embed.index_name(kind)), 63)
-            self.assertIn("1024_deepinfra", embed.index_name(kind))
+            self.assertTrue(embed.index_name(kind).startswith(
+                f"{kind.table}_hnsw_qwen3_embedding_8b_1024"), embed.index_name(kind))
+
+    def test_keys_that_differ_only_at_the_end_get_different_indexes(self):
+        # The endpoint and quantization are the tail of the key; a plain
+        # 63-byte cut would give both of these one name, and the second
+        # build would be skipped as "already exists".
+        names = set()
+        for key in (E.MODEL_KEY, E.MODEL_KEY.replace(":unknown", ":bf16"),
+                    E.MODEL_KEY.replace("deepinfra/us", "deepinfra/us-east")):
+            with mock.patch.object(E, "MODEL_KEY", key):
+                names.add(embed.index_name(embed.COMMENTS))
+        self.assertEqual(len(names), 3)
+        self.assertTrue(all(len(n) <= 63 for n in names))
 
 
 class Schema(DbCase):

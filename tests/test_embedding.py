@@ -99,8 +99,40 @@ class Formatting(unittest.TestCase):
         self.assertEqual(E.input_hash(t), hashlib.sha256(t.encode("utf-8")).hexdigest())
         self.assertNotEqual(E.input_hash("a\n\nb"), E.input_hash("a\n\nb "))
 
-    def test_model_key_names_model_dims_and_provider(self):
-        self.assertEqual(E.MODEL_KEY, "qwen/qwen3-embedding-8b@1024:deepinfra")
+    def test_model_key_names_model_dims_endpoint_and_quantization(self):
+        # Was "...@1024:deepinfra" before the endpoint pin. Production had no
+        # vectors under that key when it changed (the tables did not exist).
+        self.assertEqual(E.MODEL_KEY, "qwen/qwen3-embedding-8b@1024:deepinfra/us:unknown")
+
+
+# The exact request routing: one endpoint by its full tag, filtered on its
+# quantization, no fallback. Changing any of it changes MODEL_KEY too.
+PIN = {"order": ["deepinfra/us"], "only": ["deepinfra/us"],
+       "quantizations": ["unknown"], "allow_fallbacks": False}
+
+# What the benchmark sent (eval/embeddings/configs.py QWEN_PIN). Its cache is
+# keyed on this, so the lookup below must use it, not today's ROUTING.
+BENCH_PIN = {"provider": {"order": ["deepinfra"], "allow_fallbacks": False}}
+
+
+class Pin(unittest.TestCase):
+    def test_routing_names_one_endpoint(self):
+        self.assertEqual(E.ROUTING, {"provider": PIN})
+
+    def test_pin_narrows_the_benchmark_pin(self):
+        # The benchmark's bare "deepinfra" matched DeepInfra's one endpoint;
+        # the full tag is that endpoint, and still DeepInfra's.
+        [bench] = BENCH_PIN["provider"]["order"]
+        self.assertTrue(E.ENDPOINT.startswith(bench + "/"))
+        self.assertEqual(E.PROVIDER, bench)
+        self.assertFalse(E.ROUTING["provider"]["allow_fallbacks"])
+
+    def test_every_part_of_the_pin_is_in_the_key(self):
+        # So a second endpoint or quantization can never share an index key.
+        self.assertEqual(E.ROUTING["provider"]["order"], [E.ENDPOINT])
+        self.assertEqual(E.ROUTING["provider"]["only"], [E.ENDPOINT])
+        self.assertEqual(E.ROUTING["provider"]["quantizations"], [E.QUANTIZATION])
+        self.assertTrue(E.MODEL_KEY.endswith(f":{E.ENDPOINT}:{E.QUANTIZATION}"))
 
 
 @unittest.skipUnless(os.path.isdir(os.path.join(BENCH_DIR, "data", "cache")),
@@ -118,7 +150,7 @@ class ReproducesBenchmarkInputs(unittest.TestCase):
         return sqlite3.connect(f"file:{path}?mode=ro", uri=True)
 
     def assert_cached(self, texts):
-        con = self.cache(E.ROUTING)
+        con = self.cache(BENCH_PIN)
         try:
             for t in texts:
                 h = hashlib.sha256(t.encode("utf-8")).hexdigest()
@@ -126,10 +158,6 @@ class ReproducesBenchmarkInputs(unittest.TestCase):
                                      f"not what the benchmark embedded: {t[:80]!r}")
         finally:
             con.close()
-
-    def test_routing_is_the_benchmark_pin(self):
-        self.assertEqual(E.ROUTING, {"provider": {"order": ["deepinfra"],
-                                                  "allow_fallbacks": False}})
 
     def _rows(self, name, n):
         out = []
@@ -256,7 +284,7 @@ class Client(unittest.TestCase):
             out = E.embed_batch(self.TEXTS, b, **NOSLEEP)
         p = api.requests[0]["payload"]
         self.assertEqual(p["model"], "qwen/qwen3-embedding-8b")
-        self.assertEqual(p["provider"], {"order": ["deepinfra"], "allow_fallbacks": False})
+        self.assertEqual(p["provider"], PIN)
         self.assertEqual(p["dimensions"], 1024)
         self.assertEqual(p["encoding_format"], "base64")
         self.assertNotIn("input_type", p)
@@ -427,7 +455,7 @@ class Query(unittest.TestCase):
             v = E.embed_query("  cheap dumplings in flushing ")
         r = api.requests[0]
         self.assertEqual(r["payload"]["input"], [bench_fmt_query("cheap dumplings in flushing")])
-        self.assertEqual(r["payload"]["provider"]["order"], ["deepinfra"])
+        self.assertEqual(r["payload"]["provider"], PIN)
         self.assertEqual(r["payload"]["dimensions"], 1024)
         self.assertEqual(r["timeout"], E.QUERY_TIMEOUT)
         self.assertEqual(len(v), 1024)

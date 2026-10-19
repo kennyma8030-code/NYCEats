@@ -39,6 +39,7 @@ stay to-do.
 
 import argparse
 import concurrent.futures
+import hashlib
 import re
 import threading
 import time
@@ -479,9 +480,17 @@ def _slug(s):
 
 def index_name(kind):
     """One partial index per (table, model), named after the model, so a new
-    model's index can be built beside the old one before the swap."""
+    model's index can be built beside the old one before the swap.
+
+    Postgres cuts names at 63 bytes, and the endpoint and quantization sit at
+    the end of the key, so a plain cut could give two keys one name, and
+    `if not exists` would then skip the new model's build. A long name ends
+    in a hash of the whole key instead.
+    """
     name = f"{kind.table}_hnsw_{_slug(E.MODEL_KEY.split('/', 1)[-1])}"
-    return name[:63]
+    if len(name) <= 63:
+        return name
+    return f"{name[:54]}_{hashlib.sha256(E.MODEL_KEY.encode()).hexdigest()[:8]}"
 
 
 def index_statements(mem):

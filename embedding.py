@@ -17,9 +17,10 @@ this copies:
   within noise of the full vector on comments, and pgvector's HNSW cannot
   index a halfvec over 4,000 dims anyway.
 - DeepInfra and Nebius return measurably different vectors for the same text
-  (cosine 0.9976), so every request is pinned to DeepInfra with no fallback.
-  The provider is part of MODEL_KEY: moving to another provider is a model
-  change, never a silent mix inside one index.
+  (cosine 0.9976), so every request is pinned to one DeepInfra endpoint with
+  no fallback. The endpoint and its quantization are part of MODEL_KEY:
+  moving to another provider, region or quantization is a model change,
+  never a silent mix inside one index.
 
 No database code here: the search endpoint will import this without the
 pipeline.
@@ -38,16 +39,34 @@ import requests
 URL = "https://openrouter.ai/api/v1/embeddings"
 MODEL = "qwen/qwen3-embedding-8b"
 DIMS = 1024
+# The provider as the response's `provider` field names it, lowercased.
 PROVIDER = "deepinfra"
+# The one endpoint every request may go to, by its exact tag in OpenRouter's
+# listing (GET /api/v1/models/qwen/qwen3-embedding-8b/endpoints, checked
+# 2026-10-19: DeepInfra has one endpoint for this model, tagged deepinfra/us,
+# quantization "unknown"). A bare "deepinfra" matches every DeepInfra
+# endpoint, so a second one (another region, an fp8 variant) would be mixed
+# in silently while the response still said DeepInfra. The full tag matches
+# only itself: tags read provider/variant/region, and OpenRouter's prefix
+# match never crosses into a variant.
+ENDPOINT = "deepinfra/us"
+# What the listing says that endpoint serves. Sent as a filter too, so if
+# DeepInfra ever relabels it, requests fail (a 404, which stops the run)
+# instead of quietly storing vectors from a different build.
+QUANTIZATION = "unknown"
 # What `model` holds in the embedding tables. Vectors are only comparable
-# within one value: a new model, new dims, new truncation or a new provider
-# each get a new key, and are embedded as new rows beside the old ones.
-MODEL_KEY = f"{MODEL}@{DIMS}:{PROVIDER}"
+# within one value: a new model, new dims, new truncation, a new endpoint or
+# a new quantization each get a new key, and are embedded as new rows beside
+# the old ones.
+MODEL_KEY = f"{MODEL}@{DIMS}:{ENDPOINT}:{QUANTIZATION}"
 
-# OpenRouter's provider routing. `allow_fallbacks: false` makes an outage at
-# DeepInfra an error instead of a quiet switch to a provider whose vectors
-# disagree with everything already stored.
-ROUTING = {"provider": {"order": [PROVIDER], "allow_fallbacks": False}}
+# OpenRouter's provider routing. `only` and `order` name the one endpoint,
+# `quantizations` filters on its label, and `allow_fallbacks: false` makes an
+# outage there an error instead of a quiet switch to an endpoint whose
+# vectors disagree with everything already stored. The benchmark sent
+# {"order": ["deepinfra"]}, which then matched this endpoint alone.
+ROUTING = {"provider": {"order": [ENDPOINT], "only": [ENDPOINT],
+                        "quantizations": [QUANTIZATION], "allow_fallbacks": False}}
 
 # The benchmark measured `dimensions: 1024` on DeepInfra as identical to
 # truncating the 4,096 vector (cosine 1.0), and a live check while building
@@ -348,8 +367,10 @@ def embed_batch(texts, budget, *, attempts=ATTEMPTS, timeout=TIMEOUT, sleep=None
                 got = provider_of(a.body)
                 if got is not None and got != PROVIDER:
                     # Routing ignored the pin. Storing these would mix two
-                    # providers' vectors under one key.
-                    raise ServiceError(f"served by {got!r}, pinned to {PROVIDER!r}")
+                    # providers' vectors under one key. The response names
+                    # the provider only, not the endpoint tag or its
+                    # quantization, so those two rest on ROUTING alone.
+                    raise ServiceError(f"served by {got!r}, pinned to {ENDPOINT!r}")
                 shape = _shape_error(a.body["data"])
                 if shape:
                     # Paid for and settled above; the rest of the run stops
