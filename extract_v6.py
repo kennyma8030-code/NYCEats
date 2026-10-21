@@ -114,6 +114,9 @@ def schema_ready(conn):
                           and to_regclass('extract_chunks') is not null
                           and exists (select 1 from information_schema.columns
                                       where table_name = 'mentions' and column_name = 'schema_version'
+                                        and table_schema = current_schema())
+                          and exists (select 1 from information_schema.columns
+                                      where table_name = 'extract_chunks' and column_name = 'attempts'
                                         and table_schema = current_schema())""")
         ok = cur.fetchone()[0]
     conn.commit()
@@ -552,6 +555,12 @@ def _write_counted(conn, entries, stats, log=print):
             parked |= (_write_counted(conn, [e], stats, log) if isinstance(e, Failed)
                        else _store_one(conn, e, stats, log))
         return parked
+    _counted(stats, entries, n, parked)
+    return parked
+
+
+def _counted(stats, entries, n, parked):
+    """Count stored entries: mention rows written, items done or failed, parked."""
     stats.mentions += n
     for e in entries:
         if isinstance(e, Done):
@@ -559,7 +568,6 @@ def _write_counted(conn, entries, stats, log=print):
         else:
             stats.failed += 1
     stats.parked += len(parked)
-    return parked
 
 
 def _store_one(conn, e, stats, log):
@@ -904,8 +912,10 @@ def run_batch(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, m
             # A thread-mode batch re-attached here: its answers are stored,
             # and what failed waits in extract_chunks (or is due again) for
             # the next run, which sends it.
-            if retry:
-                log(f"  {len(retry)} thread(s) of {ended} owe a retry; the next run sends it")
+            tids, held = retry
+            if tids or held:
+                log(f"  batch {ended}: {len(tids)} thread(s) owe a retry"
+                    + (f", {len(held)} chunk(s) wait for another run" if held else "") + "; the next run sends them")
             retry = []
         # Retries go first: they finish work already paid for. The hold just
         # became the (much smaller) actual cost, so there may be room again.
@@ -1059,11 +1069,15 @@ def resolve_pending(conn, pending_id, batch_id):
 # dropped without a row that says why, and a queued chunk with nothing left
 # due is retired.
 THREAD_PAGE = 50              # threads read and chunked at a time
-# Prompt hashes whose items go out one at a time even in a thread-mode run:
-# an item whose cursor row carries one was last tried alone (a chunk's half
-# failed and handed it over, or comment or post mode failed it once), and is
-# retried the same way until it is done or parked. The mark is the item's own
-# row, so it lasts exactly until the item is settled; --reset-hash removes it.
+# An item goes out alone in a thread-mode run only when both are true: a
+# failed half handed it over (it is a member of a failed chunk marked
+# fallback), and its cursor row has been rewritten to comment or post mode's
+# hash since (_chunk_failed does that). Either alone is not enough: comment
+# and post mode leave their hash on rows that never failed (a refused
+# submission, --drop-batch, a pending submission settled as none), and a
+# fallback chunk's item that was later reset or chunked again carries another
+# hash, or no row. The mark lasts until the item is settled; --reset-hash of
+# that mode's hash removes it with the row.
 ALONE_HASHES = (prompt_v6.PROMPT_HASH, prompt_v6.PROMPT_HASH_POST)
 # A chunk a batch hands back for a reason that is not its size or content
 # (expired, canceled, missing, an API error) is queued again as it was. It is
@@ -1189,6 +1203,10 @@ def _due_in(conn, tids):
     """({thread_id: due comment ids}, due post ids, ids due to go out alone,
     queued chunk rows) for these threads."""
     with conn.cursor() as cur:
+        cur.execute("""select members from extract_chunks
+                       where version = %s and thread_id = any(%s) and status = 'failed' and fallback""",
+                    (VERSION, list(tids)))
+        handed = {m for (ms,) in cur.fetchall() for m in ms}
         cur.execute(f"""select c.thread_id, c.id, s.prompt_hash from comments c
                         left join extraction_state s on s.item_id = c.id and s.version = %(v)s
                         where c.thread_id = any(%(t)s) and c.subreddit = %(home)s
@@ -1197,7 +1215,7 @@ def _due_in(conn, tids):
         comments, alone = {}, set()
         for tid, cid, ph in cur.fetchall():
             comments.setdefault(tid, set()).add(cid)
-            if ph in ALONE_HASHES:
+            if ph in ALONE_HASHES and cid in handed:
                 alone.add(cid)
         cur.execute(f"""select t.id, ps.prompt_hash from threads t
                         left join extraction_state ps on ps.item_id = t.id and ps.version = %(v)s
@@ -1206,7 +1224,7 @@ def _due_in(conn, tids):
         posts = set()
         for tid, ph in cur.fetchall():
             posts.add(tid)
-            if ph in ALONE_HASHES:
+            if ph in ALONE_HASHES and tid in handed:
                 alone.add(tid)
         cur.execute("""select id, thread_id, post_item, members, generation, split_from, attempts
                        from extract_chunks where version = %s and thread_id = any(%s) and status = 'queued'
@@ -1224,8 +1242,8 @@ def _job(chunk, th, tree, effort, cid=None, generation=0, split_from=None, attem
 def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=print):
     """(chunk jobs, [(kind, id)] to send alone) for these threads, in order.
 
-    Retries come first. A due item last tried alone (ALONE_HASHES) goes out
-    alone again, in comment or post mode. A queued chunk is sent as recorded,
+    Retries come first. A due item a failed half handed over (ALONE_HASHES)
+    goes out alone, in comment or post mode. A queued chunk is sent as recorded,
     minus any item no longer due; one whose items are all no longer due is
     marked dropped (unless write is False, as in a dry run). Everything else
     due is chunked afresh.
@@ -1247,7 +1265,7 @@ def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=pri
         if th is None:
             continue
         due = set(due_c.get(tid, set())) | ({tid} if opts.posts and tid in due_p else set())
-        claimed = set(exclude)
+        claimed = due & exclude
         for i in sorted((due & due_alone) - claimed, key=lambda x: (x != tid, x)):
             alone.append(("post" if i == tid else "comment", i))
             claimed.add(i)
@@ -1286,9 +1304,9 @@ R_POST_CHARS = prompt_v6.thread.POST_ITEM_CHARS
 
 def _chunk_record(job, status, batch_id=None, output=None, usage=None, cost=None, error=None, bad=None,
                   fallback=False, attempts=0):
-    """One extract_chunks row's values, in _CHUNK_COLUMNS order. attempts only
-    ever raises the row's count (a direct send passes 1; a batch counts its
-    sends at submit)."""
+    """One extract_chunks row's values, in _CHUNK_COLUMNS order. attempts is
+    what this write adds to the row's count of sends: 1 for a direct send's
+    answer and for a batch submission, 0 for anything else."""
     return (job.id, VERSION, job.chunk.thread_id, job.prompt_hash, job.effort, job.chunk.post_item, job.members,
             job.context, job.generation, job.split_from, status, fallback, batch_id, error, bad,
             Json(output) if output is not None else None, Json(usage) if usage is not None else None, cost,
@@ -1300,7 +1318,7 @@ _CHUNK_COLUMNS = ("id", "version", "thread_id", "prompt_hash", "effort", "post_i
                   "usage", "cost_usd", "attempts")
 # Every column is taken from the values, except the record of what was sent
 # (members, context), which a batch's own row already holds when its answer
-# is collected without the rendering, and attempts, which only grows.
+# is collected without the rendering, and attempts, which is added to.
 _CHUNK_UPSERT = f"""
     insert into extract_chunks ({', '.join(_CHUNK_COLUMNS)}) values %s
     on conflict (id) do update set
@@ -1310,7 +1328,7 @@ _CHUNK_UPSERT = f"""
                          then excluded.context_ids else extract_chunks.context_ids end,
       status = excluded.status, fallback = excluded.fallback, batch_id = excluded.batch_id,
       error = excluded.error, bad_ids = excluded.bad_ids, output = excluded.output, usage = excluded.usage,
-      cost_usd = excluded.cost_usd, attempts = greatest(extract_chunks.attempts, excluded.attempts),
+      cost_usd = excluded.cost_usd, attempts = extract_chunks.attempts + excluded.attempts,
       updated_at = now(), finished_at = case when excluded.status in ('done', 'failed') then now() end"""
 
 
@@ -1351,16 +1369,6 @@ def _read_chunk(job, message, cost, stats, log):
     return "done", entries, (out, usage, len(bad))
 
 
-def _counted(stats, entries, n, parked):
-    stats.mentions += n
-    for e in entries:
-        if isinstance(e, Done):
-            stats.done += 1
-        else:
-            stats.failed += 1
-    stats.parked += len(parked)
-
-
 def _store_chunk_answers(conn, answers, stats, log, batch_id=None, attempts=0):
     """Write answered chunks: their extract_chunks rows and every item's
     mentions and state row, in one transaction per WRITE_CHUNK items or so.
@@ -1381,7 +1389,9 @@ def _store_chunk_answers(conn, answers, stats, log, batch_id=None, attempts=0):
             except Exception:
                 conn.rollback()
                 for one in group:
-                    retry |= _store_chunk_alone(conn, one, stats, log, batch_id, attempts)
+                    # A group of one chunk was that chunk's write together: not again.
+                    retry |= _store_chunk_alone(conn, one, stats, log, batch_id, attempts,
+                                                together=len(group) > 1)
             else:
                 _counted(stats, entries, written, parked)
                 stats.chunks += len(group)
@@ -1389,7 +1399,7 @@ def _store_chunk_answers(conn, answers, stats, log, batch_id=None, attempts=0):
     return retry
 
 
-def _store_chunk_alone(conn, answer, stats, log, batch_id, attempts):
+def _store_chunk_alone(conn, answer, stats, log, batch_id, attempts, together=True):
     """One chunk whose answer the database refused somewhere. Its record and
     its items are tried together once more; then the record alone, and each
     item alone, as comment mode does (an item the database refuses is owed a
@@ -1399,14 +1409,15 @@ def _store_chunk_alone(conn, answer, stats, log, batch_id, attempts):
     that did store are done, the rest go out in its halves."""
     job, entries, (out, usage, bad), cost = answer
     rec = _chunk_record(job, "done", batch_id, out, usage, cost, bad=bad, attempts=attempts)
-    try:
-        written, parked = write(conn, entries, before=lambda cur: _upsert_chunks(cur, [rec]))
-    except Exception:
-        conn.rollback()
-    else:
-        _counted(stats, entries, written, parked)
-        stats.chunks += 1
-        return set()
+    if together:
+        try:
+            written, parked = write(conn, entries, before=lambda cur: _upsert_chunks(cur, [rec]))
+        except Exception:
+            conn.rollback()
+        else:
+            _counted(stats, entries, written, parked)
+            stats.chunks += 1
+            return set()
     why = None
     try:
         with conn.cursor() as cur:
@@ -1499,6 +1510,7 @@ def run_direct_threads(conn, cl, budget, opts, limit=None, since=None, ids=None,
     for start in range(0, len(tids), THREAD_PAGE):
         todo = tids[start:start + THREAD_PAGE]
         after = len(tids) - start - len(todo)
+        jobs = []                            # built and not yet handed to _direct_chunks
         try:
             for _ in range(4):               # fresh chunks, halves, items alone, and a margin
                 jobs, alone = build_thread_jobs(conn, todo, opts, log=log)
@@ -1512,9 +1524,11 @@ def run_direct_threads(conn, cl, budget, opts, limit=None, since=None, ids=None,
                 if stop.is_set():
                     stats.refused += sum(len(j.chunk) for j in jobs)
                     stats.threads_open |= {j.chunk.thread_id for j in jobs}
-                    todo = []
+                    jobs, todo = [], []
                 elif jobs:
-                    todo = sorted(_direct_chunks(conn, cl, budget, jobs, workers, stats, stop, capped, log))
+                    # _direct_chunks counts what it does not send, even when it raises.
+                    sent, jobs = jobs, []
+                    todo = sorted(_direct_chunks(conn, cl, budget, sent, workers, stats, stop, capped, log))
                 else:
                     todo = []
                 if stop.is_set():
@@ -1524,6 +1538,8 @@ def run_direct_threads(conn, cl, budget, opts, limit=None, since=None, ids=None,
                 if not todo:
                     break
         except BaseException:
+            stats.refused += sum(len(j.chunk) for j in jobs)
+            stats.threads_open |= {j.chunk.thread_id for j in jobs}
             stats.threads_left += after
             raise
     return stats
@@ -1601,8 +1617,7 @@ def _submit_chunks(conn, cl, budget, jobs, log):
     with conn.cursor() as cur:
         cur.execute("insert into extract_batches (id, version, requests, hold_usd) values (%s, %s, %s, %s)",
                     (pid, VERSION, len(jobs), held))
-        _upsert_chunks(cur, [_chunk_record(j, "batched", pid) for j in jobs])
-        cur.execute("update extract_chunks set attempts = attempts + 1 where batch_id = %s", (pid,))
+        _upsert_chunks(cur, [_chunk_record(j, "batched", pid, attempts=1) for j in jobs])
         cur.execute("""
             insert into extraction_state (item_id, version, kind, prompt_hash, model, batch_id)
             select u.item_id, %(v)s, u.kind, %(ph)s, %(model)s, %(pid)s
@@ -1752,96 +1767,114 @@ def run_batch_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, 
     def held_items():
         return {i for j in jobs_q for i in j.chunk.items} | {i for _, i in items_q}
 
-    while True:
-        while not capped and len(inflight) < max_inflight:
-            if retry_tids:
-                j, a = build_thread_jobs(conn, retry_tids, opts, exclude=held_items(), hold=held_rows, log=log)
-                retry_tids = []
-                jobs_q, items_q = j + jobs_q, a + items_q
-            while not items_q and len(jobs_q) < batch_size and pos < len(tids):
-                page = tids[pos:pos + THREAD_PAGE]
-                pos += len(page)
-                j, a = build_thread_jobs(conn, page, opts, exclude=held_items(), hold=held_rows, log=log)
-                jobs_q, items_q = jobs_q + j, items_q + a
-            room = budget.remaining()
-            if items_q:
-                head = items_q[:batch_size]
-                items = []
-                for kind in KINDS:
-                    ids_k = [i for k, i in head if k == kind]
-                    items += render_items(conn, kind, ids_k) if ids_k else []
+    # However the loop ends (done, the cap, a fatal or lasting transient error,
+    # Ctrl-C), what was built and not sent, and the threads never reached, are
+    # counted, so the closing line says what is left.
+    try:
+        while True:
+            while not capped and len(inflight) < max_inflight:
+                if retry_tids:
+                    j, a = build_thread_jobs(conn, retry_tids, opts, exclude=held_items(), hold=held_rows, log=log)
+                    retry_tids = []
+                    jobs_q, items_q = j + jobs_q, a + items_q
+                while not items_q and len(jobs_q) < batch_size and pos < len(tids):
+                    page = tids[pos:pos + THREAD_PAGE]
+                    pos += len(page)
+                    j, a = build_thread_jobs(conn, page, opts, exclude=held_items(), hold=held_rows, log=log)
+                    jobs_q, items_q = jobs_q + j, items_q + a
+                room = budget.remaining()
+                if items_q:
+                    head = items_q[:batch_size]
+                    items = []
+                    for kind in KINDS:
+                        ids_k = [i for k, i in head if k == kind]
+                        items += render_items(conn, kind, ids_k) if ids_k else []
+                    batch, held = [], 0.0
+                    for it in items:
+                        w = it.worst(batch=True)
+                        if held + w > room:
+                            break
+                        batch.append(it)
+                        held += w
+                    if not batch:
+                        if not items:
+                            items_q = items_q[len(head):]
+                            continue
+                        capped = True
+                        break
+                    taken = {it.id for it in batch}
+                    rest = [(it.kind, it.id) for it in items if it.id not in taken] + items_q[len(head):]
+                    # A refused submission leaves its items in the queue, so the
+                    # closing count has them; an ambiguous one is pending, settled next run.
+                    try:
+                        bid = _submit(conn, cl, budget, batch, log)
+                    except AV.AmbiguousSubmit:
+                        items_q = rest
+                        raise
+                    items_q = rest
+                    inflight.append(bid)
+                    continue
+                if not jobs_q:
+                    break
                 batch, held = [], 0.0
-                for it in items:
-                    w = it.worst(batch=True)
+                for j in jobs_q[:batch_size]:
+                    w = j.worst(batch=True)
                     if held + w > room:
                         break
-                    batch.append(it)
+                    batch.append(j)
                     held += w
                 if not batch:
-                    if not items:
-                        items_q = items_q[len(head):]
-                        continue
                     capped = True
                     break
-                taken = {it.id for it in batch}
-                items_q = [(it.kind, it.id) for it in items if it.id not in taken] + items_q[len(head):]
-                inflight.append(_submit(conn, cl, budget, batch, log))
-                continue
-            if not jobs_q:
+                try:
+                    bid = _submit_chunks(conn, cl, budget, batch, log)
+                except AV.AmbiguousSubmit:
+                    jobs_q = jobs_q[len(batch):]
+                    raise
+                jobs_q = jobs_q[len(batch):]
+                inflight.append(bid)
+            if not inflight:
                 break
-            batch, held = [], 0.0
-            for j in jobs_q[:batch_size]:
-                w = j.worst(batch=True)
-                if held + w > room:
+            ended, b, lost = None, None, None
+            for bid in inflight:
+                try:
+                    b = AV.retrieve(cl, bid, sleep=sleep, log=log)
+                except AV.NotFound as e:
+                    lost = bid
+                    _lost(conn, budget, bid, e, log)
                     break
-                batch.append(j)
-                held += w
-            if not batch:
-                capped = True
-                break
-            jobs_q = jobs_q[len(batch):]
-            inflight.append(_submit_chunks(conn, cl, budget, batch, log))
-        if not inflight:
-            break
-        ended, b, lost = None, None, None
-        for bid in inflight:
+                if b.processing_status == "ended":
+                    ended = bid
+                    break
+            if lost is not None:
+                inflight.remove(lost)
+                capped = False
+                continue
+            if ended is None:
+                c = getattr(b, "request_counts", None)
+                if c is not None:
+                    log(f"  batch {bid}: {b.processing_status}, {c.processing} processing, "
+                        f"{c.succeeded} succeeded, {c.errored} errored")
+                sleep(poll_seconds)
+                continue
+            inflight.remove(ended)
             try:
-                b = AV.retrieve(cl, bid, sleep=sleep, log=log)
+                shape, retry = _collect_any(conn, cl, budget, ended, stats, log, sleep=sleep)
             except AV.NotFound as e:
-                lost = bid
-                _lost(conn, budget, bid, e, log)
-                break
-            if b.processing_status == "ended":
-                ended = bid
-                break
-        if lost is not None:
-            inflight.remove(lost)
+                _lost(conn, budget, ended, e, log)
+                capped = False
+                continue
+            if shape == "items":
+                items_q = retry + items_q
+            else:
+                again, hold = retry
+                held_rows |= hold
+                retry_tids += [t for t in again if t not in retry_tids]
             capped = False
-            continue
-        if ended is None:
-            c = getattr(b, "request_counts", None)
-            if c is not None:
-                log(f"  batch {bid}: {b.processing_status}, {c.processing} processing, "
-                    f"{c.succeeded} succeeded, {c.errored} errored")
-            sleep(poll_seconds)
-            continue
-        inflight.remove(ended)
-        try:
-            shape, retry = _collect_any(conn, cl, budget, ended, stats, log, sleep=sleep)
-        except AV.NotFound as e:
-            _lost(conn, budget, ended, e, log)
-            capped = False
-            continue
-        if shape == "items":
-            items_q = retry + items_q
-        else:
-            again, hold = retry
-            held_rows |= hold
-            retry_tids += [t for t in again if t not in retry_tids]
-        capped = False
-    stats.refused += sum(len(j.chunk) for j in jobs_q) + len(items_q)
-    stats.threads_open |= {j.chunk.thread_id for j in jobs_q}
-    stats.threads_left += len(tids) - pos
+    finally:
+        stats.refused += sum(len(j.chunk) for j in jobs_q) + len(items_q)
+        stats.threads_open |= {j.chunk.thread_id for j in jobs_q}
+        stats.threads_left += len(tids) - pos
     return stats
 
 

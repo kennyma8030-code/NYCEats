@@ -167,13 +167,16 @@ import needed fixing (the file loads `v6_common.py` from its own folder).
   run while it has been sent fewer than twice in all (`CHUNK_SENDS_PER_RUN`),
   else it waits, still queued, for the next run. An `invalid_request_error`
   still stops the run, as in comment mode.
-- **Going alone applies once.** It is written on each item's own cursor row,
-  which then carries comment or post mode's hash (and no extraction) until
-  the item is done or parked; a thread-mode run sends such an item alone. The
-  chunk row's `fallback` is only a record, so nothing routes items alone for
-  ever: once the item is settled the mark is gone with it, and `--reset-hash`
-  of that hash clears it. `--retry-errors` on a parked item that went alone
-  sends it alone again (it failed alone; that is the retry it is owed).
+- **Going alone applies once.** A thread-mode run sends an item alone only
+  when both hold: it is a member of a failed half marked `fallback`, and its
+  own cursor row has been rewritten to comment or post mode's hash since
+  (`_chunk_failed` does that) and it is still due. Neither alone is enough:
+  comment and post mode leave their hash on rows that never failed (a refused
+  submission, `--drop-batch`, a pending submission settled as none), and
+  those items are chunked as usual. Once the item is settled the routing is
+  over; `--reset-hash` of that hash deletes the row and with it the routing.
+  `--retry-errors` on a parked item that went alone sends it alone again (it
+  failed alone; that is the retry it is owed).
 - **Retiring.** Every run that writes first marks `dropped` each queued chunk
   none of whose items is still due (extracted since in either mode, deleted,
   or parked), so `--status` no longer shows such a chunk as owed. A queued
@@ -224,10 +227,16 @@ sizes are refused in comment mode, which runs as benchmarked.
 block in `extract_v6_schema.sql` and `schema.sql`, guarded like the rest
 (`create table if not exists`, indexes behind `to_regclass` checks,
 `lock_timeout` 5 s). A new table takes no lock anything else waits on.
-`schema_ready` now counts it as part of v6, because any run (comment mode
-too) may collect a thread batch, so **every `extract_v6.py` run refuses until
-it is applied**, and the poller's v6 pass skips until its boot applies
-`schema.sql`. Apply it before deploying this branch:
+`schema_ready` now counts it (and its `attempts` column) as part of v6,
+because any run (comment mode too) may collect a thread batch, so **every
+`extract_v6.py` run refuses until it is applied**, and the poller's v6 pass
+skips until its boot applies `schema.sql`. A database holding the table's
+first shape (from this branch's first commit, `f096d9e`) gets `attempts`
+from a guarded `alter table ... add column` with a constant default
+(catalog-only). That shape exists only in throwaway test databases, since
+production never had the table, so its `failed` + `fallback` rows are not
+migrated: their items, which carry no comment-mode mark, are simply chunked
+again. Apply it before deploying this branch:
 
 ```
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f extract_v6_schema.sql; echo "exit $?"
@@ -431,7 +440,7 @@ backlog.
 
 `TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:55461/threadtest python -m pytest tests`
 against a throwaway Postgres 18 with pgvector (Docker image
-`pgvector/pgvector:pg18`): **412 passed, 3 skipped** (the three skips are the
+`pgvector/pgvector:pg18`): **422 passed, 3 skipped** (the three skips are the
 embedding tests that need the benchmark's local cache). Without a database,
 the database tests skip. New:
 
@@ -447,7 +456,7 @@ the database tests skip. New:
   4,000 cut, a post-only chunk, halves keeping the post, and 300 random
   trees checking that every due item lands in exactly one chunk under the
   hard max.
-- `tests/test_extract_v6_thread_db.py` (30): every due item once with the
+- `tests/test_extract_v6_thread_db.py` (40): every due item once with the
   thread hash, the request on the wire, attribution, the post written in post
   mode's row shape, cost shares summing exactly; a post done in post mode
   left as context; `--scope comments`; comment-mode-done comments as context;
@@ -465,7 +474,14 @@ the database tests skip. New:
   queued halves and leaving comment rows alone; a stopped run counting what
   it did not send; `live_mentions`; the dry run writing nothing; the CLI;
   newest-first; the schema applied twice and `schema_ready` requiring
-  `extract_chunks`.
+  `extract_chunks`. The second review's: comment-mode-hash rows from a
+  refused submission, a dropped batch and a pending submission settled as
+  none not sent alone; a comment-mode run logging no false retry for a
+  thread batch, and the real count when one failed; a batch run stopped by
+  an error and a direct run stopped while items go alone both counting what
+  they built and did not send; a direct send adding one to `attempts`; a
+  single chunk's refused write not repeated; the schema upgrading a table of
+  the first shape.
 - `tests/test_prompt_v6.py`: the vendored thread file pinned, equal to the
   branch's file with the listed additions, the prompt equal to round 4's
   minus `<post_item>`, the renderer equal to round 4's without the new

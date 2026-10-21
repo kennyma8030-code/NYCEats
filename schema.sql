@@ -661,5 +661,22 @@ begin
   if to_regclass('extract_chunks_open_idx') is null then
     create index extract_chunks_open_idx on extract_chunks(thread_id) where status = 'queued';
   end if;
+  -- A thread-mode run reads its threads' failed halves to know which items
+  -- were handed over to go out alone.
+  if to_regclass('extract_chunks_fallback_idx') is null then
+    create index extract_chunks_fallback_idx on extract_chunks(thread_id) where fallback;
+  end if;
+end $$;
+-- attempts came after the table's first version: a database that has that
+-- one gets the column here (a constant default, so catalog-only), checked in
+-- the catalog first so later runs alter nothing.
+do $$
+begin
+  perform set_config('lock_timeout', '5s', true);
+  if not exists (select 1 from information_schema.columns
+                 where table_schema = current_schema() and table_name = 'extract_chunks'
+                   and column_name = 'attempts') then
+    alter table extract_chunks add column if not exists attempts int not null default 0;
+  end if;
 end $$;
 -- v6-extraction-schema:end

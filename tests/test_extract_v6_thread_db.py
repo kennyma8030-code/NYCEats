@@ -642,7 +642,7 @@ class Modes(ThreadCase):
             with self.conn.cursor() as cur:
                 cur.execute(sql)
             self.conn.commit()
-        self.assertEqual(self.q("select count(*) from pg_indexes where tablename = 'extract_chunks'"), [(3,)])
+        self.assertEqual(self.q("select count(*) from pg_indexes where tablename = 'extract_chunks'"), [(4,)])
         self.assertTrue(X.schema_ready(self.conn))
         # Every mode collects either kind of batch, so a database without the
         # table is not ready for any v6 run.
@@ -652,6 +652,196 @@ class Modes(ThreadCase):
         self.assertFalse(X.schema_ready(self.conn))
         with self.assertRaises(X.SchemaMissing):
             X.require_schema(self.conn)
+
+
+OLD_CHUNKS = """create table extract_chunks (
+  id           text primary key,
+  version      text not null,
+  thread_id    text not null,
+  prompt_hash  text not null,
+  effort       text not null,
+  post_item    boolean not null default false,
+  members      text[] not null,
+  context_ids  text[] not null default '{}',
+  generation   smallint not null default 0,
+  split_from   text,
+  status       text not null default 'queued'
+               check (status in ('queued', 'batched', 'done', 'failed', 'dropped')),
+  fallback     boolean not null default false,
+  batch_id     text,
+  error        text,
+  bad_ids      int,
+  output       jsonb,
+  usage        jsonb,
+  cost_usd     numeric(12, 8),
+  created_at   timestamptz not null default now(),
+  updated_at   timestamptz not null default now(),
+  finished_at  timestamptz
+)"""
+
+
+class Review2(ThreadCase):
+    def comment_batch(self, api, **kw):
+        stats = X.Stats()
+        X.run_batch(self.conn, AV.client("k", api.base_url), X.Budget(10), kinds=("comment",), log=QUIET,
+                    sleep=lambda s: None, stats=stats, poll_seconds=0, **kw)
+        return stats
+
+    def assert_not_alone(self, ids):
+        st = self.state()
+        self.assertTrue(ids and all(st[i][1] == prompt_v6.PROMPT_HASH and not st[i][2] and st[i][4] is None
+                                    for i in ids), {i: st.get(i) for i in ids})
+        jobs, alone = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(posts=False), write=False, log=QUIET)
+        self.assertEqual(alone, [])
+        self.assertEqual(sorted(m for j in jobs for m in j.chunk.members), sorted(ids))
+
+    def test_comment_hash_without_a_thread_failure_is_not_alone_refused_submit(self):
+        ids = [f"t1_d{i}" for i in range(1, 9)]
+        with F.FakeAnthropic() as api:
+            api.submit_status = (429, {"type": "error", "error": {"type": "rate_limit_error", "message": "slow"}})
+            with self.assertRaises(AV.TransientAPIError):
+                self.comment_batch(api, ids=ids)
+        self.assert_not_alone(ids)
+
+    def test_comment_hash_without_a_thread_failure_is_not_alone_dropped_batch(self):
+        ids = [f"t1_d{i}" for i in range(1, 9)]
+        with F.FakeAnthropic() as api, mock.patch.object(X, "_collect", side_effect=KeyboardInterrupt):
+            with self.assertRaises(KeyboardInterrupt):
+                self.comment_batch(api, ids=ids)
+        bid = self.q("select id from extract_batches")[0][0]
+        X.drop_batch(self.conn, bid)
+        self.assert_not_alone(ids)
+
+    def test_comment_hash_without_a_thread_failure_is_not_alone_pending_none(self):
+        ids = [f"t1_d{i}" for i in range(1, 9)]
+        with F.FakeAnthropic() as api:
+            api.accept_then_fail = (500, {"type": "error", "error": {"type": "api_error", "message": "x"}})
+            with self.assertRaises(AV.AmbiguousSubmit):
+                self.comment_batch(api, ids=ids)
+        X.resolve_pending(self.conn, self.q("select id from extract_batches")[0][0], "none")
+        self.assert_not_alone(ids)
+
+    def test_comment_mode_run_logs_no_false_retry_for_a_thread_batch(self):
+        logs = []
+        real = X._collect_chunks
+        calls = []
+
+        def interrupted(*a, **k):
+            calls.append(1)
+            if len(calls) == 1:
+                raise KeyboardInterrupt
+            return real(*a, **k)
+        with F.FakeAnthropic(answer) as api:
+            with mock.patch.object(X, "_collect_chunks", interrupted):
+                with self.assertRaises(KeyboardInterrupt):
+                    self.batch(api)
+                X.run_batch(self.conn, AV.client("k", api.base_url), X.Budget(10), log=logs.append,
+                            sleep=lambda s: None, stats=X.Stats(), poll_seconds=0)
+        self.assertFalse([line for line in logs if "owe a retry" in line], logs)
+
+    def test_comment_mode_run_logs_the_real_retry_count(self):
+        logs = []
+        real = X._collect_chunks
+        calls = []
+
+        def interrupted(*a, **k):
+            calls.append(1)
+            if len(calls) == 1:
+                raise KeyboardInterrupt
+            return real(*a, **k)
+
+        def ans(p):
+            if is_thread(p) and numbers(F.user_text(p), "u1"):
+                return 200, F.message('{"mentions": [', stop="max_tokens")
+            return answer(p)
+        with F.FakeAnthropic(ans) as api:
+            with mock.patch.object(X, "_collect_chunks", interrupted):
+                with self.assertRaises(KeyboardInterrupt):
+                    self.batch(api)
+                X.run_batch(self.conn, AV.client("k", api.base_url), X.Budget(10), log=logs.append,
+                            sleep=lambda s: None, stats=X.Stats(), poll_seconds=0)
+        self.assertEqual([line.strip() for line in logs if "owe a retry" in line][0].split(": ")[1][:23],
+                         "1 thread(s) owe a retry")
+
+    def test_batch_run_stopped_by_an_error_counts_what_it_did_not_send(self):
+        with F.FakeAnthropic(answer) as api:
+            api.submit_status = (400, {"type": "error", "error": {"type": "invalid_request_error", "message": "no"}})
+            stats = X.Stats()
+            with self.assertRaises(AV.FatalAPIError):
+                X.run_batch_threads(self.conn, AV.client("k", api.base_url), X.Budget(10), self.opts(),
+                                    log=QUIET, sleep=lambda s: None, stats=stats, poll_seconds=0)
+        self.assertEqual(stats.refused, len(HOME_LIVE | HOME_POSTS))
+        self.assertEqual(stats.threads_open, HOME_POSTS)
+        self.assertEqual(self.q("select count(*) from extract_batches"), [(0,)])
+        self.assertEqual(self.q("select count(*) from extraction_state where batch_id is not null"), [(0,)])
+
+    def test_direct_run_stopped_while_items_go_alone_counts_the_built_chunks(self):
+        # Every t3_c item was handed over to go alone; the other threads' chunks
+        # are built in the same page, and the first alone request is refused.
+        jobs, _ = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), write=False, log=QUIET)
+        X._chunk_failed(self.conn, jobs[0], "max_tokens: by hand", None, 0.0, QUIET)
+        for half in X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), log=QUIET)[0]:
+            X._chunk_failed(self.conn, half, "max_tokens: by hand", None, 0.0, QUIET)
+        others, _ = X.build_thread_jobs(self.conn, ["t3_a", "t3_b", "t3_old"], self.opts(), write=False, log=QUIET)
+        with F.FakeAnthropic(lambda p: F.error(401, "authentication_error")) as api:
+            stats = X.Stats()
+            with self.assertRaises(AV.FatalAPIError):
+                X.run_direct_threads(self.conn, AV.client("k", api.base_url), X.Budget(10), self.opts(),
+                                     workers=1, log=QUIET, stats=stats)
+        self.assertTrue(all(not is_thread(r) for r in api.requests))
+        self.assertEqual(stats.refused, sum(len(j.chunk) for j in others))
+        self.assertEqual(stats.threads_open, {"t3_a", "t3_b", "t3_old"})
+
+    def test_a_direct_send_adds_one_to_attempts(self):
+        jobs, _ = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), write=False, log=QUIET)
+        X._chunk_failed(self.conn, jobs[0], "max_tokens: by hand", None, 0.0, QUIET)
+        first = sorted(r[0] for r in self.q("select id from extract_chunks where status = 'queued'"))[0]
+        self.q("update extract_chunks set attempts = 1 where id = %s returning id", (first,))   # sent once already
+        with F.FakeAnthropic(answer) as api:
+            self.direct(api, ids=["t3_c"])
+        got = dict(self.q("select id, attempts from extract_chunks where generation = 1"))
+        self.assertEqual(got[first], 2)
+        self.assertEqual(sorted(got.values()), [1, 2])
+
+    def test_one_chunks_refused_write_is_not_repeated_as_it_was(self):
+        def ans(p):
+            st, msg = answer(p)
+            if is_thread(p) and numbers(F.user_text(p), "u1") and numbers(F.user_text(p), "u8"):
+                body = json.loads(msg["content"][1]["text"])
+                body["mentions"][0]["notes"] = [{"about": "tip", "text": "nul \u0000"}]
+                msg = F.message(json.dumps(body))
+            return st, msg
+        real, together = X.write, []
+
+        def spy(conn, entries, before=None):
+            if before is not None and len(entries) == 9:
+                together.append(1)
+            return real(conn, entries, before)
+        with F.FakeAnthropic(ans) as api, mock.patch.object(X, "write", spy):
+            self.direct(api, ids=["t3_c"])
+        self.assertEqual(len(together), 1)
+        self.assertTrue(all(v[2] for v in self.state().values()))
+
+    def test_schema_upgrades_a_table_of_the_first_shape(self):
+        with self.conn.cursor() as cur:
+            cur.execute("drop table extract_chunks")
+            cur.execute(OLD_CHUNKS)
+        self.conn.commit()
+        self.assertFalse(X.schema_ready(self.conn))          # no attempts column: not ready
+        with self.assertRaises(X.SchemaMissing):
+            X.require_schema(self.conn)
+        with open(os.path.join(ROOT, "extract_v6_schema.sql"), encoding="utf-8") as f:
+            sql = f.read()
+        for _ in range(2):
+            with self.conn.cursor() as cur:
+                cur.execute(sql)
+            self.conn.commit()
+        self.assertTrue(X.schema_ready(self.conn))
+        self.assertEqual(self.q("select column_default, is_nullable from information_schema.columns "
+                                "where table_name = 'extract_chunks' and column_name = 'attempts'"), [("0", "NO")])
+        with F.FakeAnthropic(answer) as api:
+            self.direct(api, ids=["t3_c"])
+        self.assertEqual(self.q("select attempts from extract_chunks"), [(1,)])
 
 if __name__ == "__main__":
     unittest.main()
