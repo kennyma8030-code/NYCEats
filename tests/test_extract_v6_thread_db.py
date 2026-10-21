@@ -8,6 +8,7 @@ reading each numbered line and returning one mention per word starting with
 """
 
 import io
+import json
 import os
 import re
 import unittest
@@ -367,26 +368,60 @@ class Batches(ThreadCase):
         self.assertEqual(set(self.state()), HOME_LIVE | HOME_POSTS)
         self.assertTrue(all(v[1] == TH for v in self.state().values()))
 
-    def test_errored_chunk_splits_and_retries_in_the_same_run(self):
+    def test_batch_errors_unrelated_to_size_resend_the_chunk_as_it_was(self):
+        seen = []
+
         def results(cid, params):
             text = params["messages"][0]["content"]
-            if numbers(text, "u1") and numbers(text, "u8"):     # the whole t3_c chunk errors
-                return {"type": "errored", "error": {"type": "error", "error": {"type": "overloaded_error",
-                                                                                 "message": "busy"}}}
+            if numbers(text, "u1") and numbers(text, "u8"):          # the whole t3_c chunk
+                seen.append(cid)
+                if len(seen) == 1:
+                    return {"type": "errored", "error": {"type": "error", "error": {
+                        "type": "overloaded_error", "message": "busy"}}}
             _, msg = answer(params)
             return {"type": "succeeded", "message": msg}
         with F.FakeAnthropic(answer, batch_results=results) as api:
-            self.batch(api)
-        rows = self.q("select generation, status, error from extract_chunks where thread_id = 't3_c' order by 1, 2")
-        self.assertEqual([r[:2] for r in rows], [(0, "failed"), (1, "done"), (1, "done")])
-        self.assertTrue(rows[0][2].startswith("batch_errored"))
+            s = self.batch(api)
+        self.assertEqual(len(seen), 2)
+        self.assertEqual(seen[0], seen[1])                           # the same chunk, as it was
+        rows = self.q("select generation, status, attempts from extract_chunks where thread_id = 't3_c'")
+        self.assertEqual(rows, [(0, "done", 2)])                     # not split
+        self.assertEqual(s.chunk_failures, 0)
         self.assertEqual(set(self.state()), HOME_LIVE | HOME_POSTS)
-        self.assertTrue(all(v[2] and v[4] is None for v in self.state().values()))
+        self.assertTrue(all(v[1] == TH and v[2] and v[4] is None for v in self.state().values()))
+
+    def test_a_chunk_that_keeps_expiring_waits_for_the_next_run(self):
+        expiring = [True]
+
+        def results(cid, params):
+            text = params["messages"][0]["content"]
+            if expiring[0] and numbers(text, "u1") and numbers(text, "u8"):
+                return {"type": "expired"}
+            _, msg = answer(params)
+            return {"type": "succeeded", "message": msg}
+        api = F.FakeAnthropic(answer, batch_results=results).__enter__()
+        self.addCleanup(api.__exit__)
+        self.batch(api)
+        sent = [r["custom_id"] for r in api.batch_requests]
+        rows = self.q("select id, generation, status, attempts, error from extract_chunks where thread_id = 't3_c'")
+        self.assertEqual(len(rows), 1)
+        cid, gen, status, attempts, error = rows[0]
+        self.assertEqual((gen, status, attempts, error), (0, "queued", 2, "batch_expired"))
+        self.assertEqual(sent.count(cid), 2)                         # twice in the run, then it waits
+        st = self.state()
+        t3c = {"t3_c"} | {f"t1_d{i}" for i in range(1, 9)}
+        self.assertTrue(all(not st[i][2] and st[i][1] == TH and st[i][4] is None for i in t3c))  # due, not alone
+        self.assertEqual(X.thread_candidates(self.conn)[0], "t3_c")  # a retry owed comes first
+        expiring[0] = False
+        self.batch(api)
+        self.assertEqual([r["custom_id"] for r in api.batch_requests][len(sent):], [cid])
+        self.assertEqual(self.q("select status, attempts from extract_chunks where thread_id = 't3_c'"), [("done", 3)])
+        self.assertTrue(all(v[2] for v in self.state().values()))
 
     def test_twice_failed_half_goes_out_alone_in_its_own_batch(self):
         def results(cid, params):
             if numbers(params["messages"][0]["content"], "u1"):       # any chunk numbering t1_d1
-                return {"type": "expired"}
+                return {"type": "succeeded", "message": F.message('{"mentions": [', stop="max_tokens")}
             _, msg = answer(params)
             return {"type": "succeeded", "message": msg}
         with F.FakeAnthropic(answer, batch_results=results) as api:
@@ -399,6 +434,50 @@ class Batches(ThreadCase):
         st = self.state()
         self.assertTrue(all(v[2] and v[4] is None for v in st.values()))
         self.assertEqual(st["t3_c"][1], prompt_v6.PROMPT_HASH_POST)
+
+    def test_an_answer_postgres_refuses_is_split_and_the_batch_still_collected(self):
+        # A NUL in a note: jsonb refuses it, so neither the chunk's whole
+        # answer nor t1_d1's mention can be stored. The batch is still marked
+        # collected, the other items are stored, and t1_d1 goes out again in a
+        # half, whose clean answer is stored.
+        def results(cid, params):
+            text = params["messages"][0]["content"]
+            st, msg = answer(params)
+            if numbers(text, "u1") and numbers(text, "u8"):
+                body = json.loads(msg["content"][1]["text"])
+                for m in body["mentions"]:
+                    if m["id"] == 1:
+                        m["notes"] = [{"about": "tip", "text": "nul \u0000 here"}]
+                msg = F.message(json.dumps(body))
+            return {"type": "succeeded", "message": msg}
+        logs = []
+        with F.FakeAnthropic(answer, batch_results=results) as api:
+            stats = X.Stats()
+            X.run_batch_threads(self.conn, AV.client("k", api.base_url), X.Budget(10), self.opts(), ids=["t3_c"],
+                                log=logs.append, sleep=lambda s: None, stats=stats, poll_seconds=0)
+        self.assertEqual({s for (s,) in self.q("select status from extract_batches")}, {"collected"})
+        rows = self.q("select generation, status, error from extract_chunks order by 1, 2")
+        self.assertEqual([r[:2] for r in rows], [(0, "failed"), (1, "done"), (1, "dropped")])
+        self.assertTrue(rows[0][2].startswith("store_error"))
+        st = self.state()
+        self.assertTrue(all(v[2] for v in st.values()), st)
+        self.assertEqual(self.q("select count(*) from mentions where comment_id = 't1_d1'"), [(1,)])
+        self.assertEqual(self.q("select attempts from extraction_state where item_id = 't1_d1'"), [(2,)])
+        self.assertTrue(any("could not be stored" in line for line in logs))
+
+    def test_an_answer_postgres_refuses_direct(self):
+        def ans(p):
+            st, msg = answer(p)
+            if is_thread(p) and numbers(F.user_text(p), "u1") and numbers(F.user_text(p), "u8"):
+                body = json.loads(msg["content"][1]["text"])
+                body["mentions"][0]["notes"] = [{"about": "tip", "text": "nul \u0000"}]
+                msg = F.message(json.dumps(body))
+            return st, msg
+        with F.FakeAnthropic(ans) as api:
+            s = self.direct(api, ids=["t3_c"])
+        self.assertTrue(all(v[2] for v in self.state().values()))
+        self.assertEqual(s.chunk_failures, 1)
+        self.assertTrue(self.q("select error from extract_chunks where generation = 0")[0][0].startswith("store_error"))
 
     def test_pending_none_requeues_chunks_as_recorded(self):
         with F.FakeAnthropic(answer) as api:
@@ -418,6 +497,80 @@ class Batches(ThreadCase):
 
 
 class Modes(ThreadCase):
+    def halves_of_t3c(self):
+        """Fail t3_c's chunk by hand, so two halves are queued, as a run would leave them."""
+        jobs, _ = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), write=False, log=QUIET)
+        X._chunk_failed(self.conn, jobs[0], "max_tokens: by hand", None, 0.0, QUIET)
+        return {r[0]: r[1] for r in self.q("select id, members from extract_chunks where status = 'queued'")}
+
+    def test_items_waiting_in_memory_do_not_drop_their_queued_half(self):
+        halves = self.halves_of_t3c()
+        self.assertEqual(len(halves), 2)
+        everything = {i for ms in halves.values() for i in ms}
+        # A retry rebuild while those items wait in this run's queue: nothing is
+        # sent again, nothing is chunked afresh, and the halves stay queued.
+        jobs, alone = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), exclude=everything, log=QUIET)
+        self.assertEqual((jobs, alone), ([], []))
+        self.assertEqual(self.q("select count(*) from extract_chunks where status = 'queued'"), [(2,)])
+        # Held for this run (a chunk sent twice already): its items are claimed, not chunked afresh.
+        held = sorted(halves)[0]
+        jobs, _ = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), hold={held}, log=QUIET)
+        self.assertEqual([j.id for j in jobs], [h for h in halves if h != held])
+        self.assertEqual(self.q("select count(*) from extract_chunks where status = 'queued'"), [(2,)])
+        # Nothing excluded: the halves go out as recorded, generation 1.
+        jobs, _ = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), log=QUIET)
+        self.assertEqual(sorted(j.id for j in jobs), sorted(halves))
+        self.assertTrue(all(j.generation == 1 for j in jobs))
+
+    def test_resolved_queued_chunks_are_retired(self):
+        halves = self.halves_of_t3c()
+        self.assertEqual(X.thread_candidates(self.conn)[0], "t3_c")      # a retry owed comes first
+        ids = sorted({i for ms in halves.values() for i in ms})
+        with F.FakeAnthropic() as api:                                    # comment and post mode do them all
+            self.comment_direct(api, ids=ids)
+        self.assertNotIn("t3_c", X.thread_candidates(self.conn))
+        self.assertEqual(X.retire_chunks(self.conn, log=QUIET), 2)
+        self.assertEqual(self.q("select status, count(*) from extract_chunks group by 1 order by 1"),
+                         [("dropped", 2), ("failed", 1)])
+        out = io.StringIO()
+        with redirect_stdout(out):
+            X.status(self.conn)
+        self.assertNotIn("queued", out.getvalue())
+
+    def test_going_alone_applies_once(self):
+        def ans(p):
+            return (200, F.message("garbage")) if is_thread(p) else F.default_answer(p)
+        with F.FakeAnthropic(ans) as api:
+            self.direct(api, ids=["t3_c"], opts=self.opts(posts=False))
+        st = self.state()
+        self.assertTrue(all(st[f"t1_d{i}"][2] and st[f"t1_d{i}"][1] == prompt_v6.PROMPT_HASH for i in range(1, 9)))
+        # The failed half's row no longer routes anything: once its items are
+        # reset, they are chunked again like any due comment.
+        X.reset_hash(self.conn, prompt_v6.PROMPT_HASH, kinds=("comment",), yes=True, log=QUIET)
+        jobs, alone = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(posts=False), write=False, log=QUIET)
+        self.assertEqual(alone, [])
+        self.assertEqual(sorted(m for j in jobs for m in j.chunk.members), [f"t1_d{i}" for i in range(1, 9)])
+        self.assertTrue(all(j.generation == 0 for j in jobs))
+
+    def test_reset_hash_drops_that_prompts_queued_halves(self):
+        self.halves_of_t3c()
+        X.reset_hash(self.conn, TH, yes=True, log=QUIET)
+        self.assertEqual(self.q("select count(*) from extract_chunks where status = 'queued'"), [(0,)])
+
+    def test_a_stopped_run_counts_what_it_did_not_send(self):
+        jobs, _ = X.build_thread_jobs(self.conn, ["t3_a", "t3_b", "t3_c", "t3_old"], self.opts(), write=False,
+                                      log=QUIET)
+        w = max(j.worst(batch=False) for j in jobs)
+        out = int(w / AV.PRICES["out"]) + 1                  # each answer costs a whole worst case
+        big = lambda p: (200, F.message('{"mentions": []}', usage={"output_tokens": out, "input_tokens": 0}))  # noqa
+        with F.FakeAnthropic(big) as api:
+            s = self.direct(api, budget=w * 1.5, workers=1)
+        self.assertEqual(len(api.requests), 1)
+        done = set(self.state())
+        self.assertEqual(s.refused, len(HOME_LIVE | HOME_POSTS) - len(done))
+        self.assertEqual(len(s.threads_open), 3)
+        self.assertEqual(s.threads_left, 0)
+
     def test_reset_hash_undoes_thread_rows_only(self):
         with F.FakeAnthropic(answer) as api:
             self.comment_direct(api, ids=["t1_top", "t1_r1"], kinds=("comment",))
@@ -482,7 +635,7 @@ class Modes(ThreadCase):
         self.assertEqual(X.thread_candidates(self.conn)[0], "t3_old")
         self.assertEqual(len(X.thread_candidates(self.conn, limit=2)), 2)
 
-    def test_schema_applies_twice_and_comment_mode_needs_no_chunks_table(self):
+    def test_schema_applies_twice_and_counts_extract_chunks_as_part_of_v6(self):
         with open(os.path.join(ROOT, "extract_v6_schema.sql"), encoding="utf-8") as f:
             sql = f.read()
         for _ in range(2):
@@ -490,17 +643,15 @@ class Modes(ThreadCase):
                 cur.execute(sql)
             self.conn.commit()
         self.assertEqual(self.q("select count(*) from pg_indexes where tablename = 'extract_chunks'"), [(3,)])
+        self.assertTrue(X.schema_ready(self.conn))
+        # Every mode collects either kind of batch, so a database without the
+        # table is not ready for any v6 run.
         with self.conn.cursor() as cur:
             cur.execute("drop table extract_chunks")
         self.conn.commit()
-        X.require_schema(self.conn)
+        self.assertFalse(X.schema_ready(self.conn))
         with self.assertRaises(X.SchemaMissing):
-            X.require_schema(self.conn, thread=True)
-        with F.FakeAnthropic() as api:
-            self.comment_direct(api, kinds=("comment",), ids=["t1_top"])
-            base.Batches.run_batch(self, api, kinds=("comment",), ids=["t1_r1"])
-        self.assertEqual(len(api.requests) + len(api.batch_requests), 2)
-
+            X.require_schema(self.conn)
 
 if __name__ == "__main__":
     unittest.main()

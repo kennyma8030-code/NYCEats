@@ -40,9 +40,16 @@ As decided with the owner, in `thread_chunks.py`:
   to the hard max of 25 comments. `--chunk-comments`, `--chunk-tokens` and
   `--chunk-max` set them.
 - Only a group over 25 comments is **split**, depth-first, and only between
-  branches; a branch that alone is over 25 is split inside it. The comment
-  whose branches were split goes at the head of the chunk with its first
-  replies, not alone at the end of the one before.
+  branches; a branch that alone is over 25 is split inside it. A comment
+  whose branches were split always shares a chunk with the start of its
+  first reply branch: the packer carries it forward, and that branch's first
+  piece is cut small enough to leave room for it and any split comments
+  above it (only a chain of split comments as long as the hard max cannot
+  all travel together, and is cut there).
+- A **one-comment chunk** in a thread that has other chunks joins the chunk
+  before it, or else the one after, when the hard max allows (the soft
+  budget gives way by that one comment), so a request is never spent on one
+  comment that could have gone with its neighbours.
 - Only **due** items count and are numbered (the same QUEUED rule as comment
   mode). A comment already done under v6, or `[deleted]`/`[removed]`/blank,
   is never an item; it appears only as context when a due reply hangs under it.
@@ -129,11 +136,16 @@ import needed fixing (the file loads `v6_common.py` from its own folder).
 - **`extract_chunks`**: one row per chunk: id (the batch custom_id), thread,
   prompt hash, effort, whether the post was `[0]`, members in bracket order,
   quoted context ids, generation, the chunk it was split from, status
-  (`queued`, `batched`, `done`, `failed`, `dropped`), `fallback`, batch id,
+  (`queued`, `batched`, `done`, `failed`, `dropped`), `fallback` (its
+  failure sent its items out alone), `attempts` (times sent), batch id,
   error, bad ids, the whole answer, usage, cost, timestamps. A chunk and its
-  items commit in one transaction; if the database refuses one item, the
-  chunk's row is committed on its own and the items are retried one at a
-  time, as in comment mode.
+  items commit in one transaction. If the database refuses any of it, the
+  chunk is written again on its own: its row with the whole answer, then
+  each item alone, as comment mode does (a refused item is owed a retry, then
+  parked with `store_error`). If even the row cannot be kept (an output
+  Postgres will not store, such as a `\u0000` in a note), the chunk counts as
+  failed with `store_error` and is split, its stored items stay done, and the
+  batch is still marked collected.
 - **One cursor**: both modes read and write `extraction_state` under the
   same advisory lock, so they never both extract an item. Items in a thread
   batch carry its id, so comment mode cannot take them. `live_mentions`'
@@ -142,17 +154,39 @@ import needed fixing (the file loads `v6_common.py` from its own folder).
 
 ## Failures
 
-A chunk that stops at `max_tokens`, refuses, returns invalid JSON, or errors
-or expires inside a batch is recorded as failed and split in half (the post
-stays in the first half); both halves are queued in `extract_chunks`. A half
-that fails too is marked `fallback`, and its items go out one at a time in
-comment and post mode, where they get comment mode's own retry and are then
-parked with a coded `extract_error`. A failed chunk's cost stays on its row.
-No due item is left without a row saying what happened to it. The direct
-path does all of this in the same run, page by page; the batch path sends
-the halves and the items alone in the next sub-batches of the same run, and a
-re-run picks up anything still queued, retries first. A queued half whose
-items were all extracted since is marked `dropped`.
+- **Because of the chunk** (it stops at `max_tokens`, refuses, returns
+  invalid JSON, or its answer cannot be stored): recorded as failed and split
+  in half (the post stays in the first half); both halves are queued in
+  `extract_chunks`. A half that fails too is marked `fallback`, and its items
+  go out one at a time in comment and post mode, where they get comment
+  mode's own retry and are then parked with a coded `extract_error`.
+- **Not because of the chunk** (a batch request that expired, was canceled,
+  is missing, or errored with `overloaded_error`, `api_error` and the like):
+  the chunk is queued again as it was, same id, with the reason in `error`.
+  Nothing is split and nothing goes out alone. It goes out again in the same
+  run while it has been sent fewer than twice in all (`CHUNK_SENDS_PER_RUN`),
+  else it waits, still queued, for the next run. An `invalid_request_error`
+  still stops the run, as in comment mode.
+- **Going alone applies once.** It is written on each item's own cursor row,
+  which then carries comment or post mode's hash (and no extraction) until
+  the item is done or parked; a thread-mode run sends such an item alone. The
+  chunk row's `fallback` is only a record, so nothing routes items alone for
+  ever: once the item is settled the mark is gone with it, and `--reset-hash`
+  of that hash clears it. `--retry-errors` on a parked item that went alone
+  sends it alone again (it failed alone; that is the retry it is owed).
+- **Retiring.** Every run that writes first marks `dropped` each queued chunk
+  none of whose items is still due (extracted since in either mode, deleted,
+  or parked), so `--status` no longer shows such a chunk as owed. A queued
+  chunk whose items are only waiting in the run's own queue is left queued.
+  `--reset-hash H` also drops H's queued chunks, so reset items start afresh.
+
+A failed chunk's cost stays on its row. No due item is left without a row
+saying what happened to it. The direct path does all of this in the same run,
+page by page; the batch path sends the halves, the chunks sent again and the
+items alone in the next sub-batches of the same run, and a re-run picks up
+anything still queued, retries first. A stopped run says how many items were
+built and not sent, in how many threads, and how many threads it never
+reached.
 
 ## Batches
 
@@ -189,9 +223,11 @@ sizes are refused in comment mode, which runs as benchmarked.
 `extract_chunks` and its two indexes are new, at the end of the mirrored v6
 block in `extract_v6_schema.sql` and `schema.sql`, guarded like the rest
 (`create table if not exists`, indexes behind `to_regclass` checks,
-`lock_timeout` 5 s). A new table takes no lock anything else waits on. It
-needs applying before any thread-mode run (thread mode refuses to start
-without it; comment mode does not need it):
+`lock_timeout` 5 s). A new table takes no lock anything else waits on.
+`schema_ready` now counts it as part of v6, because any run (comment mode
+too) may collect a thread batch, so **every `extract_v6.py` run refuses until
+it is applied**, and the poller's v6 pass skips until its boot applies
+`schema.sql`. Apply it before deploying this branch:
 
 ```
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f extract_v6_schema.sql; echo "exit $?"
@@ -276,27 +312,32 @@ adds $0.05 in all.
 
 | run | slice | effort | chunks | items numbered | graded | expected | uncached | worst case | cap |
 |---|---|---|---:|---:|---:|---:|---:|---:|---:|
-| fresh-med32k | fresh | medium | 300 | 3,877 | 430 | $0.80 | $1.01 | $2.78 | $1.40 |
-| fresh-low | fresh | low | 300 | 3,877 | 430 | $0.55 | $0.76 | $2.78 | $0.95 |
+| fresh-med32k | fresh | medium | 300 | 3,883 | 430 | $0.80 | $1.01 | $2.78 | $1.25 |
+| fresh-low | fresh | low | 300 | 3,883 | 430 | $0.55 | $0.76 | $2.78 | $0.95 |
 | v1-med32k | v1 | medium | 35 | 434 | 434 | $0.09 | $0.11 | $0.32 | $0.20 |
 | v1-low | v1 | low | 35 | 434 | 434 | $0.06 | $0.09 | $0.32 | $0.15 |
-| v2half-med32k | v2half | medium | 197 | 2,666 | 302 | $0.54 | $0.68 | $1.83 | $1.10 |
+| v2half-med32k | v2half | medium | 197 | 2,672 | 302 | $0.54 | $0.68 | $1.83 | $0.95 |
 | big-med32k | big | medium | 67 | 873 | 873 | $0.18 | $0.23 | $0.62 | $0.40 |
-| recent-med32k | recent | medium | 73 | 712 | 712 | $0.16 | $0.21 | $0.67 | $0.35 |
-| big-med32k-c12 | big | medium, soft 12 | 82 | 873 | 873 | $0.19 | $0.25 | $0.76 | $0.45 |
-| **total** | | | 1,089 | 13,746 | 4,488 | **$2.58** | $3.34 | $10.09 | **$5.00** |
+| recent-med32k | recent | medium | 70 | 712 | 712 | $0.16 | $0.21 | $0.65 | $0.35 |
+| big-med32k-c12 | big | medium, soft 12 | 79 | 873 | 873 | $0.19 | $0.25 | $0.73 | $0.45 |
+| big-med32k-c25 | big | medium, soft 25 | 42 | 873 | 873 | $0.16 | $0.19 | $0.39 | $0.30 |
+| **total** | | | 1,125 | 14,637 | 5,361 | **$2.73** | $3.52 | $10.43 | **$5.00** |
 
 That is below the orchestrator's $4.04, mostly because the fresh chunks come
 out at 13 items, not 25. The output model leans high (dense chunks), so the
-real bill should be at or under "expected". Each cap is about 1.75 times its
-run's expected cost, and the caps sum to $5.00. A cap below a run's worst case
-still runs, in smaller sub-batches one turnaround after another, so a run
-may take several batch turnarounds.
+real bill should be at or under "expected". Each cap is 1.6 to 2.2 times its
+run's expected cost, and the caps sum to $5.00. A cap below a run's worst
+case still runs, in smaller sub-batches one turnaround after another, so a
+run may take several batch turnarounds.
 
-Optional, not in the owner's plan: `big-med32k-c25` (`--chunk-comments 25`,
-42 chunks, $0.16 expected, $0.39 worst) measures whether bigger chunks are
-cheaper per comment, which is the question the $95 turns on. To fit it under
-$5.00, cap fresh-med32k at $1.25 and v2half-med32k at $0.95 and give it $0.30.
+`big-med32k-c25` (`--chunk-comments 25`) is the run I proposed: it measures
+whether bigger chunks are cheaper per comment, which is the question the $95
+turns on. Its $0.30 came out of fresh-med32k's and v2half-med32k's margins.
+The packer fix (split comments kept with their first replies, one-comment
+chunks joined to a neighbour) changed the plan only a little: recent 73 to
+70 chunks, big at soft 12 82 to 79, a few more items in the fresh and v2half
+chunks (singletons merged in), and $0.01 less in all before c25. The slices
+were rebuilt read-only and came out identical.
 
 ### Commands, in order
 
@@ -312,14 +353,15 @@ python eval/thread_v6/review.py finals             # rebuild round 4's key; must
 R="python eval/run.py --api anthropic --model claude-haiku-5-5 --mode thread --schema --cache --max-tokens 32000 --batch --key-file KEYFILE --key-var EXTRACT_ANTHROPIC_API_KEY"
 S=eval/thread_v6/slices
 L=eval/thread_v6/ledgers
-$R --threads $S/fresh.threads.jsonl  --reasoning medium --tag fresh-med32k   --budget-file $L/fresh-med32k.json   --budget 1.40
+$R --threads $S/fresh.threads.jsonl  --reasoning medium --tag fresh-med32k   --budget-file $L/fresh-med32k.json   --budget 1.25
 $R --threads $S/fresh.threads.jsonl  --reasoning low    --tag fresh-low      --budget-file $L/fresh-low.json      --budget 0.95
 $R --threads $S/v1.threads.jsonl     --reasoning medium --tag v1-med32k      --budget-file $L/v1-med32k.json      --budget 0.20
 $R --threads $S/v1.threads.jsonl     --reasoning low    --tag v1-low         --budget-file $L/v1-low.json         --budget 0.15
-$R --threads $S/v2half.threads.jsonl --reasoning medium --tag v2half-med32k  --budget-file $L/v2half-med32k.json  --budget 1.10
+$R --threads $S/v2half.threads.jsonl --reasoning medium --tag v2half-med32k  --budget-file $L/v2half-med32k.json  --budget 0.95
 $R --threads $S/big.threads.jsonl    --reasoning medium --tag big-med32k     --budget-file $L/big-med32k.json     --budget 0.40
 $R --threads $S/recent.threads.jsonl --reasoning medium --tag recent-med32k  --budget-file $L/recent-med32k.json  --budget 0.35
 $R --threads $S/big.threads.jsonl    --reasoning medium --tag big-med32k-c12 --chunk-comments 12 --budget-file $L/big-med32k-c12.json --budget 0.45
+$R --threads $S/big.threads.jsonl    --reasoning medium --tag big-med32k-c25 --chunk-comments 25 --budget-file $L/big-med32k-c25.json --budget 0.30
 ```
 
 Each writes `eval/runs/claude-haiku-5-5__ac9b063da8e6__thread__<tag>_schema.jsonl`
@@ -327,7 +369,7 @@ Each writes `eval/runs/claude-haiku-5-5__ac9b063da8e6__thread__<tag>_schema.json
 command resumes. Then, with no API:
 
 ```
-python eval/thread_v6/review.py cost RUN(fresh-med32k) RUN(fresh-low) ... RUN(big-med32k-c12)   # $/1k comments, output fit
+python eval/thread_v6/review.py cost RUN(fresh-med32k) RUN(fresh-low) ... RUN(big-med32k-c25)   # $/1k comments, output fit
 python eval/thread_v6/review.py provisional RUN(fresh-med32k) RUN(fresh-low)    # against round 4's finals, before judging
 python eval/thread_v6/score_gold.py v1 RUN(v1-med32k) RUN(v1-low)
 python eval/thread_v6/score_gold.py v2half RUN(v2half-med32k) --baseline eval/runs/claude-haiku-5-5__979dcd6b9267__comment__bench6-med-r4_schema.jsonl
@@ -341,7 +383,7 @@ python eval/thread_v6/review.py posts RUN(recent-med32k) --postreview DIR_WITH_b
 
 `--baseline` in `score_gold.py` narrows to the comments every run covers;
 round 4's comment runs saw only part of v2, so that comparison is on the
-overlap. `big-med32k` against `big-med32k-c12` compares by `review.py cost`
+overlap. `big-med32k` against `big-med32k-c12` and `-c25` compares by `review.py cost`
 (per 1,000 comments, and the fitted fixed and per-item output) and by the
 judged sample. Put the fit from all the runs into
 `anthropic_v6.THREAD_OUTPUT` before the production dry run prices the
@@ -370,6 +412,14 @@ backlog.
   everywhere else.
 - **Equal cost shares.** Each item gets an equal share of its chunk's cost;
   splitting by text length is easy if per-comment cost matters.
+- **Follow-ups from the review, not done.** `run_batch_threads`,
+  `_direct_chunks` and `_submit_chunks` repeat much of `run_batch`,
+  `_direct_page` and `_submit`; they could share one loop over "requests"
+  (an item or a chunk). And `build_thread_jobs` builds each thread's `Tree`
+  once and `thread_chunks.chunk_thread` builds it again.
+- **A chunk that keeps expiring** is sent again on every run (twice in the
+  first), never split and never parked, since expiry says nothing about the
+  chunk. If one ever loops, `--status` shows it queued with its error.
 - **The eval/ tree.** It is copied from `origin/extraction-v6` (minus
   `runs/`, `v4/`, `baseline/`, `labels/`, `results/`, the rejudge), with two
   changes: `eval/budget.py` now locks its ledger on Windows too (it used
@@ -381,18 +431,23 @@ backlog.
 
 `TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:55461/threadtest python -m pytest tests`
 against a throwaway Postgres 18 with pgvector (Docker image
-`pgvector/pgvector:pg18`): **402 passed, 3 skipped** (the three skips are the
-embedding tests that need the benchmark's local cache). New:
+`pgvector/pgvector:pg18`): **412 passed, 3 skipped** (the three skips are the
+embedding tests that need the benchmark's local cache). Without a database,
+the database tests skip. New:
 
-- `tests/test_thread_chunks.py` (18, no database): grouping and packing by
+- `tests/test_thread_chunks.py` (20, no database): grouping and packing by
   count and tokens, a big group whole up to 25, splitting only between
   branches and inside an oversized branch, the split comment carried to its
-  replies, orphans, cycles, done and deleted comments as context only, a
-  20-deep chain quoted in full, chains stopping at members with reply markers,
-  the post as `[0]` of the first chunk only and its 4,000 cut, a post-only
-  chunk, halves keeping the post, and 300 random trees checking that every due
-  item lands in exactly one chunk under the hard max.
-- `tests/test_extract_v6_thread_db.py` (22): every due item once with the
+  replies, a carried comment never flushed alone when its first branch is
+  full, 400 random bushy trees checking that every split comment shares a
+  chunk with its first reply and that a one-comment chunk appears only when
+  both neighbours are full, orphans, cycles, done and deleted comments as
+  context only, a 20-deep chain quoted in full, chains stopping at members
+  with reply markers, the post as `[0]` of the first chunk only and its
+  4,000 cut, a post-only chunk, halves keeping the post, and 300 random
+  trees checking that every due item lands in exactly one chunk under the
+  hard max.
+- `tests/test_extract_v6_thread_db.py` (30): every due item once with the
   thread hash, the request on the wire, attribution, the post written in post
   mode's row shape, cost shares summing exactly; a post done in post mode
   left as context; `--scope comments`; comment-mode-done comments as context;
@@ -400,11 +455,16 @@ embedding tests that need the benchmark's local cache). New:
   split then sent alone; items alone failing twice and parking; the cap never
   exceeded at any moment (direct) and batch holds within the cap; one request
   per chunk; re-attach after a restart with nothing resubmitted; a comment-mode
-  run collecting a thread batch; a batch error split and retried in the same
-  run; a twice-failed half going out alone in its own batch; pending-none
-  requeueing chunks as recorded; `--reset-hash` on the thread hash leaving
-  comment rows alone; `live_mentions`; the dry run writing nothing; the CLI;
-  newest-first; the schema applied twice; comment mode working without
+  run collecting a thread batch; a batch error unrelated to size resending
+  the chunk as it was; a chunk that keeps expiring waiting for the next run
+  unsplit; a twice-failed half going out alone in its own batch; an answer
+  Postgres refuses (`\u0000`), in a batch (still collected) and direct;
+  pending-none requeueing chunks as recorded; items waiting in memory not
+  dropping their queued half, and held chunks; resolved queued chunks
+  retired; going alone applying once; `--reset-hash` dropping that prompt's
+  queued halves and leaving comment rows alone; a stopped run counting what
+  it did not send; `live_mentions`; the dry run writing nothing; the CLI;
+  newest-first; the schema applied twice and `schema_ready` requiring
   `extract_chunks`.
 - `tests/test_prompt_v6.py`: the vendored thread file pinned, equal to the
   branch's file with the listed additions, the prompt equal to round 4's

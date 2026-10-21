@@ -620,8 +620,11 @@ end $$;
 -- as numbered. It is also the retry queue: a chunk that fails is split in
 -- half and the halves wait here as 'queued' until a run sends them; a half
 -- that fails too is 'failed' with fallback set, and its items go out one at a
--- time in comment and post mode instead. A new table, so creating it takes no
--- lock anything else waits on.
+-- time in comment and post mode instead (each item's own extraction_state row
+-- says so, by carrying that mode's prompt hash, until it is settled). A chunk
+-- a batch did not answer for another reason (expired, an API error) is
+-- 'queued' again as it was. A queued chunk with nothing left due is retired as
+-- 'dropped'. A new table, so creating it takes no lock anything else waits on.
 create table if not exists extract_chunks (
   id           text primary key,          -- 'ch-' + 32 hex digits; the batch request's custom_id
   version      text not null,
@@ -635,7 +638,8 @@ create table if not exists extract_chunks (
   split_from   text,
   status       text not null default 'queued'
                check (status in ('queued', 'batched', 'done', 'failed', 'dropped')),
-  fallback     boolean not null default false,
+  fallback     boolean not null default false,  -- its failure sent its items out alone
+  attempts     int  not null default 0,          -- times it was sent
   batch_id     text,
   error        text,
   bad_ids      int,                        -- mentions dropped because their id names no item
@@ -655,7 +659,7 @@ begin
     create index extract_chunks_batch_idx on extract_chunks(batch_id) where batch_id is not null;
   end if;
   if to_regclass('extract_chunks_open_idx') is null then
-    create index extract_chunks_open_idx on extract_chunks(thread_id) where status = 'queued' or fallback;
+    create index extract_chunks_open_idx on extract_chunks(thread_id) where status = 'queued';
   end if;
 end $$;
 -- v6-extraction-schema:end

@@ -105,10 +105,13 @@ class SchemaMissing(SystemExit):
 
 
 def schema_ready(conn):
-    """True when extract_v6_schema.sql has been applied (schema.sql applies it on boot)."""
+    """True when extract_v6_schema.sql has been applied (schema.sql applies it on boot),
+    thread mode's extract_chunks included: every batch collection and
+    pending-batch settlement looks there, whichever mode submitted it."""
     with conn.cursor() as cur:
         cur.execute("""select to_regclass('extraction_state') is not null
                           and to_regclass('extract_batches') is not null
+                          and to_regclass('extract_chunks') is not null
                           and exists (select 1 from information_schema.columns
                                       where table_name = 'mentions' and column_name = 'schema_version'
                                         and table_schema = current_schema())""")
@@ -139,20 +142,10 @@ def unlock(conn):
     conn.commit()
 
 
-def require_schema(conn, thread=False):
+def require_schema(conn):
     if not schema_ready(conn):
-        raise SchemaMissing("v6 tables are missing: apply extract_v6_schema.sql first")
-    if thread and not chunks_ready(conn):
-        raise SchemaMissing("extract_chunks is missing: apply extract_v6_schema.sql again (thread mode adds it)")
-
-
-def chunks_ready(conn):
-    """True when thread mode's table is there. Comment and post mode never need it."""
-    with conn.cursor() as cur:
-        cur.execute("select to_regclass('extract_chunks') is not null")
-        ok = cur.fetchone()[0]
-    conn.commit()
-    return ok
+        raise SchemaMissing("v6 tables are missing: apply extract_v6_schema.sql first (thread mode added "
+                            "extract_chunks, so a database migrated before it needs the file once more)")
 
 
 # ---------------------------------------------------------------- spend
@@ -215,6 +208,7 @@ class Stats:
         # Thread mode: chunks answered, chunks that failed (split or sent on
         # alone), mentions dropped for an id naming no item, threads not reached.
         self.chunks = self.chunk_failures = self.bad_ids = self.threads_left = 0
+        self.threads_open = set()      # threads with chunks built in this run and not sent
         self.tokens = {"input_tokens": 0, "cache_creation_input_tokens": 0,
                        "cache_read_input_tokens": 0, "output_tokens": 0}
         self.cost = 0.0
@@ -236,7 +230,16 @@ class Stats:
 
 
 # ---------------------------------------------------------------- candidates
-QUEUED = "(s.item_id is null or (s.extracted_at is null and s.extract_error is null and s.batch_id is null))"
+def queued(alias):
+    """The SQL test that an item's cursor row (joined as `alias`, possibly
+    absent) leaves it due: no row, or a row not done, not parked and not in a
+    batch."""
+    a = alias
+    return (f"({a}.item_id is null or ({a}.extracted_at is null and {a}.extract_error is null "
+            f"and {a}.batch_id is null))")
+
+
+QUEUED = queued("s")
 
 
 def candidate_ids(conn, kind, limit=None, since=None, ids=None, max_chars=None, seen_since=None):
@@ -532,23 +535,17 @@ def _outcome(item, message, cost, stats):
         return Failed(item, str(e), usage, cost)
 
 
-def _write_counted(conn, entries, stats, log=print, before=None):
+def _write_counted(conn, entries, stats, log=print):
     """write() the entries and count them. Returns the ids now parked.
 
     If the database refuses a row (a check constraint, say), the whole chunk
     rolls back and is written again one item at a time, so the refusal parks
-    that item with the reason, and the run carries on. `before` (thread
-    mode's chunk records) is then committed on its own first, so an answer is
-    kept even when one of its items is refused."""
+    that item with the reason, and the run carries on."""
     try:
-        n, parked = write(conn, entries, before)
+        n, parked = write(conn, entries)
     except Exception:
         conn.rollback()
-        if before is not None:
-            with conn.cursor() as cur:
-                before(cur)
-            conn.commit()
-        elif len(entries) == 1:
+        if len(entries) == 1:
             raise
         parked = set()
         for e in entries:
@@ -954,10 +951,8 @@ def _chunks_requeue(cur, batch_id):
     """A thread-mode batch that never ran (a pending submission settled as
     none, a lost batch dropped by hand): its chunks go back to the queue as
     they were, so a half of a failed chunk is still sent as a half."""
-    cur.execute("select to_regclass('extract_chunks') is not null")
-    if cur.fetchone()[0]:
-        cur.execute("""update extract_chunks set status = 'queued', batch_id = null, updated_at = now()
-                       where batch_id = %s and status = 'batched'""", (batch_id,))
+    cur.execute("""update extract_chunks set status = 'queued', batch_id = null, updated_at = now()
+                   where batch_id = %s and status = 'batched'""", (batch_id,))
 
 
 # A pending row's batch, if the API made one, was created within this window
@@ -1036,9 +1031,7 @@ def resolve_pending(conn, pending_id, batch_id):
             if cur.rowcount != 1:
                 raise SystemExit(f"no pending batch {pending_id}")
             cur.execute("update extraction_state set batch_id = %s where batch_id = %s", (batch_id, pending_id))
-            cur.execute("select to_regclass('extract_chunks') is not null")
-            if cur.fetchone()[0]:
-                cur.execute("update extract_chunks set batch_id = %s where batch_id = %s", (batch_id, pending_id))
+            cur.execute("update extract_chunks set batch_id = %s where batch_id = %s", (batch_id, pending_id))
     conn.commit()
 
 
@@ -1057,13 +1050,27 @@ def resolve_pending(conn, pending_id, batch_id):
 # before. extract_chunks keeps each chunk's whole answer, and is the queue
 # for the retries below.
 #
-# A chunk that fails (max_tokens, refusal, invalid JSON, or an error or
-# expiry inside a batch) is split in half and both halves are queued; a half
-# that fails too sends its items one at a time in comment and post mode,
-# where an item is retried once more and then parked. No due item is ever
-# dropped without a row that says why.
+# A chunk whose answer is no use because of the chunk (max_tokens, refusal,
+# invalid JSON, or an answer the database will not store) is split in half
+# and both halves are queued; a half that fails too sends its items one at a
+# time in comment and post mode, where an item is retried once more and then
+# parked. A chunk a batch did not answer for other reasons (expired,
+# canceled, an API error) is sent again as it was. No due item is ever
+# dropped without a row that says why, and a queued chunk with nothing left
+# due is retired.
 THREAD_PAGE = 50              # threads read and chunked at a time
-QUEUED_P = QUEUED.replace("s.", "ps.")
+# Prompt hashes whose items go out one at a time even in a thread-mode run:
+# an item whose cursor row carries one was last tried alone (a chunk's half
+# failed and handed it over, or comment or post mode failed it once), and is
+# retried the same way until it is done or parked. The mark is the item's own
+# row, so it lasts exactly until the item is settled; --reset-hash removes it.
+ALONE_HASHES = (prompt_v6.PROMPT_HASH, prompt_v6.PROMPT_HASH_POST)
+# A chunk a batch hands back for a reason that is not its size or content
+# (expired, canceled, missing, an API error) is queued again as it was. It is
+# sent again in the same run while it has gone out fewer than this many times
+# in all; after that it waits, still queued, for the next run, which sends it
+# once more. It is never split or sent alone for such a reason.
+CHUNK_SENDS_PER_RUN = 2
 
 
 class ThreadOpts:
@@ -1080,11 +1087,11 @@ class ThreadOpts:
 class ChunkJob:
     """One thread-mode request: a chunk, rendered, with the bracket map its answer is read against."""
     __slots__ = ("id", "chunk", "user", "ids", "context", "effort", "generation", "split_from", "system",
-                 "prompt_hash")
+                 "prompt_hash", "attempts")
 
-    def __init__(self, cid, chunk, user, ids, context, effort, generation=0, split_from=None):
+    def __init__(self, cid, chunk, user, ids, context, effort, generation=0, split_from=None, attempts=0):
         self.id, self.chunk, self.user, self.ids, self.context = cid, chunk, user, ids, context
-        self.effort, self.generation, self.split_from = effort, generation, split_from
+        self.effort, self.generation, self.split_from, self.attempts = effort, generation, split_from, attempts
         self.system = prompt_v6.SYSTEM_PROMPT_THREAD
         self.prompt_hash = prompt_v6.PROMPT_HASH_THREAD
 
@@ -1092,11 +1099,11 @@ class ChunkJob:
     def from_row(cls, row):
         """A chunk as extract_chunks recorded it, for reading its answer: members
         are in bracket order, from [0] when the post was an item, else from [1]."""
-        cid, tid, post_item, members, generation, split_from, effort, ph = row
+        cid, tid, post_item, members, generation, split_from, effort, ph, attempts = row
         start = 0 if post_item else 1
         ids = {n: m for n, m in enumerate(members, start)}
         job = cls(cid, T.Chunk(tid, post_item, [m for m in members if m != tid]), None, ids, [], effort,
-                  generation, split_from)
+                  generation, split_from, attempts)
         job.prompt_hash = ph
         return job
 
@@ -1125,10 +1132,10 @@ def thread_candidates(conn, limit=None, since=None, ids=None, newest_first=False
     """r/FoodNYC threads with anything due, in processing order.
 
     Due means a comment due under v6 (the same QUEUED rule as comment mode),
-    or, when posts are items, the post itself. Threads that owe a retry
-    (a queued half, or items sent on alone) come first, then by the post's
-    created_utc, oldest first unless newest_first, so a capped run can spend
-    on recent months first. `since` is on the post's created_utc."""
+    or, when posts are items, the post itself. Threads with a queued chunk
+    (a retry owed) come first, then by the post's created_utc, oldest first
+    unless newest_first, so a capped run can spend on recent months first.
+    `since` is on the post's created_utc."""
     p = {"home": subreddits.HOME, "v": VERSION, "since": since, "ids": list(ids) if ids else None,
          "limit": limit, "posts": posts}
     order = "desc" if newest_first else "asc"
@@ -1138,13 +1145,13 @@ def thread_candidates(conn, limit=None, since=None, ids=None, newest_first=False
         where t.subreddit = %(home)s
           and (%(since)s::timestamptz is null or t.created_utc >= %(since)s::timestamptz)
           and (%(ids)s::text[] is null or t.id = any(%(ids)s::text[]))
-          and ((%(posts)s and {QUEUED_P})
+          and ((%(posts)s and {queued('ps')})
                or exists (select 1 from comments c
                           left join extraction_state s on s.item_id = c.id and s.version = %(v)s
                           where c.thread_id = t.id and c.subreddit = %(home)s
-                            and btrim(c.body) not in ('', '[deleted]', '[removed]') and {QUEUED}))
+                            and btrim(c.body) not in ('', '[deleted]', '[removed]') and {queued('s')}))
         order by exists (select 1 from extract_chunks k where k.thread_id = t.id and k.version = %(v)s
-                           and (k.status = 'queued' or k.fallback)) desc,
+                           and k.status = 'queued') desc,
                  t.created_utc {order}, t.id
         limit %(limit)s"""
     with conn.cursor() as cur:
@@ -1154,49 +1161,83 @@ def thread_candidates(conn, limit=None, since=None, ids=None, newest_first=False
     return out
 
 
-def _due_in(conn, tids):
-    """({thread_id: due comment ids}, due post ids) for these threads."""
+def retire_chunks(conn, log=print):
+    """Mark dropped every queued chunk with nothing left to do: none of its
+    items is still due (extracted since, in comment mode or another chunk;
+    deleted; or parked). A queued row is otherwise looked at only when its
+    thread has something due, so without this one whose work is done would
+    stay "a retry owed" for ever."""
     with conn.cursor() as cur:
-        cur.execute(f"""select c.thread_id, c.id from comments c
+        cur.execute(f"""
+            update extract_chunks k set status = 'dropped', updated_at = now(), finished_at = now()
+            where k.version = %(v)s and k.status = 'queued'
+              and not exists (
+                select 1 from unnest(k.members) as m(id)
+                left join extraction_state s on s.item_id = m.id and s.version = %(v)s
+                where {queued('s')}
+                  and (m.id = k.thread_id or exists (
+                        select 1 from comments c where c.id = m.id
+                          and btrim(c.body) not in ('', '[deleted]', '[removed]'))))""", {"v": VERSION})
+        n = cur.rowcount
+    conn.commit()
+    if n:
+        log(f"  {n} queued chunk(s) had nothing left due, dropped")
+    return n
+
+
+def _due_in(conn, tids):
+    """({thread_id: due comment ids}, due post ids, ids due to go out alone,
+    queued chunk rows) for these threads."""
+    with conn.cursor() as cur:
+        cur.execute(f"""select c.thread_id, c.id, s.prompt_hash from comments c
                         left join extraction_state s on s.item_id = c.id and s.version = %(v)s
                         where c.thread_id = any(%(t)s) and c.subreddit = %(home)s
-                          and btrim(c.body) not in ('', '[deleted]', '[removed]') and {QUEUED}""",
+                          and btrim(c.body) not in ('', '[deleted]', '[removed]') and {queued('s')}""",
                     {"v": VERSION, "t": list(tids), "home": subreddits.HOME})
-        comments = {}
-        for tid, cid in cur.fetchall():
+        comments, alone = {}, set()
+        for tid, cid, ph in cur.fetchall():
             comments.setdefault(tid, set()).add(cid)
-        cur.execute(f"""select t.id from threads t
+            if ph in ALONE_HASHES:
+                alone.add(cid)
+        cur.execute(f"""select t.id, ps.prompt_hash from threads t
                         left join extraction_state ps on ps.item_id = t.id and ps.version = %(v)s
-                        where t.id = any(%(t)s) and t.subreddit = %(home)s and {QUEUED_P}""",
+                        where t.id = any(%(t)s) and t.subreddit = %(home)s and {queued('ps')}""",
                     {"v": VERSION, "t": list(tids), "home": subreddits.HOME})
-        posts = {r[0] for r in cur.fetchall()}
-        cur.execute("""select id, thread_id, post_item, members, generation, split_from, status, fallback
-                       from extract_chunks where version = %s and thread_id = any(%s)
-                         and (status = 'queued' or (status = 'failed' and fallback))
+        posts = set()
+        for tid, ph in cur.fetchall():
+            posts.add(tid)
+            if ph in ALONE_HASHES:
+                alone.add(tid)
+        cur.execute("""select id, thread_id, post_item, members, generation, split_from, attempts
+                       from extract_chunks where version = %s and thread_id = any(%s) and status = 'queued'
                        order by created_at, id""", (VERSION, list(tids)))
         open_rows = cur.fetchall()
     conn.commit()
-    return comments, posts, open_rows
+    return comments, posts, alone, open_rows
 
 
-def _job(chunk, th, tree, effort, cid=None, generation=0, split_from=None):
+def _job(chunk, th, tree, effort, cid=None, generation=0, split_from=None, attempts=0):
     user, ids, ctx = T.render(chunk, th["title"], th["selftext"], th["comments"], tree)
-    return ChunkJob(cid or new_chunk_id(), chunk, user, ids, ctx, effort, generation, split_from)
+    return ChunkJob(cid or new_chunk_id(), chunk, user, ids, ctx, effort, generation, split_from, attempts)
 
 
-def build_thread_jobs(conn, tids, opts, exclude=(), write=True, log=print):
+def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=print):
     """(chunk jobs, [(kind, id)] to send alone) for these threads, in order.
 
-    Retries come first: items of a chunk that failed twice go out alone (in
-    comment or post mode); a queued half is sent as recorded, minus any item
-    no longer due. Everything else due is chunked afresh. `exclude` holds
-    items already queued in this run's memory, which must not be chunked a
-    second time. A queued half with nothing left to send is marked dropped
-    (unless write is False, as in a dry run)."""
+    Retries come first. A due item last tried alone (ALONE_HASHES) goes out
+    alone again, in comment or post mode. A queued chunk is sent as recorded,
+    minus any item no longer due; one whose items are all no longer due is
+    marked dropped (unless write is False, as in a dry run). Everything else
+    due is chunked afresh.
+
+    `exclude` holds items already waiting in this run's memory, and `hold` the
+    queued chunks this run will not send again: their items are claimed, so
+    they are neither chunked a second time nor taken for done, and their rows
+    stay queued."""
     rows = prompt_v6.fetch_thread_rows(conn, tids)
-    due_c, due_p, open_rows = _due_in(conn, tids)
+    due_c, due_p, due_alone, open_rows = _due_in(conn, tids)
     conn.commit()
-    exclude = set(exclude)
+    exclude, hold = set(exclude), set(hold)
     jobs, alone, dropped = [], [], []
     by_thread = {}
     for r in open_rows:
@@ -1205,32 +1246,30 @@ def build_thread_jobs(conn, tids, opts, exclude=(), write=True, log=print):
         th = rows.get(tid)
         if th is None:
             continue
-        dc = due_c.get(tid, set()) - exclude
-        dp = opts.posts and tid in due_p and tid not in exclude
-        claimed = set()
-        open_ = by_thread.get(tid, [])
-        for cid, _, post_item, members, _, _, status, fallback in open_:
-            if status == "failed" and fallback:
-                for i in members:
-                    if i not in claimed and (i in dc or (i == tid and dp)):
-                        alone.append(("post" if i == tid else "comment", i))
-                        claimed.add(i)
-        tree = T.Tree(th["comments"])
-        for cid, _, post_item, members, generation, split_from, status, _ in open_:
-            if status != "queued":
-                continue
-            mem = [i for i in members if i != tid and i in dc and i not in claimed]
-            post = bool(post_item) and dp and tid not in claimed
-            if not mem and not post:
+        due = set(due_c.get(tid, set())) | ({tid} if opts.posts and tid in due_p else set())
+        claimed = set(exclude)
+        for i in sorted((due & due_alone) - claimed, key=lambda x: (x != tid, x)):
+            alone.append(("post" if i == tid else "comment", i))
+            claimed.add(i)
+        tree = None
+        for cid, _, post_item, members, generation, split_from, attempts in by_thread.get(tid, []):
+            mine = [i for i in members if i in due and (i != tid or post_item)]
+            if not mine:
                 dropped.append(cid)
                 continue
-            claimed |= set(mem) | ({tid} if post else set())
-            jobs.append(_job(T.Chunk(tid, post, mem), th, tree, opts.effort, cid, generation, split_from))
-        rest = dc - claimed
-        post = dp and tid not in claimed
-        if rest or post:
+            send = [i for i in mine if i not in claimed]
+            claimed |= set(mine)
+            if cid in hold or not send:
+                continue                  # its items wait in memory or for the next run; the row stays queued
+            tree = tree or T.Tree(th["comments"])
+            jobs.append(_job(T.Chunk(tid, tid in send, [i for i in send if i != tid]), th, tree, opts.effort, cid,
+                             generation, split_from, attempts))
+        rest = due - claimed
+        if rest:
+            post = tid in rest
+            tree = tree or T.Tree(th["comments"])
             ptoks = T.text_tokens(f"{th['title'] or ''} {th['selftext'] or ''}", R_POST_CHARS) if post else 0.0
-            for ch in T.chunk_thread(tid, th["comments"], rest, post, ptoks, opts.soft_comments,
+            for ch in T.chunk_thread(tid, th["comments"], rest - {tid}, post, ptoks, opts.soft_comments,
                                      opts.soft_tokens, opts.max_comments):
                 jobs.append(_job(ch, th, tree, opts.effort))
     if dropped and write:
@@ -1246,19 +1285,22 @@ R_POST_CHARS = prompt_v6.thread.POST_ITEM_CHARS
 
 
 def _chunk_record(job, status, batch_id=None, output=None, usage=None, cost=None, error=None, bad=None,
-                  fallback=False):
-    """One extract_chunks row's values, in _CHUNK_COLUMNS order."""
+                  fallback=False, attempts=0):
+    """One extract_chunks row's values, in _CHUNK_COLUMNS order. attempts only
+    ever raises the row's count (a direct send passes 1; a batch counts its
+    sends at submit)."""
     return (job.id, VERSION, job.chunk.thread_id, job.prompt_hash, job.effort, job.chunk.post_item, job.members,
             job.context, job.generation, job.split_from, status, fallback, batch_id, error, bad,
-            Json(output) if output is not None else None, Json(usage) if usage is not None else None, cost)
+            Json(output) if output is not None else None, Json(usage) if usage is not None else None, cost,
+            attempts)
 
 
 _CHUNK_COLUMNS = ("id", "version", "thread_id", "prompt_hash", "effort", "post_item", "members", "context_ids",
                   "generation", "split_from", "status", "fallback", "batch_id", "error", "bad_ids", "output",
-                  "usage", "cost_usd")
+                  "usage", "cost_usd", "attempts")
 # Every column is taken from the values, except the record of what was sent
 # (members, context), which a batch's own row already holds when its answer
-# is collected without the rendering.
+# is collected without the rendering, and attempts, which only grows.
 _CHUNK_UPSERT = f"""
     insert into extract_chunks ({', '.join(_CHUNK_COLUMNS)}) values %s
     on conflict (id) do update set
@@ -1268,8 +1310,8 @@ _CHUNK_UPSERT = f"""
                          then excluded.context_ids else extract_chunks.context_ids end,
       status = excluded.status, fallback = excluded.fallback, batch_id = excluded.batch_id,
       error = excluded.error, bad_ids = excluded.bad_ids, output = excluded.output, usage = excluded.usage,
-      cost_usd = excluded.cost_usd, updated_at = now(),
-      finished_at = case when excluded.status in ('done', 'failed') then now() end"""
+      cost_usd = excluded.cost_usd, attempts = greatest(extract_chunks.attempts, excluded.attempts),
+      updated_at = now(), finished_at = case when excluded.status in ('done', 'failed') then now() end"""
 
 
 def _upsert_chunks(cur, records):
@@ -1309,30 +1351,92 @@ def _read_chunk(job, message, cost, stats, log):
     return "done", entries, (out, usage, len(bad))
 
 
-def _store_chunk_answers(conn, answers, stats, log, batch_id=None):
+def _counted(stats, entries, n, parked):
+    stats.mentions += n
+    for e in entries:
+        if isinstance(e, Done):
+            stats.done += 1
+        else:
+            stats.failed += 1
+    stats.parked += len(parked)
+
+
+def _store_chunk_answers(conn, answers, stats, log, batch_id=None, attempts=0):
     """Write answered chunks: their extract_chunks rows and every item's
-    mentions and state row, in one transaction per WRITE_CHUNK items or so."""
-    group, n = [], 0
+    mentions and state row, in one transaction per WRITE_CHUNK items or so.
+    If the database refuses any of it, each chunk of the group is written
+    again on its own (_store_chunk_alone). Returns the thread ids that owe a
+    retry because a chunk's answer could not be kept."""
+    group, n, retry = [], 0, set()
     for a in answers + [None]:
         if a is not None:
             group.append(a)
             n += len(a[1])
         if group and (a is None or n >= WRITE_CHUNK):
-            recs = [_chunk_record(job, "done", batch_id, out, usage, cost, bad=bad)
+            recs = [_chunk_record(job, "done", batch_id, out, usage, cost, bad=bad, attempts=attempts)
                     for job, _, (out, usage, bad), cost in group]
-            _write_counted(conn, [e for _, es, _, _ in group for e in es], stats, log,
-                           before=lambda cur, recs=recs: _upsert_chunks(cur, recs))
-            stats.chunks += len(group)
+            entries = [e for _, es, _, _ in group for e in es]
+            try:
+                written, parked = write(conn, entries, before=lambda cur, recs=recs: _upsert_chunks(cur, recs))
+            except Exception:
+                conn.rollback()
+                for one in group:
+                    retry |= _store_chunk_alone(conn, one, stats, log, batch_id, attempts)
+            else:
+                _counted(stats, entries, written, parked)
+                stats.chunks += len(group)
             group, n = [], 0
+    return retry
 
 
-def _chunk_failed(conn, job, code, usage, cost, log, batch_id=None):
-    """Record a chunk that got no usable answer, and queue what comes next:
-    its two halves, or (a half, or a chunk of one item) its items alone.
-    In a batch its items are detached from it, so they are due again and the
-    queued rows claim them. Returns the thread id, which owes a retry."""
+def _store_chunk_alone(conn, answer, stats, log, batch_id, attempts):
+    """One chunk whose answer the database refused somewhere. Its record and
+    its items are tried together once more; then the record alone, and each
+    item alone, as comment mode does (an item the database refuses is owed a
+    retry, then parked with store_error). If the record itself cannot be kept
+    (its output holds something Postgres will not store), the chunk counts as
+    failed with a store error and is split like an unusable answer: its items
+    that did store are done, the rest go out in its halves."""
+    job, entries, (out, usage, bad), cost = answer
+    rec = _chunk_record(job, "done", batch_id, out, usage, cost, bad=bad, attempts=attempts)
+    try:
+        written, parked = write(conn, entries, before=lambda cur: _upsert_chunks(cur, [rec]))
+    except Exception:
+        conn.rollback()
+    else:
+        _counted(stats, entries, written, parked)
+        stats.chunks += 1
+        return set()
+    why = None
+    try:
+        with conn.cursor() as cur:
+            _upsert_chunks(cur, [rec])
+        conn.commit()
+    except Exception as err:
+        conn.rollback()
+        why = err
+    for e in entries:
+        _store_one(conn, e, stats, log)
+    if why is None:
+        stats.chunks += 1
+        return set()
+    log(f"  chunk {job.id} ({job.chunk.thread_id}): its answer could not be stored "
+        f"({type(why).__name__}: {str(why)[:120]})")
+    stats.chunk_failures += 1
+    return {_chunk_failed(conn, job, f"store_error: {type(why).__name__}: {why}", usage, cost, log, batch_id,
+                          attempts=attempts)}
+
+
+def _chunk_failed(conn, job, code, usage, cost, log, batch_id=None, attempts=0):
+    """Record a chunk that got no usable answer (cut off, refused, not JSON,
+    or not storable), and queue what comes next: its two halves, or, for a
+    half or a chunk of one item, its items alone. "Alone" is written on each
+    item's own cursor row (the comment- or post-mode hash, ALONE_HASHES), so it
+    applies until that item is settled and no longer. In a batch the items
+    are detached from it, so they are due again. Returns the thread id."""
     halves = T.split_half(job.chunk) if job.generation == 0 and len(job.chunk) > 1 else []
-    rec = _chunk_record(job, "failed", batch_id, None, usage, cost, error=str(code)[:500], fallback=not halves)
+    rec = _chunk_record(job, "failed", batch_id, None, usage, cost, error=str(code)[:500], fallback=not halves,
+                        attempts=attempts)
     with conn.cursor() as cur:
         _upsert_chunks(cur, [rec])
         for h in halves:
@@ -1343,10 +1447,38 @@ def _chunk_failed(conn, job, code, usage, cost, log, batch_id=None):
             cur.execute("""update extraction_state set batch_id = null, updated_at = now()
                            where version = %s and batch_id = %s and item_id = any(%s)""",
                         (VERSION, batch_id, job.members))
+        if not halves:
+            its = job.items()
+            cur.execute("""
+                insert into extraction_state (item_id, version, kind, prompt_hash, model)
+                select u.item_id, %(v)s, u.kind, u.ph, %(model)s
+                from unnest(%(ids)s::text[], %(kinds)s::text[], %(hashes)s::text[]) as u(item_id, kind, ph)
+                on conflict (item_id, version) do update set
+                  prompt_hash = excluded.prompt_hash, batch_id = null, updated_at = now()
+                where extraction_state.extracted_at is null and extraction_state.extract_error is null""",
+                        {"v": VERSION, "model": prompt_v6.MODEL, "ids": [it.id for it in its],
+                         "kinds": [it.kind for it in its],
+                         "hashes": [prompt_v6.PROMPT_HASH_POST if it.kind == "post" else prompt_v6.PROMPT_HASH
+                                    for it in its]})
     conn.commit()
     log(f"  chunk {job.id} ({job.chunk.thread_id}, {len(job.chunk)} items) failed ({str(code)[:80]}): "
         + (f"split into {len(halves)} halves" if halves else "its items go out one at a time"))
     return job.chunk.thread_id
+
+
+def _chunk_again(conn, job, code, batch_id, log):
+    """A batch handed the chunk back for a reason that is not its size or its
+    content (expired, canceled, missing, an API error): it is queued again as
+    it was, its items detached and due, with the reason kept. Not a failure:
+    nothing is split and nothing goes out alone."""
+    with conn.cursor() as cur:
+        cur.execute("""update extract_chunks set status = 'queued', batch_id = null, error = %s, updated_at = now()
+                       where id = %s""", (str(code)[:500], job.id))
+        cur.execute("""update extraction_state set batch_id = null, updated_at = now()
+                       where version = %s and batch_id = %s and item_id = any(%s)""",
+                    (VERSION, batch_id, job.members))
+    conn.commit()
+    log(f"  chunk {job.id} ({job.chunk.thread_id}) came back {str(code)[:80]}: queued again as it was")
 
 
 def run_direct_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, newest_first=False,
@@ -1356,37 +1488,51 @@ def run_direct_threads(conn, cl, budget, opts, limit=None, since=None, ids=None,
     Each page's chunks go out `workers` at a time; then the halves of any that
     failed, then their items alone if a half failed too, before the next page.
     Holds, Ctrl-C and stopping on a fatal or lasting transient error work as
-    in comment mode (_direct_page)."""
+    in comment mode (_direct_page). When it stops, stats counts what was not
+    sent: the items of chunks built and not sent (refused, threads_open) and
+    the threads never reached (threads_left)."""
     stats = stats or Stats()
     stop, capped = threading.Event(), threading.Event()
+    retire_chunks(conn, log)
     tids = thread_candidates(conn, limit, since, ids, newest_first, opts.posts)
     log(f"{len(tids):,} thread(s) with items due, cap ${budget.max:.2f}")
     for start in range(0, len(tids), THREAD_PAGE):
         todo = tids[start:start + THREAD_PAGE]
         after = len(tids) - start - len(todo)
-        for _ in range(4):               # fresh chunks, halves, items alone, and a margin
-            jobs, alone = build_thread_jobs(conn, todo, opts, log=log)
-            if alone:
-                items = []
-                for kind in KINDS:
-                    ids_k = [i for k, i in alone if k == kind]
-                    items += render_items(conn, kind, ids_k) if ids_k else []
-                _direct_page(conn, cl, budget, items, workers, stats, stop, capped, log)
-            if not stop.is_set() and jobs:
-                todo = sorted(_direct_chunks(conn, cl, budget, jobs, workers, stats, stop, capped, log))
-            else:
-                todo = []
-            if stop.is_set():
-                stats.threads_left += after
-                return stats
-            if not todo:
-                break
+        try:
+            for _ in range(4):               # fresh chunks, halves, items alone, and a margin
+                jobs, alone = build_thread_jobs(conn, todo, opts, log=log)
+                if alone:
+                    items = []
+                    for kind in KINDS:
+                        ids_k = [i for k, i in alone if k == kind]
+                        items += render_items(conn, kind, ids_k) if ids_k else []
+                    # _direct_page counts the items the cap left unsent in stats.refused.
+                    _direct_page(conn, cl, budget, items, workers, stats, stop, capped, log)
+                if stop.is_set():
+                    stats.refused += sum(len(j.chunk) for j in jobs)
+                    stats.threads_open |= {j.chunk.thread_id for j in jobs}
+                    todo = []
+                elif jobs:
+                    todo = sorted(_direct_chunks(conn, cl, budget, jobs, workers, stats, stop, capped, log))
+                else:
+                    todo = []
+                if stop.is_set():
+                    stats.threads_open |= set(todo)          # a retry built and never sent
+                    stats.threads_left += after
+                    return stats
+                if not todo:
+                    break
+        except BaseException:
+            stats.threads_left += after
+            raise
     return stats
 
 
 def _direct_chunks(conn, cl, budget, jobs, workers, stats, stop, capped, log):
     """Send chunk jobs concurrently under the cap; store each answer on this
-    thread. Returns the thread ids that owe a retry."""
+    thread. Returns the thread ids that owe a retry. A chunk not sent (the cap,
+    or a stop) is counted in stats.refused and its thread in threads_open."""
     def work(job):
         if stop.is_set():
             return job, "skipped", 0.0
@@ -1421,17 +1567,18 @@ def _direct_chunks(conn, cl, budget, jobs, workers, stats, stop, capped, log):
     try:
         for fut in concurrent.futures.as_completed([pool.submit(work, j) for j in jobs]):
             job, res, c = fut.result()
-            if isinstance(res, str):
-                stats.refused += len(job.chunk) if capped.is_set() else 0
-            elif isinstance(res, Exception):
-                halt = halt or res
+            if isinstance(res, str) or isinstance(res, Exception):
+                stats.refused += len(job.chunk)
+                stats.threads_open.add(job.chunk.thread_id)
+                if isinstance(res, Exception):
+                    halt = halt or res
+                continue
+            got = _read_chunk(job, res, c, stats, log)
+            if got[0] == "done":
+                retry |= _store_chunk_answers(conn, [(job, got[1], got[2], c)], stats, log, attempts=1)
             else:
-                got = _read_chunk(job, res, c, stats, log)
-                if got[0] == "done":
-                    _store_chunk_answers(conn, [(job, got[1], got[2], c)], stats, log)
-                else:
-                    stats.chunk_failures += 1
-                    retry.add(_chunk_failed(conn, job, got[1], got[2], c, log))
+                stats.chunk_failures += 1
+                retry.add(_chunk_failed(conn, job, got[1], got[2], c, log, attempts=1))
     except BaseException:
         stop.set()
         pool.shutdown(wait=True, cancel_futures=True)
@@ -1446,7 +1593,8 @@ def _submit_chunks(conn, cl, budget, jobs, log):
     """The thread-mode _submit: the ledger row, every chunk's row and every
     member's state row are written first (in one transaction), so a re-run
     re-attaches and nothing is sent twice; then the batch, one request per
-    chunk with the chunk id as custom_id."""
+    chunk with the chunk id as custom_id. Each chunk's attempts counts this
+    send."""
     held = sum(j.worst(batch=True) for j in jobs)
     pid = f"pending-{int(time.time() * 1000)}-{os.getpid()}"
     items = [(it.id, it.kind) for j in jobs for it in j.items()]
@@ -1454,6 +1602,7 @@ def _submit_chunks(conn, cl, budget, jobs, log):
         cur.execute("insert into extract_batches (id, version, requests, hold_usd) values (%s, %s, %s, %s)",
                     (pid, VERSION, len(jobs), held))
         _upsert_chunks(cur, [_chunk_record(j, "batched", pid) for j in jobs])
+        cur.execute("update extract_chunks set attempts = attempts + 1 where batch_id = %s", (pid,))
         cur.execute("""
             insert into extraction_state (item_id, version, kind, prompt_hash, model, batch_id)
             select u.item_id, %(v)s, u.kind, %(ph)s, %(model)s, %(pid)s
@@ -1492,11 +1641,8 @@ def _submit_chunks(conn, cl, budget, jobs, log):
 def _batch_chunks(conn, bid):
     """The chunk rows a batch carries, or [] when it is a comment- or post-mode batch."""
     with conn.cursor() as cur:
-        cur.execute("select to_regclass('extract_chunks') is not null")
-        if not cur.fetchone()[0]:
-            conn.commit()
-            return []
-        cur.execute("""select id, thread_id, post_item, members, generation, split_from, effort, prompt_hash
+        cur.execute("""select id, thread_id, post_item, members, generation, split_from, effort, prompt_hash,
+                              attempts
                        from extract_chunks where batch_id = %s and status = 'batched' order by id""", (bid,))
         rows = cur.fetchall()
     conn.commit()
@@ -1505,8 +1651,9 @@ def _batch_chunks(conn, bid):
 
 def _collect_any(conn, cl, budget, bid, stats, log, sleep=None):
     """Collect a batch of either shape. Returns ("items", [(kind, id)] owed a
-    retry) for a comment- or post-mode batch, ("chunks", [thread ids] owing a
-    retry) for a thread-mode one."""
+    retry) for a comment- or post-mode batch, and ("chunks", ([thread ids]
+    owing a retry, {chunk ids not to send again in this run})) for a
+    thread-mode one."""
     rows = _batch_chunks(conn, bid)
     if not rows:
         return "items", _collect(conn, cl, budget, bid, stats, log, sleep=sleep)
@@ -1514,18 +1661,24 @@ def _collect_any(conn, cl, budget, bid, stats, log, sleep=None):
 
 
 def _collect_chunks(conn, cl, budget, bid, rows, stats, log, sleep=None):
-    """Store a finished thread-mode batch and settle its hold. Answers are read
-    against the bracket order extract_chunks recorded at submit. An
+    """Store a finished thread-mode batch, settle its hold, mark it collected.
+
+    Answers are read against the bracket order extract_chunks recorded at
+    submit. An answer that is no use because of the chunk (cut off, refused,
+    not JSON, not storable) splits it. A request the batch did not answer
+    for another reason (expired, canceled, missing, an API error) is queued
+    again as it was (_chunk_again), and goes out again in this run only while
+    it has been sent fewer than CHUNK_SENDS_PER_RUN times in all. An
     invalid_request_error is fatal as in comment mode: that chunk is queued
     again unchanged, its items left due, and the run stops once the rest is
-    stored."""
+    stored and the batch is marked collected."""
     res = AV.results(cl, bid, sleep=sleep, log=log)
     costs = {cid: AV.cost(AV.usage_of(r[1]), batch=True) for cid, r in res.items() if r[0] == "succeeded"}
     total = sum(costs.values())
     stray = set(costs) - {r[0] for r in rows}
     if stray:
         log(f"  batch {bid}: {len(stray)} answer(s) for chunks no longer attached to it, counted, not stored")
-    answers, failures, invalid = [], [], []
+    answers, failures, again, invalid = [], [], [], []
     for row in rows:
         job = ChunkJob.from_row(row)
         r = res.get(job.id, ("missing",))
@@ -1538,12 +1691,18 @@ def _collect_chunks(conn, cl, budget, bid, rows, stats, log, sleep=None):
         elif r[0] == "errored" and r[1] == "invalid_request_error":
             invalid.append((job, f"{job.id}: {r[2]}"))
         else:
-            failures.append((job, f"batch_{r[0]}" + (f": {r[1]}: {r[2]}" if r[0] == "errored" else ""), None, 0.0))
-    _store_chunk_answers(conn, answers, stats, log, batch_id=bid)
-    retry = set()
+            again.append((job, f"batch_{r[0]}" + (f": {r[1]}: {r[2]}" if r[0] == "errored" else "")))
+    retry = _store_chunk_answers(conn, answers, stats, log, batch_id=bid)
     for job, code, usage, cost in failures:
         stats.chunk_failures += 1
         retry.add(_chunk_failed(conn, job, code, usage, cost, log, batch_id=bid))
+    hold = set()
+    for job, code in again:
+        _chunk_again(conn, job, code, bid, log)
+        if job.attempts < CHUNK_SENDS_PER_RUN:
+            retry.add(job.chunk.thread_id)
+        else:
+            hold.add(job.id)
     with conn.cursor() as cur:
         for job, _ in invalid:
             cur.execute("update extract_chunks set status = 'queued', batch_id = null, updated_at = now() "
@@ -1554,12 +1713,12 @@ def _collect_chunks(conn, cl, budget, bid, rows, stats, log, sleep=None):
                        where id = %s""", (total, bid))
     conn.commit()
     budget.release(bid, total)
-    log(f"  batch {bid} collected: ${total:.4f}, {len(answers)} chunk(s) stored, {len(failures)} to retry smaller"
-        + (f", {len(invalid)} invalid" if invalid else ""))
+    log(f"  batch {bid} collected: ${total:.4f}, {len(answers)} chunk(s) answered, {len(failures)} to retry "
+        f"smaller, {len(again)} to send again as they were" + (f", {len(invalid)} invalid" if invalid else ""))
     if invalid:
         log("  invalid_request_error in batch " + bid + ":\n    " + "\n    ".join(m for _, m in invalid[:10]))
         raise AV.FatalAPIError(f"batch {bid}: {len(invalid)} request(s) rejected as invalid; first: {invalid[0][1]}")
-    return sorted(retry)
+    return sorted(retry), hold
 
 
 def run_batch_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, newest_first=False,
@@ -1570,7 +1729,8 @@ def run_batch_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, 
     either shape), then sub-batches of up to batch_size chunks that fit what
     remains under the cap, max_inflight at once. Items owed a retry alone go
     out first, in their own comment- or post-mode batches; threads with a
-    chunk that failed are chunked again (their halves) before new threads."""
+    chunk to retry are chunked again (its halves, or the chunk as it was)
+    before new threads."""
     stats = stats or Stats()
     for pid in _pending(conn):
         bid = resolve_pending_auto(conn, cl, pid, log)
@@ -1583,9 +1743,10 @@ def run_batch_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, 
         budget.hold(bid, hold, force=True)
         inflight.append(bid)
         log(f"re-attaching to batch {bid} (${hold:.4f} held)")
+    retire_chunks(conn, log)
     tids = thread_candidates(conn, limit, since, ids, newest_first, opts.posts)
     log(f"{len(tids):,} thread(s) with items due, {len(inflight)} batch(es) in flight, cap ${budget.max:.2f}")
-    pos, retry_tids, jobs_q, items_q = 0, [], [], []
+    pos, retry_tids, jobs_q, items_q, held_rows = 0, [], [], [], set()
     capped = False
 
     def held_items():
@@ -1594,13 +1755,13 @@ def run_batch_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, 
     while True:
         while not capped and len(inflight) < max_inflight:
             if retry_tids:
-                j, a = build_thread_jobs(conn, retry_tids, opts, exclude=held_items(), log=log)
+                j, a = build_thread_jobs(conn, retry_tids, opts, exclude=held_items(), hold=held_rows, log=log)
                 retry_tids = []
                 jobs_q, items_q = j + jobs_q, a + items_q
             while not items_q and len(jobs_q) < batch_size and pos < len(tids):
                 page = tids[pos:pos + THREAD_PAGE]
                 pos += len(page)
-                j, a = build_thread_jobs(conn, page, opts, exclude=held_items(), log=log)
+                j, a = build_thread_jobs(conn, page, opts, exclude=held_items(), hold=held_rows, log=log)
                 jobs_q, items_q = jobs_q + j, items_q + a
             room = budget.remaining()
             if items_q:
@@ -1674,9 +1835,12 @@ def run_batch_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, 
         if shape == "items":
             items_q = retry + items_q
         else:
-            retry_tids += [t for t in retry if t not in retry_tids]
+            again, hold = retry
+            held_rows |= hold
+            retry_tids += [t for t in again if t not in retry_tids]
         capped = False
     stats.refused += sum(len(j.chunk) for j in jobs_q) + len(items_q)
+    stats.threads_open |= {j.chunk.thread_id for j in jobs_q}
     stats.threads_left += len(tids) - pos
     return stats
 
@@ -1837,19 +2001,16 @@ def status(conn, log=print):
         for kind, ph, done, err, inb, cost in cur.fetchall():
             log(f"  {kind}s under {ph} ({names.get(ph, 'an earlier prompt')}): {done:,} done, {err:,} parked, "
                 f"{inb:,} in a batch, ${float(cost):.2f}")
-        cur.execute("select to_regclass('extract_chunks') is not null")
-        if cur.fetchone()[0]:
-            cur.execute("""select status, fallback, effort, count(*), coalesce(sum(cardinality(members)), 0),
-                                  coalesce(sum(cost_usd), 0), coalesce(sum(bad_ids), 0)
-                           from extract_chunks where version = %s group by 1, 2, 3 order by 1, 2, 3""", (VERSION,))
-            for st, fb, effort, n, items, cost, bad in cur.fetchall():
-                what = {"queued": "queued (a retry owed)", "batched": "in a batch", "done": "answered",
-                        "failed": "failed, items sent alone" if fb else "failed, split in half",
-                        "dropped": "dropped (nothing left due)"}[st]
-                log(f"thread chunks {what}, effort {effort}: {n:,} chunk(s), {items:,} item(s), "
-                    f"${float(cost):.2f}" + (f", {bad:,} mention(s) dropped for a bad id" if bad else ""))
-        else:
-            log("thread chunks: extract_chunks is not there yet (thread mode needs extract_v6_schema.sql again)")
+        cur.execute("""select status, fallback, effort, count(*), coalesce(sum(cardinality(members)), 0),
+                              coalesce(sum(cost_usd), 0), coalesce(sum(bad_ids), 0)
+                       from extract_chunks where version = %s group by 1, 2, 3 order by 1, 2, 3""", (VERSION,))
+        for st, fb, effort, n, items, cost, bad in cur.fetchall():
+            what = {"queued": "queued (a retry owed; the next run retires any with nothing due)",
+                    "batched": "in a batch", "done": "answered",
+                    "failed": "failed, items sent alone" if fb else "failed, split in half",
+                    "dropped": "dropped (nothing left due)"}[st]
+            log(f"thread chunks {what}, effort {effort}: {n:,} chunk(s), {items:,} item(s), "
+                f"${float(cost):.2f}" + (f", {bad:,} mention(s) dropped for a bad id" if bad else ""))
     conn.rollback()
 
 
@@ -2000,8 +2161,15 @@ def reset_hash(conn, prompt_hash, kinds=KINDS, yes=False, chunk=5000, log=print)
             cur.execute("delete from mentions where id = any(%s)", (stray[start:start + chunk],))
             gone_mentions += cur.rowcount
         conn.commit()
+    # Queued halves of that prompt's chunks would send its items as halves of
+    # an old failure; the items start afresh instead.
+    with conn.cursor() as cur:
+        cur.execute("""update extract_chunks set status = 'dropped', updated_at = now(), finished_at = now()
+                       where version = %s and prompt_hash = %s and status = 'queued'""", (VERSION, prompt_hash))
+        dropped = cur.rowcount
+    conn.commit()
     log(f"reset prompt {prompt_hash}: {gone_items:,} item(s) are due again, {gone_mentions:,} mention row(s) "
-        "deleted")
+        f"deleted" + (f", {dropped:,} queued chunk(s) dropped" if dropped else ""))
     return gone_items, gone_mentions
 
 
@@ -2103,7 +2271,7 @@ def main(argv=None):
         raise SystemExit("--effort and --newest-first are thread-mode settings (comment mode runs as benchmarked)")
 
     conn = db.connect()
-    require_schema(conn, thread=thread)
+    require_schema(conn)
     # Each of these returns 0, the exit status, never what the helper returned.
     if args.status:
         status(conn)
@@ -2203,9 +2371,10 @@ def _main_locked(conn, args, kinds, since, ids, opts=None):
     print(f"cap ${budget.max:.2f}: ${budget.spent:.4f} spent, ${sum(budget.held.values()):.4f} "
           f"still held for batches in flight")
     if stats.refused or stats.threads_left:
-        left = f" and {stats.threads_left:,} thread(s) not reached" if stats.threads_left else ""
-        print(f"{stats.refused:,} item(s) not sent{left}: the cap was reached. Re-run with a higher --max-usd "
-              "to resume.")
+        where = f" in {len(stats.threads_open):,} thread(s)" if stats.threads_open else ""
+        left = f", and {stats.threads_left:,} thread(s) not reached" if stats.threads_left else ""
+        print(f"{stats.refused:,} item(s) built and not sent{where}{left}. Re-run to resume (with a higher "
+              "--max-usd if the cap stopped it).")
         code = code or 3
     if stats.done and read_version(conn) == VERSION:
         import refresh

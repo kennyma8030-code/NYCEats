@@ -34,15 +34,19 @@ import anthropic_v6 as AV  # noqa: E402
 SLICES = os.path.join(HERE, "slices")
 MAX_TOKENS = 32000
 # (run tag, slice, effort, chunk sizes, cap in USD)
+# big-med32k-c25 measures whether bigger chunks are cheaper per comment (the
+# fixed output a chunk costs is most of the backlog's price); its $0.30 came
+# out of fresh-med32k's and v2half-med32k's margins.
 RUNS = [
-    ("fresh-med32k", "fresh", "medium", {}, 1.40),
+    ("fresh-med32k", "fresh", "medium", {}, 1.25),
     ("fresh-low", "fresh", "low", {}, 0.95),
     ("v1-med32k", "v1", "medium", {}, 0.20),
     ("v1-low", "v1", "low", {}, 0.15),
-    ("v2half-med32k", "v2half", "medium", {}, 1.10),
+    ("v2half-med32k", "v2half", "medium", {}, 0.95),
     ("big-med32k", "big", "medium", {}, 0.40),
     ("recent-med32k", "recent", "medium", {}, 0.35),
     ("big-med32k-c12", "big", "medium", {"soft_comments": 12}, 0.45),
+    ("big-med32k-c25", "big", "medium", {"soft_comments": 25}, 0.30),
 ]
 CEILING = 5.00
 

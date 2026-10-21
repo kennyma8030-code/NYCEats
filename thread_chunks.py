@@ -14,9 +14,12 @@ The rules, as decided with the owner:
     first). One group may stay whole past the budget up to max_comments; only
     a group bigger than that is split, depth-first, and only between branches
     (where one reply branch ends and its next sibling begins), going down into
-    a branch that alone is too big. A comment whose branch was split goes at
-    the head of the chunk that holds its first replies, not alone at the end
-    of the one before.
+    a branch that alone is too big. A comment whose branches were split always
+    shares a chunk with the start of its first reply branch: the packer
+    carries it forward, and that branch's first piece is cut small enough to
+    leave room for it (only a chain of split comments as long as the hard max
+    cannot all travel together). A one-comment chunk in a thread that has
+    others joins its neighbour when the hard max allows.
   * Only due items are counted and numbered. A comment already extracted
     under v6, or [deleted]/[removed]/blank, is never an item; it is drawn
     only as context, when a due reply hangs under it.
@@ -173,14 +176,23 @@ def chunk_thread(thread_id, comments, due, post_due=False, post_tokens=0.0, soft
             stack.extend(reversed(tree.kids[x]))
         return out
 
-    def atoms(cid):
+    def atoms(cid, reserve=0):
+        """cid's subtree as atoms. `reserve` is how many split comments above
+        it travel with its first atom (each must share a chunk with its first
+        reply branch), so that atom must leave room for them under the hard
+        max; a subtree too big for that is split further. A chain of split
+        comments as long as the hard max cannot all travel together, and
+        there the reserve starts again from nothing."""
         if size[cid] == 0:
             return []
-        if size[cid] <= max_comments:
+        if size[cid] <= max_comments - reserve:
             return [_Atom(subtree_ids(cid), toks[cid])]
-        out = [_Atom([cid], text_tokens(tree.rows[cid].get("body")), sticky=True)] if cid in due else []
+        mine = cid in due
+        out = [_Atom([cid], text_tokens(tree.rows[cid].get("body")), sticky=True)] if mine else []
+        carried = reserve + mine
+        first = next((k for k in tree.kids[cid] if size[k]), None)
         for k in tree.kids[cid]:
-            out += atoms(k)
+            out += atoms(k, (carried if carried < max_comments else 0) if k == first else 0)
         return out
 
     seq = []
@@ -190,27 +202,50 @@ def chunk_thread(thread_id, comments, due, post_due=False, post_tokens=0.0, soft
         measure(r)
         seq += atoms(r)
 
-    groups, cur = [], []
-
-    def count(atoms_):
+    def comments(atoms_):
         # The post is an item for the soft budget but not a comment for the hard max.
-        return sum(len(a.ids) or 1 for a in atoms_), sum(len(a.ids) for a in atoms_), sum(a.tokens for a in atoms_)
+        return sum(len(a.ids) for a in atoms_)
 
+    def items(atoms_):
+        return sum(len(a.ids) or 1 for a in atoms_)
+
+    groups, cur = [], []
     for a in seq:
-        if cur and not all(x.sticky for x in cur):
-            n, _, t = count(cur)
-            if n + (len(a.ids) or 1) > soft_comments or t + a.tokens > soft_tokens:
-                carry = []
-                while cur and cur[-1].sticky and len(cur) > 1:
-                    carry.insert(0, cur.pop())
-                groups.append(cur)
-                cur = carry
-        if cur and count(cur)[1] + len(a.ids) > max_comments:
-            groups.append(cur)
-            cur = []
+        if cur:
+            over_hard = comments(cur) + len(a.ids) > max_comments
+            over_soft = (items(cur) + (len(a.ids) or 1) > soft_comments
+                         or sum(x.tokens for x in cur) + a.tokens > soft_tokens)
+            if over_hard or (over_soft and not all(x.sticky for x in cur)):
+                # Split comments at the end of the chunk (a's ancestors, waiting
+                # for their first replies) go on with a; atoms() left them room.
+                k = len(cur)
+                while k and cur[k - 1].sticky:
+                    k -= 1
+                if k and comments(cur[k:]) + len(a.ids) <= max_comments:
+                    groups.append(cur[:k])
+                    cur = cur[k:]
+                else:
+                    groups.append(cur)
+                    cur = []
         cur.append(a)
     if cur:
         groups.append(cur)
+    # A chunk of one comment, in a thread that has others, is one request for
+    # one comment: it joins the chunk before it, or else the one after, when
+    # the hard max allows. The soft budget gives way by that one comment.
+    n = 0
+    while n < len(groups):
+        g = groups[n]
+        if len(groups) > 1 and comments(g) == 1 and items(g) == 1:
+            if n > 0 and comments(groups[n - 1]) + 1 <= max_comments:
+                groups[n - 1] = groups[n - 1] + g
+                del groups[n]
+                continue
+            if n + 1 < len(groups) and comments(groups[n + 1]) + 1 <= max_comments:
+                groups[n + 1] = g + groups[n + 1]
+                del groups[n]
+                continue
+        n += 1
 
     out = []
     for n, g in enumerate(groups):

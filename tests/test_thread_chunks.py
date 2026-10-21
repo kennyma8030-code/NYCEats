@@ -264,6 +264,84 @@ class Items(unittest.TestCase):
                 self.assertRegex(user, rf"\[{n}\] u/u{re.escape(cid)}[ :]")
 
 
+def first_reply(tree, cid, due):
+    """The first due comment of cid's first reply branch that holds one, or None."""
+    for k in tree.kids[cid]:
+        stack = [k]
+        while stack:
+            x = stack.pop()
+            if x in due:
+                return x
+            stack.extend(reversed(tree.kids[x]))
+    return None
+
+
+def bushy(rng, n, fan=(1, 6), deep=0.5):
+    """A random thread whose reply groups often run past 25 comments."""
+    r = Rows()
+    open_ = []
+    for i in range(n):
+        if not open_ or rng.random() < 0.08:
+            parent = None
+        else:
+            parent = rng.choice(open_[-12:]) if rng.random() < deep else rng.choice(open_)
+        cid = r.add(f"c{i}", parent, body="x " * rng.randint(1, 200))
+        open_.append(cid)
+    return r
+
+
+class SplitParents(unittest.TestCase):
+    def test_carried_parent_is_not_flushed_alone_when_its_first_branch_is_full(self):
+        # The case the review found: a split comment carried to a new chunk,
+        # whose first branch is exactly the hard max, used to go out alone.
+        r = Rows()
+        r.add("a")
+        b = r.add("b", "a")                       # first branch: 25 comments
+        for j in range(24):
+            r.add(f"b{j}", b)
+        c = r.add("c", "a")                       # second branch: 10
+        for j in range(9):
+            r.add(f"c{j}", c)
+        out = chunks(r, soft_comments=15, max_comments=25)
+        holder = next(ch for ch in out if "a" in ch.members)
+        self.assertIn("b", holder.members)        # with its first reply
+        self.assertTrue(all(len(ch) > 1 for ch in out), [len(ch) for ch in out])
+        self.assertTrue(all(len(ch.members) <= 25 for ch in out))
+
+    def test_split_parents_keep_their_first_reply_and_no_chunk_is_one_item(self):
+        rng = random.Random(11)
+        for trial in range(400):
+            r = bushy(rng, rng.randint(30, 220))
+            soft, hard = rng.choice([(12, 25), (15, 25), (5, 10), (25, 25)])
+            due = set(r.ids())
+            post = rng.random() < 0.5
+            out = T.chunk_thread(TID, r.rows, due, post, 5.0, soft, 3000, hard)
+            tree = T.Tree(r.rows)
+            if max(tree.depth.values()) >= hard - 1:
+                continue                          # a chain as long as the max must be cut somewhere
+            where = {m: n for n, c in enumerate(out) for m in c.members}
+            for m, n in where.items():
+                sub = [x for x in T.Tree(r.rows).kids[m]]
+                if not sub:
+                    continue
+                desc, stack = set(), list(sub)
+                while stack:
+                    x = stack.pop()
+                    desc.add(x)
+                    stack.extend(tree.kids[x])
+                if all(where[d] == n for d in desc):
+                    continue                      # not split
+                fr = first_reply(tree, m, due)
+                self.assertEqual(where[fr], n, (trial, m, fr))
+            for n, c in enumerate(out):
+                if len(c.members) == 1 and not c.post_item and len(out) > 1:
+                    # Only when neither neighbour has room for it.
+                    full = lambda k: not (0 <= k < len(out)) or len(out[k].members) >= hard  # noqa: E731
+                    self.assertTrue(full(n - 1) and full(n + 1), (trial, n, [len(x) for x in out]))
+            self.assertEqual(sorted(where), sorted(due), trial)
+            self.assertTrue(all(len(c.members) <= hard for c in out), trial)
+
+
 class Properties(unittest.TestCase):
     def test_random_trees(self):
         rng = random.Random(7)

@@ -151,9 +151,11 @@ replies) are packed to a soft budget of 15 items or 3,000 tokens; only a
 group over 25 comments is split, between branches. A chunk whose comments
 hang under comments outside it quotes their whole ancestor chain. The post is
 item `[0]` of a thread's first chunk while it is due, else context. Comments
-already done, and deleted ones, are context only. A failed chunk is split in
-half once; a half that fails sends its items one at a time in comment and
-post mode. Effort medium by default, `max_tokens` 32,000.
+already done, and deleted ones, are context only. A chunk whose answer is no
+use (cut off, refused, not JSON, not storable) is split in half once; a half
+that fails sends its items one at a time in comment and post mode. A chunk a
+batch lost for other reasons (expired, an API error) is resent as it was.
+Effort medium by default, `max_tokens` 32,000.
 
 ---
 
