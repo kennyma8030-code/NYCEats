@@ -43,17 +43,29 @@ build the feature yourself.
 - If the task turns out to be ambiguous in a way that changes the design, stop
   and report back rather than guessing.
 
-## The database is shared
+## The database is production
 
-Every worktree reads the same `DATABASE_URL` from `.env`, so git isolation
-does not isolate the database.
+`DATABASE_URL` in `.env` points at the Railway production database, the same
+one the live site and the poller use. Always run the app against it. The local
+Postgres on `:5433` is a stale copy that nothing feeds, so a local server on it
+shows weeks-old comments. Every worktree reads the same database, so git
+isolation does not isolate it.
 
-- Workers must not run schema changes, `refresh.py`, `sync.py`, `deploy.py`,
-  `backfill.py`, or extraction runs against it. Write the change; say in the
-  report that it needs to be applied. The orchestrator runs it, one at a time.
-- Read-only queries are fine.
-- Never touch the Railway database (`RAILWAY_DATABASE_URL`) without the user
-  asking.
+- The Railway `.env` lives in `.claude/worktrees/backend/`; the repo root has
+  none. Run the local app from that worktree (fast-forward its branch to
+  `main` first) rather than copying the credentials around.
+- Run the local app read-only, so nothing it does can write to production:
+  `PGOPTIONS='-c default_transaction_read_only=on' /Users/kenny/NYCEats/.venv/bin/uvicorn app.main:app --reload`,
+  with the Vite dev server (`npm run dev` in `frontend/`) in front of it.
+- Every pipeline script (`refresh.py`, `backfill.py`, `deploy.py`, `poller.py`,
+  extraction runs) and every schema change reads `DATABASE_URL`, so running
+  one locally writes to production. Workers must not run them: write the
+  change and say in the report that it needs to be applied. The orchestrator
+  runs it, one at a time, and only with the user's go-ahead.
+- Don't run `sync.py`. It copies from `DATABASE_URL` to `RAILWAY_DATABASE_URL`,
+  and with both on production it would copy production onto itself.
+- Read-only queries are fine. Never `UPDATE`, `DELETE` or `INSERT` by hand
+  without the user asking.
 
 ## Code conventions
 
