@@ -1,0 +1,1451 @@
+{
+ "packet": "p014",
+ "items": [
+  {
+   "item_id": "R0326",
+   "comment_id": "t1_iflt3sf",
+   "model_view": "<post_title author=\"you\">best coffee in fidi?</post_title>\n<thread_above>\n[1] (a deleted comment)\n</thread_above>\n<comment_to_extract>\nmy sister gets beans from there and i ended up going today - rly nice but expensive 😭\n</comment_to_extract>",
+   "context": {
+    "title": "best coffee in fidi?",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "[deleted]",
+      "body": "[deleted]"
+     }
+    ],
+    "author": "rlevin13",
+    "body": "my sister gets beans from there and i ended up going today - rly nice but expensive 😭",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0327",
+   "comment_id": "t1_ocimxl4",
+   "model_view": "<post_title>Help: Times Square</post_title>\n<post_body>Hello!\n\nMy boyfriend’s sons (14 and 16) are visiting the US for the first time and coming to NYC for a model UN summit. They are staying in Times Square. The summit has lunch and dinner breaks where food is not provided by the conference (this is crazy to me lol). So they will have to fend for themselves in midtown. \n\nMy question is, where should I recommend these boys eat? This is their first time in the US/NYC. They likely won’t have a ton of time to sit down somewhere for these meals and affordability is key. \n\nDoes anyone here have any good recommendations for that area? The summit is held at the NY Marriott Marquise and Sheridan New York Times Square. Despite living here 13 years I have 0 thoughts about that area 😂. \n\nThank you in advance!</post_body>\n<thread_above>\n[1] another user: Just to clarify... the event organizers are making mid-teenaged kids fend for themselves in a foreign country... in a huge city? That is amazing.\n[2] another user: This is wild to me. Every mid-teenage kids I knew as a mid-teenager was more than capable of managing their time/resources and spending a day in the city unchaperoned with friends and that’s exactly what we all did on trips to nyc. I was reading through the post thinking really? They need an adult to help them decide what they should eat? It’s one thing needing to give them lunch money but another to believe that they can’t just… go on their phone and google a bit?\n</thread_above>\n<comment_to_extract>\nI did a summer program in London (native New Yorker) as a teenager and had to fend for myself without a smart phone!  They will be perfectly fine.\n</comment_to_extract>",
+   "context": {
+    "title": "Help: Times Square",
+    "selftext": "Hello!\n\nMy boyfriend’s sons (14 and 16) are visiting the US for the first time and coming to NYC for a model UN summit. They are staying in Times Square. The summit has lunch and dinner breaks where food is not provided by the conference (this is crazy to me lol). So they will have to fend for themselves in midtown. \n\nMy question is, where should I recommend these boys eat? This is their first time in the US/NYC. They likely won’t have a ton of time to sit down somewhere for these meals and affordability is key. \n\nDoes anyone here have any good recommendations for that area? The summit is held at the NY Marriott Marquise and Sheridan New York Times Square. Despite living here 13 years I have 0 thoughts about that area 😂. \n\nThank you in advance!",
+    "ancestors": [
+     {
+      "author": "MTonmyMind",
+      "body": "Just to clarify... the event organizers are making mid-teenaged kids fend for themselves in a foreign country... in a huge city?\n\nThat is amazing."
+     },
+     {
+      "author": "guava_chip",
+      "body": "This is wild to me. Every mid-teenage kids I knew as a mid-teenager was more than capable of managing their time/resources and spending a day in the city unchaperoned with friends and that’s exactly what we all did on trips to nyc. I was reading through the post thinking really? They need an adult to help them decide what they should eat?\n\nIt’s one thing needing to give them lunch money but another to believe that they can’t just… go on their phone and google a bit? "
+     }
+    ],
+    "author": "wild3hills",
+    "body": "I did a summer program in London (native New Yorker) as a teenager and had to fend for myself without a smart phone!  They will be perfectly fine.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0328",
+   "comment_id": "t1_p6tebe7",
+   "model_view": "<post_title>it’s tomato season! what are your favorite tomato based dishes in the city?</post_title>\n<post_body>i just tried tor heirloom tomato bagel at frankel’s and it blew my mind. are there any other amazing tomato dishes i must try before peak tomato season ends?</post_body>\n<thread_above>\n[1] another user: radio bakery’s tomato croissant.\n[2] another user: the tomato feta mint focaccia sandwich is also incredible.\n</thread_above>\n<comment_to_extract>\nSeconding the focaccia—the fresh oregano really makes it special. The tomato croissant was just ok.\n</comment_to_extract>",
+   "context": {
+    "title": "it’s tomato season! what are your favorite tomato based dishes in the city?",
+    "selftext": "i just tried tor heirloom tomato bagel at frankel’s and it blew my mind. are there any other amazing tomato dishes i must try before peak tomato season ends?",
+    "ancestors": [
+     {
+      "author": "harperavenue",
+      "body": "radio bakery’s tomato croissant. "
+     },
+     {
+      "author": "Key-Progress4115",
+      "body": "the tomato feta mint focaccia sandwich is also incredible. "
+     }
+    ],
+    "author": "Proud_Community_9293",
+    "body": "Seconding the focaccia—the fresh oregano really makes it special. The tomato croissant was just ok. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Radio Bakery",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "tomato croissant",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bakery"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0329",
+   "comment_id": "t1_o78zhdw",
+   "model_view": "<post_title>Jean-George Vongerichten’s Tin Building Has Closed</post_title>\n<thread_above>\n[1] you, earlier: So sad. I wish JGV would open a standalone bakery. The bakery in there was excellent\n[2] another user: 100% on this. They were the last place downtown with consistently excellent pastries and I still miss Arcade- Frenchette is just not the same.\n</thread_above>\n<comment_to_extract>\nI honestly haven’t even tried Frenchette bc I saw what their croissants look like and knew it wouldn’t come close. Petrossian (it was near Central Park before covid) and arcade were my two faves for pastries and baked goods. Lots of places in nyc for good pastries but nowhere really exceptional after those two closed. Petrossian is in meatpacking now but now they only sell caviar. So lame\n</comment_to_extract>",
+   "context": {
+    "title": "Jean-George Vongerichten’s Tin Building Has Closed",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Spiritual_Option4465",
+      "body": "So sad. I wish JGV would open a standalone bakery. The bakery in there was excellent"
+     },
+     {
+      "author": "wmjoh1",
+      "body": "100% on this.  They were the last place downtown with consistently excellent pastries and I still miss Arcade- Frenchette is just not the same."
+     }
+    ],
+    "author": "Spiritual_Option4465",
+    "body": "I honestly haven’t even tried Frenchette bc I saw what their croissants look like and knew it wouldn’t come close. Petrossian (it was near Central Park before covid) and arcade were my two faves for pastries and baked goods. Lots of places in nyc for good pastries but nowhere really exceptional after those two closed. Petrossian is in meatpacking now but now they only sell caviar. So lame",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Frenchette",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "croissants",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "photo judgment",
+       "text": "Commenter judged the croissants from photos and has not tried them"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "french",
+      "pastries"
+     ]
+    },
+    {
+     "name": "Petrossian",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Meatpacking District",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pastries",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "caviar",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "former location",
+       "text": "Was near Central Park before covid; now in the Meatpacking District and sells only caviar"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "moved",
+     "price": null,
+     "tags": [
+      "caviar",
+      "pastries"
+     ]
+    },
+    {
+     "name": "Arcade",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pastries",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "baked goods",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "closed",
+       "text": "Closed; was one of the commenter's two favorite pastry and baked goods spots"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "pastries",
+      "baked goods"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0330",
+   "comment_id": "t1_nvh3vnq",
+   "model_view": "<post_title>What are some of the worst meals you've had recently?</post_title>\n<post_body>I've made a list of some pretty horrible dining experiences. It seems like places are becoming more and more inconsistent the worse the economy is getting.\n\n1. Mala Project (Greenpoint) - chicken came out ice cold, not even lukewarm.\n2. Otis - forgot to give us utensils, 40 minute wait in between entrees, lamb came out lukewarm.\n3. Soothr - curry came out lukewarm\n4. Llama Inn has been selling a $100 lomo saltado advertised for 2 people, but is the same portion size as the $50 one for 1 person that they used to sell a few years ago. Thank god this place is closing. \n5. Electric Burrito - had the most disgusting carnitas burrito with burnt, overcooked meat, small bones inside the burrito, and no pico de gallo or sour cream. Literally just pork, beans, and rice. Completely flavorless.\n6. Rule of Thirds - katsu chicken sandwich had no salt on it. \n7. Uluh - food was fine but service was fucking atrocious. \n8. Los tacos no. 1 in union square was noticeably worse than any other locations.</post_body>\n<thread_above>\n[1] another user: Ai fiori. That place is running on fumes.\n</thread_above>\n<comment_to_extract>\nThe whole group went downhill after covid cuz chef Michael white left the company. He opened his own place called Santi in midtown though and it is absolutely fantastic! Best pasta in NYC!\n</comment_to_extract>",
+   "context": {
+    "title": "What are some of the worst meals you've had recently?",
+    "selftext": "I've made a list of some pretty horrible dining experiences. It seems like places are becoming more and more inconsistent the worse the economy is getting.\n\n1. Mala Project (Greenpoint) - chicken came out ice cold, not even lukewarm.\n2. Otis - forgot to give us utensils, 40 minute wait in between entrees, lamb came out lukewarm.\n3. Soothr - curry came out lukewarm\n4. Llama Inn has been selling a $100 lomo saltado advertised for 2 people, but is the same portion size as the $50 one for 1 person that they used to sell a few years ago. Thank god this place is closing. \n5. Electric Burrito - had the most disgusting carnitas burrito with burnt, overcooked meat, small bones inside the burrito, and no pico de gallo or sour cream. Literally just pork, beans, and rice. Completely flavorless.\n6. Rule of Thirds - katsu chicken sandwich had no salt on it. \n7. Uluh - food was fine but service was fucking atrocious. \n8. Los tacos no. 1 in union square was noticeably worse than any other locations.\n\n",
+    "ancestors": [
+     {
+      "author": "folkher0",
+      "body": "Ai fiori. That place is running on fumes."
+     }
+    ],
+    "author": "Upendrika",
+    "body": "The whole group went downhill after covid cuz chef Michael white left the company. He opened his own place called Santi in midtown though and it is absolutely fantastic! Best pasta in NYC!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Santi",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Midtown",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pasta",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "origin",
+       "text": "Opened by chef Michael White after he left his previous group"
+      }
+     ],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian",
+      "pasta"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0331",
+   "comment_id": "t1_j83qgks",
+   "model_view": "<post_title>What's your favorite neighborhood restaurant that will be hyped / win a Michelin star?</post_title>\n<post_body>There's probably not that huge a difference between your favorite local pizza place and the L'Indistries of the world, so what's your local great place?</post_body>\n<thread_above>\n[1] another user: Tacos Guey is absolutely as high quality as Claro, Oxomoco, etc. Although I still don’t understand why Casa Enrique (which I think is lovely) has a star but Cosme doesn’t. Not related to Michelin, but it is slightly ridiculous that Enrique Olvera (indirectly) runs Cosme and Cosme Aguilar runs Casa Enrique\n</thread_above>\n<comment_to_extract>\nIt’s gotta boil down to service. Cosme’s service over the last two years (post peak covid) has gone down steadily and their prices have continued to rise. The last 3 occasions I’ve been there, the bar area has been crowded with patrons waiting 30mins + for reservations (myself included). The service has been surly at best, with courses being timed poorly and no clearing of the plates and flatware in between. The food was also just alright the last visit, a few dishes were seasoned improperly. It’s a shame, because Cosme use to be one of my favorites in the city.\n</comment_to_extract>",
+   "context": {
+    "title": "What's your favorite neighborhood restaurant that will be hyped / win a Michelin star?",
+    "selftext": "There's probably not that huge a difference between your favorite local pizza place and the L'Indistries of the world, so what's your local great place?",
+    "ancestors": [
+     {
+      "author": "vagrantwastrel",
+      "body": "Tacos Guey is absolutely as high quality as Claro, Oxomoco, etc. Although I still don’t understand why Casa Enrique (which I think is lovely) has a star but Cosme doesn’t. \n\nNot related to Michelin, but it is slightly ridiculous that Enrique Olvera (indirectly) runs Cosme and Cosme Aguilar runs Casa Enrique"
+     }
+    ],
+    "author": "Wooden_Requirement48",
+    "body": "It’s gotta boil down to service. Cosme’s service over the last two years (post peak covid) has gone down steadily and their prices have continued to rise. The last 3 occasions I’ve been there, the bar area has been crowded with patrons waiting 30mins + for reservations (myself included). The service has been surly at best, with courses being timed poorly and no clearing of the plates and flatware in between. The food was also just alright the last visit, a few dishes were seasoned improperly. It’s a shame, because Cosme use to be one of my favorites in the city.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Cosme",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "prices",
+       "text": "prices have kept rising over the last two years"
+      },
+      {
+       "about": "decline",
+       "text": "service has steadily declined since post-peak covid"
+      },
+      {
+       "about": "former favorite",
+       "text": "used to be one of the commenter's favorites in the city"
+      },
+      {
+       "about": "seating",
+       "text": "bar area crowded, patrons waiting 30+ minutes, including for reservations"
+      },
+      {
+       "about": "plates",
+       "text": "no clearing of plates and flatware between courses"
+      },
+      {
+       "about": "timing",
+       "text": "courses timed poorly"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": "negative",
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": "declined",
+     "status": null,
+     "price": null,
+     "tags": [
+      "mexican"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0332",
+   "comment_id": "t1_jmcxx5r",
+   "model_view": "<post_title>Veggie burgers</post_title>\n<post_body>I’m craving veggie burgers but it’s hard to find ones that I like. I’m not really into impossible/imitation meat; I prefer mushrooms or chickpeas/lentils etc etc. Any recommendations are welcome! Tyia~</post_body>\n<thread_above>\n[1] another user: Sweetwater in Williamsburg and Sisters in Clinton Hill both have great lentil based veggie burgers\n</thread_above>\n<comment_to_extract>\nSisters is just okay to me tbh. Like. It’s fine ..?\n</comment_to_extract>",
+   "context": {
+    "title": "Veggie burgers",
+    "selftext": "I’m craving veggie burgers but it’s hard to find ones that I like. I’m not really into impossible/imitation meat; I prefer mushrooms or chickpeas/lentils etc etc. Any recommendations are welcome! Tyia~",
+    "ancestors": [
+     {
+      "author": "Lower-Natural2488",
+      "body": "Sweetwater in Williamsburg and Sisters in Clinton Hill both have great lentil based veggie burgers"
+     }
+    ],
+    "author": "WizardsAreNeverWrong",
+    "body": "Sisters is just okay to me tbh. Like. It’s fine ..?",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sisters",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Clinton Hill",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "veggie burgers"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0333",
+   "comment_id": "t1_olnmw0t",
+   "model_view": "<post_title>Sip from Sip & Guzzle | West Village Food & Drinks</post_title>\n<post_body>Went to Sip from Sip & Guzzle. Their Royale with cheese was delicious and my favorite thing on the menu. The shake it came with I didn’t like at all. The pork yaki skewer I highly recommend. Volcano roll was good, but probably wouldn’t order again. Mochi fries were good as well. I thought the Hokkaido milk soft serve was ok. For the cocktails I recommend the Strawberry Hot Pot and Hi-chew chu hi. \n\nSip & Guzzle website: https://www.sipandguzzlenyc.com/</post_body>\n<thread_above>\n(1 earlier comments not shown)\n[1] another user: One hundred and fifty DOLLARS?? We have lost the plot entirely\n[2] another user: I’ll take this opportunity to clown anyone who pretends to appreciate wagyu and then slathers it with sauce/extras\n[3] another user: That's also a huge fucking piece of a5 wagyu. Isn't it supposed to be better enjoyed in smaller portions of like 1-2 oz lol\n[4] you, earlier: meant to be shared but some people can def eat all of that at once (me) its kinda like how mashed potatoes should be enjoyed in small portions cause the best ones are like half butter but so many pig out on those i also wanna say the pic makes it look bigger than it is and its prob only ~4oz\n[5] another user: But 4 oz portion of that stuff not frozen is 40 to 50$ whole sale.\n</thread_above>\n<comment_to_extract>\nsure? i don't get your point. restaurants charging 2-4x their base cost (food, labor, rent, etc) is a well known thing. yes i could buy it myself for 50, which i have. i could also completely fuck it up and overcook it, which i have. still tasted great tho, one of the nice benefits of a5.\n\nno one is going out to a restaurant hoping to save money and no one going to a place like Sip especially where cocktails are like 25 each is hoping to save money. it's a menu item, youre not forced to buy it\n\ni dont disagree it's a bit ridiculous but so are the vast vast majority of high and even mid end products. who am i to judge how someone wastes their money\n</comment_to_extract>",
+   "context": {
+    "title": "Sip from Sip & Guzzle | West Village Food & Drinks",
+    "selftext": "Went to Sip from Sip & Guzzle. Their Royale with cheese was delicious and my favorite thing on the menu. The shake it came with I didn’t like at all. The pork yaki skewer I highly recommend. Volcano roll was good, but probably wouldn’t order again. Mochi fries were good as well. I thought the Hokkaido milk soft serve was ok. For the cocktails I recommend the Strawberry Hot Pot and Hi-chew chu hi. \n\nSip & Guzzle website: https://www.sipandguzzlenyc.com/",
+    "ancestors": [
+     {
+      "author": "tengentopp",
+      "body": "150 for the sando? Insanity. "
+     },
+     {
+      "author": "HarviousMaximus",
+      "body": "One hundred and fifty DOLLARS?? We have lost the plot entirely "
+     },
+     {
+      "author": "tengentopp",
+      "body": "I’ll take this opportunity to clown anyone who pretends to appreciate wagyu and then slathers it with sauce/extras"
+     },
+     {
+      "author": "fork_yuu",
+      "body": "That's also a huge fucking piece of a5 wagyu. Isn't it supposed to be better enjoyed in smaller portions of like 1-2 oz lol"
+     },
+     {
+      "author": "yeet420133769",
+      "body": "meant to be shared but some people can def eat all of that at once (me)\n\nits kinda like how mashed potatoes should be enjoyed in small portions cause the best ones are like half butter but so many pig out on those\n\ni also wanna say the pic makes it look bigger than it is and its prob only ~4oz"
+     },
+     {
+      "author": "boroughthoughts",
+      "body": "But 4 oz portion of that stuff not frozen is 40 to 50$ whole sale."
+     }
+    ],
+    "author": "yeet420133769",
+    "body": "sure? i don't get your point. restaurants charging 2-4x their base cost (food, labor, rent, etc) is a well known thing. yes i could buy it myself for 50, which i have. i could also completely fuck it up and overcook it, which i have. still tasted great tho, one of the nice benefits of a5.\n\nno one is going out to a restaurant hoping to save money and no one going to a place like Sip especially where cocktails are like 25 each is hoping to save money. it's a menu item, youre not forced to buy it\n\ni dont disagree it's a bit ridiculous but so are the vast vast majority of high and even mid end products. who am i to judge how someone wastes their money",
+    "replies": [
+     {
+      "author": "boroughthoughts",
+      "body": "I don't know why you are down voting me. We agree. Your original comment does not make it clear that you disagree with the  person above."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0334",
+   "comment_id": "t1_oh323nw",
+   "model_view": "<post_title>Help Finding Cheap Prosciutto Chunks?</post_title>\n<post_body>Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!</post_body>\n<comment_to_extract>\nI miss Market Basket\n</comment_to_extract>",
+   "context": {
+    "title": "Help Finding Cheap Prosciutto Chunks?",
+    "selftext": "Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!",
+    "ancestors": [],
+    "author": "cragelra",
+    "body": "I miss Market Basket",
+    "replies": [
+     {
+      "author": "VisualReality4495",
+      "body": "Next time I go I’m bringing back a suitcase full of tinned seafood"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0335",
+   "comment_id": "t1_ouzyjz6",
+   "model_view": "<post_title>I need a list of quintessential NYC drinks that are not alcoholic.</post_title>\n<post_body>I know all the major cocktails that are \"NYC\" but I'm trying to see if there's anything else that's not alcoholic besides Egg Cream. I have a client who wants a Nyc themed party but wants non alcoholic options</post_body>\n<comment_to_extract>\nArizona iced tea, Dr Browns, Orangina (not from New York, but a pizzeria classic), Vintage Seltzer, Snapple\n</comment_to_extract>",
+   "context": {
+    "title": "I need a list of quintessential NYC drinks that are not alcoholic.",
+    "selftext": "I know all the major cocktails that are \"NYC\" but I'm trying to see if there's anything else that's not alcoholic besides Egg Cream. I have a client who wants a Nyc themed party but wants non alcoholic options ",
+    "ancestors": [],
+    "author": "ligmata1nt",
+    "body": "Arizona iced tea, Dr Browns, Orangina (not from New York, but a pizzeria classic), Vintage Seltzer, Snapple",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0336",
+   "comment_id": "t1_k9fj69q",
+   "model_view": "<post_title>Cute West Village restaurants</post_title>\n<post_body>What are some of your favorite cozy/cute west village restaurants that are also not impossible to get a reservation at? Trying to keep it under/around $75pp. \n\nAlso open to Greenwich village and nolita</post_body>\n<comment_to_extract>\nLe’Baratin is great\n</comment_to_extract>",
+   "context": {
+    "title": "Cute West Village restaurants",
+    "selftext": "What are some of your favorite cozy/cute west village restaurants that are also not impossible to get a reservation at? Trying to keep it under/around $75pp. \n\nAlso open to Greenwich village and nolita",
+    "ancestors": [],
+    "author": "Oblivious350",
+    "body": "Le’Baratin is great",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Le'Baratin",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "West Village",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cozy",
+      "date night"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0337",
+   "comment_id": "t1_nw7ebzr",
+   "model_view": "<post_title>Is dining out alone in NYC normal?</post_title>\n<post_body>I recently moved to NYC and there are so many restaurants I want to try, which include hole-in-the-wall noodle spots, omakase counters, random bakeries I see on Tiktok but I don’t have someone to go with.\n\nWhere I’m from, eating out alone is lowkey seen as “something’s wrong” behavior. Like people assume you just got stood up or you’re going through something.\n\nNYC feels like the kind of place where nobody cares and everyone’s too busy main charactering, but I still get weirdly insecure about sitting down solo, especially at nicer spots.  \n  \nIs dining alone here actually normal or am I going to be silently judged by the waiter and the couple on a first date next to me?</post_body>\n<comment_to_extract>\nDining out alone is very normal in NYC, especially at the bar. You get more personalized service, can order as much or as little as you want, and will likely strike up a conversation with other fellow lone-diners.\n</comment_to_extract>",
+   "context": {
+    "title": "Is dining out alone in NYC normal?",
+    "selftext": "I recently moved to NYC and there are so many restaurants I want to try, which include hole-in-the-wall noodle spots, omakase counters, random bakeries I see on Tiktok but I don’t have someone to go with.\n\nWhere I’m from, eating out alone is lowkey seen as “something’s wrong” behavior. Like people assume you just got stood up or you’re going through something.\n\nNYC feels like the kind of place where nobody cares and everyone’s too busy main charactering, but I still get weirdly insecure about sitting down solo, especially at nicer spots.  \n  \nIs dining alone here actually normal or am I going to be silently judged by the waiter and the couple on a first date next to me?",
+    "ancestors": [],
+    "author": "taggiazca",
+    "body": "Dining out alone is very normal in NYC, especially at the bar. You get more personalized service, can order as much or as little as you want, and will likely strike up a conversation with other fellow lone-diners.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0338",
+   "comment_id": "t1_ktbu8m1",
+   "model_view": "<post_title>Super excited for 5 days in NYC! Judge my dining plans :)</post_title>\n<post_body>Going to NYC for 5 nights. Super excited and looking forward to all the meals and drinks. Judge my dining plan below. I am vegetarian.\n\nDay 1: Katana Kitten for drinks and Spicy Moon for Dinner\n\nDay 2: Double Chicken Please for drinks and Ci Siamo for dinner\n\nDay 3: Tiki Chick for drinks and Hangawi for dinner\n\nDay 4: Maison Premier for drinks and Lucali for Dinner\n\nDay 5: Mace for Drinks and Arthur and Sons for Dinner\n\nLunches will be pizza slices at: Scarrs, Mamas Too, L'Industrie, Fini, and Aces. Veggie burger at Jerrel's Bettr Burgers. Plus likely some quick bites around. \n\nBagels at Ess-a-bagel\n\nDessert at: Lyssee and Kith Treats. \n\nAny Suggestions or additions/changes recommended?\n\nI really want to go to Overstory but refuse to do a $75 minimum for reserving for a bar.</post_body>\n<comment_to_extract>\n<quote>Day 2: Double Chicken Please for drinks and Ci Siamo for dinner</quote>\n  \n\n\nYou can look up Zou Zou's for pre-dinner drinks. its like 100ft away from each other.\n</comment_to_extract>",
+   "context": {
+    "title": "Super excited for 5 days in NYC! Judge my dining plans :)",
+    "selftext": "Going to NYC for 5 nights. Super excited and looking forward to all the meals and drinks. Judge my dining plan below. I am vegetarian.\n\nDay 1: Katana Kitten for drinks and Spicy Moon for Dinner\n\nDay 2: Double Chicken Please for drinks and Ci Siamo for dinner\n\nDay 3: Tiki Chick for drinks and Hangawi for dinner\n\nDay 4: Maison Premier for drinks and Lucali for Dinner\n\nDay 5: Mace for Drinks and Arthur and Sons for Dinner\n\nLunches will be pizza slices at: Scarrs, Mamas Too, L'Industrie, Fini, and Aces. Veggie burger at Jerrel's Bettr Burgers. Plus likely some quick bites around. \n\nBagels at Ess-a-bagel\n\nDessert at: Lyssee and Kith Treats. \n\nAny Suggestions or additions/changes recommended?\n\nI really want to go to Overstory but refuse to do a $75 minimum for reserving for a bar. ",
+    "ancestors": [],
+    "author": "killerasp",
+    "body": ">Day 2: Double Chicken Please for drinks and Ci Siamo for dinner\r  \n\n\nYou can look up Zou Zou's for pre-dinner drinks. its like 100ft away from each other.",
+    "replies": [
+     {
+      "author": "Greenpoint1975",
+      "body": "Absolute bagels are the best. Westside 108th"
+     },
+     {
+      "author": "BusterBaxtr",
+      "body": "Matter of preference. I've tried every \"best\" bagel from so many lists but I still prefer Ess A. Tompkins is forgettable IMO."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Zou Zou's",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": "about 100 ft from Double Chicken Please",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "proximity",
+       "text": "about 100 ft from Double Chicken Please, so good for pre-dinner drinks"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pre-dinner drinks"
+     ]
+    },
+    {
+     "name": "Double Chicken Please",
+     "named_in": "context",
+     "kind": "bar",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "proximity",
+       "text": "about 100 ft from Zou Zou's"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0339",
+   "comment_id": "t1_ozkzz26",
+   "model_view": "<post_title>Good recommendations for restaurants with Queso dip?</post_title>\n<post_body>I have a hankering for chips and queso right now but ever since I moved to nyc I’ve had the hardest time finding it. Does anyone have any recommendations? Preferably somewhere in queens but I WILL travel.</post_body>\n<comment_to_extract>\nJavelina is the best answer but other options that haven’t been listed yet include cowgirl in the village and kelloggs diner in Brooklyn\n</comment_to_extract>",
+   "context": {
+    "title": "Good recommendations for restaurants with Queso dip?",
+    "selftext": "I have a hankering for chips and queso right now but ever since I moved to nyc I’ve had the hardest time finding it. Does anyone have any recommendations? Preferably somewhere in queens but I WILL travel.",
+    "ancestors": [],
+    "author": "rdesai724",
+    "body": "Javelina is the best answer but other options that haven’t been listed yet include cowgirl in the village and kelloggs diner in Brooklyn ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Javelina",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "queso dip",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tex-mex",
+      "queso"
+     ]
+    },
+    {
+     "name": "Cowgirl",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "the Village",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "queso dip",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "queso"
+     ]
+    },
+    {
+     "name": "kelloggs diner",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Brooklyn",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "queso dip",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "diner",
+      "queso"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0340",
+   "comment_id": "t1_pbvokj7",
+   "model_view": "<post_title>Where to Eat Near Union Square Greenmarket between 730a and 930a</post_title>\n<post_body>I’ve been shopping at the various Greenmarkets for almost 40 years now (first with parents, now mostly solo and sometimes with parents). \n\nFor the last 6-8 years, nearly every single Friday, I would go to Eataly or Daily Provisions (and previously Bread’s Bakery) for morning snacks. And then added on Librae, Hani’s, Papa d’Amour once they opened. And I always go to one of the ABC spots when I’m taking my parents to the market, so I’m over those spots too (they love ABCV and so I take them like once a month. I hate it there.)\n\nHonestly, I’m really really really bored of Daily Provisions, Librae, Hani’s, Papa d’Amour (which is honestly not that great to me). I am so bored that I went to Pop Up Bagels and had a bad time (their bagels are just bread rolls). I’ve also tried that beignet cart and it’s fine, I don’t need to go back to it though (I don’t think I like beignets?).\n\nWhere else can I go for a morning snack pre or post Greenmarket shopping?\n\n\\- none of the places I’ve listed   \n\\- no dietary restrictions   \n\\- no cost restrictions   \n\\- no cuisine preferences. But would love it if they have some sort of savory food. Extra points if they somehow sell lunch food during 730-930a ( ...</post_body>\n<thread_above>\n[1] another user: Los Tacos #1 by the north east side of the park sells breakfast burritos in the morning.\n[2] OP: YOOO are you for real? How have I missed this. I know people have a love / hate for them, but I’ve loved them since they were just the one spot so I have intense loyalty lol. I didn’t know they were making breakfast stuff. Damn just looked it up. Apparently they don’t open until 11a here, unless the ...\n[3] another user: They were open around 8:30 I think on Monday right before I grabbed a loaf of sesame from She Wolf.\n[4] OP: Amazing. Ok I’ll have to go tomorrow then. I was debating between the jiang bing cart, S&P, and now this. But for burrito curiosity sake, might need to just go for the breakfast burrito first and do the other two in subsequent weeks.\n[5] another user: I walked by there in the morning and they seemed to have some kind of breakfast cart in front also.\n</thread_above>\n<comment_to_extract>\nconfirming the los tacos breakfast burrito cart is out well before the 11am open time (earliest i can say for sure is 8:00) and they take a credit card.\n</comment_to_extract>",
+   "context": {
+    "title": "Where to Eat Near Union Square Greenmarket between 730a and 930a",
+    "selftext": "I’ve been shopping at the various Greenmarkets for almost 40 years now (first with parents, now mostly solo and sometimes with parents). \n\nFor the last 6-8 years, nearly every single Friday, I would go to Eataly or Daily Provisions (and previously Bread’s Bakery) for morning snacks. And then added on Librae, Hani’s, Papa d’Amour once they opened. And I always go to one of the ABC spots when I’m taking my parents to the market, so I’m over those spots too (they love ABCV and so I take them like once a month. I hate it there.)\n\nHonestly, I’m really really really bored of Daily Provisions, Librae, Hani’s, Papa d’Amour (which is honestly not that great to me). I am so bored that I went to Pop Up Bagels and had a bad time (their bagels are just bread rolls). I’ve also tried that beignet cart and it’s fine, I don’t need to go back to it though (I don’t think I like beignets?).\n\nWhere else can I go for a morning snack pre or post Greenmarket shopping?\n\n\\- none of the places I’ve listed   \n\\- no dietary restrictions   \n\\- no cost restrictions   \n\\- no cuisine preferences. But would love it if they have some sort of savory food. Extra points if they somehow sell lunch food during 730-930a (wishful thinking I know)  \n\\- eat in or take out is fine  \n\\- somewhere between the NRW stops of 8th Street NYU through 23rd Street but prefer closer to the Union Square NRW stop ",
+    "ancestors": [
+     {
+      "author": "yakitorispelling",
+      "body": "Los Tacos #1 by the north east side of the park sells breakfast burritos in the morning."
+     },
+     {
+      "author": "epoops",
+      "body": "YOOO are you for real? How have I missed this. I know people have a love / hate for them, but I’ve loved them since they were just the one spot so I have intense loyalty lol. I didn’t know they were making breakfast stuff.\n\nDamn just looked it up. Apparently they don’t open until 11a here, unless the Google listing is wrong? I knew they had an outpost here but always thought they opened later than when I’m there. "
+     },
+     {
+      "author": "yakitorispelling",
+      "body": "They were open around 8:30 I think on Monday right before I grabbed a loaf of sesame from She Wolf. "
+     },
+     {
+      "author": "epoops",
+      "body": "Amazing. Ok I’ll have to go tomorrow then. I was debating between the jiang bing cart, S&P, and now this. But for burrito curiosity sake, might need to just go for the breakfast burrito first and do the other two in subsequent weeks. "
+     },
+     {
+      "author": "kenneyy88",
+      "body": "I walked by there in the morning and they seemed to have some kind of breakfast cart in front also."
+     }
+    ],
+    "author": "ohmosdefinitely",
+    "body": "confirming the los tacos breakfast burrito cart is out well before the 11am open time (earliest i can say for sure is 8:00) and they take a credit card. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Los Tacos #1",
+     "named_in": "context",
+     "kind": "truck_or_cart",
+     "location": "northeast side of Union Square Park",
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "breakfast burrito",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "hours",
+       "text": "breakfast cart already out well before the 11am opening time, seen by 8:00"
+      },
+      {
+       "about": "payment",
+       "text": "takes credit cards"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tacos",
+      "breakfast"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0341",
+   "comment_id": "t1_o8ohhq5",
+   "model_view": "<post_title>Do you like music in restaurants?</post_title>\n<post_body>Personally I find it annoying and unnecessary.\n\n[View Poll](https://www.reddit.com/poll/1rky2k1)</post_body>\n<comment_to_extract>\nI find myself wishing for some music more than no music.  Music adds to the ambiance, and everything is suddenly delicious if its 80's New wave\n</comment_to_extract>",
+   "context": {
+    "title": "Do you like music in restaurants?",
+    "selftext": "Personally I find it annoying and unnecessary.\n\n[View Poll](https://www.reddit.com/poll/1rky2k1)",
+    "ancestors": [],
+    "author": "Various-Struggle-714",
+    "body": "I find myself wishing for some music more than no music.  Music adds to the ambiance, and everything is suddenly delicious if its 80's New wave  ",
+    "replies": [
+     {
+      "author": "cute_polarbear",
+      "body": "I have to Google whats 80's new wave\n...isn't that just mostly 80's pop?"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0342",
+   "comment_id": "t1_niqdvo3",
+   "model_view": "<post_title>A Caribbean feat at Kabawa- #4 on the NYT Top 100</post_title>\n<post_body>Website- [https://www.momofuku.com/restaurants/kabawa](https://www.momofuku.com/restaurants/kabawa)\n\nYelp- [https://www.yelp.com/biz/kabawa-new-york](https://www.yelp.com/biz/kabawa-new-york)\n\nRemaining 30 photos [https://ibb.co/album/qLBdbV](https://ibb.co/album/qLBdbV)\n\nInfo- It's $145 per person for 3 courses as well as one very large opening bread course. There's also an optional wine pairing for the same price which is apparently a lot of alcohol as well as beer, wine, n/a drinks, and many cocktails between $19 and $25. Mains come with several sides. In terms of tables, there's many counter spaces along with 3/4 progressively larger tables (see the 9th photo.) In terms of supplements, the Coconut Turnover is wonderful while the Chuleta was alright (needed some citrus.) Favorite dishes of the night were the Pepper Shrimp and Goat with everyone else loving the Breadfruit Tostón (curse my cephalopod allergy.) \n\n Recommendations from each section in order of preference. The last dish from each section isn't recommended much outside of the good sorbet\n\nApps- Pepper shrimp, Breadfruit tostón, Cassava dumplings, Mushroom pastel\n\nMains- Goat, Chuletas can can (if in a large group,) Je ...</post_body>\n<comment_to_extract>\nKinda weird they only do prie-fixe if I recall but still a superb restaurant.\n</comment_to_extract>",
+   "context": {
+    "title": "A Caribbean feat at Kabawa- #4 on the NYT Top 100",
+    "selftext": "Website- [https://www.momofuku.com/restaurants/kabawa](https://www.momofuku.com/restaurants/kabawa)\n\nYelp- [https://www.yelp.com/biz/kabawa-new-york](https://www.yelp.com/biz/kabawa-new-york)\n\nRemaining 30 photos [https://ibb.co/album/qLBdbV](https://ibb.co/album/qLBdbV)\n\nInfo- It's $145 per person for 3 courses as well as one very large opening bread course. There's also an optional wine pairing for the same price which is apparently a lot of alcohol as well as beer, wine, n/a drinks, and many cocktails between $19 and $25. Mains come with several sides. In terms of tables, there's many counter spaces along with 3/4 progressively larger tables (see the 9th photo.) In terms of supplements, the Coconut Turnover is wonderful while the Chuleta was alright (needed some citrus.) Favorite dishes of the night were the Pepper Shrimp and Goat with everyone else loving the Breadfruit Tostón (curse my cephalopod allergy.) \n\n Recommendations from each section in order of preference. The last dish from each section isn't recommended much outside of the good sorbet\n\nApps- Pepper shrimp, Breadfruit tostón, Cassava dumplings, Mushroom pastel\n\nMains- Goat, Chuletas can can (if in a large group,) Jerk duck sausage (if not in a large group,) Skirt steak\n\nDesserts- Coconut turnover (supplement is heavily recommended,) Birthday flan, Matrimony, Sorbet",
+    "ancestors": [],
+    "author": "kevin122000",
+    "body": "Kinda weird they only do prie-fixe if I recall but still a superb restaurant.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Kabawa",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "prix fixe only",
+       "text": "Commenter finds it odd that they only offer a prix fixe menu"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": "negative",
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "caribbean",
+      "prix fixe"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0343",
+   "comment_id": "t1_o1d6zw8",
+   "model_view": "<post_title>What's your favorite random dish from a random restaurant you can never not order?</post_title>\n<post_body>Mine is the \"northeastern vegetables\" from Chubby Skewers. Addictive,  shoveling into my mouth</post_body>\n<thread_above>\n[1] you, earlier: eight ball from Bobbie Trap\n[2] another user: Eight balls usually go in my nose\n</thread_above>\n<comment_to_extract>\nI said what I said\n</comment_to_extract>",
+   "context": {
+    "title": "What's your favorite random dish from a random restaurant you can never not order?",
+    "selftext": "Mine is the \"northeastern vegetables\" from Chubby Skewers. Addictive,  shoveling into my mouth",
+    "ancestors": [
+     {
+      "author": "BillNyeTheCreamPiGuy",
+      "body": "eight ball from Bobbie Trap"
+     },
+     {
+      "author": "Fear_the_chicken",
+      "body": "Eight balls usually go in my nose"
+     }
+    ],
+    "author": "BillNyeTheCreamPiGuy",
+    "body": "I said what I said",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0344",
+   "comment_id": "t1_ioc6win",
+   "model_view": "<post_title>Help us plan our first trip to NYC</post_title>\n<post_body>My husband and I are visiting America for the first time in October. We are both huge foodies, and want to make sure we go to all the right places. \n\nWe are going to be there for 10 nights, I will include all of the places we have on our list so far. Would love to hear your thoughts about, what to skip out on and places we have missed and must include. The list has some rooftop bars included as well. \n\nI understand my list is huge, and we will not get through all of these places in 10 days, so any advice would be great!\n\nHere is the list \n\n- Katz deli \n- Magnolia bakery \n- Dominique ansel bakery \n- Keens steakhouse\n- J.G Melon\n- Peter Luger\n- Price St pizza \n- Rubirosa Pizza \n- Rus and daughters\n- Pastrami queen \n- Brooklyn bagel and coffee company\n- Kung fu xiao long bao\n- Joes steam rice roll \n- Broilermaker \n- Toro, ichiran, kame ramen (Ramen options)\n- Bleeker st pizza \n- Boucherie \n- Peak \n- Surreal\n- Water tower bar \n- Tompkins bagel\n- Boba guys \n- Sylvias \n- Los tacos no.1\n- Joe and Pats pizza\n- Luigis pizza Brooklyn\n- Lucali pizza Brooklyn \n- Di Fara pizza Brooklyn\n- Marea\n- Ciprianni (dessert) \n- The Fulton \n- Johns of bleeker st (pizza)\n- Eds lobster bar \n- Angry lobster ...</post_body>\n<comment_to_extract>\nUtopia bagel is the best\n</comment_to_extract>",
+   "context": {
+    "title": "Help us plan our first trip to NYC",
+    "selftext": "My husband and I are visiting America for the first time in October. We are both huge foodies, and want to make sure we go to all the right places. \n\nWe are going to be there for 10 nights, I will include all of the places we have on our list so far. Would love to hear your thoughts about, what to skip out on and places we have missed and must include. The list has some rooftop bars included as well. \n\nI understand my list is huge, and we will not get through all of these places in 10 days, so any advice would be great!\n\nHere is the list \n\n- Katz deli \n- Magnolia bakery \n- Dominique ansel bakery \n- Keens steakhouse\n- J.G Melon\n- Peter Luger\n- Price St pizza \n- Rubirosa Pizza \n- Rus and daughters\n- Pastrami queen \n- Brooklyn bagel and coffee company\n- Kung fu xiao long bao\n- Joes steam rice roll \n- Broilermaker \n- Toro, ichiran, kame ramen (Ramen options)\n- Bleeker st pizza \n- Boucherie \n- Peak \n- Surreal\n- Water tower bar \n- Tompkins bagel\n- Boba guys \n- Sylvias \n- Los tacos no.1\n- Joe and Pats pizza\n- Luigis pizza Brooklyn\n- Lucali pizza Brooklyn \n- Di Fara pizza Brooklyn\n- Marea\n- Ciprianni (dessert) \n- The Fulton \n- Johns of bleeker st (pizza)\n- Eds lobster bar \n- Angry lobster rolls \n- Forma Greenpoint \n- Levian bakery\n- Angelina bakery \n- Joes pizza\n- Misi \n- Bleaker st pizza \n- Kyuramen\n- Charles pan fried chicken \n- Via carota \n- RH rooftop \n- Minton \n- Zuma\n\nAny advice would be appreciated, thank you!\n\nEdit- \n\nI forgot to mention, we are coming from Australia. I did not expect so many responses, thank you all so much, you all have most definitely helped with narrowing options down. I am literally counting down the days until we are there, and visit your amazing city!\n\nI do have another question, the first day we get there, it won’t be until 8pm, we are staying on West 57th st, since it’s going to very late and after flying for almost 24hours, we probably won’t want to go too far, where should we go eat that’s relatively close? From what I can see none of the restaurants in my list, are close to us. \n\nAlso any recommendations for eats near Brooklyn museum?\n\nThanks again!",
+    "ancestors": [],
+    "author": "donghyuk48",
+    "body": "Utopia bagel is the best",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Utopia bagel",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bagel",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0345",
+   "comment_id": "t1_o3n7uyu",
+   "model_view": "<post_title>Noona's Ice Cream</post_title>\n<post_body>Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)</post_body>\n<comment_to_extract>\nI've been following her since she did mail order pints a couple years ago!! She does amazing flavors!\n</comment_to_extract>",
+   "context": {
+    "title": "Noona's Ice Cream",
+    "selftext": "Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)",
+    "ancestors": [],
+    "author": "hunneybunny",
+    "body": "I've been following her since she did mail order pints a couple years ago!! She does amazing flavors!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Noona's Ice Cream",
+     "named_in": "context",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "mail order",
+       "text": "Mail order pints were offered a couple years ago."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ice cream"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0346",
+   "comment_id": "t1_nx532u2",
+   "model_view": "<post_title>Best Bread and Butter?</post_title>\n<post_body>One of my favorite things to do is go to a bar/restaurant and order a cocktail and some bread and butter. I saw a similar question was asked about a year ago, but about complimentary bread at sit down places. I'm looking for places where i just order some really good bread and butter no questions asked. \n\nI usually go to PJ Clarke's and get their warm baguette with honey butter (delicious) but I go too often and want some other options</post_body>\n<comment_to_extract>\nRolos, anything that carries Shewolf (Diner in Brooklyn is the one I can think of off hand). Pour one out for the ghost of Semilla… had the BEST BREAD.\n</comment_to_extract>",
+   "context": {
+    "title": "Best Bread and Butter?",
+    "selftext": "One of my favorite things to do is go to a bar/restaurant and order a cocktail and some bread and butter. I saw a similar question was asked about a year ago, but about complimentary bread at sit down places. I'm looking for places where i just order some really good bread and butter no questions asked. \n\nI usually go to PJ Clarke's and get their warm baguette with honey butter (delicious) but I go too often and want some other options",
+    "ancestors": [],
+    "author": "Mac-n-cheez",
+    "body": "Rolos, anything that carries Shewolf (Diner in Brooklyn is the one I can think of off hand). Pour one out for the ghost of Semilla… had the BEST BREAD.",
+    "replies": [
+     {
+      "author": "smoretti713",
+      "body": "Rip semilla. I worked there for a while and learned to bake sourdough from Pam. Still not anywhere near as good as hers, but still good. We would take home leftover bread at the end of the night. It was so damn good"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Rolos",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Shewolf",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "where to find it",
+       "text": "carried by some places, including Diner in Brooklyn"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bread"
+     ]
+    },
+    {
+     "name": "Diner",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Brooklyn",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "bread source",
+       "text": "carries Shewolf bread"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Semilla",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bread",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "closed",
+       "text": "now closed"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "bread"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0347",
+   "comment_id": "t1_nofjk09",
+   "model_view": "<post_title>Kindest thing that was happened to you in a NYC restaurant?</post_title>\n<post_body>It was a cold spring day when I visited L'Industrie in west village. After standing in line for 40 minutes, I finally ordered my burrata slice and waited. When my name was called, the server actually gave me an extra slice of burrata - I asked him why. To which he replied \"your original slice was slightly smaller than our usual, so I added another, on the house\"\n\nIt really brought a smile to my face and wondered, if people had similar experiences at other NYC eateries? More than the stars or reviews, such acts win you as a customer for life!!\n\nSimilarly at \"Semma\" I once faced a racist remark from someone else, the restaurant manager apologized sincerely, gave us better seats and at the end of the meal, while we were waiting for the cheque, the manager came, apologized again, and said it was on the house. \n\nWould love to hear similar (nice) stories!!</post_body>\n<comment_to_extract>\n**Chick-Fil-A** in Times Square - No I'm not fucking you. First time ever going to CFA. When I told the cashier that I never been to CFA before he excitedly said \"No way!\" and then got me a sample of EVERY SINGLE SAUCE so that I could try it all at once\n</comment_to_extract>",
+   "context": {
+    "title": "Kindest thing that was happened to you in a NYC restaurant?",
+    "selftext": "It was a cold spring day when I visited L'Industrie in west village. After standing in line for 40 minutes, I finally ordered my burrata slice and waited. When my name was called, the server actually gave me an extra slice of burrata - I asked him why. To which he replied \"your original slice was slightly smaller than our usual, so I added another, on the house\"\n\nIt really brought a smile to my face and wondered, if people had similar experiences at other NYC eateries? More than the stars or reviews, such acts win you as a customer for life!!\n\nSimilarly at \"Semma\" I once faced a racist remark from someone else, the restaurant manager apologized sincerely, gave us better seats and at the end of the meal, while we were waiting for the cheque, the manager came, apologized again, and said it was on the house. \n\nWould love to hear similar (nice) stories!!",
+    "ancestors": [],
+    "author": "Rusiano",
+    "body": "**Chick-Fil-A** in Times Square - No I'm not fucking you. First time ever going to CFA. When I told the cashier that I never been to CFA before he excitedly said \"No way!\" and then got me a sample of EVERY SINGLE SAUCE so that I could try it all at once",
+    "replies": [
+     {
+      "author": "paulderev",
+      "body": "that’s very cool of them to do for you. right on. but i will also say that this is just a normal service day at chick fil a lol"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Chick-Fil-A",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Times Square",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "sauce samples",
+       "text": "cashier gave a sample of every sauce to a first-time visitor"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": "positive",
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "fast food",
+      "chicken sandwiches"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0348",
+   "comment_id": "t1_ot4epji",
+   "model_view": "<post_title>NYC Traditional Italian Recommendations</post_title>\n<post_body>Hi, we are visiting NYC for the first time for a week at the start of April. Everyone is stressing me out about having to make bookings super early for anywhere decent in NYC. Is this honestly true? \n\nOne thing I know I absolutely want to do is old school traditional NYC Italian restaurant. So I would like to make a booking. What is the best?  \n\nFor obviously food, but also the vibe/decor. Dated/wooden/lively etc etc. \n\nWe are staying LES. \n\nThanks! Can’t wait.</post_body>\n<comment_to_extract>\nGinger ristorante nyc midtown,  Audace, Osteria San carlo, Roscioli. Best decor Ginger ristorante nyc, they have also 3 restaurant in Rome\n</comment_to_extract>",
+   "context": {
+    "title": "NYC Traditional Italian Recommendations",
+    "selftext": "Hi, we are visiting NYC for the first time for a week at the start of April. Everyone is stressing me out about having to make bookings super early for anywhere decent in NYC. Is this honestly true? \n\nOne thing I know I absolutely want to do is old school traditional NYC Italian restaurant. So I would like to make a booking. What is the best?  \n\nFor obviously food, but also the vibe/decor. Dated/wooden/lively etc etc. \n\nWe are staying LES. \n\nThanks! Can’t wait. ",
+    "ancestors": [],
+    "author": "olladepression",
+    "body": "Ginger ristorante nyc midtown,  Audace, Osteria San carlo, Roscioli. Best decor Ginger ristorante nyc, they have also 3 restaurant in Rome",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Ginger ristorante nyc",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Midtown",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "branches",
+       "text": "also has 3 restaurants in Rome"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian",
+      "traditional"
+     ]
+    },
+    {
+     "name": "Audace",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian",
+      "traditional"
+     ]
+    },
+    {
+     "name": "Osteria San Carlo",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian",
+      "traditional"
+     ]
+    },
+    {
+     "name": "Roscioli",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian",
+      "traditional"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0349",
+   "comment_id": "t1_nhgouik",
+   "model_view": "<post_title>Any good breakfast food recs in Flatiron area (that aren’t bagels)?</post_title>\n<post_body>Just about bageled out on my trip, but open to pretty much anything else counter service. Any suggestions?</post_body>\n<comment_to_extract>\nnewsbar cafe is great. love the chicken sausage hash wrap\n</comment_to_extract>",
+   "context": {
+    "title": "Any good breakfast food recs in Flatiron area (that aren’t bagels)?",
+    "selftext": "Just about bageled out on my trip, but open to pretty much anything else counter service. Any suggestions?",
+    "ancestors": [],
+    "author": "merkmerthews",
+    "body": "newsbar cafe is great. love the chicken sausage hash wrap",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "newsbar cafe",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "Flatiron",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "chicken sausage hash wrap",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "breakfast",
+      "counter service"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0350",
+   "comment_id": "t1_nwow1zf",
+   "model_view": "<post_title>NYC slices now far more expensive than subway fare as 'pizza principle' disappears</post_title>\n<thread_above>\n[1] another user: There are still random places that are 1.50, but it's wild getting an average of 4-6$ pizza slices too\n[2] another user: I’ve had a 1.50 slice a few weeks ago and it was extremely disappointing. Not like it was even a few years ago. I miss the days for 2 slices and a can for 5.00\n[3] another user: I think it's because the shops who can afford to do a 1.50 slice now don't have to worry about making a quality 1.50 slice since there's so little competition at that price point and people will excuse any issues as \"it's such a good deal\". People are so desperate for cheap pizza they'll serve you some saucy tissue paper. The only 1.50 slice I still enjoy comes from 2Bros.\n</thread_above>\n<comment_to_extract>\n2bros dollar slice is still pretty decent but yea a lot of these dollar pizzas use cheap sourced ingredients the quality is bad and honestly you can tell if the pizza is shi by looking at it\n</comment_to_extract>",
+   "context": {
+    "title": "NYC slices now far more expensive than subway fare as 'pizza principle' disappears",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "fork_yuu",
+      "body": "There are still random places that are 1.50, but it's wild getting an average of 4-6$ pizza slices too"
+     },
+     {
+      "author": "watchingdacooler",
+      "body": "I’ve had a 1.50 slice a few weeks ago and it was extremely disappointing. Not like it was even a few years ago. I miss the days for 2 slices and a can for 5.00"
+     },
+     {
+      "author": "Mad-Greek",
+      "body": "I think it's because the shops who can afford to do a 1.50 slice now don't have to worry about making a quality 1.50 slice since there's so little competition at that price point and people will excuse any issues as \"it's such a good deal\".  People are so desperate for cheap pizza they'll serve you some saucy tissue paper. The only 1.50 slice I still enjoy comes from 2Bros."
+     }
+    ],
+    "author": "AdditionalQuietime",
+    "body": "2bros dollar slice is still pretty decent but yea a lot of these dollar pizzas use cheap sourced ingredients the quality is bad and honestly you can tell if the pizza is shi by looking at it",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "2bros",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "dollar slice",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "dollar slice"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ]
+    }
+   ]
+  }
+ ]
+}

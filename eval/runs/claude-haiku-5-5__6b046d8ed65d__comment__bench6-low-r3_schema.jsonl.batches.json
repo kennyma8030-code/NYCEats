@@ -1,0 +1,1773 @@
+{
+ "batches": {
+  "msgbatch_01QXaeVKjEfmHLSTeriKcMMK": {
+   "requests": {
+    "r000000": [
+     "comment:t1_o97mtyf",
+     0,
+     1
+    ],
+    "r000001": [
+     "comment:t1_kelevrv",
+     0,
+     1
+    ],
+    "r000002": [
+     "comment:t1_nw2v7zz",
+     0,
+     1
+    ],
+    "r000003": [
+     "comment:t1_opdx0iw",
+     0,
+     1
+    ],
+    "r000004": [
+     "comment:t1_o306hvo",
+     0,
+     1
+    ],
+    "r000005": [
+     "comment:t1_nhlarx7",
+     0,
+     1
+    ],
+    "r000006": [
+     "comment:t1_paar0f1",
+     0,
+     1
+    ],
+    "r000007": [
+     "comment:t1_ng3k515",
+     0,
+     1
+    ],
+    "r000008": [
+     "comment:t1_p0vu820",
+     0,
+     1
+    ],
+    "r000009": [
+     "comment:t1_opwu6w6",
+     0,
+     1
+    ],
+    "r000010": [
+     "comment:t1_not0tvq",
+     0,
+     1
+    ],
+    "r000011": [
+     "comment:t1_pb7g476",
+     0,
+     1
+    ],
+    "r000012": [
+     "comment:t1_nyncszo",
+     0,
+     1
+    ],
+    "r000013": [
+     "comment:t1_p0r7mzk",
+     0,
+     1
+    ],
+    "r000014": [
+     "comment:t1_ouzyjz6",
+     0,
+     1
+    ],
+    "r000015": [
+     "comment:t1_oebn8kj",
+     0,
+     1
+    ],
+    "r000016": [
+     "comment:t1_orfx26n",
+     0,
+     1
+    ],
+    "r000017": [
+     "comment:t1_p1kcfpo",
+     0,
+     1
+    ],
+    "r000018": [
+     "comment:t1_ny11sum",
+     0,
+     1
+    ],
+    "r000019": [
+     "comment:t1_ocyxktu",
+     0,
+     1
+    ],
+    "r000020": [
+     "comment:t1_ol26t5w",
+     0,
+     1
+    ],
+    "r000021": [
+     "comment:t1_ower5z6",
+     0,
+     1
+    ],
+    "r000022": [
+     "comment:t1_mjd1e6h",
+     0,
+     1
+    ],
+    "r000023": [
+     "comment:t1_npw80ui",
+     0,
+     1
+    ],
+    "r000024": [
+     "comment:t1_oz30ojk",
+     0,
+     1
+    ],
+    "r000025": [
+     "comment:t1_oul6udm",
+     0,
+     1
+    ],
+    "r000026": [
+     "comment:t1_oa1rkgp",
+     0,
+     1
+    ],
+    "r000027": [
+     "comment:t1_ozyzh4s",
+     0,
+     1
+    ],
+    "r000028": [
+     "comment:t1_npc1eqf",
+     0,
+     1
+    ],
+    "r000029": [
+     "comment:t1_odqx1hw",
+     0,
+     1
+    ],
+    "r000030": [
+     "comment:t1_p2d1t0w",
+     0,
+     1
+    ],
+    "r000031": [
+     "comment:t1_ng1gdoe",
+     0,
+     1
+    ],
+    "r000032": [
+     "comment:t1_nkagudu",
+     0,
+     1
+    ],
+    "r000033": [
+     "comment:t1_nodwljy",
+     0,
+     1
+    ],
+    "r000034": [
+     "comment:t1_nya8kxc",
+     0,
+     1
+    ],
+    "r000035": [
+     "comment:t1_omze6ni",
+     0,
+     1
+    ],
+    "r000036": [
+     "comment:t1_oxom6g5",
+     0,
+     1
+    ],
+    "r000037": [
+     "comment:t1_lag7dqq",
+     0,
+     1
+    ],
+    "r000038": [
+     "comment:t1_nsh3ppm",
+     0,
+     1
+    ],
+    "r000039": [
+     "comment:t1_p43wt6b",
+     0,
+     1
+    ],
+    "r000040": [
+     "comment:t1_nv259h3",
+     0,
+     1
+    ],
+    "r000041": [
+     "comment:t1_nt7oq88",
+     0,
+     1
+    ],
+    "r000042": [
+     "comment:t1_nuwfkcx",
+     0,
+     1
+    ],
+    "r000043": [
+     "comment:t1_p68puys",
+     0,
+     1
+    ],
+    "r000044": [
+     "comment:t1_o628web",
+     0,
+     1
+    ],
+    "r000045": [
+     "comment:t1_nowfmmf",
+     0,
+     1
+    ],
+    "r000046": [
+     "comment:t1_obdge1y",
+     0,
+     1
+    ],
+    "r000047": [
+     "comment:t1_omox8qm",
+     0,
+     1
+    ],
+    "r000048": [
+     "comment:t1_obqfe7y",
+     0,
+     1
+    ],
+    "r000049": [
+     "comment:t1_m5nm6jq",
+     0,
+     1
+    ],
+    "r000050": [
+     "comment:t1_lafxr2e",
+     0,
+     1
+    ],
+    "r000051": [
+     "comment:t1_p3pp743",
+     0,
+     1
+    ],
+    "r000052": [
+     "comment:t1_nz2xrcq",
+     0,
+     1
+    ],
+    "r000053": [
+     "comment:t1_obcm8i4",
+     0,
+     1
+    ],
+    "r000054": [
+     "comment:t1_ot7m1z7",
+     0,
+     1
+    ],
+    "r000055": [
+     "comment:t1_ock1s1g",
+     0,
+     1
+    ],
+    "r000056": [
+     "comment:t1_ohnbobe",
+     0,
+     1
+    ],
+    "r000057": [
+     "comment:t1_p658uvy",
+     0,
+     1
+    ],
+    "r000058": [
+     "comment:t1_oelm2ag",
+     0,
+     1
+    ],
+    "r000059": [
+     "comment:t1_oiz9se5",
+     0,
+     1
+    ],
+    "r000060": [
+     "comment:t1_nl0cibw",
+     0,
+     1
+    ],
+    "r000061": [
+     "comment:t1_o72a7gw",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_01QXaeVKjEfmHLSTeriKcMMK",
+   "submitted": "2026-10-18T13:49:47",
+   "collected": true,
+   "retry": [],
+   "cost": 0.01156909
+  },
+  "msgbatch_01WBr8TcaJ7HtP8izuVbajU4": {
+   "requests": {
+    "r000000": [
+     "comment:t1_oe2p5eo",
+     0,
+     1
+    ],
+    "r000001": [
+     "comment:t1_o20dcxe",
+     0,
+     1
+    ],
+    "r000002": [
+     "comment:t1_oa51w8l",
+     0,
+     1
+    ],
+    "r000003": [
+     "comment:t1_oh61yef",
+     0,
+     1
+    ],
+    "r000004": [
+     "comment:t1_o84lada",
+     0,
+     1
+    ],
+    "r000005": [
+     "comment:t1_oh6cjoe",
+     0,
+     1
+    ],
+    "r000006": [
+     "comment:t1_oa1tbql",
+     0,
+     1
+    ],
+    "r000007": [
+     "comment:t1_p2d1ocg",
+     0,
+     1
+    ],
+    "r000008": [
+     "comment:t1_pbvokj7",
+     0,
+     1
+    ],
+    "r000009": [
+     "comment:t1_oiifkg3",
+     0,
+     1
+    ],
+    "r000010": [
+     "comment:t1_o5sh4nr",
+     0,
+     1
+    ],
+    "r000011": [
+     "comment:t1_p0i6g3q",
+     0,
+     1
+    ],
+    "r000012": [
+     "comment:t1_ol8w80a",
+     0,
+     1
+    ],
+    "r000013": [
+     "comment:t1_nofjk09",
+     0,
+     1
+    ],
+    "r000014": [
+     "comment:t1_o9l5o4p",
+     0,
+     1
+    ],
+    "r000015": [
+     "comment:t1_ng885xv",
+     0,
+     1
+    ],
+    "r000016": [
+     "comment:t1_pbt8i4z",
+     0,
+     1
+    ],
+    "r000017": [
+     "comment:t1_o9nse8p",
+     0,
+     1
+    ],
+    "r000018": [
+     "comment:t1_p4npkf8",
+     0,
+     1
+    ],
+    "r000019": [
+     "comment:t1_o511bwx",
+     0,
+     1
+    ],
+    "r000020": [
+     "comment:t1_p1e9hem",
+     0,
+     1
+    ],
+    "r000021": [
+     "comment:t1_oo5dnbd",
+     0,
+     1
+    ],
+    "r000022": [
+     "comment:t1_o70kw2r",
+     0,
+     1
+    ],
+    "r000023": [
+     "comment:t1_op5s95z",
+     0,
+     1
+    ],
+    "r000024": [
+     "comment:t1_nopix7b",
+     0,
+     1
+    ],
+    "r000025": [
+     "comment:t1_nxak5y5",
+     0,
+     1
+    ],
+    "r000026": [
+     "comment:t1_p72asfk",
+     0,
+     1
+    ],
+    "r000027": [
+     "comment:t1_novbe9j",
+     0,
+     1
+    ],
+    "r000028": [
+     "comment:t1_nic4wuw",
+     0,
+     1
+    ],
+    "r000029": [
+     "comment:t1_oycrsq6",
+     0,
+     1
+    ],
+    "r000030": [
+     "comment:t1_o920s2d",
+     0,
+     1
+    ],
+    "r000031": [
+     "comment:t1_ogq64h3",
+     0,
+     1
+    ],
+    "r000032": [
+     "comment:t1_od3s2w5",
+     0,
+     1
+    ],
+    "r000033": [
+     "comment:t1_opczj0l",
+     0,
+     1
+    ],
+    "r000034": [
+     "comment:t1_oiqb9di",
+     0,
+     1
+    ],
+    "r000035": [
+     "comment:t1_orufvib",
+     0,
+     1
+    ],
+    "r000036": [
+     "comment:t1_nwow1zf",
+     0,
+     1
+    ],
+    "r000037": [
+     "comment:t1_p7cn2y8",
+     0,
+     1
+    ],
+    "r000038": [
+     "comment:t1_p5he4s9",
+     0,
+     1
+    ],
+    "r000039": [
+     "comment:t1_nu91ty3",
+     0,
+     1
+    ],
+    "r000040": [
+     "comment:t1_ob4i1hy",
+     0,
+     1
+    ],
+    "r000041": [
+     "comment:t1_o61nqia",
+     0,
+     1
+    ],
+    "r000042": [
+     "comment:t1_nsfkd6q",
+     0,
+     1
+    ],
+    "r000043": [
+     "comment:t1_nrnbdly",
+     0,
+     1
+    ],
+    "r000044": [
+     "comment:t1_on18vhq",
+     0,
+     1
+    ],
+    "r000045": [
+     "comment:t1_ns4vlk6",
+     0,
+     1
+    ],
+    "r000046": [
+     "comment:t1_p19js5g",
+     0,
+     1
+    ],
+    "r000047": [
+     "comment:t1_olec4ws",
+     0,
+     1
+    ],
+    "r000048": [
+     "comment:t1_oxg7n8w",
+     0,
+     1
+    ],
+    "r000049": [
+     "comment:t1_nmv0i0c",
+     0,
+     1
+    ],
+    "r000050": [
+     "comment:t1_niu71k7",
+     0,
+     1
+    ],
+    "r000051": [
+     "comment:t1_osaz7jt",
+     0,
+     1
+    ],
+    "r000052": [
+     "comment:t1_o3a6fi4",
+     0,
+     1
+    ],
+    "r000053": [
+     "comment:t1_ojiehi2",
+     0,
+     1
+    ],
+    "r000054": [
+     "comment:t1_oistdsw",
+     0,
+     1
+    ],
+    "r000055": [
+     "comment:t1_ocpsj0b",
+     0,
+     1
+    ],
+    "r000056": [
+     "comment:t1_nkegmc5",
+     0,
+     1
+    ],
+    "r000057": [
+     "comment:t1_ozwa8r6",
+     0,
+     1
+    ],
+    "r000058": [
+     "comment:t1_nwekg2n",
+     0,
+     1
+    ],
+    "r000059": [
+     "comment:t1_ng0smla",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_01WBr8TcaJ7HtP8izuVbajU4",
+   "submitted": "2026-10-18T13:58:52",
+   "collected": true,
+   "retry": [],
+   "cost": 0.00949784
+  },
+  "msgbatch_01WdJtDoXhUoeMT4poc4ix6v": {
+   "requests": {
+    "r000000": [
+     "comment:t1_nl9l6fg",
+     0,
+     1
+    ],
+    "r000001": [
+     "comment:t1_ogcr192",
+     0,
+     1
+    ],
+    "r000002": [
+     "comment:t1_ocx1852",
+     0,
+     1
+    ],
+    "r000003": [
+     "comment:t1_o85v4pr",
+     0,
+     1
+    ],
+    "r000004": [
+     "comment:t1_mjgunf2",
+     0,
+     1
+    ],
+    "r000005": [
+     "comment:t1_p7t592d",
+     0,
+     1
+    ],
+    "r000006": [
+     "comment:t1_nkelw9y",
+     0,
+     1
+    ],
+    "r000007": [
+     "comment:t1_ogclo18",
+     0,
+     1
+    ],
+    "r000008": [
+     "comment:t1_p1kjgvj",
+     0,
+     1
+    ],
+    "r000009": [
+     "comment:t1_p6uo008",
+     0,
+     1
+    ],
+    "r000010": [
+     "comment:t1_noo36x6",
+     0,
+     1
+    ],
+    "r000011": [
+     "comment:t1_p9t38bf",
+     0,
+     1
+    ],
+    "r000012": [
+     "comment:t1_ninbfx6",
+     0,
+     1
+    ],
+    "r000013": [
+     "comment:t1_ofrt5m7",
+     0,
+     1
+    ],
+    "r000014": [
+     "comment:t1_o4x8du3",
+     0,
+     1
+    ],
+    "r000015": [
+     "comment:t1_paceu0a",
+     0,
+     1
+    ],
+    "r000016": [
+     "comment:t1_ohc2x6k",
+     0,
+     1
+    ],
+    "r000017": [
+     "comment:t1_o34y8xe",
+     0,
+     1
+    ],
+    "r000018": [
+     "comment:t1_ohmk0kd",
+     0,
+     1
+    ],
+    "r000019": [
+     "comment:t1_ow0kxk5",
+     0,
+     1
+    ],
+    "r000020": [
+     "comment:t1_notnqvq",
+     0,
+     1
+    ],
+    "r000021": [
+     "comment:t1_owwu0q6",
+     0,
+     1
+    ],
+    "r000022": [
+     "comment:t1_o744v4c",
+     0,
+     1
+    ],
+    "r000023": [
+     "comment:t1_ow7o96n",
+     0,
+     1
+    ],
+    "r000024": [
+     "comment:t1_o71cmkz",
+     0,
+     1
+    ],
+    "r000025": [
+     "comment:t1_ozj266w",
+     0,
+     1
+    ],
+    "r000026": [
+     "comment:t1_ni0888n",
+     0,
+     1
+    ],
+    "r000027": [
+     "comment:t1_nte951b",
+     0,
+     1
+    ],
+    "r000028": [
+     "comment:t1_ouqghtl",
+     0,
+     1
+    ],
+    "r000029": [
+     "comment:t1_njicyu7",
+     0,
+     1
+    ],
+    "r000030": [
+     "comment:t1_nopmqcd",
+     0,
+     1
+    ],
+    "r000031": [
+     "comment:t1_nwve9o4",
+     0,
+     1
+    ],
+    "r000032": [
+     "comment:t1_p6gxxzo",
+     0,
+     1
+    ],
+    "r000033": [
+     "comment:t1_p7c0wq7",
+     0,
+     1
+    ],
+    "r000034": [
+     "comment:t1_opkioan",
+     0,
+     1
+    ],
+    "r000035": [
+     "comment:t1_o7x674w",
+     0,
+     1
+    ],
+    "r000036": [
+     "comment:t1_p8yqiiy",
+     0,
+     1
+    ],
+    "r000037": [
+     "comment:t1_ois3ta6",
+     0,
+     1
+    ],
+    "r000038": [
+     "comment:t1_ox4o1zv",
+     0,
+     1
+    ],
+    "r000039": [
+     "comment:t1_nzeamqs",
+     0,
+     1
+    ],
+    "r000040": [
+     "comment:t1_op50m8q",
+     0,
+     1
+    ],
+    "r000041": [
+     "comment:t1_p1j5f2c",
+     0,
+     1
+    ],
+    "r000042": [
+     "comment:t1_ngxeg38",
+     0,
+     1
+    ],
+    "r000043": [
+     "comment:t1_omk46wd",
+     0,
+     1
+    ],
+    "r000044": [
+     "comment:t1_nk4siw3",
+     0,
+     1
+    ],
+    "r000045": [
+     "comment:t1_nth9sb7",
+     0,
+     1
+    ],
+    "r000046": [
+     "comment:t1_ong5ofx",
+     0,
+     1
+    ],
+    "r000047": [
+     "comment:t1_lafq521",
+     0,
+     1
+    ],
+    "r000048": [
+     "comment:t1_njjxzr3",
+     0,
+     1
+    ],
+    "r000049": [
+     "comment:t1_ov3j3mv",
+     0,
+     1
+    ],
+    "r000050": [
+     "comment:t1_nic3aqa",
+     0,
+     1
+    ],
+    "r000051": [
+     "comment:t1_nqeiorr",
+     0,
+     1
+    ],
+    "r000052": [
+     "comment:t1_p63wf3q",
+     0,
+     1
+    ],
+    "r000053": [
+     "comment:t1_ocmker2",
+     0,
+     1
+    ],
+    "r000054": [
+     "comment:t1_ntamyvd",
+     0,
+     1
+    ],
+    "r000055": [
+     "comment:t1_os4cd1h",
+     0,
+     1
+    ],
+    "r000056": [
+     "comment:t1_p8t9z4m",
+     0,
+     1
+    ],
+    "r000057": [
+     "comment:t1_op85a71",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_01WdJtDoXhUoeMT4poc4ix6v",
+   "submitted": "2026-10-18T14:05:58",
+   "collected": true,
+   "retry": [],
+   "cost": 0.0093598
+  },
+  "msgbatch_012nwaBMpeb4dvFJM4frM3GH": {
+   "requests": {
+    "r000000": [
+     "comment:t1_oce5l5t",
+     0,
+     1
+    ],
+    "r000001": [
+     "comment:t1_o88qxrt",
+     0,
+     1
+    ],
+    "r000002": [
+     "comment:t1_osa74fp",
+     0,
+     1
+    ],
+    "r000003": [
+     "comment:t1_oi4jwc1",
+     0,
+     1
+    ],
+    "r000004": [
+     "comment:t1_obzlz7j",
+     0,
+     1
+    ],
+    "r000005": [
+     "comment:t1_o8qmmde",
+     0,
+     1
+    ],
+    "r000006": [
+     "comment:t1_odbf41g",
+     0,
+     1
+    ],
+    "r000007": [
+     "comment:t1_oogicxe",
+     0,
+     1
+    ],
+    "r000008": [
+     "comment:t1_od0dwc2",
+     0,
+     1
+    ],
+    "r000009": [
+     "comment:t1_oqqr8vp",
+     0,
+     1
+    ],
+    "r000010": [
+     "comment:t1_niqdvo3",
+     0,
+     1
+    ],
+    "r000011": [
+     "comment:t1_pa7h4g8",
+     0,
+     1
+    ],
+    "r000012": [
+     "comment:t1_nsdsisq",
+     0,
+     1
+    ],
+    "r000013": [
+     "comment:t1_od4b46g",
+     0,
+     1
+    ],
+    "r000014": [
+     "comment:t1_of0hdov",
+     0,
+     1
+    ],
+    "r000015": [
+     "comment:t1_p26itzj",
+     0,
+     1
+    ],
+    "r000016": [
+     "comment:t1_olb7qm0",
+     0,
+     1
+    ],
+    "r000017": [
+     "comment:t1_omzxv6c",
+     0,
+     1
+    ],
+    "r000018": [
+     "comment:t1_p0xw8lm",
+     0,
+     1
+    ],
+    "r000019": [
+     "comment:t1_o6hxdke",
+     0,
+     1
+    ],
+    "r000020": [
+     "comment:t1_nk4l2dd",
+     0,
+     1
+    ],
+    "r000021": [
+     "comment:t1_ocimxl4",
+     0,
+     1
+    ],
+    "r000022": [
+     "comment:t1_oknglrk",
+     0,
+     1
+    ],
+    "r000023": [
+     "comment:t1_o639nq5",
+     0,
+     1
+    ],
+    "r000024": [
+     "comment:t1_npgf0w0",
+     0,
+     1
+    ],
+    "r000025": [
+     "comment:t1_ozwvgmy",
+     0,
+     1
+    ],
+    "r000026": [
+     "comment:t1_nhgouik",
+     0,
+     1
+    ],
+    "r000027": [
+     "comment:t1_nsp4j1b",
+     0,
+     1
+    ],
+    "r000028": [
+     "comment:t1_nk7lo0e",
+     0,
+     1
+    ],
+    "r000029": [
+     "comment:t1_nygpauw",
+     0,
+     1
+    ],
+    "r000030": [
+     "comment:t1_o9jchty",
+     0,
+     1
+    ],
+    "r000031": [
+     "comment:t1_p7w3ib3",
+     0,
+     1
+    ],
+    "r000032": [
+     "comment:t1_obc8zv8",
+     0,
+     1
+    ],
+    "r000033": [
+     "comment:t1_o3fbot8",
+     0,
+     1
+    ],
+    "r000034": [
+     "comment:t1_nm3hwxw",
+     0,
+     1
+    ],
+    "r000035": [
+     "comment:t1_nz1e6s8",
+     0,
+     1
+    ],
+    "r000036": [
+     "comment:t1_oleabss",
+     0,
+     1
+    ],
+    "r000037": [
+     "comment:t1_nlivkzv",
+     0,
+     1
+    ],
+    "r000038": [
+     "comment:t1_nwfo45o",
+     0,
+     1
+    ],
+    "r000039": [
+     "comment:t1_ouois96",
+     0,
+     1
+    ],
+    "r000040": [
+     "comment:t1_nnk9ab6",
+     0,
+     1
+    ],
+    "r000041": [
+     "comment:t1_nzh8u15",
+     0,
+     1
+    ],
+    "r000042": [
+     "comment:t1_l1azrve",
+     0,
+     1
+    ],
+    "r000043": [
+     "comment:t1_ongtrb0",
+     0,
+     1
+    ],
+    "r000044": [
+     "comment:t1_ourw1b5",
+     0,
+     1
+    ],
+    "r000045": [
+     "comment:t1_ntjg7a4",
+     0,
+     1
+    ],
+    "r000046": [
+     "comment:t1_noallnr",
+     0,
+     1
+    ],
+    "r000047": [
+     "comment:t1_oj78tm4",
+     0,
+     1
+    ],
+    "r000048": [
+     "comment:t1_owksvvi",
+     0,
+     1
+    ],
+    "r000049": [
+     "comment:t1_owkutga",
+     0,
+     1
+    ],
+    "r000050": [
+     "comment:t1_owln6y9",
+     0,
+     1
+    ],
+    "r000051": [
+     "comment:t1_owlw11x",
+     0,
+     1
+    ],
+    "r000052": [
+     "comment:t1_owlxohd",
+     0,
+     1
+    ],
+    "r000053": [
+     "comment:t1_owlyrkr",
+     0,
+     1
+    ],
+    "r000054": [
+     "comment:t1_owm2qt2",
+     0,
+     1
+    ],
+    "r000055": [
+     "comment:t1_owma05g",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_012nwaBMpeb4dvFJM4frM3GH",
+   "submitted": "2026-10-18T14:13:03",
+   "collected": true,
+   "retry": [],
+   "cost": 0.00717065
+  },
+  "msgbatch_01HFLwH9MYwaDwocBsxuZon8": {
+   "requests": {
+    "r000000": [
+     "comment:t1_owmaom5",
+     0,
+     1
+    ],
+    "r000001": [
+     "comment:t1_owmbvpo",
+     0,
+     1
+    ],
+    "r000002": [
+     "comment:t1_owmlh53",
+     0,
+     1
+    ],
+    "r000003": [
+     "comment:t1_owmphip",
+     0,
+     1
+    ],
+    "r000004": [
+     "comment:t1_own36s3",
+     0,
+     1
+    ],
+    "r000005": [
+     "comment:t1_owu41bl",
+     0,
+     1
+    ],
+    "r000006": [
+     "comment:t1_ox6u9r5",
+     0,
+     1
+    ],
+    "r000007": [
+     "comment:t1_owp7pum",
+     0,
+     1
+    ],
+    "r000008": [
+     "comment:t1_owl51n5",
+     0,
+     1
+    ],
+    "r000009": [
+     "comment:t1_owl7op2",
+     0,
+     1
+    ],
+    "r000010": [
+     "comment:t1_owlc9ce",
+     0,
+     1
+    ],
+    "r000011": [
+     "comment:t1_owlz7zx",
+     0,
+     1
+    ],
+    "r000012": [
+     "comment:t1_owlhmv1",
+     0,
+     1
+    ],
+    "r000013": [
+     "comment:t1_owv75vo",
+     0,
+     1
+    ],
+    "r000014": [
+     "comment:t1_owvtc6s",
+     0,
+     1
+    ],
+    "r000015": [
+     "comment:t1_ox5h50u",
+     0,
+     1
+    ],
+    "r000016": [
+     "comment:t1_owzr573",
+     0,
+     1
+    ],
+    "r000017": [
+     "comment:t1_owtn36n",
+     0,
+     1
+    ],
+    "r000018": [
+     "comment:t1_owx1azt",
+     0,
+     1
+    ],
+    "r000019": [
+     "comment:t1_ox2u9mb",
+     0,
+     1
+    ],
+    "r000020": [
+     "comment:t1_owq530y",
+     0,
+     1
+    ],
+    "r000021": [
+     "comment:t1_owsv3nx",
+     0,
+     1
+    ],
+    "r000022": [
+     "comment:t1_owtdezk",
+     0,
+     1
+    ],
+    "r000023": [
+     "comment:t1_owywwpe",
+     0,
+     1
+    ],
+    "r000024": [
+     "comment:t1_oxhp4t5",
+     0,
+     1
+    ],
+    "r000025": [
+     "comment:t1_oxitb7w",
+     0,
+     1
+    ],
+    "r000026": [
+     "comment:t1_o3kvxe0",
+     0,
+     1
+    ],
+    "r000027": [
+     "comment:t1_o3kxbbu",
+     0,
+     1
+    ],
+    "r000028": [
+     "comment:t1_o3l0elu",
+     0,
+     1
+    ],
+    "r000029": [
+     "comment:t1_o3l32gu",
+     0,
+     1
+    ],
+    "r000030": [
+     "comment:t1_o3l1pm2",
+     0,
+     1
+    ],
+    "r000031": [
+     "comment:t1_o3l27ui",
+     0,
+     1
+    ],
+    "r000032": [
+     "comment:t1_o3l3uo7",
+     0,
+     1
+    ],
+    "r000033": [
+     "comment:t1_o3lbclv",
+     0,
+     1
+    ],
+    "r000034": [
+     "comment:t1_o3l38uq",
+     0,
+     1
+    ],
+    "r000035": [
+     "comment:t1_o3l7buy",
+     0,
+     1
+    ],
+    "r000036": [
+     "comment:t1_o3leq0o",
+     0,
+     1
+    ],
+    "r000037": [
+     "comment:t1_o3lkoy9",
+     0,
+     1
+    ],
+    "r000038": [
+     "comment:t1_o3p6axy",
+     0,
+     1
+    ],
+    "r000039": [
+     "comment:t1_o430eg1",
+     0,
+     1
+    ],
+    "r000040": [
+     "comment:t1_o3m9fu3",
+     0,
+     1
+    ],
+    "r000041": [
+     "comment:t1_o3mb99h",
+     0,
+     1
+    ],
+    "r000042": [
+     "comment:t1_o3n7uyu",
+     0,
+     1
+    ],
+    "r000043": [
+     "comment:t1_o3r5jyp",
+     0,
+     1
+    ],
+    "r000044": [
+     "comment:t1_orne7q0",
+     0,
+     1
+    ],
+    "r000045": [
+     "comment:t1_ornphy1",
+     0,
+     1
+    ],
+    "r000046": [
+     "comment:t1_ornssi9",
+     0,
+     1
+    ],
+    "r000047": [
+     "comment:t1_orom5pn",
+     0,
+     1
+    ],
+    "r000048": [
+     "comment:t1_ornj05g",
+     0,
+     1
+    ],
+    "r000049": [
+     "comment:t1_ornmvyh",
+     0,
+     1
+    ],
+    "r000050": [
+     "comment:t1_ornog7a",
+     0,
+     1
+    ],
+    "r000051": [
+     "comment:t1_oro51m1",
+     0,
+     1
+    ],
+    "r000052": [
+     "comment:t1_oro9mqv",
+     0,
+     1
+    ],
+    "r000053": [
+     "comment:t1_orojyyr",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_01HFLwH9MYwaDwocBsxuZon8",
+   "submitted": "2026-10-18T14:21:07",
+   "collected": true,
+   "retry": [],
+   "cost": 0.0068452
+  },
+  "msgbatch_012ptffVhKvPGsEcVuUnWQiM": {
+   "requests": {
+    "r000000": [
+     "comment:t1_orsqiae",
+     0,
+     1
+    ],
+    "r000001": [
+     "comment:t1_orp1myy",
+     0,
+     1
+    ],
+    "r000002": [
+     "comment:t1_orpu53d",
+     0,
+     1
+    ],
+    "r000003": [
+     "comment:t1_orq46y7",
+     0,
+     1
+    ],
+    "r000004": [
+     "comment:t1_ors3no0",
+     0,
+     1
+    ],
+    "r000005": [
+     "comment:t1_orsb469",
+     0,
+     1
+    ],
+    "r000006": [
+     "comment:t1_orsydim",
+     0,
+     1
+    ],
+    "r000007": [
+     "comment:t1_p64gzqa",
+     0,
+     1
+    ],
+    "r000008": [
+     "comment:t1_p65aoi0",
+     0,
+     1
+    ],
+    "r000009": [
+     "comment:t1_p64i28h",
+     0,
+     1
+    ],
+    "r000010": [
+     "comment:t1_p64kbxl",
+     0,
+     1
+    ],
+    "r000011": [
+     "comment:t1_p64l1oi",
+     0,
+     1
+    ],
+    "r000012": [
+     "comment:t1_p64mafl",
+     0,
+     1
+    ],
+    "r000013": [
+     "comment:t1_p6ahbyv",
+     0,
+     1
+    ],
+    "r000014": [
+     "comment:t1_p64h3jf",
+     0,
+     1
+    ],
+    "r000015": [
+     "comment:t1_p64kpir",
+     0,
+     1
+    ],
+    "r000016": [
+     "comment:t1_p64hhkf",
+     0,
+     1
+    ],
+    "r000017": [
+     "comment:t1_p69bw81",
+     0,
+     1
+    ],
+    "r000018": [
+     "comment:t1_p69yfzg",
+     0,
+     1
+    ],
+    "r000019": [
+     "comment:t1_p69zka5",
+     0,
+     1
+    ],
+    "r000020": [
+     "comment:t1_p6ak2ii",
+     0,
+     1
+    ],
+    "r000021": [
+     "comment:t1_p64hhwb",
+     0,
+     1
+    ],
+    "r000022": [
+     "comment:t1_p67js92",
+     0,
+     1
+    ],
+    "r000023": [
+     "comment:t1_p64o4wn",
+     0,
+     1
+    ],
+    "r000024": [
+     "comment:t1_p64pxoc",
+     0,
+     1
+    ],
+    "r000025": [
+     "comment:t1_p6549gx",
+     0,
+     1
+    ],
+    "r000026": [
+     "comment:t1_p65ak1y",
+     0,
+     1
+    ],
+    "r000027": [
+     "comment:t1_p65u95m",
+     0,
+     1
+    ],
+    "r000028": [
+     "comment:t1_p66vnfc",
+     0,
+     1
+    ],
+    "r000029": [
+     "comment:t1_p6732eo",
+     0,
+     1
+    ],
+    "r000030": [
+     "comment:t1_p67gw25",
+     0,
+     1
+    ],
+    "r000031": [
+     "comment:t1_p685xca",
+     0,
+     1
+    ],
+    "r000032": [
+     "comment:t1_p69ujb6",
+     0,
+     1
+    ],
+    "r000033": [
+     "comment:t1_p6aylfm",
+     0,
+     1
+    ],
+    "r000034": [
+     "comment:t1_p6b7wr9",
+     0,
+     1
+    ],
+    "r000035": [
+     "comment:t1_p6b9zgz",
+     0,
+     1
+    ],
+    "r000036": [
+     "comment:t1_p6puvov",
+     0,
+     1
+    ],
+    "r000037": [
+     "comment:t1_p6vw2ux",
+     0,
+     1
+    ],
+    "r000038": [
+     "comment:t1_p795a0l",
+     0,
+     1
+    ],
+    "r000039": [
+     "comment:t1_o258pnt",
+     0,
+     1
+    ],
+    "r000040": [
+     "comment:t1_o25cmbj",
+     0,
+     1
+    ],
+    "r000041": [
+     "comment:t1_o256pyx",
+     0,
+     1
+    ],
+    "r000042": [
+     "comment:t1_o2548ih",
+     0,
+     1
+    ],
+    "r000043": [
+     "comment:t1_o255q7c",
+     0,
+     1
+    ],
+    "r000044": [
+     "comment:t1_o25705p",
+     0,
+     1
+    ],
+    "r000045": [
+     "comment:t1_o25bxps",
+     0,
+     1
+    ],
+    "r000046": [
+     "comment:t1_o2573bi",
+     0,
+     1
+    ],
+    "r000047": [
+     "comment:t1_o257o2x",
+     0,
+     1
+    ],
+    "r000048": [
+     "comment:t1_o2587x9",
+     0,
+     1
+    ],
+    "r000049": [
+     "comment:t1_o2843ho",
+     0,
+     1
+    ],
+    "r000050": [
+     "comment:t1_o258091",
+     0,
+     1
+    ],
+    "r000051": [
+     "comment:t1_o25pnrx",
+     0,
+     1
+    ],
+    "r000052": [
+     "comment:t1_o25j5zj",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_012ptffVhKvPGsEcVuUnWQiM",
+   "submitted": "2026-10-18T14:28:12",
+   "collected": true,
+   "retry": [],
+   "cost": 0.00611412
+  }
+ }
+}

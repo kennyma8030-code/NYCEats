@@ -1,0 +1,1329 @@
+{
+ "packet": "p003",
+ "items": [
+  {
+   "item_id": "R0051",
+   "comment_id": "t1_pbt8i4z",
+   "model_view": "<post_title>These AI slop menus need to end. I’m getting really sick of seeing them all over the city.</post_title>\n<comment_to_extract>\nTruly disgusting\n</comment_to_extract>",
+   "context": {
+    "title": "These AI slop menus need to end. I’m getting really sick of seeing them all over the city.",
+    "selftext": "",
+    "ancestors": [],
+    "author": "herseyhawkins33",
+    "body": "Truly disgusting ",
+    "replies": [
+     {
+      "author": "thats-gold-jerry",
+      "body": "The horror…"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0052",
+   "comment_id": "t1_j6426wh",
+   "model_view": "<post_title>Havent been to NYC in over 15 years. What is everyone's go-to Thai spot?</post_title>\n<post_body>I've heard great things about Thai Villa, Soothr, Up Thai, and Thep Thai? Which one should I go to? Any other suggestions are welcome too!</post_body>\n<thread_above>\n[1] another user: Soothr, Somtum Der, Wayla!\n</thread_above>\n<comment_to_extract>\nI second somtum der\n</comment_to_extract>",
+   "context": {
+    "title": "Havent been to NYC in over 15 years. What is everyone's go-to Thai spot?",
+    "selftext": "I've heard great things about Thai Villa, Soothr, Up Thai, and Thep Thai? Which one should I go to? Any other suggestions are welcome too!",
+    "ancestors": [
+     {
+      "author": "Old_Library6027",
+      "body": "Soothr, Somtum Der, Wayla!"
+     }
+    ],
+    "author": "wushwick",
+    "body": "I second somtum der",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "somtum der",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "thai"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0053",
+   "comment_id": "t1_nic4wuw",
+   "model_view": "<post_title>Son Del North (LES)</post_title>\n<post_body>No, I’ve been posting quite a bit but I couldn’t not jump on the hype train after trying this \n\n\nI usually stay away from burritos because they’re carb city and the Mexican food in Manhattan is mid to say the least (although there still are hidden gems) but these don’t have rice and you can get it without beans as well. I got the steak one (double steak) with just salsa and cheese and Guac. $25. Also got a large dipping sauce, picked veggies and a side of Guac. So $39. Not insane but kind of insane. But without a doubt this is the best burrito I’ve ever had in my life. Holy shit was it stuffed with steak. And I think like the best burgers have great buns, the fact that the tortilla here was so soft, love that they grill. It’s just realll pillowy. This place only does burritos and only a few types but I suspect that will not matter if you love burritos it’s a must do.</post_body>\n<comment_to_extract>\nExtremely overrated once again\n\n\nDon't understand all the hype for this one too.\n</comment_to_extract>",
+   "context": {
+    "title": "Son Del North (LES)",
+    "selftext": "No, I’ve been posting quite a bit but I couldn’t not jump on the hype train after trying this \n\n\nI usually stay away from burritos because they’re carb city and the Mexican food in Manhattan is mid to say the least (although there still are hidden gems) but these don’t have rice and you can get it without beans as well. I got the steak one (double steak) with just salsa and cheese and Guac. $25. Also got a large dipping sauce, picked veggies and a side of Guac. So $39. Not insane but kind of insane. But without a doubt this is the best burrito I’ve ever had in my life. Holy shit was it stuffed with steak. And I think like the best burgers have great buns, the fact that the tortilla here was so soft, love that they grill. It’s just realll pillowy. This place only does burritos and only a few types but I suspect that will not matter if you love burritos it’s a must do. ",
+    "ancestors": [],
+    "author": "SchnitzelRaider",
+    "body": "Extremely overrated once again\n\n\nDon't understand all the hype for this one too.",
+    "replies": [
+     {
+      "author": "poopship462",
+      "body": "The tortilla is really good. But the filling is kinda eh"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Son Del North",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "burritos"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0054",
+   "comment_id": "t1_maltbem",
+   "model_view": "<post_title>NYC steakhouses</post_title>\n<post_body>I know this topic has been extensively discussed, but I wanted to ask about it again now that Keens has been bought by private equity. What are the best spots in the city for a special occasion and is Keens still up there?</post_body>\n<thread_above>\n[1] you, earlier: luger, for me at least. great steak and hospitality\n[2] another user: They’re not really known for hospitality\n</thread_above>\n<comment_to_extract>\nyou spend too much time on social media\n</comment_to_extract>",
+   "context": {
+    "title": "NYC steakhouses",
+    "selftext": "I know this topic has been extensively discussed, but I wanted to ask about it again now that Keens has been bought by private equity. What are the best spots in the city for a special occasion and is Keens still up there?",
+    "ancestors": [
+     {
+      "author": "jason_walterfalls",
+      "body": "luger, for me at least. great steak and hospitality"
+     },
+     {
+      "author": "socal1959",
+      "body": "They’re not really known for hospitality"
+     }
+    ],
+    "author": "jason_walterfalls",
+    "body": "you spend too much time on social media",
+    "replies": [
+     {
+      "author": "socal1959",
+      "body": "That’s from my personal experience"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0055",
+   "comment_id": "t1_mymklq0",
+   "model_view": "<post_title>Theodora- Brooklyn. Wood-fired Mediterranean cooking</post_title>\n<post_body>Website- [https://www.theodoranyc.com/](https://www.theodoranyc.com/)\n\nYelp page- [https://www.yelp.com/biz/theodora-brooklyn](https://www.yelp.com/biz/theodora-brooklyn)\n\nShort review- All of the main dishes were good but if I had to pick one, my favorite was probably the trout. For smaller plates, my favorite was either the sourdough or if I can look past the price; the pita. Favorite dessert was the Camembert Cheesecake but all were good. Nothing I disliked outside of maybe thinking the baklava sundae was a bit too deconstructed. Hard to get into for a really good reason.</post_body>\n<comment_to_extract>\nNice photos! Looks really good. Thanks for sharing!\n</comment_to_extract>",
+   "context": {
+    "title": "Theodora- Brooklyn. Wood-fired Mediterranean cooking",
+    "selftext": "Website- [https://www.theodoranyc.com/](https://www.theodoranyc.com/)\n\nYelp page- [https://www.yelp.com/biz/theodora-brooklyn](https://www.yelp.com/biz/theodora-brooklyn)\n\nShort review- All of the main dishes were good but if I had to pick one, my favorite was probably the trout. For smaller plates, my favorite was either the sourdough or if I can look past the price; the pita. Favorite dessert was the Camembert Cheesecake but all were good. Nothing I disliked outside of maybe thinking the baklava sundae was a bit too deconstructed. Hard to get into for a really good reason.",
+    "ancestors": [],
+    "author": "justflipping",
+    "body": "Nice photos! Looks really good. Thanks for sharing!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Theodora",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Brooklyn",
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "Mediterranean",
+      "wood-fired"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0056",
+   "comment_id": "t1_nlfzk04",
+   "model_view": "<post_title>A Brit's first time</post_title>\n<post_body>Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.</post_body>\n<comment_to_extract>\nWhy would anyone visit the US now?  Do you watch the news?  Pick any other country.\n</comment_to_extract>",
+   "context": {
+    "title": "A Brit's first time",
+    "selftext": "Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.",
+    "ancestors": [],
+    "author": "Charlieroseterrible",
+    "body": "Why would anyone visit the US now?  Do you watch the news?  Pick any other country.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0057",
+   "comment_id": "t1_olge6vu",
+   "model_view": "<post_title>I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?</post_title>\n<comment_to_extract>\nComfortland and spitfire provisions\n</comment_to_extract>",
+   "context": {
+    "title": "I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "gab_the_bomb",
+    "body": "Comfortland and spitfire provisions ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Comfortland",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Spitfire Provisions",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "chicken salad sandwich",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwiches"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0058",
+   "comment_id": "t1_pahn584",
+   "model_view": "<post_title>$16.50 for 1 potato @ abc cocina. absolutely absurd</post_title>\n<post_body>understand every restaurant has to pay their rent! but this feels nuts. on the bright side, they do throw in 1/2 a lime to sweeten the deal!</post_body>\n<comment_to_extract>\nWow having a minority hand deliver you a single cooked potato is expensive? I’m hearing this for the first time.\n</comment_to_extract>",
+   "context": {
+    "title": "$16.50 for 1 potato @ abc cocina. absolutely absurd",
+    "selftext": "understand every restaurant has to pay their rent! but this feels nuts. on the bright side, they do throw in 1/2 a lime to sweeten the deal! ",
+    "ancestors": [],
+    "author": "BombardierIsTrash",
+    "body": "Wow having a minority hand deliver you a single cooked potato is expensive? I’m hearing this for the first time.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "abc cocina",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0059",
+   "comment_id": "t1_k4phwhq",
+   "model_view": "<post_title>Brooklyn Neighborhood of the Week: Windsor Terrace, Kensington and Prospect Park South</post_title>\n<post_body>This week, we're featuring **Windsor Terrace, Kensington** and **Prospect Park South**\n\nWe're going by this unofficial [Google Map overlay](https://www.google.com/maps/d/viewer?mid=1VYN-6Vkk01byUCF7P13rT6ORT5g) as a GENERAL outline as to what the neighborhoods are. It's not a strict requirement but try not to go too far outside of the boundaries.\n\nSome optional prompts:\n\n* What are some of your favorite food spots or \"hidden gems\"?\n* Any \"must have\" or go to dishes from those particular spots?\n* Are there any points of interest or events that is worth going out of the way to visit?\n\n[Link to previous weeks](https://www.reddit.com/r/FoodNYC/comments/14rflbt/comment/jqrv7um/?utm_source=share&utm_medium=web2x&context=3)</post_body>\n<thread_above>\n[1] another user: Mexico Diner, Cozie's Pizza, Hamilton's, Manchego\n</thread_above>\n<comment_to_extract>\nMexico diner is gem. Such a good spot!\n</comment_to_extract>",
+   "context": {
+    "title": "Brooklyn Neighborhood of the Week: Windsor Terrace, Kensington and Prospect Park South",
+    "selftext": "This week, we're featuring **Windsor Terrace, Kensington** and **Prospect Park South**\n\nWe're going by this unofficial [Google Map overlay](https://www.google.com/maps/d/viewer?mid=1VYN-6Vkk01byUCF7P13rT6ORT5g) as a GENERAL outline as to what the neighborhoods are. It's not a strict requirement but try not to go too far outside of the boundaries.\n\nSome optional prompts:\n\n* What are some of your favorite food spots or \"hidden gems\"?\n* Any \"must have\" or go to dishes from those particular spots?\n* Are there any points of interest or events that is worth going out of the way to visit?\n\n[Link to previous weeks](https://www.reddit.com/r/FoodNYC/comments/14rflbt/comment/jqrv7um/?utm_source=share&utm_medium=web2x&context=3)",
+    "ancestors": [
+     {
+      "author": "LongIsland1995",
+      "body": "Mexico Diner, Cozie's Pizza, Hamilton's, Manchego"
+     }
+    ],
+    "author": "jdt2337",
+    "body": "Mexico diner is gem. Such a good spot!",
+    "replies": [
+     {
+      "author": "crappymedium",
+      "body": "Is it? Maria and ricardo’s across the street was recommended to me and i havent strayed"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Mexico diner",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0060",
+   "comment_id": "t1_hv2cmr8",
+   "model_view": "<post_title>Eleven Madison Park Reservation For Sale: 2 x Dining Room Tasting Menu + Reserve Wine Pairing, Thurs., Feb. 17 @ 7:15 PM, $1,094.19 (Face Value)</post_title>\n<comment_to_extract>\nCan we ban 11MP resales?\n</comment_to_extract>",
+   "context": {
+    "title": "Eleven Madison Park Reservation For Sale: 2 x Dining Room Tasting Menu + Reserve Wine Pairing, Thurs., Feb. 17 @ 7:15 PM, $1,094.19 (Face Value)",
+    "selftext": "[deleted]",
+    "ancestors": [],
+    "author": "Not-hu-u-think-I-am",
+    "body": "Can we ban 11MP resales?",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Eleven Madison Park",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "resale ban",
+       "text": "commenter asks whether reservation resales for the restaurant should be banned; a question, no verdict"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "reservation resale"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0061",
+   "comment_id": "t1_nxolwat",
+   "model_view": "<post_title>what if you want some good pastrami but don’t want to wait ridiculous lines at Katz?</post_title>\n<comment_to_extract>\nThe other big two delis are second ave deli and pastrami queen. Katz’s is my favorite but probably not worth the line. My favorite thing to do is go get drinks and snacks in the area and then after go to Katz’s around 9 or 10. There’s no line by then\n</comment_to_extract>",
+   "context": {
+    "title": "what if you want some good pastrami but don’t want to wait ridiculous lines at Katz?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "cinnamonbun993",
+    "body": "The other big two delis are second ave deli and pastrami queen. Katz’s is my favorite but probably not worth the line. My favorite thing to do is go get drinks and snacks in the area and then after go to Katz’s around 9 or 10. There’s no line by then",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Katz’s",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "timing",
+       "text": "Go around 9 or 10 pm, after drinks and snacks in the area, when there's no line"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "deli",
+      "pastrami",
+      "late night"
+     ]
+    },
+    {
+     "name": "Second Ave Deli",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "alternative",
+       "text": "Named as one of the other big two delis to try instead of Katz's"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "deli",
+      "pastrami"
+     ]
+    },
+    {
+     "name": "Pastrami Queen",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "alternative",
+       "text": "Named as one of the other big two delis to try instead of Katz's"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "deli",
+      "pastrami"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0062",
+   "comment_id": "t1_mo5fczz",
+   "model_view": "<post_title>Name a place that actually lives up to its hype</post_title>\n<post_body>Counterpart to the other thread.  What place (in your opinion) lives up to its hype?\n\nI’ll start with three of my own (in order of likelihood to piss people off from lowest to highest):\n\n1) Katz — goes without saying, lines out the door, influencer-overrun, still amazing pastrami (on rye with mustard is the only correct configuration)\n\n2) Dame — best fish and chips in the city.  Get the Eton Mess for dessert, so fucking good\n\n3) Corner Store — most likely to piss this sub off.  Walked in, got a seat at the bar on a Thursday.  Sour cream and onion martini was fantastic.  French dip and fries were on point.  Service was excellent.</post_body>\n<comment_to_extract>\nRudy’s Bar - 6$ for a beer, shot, & hot dog. \n\nBest joint in the city for the price. \n\nI will die on this hill.\n</comment_to_extract>",
+   "context": {
+    "title": "Name a place that actually lives up to its hype",
+    "selftext": "Counterpart to the other thread.  What place (in your opinion) lives up to its hype?\n\nI’ll start with three of my own (in order of likelihood to piss people off from lowest to highest):\n\n1) Katz — goes without saying, lines out the door, influencer-overrun, still amazing pastrami (on rye with mustard is the only correct configuration)\n\n2) Dame — best fish and chips in the city.  Get the Eton Mess for dessert, so fucking good\n\n3) Corner Store — most likely to piss this sub off.  Walked in, got a seat at the bar on a Thursday.  Sour cream and onion martini was fantastic.  French dip and fries were on point.  Service was excellent.",
+    "ancestors": [],
+    "author": "401kcrypto",
+    "body": "Rudy’s Bar - 6$ for a beer, shot, & hot dog. \n\nBest joint in the city for the price. \n\nI will die on this hill.",
+    "replies": [
+     {
+      "author": "ArtDecoNewYork",
+      "body": "That place is goated. I just wish they had a pool table"
+     },
+     {
+      "author": "SomeRandom215",
+      "body": "The best"
+     },
+     {
+      "author": "BenShelZonah",
+      "body": "Is there any place like that in Brooklyn?"
+     },
+     {
+      "author": "Smart_Freedom_8155",
+      "body": "Well said, completely agree.  Been in love with that spot since 2016."
+     },
+     {
+      "author": "Cartadimusica",
+      "body": "Just the free water dog is worth it all."
+     },
+     {
+      "author": "nippyhedren",
+      "body": "Fuckin love Rudy’s"
+     },
+     {
+      "author": "maximumslanketry",
+      "body": "My parents used to hang out there about 50 years ago. Love that place."
+     },
+     {
+      "author": "iggy555",
+      "body": "Rudy’s red kinda sucks tho"
+     },
+     {
+      "author": "m0rbius",
+      "body": "It's a novelty joint. I've visited a couple of times and gotten a drink and hot dog. It's not really a place to actually hang out. It's such a dive."
+     },
+     {
+      "author": "Maximum_Information7",
+      "body": "*In the corner of my eye*  \n*I saw you in Rudy's*  \n*You were very high*  \n*You were high…*\n\nGreat pre-concert vibes."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Rudy's Bar",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "hot dog",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "deal price",
+       "text": "$6 for a beer, shot, and hot dog"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "very_positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bar",
+      "hot dog",
+      "deal"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0063",
+   "comment_id": "t1_nw2v7zz",
+   "model_view": "<post_title>Help me find a plan c</post_title>\n<post_body>My wife surprised me with tickets to see our favorite band for Christmas. We’ll be in town for less than 24 hours so we only have time for one dinner. We are going to try our luck walking into Don Angie. If that doesn’t work plan b is going to Keen’s for bar seats. If that doesn’t work, I need a plan c. \n\nTotal budget is $300, we’re open to most cuisines just not seafood. The restaurant would also have to be close (10-20 mins) to MSG and we’d have to be able to walk in around 5pm.</post_body>\n<comment_to_extract>\nTony’s di Napoli - Times Square (I know how it sounds, I used to avoid Times Square at all cost) - but Tony’s is the real deal. One of the best meals we’ve had lately and the service is top notch!\n</comment_to_extract>",
+   "context": {
+    "title": "Help me find a plan c",
+    "selftext": "My wife surprised me with tickets to see our favorite band for Christmas. We’ll be in town for less than 24 hours so we only have time for one dinner. We are going to try our luck walking into Don Angie. If that doesn’t work plan b is going to Keen’s for bar seats. If that doesn’t work, I need a plan c. \n\nTotal budget is $300, we’re open to most cuisines just not seafood. The restaurant would also have to be close (10-20 mins) to MSG and we’d have to be able to walk in around 5pm. \n",
+    "ancestors": [],
+    "author": "lovablebrooklyner",
+    "body": "Tony’s di Napoli - Times Square (I know how it sounds, I used to avoid Times Square at all cost) - but Tony’s is the real deal. One of the best meals we’ve had lately and the service is top notch!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Tony's di Napoli - Times Square",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Times Square",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": "positive",
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian",
+      "family style"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0064",
+   "comment_id": "t1_ju9bps1",
+   "model_view": "<post_title>Is it just me or is Veselka only okay?...</post_title>\n<post_body>Ate it today for lunch. It's been on my list for a while now. Eh... it's not bad, some foods there are quite nice. I especially loved the stuffed cabbage. The borscht was also refreshing and fresh. But other dishes were quite hit or miss. The famous pierogis, the skin was nice as it was made by hand, but I found the fillings quite... dry? And under-salted and seasoned. The cheese pierogi basically completely merged with the skin and was basically just some cheese doughball. The blintzes were too soft and the cheese inside was chalky and powdery. I don't know, I get that this restaurant has a history and it is also a very important spot to show solidarity in support for Ukraine, but I found the food basically along the lines of a good local diner, rather than epic must-eat destination worthy of lines out the door and 4.6+ out of 5 on Google</post_body>\n<comment_to_extract>\nAs someone who lives in the neighborhood: it’s become more touristy and the food is average, but we find ourselves eating there because it’s a solid option for groups and out-of-town guests. There are obv more “authentic” Ukrainian places and cheaper, better places for diner food, but sometimes Veselka is just easy\n</comment_to_extract>",
+   "context": {
+    "title": "Is it just me or is Veselka only okay?...",
+    "selftext": "Ate it today for lunch. It's been on my list for a while now. Eh... it's not bad, some foods there are quite nice. I especially loved the stuffed cabbage. The borscht was also refreshing and fresh. But other dishes were quite hit or miss. The famous pierogis, the skin was nice as it was made by hand, but I found the fillings quite... dry? And under-salted and seasoned. The cheese pierogi basically completely merged with the skin and was basically just some cheese doughball. The blintzes were too soft and the cheese inside was chalky and powdery. I don't know, I get that this restaurant has a history and it is also a very important spot to show solidarity in support for Ukraine, but I found the food basically along the lines of a good local diner, rather than epic must-eat destination worthy of lines out the door and 4.6+ out of 5 on Google",
+    "ancestors": [],
+    "author": "arthur_hairstyle",
+    "body": "As someone who lives in the neighborhood: it’s become more touristy and the food is average, but we find ourselves eating there because it’s a solid option for groups and out-of-town guests. There are obv more “authentic” Ukrainian places and cheaper, better places for diner food, but sometimes Veselka is just easy",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Veselka",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "neighborhood",
+       "text": "commenter lives nearby; it has become more touristy"
+      },
+      {
+       "about": "reason to go",
+       "text": "eaten there because it is a solid option for groups and out-of-town guests"
+      },
+      {
+       "about": "alternatives",
+       "text": "more authentic Ukrainian places and cheaper, better diner food elsewhere"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ukrainian",
+      "groups",
+      "diner food"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0065",
+   "comment_id": "t1_izg8nqr",
+   "model_view": "<post_title>Brooklyn Magazine picks the 11 best new restaurants of 2022</post_title>\n<post_body>[https://www.bkmag.com/2022/12/08/brooklyns-11-best-new-restaurants-of-2022/](https://www.bkmag.com/2022/12/08/brooklyns-11-best-new-restaurants-of-2022/)</post_body>\n<thread_above>\n[1] another user: ha ha ha ha ha. Brooklyn is NYC's biggest borough and yet this \"magazine\" chose only those restaurants in gentrified neighborhoods. Shows you who they're pandering to.\n[2] another user: You are right Park slope, Greene point, carol gardens, prospect heights. All red flags. This mag needs to hire more diverse critics\n[3] another user: Food scene has always been that way. It’s why white chefs are usually held to higher esteem than their minority counterparts even if objectively they’re not better chefs.\n[4] another user: …the vast majority of chefs featured in this article are non-white…\n[5] another user: And? The entire list of restaurants are catering to gentrified clientele.\n</thread_above>\n<comment_to_extract>\nGreat food almost always comes with a higher price (ingredients, wages, etc.), and people who live in gentrified neighborhoods are more likely to be able to afford to pay that higher price. It really isn't rocket science.\n</comment_to_extract>",
+   "context": {
+    "title": "Brooklyn Magazine picks the 11 best new restaurants of 2022",
+    "selftext": "[https://www.bkmag.com/2022/12/08/brooklyns-11-best-new-restaurants-of-2022/](https://www.bkmag.com/2022/12/08/brooklyns-11-best-new-restaurants-of-2022/)",
+    "ancestors": [
+     {
+      "author": "sanjsrik",
+      "body": "ha ha ha ha ha. Brooklyn is NYC's biggest borough and yet this \"magazine\" chose only those restaurants in gentrified neighborhoods. \n\nShows you who they're pandering to."
+     },
+     {
+      "author": "Jammypotatoes",
+      "body": "You are right \n\nPark slope, Greene point, carol gardens, prospect heights. All red flags. \n\nThis mag needs to hire more diverse critics"
+     },
+     {
+      "author": "h1g440rs3",
+      "body": "Food scene has always been that way. It’s why white chefs are usually held to higher esteem than their minority counterparts even if objectively they’re not better chefs."
+     },
+     {
+      "author": "donut_butt",
+      "body": "…the vast majority of chefs featured in this article are non-white…"
+     },
+     {
+      "author": "sanjsrik",
+      "body": "And? The entire list of restaurants are catering to gentrified clientele."
+     }
+    ],
+    "author": "FedishSwish",
+    "body": "Great food almost always comes with a higher price (ingredients, wages, etc.), and people who live in gentrified neighborhoods are more likely to be able to afford to pay that higher price. It really isn't rocket science.",
+    "replies": [
+     {
+      "author": "sanjsrik",
+      "body": "Spoken like someone who thinks \"great food\" is only food you pay more for. Good, keep thinking that. The rest of us will eat good food that doesn't require stupid notions."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0066",
+   "comment_id": "t1_p43wt6b",
+   "model_view": "<post_title>One more before they close the door for good from the neighborhood</post_title>\n<post_body>Sweet Chick (LES) closing after today</post_body>\n<comment_to_extract>\nDamn last time I went to the Bedford Sweet Chick my order came out undercooked and haven't been back but in their hayday it was such a nice treat\n</comment_to_extract>",
+   "context": {
+    "title": "One more before they close the door for good from the neighborhood",
+    "selftext": "Sweet Chick (LES) closing after today ",
+    "ancestors": [],
+    "author": "thechangbang",
+    "body": "Damn last time I went to the Bedford Sweet Chick my order came out undercooked and haven't been back but in their hayday it was such a nice treat ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sweet Chick",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Bedford (Brooklyn) branch",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "last visit",
+       "text": "order came out undercooked; commenter hasn't been back since"
+      },
+      {
+       "about": "past popularity",
+       "text": "was a nice treat in its heyday"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": "declined",
+     "status": null,
+     "price": null,
+     "tags": [
+      "fried chicken"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0067",
+   "comment_id": "t1_oh6cjoe",
+   "model_view": "<post_title>Halal Carts are no longer a cheap source of protein</post_title>\n<post_body>I 100%  don't blame them for hiking prices up, but my halal guy now charges $13.50 for chicken over rice, up $1 from roughly three weeks ago. I asked him if price went up and he said \"is cost of doing business my friend.\" And that's exactly why I sadly won't be eating it as much now. The cost is too prohibitive for me to have it as a regular meal. It used to be $7 not long ago. \n\nStunning.</post_body>\n<comment_to_extract>\nand they're still making the same amount of money just working less and selling less units.\n</comment_to_extract>",
+   "context": {
+    "title": "Halal Carts are no longer a cheap source of protein",
+    "selftext": "I 100%  don't blame them for hiking prices up, but my halal guy now charges $13.50 for chicken over rice, up $1 from roughly three weeks ago. I asked him if price went up and he said \"is cost of doing business my friend.\" And that's exactly why I sadly won't be eating it as much now. The cost is too prohibitive for me to have it as a regular meal. It used to be $7 not long ago. \n\nStunning. ",
+    "ancestors": [],
+    "author": "MorddSith187",
+    "body": "and they're still making the same amount of money just working less and selling less units. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0068",
+   "comment_id": "t1_ornog7a",
+   "model_view": "<post_title>Best deli pickles in NYC (preferably near manhattan)</post_title>\n<post_body>Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!</post_body>\n<comment_to_extract>\nI’m enjoying a sour pickle from Tashkent Market, from the cooler section right as you enter the store above the W 4th station. \nSimple but just right!\n</comment_to_extract>",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [],
+    "author": "halermine",
+    "body": "I’m enjoying a sour pickle from Tashkent Market, from the cooler section right as you enter the store above the W 4th station. \nSimple but just right! ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Tashkent Market",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": "above the W 4th station, Manhattan",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "sour pickle",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "where to find it",
+       "text": "sour pickles in the cooler section right as you enter the store above the W 4th station"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pickles"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0069",
+   "comment_id": "t1_p619lrv",
+   "model_view": "<post_title>Expats and transplants of NYC: What is your absolute favorite restaurant in the city for your own hometown/home country’s food?</post_title>\n<post_body>Hey everyone,\n\nI love how diverse the food scene is here, and I want to know where people go when they are genuinely homesick.\n\nIf you moved to NYC from another country, state, or specific culinary region: what is the one restaurant in the five boroughs that gets your hometown food 100% right?</post_body>\n<thread_above>\n[1] another user: Originally from LA, still have yet to find a good donut like the Cambodian shops make back home. Donut scene is pretty bleak out here, closer to frosted bread. Randy's in the village is close but not quite there. All in, it's a pretty small potatoes concern.\n[2] another user: Donut Pub and Peter Pan are good but you're absolutely right. I used to go to LA a few times a year for work and the burger and donut scenes in L.A. are exponentially better. I'll never understand the stranglehold dunkin has on this city.\n</thread_above>\n<comment_to_extract>\nDunkin’ is every where and it is quick and easy.😁\n</comment_to_extract>",
+   "context": {
+    "title": "Expats and transplants of NYC: What is your absolute favorite restaurant in the city for your own hometown/home country’s food?",
+    "selftext": "Hey everyone,\n\nI love how diverse the food scene is here, and I want to know where people go when they are genuinely homesick.\n\nIf you moved to NYC from another country, state, or specific culinary region: what is the one restaurant in the five boroughs that gets your hometown food 100% right?",
+    "ancestors": [
+     {
+      "author": "DJLarryDavid",
+      "body": "Originally from LA, still have yet to find a good donut like the Cambodian shops make back home. Donut scene is pretty bleak out here, closer to frosted bread.\n\nRandy's in the village is close but not quite there. All in, it's a pretty small potatoes concern."
+     },
+     {
+      "author": "Zuchm0",
+      "body": "Donut Pub and Peter Pan are good but you're absolutely right. I used to go to LA a few times a year for work and the burger and donut scenes in L.A. are exponentially better. I'll never understand the stranglehold dunkin has on this city."
+     }
+    ],
+    "author": "littlemac564",
+    "body": "Dunkin’ is every where and it is quick and easy.😁",
+    "replies": [
+     {
+      "author": "Zuchm0",
+      "body": "thats what bothers me. Clearly there is an economy for quick coffee and donuts. We can't do better than 90% of it being dunkin?"
+     },
+     {
+      "author": "Lizzzy261",
+      "body": "Dunkin, Krispy Kreme are GROSS!! Donut Plant if a want a donut"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Dunkin'",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "availability",
+       "text": "found everywhere in the city"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "opinion": "stated",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "chain",
+      "coffee",
+      "donuts",
+      "quick"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0070",
+   "comment_id": "t1_nxx9fju",
+   "model_view": "<post_title>Where should I take my uncle (off-brand Anthony Bourdain) for dinner?</post_title>\n<post_body>My uncle is visiting the city and wants me to pick a restaurant for dinner this Friday. If I were to describe him, I would non-ironically say he’s our family’s Anthony Bourdain - he’s traveled everywhere (Antarctica included), eaten everything, and can fit in with anyone. He isn’t picky and loves good food and wine. He is staying in Manhattan but I live in Queens. We are both down to go anywhere w/I the boroughs. \n\nAny recs? I’m looking for a place that:\n\na) won’t rush us out so we can sit and talk for however long we want to;\n\nb) isn’t too pretentious or stuffy;\n\nc) has fun, interesting food that someone who’s well traveled wouldn’t find boring;\n\nc) can be on the pricier side (think $30-50 entrees) but doesn’t have to be. \n\nI looked through this sub and currently have reservations at USC and Pig & Khao. Also considering Anton’s, Hearth, Laliko, and any others you suggest!</post_body>\n<thread_above>\n[1] another user: I would say try Wayan over Pig and Khao! (Not that they’re exactly the same cuisine but southeast Asian French fusion)\n[2] another user: I didn’t love my brunch at Pig and Khao\n</thread_above>\n<comment_to_extract>\nPig and Khao on the LES closed\n</comment_to_extract>",
+   "context": {
+    "title": "Where should I take my uncle (off-brand Anthony Bourdain) for dinner?",
+    "selftext": "My uncle is visiting the city and wants me to pick a restaurant for dinner this Friday. If I were to describe him, I would non-ironically say he’s our family’s Anthony Bourdain - he’s traveled everywhere (Antarctica included), eaten everything, and can fit in with anyone. He isn’t picky and loves good food and wine. He is staying in Manhattan but I live in Queens. We are both down to go anywhere w/I the boroughs. \n\nAny recs? I’m looking for a place that:\n\na) won’t rush us out so we can sit and talk for however long we want to;\n\nb) isn’t too pretentious or stuffy;\n\nc) has fun, interesting food that someone who’s well traveled wouldn’t find boring;\n\nc) can be on the pricier side (think $30-50 entrees) but doesn’t have to be. \n\nI looked through this sub and currently have reservations at USC and Pig & Khao. Also considering Anton’s, Hearth, Laliko, and any others you suggest! \n",
+    "ancestors": [
+     {
+      "author": "do_or_dee",
+      "body": "I would say try Wayan over Pig and Khao! (Not that they’re exactly the same cuisine but southeast Asian French fusion)"
+     },
+     {
+      "author": "nonhiphipster",
+      "body": "I didn’t love my brunch at Pig and Khao"
+     }
+    ],
+    "author": "SNAPCHAT_ME_TITS",
+    "body": "Pig and Khao on the LES closed",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Pig and Khao",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "LES",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "closure",
+       "text": "LES location closed"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0071",
+   "comment_id": "t1_owkutga",
+   "model_view": "<post_title author=\"you\">Another Pressed Juicery location bites the dust...</post_title>\n<post_body author=\"you\">I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n[1] another user: People are just doing it themselves more\n</thread_above>\n<comment_to_extract>\nI care more about their vegan soft serve\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     }
+    ],
+    "author": "Organic-SurroundSnd",
+    "body": "I care more about their vegan soft serve",
+    "replies": [
+     {
+      "author": "virtual_adam",
+      "body": "Get the ninja thing that makes them "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0072",
+   "comment_id": "t1_nfsgev5",
+   "model_view": "<post_title>Best dishes/dumplings in Flushing</post_title>\n<comment_to_extract>\nThe best dumplings in flushing are at New Northern Dumpling King at 41-22 Main St, you must order their chive dumplings! I also really like their chive and egg bao but it’s always sold out by the afternoon fyi\n</comment_to_extract>",
+   "context": {
+    "title": "Best dishes/dumplings in Flushing",
+    "selftext": "[removed]",
+    "ancestors": [],
+    "author": "pocariz",
+    "body": "The best dumplings in flushing are at New Northern Dumpling King at 41-22 Main St, you must order their chive dumplings! I also really like their chive and egg bao but it’s always sold out by the afternoon fyi",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "New Northern Dumpling King",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "41-22 Main St, Flushing",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "chive dumplings",
+       "level": "very_positive",
+       "avoid": false
+      },
+      {
+       "dish": "chive and egg bao",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "sell-out timing",
+       "text": "chive and egg bao always sold out by the afternoon"
+      }
+     ],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "dumplings",
+      "chinese",
+      "flushing"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0073",
+   "comment_id": "t1_mccd1yl",
+   "model_view": "<post_title>Looking for Sweet Potato Casserole 🍠</post_title>\n<post_body>Since Boston Market is dying and the quality of their food is now questionable, I'm looking for alternatives for this dish</post_body>\n<comment_to_extract>\nRuth Chris does a great one, just be willing to go to JC or LI\n</comment_to_extract>",
+   "context": {
+    "title": "Looking for Sweet Potato Casserole 🍠",
+    "selftext": "Since Boston Market is dying and the quality of their food is now questionable, I'm looking for alternatives for this dish",
+    "ancestors": [],
+    "author": "Worried_Plum1373",
+    "body": "Ruth Chris does a great one, just be willing to go to JC or LI",
+    "replies": [
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "Just Googled it, I'm surprised many dope restaurants in Midtown closed down just when I'm finding out about them"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Ruth Chris",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "New Jersey or Long Island",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "sweet potato casserole",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "location",
+       "text": "Ruth Chris is in Jersey City or Long Island, outside NYC's five boroughs; the commenter says to be willing to go there"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0074",
+   "comment_id": "t1_jvqgzq8",
+   "model_view": "<post_title>Romantic affordable dinner with a view?</post_title>\n<post_body>Later this month I will be staying in Manhattan with my lovely wife to celebrate our 2 year wedding anniversary.\n\nI would like to take her out to a romantic dinner. It doesn't have to be really fancy. Just tasty food with a nice ambience. A nice view would be an awesome extra.\n\nI've looked around on Google but I'm finding a lot of Italian restaurants. We're not a big fan of the Italian cuisine. Do you guys have any suggestions? We really enjoy Japanese, Thai and Indian food but we're also open to other stuff.\n\nBudget wise I'm hoping to find something under 200$ for 3 courses for 2 people. We don't drink alcohol.\n\nWould love to get some suggestions :)</post_body>\n<comment_to_extract>\nMomoya Soho is Japanese with really nice vibes\n\nThai Villa has a stunning interior, though it may not be what you’re looking for\n\nSemma is upscale Southern Indian, if you can get a res\n</comment_to_extract>",
+   "context": {
+    "title": "Romantic affordable dinner with a view?",
+    "selftext": "Later this month I will be staying in Manhattan with my lovely wife to celebrate our 2 year wedding anniversary.\n\nI would like to take her out to a romantic dinner. It doesn't have to be really fancy. Just tasty food with a nice ambience. A nice view would be an awesome extra.\n\nI've looked around on Google but I'm finding a lot of Italian restaurants. We're not a big fan of the Italian cuisine. Do you guys have any suggestions? We really enjoy Japanese, Thai and Indian food but we're also open to other stuff.\n\nBudget wise I'm hoping to find something under 200$ for 3 courses for 2 people. We don't drink alcohol.\n\nWould love to get some suggestions :)",
+    "ancestors": [],
+    "author": "sallire",
+    "body": "Momoya Soho is Japanese with really nice vibes\n\nThai Villa has a stunning interior, though it may not be what you’re looking for\n\nSemma is upscale Southern Indian, if you can get a res",
+    "replies": [
+     {
+      "author": "WinnieCerise",
+      "body": " None of these are romantic."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Momoya Soho",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Soho",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "Japanese",
+      "date night"
+     ]
+    },
+    {
+     "name": "Thai Villa",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "fit",
+       "text": "may not suit the asker's needs (not a food verdict)"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "Thai"
+     ]
+    },
+    {
+     "name": "Semma",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reservations",
+       "text": "get a reservation if you can"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "Southern Indian",
+      "upscale"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0075",
+   "comment_id": "t1_k31e9dq",
+   "model_view": "<post_title>Best NY Style Pizza - Sit Down Dining, Whole Pie</post_title>\n<post_body>Hi all,\n\nLooking for recommendations for the best place for a NY Style Pizza when we visit next month. We want to sit down and order a pie, not grab a slice and go. We'll be staying in China Town so lower Manhattan would be ideal. Tempted to go for Scarr's but I've read mixed opinions. Any better places to check out?\n\nAppreciate any pointers.</post_body>\n<thread_above>\n[1] you, earlier: Hands down go to Rubirosa. Book in advance on Resy as it’s hard to get into. It’s right on Mulberry St near where you will be. You won’t be disappointed. I practically live in this place. The pizza and pasta is probably the best in the area.\n[2] another user: I think emporio one street over is actuslly even better\n</thread_above>\n<comment_to_extract>\nHi. Sitting in Emporio right now. The pizza is definitely good, thank you for the recommendation and I will return here but I think Rubirosa is better.\nJust my opinion.\nThank you again, it is really good.\n</comment_to_extract>",
+   "context": {
+    "title": "Best NY Style Pizza - Sit Down Dining, Whole Pie",
+    "selftext": "Hi all,\n\nLooking for recommendations for the best place for a NY Style Pizza when we visit next month. We want to sit down and order a pie, not grab a slice and go. We'll be staying in China Town so lower Manhattan would be ideal. Tempted to go for Scarr's but I've read mixed opinions. Any better places to check out?\n\nAppreciate any pointers.",
+    "ancestors": [
+     {
+      "author": "Hopeful-Mirror1664",
+      "body": "Hands down go to Rubirosa. Book in advance on Resy as it’s hard to get into. It’s right on Mulberry St near where you will be. You won’t be disappointed.\nI practically live in this place. The pizza and pasta is probably the best in the area."
+     },
+     {
+      "author": "willb",
+      "body": "I think emporio one street over is actuslly even better"
+     }
+    ],
+    "author": "Hopeful-Mirror1664",
+    "body": "Hi. Sitting in Emporio right now. The pizza is definitely good, thank you for the recommendation and I will return here but I think Rubirosa is better.\nJust my opinion.\nThank you again, it is really good.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Emporio",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pizza",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "sit-down"
+     ]
+    },
+    {
+     "name": "Rubirosa",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Commenter thinks Rubirosa is better than Emporio, while calling Emporio good."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "sit-down"
+     ]
+    }
+   ]
+  }
+ ]
+}

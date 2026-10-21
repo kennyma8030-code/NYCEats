@@ -1,0 +1,1409 @@
+{
+ "packet": "p026",
+ "items": [
+  {
+   "item_id": "R0626",
+   "comment_id": "t1_mmlgr7o",
+   "model_view": "<post_title author=\"you\">Recent eats: Menkoi Sato, Edith's, Foster Sundry, Bagelsmith, Ledo Pizza, Cozy Rice, Famous Ben's, Joe's</post_title>\n<thread_above>\n[1] another user: I grew up with Ledo Pizza, and it holds a special place in my heart and palate. You can't compare it to a NY slice - it's more of a novelty - but it's so good.\n[2] you, earlier: I was reading about it on some other subreddits and the consensus seemed to be that when you want Ledo, you get Ledo, when you want \"pizza\" in general you go elsewhere, it's its own thing. I enjoyed it even if the slices were kinda stale on the morning I went. I wanna go back and get one fresh\n[3] another user: They don't sell it by the slice in MD. It is sold by tray size and it's cut in squares. You must eat it fresh.\n</thread_above>\n<comment_to_extract>\nYeah, I could tell their roots were dine-in, they had tons of seating and the whole attitude was \"hey! welcome! stay oh man please stay\".  I actually felt a little bad about giving them the usual brisk slice-shop treatment lol\n</comment_to_extract>",
+   "context": {
+    "title": "Recent eats: Menkoi Sato, Edith's, Foster Sundry, Bagelsmith, Ledo Pizza, Cozy Rice, Famous Ben's, Joe's",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Guygirl00",
+      "body": "I grew up with Ledo Pizza, and it holds a special place in my heart and palate. You can't compare it to a NY slice - it's more of a novelty - but it's so good."
+     },
+     {
+      "author": "eldersveld",
+      "body": "I was reading about it on some other subreddits and the consensus seemed to be that when you want Ledo, you get Ledo, when you want \"pizza\" in general you go elsewhere, it's its own thing.  I enjoyed it even if the slices were kinda stale on the morning I went. I wanna go back and get one fresh"
+     },
+     {
+      "author": "Guygirl00",
+      "body": "They don't sell it by the slice in MD. It is sold by tray size and it's cut in squares. You must eat it fresh."
+     }
+    ],
+    "author": "eldersveld",
+    "body": "Yeah, I could tell their roots were dine-in, they had tons of seating and the whole attitude was \"hey! welcome! stay oh man please stay\".  I actually felt a little bad about giving them the usual brisk slice-shop treatment lol",
+    "replies": [
+     {
+      "author": "Guygirl00",
+      "body": "We always carry out from our local Ledo's Navarre there is no ambiance. But please always order a fresh whole pizza."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0627",
+   "comment_id": "t1_ower5z6",
+   "model_view": "<post_title>Favorite places to get drinks or desserts made with lychee?</post_title>\n<post_body>I normally think of lychee as a snacking fruit, but I was reminded last week of how refreshing it is. I feel like lychee is a flavor or ingredient you don't often come across, so before the next temp spike, what are some of your favorite places making drinks or desserts with it?\n\nIronically, what sparked this thought was an ice cream from the new Unnecessary ice cream shop. I tried the Yakult and elderflower flavor, and even though it didn't have any lychee in it, the light sweetness, slight tang, and floral notes reminded me a lot of it.\n\nAnd another dessert that comes to mind is the bing fen (ice jelly) from Shan in Brooklyn. It's flavored with oolong, topped with lychee and cream (which might be cool whip, which I normally despise but strangely don't mind here). It's very simple, lightly sweet, cold, and super refreshing.</post_body>\n<thread_above>\n[1] another user: Verlain for Lychee Martinis\n</thread_above>\n<comment_to_extract>\nAhh the memories….or lack thereof…\n</comment_to_extract>",
+   "context": {
+    "title": "Favorite places to get drinks or desserts made with lychee?",
+    "selftext": "I normally think of lychee as a snacking fruit, but I was reminded last week of how refreshing it is. I feel like lychee is a flavor or ingredient you don't often come across, so before the next temp spike, what are some of your favorite places making drinks or desserts with it?\n\nIronically, what sparked this thought was an ice cream from the new Unnecessary ice cream shop. I tried the Yakult and elderflower flavor, and even though it didn't have any lychee in it, the light sweetness, slight tang, and floral notes reminded me a lot of it.\n\nAnd another dessert that comes to mind is the bing fen (ice jelly) from Shan in Brooklyn. It's flavored with oolong, topped with lychee and cream (which might be cool whip, which I normally despise but strangely don't mind here). It's very simple, lightly sweet, cold, and super refreshing.\n\n",
+    "ancestors": [
+     {
+      "author": "What_a_life_1995",
+      "body": "Verlain for Lychee Martinis "
+     }
+    ],
+    "author": "Precious_marimo",
+    "body": "Ahh the memories….or lack thereof… ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0628",
+   "comment_id": "t1_np761nt",
+   "model_view": "<post_title>Girls trip to NYC Dinner Recs</post_title>\n<post_body>Hi everyone! :) Me and 5 other friends have a trip into NYC during mid December. I was wondering if anyone has recommmendations for food on the cheaper side for dinner in midtown manhattan (we are all college students). Maybe with entrees betweeon $20-$30? I am trying to book reservations now. We are open to all types of cuisine!  Thank you!</post_body>\n<comment_to_extract>\nLos Tacos No.1 or The Hugh food hall\n</comment_to_extract>",
+   "context": {
+    "title": "Girls trip to NYC Dinner Recs",
+    "selftext": "Hi everyone! :) Me and 5 other friends have a trip into NYC during mid December. I was wondering if anyone has recommmendations for food on the cheaper side for dinner in midtown manhattan (we are all college students). Maybe with entrees betweeon $20-$30? I am trying to book reservations now. We are open to all types of cuisine!  Thank you!",
+    "ancestors": [],
+    "author": "Royal_Potential_3299",
+    "body": "Los Tacos No.1 or The Hugh food hall",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Los Tacos No.1",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tacos",
+      "cheap eats"
+     ]
+    },
+    {
+     "name": "The Hugh",
+     "named_in": "comment",
+     "kind": "food_hall",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "food hall"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0629",
+   "comment_id": "t1_ok8u9i4",
+   "model_view": "<post_title>Visiting NYC! Critique my food list</post_title>\n<post_body>Hey guys, long story short I live in California now but used to go to NYC 3-4 times a year when I lived in the east coast.  I haven’t been back in 3 years but here’s the list of must eats I compiled.  Please add or remove\n\n\\- Apollo Bagels  \n\\- L’industrie pizza  \n\\- Adel’s Halal  \n\\- Al’Antica Vinao  \n\\- los Tacos no 1  \n\\- Soothr  \n\\- Bungalow</post_body>\n<comment_to_extract>\ni thought bungalow was pretty overrated tbh. Adel’s is also a nice to have i think. it’s great for the price, but nothing out of this world. \nAl antica was also not worth the price - a very mediocre sandwich. i hear the ones in nyc just don’t compare to italy (haven’t been to italy tho). \n\nThe only place i can really get behind in this list is Soothr. \n\nalso agree with the other comments, los tacos is great. But if you’re coming from socal, it’s gonna seem like a rip off (ie. 2 tacos for 9-10$)\n</comment_to_extract>",
+   "context": {
+    "title": "Visiting NYC! Critique my food list",
+    "selftext": "Hey guys, long story short I live in California now but used to go to NYC 3-4 times a year when I lived in the east coast.  I haven’t been back in 3 years but here’s the list of must eats I compiled.  Please add or remove\n\n\\- Apollo Bagels  \n\\- L’industrie pizza  \n\\- Adel’s Halal  \n\\- Al’Antica Vinao  \n\\- los Tacos no 1  \n\\- Soothr  \n\\- Bungalow",
+    "ancestors": [],
+    "author": "ayo_pause2",
+    "body": "i thought bungalow was pretty overrated tbh. Adel’s is also a nice to have i think. it’s great for the price, but nothing out of this world. \nAl antica was also not worth the price - a very mediocre sandwich. i hear the ones in nyc just don’t compare to italy (haven’t been to italy tho). \n\nThe only place i can really get behind in this list is Soothr. \n\nalso agree with the other comments, los tacos is great. But if you’re coming from socal, it’s gonna seem like a rip off (ie. 2 tacos for 9-10$) ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Bungalow",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Adel's Halal",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "price",
+       "text": "nothing out of this world, but great for the price"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "halal"
+     ]
+    },
+    {
+     "name": "Al antica",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "sandwich",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "heard NYC versions don't compare to Italy; commenter has not been to Italy"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwiches",
+      "italian"
+     ]
+    },
+    {
+     "name": "Soothr",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "los Tacos no 1",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "tacos",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "2 tacos for $9-10; may seem like a rip off to visitors from SoCal"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tacos"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0630",
+   "comment_id": "t1_own36s3",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n[1] another user: People are just doing it themselves more\n[2] OP: I care more about their vegan soft serve\n[3] another user: Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off.... Vegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan. You dont see the Jain monks eating tofurkey. They eat food that is naturally vegan ...\n[4] another user: vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb.\n[5] another user: It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\" Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it. Respectfully, a chef.\n</thread_above>\n<comment_to_extract>\nbecause nut juice is frowned upon\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!"
+     },
+     {
+      "author": "mycateatstoenails",
+      "body": "vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb. "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\"  Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it.\n\nRespectfully, a chef."
+     }
+    ],
+    "author": "didnt_knew",
+    "body": "because nut juice is frowned upon ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0631",
+   "comment_id": "t1_p67js92",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<thread_above>\n[1] another user: Their Philly cheese steak also might be the best I’ve ever had\n[2] another user: Coops is the best but that’s a close second I feel\n</thread_above>\n<comment_to_extract>\nMan, coops is so good\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "SMK_12",
+      "body": "Their Philly cheese steak also might be the best I’ve ever had "
+     },
+     {
+      "author": "CIark",
+      "body": "Coops is the best but that’s a close second I feel"
+     }
+    ],
+    "author": "capnShocker",
+    "body": "Man, coops is so good",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Coops",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0632",
+   "comment_id": "t1_k7fyu5l",
+   "model_view": "<post_title>Atomix: If anyone has a seating for 3 for Dec 23 or 30th that they plan on getting rid of I would be very grateful you messaged me about it</post_title>\n<post_body>Those reservations went away in less than 10 seconds i swear</post_body>\n<comment_to_extract>\nPlease post your reservation sales in the weekly thread.\n</comment_to_extract>",
+   "context": {
+    "title": "Atomix: If anyone has a seating for 3 for Dec 23 or 30th that they plan on getting rid of I would be very grateful you messaged me about it",
+    "selftext": "Those reservations went away in less than 10 seconds i swear",
+    "ancestors": [],
+    "author": "FoodNYC-ModTeam",
+    "body": "Please post your reservation sales in the weekly thread.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0633",
+   "comment_id": "t1_p6puvov",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<comment_to_extract>\nMamas too is pretty good, but Village Square is only a couple blocks away, cheaper, and never has a line\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "ShrimpSmith",
+    "body": "Mamas too is pretty good, but Village Square is only a couple blocks away, cheaper, and never has a line ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mamas too",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Village Square is a couple blocks away, cheaper, and never has a line"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Village Square",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "a couple blocks from Mamas Too",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Only a couple blocks from Mamas Too, cheaper, and never has a line"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0634",
+   "comment_id": "t1_p64mafl",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<thread_above>\n[1] you, earlier: Just had the pepperoni square from Paulie Gee’s the other day for the first time and was blown away. The sesame crust on the bottom was next level\n[2] another user: Where is it located?\n[3] you, earlier: Greenpoint!\n[4] another user: Do they still have a C health rating?\n</thread_above>\n<comment_to_extract>\nHow many processed snacks do you eat?\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     },
+     {
+      "author": "poopship462",
+      "body": "Do they still have a C health rating?"
+     }
+    ],
+    "author": "Jxc_Heard",
+    "body": "How many processed snacks do you eat?",
+    "replies": [
+     {
+      "author": "netllama",
+      "body": "100% irrelevant.  if you need to play the 'whatabout' game, you've already lost."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0635",
+   "comment_id": "t1_jp232jo",
+   "model_view": "<post_title>Fireee chopped cheese at Prince Gourmet Deli in queens👌🤘</post_title>\n<thread_above>\n(19 earlier comments not shown)\n[1] OP: Lmfao ohhh you're brain dead, sorry about that son\n[2] you, earlier: again, the irony if you don’t know a word, google is your friend\n[3] OP: Yikess now you're just repeating yourself? Loser alert\n[4] you, earlier: you’re telling on yourself so hard\n[5] OP: Lmaoo what are the odds two retards comment on a post about a sandwich 😆😆I'm crying of laughter\n</thread_above>\n<comment_to_extract>\nOdds are pretty high since it was your post to begin with so you always got one covered.\n\n<quote>I'm crying of laughter</quote>\n\nsureee buddy we can all tell you are seething\n</comment_to_extract>",
+   "context": {
+    "title": "Fireee chopped cheese at Prince Gourmet Deli in queens👌🤘",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Himothy_HimHimolton",
+      "body": "Eww, hell no, throw that shit out before you batch aids"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Are you dumb or are you retarded? You clearly don't have a clue about good deli eats"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "dam bro relax lol"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Lol Nah I'm relaxed, he deserved it ^"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "i mean he was rude yea but like sheesh man"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Nopeee well deserved, I simply return the same energy"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "Nopeee calling someone “retarded” over a sandwich or really in genera is not well adjusted behavior no matter what they said"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Lmaooo😆😆😆ppl act retarded every day and best believe I'ma call them out on it every time"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "enjoy being stuck in 2012 I guess?"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Enjoy being sensitive in 2023 😂"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "i mean i’m not offended it just makes you sound kind of dumb tbh"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Lmaoo bro I really don't care I promise you, like I said I simply return the same energy I receive. Ask stupid questions and you get stupid responses, really simple."
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "you’re responses sure make it seem like you care lol but hey whatever man"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Lol and your responses make it seem like you're offended, but hey whatever man 🥴"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "sure fella"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Cringeee buddy"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "the irony"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Frrrr Sucks to suck right"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "you aren’t helping the dumb allegations with this one lmfao"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Lmfao ohhh you're brain dead, sorry about that son"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "again, the irony\n\nif you don’t know a word, google is your friend"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Yikess now you're just repeating yourself? Loser alert"
+     },
+     {
+      "author": "somethinsbruin",
+      "body": "you’re telling on yourself so hard"
+     },
+     {
+      "author": "BarlosAndres",
+      "body": "Lmaoo what are the odds two retards comment on a post about a sandwich 😆😆I'm crying of laughter"
+     }
+    ],
+    "author": "somethinsbruin",
+    "body": "Odds are pretty high since it was your post to begin with so you always got one covered.\n\n>I'm crying of laughter\n\nsureee buddy we can all tell you are seething",
+    "replies": [
+     {
+      "author": "BarlosAndres",
+      "body": "Lol Seething about what? You're clearly mad bc you felt the need to defend that other retard, now look at you now. Two peas in a pod"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0636",
+   "comment_id": "t1_pehs8rp",
+   "model_view": "<post_title>How are we looking so far? Looking to avoid tourist traps and overrated/overpriced spots.</post_title>\n<post_body>We will be traveling there shortly and any help is appreciated, thank you!</post_body>\n<comment_to_extract>\nI’d also go for the pizza at mama’s too\n\nAlso your list is full of tourist traps\n</comment_to_extract>",
+   "context": {
+    "title": "How are we looking so far? Looking to avoid tourist traps and overrated/overpriced spots.",
+    "selftext": "We will be traveling there shortly and any help is appreciated, thank you! ",
+    "ancestors": [],
+    "author": "verndogz",
+    "body": "I’d also go for the pizza at mama’s too\n\nAlso your list is full of tourist traps",
+    "replies": [
+     {
+      "author": "NikoSuave28",
+      "body": "It’s hard to tell from pictures and reviews alone what is and isn’t a tourist trap. "
+     },
+     {
+      "author": "jgl142",
+      "body": "Maybe tell them which are so they can evaluate vs vaguely saying they are"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "mama's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pizza",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0637",
+   "comment_id": "t1_ij0fgnq",
+   "model_view": "<post_title>Places to buy Korean banchan in bulk?</post_title>\n<post_body>Looking for places in Manhattan to buy banchan in bulk. The ones at H mart and Woorijip are kind of expensive for the size.</post_body>\n<thread_above>\n[1] you, earlier: There are banchan delivery services. https://www.ghostfreshmart.com/home-v1-2/\n[2] another user: Good value but the \"small\" size is huge @ 2 pounds.\n</thread_above>\n<comment_to_extract>\nI see several 8 oz banchan?\n</comment_to_extract>",
+   "context": {
+    "title": "Places to buy Korean banchan in bulk?",
+    "selftext": "Looking for places in Manhattan to buy banchan in bulk. The ones at H mart and Woorijip are kind of expensive for the size.",
+    "ancestors": [
+     {
+      "author": "Swimmingindiamonds",
+      "body": "There are banchan delivery services.\n\nhttps://www.ghostfreshmart.com/home-v1-2/"
+     },
+     {
+      "author": "slappymcslappers",
+      "body": "Good value but the \"small\" size is huge @ 2 pounds."
+     }
+    ],
+    "author": "Swimmingindiamonds",
+    "body": "I see several 8 oz banchan?",
+    "replies": [
+     {
+      "author": "slappymcslappers",
+      "body": "All the kimchee is minimum 32 ounce.\n\nThat site is horrid navigating with Google translate."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0638",
+   "comment_id": "t1_ng6is08",
+   "model_view": "<post_title>Child friendly restaurant near W 50th and 8th?</post_title>\n<post_body>We are taking our grandchildren, ages 6 and 10, to an off Broadway matinee and then to dinner. They are vegetarian. Any suggestions for a good restaurant that kids would enjoy near West 50th and 8th or 9th Avenues? It doesn’t have to be a vegetarian restaurant as long as there are some vegetarian options in the menu that kids would like.</post_body>\n<comment_to_extract>\nKashkaval garden is on 9th ave and 55th. Among many other things, they do cheese fondue with veggies and bread, which is a really fun thing for kids to try. Prices are reasonable, too.\n</comment_to_extract>",
+   "context": {
+    "title": "Child friendly restaurant near W 50th and 8th?",
+    "selftext": "We are taking our grandchildren, ages 6 and 10, to an off Broadway matinee and then to dinner. They are vegetarian. Any suggestions for a good restaurant that kids would enjoy near West 50th and 8th or 9th Avenues? It doesn’t have to be a vegetarian restaurant as long as there are some vegetarian options in the menu that kids would like. ",
+    "ancestors": [],
+    "author": "thatsreallynotok",
+    "body": "Kashkaval garden is on 9th ave and 55th. Among many other things, they do cheese fondue with veggies and bread, which is a really fun thing for kids to try. Prices are reasonable, too.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Kashkaval garden",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "9th Ave and 55th",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cheese fondue with veggies and bread",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "location",
+       "text": "on 9th Ave at 55th"
+      },
+      {
+       "about": "kids",
+       "text": "cheese fondue with veggies and bread is fun for kids to try"
+      },
+      {
+       "about": "price",
+       "text": "prices are reasonable"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "kid friendly",
+      "vegetarian options",
+      "fondue"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0639",
+   "comment_id": "t1_mpezncp",
+   "model_view": "<post_title>Walk in for Raku ?</post_title>\n<post_body>Any of the three location for 2 people weekday lunch. Can't make rez so what my luck with lunch walk in ?</post_body>\n<thread_above>\n[1] you, earlier: There's a waitlist sometimes for some locations if you want to be sure\n[2] OP: What udon did you like\n</thread_above>\n<comment_to_extract>\nThe toriten and the chicken curry are my favs\n</comment_to_extract>",
+   "context": {
+    "title": "Walk in for Raku ?",
+    "selftext": "Any of the three location for 2 people weekday lunch. Can't make rez so what my luck with lunch walk in ? ",
+    "ancestors": [
+     {
+      "author": "archmommy",
+      "body": "There's a waitlist sometimes for some locations if you want to be sure"
+     },
+     {
+      "author": "Cartadimusica",
+      "body": "What udon did you like"
+     }
+    ],
+    "author": "archmommy",
+    "body": "The toriten and the chicken curry are my favs",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Raku",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "toriten",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "chicken curry",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "japanese",
+      "udon"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0640",
+   "comment_id": "t1_ocbjsfs",
+   "model_view": "<post_title>Flying 10,000 miles to New York for the first time - trying to make one dream dinner happen!</post_title>\n<post_body>Hi NYC,\n\nThis feels slightly unhinged to post, but I thought I’d take a chance.\n\nI’m flying from Australia to New York in April for my first ever visit. It’s only a long weekend, but it’s a trip I’ve been planning (and honestly holding onto) for quite a while after a pretty intense couple of years personally. I’m travelling with my best friend from Australia, who’s just been given the all-clear after a gruelling year of cancer treatment, so we’re also hoping to celebrate that milestone together while we’re in the city.\n\nI’ve been trying to get a reservation at places like The Polo Bar, The Corner Store, Torrisi. I’ve called at strange hours from Australia, refreshed booking apps like a full-time job and tried every trick I can think of - but so far no luck.\n\nI completely understand how in-demand these places are, and I’m not expecting miracles. But I thought I’d ask the locals: **does anyone have tips, cancellation strategies, timing tricks, or even just success stories from persistence paying off?**\n\nWe’re only in New York together for one weekend and would genuinely take anything - early dinner, late dinner, bar seats together, whatever works. The only catch is it has to be Frida ...</post_body>\n<comment_to_extract>\nPlease for the love of god DO NOT fly all the way to NYC and go to Hillstone. What started as a joke (it’s like a finance bro Outback Steakhouse/Chilis/Applebees) has evolved into a cult following with people taking it way too seriously. The food is perfectly FINE and if you live in NYC and work in midtown then bandwagon all day long. But do not, under any circumstances, come to NYC and land there because someone on Reddit said it was better than the Polo Bar.  To get tough rezzies in NYC, Dorsia will be your best bet. It can be pricey to get a table, but that’s the most practical option. Also try ResX. People will post rezzies there. But also just get lost in the West Village and see what you find!\n</comment_to_extract>",
+   "context": {
+    "title": "Flying 10,000 miles to New York for the first time - trying to make one dream dinner happen!",
+    "selftext": "Hi NYC,\n\nThis feels slightly unhinged to post, but I thought I’d take a chance.\n\nI’m flying from Australia to New York in April for my first ever visit. It’s only a long weekend, but it’s a trip I’ve been planning (and honestly holding onto) for quite a while after a pretty intense couple of years personally. I’m travelling with my best friend from Australia, who’s just been given the all-clear after a gruelling year of cancer treatment, so we’re also hoping to celebrate that milestone together while we’re in the city.\n\nI’ve been trying to get a reservation at places like The Polo Bar, The Corner Store, Torrisi. I’ve called at strange hours from Australia, refreshed booking apps like a full-time job and tried every trick I can think of - but so far no luck.\n\nI completely understand how in-demand these places are, and I’m not expecting miracles. But I thought I’d ask the locals: **does anyone have tips, cancellation strategies, timing tricks, or even just success stories from persistence paying off?**\n\nWe’re only in New York together for one weekend and would genuinely take anything - early dinner, late dinner, bar seats together, whatever works. The only catch is it has to be Friday or Saturday night (I know, I know 😅).\n\nIf you’ve ever travelled somewhere and had that one dinner that became part of your life story, you’ll probably understand why I’m asking 🙂\n\nIf anyone has advice, perspective, or even just encouragement, I’d be incredibly grateful. And if it somehow works out, I promise to report back and pay the good karma forward.\n\nThank you so much for reading ❤️\n\n\\*\\*UPDATE: I really appreciate all the suggestions and reality checks — honestly part of the fun for me is the adventure of trying to make one of these nights happen, but I’m also very open to incredible alternatives. I feel extremely grateful and spoiled for choice already\\*\\*",
+    "ancestors": [],
+    "author": "frannyfungirl",
+    "body": "Please for the love of god DO NOT fly all the way to NYC and go to Hillstone. What started as a joke (it’s like a finance bro Outback Steakhouse/Chilis/Applebees) has evolved into a cult following with people taking it way too seriously. The food is perfectly FINE and if you live in NYC and work in midtown then bandwagon all day long. But do not, under any circumstances, come to NYC and land there because someone on Reddit said it was better than the Polo Bar.  To get tough rezzies in NYC, Dorsia will be your best bet. It can be pricey to get a table, but that’s the most practical option. Also try ResX. People will post rezzies there. But also just get lost in the West Village and see what you find! ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Hillstone",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Midtown",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reason to skip",
+       "text": "A Reddit-driven cult following that treats it too seriously; it's a finance-bro chain-style spot like Outback or Applebee's"
+      },
+      {
+       "about": "food",
+       "text": "Food is perfectly fine"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": "negative",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": true,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "american",
+      "chain-style",
+      "midtown"
+     ]
+    },
+    {
+     "name": "Dorsia",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reservations",
+       "text": "Best bet for hard-to-get reservations; it can be pricey to get a table, but it's the most practical option"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": "expensive",
+     "tags": [
+      "reservations"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0641",
+   "comment_id": "t1_npnx24o",
+   "model_view": "<post_title>One White Street vs Family Meal at Blue Hill vs Kono</post_title>\n<post_body>My friend’s birthday is next month and we’ve narrowed down the restaurants to these. We would do the tasting menu at One White Street.\n\nWhich one would you recommend between the three? These three have been on our list so we’ve narrowed the restaurants to these three.</post_body>\n<comment_to_extract>\nWould definitely go with One White Street ! Despite them just losing a star, they’re still a top choice for a great tasting menu experience - I also think their desserts separate them out from the pack - amazing meal from start to finish\n</comment_to_extract>",
+   "context": {
+    "title": "One White Street vs Family Meal at Blue Hill vs Kono",
+    "selftext": "My friend’s birthday is next month and we’ve narrowed down the restaurants to these. We would do the tasting menu at One White Street.\n\nWhich one would you recommend between the three? These three have been on our list so we’ve narrowed the restaurants to these three. ",
+    "ancestors": [],
+    "author": "sliceofanything",
+    "body": "Would definitely go with One White Street ! Despite them just losing a star, they’re still a top choice for a great tasting menu experience - I also think their desserts separate them out from the pack - amazing meal from start to finish",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "One White Street",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "desserts",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "michelin star",
+       "text": "recently lost a star but still a top choice for a tasting menu"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tasting menu"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0642",
+   "comment_id": "t1_jbojutb",
+   "model_view": "<post_title>Momofuku Noodle Bar + Ssam bar</post_title>\n<post_body>BF just read Eat A Peach and wants to try Momofuku noodle bar- east vil or Columbus circle? We would wanna do Ssam bar but seems like for 2 it a commitment and a half, and better off with at least 4 people (thoughts)?</post_body>\n<thread_above>\n[1] another user: One of the best thing at Momofuku are the buns, and the dry rubbed wings. The buns are the same at both locations, but the \"good\" wings are only at the Columbus Circle location AFAIK. If that's still true, they're worth the trip on their own imo (the noodle dishes are medicore. The smoked pork ramen is decent). The wings at the east village location really suck IMO.\n</thread_above>\n<comment_to_extract>\nI agree with you. The ramen at Momofuku is subpar. It's all the other dishes that are really great.\n</comment_to_extract>",
+   "context": {
+    "title": "Momofuku Noodle Bar + Ssam bar",
+    "selftext": "BF just read Eat A Peach and wants to try Momofuku noodle bar- east vil or Columbus circle? We would wanna do Ssam bar but seems like for 2 it a commitment and a half, and better off with at least 4 people (thoughts)?",
+    "ancestors": [
+     {
+      "author": "phoenixmatrix",
+      "body": "One of the best thing at Momofuku are the buns, and the dry rubbed wings. The buns are the same at both locations, but the \"good\" wings are only at the Columbus Circle location AFAIK. If that's still true, they're worth the trip on their own imo (the noodle dishes are medicore. The smoked pork ramen is decent). The wings at the east village location really suck IMO."
+     }
+    ],
+    "author": "10throwaway123456789",
+    "body": "I agree with you. The ramen at Momofuku is subpar. It's all the other dishes that are really great.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Momofuku",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "ramen",
+       "level": "negative",
+       "avoid": false
+      },
+      {
+       "dish": "buns",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "dry rubbed wings",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ramen",
+      "noodle bar"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0643",
+   "comment_id": "t1_o4pfpdz",
+   "model_view": "<post_title>NYC Food Instagram Feeds That Aren't Annoying AF</post_title>\n<post_body>I pretty much stay off Instagram entirely now because food media on there has become all the same people going to the same places saying the same thing, because restaurants asked them to come. No thanks. BUT, I do like a handful of accounts that - THANK GOD - are not doing the exact same thing as everyone else.\n\nOpen to discovering others in the comments if you've got 'em.\n\n1. Rob Martinez - @ robmartinez  \nLiterally the only person I can find who's doing actual STORYTELLING. He's supporting restaurants in all the right way.\n\n2. Dave Cook - @ eatingintranslation  \nSo simple. Just pictures of dishes that are good. Great! Thank you!\n\n3. Anh - @ whatsgoinganh  \nNo one else is actually making their videos like this, and it's goddamn refreshing! Seriously, why does EVERY food person online use the same vocal cadence, same editing, same same same. Not Anh!</post_body>\n<thread_above>\n[1] another user: Yeah, unfortunately so many NYC food influencers just hit the same few places. My algo is nothing but nonstop reviews of Salt Hank's, L'Industrie and Hamburger America. But there are a few people I like who deviate from the usual spots and have appealing personas: 1) [Johnny Novo](https://www.tiktok ...\n[2] another user: Seconding Julian Mu for lots of under the radar spots and his series asking people where they go when they’re homesick.\n</thread_above>\n<comment_to_extract>\nLove Julian Mu❤️\n</comment_to_extract>",
+   "context": {
+    "title": "NYC Food Instagram Feeds That Aren't Annoying AF",
+    "selftext": "I pretty much stay off Instagram entirely now because food media on there has become all the same people going to the same places saying the same thing, because restaurants asked them to come. No thanks. BUT, I do like a handful of accounts that - THANK GOD - are not doing the exact same thing as everyone else.\n\nOpen to discovering others in the comments if you've got 'em.\n\n1. Rob Martinez - @ robmartinez  \nLiterally the only person I can find who's doing actual STORYTELLING. He's supporting restaurants in all the right way.\n\n2. Dave Cook - @ eatingintranslation  \nSo simple. Just pictures of dishes that are good. Great! Thank you!\n\n3. Anh - @ whatsgoinganh  \nNo one else is actually making their videos like this, and it's goddamn refreshing! Seriously, why does EVERY food person online use the same vocal cadence, same editing, same same same. Not Anh!",
+    "ancestors": [
+     {
+      "author": "JayMoots",
+      "body": "Yeah, unfortunately so many NYC food influencers just hit the same few places. My algo is nothing but nonstop reviews of Salt Hank's, L'Industrie and Hamburger America.\n\nBut there are a few people I like who deviate from the usual spots and have appealing personas:\n\n1) [Johnny Novo](https://www.tiktok.com/@jnov__) \\- He was ranking the best rotisserie chicken in the city, now he's doing burgers.\n\n2) [Julian Mu](https://www.tiktok.com/@itsjulianmu) \\- Focused on Asian foods, and he does a lot of under-the-radar places\n\n3) [Kaitlyn Lavery](https://www.tiktok.com/@kaitlyneats?lang=en) \\- Last year she had a project where she ate at and reviewed all 100 restaurants from the NY Times' top 100 list. This year she's doing it again."
+     },
+     {
+      "author": "justflipping",
+      "body": "Seconding Julian Mu for lots of under the radar spots and his series asking people where they go when they’re homesick."
+     }
+    ],
+    "author": "Potential-Card3959",
+    "body": "Love Julian Mu❤️",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0644",
+   "comment_id": "t1_jzf6uzx",
+   "model_view": "<post_title>Is Adel's Famous Halal Food really better than Halal Guys?</post_title>\n<post_body>We got Halal Guys here in Toronto 4 years ago. I remember it like it was yesterday, halal guys took a nose dive in quality since the pandemic. I'm planning on travelling to NYC just to eat Adel's, is there anything better than Adel's that has a similar street shawarma taste to halal guys? Or is Adel's the goat?</post_body>\n<thread_above>\n[1] you, earlier: NYC Halal Cart food is tasty in the way Cheetos are tasty. I like that it's highly seasoned and it serves a purpose. For a quick office lunch or late night meal it’s hard to beat. However now that prices have gone up and if I'm going to travel or wait on top of that.. I'd much rather just get real s ...\n[2] another user: Got a good recommendation for real shawarma?\n[3] you, earlier: Sadly it’s much, much, much harder to find than it used to be. There once was more quality places in Queens and near ocean parkway in Brooklyn but many have closed over the years. I think the profit margins aren’t high enough and their isn’t as much of an audience with an appreciation for the real s ...\n[4] another user: Mamouns on macdougal but they’ve increased the prices a little bit\n</thread_above>\n<comment_to_extract>\nFor my taste and my personal opinion:\n\nMamouns is good for Falafel but strictly the actual fried falafel is respectable.  Everything else is bodega grade quality: the lettuce , tahini , tomatoes are just there as filler and the pita is just a container / vessel with no taste. \n\nSame goes for their spicy sauce it is not a harissa, not schug , not tatbila not Shatta , not Avjar , not Ajika not chermoula  …it’s just crushed chilis with no seasoning . It adds heat but no extra flavor.\n\nAll that said when a falafel pita was less than two dollars it was an amazing cheap eat, especially if you were already in the area and even more so when not sober.\n\nUnless it changed in recent years : The shawarma however was never any good (from the 90s through the 2010s) it was just more filling and if you had to have meat because falafel wasn’t cutting it you would get it. Honestly though in this instance the halal gyro meat actually tastes better and it was / is cheaper .\n</comment_to_extract>",
+   "context": {
+    "title": "Is Adel's Famous Halal Food really better than Halal Guys?",
+    "selftext": "We got Halal Guys here in Toronto 4 years ago. I remember it like it was yesterday, halal guys took a nose dive in quality since the pandemic. I'm planning on travelling to NYC just to eat Adel's, is there anything better than Adel's that has a similar street shawarma taste to halal guys? Or is Adel's the goat?",
+    "ancestors": [
+     {
+      "author": "Sad_Hungry",
+      "body": "NYC Halal Cart food is tasty in the way Cheetos are tasty. I like that it's highly seasoned and it serves a purpose. For a quick office lunch or late night meal it’s hard to beat. \n\nHowever now that prices have gone up and if I'm going to travel or wait on top of that.. I'd much rather just get real shawarma off the spit with quality Tahini, humus, schug, toum and amba with pickled turnips , pickles, pickled peppers, cabbage salad etc.. and some rice or a fluffy fresh pita or laffa. Maybe even chips (french fries) or some foul medamas  if I'm going full glutton mode."
+     },
+     {
+      "author": "thewonderfulpooper",
+      "body": "Got a good recommendation for real shawarma?"
+     },
+     {
+      "author": "Sad_Hungry",
+      "body": "Sadly it’s much, much, much harder to find than it used to be. There once was more quality places in Queens and near ocean parkway in Brooklyn but many have closed over the years. I think the profit margins aren’t high enough and their isn’t as much of an audience with an appreciation for the real stuff outside of highly Arabic or highly orthodox communities.\n\nAnyway :\n\nDuzan in Astoria is usually solid (I haven’t gone in a bit I heard they fell off a bit but there was a time where they were legitimately good)\n\nGrill Point (multiple locations ) hit or miss but when \nright it’s good just you will have to deal with blatant rip off prices because it’s Kosher which is annoying but it is what it is.\n\nZyara (pitas are crap in comparison but the meat is pretty reliable ) \n\nOtherwise there’s also restaurant versions that are okay but it’s not the same as when it’s a legit Shawarma location."
+     },
+     {
+      "author": "SeaBite1366",
+      "body": "Mamouns on macdougal but they’ve increased the prices a little bit"
+     }
+    ],
+    "author": "Sad_Hungry",
+    "body": "For my taste and my personal opinion:\n\nMamouns is good for Falafel but strictly the actual fried falafel is respectable.  Everything else is bodega grade quality: the lettuce , tahini , tomatoes are just there as filler and the pita is just a container / vessel with no taste. \n\nSame goes for their spicy sauce it is not a harissa, not schug , not tatbila not Shatta , not Avjar , not Ajika not chermoula  …it’s just crushed chilis with no seasoning . It adds heat but no extra flavor.\n\nAll that said when a falafel pita was less than two dollars it was an amazing cheap eat, especially if you were already in the area and even more so when not sober.\n\nUnless it changed in recent years : The shawarma however was never any good (from the 90s through the 2010s) it was just more filling and if you had to have meat because falafel wasn’t cutting it you would get it. Honestly though in this instance the halal gyro meat actually tastes better and it was / is cheaper .",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mamouns",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "falafel",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "shawarma",
+       "level": "negative",
+       "avoid": false
+      },
+      {
+       "dish": "spicy sauce",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "falafel pita price",
+       "text": "when a falafel pita was under two dollars it was an amazing cheap eat"
+      },
+      {
+       "about": "fillers",
+       "text": "lettuce, tahini and tomatoes are filler; pita has no taste"
+      },
+      {
+       "about": "halal gyro comparison",
+       "text": "halal gyro meat tastes better and is cheaper than Mamouns shawarma"
+      },
+      {
+       "about": "past shawarma",
+       "text": "shawarma was never good from the 90s through the 2010s, unless it changed recently"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "price": "cheap",
+     "tags": [
+      "falafel",
+      "shawarma",
+      "halal",
+      "cheap eats"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0645",
+   "comment_id": "t1_p1kcfpo",
+   "model_view": "<post_title>Recommendations for a couple of country folk looking to expand our culinary horizons.</post_title>\n<post_body>Wife and I are coming to NYC for the first time in December. We’re coming from Arkansas so we’re very fancy food ignorant (Texas Roadhouse is our date night spot).   \nI’d like to expand our horizons a bit!  \n We’re looking for a place under $200 pp (prefer multi-course price fixe but not a dealbreaker) with a great view. Bonus points if it has a Michelin star or two (but again not a deal breaker) We’re willing to go anywhere in the 5 Burroughs we can get to via the subway!\n\nSome places we’ve looked at already:  \n\\- The River Cafe  \n\\- Manhatta  \n\\- Giando on the Water\n\nThanks in advance for the recs!</post_body>\n<comment_to_extract>\nWhat can you find here that you can’t get in AR? Fancy food is boring IMHO. Skip it and dig into some great Sichuanese or Georgian or Persian or…\n</comment_to_extract>",
+   "context": {
+    "title": "Recommendations for a couple of country folk looking to expand our culinary horizons.",
+    "selftext": "Wife and I are coming to NYC for the first time in December. We’re coming from Arkansas so we’re very fancy food ignorant (Texas Roadhouse is our date night spot).   \nI’d like to expand our horizons a bit!  \n We’re looking for a place under $200 pp (prefer multi-course price fixe but not a dealbreaker) with a great view. Bonus points if it has a Michelin star or two (but again not a deal breaker) We’re willing to go anywhere in the 5 Burroughs we can get to via the subway!\n\nSome places we’ve looked at already:  \n\\- The River Cafe  \n\\- Manhatta  \n\\- Giando on the Water\n\nThanks in advance for the recs!",
+    "ancestors": [],
+    "author": "Foreign-Candle-4103",
+    "body": "What can you find here that you can’t get in AR? Fancy food is boring IMHO. Skip it and dig into some great Sichuanese or Georgian or Persian or…",
+    "replies": [
+     {
+      "author": "Jolly_Nefariousness4",
+      "body": "Good perspective, didn’t even know Georgian/Persian food existed until now. We’re pretty set on Italian food, BBQ, and traditional American faire down here. "
+     },
+     {
+      "author": "justflipping",
+      "body": "Yea if they’re looking to expand their culinary horizons there’s so much to have! Burmese, Bolivian, Egyptian, Peruvian, Yemeni etc"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0646",
+   "comment_id": "t1_nleeujt",
+   "model_view": "<post_title author=\"you\">A Brit's first time</post_title>\n<post_body author=\"you\">Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.</post_body>\n<thread_above>\n[1] another user: There’s so many great things, if you’re not trying to spend a lot I think it’s almost more fun to just explore and use Google reviews. But ill throw one into the ring maybe ten blocks from you: Zoom Zib: super quick, reasonable price and delicious Thai food\n</thread_above>\n<comment_to_extract>\nThank you so much. This is the sort of thing I was looking for. It's 10 minutes from our hotel!\n</comment_to_extract>",
+   "context": {
+    "title": "A Brit's first time",
+    "selftext": "Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.",
+    "ancestors": [
+     {
+      "author": "merlin401",
+      "body": "There’s so many great things, if you’re not trying to spend a lot I think it’s almost more fun to just explore and use Google reviews.  But ill throw one into the ring maybe ten blocks from you:  Zoom Zib:  super quick, reasonable price and delicious Thai food "
+     }
+    ],
+    "author": "snakesandladders212",
+    "body": "Thank you so much. This is the sort of thing I was looking for. It's 10 minutes from our hotel!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Zoom Zib",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "distance",
+       "text": "About 10 minutes from the commenter's hotel"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "thai"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0647",
+   "comment_id": "t1_o25k2z0",
+   "model_view": "<post_title>Weightloss veg orders in NYC</post_title>\n<post_body>I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.</post_body>\n<comment_to_extract>\nBen's Fast Food might be a good option.  Vegetarian dumplings or sushi perhaps?\n</comment_to_extract>",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [],
+    "author": "jewree",
+    "body": "Ben's Fast Food might be a good option.  Vegetarian dumplings or sushi perhaps?",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Ben's Fast Food",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "vegetarian dumplings",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "sushi",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "fast food",
+      "vegetarian"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0648",
+   "comment_id": "t1_p80zw02",
+   "model_view": "<post_title>Do Not Feed Alligator’s has a C?Never seen a C before lol</post_title>\n<thread_above>\n[1] another user: A = A-OK B = Bad C = Do Not Walk, Run Grade Pending = Return at a Later Time\n</thread_above>\n<comment_to_extract>\nGrade pending means check the nyc doh website to see what's going on. Since it's a public resource, the nyc doh lets you look up any restaurant and see all their violations from recent inspections. But I agree with A, B, & C.\n</comment_to_extract>",
+   "context": {
+    "title": "Do Not Feed Alligator’s has a C?Never seen a C before lol",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "adversecurrent",
+      "body": "A = A-OK\nB = Bad\nC = \nDo Not Walk, Run\nGrade Pending = Return at a Later Time\n"
+     }
+    ],
+    "author": "RemotePotatoe",
+    "body": "Grade pending means check the nyc doh website to see what's going on. Since it's a public resource, the nyc doh lets you look up any restaurant and see all their violations from recent inspections. But I agree with A, B, & C. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0649",
+   "comment_id": "t1_krjy12o",
+   "model_view": "<post_title>Favorite unique sandwiches in Brooklyn?</post_title>\n<post_body>I'm looking for your favorite sandwiches themselves (not the shop). Ideally in the panini/hot sandwich realm rather than hero/sub/cold cuts. \n\nGive me your favorite paninis, french dips, etc. I'm craving the sort of sandwich that you bite into and say 'ohmygod'.</post_body>\n<thread_above>\n[1] another user: Not really a sammy- but unique- Scallion Bacon Egg and Cheese from Win Son I also love the Pastrami Egg and Cheese from Frankel's\n</thread_above>\n<comment_to_extract>\nOmg I can here to say the pastrami egg and cheese from Frankels. I just ate it this morning. It’s easily my favorite pastrami.\n</comment_to_extract>",
+   "context": {
+    "title": "Favorite unique sandwiches in Brooklyn?",
+    "selftext": "I'm looking for your favorite sandwiches themselves (not the shop). Ideally in the panini/hot sandwich realm rather than hero/sub/cold cuts. \n\nGive me your favorite paninis, french dips, etc. I'm craving the sort of sandwich that you bite into and say 'ohmygod'. ",
+    "ancestors": [
+     {
+      "author": "DC25NYC",
+      "body": "Not really a sammy- but unique- Scallion Bacon Egg and Cheese from Win Son\n\nI also love the Pastrami Egg and Cheese from Frankel's"
+     }
+    ],
+    "author": "ASymphonyOfQueefs",
+    "body": "Omg I can here to say the pastrami egg and cheese from Frankels. I just ate it this morning. It’s easily my favorite pastrami.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Frankels",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pastrami egg and cheese",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "timing",
+       "text": "Commenter ate it this morning"
+      }
+     ],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pastrami",
+      "breakfast sandwich"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0650",
+   "comment_id": "t1_pamcjpd",
+   "model_view": "<post_title>They advertise one thing but you need this entirely unrelated other thing on their menu instead</post_title>\n<post_body>Where else can I go that says they do one thing but actually the star of the show is another thing entirely?\n\nI live off the Hudson line but commute in at least once a week so I’m often in the dining concourse of GCT.\n\nIt’s been nearly 4 years of this so you may be surprised to learn that I visited Frankie’s Dogs To Go for the first time only this week. I try to make it a point not to pay more than $5 for a hot dog so it never crossed my mind to even go there.\n\nBut I happened to glance the case as I passed by Luke’s Lobster and spotted what looked like a beef patty. And I wanted something quick and hot for my train ride (yeah I hear how that sounds). So I got in line and I ordered a spicy and $6 later (criminal) I was legit impressed. Just what I needed. Tasted so good. Didn’t hold back on the heat. And I never would have known if I hadn’t taken another look past the name of the place.</post_body>\n<thread_above>\n[1] another user: The fries are my favorite part of the red hook burger meal\n</thread_above>\n<comment_to_extract>\nHonestly the burger is my least favorite thing on the RHT menu after having it several times. The cavatelli , pork chop , head on prawns , chicken are all excellent.  I go fairly often - and with folks who are going for the first time I usually recommend we split the burger as an appetizer and try the other stuff and it’s always received well.\n</comment_to_extract>",
+   "context": {
+    "title": "They advertise one thing but you need this entirely unrelated other thing on their menu instead",
+    "selftext": "Where else can I go that says they do one thing but actually the star of the show is another thing entirely?\n\nI live off the Hudson line but commute in at least once a week so I’m often in the dining concourse of GCT.\n\nIt’s been nearly 4 years of this so you may be surprised to learn that I visited Frankie’s Dogs To Go for the first time only this week. I try to make it a point not to pay more than $5 for a hot dog so it never crossed my mind to even go there.\n\nBut I happened to glance the case as I passed by Luke’s Lobster and spotted what looked like a beef patty. And I wanted something quick and hot for my train ride (yeah I hear how that sounds). So I got in line and I ordered a spicy and $6 later (criminal) I was legit impressed. Just what I needed. Tasted so good. Didn’t hold back on the heat. And I never would have known if I hadn’t taken another look past the name of the place.",
+    "ancestors": [
+     {
+      "author": "SteveFrench12",
+      "body": "The fries are my favorite part of the red hook burger meal"
+     }
+    ],
+    "author": "Salty_Simmer_Sauce",
+    "body": "Honestly the burger is my least favorite thing on the RHT menu after having it several times. The cavatelli , pork chop , head on prawns , chicken are all excellent.  I go fairly often - and with folks who are going for the first time I usually recommend we split the burger as an appetizer and try the other stuff and it’s always received well.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "RHT",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "burger",
+       "level": "negative",
+       "avoid": false
+      },
+      {
+       "dish": "cavatelli",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "pork chop",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "head on prawns",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "chicken",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "first-timers",
+       "text": "Commenter usually recommends splitting the burger as an appetizer and trying the other dishes; it is always well received."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  }
+ ]
+}

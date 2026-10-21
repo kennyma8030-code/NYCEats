@@ -1,0 +1,1480 @@
+{
+ "packet": "p020",
+ "items": [
+  {
+   "item_id": "R0476",
+   "comment_id": "t1_ostpmfl",
+   "model_view": "<post_title>First time grabbing a deli sandwich in years & I forgot how big they get.</post_title>\n<post_body>$8 btw</post_body>\n<thread_above>\n[1] another user: That must be dry AF but that hell a lot of protein\n[2] OP: It’s just shitty boars head low sodium turkey. Wasn’t dry at all, but not exactly quality meat.\n[3] another user: Didnt realize boars head was considered bad. Was it always like that or did my parents lie to me growing up?\n</thread_above>\n<comment_to_extract>\nDefinitely isn’t. Muy uppity and for me personally low sodium versions usually taste better like the ham they got. Less salt upfront, more of the meat taste but you gotta balance it out. My favorite would be Muenster and a low sodium meat and give me the oil and vinegar porfabor.\n</comment_to_extract>",
+   "context": {
+    "title": "First time grabbing a deli sandwich in years & I forgot how big they get.",
+    "selftext": "$8 btw",
+    "ancestors": [
+     {
+      "author": "jae343",
+      "body": "That must be dry AF but that hell a lot of protein"
+     },
+     {
+      "author": "DinerEnBlanc",
+      "body": "It’s just shitty boars head low sodium turkey. Wasn’t dry at all, but not exactly quality meat. "
+     },
+     {
+      "author": "mundus108",
+      "body": "Didnt realize boars head was considered bad. Was it always like that or did my parents lie to me growing up?"
+     }
+    ],
+    "author": "LouLoualou",
+    "body": "Definitely isn’t. Muy uppity and for me personally low sodium versions usually taste better like the ham they got. Less salt upfront, more of the meat taste but you gotta balance it out. My favorite would be Muenster and a low sodium meat and give me the oil and vinegar porfabor. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0477",
+   "comment_id": "t1_oh1f7re",
+   "model_view": "<post_title author=\"you\">Help Finding Cheap Prosciutto Chunks?</post_title>\n<post_body author=\"you\">Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!</post_body>\n<thread_above>\n[1] another user: Di Palo's\n</thread_above>\n<comment_to_extract>\nDo you know roughly how much it is per pound?\n</comment_to_extract>",
+   "context": {
+    "title": "Help Finding Cheap Prosciutto Chunks?",
+    "selftext": "Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     }
+    ],
+    "author": "VisualReality4495",
+    "body": "Do you know roughly how much it is per pound?",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0478",
+   "comment_id": "t1_p14uvbf",
+   "model_view": "<post_title>New Indigenous Frybread Pop-Up Stand in Ridgewood, NYC!</post_title>\n<post_body>Hey! My name is Raini and I'm a member of the Lakota tribe. I realized theres been a gap in indigenous foods available so I decided to start my own frybread stand! Complete with toppings such as honey, powdered sugar, and three different types of jelly!\n\nOur first day open will be this Sunday at TV Eye. Starting at Noon and going until supplies last!\n\nIts $5/pc and you wont regret it <3\n\nIf you can't make it, follow my IG for updates on our next pop-up!:\n\n# @lakotafrybreadco\n\nIt's pretty bare bones rn but I'llbe posting pics and vids of our frybread very soon! 🥰</post_body>\n<comment_to_extract>\nI can't make it for the first half of August but I hope you continue so that I CAN make it. \n\nAlso, you can try to reach out to the nearby breweries like Evil Twin or Bridge and Tunnel to do popups too. Many breweries in general love popups - KCBC and Fifth Hammer are also great proponents of new popups\n</comment_to_extract>",
+   "context": {
+    "title": "New Indigenous Frybread Pop-Up Stand in Ridgewood, NYC!",
+    "selftext": "Hey! My name is Raini and I'm a member of the Lakota tribe. I realized theres been a gap in indigenous foods available so I decided to start my own frybread stand! Complete with toppings such as honey, powdered sugar, and three different types of jelly!\n\nOur first day open will be this Sunday at TV Eye. Starting at Noon and going until supplies last!\n\nIts $5/pc and you wont regret it <3\n\nIf you can't make it, follow my IG for updates on our next pop-up!:\n\n# @lakotafrybreadco\n\nIt's pretty bare bones rn but I'llbe posting pics and vids of our frybread very soon! 🥰",
+    "ancestors": [],
+    "author": "iniquities",
+    "body": "I can't make it for the first half of August but I hope you continue so that I CAN make it. \n\nAlso, you can try to reach out to the nearby breweries like Evil Twin or Bridge and Tunnel to do popups too. Many breweries in general love popups - KCBC and Fifth Hammer are also great proponents of new popups",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Evil Twin",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "popups",
+       "text": "Suggested as a nearby brewery to reach out to about hosting a popup."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Bridge and Tunnel",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "popups",
+       "text": "Suggested as a nearby brewery to reach out to about hosting a popup."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "KCBC",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "popups",
+       "text": "Described as a brewery that is open to new popups."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Fifth Hammer",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "popups",
+       "text": "Described as a brewery that is open to new popups."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0479",
+   "comment_id": "t1_o25uojf",
+   "model_view": "<post_title>Weightloss veg orders in NYC</post_title>\n<post_body>I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.</post_body>\n<comment_to_extract>\nThere’s a new slop bowl place in Noho called Matter that has build your own bowls with all the nutritional facts and calories painstakingly listed out.\n</comment_to_extract>",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [],
+    "author": "walkingthecowww",
+    "body": "There’s a new slop bowl place in Noho called Matter that has build your own bowls with all the nutritional facts and calories painstakingly listed out.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Matter",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Noho",
+     "experience": "secondhand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "menu",
+       "text": "build-your-own bowls with calories and nutrition facts listed"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": "opened",
+     "price": null,
+     "tags": [
+      "bowls",
+      "build your own",
+      "calorie counted"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0480",
+   "comment_id": "t1_npw80ui",
+   "model_view": "<post_title>Poor quality yet expensive restaurant recommendation to give to an enemy ?</post_title>\n<post_body>Do your worst</post_body>\n<thread_above>\n[1] another user: Serafina\n</thread_above>\n<comment_to_extract>\nSecond this. Came here to write Serafina.\n</comment_to_extract>",
+   "context": {
+    "title": "Poor quality yet expensive restaurant recommendation to give to an enemy ?",
+    "selftext": "Do your worst ",
+    "ancestors": [
+     {
+      "author": "_chloes94",
+      "body": "Serafina"
+     }
+    ],
+    "author": "Parking-Bee9824",
+    "body": "Second this. Came here to write Serafina.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Serafina",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "thread verdict",
+       "text": "Agrees with the thread's view that it is poor quality yet expensive, recommended as a gift to an enemy"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": "expensive",
+     "tags": [
+      "italian"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0481",
+   "comment_id": "t1_p65aoi0",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<thread_above>\n[1] another user: Overrated AF\n</thread_above>\n<comment_to_extract>\nBrave and courageous stance!\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     }
+    ],
+    "author": "Jpkmets7",
+    "body": "Brave and courageous stance!",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0482",
+   "comment_id": "t1_nlelf2z",
+   "model_view": "<post_title>A Brit's first time</post_title>\n<post_body>Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.</post_body>\n<thread_above>\n[1] you, earlier: >Also, if you've got any suggestions of must-do experiences whilst in the city for the first time What do you like? There's no one-size-fits all itinerary.\n[2] OP: Good point! Obviously want to see the sights so I've booked us on a bus tour of downtown. Also booked a walking tour of Central Park. When we visit London, we like to look at street art around Shoreditch so I'm looking for something similar. Any suggestions of museums or galleries would be good. Or anything off the beaten path. As a Manhatten, how do you enjoy the city?\n</thread_above>\n<comment_to_extract>\n<quote>As a Manhatten, how do you enjoy the city?</quote>\n\nInherently differently than someone that's only here for a short time. Honestly one of the great joys of helping out people visiting is that they're seeing it through different eyes. \n\nAnd all that sounds great! But like, it's still hard to recommend things without knowing what you like. If you like trains the Transit Museum is amazing. Planes? The Intrepid. Grave Art? Greenwood is stunning. Medieval art and history? The Cloisters. What are your interests and hobbies and we (or the other NYC travel subs) can give you much better advice.\n</comment_to_extract>",
+   "context": {
+    "title": "A Brit's first time",
+    "selftext": "Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.",
+    "ancestors": [
+     {
+      "author": "president_of_burundi",
+      "body": ">Also, if you've got any suggestions of must-do experiences whilst in the city for the first time\n\nWhat do you like?  There's no one-size-fits all itinerary."
+     },
+     {
+      "author": "snakesandladders212",
+      "body": "Good point! Obviously want to see the sights so I've booked us on a bus tour of downtown. Also booked a walking tour of Central Park. When we visit London, we like to look at street art around Shoreditch so I'm looking for something similar. Any suggestions of museums or galleries would be good. Or anything off the beaten path. As a Manhatten, how do you enjoy the city?"
+     }
+    ],
+    "author": "president_of_burundi",
+    "body": ">As a Manhatten, how do you enjoy the city?\n\nInherently differently than someone that's only here for a short time. Honestly one of the great joys of helping out people visiting is that they're seeing it through different eyes. \n\nAnd all that sounds great! But like, it's still hard to recommend things without knowing what you like. If you like trains the Transit Museum is amazing. Planes? The Intrepid. Grave Art? Greenwood is stunning. Medieval art and history? The Cloisters. What are your interests and hobbies and we (or the other NYC travel subs) can give you much better advice.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0483",
+   "comment_id": "t1_nyj9osy",
+   "model_view": "<post_title>Traditional espresso in Manhattan</post_title>\n<post_body>I'll be in town for the weekend and wonder about an espresso bar serving Italian-style old school espresso.   Neapolitan would be best. Thanks</post_body>\n<thread_above>\n[1] another user: Zibetto Espresso Bar at 56th and 6th looks exactly like a real Italian espresso bar. Its espresso is OK but not as good as in Italy.\n</thread_above>\n<comment_to_extract>\nZibetto is the best in NY. Original location for that old school vibe. Its where chefs like to go early in the morning. If you want the same coffee in a cleaned up environment for some weird reason, go to their other location  on 48th.\n</comment_to_extract>",
+   "context": {
+    "title": "Traditional espresso in Manhattan",
+    "selftext": "I'll be in town for the weekend and wonder about an espresso bar serving Italian-style old school espresso.   Neapolitan would be best. Thanks",
+    "ancestors": [
+     {
+      "author": "Carl_LaFong",
+      "body": "Zibetto Espresso Bar at 56th and 6th looks exactly like a real Italian espresso bar. Its espresso is OK but not as good as in Italy."
+     }
+    ],
+    "author": "misstheolddaysfan",
+    "body": "Zibetto is the best in NY. Original location for that old school vibe. Its where chefs like to go early in the morning. If you want the same coffee in a cleaned up environment for some weird reason, go to their other location  on 48th.",
+    "replies": [
+     {
+      "author": "Carl_LaFong",
+      "body": "Never noticed the one on 48th. Is that new? I always go to the original one if I’m anywhere near it. Just for the ambience."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Zibetto",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "Original location, 56th and 6th (the 48th Street location is the other branch)",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "original location",
+       "text": "original location with old school vibe, where chefs go early in the morning"
+      },
+      {
+       "about": "48th St branch",
+       "text": "same coffee in a cleaned up environment, other location on 48th"
+      }
+     ],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "espresso bar",
+      "old school",
+      "Italian-style espresso",
+      "Neapolitan"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0484",
+   "comment_id": "t1_ng0smla",
+   "model_view": "<post_title>Need help finding a restaurant</post_title>\n<post_body>Hi, looking to host a breakfast for 30-40 people in the midtown area. Have a budget of about 5k. Finance type people. Would love a private room. Any suggestions?</post_body>\n<comment_to_extract>\nNot a possibility.\n</comment_to_extract>",
+   "context": {
+    "title": "Need help finding a restaurant",
+    "selftext": "Hi, looking to host a breakfast for 30-40 people in the midtown area. Have a budget of about 5k. Finance type people. Would love a private room. Any suggestions? ",
+    "ancestors": [],
+    "author": "ReliabilityTalkinGuy",
+    "body": "Not a possibility. ",
+    "replies": [
+     {
+      "author": "some1105",
+      "body": "OP is willing to pay $150 a head for *breakfast* and you’re in first saying that’s not a possibility?  You might want to powder your nards there."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0485",
+   "comment_id": "t1_mggrmyl",
+   "model_view": "<post_title>I miss-</post_title>\n<post_body>Lucky Strike, El international, Rio Mar, Carnegie Deli…</post_body>\n<comment_to_extract>\nKamboat bakery, golden fung, this tong sui shop on Bayard street, this old school Chinese snack shop next to where's Baked culture is on Bowery, Quantum leap (both Manhattan and flushing), hoomoos asli, the hummus place on st mark, Dojo, souen (in Greenwich village)\n</comment_to_extract>",
+   "context": {
+    "title": "I miss-",
+    "selftext": "Lucky Strike, El international, Rio Mar, Carnegie Deli…",
+    "ancestors": [],
+    "author": "Cartadimusica",
+    "body": "Kamboat bakery, golden fung, this tong sui shop on Bayard street, this old school Chinese snack shop next to where's Baked culture is on Bowery, Quantum leap (both Manhattan and flushing), hoomoos asli, the hummus place on st mark, Dojo, souen (in Greenwich village)",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Kamboat bakery",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Golden Fung",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "tong sui shop on Bayard street",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "Bayard Street",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "tong sui",
+      "dessert"
+     ]
+    },
+    {
+     "name": "old school Chinese snack shop next to Baked Culture on Bowery",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Bowery, next to Baked Culture",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "chinese snacks"
+     ]
+    },
+    {
+     "name": "Baked Culture",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": "Bowery",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "landmark",
+       "text": "used only as a location landmark for the snack shop next to it"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Quantum Leap",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Manhattan and Flushing",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "branches",
+       "text": "both Manhattan and Flushing locations are missed"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Hoomoos Asli",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "St Marks Place",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "also named as",
+       "text": "the hummus place on St Mark's"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "hummus",
+      "middle eastern"
+     ]
+    },
+    {
+     "name": "Dojo",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Souen",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Greenwich Village",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "macrobiotic",
+      "healthy"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0486",
+   "comment_id": "t1_mz0dqgu",
+   "model_view": "<post_title>NYC food suggestions…</post_title>\n<post_body>Hi everyone I’m in midtown for two more days and I want a legit chop cheese, can anyone help with suggestions? We’re staying off 7th and 40th… there are so many places that it’s hard to pin point something close or find a Bodega that can make a good one! Kinda don’t want to jump in a uber. Thanks in advance 🥩‼️🧀</post_body>\n<comment_to_extract>\nWrong part of town for a chopped cheese.\n</comment_to_extract>",
+   "context": {
+    "title": "NYC food suggestions…",
+    "selftext": "Hi everyone I’m in midtown for two more days and I want a legit chop cheese, can anyone help with suggestions? We’re staying off 7th and 40th… there are so many places that it’s hard to pin point something close or find a Bodega that can make a good one! Kinda don’t want to jump in a uber. Thanks in advance 🥩‼️🧀  ",
+    "ancestors": [],
+    "author": "runningwithscalpels",
+    "body": "Wrong part of town for a chopped cheese.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0487",
+   "comment_id": "t1_o3kxbbu",
+   "model_view": "<post_title>Noona's Ice Cream</post_title>\n<post_body>Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)</post_body>\n<comment_to_extract>\nLet me guess… $16 each?\n</comment_to_extract>",
+   "context": {
+    "title": "Noona's Ice Cream",
+    "selftext": "Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)",
+    "ancestors": [],
+    "author": "2ndharrybhole",
+    "body": "Let me guess… $16 each?",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Noona's Ice Cream",
+     "named_in": "context",
+     "kind": "cafe",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "pint price",
+       "text": "Commenter guesses the pints cost $16 each (a question, not a verdict)"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ice cream"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0488",
+   "comment_id": "t1_oi28i6d",
+   "model_view": "<post_title>Birthday Dinner between Narkara and Wanglang</post_title>\n<post_body>Trying to decide on a birthday dinner spot. Deciding between Narkara, Wanglang or GoDunk. Has anyone been to any of these places, thoughts?</post_body>\n<comment_to_extract>\nI've only been to Narkara, but it's pretty damn meh. All of their dishes were very one note for Thai. As for Godunk, their 5\\* reviews were incentivized. They were offering free food for influencers at prelaunch events for 5\\* reviews. If you're looking for a good Thai spot with nice ambience to celebrate a birthday, check out Bangkok Supper Club.\n</comment_to_extract>",
+   "context": {
+    "title": "Birthday Dinner between Narkara and Wanglang",
+    "selftext": "Trying to decide on a birthday dinner spot. Deciding between Narkara, Wanglang or GoDunk. Has anyone been to any of these places, thoughts?",
+    "ancestors": [],
+    "author": "DinerEnBlanc",
+    "body": "I've only been to Narkara, but it's pretty damn meh. All of their dishes were very one note for Thai. As for Godunk, their 5\\* reviews were incentivized. They were offering free food for influencers at prelaunch events for 5\\* reviews. If you're looking for a good Thai spot with nice ambience to celebrate a birthday, check out Bangkok Supper Club. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Narkara",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "thai"
+     ]
+    },
+    {
+     "name": "GoDunk",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reviews",
+       "text": "Claims its 5-star reviews were incentivized: free food offered to influencers at prelaunch events in exchange for 5-star reviews."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "thai"
+     ]
+    },
+    {
+     "name": "Bangkok Supper Club",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "thai",
+      "birthday dinner",
+      "supper club"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0489",
+   "comment_id": "t1_oegqv6e",
+   "model_view": "<post_title author=\"you\">So disappointed in Popup bagels hotel butter</post_title>\n<post_body author=\"you\">I just tried hotel butter yesterday. they clearly completely changed the recipe for hotel butter!  i last had it maybe 2 years ago (i missed the last time they had it). i looked at the ingredients and they put mustard in it? Besides, it looks so different to the original, mich greener. I can’t believe there aren’t more people talking about how different it is, imo it should not even be called hotel butter anymore. Honestly so disappointed because the old recipe was literally my favourite dip Popup bagels has ever made. I wish I had known they ruined the recipe before buying 3 tubs of it for my freezer</post_body>\n<thread_above>\n[1] another user: have you tried going to a better bagel place? there are plenty\n</thread_above>\n<comment_to_extract>\nI NEVER claimed Popup bagels was the best bagel place. In fact I prefer many other bagel places.  All I commented on was how the recipe changed for a DIP that I had previously enjoyed from Popup.\n</comment_to_extract>",
+   "context": {
+    "title": "So disappointed in Popup bagels hotel butter",
+    "selftext": "I just tried hotel butter yesterday. they clearly completely changed the recipe for hotel butter!  i last had it maybe 2 years ago (i missed the last time they had it). i looked at the ingredients and they put mustard in it? Besides, it looks so different to the original, mich greener. I can’t believe there aren’t more people talking about how different it is, imo it should not even be called hotel butter anymore. Honestly so disappointed because the old recipe was literally my favourite dip Popup bagels has ever made. I wish I had known they ruined the recipe before buying 3 tubs of it for my freezer",
+    "ancestors": [
+     {
+      "author": "Aggressive-Phone6785",
+      "body": "have you tried going to a better bagel place? there are plenty"
+     }
+    ],
+    "author": "No_Professor_7487",
+    "body": "I NEVER claimed Popup bagels was the best bagel place. In fact I prefer many other bagel places.  All I commented on was how the recipe changed for a DIP that I had previously enjoyed from Popup. ",
+    "replies": [
+     {
+      "author": "Aggressive-Phone6785",
+      "body": "I didn’t say you claimed it was the best lol I just suggested going somewhere better"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Popup bagels",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "hotel butter",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "recipe change",
+       "text": "commenter says the hotel butter recipe changed (mustard added, greener look) and the old version was their favorite dip"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": "declined",
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels",
+      "dip"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0490",
+   "comment_id": "t1_p5he4s9",
+   "model_view": "<post_title>What is a good place for ginger scallion chicken in Chinatown?</post_title>\n<post_body>Chinatown NYC while anywhere in lower manhattan is fine too. Preferably small portion over rice while 1/4 lb is fine too. I know it can be called hainanese chicken rice. Cantonese, Singaporean, Malaysian style etc doesn’t matter. I’ve only had Cantonese style.</post_body>\n<thread_above>\n[1] another user: Hmm ginger scallion chicken and hainanese chicken are different. I like Kings Kitchen for the Cantonese ginger scallion style. Nyonya is a good Malaysian place.\n</thread_above>\n<comment_to_extract>\nagree, the ginger scallion version hits different from hainanese. not really the same dish imo\n</comment_to_extract>",
+   "context": {
+    "title": "What is a good place for ginger scallion chicken in Chinatown?",
+    "selftext": "Chinatown NYC while anywhere in lower manhattan is fine too. Preferably small portion over rice while 1/4 lb is fine too. I know it can be called hainanese chicken rice. Cantonese, Singaporean, Malaysian style etc doesn’t matter. I’ve only had Cantonese style. ",
+    "ancestors": [
+     {
+      "author": "PopcornKiki",
+      "body": "Hmm ginger scallion chicken and hainanese chicken are different. I like Kings Kitchen for the Cantonese ginger scallion style. Nyonya is a good Malaysian place. "
+     }
+    ],
+    "author": "HumanButton3223",
+    "body": "agree, the ginger scallion version hits different from hainanese. not really the same dish imo",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0491",
+   "comment_id": "t1_p37yl05",
+   "model_view": "<post_title>Eleven Madison Park, Lunch. Menu, drinks, and a game.</post_title>\n<post_body>I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.</post_body>\n<thread_above>\n[1] another user: This looks pretty uninspired IMO\n</thread_above>\n<comment_to_extract>\nI agree. I would probably walk out after reading that boring menu\n</comment_to_extract>",
+   "context": {
+    "title": "Eleven Madison Park, Lunch.  Menu, drinks, and a game.",
+    "selftext": "I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\n",
+    "ancestors": [
+     {
+      "author": "CheckItWhileIWreckIt",
+      "body": "This looks pretty uninspired IMO"
+     }
+    ],
+    "author": "No_Command_2335",
+    "body": "I agree. I would probably walk out after reading that boring menu ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Eleven Madison Park",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "menu",
+       "text": "Commenter agrees the menu looks uninspired and says they would walk out after reading it; a reaction to the menu only, not a visit."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "fine dining",
+      "tasting menu"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0492",
+   "comment_id": "t1_p6gxxzo",
+   "model_view": "<post_title>Why does Korean food in Brooklyn suck? Any recommendations?</post_title>\n<post_body>I grew up in Bayside and miss good/authentic Korean food. And not talking about bbq or fusion.   \nI’ve been in Carroll Gardens since 2019 and have yet to find ONE great Korean place and I think I’ve been to almost all of them except Haenyo in PS. \n\nSooo…. Any really fantastic Korean places you’ve been to in Brooklyn?!</post_body>\n<thread_above>\n[1] another user: I'm Korean and was raised in the Fort Lee area. I honestly end up cooking more because it's often not great, expensive, or both. That being said I have two delivery spots that I enjoy: Woori (Fort Greene) and Chingoo (Williamsburg). No idea how in person is though. I wouldn't call them fantastic but they are comforting to me and I don't feel bad getting it instead of cooking myself lol. Also I can't help but mention Cafe Lily (Bensonhurst I think?). Not traditional Korean but a Korean-Uzbek place.\n</thread_above>\n<comment_to_extract>\nTang Maru in Fort Lee >>>\n</comment_to_extract>",
+   "context": {
+    "title": "Why does Korean food in Brooklyn suck? Any recommendations?",
+    "selftext": "I grew up in Bayside and miss good/authentic Korean food. And not talking about bbq or fusion.   \nI’ve been in Carroll Gardens since 2019 and have yet to find ONE great Korean place and I think I’ve been to almost all of them except Haenyo in PS. \n\nSooo…. Any really fantastic Korean places you’ve been to in Brooklyn?! ",
+    "ancestors": [
+     {
+      "author": "zuttozutto",
+      "body": "I'm Korean and was raised in the Fort Lee area. I honestly end up cooking more because it's often not great, expensive, or both. That being said I have two delivery spots that I enjoy: Woori (Fort Greene) and Chingoo (Williamsburg). No idea how in person is though. I wouldn't call them fantastic but they are comforting to me and I don't feel bad getting it instead of cooking myself lol.\n\nAlso I can't help but mention Cafe Lily (Bensonhurst I think?). Not traditional Korean but a Korean-Uzbek place.\n\n"
+     }
+    ],
+    "author": "Lucky-Profile-9695",
+    "body": "Tang Maru in Fort Lee >>>",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0493",
+   "comment_id": "t1_nj60vhm",
+   "model_view": "<post_title>Interview with simon kim of cote and coqodaq</post_title>\n<post_body>Did a whole podcast with him for a new show I'm launching [https://youtu.be/Y3XJs1ptMjY?si=eR6lqBUm8UJmc-DE](https://youtu.be/Y3XJs1ptMjY?si=eR6lqBUm8UJmc-DE)</post_body>\n<comment_to_extract>\nAll talk with no action. His restaurants have bad service. Pretentious to make it look like they’re doing something but makes a lot of amateur mistakes and is actually terrible. Don’t get me started on the cocodaq menu items.\n</comment_to_extract>",
+   "context": {
+    "title": "Interview with simon kim of cote and coqodaq",
+    "selftext": "Did a whole podcast with him for a new show I'm launching [https://youtu.be/Y3XJs1ptMjY?si=eR6lqBUm8UJmc-DE](https://youtu.be/Y3XJs1ptMjY?si=eR6lqBUm8UJmc-DE)",
+    "ancestors": [],
+    "author": "misterstepsss",
+    "body": "All talk with no action. His restaurants have bad service. Pretentious to make it look like they’re doing something but makes a lot of amateur mistakes and is actually terrible. Don’t get me started on the cocodaq menu items.",
+    "replies": [
+     {
+      "author": "Jisoooya",
+      "body": "Coqodaq is the epitome of pretentious and hype. Fine dining fried chicken? Come on"
+     },
+     {
+      "author": "zlayne",
+      "body": "We went to coqodaq a few weeks ago. Literally the opposite experience of what he's describing. Rushed service. Steering you towards the bucket and no dessert bc they wanted you out so they could cycle more people through. Awful experience."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Cote",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": "negative",
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "korean steakhouse"
+     ]
+    },
+    {
+     "name": "cocodaq",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "menu",
+       "text": "commenter is upset about the menu items"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": "negative",
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "korean fried chicken"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0494",
+   "comment_id": "t1_o9ygpkb",
+   "model_view": "<post_title>What is a great steak in NYC not at a steakhouse?</post_title>\n<post_body>I was at Bar Oliver last night and they have an incredible steak - and it got me thinking, what are the best non steakhouse steaks in the city. I don't want to do the whole steakhousy vibes with the waiters and the sides etc..</post_body>\n<comment_to_extract>\nThere’s a super butcher in chelsea market and they have a kitchen next door. Buy your steak and they’ll cook it for you. Their bavette is wonderful and their fries too. Ah and there’s a bar right there. Not dirt cheap but cheaper and better than S&W for eg.\n</comment_to_extract>",
+   "context": {
+    "title": "What is a great steak in NYC not at a steakhouse?",
+    "selftext": "I was at Bar Oliver last night and they have an incredible steak - and it got me thinking, what are the best non steakhouse steaks in the city. I don't want to do the whole steakhousy vibes with the waiters and the sides etc..",
+    "ancestors": [],
+    "author": "Gesualdodivenosa",
+    "body": "There’s a super butcher in chelsea market and they have a kitchen next door. Buy your steak and they’ll cook it for you. Their bavette is wonderful and their fries too. Ah and there’s a bar right there. Not dirt cheap but cheaper and better than S&W for eg. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "super butcher",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Chelsea Market",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bavette",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "fries",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "how it works",
+       "text": "buy a steak at the butcher and the kitchen next door cooks it"
+      },
+      {
+       "about": "bar",
+       "text": "a bar is right next to it"
+      },
+      {
+       "about": "price",
+       "text": "not dirt cheap"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steak",
+      "butcher",
+      "cook-your-own",
+      "non-steakhouse"
+     ]
+    },
+    {
+     "name": "S&W",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "the Chelsea Market butcher's steak is cheaper and better than S&W"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0495",
+   "comment_id": "t1_p795a0l",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<comment_to_extract>\nA cow was brutally raped for this\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Manfromearth90",
+    "body": "A cow was brutally raped for this",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0496",
+   "comment_id": "t1_pcyctoc",
+   "model_view": "<post_title>Helping finding a unique food experience for a sweet-tooth foodie friend</post_title>\n<post_body>I've run out of great ideas for my friend's birthday. I used to take her to the annual chocolate show, I booked a tour of the Rakka chocolate factory, and also a chocolate tasting event at the Cocoa Store. She loves sweets, chocolate, and matcha, and she has traveled and eaten all over the world. \n\nI need to keep up my reputation of taking her to cool and interesting experiences around food. Please help! Preferably Brooklyn or Manhattan, or Queens.</post_body>\n<thread_above>\n[1] another user: Have you been to the Little One on East Broadway? such good kakigori!\n</thread_above>\n<comment_to_extract>\nHey! I did not know about this place! Thanks for the tip!\n</comment_to_extract>",
+   "context": {
+    "title": "Helping finding a unique food experience for a sweet-tooth foodie friend",
+    "selftext": "I've run out of great ideas for my friend's birthday. I used to take her to the annual chocolate show, I booked a tour of the Rakka chocolate factory, and also a chocolate tasting event at the Cocoa Store. She loves sweets, chocolate, and matcha, and she has traveled and eaten all over the world. \n\nI need to keep up my reputation of taking her to cool and interesting experiences around food. Please help! Preferably Brooklyn or Manhattan, or Queens. ",
+    "ancestors": [
+     {
+      "author": "Marzipanny",
+      "body": "Have you been to the Little One on East Broadway?  such good kakigori!"
+     }
+    ],
+    "author": "Yomatius",
+    "body": "Hey! I did not know about this place! Thanks for the tip! ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0497",
+   "comment_id": "t1_ozwvgmy",
+   "model_view": "<post_title>Went to all 3 Michelin Stars in NYC and the winner is…</post_title>\n<post_body>Sushi Sho without a doubt. I’ve been to many sushi restaurants in my life but this one is something extraordinary. So many memorable dishes: ankimo with watermelon pickle, fermented sea urchin and salmon, hair crab with egg yolk and it goes on and on \n\nJungsik is definitely second. Very consistent, with variations of signature dishes, such as striped jack, octopus, kimbap and carrot cake\n\nThen Le bernardin > EMP > Per se\n\nProbably Cesar is better than these last 3, but haven’t been to his new house (went to chefs table only)\n\nCheers</post_body>\n<comment_to_extract>\nJust had Sho last night and it was my favorite meal in the US. Truly unforgettable.\n\nAgree with most of your list but I'd dump Cesar, it was a terrible experience for us. I would also catapult Aska to the top of the list, firmly behind Sushi Sho 😊 \n\nGlad to see the LB love- it gets so much shit on this sub\n</comment_to_extract>",
+   "context": {
+    "title": "Went to all 3 Michelin Stars in NYC and the winner is…",
+    "selftext": "Sushi Sho without a doubt. I’ve been to many sushi restaurants in my life but this one is something extraordinary. So many memorable dishes: ankimo with watermelon pickle, fermented sea urchin and salmon, hair crab with egg yolk and it goes on and on \n\nJungsik is definitely second. Very consistent, with variations of signature dishes, such as striped jack, octopus, kimbap and carrot cake\n\nThen Le bernardin > EMP > Per se\n\nProbably Cesar is better than these last 3, but haven’t been to his new house (went to chefs table only)\n\nCheers",
+    "ancestors": [],
+    "author": "alexveriotti",
+    "body": "Just had Sho last night and it was my favorite meal in the US. Truly unforgettable.\n\nAgree with most of your list but I'd dump Cesar, it was a terrible experience for us. I would also catapult Aska to the top of the list, firmly behind Sushi Sho 😊 \n\nGlad to see the LB love- it gets so much shit on this sub",
+    "replies": [
+     {
+      "author": "tickingboxes",
+      "body": "I’m curious what you consider a terrible experience? "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Sushi Sho",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sushi"
+     ]
+    },
+    {
+     "name": "Cesar",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "experience",
+       "text": "Chef's table visit described as a terrible experience for the commenter"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Aska",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "ranking",
+       "text": "Ranked second, directly behind Sushi Sho"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tasting menu"
+     ]
+    },
+    {
+     "name": "Le Bernardin",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "french"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0498",
+   "comment_id": "t1_p0xw8lm",
+   "model_view": "<post_title>New Indigenous Frybread Pop-Up Stand in Ridgewood, NYC!</post_title>\n<post_body>Hey! My name is Raini and I'm a member of the Lakota tribe. I realized theres been a gap in indigenous foods available so I decided to start my own frybread stand! Complete with toppings such as honey, powdered sugar, and three different types of jelly!\n\nOur first day open will be this Sunday at TV Eye. Starting at Noon and going until supplies last!\n\nIts $5/pc and you wont regret it <3\n\nIf you can't make it, follow my IG for updates on our next pop-up!:\n\n# @lakotafrybreadco\n\nIt's pretty bare bones rn but I'llbe posting pics and vids of our frybread very soon! 🥰</post_body>\n<comment_to_extract>\nThis is so cool, can’t wait to try and see your ascension\n</comment_to_extract>",
+   "context": {
+    "title": "New Indigenous Frybread Pop-Up Stand in Ridgewood, NYC!",
+    "selftext": "Hey! My name is Raini and I'm a member of the Lakota tribe. I realized theres been a gap in indigenous foods available so I decided to start my own frybread stand! Complete with toppings such as honey, powdered sugar, and three different types of jelly!\n\nOur first day open will be this Sunday at TV Eye. Starting at Noon and going until supplies last!\n\nIts $5/pc and you wont regret it <3\n\nIf you can't make it, follow my IG for updates on our next pop-up!:\n\n# @lakotafrybreadco\n\nIt's pretty bare bones rn but I'llbe posting pics and vids of our frybread very soon! 🥰",
+    "ancestors": [],
+    "author": "Sharp_Progress_5693",
+    "body": "This is so cool, can’t wait to try and see your ascension ",
+    "replies": [
+     {
+      "author": "mayhemintexas",
+      "body": "🥹🫶"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Lakota Frybread Co",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Ridgewood, at TV Eye",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "first pop-up",
+       "text": "first day open at TV Eye on a Sunday from noon until supplies last; $5 per piece"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": "opened",
+     "price": null,
+     "tags": [
+      "frybread",
+      "pop-up",
+      "indigenous"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0499",
+   "comment_id": "t1_ol0j9y2",
+   "model_view": "<post_title>Recommendations for intimate budget friendly Omakase in Manhattan?</post_title>\n<post_body>I’m visiting Manhattan next week and would love some Omakase recommendations.\n\nMy budget is $150 per person, but I’m open to less expensive options. What matters most to me is the overall experience; quality of ingredients, atmosphere, and a true Omakase experience.  \nIt doesn’t have to be anything fancy, I’d honestly prefer a small intimate spot.\n\nI know I’m posting this a little last minute (few days before), so I understand some reservations may be hard to get, but if anyone has recommendations that fit this vibe, please let me know.</post_body>\n<comment_to_extract>\nYou MUST go to sushi blossoms in Chelsea. I think it was around $120 for a 17 course Omakase. Their presentations are beautiful and I always have such a great experience when I go there.\n</comment_to_extract>",
+   "context": {
+    "title": "Recommendations for intimate budget friendly Omakase in Manhattan?",
+    "selftext": "I’m visiting Manhattan next week and would love some Omakase recommendations.\n\nMy budget is $150 per person, but I’m open to less expensive options. What matters most to me is the overall experience; quality of ingredients, atmosphere, and a true Omakase experience.  \nIt doesn’t have to be anything fancy, I’d honestly prefer a small intimate spot.\n\nI know I’m posting this a little last minute (few days before), so I understand some reservations may be hard to get, but if anyone has recommendations that fit this vibe, please let me know.",
+    "ancestors": [],
+    "author": "Odd_Security_1720",
+    "body": "You MUST go to sushi blossoms in Chelsea. I think it was around $120 for a 17 course Omakase. Their presentations are beautiful and I always have such a great experience when I go there.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "sushi blossoms",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Chelsea",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "price",
+       "text": "about $120 for a 17 course omakase"
+      },
+      {
+       "about": "frequency",
+       "text": "commenter goes there regularly"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "omakase",
+      "sushi",
+      "intimate"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0500",
+   "comment_id": "t1_nv259h3",
+   "model_view": "<post_title>A $600 Suckling Pig? Wagyu for All? On Menus, It’s a New Gilded Age (Gift Article)</post_title>\n<comment_to_extract>\n\\> the chef at Le Chêne, who pays about $1,000 for each turbot she imports from France\n\nWhat?\n</comment_to_extract>",
+   "context": {
+    "title": "A $600 Suckling Pig? Wagyu for All? On Menus, It’s a New Gilded Age (Gift Article)",
+    "selftext": "",
+    "ancestors": [],
+    "author": "pretender80",
+    "body": "\\> the chef at Le Chêne, who pays about $1,000 for each turbot she imports from France\n\nWhat?",
+    "replies": [
+     {
+      "author": "Euphoric-Group3157",
+      "body": "seems off…. whole turbot is priced at a fraction of this at Aqua Best or Citarella"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Le Chêne",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "turbot",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "turbot cost",
+       "text": "chef pays about $1,000 for each turbot imported from France"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,2602 @@
+{
+ "packet": "p047",
+ "items": [
+  {
+   "item_id": "R1151",
+   "comment_id": "t1_ojiehi2",
+   "model_view": "<post_title>What is the best bagel shop that both delivers and freezes well?</post_title>\n<post_body>I like to buy bagels a dozen at a time, sliced, pop them in the freezer, and eat half each morning.\n\nI've been doing this with my go-to, Tompkins Square Bagels, but would like to perhaps expand outside of where I normally go in the city to diversify my taste!\n\nAny recommendations? I'm not sure if some shops make bagels that would freeze better than others. I love Pop Up Bagels, for example, but they're meant to be eaten fresh.</post_body>\n<comment_to_extract>\nThe ones from Best bagel & coffee hold up well in the freezer!\n</comment_to_extract>",
+   "context": {
+    "title": "What is the best bagel shop that both delivers and freezes well?",
+    "selftext": "I like to buy bagels a dozen at a time, sliced, pop them in the freezer, and eat half each morning.\n\nI've been doing this with my go-to, Tompkins Square Bagels, but would like to perhaps expand outside of where I normally go in the city to diversify my taste!\n\nAny recommendations? I'm not sure if some shops make bagels that would freeze better than others. I love Pop Up Bagels, for example, but they're meant to be eaten fresh.",
+    "ancestors": [],
+    "author": "concernedcanary",
+    "body": "The ones from Best bagel & coffee hold up well in the freezer! ",
+    "replies": [
+     {
+      "author": "iggy555",
+      "body": "💯 "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Best bagel & coffee",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bagels",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "freezing",
+       "text": "bagels hold up well in the freezer"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels",
+      "coffee",
+      "freezes well"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1152",
+   "comment_id": "t1_lag6d5q",
+   "model_view": "<post_title author=\"you\">What's the worst food you've had in NYC?</post_title>\n<post_body author=\"you\">Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places.</post_body>\n<thread_above>\n[1] another user: the Lorraine at L’express. was expecting quiche lorraine, but turns out it was a ham and swiss omelette. ended up being the most uninspired, lazy, tasteless omelette i’ve ever had. tasted like liquid eggs, packaged sliced ham, and packaged sliced swiss. usually i refrain from saying “i could easily make this better at home”, but i could easily make a better one at home. and it would be a lazy meal at home. 0/5 will not return.\n</thread_above>\n<comment_to_extract>\nI was going to go there the other day for steak frittes but decided against it.\n</comment_to_extract>",
+   "context": {
+    "title": "What's the worst food you've had in NYC?",
+    "selftext": "Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places. ",
+    "ancestors": [
+     {
+      "author": "childpeas",
+      "body": "the Lorraine at L’express. was expecting quiche lorraine, but turns out it was a ham and swiss omelette. ended up being the most uninspired, lazy, tasteless omelette i’ve ever had. tasted like liquid eggs, packaged sliced ham, and packaged sliced swiss. \n\nusually i refrain from saying “i could easily make this better at home”, but i could easily make a better one at home. and it would be a lazy meal at home. 0/5 will not return."
+     }
+    ],
+    "author": "pickledplumber",
+    "body": "I was going to go there the other day for steak frittes but decided against it.",
+    "replies": [
+     {
+      "author": "broke-onomics",
+      "body": "I’ve never had a bad experience at L’Express but admittedly have not gotten the Lorraine. Always get the escargot and beef tartare. Have had the steak frittes a couple times."
+     },
+     {
+      "author": "pattismithfan",
+      "body": "You would be fine with steak frites. I’m embarrassed to admit that I ate steak tartare there (was with a friend, it was their idea didn’t want to put them on the spot) and I live to tell the tale"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "L'express",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "steak frittes",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "not visited",
+       "text": "was going to go for steak frittes the other day but decided against it"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "french"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1153",
+   "comment_id": "t1_p82pm1d",
+   "model_view": "<post_title>Maybe an unpopular opinion, but Apollo Bagels is overrated and aggressively mediocre</post_title>\n<post_body>Went to Apollo Bagels for the first time yesterday (Kips Bay location). I got 2 of the smoked salmon sandwiches, and was quite excited to try them, especially seeing as the price point is quite low for that kind of sandwich ($15 each). \n\nThe experience eating them was...not very good. The bagel itself was so hard and tough to bit through, and the salmon was way too salty. My girlfriend could only finish 1/2 of hers, so I had to tough my way through 1.5 sandwiches, which, since they're open-faced, meant 3 half-bagels. It got to the point where I just assumed Apollo Bagels was PE-backed, the experience was so rough. \n\nReally not sure why this place is so popular.</post_body>\n<comment_to_extract>\nDon’t get the hype. Went to the original location and thought the bagels were too soft, meh.\n\nAdmittedly, I like harder crust and chewier bagel. May not be the best but I get mine at Zabar’s and I think their bagles are even better \n\nAlso like Pick A Bagel.\n</comment_to_extract>",
+   "context": {
+    "title": "Maybe an unpopular opinion, but Apollo Bagels is overrated and aggressively mediocre",
+    "selftext": "Went to Apollo Bagels for the first time yesterday (Kips Bay location). I got 2 of the smoked salmon sandwiches, and was quite excited to try them, especially seeing as the price point is quite low for that kind of sandwich ($15 each). \n\nThe experience eating them was...not very good. The bagel itself was so hard and tough to bit through, and the salmon was way too salty. My girlfriend could only finish 1/2 of hers, so I had to tough my way through 1.5 sandwiches, which, since they're open-faced, meant 3 half-bagels. It got to the point where I just assumed Apollo Bagels was PE-backed, the experience was so rough. \n\nReally not sure why this place is so popular. ",
+    "ancestors": [],
+    "author": "CrazyCalligrapher206",
+    "body": "Don’t get the hype. Went to the original location and thought the bagels were too soft, meh.\n\nAdmittedly, I like harder crust and chewier bagel. May not be the best but I get mine at Zabar’s and I think their bagles are even better \n\nAlso like Pick A Bagel. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Zabar's",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bagels",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "commenter says Zabar's bagels are even better than Apollo's; commenter buys bagels there"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    },
+    {
+     "name": "Pick A Bagel",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1154",
+   "comment_id": "t1_nobth7a",
+   "model_view": "<post_title>Thoughts on the following list?</post_title>\n<post_body>If there is anything to add or remove, I would love your suggestions. Some of these might be overhyped.... We are staying in LONG ISLAND CITY so some of these are over in that area...\n\nII POSTO ACCANTO\n\nTASTE OF HEAVEN\n\nTAQUERIA RAMIREZ\n\nBODEGA CITY\n\nRUSS AND DAUGHERES\n\nLEON'S BAGELS\n\nTOMPKINS SQUARE BAGELS\n\nLOST TACOS #1\n\nL INDUSTRIE PIZZA... (QUESTIONABLE)\n\nJOE'S PIZZA\n\nPRINCE STREET PIZZA\n\nTHE SOUL SPOT\n\nWAH FUNG NO 1.\n\nCHARLES PAN FRIED CHICKEN\n\nSARGE'S DELI\n\nBLEECKER STREET PIZZA\n\nKATZ</post_body>\n<comment_to_extract>\nTaqueria Ramirez: very good al pastor tacos. There might be a line and there’s barely any seating. \n\nRuss and Daughter’s: go to the Hudson Yard’s location for no wait and seating. Lox and cream cheese are elite but apparently the bagels themselves aren’t up to par. \n\nTompkins Square Bagels: consistently good but will have a line and barely any seating.\n\nLos Tacos #1: idk why everyone is raving about this place; to me it’s average tacos with huge lines. Ramirez and El Bronco are way better.\n\nL’Industrie: the hype is worth it. Fig jam bacon and Buratta slices are elite. Go to the Williamsburg one for a shorter line (guaranteed a line of some sort) and proximity to LIC.\n\nJoe’s + Prince St: skip entirely and go to any of the following\n•Village Square\n•Bleeker St. Pizza (line)\n•Slicehaus\n•Scarr’s\n•Upside\n•Grand Street\n•Cello’s\n•NY Pizza Suprema\n•Unregular\n•Marinara\n\nWah Fung: extremely consistent and unbelievably cheap for the quality and quantity of food but as 30min + line except if you show up before 10:30am (they open at 9am). No seating so you have to eat it at a park across the street that’s a bit dirty. Get the char siu and crackling pork belly.\n\nKatz’s: Worth it. Sandwich is expensive but the portions are huge. Line is long and service is snappy though.\n</comment_to_extract>",
+   "context": {
+    "title": "Thoughts on the following list?",
+    "selftext": "If there is anything to add or remove, I would love your suggestions. Some of these might be overhyped.... We are staying in LONG ISLAND CITY so some of these are over in that area...\n\nII POSTO ACCANTO\n\nTASTE OF HEAVEN\n\nTAQUERIA RAMIREZ\n\nBODEGA CITY\n\nRUSS AND DAUGHERES\n\nLEON'S BAGELS\n\nTOMPKINS SQUARE BAGELS\n\nLOST TACOS #1\n\nL INDUSTRIE PIZZA... (QUESTIONABLE)\n\nJOE'S PIZZA\n\nPRINCE STREET PIZZA\n\nTHE SOUL SPOT\n\nWAH FUNG NO 1.\n\nCHARLES PAN FRIED CHICKEN\n\nSARGE'S DELI\n\nBLEECKER STREET PIZZA\n\nKATZ",
+    "ancestors": [],
+    "author": "Reign-Alex1993",
+    "body": "Taqueria Ramirez: very good al pastor tacos. There might be a line and there’s barely any seating. \n\nRuss and Daughter’s: go to the Hudson Yard’s location for no wait and seating. Lox and cream cheese are elite but apparently the bagels themselves aren’t up to par. \n\nTompkins Square Bagels: consistently good but will have a line and barely any seating.\n\nLos Tacos #1: idk why everyone is raving about this place; to me it’s average tacos with huge lines. Ramirez and El Bronco are way better.\n\nL’Industrie: the hype is worth it. Fig jam bacon and Buratta slices are elite. Go to the Williamsburg one for a shorter line (guaranteed a line of some sort) and proximity to LIC.\n\nJoe’s + Prince St: skip entirely and go to any of the following\n•Village Square\n•Bleeker St. Pizza (line)\n•Slicehaus\n•Scarr’s\n•Upside\n•Grand Street\n•Cello’s\n•NY Pizza Suprema\n•Unregular\n•Marinara\n\nWah Fung: extremely consistent and unbelievably cheap for the quality and quantity of food but as 30min + line except if you show up before 10:30am (they open at 9am). No seating so you have to eat it at a park across the street that’s a bit dirty. Get the char siu and crackling pork belly.\n\nKatz’s: Worth it. Sandwich is expensive but the portions are huge. Line is long and service is snappy though.",
+    "replies": [
+     {
+      "author": "GetawaysByTiffany",
+      "body": "Thanks. Looking for more cheap, quick eat spots for teens if you have any suggestions. I will switch up the Pizza options. Thank you!"
+     },
+     {
+      "author": "GetawaysByTiffany",
+      "body": "I forgot to ask...suggestions for Chinatown?"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Taqueria Ramirez",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "al pastor tacos",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "line",
+       "text": "There might be a line"
+      },
+      {
+       "about": "seating",
+       "text": "barely any seating"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": "negative",
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tacos",
+      "mexican"
+     ]
+    },
+    {
+     "name": "Russ and Daughters",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": "Hudson Yards",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "lox and cream cheese",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "bagels",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "Hudson Yards location",
+       "text": "no wait and seating there, go to this branch"
+      },
+      {
+       "about": "bagels",
+       "text": "apparently the bagels aren't up to par"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": "positive"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "appetizing",
+      "lox",
+      "bagels"
+     ]
+    },
+    {
+     "name": "Tompkins Square Bagels",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "line",
+       "text": "will have a line"
+      },
+      {
+       "about": "seating",
+       "text": "barely any seating"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": "negative",
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    },
+    {
+     "name": "Los Tacos #1",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "tacos",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "lines",
+       "text": "huge lines"
+      },
+      {
+       "about": "comparison",
+       "text": "Ramirez and El Bronco are way better"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tacos",
+      "mexican"
+     ]
+    },
+    {
+     "name": "L'Industrie",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Williamsburg",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "fig jam bacon",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "burrata slices",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "Williamsburg location",
+       "text": "shorter line and close to LIC; a line of some sort is guaranteed"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Joe's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "skip",
+       "text": "skip entirely, go to the listed alternatives"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": true,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Prince St",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "skip",
+       "text": "skip entirely, go to the listed alternatives"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": true,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Village Square",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Bleeker St. Pizza",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "line",
+       "text": "there is a line"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Slicehaus",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Scarr's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Upside",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Grand Street",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Cello's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "NY Pizza Suprema",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Unregular",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Marinara",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Wah Fung",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "char siu",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "crackling pork belly",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "hours",
+       "text": "opens 9am; show up before 10:30am to avoid the line"
+      },
+      {
+       "about": "seating",
+       "text": "no seating, eat at a park across the street that's a bit dirty"
+      },
+      {
+       "about": "value",
+       "text": "unbelievably cheap for the quality and quantity"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": null,
+      "atmosphere": "negative",
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": "cheap",
+     "tags": [
+      "cantonese",
+      "roast meat"
+     ]
+    },
+    {
+     "name": "Katz's",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "sandwich",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "portions",
+       "text": "portions are huge"
+      },
+      {
+       "about": "price",
+       "text": "sandwich is expensive"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": "negative",
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": "expensive",
+     "tags": [
+      "deli",
+      "sandwiches"
+     ]
+    },
+    {
+     "name": "El Bronco",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "way better than Los Tacos #1"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tacos",
+      "mexican"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1155",
+   "comment_id": "t1_p685xca",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<comment_to_extract>\nThat might be delicious but - hot take here- its not a slice.\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "misstheolddaysfan",
+    "body": "That might be delicious but - hot take here- its not a slice. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "not a slice",
+       "text": "Commenter says the food might be delicious but it is not a slice; no visit described."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1156",
+   "comment_id": "t1_olcw9wi",
+   "model_view": "<post_title>I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?</post_title>\n<thread_above>\n[1] you, earlier: Utopia Bagel’s country chicken salad on an everything bagel.\n[2] another user: This is my go to order for Utopia. I live down the block from them 😂\n[3] you, earlier: Yes! I also enjoy the egg salad with bacon once and a while too.\n[4] another user: Lol you know what. Imma go to Utopia today 😂 i suddenly have a craving\n</thread_above>\n<comment_to_extract>\nDo it! I’m waiting for their new location to open by me in midtown.\n</comment_to_extract>",
+   "context": {
+    "title": "I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "rjstang",
+      "body": "Utopia Bagel’s country chicken salad on an everything bagel. "
+     },
+     {
+      "author": "Kooky_Comb6051",
+      "body": "This is my go to order for Utopia. I live down the block from them 😂"
+     },
+     {
+      "author": "rjstang",
+      "body": "Yes! I also enjoy the egg salad with bacon once and a while too. "
+     },
+     {
+      "author": "Kooky_Comb6051",
+      "body": "Lol you know what. Imma go to Utopia today 😂 i suddenly have a craving"
+     }
+    ],
+    "author": "rjstang",
+    "body": "Do it! I’m waiting for their new location to open by me in midtown. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Utopia Bagel",
+     "named_in": "context",
+     "kind": "deli",
+     "location": "Midtown (new location, not yet open)",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "new Midtown location",
+       "text": "Commenter is waiting for the new Midtown location to open near them."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1157",
+   "comment_id": "t1_omhspkf",
+   "model_view": "<post_title>Anyone been to Sofreh in Prospect Heights and can recommend some dishes for my bday dinner?</post_title>\n<post_body>Hi! I am going to Sofreh for the first time this week for my birthday dinner. It will be me and 5 friends.\n\nI’ve never been - would someone so kindly recommend some good dishes to get? Is it a place to share food our get our own entrees? Tysm <3</post_body>\n<comment_to_extract>\nLamb shank is a must order!\n</comment_to_extract>",
+   "context": {
+    "title": "Anyone been to Sofreh in Prospect Heights and can recommend some dishes for my bday dinner?",
+    "selftext": "Hi! I am going to Sofreh for the first time this week for my birthday dinner. It will be me and 5 friends.\n\nI’ve never been - would someone so kindly recommend some good dishes to get? Is it a place to share food our get our own entrees? Tysm <3",
+    "ancestors": [],
+    "author": "anonbeep",
+    "body": "Lamb shank is a must order!",
+    "replies": [
+     {
+      "author": "supericakr",
+      "body": "agreed it is so so good! you can't go wrong"
+     },
+     {
+      "author": "EEOFed5",
+      "body": "Came here to say this! Everything was delish but that was a showstopper"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Sofreh",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Prospect Heights",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "lamb shank",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1158",
+   "comment_id": "t1_omfwqb1",
+   "model_view": "<post_title>Anyone been to Sofreh in Prospect Heights and can recommend some dishes for my bday dinner?</post_title>\n<post_body>Hi! I am going to Sofreh for the first time this week for my birthday dinner. It will be me and 5 friends.\n\nI’ve never been - would someone so kindly recommend some good dishes to get? Is it a place to share food our get our own entrees? Tysm <3</post_body>\n<comment_to_extract>\nTahini and date salad, the cauliflower, eggplant dip, squash, pomegranate beef and half chicken, desserts are all great\n</comment_to_extract>",
+   "context": {
+    "title": "Anyone been to Sofreh in Prospect Heights and can recommend some dishes for my bday dinner?",
+    "selftext": "Hi! I am going to Sofreh for the first time this week for my birthday dinner. It will be me and 5 friends.\n\nI’ve never been - would someone so kindly recommend some good dishes to get? Is it a place to share food our get our own entrees? Tysm <3",
+    "ancestors": [],
+    "author": "Garconavecunreve",
+    "body": "Tahini and date salad, the cauliflower, eggplant dip, squash, pomegranate beef and half chicken, desserts are all great ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sofreh",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cauliflower",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "eggplant dip",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "squash",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "pomegranate beef",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "half chicken",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "desserts",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1159",
+   "comment_id": "t1_nu91ty3",
+   "model_view": "<post_title>Jacobs Pickles UWS</post_title>\n<post_body>Has anyone noticed that Jacobs Pickles menu and quality of food has changed since post covid times? I remember ordering from them a lot during covid when living on on the UES and they were great! After things got back to normal, I noticed that there menue slightly changed and there food quality seemed off. One big change was they took off there loaded fries that included their fried chicken. That always hit the spot during the winter season with their soup.</post_body>\n<comment_to_extract>\nI took my family there over Thanksgiving and it was a completely embarrassing experience. The new space made it feel like any old Teflon you’d find in the burbs. And the food was terrible, bordering on disgusting.  The cornbread was a literal brick. \nThis is New York City. We have so many great places to eat.\nFor the life of me I cannot remember what I loved about the place. we will never go back.\n</comment_to_extract>",
+   "context": {
+    "title": "Jacobs Pickles UWS",
+    "selftext": "Has anyone noticed that Jacobs Pickles menu and quality of food has changed since post covid times? I remember ordering from them a lot during covid when living on on the UES and they were great! After things got back to normal, I noticed that there menue slightly changed and there food quality seemed off. One big change was they took off there loaded fries that included their fried chicken. That always hit the spot during the winter season with their soup. ",
+    "ancestors": [],
+    "author": "mysteryscienceposter",
+    "body": "I took my family there over Thanksgiving and it was a completely embarrassing experience. The new space made it feel like any old Teflon you’d find in the burbs. And the food was terrible, bordering on disgusting.  The cornbread was a literal brick. \nThis is New York City. We have so many great places to eat.\nFor the life of me I cannot remember what I loved about the place. we will never go back.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Jacobs Pickles",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cornbread",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "visit",
+       "text": "Family visit over Thanksgiving"
+      },
+      {
+       "about": "new space",
+       "text": "The new space feels like generic suburban Teflon"
+      },
+      {
+       "about": "no return",
+       "text": "Commenter says they will never go back"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": "negative",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1160",
+   "comment_id": "t1_nvh3vnq",
+   "model_view": "<post_title>What are some of the worst meals you've had recently?</post_title>\n<post_body>I've made a list of some pretty horrible dining experiences. It seems like places are becoming more and more inconsistent the worse the economy is getting.\n\n1. Mala Project (Greenpoint) - chicken came out ice cold, not even lukewarm.\n2. Otis - forgot to give us utensils, 40 minute wait in between entrees, lamb came out lukewarm.\n3. Soothr - curry came out lukewarm\n4. Llama Inn has been selling a $100 lomo saltado advertised for 2 people, but is the same portion size as the $50 one for 1 person that they used to sell a few years ago. Thank god this place is closing. \n5. Electric Burrito - had the most disgusting carnitas burrito with burnt, overcooked meat, small bones inside the burrito, and no pico de gallo or sour cream. Literally just pork, beans, and rice. Completely flavorless.\n6. Rule of Thirds - katsu chicken sandwich had no salt on it. \n7. Uluh - food was fine but service was fucking atrocious. \n8. Los tacos no. 1 in union square was noticeably worse than any other locations.</post_body>\n<thread_above>\n[1] another user: Ai fiori. That place is running on fumes.\n</thread_above>\n<comment_to_extract>\nThe whole group went downhill after covid cuz chef Michael white left the company. He opened his own place called Santi in midtown though and it is absolutely fantastic! Best pasta in NYC!\n</comment_to_extract>",
+   "context": {
+    "title": "What are some of the worst meals you've had recently?",
+    "selftext": "I've made a list of some pretty horrible dining experiences. It seems like places are becoming more and more inconsistent the worse the economy is getting.\n\n1. Mala Project (Greenpoint) - chicken came out ice cold, not even lukewarm.\n2. Otis - forgot to give us utensils, 40 minute wait in between entrees, lamb came out lukewarm.\n3. Soothr - curry came out lukewarm\n4. Llama Inn has been selling a $100 lomo saltado advertised for 2 people, but is the same portion size as the $50 one for 1 person that they used to sell a few years ago. Thank god this place is closing. \n5. Electric Burrito - had the most disgusting carnitas burrito with burnt, overcooked meat, small bones inside the burrito, and no pico de gallo or sour cream. Literally just pork, beans, and rice. Completely flavorless.\n6. Rule of Thirds - katsu chicken sandwich had no salt on it. \n7. Uluh - food was fine but service was fucking atrocious. \n8. Los tacos no. 1 in union square was noticeably worse than any other locations.\n\n",
+    "ancestors": [
+     {
+      "author": "folkher0",
+      "body": "Ai fiori. That place is running on fumes."
+     }
+    ],
+    "author": "Upendrika",
+    "body": "The whole group went downhill after covid cuz chef Michael white left the company. He opened his own place called Santi in midtown though and it is absolutely fantastic! Best pasta in NYC!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Ai Fiori",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "group decline",
+       "text": "whole group went downhill after covid when chef Michael White left the company"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": "declined",
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian"
+     ]
+    },
+    {
+     "name": "Santi",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Midtown",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pasta",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "chef",
+       "text": "opened by chef Michael White after he left the group"
+      }
+     ],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian",
+      "pasta"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1161",
+   "comment_id": "t1_mpm62y8",
+   "model_view": "<post_title>Highlights from my recent trip. How would you rate?</post_title>\n<post_body>1. Cervos\n2. Torrisi \n3. Radio Bakery\n4. Joseph Leonard \n5. Los Tacos (out of all the amazing food I ate, this was my bite of the trip)\n6. Don Angie\n7. Crevette \n8. Taqueria Ramirez\n9. L’Industrie\n10. Apollo Bagels\n11. Russ & Daughters cafe\n12. Win son bakery \n13. Frankel’s Deli</post_body>\n<thread_above>\n[1] another user: These posts are always the same lmao\n[2] another user: It’s really starting to bug me in a way that’s hard to describe. I haven’t even tried L’Industrie yet and I already hate the name every time I see it. Is it really that great or do people just feel cool going to a pizza place with a French name?\n[3] another user: The hype is real my friend. I don’t live in NYC but visit often enough and all my friends who are locals love it. The lines have never been that crazy and as far as pizza by the slice goes, the quality is top notch. Is it my only pizza spot when I want a slice, hell no. So many great spots. But they ...\n[4] another user: Oh yeah I’ve been having Joe’s since they were just one location. Not positive if I’ve had Scar’s though. Thanks for the words on L’Industrie too. The brooklyn one is near a pinball spot I like so I’ll likely try it eventually.\n</thread_above>\n<comment_to_extract>\nl'industrie is much better than current joes and a bit better than scarrs to me, but theyre all very good to me overall anyway, just preference probably.\n</comment_to_extract>",
+   "context": {
+    "title": "Highlights from my recent trip. How would you rate?",
+    "selftext": "1. Cervos\n2. Torrisi \n3. Radio Bakery\n4. Joseph Leonard \n5. Los Tacos (out of all the amazing food I ate, this was my bite of the trip)\n6. Don Angie\n7. Crevette \n8. Taqueria Ramirez\n9. L’Industrie\n10. Apollo Bagels\n11. Russ & Daughters cafe\n12. Win son bakery \n13. Frankel’s Deli \n\n\n\n\n",
+    "ancestors": [
+     {
+      "author": "antonio3988",
+      "body": "These posts are always the same lmao"
+     },
+     {
+      "author": "iStealyournewspapers",
+      "body": "It’s really starting to bug me in a way that’s hard to describe. I haven’t even tried L’Industrie yet and I already hate the name every time I see it. Is it really that great or do people just feel cool going to a pizza place with a French name?"
+     },
+     {
+      "author": "myname1smynam3",
+      "body": "The hype is real my friend. \n\nI don’t live in NYC but visit often enough and all my friends who are locals love it. \n\nThe lines have never been that crazy and as far as pizza by the slice goes, the quality is top notch. \n\nIs it my only pizza spot when I want a slice, hell no. So many great spots. But they really are THAT good. \n\nBut to each their own. You may prefer Scar’s or Joe’s pizza over L’Industrie. That’s the beauty of NY. So much to choose from!"
+     },
+     {
+      "author": "iStealyournewspapers",
+      "body": "Oh yeah I’ve been having Joe’s since they were just one location. Not positive if I’ve had Scar’s though. Thanks for the words on L’Industrie too. The brooklyn one is near a pinball spot I like so I’ll likely try it eventually."
+     }
+    ],
+    "author": "wedwackaaa",
+    "body": "l'industrie is much better than current joes and a bit better than scarrs to me, but theyre all very good to me overall anyway, just preference probably.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "l'industrie",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "ranking",
+       "text": "Ranked above Scarr's and Joe's; all three are very good, the gap is a matter of preference"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "current joes",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Commenter says L'Industrie is much better than current Joe's; calls Joe's very good overall"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "scarrs",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Commenter says L'Industrie is a bit better than Scarr's; calls Scarr's very good overall"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1162",
+   "comment_id": "t1_p536xrh",
+   "model_view": "<post_title>Mango Sticky Rice ✨ @mango mango dessert Union Square</post_title>\n<post_body>Mango Mango dessert is my favorite place to get Mango sticky rice. Unlike the second picture I posted where they didn’t even offer mangoes. I realized only after that it comes with mango ice cream no mangoes for $17 plus tip (SaiTong Thai). \n\nMango Mango Dessert is $13 plus tip and you get mangos at least. \n\nBesides these two spots everywhere else I go doesn’t carry mango sticky rice or serves it without the mangoes 😔\n\nhttps://www.instagram.com/mangomango.unionsquare?igsi=ZW5zdHB5ZnFqaXBs&utm\\_source=qr\n\nhttps://www.instagram.com/saitong.thai?igsi=MTYxcDl4aWZkZWdkdw==</post_body>\n<thread_above>\n[1] another user: does anyone have a good inexpensive spot for normal mango sticky rice with mung beans and none of this ice cream shenanigans\n</thread_above>\n<comment_to_extract>\nGlin Thai Bistro in Fort Greene/Clinton Hill has amazing mango sticky rice that makes Ayadas feel like dogshit. \n\n$13, not the best or worst price.\n</comment_to_extract>",
+   "context": {
+    "title": "Mango Sticky Rice ✨ @mango mango dessert Union Square",
+    "selftext": "Mango Mango dessert is my favorite place to get Mango sticky rice. Unlike the second picture I posted where they didn’t even offer mangoes. I realized only after that it comes with mango ice cream no mangoes for $17 plus tip (SaiTong Thai). \n\nMango Mango Dessert is $13 plus tip and you get mangos at least. \n\nBesides these two spots everywhere else I go doesn’t carry mango sticky rice or serves it without the mangoes 😔\n\nhttps://www.instagram.com/mangomango.unionsquare?igsi=ZW5zdHB5ZnFqaXBs&utm\\_source=qr\n\nhttps://www.instagram.com/saitong.thai?igsi=MTYxcDl4aWZkZWdkdw==",
+    "ancestors": [
+     {
+      "author": "IIMsmartII",
+      "body": "does anyone have a good inexpensive spot for normal mango sticky rice with mung beans and none of this ice cream shenanigans"
+     }
+    ],
+    "author": "sologrips",
+    "body": "Glin Thai Bistro in Fort Greene/Clinton Hill has amazing mango sticky rice that makes Ayadas feel like dogshit. \n\n$13, not the best or worst price. ",
+    "replies": [
+     {
+      "author": "kikiscookiepie",
+      "body": "Would you call it the best in the city? That's what I'm looking for"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Glin Thai Bistro",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Fort Greene/Clinton Hill",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "mango sticky rice",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "$13 for mango sticky rice"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "thai",
+      "mango sticky rice"
+     ]
+    },
+    {
+     "name": "Ayadas",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "mango sticky rice",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "thai"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1163",
+   "comment_id": "t1_objjsjv",
+   "model_view": "<post_title>red hook tavern dinner walk in - how early would I have to be to get a seat?</post_title>\n<post_body>I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?</post_body>\n<comment_to_extract>\nIt would be faster to get on the Jitney and go to their place in Sag Harbor. \n\nYikes.\n</comment_to_extract>",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [],
+    "author": "Cpalms139",
+    "body": "It would be faster to get on the Jitney and go to their place in Sag Harbor. \n\nYikes. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Red Hook Tavern",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "wait",
+       "text": "Commenter jokes that the Sag Harbor location is faster to reach than waiting, reacting to the reported 9:30 seating"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "dinner"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1164",
+   "comment_id": "t1_njpbhzm",
+   "model_view": "<post_title>Memorable experience in or around West Village next week?</post_title>\n<post_body>In town and looking to take a local friend out next Thurs for a memorable evening. Anyone have any  recommendations near West Village or say within 20 mins uber/train/bike?\n\n  \nHave taken him in the past to Don Angie and Buvette. Both were nice. Anyone have any recs for an experience that is memorable? Would also settle for mediocre food if it included some form of strong live entertainment / interesting atmosphere or experience.\n\n  \nMany thanks in advance!</post_body>\n<comment_to_extract>\nMinetta tavern and the groove (live music venue) comedy cellar next to it. Terra blues (blues club) some amazing cocktail bars   Incredible area to just explore and find fun\n</comment_to_extract>",
+   "context": {
+    "title": "Memorable experience in or around West Village next week?",
+    "selftext": "In town and looking to take a local friend out next Thurs for a memorable evening. Anyone have any  recommendations near West Village or say within 20 mins uber/train/bike?\n\n  \nHave taken him in the past to Don Angie and Buvette. Both were nice. Anyone have any recs for an experience that is memorable? Would also settle for mediocre food if it included some form of strong live entertainment / interesting atmosphere or experience.\n\n  \nMany thanks in advance!",
+    "ancestors": [],
+    "author": "wdrub",
+    "body": "Minetta tavern and the groove (live music venue) comedy cellar next to it. Terra blues (blues club) some amazing cocktail bars   Incredible area to just explore and find fun",
+    "replies": [
+     {
+      "author": "Tasty-Ad-5175",
+      "body": "Great recs, thank you! Especially curious about Terra Blues"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Minetta tavern",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tavern",
+      "date night"
+     ]
+    },
+    {
+     "name": "The Groove",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "format",
+       "text": "live music venue"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "live music"
+     ]
+    },
+    {
+     "name": "Terra blues",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "format",
+       "text": "blues club"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "blues",
+      "live music"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1165",
+   "comment_id": "t1_ogwduuc",
+   "model_view": "<post_title>How's Al-Sham Sweets in Astoria these days?</post_title>\n<post_body>Has anyone been as of late? I haven't been since 2020-2021. I wanted to go last summer, but already had too much at To Laiko and Artion several blocks up.</post_body>\n<comment_to_extract>\nWas there twice over the past month, noticed prices did go up and dude behind the counter was straight robbing people with credit card fees\n \n35% surcharge on one dude's order\n</comment_to_extract>",
+   "context": {
+    "title": "How's Al-Sham Sweets in Astoria these days?",
+    "selftext": "Has anyone been as of late? I haven't been since 2020-2021. I wanted to go last summer, but already had too much at To Laiko and Artion several blocks up. ",
+    "ancestors": [],
+    "author": "NJTRANSIT_HBLR",
+    "body": "Was there twice over the past month, noticed prices did go up and dude behind the counter was straight robbing people with credit card fees\n \n35% surcharge on one dude's order",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Al-Sham Sweets",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": "Astoria",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "visits",
+       "text": "Commenter was there twice in the past month."
+      },
+      {
+       "about": "prices",
+       "text": "Prices went up recently."
+      },
+      {
+       "about": "card fees",
+       "text": "Counter staff charge credit card fees; one customer's order got a 35% surcharge."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1166",
+   "comment_id": "t1_ouqghtl",
+   "model_view": "<post_title>I found Roaches cooked into my food at 888 Hudson Thai - be careful - they refuse to refund</post_title>\n<comment_to_extract>\nAbsolutely disgusting. How could they see this and not for you your money back?\n</comment_to_extract>",
+   "context": {
+    "title": "I found Roaches cooked into my food at 888 Hudson Thai - be careful - they refuse to refund",
+    "selftext": "",
+    "ancestors": [],
+    "author": "PenumbralLure",
+    "body": "Absolutely disgusting. How could they see this and not for you your money back? ",
+    "replies": [
+     {
+      "author": "Seatac_SFO_LAX",
+      "body": "The Uber Eats robot does not seem to recognize what is happening. They can only offer me a 50% refund lol. When I called the restaurant directly I was told if I didn’t write a review I could get a refund which is truly crazy. \n\nUber response: \n\n“Hi [legal name], \n\nThanks for getting back to us.\n\nWe hope you’ll understand that for us to be fair to all Eaters, we have to be consistent. This means that we're unable to make an exception and cannot offer a full refund on this order.\n\nWe appreciate your patience and understanding here.”"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "888 Hudson Thai",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "888 Hudson",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "roaches",
+       "text": "OP reports roaches cooked into their food"
+      },
+      {
+       "about": "refund",
+       "text": "OP says the restaurant refused a refund"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "thai"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1167",
+   "comment_id": "t1_ornphy1",
+   "model_view": "<post_title>Best deli pickles in NYC (preferably near manhattan)</post_title>\n<post_body>Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!</post_body>\n<thread_above>\n[1] another user: I used to go to my neighborhood deli and get a free bucket of pickles with anything I ordered, like an actual bucket, paint can sized. Those were the days… It’s been about 4 years since that place closed and I still think about them. Otherwise I go to Liebmans, but I don’t particularly like any Manhattan based Delis, sorry. Jacob’s Pickles and The Pickle Guys are pretty famous but I’d honestly say their pickles are mid and not worth the time or money (because you would also usually order other food when visiting them too). If you’re purely going to delis for pickles, and not any other food, it might be easier to just pick up a jar from a market/store and eat them on a park bench with your fingers as god intended. Grillos pickles (while not kosher pickles) eaten cold in the sun, slaps.\n</thread_above>\n<comment_to_extract>\nI like pickle guys fruit, oddly enough. Other stuff seems average in a nice atmosphere.\n</comment_to_extract>",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [
+     {
+      "author": "guatemamaLF",
+      "body": "I used to go to my neighborhood deli and get a free bucket of pickles with anything I ordered, like an actual bucket, paint can sized. Those were the days… It’s been about 4 years since that place closed and I still think about them.\n\nOtherwise I go to Liebmans, but I don’t particularly like any Manhattan based Delis, sorry. \n\nJacob’s Pickles and The Pickle Guys are pretty famous but I’d honestly say their pickles are mid and not worth the time or money (because you would also usually order other food when visiting them too).\n\nIf you’re purely going to delis for pickles, and not any other food, it might be easier to just pick up a jar from a market/store and eat them on a park bench with your fingers as god intended. Grillos pickles (while not kosher pickles) eaten cold in the sun, slaps. "
+     }
+    ],
+    "author": "Relative_Prize9052",
+    "body": "I like pickle guys fruit, oddly enough. Other stuff seems average in a nice atmosphere.",
+    "replies": [
+     {
+      "author": "helcat",
+      "body": "The Pickle Guys is the first time I've ever had pickled pineapple. Goddamn that was good. Now I make my own. "
+     },
+     {
+      "author": "bmsa131",
+      "body": "I LOVE their pickled mango.  🥭 "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "pickle guys",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "fruit",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "neutral",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "neutral",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pickles",
+      "pickle shop"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1168",
+   "comment_id": "t1_paceu0a",
+   "model_view": "<post_title>Where will Los Tacos No1 open next? They’re at 10 locations right now in Manhattan, target is 15</post_title>\n<post_body>Curious where you guys think they open next? They said target 15 locations in Manhattan. They mentioned they’ve looked at Columbus Circle and Rockefeller Center. Looks like they’re hyper focused on Manhattan only. Before expanding out into new cities as per their recent private equity deal.\n\nWhere else do you guys think they will open next? Any word thru grapevine?</post_body>\n<comment_to_extract>\nThey will avoid low density low traffic areas.   \nTheir success is based on foot traffic on the 2 key day parts lunch and dinner.   \nRemember rent is expensive so you have to sell a lot of $6 tacos to be profitable.\n</comment_to_extract>",
+   "context": {
+    "title": "Where will Los Tacos No1 open next? They’re at 10 locations right now in Manhattan, target is 15",
+    "selftext": "Curious where you guys think they open next? They said target 15 locations in Manhattan. They mentioned they’ve looked at Columbus Circle and Rockefeller Center. Looks like they’re hyper focused on Manhattan only. Before expanding out into new cities as per their recent private equity deal.\n\nWhere else do you guys think they will open next? Any word thru grapevine? ",
+    "ancestors": [],
+    "author": "Cjenks49",
+    "body": "They will avoid low density low traffic areas.   \nTheir success is based on foot traffic on the 2 key day parts lunch and dinner.   \nRemember rent is expensive so you have to sell a lot of $6 tacos to be profitable. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R1169",
+   "comment_id": "t1_oegqv6e",
+   "model_view": "<post_title author=\"you\">So disappointed in Popup bagels hotel butter</post_title>\n<post_body author=\"you\">I just tried hotel butter yesterday. they clearly completely changed the recipe for hotel butter!  i last had it maybe 2 years ago (i missed the last time they had it). i looked at the ingredients and they put mustard in it? Besides, it looks so different to the original, mich greener. I can’t believe there aren’t more people talking about how different it is, imo it should not even be called hotel butter anymore. Honestly so disappointed because the old recipe was literally my favourite dip Popup bagels has ever made. I wish I had known they ruined the recipe before buying 3 tubs of it for my freezer</post_body>\n<thread_above>\n[1] another user: have you tried going to a better bagel place? there are plenty\n</thread_above>\n<comment_to_extract>\nI NEVER claimed Popup bagels was the best bagel place. In fact I prefer many other bagel places.  All I commented on was how the recipe changed for a DIP that I had previously enjoyed from Popup.\n</comment_to_extract>",
+   "context": {
+    "title": "So disappointed in Popup bagels hotel butter",
+    "selftext": "I just tried hotel butter yesterday. they clearly completely changed the recipe for hotel butter!  i last had it maybe 2 years ago (i missed the last time they had it). i looked at the ingredients and they put mustard in it? Besides, it looks so different to the original, mich greener. I can’t believe there aren’t more people talking about how different it is, imo it should not even be called hotel butter anymore. Honestly so disappointed because the old recipe was literally my favourite dip Popup bagels has ever made. I wish I had known they ruined the recipe before buying 3 tubs of it for my freezer",
+    "ancestors": [
+     {
+      "author": "Aggressive-Phone6785",
+      "body": "have you tried going to a better bagel place? there are plenty"
+     }
+    ],
+    "author": "No_Professor_7487",
+    "body": "I NEVER claimed Popup bagels was the best bagel place. In fact I prefer many other bagel places.  All I commented on was how the recipe changed for a DIP that I had previously enjoyed from Popup. ",
+    "replies": [
+     {
+      "author": "Aggressive-Phone6785",
+      "body": "I didn’t say you claimed it was the best lol I just suggested going somewhere better"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Popup bagels",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "hotel butter",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "recipe change",
+       "text": "Commenter says the hotel butter dip recipe changed, and they used to enjoy it"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1170",
+   "comment_id": "t1_nhlarx7",
+   "model_view": "<post_title>Unpopular opinions, Fall 2025 edition</post_title>\n<post_body>-People who hate Joe's pizza are either contrarians or don't understand what New York pizza is supposed to be like\n\n-The tomato slice at Fini is much better than the white slice\n\n-Tourists should not be advised to only eat stereotypical foods like bagels, pizza, and hot dogs. The food scene has changed a lot since say, the 80s and I'd argue that loads of different cuisines have become a part of \"regular\" New York food culture. I'm a native New Yorker and I rarely eat pizza or bagels myself.\n\n-Both the \"NYC has no good Mexican food\" and the \"NYC Mexican food is just as good as LA\" claims are wrong. NYC's Mexican food has improved a lot and I'm very glad that it's an increasingly mainstream part of the food scene. But it's still nowhere near somewhere like LA or even Chicago in terms of variety and quality. Still too many places using store bought tortillas or selling al pastor that was not cooked on a trompo.\n\n-Restaurants should be judged only by the quality of food and service, not the neighborhood they're in. Too many people on here will hate on a restaurant just because it's in Manhattan, even if they never went there.\n\n-Adding to this, Manhattan is severely underrated as a food ...</post_body>\n<thread_above>\n[1] you, earlier: I don’t think any of these are unpopular opinions per se. maybe they’re hot takes, sort of. I think this one is important tho: >Tourists should not be advised to only eat stereotypical foods like bagels, pizza, and hot dogs. The food scene has changed a lot since say, the 80s and I'd argue that load ...\n[2] another user: Eh idk. Which Asian sandwiches/bowls are you referring to? But also Asian places are good for lunch and dinner but bagels are just mainly breakfast.\n</thread_above>\n<comment_to_extract>\nXi’an, Ippudo, GAI, Mr Bao, pokeworks, wagamama, any banh mi shop, kati roll places, etc. I realize that’s casting a wide net but rice bowls, ramen bowls, buns, sandwiches derived from cuisines in various parts of eastern to southern asia have popped up everywhere around Manhattan in particular over the last 10 years or so. damn I really miss num pang now. \n\nI love a fresh bagel sandwich for an office lunch. Cream cheese and lox with all the trimmings for lunch is underrated. Whitefish or chicken salad on a bagel with LTO is great too.\n</comment_to_extract>",
+   "context": {
+    "title": "Unpopular opinions, Fall 2025 edition",
+    "selftext": "-People who hate Joe's pizza are either contrarians or don't understand what New York pizza is supposed to be like\n\n-The tomato slice at Fini is much better than the white slice\n\n-Tourists should not be advised to only eat stereotypical foods like bagels, pizza, and hot dogs. The food scene has changed a lot since say, the 80s and I'd argue that loads of different cuisines have become a part of \"regular\" New York food culture. I'm a native New Yorker and I rarely eat pizza or bagels myself.\n\n-Both the \"NYC has no good Mexican food\" and the \"NYC Mexican food is just as good as LA\" claims are wrong. NYC's Mexican food has improved a lot and I'm very glad that it's an increasingly mainstream part of the food scene. But it's still nowhere near somewhere like LA or even Chicago in terms of variety and quality. Still too many places using store bought tortillas or selling al pastor that was not cooked on a trompo.\n\n-Restaurants should be judged only by the quality of food and service, not the neighborhood they're in. Too many people on here will hate on a restaurant just because it's in Manhattan, even if they never went there.\n\n-Adding to this, Manhattan is severely underrated as a food borough on here. Redditors who make living in Astoria or Jackson Heights their whole personality insinuate that Manhattan is entirely Olive Gardens and $800 fine dining restaurants. In reality, neither of these things are true and Manhattan has an insane amount of variety at all price points. Within a 15 minute walk of say, the Delancey Essex stop, you could probably eat food from over 50 different countries.\n\n-Shitting on Chinatown because you went to the New World Mall food court once is lame. Flushing is great of course, but OG Chinatown is still a very special place, important to NYC history and culture, and is still absolutely worth checking out in terms of food. The Fungbros on youtube have 20+ videos (and counting) devoted to affordable eats in Chinatown, and there's more interesting stuff than you'd expect.\n\n-Shitting on Little Italy while claiming that Arthur Ave is \"the real Little Italy\" is also lame. The Bronx Little Italy is also not a true Little Italy anymore, and its future is also in jeapordy. But both are still worth checking out\n\n-Any corner store kind of place can be called a \"bodega\" regardless of the owner's ethnicity. The Yemeni spots tend to be very similar to classic bodegas in terms of function, except they don't sell pork. \n\n-Chain restaurants are unironically more popular among native New Yorkers than transplants or tourists. There's a reason there's a Golden Corral deep in The Bronx.\n\n-This sub spends way too much time talking about chopped cheeses ; I personally think they're mid and even at a bodega I'd rather order a Philly cheesesteak\n\n-NYC's suburbs (inner ring at least) have a surprisingly good food scene\n\n-Williamsburg has an excellent food and bar scene. Despite the neighborhood having very high rents, I find it to be one of the more affordable neighborhoods to go out in.\n\n-\n\n",
+    "ancestors": [
+     {
+      "author": "paulderev",
+      "body": "I don’t think any of these are unpopular opinions per se. maybe they’re hot takes, sort of. I think this one is important tho:\n\n\n>Tourists should not be advised to only eat stereotypical foods like bagels, pizza, and hot dogs. The food scene has changed a lot since say, the 80s and I'd argue that loads of different cuisines have become a part of \"regular\" New York food culture. I'm a native New Yorker and I rarely eat pizza or bagels myself.\n\nI would say restaurants that specialize in various asian sandwiches/bowls or various takes on burgers are more common than bagel specialty places in nyc. almost as commonplace as pizza places."
+     },
+     {
+      "author": "itsthekumar",
+      "body": "Eh idk. Which Asian sandwiches/bowls are you referring to?\n\nBut also Asian places are good for lunch and dinner but bagels are just mainly breakfast."
+     }
+    ],
+    "author": "paulderev",
+    "body": "Xi’an, Ippudo, GAI, Mr Bao, pokeworks, wagamama, any banh mi shop, kati roll places, etc. I realize that’s casting a wide net but rice bowls, ramen bowls, buns, sandwiches derived from cuisines in various parts of eastern to southern asia have popped up everywhere around Manhattan in particular over the last 10 years or so. damn I really miss num pang now. \n\nI love a fresh bagel sandwich for an office lunch. Cream cheese and lox with all the trimmings for lunch is underrated. Whitefish or chicken salad on a bagel with LTO is great too.",
+    "replies": [
+     {
+      "author": "itsthekumar",
+      "body": "Ah gotcha. I don't usually go for Japanese food so I forgot those. \n\nSigh I miss Num Pang too. Esp the bowls!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Ippudo",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ramen"
+     ]
+    },
+    {
+     "name": "GAI",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Mr Bao",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "buns"
+     ]
+    },
+    {
+     "name": "pokeworks",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "poke"
+     ]
+    },
+    {
+     "name": "wagamama",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "noodles"
+     ]
+    },
+    {
+     "name": "num pang",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "missed",
+       "text": "commenter says they miss it now; no verdict on the food given"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwiches"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1171",
+   "comment_id": "t1_nq2pbq7",
+   "model_view": "<post_title>Meadow Lane faces death threats, huge demand in first days</post_title>\n<comment_to_extract>\nThis place is devoid of any personality or taste, so it’s perfect for influencers and anyone who doesn’t enjoy…food..ironically. \n\nSure - Gourmet Garage, Citarella, Jefferson Market (RIP) are overpriced, but at least they have personality.\n</comment_to_extract>",
+   "context": {
+    "title": "Meadow Lane faces death threats, huge demand in first days",
+    "selftext": "",
+    "ancestors": [],
+    "author": "jagarico",
+    "body": "This place is devoid of any personality or taste, so it’s perfect for influencers and anyone who doesn’t enjoy…food..ironically. \n\nSure - Gourmet Garage, Citarella, Jefferson Market (RIP) are overpriced, but at least they have personality.",
+    "replies": [
+     {
+      "author": "Birdsofparadise678",
+      "body": "I really enjoy food, am not an influencer and thought the food was really good. The vegan soba noodle bowl was delicious and it’s literally only slightly more expensive than sweet green bowls, which I’m so tired of and quality is worse. I think it was $21. I would definitely go here over dig in or sweet green for value for money, if I want a lunch or dinner bowl. Also, I had the white chocolate miso blondie which was $5 which is normal for pastries in nyc?? And the coffee was actually cheaper than a lot of places. I think people are blowing the whole thing out of proportion based on certain items like the $600 caviar or $15 nuggets. To your point about it being devoid of personality it was a more unique food selection than a lot of places. I actually find citarella to be more overpriced and generic, though I still like the food there too."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Meadow Lane",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "audience",
+       "text": "Pitched at influencers rather than people who enjoy food"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": "negative",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Jefferson Market",
+     "named_in": "comment",
+     "kind": "food_hall",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Named as having more personality than Meadow Lane; now closed"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "negative",
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1172",
+   "comment_id": "t1_obkq0rr",
+   "model_view": "<post_title>red hook tavern dinner walk in - how early would I have to be to get a seat?</post_title>\n<post_body>I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?</post_body>\n<thread_above>\n[1] another user: If you have the ability to do so, go on a Thursday for lunch. The menu is the same and when I showed up at 2pm, I was seated immediately.\n</thread_above>\n<comment_to_extract>\nMenu is slightly different for lunch. The burger is there. But missing arguably the best dish, the smoked pork chop!\n</comment_to_extract>",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [
+     {
+      "author": "DoritosDewItRight",
+      "body": "If you have the ability to do so, go on a Thursday for lunch. The menu is the same and when I showed up at 2pm, I was seated immediately."
+     }
+    ],
+    "author": "ObviousMonk9753",
+    "body": "Menu is slightly different for lunch. The burger is there. But missing arguably the best dish, the smoked pork chop! ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Red Hook Tavern",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "burger",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "smoked pork chop",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "lunch menu",
+       "text": "Lunch menu is slightly different from dinner; the burger is available but the smoked pork chop is missing."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "lunch",
+      "tavern"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1173",
+   "comment_id": "t1_nl13un0",
+   "model_view": "<post_title>Looking for a dive bar along the 1 train between Lincoln Center and the Hudson stop</post_title>\n<post_body>I know it’s a tough area because Times Square and MSG are right in the middle of this route. Basically looking for somewhere quiet and not crazy expensive to catch up and have a drink with a friend.</post_body>\n<comment_to_extract>\npeter mc manus on 7th and 18th\n</comment_to_extract>",
+   "context": {
+    "title": "Looking for a dive bar along the 1 train between Lincoln Center and the Hudson stop",
+    "selftext": "I know it’s a tough area because Times Square and MSG are right in the middle of this route. Basically looking for somewhere quiet and not crazy expensive to catch up and have a drink with a friend.",
+    "ancestors": [],
+    "author": "lovable_asshole",
+    "body": "peter mc manus on 7th and 18th",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "peter mc manus",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": "7th Ave and 18th St",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1174",
+   "comment_id": "t1_odz9pr0",
+   "model_view": "<post_title>Rate our food tour</post_title>\n<post_body>So every time my friend visits town from SLC, we do a full day food tour. So far we’ve done flushing (8 spots), pizza slices (15 spots), and burgers (8 spots). \n\nThis time we’re going to do a sandwich tour, what do you all think, are these the best places to get those kinds of sandwiches? Should we add another sandwich we might be missing?\n\nPastrami Sandwich - Katz Delicatessen\n\nBahn Mi - Saigutte\n\nItalian Sub - Faicco's Italian Specialties\n\nChicken Caesar Wrap - Milano Market\n\nCuban - Cafe Habana\n\nBacon, Egg and Cheese - Frankel's Delicatessen & Appetizing\n\nHot Dog - Gray's Papaya\n\nPhilly Cheesesteak - Danny & Coop's</post_body>\n<comment_to_extract>\nAdd S&P, skip Milano market, Cafe Habana and replace Saigutte with Banh And Em.  Love Grays but it's way out of your way and Katz's has better hotdogs.Add in Taqueria Ramirez (close enough). Crossing a river to Frankel's is a long way to go for a BEC.\n</comment_to_extract>",
+   "context": {
+    "title": "Rate our food tour",
+    "selftext": "So every time my friend visits town from SLC, we do a full day food tour. So far we’ve done flushing (8 spots), pizza slices (15 spots), and burgers (8 spots). \n\nThis time we’re going to do a sandwich tour, what do you all think, are these the best places to get those kinds of sandwiches? Should we add another sandwich we might be missing?\n\nPastrami Sandwich - Katz Delicatessen\n\nBahn Mi - Saigutte\n\nItalian Sub - Faicco's Italian Specialties\n\nChicken Caesar Wrap - Milano Market\n\nCuban - Cafe Habana\n\nBacon, Egg and Cheese - Frankel's Delicatessen & Appetizing\n\nHot Dog - Gray's Papaya\n\nPhilly Cheesesteak - Danny & Coop's",
+    "ancestors": [],
+    "author": "Cpalms139",
+    "body": "Add S&P, skip Milano market, Cafe Habana and replace Saigutte with Banh And Em.  Love Grays but it's way out of your way and Katz's has better hotdogs.Add in Taqueria Ramirez (close enough). Crossing a river to Frankel's is a long way to go for a BEC.",
+    "replies": [
+     {
+      "author": "Malsperanza",
+      "body": "Saiguette is pretty damn good if they're doing an UWS crawl. Lox and bagel at Barney Greengrass would also fit. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "S&P",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "tour pick",
+       "text": "suggested adding it to the sandwich tour"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Milano Market",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": true,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Cafe Habana",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": true,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cuban"
+     ]
+    },
+    {
+     "name": "Saigutte",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "swap",
+       "text": "replaced on the tour list by Banh And Em"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Banh And Em",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bahn mi",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "vietnamese"
+     ]
+    },
+    {
+     "name": "Katz's",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "hot dogs",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Grays",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "hot dogs",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "distance",
+       "text": "way out of your way to get to"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "hot dog"
+     ]
+    },
+    {
+     "name": "Frankel's Delicatessen & Appetizing",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": "across a river",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "BEC",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "distance",
+       "text": "crossing a river is a long way to go for a BEC"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Taqueria Ramirez",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "fit",
+       "text": "close enough to the tour route"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "mexican"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1175",
+   "comment_id": "t1_or4qg3r",
+   "model_view": "<post_title>Urgently Need this Mexican Restaurant Vibe!!!!!!!!!!!</post_title>\n<post_body>I’m looking for a VERY SPECIFIC type of Mexican restaurant that’s common in suburban west coast towns but which I’ve never encountered in NYC.\n\nIt needs:  \n\\- Complimentary chips and salsa on the table  \n\\- Margaritas on the menu  \nMOST IMPORTANT!!!!!  \n\\- When you order a meal, it comes with on a huge platter of rice and beans!!!!!!!\n\nI will travel to any borough for this!!!!</post_body>\n<comment_to_extract>\nThere’s a Dominican/Mexican on Essex - El Nuevo Amanecer - not amazing but fun.\n</comment_to_extract>",
+   "context": {
+    "title": "Urgently Need this Mexican Restaurant Vibe!!!!!!!!!!!",
+    "selftext": "I’m looking for a VERY SPECIFIC type of Mexican restaurant that’s common in suburban west coast towns but which I’ve never encountered in NYC.\n\nIt needs:  \n\\- Complimentary chips and salsa on the table  \n\\- Margaritas on the menu  \nMOST IMPORTANT!!!!!  \n\\- When you order a meal, it comes with on a huge platter of rice and beans!!!!!!!\n\nI will travel to any borough for this!!!!",
+    "ancestors": [],
+    "author": "ToothSuccessful5898",
+    "body": "There’s a Dominican/Mexican on Essex - El Nuevo Amanecer - not amazing but fun.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "El Nuevo Amanecer",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "on Essex",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "cuisine",
+       "text": "Dominican/Mexican"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "dominican",
+      "mexican"
+     ]
+    }
+   ]
+  }
+ ]
+}

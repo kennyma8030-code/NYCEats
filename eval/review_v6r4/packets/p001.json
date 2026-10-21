@@ -1,0 +1,1191 @@
+{
+ "packet": "p001",
+ "items": [
+  {
+   "item_id": "R0001",
+   "comment_id": "t1_ogcb5s6",
+   "model_view": "<post_title>Breakfast/Lunch Carts and Coffee in FiDi</post_title>\n<post_body>Greetings NYC friends! I'm visiting soon from the midwest and staying in FiDi near Fulton and William St. I'm going to have to grab a few quick lunches and maybe breakfast in between meetings.\n\nAny recommendations for good breakfast or lunch carts in the area? Bonus points for any coffee recommendations as well. Not looking for anything fancy, just good quick meals and coffee. I'll be there Thursday-Sunday</post_body>\n<comment_to_extract>\nI just had a Bahn Mi from the Bahn Mi cart on Pine and Water streets. I got the BBQ pork one (#4), and it was excellent! It was my first time, and I’m definitely going back soon. It was $9. \nPeople in line agreed that was the most popular one. Google it, and you’ll see a 4.9 rating.\n</comment_to_extract>",
+   "context": {
+    "title": "Breakfast/Lunch Carts and Coffee in FiDi",
+    "selftext": "Greetings NYC friends! I'm visiting soon from the midwest and staying in FiDi near Fulton and William St. I'm going to have to grab a few quick lunches and maybe breakfast in between meetings.\n\nAny recommendations for good breakfast or lunch carts in the area? Bonus points for any coffee recommendations as well. Not looking for anything fancy, just good quick meals and coffee. I'll be there Thursday-Sunday",
+    "ancestors": [],
+    "author": "dingo1967",
+    "body": "I just had a Bahn Mi from the Bahn Mi cart on Pine and Water streets. I got the BBQ pork one (#4), and it was excellent! It was my first time, and I’m definitely going back soon. It was $9. \nPeople in line agreed that was the most popular one. Google it, and you’ll see a 4.9 rating. ",
+    "replies": [
+     {
+      "author": "crazeman",
+      "body": "There's also a Bahn Mi cart over at [Hanover Square](https://maps.app.goo.gl/i7sUxHzyGrf2Jyc67). They've probably been at this spot for like 15 years at this point? I've never been to the one on Pine/Water so I can't compare."
+     },
+     {
+      "author": "deathbusters",
+      "body": "Love this place! They let you call ahead if you’re in a rush"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Bahn Mi cart on Pine and Water streets",
+     "named_in": "comment",
+     "kind": "truck_or_cart",
+     "location": "Pine and Water streets",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "BBQ pork bahn mi (#4)",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "$9 for the BBQ pork bahn mi"
+      },
+      {
+       "about": "popularity",
+       "text": "People in line say it's the most popular item"
+      },
+      {
+       "about": "rating",
+       "text": "Google rating of 4.9"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bahn mi",
+      "sandwich",
+      "lunch"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0002",
+   "comment_id": "t1_owlz7zx",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n[1] another user: Just eat fruit\n</thread_above>\n<comment_to_extract>\nHad to scroll to find this one.\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     }
+    ],
+    "author": "SpongeyBobaruu",
+    "body": "Had to scroll to find this one. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0003",
+   "comment_id": "t1_lfqhxcj",
+   "model_view": "<post_title>Reservation Sales Thread - **READ BEFORE POSTING!!**</post_title>\n<post_body>This thread exists *solely* to create a space for people to avoid losing their deposits on pre-paid meals. Gouging is not tolerated on this subreddit. The below rules exist to ensure it stays that way. Read them before posting because violations can lead to an immediate permanent ban.  \n\n1. This thread is the only place on the subreddit for selling restaurant reservations. You may not ask to buy reservations.\n2. You may ONLY sell non-refundable reservations for below or equal to face value. (plus all taxes and fees)\n3. You must clearly state both the price you paid and the price you're looking for in the post.\n4. We do not know every restaurant's deposit and cancellation policies. If you do not make it clear that you're operating by the rules above, we will assume you're not. \n\nGood post:\n\n> I have a table for 4 at Eleven Madison Park at 8:30 PM on Sunday, February 3rd. Tickets are nonrefundable and a business emergency came up. Paid $1589.58, willing to take $1200 OBO. Transfer on Resy.\n\nBad post:\n\n> Got a table for 2 at 4 Charles. DM for details.\n\nThe mods of [/r/FoodNYC](https://old.reddit.com/r/FoodNYC) accept no responsibility for these transactions. Tock and Resy both allow t ...</post_body>\n<comment_to_extract>\nI have a reservation for 2 at Petit Crenn on August 10th, 2024 at 7:45pm. Tickets are nonrefundable and we can’t make it due to a medical reason. Reservation is on seven rooms and is transferrable at original price $570.28 (including taxes and service charge).\n</comment_to_extract>",
+   "context": {
+    "title": "Reservation Sales Thread - **READ BEFORE POSTING!!**",
+    "selftext": "This thread exists *solely* to create a space for people to avoid losing their deposits on pre-paid meals. Gouging is not tolerated on this subreddit. The below rules exist to ensure it stays that way. Read them before posting because violations can lead to an immediate permanent ban.  \n\n1. This thread is the only place on the subreddit for selling restaurant reservations. You may not ask to buy reservations.\n2. You may ONLY sell non-refundable reservations for below or equal to face value. (plus all taxes and fees)\n3. You must clearly state both the price you paid and the price you're looking for in the post.\n4. We do not know every restaurant's deposit and cancellation policies. If you do not make it clear that you're operating by the rules above, we will assume you're not. \n\nGood post:\n\n> I have a table for 4 at Eleven Madison Park at 8:30 PM on Sunday, February 3rd. Tickets are nonrefundable and a business emergency came up. Paid $1589.58, willing to take $1200 OBO. Transfer on Resy.\n\nBad post:\n\n> Got a table for 2 at 4 Charles. DM for details.\n\nThe mods of [/r/FoodNYC](https://old.reddit.com/r/FoodNYC) accept no responsibility for these transactions. Tock and Resy both allow transfers on the website - if someone tells you otherwise it's a scam. Do your own research on your transaction before handing over any money to a third party. Check with the restaurant, check account ages, meet in person if feasible.",
+    "ancestors": [],
+    "author": "Unusual-Fill-5933",
+    "body": "I have a reservation for 2 at Petit Crenn on August 10th, 2024 at 7:45pm. Tickets are nonrefundable and we can’t make it due to a medical reason. Reservation is on seven rooms and is transferrable at original price $570.28 (including taxes and service charge).",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Petit Crenn",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reservation for sale",
+       "text": "Reservation for 2 on August 10th, 2024 at 7:45pm, non-refundable and transferable at original price $570.28 incl. taxes and service charge; seller can't attend due to medical reason"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0004",
+   "comment_id": "t1_p19js5g",
+   "model_view": "<post_title>Looking for Dad + Daughter food recommendations in NYC</post_title>\n<post_body>Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.</post_body>\n<comment_to_extract>\nI just want to say this is so cute.\n</comment_to_extract>",
+   "context": {
+    "title": "Looking for Dad + Daughter food recommendations in NYC",
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "ancestors": [],
+    "author": "TraditionalMedium468",
+    "body": "I just want to say this is so cute. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0005",
+   "comment_id": "t1_oycrsq6",
+   "model_view": "<post_title author=\"you\">Best crispy, bouncy non-oily Korean seafood pancake in Manhattan?</post_title>\n<post_body author=\"you\">Tough to get this balance.  Does anyone have a reccomendation?\n\nThank you!</post_body>\n<comment_to_extract>\nUpdate:\n\nThink I will try a few and report back.  First report:\n\n02 Hot Stone BBQ House\n\nThick pancake.  Pretty good crisp.  Nice big pieces of shrimp and very generous with green onion but some gluggy bits here and there.  Served with sweeter sauce that I did not prefer.  Their side kimchi was not tangy in a way that balanced the pancake for me.\n\nSearch continues\n</comment_to_extract>",
+   "context": {
+    "title": "Best crispy, bouncy non-oily Korean seafood pancake in Manhattan?",
+    "selftext": "Tough to get this balance.  Does anyone have a reccomendation?\n\nThank you!",
+    "ancestors": [],
+    "author": "HomeboddE",
+    "body": "Update:\n\nThink I will try a few and report back.  First report:\n\n02 Hot Stone BBQ House\n\nThick pancake.  Pretty good crisp.  Nice big pieces of shrimp and very generous with green onion but some gluggy bits here and there.  Served with sweeter sauce that I did not prefer.  Their side kimchi was not tangy in a way that balanced the pancake for me.\n\nSearch continues",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "02 Hot Stone BBQ House",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "seafood pancake",
+       "level": "neutral",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "pancake style",
+       "text": "thick pancake, pretty good crisp, big shrimp pieces, generous green onion, some gluggy bits"
+      },
+      {
+       "about": "sauce and side",
+       "text": "sweeter sauce not preferred; side kimchi not tangy enough to balance the pancake"
+      }
+     ],
+     "aspects": {
+      "taste": "neutral",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "neutral",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "korean",
+      "seafood pancake",
+      "bbq"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0006",
+   "comment_id": "t1_ljg4yvk",
+   "model_view": "<post_title>Chicken caesar wrap from Milano Market UWS (left) vs. UES (right)</post_title>\n<thread_above>\n[1] another user: This is the type of research Reddit was made for\n[2] another user: I'm now curious at what other CCW's are like from all the other suburbs\n</thread_above>\n<comment_to_extract>\nUWS for the win with the drenched -in-dressing look but UES has better -looking chicken imo\n</comment_to_extract>",
+   "context": {
+    "title": "Chicken caesar wrap from Milano Market UWS (left) vs. UES (right)",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "bigmusicalfan",
+      "body": "This is the type of research Reddit was made for"
+     },
+     {
+      "author": "EngineEddie",
+      "body": "I'm now curious at what other CCW's are like from all the other suburbs"
+     }
+    ],
+    "author": "Buffyismyhomosapien",
+    "body": "UWS for the win with the drenched -in-dressing look but UES has better -looking chicken imo",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Milano Market",
+     "named_in": "context",
+     "kind": "deli",
+     "location": "Upper West Side",
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "chicken caesar wrap",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "photo comparison",
+       "text": "Commenter judges from the photo that the UWS wrap looks drenched in dressing; no visit described"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwiches"
+     ]
+    },
+    {
+     "name": "Milano Market",
+     "named_in": "context",
+     "kind": "deli",
+     "location": "Upper East Side",
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "chicken caesar wrap",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "photo comparison",
+       "text": "Commenter judges from the photo that the UES wrap's chicken looks better; no visit described"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwiches"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0007",
+   "comment_id": "t1_owu41bl",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n[1] another user: People are just doing it themselves more\n[2] OP: I care more about their vegan soft serve\n[3] another user: Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off.... Vegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan. You dont see the Jain monks eating tofurkey. They eat food that is naturally vegan ...\n[4] another user: vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb.\n[5] another user: It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\" Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it. Respectfully, a chef.\n</thread_above>\n<comment_to_extract>\nRespectfully, if you're a chef, then you'd know there are more reasons than someone choosing to be vegan why someone may need vegan options. I was allergic to dairy for 12 years. Vegan ice cream and vegan cheese options at regular establishments made my day and also made my life so much easier. It doesn't need another name.\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!"
+     },
+     {
+      "author": "mycateatstoenails",
+      "body": "vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb. "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\"  Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it.\n\nRespectfully, a chef."
+     }
+    ],
+    "author": "Pigeon_Lady28",
+    "body": "Respectfully, if you're a chef, then you'd know there are more reasons than someone choosing to be vegan why someone may need vegan options. I was allergic to dairy for 12 years. Vegan ice cream and vegan cheese options at regular establishments made my day and also made my life so much easier. It doesn't need another name. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0008",
+   "comment_id": "t1_m11c60a",
+   "model_view": "<post_title>Replacements for Monkey Bar for a nice, classic NYC restaurant?</post_title>\n<post_body>Well, I lost the reservation war for Monkey Bar for a Saturday night during the holidays. What are some comparable places with similar food, ambiance and great cocktails?? Looking to stay in the somewhat general area of Monkey Bar! Only in NYC for 2 days so looking to have a really nice classic dinner!!</post_body>\n<comment_to_extract>\nI’ve never been, but my friend loved it - Monterey\n</comment_to_extract>",
+   "context": {
+    "title": "Replacements for Monkey Bar for a nice, classic NYC restaurant?",
+    "selftext": "Well, I lost the reservation war for Monkey Bar for a Saturday night during the holidays. What are some comparable places with similar food, ambiance and great cocktails?? Looking to stay in the somewhat general area of Monkey Bar! Only in NYC for 2 days so looking to have a really nice classic dinner!! ",
+    "ancestors": [],
+    "author": "Mental_Ganache5112",
+    "body": "I’ve never been, but my friend loved it - Monterey",
+    "replies": [
+     {
+      "author": "nippyhedren",
+      "body": "Wouldn’t recommend."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Monterey",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "secondhand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "source",
+       "text": "Recommended via the commenter's friend, who loved it; commenter has never been"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0009",
+   "comment_id": "t1_noallnr",
+   "model_view": "<post_title>Best Manhattan Greek Restaurants?</post_title>\n<post_body>Any recommendations in Manhattan? I tried Avra for lunch recently after it was highly recommended and found it disappointing. Maybe lunch is not the time to go. Thanks!</post_body>\n<comment_to_extract>\nI have not been, but heard Elea on the UWS is great.\n</comment_to_extract>",
+   "context": {
+    "title": "Best Manhattan Greek Restaurants?",
+    "selftext": "Any recommendations in Manhattan? I tried Avra for lunch recently after it was highly recommended and found it disappointing. Maybe lunch is not the time to go. Thanks!",
+    "ancestors": [],
+    "author": "threesixtyone",
+    "body": "I have not been, but heard Elea on the UWS is great.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Elea",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Upper West Side",
+     "experience": "secondhand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "greek"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0010",
+   "comment_id": "t1_ox2u9mb",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n[1] another user: The CEO of Juice Press and Related got into a huge tit-for-tat 2 years ago. Related went ahead and pulled all the juice press locations out of all the Equinox gyms in NYC. Since then, Related started a contract with CA based company, Earth bar. I’m positive that suddenly losing 30+ high traffic locations hasn’t had the best impact on Juice Presses revenue.\n</thread_above>\n<comment_to_extract>\nI dont think that was the only trouble juice press has been running into, obviously picking a fight with one of the most powerful real estate developers and owners in the city is not going to go your way for a retail business, but a few of their non equinox locations near me the last 6 months or so before closing had regular 2 for 1 smoothie deals going so I was in pretty much every morning and still never saw them making something for anyone else or another customer in at the same time for months, business was visibly dead compared to a few years ago.\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Buddhafi",
+      "body": "The CEO of Juice Press and Related got into a huge tit-for-tat 2 years ago. Related went ahead and pulled all the juice press locations out of all the Equinox gyms in NYC. Since then, Related started a contract with CA based company, Earth bar. I’m positive that suddenly losing 30+ high traffic locations hasn’t had the best impact on Juice Presses revenue. "
+     }
+    ],
+    "author": "Desperate_Wallaby966",
+    "body": "I dont think that was the only trouble juice press has been running into, obviously picking a fight with one of the most powerful real estate developers and owners in the city is not going to go your way for a retail business, but a few of their non equinox locations near me the last 6 months or so before closing had regular 2 for 1 smoothie deals going so I was in pretty much every morning and still never saw them making something for anyone else or another customer in at the same time for months, business was visibly dead compared to a few years ago.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "juice press",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "non-Equinox locations near the commenter",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "smoothies",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "Equinox dispute",
+       "text": "Commenter says picking a fight with the real estate developer was bad for a retail business"
+      },
+      {
+       "about": "2-for-1 deals",
+       "text": "Regular 2-for-1 smoothie deals at non-Equinox branches in the months before they closed"
+      },
+      {
+       "about": "Business decline",
+       "text": "Commenter saw few customer orders for months, unlike a few years ago; business looked visibly dead"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "juice",
+      "smoothies"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0011",
+   "comment_id": "t1_oelm2ag",
+   "model_view": "<post_title>Is there a delivery service that actually consolidates quality Asian + Western groceries? (Queens)</post_title>\n<post_body>I've been through the gauntlet on this. H Mart Instacart, Whole Foods, Trader Joe's, Weee, Natoora, local halal butchers, Flushing runs, Chinatown runs. I cook Taiwanese, Japanese food regularly and eat pretty standard Western stuff otherwise.\n\nHere's where I've landed after way too much time on this: H Mart doesn't deliver fish and the online fish selection is thin. Natoora quality is great but not sustainable price-wise for daily use. Trader Joe's has no reliable fresh meat. Whole Foods meat is nothing special — I end up at a butcher or halal shop anyway for anything I actually care about. And I know most of these grocers are sourcing from the same distributors for a lot of their proteins, which makes the whole runaround even more annoying.\n\nI'm not looking for the cheapest option or the highest-end option. I just want one, maybe two stops (or deliveries) that cover quality proteins, fresh fish, Taiwanese/Asian pantry staples, and normal Western basics. Going from Astoria to Flushing to save $15 on groceries doesn't pencil out.\n\nHas anyone actually solved this or is 3-4 sources just the reality of eating this way in NYC?</post_body>\n<comment_to_extract>\nshort answer is no? i would deliver stuff that’s hard to find and just plan to get whatever item you need that day, like every other new yorker. like if you need fish that day make it an errand to go to a fish market. like.. what?  lol\n</comment_to_extract>",
+   "context": {
+    "title": "Is there a delivery service that actually consolidates quality Asian + Western groceries? (Queens)",
+    "selftext": "I've been through the gauntlet on this. H Mart Instacart, Whole Foods, Trader Joe's, Weee, Natoora, local halal butchers, Flushing runs, Chinatown runs. I cook Taiwanese, Japanese food regularly and eat pretty standard Western stuff otherwise.\n\nHere's where I've landed after way too much time on this: H Mart doesn't deliver fish and the online fish selection is thin. Natoora quality is great but not sustainable price-wise for daily use. Trader Joe's has no reliable fresh meat. Whole Foods meat is nothing special — I end up at a butcher or halal shop anyway for anything I actually care about. And I know most of these grocers are sourcing from the same distributors for a lot of their proteins, which makes the whole runaround even more annoying.\n\nI'm not looking for the cheapest option or the highest-end option. I just want one, maybe two stops (or deliveries) that cover quality proteins, fresh fish, Taiwanese/Asian pantry staples, and normal Western basics. Going from Astoria to Flushing to save $15 on groceries doesn't pencil out.\n\nHas anyone actually solved this or is 3-4 sources just the reality of eating this way in NYC?",
+    "ancestors": [],
+    "author": "samosasweetie",
+    "body": "short answer is no? i would deliver stuff that’s hard to find and just plan to get whatever item you need that day, like every other new yorker. like if you need fish that day make it an errand to go to a fish market. like.. what?  lol",
+    "replies": [
+     {
+      "author": "Terrible_Alps9830",
+      "body": "what a great suggestion, thank you"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0012",
+   "comment_id": "t1_p31zbsv",
+   "model_view": "<post_title author=\"you\">Eleven Madison Park, Lunch. Menu, drinks, and a game.</post_title>\n<post_body author=\"you\">I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.</post_body>\n<thread_above>\n[1] another user: Did they stay serving meat/fish again? I went during the vegan period and it was good but definitely left something to be desired\n</thread_above>\n<comment_to_extract>\nI think it was last October they started to offer three courses that you could pick animal protein vs plant.\n\nI have only been there since the changed to this option, so can't speak to the before times.\n</comment_to_extract>",
+   "context": {
+    "title": "Eleven Madison Park, Lunch.  Menu, drinks, and a game.",
+    "selftext": "I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\n",
+    "ancestors": [
+     {
+      "author": "TopCapTheApp",
+      "body": "Did they stay serving meat/fish again?  I went during the vegan period and it was good but definitely left something to be desired "
+     }
+    ],
+    "author": "MTonmyMind",
+    "body": "I think it was last October they started to offer three courses that you could pick animal protein vs plant.\n\nI have only been there since the changed to this option, so can't speak to the before times.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0013",
+   "comment_id": "t1_jvmpghp",
+   "model_view": "<post_title>Restaurant Week just as expensive as a regular menu? A case study at Fish Cheeks.</post_title>\n<post_body>Am I severely misunderstanding how the pricing works? \nFish Cheeks RW menu for dinner is $60 for Restaurant Week. \n\nLooking at their regular menu, I could order the following items that are on the RW menu. \nZaab Wings: $15\nCoconut Crab Curry: $30\nIce Cream Bo Lan: $15\nTotal = $60\n\nRW menu: chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://assets.ctfassets.net/1aemqu6a6t65/6mouPvDXeBIfEZABZnd2CI/fff8e32eeb878e8ab745d186cb0a3969/PDFsam_merge.pdf\n\nRegular menu: \nhttps://www.fishcheeksnyc.com/menus/#main-menu-copy-1</post_body>\n<thread_above>\n(1 earlier comments not shown)\n[1] another user: right, but regardless of price if you go to a restaurant you've been wanting to go to, why would you limit yourself?\n[2] you, earlier: Umm.... I know this one! PRICE!\n[3] another user: i mean, why go to a restaurant youve been wanting to go to just to get half the experience?\n[4] you, earlier: Here's a shocker. I live in NYC. I can go to any high end restaurant I have some curiosity about at full price. But if I'm about to drop $800 on dinner, I'd rather give it a $60 test drive before I have my birthday dinner there.\n[5] another user: RW is less of a test drive than a limited sampler with shittier service\n</thread_above>\n<comment_to_extract>\nYou are entitled.\n\nTo your opinion.\n</comment_to_extract>",
+   "context": {
+    "title": "Restaurant Week just as expensive as a regular menu? A case study at Fish Cheeks.",
+    "selftext": "Am I severely misunderstanding how the pricing works? \nFish Cheeks RW menu for dinner is $60 for Restaurant Week. \n\nLooking at their regular menu, I could order the following items that are on the RW menu. \nZaab Wings: $15\nCoconut Crab Curry: $30\nIce Cream Bo Lan: $15\nTotal = $60\n\nRW menu: chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://assets.ctfassets.net/1aemqu6a6t65/6mouPvDXeBIfEZABZnd2CI/fff8e32eeb878e8ab745d186cb0a3969/PDFsam_merge.pdf\n\nRegular menu: \nhttps://www.fishcheeksnyc.com/menus/#main-menu-copy-1",
+    "ancestors": [
+     {
+      "author": "cgfn",
+      "body": "Restaurant week has been a scam for years. Nothing new here"
+     },
+     {
+      "author": "lunacraz",
+      "body": "right, but regardless of price if you go to a restaurant you've been wanting to go to, why would you limit yourself?"
+     },
+     {
+      "author": "samtresler",
+      "body": "Umm.... I know this one! \n\nPRICE!"
+     },
+     {
+      "author": "lunacraz",
+      "body": "i mean, why go to a restaurant youve been wanting to go to just to get half the experience?"
+     },
+     {
+      "author": "samtresler",
+      "body": "Here's a shocker. I live in NYC. I can go to any high end restaurant I have some curiosity about at full price. \n\nBut if I'm about to drop $800 on dinner, I'd rather give it a $60 test drive before I have my birthday dinner there."
+     },
+     {
+      "author": "lunacraz",
+      "body": "RW is less of a test drive than a limited sampler with shittier service"
+     }
+    ],
+    "author": "samtresler",
+    "body": "You are entitled.\n\nTo your opinion.",
+    "replies": [
+     {
+      "author": "lunacraz",
+      "body": "i mean, the OP (both of this thread and the original post) compares the prices and theyre basically the same, except RW is incredibly limiting and service staff dont like the RW crowd\n\nmy whole point was even if there was a price difference, you're not getting the actual experience of what the restaurant is actually like, so whats the point?\n\nand to your $800 -> $60 point... you can absolutely get a taste for $60 without RW ruining your experience ..."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0014",
+   "comment_id": "t1_nzh8u15",
+   "model_view": "<post_title>Banana Bread Lattes in NYC?</post_title>\n<post_body>Hi! My girlfriend is in love with banana bread lattes and I would love to surprise her by buying her one. They aren’t an incredibly common option from what I’ve realized so I was wondering if anyone knew of any cafes in Manhattan that happened to sell them?</post_body>\n<comment_to_extract>\nI think Matto has a banana-related coffee drink\n</comment_to_extract>",
+   "context": {
+    "title": "Banana Bread Lattes in NYC?",
+    "selftext": "Hi! My girlfriend is in love with banana bread lattes and I would love to surprise her by buying her one. They aren’t an incredibly common option from what I’ve realized so I was wondering if anyone knew of any cafes in Manhattan that happened to sell them?",
+    "ancestors": [],
+    "author": "Significant__Gap",
+    "body": "I think Matto has a banana-related coffee drink",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0015",
+   "comment_id": "t1_p2w5997",
+   "model_view": "<post_title>Eleven Madison Park, Lunch. Menu, drinks, and a game.</post_title>\n<post_body>I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.</post_body>\n<comment_to_extract>\nbucket list place for sure. what’s the game?\n</comment_to_extract>",
+   "context": {
+    "title": "Eleven Madison Park, Lunch.  Menu, drinks, and a game.",
+    "selftext": "I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\n",
+    "ancestors": [],
+    "author": "MaybeFar8963",
+    "body": "bucket list place for sure. what’s the game?",
+    "replies": [
+     {
+      "author": "mestapho",
+      "body": "When my wife and I went it was 5 vegan chocolate bars and you tried to match them to the flavor profile.  \n\nMy wife got all 4. I got 2.  "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Eleven Madison Park",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "untried reaction",
+       "text": "Commenter calls it a bucket list place and asks what the game is; they have not been."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0016",
+   "comment_id": "t1_p2xigq9",
+   "model_view": "<post_title>Eleven Madison Park, Lunch. Menu, drinks, and a game.</post_title>\n<post_body>I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.</post_body>\n<comment_to_extract>\nLovely! Did you have to book far in advanced OP? And if you don’t my asking, what was the total cost of the meal?\n</comment_to_extract>",
+   "context": {
+    "title": "Eleven Madison Park, Lunch.  Menu, drinks, and a game.",
+    "selftext": "I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\n",
+    "ancestors": [],
+    "author": "helloivar",
+    "body": "Lovely! Did you have to book far in advanced OP? And if you don’t my asking, what was the total cost of the meal?",
+    "replies": [
+     {
+      "author": "MTonmyMind",
+      "body": "Couple of weeks for lunch.\n\nI had tried for a couple of years to get a dinner res that fit my travel, and it never worked out (this was pre-vegetarian menu).  Since they went back to their optional animal protein menu, I've been 4 times and it has not been difficult to find a spot."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0017",
+   "comment_id": "t1_oit1fct",
+   "model_view": "<post_title author=\"you\">Cha gio-Vietnamese eggrolls</post_title>\n<post_body author=\"you\">Any of you guys know supermarkets where I can buy them frozen? Preferably made with rice paper but I’ll take what I can get. \n\nI can’t imagine all the restaurants making it from scratch everyday. They have to be buying them frozen from a supplier which means they’re available in the markets too? Or am I wrong. \n\nAnywhere in nyc is fine, maybe even LI? I can buy in bulk and stock up.</post_body>\n<thread_above>\n[1] another user: While online, [Wee ](https://www.sayweee.com/en/search/cha%20gio?keyword=cha%20gio&trigger_type=search_suggestion)has them\n[2] another user: Do you have a brand recommendation? I always look when I’m at H Mart and only once did I find them there and they turned out not to be particularly good.\n</thread_above>\n<comment_to_extract>\nI ordered some and can report back.\n</comment_to_extract>",
+   "context": {
+    "title": "Cha gio-Vietnamese eggrolls",
+    "selftext": "Any of you guys know supermarkets where I can buy them frozen? Preferably made with rice paper but I’ll take what I can get. \n\nI can’t imagine all the restaurants making it from scratch everyday. They have to be buying them frozen from a supplier which means they’re available in the markets too? Or am I wrong. \n\nAnywhere in nyc is fine, maybe even LI? I can buy in bulk and stock up. ",
+    "ancestors": [
+     {
+      "author": "Separate_Shake_3681",
+      "body": "While online, [Wee ](https://www.sayweee.com/en/search/cha%20gio?keyword=cha%20gio&trigger_type=search_suggestion)has them"
+     },
+     {
+      "author": "helcat",
+      "body": "Do you have a brand recommendation? I always look when I’m at H Mart and only once did I find them there and they turned out not to be particularly good. "
+     }
+    ],
+    "author": "917nyc917",
+    "body": "I ordered some and can report back. ",
+    "replies": [
+     {
+      "author": "helcat",
+      "body": "Do! "
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0018",
+   "comment_id": "t1_oh5tcgr",
+   "model_view": "<post_title author=\"you\">Help Finding Cheap Prosciutto Chunks?</post_title>\n<post_body author=\"you\">Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!</post_body>\n<thread_above>\n[1] another user: I bought one of these once and proceeded to nearly chop off a finger trying to dice up that unevenly shaped, tough, greasy mess. I stick with pancetta now.\n</thread_above>\n<comment_to_extract>\nMake sure it’s cold and use a sharp knife. Fat is solid until it is warmed. Follow the saw technique and you should be able to easily slice it.\n</comment_to_extract>",
+   "context": {
+    "title": "Help Finding Cheap Prosciutto Chunks?",
+    "selftext": "Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!",
+    "ancestors": [
+     {
+      "author": "breakinbread",
+      "body": "I bought one of these once and proceeded to nearly chop off a finger trying to dice up that unevenly shaped, tough, greasy mess.\n\nI stick with pancetta now."
+     }
+    ],
+    "author": "VisualReality4495",
+    "body": "Make sure it’s cold and use a sharp knife. Fat is solid until it is warmed. Follow the saw technique and you should be able to easily slice it.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0019",
+   "comment_id": "t1_o8qmmde",
+   "model_view": "<post_title>Momofuku Noodle Bar: Food still nice, but unpleasant to eat there</post_title>\n<post_body>I found myself at the OG East Village location a few times in the last three months. It's been nice to rediscover it: in the aughts I'd hit this place hard, back when it was the best ramen game in town bar. But it's not 2005 anymore, and NYC's ramen scene has completely changed. I think it's been 10-15 years since I've been back.\n\nThe ramen is still very good, particularly the super garlicky and flavorful garlic chicken ramen. Their salad drenched in orange-ginger dressing is very nice too. (It also made me realize that I haven't been served that style of salad at a Japanese restaurant in years, what's up with that??)\n\nDespite how good the food is, MAN have they packed in the seats at that location. The bar is elbow-to-elbow, but somehow that's more room than their tables. (I think part of this is that Noodle Bar is one of the restaurants in the Chase Sapphire Reserve credit list. That's certainly one of the reasons I've been going!) It doesn't help that the restaurant is constantly fielding delivery and takeout orders, even when the restaurant is packed.\n\nI've never been to the uptown location, maybe that's better?</post_body>\n<thread_above>\n[1] another user: Been boycotting momofuku since his chili crisp shenanigans\n[2] another user: He was always a shitty person. I went to the OG Noodle Bar when it opened. There was a young Japanese woman staging there. He completely eviscerated her verbally in front of all of the customers at the bar itself. Total POS.\n</thread_above>\n<comment_to_extract>\nI went down a rabbit hole years ago about his reputation and reported personality..... I'm gonna get hate for saying this but a non-Japanese trying to sensationalize Japanese fusion always rubbed me the wrong way....! I mean, he claimed to be a ramen expert or whatever after working at a ramen shop for something like three years. That was insulting. Then the whole chilli crisp thing. We've had that stuff for ages everywhere in East & SE Asia. It's like Bourdain trying to get copyright for honey mustard sauce. What an ass.\n\n\nSincerely, \nJapanese, born & raised\n</comment_to_extract>",
+   "context": {
+    "title": "Momofuku Noodle Bar: Food still nice, but unpleasant to eat there",
+    "selftext": "I found myself at the OG East Village location a few times in the last three months. It's been nice to rediscover it: in the aughts I'd hit this place hard, back when it was the best ramen game in town bar. But it's not 2005 anymore, and NYC's ramen scene has completely changed. I think it's been 10-15 years since I've been back.\n\nThe ramen is still very good, particularly the super garlicky and flavorful garlic chicken ramen. Their salad drenched in orange-ginger dressing is very nice too. (It also made me realize that I haven't been served that style of salad at a Japanese restaurant in years, what's up with that??)\n\nDespite how good the food is, MAN have they packed in the seats at that location. The bar is elbow-to-elbow, but somehow that's more room than their tables. (I think part of this is that Noodle Bar is one of the restaurants in the Chase Sapphire Reserve credit list. That's certainly one of the reasons I've been going!) It doesn't help that the restaurant is constantly fielding delivery and takeout orders, even when the restaurant is packed.\n\nI've never been to the uptown location, maybe that's better? ",
+    "ancestors": [
+     {
+      "author": "Efficient_Law_1551",
+      "body": "Been boycotting momofuku since his chili crisp shenanigans "
+     },
+     {
+      "author": "Johnnadawearsglasses",
+      "body": "He was always a shitty person. I went to the OG Noodle Bar when it opened. There was a young Japanese woman staging there. He completely eviscerated her verbally in front of all of the customers at the bar itself. Total POS. "
+     }
+    ],
+    "author": "JackyVeronica",
+    "body": "I went down a rabbit hole years ago about his reputation and reported personality..... I'm gonna get hate for saying this but a non-Japanese trying to sensationalize Japanese fusion always rubbed me the wrong way....! I mean, he claimed to be a ramen expert or whatever after working at a ramen shop for something like three years. That was insulting. Then the whole chilli crisp thing. We've had that stuff for ages everywhere in East & SE Asia. It's like Bourdain trying to get copyright for honey mustard sauce. What an ass.\n\n\nSincerely, \nJapanese, born & raised",
+    "replies": [
+     {
+      "author": "DSKO_MDLR",
+      "body": "It’s worse than that to me, a Korean American who has lived in Korea for 7 years of my life, in LA for 10.  David Chang is a self-loathing Korean who was heavily influenced by his grandfather who loved Japanese food and culture.  He has even admitted that he doesn’t like the way Koreans prepare ingredients so he incorporated Japanese techniques and ingredients instead.  David Chang became known for Momofuku Ssam Bar and Noodle Bar.  He influenced places like Jeju Noodle Bar, which was singularly the most disappointing restaurant experience I’ve had in the past five years.  Lousy and bland “ramyun”.  \n\nPersonally, I see David Chang as being a terrible ambassador for Korean culture and cuisine in America because he doesn’t respect or like either…he’s Japanese at his core.  His influence can be seen throughout the NYC/Manhattan Korean restaurant scene.  They all incorporate Wagyu, Uni, caviar, toro, etc.  I go to Seoul and Tokyo regularly, and appreciate both Korean and Japanese food on their own merits.  But I don’t support Korean chefs doing half-assed or pretentious Japanese fusion dishes."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0020",
+   "comment_id": "t1_oh4osgk",
+   "model_view": "<post_title>Help Finding Cheap Prosciutto Chunks?</post_title>\n<post_body>Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!</post_body>\n<comment_to_extract>\nOh market basket. How I miss her.\n</comment_to_extract>",
+   "context": {
+    "title": "Help Finding Cheap Prosciutto Chunks?",
+    "selftext": "Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!",
+    "ancestors": [],
+    "author": "rdesai724",
+    "body": "Oh market basket. How I miss her. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0021",
+   "comment_id": "t1_ohdl53k",
+   "model_view": "<post_title>What are your thoughts on Smorgasburg food market?</post_title>\n<post_body>Hi, I'll be visiting NYC next month, and I was wondering what the thoughts on Smorgasburg was?  How crowded does it get, are the prices somewhat within reason, and is the food actually decent?  Any  past favorite you recommend (or dislikes)?\n\nI've never really been to a food festival, and it looked fun to go to.</post_body>\n<comment_to_extract>\nI’m gonna be in the minority here and say that I would recommend checking it out for a couple reasons:\n\n— FoodNYC opinions tend to be pretty anti/super critical of tourist and hype places, I’d also keep in mind majority opinions tend to be those who live here \n\n— You’d be a tourist in this instance and have never been to a food market. While it’s great people are saying Queens Night Market is better I imagine you’ll more likely hit up the main tourist sites. I live downtown and still haven’t been to Queens Night Market since I personally deem it a trek so I wouldn’t recommend a tourist to go out of their way to go there (unless you happen to be in the area)\n\n— I’d take a look at the website and see which vendors you’d be interested in checking out and where they’ll show up. World Trade Center is super convenient if you’ll be checking out the sites there but I’m partial to the Williamsburg location since you can check out the area/neighborhood and there are gorgeous views of Manhattan across the water. This is of course dependent on weather.\n\n— Lots of people here are saying quality has gone down, it’s more pricey, etc. and while this may be true to those who are familiar with food festivals I still think Smogarsburg is worth visiting if you’re a tourist/out of town. Still a diverse variety of foods/cuisines and lots of vendors who have gone on to opening their own retail locations and restaurants (Noodle Lane, Birria LES, Hen House comes to mind) that most Redditors here can venture/enjoy but you wouldn’t have the opportunity to see in one place if not for a food festival experience. I personally LOVE the So Sarap stand in Williamsburg because I’m Filipino American and it satisfies my Filipino bbq craving — will also add that except for So Sarap that does pop ups, it’s really hard to get skewers like this since it’s meant to be cooked open fire/grill and the only comparisons I have that come to mind on where to find something similar is in Sunnyside Queens and in Baguio which is my mom’s hometown in the Philippines.\n\nTLDR: don’t listen to the haters and check it out if it interests you!\n</comment_to_extract>",
+   "context": {
+    "title": "What are your thoughts on Smorgasburg food market?",
+    "selftext": "Hi, I'll be visiting NYC next month, and I was wondering what the thoughts on Smorgasburg was?  How crowded does it get, are the prices somewhat within reason, and is the food actually decent?  Any  past favorite you recommend (or dislikes)?\n\nI've never really been to a food festival, and it looked fun to go to.",
+    "ancestors": [],
+    "author": "aspiring-green-thumb",
+    "body": "I’m gonna be in the minority here and say that I would recommend checking it out for a couple reasons:\n\n— FoodNYC opinions tend to be pretty anti/super critical of tourist and hype places, I’d also keep in mind majority opinions tend to be those who live here \n\n— You’d be a tourist in this instance and have never been to a food market. While it’s great people are saying Queens Night Market is better I imagine you’ll more likely hit up the main tourist sites. I live downtown and still haven’t been to Queens Night Market since I personally deem it a trek so I wouldn’t recommend a tourist to go out of their way to go there (unless you happen to be in the area)\n\n— I’d take a look at the website and see which vendors you’d be interested in checking out and where they’ll show up. World Trade Center is super convenient if you’ll be checking out the sites there but I’m partial to the Williamsburg location since you can check out the area/neighborhood and there are gorgeous views of Manhattan across the water. This is of course dependent on weather.\n\n— Lots of people here are saying quality has gone down, it’s more pricey, etc. and while this may be true to those who are familiar with food festivals I still think Smogarsburg is worth visiting if you’re a tourist/out of town. Still a diverse variety of foods/cuisines and lots of vendors who have gone on to opening their own retail locations and restaurants (Noodle Lane, Birria LES, Hen House comes to mind) that most Redditors here can venture/enjoy but you wouldn’t have the opportunity to see in one place if not for a food festival experience. I personally LOVE the So Sarap stand in Williamsburg because I’m Filipino American and it satisfies my Filipino bbq craving — will also add that except for So Sarap that does pop ups, it’s really hard to get skewers like this since it’s meant to be cooked open fire/grill and the only comparisons I have that come to mind on where to find something similar is in Sunnyside Queens and in Baguio which is my mom’s hometown in the Philippines.\n\nTLDR: don’t listen to the haters and check it out if it interests you!",
+    "replies": [
+     {
+      "author": "ohmosdefinitely",
+      "body": "spot on - no one should be telling this person to trek to queens night market as a substitute. \n\nOP, if your trip itinerary includes activities in those parts of BK on sat or sun, you should go check it out. if you find yourself trying to shoehorn it in, it's probably not worth sacrificing other plans just to make it to smorgasburg. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Smorgasburg",
+     "named_in": "context",
+     "kind": "food_hall",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "tourist fit",
+       "text": "Recommended for visitors and out-of-town tourists despite complaints about quality and price"
+      },
+      {
+       "about": "locations",
+       "text": "WTC location is convenient for sightseeing there; Williamsburg location has gorgeous views of Manhattan across the water, weather permitting"
+      },
+      {
+       "about": "vendors",
+       "text": "Diverse variety of foods and cuisines; some vendors went on to open their own restaurants"
+      },
+      {
+       "about": "critics",
+       "text": "Commenter says the quality decline and higher prices are true for food-festival regulars but still worth it for tourists"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "food market",
+      "food festival"
+     ]
+    },
+    {
+     "name": "So Sarap",
+     "named_in": "comment",
+     "kind": "market_stall",
+     "location": "Williamsburg",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "Filipino bbq skewers",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "rarity",
+       "text": "Hard to find skewers cooked over open fire elsewhere; commenter compares them to spots in Sunnyside Queens and Baguio"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "filipino",
+      "bbq",
+      "pop-up"
+     ]
+    },
+    {
+     "name": "Queens Night Market",
+     "named_in": "comment",
+     "kind": "food_hall",
+     "location": "Queens",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "trek",
+       "text": "Commenter has not been and finds it a trek from downtown; would not send a tourist out of their way unless already nearby"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "night market"
+     ]
+    },
+    {
+     "name": "Noodle Lane",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "origin",
+       "text": "Named as a former Smorgasburg vendor that opened its own restaurant"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Birria LES",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Lower East Side",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "origin",
+       "text": "Named as a former Smorgasburg vendor that opened its own restaurant"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "birria"
+     ]
+    },
+    {
+     "name": "Hen House",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "origin",
+       "text": "Named as a former Smorgasburg vendor that opened its own restaurant"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0022",
+   "comment_id": "t1_p7vrpc9",
+   "model_view": "<post_title>Red Hook Tavern: Burger Overhyped Steak Tartare Underhyped</post_title>\n<post_body>Finally got to walk into this place. Steak tartare was the standout, the crunchy bits + the steak + the egg + the bread hit every note it needed to and then more. The burger was huge + good, but for $34 why would you give us these soggy round fries…I thought it was a little overhyped.\n\nThis place and then a Steve’s Key Lime Pie run after was a really good combo on a summer night!</post_body>\n<comment_to_extract>\nHorrendous burger. The fries are also soggy af. One of my worst dining experiences in the city.\n</comment_to_extract>",
+   "context": {
+    "title": "Red Hook Tavern: Burger Overhyped Steak Tartare Underhyped",
+    "selftext": "Finally got to walk into this place. Steak tartare was the standout, the crunchy bits + the steak + the egg + the bread hit every note it needed to and then more. The burger was huge + good, but for $34 why would you give us these soggy round fries…I thought it was a little overhyped.\n\nThis place and then a Steve’s Key Lime Pie run after was a really good combo on a summer night!",
+    "ancestors": [],
+    "author": "RaisinFresh8364",
+    "body": "Horrendous burger. The fries are also soggy af. One of my worst dining experiences in the city. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Red Hook Tavern",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "fries",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "burger",
+      "tavern"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0023",
+   "comment_id": "t1_o5f3r42",
+   "model_view": "<post_title>Is Patsy’s or Totonno’s still good?</post_title>\n<post_body>I’ve been to a lot of the other original spots: John’s , joes, delucia in NJ, Grimaldi etc. wondering if it’s worth a hike to these two locations or if the quality has dropped.</post_body>\n<thread_above>\n[1] (a deleted comment)\n</thread_above>\n<comment_to_extract>\nTourist trap\n\nNot a pizzeria \n\nPatsys Pizzerias unrelated\n</comment_to_extract>",
+   "context": {
+    "title": "Is Patsy’s or Totonno’s still good?",
+    "selftext": "I’ve been to a lot of the other original spots: John’s , joes, delucia in NJ, Grimaldi etc. wondering if it’s worth a hike to these two locations or if the quality has dropped.  ",
+    "ancestors": [
+     {
+      "author": "[deleted]",
+      "body": "[removed]"
+     }
+    ],
+    "author": "Bigdaddyhef-365",
+    "body": "Tourist trap\n\nNot a pizzeria \n\nPatsys Pizzerias unrelated",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Patsys Pizzerias",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "not a real pizzeria",
+       "text": "commenter says it is not a pizzeria"
+      },
+      {
+       "about": "unrelated to original",
+       "text": "commenter says it is unrelated to the original Patsy's"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": true,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0024",
+   "comment_id": "t1_p68puys",
+   "model_view": "<post_title author=\"you\">For people who buy street food - not food carts or food trucks but things like cut fruit, churros, tamales, etc - if it's not a vendor you're familiar with, and if there isn't a line at the time you walk past, how do you decide who and when to buy from?</post_title>\n<post_body author=\"you\">I feel like a line is a pretty good indicator that it's gonna taste good, that there's high turnover (when applicable), and that hopefully, there's less risk of getting sick. But if you're walking past a random seller at a time when there is no line, how do you decide when to take a chance?</post_body>\n<thread_above>\n[1] another user: You really need to have a little more risk in your life lol Sometimes I am in the mood for fruit and I see somebody selling fruit so I buy fruit. Sometimes I want something hot and I see somebody selling something hot so I buy something hot. Sometimes I see somebody selling pastries and I buy a past ...\n[2] another user: \"there's no grand calculous\" is exactly it. I think with the advent of checking reddit for every last review or relying on social media to get recommendations we constantly outsource our decision making power. It's a crazy thing to say but it really does feel like we are losing the art of just....doing it. Saying this as i know i am guilty of checking reviews before doing x - but i've been becoming more aware of how i/we need to hit the brakes on it a bit\n</thread_above>\n<comment_to_extract>\nI'm not outsourcing to reddit for tamale lady reviews because I can't make a decision on my own. Has no one else in this thread ever gotten horrendous food poisoning before? I don't think it's unreasonable to ask about something that has a little more inherent risk than the average food purchase.\n</comment_to_extract>",
+   "context": {
+    "title": "For people who buy street food - not food carts or food trucks but things like cut fruit, churros, tamales, etc - if it's not a vendor you're  familiar with, and if there isn't a line at the time you walk past, how do you decide who and when to buy from?",
+    "selftext": "I feel like a line is a pretty good indicator that it's gonna taste good, that there's high turnover (when applicable), and that hopefully, there's less risk of getting sick. But if you're walking past a random seller at a time when there is no line, how do you decide when to take a chance?",
+    "ancestors": [
+     {
+      "author": "StinkyStangler",
+      "body": "You really need to have a little more risk in your life lol\n\nSometimes I am in the mood for fruit and I see somebody selling fruit so I buy fruit. Sometimes I want something hot and I see somebody selling something hot so I buy something hot. Sometimes I see somebody selling pastries and I buy a pastry.\n\nThere's no grand calculus, I'm just doing stuff"
+     },
+     {
+      "author": "Third_eye1017",
+      "body": "\"there's no grand calculous\" is exactly it. \n\nI think with the advent of checking reddit for every last review or relying on social media to get recommendations we constantly outsource our decision making power. It's a crazy thing to say but it really does feel like we are losing the art of just....doing it. Saying this as i know i am guilty of checking reviews before doing x - but i've been becoming more aware of how i/we need to hit the brakes on it a bit"
+     }
+    ],
+    "author": "jaded_toast",
+    "body": "I'm not outsourcing to reddit for tamale lady reviews because I can't make a decision on my own. Has no one else in this thread ever gotten horrendous food poisoning before? I don't think it's unreasonable to ask about something that has a little more inherent risk than the average food purchase.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0025",
+   "comment_id": "t1_ncgvxno",
+   "model_view": "<post_title>cheap place for bday dinner in nyc??</post_title>\n<post_body>Perhaps like less than $40/ per person. Italian or Mexican food. Somewhere that could take maybe ~15 people. Somewhere where you don’t pay upfront, you pay after so ppl can pay for what they have. Thank you!!</post_body>\n<comment_to_extract>\nLamella in little italy.  Cheap Italian food.  Great for groups.  \n\nIt's not the best food, but not the worst.  \n\nOther option is Carmines.  \n\nBoth can be family style.\n</comment_to_extract>",
+   "context": {
+    "title": "cheap place for bday dinner in nyc??",
+    "selftext": "Perhaps like less than $40/ per person. Italian or Mexican food. Somewhere that could take maybe ~15 people. Somewhere where you don’t pay upfront, you pay after so ppl can pay for what they have. Thank you!! ",
+    "ancestors": [],
+    "author": "False-Character-9238",
+    "body": "Lamella in little italy.  Cheap Italian food.  Great for groups.  \n\nIt's not the best food, but not the worst.  \n\nOther option is Carmines.  \n\nBoth can be family style.",
+    "replies": [
+     {
+      "author": "Krustycook",
+      "body": "Agree on Carmjne’s.  Either location can accommodate 15 easy"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Lamella",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Little Italy",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "group dining",
+       "text": "Great for groups"
+      },
+      {
+       "about": "family style",
+       "text": "Can be family style"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": "cheap",
+     "tags": [
+      "italian",
+      "family style",
+      "groups"
+     ]
+    },
+    {
+     "name": "Carmines",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "family style",
+       "text": "Can be family style"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian",
+      "family style"
+     ]
+    }
+   ]
+  }
+ ]
+}

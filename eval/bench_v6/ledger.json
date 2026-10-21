@@ -1,7 +1,7 @@
 {
- "budget": 4.0,
- "spent": 0.00069834,
- "calls": 2,
+ "budget": 7.0,
+ "spent": 4.31894785,
+ "calls": 7338,
  "estimated_calls": 0,
  "runs": {
   "claude-haiku-5-5__a15cfb978cce__comment__bench6-probe-medium_schema.jsonl": {
@@ -13,6 +13,67 @@
    "spent": 7.114e-05,
    "calls": 1,
    "estimated_calls": 0
+  },
+  "claude-haiku-5-5__a15cfb978cce__comment__bench6-med_schema.jsonl": {
+   "spent": 0.2277366,
+   "calls": 1006,
+   "estimated_calls": 0
+  },
+  "claude-haiku-5-5__0d75b20b5f83__comment__bench6-med.jsonl": {
+   "spent": 0.15390488,
+   "calls": 1006,
+   "estimated_calls": 0
+  },
+  "claude-haiku-5-5__44e1a49c7781__thread__bench6-med_schema.jsonl": {
+   "spent": 1.07644042,
+   "calls": 361,
+   "estimated_calls": 0
+  },
+  "claude-haiku-5-5__5b02ac883c80__thread__bench6-med.jsonl": {
+   "spent": 0.52296962,
+   "calls": 361,
+   "estimated_calls": 0
+  },
+  "claude-haiku-5-5__a15cfb978cce__comment__bench6-low_schema.jsonl": {
+   "spent": 0.17429088,
+   "calls": 1006,
+   "estimated_calls": 0
+  },
+  "claude-haiku-5-5__44e1a49c7781__thread__bench6-low_schema.jsonl": {
+   "spent": 0.88056947,
+   "calls": 361,
+   "estimated_calls": 0
+  },
+  "claude-haiku-5-5__44e1a49c7781__thread__bench6-med32k_schema.jsonl": {
+   "spent": 0.56203145,
+   "calls": 109,
+   "estimated_calls": 0
+  },
+  "claude-haiku-5-5__a15cfb978cce__comment__bench6-med16k_schema.jsonl": {
+   "spent": 0.01111625,
+   "calls": 6,
+   "estimated_calls": 0
+  },
+  "claude-haiku-5-5__1cb01c0721f4__comment__bench6-low-r2_schema.jsonl": {
+   "spent": 0.10392454,
+   "calls": 600,
+   "estimated_calls": 0
+  },
+  "claude-haiku-5-5__6b046d8ed65d__comment__bench6-low-r3_schema.jsonl": {
+   "spent": 0.14936447,
+   "calls": 600,
+   "estimated_calls": 0
+  },
+  "claude-haiku-5-5__979dcd6b9267__comment__bench6-low-r4_schema.jsonl": {
+   "spent": 0.18831936,
+   "calls": 960,
+   "estimated_calls": 0
+  },
+  "claude-haiku-5-5__979dcd6b9267__comment__bench6-med-r4_schema.jsonl": {
+   "spent": 0.2675816,
+   "calls": 960,
+   "estimated_calls": 0
   }
- }
+ },
+ "inflight": {}
 }

@@ -1,0 +1,1336 @@
+{
+ "packet": "p035",
+ "items": [
+  {
+   "item_id": "R0851",
+   "comment_id": "t1_k4p2ejz",
+   "model_view": "<post_title>Best Xiao Long Bao in Manhattan currently?</post_title>\n<post_body>Looking for as close as possible to Din Tai Fung (Taiwan locations only, LA was terrible, Japan was mediocre)\nLiked Joe Shanghai in the 90s, NanXiang before they moved to their larger new location but neither came close to the delicate thin yet sturdy skins.\n\nSome previous threads suggested Shanghai21 and the Bao. Planning to stay in Manhattan for a few nights for the first time in over a decade.</post_body>\n<comment_to_extract>\nNothing in the states is going to compare to DTF in Taiwan.\n</comment_to_extract>",
+   "context": {
+    "title": "Best Xiao Long Bao in Manhattan currently?",
+    "selftext": "Looking for as close as possible to Din Tai Fung (Taiwan locations only, LA was terrible, Japan was mediocre)\nLiked Joe Shanghai in the 90s, NanXiang before they moved to their larger new location but neither came close to the delicate thin yet sturdy skins.\n\nSome previous threads suggested Shanghai21 and the Bao. Planning to stay in Manhattan for a few nights for the first time in over a decade.",
+    "ancestors": [],
+    "author": "crazie88",
+    "body": "Nothing in the states is going to compare to DTF in Taiwan.",
+    "replies": [
+     {
+      "author": "iStealyournewspapers",
+      "body": "Are a lot of people DTF in Taiwan?"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0852",
+   "comment_id": "t1_liti6xq",
+   "model_view": "<post_title>Raku reservation ?</post_title>\n<post_body>Looking for a good restaurant for my boyfriend’s birthday in a couple weekends, is Raku easy to get into? I saw they don’t take reservations for their East village location. Is it ever a horrid wait? Thanks</post_body>\n<thread_above>\n[1] you, earlier: Walked into the Hells Kitchen Raku last night (Fri) @7:30 & my friend and I only had to wait 10 minutes or so to be seated. I had ordered a drink from the pastry shop so we could sit while waiting & I didn’t even finish it before our table was ready. That said, right after we were seated a the place ...\n[2] OP: Ty for this! I ended up getting a res. at the soho location. What do you recommend from there? It all looks so good\n</thread_above>\n<comment_to_extract>\nMy friend had the kaisen don that iirc is only at the HK location. I had the Kani Maze which was good but i just  didn't enjoy it as much as id hoped. I did enjoy the pork gyoza. Have a great dinner!\n</comment_to_extract>",
+   "context": {
+    "title": "Raku reservation ?",
+    "selftext": "Looking for a good restaurant for my boyfriend’s birthday in a couple weekends, is Raku easy to get into? I saw they don’t take reservations for their East village location. Is it ever a horrid wait? Thanks",
+    "ancestors": [
+     {
+      "author": "bk3day",
+      "body": "Walked into the Hells Kitchen Raku last night (Fri)  @7:30 & my friend and I only had to wait 10 minutes or so to be seated. I had ordered a drink from the pastry shop so we could sit while waiting & I didn’t even finish it before our table was ready. That said, right after we were seated a the place filled up with folks looking for a table."
+     },
+     {
+      "author": "VariousSea3503",
+      "body": "Ty for this! I ended up getting a res. at the soho location. What do you recommend from there? It all looks so good"
+     }
+    ],
+    "author": "bk3day",
+    "body": "My friend had the kaisen don that iirc is only at the HK location. I had the Kani Maze which was good but i just  didn't enjoy it as much as id hoped. I did enjoy the pork gyoza. Have a great dinner!",
+    "replies": [
+     {
+      "author": "VariousSea3503",
+      "body": "Ty!! The help is much appreciated. Excited to try it out x"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Raku",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Hell's Kitchen",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "kaisen don",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "Kani Maze",
+       "level": "neutral",
+       "avoid": false
+      },
+      {
+       "dish": "pork gyoza",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "kaisen don",
+       "text": "Said to be only at the Hell's Kitchen location (friend had it, no verdict given)"
+      }
+     ],
+     "aspects": {
+      "taste": "neutral",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "japanese"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0853",
+   "comment_id": "t1_p2nsf9a",
+   "model_view": "<post_title author=\"you\">Osteria La Baia almost tricked me with farmed reviews!</post_title>\n<post_body author=\"you\">In town for our anniversary, and did what I normally do, spent way too long looking at restaurants. Happened on La Baia on Google with 4.9/5 reviews. Made a reservation and was gonna be going tonight, we did keens last night and are doing le gigot tomorrow. BUT spidey sense kicked in when I couldn’t find anything about La Baia here. Went back and looked at the reviews, and there were like 10 new ones in the 30 minutes before I looked at them when I sorted by newest. They almost all mention the server by name and follow the same format. Went in further and most are like that. 6000+ reviews on google but not many on TA or other places. Anyway, PSA to anyone looking at it, the reviews are very much not real. No clue on the food, I said screw them and canceled. Gonna do Thai tonight instead!</post_body>\n<thread_above>\n[1] another user: Anything with a 4.7 or higher is extremely suspect\n</thread_above>\n<comment_to_extract>\nIt seems a LOT of places that do Thai, Korean, Japanese, etc non-standard American cuisine have 4.9 on 50-200 reviews. Those always satisfy, and the reviews are always valid. It may be that spice and flavor lacks in American classic foods so it’s easier to impress with average middle of the road south and East Asian foods that are spice heavy?\n</comment_to_extract>",
+   "context": {
+    "title": "Osteria La Baia almost tricked me with farmed reviews!",
+    "selftext": "In town for our anniversary, and did what I normally do, spent way too long looking at restaurants. Happened on La Baia on Google with 4.9/5 reviews. Made a reservation and was gonna be going tonight, we did keens last night and are doing le gigot tomorrow. BUT spidey sense kicked in when I couldn’t find anything about La Baia here. Went back and looked at the reviews, and there were like 10 new ones in the 30 minutes before I looked at them when I sorted by newest. They almost all mention the server by name and follow the same format. Went in further and most are like that. 6000+ reviews on google but not many on TA or other places. Anyway, PSA to anyone looking at it, the reviews are very much not real. No clue on the food, I said screw them and canceled. Gonna do Thai tonight instead!",
+    "ancestors": [
+     {
+      "author": "rr90013",
+      "body": "Anything with a 4.7 or higher is extremely suspect "
+     }
+    ],
+    "author": "somedudevt",
+    "body": "It seems a LOT of places that do Thai, Korean, Japanese, etc non-standard American cuisine have 4.9 on 50-200 reviews. Those always satisfy, and the reviews are always valid. It may be that spice and flavor lacks in American classic foods so it’s easier to impress with average middle of the road south and East Asian foods that are spice heavy? ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0854",
+   "comment_id": "t1_ofrt5m7",
+   "model_view": "<post_title>Gluten free/coeliac safe cafés in NYC - looking for recommendations</post_title>\n<post_body>Hi I will be visiting NYC for the first time and I have a gluten intolerance. \n\nI’m looking for cute coffee shops that serve gluten free food and coffee/matcha (which are not cross contaminated). Please help. 🙏🏻</post_body>\n<comment_to_extract>\nuva next door! can do almost anything gluten free celiac safe. gluten free pizza and pasta, plus it’s bomb af\n</comment_to_extract>",
+   "context": {
+    "title": "Gluten free/coeliac safe cafés in NYC - looking for recommendations",
+    "selftext": "Hi I will be visiting NYC for the first time and I have a gluten intolerance. \n\nI’m looking for cute coffee shops that serve gluten free food and coffee/matcha (which are not cross contaminated). Please help. 🙏🏻 ",
+    "ancestors": [],
+    "author": "weirdspiderr",
+    "body": "uva next door! can do almost anything gluten free celiac safe. gluten free pizza and pasta, plus it’s bomb af",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "uva",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "gluten free pizza",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "gluten free pasta",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "celiac safety",
+       "text": "can do almost anything gluten free and celiac safe"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "gluten free",
+      "celiac safe",
+      "pizza",
+      "pasta"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0855",
+   "comment_id": "t1_lyqv0nj",
+   "model_view": "<post_title>Visitor meals</post_title>\n<post_body>Ok where would you take a friend who grew up in NYC but has been living overseas in an Asian country? So prob not Chinese food. Any new places that are relatively unique?</post_body>\n<comment_to_extract>\nCampagnola is an old school New York Italian restaurant on the upper east side with a live piano player at night. It's fun for the entire family. \n\nKeens steakhouse or a different old school classic steakhouse like smith and willinski \n\nBarbounia if you like middle eastern food or HaSalon if you want a party (def look it up before you go because it's very fun but definitely a specific kind of fun where you get to dance on the tables but usually on the second shift).\n</comment_to_extract>",
+   "context": {
+    "title": "Visitor meals",
+    "selftext": "Ok where would you take a friend who grew up in NYC but has been living overseas in an Asian country? So prob not Chinese food. Any new places that are relatively unique? ",
+    "ancestors": [],
+    "author": "Mindless-Slide-755",
+    "body": "Campagnola is an old school New York Italian restaurant on the upper east side with a live piano player at night. It's fun for the entire family. \n\nKeens steakhouse or a different old school classic steakhouse like smith and willinski \n\nBarbounia if you like middle eastern food or HaSalon if you want a party (def look it up before you go because it's very fun but definitely a specific kind of fun where you get to dance on the tables but usually on the second shift).",
+    "replies": [
+     {
+      "author": "KindlyMaterial5672",
+      "body": "I would not bring a one year old (or a five year old) to  these places."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Campagnola",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Upper East Side",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "entertainment",
+       "text": "live piano player at night"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian",
+      "old school",
+      "live music",
+      "family friendly"
+     ]
+    },
+    {
+     "name": "Keens",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse",
+      "old school"
+     ]
+    },
+    {
+     "name": "smith and willinski",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse",
+      "old school"
+     ]
+    },
+    {
+     "name": "Barbounia",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "middle eastern"
+     ]
+    },
+    {
+     "name": "HaSalon",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "night out",
+       "text": "party atmosphere with dancing on tables, usually on the second shift; look it up before going"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "party",
+      "dancing",
+      "night out"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0856",
+   "comment_id": "t1_olcp8f9",
+   "model_view": "<post_title>I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?</post_title>\n<thread_above>\n[1] another user: Utopia Bagel’s country chicken salad on an everything bagel.\n</thread_above>\n<comment_to_extract>\nThis is my go to order for Utopia. I live down the block from them 😂\n</comment_to_extract>",
+   "context": {
+    "title": "I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "rjstang",
+      "body": "Utopia Bagel’s country chicken salad on an everything bagel. "
+     }
+    ],
+    "author": "Kooky_Comb6051",
+    "body": "This is my go to order for Utopia. I live down the block from them 😂",
+    "replies": [
+     {
+      "author": "rjstang",
+      "body": "Yes! I also enjoy the egg salad with bacon once and a while too. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Utopia Bagel",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "country chicken salad on an everything bagel",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "neighborhood",
+       "text": "commenter lives down the block"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagel",
+      "chicken salad sandwich"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0857",
+   "comment_id": "t1_kh03jfa",
+   "model_view": "<post_title>Semma for 1 - Worth it?</post_title>\n<post_body>For those who have been to Semma, do you think it would be worth it to go by yourself while still being able to try a few different items? Their menu seems to be more conducive to sharing with another person/larger group, so just curious if it might be a waste to go by yourself.\n\nThanks in advance!</post_body>\n<comment_to_extract>\nI went in a group of 6 and we shared everything. I think one person is fine. Realistically you can still eat the most important dishes, you're not missing THAT much. The dosa was the bomb. A lot of the appetizers were what was good.\n</comment_to_extract>",
+   "context": {
+    "title": "Semma for 1 - Worth it?",
+    "selftext": "For those who have been to Semma, do you think it would be worth it to go by yourself while still being able to try a few different items? Their menu seems to be more conducive to sharing with another person/larger group, so just curious if it might be a waste to go by yourself.\n\nThanks in advance!",
+    "ancestors": [],
+    "author": "Rindhallow",
+    "body": "I went in a group of 6 and we shared everything. I think one person is fine. Realistically you can still eat the most important dishes, you're not missing THAT much. The dosa was the bomb. A lot of the appetizers were what was good.",
+    "replies": [
+     {
+      "author": "Gas7248",
+      "body": "Thanks! What would you say are the most important dishes to try? Sounds like the gunpowder dosa is a must"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Semma",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "dosa",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "appetizers",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "group visit",
+       "text": "commenter went in a group of 6 and shared everything"
+      },
+      {
+       "about": "solo dining",
+       "text": "one person is fine; you can still eat the most important dishes"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "solo dining",
+      "sharing plates"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0858",
+   "comment_id": "t1_oa1rkgp",
+   "model_view": "<post_title>Visiting NYC tomorrow, best spicy fried chicken?</post_title>\n<post_body>I’ll be in NYC tomorrow for a concert at Irving Plaza and I’m trying to find the best spicy fried chicken in the city.\n\nI’m mainly looking for something really hot but also flavorful, ideally with super crispy peelable skin or a thick crunchy crust.\n\nBonus points if it’s within reasonable distance of Union Square since that’s where the venue is, but I’m willing to travel a little if it’s truly worth it. Any recs?</post_body>\n<thread_above>\n[1] another user: We honestly aren’t great at fried chicken, much less spicy fried chicken. Pecking house is probably the best for it, but don’t expect to be blown away. It’s good, but nothing I’d get excited over.\n[2] another user: Charles pan fried is absolutely top tier fried chicken. Wish they would make a spicy version\n[3] another user: Top for NY. But in the south, nobody would give them a second look.\n[4] another user: Idk why you're being down voted lol you're right\n</thread_above>\n<comment_to_extract>\nThey are being downvoted because it’s not helpful. OP isn’t going to travel to Louisiana for some friend chicken so why does it matter if other places do it better?\n</comment_to_extract>",
+   "context": {
+    "title": "Visiting NYC tomorrow, best spicy fried chicken?",
+    "selftext": "I’ll be in NYC tomorrow for a concert at Irving Plaza and I’m trying to find the best spicy fried chicken in the city.\n\nI’m mainly looking for something really hot but also flavorful, ideally with super crispy peelable skin or a thick crunchy crust.\n\nBonus points if it’s within reasonable distance of Union Square since that’s where the venue is, but I’m willing to travel a little if it’s truly worth it. Any recs?",
+    "ancestors": [
+     {
+      "author": "QuesoDelDiablos",
+      "body": "We honestly aren’t great at fried chicken, much less spicy fried chicken. Pecking house is probably the best for it, but don’t expect to be blown away. It’s good, but nothing I’d get excited over. "
+     },
+     {
+      "author": "Montauket",
+      "body": "Charles pan fried is absolutely top tier fried chicken. Wish they would make a spicy version"
+     },
+     {
+      "author": "QuesoDelDiablos",
+      "body": "Top for NY. But in the south, nobody would give them a second look. "
+     },
+     {
+      "author": "booklovertea",
+      "body": "Idk why you're being down voted lol you're right"
+     }
+    ],
+    "author": "king_escobar",
+    "body": "They are being downvoted because it’s not helpful. OP isn’t going to travel to Louisiana for some friend chicken so why does it matter if other places do it better?",
+    "replies": [
+     {
+      "author": "QuesoDelDiablos",
+      "body": "Or I’m being helpful in telling them not to get their hopes up for anything special. It’s just not a good town for it."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0859",
+   "comment_id": "t1_o257o2x",
+   "model_view": "<post_title>Weightloss veg orders in NYC</post_title>\n<post_body>I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.</post_body>\n<thread_above>\n[1] another user: how about some mabo/mapo tofu from Chinese takeout places? You can also get it with steamed brown rice (some places have it, some don't). That should suffice?\n</thread_above>\n<comment_to_extract>\nA lot of mapo tofu is made with pork. Not always of course but I believe it’s traditionally with pork. Plus it can be on the oily side\n</comment_to_extract>",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [
+     {
+      "author": "WindjammerX",
+      "body": "how about some mabo/mapo tofu from Chinese takeout places? You can also get it with steamed brown rice (some places have it, some don't). That should suffice?"
+     }
+    ],
+    "author": "_jyoo_",
+    "body": "A lot of mapo tofu is made with pork. Not always of course but I believe it’s traditionally with pork. Plus it can be on the oily side",
+    "replies": [
+     {
+      "author": "cute_polarbear",
+      "body": "Most places they can make it vegetarian / without pork."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0860",
+   "comment_id": "t1_o06sgso",
+   "model_view": "<post_title>Sit down Pizza Spot for Large Groups West Village/Soho ish</post_title>\n<post_body>We’re doing a pizza crawl in west village and soho (John’s, Mama’s L’Industrie, Ceres) and wanna finish off at a sit down place for a great pizza as a group. We may have ~14 people so would need someone that can take a big group\n\nWe are months out so time to get any res</post_body>\n<comment_to_extract>\nI like Dennino’s and it’s big and isn’t a tourist place.\n</comment_to_extract>",
+   "context": {
+    "title": "Sit down Pizza Spot for Large Groups West Village/Soho ish",
+    "selftext": "We’re doing a pizza crawl in west village and soho (John’s, Mama’s L’Industrie, Ceres) and wanna finish off at a sit down place for a great pizza as a group. We may have ~14 people so would need someone that can take a big group\n\nWe are months out so time to get any res",
+    "ancestors": [],
+    "author": "Johnnadawearsglasses",
+    "body": "I like Dennino’s and it’s big and isn’t a tourist place.",
+    "replies": [
+     {
+      "author": "whoismikebean",
+      "body": "awesome pizza right nearby to john’s joes etc — great call"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Dennino's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "group size",
+       "text": "big enough for a large group"
+      },
+      {
+       "about": "crowd",
+       "text": "not a tourist place"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "large groups"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0861",
+   "comment_id": "t1_ow7o96n",
+   "model_view": "<post_title>Need help finding Dinner spot for 16 in Manhattan below 59th street</post_title>\n<post_body>I know this is going to be tough, that’s why I’m here looking for help. We’re looking to do a sit down experience at a restaurant that either includes all of the alcohol and food for under 75 dollars a person or a BYOB place for under 60 dollars a person. Not particularly picky on the food but we’ve done San Marzano and kikoo before so don’t want to repeat spots.</post_body>\n<thread_above>\n[1] another user: That's a very tight budget for 16 people, I think your best bet is a Chinese restaurant such as Wus wonton king where you can byob and have a good meal for that budget. Congee village will have a full bar and private room within your budget.\n[2] you, earlier: I came to say Wu’s!\n[3] another user: Wu to the Young to the Wu!\n</thread_above>\n<comment_to_extract>\nIf you do go to Wu's and sit at a table with a lazy susan. Make sure to prop your camera up towards the guest and record a video while rotating it. Such a fun shot!\n</comment_to_extract>",
+   "context": {
+    "title": "Need help finding Dinner spot for 16 in Manhattan below 59th street",
+    "selftext": "I know this is going to be tough, that’s why I’m here looking for help. We’re looking to do a sit down experience at a restaurant that either includes all of the alcohol and food for under 75 dollars a person or a BYOB place for under 60 dollars a person. Not particularly picky on the food but we’ve done San Marzano and kikoo before so don’t want to repeat spots.",
+    "ancestors": [
+     {
+      "author": "Nucaw",
+      "body": "That's a very tight budget for 16 people, I think your best bet is a Chinese restaurant such as Wus wonton king where you can byob and have a good meal for that budget. Congee village will have a full bar and private room within your budget."
+     },
+     {
+      "author": "AlarmingLet5173",
+      "body": "I came to say Wu’s!"
+     },
+     {
+      "author": "Nucaw",
+      "body": "Wu to the Young to the Wu!"
+     }
+    ],
+    "author": "AlarmingLet5173",
+    "body": "If you do go to Wu's and sit at a table with a lazy susan. Make sure to prop your camera up towards the guest and record a video while rotating it. Such a fun shot!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Wu's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "seating tip",
+       "text": "Sit at a table with a lazy susan"
+      },
+      {
+       "about": "filming tip",
+       "text": "Prop the camera up toward the guest and record a video while rotating it"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0862",
+   "comment_id": "t1_jp1z9ht",
+   "model_view": "<post_title>Anyone know how to get a reservation at blue box cafe?</post_title>\n<post_body>I was in resy at 8:59-9:01 sharp and there was nothing under the blue box cafe or breakfast at Tiffany’s. Is it labeled differently? Want to try again tomorrow</post_body>\n<comment_to_extract>\nHi there! I’m selling my reservation for $200 for July 15th if you want it!\n</comment_to_extract>",
+   "context": {
+    "title": "Anyone know how to get a reservation at blue box cafe?",
+    "selftext": "I was in resy at 8:59-9:01 sharp and there was nothing under the blue box cafe or breakfast at Tiffany’s. Is it labeled differently? Want to try again tomorrow",
+    "ancestors": [],
+    "author": "DangerousAnswer3740",
+    "body": "Hi there! I’m selling my reservation for $200 for July 15th if you want it!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "blue box cafe",
+     "named_in": "context",
+     "kind": "cafe",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reservation resale",
+       "text": "commenter offers to sell a reservation for $200 on July 15th; a reservation offer is not a verdict"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "reservation"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0863",
+   "comment_id": "t1_ock1s1g",
+   "model_view": "<post_title>Mini dumpling buns in NYC?</post_title>\n<post_body>Are there any places in the city that do these type of dumplings other than din soup dumplings in brooklyn?  theyre my favorite but i cant find anywhere else that does them\n\nhttps://preview.redd.it/egtdatympuqg1.jpg?width=360&format=pjpg&auto=webp&s=72a3e0f79bb9ff0a4456f5e9717792f72005d4b3</post_body>\n<comment_to_extract>\nclosest store bought approximation if you pan dry :\n\nhttps://www.hmart.com/juicy-pork-vegetables-dumplings-21-2-oz--601g--1/p\n</comment_to_extract>",
+   "context": {
+    "title": "Mini dumpling buns in NYC?",
+    "selftext": "Are there any places in the city that do these type of dumplings other than din soup dumplings in brooklyn?  theyre my favorite but i cant find anywhere else that does them\n\nhttps://preview.redd.it/egtdatympuqg1.jpg?width=360&format=pjpg&auto=webp&s=72a3e0f79bb9ff0a4456f5e9717792f72005d4b3\n\n",
+    "ancestors": [],
+    "author": "amandabug",
+    "body": "closest store bought approximation if you pan dry :\n\nhttps://www.hmart.com/juicy-pork-vegetables-dumplings-21-2-oz--601g--1/p",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0864",
+   "comment_id": "t1_phfp8h8",
+   "model_view": "<post_title>Din Tai Fung was so underwhelming and is not worth the hype</post_title>\n<post_body>Ive heard AMAZING things about how AMAZING DTF is. After making plans, I’ve been excited to finally visit the restaurant all month. Every post I have ever seen about the restaurant is flooded with reviews about how “this specific food item is SOOOO amazing” or “this is the MOST DELICIOUS specific food item i’ve ever had.” Everyone has always hyped up the popular food items talking about how amazing and worth it and delicious it all is. \n\nLet me be what seems the first one to say my friend and I were EXTREMELY disappointed and underwhelmed. Now, let me clarify that none of the items we got were bad. Absolutely none of them. But, they were all just fine. The cucumber salad, the mini ribs, the green beans, were all exactly what you think they’d taste like. We also got the pork XLB and chicken wontons, and they were good. But thats the problem. At no point of this dinner were we in AWE, the way that everyone online always is about the same food items. \n\nAfter our average dinner, we were at least holding hope for the infamous chocolate dumplings, and they were good. That’s ALL. And this item seems like it is the most loved and gets the most praise in the world for being mouth-watering, ...</post_body>\n<comment_to_extract>\nI've gotten takeaway with my partner when we go back to [San Jose at the time] to visit their mother. It's so fine, just completely whatever. If it was half as expensive, it'd be great for the price. Instead it's terribly mid for the same cost as an entire boatload of dumplings from Vanessa's.\n</comment_to_extract>",
+   "context": {
+    "title": "Din Tai Fung was so underwhelming and is not worth the hype",
+    "selftext": "Ive heard AMAZING things about how AMAZING DTF is. After making plans, I’ve been excited to finally visit the restaurant all month. Every post I have ever seen about the restaurant is flooded with reviews about how “this specific food item is SOOOO amazing” or “this is the MOST DELICIOUS specific food item i’ve ever had.” Everyone has always hyped up the popular food items talking about how amazing and worth it and delicious it all is. \n\nLet me be what seems the first one to say my friend and I were EXTREMELY disappointed and underwhelmed. Now, let me clarify that none of the items we got were bad. Absolutely none of them. But, they were all just fine. The cucumber salad, the mini ribs, the green beans, were all exactly what you think they’d taste like. We also got the pork XLB and chicken wontons, and they were good. But thats the problem. At no point of this dinner were we in AWE, the way that everyone online always is about the same food items. \n\nAfter our average dinner, we were at least holding hope for the infamous chocolate dumplings, and they were good. That’s ALL. And this item seems like it is the most loved and gets the most praise in the world for being mouth-watering, delicious, amazing, life changing, etc. We thought they were good and it stops there (and i LOVEEEEE chocolate, but they were fine)\n\nIDK. my whole reason in this post is to find out, did anyone else have a similar experience? My WHOLE point is, none of the food was bad, it was all average. So considering the waitlist and the prices, my soup dumplings from trader joe’s taste just as good. ",
+    "ancestors": [],
+    "author": "traggedy_ann",
+    "body": "I've gotten takeaway with my partner when we go back to [San Jose at the time] to visit their mother. It's so fine, just completely whatever. If it was half as expensive, it'd be great for the price. Instead it's terribly mid for the same cost as an entire boatload of dumplings from Vanessa's.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Vanessa's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "dumplings",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "price comparison",
+       "text": "the cost of an entire boatload of dumplings from Vanessa's is compared with what the commenter paid for takeaway elsewhere"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "dumplings"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0865",
+   "comment_id": "t1_likac5u",
+   "model_view": "<post_title>Lucali's is so overrated and needs to be called out.</post_title>\n<post_body>First of all\n\n- John's of Bleecker street - Godly crust, Lucali's crust does not compare\n\n- Di Fara's - Just unique and perfect blend of crust + cheese + tomato sauce\n\n- L'Industrie Pizza - top tier dough with the best cheese to sauce ratio\n\nAre all objectively better. There are probably more but it might be subjective.\n\nLucali has very fresh ingredients and tastes great but their crust and dough is lacking, way too chewy and lacking flavor.\n\nAlso their ordering system is SOOO pretentious and ridiculous, more people need to call this out and this alone deducts points from their pizza.\n\nWhat's worse is that they shut down service ALL the time to cater to celebs. It would be fine if this was done once in a blue moon or off hours, but practically every week they shut down shop because some Celeb wants to drop by.\n\nRidiculous!</post_body>\n<thread_above>\n[1] another user: L’industrie is the real convo that needs to be had - most overrated of them all, I’ve had it multiple times and was never anything other than average pizza, there was nothing special. their popular slices make you question your sanity, bacon fig jam, trash & burrata slice makes you wonder why the hell its on the pizza.\n</thread_above>\n<comment_to_extract>\nSame, \n\nThe first bite is pretty good but over the meal, the oil slick gets overwhelming.\n</comment_to_extract>",
+   "context": {
+    "title": "Lucali's is so overrated and needs to be called out.",
+    "selftext": "First of all\n\n- John's of Bleecker street - Godly crust, Lucali's crust does not compare\n\n- Di Fara's - Just unique and perfect blend of crust + cheese + tomato sauce\n\n- L'Industrie Pizza - top tier dough with the best cheese to sauce ratio\n\nAre all objectively better. There are probably more but it might be subjective.\n\nLucali has very fresh ingredients and tastes great but their crust and dough is lacking, way too chewy and lacking flavor.\n\nAlso their ordering system is SOOO pretentious and ridiculous, more people need to call this out and this alone deducts points from their pizza.\n\nWhat's worse is that they shut down service ALL the time to cater to celebs. It would be fine if this was done once in a blue moon or off hours, but practically every week they shut down shop because some Celeb wants to drop by.\n\nRidiculous!",
+    "ancestors": [
+     {
+      "author": "bopdte",
+      "body": "L’industrie is the real convo that needs to be had - most overrated of them all, I’ve had it multiple times and was never anything other than average pizza, there was nothing special. their popular slices make you question your sanity, bacon fig jam, trash & burrata slice makes you wonder why the hell its on the pizza."
+     }
+    ],
+    "author": "JKBFree",
+    "body": "Same, \n\nThe first bite is pretty good but over the meal, the oil slick gets overwhelming.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "L'Industrie Pizza",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "oil",
+       "text": "first bite pretty good, but the oil slick gets overwhelming over the meal"
+      }
+     ],
+     "aspects": {
+      "taste": "neutral",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0866",
+   "comment_id": "t1_mtvh60a",
+   "model_view": "<post_title>We’ve lost the plot if these are considered best pancakes in the city</post_title>\n<post_body>Blueberry oat griddle cakes with granola\n📍Breakfast by Salts Cure\n\nThe crisp edges are tasty especially with salty contrast but no syrup and the middle part of the pile is so stodgy.\n\nI personally won’t being coming back for  these ever again 😬 I will always want to go to Cafe Luluc for pancakes</post_body>\n<comment_to_extract>\nThe original pancakes are great, any of the ones with toppings I haven’t been a fan of - it messes with the sweet maple syrup-y flavors the original one is infused with\n</comment_to_extract>",
+   "context": {
+    "title": "We’ve lost the plot if these are  considered best pancakes in the city",
+    "selftext": "Blueberry oat griddle cakes with granola\n📍Breakfast by Salts Cure\n\nThe crisp edges are tasty especially with salty contrast but no syrup and the middle part of the pile is so stodgy.\n\nI personally won’t being coming back for  these ever again 😬 I will always want to go to Cafe Luluc for pancakes ",
+    "ancestors": [],
+    "author": "frogtownrd",
+    "body": "The original pancakes are great, any of the ones with toppings I haven’t been a fan of - it messes with the sweet maple syrup-y flavors the original one is infused with",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Cafe Luluc",
+     "named_in": "context",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "original pancakes",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "pancakes with toppings",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "toppings",
+       "text": "toppings clash with the maple-syrup flavor of the original pancakes"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pancakes"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0867",
+   "comment_id": "t1_oiqb9di",
+   "model_view": "<post_title>\"Cincinnati Night\" at Edward's in Tribeca - my first taste of Skyline chili</post_title>\n<post_body>https://www.edwardsnyc.com/\n\n*(Note: if you don't like Skyline chili, fine, just don't shit up this thread with a dozen comments about how much you don't like it.)*\n\nEdward's is a casual eatery in Tribeca, and to be honest, I might never have set foot in there had I not heard about its monthly [Cincinnati Night](https://www.edwardsnyc.com/special-events-1).  This is held on the last Monday of every month, and as you can see from the website, it starts at 6:00 pm, with further seatings at 7:30 and 9:00.  I chanced a walk-in at 6 this evening and was not disappointed.  I was stoked, because I've seen photos of Skyline chili on the Internet for yeeears and I wanted to finally try the damn thing.\n\nCincinnati Night is apparently *very* popular--the place filled up fast and I saw many people eating from [the special menu](https://i.imgur.com/jORXgOI.jpg).  They do recommend reservations, and I imagine the later slots might be even busier.  I chose a cheese coney and a \"Four-Way\" with beans instead of onions.  I'd heard that this chili recipe included cinnamon, so I was a bit afraid that it would be overly sweet, but... I absolutely loved it.  Not overly sweet at all, lots of fun flavors ...</post_body>\n<comment_to_extract>\nBuy their canned chili and make it yourself. They aren’t making it in store.\n</comment_to_extract>",
+   "context": {
+    "title": "\"Cincinnati Night\" at Edward's in Tribeca - my first taste of Skyline chili",
+    "selftext": "https://www.edwardsnyc.com/\n\n*(Note: if you don't like Skyline chili, fine, just don't shit up this thread with a dozen comments about how much you don't like it.)*\n\nEdward's is a casual eatery in Tribeca, and to be honest, I might never have set foot in there had I not heard about its monthly [Cincinnati Night](https://www.edwardsnyc.com/special-events-1).  This is held on the last Monday of every month, and as you can see from the website, it starts at 6:00 pm, with further seatings at 7:30 and 9:00.  I chanced a walk-in at 6 this evening and was not disappointed.  I was stoked, because I've seen photos of Skyline chili on the Internet for yeeears and I wanted to finally try the damn thing.\n\nCincinnati Night is apparently *very* popular--the place filled up fast and I saw many people eating from [the special menu](https://i.imgur.com/jORXgOI.jpg).  They do recommend reservations, and I imagine the later slots might be even busier.  I chose a cheese coney and a \"Four-Way\" with beans instead of onions.  I'd heard that this chili recipe included cinnamon, so I was a bit afraid that it would be overly sweet, but... I absolutely loved it.  Not overly sweet at all, lots of fun flavors going on, maybe cloves, I don't know what all was in there but it didn't taste like any chili I'd ever had and I thought it was freaking delicious.  The proprietary Skyline hot sauce, which [had a few different peppers going on](https://i.imgur.com/7N3pFbi.jpg), worked very, very well with it.  I shouldn't have been surprised; after all, these are recipes that have had decades to be refined.  I do think Skyline chili works better as a hot dog topping than as a standalone dish, although I wouldn't turn down the Four-Way again if it were offered to me, and I was curious to repeat the experience with onions.\n\nNow, here's the thing.  You can see the prices from the menu, and truthfully, the portions are not big.  Since I had the coney first, I'd assumed that I'd be taking home some leftovers from the Four-Way, but I easily demolished both and felt satisfied (not stuffed) afterward.  You're paying a premium for (1) an unusual regional specialty that you literally can't get here except online and (2) what might be the only restaurant in the tri-state area that serves it.  And it's Tribeca.  In NYC.  So yeah, it is what it is.  I enjoyed Skyline chili enough to come back on another Cincinnati Night, although I'll be getting a few coneys instead of the plates.",
+    "ancestors": [],
+    "author": "BklynFuhgeddaboudit",
+    "body": "Buy their canned chili and make it yourself. They aren’t making it in store. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0868",
+   "comment_id": "t1_paar0f1",
+   "model_view": "<post_title>Court Street Grocers sister restaurant opening in Williamsburg</post_title>\n<post_body>The space has been vacant for a little while after Mekelburg’s closed earlier in the year. It’s a massive space on S3rd and Kent right across from Domino Park. Any ideas what they’re doing with it? I would love a spinoff of S&P!</post_body>\n<thread_above>\n[1] another user: Man I miss Mekelburgs (Clinton Hill location)\n[2] another user: It couldn’t make in our post beer-craze world. We didn’t know how good we had it with those $16 dollar sandwiches.\n</thread_above>\n<comment_to_extract>\ni knew how good we had it i was there weekly and i miss it so much. should have never leaned in to the delivery food stuff as much as they did\n</comment_to_extract>",
+   "context": {
+    "title": "Court Street Grocers sister restaurant opening in Williamsburg",
+    "selftext": "The space has been vacant for a little while after Mekelburg’s closed earlier in the year. It’s a massive space on S3rd and Kent right across from Domino Park. Any ideas what they’re doing with it? I would love a spinoff of S&P!",
+    "ancestors": [
+     {
+      "author": "Salty_Simmer_Sauce",
+      "body": "Man I miss Mekelburgs (Clinton Hill location) "
+     },
+     {
+      "author": "geneticswag",
+      "body": "It couldn’t make in our post beer-craze world. We didn’t know how good we had it with those $16 dollar sandwiches. "
+     }
+    ],
+    "author": "timetosucktodaysdick",
+    "body": "i knew how good we had it i was there weekly and i miss it so much. should have never leaned in to the delivery food stuff as much as they did",
+    "replies": [
+     {
+      "author": "geneticswag",
+      "body": "You have the menu and your autonomy. If you built legos you can make craft sandwiches with AI."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Mekelburg's",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Williamsburg (S 3rd and Kent)",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "delivery strategy",
+       "text": "Commenter thinks the place should not have leaned into delivery food so much; a business decision they second-guess, no level"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0869",
+   "comment_id": "t1_hlskybk",
+   "model_view": "<post_title>i've been to NYC multiple times now and have tried all of the \"must eats.\" what are local favorites?</post_title>\n<post_body>i'm from LA. i've tried most of the \"must eat\" restaurants in NYC, but i'm looking for the local places that you'll go to over and over again.\n\nwhat restaurant would you recommend to a friend that already lives in the city? what restaurant do you love but would never recommend to someone who is a first timer? what restaurant just blows your mind but you definitely don't see on other restaurant lists?\n\nmanhattan or brooklyn.</post_body>\n<thread_above>\n[1] another user: Soothr, Chama Mama, TabeTomo, The Bao, Bobwhite Counter, Foxface, Nami Nori, Scarr’s, Noodle village, Sao Mai, Desi Deli, Didi’s Dumplings, North Dumpling This list is all over the place food wise lmao but most places are around the East Village with a few exceptions\n[2] another user: Just discovered Chama Mama last week and holy shit is that place good.\n</thread_above>\n<comment_to_extract>\nTry Chito Grvito, my fave of the new Georgian spots opening up. Georgian food is so good.\n</comment_to_extract>",
+   "context": {
+    "title": "i've been to NYC multiple times now and have tried all of the \"must eats.\" what are local favorites?",
+    "selftext": "i'm from LA. i've tried most of the \"must eat\" restaurants in NYC, but i'm looking for the local places that you'll go to over and over again.\n\nwhat restaurant would you recommend to a friend that already lives in the city? what restaurant do you love but would never recommend to someone who is a first timer? what restaurant just blows your mind but you definitely don't see on other restaurant lists?\n\nmanhattan or brooklyn.",
+    "ancestors": [
+     {
+      "author": "DiscoBlunt",
+      "body": "Soothr, Chama Mama, TabeTomo, The Bao, Bobwhite Counter, Foxface, Nami Nori, Scarr’s, Noodle village, Sao Mai, Desi Deli, Didi’s Dumplings, North Dumpling\n\nThis list is all over the place food wise lmao but most places are around the East Village with a few exceptions"
+     },
+     {
+      "author": "mankiller27",
+      "body": "Just discovered Chama Mama last week and holy shit is that place good."
+     }
+    ],
+    "author": "nyckidd",
+    "body": "Try Chito Grvito, my fave of the new Georgian spots opening up. Georgian food is so good.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Chito Grvito",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "cuisine",
+       "text": "Georgian; one of the new Georgian spots opening up"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "georgian"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0870",
+   "comment_id": "t1_ml9equr",
+   "model_view": "<post_title>Speakeasy-ish bars in Chelsea for early cocktail</post_title>\n<post_body>Looking take some friends from London out tomorrow. We have dinner reservations but I would love to take them for cocktails around 5:30. Raines Law Room is on the short list but I have heard bad things about it. Wondering if there are any better options I’m unaware of. It doesn’t have to be a speakeasy as long as it has that “only in NYC” vibe</post_body>\n<comment_to_extract>\nI'm visiting for a few days and went to a spot called Do Not Disturb last night. https://www.dnd-nyc.com\n\nI thought it was really cool. Kind of place you could easily miss cos it's kind of hidden.\n</comment_to_extract>",
+   "context": {
+    "title": "Speakeasy-ish bars in Chelsea for early cocktail",
+    "selftext": "Looking take some friends from London out tomorrow. We have dinner reservations but I would love to take them for cocktails around 5:30. Raines Law Room is on the short list but I have heard bad things about it. Wondering if there are any better options I’m unaware of. It doesn’t have to be a speakeasy as long as it has that “only in NYC” vibe ",
+    "ancestors": [],
+    "author": "1066Woody",
+    "body": "I'm visiting for a few days and went to a spot called Do Not Disturb last night. https://www.dnd-nyc.com\n\nI thought it was really cool. Kind of place you could easily miss cos it's kind of hidden.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Do Not Disturb",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "hidden entrance",
+       "text": "easy to miss, hidden spot"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "speakeasy",
+      "cocktail bar",
+      "only in NYC vibe"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0871",
+   "comment_id": "t1_op85a71",
+   "model_view": "<post_title>Where can I find the best Spanish omelette/tortilla espagnola in NYC?</post_title>\n<post_body>I had never liked Spanish omelettes/tortilla espagnola until I went to Spain for vacation a few years back. There, I immediately fell in love them, and ordered them at every single tapas spot - it was an obsession. After returning from vacation, I could not find a single Spanish tortilla that I’ve liked. Everything tasted bland, over cooked, lacking in depth of flavor (or any flavor, or seasoning). The best ones here are still not great (I lived in California before and had no luck there either).\n\nSo, I’m humbly turning to you Reddit. Where do I go to find an authentic tortilla espagnola in NYC?</post_body>\n<thread_above>\n[1] another user: It’s either Bocqueria or Ernesto’s. They def scratch the itch for me but they don’t hit like Spanish tortillas do in Spain for me personally.\n</thread_above>\n<comment_to_extract>\nErnesto’s for sure! That place is great.\n</comment_to_extract>",
+   "context": {
+    "title": "Where can I find the best Spanish omelette/tortilla espagnola in NYC?",
+    "selftext": "I had never liked Spanish omelettes/tortilla espagnola until I went to Spain for vacation a few years back. There, I immediately fell in love them, and ordered them at every single tapas spot - it was an obsession. After returning from vacation, I could not find a single Spanish tortilla that I’ve liked. Everything tasted bland, over cooked, lacking in depth of flavor (or any flavor, or seasoning). The best ones here are still not great (I lived in California before and had no luck there either).\n\nSo, I’m humbly turning to you Reddit. Where do I go to find an authentic tortilla espagnola in NYC?",
+    "ancestors": [
+     {
+      "author": "Kooky_Comb6051",
+      "body": "It’s either Bocqueria or Ernesto’s. They def scratch the itch for me but they don’t hit like Spanish tortillas do in Spain for me personally."
+     }
+    ],
+    "author": "squalor1929",
+    "body": "Ernesto’s for sure! That place is great. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Ernesto's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "tortilla espagnola",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "spanish",
+      "tapas"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0872",
+   "comment_id": "t1_khixyvj",
+   "model_view": "<post_title author=\"you\">What would it take to fix restaurant week?</post_title>\n<post_body author=\"you\">[This](https://www.reddit.com/r/FoodNYC/s/J6YFZP2czZ) post made start pondering the question. \n\nFix it so that guests see value and restaurant owners are able to earn more money during a slow season (which makes me wonder if maybe it’s no longer useful because there no longer are any slow seasons like there once were.)</post_body>\n<thread_above>\n[1] another user: It’s for tourists and also more of a marketing promotion. it’s really only effective if people return again\n</thread_above>\n<comment_to_extract>\nThat’s far from how it started though. \n\nBut like I said in the original post, times changed\n</comment_to_extract>",
+   "context": {
+    "title": "What would it take to fix restaurant week?",
+    "selftext": "[This](https://www.reddit.com/r/FoodNYC/s/J6YFZP2czZ) post made start pondering the question. \n\nFix it so that guests see value and restaurant owners are able to earn more money during a slow season (which makes me wonder if maybe it’s no longer useful because there no longer are any slow seasons like there once were.)",
+    "ancestors": [
+     {
+      "author": "dinopuppy6",
+      "body": "It’s for tourists and also more of a marketing promotion. it’s really only effective if people return again"
+     }
+    ],
+    "author": "MarketMan123",
+    "body": "That’s far from how it started though. \n\nBut like I said in the original post, times changed",
+    "replies": [
+     {
+      "author": "dinopuppy6",
+      "body": "it was created for the 1992 dnc. It was more of a favor for politically connected people who came to nyc for the convention, but its overall purpose hasn’t changed; it was to use a single meal as a loss leader in hope that people returned to nyc and that specific restaurant. \nThe main issue of it is that too many restaurants are involved in it. also the quality of restaurants, whether actual or perceived."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0873",
+   "comment_id": "t1_ouqghtl",
+   "model_view": "<post_title>I found Roaches cooked into my food at 888 Hudson Thai - be careful - they refuse to refund</post_title>\n<comment_to_extract>\nAbsolutely disgusting. How could they see this and not for you your money back?\n</comment_to_extract>",
+   "context": {
+    "title": "I found Roaches cooked into my food at 888 Hudson Thai - be careful - they refuse to refund",
+    "selftext": "",
+    "ancestors": [],
+    "author": "PenumbralLure",
+    "body": "Absolutely disgusting. How could they see this and not for you your money back? ",
+    "replies": [
+     {
+      "author": "Seatac_SFO_LAX",
+      "body": "The Uber Eats robot does not seem to recognize what is happening. They can only offer me a 50% refund lol. When I called the restaurant directly I was told if I didn’t write a review I could get a refund which is truly crazy. \n\nUber response: \n\n“Hi [legal name], \n\nThanks for getting back to us.\n\nWe hope you’ll understand that for us to be fair to all Eaters, we have to be consistent. This means that we're unable to make an exception and cannot offer a full refund on this order.\n\nWe appreciate your patience and understanding here.”"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "888 Hudson Thai",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "888 Hudson",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "refund refused",
+       "text": "the restaurant refused to refund the diner after roaches were found in the food"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "thai"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0874",
+   "comment_id": "t1_ouois96",
+   "model_view": "<post_title author=\"you\">I found Roaches cooked into my food at 888 Hudson Thai - be careful - they refuse to refund</post_title>\n<thread_above>\n[1] another user: 311 health complaint\n</thread_above>\n<comment_to_extract>\nI did. They said they cannot investigate for up to 36 days. I’m unsure why.\n</comment_to_extract>",
+   "context": {
+    "title": "I found Roaches cooked into my food at 888 Hudson Thai - be careful - they refuse to refund",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "allMightyMostHigh",
+      "body": "311 health complaint "
+     }
+    ],
+    "author": "Seatac_SFO_LAX",
+    "body": "I did. They said they cannot investigate for up to 36 days. I’m unsure why.",
+    "replies": [
+     {
+      "author": "Scrapple_Joe",
+      "body": "40 day roach permit "
+     },
+     {
+      "author": "Jon-Umber",
+      "body": "Roaches paid their rent for the month. City can't legally evict them"
+     },
+     {
+      "author": "Concentric_Mid",
+      "body": "I'm so sorry to hear about this. It's insane. I am sure you feel grossed out. I hope you can get over it. I think it is really strange that both Google reviews and 311 are not taking this seriously. Thanks for sharing with the community here. \n\nConsider bypassing 311 and look for a health department contact. Consider reaching out to a local news outlet. Yes, it feels like you're attacking someone trying to run a business BUT there's a reason the health department has a grading level. I call bs on 36 day thing.\n\nGood luck. And again, sorry. "
+     },
+     {
+      "author": "GtGem",
+      "body": "Send it to the local news channel. 7 on your side would probably be happy to investigate for you "
+     },
+     {
+      "author": "SalvationSycamore",
+      "body": "If I know health inspectors then it's probably because there are so few in the region that they literally have nobody available for a month. "
+     },
+     {
+      "author": "DifferentSquirrel551",
+      "body": "Same reason why we have to wait 30 days to impeach. "
+     },
+     {
+      "author": "mezasu123",
+      "body": "Not enough employees to go check all the things probably"
+     },
+     {
+      "author": "Nunya_B1zness",
+      "body": "That’s probably just the delay time because the intake unit has to review all complaints. I’m guessing this one is not considered life threatening, because those complaints have a 2 day turnaround time "
+     },
+     {
+      "author": "AnnieBakerStan",
+      "body": "FWIW, every 311 employee has their own specific style. Sometimes you call, the person says that given their system and rules, there’s nothing they can do to help. then you hang up and immediately call 311 again, and the person is like “ok, here are several things I’m going to do to try to resolve this.” I expect if you call back, whether the person can do something or not, they will have no idea what you’re talking about when you mention the 36 day thing"
+     },
+     {
+      "author": "Main-Length-6385",
+      "body": "Genuinely worried for the state of the department of health. My friend has gotten food poisoning like 5 times in the last year from eating at various places around the city. I think a lot of restaurants are much dirtier than we would like to believe. "
+     },
+     {
+      "author": "confused_grenadille",
+      "body": "36 days in a city of 8 million makes no damn sense"
+     },
+     {
+      "author": "ddianka",
+      "body": "Contact the health department, and report this. They will get a surprise inspection and if they are infested they can get potentially shut down. "
+     },
+     {
+      "author": "ouroborosstruggles",
+      "body": "WHAT lol do they live here? So they just letting complaints sit while people eat roaches and get food poisoning oh hell no"
+     },
+     {
+      "author": "CaptainObvee",
+      "body": "That’s when the bribe money runs out "
+     },
+     {
+      "author": "octoreadit",
+      "body": "They know, lol, here is my advice, even grade A can have issues, anything below, including \"Grade Pending\" is a gamble...\n\n[Rated B](https://a816-health.nyc.gov/ABCEatsRestaurants/#!/Search/50132389), last inspection in 2025 found:\n\n|1) |Hot TCS food item not held at or above 140 °F.|\n|:-|:-|\n\n\n|2) |Evidence of rats or live rats in establishment's food or non-food areas.|\n|:-|:-|\n\n\n|3) |Establishment is not free of harborage or conditions conducive to rodents, insects or other pests.|\n|:-|:-|\n\n\n|4) |Non-food contact surface or equipment made of unacceptable material, not kept clean, or not properly sealed, raised, spaced or movable to allow accessibility for cleaning on all sides, above and underneath the unit.|\n|:-|:-|"
+     },
+     {
+      "author": "silencerdude",
+      "body": "[https://support.google.com/business/contact/business\\_redressal\\_form](https://support.google.com/business/contact/business_redressal_form)"
+     },
+     {
+      "author": "CAPTAINFREEMVN",
+      "body": "????????"
+     },
+     {
+      "author": "vodkamakesmemouthy",
+      "body": "Roach squatters. They can’t be evicted."
+     },
+     {
+      "author": "Watching-Judging",
+      "body": "I submitted the complaint for you. SR NUMBER 311-280xxxxx (has my personal information).  I’ve eaten here before and I’ll be damned.  "
+     },
+     {
+      "author": "Far_Estate_1626",
+      "body": "Probably because of a previous health code infraction that they need to wait to follow up on, in order to make sure that they solved the issue or not. "
+     },
+     {
+      "author": "Fia_Aoi",
+      "body": "Probably because a bunch of social services got funding cut."
+     },
+     {
+      "author": "PrincessPlastilina",
+      "body": "Keep all evidence. Don’t throw away receipts. "
+     },
+     {
+      "author": "PandaJ108",
+      "body": "Could be a backlogged of complaints/staffing issues. But they will follow up. "
+     },
+     {
+      "author": "Old_Month_4993",
+      "body": "Looks like they just got inspected on July 7. With a lot of points. \n\n [https://a816-health.nyc.gov/ABCEatsRestaurants/#!/Search/50132389](https://a816-health.nyc.gov/ABCEatsRestaurants/#!/Search/50132389)"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "888 Hudson Thai",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Hudson",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "311 complaint",
+       "text": "Commenter filed a 311 complaint; the health department said it cannot investigate for up to 36 days"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0875",
+   "comment_id": "t1_p7lwbu7",
+   "model_view": "<post_title>Finally went to 4 Charles: Im appalled. Anyone else?</post_title>\n<post_body>Finally made it to 4 Charles last night. Girlfriend could not go so I was dining solo. Now.. the food really was phenomenal, but I was literally put on a gurney and carted out of the restaurant. I am so embarrassed and need to know who else had this experience??\n\nStarted out with the King Crab. I went with the 3/4lb because the missus wasn't there. Ugh this was great but just felt like a bit much. \n\nNext, was trying to keep it light so I did the Smoked Salmon Caesar. This was really a highlight.. that smoked salmon is so good. \n\nObviously, its 4 Charles so I had to do the prime rib. I couldn't decide between doing the roast or sandwich - so I did both. One King Cut and One Sandwich. And you know I also got the burger.. had to do bacon and an egg. Simply put: delectable. \n\nAfter I put this down though I was already started to feel a little full. Weird, but whatever..\n\nI followed this up with 2 sides of the bacon because it was just so good. And then for dessert? Lemon Meringue Pie & the Sundae. I just couldn't decide! \n\nPost dessert I was looking over the menu when it hit me, I was really full. Like, really really full. I almost felt sick. I couldn't even get up! I paid my check and ...</post_body>\n<comment_to_extract>\nyou must have an appetite like John Cena to be able to eat all that!\n</comment_to_extract>",
+   "context": {
+    "title": "Finally went to 4 Charles: Im appalled. Anyone else?",
+    "selftext": "Finally made it to 4 Charles last night. Girlfriend could not go so I was dining solo. Now.. the food really was phenomenal, but I was literally put on a gurney and carted out of the restaurant. I am so embarrassed and need to know who else had this experience??\n\nStarted out with the King Crab. I went with the 3/4lb because the missus wasn't there. Ugh this was great but just felt like a bit much. \n\nNext, was trying to keep it light so I did the Smoked Salmon Caesar. This was really a highlight.. that smoked salmon is so good. \n\nObviously, its 4 Charles so I had to do the prime rib. I couldn't decide between doing the roast or sandwich - so I did both. One King Cut and One Sandwich. And you know I also got the burger.. had to do bacon and an egg. Simply put: delectable. \n\nAfter I put this down though I was already started to feel a little full. Weird, but whatever..\n\nI followed this up with 2 sides of the bacon because it was just so good. And then for dessert? Lemon Meringue Pie & the Sundae. I just couldn't decide! \n\nPost dessert I was looking over the menu when it hit me, I was really full. Like, really really full. I almost felt sick. I couldn't even get up! I paid my check and discreetly told the waiters about my problem and they brought a gurney out of the back and carted me out!! I could not believe it. \n\nObviously other people must have experienced something like this before?? I cannot believe how heavy their food is. Like.. it is just too rich or something. Why is it so popular when you literally can't walk after eating?? \n\n",
+    "ancestors": [],
+    "author": "MiBallzesHari",
+    "body": "you must have an appetite like John Cena to be able to eat all that!",
+    "replies": []
+   },
+   "shown": []
+  }
+ ]
+}

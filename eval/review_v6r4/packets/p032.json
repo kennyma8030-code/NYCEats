@@ -1,0 +1,1722 @@
+{
+ "packet": "p032",
+ "items": [
+  {
+   "item_id": "R0776",
+   "comment_id": "t1_nkagudu",
+   "model_view": "<post_title>Best tocino around?</post_title>\n<post_body>Had it in the Philippines several years and it was my favorite breakfast of all time. Looking for some here at home — with a nice runny fried egg included. Props if it's in Brooklyn but of course the entire city is fair game. Thanks!</post_body>\n<comment_to_extract>\nI like Cafe Pri which is a Filipino owned cafe with locations in Ridgewood, though imo it's more of a drop by in the neighborhood type place, I also saw Patok by Rach opened at Dekalb Market but have only tried their food as popup vendors\n\nBut your best bet is head to Woodside and take your pick, I would start with Ihawan, Renee's, Kalye bistro, Tito Rad's, plenty of Filipino food there\n</comment_to_extract>",
+   "context": {
+    "title": "Best tocino around?",
+    "selftext": "Had it in the Philippines several years and it was my favorite breakfast of all time. Looking for some here at home — with a nice runny fried egg included. Props if it's in Brooklyn but of course the entire city is fair game. Thanks!",
+    "ancestors": [],
+    "author": "air-",
+    "body": "I like Cafe Pri which is a Filipino owned cafe with locations in Ridgewood, though imo it's more of a drop by in the neighborhood type place, I also saw Patok by Rach opened at Dekalb Market but have only tried their food as popup vendors\n\nBut your best bet is head to Woodside and take your pick, I would start with Ihawan, Renee's, Kalye bistro, Tito Rad's, plenty of Filipino food there",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Cafe Pri",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "Ridgewood",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "vibe",
+       "text": "More of a drop-by neighborhood spot, per the commenter"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "filipino"
+     ]
+    },
+    {
+     "name": "Patok by Rach",
+     "named_in": "comment",
+     "kind": "market_stall",
+     "location": "Dekalb Market",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "status",
+       "text": "Opened at Dekalb Market; commenter has only tried its food as a popup vendor"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": "opened",
+     "price": null,
+     "tags": [
+      "filipino"
+     ]
+    },
+    {
+     "name": "Ihawan",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Woodside",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "pick",
+       "text": "Named as a starting point among Woodside Filipino spots"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "filipino"
+     ]
+    },
+    {
+     "name": "Renee's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Woodside",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "pick",
+       "text": "Named as a starting point among Woodside Filipino spots"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "filipino"
+     ]
+    },
+    {
+     "name": "Kalye bistro",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Woodside",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "pick",
+       "text": "Named as a starting point among Woodside Filipino spots"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "filipino"
+     ]
+    },
+    {
+     "name": "Tito Rad's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Woodside",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "pick",
+       "text": "Named as a starting point among Woodside Filipino spots"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "filipino"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0777",
+   "comment_id": "t1_owln6y9",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n[1] another user: People are just doing it themselves more\n[2] OP: I care more about their vegan soft serve\n</thread_above>\n<comment_to_extract>\nThats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     }
+    ],
+    "author": "SpongeyBobaruu",
+    "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!",
+    "replies": [
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "Actually, I'm not vegan at all, but I enjoy the taste of their freezes"
+     },
+     {
+      "author": "mycateatstoenails",
+      "body": "vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb. "
+     },
+     {
+      "author": "FoodNYC-ModTeam",
+      "body": "No hate, flamewars, rude comments, etc"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0778",
+   "comment_id": "t1_o256pyx",
+   "model_view": "<post_title>Weightloss veg orders in NYC</post_title>\n<post_body>I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.</post_body>\n<thread_above>\n[1] another user: Westville is good for healthy and filling meals to help LOSE weight\n</thread_above>\n<comment_to_extract>\nEh, I like westville and order from them quite a bit, but seems like their food is really on the oily side. I love trying all their market sides but I don't think in general I would call their menu healthy.\n</comment_to_extract>",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [
+     {
+      "author": "Sirnando138",
+      "body": "Westville is good for healthy and filling meals to help LOSE weight"
+     }
+    ],
+    "author": "pstut",
+    "body": "Eh, I like westville and order from them quite a bit, but seems like their food is really on the oily side. I love trying all their market sides but I don't think in general I would call their menu healthy.",
+    "replies": [
+     {
+      "author": "AdministrationOk3820",
+      "body": "I agree. The quality of the food is like suburban diners in the 1990’s"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Westville",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "market sides",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "oily food",
+       "text": "Food is really on the oily side, not healthy in general"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "healthy",
+      "market sides"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0779",
+   "comment_id": "t1_owmbvpo",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n(2 earlier comments not shown)\n[1] another user: Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off.... Vegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan. You dont see the Jain monks eating tofurkey. They eat food that is naturally vegan ...\n[2] another user: vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb.\n[3] another user: It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions ma ...\n[4] you, earlier: Get off your soap box. There are traditional meat substitutes around the world, like mock meats and mock fish that are a part of Chinese Buddhist cuisine. Who gives a fuck if people call an oat beverage \"oat milk\"? So vegans are not allowed to say \"vegan cheese\", but having to say \"vegan cheese subs ...\n[5] another user: First off, McNuggets with their honey is bomb. Its far from chicken though lol. To say again...my main problem is the marketing around it and this weird sense of pretending to be a meat eater. Veggie burgers are fine...why eat that factory made ImpossibleBurger? Its just so bizarre. Eat lentils. Eat eggplant. Eat quinoa. Wtf is imitation burgers?\n</thread_above>\n<comment_to_extract>\nIt doesn't affect you, so why do you care so much? People always complain about vegans trying to sanctimoniously trying to convert others, but I have never heard any vegan/vegetarians speak with the antagonism of the average meat eater speaks about plant-based diets - like you.\n\nIf someone wants to eat impossible instead of lentils or eggplant, who gives a fuck? Let them live their lives. You don't like it, then don't eat it. Again, it literally doesn't affect you what other people want to eat.\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!"
+     },
+     {
+      "author": "mycateatstoenails",
+      "body": "vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb. "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\"  Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it.\n\nRespectfully, a chef."
+     },
+     {
+      "author": "jaded_toast",
+      "body": "Get off your soap box. There are traditional meat substitutes around the world, like mock meats and mock fish that are a part of Chinese Buddhist cuisine. Who gives a fuck if people call an oat beverage \"oat milk\"? So vegans are not allowed to say \"vegan cheese\", but having to say \"vegan cheese substitute\" would be fine?\n\nYou're a purist with food, but you're ok with the nugget-shaped pink slime McDonalds sells is allowed to be called chicken??\n\nWhen did being a chef make you the police of what people call things that it sounds like you don't even eat. "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "First off, McNuggets with their honey is bomb. Its far from chicken though lol.\n\nTo say again...my main problem is the marketing around it and this weird sense of pretending to be a meat eater. Veggie burgers are fine...why eat that factory made ImpossibleBurger? Its just so bizarre. Eat lentils. Eat eggplant. Eat quinoa. Wtf is imitation burgers? "
+     }
+    ],
+    "author": "jaded_toast",
+    "body": "It doesn't affect you, so why do you care so much? People always complain about vegans trying to sanctimoniously trying to convert others, but I have never heard any vegan/vegetarians speak with the antagonism of the average meat eater speaks about plant-based diets - like you.\n\nIf someone wants to eat impossible instead of lentils or eggplant, who gives a fuck? Let them live their lives. You don't like it, then don't eat it. Again, it literally doesn't affect you what other people want to eat.",
+    "replies": [
+     {
+      "author": "SpongeyBobaruu",
+      "body": "It does though. My sister in law is vegan. My aunt is vegan. Its exhausting getting a \"do you even know the conditions the animals live in?\" Like holy shit....i dont care. Bacon is delicious. Plant based bacon is not bacon."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0780",
+   "comment_id": "t1_n73je67",
+   "model_view": "<post_title>Taqueria Ramirez - good, but far from great... my thoughts. (people seemed to like my Salt Hanks post and I really enjoy posting about food!)</post_title>\n<post_body>i have yet to find an elite taco spot in nyc. i made the trip to taqueria ramirez very recently and was disappointed compared to the hype. not only is it $5 per taco - but I thought the al pastor was lacking flavor. the sauces were fine and the onions and cilantro were fresh. the tortilla was solid but again, didnt blow me away. I havent been to los tacos no.1 in a minute but maybe I need to give it another shot.\n\nobviously a different style, but nenes in bushwick still reigns supreme on the taco leaderboard for me. absolutely incredible birria tacos. the best tacos ive ever had in my life come from tijuana, naples florida, and san diego! \n\ncurious what everyone else thinks about taqueria ramirez - maybe im mising something!</post_body>\n<thread_above>\n[1] another user: Have you tried Carnitas Ramirez? It's better imo.\n</thread_above>\n<comment_to_extract>\nWay better imo. Love los tacos, love carnitas. Not into taqueria but I need to go back\n</comment_to_extract>",
+   "context": {
+    "title": "Taqueria Ramirez - good, but far from great... my thoughts. (people seemed to like my Salt Hanks post and I really enjoy posting about food!)",
+    "selftext": "i have yet to find an elite taco spot in nyc. i made the trip to taqueria ramirez very recently and was disappointed compared to the hype. not only is it $5 per taco - but I thought the al pastor was lacking flavor. the sauces were fine and the onions and cilantro were fresh. the tortilla was solid but again, didnt blow me away. I havent been to los tacos no.1 in a minute but maybe I need to give it another shot.\n\nobviously a different style, but nenes in bushwick still reigns supreme on the taco leaderboard for me. absolutely incredible birria tacos. the best tacos ive ever had in my life come from tijuana, naples florida, and san diego! \n\ncurious what everyone else thinks about taqueria ramirez - maybe im mising something!    ",
+    "ancestors": [
+     {
+      "author": "sunechidna1",
+      "body": "Have you tried Carnitas Ramirez? It's better imo."
+     }
+    ],
+    "author": "maxwellde",
+    "body": "Way better imo. Love los tacos, love carnitas. Not into taqueria but I need to go back",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Carnitas Ramirez",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Taqueria Ramirez",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "los tacos",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0781",
+   "comment_id": "t1_oo5dnbd",
+   "model_view": "<post_title>Best halal cart in NYC that is not Adel’s or Mido’s?</post_title>\n<post_body>I had Adel’s and it’s for sure my #1, but not worth the line. Mido’s felt like a bootleg Adel’s to me so I didn’t really enjoy it too much since I was just comparing it to Adel’s the whole time. Is there any other halal cart in NYC that is worth the travel? And I’m talking about packed with flavor, color, superb white sauce, etc.</post_body>\n<comment_to_extract>\ncheck out the one on 46th and 6th, heard it's bomb and way less of a wait than the usual spots. white sauce game strong too lol\n</comment_to_extract>",
+   "context": {
+    "title": "Best halal cart in NYC that is not Adel’s or Mido’s?",
+    "selftext": "I had Adel’s and it’s for sure my #1, but not worth the line. Mido’s felt like a bootleg Adel’s to me so I didn’t really enjoy it too much since I was just comparing it to Adel’s the whole time. Is there any other halal cart in NYC that is worth the travel? And I’m talking about packed with flavor, color, superb white sauce, etc.",
+    "ancestors": [],
+    "author": "Extension-Respond289",
+    "body": "check out the one on 46th and 6th, heard it's bomb and way less of a wait than the usual spots. white sauce game strong too lol",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "the one on 46th and 6th",
+     "named_in": "comment",
+     "kind": "truck_or_cart",
+     "location": "46th and 6th",
+     "experience": "secondhand",
+     "dishes": [
+      {
+       "dish": "white sauce",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "wait",
+       "text": "heard less of a wait than the usual spots"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "halal",
+      "cart"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0782",
+   "comment_id": "t1_olo4yxm",
+   "model_view": "<post_title>I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?</post_title>\n<comment_to_extract>\nThe smoked chicken salad at Foster Sundry in Bushwick\n</comment_to_extract>",
+   "context": {
+    "title": "I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "poopship462",
+    "body": "The smoked chicken salad at Foster Sundry in Bushwick ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Foster Sundry",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": "Bushwick",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "smoked chicken salad",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwich"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0783",
+   "comment_id": "t1_p64kpir",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<thread_above>\n[1] another user: It’s very good. My only issue with a slice is it’s SO big, so much. I generally prefer a nice thin slice. I know they have a reg slice but that’s not their main draw\n</thread_above>\n<comment_to_extract>\nBe drawn in by what you like! Their round pies are excellent too\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "KazaamFan",
+      "body": "It’s very good. My only issue with a slice is it’s SO big, so much. I generally prefer a nice thin slice. I know they have a reg slice but that’s not their main draw"
+     }
+    ],
+    "author": "halermine",
+    "body": "Be drawn in by what you like! Their round pies are excellent too ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "round pies",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0784",
+   "comment_id": "t1_mta1ks6",
+   "model_view": "<post_title>As someone with a huge sweet tooth, which bakeries do you recommend for a first-timer?</post_title>\n<post_body>Will be arriving in Time Square, New York this August. Wanted to know which famous bakeries offer the best pastries (particularly cookies and cupcakes, but please give me more suggestions!).</post_body>\n<comment_to_extract>\nRed Gate, Culture Espresso, Janie's and Jacques Torres for cookies.\n\nVeneiro's for cake.\n</comment_to_extract>",
+   "context": {
+    "title": "As someone with a huge sweet tooth, which bakeries do you recommend for a first-timer?",
+    "selftext": "Will be arriving in Time Square, New York this August. Wanted to know which famous bakeries offer the best pastries (particularly cookies and cupcakes, but please give me more suggestions!).",
+    "ancestors": [],
+    "author": "riseandshine234",
+    "body": "Red Gate, Culture Espresso, Janie's and Jacques Torres for cookies.\n\nVeneiro's for cake.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Red Gate",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cookies",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cookies"
+     ]
+    },
+    {
+     "name": "Culture Espresso",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cookies",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cookies"
+     ]
+    },
+    {
+     "name": "Janie's",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cookies",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cookies"
+     ]
+    },
+    {
+     "name": "Jacques Torres",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cookies",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cookies"
+     ]
+    },
+    {
+     "name": "Veneiro's",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cake",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cake"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0785",
+   "comment_id": "t1_mf0qgkz",
+   "model_view": "<post_title>Best Cookies in New York City</post_title>\n<post_body>Wanted to ask what was everyone's favorite cookie spot in New York. Mine is Culture Espresso. They have two spots in midtown west or near 36th street west side. They have the best chocolate chip cookies in the city. 10x better than insomnia (which they made smaller and crappier once they grew larger), 10x better than crumbl, which is just sugar on top of sugar with weak taste, and a lot better than levain (just heavy brownie called cookie). Trust me. Get a culture espresso cookie and tell me these are the best chocolate chip cookies in New York City, and possibly one of the best in the city.\n\nhttps://preview.redd.it/sedaxdnswjle1.png?width=225&format=png&auto=webp&s=2cb2396819683f64c49fbcd03943f8f3974c6c46</post_body>\n<thread_above>\n[1] you, earlier: I am kind of a chocolate chip cookie psycho. I've read/made basically every meaningfully significant recipe under the son. For a couple of months during college I was baking a batch of cookies a day tweaking every single variable. The cookie that inspired me to start doing this was: Jacques Torres. ...\n[2] another user: What’s your best cookie recipe? Looking for something that’s soft on the inside but has a crispy buttery bottom. Lots of caramel flavor. If you have specific brands for ingredients please share.\n[3] you, earlier: I have a recipe I like personally. But I think it depends what you like! I always ask people to describe their favorite cookie before I make them one and I tailor the recipe to their tastes. Based on what you describe there are two ways I would go about it. 1. Bon Appetit's Toffee Chocolate Chip Coo ...\n[4] another user: Thanks for the suggestion. I’m going to make one this weekend. Prob the bon appetite one unless you tell me number 2 is your favorite. If not, let me have it. What’s your favorite recipe and what’s the difference in how they come out between that and the other 2.\n</thread_above>\n<comment_to_extract>\nMy personal favorite is the Bon Appetit Recipe the only change is:  \n  \n180g AP King Arthur Flour. 70g King Arthur Bread Flour.\n\nI like a thin cookie. Not a lot of bakeries cater to that. Variations in Dark Brown Sugar (whether it be molasses content or measuring) means sometimes the Bon appetit cookie can come out a little dark and a little thin. Bread flour gives it more structure. This will hit the sweet spot of thin, crispy, yet still chewy without being a soft-baked or veg oil cookie.\n</comment_to_extract>",
+   "context": {
+    "title": "Best Cookies in New York City",
+    "selftext": "Wanted to ask what was everyone's favorite cookie spot in New York. Mine is Culture Espresso. They have two spots in midtown west or near 36th street west side. They have the best chocolate chip cookies in the city. 10x better than insomnia (which they made smaller and crappier once they grew larger), 10x better than crumbl, which is just sugar on top of sugar with weak taste, and a lot better than levain (just heavy brownie called cookie). Trust me. Get a culture espresso cookie and tell me these are the best chocolate chip cookies in New York City, and possibly one of the best in the city.\n\nhttps://preview.redd.it/sedaxdnswjle1.png?width=225&format=png&auto=webp&s=2cb2396819683f64c49fbcd03943f8f3974c6c46\n\n",
+    "ancestors": [
+     {
+      "author": "Embarrassed_Cod8120",
+      "body": "I am kind of a chocolate chip cookie psycho. I've read/made basically every meaningfully significant recipe under the son.   \n  \nFor a couple of months during college I was baking a batch of cookies a day tweaking every single variable.   \n  \nThe cookie that inspired me to start doing this was: Jacques Torres. I was obsessed with recreating it and once I did I just kept going. Still enjoy their cookie. Their cookie mix is still good and it is literally the same as their publically available recipe.\n\nMy favorite USED TO BE: Mah-Ze-Dahr. Boy oh boy how have their cookies have fallen.   \n  \nPre-pandemic. They used to have nicely browned, delightfully chewy, chocolate chip cookies. They were excellent, not too thick like crumbl, chip city, or levain, not too wide large but still crispy. For a while, if you came in the afternoon, they were sold out. Because they were that good. Year over year I have watched as their cookies have slowly gotten worse. Every time I have gone in the past 2 years that have looked worse than the last. The last time I went, (11 days ago for my birthday), they were DISGUSTING. Pale, did not seem fully baked, STALE. No clue what has happened. I don't know if the staff just does not know how to bake them anymore or if they've made a change in their dough. All their other pastries are FINE. But man, I saw they were selling their dough and 4 years ago I would have JUMPED at the chance to examine their dough. Cookie was too bad for me to even consider it. /end rant\n\nSchmackery's is solid never had a problem with them. Laduree in SoHo has a good cookie but it's inconsistent. Chip City THINs are actually, to me, much better than their normal cookies (cheaper too). Jacques Torres still my favorite. Dominique's is okay, its HEAVY on the butter. Tastes better than it looks.  I'll be honest, I think Levain and Milk Bar are trash cookies. I think back of the bag tollhouse is a better recipe.\n\nNever had Culture Espresso, will give it a try! Didn't know Radio Bakery had cookies, too busy buying their focaccia. \n\nTo be honest, the floor on cookies is really high, but the ceiling isn't. I've had chocolate chip cookies from a couple of Michelin star restaurants and they were EXCELLENT but there's really no secrets. Good butter, good chocolate, good vanilla. The sugar, flour, eggs, and extras are all just chemistry."
+     },
+     {
+      "author": "R-O-U-Ssdontexist",
+      "body": "What’s your best cookie recipe? Looking for something that’s soft on the inside but has a crispy buttery bottom. Lots of caramel flavor.\n\nIf you have specific brands for ingredients please share."
+     },
+     {
+      "author": "Embarrassed_Cod8120",
+      "body": "I have a recipe I like personally. But I think it depends what you like! I always ask people to describe their favorite cookie before I make them one and I tailor the recipe to their tastes. Based on what you describe there are two ways I would go about it.\n\n1. Bon Appetit's Toffee Chocolate Chip Cookie recipe will get you very close. One of my favorites (although I don't follow them very much anymore. Very crisp bottom, the dark brown sugar and brown butter means theyll stay soft for days. HOWEVER, they can be a bit thin. Their sugar/flour ratio is pretty high. Standard cookies are 300g sugar to 300g flour. Theirs is 300g sugar to 250g flour. If they're too out their for you I'd up the flour or do an AP and Bread flour split.\n\n2. This I made for the office this week. Classic cream together wet. Then add dry ingredients.  \nWET  \n2 sticks brown butter (melted, dont cook the eggs with the heat of the butter)  \n100g white sugar  \n100g light brown sugar  \n75g dark brown sugar  \n2 tablespoons milk powder (add in with sugar)  \n1 tablespoon light corn syrup (add in with sugar)  \n1 egg  \n2 egg yolk  \n1 tsp vanilla\n\nDRY  \n1 teaspoon baking soda  \n1 teaspoon baking powder  \n3/4 tsp salt (this assumes you're using normal salt, diamond crystal kosher use 1tsp)  \n300g flour  \n40-60% chocolate depending on your preference (I like the Guittard 48% baking wafers)  \nFlaky Salt on the cookies before putting in the oven\n\n375. 8-10 minutes.\n\nAge for at least a day for improved flavor.\n\nThe milk powder + corn syrup interacts in a really interesting way with the brown butter that makes them super butterscotch caramely...I could go on...press your dough gently into the pan so it makes contact and spreads the same way every time...somebody stop me..."
+     },
+     {
+      "author": "R-O-U-Ssdontexist",
+      "body": "Thanks for the suggestion. I’m going to make one this weekend. Prob the bon appetite one unless you tell me number 2 is your favorite. \n\nIf not, let me have it. What’s your favorite recipe and what’s the difference in how they come out between that and the other 2."
+     }
+    ],
+    "author": "Embarrassed_Cod8120",
+    "body": "My personal favorite is the Bon Appetit Recipe the only change is:  \n  \n180g AP King Arthur Flour. 70g King Arthur Bread Flour.\n\nI like a thin cookie. Not a lot of bakeries cater to that. Variations in Dark Brown Sugar (whether it be molasses content or measuring) means sometimes the Bon appetit cookie can come out a little dark and a little thin. Bread flour gives it more structure. This will hit the sweet spot of thin, crispy, yet still chewy without being a soft-baked or veg oil cookie.",
+    "replies": [
+     {
+      "author": "R-O-U-Ssdontexist",
+      "body": "lol; you certainly know your chocolate chip cookies. It would be cool to open a store just serving chocolate chip cookies; where customers describe what they want and you guide them to THEIR perfect cookie. I think it could work in NYC. Let me know if you need an investor/business partner.\n\nAt the very least it could be a class that i bet people would take particularly if you taught them what was causing the differences and maybe had a som prepare the perfect wine and cocktail for chocolate chip cookies. \n\nIt could work as a book/science instruction guide on how to experiment with making different types of cookies. \n\nLet me know if you want to try out the class; I can get a small group of friends together but all the stuff and try to find a kitchen or someone to host. You could just come up with the curriculum/lesson plan."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0786",
+   "comment_id": "t1_nin65d8",
+   "model_view": "<post_title>heading off to new york and looking for restaurant recommendations!! were staying 6 min walk away from times square so nottoo far</post_title>\n<thread_above>\n[1] another user: Sbarro’s\n</thread_above>\n<comment_to_extract>\nAnd Olive Garden!!\n</comment_to_extract>",
+   "context": {
+    "title": "heading off to new york and looking for restaurant recommendations!! were staying 6 min walk away from times square so nottoo far",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "JeanCerise",
+      "body": "Sbarro’s"
+     }
+    ],
+    "author": "Tuilere",
+    "body": "And Olive Garden!!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sbarro",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Times Square",
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0787",
+   "comment_id": "t1_ox5h50u",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n[1] another user: Killed by proteinmaxing\n[2] another user: Bro everything is protein now. They even got protein soda...like wtf?\n</thread_above>\n<comment_to_extract>\nIt’s probably mirroring the increase of GLP-1s. You need to be consuming a decent amount of protein while on it. Also fiber, which is why there are more and more foods and snack brands are upping their fiber marketing game.\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "walkingthecowww",
+      "body": "Killed by proteinmaxing"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Bro everything is protein now. They even got protein soda...like wtf? "
+     }
+    ],
+    "author": "PresentBasic3279",
+    "body": "It’s probably mirroring the increase of GLP-1s. You need to be consuming a decent amount of protein while on it. Also fiber, which is why there are more and more foods and snack brands are upping their fiber marketing game. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0788",
+   "comment_id": "t1_oro51m1",
+   "model_view": "<post_title>Best deli pickles in NYC (preferably near manhattan)</post_title>\n<post_body>Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!</post_body>\n<comment_to_extract>\nsaw this pickle pop up shop yesterday\n\nhttps://www.nycforfree.co/events/grillos-pickles-pop-up\n</comment_to_extract>",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [],
+    "author": "deadassstho",
+    "body": "saw this pickle pop up shop yesterday\n\nhttps://www.nycforfree.co/events/grillos-pickles-pop-up",
+    "replies": [
+     {
+      "author": "MapleDust33",
+      "body": "I have to say I love Grillos pickles!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Grillo's Pickles",
+     "named_in": "comment",
+     "kind": "market_stall",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "pop-up",
+       "text": "commenter saw a pop-up of the pickle shop; shared an event link"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pickles",
+      "pop-up"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0789",
+   "comment_id": "t1_nleiqbh",
+   "model_view": "<post_title author=\"you\">A Brit's first time</post_title>\n<post_body author=\"you\">Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.</post_body>\n<thread_above>\n[1] another user: >Also, if you've got any suggestions of must-do experiences whilst in the city for the first time What do you like? There's no one-size-fits all itinerary.\n</thread_above>\n<comment_to_extract>\nGood point! Obviously want to see the sights so I've booked us on a bus tour of downtown. Also booked a walking tour of Central Park. When we visit London, we like to look at street art around Shoreditch so I'm looking for something similar. Any suggestions of museums or galleries would be good. Or anything off the beaten path. As a Manhatten, how do you enjoy the city?\n</comment_to_extract>",
+   "context": {
+    "title": "A Brit's first time",
+    "selftext": "Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.",
+    "ancestors": [
+     {
+      "author": "president_of_burundi",
+      "body": ">Also, if you've got any suggestions of must-do experiences whilst in the city for the first time\n\nWhat do you like?  There's no one-size-fits all itinerary."
+     }
+    ],
+    "author": "snakesandladders212",
+    "body": "Good point! Obviously want to see the sights so I've booked us on a bus tour of downtown. Also booked a walking tour of Central Park. When we visit London, we like to look at street art around Shoreditch so I'm looking for something similar. Any suggestions of museums or galleries would be good. Or anything off the beaten path. As a Manhatten, how do you enjoy the city?",
+    "replies": [
+     {
+      "author": "president_of_burundi",
+      "body": ">As a Manhatten, how do you enjoy the city?\n\nInherently differently than someone that's only here for a short time. Honestly one of the great joys of helping out people visiting is that they're seeing it through different eyes. \n\nAnd all that sounds great! But like, it's still hard to recommend things without knowing what you like. If you like trains the Transit Museum is amazing. Planes? The Intrepid. Grave Art? Greenwood is stunning. Medieval art and history? The Cloisters. What are your interests and hobbies and we (or the other NYC travel subs) can give you much better advice."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0790",
+   "comment_id": "t1_oumb0bo",
+   "model_view": "<post_title>My girlfriend found at least 3 different roach bodies in her dish at 888 Hudson Thai uptown and just wanted to warn everyone else as it may signal a deeper issue</post_title>\n<post_body>I'd suggest not rolling the dice there. She's on the phone with the inspector. Anyone else know of any other places like this? I wonder if this is like a step up from Jacob's pickles because she used to love that place too but I guess she just has a lot of bad luck</post_body>\n<thread_above>\n[1] another user: Hi. I would like to unsee this please.\n[2] OP: Just eat with the lights off and ignore the gritty texture between your teeth and remember to floss the roach legs from the crevices of your teeth. Luckily they're not cockroaches and luckily at least the food is seasoned well.\n[3] another user: Ever since I was a kid my mom instilled in me never to eat in the dark because you need to be able to see your food. She even told a couple of stories, about people accidentally eating gross stuff in the dark, that I’m pretty sure were urban legends.\n</thread_above>\n<comment_to_extract>\nMy dad's buddy grilled a steak at a campfire once, at night ,and let it sit for a while next to him. When he took a bit he remarked how spicy the sauce is because he felt tingling in his mouth. turns out the steakbgot covered in ants while it was sitting next to him :)\n</comment_to_extract>",
+   "context": {
+    "title": "My girlfriend found at least 3 different roach bodies in her dish at 888 Hudson Thai uptown and just wanted to warn everyone else as it may signal a deeper issue",
+    "selftext": "I'd suggest not rolling the dice there. She's on the phone with the inspector. Anyone else know of any other places like this? I wonder if this is like a step up from Jacob's pickles because she used to love that place too but I guess she just has a lot of bad luck ",
+    "ancestors": [
+     {
+      "author": "iluvplanes208",
+      "body": "Hi. I would like to unsee this please. "
+     },
+     {
+      "author": "ImLearningStuffIHope",
+      "body": "Just eat with the lights off and ignore the gritty texture between your teeth and remember to floss the roach legs from the crevices of your teeth. Luckily they're not cockroaches and luckily at least the food is seasoned well. "
+     },
+     {
+      "author": "KickBallFever",
+      "body": "Ever since I was a kid my mom instilled in me never to eat in the dark because you need to be able to see your food. She even told a couple of stories, about people accidentally eating gross stuff in the dark, that I’m pretty sure were urban legends. "
+     }
+    ],
+    "author": "syringistic",
+    "body": "My dad's buddy grilled a steak at a campfire once, at night ,and let it sit for a while next to him. When he took a bit he remarked how spicy the sauce is because he felt tingling in his mouth. turns out the steakbgot covered in ants while it was sitting next to him :)",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0791",
+   "comment_id": "t1_nxw2fgf",
+   "model_view": "<post_title>Non-pork ramen styles like tsukemen, mazemen/mazesoba, etc? Or other authentic bowls?</post_title>\n<post_body>Hi all! I've looked through a bunch of threads about ramen and have a little list of places to try for chicken-based bowls, but I'd really love to try some of the other styles out there besides just tori paitan. Anyone know any leads for this stuff? I'm not AGAINST vegetarian/vegan versions, but I have had some pretty disappointing veggie based ramens so I am a bit hesitant unless you think there's a real standout!\n\nPlaces on my list already:\n\n- Ivan's ramen\n- Toribro\n- Menkoi sato\n- Okiboru</post_body>\n<comment_to_extract>\nMazemen:\n\n- Shuya\n- Susuru Ramen\n- Okonomi / Yuji Ramen\n- Kajiken\n\nTsukemen:\n\n- Ramen Ishida Chelsea\n- Shuya\n\nStandout vegetarian ramen:\n\n- Tabetomo\n- Shuya\n- Susuru\n- Ramen Ishida\n- Karazishi Botan\n\nNote that Menkoi Sato is temporarily closed for now.\n</comment_to_extract>",
+   "context": {
+    "title": "Non-pork ramen styles like tsukemen, mazemen/mazesoba, etc? Or other authentic bowls?",
+    "selftext": "Hi all! I've looked through a bunch of threads about ramen and have a little list of places to try for chicken-based bowls, but I'd really love to try some of the other styles out there besides just tori paitan. Anyone know any leads for this stuff? I'm not AGAINST vegetarian/vegan versions, but I have had some pretty disappointing veggie based ramens so I am a bit hesitant unless you think there's a real standout!\n\nPlaces on my list already:\n\n- Ivan's ramen\n- Toribro\n- Menkoi sato\n- Okiboru",
+    "ancestors": [],
+    "author": "justflipping",
+    "body": "Mazemen:\n\n- Shuya\n- Susuru Ramen\n- Okonomi / Yuji Ramen\n- Kajiken\n\nTsukemen:\n\n- Ramen Ishida Chelsea\n- Shuya\n\nStandout vegetarian ramen:\n\n- Tabetomo\n- Shuya\n- Susuru\n- Ramen Ishida\n- Karazishi Botan\n\nNote that Menkoi Sato is temporarily closed for now.",
+    "replies": [
+     {
+      "author": "Livid-Ad9682",
+      "body": "Nakamura is still there but Slurpeak closed--I went sometime towards the end of the year just before the end. They gave me one of their home/instant boxes. Seems like he's shifting his business focus to that?"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Shuya",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "mazemen",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "tsukemen",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "mazemen",
+      "tsukemen",
+      "vegetarian"
+     ]
+    },
+    {
+     "name": "Susuru Ramen",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "mazemen",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "mazemen",
+      "vegetarian"
+     ]
+    },
+    {
+     "name": "Okonomi / Yuji Ramen",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "mazemen",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "mazemen"
+     ]
+    },
+    {
+     "name": "Kajiken",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "mazemen",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "mazemen"
+     ]
+    },
+    {
+     "name": "Ramen Ishida Chelsea",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Chelsea",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "tsukemen",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tsukemen",
+      "vegetarian"
+     ]
+    },
+    {
+     "name": "Tabetomo",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "vegetarian"
+     ]
+    },
+    {
+     "name": "Karazishi Botan",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "vegetarian"
+     ]
+    },
+    {
+     "name": "Menkoi Sato",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "temporary closure",
+       "text": "temporarily closed for now"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ramen"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0792",
+   "comment_id": "t1_obiye2l",
+   "model_view": "<post_title author=\"you\">red hook tavern dinner walk in - how early would I have to be to get a seat?</post_title>\n<post_body author=\"you\">I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?</post_body>\n<thread_above>\n[1] another user: If you have the ability to do so, go on a Thursday for lunch. The menu is the same and when I showed up at 2pm, I was seated immediately.\n[2] you, earlier: We’ve decided to go for lunch today\n[3] another user: Good luck, lemme know how it goes\n</thread_above>\n<comment_to_extract>\nHad to wait about an hour, but we did it!\n</comment_to_extract>",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [
+     {
+      "author": "DoritosDewItRight",
+      "body": "If you have the ability to do so, go on a Thursday for lunch. The menu is the same and when I showed up at 2pm, I was seated immediately."
+     },
+     {
+      "author": "lucas_214",
+      "body": "We’ve decided to go for lunch today"
+     },
+     {
+      "author": "DoritosDewItRight",
+      "body": "Good luck, lemme know how it goes"
+     }
+    ],
+    "author": "lucas_214",
+    "body": "Had to wait about an hour, but we did it! ",
+    "replies": [
+     {
+      "author": "DoritosDewItRight",
+      "body": "Was it worth the wait?"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Red Hook Tavern",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "wait",
+       "text": "waited about an hour for a seat"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "walk-in",
+      "dinner"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0793",
+   "comment_id": "t1_ogcr192",
+   "model_view": "<post_title>Rowdy Rooster in the East Village has closed for good it seems.</post_title>\n<post_body>Can't see it mentioned here but just noticed the sign has been replaced with one for a Filipino sandwich place.\n\nIt's unfortunate what happened to that place - when it opened it was probably the best chicken sandwich I'd ever had, every spice level had different blends and the chicken and flavor was excellent.\n\nThey just kept changing the menu, toning it down, making it less spicy and lowering the quality of the ingredients. Now I guess they're doing something completely different, maybe related to Naks? Wonder how long the Midtown one will last.</post_body>\n<comment_to_extract>\nI'm not surprised. The sandwiches were way too spicy to the point of being inedible when they first opened. Unapologetic Foods for some reason is selling the public the idea that Indian cuisine has to be ungodly spicy for it be \"authentic\".\n</comment_to_extract>",
+   "context": {
+    "title": "Rowdy Rooster in the East Village has closed for good it seems.",
+    "selftext": "Can't see it mentioned here but just noticed the sign has been replaced with one for a Filipino sandwich place.\n\nIt's unfortunate what happened to that place - when it opened it was probably the best chicken sandwich I'd ever had, every spice level had different blends and the chicken and flavor was excellent.\n\nThey just kept changing the menu, toning it down, making it less spicy and lowering the quality of the ingredients. Now I guess they're doing something completely different, maybe related to Naks? Wonder how long the Midtown one will last.",
+    "ancestors": [],
+    "author": "Acceptable-Ratio-219",
+    "body": "I'm not surprised. The sandwiches were way too spicy to the point of being inedible when they first opened. Unapologetic Foods for some reason is selling the public the idea that Indian cuisine has to be ungodly spicy for it be \"authentic\".",
+    "replies": [
+     {
+      "author": "Red__dead",
+      "body": "Too spicy for the NYU crowd, maybe."
+     },
+     {
+      "author": "TheLogicError",
+      "body": "Have multiple indian friends that love it. Also they have different spice levels, did you go in and order the hottest and then complain about it being too hot? "
+     },
+     {
+      "author": "Kooker321",
+      "body": "Totally agree, and their spice levels were inconsistent. I've been 3 times and each time the spiciness varied wildly."
+     },
+     {
+      "author": "DrunkPanda77",
+      "body": "The level 1 was mild, levels 4 and 5 were hot yeah but they literally got rid of those… I still got the 3 on rare occasion but 4/5 were my faves "
+     },
+     {
+      "author": "pavelysnotekapret",
+      "body": "The spiciness was perfectly fine, even at level 5. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Rowdy Rooster",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "sandwiches",
+       "level": "very_negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "spice level",
+       "text": "When it first opened, the sandwiches were so spicy they were inedible."
+      },
+      {
+       "about": "closing",
+       "text": "Commenter is not surprised the place closed."
+      }
+     ],
+     "aspects": {
+      "taste": "very_negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_negative",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "chicken sandwich"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0794",
+   "comment_id": "t1_nldnhap",
+   "model_view": "<post_title>NYC restaurants I miss</post_title>\n<post_body>-- Kajitsu\n\n-- Adour\n\n-- wd~50\n\n-- Empelllon Cocina\n\n-- Falai\n\nWhat are some NYC restaurants you miss?</post_body>\n<comment_to_extract>\nNoMad Bar\n\nBest Drinks\n\nBest Burger\n\nIncredible interior.\n</comment_to_extract>",
+   "context": {
+    "title": "NYC restaurants I miss",
+    "selftext": "-- Kajitsu\n\n-- Adour\n\n-- wd~50\n\n-- Empelllon Cocina\n\n-- Falai\n\nWhat are some NYC restaurants you miss?",
+    "ancestors": [],
+    "author": "urraca",
+    "body": "NoMad Bar\n\nBest Drinks\n\nBest Burger\n\nIncredible interior.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "NoMad Bar",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "burger",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "drinks",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "cocktail bar",
+      "burgers"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0795",
+   "comment_id": "t1_o49ytec",
+   "model_view": "<post_title author=\"you\">hobby/serious/professional bakers in NYC...where do you buy your flour?</post_title>\n<post_body author=\"you\">would love to know if people have a go-to local NY brand (or national brand) where you get your grains</post_body>\n<thread_above>\n[1] another user: King Arthur is fine. Wild hive has amazing stuff.\n[2] another user: Is there a place to get Wild Hive flours in NYC?\n</thread_above>\n<comment_to_extract>\nfound their website, looks like you can buy and ship [https://www.wildhivefarm.com/](https://www.wildhivefarm.com/)\n</comment_to_extract>",
+   "context": {
+    "title": "hobby/serious/professional bakers in NYC...where do you buy your flour?",
+    "selftext": "would love to know if people have a go-to local NY brand (or national brand) where you get your grains",
+    "ancestors": [
+     {
+      "author": "fattnessmonster",
+      "body": "King Arthur is fine. Wild hive has amazing stuff."
+     },
+     {
+      "author": "seashellsnyc",
+      "body": "Is there a place to get Wild Hive flours in NYC?"
+     }
+    ],
+    "author": "Citibikegirl",
+    "body": "found their website, looks like you can buy and ship [https://www.wildhivefarm.com/](https://www.wildhivefarm.com/)",
+    "replies": [
+     {
+      "author": "seashellsnyc",
+      "body": "Thanks! I wanted a physical store to avoid paying for shipping. FYI I found Hayden Flour Mills have flat rate shipping on $99 orders, but that’s a lot of flour to order! https://haydenflourmills.com/"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0796",
+   "comment_id": "t1_ngxeg38",
+   "model_view": "<post_title>Must Try Restaurants in Williamsburg</post_title>\n<post_body>I'll be in Williamsburg for a wedding weekend and the couple gave a list of restaurants to check out.  Is there anything else you'd add or advise against? I've gathered Best Pizza and Fini are two worth checking out.  Any suggestions welcome regardless of cuisine, price, lines etc.  Much appreciated!!\n\nL'industrie \n\nFive Leaves \n\nSweet Chick \n\nHotel Delmano Bar \n\nThe Four Horsemen \n\nForma Pasta Factory \n\nRoberta's  \n\nFette Sau -\n\nPies 'n' Thighs \n\nPeter Luger \n\nTørst\n\nKokomo</post_body>\n<thread_above>\n[1] another user: Skip sweet chick\n</thread_above>\n<comment_to_extract>\ni got fricken food poisoning\n</comment_to_extract>",
+   "context": {
+    "title": "Must Try Restaurants in Williamsburg",
+    "selftext": "I'll be in Williamsburg for a wedding weekend and the couple gave a list of restaurants to check out.  Is there anything else you'd add or advise against? I've gathered Best Pizza and Fini are two worth checking out.  Any suggestions welcome regardless of cuisine, price, lines etc.  Much appreciated!!\n\nL'industrie \n\nFive Leaves \n\nSweet Chick \n\nHotel Delmano Bar \n\nThe Four Horsemen \n\nForma Pasta Factory \n\nRoberta's  \n\nFette Sau -\n\nPies 'n' Thighs \n\nPeter Luger \n\nTørst\n\nKokomo ",
+    "ancestors": [
+     {
+      "author": "getfitny",
+      "body": "Skip sweet chick"
+     }
+    ],
+    "author": "ashes2517",
+    "body": "i got fricken food poisoning",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0797",
+   "comment_id": "t1_owlc9ce",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<comment_to_extract>\nFrom a quality/price perspective you cant beat them with the VIP membership.  I just did the exact same walk up and shock.  Tried pickup at the new 42nd st “food hall” and it was a disaster and sh!t show.  I canceled my membership and them refund my pressed cash balance\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [],
+    "author": "mgianfal",
+    "body": "From a quality/price perspective you cant beat them with the VIP membership.  I just did the exact same walk up and shock.  Tried pickup at the new 42nd st “food hall” and it was a disaster and sh!t show.  I canceled my membership and them refund my pressed cash balance",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Pressed",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "VIP membership",
+       "text": "Commenter says the VIP membership beats them on quality and price."
+      },
+      {
+       "about": "Membership canceled",
+       "text": "Commenter canceled the membership and got the pressed cash balance refunded."
+      },
+      {
+       "about": "42nd St branch",
+       "text": "New 42nd St food hall location; pickup there was a disaster and a mess."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "juice",
+      "vip membership"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0798",
+   "comment_id": "t1_nt64u43",
+   "model_view": "<post_title author=\"you\">Week 3 updates: Lindustri currently sits on top with 216 votes + new features</post_title>\n<post_body author=\"you\">Hey r/FoodNYC! Appreciate you guys for the continuous support!! I’ve got plenty of exciting news to share this week!\n\nhttps://www.kinghill.nyc\n\nFor the newcomers: King of the hill is a no sign up, anonymous, crowdsourced restaurant ranking in reddit style. Free to use and takes less than a min. Check it out!\n\n🆕 Bakery and Ramen categories are now live •\n\tBubble Tea coming next week, drop your nomination in comment section below. (I am thinking Heytea, mollytea and all that good stuff 🧋)\n\n🎡 Discovery Wheel\n\n Can’t decide what to try? Spin the wheel to get a random restaurant pick from the nomination list.  (weighted by votes) with a direct Google Maps link to discover recs from the community\n\n📧 Weekly Newsletter\n\nEveryone tuesday I will send out a quick newsletter for weekly recap:\n\nLatest leaderboard updates •\tQuick commentary on moves •\tDirect voting link \n\nNo spam, unsubscribe anytime\n\n📊 This Week’s Moves\n\n1.\t⁠⁠John of Bleecker Street jumped from 5th to 2nd, overtaking F&F pizzeria!\n2.\t⁠⁠Tonchin jumped from 6 to first place in ramen with 9 votes\n3.\t⁠⁠Pauls da burger joint got booted and was replaced by Emily with 32 votes.\n\nComing Soon 🚀 Vote decay after 3 months - keeps the lead ...</post_body>\n<comment_to_extract>\nEdit: It was St. Mark’s burgers and dogs not Pauls da burger joint, sorry Paul.\n\nHeres whats on my current list for Bubble tea: Heytea, Chica San Chen, Molleytea. \n\nLooking for more recs, lemme know in the comments and I will add them to rhe starting 10 list\n</comment_to_extract>",
+   "context": {
+    "title": "Week 3 updates: Lindustri currently sits on top with 216 votes + new features",
+    "selftext": "Hey r/FoodNYC! Appreciate you guys for the continuous support!! I’ve got plenty of exciting news to share this week!\n\nhttps://www.kinghill.nyc\n\nFor the newcomers: King of the hill is a no sign up, anonymous, crowdsourced restaurant ranking in reddit style. Free to use and takes less than a min. Check it out!\n\n🆕 Bakery and Ramen categories are now live •\n\tBubble Tea coming next week, drop your nomination in comment section below. (I am thinking Heytea, mollytea and all that good stuff 🧋)\n\n🎡 Discovery Wheel\n\n Can’t decide what to try? Spin the wheel to get a random restaurant pick from the nomination list.  (weighted by votes) with a direct Google Maps link to discover recs from the community\n\n📧 Weekly Newsletter\n\nEveryone tuesday I will send out a quick newsletter for weekly recap:\n\nLatest leaderboard updates •\tQuick commentary on moves •\tDirect voting link \n\nNo spam, unsubscribe anytime\n\n📊 This Week’s Moves\n\n1.\t⁠⁠John of Bleecker Street jumped from 5th to 2nd, overtaking F&F pizzeria!\n2.\t⁠⁠Tonchin jumped from 6 to first place in ramen with 9 votes\n3.\t⁠⁠Pauls da burger joint got booted and was replaced by Emily with 32 votes.\n\nComing Soon 🚀 Vote decay after 3 months - keeps the leaderboard fresh and gives new spots a fair shot.\n\nEnjoy your Tuesday everyone and happy voting !!!\n\nhttps://www.kinghill.nyc less",
+    "ancestors": [],
+    "author": "Yeety691218",
+    "body": "Edit: It was St. Mark’s burgers and dogs not Pauls da burger joint, sorry Paul.\n\nHeres whats on my current list for Bubble tea: Heytea, Chica San Chen, Molleytea. \n\nLooking for more recs, lemme know in the comments and I will add them to rhe starting 10 list",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "St. Mark's burgers and dogs",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "leaderboard",
+       "text": "Was the one booted from the rankings this week, replaced by Emily; the commenter corrected the original post's name."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Heytea",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "bubble tea list",
+       "text": "On the commenter's candidate list for the upcoming bubble tea category."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bubble tea"
+     ]
+    },
+    {
+     "name": "Chica San Chen",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "bubble tea list",
+       "text": "On the commenter's candidate list for the upcoming bubble tea category."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bubble tea"
+     ]
+    },
+    {
+     "name": "Molleytea",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "bubble tea list",
+       "text": "On the commenter's candidate list for the upcoming bubble tea category."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bubble tea"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0799",
+   "comment_id": "t1_nth9sb7",
+   "model_view": "<post_title author=\"you\">I tried as many burgers as I could whilst visiting New York</post_title>\n<post_body author=\"you\">I love burgers - especially cheeseburgers - and we don't make them like you do back in the UK.\n\nSo, I made it my mission to try as many of the top rated spots from this sub as I could whilst I visited.\n\nIn the order I visited:\n\n*apologies for the poor photography\n\n1) Lovelies. We went here by chance on day 1, before we had decided to make burgers a focal point of the trip. Juicy and delicious smash burger. Not mad keen on the fries or cheese sauce. Served through a window, an awesome first burger. 8/10\n\n2) Gotham Burger Social Club. We stayed in Greenpoint, so this was our local - actually the only burger I ate twice as we came back last night. Another top tier smash. Loved the spicy kick. Super soft, goes down in seconds. 8/10\n\n3) Au Cheval. First proper destination burger. I heard it's the same as 4 Charles (no resy's available (obviously) - i tried to queue twice on the trip and failed both times). Regret not getting the egg, heard later its integral. Even so, fantastic burger - bacon so good and melty and crispy. Criticism would be too much bread, maybe the egg would've helped. 8.5/10\n\n4) Rolo's. This was the first time we took a bite and said wow. So delicious. Kind of burnt f ...</post_body>\n<thread_above>\n[1] another user: This is an awesome post, seriously! Great descriptions and Quit denigrating your picture-taking, you got the message across (tho for any thick burger, I’d cut it in half to show the doneness, juice, etc).\n</thread_above>\n<comment_to_extract>\nThanks so much! I do have those pictures for a lot of them. But often I had taken a bite, and was worried that might look off-putting. Decided to keep it as consistent as I could with photos as they come.\n</comment_to_extract>",
+   "context": {
+    "title": "I tried as many burgers as I could whilst visiting New York",
+    "selftext": "I love burgers - especially cheeseburgers - and we don't make them like you do back in the UK.\n\nSo, I made it my mission to try as many of the top rated spots from this sub as I could whilst I visited.\n\nIn the order I visited:\n\n*apologies for the poor photography\n\n1) Lovelies. We went here by chance on day 1, before we had decided to make burgers a focal point of the trip. Juicy and delicious smash burger. Not mad keen on the fries or cheese sauce. Served through a window, an awesome first burger. 8/10\n\n2) Gotham Burger Social Club. We stayed in Greenpoint, so this was our local - actually the only burger I ate twice as we came back last night. Another top tier smash. Loved the spicy kick. Super soft, goes down in seconds. 8/10\n\n3) Au Cheval. First proper destination burger. I heard it's the same as 4 Charles (no resy's available (obviously) - i tried to queue twice on the trip and failed both times). Regret not getting the egg, heard later its integral. Even so, fantastic burger - bacon so good and melty and crispy. Criticism would be too much bread, maybe the egg would've helped. 8.5/10\n\n4) Rolo's. This was the first time we took a bite and said wow. So delicious. Kind of burnt flavour, cooked onions and crispy patties. Insanely good honestly - think it counts as a smash burger? Im not sure on the rules. Its a double with onions. 9.5/10\n\n5) Diner (Williamsburg). Slightly weighted burger choice by proximity to our accommodation. This was good though. And part of a really nice meal, cool place and friendly service. Its a big chunky patty with salad and cheese. And incredible crunches when you bite in with a solid flavour. 8/10\n\n6) Kellogs. None of the burgers I had were bad, this one was good too, but not as good as others on this list. Other things on the menu were better - the meatloaf and chicken + biscuits were both great. 7/10\n\n7) Hamburger America. Was going to try 7th street but it was shut (this was on thanksgiving day). Sadly never tried 7th but this was an excellent substitute. Reminded me of McDonald's, but was like if McDonald's was way better. 8/10\n\n8) Red Hook Tavern. This was the best burger we had. Just an unbelievable first bite. The juicy patty, crisp bread - pop of the onion. Perfection. Wish we could've gone back. No notes. 10/10\n\n9) Peter Luger. First successful queue and bar seat for me. Really cool place, felt very genuine NYC with locals hanging out with the staff. And a hell of a burger. They give you this delicious special sauce on the side and this awesome slab of bacon. Really good fries too. Burger quite similar to Red Hook's I thought but just not quite as good. Arrived 30 min early for lunch on a weekday and was first in line. 9.5/10\n\n10) Raoul's. Booked to eat here, disappointed to learn you can't get the burger on a table at dinner. Had a great meal that night, then went back and queued to eat at the bar. They make 12 burgers a day, they are exceptional. So tasty, the pickle mayo coleslaw type sauce is so good, as is the peppercorn sauce dip. Second in the queue and arrived 30 min early, on a weekday. 9.5/10\n\n11) JG Melon. Learned about this place from the bartender at Raoul's (who was great). Exactly as he described, felt very authentic - really cool timeless vibe. Didn't need to queue at 5pm on a weekday. Cash only and fairly priced (in comparison to the rest of this list). Burger itself was very good. Big round juicy patty, lots of cheese. My photo of this one is particularly bad, I felt pretty self conscious taking a picture this time as it was quiet and I was alone. 9/10\n\n12) Minetta Tavern. Queued to get in here - arrived 40 min early for lunch on a weekday. Way too early, could've rocked up at opening - thats on me. Went for the black label as the famous one, surprised to find no cheese. I ordered every burger as recommended, so wasnt gunna ask for the cheese. It was really good, the onions are so nice and the burger patty itself is exceptional. But I cant imagine it wouldn't have been better with a slice-o-cheese. 8.5/10\n\n13) Louis' Lunch (New Haven). Wildcard here, obviously not in NYC. We had made plans to drive up to see Boston, whilst having dinner at Don Angie the night before we left, the kind person sat next to me at the bar recommended going here. Very glad they did. They claim to have made the first burger and they hate ketchup. Its proper rough and ready, served on sliced white. Super delicious though. 8.5/10\n\n14) Corner Bistro. Having failed to get into 4 Charles on our last day (despite getting there at 9.45am on a Sunday for an 11am opening) we headed here following a recomendation from a guy we met in the queue for Raoul's. Friendliest service so far, such a nice host! Totally delicious and classic feeling burger. A great way to end the adventure. 8.5/10\n\n\nBig thanks to everyone who served us or cooked for us. Everything we ate in this incredible city was awesome - we had a lot more than just the burgers.",
+    "ancestors": [
+     {
+      "author": "calccv",
+      "body": "This is an awesome post, seriously! Great descriptions and Quit denigrating your picture-taking, you got the message across (tho for any thick burger, I’d cut it in half to show the doneness, juice, etc)."
+     }
+    ],
+    "author": "beric_au_lait",
+    "body": "Thanks so much! I do have those pictures for a lot of them. But often I had taken a bite, and was worried that might look off-putting. Decided to keep it as consistent as I could with photos as they come.",
+    "replies": [
+     {
+      "author": "calccv",
+      "body": "Fair enough! Really enjoyable, at any rate (and jealous-making, lol!)"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0800",
+   "comment_id": "t1_i5pdi0p",
+   "model_view": "<post_title author=\"you\">Choosing restaurants</post_title>\n<post_body author=\"you\">For my people that live in NYC - how do you guys choose restaurants to go to? My girlfriend and I like to go on a date to a new spot once a week to try new restaurants / cuisines and usually I use the Michelin guide just because it narrows it down for me (not going to starred restaurants weekly - but I check out the Bib Gourmands and Plates) - I was just wondering if there are other guides or social media accounts or other avenues people use to find new spots in nyc that they know will most likely be pretty good in terms of food and service. Just curious. Thanks to anyone who answers!</post_body>\n<comment_to_extract>\nAwesome - thank everyone for the responses!\n</comment_to_extract>",
+   "context": {
+    "title": "Choosing restaurants",
+    "selftext": "For my people that live in NYC - how do you guys choose restaurants to go to? My girlfriend and I like to go on a date to a new spot once a week to try new restaurants / cuisines and usually I use the Michelin guide just because it narrows it down for me (not going to starred restaurants weekly - but I check out the Bib Gourmands and Plates) - I was just wondering if there are other guides or social media accounts or other avenues people use to find new spots in nyc that they know will most likely be pretty good in terms of food and service. Just curious. Thanks to anyone who answers!",
+    "ancestors": [],
+    "author": "JustClerk3908",
+    "body": "Awesome - thank everyone for the responses!",
+    "replies": []
+   },
+   "shown": []
+  }
+ ]
+}

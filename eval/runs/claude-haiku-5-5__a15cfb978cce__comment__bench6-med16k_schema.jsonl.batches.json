@@ -1,0 +1,52 @@
+{
+ "batches": {
+  "msgbatch_01HQa8kuXmF9WB2HQ7VJA2VX": {
+   "requests": {
+    "r000000": [
+     "comment:t1_o72a7gw",
+     0,
+     1
+    ],
+    "r000001": [
+     "comment:t1_nw1301j",
+     0,
+     1
+    ],
+    "r000002": [
+     "comment:t1_nx08rpe",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_01HQa8kuXmF9WB2HQ7VJA2VX",
+   "submitted": "2026-10-17T22:45:55",
+   "collected": true,
+   "retry": [],
+   "cost": 0.00536919
+  },
+  "msgbatch_01M7QfQUiNCRQgnh1CtG5YDV": {
+   "requests": {
+    "r000000": [
+     "comment:t1_nobth7a",
+     0,
+     1
+    ],
+    "r000001": [
+     "comment:t1_ok6its6",
+     0,
+     1
+    ],
+    "r000002": [
+     "comment:t1_nmzla94",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_01M7QfQUiNCRQgnh1CtG5YDV",
+   "submitted": "2026-10-17T22:54:41",
+   "collected": true,
+   "retry": [],
+   "cost": 0.00574706
+  }
+ }
+}

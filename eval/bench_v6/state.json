@@ -31,5 +31,91 @@
    "run_file": "eval/runs/claude-haiku-5-5__a15cfb978cce__comment__bench6-probe-low_schema.jsonl"
   }
  },
- "steps": {}
+ "steps": {
+  "a": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__a15cfb978cce__comment__bench6-med_schema.jsonl",
+   "schema": true
+  },
+  "b": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__0d75b20b5f83__comment__bench6-med.jsonl",
+   "schema": false
+  },
+  "c": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__44e1a49c7781__thread__bench6-med_schema.jsonl",
+   "schema": true
+  },
+  "d": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__5b02ac883c80__thread__bench6-med.jsonl",
+   "schema": false
+  },
+  "e-comment": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__a15cfb978cce__comment__bench6-low_schema.jsonl",
+   "schema": true
+  },
+  "e-thread": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__44e1a49c7781__thread__bench6-low_schema.jsonl",
+   "schema": true
+  },
+  "f": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__44e1a49c7781__thread__bench6-med_schema.jsonl",
+   "schema": true
+  },
+  "g": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__5b02ac883c80__thread__bench6-med.jsonl",
+   "schema": false
+  },
+  "h": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__44e1a49c7781__thread__bench6-med32k_schema.jsonl",
+   "schema": true
+  },
+  "i": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__a15cfb978cce__comment__bench6-med16k_schema.jsonl",
+   "schema": true
+  },
+  "j": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__44e1a49c7781__thread__bench6-low_schema.jsonl",
+   "schema": true
+  },
+  "k": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__a15cfb978cce__comment__bench6-low_schema.jsonl",
+   "schema": true
+  },
+  "l": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__1cb01c0721f4__comment__bench6-low-r2_schema.jsonl",
+   "schema": true
+  },
+  "m": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__6b046d8ed65d__comment__bench6-low-r3_schema.jsonl",
+   "schema": true
+  },
+  "n": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__979dcd6b9267__comment__bench6-low-r4_schema.jsonl",
+   "schema": true
+  },
+  "o": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__979dcd6b9267__comment__bench6-med-r4_schema.jsonl",
+   "schema": true
+  },
+  "p": {
+   "status": "done",
+   "run_file": "eval/runs/claude-haiku-5-5__979dcd6b9267__comment__bench6-med-r4_schema.jsonl",
+   "schema": true
+  }
+ }
 }
