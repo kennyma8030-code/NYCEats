@@ -1,0 +1,1701 @@
+{
+ "packet": "p012",
+ "items": [
+  {
+   "item_id": "R0276",
+   "comment_id": "t1_nrnbdly",
+   "model_view": "<post_title>my favorite spots in Hell’s Kitchen</post_title>\n<post_body>when i moved here, i didn’t expect to find great food spots. never been more happy to be proven wrong. \n\nthonglor - tasty affordable thai!\n\nzoralie - really good cheap dominican food \n\nmiss nellie’s - loved these bee pollen pancakes. other menu items seemed good too.\n\nlovely’s old fashioned - tasty burgers and tasty unique fries. pretty reasonable \n\nsullivan street bakery - kinda pricy but great pastries \n\ncubby’s - very good burgers and i love their affordable combo meals (which includes ice cream!)\n\nredpoke - i’m addicted to this place. like a poke chipotle. \n\nvalla table - another great affordable thai restaurant in HK\n\nat nine restaurant and bar (not pictured) - ANOTHER thai restaurant that was pretty good.😂\n\ni think thai is where HK shine. valla table is my fave so far of the three that i tried. \n\nany more suggestions you all have? i look forward to trying more spots and frequenting the above places!</post_body>\n<comment_to_extract>\nThe fries stuck to the cheeseburger is a real mood. \n\nOther recs:\n\n-\tHyderabadi Zaiqa\n-\tUncle Ray’s Chicken Rice\n-\tAriana Afghan Kebab\n-\tToribro\n-\tLum Lum\n-\tJerk House Caribbean Restaurant\n</comment_to_extract>",
+   "context": {
+    "title": "my favorite spots in Hell’s Kitchen",
+    "selftext": "when i moved here, i didn’t expect to find great food spots. never been more happy to be proven wrong. \n\nthonglor - tasty affordable thai!\n\nzoralie - really good cheap dominican food \n\nmiss nellie’s - loved these bee pollen pancakes. other menu items seemed good too.\n\nlovely’s old fashioned - tasty burgers and tasty unique fries. pretty reasonable \n\nsullivan street bakery - kinda pricy but great pastries \n\ncubby’s - very good burgers and i love their affordable combo meals (which includes ice cream!)\n\nredpoke - i’m addicted to this place. like a poke chipotle. \n\nvalla table - another great affordable thai restaurant in HK\n\nat nine restaurant and bar (not pictured) - ANOTHER thai restaurant that was pretty good.😂\n\ni think thai is where HK shine. valla table is my fave so far of the three that i tried. \n\nany more suggestions you all have? i look forward to trying more spots and frequenting the above places! \n\n\n\n\n\n\n\n\n\n\n",
+    "ancestors": [],
+    "author": "justflipping",
+    "body": "The fries stuck to the cheeseburger is a real mood. \n\nOther recs:\n\n-\tHyderabadi Zaiqa\n-\tUncle Ray’s Chicken Rice\n-\tAriana Afghan Kebab\n-\tToribro\n-\tLum Lum\n-\tJerk House Caribbean Restaurant",
+    "replies": [
+     {
+      "author": "Full-Cat-9897",
+      "body": "thanks!"
+     },
+     {
+      "author": "meehoynonoymeenoy",
+      "body": "I am obsessed with Uncle Rays Chicken Rice, I’ve been getting it once a week lately"
+     },
+     {
+      "author": "hiimomgkek",
+      "body": "I love hyderabadi Zaiqa when there aren’t cockroaches running around the walls when I’m trying to eat 😭😭😭"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Hyderabadi Zaiqa",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Uncle Ray's Chicken Rice",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Ariana Afghan Kebab",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Toribro",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Lum Lum",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Jerk House Caribbean Restaurant",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0277",
+   "comment_id": "t1_ksdqa81",
+   "model_view": "<post_title>Best restaurant merch?</post_title>\n<post_body>I’m looking for a cool cap to get from a ny restaurant or bar. Most places I’ve seen just have shirts or beanies, but are there any you like on a cap?</post_body>\n<comment_to_extract>\nKatz’s has sweet hats\n</comment_to_extract>",
+   "context": {
+    "title": "Best restaurant merch? ",
+    "selftext": "I’m looking for a cool cap to get from a ny restaurant or bar. Most places I’ve seen just have shirts or beanies, but are there any you like on a cap? ",
+    "ancestors": [],
+    "author": "murphanity",
+    "body": "Katz’s has sweet hats",
+    "replies": [
+     {
+      "author": "Hubianco",
+      "body": "Love my Katz hat"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Katz's",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "merch",
+       "text": "Sells hats the commenter likes; a cap pick for the asker's question"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "merch",
+      "cap"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0278",
+   "comment_id": "t1_ojzge12",
+   "model_view": "<post_title>Where can I get a kir royale in Brooklyn?</post_title>\n<post_body>That’s all. It’s my favorite drink. Also willing to go to the city but prefer bk.</post_body>\n<comment_to_extract>\nThe majority of bars/restaurants with full bars.\n</comment_to_extract>",
+   "context": {
+    "title": "Where can I get a kir royale in Brooklyn?",
+    "selftext": "That’s all. It’s my favorite drink. Also willing to go to the city but prefer bk. ",
+    "ancestors": [],
+    "author": "No_Pumpkin_5187",
+    "body": "The majority of bars/restaurants with full bars. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0279",
+   "comment_id": "t1_ok0j332",
+   "model_view": "<post_title>Where can I get a kir royale in Brooklyn?</post_title>\n<post_body>That’s all. It’s my favorite drink. Also willing to go to the city but prefer bk.</post_body>\n<thread_above>\n[1] another user: Umm, any bar that has champagne and cassis.\n[2] OP: Right so that’s the question I’m asking\n</thread_above>\n<comment_to_extract>\nLa petit joie if you need a specific name\n</comment_to_extract>",
+   "context": {
+    "title": "Where can I get a kir royale in Brooklyn?",
+    "selftext": "That’s all. It’s my favorite drink. Also willing to go to the city but prefer bk. ",
+    "ancestors": [
+     {
+      "author": "BartBeachGuy",
+      "body": "Umm, any bar that has champagne and cassis. "
+     },
+     {
+      "author": "Greedy_Produce2276",
+      "body": "Right so that’s the question I’m asking"
+     }
+    ],
+    "author": "Garconavecunreve",
+    "body": "La petit joie if you need a specific name ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "La petit joie",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "kir royale",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cocktails"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0280",
+   "comment_id": "t1_nt1f4q9",
+   "model_view": "<post_title>Tampering w/ drinks at Casa Carmen in Tribeca?</post_title>\n<post_body>I had dinner at Casa Carmen in Tribeca with a few friends last weekend, and within minutes of my second drink, my memory went dark and I completely blacked out, which has never happened to me before.\n\nMy friend also said she nearly fell asleep at the table after her second drink too, but snapped awake after a while.\n\nA couple days later I called the restaurant to report what happened to me and I was connected to the owner, the person who picked up the phone said he'd \"back me up\" which I thought was odd. \n\nThen I found several Google and Yelp reviews by other women who said they passed out or blacked out after only having two drinks. \n\nWhen I brought it up to the owner, he said those women lied and probably didn't eat enough.\n\nLuckily I made it home OK, but the whole experience has really unnerved me and I'm worried that it might happen to someone else. Has anyone had anything like this happen there? I'm reporting them to the State Liquor Authority and the local precinct. But if this has happened to anyone else, send me a DM. There's power in numbers and we shouldn't be experiencing this.</post_body>\n<comment_to_extract>\nThe old Rose Bar in the Gramercy Park Hotel used to be notorious for this. **I believe it was the staff/bartender.**\n\nYears ago, I played ping pong with a female friend at Spin (23rd & Park) for about 90 minutes. She had two beers at most during that time. We then walked to Rose Bar. It was a weeknight, early, and not crowded. We sat at the bar with **no one directly next to us on either side.** We each ordered one drink. She went to the bathroom. Looked a little off. Fifteen minutes later she went back to the bathroom. This time a complete mess when she returned. She forgot her phone in the bathroom. Said she didn't feel well and wanted to go. Somehow she lost her phone two more times before we made it to a cab. Stayed with her until the morning. She was in terrible shape. **Her drink never left my sight both times she went to the bathroom. Nor was anyone in close proximity to us either while we were there.**\n\nAround that time, I knew a guy who bounced at Rose Bar. He made an offhand comment about how often people got \"really drunk\" there and the difficulties of getting them into Ubers. *That's when it kind of clicked.*\n\nA few years later, my girlfriend (now wife) went there with one of her girlfriends. I warned her to be careful, but she said I was overthinking. When she returned, she was a wreck—**I've never seen her in that condition.** I had to put pillows around her chair so she wouldn't fall out, and later found her **hanging upside down off the bed** after returning from briefly using the bathroom. It took her a full day to recover.\n\nWe looked online for similar cases back then but found none. Fortunately, Rose Bar closed during the pandemic and never reopened. Worth noting that both my friend and wife are of **foreign descent and above-average attractiveness.**\n</comment_to_extract>",
+   "context": {
+    "title": "Tampering w/ drinks at Casa Carmen in Tribeca?",
+    "selftext": "I had dinner at Casa Carmen in Tribeca with a few friends last weekend, and within minutes of my second drink, my memory went dark and I completely blacked out, which has never happened to me before.\n\nMy friend also said she nearly fell asleep at the table after her second drink too, but snapped awake after a while.\n\nA couple days later I called the restaurant to report what happened to me and I was connected to the owner, the person who picked up the phone said he'd \"back me up\" which I thought was odd. \n\nThen I found several Google and Yelp reviews by other women who said they passed out or blacked out after only having two drinks. \n\nWhen I brought it up to the owner, he said those women lied and probably didn't eat enough.\n\nLuckily I made it home OK, but the whole experience has really unnerved me and I'm worried that it might happen to someone else. Has anyone had anything like this happen there? I'm reporting them to the State Liquor Authority and the local precinct. But if this has happened to anyone else, send me a DM. There's power in numbers and we shouldn't be experiencing this.",
+    "ancestors": [],
+    "author": "SupermarketOk8220",
+    "body": "The old Rose Bar in the Gramercy Park Hotel used to be notorious for this. **I believe it was the staff/bartender.**\n\nYears ago, I played ping pong with a female friend at Spin (23rd & Park) for about 90 minutes. She had two beers at most during that time. We then walked to Rose Bar. It was a weeknight, early, and not crowded. We sat at the bar with **no one directly next to us on either side.** We each ordered one drink. She went to the bathroom. Looked a little off. Fifteen minutes later she went back to the bathroom. This time a complete mess when she returned. She forgot her phone in the bathroom. Said she didn't feel well and wanted to go. Somehow she lost her phone two more times before we made it to a cab. Stayed with her until the morning. She was in terrible shape. **Her drink never left my sight both times she went to the bathroom. Nor was anyone in close proximity to us either while we were there.**\n\nAround that time, I knew a guy who bounced at Rose Bar. He made an offhand comment about how often people got \"really drunk\" there and the difficulties of getting them into Ubers. *That's when it kind of clicked.*\n\nA few years later, my girlfriend (now wife) went there with one of her girlfriends. I warned her to be careful, but she said I was overthinking. When she returned, she was a wreck—**I've never seen her in that condition.** I had to put pillows around her chair so she wouldn't fall out, and later found her **hanging upside down off the bed** after returning from briefly using the bathroom. It took her a full day to recover.\n\nWe looked online for similar cases back then but found none. Fortunately, Rose Bar closed during the pandemic and never reopened. Worth noting that both my friend and wife are of **foreign descent and above-average attractiveness.**",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Rose Bar",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": "Gramercy Park Hotel",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "allegation",
+       "text": "Commenter believes staff or bartender drugged drinks; describes a friend left in terrible shape and their wife later in a similar state after one visit."
+      },
+      {
+       "about": "closure",
+       "text": "Closed during the pandemic and never reopened."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": "very_negative",
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_negative",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "cocktail bar",
+      "hotel bar"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0281",
+   "comment_id": "t1_p82pm1d",
+   "model_view": "<post_title>Maybe an unpopular opinion, but Apollo Bagels is overrated and aggressively mediocre</post_title>\n<post_body>Went to Apollo Bagels for the first time yesterday (Kips Bay location). I got 2 of the smoked salmon sandwiches, and was quite excited to try them, especially seeing as the price point is quite low for that kind of sandwich ($15 each). \n\nThe experience eating them was...not very good. The bagel itself was so hard and tough to bit through, and the salmon was way too salty. My girlfriend could only finish 1/2 of hers, so I had to tough my way through 1.5 sandwiches, which, since they're open-faced, meant 3 half-bagels. It got to the point where I just assumed Apollo Bagels was PE-backed, the experience was so rough. \n\nReally not sure why this place is so popular.</post_body>\n<comment_to_extract>\nDon’t get the hype. Went to the original location and thought the bagels were too soft, meh.\n\nAdmittedly, I like harder crust and chewier bagel. May not be the best but I get mine at Zabar’s and I think their bagles are even better \n\nAlso like Pick A Bagel.\n</comment_to_extract>",
+   "context": {
+    "title": "Maybe an unpopular opinion, but Apollo Bagels is overrated and aggressively mediocre",
+    "selftext": "Went to Apollo Bagels for the first time yesterday (Kips Bay location). I got 2 of the smoked salmon sandwiches, and was quite excited to try them, especially seeing as the price point is quite low for that kind of sandwich ($15 each). \n\nThe experience eating them was...not very good. The bagel itself was so hard and tough to bit through, and the salmon was way too salty. My girlfriend could only finish 1/2 of hers, so I had to tough my way through 1.5 sandwiches, which, since they're open-faced, meant 3 half-bagels. It got to the point where I just assumed Apollo Bagels was PE-backed, the experience was so rough. \n\nReally not sure why this place is so popular. ",
+    "ancestors": [],
+    "author": "CrazyCalligrapher206",
+    "body": "Don’t get the hype. Went to the original location and thought the bagels were too soft, meh.\n\nAdmittedly, I like harder crust and chewier bagel. May not be the best but I get mine at Zabar’s and I think their bagles are even better \n\nAlso like Pick A Bagel. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Apollo Bagels",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": "Kips Bay",
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    },
+    {
+     "name": "Apollo Bagels",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": "original location",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bagels",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "preference",
+       "text": "commenter prefers harder crust and chewier bagels"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    },
+    {
+     "name": "Zabar's",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bagels",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "commenter says Zabar's bagels are even better than Apollo's"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    },
+    {
+     "name": "Pick A Bagel",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0282",
+   "comment_id": "t1_orfx26n",
+   "model_view": "<post_title author=\"you\">any typical American-style Breakfast recommendation?</post_title>\n<post_body author=\"you\">We're staying next to bryant park on 6th avenue. Because of jet lag we may wake up super early, also my husband is someone who take breakfast very seriously, so we wouldn't refuse a feast for the morning. Any kind of recommendation will be welcomed! Thank you!</post_body>\n<thread_above>\n[1] another user: Walk over to S&P on 5th Ave & 22nd. It’s the Old Eisenberg’s and classic American\n</thread_above>\n<comment_to_extract>\nThank you!! Marked, looks so nice\n</comment_to_extract>",
+   "context": {
+    "title": "any typical American-style Breakfast recommendation?",
+    "selftext": "We're staying next to bryant park on 6th avenue. Because of jet lag we may wake up super early, also my husband is someone who take breakfast very seriously, so we wouldn't refuse a feast for the morning. Any kind of recommendation will be welcomed! Thank you!",
+    "ancestors": [
+     {
+      "author": "SavingsAd1484",
+      "body": "Walk over to S&P on 5th Ave & 22nd. It’s the Old Eisenberg’s and classic American "
+     }
+    ],
+    "author": "Dizzy_Wonder9697",
+    "body": "Thank you!! Marked, looks so nice",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0283",
+   "comment_id": "t1_p69yfzg",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<thread_above>\n[1] another user: I've tasted 5 different slices, aa well as two sandwiches, and all were great\n[2] OP: Even the ones that sound weird are good\n[3] you, earlier: which ones sound weird?\n[4] OP: The one with pears\n</thread_above>\n<comment_to_extract>\noh i love that one!\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Neptune28",
+      "body": "I've tasted 5 different slices, aa well as two sandwiches, and all were great"
+     },
+     {
+      "author": "RumPunchKid",
+      "body": "Even the ones that sound weird are good"
+     },
+     {
+      "author": "nightkhan",
+      "body": "which ones sound weird?"
+     },
+     {
+      "author": "RumPunchKid",
+      "body": "The one with pears"
+     }
+    ],
+    "author": "nightkhan",
+    "body": "oh i love that one!",
+    "replies": [
+     {
+      "author": "Neptune28",
+      "body": "I got that one last year and it was much better than expected. I may go again on Saturday"
+     },
+     {
+      "author": "RumPunchKid",
+      "body": "Yea it’s really good I was surprised "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pear slice",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0284",
+   "comment_id": "t1_o4dhki9",
+   "model_view": "<post_title>Sushi Nakazawa - Still a classic</post_title>\n<post_body>Revisited Sushi Nakazawa after a long gap. Still a classic. For NYC high-end omakase, it remains one of the better values relative to quality. Nearly every piece hit.\n\nNoz 17 edges it out for me on both fish and ambiance, but Nakazawa stays a contender.</post_body>\n<thread_above>\n[1] another user: Nah this place is mediocre period. Rice is inconsistent, fish are all precut. Beverage selection is solid. There’s so much better sushi spots around the same price point. Kanoyama, Mumi, Tsubame etc etc. Reasonable is a stretch when you have places like Sendo too which does a few things worse but a ...\n[2] OP: Definitely disagree. But to each their own\n[3] another user: Indeed! To each their own, but I think I’m being objective regarding precut fish and inconsistent rice. They don’t even offer to redo the rice when it crumbles. I don’t think they change the fish variety much. What’s the point of omakase if it’s not slightly seasonal? Almost all the pieces served except for like two was the same as when I went in the summer.\n</thread_above>\n<comment_to_extract>\nI completely agree that the neta should reflect what’s in season. Also, one of my pet peeves is when chefs avoid using hikarimono, and in this case, the only example I noticed was saba/mackerel. I also found my experience at Nakazawa a couple of years ago pretty underwhelming. I’d definitely recommend Noz 17 instead; it’s a much better choice at a similar price point, though you only get around 12 pieces.\n</comment_to_extract>",
+   "context": {
+    "title": "Sushi Nakazawa - Still a classic",
+    "selftext": "Revisited Sushi Nakazawa after a long gap. Still a classic. For NYC high-end omakase, it remains one of the better values relative to quality. Nearly every piece hit.\n\nNoz 17 edges it out for me on both fish and ambiance, but Nakazawa stays a contender.",
+    "ancestors": [
+     {
+      "author": "reezyrice",
+      "body": "Nah this place is mediocre period. Rice is inconsistent, fish are all precut. Beverage selection is solid. There’s so much better sushi spots around the same price point. Kanoyama, Mumi, Tsubame etc etc. \n\nReasonable is a stretch when you have places like Sendo too which does a few things worse but a lot of things better."
+     },
+     {
+      "author": "NYCFoodieDad",
+      "body": "Definitely disagree. But to each their own"
+     },
+     {
+      "author": "reezyrice",
+      "body": "Indeed! To each their own, but I think I’m being objective regarding precut fish and inconsistent rice. They don’t even offer to redo the rice when it crumbles. \n\n I don’t think they change the fish variety much.  What’s the point of omakase if it’s not slightly seasonal? Almost all the pieces served except for like two was the same as when I went in the summer."
+     }
+    ],
+    "author": "AlcianB",
+    "body": "I completely agree that the neta should reflect what’s in season. Also, one of my pet peeves is when chefs avoid using hikarimono, and in this case, the only example I noticed was saba/mackerel. I also found my experience at Nakazawa a couple of years ago pretty underwhelming. I’d definitely recommend Noz 17 instead; it’s a much better choice at a similar price point, though you only get around 12 pieces.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Nakazawa",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "visit timing",
+       "text": "Visited a couple of years ago."
+      },
+      {
+       "about": "fish selection",
+       "text": "Chef avoids hikarimono; only saba noticed."
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sushi",
+      "omakase"
+     ]
+    },
+    {
+     "name": "Noz 17",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "portions",
+       "text": "Only about 12 pieces."
+      },
+      {
+       "about": "comparison",
+       "text": "Much better choice than Nakazawa at a similar price point."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sushi",
+      "omakase"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0285",
+   "comment_id": "t1_lxxeypt",
+   "model_view": "<post_title>Any crazy / cool / unique restaurant ideas I can surprise my boyfriend with for his birthday?</post_title>\n<post_body>My boyfriend and I like to surprise each other for our birthdays. Does anyone have any restaurants you know of, that when you walk into the place, you audibly say \"whoa\"? I want to take him to a funky place with good food. Preferably under $150 for the two of us. Thanks!</post_body>\n<comment_to_extract>\nVatan  \n\nSezchuan Mountain House  \n\nHangwai  \n\nKonban   \n\nSappe  \n\nNot a fan of the food per se (I’m not too fond of heavily Americanised Italian) but the ambience at patsys Italian is impressive  \n\nProbably not in the budget: The Grill\n</comment_to_extract>",
+   "context": {
+    "title": "Any crazy / cool / unique restaurant ideas I can surprise my boyfriend with for his birthday?",
+    "selftext": "My boyfriend and I like to surprise each other for our birthdays. Does anyone have any restaurants you know of, that when you walk into the place, you audibly say \"whoa\"? I want to take him to a funky place with good food. Preferably under $150 for the two of us. Thanks!",
+    "ancestors": [],
+    "author": "Garconavecunreve",
+    "body": "Vatan  \n\nSezchuan Mountain House  \n\nHangwai  \n\nKonban   \n\nSappe  \n\nNot a fan of the food per se (I’m not too fond of heavily Americanised Italian) but the ambience at patsys Italian is impressive  \n\nProbably not in the budget: The Grill",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Vatan",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Sezchuan Mountain House",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sichuan"
+     ]
+    },
+    {
+     "name": "Hangwai",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Konban",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Sappe",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "patsys Italian",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "food style",
+       "text": "commenter is not a fan of heavily Americanised Italian food"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian"
+     ]
+    },
+    {
+     "name": "The Grill",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "budget",
+       "text": "probably over the couple's budget of $150"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0286",
+   "comment_id": "t1_p0hwhxl",
+   "model_view": "<post_title>Solid day of eats @ Mama’s Too & Red Gate Bakery 🍕 🍪</post_title>\n<post_body>Had no plans on this beautiful Saturday, so treated myself to a very large lunch 😅 \n\nMama’s Too in WV - house slice, bruschetta, and vodka chicken sandwich. Arrived around 12:30 and in total, it was 20-30 minutes from stepping in line to getting my food. It would have been faster, but they were waiting for a new house pie to be put out. I must say, it was worth the short wait. The bruschetta was my favorite of the three. \n\nRed Gate Bakery in EV - choco toffee cookie. One of my favorite chocolate chip cookies in the city. Waited in line about 15 min total, so not bad. I wanted the corn cake, but apparently they sold out within the first hour of the day so I was no where near close to achieving that goal. \n\nNot pictured - the juice I got after my morning run, and the ice cream I got at the end of the day 😋\n\nOverall a strong day of eats. 10/10. I love a solo day of walking around and eating</post_body>\n<thread_above>\n[1] another user: Looks great and great pics! Next time walk a couple blocks from mamas and try faiccos for a chicken cutlet sando!\n[2] another user: I know I'm 3 days late, but I want to +1 this. I'm a pretty big cutlet sandwich hater because usually it's just old, microwaved chicken on bread, but the way Faicco's makes an almost pesto out of the broccoli rabe is so good\n</thread_above>\n<comment_to_extract>\nIdk their cutlet sandwich is so disappointing to me. But to be fair most Manhattan to go cutlet spots r mid so really what option is there. Faiccos is too cold. Parisi not enough breading. Parm too thick. Mamas too looks overly popular so that means the quality is probably shite. Caponne meh. The only real options for a parm is a sit down which is ridiculous cuz u know it’s gonna be pricey aka more than 20 bucks. Like emilios ballato or Arthur and sons. Maybe im too picky\n</comment_to_extract>",
+   "context": {
+    "title": "Solid day of eats @ Mama’s Too & Red Gate Bakery 🍕 🍪",
+    "selftext": "Had no plans on this beautiful Saturday, so treated myself to a very large lunch 😅 \n\nMama’s Too in WV - house slice, bruschetta, and vodka chicken sandwich. Arrived around 12:30 and in total, it was 20-30 minutes from stepping in line to getting my food. It would have been faster, but they were waiting for a new house pie to be put out. I must say, it was worth the short wait. The bruschetta was my favorite of the three. \n\nRed Gate Bakery in EV - choco toffee cookie. One of my favorite chocolate chip cookies in the city. Waited in line about 15 min total, so not bad. I wanted the corn cake, but apparently they sold out within the first hour of the day so I was no where near close to achieving that goal. \n\nNot pictured - the juice I got after my morning run, and the ice cream I got at the end of the day 😋\n\nOverall a strong day of eats. 10/10. I love a solo day of walking around and eating ",
+    "ancestors": [
+     {
+      "author": "dummonger",
+      "body": "Looks great and great pics! Next time walk a couple blocks from mamas and try faiccos for a chicken cutlet sando!"
+     },
+     {
+      "author": "Interesting-Shop4638",
+      "body": "I know I'm 3 days late, but I want to +1 this. I'm a pretty big cutlet sandwich hater because usually it's just old, microwaved chicken on bread, but the way Faicco's makes an almost pesto out of the broccoli rabe is so good"
+     }
+    ],
+    "author": "why_squ1rtle",
+    "body": "Idk their cutlet sandwich is so disappointing to me. But to be fair most Manhattan to go cutlet spots r mid so really what option is there. Faiccos is too cold. Parisi not enough breading. Parm too thick. Mamas too looks overly popular so that means the quality is probably shite. Caponne meh. The only real options for a parm is a sit down which is ridiculous cuz u know it’s gonna be pricey aka more than 20 bucks. Like emilios ballato or Arthur and sons. Maybe im too picky ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Faiccos",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cutlet sandwich",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "temperature",
+       "text": "too cold"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cutlet sandwich"
+     ]
+    },
+    {
+     "name": "Parisi",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "breading",
+       "text": "not enough breading"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "parm"
+     ]
+    },
+    {
+     "name": "Parm",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "parm",
+       "text": "parm too thick"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "parm"
+     ]
+    },
+    {
+     "name": "Mamas",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "guessed quality",
+       "text": "looks overly popular, so quality is probably bad; untried guess from the crowd"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Caponne",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "parm"
+     ]
+    },
+    {
+     "name": "emilios ballato",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "sit-down parm",
+       "text": "named as an example of pricey sit-down parm options"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "parm",
+      "sit-down"
+     ]
+    },
+    {
+     "name": "Arthur and sons",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "sit-down parm",
+       "text": "named as an example of pricey sit-down parm options"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "parm",
+      "sit-down"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0287",
+   "comment_id": "t1_o628web",
+   "model_view": "<post_title>Cake slice rec</post_title>\n<post_body>I just like a decent not too sweet cake slice in the city. Something under $10 and preferably like from a chain (whole foods, tai pan). Any suggestions? Thanks.</post_body>\n<comment_to_extract>\nMia's has many options and they have a location in Times Square.\n</comment_to_extract>",
+   "context": {
+    "title": "Cake slice rec",
+    "selftext": "I just like a decent not too sweet cake slice in the city. Something under $10 and preferably like from a chain (whole foods, tai pan). Any suggestions? Thanks. ",
+    "ancestors": [],
+    "author": "DealerEquivalent3558",
+    "body": "Mia's has many options and they have a location in Times Square.\n\n",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mia's",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": "Times Square",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "options",
+       "text": "has many options"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cake slice"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0288",
+   "comment_id": "t1_j2c2c8r",
+   "model_view": "<post_title>What’s a restaurant in NYC that is unlike anything else on earth?</post_title>\n<post_body>I’m talking 4charles burgers (except Chicago), prince street pizza, (except LA), that sandwich place in Times Square (except Italy)</post_body>\n<comment_to_extract>\nLove it or hate it, Serendipity 3.\n</comment_to_extract>",
+   "context": {
+    "title": "What’s a restaurant in NYC that is unlike anything else on earth?",
+    "selftext": "I’m talking 4charles burgers (except Chicago), prince street pizza, (except LA), that sandwich place in Times Square (except Italy)",
+    "ancestors": [],
+    "author": "DawgsWorld",
+    "body": "Love it or hate it, Serendipity 3.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Serendipity 3",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "dessert",
+      "american"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0289",
+   "comment_id": "t1_ofxccqy",
+   "model_view": "<post_title>NYC Food Report</post_title>\n<post_body>Some of my last eats from my trip to NYC. Always welcoming recommendations for my next trip as well! \n\n1) Nom Nam\n\n2) Soho Diner\n\n3) Los Tacos No.1\n\n4 Joes (in bed)\n\n5) Santo Taco \n\n6) Levain\n\n7) Hamburger America\n\n8) Ichiran\n\n9) Donut Pub\n\n10) Square Diner\n\n11) Mamas Too\n\n12) Golden Diner\n\n13) Bubby’s\n\n14) L’Industrie\n\n15) Apollo Bagels</post_body>\n<comment_to_extract>\nSerious question, was breakfast your most expensive meal each day? I'm perpetually amazed that people are willing to pay $35 for two eggs, bacon, and toast and $25 for an order of pancakes.\n</comment_to_extract>",
+   "context": {
+    "title": "NYC Food Report",
+    "selftext": "Some of my last eats from my trip to NYC. Always welcoming recommendations for my next trip as well! \n\n1) Nom Nam\n\n2) Soho Diner\n\n3) Los Tacos No.1\n\n4 Joes (in bed)\n\n5) Santo Taco \n\n6) Levain\n\n7) Hamburger America\n\n8) Ichiran\n\n9) Donut Pub\n\n10) Square Diner\n\n11) Mamas Too\n\n12) Golden Diner\n\n13) Bubby’s\n\n14) L’Industrie\n\n15) Apollo Bagels",
+    "ancestors": [],
+    "author": "americanu_ill-archi",
+    "body": "Serious question, was breakfast your most expensive meal each day? I'm perpetually amazed that people are willing to pay $35 for two eggs, bacon, and toast and $25 for an order of pancakes.",
+    "replies": [
+     {
+      "author": "benbraddock2002",
+      "body": "You’re paying for higher cost of doing biz in NYC, rent, labor, compliance (fire, health) etc, the food cost is a tiny bit "
+     },
+     {
+      "author": "lifeinprogress27",
+      "body": "Now that you mention it, breakfast was quite high in price! Coming from the UK though, while the cost of food in NYC is generally quite high I think the quality of the food is better and the portion size is also more than double what we’d get in the UK. A lot of the time it can be split between 2/3 people "
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0290",
+   "comment_id": "t1_p7m31w0",
+   "model_view": "<post_title>New York City’s Los Tacos No. 1 nabs private-equity investment from Crumbl and Dutch Bros backers</post_title>\n<thread_above>\n[1] another user: Enshitification comes for tacos.\n</thread_above>\n<comment_to_extract>\nIn the age of the $8 great taco the only place to move is to make it worse.\n</comment_to_extract>",
+   "context": {
+    "title": "New York City’s Los Tacos No. 1 nabs private-equity investment from Crumbl and Dutch Bros backers",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "somniphobiac",
+      "body": "Enshitification comes for tacos."
+     }
+    ],
+    "author": "BankshotMcG",
+    "body": "In the age of the $8 great taco the only place to move is to make it worse. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0291",
+   "comment_id": "t1_p7cn2y8",
+   "model_view": "<post_title>Wu's Wonton closed indefinitely but unsure why, anybody?</post_title>\n<post_body>Sign outside says \"renovation\" but word says it was shut down due to health violations. Does anyone know more? I found this posting. Does anyone know any more?</post_body>\n<thread_above>\n[1] another user: Allegedly reopening on Thursday, hope the kitchen had a good swipe through\n</thread_above>\n<comment_to_extract>\nThey just posted on Insta:https://www.instagram.com/p/DcxQc5dM5GQ/\n</comment_to_extract>",
+   "context": {
+    "title": "Wu's Wonton closed indefinitely but unsure why, anybody?",
+    "selftext": "Sign outside says \"renovation\" but word says it was shut down due to health violations. Does anyone know more? I found this posting. Does anyone know any more?",
+    "ancestors": [
+     {
+      "author": "Garconavecunreve",
+      "body": "Allegedly reopening on Thursday, hope the kitchen had a good swipe through "
+     }
+    ],
+    "author": "brianboyd",
+    "body": "They just posted on Insta:https://www.instagram.com/p/DcxQc5dM5GQ/",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Wu's Wonton",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0292",
+   "comment_id": "t1_orsqiae",
+   "model_view": "<post_title>Best deli pickles in NYC (preferably near manhattan)</post_title>\n<post_body>Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!</post_body>\n<thread_above>\n[1] you, earlier: Eddies in Maspeth Wholesale/Retail Tops! https://eddiespickles.com/pages/contact\n[2] another user: These are my favorite pickles\n</thread_above>\n<comment_to_extract>\nMy Aunt/Uncle owned a Deli in Brooklyn for 60 years. I know pickles. I am glad you do too\n</comment_to_extract>",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [
+     {
+      "author": "Bigdaddyhef-365",
+      "body": "Eddies in Maspeth  \nWholesale/Retail  \nTops!\n\nhttps://eddiespickles.com/pages/contact"
+     },
+     {
+      "author": "aunipine",
+      "body": "These are my favorite pickles "
+     }
+    ],
+    "author": "Bigdaddyhef-365",
+    "body": "My Aunt/Uncle owned a Deli in Brooklyn for 60 years. I know pickles. I am glad you do too",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0293",
+   "comment_id": "t1_mdt5wj8",
+   "model_view": "<post_title>Best \"Dinner and a Show\" Experiences in NYC?</post_title>\n<post_body>I'm looking for a recommendation for date night and would love to do dinner, but would want one that is more lively/interactive/party-vibes in a sense. Thinking:\n\n* Sushi on Me/AYCD or AYCE Suhi\n* Murder mystery theatre\n* Taste the menu type places\n* Venhue\n* Hibachi even?\n\nOr anything else that falls in that category. Prefer for the food to be at least reasonably \"good\" with respect to its category. Open to any price point!</post_body>\n<comment_to_extract>\nLife and Trust. It was created by the team that was involved with Sleep No More. There isn't a dinner aspect, but if you get an early entry ticket there are some little snacks in the bar before you go into the show. I highly recommend going for a date night and splitting up while you explore the show then having drinks after so that you can compare your experiences.\n</comment_to_extract>",
+   "context": {
+    "title": "Best \"Dinner and a Show\" Experiences in NYC?",
+    "selftext": "I'm looking for a recommendation for date night and would love to do dinner, but would want one that is more lively/interactive/party-vibes in a sense. Thinking:\n\n* Sushi on Me/AYCD or AYCE Suhi\n* Murder mystery theatre\n* Taste the menu type places\n* Venhue\n* Hibachi even?\n\nOr anything else that falls in that category. Prefer for the food to be at least reasonably \"good\" with respect to its category. Open to any price point!",
+    "ancestors": [],
+    "author": "Fabulous_Public_5649",
+    "body": "Life and Trust. It was created by the team that was involved with Sleep No More. There isn't a dinner aspect, but if you get an early entry ticket there are some little snacks in the bar before you go into the show. I highly recommend going for a date night and splitting up while you explore the show then having drinks after so that you can compare your experiences.",
+    "replies": [
+     {
+      "author": "marizul24",
+      "body": "Also closed recently )):"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0294",
+   "comment_id": "t1_osaz7jt",
+   "model_view": "<post_title>Navigating NYC Dining & Sightseeing Hours: Help a group of 8 adjust from a Spanish \"Late\" Schedule!</post_title>\n<post_body>Hey NYC! We’re finalizing planning our 9-day summer trip from Spain, traveling as a group of 8 (mixed adults and teens). In Spain, our daily rhythm is notoriously late: we usually have lunch around 2:00 PM and dinner around 9:30 PM or 10:00 PM.\n\nWe know NYC is 'the city that never sleeps,' but we’ve been warned that restaurant kitchens definitely do. Since we are a large group, we really want to avoid being 'that' annoying party that shows up right as the chef is cleaning the grills.\n\nI’d love to get your insights on how to balance our internal clocks with the local NYC rhythm:\n\n* **The Dinner Kitchen Cutoff:** If we roll up to a casual or sit-down restaurant at 9:15 PM or 9:30 PM, are we pushing our luck for a group of 8? What is the standard time when mid-range kitchens in Manhattan and Brooklyn actually stop taking orders? Are there specific neighborhoods (like Chinatown or the Village) where late dining is safer, or should we strictly force ourselves to eat by 8:00 PM?\n* **The 9:00 AM Start Time:** We’re planning to head out of our hotel next to Rockefeller Center around 9:00 AM every morning. Is this considered 'too late' to beat the morning rush and the worst of the July heat ...</post_body>\n<comment_to_extract>\nA lot of restaurants that post a closing time of X means that's the last time at which they'll allow guests to enter, but guests already there can finish their meals.\n\nIs there a reason you're avoiding making reservations? Trying to rock up to a place with an 8-top is a bad idea unless you know what you're doing. If you use Resy or OpenTable you can usually find things even with less than an hour's notice, although I admit I've never made an app reservation for more than 6 people.\n</comment_to_extract>",
+   "context": {
+    "title": "Navigating NYC Dining & Sightseeing Hours: Help a group of 8 adjust from a Spanish \"Late\" Schedule!",
+    "selftext": "Hey NYC! We’re finalizing planning our 9-day summer trip from Spain, traveling as a group of 8 (mixed adults and teens). In Spain, our daily rhythm is notoriously late: we usually have lunch around 2:00 PM and dinner around 9:30 PM or 10:00 PM.\n\nWe know NYC is 'the city that never sleeps,' but we’ve been warned that restaurant kitchens definitely do. Since we are a large group, we really want to avoid being 'that' annoying party that shows up right as the chef is cleaning the grills.\n\nI’d love to get your insights on how to balance our internal clocks with the local NYC rhythm:\n\n* **The Dinner Kitchen Cutoff:** If we roll up to a casual or sit-down restaurant at 9:15 PM or 9:30 PM, are we pushing our luck for a group of 8? What is the standard time when mid-range kitchens in Manhattan and Brooklyn actually stop taking orders? Are there specific neighborhoods (like Chinatown or the Village) where late dining is safer, or should we strictly force ourselves to eat by 8:00 PM?\n* **The 9:00 AM Start Time:** We’re planning to head out of our hotel next to Rockefeller Center around 9:00 AM every morning. Is this considered 'too late' to beat the morning rush and the worst of the July heat, or is it a solid time to start sightseeing?\n* **The Lunch Rush Window:** Back home, the 1:00 PM to 2:00 PM slot is just the warm-up for lunch, but we know that's peak chaos in NYC. To avoid the massive 12:30 PM – 1:30 PM office/tourist rush, what’s the best tactical window for us to aim for lunch? Should we go early (11:30 AM) or push it late (2:15 PM)?\n* **The \"Golden Hour\" for Group Walk-ins:** For a party of 8, is there a magical time of day where a restaurant is empty enough to seat us without a massive wait, or is it a hard 'no reservation, no entry' policy across the board in July? We are fully prepared to split into two tables of 4 if it makes life easier for the staff.\n\nWe want to respect the local restaurant culture and the servers, but we also want to avoid getting locked out of good food. Any tips on how to sync our schedule without causing a logistical nightmare would be amazing! Gracias!",
+    "ancestors": [],
+    "author": "that_was_way_harsh",
+    "body": "A lot of restaurants that post a closing time of X means that's the last time at which they'll allow guests to enter, but guests already there can finish their meals.\n\nIs there a reason you're avoiding making reservations? Trying to rock up to a place with an 8-top is a bad idea unless you know what you're doing. If you use Resy or OpenTable you can usually find things even with less than an hour's notice, although I admit I've never made an app reservation for more than 6 people.",
+    "replies": [
+     {
+      "author": "__theoneandonly",
+      "body": "> A lot of restaurants that post a closing time of X means that's the last time at which they'll allow guests to enter, but guests already there can finish their meals.\n\nDon't count on this, though. Tons of restaurants will be passing around take-out to pack the rest of your meal and putting checks on the table 10-ish minutes before closing. I would never count on a restaurant letting you sit and eat after their closing hours."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0295",
+   "comment_id": "t1_or4qg3r",
+   "model_view": "<post_title>Urgently Need this Mexican Restaurant Vibe!!!!!!!!!!!</post_title>\n<post_body>I’m looking for a VERY SPECIFIC type of Mexican restaurant that’s common in suburban west coast towns but which I’ve never encountered in NYC.\n\nIt needs:  \n\\- Complimentary chips and salsa on the table  \n\\- Margaritas on the menu  \nMOST IMPORTANT!!!!!  \n\\- When you order a meal, it comes with on a huge platter of rice and beans!!!!!!!\n\nI will travel to any borough for this!!!!</post_body>\n<comment_to_extract>\nThere’s a Dominican/Mexican on Essex - El Nuevo Amanecer - not amazing but fun.\n</comment_to_extract>",
+   "context": {
+    "title": "Urgently Need this Mexican Restaurant Vibe!!!!!!!!!!!",
+    "selftext": "I’m looking for a VERY SPECIFIC type of Mexican restaurant that’s common in suburban west coast towns but which I’ve never encountered in NYC.\n\nIt needs:  \n\\- Complimentary chips and salsa on the table  \n\\- Margaritas on the menu  \nMOST IMPORTANT!!!!!  \n\\- When you order a meal, it comes with on a huge platter of rice and beans!!!!!!!\n\nI will travel to any borough for this!!!!",
+    "ancestors": [],
+    "author": "ToothSuccessful5898",
+    "body": "There’s a Dominican/Mexican on Essex - El Nuevo Amanecer - not amazing but fun.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "El Nuevo Amanecer",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Essex",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "cuisine",
+       "text": "Dominican/Mexican menu"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "dominican",
+      "mexican"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0296",
+   "comment_id": "t1_p8ncw86",
+   "model_view": "<post_title>Red Hook Tavern: Burger Overhyped Steak Tartare Underhyped</post_title>\n<post_body>Finally got to walk into this place. Steak tartare was the standout, the crunchy bits + the steak + the egg + the bread hit every note it needed to and then more. The burger was huge + good, but for $34 why would you give us these soggy round fries…I thought it was a little overhyped.\n\nThis place and then a Steve’s Key Lime Pie run after was a really good combo on a summer night!</post_body>\n<thread_above>\n[1] another user: Listen. An S tier burger is only only 10 percent better than a B tier burger. Has the most diminishing returns between price exclusivity and quality of any food.\n[2] you, earlier: Minetta burger is over 10% better than anything else I've had IMO. Never had RHT\n[3] another user: Minetta Tavern is all hype. Burger is mid just like RHT.\n</thread_above>\n<comment_to_extract>\nHave had the burger twice and thought it was unreal. I do not care about hype\n</comment_to_extract>",
+   "context": {
+    "title": "Red Hook Tavern: Burger Overhyped Steak Tartare Underhyped",
+    "selftext": "Finally got to walk into this place. Steak tartare was the standout, the crunchy bits + the steak + the egg + the bread hit every note it needed to and then more. The burger was huge + good, but for $34 why would you give us these soggy round fries…I thought it was a little overhyped.\n\nThis place and then a Steve’s Key Lime Pie run after was a really good combo on a summer night!",
+    "ancestors": [
+     {
+      "author": "onedollalama",
+      "body": "Listen. An S tier burger is only only 10 percent better than a B tier burger. Has the most diminishing returns between price exclusivity and quality of any food. "
+     },
+     {
+      "author": "AdvancedIce99",
+      "body": "Minetta burger is over 10% better than anything else I've had IMO. Never had RHT"
+     },
+     {
+      "author": "aguacate222",
+      "body": "Minetta Tavern is all hype. Burger is mid just like RHT. "
+     }
+    ],
+    "author": "AdvancedIce99",
+    "body": "Have had the burger twice and thought it was unreal. I do not care about hype",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Red Hook Tavern",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "burger",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "burger"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0297",
+   "comment_id": "t1_obkg08l",
+   "model_view": "<post_title>red hook tavern dinner walk in - how early would I have to be to get a seat?</post_title>\n<post_body>I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?</post_body>\n<thread_above>\n[1] another user: Red Hook Tavern is a reaaally small space, and I'm always baffled at the length of the line. You'd feel like people would know by now you have zero shot of getting in for the night if there's more than like...10 groups in line, but no, there's a group of like 20+ people every day waiting an hour plus just to get told there's no spots or MAYBE they'll seat you at 9:30.\n</thread_above>\n<comment_to_extract>\nI’m surprised since it’s not super easy to get to without a car\n</comment_to_extract>",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [
+     {
+      "author": "AvocadoBeefToast",
+      "body": "Red Hook Tavern is a reaaally small space, and I'm always baffled at the length of the line. You'd feel like people would know by now you have zero shot of getting in for the night if there's more than like...10 groups in line, but no, there's a group of like 20+ people every day waiting an hour plus just to get told there's no spots or MAYBE they'll seat you at 9:30."
+     }
+    ],
+    "author": "Glizzys4everyone",
+    "body": "I’m surprised since it’s not super easy to get to without a car ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Red Hook Tavern",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "access",
+       "text": "not super easy to get to without a car"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0298",
+   "comment_id": "t1_oiyd15w",
+   "model_view": "<post_title>Dairy-free (and -nut) in NYC?</post_title>\n<post_body>I am allergic to dairy and nuts. Going to New York City. Any recommendations for  restaurants and dishes that are safe for allergies and really super-great? Love Chinese, Middle Eastern, sushi but have fear of Italian.</post_body>\n<thread_above>\n[1] you, earlier: chikarashi. can even get a dole whip you can get halal carts if you don’t get white sauce. some places have tahini which honestly tastes better anyway. always add green sauce if they have it. lots of halal/middle eastern sit down restaurants here have yogurt-based stuff tho, beware lots of chinese a ...\n[2] another user: didn't know about chikarashi--they don't have any cross contamination ever (like they don't swap out flavors in the soft serve machine that you know?) My son loves dole whip\n</thread_above>\n<comment_to_extract>\nyou should 100% contact them. i haven’t asked them about allergens in years \n\n\nbut they do pineapple dole whip + a rotating flavor, usually. sometimes it’s served out of an actual pineapple\n\ni’ve never seen dairy in the machine tho\n</comment_to_extract>",
+   "context": {
+    "title": "Dairy-free (and -nut) in NYC?",
+    "selftext": "I am allergic to dairy and nuts. Going to New York City. Any recommendations for  restaurants and dishes that are safe for allergies and really super-great? Love Chinese, Middle Eastern, sushi but have fear of Italian.",
+    "ancestors": [
+     {
+      "author": "salted-egg-yolk",
+      "body": "chikarashi. can even get a dole whip\n\nyou can get halal carts if you don’t get white sauce. some places have tahini which honestly tastes better anyway. always add green sauce if they have it. lots of halal/middle eastern sit down restaurants here have yogurt-based stuff tho, beware\n\nlots of chinese and sushi options fortunately \n\nthere’s a blog called nut free new york which is out of date but may be of some use. \n\n\nand in general i recommend calling places before just showing up with severe allergies. may be super obvious advice but i see a lot of diners show up during rush hours with strict requests and it’s not ideal*"
+     },
+     {
+      "author": "DetectiveOk3902",
+      "body": "didn't know about chikarashi--they don't have any cross contamination ever (like they don't swap out flavors in the soft serve machine that you know?)  My son loves dole whip"
+     }
+    ],
+    "author": "salted-egg-yolk",
+    "body": "you should 100% contact them. i haven’t asked them about allergens in years \n\n\nbut they do pineapple dole whip + a rotating flavor, usually. sometimes it’s served out of an actual pineapple\n\ni’ve never seen dairy in the machine tho",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "chikarashi",
+     "named_in": "context",
+     "kind": "cafe",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "pineapple dole whip",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "rotating flavor soft serve",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "allergen check",
+       "text": "Commenter says to contact the shop about allergens; they haven't asked in years."
+      },
+      {
+       "about": "dairy in machine",
+       "text": "Commenter has never seen dairy in the soft serve machine."
+      },
+      {
+       "about": "serving style",
+       "text": "Sometimes the dole whip is served out of an actual pineapple."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "soft serve",
+      "dessert",
+      "dairy-free"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0299",
+   "comment_id": "t1_o258091",
+   "model_view": "<post_title>Weightloss veg orders in NYC</post_title>\n<post_body>I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.</post_body>\n<comment_to_extract>\nMany Asian places have a version of sautéed veggies, it my usual go to if I am having a low calorie takeout day\n</comment_to_extract>",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [],
+    "author": "mashie_sauce",
+    "body": "Many Asian places have a version of sautéed veggies, it my usual go to if I am having a low calorie takeout day",
+    "replies": [
+     {
+      "author": "cute_polarbear",
+      "body": "You can also request them to make it less oily and salty."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0300",
+   "comment_id": "t1_kehkdzw",
+   "model_view": "<post_title>What’s an NYC food opinion that will have you like this?</post_title>\n<post_body>Mine is Nowon’s burger is the most mid thing ever</post_body>\n<thread_above>\n[1] another user: Prince Street Pizza isn’t worth the long ass line, neither is Mei Lai Wah Jack’s Wife Freda and Balthazar are overhyped\n[2] another user: What do you prefer over Mei Lai Wah?\n</thread_above>\n<comment_to_extract>\nObviously it's all subjective but Hop Shing's char siu bao was better but now that it's closed Mei Lai Wah is the best. Having grown up in Chinatown and Flushing there's really no comparison. You pay more nowadays for a lesser bao at your typical Chinese bakery.\n</comment_to_extract>",
+   "context": {
+    "title": "What’s an NYC food opinion that will have you like this?",
+    "selftext": "Mine is Nowon’s burger is the most mid thing ever",
+    "ancestors": [
+     {
+      "author": "BluWaffles32",
+      "body": "Prince Street Pizza isn’t worth the long ass line, neither is Mei Lai Wah \n\nJack’s Wife Freda and Balthazar are overhyped"
+     },
+     {
+      "author": "Theoretical_Genius",
+      "body": "What do you prefer over Mei Lai Wah?"
+     }
+    ],
+    "author": "PotStickerLicker",
+    "body": "Obviously it's all subjective but Hop Shing's char siu bao was better but now that it's closed Mei Lai Wah is the best. Having grown up in Chinatown and Flushing there's really no comparison. You pay more nowadays for a lesser bao at your typical Chinese bakery.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Hop Shing",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Chinatown",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "char siu bao",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "closed",
+       "text": "Hop Shing is now closed"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "chinese",
+      "bao"
+     ]
+    },
+    {
+     "name": "Mei Lai Wah",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": "Chinatown",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Commenter says Mei Lai Wah is now the best since Hop Shing closed; the bao is better than typical Chinese bakery bao, which costs more"
+      }
+     ],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "chinese",
+      "bakery",
+      "bao"
+     ]
+    }
+   ]
+  }
+ ]
+}

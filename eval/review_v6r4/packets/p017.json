@@ -1,0 +1,1035 @@
+{
+ "packet": "p017",
+ "items": [
+  {
+   "item_id": "R0401",
+   "comment_id": "t1_peqs11u",
+   "model_view": "<post_title>What specifically are the very best items to order at the best bakeries in New York?</post_title>\n<post_body>People often talk about favorite bakeries, but what specific pastries or baked goods are the outstanding ones?</post_body>\n<comment_to_extract>\nTry the rainbow cake from the port authority Carlos bakery \n\n(Not sure if /s is needed)\n</comment_to_extract>",
+   "context": {
+    "title": "What specifically are the very best items to order at the best bakeries in New York?",
+    "selftext": "People often talk about favorite bakeries, but what specific pastries or baked goods are the outstanding ones?",
+    "ancestors": [],
+    "author": "joeysportsfan98",
+    "body": "Try the rainbow cake from the port authority Carlos bakery \n\n(Not sure if /s is needed)",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Carlos bakery",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": "Port Authority",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "rainbow cake",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "sarcasm",
+       "text": "Commenter asks whether /s is needed, suggesting the recommendation may be a joke; the sarcasm marker is uncertain, so the pick is kept as an endorsement."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bakery",
+      "rainbow cake"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0402",
+   "comment_id": "t1_ky4ogls",
+   "model_view": "<post_title>What’s the soup the momo guy offers me while I wait?</post_title>\n<post_body>Anytime I have to wait for momos to be ready the guy offers me a cup of soup for free. But I’m never clear what the soup is.  There’s no soup on the menu or anything. \n\nDoes anyone have any idea what it might be?</post_body>\n<comment_to_extract>\nmaybe it's the jhol momo soup\n</comment_to_extract>",
+   "context": {
+    "title": "What’s the soup the momo guy offers me while I wait? ",
+    "selftext": "Anytime I have to wait for momos to be ready the guy offers me a cup of soup for free. But I’m never clear what the soup is.  There’s no soup on the menu or anything. \n\nDoes anyone have any idea what it might be? ",
+    "ancestors": [],
+    "author": "CYBERPOLICEBACKTRACE",
+    "body": "maybe it's the jhol momo soup",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0403",
+   "comment_id": "t1_nl8ujdx",
+   "model_view": "<post_title>Sushi Nakazawa premium beverage pairing list??</post_title>\n<comment_to_extract>\nHave you considered contacting the restaurant and asking them?\n</comment_to_extract>",
+   "context": {
+    "title": "Sushi Nakazawa premium beverage pairing list??",
+    "selftext": "[removed]",
+    "ancestors": [],
+    "author": "FoodNYC-ModTeam",
+    "body": "Have you considered contacting the restaurant and asking them?",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0404",
+   "comment_id": "t1_l5kf1mm",
+   "model_view": "<post_title>Sometimes I wish there was a Nando’s in NYC</post_title>\n<post_body>Because while some people may say the food a bit dry, I have been interested in trying it out lately anyway as I am looking for restaurants that cater to those trying to eat healthy.\n\n\n\nYeah basically I am just trying to cut back from junk foods in my diet by eating foods with low calories, so I sometimes feel bad that the chain is only mostly available all in the way in the UK as I feel like I am missing something good.</post_body>\n<thread_above>\n[1] you, earlier: OMG when we went to DC last year, we ate there, and I know it sounds funny but I liked their sauce more than the chicken dishes. So we came back with five bottles 🤣 We're on the last bottle....\n[2] another user: You can order nandos sauce off amazon!\n</thread_above>\n<comment_to_extract>\nWhaaaaat. Game changer.... Thank you Reddit stranger!!\n</comment_to_extract>",
+   "context": {
+    "title": "Sometimes I wish there was a Nando’s in NYC ",
+    "selftext": "Because while some people may say the food a bit dry, I have been interested in trying it out lately anyway as I am looking for restaurants that cater to those trying to eat healthy.\n\n\n\nYeah basically I am just trying to cut back from junk foods in my diet by eating foods with low calories, so I sometimes feel bad that the chain is only mostly available all in the way in the UK as I feel like I am missing something good.",
+    "ancestors": [
+     {
+      "author": "JackyVeronica",
+      "body": "OMG when we went to DC last year, we ate there, and I know it sounds funny but I liked their sauce more than the chicken dishes. So we came back with five  bottles 🤣 We're on the last bottle...."
+     },
+     {
+      "author": "AnybodyShoddy6061",
+      "body": "You can order nandos sauce off amazon!"
+     }
+    ],
+    "author": "JackyVeronica",
+    "body": "Whaaaaat. Game changer.... Thank you Reddit stranger!!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Nando's",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0405",
+   "comment_id": "t1_oh7geq3",
+   "model_view": "<post_title>Anyone know any gluten free cakes and desert bakeries?</post_title>\n<post_body>My fiancé and i are trying to get a gluten free cakes and gluten free deserts for our wedding. We don’t know where to start and wanted some fresh ideas from first fork to mouth encounters.</post_body>\n<thread_above>\n[1] another user: By The Way Bakery is by far the best I’ve had. I’m not gluten free and the name says it all - I would truly have no idea. They do wedding cakes and other desserts: https://www.btwbakery.com/wedding-cakes\n</thread_above>\n<comment_to_extract>\nTheir coconut cake is to die for\n</comment_to_extract>",
+   "context": {
+    "title": "Anyone know any gluten free cakes and desert bakeries?",
+    "selftext": "My fiancé and i are trying to get a gluten free cakes and gluten free deserts for our wedding. We don’t know where to start and wanted some fresh ideas from first fork to mouth encounters.",
+    "ancestors": [
+     {
+      "author": "arist0stles",
+      "body": "By The Way Bakery is by far the best I’ve had. I’m not gluten free and the name says it all - I would truly have no idea. \n\nThey do wedding cakes and other desserts: https://www.btwbakery.com/wedding-cakes"
+     }
+    ],
+    "author": "pinkpeachpie_",
+    "body": "Their coconut cake is to die for ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "By The Way Bakery",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "coconut cake",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0406",
+   "comment_id": "t1_n8gq8ig",
+   "model_view": "<post_title>Strawberry milkshake</post_title>\n<post_body>Where’s the best (non-alcohol) strawberry milkshake these days? I have the day off and am willing to travel pretty much anywhere.</post_body>\n<comment_to_extract>\nHarlem Shake\n\nSugar Hill Creamery\n</comment_to_extract>",
+   "context": {
+    "title": "Strawberry milkshake",
+    "selftext": "Where’s the best (non-alcohol) strawberry milkshake these days? I have the day off and am willing to travel pretty much anywhere.  ",
+    "ancestors": [],
+    "author": "Kennected",
+    "body": "Harlem Shake\n\nSugar Hill Creamery",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Harlem Shake",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "strawberry milkshake",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "milkshakes",
+      "non-alcoholic"
+     ]
+    },
+    {
+     "name": "Sugar Hill Creamery",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "strawberry milkshake",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ice cream",
+      "milkshakes",
+      "non-alcoholic"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0407",
+   "comment_id": "t1_owvtc6s",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n[1] another user: Killed by proteinmaxing\n[2] you, earlier: Bro everything is protein now. They even got protein soda...like wtf?\n[3] another user: Crowtein. A full crownin every can\n</thread_above>\n<comment_to_extract>\nFor bodyguards, by body guards.\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "walkingthecowww",
+      "body": "Killed by proteinmaxing"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Bro everything is protein now. They even got protein soda...like wtf? "
+     },
+     {
+      "author": "upyourattraction",
+      "body": "Crowtein. A full crownin every can"
+     }
+    ],
+    "author": "SpongeyBobaruu",
+    "body": "For bodyguards, by body guards.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0408",
+   "comment_id": "t1_oy5q7nh",
+   "model_view": "<post_title>A Cult-Favorite Froyo Spot With Notorious Lines Is Coming To The Upper East Side</post_title>\n<thread_above>\n[1] another user: They couldn’t just say Mimi’s?\n</thread_above>\n<comment_to_extract>\nYes, this specific User spams multiple threads with patch articles to get clicks\n\nI don’t understand why they’re not banned\n</comment_to_extract>",
+   "context": {
+    "title": "A Cult-Favorite Froyo Spot With Notorious Lines Is Coming To The Upper East Side",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Ricky1280",
+      "body": "They couldn’t just say Mimi’s? "
+     }
+    ],
+    "author": "JustP2",
+    "body": "Yes, this specific User spams multiple threads with patch articles to get clicks\n\nI don’t understand why they’re not banned",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0409",
+   "comment_id": "t1_obhfu84",
+   "model_view": "<post_title author=\"you\">red hook tavern dinner walk in - how early would I have to be to get a seat?</post_title>\n<post_body author=\"you\">I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?</post_body>\n<thread_above>\n[1] another user: If you have the ability to do so, go on a Thursday for lunch. The menu is the same and when I showed up at 2pm, I was seated immediately.\n</thread_above>\n<comment_to_extract>\nWe’ve decided to go for lunch today\n</comment_to_extract>",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [
+     {
+      "author": "DoritosDewItRight",
+      "body": "If you have the ability to do so, go on a Thursday for lunch. The menu is the same and when I showed up at 2pm, I was seated immediately."
+     }
+    ],
+    "author": "lucas_214",
+    "body": "We’ve decided to go for lunch today",
+    "replies": [
+     {
+      "author": "DoritosDewItRight",
+      "body": "Good luck, lemme know how it goes"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0410",
+   "comment_id": "t1_kw04iay",
+   "model_view": "<post_title>Where can I get tacos de canasta?</post_title>\n<post_body>I love basket tacos (tacos de canasta) like you can get at Los Especiales in Mexico City. Where can I get those here? Willing to travel anywhere via subway for them.</post_body>\n<thread_above>\n[1] you, earlier: Aldama\n[2] OP: I’m looking at the menu and don’t see basket tacos on there. Is it something you have to ask for?\n</thread_above>\n<comment_to_extract>\nTacos de canasta\n</comment_to_extract>",
+   "context": {
+    "title": "Where can I get tacos de canasta?",
+    "selftext": "I love basket tacos (tacos de canasta) like you can get at Los Especiales in Mexico City. Where can I get those here? Willing to travel anywhere via subway for them. ",
+    "ancestors": [
+     {
+      "author": "Cartadimusica",
+      "body": "Aldama"
+     },
+     {
+      "author": "DMmepicsofyourdog",
+      "body": "I’m looking at the menu and don’t see basket tacos on there. Is it something you have to ask for?"
+     }
+    ],
+    "author": "Cartadimusica",
+    "body": "Tacos de canasta",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0411",
+   "comment_id": "t1_orirtjy",
+   "model_view": "<post_title>Weird experience at Theodora, spilled wine turned into a negotiation</post_title>\n<post_body>Went to Theodora last night as a party of 4. First off, food was really good - notably the octopus and lamb. The service was confusingly bad. \n\nA runner spilled a significant portion of our bottle of wine on my friend early into our meal. We’re talking at least a third of the bottle, and it took a solid 5 minutes to clean up. We were very good sports about it. The manager comes over and tells us she’s going to discount the bottle. This initially catches my wet friend and I a little off guard, but the food continues to rock. \n\nThe service turned very cold after the spill - even feeling dismissive at times. No one wanted to interact with our table. The check comes after one of the better chocolate cakes I’ve had in the city, and we are met with a 25% discount on the $84 bottle of wine that dampened my friend. \n\nI go talk to the manager, because this feels wrong, and she tells me that she didn’t realize that much had spilled and increases the discount to 50%. I found it insulting that the concern was with the amount of wine lost, and not with the fact that it was lost directly onto a person. It’s late so we take the 50% and leave. The manager offers us a shot on the way out as a hilar ...</post_body>\n<comment_to_extract>\nThis place is overrated\n</comment_to_extract>",
+   "context": {
+    "title": "Weird experience at Theodora, spilled wine turned into a negotiation",
+    "selftext": "Went to Theodora last night as a party of 4. First off, food was really good - notably the octopus and lamb. The service was confusingly bad. \n\nA runner spilled a significant portion of our bottle of wine on my friend early into our meal. We’re talking at least a third of the bottle, and it took a solid 5 minutes to clean up. We were very good sports about it. The manager comes over and tells us she’s going to discount the bottle. This initially catches my wet friend and I a little off guard, but the food continues to rock. \n\nThe service turned very cold after the spill - even feeling dismissive at times. No one wanted to interact with our table. The check comes after one of the better chocolate cakes I’ve had in the city, and we are met with a 25% discount on the $84 bottle of wine that dampened my friend. \n\nI go talk to the manager, because this feels wrong, and she tells me that she didn’t realize that much had spilled and increases the discount to 50%. I found it insulting that the concern was with the amount of wine lost, and not with the fact that it was lost directly onto a person. It’s late so we take the 50% and leave. The manager offers us a shot on the way out as a hilarious last attempt at good will. I do not think we will be back.\n\nAm I being unreasonable? It didn’t feel like there was any attempt at hospitality. ",
+    "ancestors": [],
+    "author": "Junior-Mud-7069",
+    "body": "This place is overrated ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Theodora",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0412",
+   "comment_id": "t1_objjsjv",
+   "model_view": "<post_title>red hook tavern dinner walk in - how early would I have to be to get a seat?</post_title>\n<post_body>I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?</post_body>\n<comment_to_extract>\nIt would be faster to get on the Jitney and go to their place in Sag Harbor. \n\nYikes.\n</comment_to_extract>",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [],
+    "author": "Cpalms139",
+    "body": "It would be faster to get on the Jitney and go to their place in Sag Harbor. \n\nYikes. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0413",
+   "comment_id": "t1_o25bxps",
+   "model_view": "<post_title author=\"you\">Weightloss veg orders in NYC</post_title>\n<post_body author=\"you\">I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.</post_body>\n<thread_above>\n[1] another user: I managed to drop about 18lbs before. My tip is eat less for lunch and more at the evening to sleep well at night. For lunch at weekdays i suggest Le Botaniste with their Cal labelled warm bowl\n</thread_above>\n<comment_to_extract>\nOmg this looks so good. Def gonna order\n</comment_to_extract>",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [
+     {
+      "author": "Accomplished_Big3114",
+      "body": "I managed to drop about 18lbs before. My tip is eat less for lunch and more at the evening to sleep well at night. For lunch at weekdays i suggest Le Botaniste with their Cal labelled warm bowl"
+     }
+    ],
+    "author": "shegothis",
+    "body": "Omg this looks so good. Def gonna order",
+    "replies": [
+     {
+      "author": "Accomplished_Big3114",
+      "body": "Glad to help! A pro tip that helped me: Veggies first → Protein second → Carbs last. It helps a ton with satiety. Also, mix it up with Sushi, Kimbap, authentic Chinese, or Tacos. You get good protein/veg volume and feel like a \"real meal\" so you don't feel deprived. Keep relaxed is important if you want to loss weight while you have to work so long."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0414",
+   "comment_id": "t1_os4cd1h",
+   "model_view": "<post_title>Where Are Your Favorite Cozy, Quaint NYC Pubs/ Bars?</post_title>\n<post_body>I’m on the hunt for the coziest, quaintest bars in NYC. Borough doesn’t matter, price doesn’t matter, I’m wanting something that looks like it jumped out of Cotswolds, England in a Hallmark movie. Maybe something that flirts with bookstore vibes? I’ve included some pictures for reference ❤️</post_body>\n<thread_above>\n[1] another user: [Molly’s](https://www.mollysshebeennyc.com/#about).\n</thread_above>\n<comment_to_extract>\nYou be quiet now\n</comment_to_extract>",
+   "context": {
+    "title": "Where Are Your Favorite Cozy, Quaint NYC Pubs/ Bars?",
+    "selftext": "I’m on the hunt for the coziest, quaintest bars in NYC. Borough doesn’t matter, price doesn’t matter, I’m wanting something that looks like it jumped out of Cotswolds, England in a Hallmark movie. Maybe something that flirts with bookstore vibes? I’ve included some pictures for reference ❤️",
+    "ancestors": [
+     {
+      "author": "digrappa",
+      "body": "[Molly’s](https://www.mollysshebeennyc.com/#about). "
+     }
+    ],
+    "author": "Satori2155",
+    "body": "You be quiet now",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0415",
+   "comment_id": "t1_okcrc8i",
+   "model_view": "<post_title>Best NYC treats/chocolates to bring to a West Coast office? (Must travel well!)</post_title>\n<post_body>I work in NYC and am heading out to visit our California office next week. I want to bring a little \"taste of New York\" for about 20 coworkers to share, but I have a few specific constraints:  \n• **Quantity:** Needs to be enough for roughly 15 people.  \n• **Shelf Life:** I’m buying them about a week before the trip, so they need to stay fresh at room temperature.  \n• **Travel:** They’ll be in my carry-on for a 6-hour flight, so nothing too fragile or temperature-sensitive (no Magnolia banana pudding, unfortunately!).\n\nI’m considering some Li lac chocolates or the magnolia cookies.\n\nDoes anyone have better suggestions for NYC treats that are easy to share in an office and actually taste good after a week?</post_body>\n<thread_above>\n[1] another user: Bagels that you store in a freezer until your flight? Just be sure to slice them before freezing them.\n</thread_above>\n<comment_to_extract>\nFor a WEek before absolutely not\n</comment_to_extract>",
+   "context": {
+    "title": "Best NYC treats/chocolates to bring to a West Coast office? (Must travel well!)",
+    "selftext": "I work in NYC and am heading out to visit our California office next week. I want to bring a little \"taste of New York\" for about 20 coworkers to share, but I have a few specific constraints:  \n• **Quantity:** Needs to be enough for roughly 15 people.  \n• **Shelf Life:** I’m buying them about a week before the trip, so they need to stay fresh at room temperature.  \n• **Travel:** They’ll be in my carry-on for a 6-hour flight, so nothing too fragile or temperature-sensitive (no Magnolia banana pudding, unfortunately!).\n\nI’m considering some Li lac chocolates or the magnolia cookies.\n\nDoes anyone have better suggestions for NYC treats that are easy to share in an office and actually taste good after a week?",
+    "ancestors": [
+     {
+      "author": "ko8sd",
+      "body": "Bagels that you store in a freezer until your flight? Just be sure to slice them before freezing them."
+     }
+    ],
+    "author": "GlitteringElevator",
+    "body": "For a WEek before absolutely not ",
+    "replies": [
+     {
+      "author": "misstheolddaysfan",
+      "body": "why not? I've done it plenty of times. If you can freeze for a day you can freeze for a week."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0416",
+   "comment_id": "t1_nya8kxc",
+   "model_view": "<post_title author=\"you\">Quique Crudo 👌🏽</post_title>\n<post_body author=\"you\">This place fucks. The flavors were just immaculate. \n\n1. It was a special. Bluefin tuna crudo. \n\n2. Razor clams aguachile\n\n3. Crab tostada\n\n4. Whole lobster ceviche \n\n5. Mar y Tierra - scallops and chorizo.\n\nNo notes. Everything was amazing. You need to go.</post_body>\n<thread_above>\n[1] another user: Went last night. Was phenomenal. It’s an annoyingly small space. Uncomfortably so.\n</thread_above>\n<comment_to_extract>\nthats nyc for ya\n</comment_to_extract>",
+   "context": {
+    "title": "Quique Crudo 👌🏽",
+    "selftext": "This place fucks. The flavors were just immaculate. \n\n1. It was a special. Bluefin tuna crudo. \n\n2. Razor clams aguachile\n\n3. Crab tostada\n\n4. Whole lobster ceviche \n\n5. Mar y Tierra - scallops and chorizo.\n\nNo notes. Everything was amazing. You need to go. ",
+    "ancestors": [
+     {
+      "author": "chitowninthebay",
+      "body": "Went last night. Was phenomenal. It’s an annoyingly small space. Uncomfortably so."
+     }
+    ],
+    "author": "Sobe_WanKenobi",
+    "body": "thats nyc for ya",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0417",
+   "comment_id": "t1_oxx2xny",
+   "model_view": "<post_title>Michelin Guide Announces New Additions For New York</post_title>\n<post_body>**Brooklyn**  \nBalera  \nArthur  \nConfidant\n\n**Queens**  \nAbuQir  \nBolivian Llama Party  \nPierogi Boys\n\n**Manhattan**  \nMarcel  \nYugin  \nKjun  \nOyatte  \nWild Cherry  \nCynthia  \nBistrot Ha  \nOdo East Village  \nLenLen</post_body>\n<thread_above>\n[1] another user: Pierogi Boys in the Michelin guide is crazy\n[2] you, earlier: I mean bib gourmand exists for a reason. That being said I think bib-gourmand is the most unreliable category in NYC. Not because the restaurants don't deserve it. Its because I don't think Michelin actually has resources to visit every single NYC restaurant. They probably have some sort of process ...\n[3] another user: I swear by Bib Gourmand when I’m traveling abroad. Usually a good indicator that you’re gonna eat well and it won’t be too stuffy.\n</thread_above>\n<comment_to_extract>\nI think bib gourmand in NYC does that. I am just saying tthat for example, most chinese people probably don't think Pinch has the best soup dumpling in NYC.  Its highly contestable if Tonchin is better than many other ramen places etc. I am not saying they don't deserve their bib gourmands, I am saying the places over looked also deserve one.\n</comment_to_extract>",
+   "context": {
+    "title": "Michelin Guide Announces New Additions For New York",
+    "selftext": "**Brooklyn**  \nBalera  \nArthur  \nConfidant\n\n**Queens**  \nAbuQir  \nBolivian Llama Party  \nPierogi Boys\n\n**Manhattan**  \nMarcel  \nYugin  \nKjun  \nOyatte  \nWild Cherry  \nCynthia  \nBistrot Ha  \nOdo East Village  \nLenLen",
+    "ancestors": [
+     {
+      "author": "ATarrificHeadache",
+      "body": "Pierogi Boys in the Michelin guide is crazy "
+     },
+     {
+      "author": "boroughthoughts",
+      "body": "I mean bib gourmand exists for a reason. That being said I think bib-gourmand is the most unreliable category in NYC. Not because the restaurants don't deserve it. Its because I don't think Michelin actually has resources to visit every single NYC restaurant. They probably have some sort of process to decide initial list they are going to review. There are probably a lot of over looked restaurants that are bib gourmand tier that never get featured on the guide, because they don't have the initial buzz to get noticed."
+     },
+     {
+      "author": "Next_Willingness2101",
+      "body": "I swear by Bib Gourmand when I’m traveling abroad. Usually a good indicator that you’re gonna eat well and it won’t be too stuffy."
+     }
+    ],
+    "author": "boroughthoughts",
+    "body": "I think bib gourmand in NYC does that. I am just saying tthat for example, most chinese people probably don't think Pinch has the best soup dumpling in NYC.  Its highly contestable if Tonchin is better than many other ramen places etc. I am not saying they don't deserve their bib gourmands, I am saying the places over looked also deserve one. ",
+    "replies": [
+     {
+      "author": "FrankiePoops",
+      "body": "There are some places that deserve a Michelin star that don't have one and some places that have held on to a star for far too long. But it's still a good indicator."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Pinch",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "soup dumplings",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "soup dumpling reputation",
+       "text": "Commenter says most Chinese people probably don't think Pinch has the best soup dumplings in NYC; no verdict of their own."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "soup dumplings",
+      "chinese"
+     ]
+    },
+    {
+     "name": "Tonchin",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "ramen ranking",
+       "text": "Commenter says whether Tonchin is better than many other ramen places is highly contestable; no verdict of their own."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ramen"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0418",
+   "comment_id": "t1_ojv05wi",
+   "model_view": "<post_title>Take two: trying to design the worst date possible for irony</post_title>\n<post_body>Re-do of an earlier post: my partner and I are madly into each other; always have amazing dates even if it's something simple - let alone when we plan with some intention, then it's stratospheric joy. \n\nMy hypothesis is that we would have a blast watching paint dry - so, I'm trying to design the worst date possible. She's very into the idea and we want to see if there are other activities people can think of to make this \\*THE WORST DATE IN NYC IN 2026\\*:\n\n\\- Dinner at Times Square Olive Garden\n\n\\- Selfies with Costume People and/or Gaudy Pedicab Ride\n\n\\- Drinks at Margaritaville\n\nIs there anything else we can consider!?</post_body>\n<thread_above>\n[1] another user: Going to an overpriced and underwhelming Michelin star restaurant is probably worse than what you listed.\n[2] another user: Eleven Madison Park. Terrible, expensive, vegan. The trifecta\n[3] another user: I think they gave up on being vegan.\n</thread_above>\n<comment_to_extract>\nLike so many other vegans before them\n</comment_to_extract>",
+   "context": {
+    "title": "Take two: trying to design the worst date possible for irony",
+    "selftext": "Re-do of an earlier post: my partner and I are madly into each other; always have amazing dates even if it's something simple - let alone when we plan with some intention, then it's stratospheric joy. \n\nMy hypothesis is that we would have a blast watching paint dry - so, I'm trying to design the worst date possible. She's very into the idea and we want to see if there are other activities people can think of to make this \\*THE WORST DATE IN NYC IN 2026\\*:\n\n\\- Dinner at Times Square Olive Garden\n\n\\- Selfies with Costume People and/or Gaudy Pedicab Ride\n\n\\- Drinks at Margaritaville\n\nIs there anything else we can consider!? ",
+    "ancestors": [
+     {
+      "author": "dalecoopernumber4",
+      "body": "Going to an overpriced and underwhelming Michelin star restaurant is probably worse than what you listed."
+     },
+     {
+      "author": "Trentana",
+      "body": "Eleven Madison Park. Terrible, expensive, vegan. The trifecta"
+     },
+     {
+      "author": "Mrc3mm3r",
+      "body": "I think they gave up on being vegan. "
+     }
+    ],
+    "author": "Alert-Painting1164",
+    "body": "Like so many other vegans before them ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0419",
+   "comment_id": "t1_li9vjni",
+   "model_view": "<post_title>Location should be mentioned in post and comments.</post_title>\n<post_body>I think it should be a requirement to list the location of any restaurant mentioned in both posts and comments on this sub. Neighborhood and Cross-streets would be great. I am constantly googling stuff to see if it’s in a neighborhood i might be near.</post_body>\n<comment_to_extract>\nPeople are too lazy on Internet, to give more than one or two word answers. You just won't get many answers if you make people put in any effort. People too lazy to do even a search, before they ask a question (what's the best bagel in NYC?). So you got lazy question askers, and lazy question answerers. Free advice is worth what you pay for.\n</comment_to_extract>",
+   "context": {
+    "title": "Location should be mentioned in post and comments.",
+    "selftext": "I think it should be a requirement to list the location of any restaurant mentioned in both posts and comments on this sub. Neighborhood and Cross-streets would be great. I am constantly googling stuff to see if it’s in a neighborhood i might be near.",
+    "ancestors": [],
+    "author": "Cinnamaker",
+    "body": "People are too lazy on Internet, to give more than one or two word answers. You just won't get many answers if you make people put in any effort. People too lazy to do even a search, before they ask a question (what's the best bagel in NYC?). So you got lazy question askers, and lazy question answerers. Free advice is worth what you pay for.",
+    "replies": [
+     {
+      "author": "SoothedSnakePlant",
+      "body": "It is genuinely infuriating how often you see answers to questions here where it's so obvious that the person responding didn't even read the question, and neither did the people voting on it.\n\nThe amount of times that someone asks \"best Chinese food in south Brooklyn?\" or something and the top responses are all places in Manhattan is fucking ridiculous, and we should start banning people who prove themselves to be consistently illiterate."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0420",
+   "comment_id": "t1_nyncszo",
+   "model_view": "<post_title>have you found better versions of the foods you like here in nyc than other countries where it's known?</post_title>\n<post_body>for example, do you prefer the pizza here or Italy? I get they may be different but which do you prefer and why?</post_body>\n<comment_to_extract>\nFirst off: Pizza was perfected and subsequently made world famous by Italian-American immigrants in NYC, not by Italians. Pizza, in fact, isn't really important to Italian cuisine and not even particularly important to Neapolitan cuisine, despite originating there (If you visit Naples you should hope to eat a lot of seafood, not pizza, and I hope you don't bother with pizza at all in other parts of Italy!) I think most would agree American style pizza is just flat out better than Neapolitan style in the first place, and objectively speaking it was American style delivery pizza that proliferated around the globe. So yes, for my money, the tristate area does have the best pizza in the world.\n\nSecond, I would say a lot of Greek food in Astoria is as good or better than stuff you can find in Greece. There are various French bistros and brasseries that are basically identical to whats in Paris (maybe with slightly larger portions and Brunch menus). Simplicity and availability of the ingredients has a lot to do with it.\n\nFor counter examples, I would say Sushi in America is always a step below sushi in Japan (our \"good sushi\" is their \"okay sushi\"), and that authentic Thai food is in a different universe than what you can find here.\n</comment_to_extract>",
+   "context": {
+    "title": "have you found better versions of the foods you like here in nyc than other countries where it's known?",
+    "selftext": "for example, do you prefer the pizza here or Italy? I get they may be different but which do you prefer and why?",
+    "ancestors": [],
+    "author": "Healthy-Caregiver879",
+    "body": "First off: Pizza was perfected and subsequently made world famous by Italian-American immigrants in NYC, not by Italians. Pizza, in fact, isn't really important to Italian cuisine and not even particularly important to Neapolitan cuisine, despite originating there (If you visit Naples you should hope to eat a lot of seafood, not pizza, and I hope you don't bother with pizza at all in other parts of Italy!) I think most would agree American style pizza is just flat out better than Neapolitan style in the first place, and objectively speaking it was American style delivery pizza that proliferated around the globe. So yes, for my money, the tristate area does have the best pizza in the world.\n\nSecond, I would say a lot of Greek food in Astoria is as good or better than stuff you can find in Greece. There are various French bistros and brasseries that are basically identical to whats in Paris (maybe with slightly larger portions and Brunch menus). Simplicity and availability of the ingredients has a lot to do with it.\n\nFor counter examples, I would say Sushi in America is always a step below sushi in Japan (our \"good sushi\" is their \"okay sushi\"), and that authentic Thai food is in a different universe than what you can find here.",
+    "replies": [
+     {
+      "author": "jhelton808",
+      "body": "I agree with everything here except the French part. Just got back from living in Paris for a few years. The food is the only thing I miss about Paris. What places here are you referring to?"
+     },
+     {
+      "author": "Various-Struggle-714",
+      "body": "No, no, no.  American style pizza is actually a bastardized version of the real thing in Naples where they use fresh and real ingredients.  The best pizza in NYC IMO is the Neapolitan pies made at various places like Song e Napule and Don Antonio. That doesn’t mean I can’t enjoy both styles. Today in fact I plan to order a nice fat NY pie for dinner. \nBut as with anything, people will have their preferences and to some Neapolitan pizza is too thin and soggy. \n\nThe cool thing about NYC is the pizza culture and variety of pizza styles you can’t find anywhere else."
+     },
+     {
+      "author": "AttentionPowerful491",
+      "body": "The Greek food is absolutely good in Astoria but it is no where near as good as in Greece.   You simply are not getting fresh Mediterranean seafood in NYC like you do in Greece.   \n\nThe quality of the French food is no where near what it is in Paris.   It isn't even close"
+     },
+     {
+      "author": "nycago",
+      "body": "I dunno man when was the last time you were in Greece? I respect your opinion but I have been chasing the dragon since I got back from Turkey and Greece, both cuisines."
+     },
+     {
+      "author": "Garconavecunreve",
+      "body": "Hard disagree on both, the Greek and French take"
+     },
+     {
+      "author": "WaitForSingleObject",
+      "body": "I don't agree about sushi. The only thing different about NYC and Japan sushi is the price, other than that you can find some pretty authentic stuff."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0421",
+   "comment_id": "t1_nk4l2dd",
+   "model_view": "<post_title>Brooklyn DOP in Park Slope… the best pizza that no one is talking about?</post_title>\n<post_body>Tried this for the first time last night... wondering why it isn't more hyped. I've seen it mentioned a few times around here, but it still seems to be largely flying under the radar. Is it because it's not in Manhattan? \n\nI'd easily put it in the same league as L'Industrie, Lucia, Cello, Mama's Too, Ceres, etc. Honestly I think it tops most of those places. \n\nOne bad thing I'll say is their ordering system is annoyingly slow. If they do get extremely popular, people are going to be waiting in three hour lines, because they are not good at getting slices out quickly. \n\n(Pictured above... pepperoni slice and seasonal special with artichoke, breadcrumbs and preserved lemon. \nhttps://brooklyndop.com/)</post_body>\n<comment_to_extract>\nLooked quite clean. Stellar pizza— top quality ingredients from the San Marzano tomatoes in the sauce  to the exquisite olive oil.\n\nAlso, the service was lovely, did not take forever, and I really don’t know what some of these people are complaining about – best slice I’ve had in years.\n</comment_to_extract>",
+   "context": {
+    "title": "Brooklyn DOP in Park Slope… the best pizza that no one is talking about?",
+    "selftext": "Tried this for the first time last night... wondering why it isn't more hyped. I've seen it mentioned a few times around here, but it still seems to be largely flying under the radar. Is it because it's not in Manhattan? \n\nI'd easily put it in the same league as L'Industrie, Lucia, Cello, Mama's Too, Ceres, etc. Honestly I think it tops most of those places. \n\nOne bad thing I'll say is their ordering system is annoyingly slow. If they do get extremely popular, people are going to be waiting in three hour lines, because they are not good at getting slices out quickly. \n\n(Pictured above... pepperoni slice and seasonal special with artichoke, breadcrumbs and preserved lemon. \nhttps://brooklyndop.com/) \n",
+    "ancestors": [],
+    "author": "Pure_Alps2480",
+    "body": "Looked quite clean. Stellar pizza— top quality ingredients from the San Marzano tomatoes in the sauce  to the exquisite olive oil.\n\nAlso, the service was lovely, did not take forever, and I really don’t know what some of these people are complaining about – best slice I’ve had in years.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Brooklyn DOP",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Park Slope",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pizza",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "ingredients",
+       "text": "top quality ingredients, San Marzano tomatoes in the sauce and exquisite olive oil"
+      },
+      {
+       "about": "cleanliness",
+       "text": "looked quite clean"
+      },
+      {
+       "about": "defense",
+       "text": "dismisses other diners' complaints as not making sense"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": "positive",
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0422",
+   "comment_id": "t1_jrxn2ej",
+   "model_view": "<post_title author=\"you\">Weekend in NYC - need recommendations!</post_title>\n<post_body author=\"you\">Hey everyone! \n\nI’ll be in NYC for the weekend of the 28th, and I’ll be staying in Greenwich Village West. I’d like a recco for some of the best eats in the city for different categories. Here’s my list so far, thoughts? \n\nRESTAURANTS \nLILIA (already booked the reservation)\n\nPIZZA\nJohn’s of Bleeker\nMama’s Too \nJoe’s\nScarr’s \nUna (thinking of getting a reservation, thoughts?)\n\n\nDINERS\nLabonbonnier\nWah Fung Fast Food (Chinese)\nXi’An Famous Foods\n\nSWEETS\nMah Ze Der Bakery\nMagnolia Banana Pudding\nYeh’s bakery\nJoe’s Sicilian bakery\nSuper moon bakery\n\nI’d like more recommendations for sweets, maybe donuts? Or other really incredible eats in the city!</post_body>\n<thread_above>\n[1] another user: Out of sheer curiosity, by \"Greenwich Village West,\" do you mean the West Village?\n</thread_above>\n<comment_to_extract>\nYes! Sorry, I’m not familiar with the proper names of neighbourhoods yet!\n</comment_to_extract>",
+   "context": {
+    "title": "Weekend in NYC - need recommendations!",
+    "selftext": "Hey everyone! \n\nI’ll be in NYC for the weekend of the 28th, and I’ll be staying in Greenwich Village West. I’d like a recco for some of the best eats in the city for different categories. Here’s my list so far, thoughts? \n\nRESTAURANTS \nLILIA (already booked the reservation)\n\nPIZZA\nJohn’s of Bleeker\nMama’s Too \nJoe’s\nScarr’s \nUna (thinking of getting a reservation, thoughts?)\n\n\nDINERS\nLabonbonnier\nWah Fung Fast Food (Chinese)\nXi’An Famous Foods\n\nSWEETS\nMah Ze Der Bakery\nMagnolia Banana Pudding\nYeh’s bakery\nJoe’s Sicilian bakery\nSuper moon bakery\n\nI’d like more recommendations for sweets, maybe donuts? Or other really incredible eats in the city!",
+    "ancestors": [
+     {
+      "author": "bkrunnergirl25",
+      "body": "Out of sheer curiosity, by \"Greenwich Village West,\" do you mean the West Village?"
+     }
+    ],
+    "author": "Brenkin",
+    "body": "Yes! Sorry, I’m not familiar with the proper names of neighbourhoods yet!",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0423",
+   "comment_id": "t1_np2lbw8",
+   "model_view": "<post_title author=\"you\">How does it work at Ceres?</post_title>\n<post_body author=\"you\">I know there's mixed opinions on this place, and maybe it's hype, but I wanna try it. Visiting NYC soon and I'm always looking for great pizza. \n\nQuestion is, how does it work currently? Specifically, if I want a pizza later at night, say 6 or 7?\n\nDoes a person get in line at 11/11:30 and pre-order/reserve a pizza for later that evening?</post_body>\n<thread_above>\n(2 earlier comments not shown)\n[1] another user: Yes. You can choose either option. If you dine in, do get there around 15 min in advance to snag a seat.\n[2] you, earlier: How early are people getting in line now?\n[3] another user: Have you gone on your trip yet? If so would love to hear thoughts. Will be there in winter for a pizza crawl wondering if we should work it into our plan\n[4] you, earlier: Next week 👀\n[5] another user: How was the line and the pizza? 🍕\n</thread_above>\n<comment_to_extract>\nPizza was actually pretty damn incredible. Super thin, crispy. It’s well made. Showed up at 10:30. Reservations started at 11:30. Booked dine in for 6 pm. Came back at 540 to snag a table. Worth the trouble imho\n</comment_to_extract>",
+   "context": {
+    "title": "How does it work at Ceres?",
+    "selftext": "I know there's mixed opinions on this place, and maybe it's hype, but I wanna try it. Visiting NYC soon and I'm always looking for great pizza. \n\nQuestion is, how does it work currently? Specifically, if I want a pizza later at night, say 6 or 7?\n\nDoes a person get in line at 11/11:30 and pre-order/reserve a pizza for later that evening? ",
+    "ancestors": [
+     {
+      "author": "verndogz",
+      "body": "Yep pretty much.  You choose a time slot when you order."
+     },
+     {
+      "author": "TwoColorsInMyHead_",
+      "body": "Do you also choose dine in vs carry out?"
+     },
+     {
+      "author": "verndogz",
+      "body": "Yes.  You can choose either option.  If you dine in, do get there around 15 min in advance to snag a seat."
+     },
+     {
+      "author": "TwoColorsInMyHead_",
+      "body": "How early are people getting in line now?"
+     },
+     {
+      "author": "moxymoxy",
+      "body": "Have you gone on your trip yet? If so would love to hear thoughts. Will be there in winter for a pizza crawl wondering if we should work it into our plan"
+     },
+     {
+      "author": "TwoColorsInMyHead_",
+      "body": "Next week 👀"
+     },
+     {
+      "author": "thebarbz",
+      "body": "How was the line and the pizza? 🍕"
+     }
+    ],
+    "author": "TwoColorsInMyHead_",
+    "body": "Pizza was actually pretty damn incredible. Super thin, crispy. It’s well made. Showed up at 10:30. Reservations started at 11:30. Booked dine in for 6 pm. Came back at 540 to snag a table. Worth the trouble imho",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Ceres",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pizza",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "how it works",
+       "text": "Showed up at 10:30; dine-in reservations opened at 11:30; booked a 6 pm dine-in table; came back at 5:40 to get a table."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "reservations"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0424",
+   "comment_id": "t1_lag7dqq",
+   "model_view": "<post_title>What's the worst food you've had in NYC?</post_title>\n<post_body>Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places.</post_body>\n<thread_above>\n[1] another user: The chipotle on Murray street in Tribeca is the worst eatery in the entire city. I can’t even put into words how bad it is, which is especially mindblowing because it’s a franchise!! Anyone who’s been should know what I’m talking about.\n</thread_above>\n<comment_to_extract>\nI legit don’t know why anyone goes to chipotle in NYC when we have dos toros, los tacos and a million other amazing Mexican places…\n\nLike I get why in Iowa they go there, but not in NYC\n</comment_to_extract>",
+   "context": {
+    "title": "What's the worst food you've had in NYC?",
+    "selftext": "Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places. ",
+    "ancestors": [
+     {
+      "author": "BiddyBij",
+      "body": "The chipotle on Murray street in Tribeca is the worst eatery in the entire city. I can’t even put into words how bad it is, which is especially mindblowing because it’s a franchise!! \n\nAnyone who’s been should know what I’m talking about."
+     }
+    ],
+    "author": "BlondDeutcher",
+    "body": "I legit don’t know why anyone goes to chipotle in NYC when we have dos toros, los tacos and a million other amazing Mexican places…\n\nLike I get why in Iowa they go there, but not in NYC",
+    "replies": [
+     {
+      "author": "Purple-Show",
+      "body": "I eat chipotle over other chains because the carnitas don’t have garlic or onion, and a kids meal is cheap. i actually  salt but it killlllls me sometimes."
+     },
+     {
+      "author": "m1a2c2kali",
+      "body": "I just really like their rice for some reason lol"
+     },
+     {
+      "author": "rbnch",
+      "body": "Life has been brighter ever since I discovered Dos Toros. It’s so good I legit had a future nostalgic moment of missing it when I leave NYC in a few years."
+     },
+     {
+      "author": "BiddyBij",
+      "body": "Completely agree! I used to live literally across the street from this chipotle so it seemed awfully convenient… if it were even mediocre."
+     },
+     {
+      "author": "WorriedAd5024",
+      "body": "I had dos toros once and thought it was terrible. Local mexican is the way to go, if I had to go chain I would go Chipotle because the flavors are way beyond qdoba or Dos Toros"
+     },
+     {
+      "author": "Strange1130",
+      "body": "Chipotle is not a Mexican place, you don’t go to chipotle because you want Mexican you go because you want chipotle.  And dos toros is pretty mid too.  I’m sure there is tons of better food than chipotle in Iowa too."
+     },
+     {
+      "author": "LongIsland1995",
+      "body": "Because not every neighborhood is filled with Mexican restaurants"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "chipotle",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "context",
+       "text": "Commenter contrasts chain with NYC Mexican places; question of why people go there"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "mexican",
+      "chain",
+      "fast casual"
+     ]
+    },
+    {
+     "name": "Dos Toros",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "mexican"
+     ]
+    },
+    {
+     "name": "Los Tacos",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "mexican"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0425",
+   "comment_id": "t1_kxpx76f",
+   "model_view": "<post_title>What’s the best steakhouse? Is it Keens? I heard Keens is good? What’s not as good as Keens? Their sides are alright</post_title>\n<post_body>Every fucking post</post_body>\n<comment_to_extract>\nfwiw, I hear the OG in Times Square has steak and mutton now. /s\n</comment_to_extract>",
+   "context": {
+    "title": "What’s the best steakhouse? Is it Keens? I heard Keens is good? What’s not as good as Keens? Their sides are alright ",
+    "selftext": "Every fucking post ",
+    "ancestors": [],
+    "author": "LadyBeard27",
+    "body": "fwiw, I hear the OG in Times Square has steak and mutton now. /s",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "the OG",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Times Square",
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "steak",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "mutton",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "joke",
+       "text": "Sarcastic aside marked /s about the place adding steak and mutton; no verdict."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  }
+ ]
+}

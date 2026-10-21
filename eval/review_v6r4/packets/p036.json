@@ -1,0 +1,1252 @@
+{
+ "packet": "p036",
+ "items": [
+  {
+   "item_id": "R0876",
+   "comment_id": "t1_o668u5q",
+   "model_view": "<post_title>Best grilled octopus?</post_title>\n<post_body>I recently tried octopus at Theodora and it changed my world. Anyone have any grilled octopus recs, preferably in manhattan or bk? TYIA. Bonus points if it’s an entree not an app!</post_body>\n<thread_above>\n[1] another user: I like octopus so much but I feel so bad eating them. They are intelligent creatures. My guilt just can't do it anymore, so it's the one ethical food choice that I follow.\n</thread_above>\n<comment_to_extract>\nThe octopus is an intelligent killer that will devour any other animal that it can overtake. I have no problem eating them because they would sure as hell eat me if they could.\n</comment_to_extract>",
+   "context": {
+    "title": "Best grilled octopus?",
+    "selftext": "I recently tried octopus at Theodora and it changed my world. Anyone have any grilled octopus recs, preferably in manhattan or bk? TYIA. Bonus points if it’s an entree not an app! ",
+    "ancestors": [
+     {
+      "author": "joobtastic",
+      "body": "I like octopus so much but I feel so bad eating them. They are intelligent creatures. My guilt just can't do it anymore, so it's the one ethical food choice that I follow."
+     }
+    ],
+    "author": "Phil_ODendron",
+    "body": "The octopus is an intelligent killer that will devour any other animal that it can overtake. I have no problem eating them because they would sure as hell eat me if they could.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0877",
+   "comment_id": "t1_o70kw2r",
+   "model_view": "<post_title>Tomi Jazz yesterday, 2hr wait it crazy</post_title>\n<post_body>Been here before, it’s nice inside but food is not worth the wait. if anything, get there 20-30 mins before it opens but you can def find better jazz elsewhere.</post_body>\n<comment_to_extract>\nWhere should I go next weekend? First time in NYC in many years. Prefer cool & casual more than fancy supper club vibe.\n</comment_to_extract>",
+   "context": {
+    "title": "Tomi Jazz yesterday, 2hr wait it crazy",
+    "selftext": "Been here before, it’s nice inside but food is not worth the wait. if anything, get there 20-30 mins before it opens but you can def find better jazz elsewhere.",
+    "ancestors": [],
+    "author": "DrRockMagic",
+    "body": "Where should I go next weekend? First time in NYC in many years. Prefer cool & casual more than fancy supper club vibe.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0878",
+   "comment_id": "t1_nl0cibw",
+   "model_view": "<post_title>Restaurant regrets... I've had a few</post_title>\n<post_body>I regret not going to Jungsik before they got their third star.\n\nI regret being fooled by 53's interior into thinking the quality of the dinner would match the price.\n\nI regret waiting in line for L'Industrie pizza. Twice.\n\n  \nYou?</post_body>\n<comment_to_extract>\nI regret trying Nom Wah Tea Parlor. I get that it's historic (and the decor/atmosphere are interesting) but I really thought the food was bad.\n</comment_to_extract>",
+   "context": {
+    "title": "Restaurant regrets... I've had a few",
+    "selftext": "I regret not going to Jungsik before they got their third star.\n\nI regret being fooled by 53's interior into thinking the quality of the dinner would match the price.\n\nI regret waiting in line for L'Industrie pizza. Twice.\n\n  \nYou?",
+    "ancestors": [],
+    "author": "SadTomorrow869",
+    "body": "I regret trying Nom Wah Tea Parlor. I get that it's historic (and the decor/atmosphere are interesting) but I really thought the food was bad.",
+    "replies": [
+     {
+      "author": "Belugawhy",
+      "body": "Where would you rather have dim sum? Asking for a friend."
+     },
+     {
+      "author": "pretender80",
+      "body": "Wow I didn't really think I had any NYC restaurant regrets but yea it was so bad but the PR machine continues to work overtime on that place."
+     },
+     {
+      "author": "pstut",
+      "body": "Wow, I went years ago for a frist seating on a Saturday and thought it was great but expensive for what you get. Its only because of the crowds and cost that I havent been back."
+     },
+     {
+      "author": "Friendly-Math-2239",
+      "body": "How long ago did you have this experience?"
+     },
+     {
+      "author": "coolaznkenny",
+      "body": "Nom Wah Tea Parlor always been mid, but my God their marketing and hype is expert class."
+     },
+     {
+      "author": "InflationFit4428",
+      "body": "Food is just ok, but if you go on a rainy afternoon and get that window seat it’s really delightful."
+     },
+     {
+      "author": "freeman687",
+      "body": "Very rude staff too"
+     },
+     {
+      "author": "Intelligent_Stardust",
+      "body": "What’s your go to or fav dim sum spot?"
+     },
+     {
+      "author": "mysteryscienceposter",
+      "body": "It’s, just terrible food."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Nom Wah Tea Parlor",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "historic",
+       "text": "commenter acknowledges the place is historic"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "dim sum",
+      "historic"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0879",
+   "comment_id": "t1_orpu53d",
+   "model_view": "<post_title>Best deli pickles in NYC (preferably near manhattan)</post_title>\n<post_body>Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!</post_body>\n<comment_to_extract>\nzabars deli pickles for the win!\n</comment_to_extract>",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [],
+    "author": "devoida",
+    "body": "zabars deli pickles for the win!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Zabars",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "pickles",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pickles"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0880",
+   "comment_id": "t1_oh349n3",
+   "model_view": "<post_title>Help Finding Cheap Prosciutto Chunks?</post_title>\n<post_body>Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!</post_body>\n<thread_above>\n[1] another user: I can't get store brand deli ham for that cheap per pound, that's an awesome find posted\n</thread_above>\n<comment_to_extract>\nMarket Basket is awesome, I miss it.\n</comment_to_extract>",
+   "context": {
+    "title": "Help Finding Cheap Prosciutto Chunks?",
+    "selftext": "Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!",
+    "ancestors": [
+     {
+      "author": "fartknockertoo",
+      "body": "I can't get store brand deli ham for that cheap per pound, that's an awesome find posted"
+     }
+    ],
+    "author": "Consanit",
+    "body": "Market Basket is awesome, I miss it.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0881",
+   "comment_id": "t1_lak5pcf",
+   "model_view": "<post_title>What's the worst food you've had in NYC?</post_title>\n<post_body>Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places.</post_body>\n<thread_above>\n[1] another user: noona noodles in the food gallery in ktown was pretty bad, had the cowboy ramen and it just didn’t taste right at all. in addition, kyuramen has nice interior design but the ramen is mediocre\n</thread_above>\n<comment_to_extract>\nMost of that whole first floor food court kinda sucks (pelicana fried chicken on third floor is good, and the churro place). Especially the kimbap place, way overpriced and the soondae is just absolute ass.\n</comment_to_extract>",
+   "context": {
+    "title": "What's the worst food you've had in NYC?",
+    "selftext": "Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places. ",
+    "ancestors": [
+     {
+      "author": "babybr3ad",
+      "body": "noona noodles in the food gallery in ktown was pretty bad, had the cowboy ramen and it just didn’t taste right at all. in addition, kyuramen has nice interior design but the ramen is mediocre"
+     }
+    ],
+    "author": "hunneybunny",
+    "body": "Most of that whole first floor food court kinda sucks (pelicana fried chicken on third floor is good, and the churro place). Especially the kimbap place, way overpriced and the soondae is just absolute ass.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Food Gallery in K-Town",
+     "named_in": "context",
+     "kind": "food_hall",
+     "location": "first floor",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "food court"
+     ]
+    },
+    {
+     "name": "Pelicana Fried Chicken",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "third floor",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "fried chicken"
+     ]
+    },
+    {
+     "name": "kimbap place",
+     "named_in": "comment",
+     "kind": "market_stall",
+     "location": "first floor food court",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "soondae",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "way overpriced"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "kimbap"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0882",
+   "comment_id": "t1_pakr0ya",
+   "model_view": "<post_title>Good Places for a Party of 18 in a Private Room in Manhattan?</post_title>\n<post_body>Hi All\n\n  \nI am looking to book a private room for an Engagement Dinner for a party of \\~18 or so. Looking for restaurants that would be similar to il Buco, Massara, or Forsythia, if anyone has recs would love to hear! (Also if anyone has experiences with il Buco or Forsythia in general, whether private or normal dining experience would love to hear about it too!)</post_body>\n<comment_to_extract>\nI had my rehearsal dinner at Il Buco in 2022. We had it in their cellar, which was really wonderful.  \nThey were professional and the food was good.\n\nAmbiance was great, though they removed the flowers that we brought in during the meal to make room for the food. If I could redo it, would not have spent money on flowers for the event. (We worked with a florist, the flowers were not part of the restaurant package.)\n\nDuring the dinner it started raining and there was a leak on one side of the room, so the floor got wet for around maybe 5-10 people, it wasn’t a flood and people generally didn’t care but in case that’s something that’s important to you.\n\nOverall, if you don’t mind those issues raised (which I didn’t) I thought it was a really great dinner. Iirc the price point was competitive for what they had to offer (vs other places in manhattan)\n</comment_to_extract>",
+   "context": {
+    "title": "Good Places for a Party of 18 in a Private Room in Manhattan?",
+    "selftext": "Hi All\n\n  \nI am looking to book a private room for an Engagement Dinner for a party of \\~18 or so. Looking for restaurants that would be similar to il Buco, Massara, or Forsythia, if anyone has recs would love to hear! (Also if anyone has experiences with il Buco or Forsythia in general, whether private or normal dining experience would love to hear about it too!) ",
+    "ancestors": [],
+    "author": "ashwizzle",
+    "body": "I had my rehearsal dinner at Il Buco in 2022. We had it in their cellar, which was really wonderful.  \nThey were professional and the food was good.\n\nAmbiance was great, though they removed the flowers that we brought in during the meal to make room for the food. If I could redo it, would not have spent money on flowers for the event. (We worked with a florist, the flowers were not part of the restaurant package.)\n\nDuring the dinner it started raining and there was a leak on one side of the room, so the floor got wet for around maybe 5-10 people, it wasn’t a flood and people generally didn’t care but in case that’s something that’s important to you.\n\nOverall, if you don’t mind those issues raised (which I didn’t) I thought it was a really great dinner. Iirc the price point was competitive for what they had to offer (vs other places in manhattan)",
+    "replies": [
+     {
+      "author": "blee1236",
+      "body": "thank you, this is really helpful, and sorry to hear about the rain issue! Is the Cellar the same as their Showroom or is it a different venue? (if i recall the Showroom is a different building at a slightly different address)"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Il Buco",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "rehearsal dinner",
+       "text": "Held a rehearsal dinner in the cellar room in 2022."
+      },
+      {
+       "about": "flowers",
+       "text": "Restaurant removed the guests' flowers mid-meal; the commenter would not spend on flowers again. Flowers were not part of the restaurant package."
+      },
+      {
+       "about": "leak",
+       "text": "Rain leaked through one side of the room, wetting the floor for about 5-10 people; the commenter says it was not a flood and most did not care."
+      },
+      {
+       "about": "price",
+       "text": "Price was competitive for what it offers versus other Manhattan places (vague recollection)."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": "positive",
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "private dining",
+      "rehearsal dinner",
+      "private room"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0883",
+   "comment_id": "t1_laknyez",
+   "model_view": "<post_title>What's the worst food you've had in NYC?</post_title>\n<post_body>Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places.</post_body>\n<comment_to_extract>\nI got tacos at a place on rivington one time and they all had large chicken bones in them.\n</comment_to_extract>",
+   "context": {
+    "title": "What's the worst food you've had in NYC?",
+    "selftext": "Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places. ",
+    "ancestors": [],
+    "author": "OilyRicardo",
+    "body": "I got tacos at a place on rivington one time and they all had large chicken bones in them.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "a place on Rivington",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Rivington Street",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "chicken bones",
+       "text": "tacos had large chicken bones in them"
+      }
+     ],
+     "aspects": {
+      "taste": "very_negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_negative",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tacos",
+      "mexican"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0884",
+   "comment_id": "t1_oo6nogh",
+   "model_view": "<post_title>Throwback. Got this Punch Card from EMP after visiting all 3* Restaurants back then.</post_title>\n<post_body>Never knew if this was an “official” thing or just something fun EMP gave me. Don’t know if the others had/have it.\n\nMy favorites in order:\n\n1.\t⁠Per Se - what a meal. Special occasional place (saw someone propose next to me). The oyster caviar - what a dish  \n2.\t⁠Chefs Table - was with Cesar. Cool hidden concept in a random grocery store. Plan on going to Cesar or CTBF soon  \n3.\t⁠EMP - was when they switched to vegetarian and I was disappointed  \n4.\t⁠Masa - guess I’m just not an omakase fan and I don’t see the value for the $$$$</post_body>\n<comment_to_extract>\n1. Per Se - amazing.  Took wife for birthday dinner.  Everything was perfect and \"wow\" with each course. Got a kitchen tour.\n\n2. on the list\n\n3. I went for my birthday pre-vegan.  3 1/2 hours and by the end we had asked for the last 2 dessert courses to just come at once as we were fading.  It was long, but no less spectacular.\n\n4. maybe not for me\n\n5. LB .... I've been multiple times for dinner, for lunch, and for private event. Always 5/5 and my top 3 in NYC.\n</comment_to_extract>",
+   "context": {
+    "title": "Throwback. Got this Punch Card from EMP after visiting all 3* Restaurants back then.",
+    "selftext": "Never knew if this was an “official” thing or just something fun EMP gave me. Don’t know if the others had/have it.\n\nMy favorites in order:\n\n1.\t⁠Per Se - what a meal. Special occasional place (saw someone propose next to me). The oyster caviar - what a dish  \n2.\t⁠Chefs Table - was with Cesar. Cool hidden concept in a random grocery store. Plan on going to Cesar or CTBF soon  \n3.\t⁠EMP - was when they switched to vegetarian and I was disappointed  \n4.\t⁠Masa - guess I’m just not an omakase fan and I don’t see the value for the $$$$",
+    "ancestors": [],
+    "author": "IvoShandor",
+    "body": "1. Per Se - amazing.  Took wife for birthday dinner.  Everything was perfect and \"wow\" with each course. Got a kitchen tour.\n\n2. on the list\n\n3. I went for my birthday pre-vegan.  3 1/2 hours and by the end we had asked for the last 2 dessert courses to just come at once as we were fading.  It was long, but no less spectacular.\n\n4. maybe not for me\n\n5. LB .... I've been multiple times for dinner, for lunch, and for private event. Always 5/5 and my top 3 in NYC.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Per Se",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "occasion",
+       "text": "birthday dinner with wife"
+      },
+      {
+       "about": "tour",
+       "text": "got a kitchen tour"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "fine dining",
+      "special occasion",
+      "tasting menu"
+     ]
+    },
+    {
+     "name": "Chefs Table",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "plans",
+       "text": "on the commenter's list to try"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tasting menu"
+     ]
+    },
+    {
+     "name": "EMP",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "timing",
+       "text": "birthday visit before they went vegan; meal ran 3.5 hours"
+      },
+      {
+       "about": "pacing",
+       "text": "last two dessert courses were asked to come at once"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "fine dining",
+      "special occasion",
+      "tasting menu"
+     ]
+    },
+    {
+     "name": "Masa",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "fit",
+       "text": "commenter is not an omakase fan, so it may not suit them"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "omakase"
+     ]
+    },
+    {
+     "name": "LB",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "visits",
+       "text": "visited multiple times for dinner, lunch and a private event"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "fine dining",
+      "special occasion"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0885",
+   "comment_id": "t1_o3lbclv",
+   "model_view": "<post_title>Noona's Ice Cream</post_title>\n<post_body>Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)</post_body>\n<thread_above>\n[1] another user: My ice cream was pretty good but they gotta work on showing up on time. I went an hour after opening (noon) a couple Saturdays ago - said they were open late due to the storm... Ok, tried the next day around the same time and again, closed but should have opened at 11.\n</thread_above>\n<comment_to_extract>\nIt’s a small business get a grip literally one person doing everything\n</comment_to_extract>",
+   "context": {
+    "title": "Noona's Ice Cream",
+    "selftext": "Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)",
+    "ancestors": [
+     {
+      "author": "n_nine",
+      "body": "My ice cream was pretty good but they gotta work on showing up on time. I went an hour after opening (noon) a couple Saturdays ago - said they were open late due to the storm... Ok, tried the next day around the same time and again, closed but should have opened at 11."
+     }
+    ],
+    "author": "WredditSmark",
+    "body": "It’s a small business get a grip literally one person doing everything",
+    "replies": [
+     {
+      "author": "n_nine",
+      "body": "It's still a business and it isn't one person since the owner is a Korean girl and whoever opened that day wasn't. Saying that I get it but ice creams a hard business. Some of the best are gone - if she wants customers coming back, should be open when they say they are before people take a train to the neighborhood and lose goodwill 🤷🏻"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Noona's Ice Cream",
+     "named_in": "context",
+     "kind": "deli",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "defense",
+       "text": "commenter defends it as a small business run by one person, replying to complaints about unreliable opening hours"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ice cream"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0886",
+   "comment_id": "t1_pfil7y6",
+   "model_view": "<post_title author=\"you\">Atlantic Oysters, Cherry stone, Top Neck, and Little Neck Clams, and Sushi from A New Place in Coney Island ...</post_title>\n<post_body author=\"you\">We have a new buffet place in Coney Island called *Park Buffet Asian Cuisine Grill* on Surf Avenue.  The sushi was good and reasonably priced.  They have other options besides sushi, which I will try when I go back.\n\nThe clams were harvested off the coast of Brookhaven, New York.  The oysters were from Maryland.  I selected the clams and oysters from a seafood store on Avenue U and shucked them, myself.</post_body>\n<thread_above>\n[1] another user: uhh… just chiming in that if someone had quoted my words like that i would have known exactly what they meant\n</thread_above>\n<comment_to_extract>\nYou also don't seem to punctuate your sentences.\n\nI try to write what I mean and I mean what I write and speak.\n\nPost in words, terms and language others can understand.  ... or don't.   I'm not the grammar cops.\n</comment_to_extract>",
+   "context": {
+    "title": "Atlantic Oysters, Cherry stone, Top Neck, and Little Neck Clams, and Sushi from A New Place in Coney Island ...",
+    "selftext": "We have a new buffet place in Coney Island called *Park Buffet Asian Cuisine Grill* on Surf Avenue.  The sushi was good and reasonably priced.  They have other options besides sushi, which I will try when I go back.\n\nThe clams were harvested off the coast of Brookhaven, New York.  The oysters were from Maryland.  I selected the clams and oysters from a seafood store on Avenue U and shucked them, myself.",
+    "ancestors": [
+     {
+      "author": "yourgrandmasgrandma",
+      "body": "uhh… just chiming in that if someone had quoted my words like that i would have known exactly what they meant "
+     }
+    ],
+    "author": "Psyqlone",
+    "body": "You also don't seem to punctuate your sentences.\n\nI try to write what I mean and I mean what I write and speak.\n\nPost in words, terms and language others can understand.  ... or don't.   I'm not the grammar cops.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0887",
+   "comment_id": "t1_ocxgcrk",
+   "model_view": "<post_title>ISO chinatown restaurant that gives out fried wonton chips (pic in caption)!</post_title>\n<post_body>i have yet to find a chinese restaurant in nyc that offers these little wonton chips either in takeout or in person. does anyone know of any restaurant that has these???!?</post_body>\n<comment_to_extract>\nhaven't seen these in a while\n</comment_to_extract>",
+   "context": {
+    "title": "ISO chinatown restaurant that gives out fried wonton chips (pic in caption)!",
+    "selftext": "i have yet to find a chinese restaurant in nyc that offers these little wonton chips either in takeout or in person. does anyone know of any restaurant that has these???!? ",
+    "ancestors": [],
+    "author": "CaptainObvious110",
+    "body": "haven't seen these in a while",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0888",
+   "comment_id": "t1_p2xkakg",
+   "model_view": "<post_title>Eleven Madison Park, Lunch. Menu, drinks, and a game.</post_title>\n<post_body>I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.</post_body>\n<comment_to_extract>\nThis is the best that EMP has looked to me in a hot minute. Are they actually trying again?\n</comment_to_extract>",
+   "context": {
+    "title": "Eleven Madison Park, Lunch.  Menu, drinks, and a game.",
+    "selftext": "I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\n",
+    "ancestors": [],
+    "author": "constanto",
+    "body": "This is the best that EMP has looked to me in a hot minute. Are they actually trying again?",
+    "replies": [
+     {
+      "author": "MTonmyMind",
+      "body": "Were they not 'trying' in the past? or is that just a dig at their changed menu in the past?"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "EMP",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": "improved",
+     "status": null,
+     "price": null,
+     "tags": [
+      "tasting menu"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0889",
+   "comment_id": "t1_nqgqxyg",
+   "model_view": "<post_title>What to bring the family from NYC</post_title>\n<post_body>Going to Michigan for thanks giving and trying to work out what NY food item to bring for them. In the past I have brought a box of Italian cookies and cheese cake.</post_body>\n<thread_above>\n[1] another user: Pizza. Reheated NY pizza is better than anything they can get. Get a slice pie, tell them you want it cold. wrap slices individually in foil and bag up in gallon zip loc.\n</thread_above>\n<comment_to_extract>\nI’ve brought pizza across flights many a time. From Chicago to nYC- NyC to Michigan/cali. I support the pizza gifts\n</comment_to_extract>",
+   "context": {
+    "title": "What to bring the family from NYC",
+    "selftext": "Going to Michigan for thanks giving and trying to work out what NY food item to bring for them. In the past I have brought a box of Italian cookies and cheese cake. \n",
+    "ancestors": [
+     {
+      "author": "acecoffeeco",
+      "body": "Pizza. Reheated NY pizza is better than anything they can get. Get a slice pie, tell them you want it cold. wrap slices individually in foil and bag up in gallon zip loc. "
+     }
+    ],
+    "author": "New_Cheesecake9719",
+    "body": "I’ve brought pizza across flights many a time. From Chicago to nYC- NyC to Michigan/cali. I support the pizza gifts",
+    "replies": [
+     {
+      "author": "acecoffeeco",
+      "body": "All my NY friends in Utah and Tahoe feels when I visit to ride. Always bring pizza and bagels. My one buddy doesn’t share. He hides them in his freezer and eats all season. "
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0890",
+   "comment_id": "t1_p69bw81",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<thread_above>\n[1] another user: I've tasted 5 different slices, aa well as two sandwiches, and all were great\n[2] OP: Even the ones that sound weird are good\n</thread_above>\n<comment_to_extract>\nwhich ones sound weird?\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Neptune28",
+      "body": "I've tasted 5 different slices, aa well as two sandwiches, and all were great"
+     },
+     {
+      "author": "RumPunchKid",
+      "body": "Even the ones that sound weird are good"
+     }
+    ],
+    "author": "nightkhan",
+    "body": "which ones sound weird?",
+    "replies": [
+     {
+      "author": "RumPunchKid",
+      "body": "The one with pears"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0891",
+   "comment_id": "t1_kxp6e2z",
+   "model_view": "<post_title>Pete Wells' 100 Best Restaurants in New York City in 2024</post_title>\n<thread_above>\n[1] another user: i don’t really like how changes in placement are so highlighted in this year’s list\n</thread_above>\n<comment_to_extract>\nYeah it's bizarre to frame this a cross-section culinary tour of NYC instead of a true \"ranking\" list then focus so much on the actual rankings that you highlight the ups and downs...\n</comment_to_extract>",
+   "context": {
+    "title": "Pete Wells' 100 Best Restaurants in New York City in 2024",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "3axel3loop",
+      "body": "i don’t really like how changes in placement are so highlighted in this year’s list"
+     }
+    ],
+    "author": "Barry_McCocciner",
+    "body": "Yeah it's bizarre to frame this a cross-section culinary tour of NYC instead of a true \"ranking\" list then focus so much on the actual rankings that you highlight the ups and downs...",
+    "replies": [
+     {
+      "author": "Delaywaves",
+      "body": "Pretty certain that would've been the editors' choice rather than Wells'. (He even says he didn't plan to make this list more than once!)"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0892",
+   "comment_id": "t1_pd2fxo1",
+   "model_view": "<post_title>Weekly Reservation Transfer Thread</post_title>\n<post_body># Please read the rules before commenting. Also, any type of \"looking for a reservation\" request is NOT ALLOWED.\n\n1. This thread is the only place on the subreddit for transferring  restaurant reservations. If you make your own thread, it will be  removed.\n2. You may transfer reservations for below or equal to face value (plus all taxes and fees) ONLY. You must clearly state both the price you paid  and the price you're looking for in the post. Gouging will not be tolerated.\n3. You can only transfer reservations that are nonrefundable, ie, you cannot cancel them without forfeiting your money. If you have a refundable or free reservation and you can't make it, cancel it with the restaurant.\n4. The only reason we're allowing transfers is so people don't have to forfeit expensive pre-paid meals. If you want to *buy* a reservation, you are not one of these people. No posts asking to buy reservations.\n5. The mods of [/r/FoodNYC](https://old.reddit.com/r/FoodNYC) accept no responsibility for these transactions. Tock and Resy both  allow transfers on the website - if someone tells you otherwise it's a  scam.  Do your own research  on your transaction before handing over any money to a thi ...</post_body>\n<comment_to_extract>\nSelling a reservation for **1 person to Atomix Oct 25th 5:30 pm, Chef’s counter** at face value **$461.09**\n\nTransfer via Tock. DM me if interested.\n</comment_to_extract>",
+   "context": {
+    "title": "Weekly Reservation Transfer Thread",
+    "selftext": "# Please read the rules before commenting. Also, any type of \"looking for a reservation\" request is NOT ALLOWED.\n\n1. This thread is the only place on the subreddit for transferring  restaurant reservations. If you make your own thread, it will be  removed.\n2. You may transfer reservations for below or equal to face value (plus all taxes and fees) ONLY. You must clearly state both the price you paid  and the price you're looking for in the post. Gouging will not be tolerated.\n3. You can only transfer reservations that are nonrefundable, ie, you cannot cancel them without forfeiting your money. If you have a refundable or free reservation and you can't make it, cancel it with the restaurant.\n4. The only reason we're allowing transfers is so people don't have to forfeit expensive pre-paid meals. If you want to *buy* a reservation, you are not one of these people. No posts asking to buy reservations.\n5. The mods of [/r/FoodNYC](https://old.reddit.com/r/FoodNYC) accept no responsibility for these transactions. Tock and Resy both  allow transfers on the website - if someone tells you otherwise it's a  scam.  Do your own research  on your transaction before handing over any money to a third party. Check with the restaurant, check account ages,  meet in person if feasible.\n\nNote that this thread is reposted Sunday evenings.",
+    "ancestors": [],
+    "author": "Necessary-Leg5434",
+    "body": "Selling a reservation for **1 person to Atomix Oct 25th 5:30 pm, Chef’s counter** at face value **$461.09**\n\nTransfer via Tock. DM me if interested. ",
+    "replies": [
+     {
+      "author": "NationalDebt4861",
+      "body": "DM’d"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Atomix",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reservation transfer",
+       "text": "Seller offers a 1-person Chef's counter reservation for Oct 25 at 5:30 pm at face value $461.09, transferable via Tock"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "reservation transfer",
+      "omakase",
+      "chef's counter"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0893",
+   "comment_id": "t1_nmv0i0c",
+   "model_view": "<post_title>Need to impress a skeptic</post_title>\n<post_body>I lived in New York for about 5 years in my young adult years, but have been gone for over 15.\nNow live in Melbourne, Australia - a real food and culture scene (but infinitely more ‘liveable’ than New York)\nMy Aussie husband has been to New York with me once - in 2013- and claims to not have enjoyed it. \nWe’re coming back in January and I really want to show him he’s wrong.\nWe’re staying in SoHo on the west side and don’t need to bother with pizza and bagels etc (plus I’m gluten avoidant these days). Will happily travel to Brooklyn or queens or wherever needed for a good meal.\nMaybe not fine dining cause the Aussie dollar is shit against the greenback - but otherwise open to recommendations!</post_body>\n<thread_above>\n[1] another user: To get out of the way first, NYC is also liveable with a good food and culture scene. No need to start beef when you're asking for recs. One of main strengths of NYC is its diverse dining scene. There are many different experiences to have. It really depends what your husband is looking for. What does he like? What does he want to experience? You can food crawl along the 7 train and hit many foods from around the world. Grab some doubles and roti from De Hot Pot and walk in Prospect Park. Check out a concert at Forest Hills Stadium, eat Burmese food at Asian Bowl and dessert at Eddie's Sweet Shop, an old-fashioned ice cream parlor. Other recent posts for inspiration: - [I want to try 100 new dishes in 2026. Help me make my list!](https://www.reddit.com/r/FoodNYC/comments/1ok658c/i_want_to_try_100_new_dishes_in_2026_help_me_make/) - [New York City Loves a Little Treat. Here Are Our 46 Favorites.](https://www.reddit.com/r/FoodNYC/comments/1ojbbb6/the_best_ice_cream_coffee_and_more_little_treats/) - [30 Cuisines from Around the World in NYC](https://www.reddit.com/r/FoodNYC/comments/1oh2m9z/30_cuisines_from_around_the_world_in_nyc/) - [Best things I ate in NY](https://www.reddit.com/r/FoodNYC/comments/1odv52x/best_things_i_ate_in_ny/)\n</thread_above>\n<comment_to_extract>\nlol I love New York, hate Melbourne and lived in both for years but it is undeniable fact that Melbourne is a LOT more liveable than New York. It’s a much easier place to live, waaaay more affordable, decent public schools, people are friendlier, and it has great food and culture. New York is amazing but unless you have a lot of money then it is an intense rat race of a town to just live in day to day, \n\nPeople in this thread are being super defensive but the two places are so different that it’s not worth getting defensive over. No one goes to New York for the easy living, its strengths lie elsewhere.\n</comment_to_extract>",
+   "context": {
+    "title": "Need to impress a skeptic",
+    "selftext": "I lived in New York for about 5 years in my young adult years, but have been gone for over 15.\nNow live in Melbourne, Australia - a real food and culture scene (but infinitely more ‘liveable’ than New York)\nMy Aussie husband has been to New York with me once - in 2013- and claims to not have enjoyed it. \nWe’re coming back in January and I really want to show him he’s wrong.\nWe’re staying in SoHo on the west side and don’t need to bother with pizza and bagels etc (plus I’m gluten avoidant these days). Will happily travel to Brooklyn or queens or wherever needed for a good meal.\nMaybe not fine dining cause the Aussie dollar is shit against the greenback - but otherwise open to recommendations!\n",
+    "ancestors": [
+     {
+      "author": "justflipping",
+      "body": "To get out of the way first, NYC is also liveable with a good food and culture scene. No need to start beef when you're asking for recs.\n\nOne of main strengths of NYC is its diverse dining scene. There are many different experiences to have. It really depends what your husband is looking for. What does he like? What does he want to experience?\n\nYou can food crawl along the 7 train and hit many foods from around the world. Grab some doubles and roti from De Hot Pot and walk in Prospect Park. Check out a concert at Forest Hills Stadium, eat Burmese food at Asian Bowl and dessert at Eddie's Sweet Shop, an old-fashioned ice cream parlor.\n\nOther recent posts for inspiration:\n\n- [I want to try 100 new dishes in 2026. Help me make my list!](https://www.reddit.com/r/FoodNYC/comments/1ok658c/i_want_to_try_100_new_dishes_in_2026_help_me_make/)\n- [New York City Loves a Little Treat. Here Are Our 46 Favorites.](https://www.reddit.com/r/FoodNYC/comments/1ojbbb6/the_best_ice_cream_coffee_and_more_little_treats/)\n- [30 Cuisines from Around the World in NYC](https://www.reddit.com/r/FoodNYC/comments/1oh2m9z/30_cuisines_from_around_the_world_in_nyc/)\n- [Best things I ate in NY](https://www.reddit.com/r/FoodNYC/comments/1odv52x/best_things_i_ate_in_ny/)"
+     }
+    ],
+    "author": "Possumcucumber",
+    "body": "lol I love New York, hate Melbourne and lived in both for years but it is undeniable fact that Melbourne is a LOT more liveable than New York. It’s a much easier place to live, waaaay more affordable, decent public schools, people are friendlier, and it has great food and culture. New York is amazing but unless you have a lot of money then it is an intense rat race of a town to just live in day to day, \n\nPeople in this thread are being super defensive but the two places are so different that it’s not worth getting defensive over. No one goes to New York for the easy living, its strengths lie elsewhere. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0894",
+   "comment_id": "t1_oul6udm",
+   "model_view": "<post_title author=\"you\">Chirashi ‘First Class’ Osakana $43 (why does the title need to be 50 characters)</post_title>\n<post_body author=\"you\">Someone left a comment on my ‘Parcel’s or Mr. Moto” post that at $43 this is better value. While it’s certainly more visually appealing, there’s no crab, no toro, no scallop……it was quite good but there’s no world where it’s better value than the Moto box. Lots of filler too with the radish, carrot and cucumber. Also no wasabi or ginger. Would still order again. \n\nhttps://osakana.nyc</post_body>\n<thread_above>\n[1] another user: 😂 i add so much fluff to my review post titles too\n</thread_above>\n<comment_to_extract>\nIt’s so stupid. Why is that a rule?\n</comment_to_extract>",
+   "context": {
+    "title": "Chirashi ‘First Class’ Osakana $43 (why does the title need to be 50 characters)",
+    "selftext": "Someone left a comment on my ‘Parcel’s or Mr. Moto” post that at $43 this is better value. While it’s certainly more visually appealing, there’s no crab, no toro, no scallop……it was quite good but there’s no world where it’s better value than the Moto box. Lots of filler too with the radish, carrot and cucumber. Also no wasabi or ginger. Would still order again. \n\nhttps://osakana.nyc",
+    "ancestors": [
+     {
+      "author": "swh74",
+      "body": "😂 i add so much fluff to my review post titles too"
+     }
+    ],
+    "author": "mheusler1",
+    "body": "It’s so stupid. Why is that a rule?",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0895",
+   "comment_id": "t1_oz30ojk",
+   "model_view": "<post_title>Recommendations for best yogurt parfaits in the city?</post_title>\n<post_body>Hi! As the title says, I’m looking for the best yogurt parfaits in the city. Not frozen yogurt, but a classic Greek yogurt + granola + fruit parfait! I love thick yogurt + some jam/fruit + savory, well toasted granola. \n\nOpen to cafe/bakery/restaurants/coffee shops!\n\nSome of my thoughts so far:  \n\\- Granola Bar - didn’t think it lived up to the hype… OK but yogurt was not that thick…  \n\\- Kona coffee - too much jam in their parfaits  \n\\- Tartinery - pretty good but kind of expensive  \n\\- Maman - too sweet  \n\\- Pura vida - wish it didn’t have pineapple</post_body>\n<comment_to_extract>\nannoyingly the grapefruit and yogurt at jacks wife freda is really good, although at 15$ it’s highway robbery. i try to expense it for work when i can lmao\n</comment_to_extract>",
+   "context": {
+    "title": "Recommendations for best yogurt parfaits in the city?",
+    "selftext": "Hi! As the title says, I’m looking for the best yogurt parfaits in the city. Not frozen yogurt, but a classic Greek yogurt + granola + fruit parfait! I love thick yogurt + some jam/fruit + savory, well toasted granola. \n\nOpen to cafe/bakery/restaurants/coffee shops!\n\nSome of my thoughts so far:  \n\\- Granola Bar - didn’t think it lived up to the hype… OK but yogurt was not that thick…  \n\\- Kona coffee - too much jam in their parfaits  \n\\- Tartinery - pretty good but kind of expensive  \n\\- Maman - too sweet  \n\\- Pura vida - wish it didn’t have pineapple",
+    "ancestors": [],
+    "author": "ayayadae",
+    "body": "annoyingly the grapefruit and yogurt at jacks wife freda is really good, although at 15$ it’s highway robbery. i try to expense it for work when i can lmao",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Jacks Wife Freda",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "grapefruit and yogurt",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "$15 for the grapefruit and yogurt, called highway robbery"
+      },
+      {
+       "about": "expense",
+       "text": "commenter tries to expense it for work when possible"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "breakfast",
+      "grapefruit"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0896",
+   "comment_id": "t1_njtdnxr",
+   "model_view": "<post_title author=\"you\">New York-area food events, October 16-23</post_title>\n<post_body author=\"you\">**New York City Wine & Food Festival**  \nConcludes Thursday through Sunday, October 16-19, various hours  \nVarious locations  \n[http://www.nycwff.org/](http://www.nycwff.org/)See website for ticket details\n\n**Midtown East Food Fair**  \nThursday, October 16, 10:00-6:00  \nEast 54th St. between Lexington and Third Aves., Manhattan  \nFree admission\n\n**Smorgasburg**  \nFriday through Sunday, October 17-19, 11:00-6:00; repeats through the last weekend of October  \nFriday: WTC/Oculus Plaza, Fulton St. at Church St., Manhattan  \nSaturday: Marsha P. Johnson State Park, 90 Kent Ave. (at North 7th St.), Williamsburg, Brooklyn  \nSunday: Breeze Hill, East Dr. at Lincoln Rd., Prospect Park, Brooklyn  \n[https://www.smorgasburg.com/vendors/](https://www.smorgasburg.com/vendors/)Previously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&view\\_all=1&text=smorgasburg](https://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&view_all=1&text=smorgasburg)Free admission\n\n**St. Leon Armenian Church Food Festival**  \nFriday through Sunday, October 17-19, various hours  \nSt. Leon Armenian Church, 12-61 Saddle River Rd., Fair Lawn, New Jerse  \n[https://www.faceb ...</post_body>\n<thread_above>\n[1] another user: What’s the wine and food festival like? Thinking of taking my dad as a gift but haven’t heard if it’s worth it or not\n</thread_above>\n<comment_to_extract>\nHaven't been since before Covid. Perhaps someone else here can weigh in.\n</comment_to_extract>",
+   "context": {
+    "title": "New York-area food events, October 16-23",
+    "selftext": "**New York City Wine & Food Festival**  \nConcludes Thursday through Sunday, October 16-19, various hours  \nVarious locations  \n[http://www.nycwff.org/](http://www.nycwff.org/)See website for ticket details\n\n**Midtown East Food Fair**  \nThursday, October 16, 10:00-6:00  \nEast 54th St. between Lexington and Third Aves., Manhattan  \nFree admission\n\n**Smorgasburg**  \nFriday through Sunday, October 17-19, 11:00-6:00; repeats through the last weekend of October  \nFriday: WTC/Oculus Plaza, Fulton St. at Church St., Manhattan  \nSaturday: Marsha P. Johnson State Park, 90 Kent Ave. (at North 7th St.), Williamsburg, Brooklyn  \nSunday: Breeze Hill, East Dr. at Lincoln Rd., Prospect Park, Brooklyn  \n[https://www.smorgasburg.com/vendors/](https://www.smorgasburg.com/vendors/)Previously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&view\\_all=1&text=smorgasburg](https://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&view_all=1&text=smorgasburg)Free admission\n\n**St. Leon Armenian Church Food Festival**  \nFriday through Sunday, October 17-19, various hours  \nSt. Leon Armenian Church, 12-61 Saddle River Rd., Fair Lawn, New Jerse  \n[https://www.facebook.com/photo?fbid=1203870915098276&set=pcb.1203871388431562](https://www.facebook.com/photo?fbid=1203870915098276&set=pcb.1203871388431562)Free admission\n\n**Korean Harvest & Multicultural Festival**  \nFriday, October 25, 11:00-9:00; Saturday, 10:00-6:00  \nJack Alter Fort Lee Community Center, 1355 Inwood Terr., Fort Lee, New Jersey  \nSunday, October 27, 11:00-6:00  \nMurray Hill Square, 149th St. and 41st Ave., Murray Hill, Queens  \n[https://www.instagram.com/p/DPMQV3ajlNV/](https://www.instagram.com/p/DPMQV3ajlNV/)Free admission\n\n**JapanFes**  \nSaturday, October 18, 10:00-6:00; repeats weekly, more or less, through early December  \nAstor Place, Manhattan  \n[https://www.japanfes.com/new-blog/2025/oct-18-east-village ](https://www.japanfes.com/new-blog/2025/oct-18-east-village)  \nPreviously: [https://www.Flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&view\\_all=1&text=japanfes](http://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&view_all=1&text=japanfes)  \nFree admission\n\n**Sussex County Harvest, Honey, & Garlic Festival**  \nSaturday, October 18, 10:00-4:00  \nSussex County Fairgrounds, Augusta, New Jersey  \n[http://www.sussexfarmvisits.com/harvestfest.htm](http://www.sussexfarmvisits.com/harvestfest.htm)Free admission\n\n**The Great Community Bake Sale**  \nSaturday, October 18, 11:00-3:00  \n180 Maiden Ln. (at Front St.), Manhattan  \n[https://www.eventbrite.com/e/the-great-community-bake-sale-tickets-1738986107259](https://www.eventbrite.com/e/the-great-community-bake-sale-tickets-1738986107259)Free admission; \"All proceeds will be distributed across four New York City-based nonprofits providing essential services to New Yorkers in need: Heart of Dinner, Make the Road New York, One Love Community Fridge, and The Teaching Kitchen at Lenox Hill Neighborhood House\"\n\n**Oyster Bay Oyster Fest**  \nSaturday and Sunday, October 18-19, 11:00-6:00  \nIn and near Theodore Roosevelt Park, Oyster Bay, New York  \n[https://theoysterfest.org/](https://theoysterfest.org/)Free admission\n\n**Taste of Korea**  \nSaturday, October 18, 11:00-5:00  \nGood News New Jersey Church, 1075 Queen Anne Rd., Teaneck, New Jersey  \n[https://www.eventbrite.com/e/taste-of-korea-teaneck-tickets-1763181757099](https://www.eventbrite.com/e/taste-of-korea-teaneck-tickets-1763181757099)Free admission\n\n**The New Jersey Seafood & Music Festival**  \nSaturday, October 18, 11:00-6:30  \nBell Works, 101 Crawfords Corner Rd., Holmdel, New Jersey  \n[https://www.facebook.com/events/bell-works/new-jersey-seafood-music-festival/1960591411460380/](https://www.facebook.com/events/bell-works/new-jersey-seafood-music-festival/1960591411460380/)Admission: $5; children under age 5, free\n\n**Secaucus Diwali Mela**  \nSaturday, October 18, noon-6:00 (postponed from October 12)  \nBuchmuller Park, 150 Plaza Center, Secaucus, New Jersey  \n[https://www.instagram.com/p/DPmeN-qDijd/](https://www.instagram.com/p/DPmeN-qDijd/)Free admission\n\n**Fall Market & Halal Food Fest**  \nSaturday, October 18, 1:00-7:00  \nNansen Lodge, 3465 Victory Blvd. (Graham-Travis Aves.), Travis, Staten Island  \n[https://www.instagram.com/p/DNyC8zz3PYe/](https://www.instagram.com/p/DNyC8zz3PYe/)Admission: adults, $5; children ages 3 to 12, $3\n\n**Queens Night Market**  \nSaturday, October 18, 4:00-midnight; continues weekly through October 25  \nNear the New York Hall of Science, 4701 111th St. (inside Flushing Meadows Corona Park), Corona, Queens  \n[http://queensnightmarket.com/](http://queensnightmarket.com/)Previously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&view\\_all=1&text=%22queens+night+market%22](https://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&view_all=1&text=%22queens+night+market%22)Free admission\n\n**Season finale: Indonesian bazaar at Masjid al-Hikmah**  \nSunday, October 19, 10:00-5:00  \n4801 31st Ave. (at 48th St.), Astoria, Queens  \n[https://www.instagram.com/p/DPuGTfaEdoC/](https://www.instagram.com/p/DPuGTfaEdoC/)  \nPreviously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&text=hikmah&view\\_all=1](https://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&text=hikmah&view_all=1)Free admission\n\n**Little Manila Festival**  \nSunday, October 19, 10:00-6:00; repeats October 26  \nLittle Manila, Roosevelt Ave. between 69th and 70th Sts., Woodside, Queens  \n[https://www.facebook.com/photo?fbid=10229056311769345&set=gm.24776203928704099&idorvanity=2999775473440258](https://www.facebook.com/photo?fbid=10229056311769345&set=gm.24776203928704099&idorvanity=2999775473440258)Previously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&text=%22little%20manila%22](https://www.flickr.com/search/?user_id=61177627%40N00&text=%22little%20manila%22)Free admission\n\n**Grand Bazaar NYC**  \nSunday, October 19, 10:00-5:00; repeats weekly  \n100 West 77th St. (at Columbus Ave.), Manhattan  \n[https://grandbazaarnyc.org](https://grandbazaarnyc.org)Previously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&view\\_all=1&text=%22grand+bazaar%22](https://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&view_all=1&text=%22grand+bazaar%22)Free admission\n\n**JapanFes**  \nSunday, October 19, 10:00-6:00; repeats weekly, more or less, through early December  \nAmsterdam Ave. between 78th and 79th Sts. (likely one block of a longer street festival), Manhattan  \n[https://www.japanfes.com/new-blog/2025/oct-19th-uws](https://www.japanfes.com/new-blog/2025/oct-19th-uws)   \nPreviously: [https://www.Flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&view\\_all=1&text=japanfes](http://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&view_all=1&text=japanfes)  \nFree admission\n\n**Plaza Cuahtémoc**  \nSunday, October 19, 11:00-9:00; repeats weekly  \n[https://www.instagram.com/plaza.cuauhtemoc/](https://www.instagram.com/plaza.cuauhtemoc/)  \nFree admission\n\n**Jackson Heights Diwali Mela**  \nSunday, October 19, in past years noon-6:00 (postponed from October 12)  \n74th St. between 37th Rd. and 37th Ave., Jackson Heights, Queens  \n[https://www.flickr.com/photos/eatingintranslation/54841937785/lightbox/](https://www.flickr.com/photos/eatingintranslation/54841937785/lightbox/)Previously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&text=diwali%20jackson&view\\_all=1](https://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&text=diwali%20jackson&view_all=1)Free admission\n\n**K-Fest JC 2025**  \nSunday, October 19, noon-3:30  \nCity Hall Plaza, 280 Grove St. (Mercer-Montgomery Sts.), Jersey City  \n[https://www.instagram.com/p/DPeo9uuDfcY/](https://www.instagram.com/p/DPeo9uuDfcY/)Free admission\n\n**Planted Culture Market**  \nTuesday, October 21, 4:00-9:00  \nWashington Square Park, at the corner of Waverly Pl. and MacDougal St., Manhattan  \n[https://www.instagram.com/p/DPZJ8pgDpge](https://www.instagram.com/p/DPZJ8pgDpge)/  \nFree admission\n\n**Bowl of 'Zole**  \nThursday, October 23, 6:00-9:00  \nIndustry City's 5 2 A venue, 33 35th St. (Second-Third Aves.), Greenwood, Brooklyn  \n[https://www.eventbrite.com/e/bowl-of-zoletm-brooklyn-2025-tickets-1373325907759](https://www.eventbrite.com/e/bowl-of-zoletm-brooklyn-2025-tickets-1373325907759)Previously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&text=%22bowl+of+%27zole%22&view\\_all=1](https://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&text=%22bowl+of+%27zole%22&view_all=1)Tickets: $59.78, or $81.06 for hour-earlier VIP entry; ages 21 and over only; all Bowl of 'Zole chefs will prepare extra pozole for City Harvest: [https://www.cityharvest.org/](https://www.cityharvest.org/)",
+    "ancestors": [
+     {
+      "author": "fontanick",
+      "body": "What’s the wine and food festival like? Thinking of taking my dad as a gift but haven’t heard if it’s worth it or not"
+     }
+    ],
+    "author": "EatingInTranslation",
+    "body": "Haven't been since before Covid. Perhaps someone else here can weigh in.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0897",
+   "comment_id": "t1_o8m2f63",
+   "model_view": "<post_title>Momofuku Noodle Bar: Food still nice, but unpleasant to eat there</post_title>\n<post_body>I found myself at the OG East Village location a few times in the last three months. It's been nice to rediscover it: in the aughts I'd hit this place hard, back when it was the best ramen game in town bar. But it's not 2005 anymore, and NYC's ramen scene has completely changed. I think it's been 10-15 years since I've been back.\n\nThe ramen is still very good, particularly the super garlicky and flavorful garlic chicken ramen. Their salad drenched in orange-ginger dressing is very nice too. (It also made me realize that I haven't been served that style of salad at a Japanese restaurant in years, what's up with that??)\n\nDespite how good the food is, MAN have they packed in the seats at that location. The bar is elbow-to-elbow, but somehow that's more room than their tables. (I think part of this is that Noodle Bar is one of the restaurants in the Chase Sapphire Reserve credit list. That's certainly one of the reasons I've been going!) It doesn't help that the restaurant is constantly fielding delivery and takeout orders, even when the restaurant is packed.\n\nI've never been to the uptown location, maybe that's better?</post_body>\n<comment_to_extract>\nBeen boycotting momofuku since his chili crisp shenanigans\n</comment_to_extract>",
+   "context": {
+    "title": "Momofuku Noodle Bar: Food still nice, but unpleasant to eat there",
+    "selftext": "I found myself at the OG East Village location a few times in the last three months. It's been nice to rediscover it: in the aughts I'd hit this place hard, back when it was the best ramen game in town bar. But it's not 2005 anymore, and NYC's ramen scene has completely changed. I think it's been 10-15 years since I've been back.\n\nThe ramen is still very good, particularly the super garlicky and flavorful garlic chicken ramen. Their salad drenched in orange-ginger dressing is very nice too. (It also made me realize that I haven't been served that style of salad at a Japanese restaurant in years, what's up with that??)\n\nDespite how good the food is, MAN have they packed in the seats at that location. The bar is elbow-to-elbow, but somehow that's more room than their tables. (I think part of this is that Noodle Bar is one of the restaurants in the Chase Sapphire Reserve credit list. That's certainly one of the reasons I've been going!) It doesn't help that the restaurant is constantly fielding delivery and takeout orders, even when the restaurant is packed.\n\nI've never been to the uptown location, maybe that's better? ",
+    "ancestors": [],
+    "author": "Efficient_Law_1551",
+    "body": "Been boycotting momofuku since his chili crisp shenanigans ",
+    "replies": [
+     {
+      "author": "TopCapTheApp",
+      "body": "What was that?"
+     },
+     {
+      "author": "Johnnadawearsglasses",
+      "body": "He was always a shitty person. I went to the OG Noodle Bar when it opened. There was a young Japanese woman staging there. He completely eviscerated her verbally in front of all of the customers at the bar itself. Total POS. "
+     },
+     {
+      "author": "justflipping",
+      "body": "They really shot themselves in the foot with that."
+     },
+     {
+      "author": "mbnyc1118",
+      "body": "Also, lobbying California along with Thomas Keller and Rachel Ray against phasing out PFAs (think nonstick pans) in cookware, which are KNOWN to be carcinogenic.\n\n  \nAll three conveniently own nonstick pan companies. That really pissed me off."
+     },
+     {
+      "author": "pretender80",
+      "body": "But not when the abusive kitchen environment was made public?"
+     },
+     {
+      "author": "Unhappy_Library_7425",
+      "body": "wait can you plz elaborate? "
+     },
+     {
+      "author": "PlayDontObserve",
+      "body": "Their chili crisp is amazing. What happened to the Crisp?"
+     },
+     {
+      "author": "MaximumWoodpecker869",
+      "body": "I still remember during the worth it episode with him on he was legit egging on Andrew and Steven to pick his dish as the most worth it. "
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0898",
+   "comment_id": "t1_o3l0elu",
+   "model_view": "<post_title>Noona's Ice Cream</post_title>\n<post_body>Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)</post_body>\n<comment_to_extract>\nI really like the flavors there, my favorite is the pandan and ube with the mochi toppings. Agree that the owner is quite nice and sometimes you can spin a wheel for a free scoop!\n</comment_to_extract>",
+   "context": {
+    "title": "Noona's Ice Cream",
+    "selftext": "Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)",
+    "ancestors": [],
+    "author": "StrangeManInYourTub",
+    "body": "I really like the flavors there, my favorite is the pandan and ube with the mochi toppings. Agree that the owner is quite nice and sometimes you can spin a wheel for a free scoop!",
+    "replies": [
+     {
+      "author": "Head_Lab5137",
+      "body": "need to get into ube im so srs"
+     },
+     {
+      "author": "Hour_Ad5821",
+      "body": "She let me suggest some flavors for the spring too! Look out for blueberry pie, olive oil, or carrot cake 👀 👀 👀"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Noona's Ice Cream",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pandan and ube with mochi toppings",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "staff",
+       "text": "owner is quite nice"
+      },
+      {
+       "about": "promotion",
+       "text": "sometimes spin a wheel for a free scoop"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": "positive",
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ice cream"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0899",
+   "comment_id": "t1_m4ay1an",
+   "model_view": "<post_title>Which places suffered from the curse of success leading to worse quality food?</post_title>\n<post_body>I find that with some food places once they become famous, they start slacking and cutting corners to make profit from the fame, leading to lower quality food. \n\nI’ll start with Halal Guys. 10 years ago it was great right as they were getting famous. \n\nRoughly 5 years ago I had it and the meat and rice was so dry. I think it’s because they precook so much meat and rice to meet the demand and it just sits there on the grill drying out. Never been back since.</post_body>\n<thread_above>\n[1] another user: Scarr’s\n</thread_above>\n<comment_to_extract>\nSB took what made them great and threw it out completely.\n</comment_to_extract>",
+   "context": {
+    "title": "Which places suffered from the curse of success leading to worse quality food?",
+    "selftext": "I find that with some food places once they become famous, they start slacking and cutting corners to make profit from the fame, leading to lower quality food. \n\nI’ll start with Halal Guys. 10 years ago it was great right as they were getting famous. \n\nRoughly 5 years ago I had it and the meat and rice was so dry. I think it’s because they precook so much meat and rice to meet the demand and it just sits there on the grill drying out. Never been back since.",
+    "ancestors": [
+     {
+      "author": "Spiritual_Option4465",
+      "body": "Scarr’s"
+     }
+    ],
+    "author": "pedootz",
+    "body": "SB took what made them great and threw it out completely.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "SB",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "quality change",
+       "text": "claims the place dropped what made it great"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": "declined",
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0900",
+   "comment_id": "t1_oot4196",
+   "model_view": "<post_title>For someone who's never been, is Katz's Deli worth trying or is it mostly hype?</post_title>\n<post_body>I've somehow made it this far without ever going to Katz's.\n\nDoes the food actually live up to the reputation or is a lot of the appeal the history, fame, and tourist factor?.\n\nIf it's worth going, what should I order?</post_body>\n<thread_above>\n[1] another user: I equate it to something like Keens Steakhouse and NOT Peter Luger. Keens is 100% a NYC institution and is one of the best steakhouses in nyc. It’s touristy but also special. It probably isn’t THE BEST steakhouse in terms of the food but is IS in the discussion. While Peter Luger’s sucks and is just a tourist trap. Katz’s might not be THE BEST pastrami and such but it IS in discussion. It’s 100% a NYC institution and a classic while being touristy. Both Keens and Katz’s also have a special ambiance that is unmatched\n</thread_above>\n<comment_to_extract>\nMy trip to Peter Luger’s was over a decade before I got to Keen’s, so hard to make a direct comparison, but I preferred their steak, bacon, and sauce. Keen’s was kind of a disappointment for the price range, but the atmosphere was really cool and it was still a quality steak of course.\n</comment_to_extract>",
+   "context": {
+    "title": "For someone who's never been, is Katz's Deli worth trying or is it mostly hype?",
+    "selftext": "I've somehow made it this far without ever going to Katz's.\n\nDoes the food actually live up to the reputation or is a lot of the appeal the history, fame, and tourist factor?.\n\nIf it's worth going, what should I order?",
+    "ancestors": [
+     {
+      "author": "grooveman15",
+      "body": "I equate it to something like Keens Steakhouse and NOT Peter Luger. \n\nKeens is 100% a NYC institution and is one of the best steakhouses in nyc. It’s touristy but also special. It probably isn’t THE BEST steakhouse in terms of the food but is IS in the discussion. While Peter Luger’s sucks and is just a tourist trap. \n\nKatz’s might not be THE BEST pastrami and such but it IS in discussion. It’s 100% a NYC institution and a classic while being touristy. \n\nBoth Keens and Katz’s also have a special ambiance that is unmatched"
+     }
+    ],
+    "author": "Akronite14",
+    "body": "My trip to Peter Luger’s was over a decade before I got to Keen’s, so hard to make a direct comparison, but I preferred their steak, bacon, and sauce. Keen’s was kind of a disappointment for the price range, but the atmosphere was really cool and it was still a quality steak of course.",
+    "replies": [
+     {
+      "author": "g_mmy1",
+      "body": "To me both were a disappointment. I kinda avoid steakhouses now. I’ll go Anywhere else than a steakhouse."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Peter Luger's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "steak",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "bacon",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "sauce",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Commenter preferred its steak, bacon and sauce over Keen's"
+      },
+      {
+       "about": "timing",
+       "text": "Visit was over a decade before the Keen's visit, so no direct comparison"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse"
+     ]
+    },
+    {
+     "name": "Keen's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "steak",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "Disappointing for the price range"
+      },
+      {
+       "about": "comparison",
+       "text": "Commenter preferred Peter Luger's steak, bacon and sauce"
+      },
+      {
+       "about": "timing",
+       "text": "Visit was over a decade after the Peter Luger's visit"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": "negative",
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse"
+     ]
+    }
+   ]
+  }
+ ]
+}

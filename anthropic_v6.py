@@ -150,17 +150,22 @@ def strict_schema(schema):
 
 
 OUTPUT_SCHEMA = strict_schema(prompt_v6.SCHEMA)
+OUTPUT_SCHEMA_THREAD = strict_schema(prompt_v6.SCHEMA_THREAD)
 
 
-def params(system, user):
+def params(system, user, effort=None, max_tokens=None, schema=None):
     """One request's parameters: the benchmark's params() at effort medium,
-    with the schema and the cache marker it ran with."""
-    return {"model": prompt_v6.MODEL, "max_tokens": prompt_v6.MAX_TOKENS,
+    with the schema and the cache marker it ran with.
+
+    Comment and post mode never pass the keywords, so what they send is
+    exactly the benchmark's. Thread mode passes its own effort, its 32k
+    max_tokens and the thread schema (an integer "id" in every mention)."""
+    return {"model": prompt_v6.MODEL, "max_tokens": max_tokens or prompt_v6.MAX_TOKENS,
             "system": [{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}],
             "messages": [{"role": "user", "content": user}],
             "thinking": {"type": "adaptive"},
-            "output_config": {"effort": prompt_v6.EFFORT,
-                              "format": {"type": "json_schema", "schema": OUTPUT_SCHEMA}}}
+            "output_config": {"effort": effort or prompt_v6.EFFORT,
+                              "format": {"type": "json_schema", "schema": schema or OUTPUT_SCHEMA}}}
 
 
 def cost(usage, batch):
@@ -172,22 +177,38 @@ def cost(usage, batch):
     return c * (BATCH_DISCOUNT if batch else 1.0)
 
 
-def worst_case(system, user, batch):
+def worst_case(system, user, batch, max_tokens=None):
     """The most one request can cost: all input billed as a cache write, all of max_tokens out."""
     tin = (len(system) + len(user)) / CHARS_PER_TOKEN_UPPER + SCHEMA_OVERHEAD_TOKENS
-    return (tin * PRICES["cache_write"] + prompt_v6.MAX_TOKENS * PRICES["out"]) \
+    return (tin * PRICES["cache_write"] + (max_tokens or prompt_v6.MAX_TOKENS) * PRICES["out"]) \
         * (BATCH_DISCOUNT if batch else 1.0)
 
 
-def estimate(system, user, batch, cached):
+def estimate(system, user, batch, cached, output_tokens=None):
     """A typical request's cost, for dry runs: measured chars/token, the
-    benchmark's assumed output, and the system prompt either all cache reads
-    or all fresh input."""
+    benchmark's assumed output (or the caller's), and the system prompt
+    either all cache reads or all fresh input."""
     t_sys = len(system) / CHARS_PER_TOKEN + SCHEMA_OVERHEAD_TOKENS
     t_user = len(user) / CHARS_PER_TOKEN
     c = (t_sys * (PRICES["cache_read"] if cached else PRICES["in"]) + t_user * PRICES["in"]
-         + ASSUMED_OUTPUT_TOKENS * PRICES["out"])
+         + (ASSUMED_OUTPUT_TOKENS if output_tokens is None else output_tokens) * PRICES["out"])
     return c * (BATCH_DISCOUNT if batch else 1.0)
+
+
+# Thread mode's expected output, for dry runs and cost plans: a + b * items
+# tokens a chunk, thinking included. Fitted to the benchmark's round-1 thread
+# runs on 361 chunks of v2 comments (medium with 32k: 2,640 + 490 an item;
+# low: 2,250 + 345), then raised by the 12% round 4 added to comment mode's
+# output at medium (low's did not grow). Those chunks were picked for
+# diagnostic comments, 1.1 places a comment, so the backlog's typical thread
+# should come in under this. The post as item [0] counts as an item; post
+# mode measured about 700 output tokens a post in production.
+THREAD_OUTPUT = {"medium": (2950, 550), "low": (2250, 345)}
+
+
+def thread_output_tokens(effort, items, max_tokens=None):
+    a, b = THREAD_OUTPUT[effort]
+    return min(a + b * items, max_tokens or prompt_v6.THREAD_MAX_TOKENS)
 
 
 def _dump(message):
@@ -199,7 +220,7 @@ def usage_of(message):
     return {k: v for k, v in ((_dump(message) or {}).get("usage") or {}).items() if v is not None}
 
 
-def parse(message):
+def parse(message, max_tokens=None):
     """The extraction in an Anthropic message, as {"mentions": [...]}, or ItemError.
 
     stop_reason is checked before the text: a max_tokens stop is cut-off JSON,
@@ -208,7 +229,7 @@ def parse(message):
     m = _dump(message) or {}
     stop = m.get("stop_reason")
     if stop == "max_tokens":
-        raise ItemError("max_tokens", f"stopped at {prompt_v6.MAX_TOKENS} output tokens")
+        raise ItemError("max_tokens", f"stopped at {max_tokens or prompt_v6.MAX_TOKENS} output tokens")
     if stop == "refusal":
         details = m.get("stop_details") or {}
         raise ItemError("refusal", str(details.get("category") or ""))

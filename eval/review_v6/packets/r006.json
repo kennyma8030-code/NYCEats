@@ -1,0 +1,1158 @@
+{
+ "packet": "r006",
+ "items": [
+  {
+   "item_id": "Q0126",
+   "comment_id": "t1_nib6ys7",
+   "model_view": "POST TITLE: What is your go-to food choice?\n\nPOST BODY: Hi, Born in NY, grew up in PHX. Our go-to food is Mexican, whether we make it ourselves, get it from a shop or go to a restaurant. If we don't have specific plans, it's Mexican food.\n\nI asked my mom about this (grew up in Washington Heights in the 50s & 60s). She said it would have been Italian or German, mostly because those restaurants and stores were in her neighborhood (probably deli foods). ...\n\nCOMMENT: Pizza, tacos, Thai",
+   "context": {
+    "title": "What is your go-to food choice?",
+    "selftext": "Hi, Born in NY, grew up in PHX. Our go-to food is Mexican, whether we make it ourselves, get it from a shop or go to a restaurant. If we don't have specific plans, it's Mexican food.\n\nI asked my mom about this (grew up in Washington Heights in the 50s & 60s). She said it would have been Italian or German, mostly because those restaurants and stores were in her neighborhood (probably deli foods).\n\nSo, today, what is your go-to food in NYC? ",
+    "ancestors": [],
+    "author": "Rusiano",
+    "body": "Pizza, tacos, Thai",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0127",
+   "comment_id": "t1_oh7geq3",
+   "model_view": "POST TITLE: Anyone know any gluten free cakes and desert bakeries?\n\nPOST BODY: My fiancé and i are trying to get a gluten free cakes and gluten free deserts for our wedding. We don’t know where to start and wanted some fresh ideas from first fork to mouth encounters.\n\nPARENT COMMENT: By The Way Bakery is by far the best I’ve had. I’m not gluten free and the name says it all - I would truly have no idea. \n\nThey do wedding cakes and other desserts: https://www.btwbakery.com/wedding-cakes\n\nCOMMENT: Their coconut cake is to die for",
+   "context": {
+    "title": "Anyone know any gluten free cakes and desert bakeries?",
+    "selftext": "My fiancé and i are trying to get a gluten free cakes and gluten free deserts for our wedding. We don’t know where to start and wanted some fresh ideas from first fork to mouth encounters.",
+    "ancestors": [
+     {
+      "author": "arist0stles",
+      "body": "By The Way Bakery is by far the best I’ve had. I’m not gluten free and the name says it all - I would truly have no idea. \n\nThey do wedding cakes and other desserts: https://www.btwbakery.com/wedding-cakes"
+     }
+    ],
+    "author": "pinkpeachpie_",
+    "body": "Their coconut cake is to die for ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "By The Way Bakery",
+     "named_in": "context",
+     "location": null,
+     "experience": "secondhand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "coconut cake",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "gluten free",
+      "bakery",
+      "wedding cakes"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0128",
+   "comment_id": "t1_nl0i8nt",
+   "model_view": "POST TITLE: Looking for a dive bar along the 1 train between Lincoln Center and the Hudson stop\n\nPOST BODY: I know it’s a tough area because Times Square and MSG are right in the middle of this route. Basically looking for somewhere quiet and not crazy expensive to catch up and have a drink with a friend.\n\nPARENT COMMENT: Rudy's\n\nCOMMENT: In the corner of my eye,\n\nI saw you at Rudy’s,\n\nYou were very high…",
+   "context": {
+    "title": "Looking for a dive bar along the 1 train between Lincoln Center and the Hudson stop",
+    "selftext": "I know it’s a tough area because Times Square and MSG are right in the middle of this route. Basically looking for somewhere quiet and not crazy expensive to catch up and have a drink with a friend.",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     }
+    ],
+    "author": "JoeyBoomBox",
+    "body": "In the corner of my eye,\n\nI saw you at Rudy’s,\n\nYou were very high…",
+    "replies": [
+     {
+      "author": "Sandusky666",
+      "body": "*Yooooou* were high\n\nIt was a cryin’ disgrace"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Rudy's",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "dive bar"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0129",
+   "comment_id": "t1_nowfmmf",
+   "model_view": "POST TITLE: Best (somewhat affordable) Italian where a reservation is attainable- for proposal evening\n\nPOST BODY: Hello all!\nI’ve recently moved to the city for work, and am planning to propose to my girlfriend of 7 years!\nOur first date in college happened to be at an Olive Garden, and their favorite food has always been Italian. I’m hoping to find a great restaurant in manhattan to wine and dine before the big question! \n\nWhile I’d love to do the nicest restaurant with an exclusive reservation, our current ...\n\nPARENT COMMENT: times square olive garden!!! a full circle moment\n\nCOMMENT: Someone I know proposed at the times square mcdonalds because of similar sentimental reasons and he said any other restaurant might shut down in 10 years, but they could keep coming back to that times square mcdonalds for the rest of their lives. Sweet.",
+   "context": {
+    "title": "Best (somewhat affordable) Italian where a reservation is attainable- for proposal evening",
+    "selftext": "Hello all!\nI’ve recently moved to the city for work, and am planning to propose to my girlfriend of 7 years!\nOur first date in college happened to be at an Olive Garden, and their favorite food has always been Italian. I’m hoping to find a great restaurant in manhattan to wine and dine before the big question! \n\nWhile I’d love to do the nicest restaurant with an exclusive reservation, our current financial spot simply doesn’t allow that. I’ve found myself caught between the desire to make a magical evening and the reality that to have the best of everything, I would have to save much longer or sacrifice basic necessities. Put simply, I can’t stand not being married to this girl a second longer, and I need help finding a good middle ground!\n\nThank you all so much in advance, and apologies for the poor grammar (English is not my first language)",
+    "ancestors": [
+     {
+      "author": "Most_Manufacturer_74",
+      "body": "times square olive garden!!! a full circle moment"
+     }
+    ],
+    "author": "Fresh_Advance6094",
+    "body": "Someone I know proposed at the times square mcdonalds because of similar sentimental reasons and he said any other restaurant might shut down in 10 years, but they could keep coming back to that times square mcdonalds for the rest of their lives. Sweet.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "times square mcdonalds",
+     "named_in": "comment",
+     "location": "Times Square",
+     "experience": "secondhand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "fast food",
+      "proposal spot"
+     ],
+     "notes": [
+      {
+       "about": "sentimental value",
+       "text": "a friend proposed there; commenter says it could be revisited for life, unlike restaurants that may close in 10 years",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0130",
+   "comment_id": "t1_p64i28h",
+   "model_view": "POST TITLE: Mama’s Too in NYC has some of my favorite slices ever!!\n\nPARENT COMMENT: Do they still have a C health rating?\n\nCOMMENT: No idea nor do I really pay attention",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     },
+     {
+      "author": "poopship462",
+      "body": "Do they still have a C health rating?"
+     }
+    ],
+    "author": "Jxc_Heard",
+    "body": "No idea nor do I really pay attention ",
+    "replies": [
+     {
+      "author": "rdgn",
+      "body": "Famous last words"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0131",
+   "comment_id": "t1_nt72q0q",
+   "model_view": "POST TITLE: If you could bring back one closed restaurant, what would it be?\n\nPOST BODY: This cold winter day’s got me feeling nostalgic. What’s restaurants or eateries of the past would you bring back if given the chance? For me, it’s a tie between Caracas Arepa & Marble Dessert Bar. Oh, how miss dousing their seafood arepa with their signature yellow sauce. And to this day, I still can’t find a dessert tasting quite like Marble’s. Lysee comes close, but it’s not quite the same.\n\nCOMMENT: Rosemary's Pantry. Which has been closed just to extend rosemary's east and offer private dining. The main reason is they had an amazing chicken parm sub that I miss dearly, I've been looking for a substitute for over a year now and have never found one. The closest is the sandwich they put on the lunch menu to replace it, but its not the same. \n\nIt had a couple freshly fried chicken milanese, house made bread, and a good quality mozerella doused in a house red sauce. Somehow they were charging 14$ the same as every other place in the area serving a chicken parm hero.",
+   "context": {
+    "title": "If you could bring back one closed restaurant, what would it be?",
+    "selftext": "This cold winter day’s got me feeling nostalgic. What’s restaurants or eateries of the past would you bring back if given the chance? For me, it’s a tie between Caracas Arepa & Marble Dessert Bar. Oh, how miss dousing their seafood arepa with their signature yellow sauce. And to this day, I still can’t find a dessert tasting quite like Marble’s. Lysee comes close, but it’s not quite the same. ",
+    "ancestors": [],
+    "author": "boroughthoughts",
+    "body": "Rosemary's Pantry. Which has been closed just to extend rosemary's east and offer private dining. The main reason is they had an amazing chicken parm sub that I miss dearly, I've been looking for a substitute for over a year now and have never found one. The closest is the sandwich they put on the lunch menu to replace it, but its not the same. \n\nIt had a couple freshly fried chicken milanese, house made bread, and a good quality mozerella doused in a house red sauce. Somehow they were charging 14$ the same as every other place in the area serving a chicken parm hero.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Rosemary's Pantry",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "chicken parm sub",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "lunch menu sandwich replacing chicken parm sub",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "tags": [
+      "chicken parm",
+      "private dining"
+     ],
+     "notes": [
+      {
+       "about": "missed dish",
+       "text": "Misses the chicken parm sub; looked for a substitute for over a year and never found one",
+       "level": null,
+       "dish": "chicken parm sub"
+      },
+      {
+       "about": "closure reason",
+       "text": "Closed to extend rosemary's east and offer private dining",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "price",
+       "text": "$14 for the chicken parm hero, same as other places in the area",
+       "level": null,
+       "dish": "chicken parm sub"
+      },
+      {
+       "about": "chicken parm description",
+       "text": "Freshly fried chicken milanese, house made bread, good quality mozzarella, house red sauce",
+       "level": "positive",
+       "dish": "chicken parm sub"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0132",
+   "comment_id": "t1_oebn8kj",
+   "model_view": "POST TITLE: How hard is it to walk-in to Fish Cheeks?\n\nPOST BODY: My friend and I want to try Fish Cheeks at Soho tomorrow, but since we weren’t able to get a reservation at the time we want, we’re thinking of walking in.\n\nHow bad/easy is the line to Fish Cheeks on a weekend dinner?\n\nCOMMENT: if you go around 4/4:40ish there always one or two free tables",
+   "context": {
+    "title": "How hard is it to walk-in to Fish Cheeks?",
+    "selftext": "My friend and I want to try Fish Cheeks at Soho tomorrow, but since we weren’t able to get a reservation at the time we want, we’re thinking of walking in.\n\nHow bad/easy is the line to Fish Cheeks on a weekend dinner?",
+    "ancestors": [],
+    "author": "nyccitygorl",
+    "body": "if you go around 4/4:40ish there always one or two free tables\n\n",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Fish Cheeks",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "best time to walk in",
+       "text": "go around 4 to 4:40, there are always one or two free tables",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0133",
+   "comment_id": "t1_oelm2ag",
+   "model_view": "POST TITLE: Is there a delivery service that actually consolidates quality Asian + Western groceries? (Queens)\n\nPOST BODY: I've been through the gauntlet on this. H Mart Instacart, Whole Foods, Trader Joe's, Weee, Natoora, local halal butchers, Flushing runs, Chinatown runs. I cook Taiwanese, Japanese food regularly and eat pretty standard Western stuff otherwise.\n\nHere's where I've landed after way too much time on this: H Mart doesn't deliver fish and the online fish selection is thin. Natoora quality is great but n ...\n\nCOMMENT: short answer is no? i would deliver stuff that’s hard to find and just plan to get whatever item you need that day, like every other new yorker. like if you need fish that day make it an errand to go to a fish market. like.. what?  lol",
+   "context": {
+    "title": "Is there a delivery service that actually consolidates quality Asian + Western groceries? (Queens)",
+    "selftext": "I've been through the gauntlet on this. H Mart Instacart, Whole Foods, Trader Joe's, Weee, Natoora, local halal butchers, Flushing runs, Chinatown runs. I cook Taiwanese, Japanese food regularly and eat pretty standard Western stuff otherwise.\n\nHere's where I've landed after way too much time on this: H Mart doesn't deliver fish and the online fish selection is thin. Natoora quality is great but not sustainable price-wise for daily use. Trader Joe's has no reliable fresh meat. Whole Foods meat is nothing special — I end up at a butcher or halal shop anyway for anything I actually care about. And I know most of these grocers are sourcing from the same distributors for a lot of their proteins, which makes the whole runaround even more annoying.\n\nI'm not looking for the cheapest option or the highest-end option. I just want one, maybe two stops (or deliveries) that cover quality proteins, fresh fish, Taiwanese/Asian pantry staples, and normal Western basics. Going from Astoria to Flushing to save $15 on groceries doesn't pencil out.\n\nHas anyone actually solved this or is 3-4 sources just the reality of eating this way in NYC?",
+    "ancestors": [],
+    "author": "samosasweetie",
+    "body": "short answer is no? i would deliver stuff that’s hard to find and just plan to get whatever item you need that day, like every other new yorker. like if you need fish that day make it an errand to go to a fish market. like.. what?  lol",
+    "replies": [
+     {
+      "author": "Terrible_Alps9830",
+      "body": "what a great suggestion, thank you"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0134",
+   "comment_id": "t1_oc13tyf",
+   "model_view": "POST TITLE: Taqueria Ramirez is not a cheap eat!!!\n\nPOST BODY: I finally went to this place and payed 6 dollars for the tiniest taco (in Los Angeles I get bigger tacos of the same quality for 1,50) I thought the taco was fine but I would probably need at least 5 of these to get full. That makes 30 dollars. That’s not a cheap eat at all. Beli lists them as the no. 1 cheap eat in New York currently and that imo is just wrong. A cheap eat is about the value for ...\n\nPARENT COMMENT: I didn't know that the place in EV wasn't the original. Does the Greenpoint location also have pork?\n\nCOMMENT: They have al pastor which is pork",
+   "context": {
+    "title": "Taqueria Ramirez is not a cheap eat!!!",
+    "selftext": "I finally went to this place and payed 6 dollars for the tiniest taco (in Los Angeles I get bigger tacos of the same quality for 1,50) I thought the taco was fine but I would probably need at least 5 of these to get full. That makes 30 dollars. That’s not a cheap eat at all. Beli lists them as the no. 1 cheap eat in New York currently and that imo is just wrong. A cheap eat is about the value for money. The value for money at this place is not good! Compare this to halal trucks or burrito places where you can get full for around 9-15 dollars. ",
+    "ancestors": [
+     {
+      "author": "Vegetable-Arachnid96",
+      "body": "Might be pricey but the flavor and consistency wins at Ramirez. Also try the pork only spot in EV!\n\nLos Tacos 1 and Ramirez are 👑 "
+     },
+     {
+      "author": "petersterne",
+      "body": "I’ve only been to the pork-only spot, which was crazy because they use like every part of the pig! They even had pork uterus tacos there!\n\nIs OP talking about a different Taqueria Ramirez?"
+     },
+     {
+      "author": "Vegetable-Arachnid96",
+      "body": "Yea the place is bomb! Sounds like OP went to the original spot in Greenpoint"
+     },
+     {
+      "author": "petersterne",
+      "body": "I didn't know that the place in EV wasn't the original. Does the Greenpoint location also have pork?"
+     }
+    ],
+    "author": "LongIsland1995",
+    "body": "They have al pastor which is pork",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0135",
+   "comment_id": "t1_ogcr192",
+   "model_view": "POST TITLE: Rowdy Rooster in the East Village has closed for good it seems.\n\nPOST BODY: Can't see it mentioned here but just noticed the sign has been replaced with one for a Filipino sandwich place.\n\nIt's unfortunate what happened to that place - when it opened it was probably the best chicken sandwich I'd ever had, every spice level had different blends and the chicken and flavor was excellent.\n\nThey just kept changing the menu, toning it down, making it less spicy and lowering the ...\n\nCOMMENT: I'm not surprised. The sandwiches were way too spicy to the point of being inedible when they first opened. Unapologetic Foods for some reason is selling the public the idea that Indian cuisine has to be ungodly spicy for it be \"authentic\".",
+   "context": {
+    "title": "Rowdy Rooster in the East Village has closed for good it seems.",
+    "selftext": "Can't see it mentioned here but just noticed the sign has been replaced with one for a Filipino sandwich place.\n\nIt's unfortunate what happened to that place - when it opened it was probably the best chicken sandwich I'd ever had, every spice level had different blends and the chicken and flavor was excellent.\n\nThey just kept changing the menu, toning it down, making it less spicy and lowering the quality of the ingredients. Now I guess they're doing something completely different, maybe related to Naks? Wonder how long the Midtown one will last.",
+    "ancestors": [],
+    "author": "Acceptable-Ratio-219",
+    "body": "I'm not surprised. The sandwiches were way too spicy to the point of being inedible when they first opened. Unapologetic Foods for some reason is selling the public the idea that Indian cuisine has to be ungodly spicy for it be \"authentic\".",
+    "replies": [
+     {
+      "author": "Red__dead",
+      "body": "Too spicy for the NYU crowd, maybe."
+     },
+     {
+      "author": "TheLogicError",
+      "body": "Have multiple indian friends that love it. Also they have different spice levels, did you go in and order the hottest and then complain about it being too hot? "
+     },
+     {
+      "author": "Kooker321",
+      "body": "Totally agree, and their spice levels were inconsistent. I've been 3 times and each time the spiciness varied wildly."
+     },
+     {
+      "author": "DrunkPanda77",
+      "body": "The level 1 was mild, levels 4 and 5 were hot yeah but they literally got rid of those… I still got the 3 on rare occasion but 4/5 were my faves "
+     },
+     {
+      "author": "pavelysnotekapret",
+      "body": "The spiciness was perfectly fine, even at level 5. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Rowdy Rooster",
+     "named_in": "context",
+     "location": "East Village",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "very_negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "sandwiches",
+       "level": "very_negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "tags": [
+      "chicken sandwich"
+     ],
+     "notes": [
+      {
+       "about": "spice level",
+       "text": "sandwiches were too spicy when they first opened, to the point of being inedible",
+       "level": "very_negative",
+       "dish": "sandwiches"
+      }
+     ]
+    },
+    {
+     "name": "Unapologetic Foods",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "marketing",
+       "text": "is selling the idea that Indian cuisine must be ungodly spicy to be authentic",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0136",
+   "comment_id": "t1_pb7g476",
+   "model_view": "POST TITLE: Looking for a burger joint like Bob's Burgers in NYC\n\nPOST BODY: I'm looking for a burger joint like the cartoon show Bob's Burgers in NYC.  Just plain simple burgers.  Not smash burgers.  Maybe they have a burger of the day.  It doesn't have to be fancy.  My go-to joint closed years ago.  It was a deli and they served their burgers on a Styrofoam plate with a brioche bun.  I don't believe their patties were ever frozen.  \n\nDoes this kind of place exist in NYC? ...\n\nPARENT COMMENT: Lovely's Old Fashioned is going to be the vibe you're looking for.\n\nCOMMENT: Great burger too",
+   "context": {
+    "title": "Looking for a burger joint like Bob's Burgers in NYC",
+    "selftext": "I'm looking for a burger joint like the cartoon show Bob's Burgers in NYC.  Just plain simple burgers.  Not smash burgers.  Maybe they have a burger of the day.  It doesn't have to be fancy.  My go-to joint closed years ago.  It was a deli and they served their burgers on a Styrofoam plate with a brioche bun.  I don't believe their patties were ever frozen.  \n\nDoes this kind of place exist in NYC?  I find it hard to believe we have regional Indian food, regional Chinese food, Peruvian Chinese, etc. but no simple burger joint in NYC.  ",
+    "ancestors": [
+     {
+      "author": "MidtownGreen",
+      "body": "Lovely's Old Fashioned is going to be the vibe you're looking for. "
+     }
+    ],
+    "author": "sleepyhead",
+    "body": "Great burger too",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Lovely's Old Fashioned",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "burger",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0137",
+   "comment_id": "t1_oofppn4",
+   "model_view": "POST TITLE: Best Tender BBQ in NYC? Hometown’s quality fell off for me\n\nPOST BODY: Don’t know what happened with Hometown BBQ but the last time I went there, the brisket and ribs were dry, overcooked, not salted enough, and just not as flavorful. Looking for another place that is worth checking out which lives up to the hype. Please let me know!\n\nCOMMENT: It entirely depends on what you're looking for. The brisket at Hill Country is very good most of the time, though the sides are kinda terrible these days.",
+   "context": {
+    "title": "Best Tender BBQ in NYC? Hometown’s quality fell off for me",
+    "selftext": "Don’t know what happened with Hometown BBQ but the last time I went there, the brisket and ribs were dry, overcooked, not salted enough, and just not as flavorful. Looking for another place that is worth checking out which lives up to the hype. Please let me know!",
+    "ancestors": [],
+    "author": "thatsarealquickno",
+    "body": "It entirely depends on what you're looking for. The brisket at Hill Country is very good most of the time, though the sides are kinda terrible these days.  ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Hill Country",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "neutral",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "brisket",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "sides",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bbq",
+      "brisket"
+     ],
+     "notes": [
+      {
+       "about": "sides",
+       "text": "sides are kinda terrible these days",
+       "level": "very_negative",
+       "dish": "sides"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0138",
+   "comment_id": "t1_mjd1e6h",
+   "model_view": "POST TITLE: At Ceres Pizza — when the fuck did this become okay???\n\nPARENT COMMENT: Who’s ever gotten sick from a dog\n\nCOMMENT: You need to get a grip. This city is disgusting and tiny lap dogs like that walk barefoot through it all while their bodies are 3 inches off the ground. They stand in their own piss, sniff other dog’s shit, put random bits of god knows what in their mouths. Frankly, it’s disgusting that you would even consider having them in a restaurant or grocery store.",
+   "context": {
+    "title": "At Ceres Pizza — when the fuck did this become okay???",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "rumblegod",
+      "body": "Dog owners on the worst parts of nyc list. They’re all dirty"
+     },
+     {
+      "author": "Queasy-Zucchini-4221",
+      "body": "Who’s ever gotten sick from a dog"
+     }
+    ],
+    "author": "niiro117",
+    "body": "You need to get a grip. This city is disgusting and tiny lap dogs like that walk barefoot through it all while their bodies are 3 inches off the ground. They stand in their own piss, sniff other dog’s shit, put random bits of god knows what in their mouths. Frankly, it’s disgusting that you would even consider having them in a restaurant or grocery store.",
+    "replies": [
+     {
+      "author": "FlimsySheepherder",
+      "body": "preachhh"
+     },
+     {
+      "author": "Queasy-Zucchini-4221",
+      "body": "This city is the cleanest it’s ever been all my life lmao. Sounds like someone needs to get back on a plane to Wyoming so they can get some fresh air"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Ceres Pizza",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "dogs in restaurant",
+       "text": "commenter says it is disgusting to allow dogs in restaurants or grocery stores, referring to the Ceres Pizza post",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0139",
+   "comment_id": "t1_oa1tbql",
+   "model_view": "POST TITLE: I’m looking for the cheesiest cheeseburger in NYC\n\nPOST BODY: My partner and I will visit NYC this year. I have never been to the US before and my dream goal for this trip is to have the ultimate cheeseburger. For me this means a burger covered in cheese. And I mean that quite literally. I want people to ask: would you like some burger with your cheese? I want it dirty but delicious. These type of burgers just simply don’t exist where I’m from. Hopefully som ...\n\nPARENT COMMENT: Roll n Roaster in Sheepshead Bay (Brooklyn) and ask for extra cheez\n\nCOMMENT: Or Brennan and Carr. They'll douse it in cheese too.",
+   "context": {
+    "title": "I’m looking for the cheesiest cheeseburger in NYC",
+    "selftext": "My partner and I will visit NYC this year. I have never been to the US before and my dream goal for this trip is to have the ultimate cheeseburger. For me this means a burger covered in cheese. And I mean that quite literally. I want people to ask: would you like some burger with your cheese? I want it dirty but delicious. These type of burgers just simply don’t exist where I’m from. Hopefully someone knows a place like this! (I think I have a cheese addiction)",
+    "ancestors": [
+     {
+      "author": "playbehavior",
+      "body": "Roll n Roaster in Sheepshead Bay (Brooklyn) and ask for extra cheez"
+     }
+    ],
+    "author": "boringcranberry",
+    "body": "Or Brennan and Carr. They'll douse it in cheese too.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Brennan and Carr",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "cheeseburger",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "burger"
+     ],
+     "notes": [
+      {
+       "about": "cheese",
+       "text": "they douse the burger in cheese",
+       "level": "positive",
+       "dish": "cheeseburger"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0140",
+   "comment_id": "t1_o25cmbj",
+   "model_view": "POST TITLE: Weightloss veg orders in NYC\n\nPOST BODY: I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.\n\nPARENT COMMENT: The person above isn’t talking about the healthiness of Sweet Green. \n\nMore so who they’re partnering with: https://reddit.com/r/FoodNYC/comments/1qmzyqf/sweetgreen_is_partnering_with_rfk_jrs_antivaxxer/\n\nCOMMENT: Didn’t know this def gonna avoid now",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [
+     {
+      "author": "Kennected",
+      "body": "I would suggest looking at health related subs and looking into Sweet Greens \"partnerships\" before giving them any more of your money."
+     },
+     {
+      "author": "shegothis",
+      "body": "Yea I like sweet greens because I can see the calories for everything I add."
+     },
+     {
+      "author": "shegothis",
+      "body": "But they only have very unhealthy sauce options so I end up eating my bow with Greek yogurt"
+     },
+     {
+      "author": "justflipping",
+      "body": "The person above isn’t talking about the healthiness of Sweet Green. \n\nMore so who they’re partnering with: https://reddit.com/r/FoodNYC/comments/1qmzyqf/sweetgreen_is_partnering_with_rfk_jrs_antivaxxer/"
+     }
+    ],
+    "author": "shegothis",
+    "body": "Didn’t know this def gonna avoid now",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sweet Green",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "partnership",
+       "text": "commenter didn't know about the partnership with an RFK Jr.-linked antivaxxer and will now avoid Sweet Green",
+       "level": "very_negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0141",
+   "comment_id": "t1_ogq64h3",
+   "model_view": "POST TITLE: Best Indian food spot in Queens?\n\nPOST BODY: I’ve always heard queens is the place to go if you want good Indian food. Where do you suggest? I haven’t found anything worth the money in the Williamsburg area.\n\nPARENT COMMENT: Angel in Jackson heights\n\nCOMMENT: +1 to this, haven't found anywhere else that comes close in Queens.",
+   "context": {
+    "title": "Best Indian food spot in Queens?",
+    "selftext": "I’ve always heard queens is the place to go if you want good Indian food. Where do you suggest? I haven’t found anything worth the money in the Williamsburg area. ",
+    "ancestors": [
+     {
+      "author": "Majestic-Excuse6457",
+      "body": "Angel in Jackson heights "
+     }
+    ],
+    "author": "icygnome",
+    "body": "+1 to this, haven't found anywhere else that comes close in Queens.",
+    "replies": [
+     {
+      "author": "Objective-Shirt-1875",
+      "body": "What do you like eating there?"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0142",
+   "comment_id": "t1_o4r2lzd",
+   "model_view": "POST TITLE: Fanciest supermarket in NYC?\n\nPOST BODY: Are there any food halls / supermarkets like the food hall in Harrods in London ?\n\nPARENT COMMENT: They have really good sales\n\nCOMMENT: Indeed, I stock up during the sales on good pasta and olive oil for most of the year.",
+   "context": {
+    "title": "Fanciest supermarket in NYC?",
+    "selftext": "Are there any food halls / supermarkets like the food hall in Harrods in London ?",
+    "ancestors": [
+     {
+      "author": "Johnnadawearsglasses",
+      "body": "To me, Eataly is the standard. The quality is high, the prepared food is very good, and they’ve been around a while. The flatiron one specifically"
+     },
+     {
+      "author": "AI-Coming4U",
+      "body": "Eataly is probably the closest we have and is definitely good. And the prices aren't that bad during their sales. \n\n"
+     },
+     {
+      "author": "Several-Nothing-2866",
+      "body": "They have really good sales"
+     }
+    ],
+    "author": "AI-Coming4U",
+    "body": "Indeed, I stock up during the sales on good pasta and olive oil for most of the year. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0143",
+   "comment_id": "t1_p31ynva",
+   "model_view": "POST TITLE: Eleven Madison Park, Lunch.  Menu, drinks, and a game.\n\nPOST BODY: I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\nPARENT COMMENT: Lovely! Did you have to book far in advanced OP? And if you don’t my asking, what was the total cost of the meal?\n\nCOMMENT: Couple of weeks for lunch.\n\nI had tried for a couple of years to get a dinner res that fit my travel, and it never worked out (this was pre-vegetarian menu).  Since they went back to their optional animal protein menu, I've been 4 times and it has not been difficult to find a spot.",
+   "context": {
+    "title": "Eleven Madison Park, Lunch.  Menu, drinks, and a game.",
+    "selftext": "I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\n",
+    "ancestors": [
+     {
+      "author": "helloivar",
+      "body": "Lovely! Did you have to book far in advanced OP? And if you don’t my asking, what was the total cost of the meal?"
+     }
+    ],
+    "author": "MTonmyMind",
+    "body": "Couple of weeks for lunch.\n\nI had tried for a couple of years to get a dinner res that fit my travel, and it never worked out (this was pre-vegetarian menu).  Since they went back to their optional animal protein menu, I've been 4 times and it has not been difficult to find a spot.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Eleven Madison Park",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "lunch",
+      "tasting menu",
+      "vegetarian option"
+     ],
+     "notes": [
+      {
+       "about": "booking lead time",
+       "text": "booked about a couple of weeks ahead for lunch",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "dinner reservations",
+       "text": "tried for a couple of years to get a dinner reservation that fit their travel and it never worked out, before the vegetarian menu",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "menu change",
+       "text": "went back to the optional animal protein menu; since then visited 4 times and it has not been difficult to find a spot",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0144",
+   "comment_id": "t1_od0dwc2",
+   "model_view": "POST TITLE: Reservation culture has ruined this city\n\nPOST BODY: I just fought for my life and still lost out on every single restaurant I tried to book for my birthday, in 30 days time, even with alarms. I've been doing this for days because everyone's phrasing and rules are different for what 30 days means. Now, I'm going to have to do this again at 20 days out, 2 weeks out, 10 days, etc. to see if I get to any of my other backups. I'm so over this, and this ...\n\nCOMMENT: For many people, it's a treasure hunt. The selfie and the food shot is the proof.",
+   "context": {
+    "title": "Reservation culture has ruined this city",
+    "selftext": "I just fought for my life and still lost out on every single restaurant I tried to book for my birthday, in 30 days time, even with alarms. I've been doing this for days because everyone's phrasing and rules are different for what 30 days means. Now, I'm going to have to do this again at 20 days out, 2 weeks out, 10 days, etc. to see if I get to any of my other backups. I'm so over this, and this is coming from someone formerly in the industry- up to and at the Michelin level. (No, I don't want to dine anywhere I used to work or abuse connections). I will not pay a resale scammer that used bots to get them all, and I will not pay someone to get in a line for me. \n\nThis shit ruins experience, spontaneity (something NYC had cornered the market on at one point) and the overall allure of dining out. I think I'm just...done. I'm not sure who the blame lands on, because restaurants might not have wished for this, but the reservation platforms are a joke, and the secretive ways to book otherwise are just insane. \n\nYes, I'm bitter for me and my celebration, but I'm also bitter about what restaurants have to become in order to make it here now. I strongly dislike gimmicky foods, trend items, etc. At this point, also thanks to socials, I can't even get into places that NYC considers regular ol' city institutions anymore because now THOSE are \"hidden gems\" and \"I bet you've never heard about\" and \"don't tell anyone I told you\"s because \\*everything\\* sacred becomes content. Don't even get me started on the blank market for reservations and bookings/ticket resale culture here that becomes intertwined.\n\nThanks for letting me rant! ",
+    "ancestors": [],
+    "author": "FrazzledWombatX",
+    "body": "For many people, it's a treasure hunt. The selfie and the food shot is the proof.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0145",
+   "comment_id": "t1_owlxohd",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nPARENT COMMENT: Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!\n\nCOMMENT: vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb.",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!"
+     }
+    ],
+    "author": "mycateatstoenails",
+    "body": "vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb. ",
+    "replies": [
+     {
+      "author": "SpongeyBobaruu",
+      "body": "It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\"  Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it.\n\nRespectfully, a chef."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0146",
+   "comment_id": "t1_p64pxoc",
+   "model_view": "POST TITLE: Mama’s Too in NYC has some of my favorite slices ever!!\n\nCOMMENT: Great pizza. Horrible staff",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "kave1790",
+    "body": "Great pizza. Horrible staff",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0147",
+   "comment_id": "t1_oon31k0",
+   "model_view": "POST TITLE: Where can we get mie gorang? Preferably in Brooklyn.\n\nPOST BODY: Looking for this specific Indonesian dish, but also welcome Indonesian recs in general!\n\nPARENT COMMENT: Java in Park Slope\n\nCOMMENT: Looks like we will have to make a Queens trip 😂",
+   "context": {
+    "title": "Where can we get mie gorang? Preferably in Brooklyn.",
+    "selftext": "Looking for this specific Indonesian dish, but also welcome Indonesian recs in general! ",
+    "ancestors": [
+     {
+      "author": "justflipping",
+      "body": "Java in Park Slope"
+     }
+    ],
+    "author": "cathaysia",
+    "body": "Looks like we will have to make a Queens trip 😂",
+    "replies": [
+     {
+      "author": "justflipping",
+      "body": "Have fun! Eat lots!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Java",
+     "named_in": "context",
+     "location": "Park Slope",
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "indonesian"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0148",
+   "comment_id": "t1_nyj9osy",
+   "model_view": "POST TITLE: Traditional espresso in Manhattan\n\nPOST BODY: I'll be in town for the weekend and wonder about an espresso bar serving Italian-style old school espresso.   Neapolitan would be best. Thanks\n\nPARENT COMMENT: Zibetto Espresso Bar at 56th and 6th looks exactly like a real Italian espresso bar. Its espresso is OK but not as good as in Italy.\n\nCOMMENT: Zibetto is the best in NY. Original location for that old school vibe. Its where chefs like to go early in the morning. If you want the same coffee in a cleaned up environment for some weird reason, go to their other location  on 48th.",
+   "context": {
+    "title": "Traditional espresso in Manhattan",
+    "selftext": "I'll be in town for the weekend and wonder about an espresso bar serving Italian-style old school espresso.   Neapolitan would be best. Thanks",
+    "ancestors": [
+     {
+      "author": "Carl_LaFong",
+      "body": "Zibetto Espresso Bar at 56th and 6th looks exactly like a real Italian espresso bar. Its espresso is OK but not as good as in Italy."
+     }
+    ],
+    "author": "misstheolddaysfan",
+    "body": "Zibetto is the best in NY. Original location for that old school vibe. Its where chefs like to go early in the morning. If you want the same coffee in a cleaned up environment for some weird reason, go to their other location  on 48th.",
+    "replies": [
+     {
+      "author": "Carl_LaFong",
+      "body": "Never noticed the one on 48th. Is that new? I always go to the original one if I’m anywhere near it. Just for the ambience."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Zibetto",
+     "named_in": "comment",
+     "location": "original location (56th and 6th)",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_positive",
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "espresso bar",
+      "old school",
+      "italian-style"
+     ],
+     "notes": [
+      {
+       "about": "best time to go",
+       "text": "chefs go early in the morning",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "other location",
+       "text": "48th St location is cleaner, same coffee, less old school vibe",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0149",
+   "comment_id": "t1_o744v4c",
+   "model_view": "POST TITLE: The highs and lows of eating goat in New York\n\nPOST BODY: A couple months ago I went to a Nepali restaurant that was SO SO good... except for the goat curry. Tough as all hell. Totally seized up. Usually happens when it's cooked too quickly, and I'm sure they didn't have the heart to chuck it (or didn't taste it to see.)\n\nSemma and Kabawa both have incredible goat dishes, but are obviously on the more expensive side.\n\nI don't care if it's a curry, or som ...\n\nPARENT COMMENT: Felo Deli, a Dominican bodega on 100th and Manhattan Ave, has goat on rice for $12 every Wednesday. Very good, always tender.\n\nCOMMENT: that sounds amazing",
+   "context": {
+    "title": "The highs and lows of eating goat in New York",
+    "selftext": "A couple months ago I went to a Nepali restaurant that was SO SO good... except for the goat curry. Tough as all hell. Totally seized up. Usually happens when it's cooked too quickly, and I'm sure they didn't have the heart to chuck it (or didn't taste it to see.)\n\nSemma and Kabawa both have incredible goat dishes, but are obviously on the more expensive side.\n\nI don't care if it's a curry, or some other preparation. Anyone got a great spot that's reliable with it's goat but lives in that middle tier of NYC dining?",
+    "ancestors": [
+     {
+      "author": "UpperWestSlider",
+      "body": "Felo Deli, a Dominican bodega on 100th and Manhattan Ave, has goat on rice for $12 every Wednesday. Very good, always tender."
+     }
+    ],
+    "author": "CaptainObvious110",
+    "body": "that sounds amazing",
+    "replies": [
+     {
+      "author": "UpperWestSlider",
+      "body": "Forgot to say that they have lunch only from about 11 to 2 or so (until they tun out of each item). Every day they have roast chicken, friend chicken, soup, fried fish, and beef stew. Daily specials include ribs on Tuesdays, pork chop on Thursday. Goat is the Wednesday special along with a ludicrously expensive ox tail.\n\nDominican breakfast in the mornings: mangu, fried cheese, sausages, hash browns, etc."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Felo Deli",
+     "named_in": "context",
+     "location": null,
+     "experience": "secondhand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0150",
+   "comment_id": "t1_of0hdov",
+   "model_view": "POST TITLE: Going to NYC for a weekend for the first time, are my choices pretty good?\n\nPOST BODY: Hi all,\n\nI'm going to NYC for the first time with my girlfriend.  It's a short trip just 4 days.  I'm from LA so this might impact my food choices.\n\nOur schedule so far is as follows.\n\nThursday - Mostly pizza and delis.  Joe's, lindustries, lucias, ceres.  Maybe trying katz or s & p and utopia / apollo bagels.\n\nFriday - I have a brunch reserved at clinston st. baking co and dinner reserved at au c ...\n\nPARENT COMMENT: Listen. Ridgewood isn’t that far if you take the L. It’s also a different pace from the tourist spots, so I say do it.\n\nCOMMENT: Its not that far from the queen's night market i think?  I might go to one after the other hrm.",
+   "context": {
+    "title": "Going to NYC for a weekend for the first time, are my choices pretty good?",
+    "selftext": "Hi all,\n\nI'm going to NYC for the first time with my girlfriend.  It's a short trip just 4 days.  I'm from LA so this might impact my food choices.\n\nOur schedule so far is as follows.\n\nThursday - Mostly pizza and delis.  Joe's, lindustries, lucias, ceres.  Maybe trying katz or s & p and utopia / apollo bagels.\n\nFriday - I have a brunch reserved at clinston st. baking co and dinner reserved at au cheval.\n\nSaturday - I'm thinking of hopping around china town, maybe house of joy for dim sum.  Reservation at rolos for dinner later in the day.\n\nSunday - Nothing planned so far. \n\n  \nAre my reservation choices good?  Any other recommendations that i have to try? ",
+    "ancestors": [
+     {
+      "author": "Inevitable-Echo2523",
+      "body": "Listen. Ridgewood isn’t that far if you take the L. It’s also a different pace from the tourist spots, so I say do it. "
+     }
+    ],
+    "author": "Revolutionary-Meet-6",
+    "body": "Its not that far from the queen's night market i think?  I might go to one after the other hrm.",
+    "replies": [
+     {
+      "author": "Inevitable-Echo2523",
+      "body": "Queens is not very well connected. That’s basically my commute to work and it’s a huge time suck. It would be an hour to get there at least, but the busses are usually less reliable on the weekends and at night. "
+     }
+    ]
+   },
+   "shown": []
+  }
+ ]
+}

@@ -1,0 +1,1768 @@
+{
+ "packet": "p048",
+ "items": [
+  {
+   "item_id": "R1176",
+   "comment_id": "t1_olge6vu",
+   "model_view": "<post_title>I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?</post_title>\n<comment_to_extract>\nComfortland and spitfire provisions\n</comment_to_extract>",
+   "context": {
+    "title": "I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "gab_the_bomb",
+    "body": "Comfortland and spitfire provisions ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Comfortland",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "chicken salad sandwich",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwich"
+     ]
+    },
+    {
+     "name": "Spitfire Provisions",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "chicken salad sandwich",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwich"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1177",
+   "comment_id": "t1_p65aoi0",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<thread_above>\n[1] another user: Overrated AF\n</thread_above>\n<comment_to_extract>\nBrave and courageous stance!\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     }
+    ],
+    "author": "Jpkmets7",
+    "body": "Brave and courageous stance!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1178",
+   "comment_id": "t1_ofrt5m7",
+   "model_view": "<post_title>Gluten free/coeliac safe cafés in NYC - looking for recommendations</post_title>\n<post_body>Hi I will be visiting NYC for the first time and I have a gluten intolerance. \n\nI’m looking for cute coffee shops that serve gluten free food and coffee/matcha (which are not cross contaminated). Please help. 🙏🏻</post_body>\n<comment_to_extract>\nuva next door! can do almost anything gluten free celiac safe. gluten free pizza and pasta, plus it’s bomb af\n</comment_to_extract>",
+   "context": {
+    "title": "Gluten free/coeliac safe cafés in NYC - looking for recommendations",
+    "selftext": "Hi I will be visiting NYC for the first time and I have a gluten intolerance. \n\nI’m looking for cute coffee shops that serve gluten free food and coffee/matcha (which are not cross contaminated). Please help. 🙏🏻 ",
+    "ancestors": [],
+    "author": "weirdspiderr",
+    "body": "uva next door! can do almost anything gluten free celiac safe. gluten free pizza and pasta, plus it’s bomb af",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "uva",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "gluten free pizza",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "gluten free pasta",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "celiac safety",
+       "text": "Can accommodate almost any gluten-free order safely for celiacs"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": "positive",
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "gluten free",
+      "celiac safe",
+      "pizza",
+      "pasta"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1179",
+   "comment_id": "t1_p2xkakg",
+   "model_view": "<post_title>Eleven Madison Park, Lunch. Menu, drinks, and a game.</post_title>\n<post_body>I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.</post_body>\n<comment_to_extract>\nThis is the best that EMP has looked to me in a hot minute. Are they actually trying again?\n</comment_to_extract>",
+   "context": {
+    "title": "Eleven Madison Park, Lunch.  Menu, drinks, and a game.",
+    "selftext": "I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\n",
+    "ancestors": [],
+    "author": "constanto",
+    "body": "This is the best that EMP has looked to me in a hot minute. Are they actually trying again?",
+    "replies": [
+     {
+      "author": "MTonmyMind",
+      "body": "Were they not 'trying' in the past? or is that just a dig at their changed menu in the past?"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "EMP",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reaction to post",
+       "text": "Commenter reacts to the post's photos and menu and asks whether the restaurant is trying again; no visit described"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1180",
+   "comment_id": "t1_obcm8i4",
+   "model_view": "<post_title>56709 - LIC JPOP Bar</post_title>\n<post_body>A great bar with really good Taiwanese style food. I really enjoy Japanese city pop music and the whole vibe is all about that. I recommend getting the Braised Pork over rice and the Plum sweet potato fries. This place is relatively small and fills up quickly so I’d recommend getting a reservation beforehand. \n\n56709 website: https://www.56709nyc.com/</post_body>\n<thread_above>\n[1] another user: Food way over priced, they upcharge for the exact same dish as the gulp connected to the store\n</thread_above>\n<comment_to_extract>\nSeems fairly reasonable for a cocktail bar tbh. [Menu](https://static1.squarespace.com/static/6801a4fed9d077462be38f0b/t/68f99bd9379b28760586d594/1761188825638/food+menu+56709+102225.pdf)\n\n* Classic Taiwanese Braised Pork Over Rice - $12\n* Fried Platter - $23 (Popcorn Chicken, Cuttle Fish Ball, Green Bean, BaiYe Tofu)\n* Chicken Over Rice - $12\n* Mala Fries - $16\n* Radish Cake w/ XO Sauce - $13\n* Plum Sweet Potato Fries - $13\n* Pickled Cucumber - $9\n</comment_to_extract>",
+   "context": {
+    "title": "56709 - LIC JPOP Bar",
+    "selftext": "A great bar with really good Taiwanese style food. I really enjoy Japanese city pop music and the whole vibe is all about that. I recommend getting the Braised Pork over rice and the Plum sweet potato fries. This place is relatively small and fills up quickly so I’d recommend getting a reservation beforehand. \n\n56709 website: https://www.56709nyc.com/",
+    "ancestors": [
+     {
+      "author": "HumSupLo69",
+      "body": "Food way over priced, they upcharge for the exact same dish as the gulp connected to the store"
+     }
+    ],
+    "author": "DinerEnBlanc",
+    "body": "Seems fairly reasonable for a cocktail bar tbh. [Menu](https://static1.squarespace.com/static/6801a4fed9d077462be38f0b/t/68f99bd9379b28760586d594/1761188825638/food+menu+56709+102225.pdf)\n\n* Classic Taiwanese Braised Pork Over Rice - $12\n* Fried Platter - $23 (Popcorn Chicken, Cuttle Fish Ball, Green Bean, BaiYe Tofu)\n* Chicken Over Rice - $12\n* Mala Fries - $16\n* Radish Cake w/ XO Sauce - $13\n* Plum Sweet Potato Fries - $13\n* Pickled Cucumber - $9",
+    "replies": [
+     {
+      "author": "HumSupLo69",
+      "body": "Have you seen the size? Male fries was like between a small and medium at mcd"
+     },
+     {
+      "author": "HumSupLo69",
+      "body": "Look at gulp menu, everything cheaper"
+     },
+     {
+      "author": "justflipping",
+      "body": "Yea pricing is similar to other cocktail bars"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "56709",
+     "named_in": "context",
+     "kind": "bar",
+     "location": "Long Island City",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "Fried Platter",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "Chicken Over Rice",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "Mala Fries",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "Radish Cake w/ XO Sauce",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "Plum Sweet Potato Fries",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "Pickled Cucumber",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "menu prices",
+       "text": "Braised pork over rice $12, Fried Platter $23, Chicken over rice $12, Mala Fries $16, Radish Cake $13, Plum Sweet Potato Fries $13, Pickled Cucumber $9"
+      },
+      {
+       "about": "menu",
+       "text": "Menu PDF linked in the comment"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cocktail bar",
+      "taiwanese"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1181",
+   "comment_id": "t1_opwu6w6",
+   "model_view": "<post_title>Thai Frozen Coke - Is there anywhere in or near the city that has it?</post_title>\n<post_body>Is there anywhere in or near the city that has Thai frozen Coke slushies?</post_body>\n<thread_above>\n[1] you, earlier: Summer, corner of Knickerbocker & Suydam, guy does it all the time.\n[2] another user: How much does he charge?\n</thread_above>\n<comment_to_extract>\nactually my bad, don't think he's selling soda anymore, just sorbet\n</comment_to_extract>",
+   "context": {
+    "title": "Thai Frozen Coke - Is there anywhere in or near the city that has it?",
+    "selftext": "Is there anywhere in or near the city that has Thai frozen Coke slushies?",
+    "ancestors": [
+     {
+      "author": "blacktongue",
+      "body": "Summer, corner of Knickerbocker & Suydam, guy does it all the time. "
+     },
+     {
+      "author": "Incoming_Gunner",
+      "body": "How much does he charge? "
+     }
+    ],
+    "author": "blacktongue",
+    "body": "actually my bad, don't think he's selling soda anymore, just sorbet",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Knickerbocker & Suydam corner vendor",
+     "named_in": "context",
+     "kind": "truck_or_cart",
+     "location": "corner of Knickerbocker & Suydam, Brooklyn",
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "sorbet",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "menu change",
+       "text": "commenter thinks he no longer sells soda, only sorbet"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "street vendor",
+      "frozen Coke",
+      "sorbet"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1182",
+   "comment_id": "t1_ocj2aaa",
+   "model_view": "<post_title>Recommendations for Japanese or Italian birthday spot near East Village</post_title>\n<post_body>Looking for recommendations to celebrate my sister’s 23rd birthday. She is visiting NYC and wants Italian or Japanese food with good cocktails and a fun/trendy atmosphere. I’m paying, so I’m looking for something more budget friendly (\\~$30 an entree or less!), that will also make her happy. Any recommendations are very welcome!!</post_body>\n<comment_to_extract>\nI remember the izakaya Village Yokocho where you walked upstairs and there was a bar next door. Too bad it closed down like plenty of other businesses.\n</comment_to_extract>",
+   "context": {
+    "title": "Recommendations for Japanese or Italian birthday spot near East Village",
+    "selftext": "Looking for recommendations to celebrate my sister’s 23rd birthday. She is visiting NYC and wants Italian or Japanese food with good cocktails and a fun/trendy atmosphere. I’m paying, so I’m looking for something more budget friendly (\\~$30 an entree or less!), that will also make her happy. Any recommendations are very welcome!!",
+    "ancestors": [],
+    "author": "Separate_Shake_3681",
+    "body": "I remember the izakaya Village Yokocho where you walked upstairs and there was a bar next door. Too bad it closed down like plenty of other businesses. ",
+    "replies": [
+     {
+      "author": "MajorWhereas4842",
+      "body": "Angel Share was the speakeasy Bar! Always went Yokocho to pre game before a night out! Miss that place.. I miss all of NYC prior to 2018 so glad I got to experience it!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Village Yokocho",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "layout",
+       "text": "Walk upstairs to the izakaya, with a bar next door"
+      },
+      {
+       "about": "status",
+       "text": "Closed; the commenter regrets it"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "izakaya",
+      "japanese"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1183",
+   "comment_id": "t1_nxolwat",
+   "model_view": "<post_title>what if you want some good pastrami but don’t want to wait ridiculous lines at Katz?</post_title>\n<comment_to_extract>\nThe other big two delis are second ave deli and pastrami queen. Katz’s is my favorite but probably not worth the line. My favorite thing to do is go get drinks and snacks in the area and then after go to Katz’s around 9 or 10. There’s no line by then\n</comment_to_extract>",
+   "context": {
+    "title": "what if you want some good pastrami but don’t want to wait ridiculous lines at Katz?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "cinnamonbun993",
+    "body": "The other big two delis are second ave deli and pastrami queen. Katz’s is my favorite but probably not worth the line. My favorite thing to do is go get drinks and snacks in the area and then after go to Katz’s around 9 or 10. There’s no line by then",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Second Ave Deli",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pastrami",
+      "deli"
+     ]
+    },
+    {
+     "name": "Pastrami Queen",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pastrami",
+      "deli"
+     ]
+    },
+    {
+     "name": "Katz's",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "best time",
+       "text": "go around 9 or 10 pm when there is no line"
+      },
+      {
+       "about": "plan",
+       "text": "get drinks and snacks in the area first, then go to Katz's"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pastrami",
+      "deli"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1184",
+   "comment_id": "t1_o2ekx7n",
+   "model_view": "<post_title>Weightloss veg orders in NYC</post_title>\n<post_body>I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.</post_body>\n<comment_to_extract>\nYou can set your exact macros at matter in noho\n</comment_to_extract>",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [],
+    "author": "Ok_Relationship7992",
+    "body": "You can set your exact macros at matter in noho",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Matter",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "NoHo",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "customization",
+       "text": "You can set exact macros to match your targets"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "macros",
+      "healthy",
+      "weight loss"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1185",
+   "comment_id": "t1_lfqhxcj",
+   "model_view": "<post_title>Reservation Sales Thread - **READ BEFORE POSTING!!**</post_title>\n<post_body>This thread exists *solely* to create a space for people to avoid losing their deposits on pre-paid meals. Gouging is not tolerated on this subreddit. The below rules exist to ensure it stays that way. Read them before posting because violations can lead to an immediate permanent ban.  \n\n1. This thread is the only place on the subreddit for selling restaurant reservations. You may not ask to buy reservations.\n2. You may ONLY sell non-refundable reservations for below or equal to face value. (plus all taxes and fees)\n3. You must clearly state both the price you paid and the price you're looking for in the post.\n4. We do not know every restaurant's deposit and cancellation policies. If you do not make it clear that you're operating by the rules above, we will assume you're not. \n\nGood post:\n\n> I have a table for 4 at Eleven Madison Park at 8:30 PM on Sunday, February 3rd. Tickets are nonrefundable and a business emergency came up. Paid $1589.58, willing to take $1200 OBO. Transfer on Resy.\n\nBad post:\n\n> Got a table for 2 at 4 Charles. DM for details.\n\nThe mods of [/r/FoodNYC](https://old.reddit.com/r/FoodNYC) accept no responsibility for these transactions. Tock and Resy both allow t ...</post_body>\n<comment_to_extract>\nI have a reservation for 2 at Petit Crenn on August 10th, 2024 at 7:45pm. Tickets are nonrefundable and we can’t make it due to a medical reason. Reservation is on seven rooms and is transferrable at original price $570.28 (including taxes and service charge).\n</comment_to_extract>",
+   "context": {
+    "title": "Reservation Sales Thread - **READ BEFORE POSTING!!**",
+    "selftext": "This thread exists *solely* to create a space for people to avoid losing their deposits on pre-paid meals. Gouging is not tolerated on this subreddit. The below rules exist to ensure it stays that way. Read them before posting because violations can lead to an immediate permanent ban.  \n\n1. This thread is the only place on the subreddit for selling restaurant reservations. You may not ask to buy reservations.\n2. You may ONLY sell non-refundable reservations for below or equal to face value. (plus all taxes and fees)\n3. You must clearly state both the price you paid and the price you're looking for in the post.\n4. We do not know every restaurant's deposit and cancellation policies. If you do not make it clear that you're operating by the rules above, we will assume you're not. \n\nGood post:\n\n> I have a table for 4 at Eleven Madison Park at 8:30 PM on Sunday, February 3rd. Tickets are nonrefundable and a business emergency came up. Paid $1589.58, willing to take $1200 OBO. Transfer on Resy.\n\nBad post:\n\n> Got a table for 2 at 4 Charles. DM for details.\n\nThe mods of [/r/FoodNYC](https://old.reddit.com/r/FoodNYC) accept no responsibility for these transactions. Tock and Resy both allow transfers on the website - if someone tells you otherwise it's a scam. Do your own research on your transaction before handing over any money to a third party. Check with the restaurant, check account ages, meet in person if feasible.",
+    "ancestors": [],
+    "author": "Unusual-Fill-5933",
+    "body": "I have a reservation for 2 at Petit Crenn on August 10th, 2024 at 7:45pm. Tickets are nonrefundable and we can’t make it due to a medical reason. Reservation is on seven rooms and is transferrable at original price $570.28 (including taxes and service charge).",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R1186",
+   "comment_id": "t1_o65rrko",
+   "model_view": "<post_title>What upscale indian restaurant is easiest to get a reservation for?</post_title>\n<post_body>Visiting mid march and trying to plan :)</post_body>\n<comment_to_extract>\nBungalow. There's a specific time you're supposed to book..resy mentions when they open their slots.\n\nWe went very recently. Didn't order the more popular dishes but lamb and biryani. Biryani was underwhelming but the lamb was amazing\n</comment_to_extract>",
+   "context": {
+    "title": "What upscale indian restaurant is easiest to get a reservation for?",
+    "selftext": "Visiting mid march and trying to plan :)",
+    "ancestors": [],
+    "author": "truth_bespoken",
+    "body": "Bungalow. There's a specific time you're supposed to book..resy mentions when they open their slots.\n\nWe went very recently. Didn't order the more popular dishes but lamb and biryani. Biryani was underwhelming but the lamb was amazing",
+    "replies": [
+     {
+      "author": "[deleted]",
+      "body": "[deleted]"
+     },
+     {
+      "author": "truth_bespoken",
+      "body": "I liked the lamb starter so just a recommendation if someone goes"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Bungalow",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "lamb",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "biryani",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "booking timing",
+       "text": "You have to book at a specific time, when Resy says they open slots."
+      },
+      {
+       "about": "popular dishes",
+       "text": "Commenter skipped the more popular dishes and ordered lamb and biryani."
+      }
+     ],
+     "aspects": {
+      "taste": "neutral",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "indian",
+      "upscale",
+      "reservations"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1187",
+   "comment_id": "t1_oxitb7w",
+   "model_view": "<post_title author=\"you\">Another Pressed Juicery location bites the dust...</post_title>\n<post_body author=\"you\">I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n[1] another user: I just learned that the one in Williamsburg is closing its doors too\n</thread_above>\n<comment_to_extract>\nWhat??? Nooooo. I just went there last week!!!\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Apprehensive-Newt302",
+      "body": "I just learned that the one in Williamsburg is closing its doors too"
+     }
+    ],
+    "author": "Organic-SurroundSnd",
+    "body": "What??? Nooooo. I just went there last week!!!",
+    "replies": [
+     {
+      "author": "Apprehensive-Newt302",
+      "body": "Yeah…sign of the times.  I loved their ginger shots :("
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Pressed Juicery",
+     "named_in": "context",
+     "kind": "cafe",
+     "location": "Williamsburg",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "branch closing",
+       "text": "Williamsburg branch reported closing; commenter visited it last week, but gives no verdict on it"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "juice"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1188",
+   "comment_id": "t1_o72a7gw",
+   "model_view": "<post_title>Fun, not too expensive dinner spot for two adventurous teens?</post_title>\n<post_body>I am taking my very sweet and very fun niece and nephew (19 and 16) for dinner in a few weeks and I’m looking for recs of places I can take them that will feel somewhat trendy and exciting but won’t break the bank… they are adventurous eaters. They loved Kenka but I am looking for something new to excite them with. Manhattan, LES / East Village preferred.</post_body>\n<comment_to_extract>\nEast Village for Japanese\n\n1. Go to Hi Collar during the day time, when they operate as a Japanese Kisaten (traditional cafe) and do yoshuko cuisine (Japanese Western Cuisine). Get the Siphon Pour Over, Fluffy Pancakes, Omurice and a Sando.  *I reread and realized you are talking about dinner, but am gonna leave this here anyway as I just don't want to change the numbering.*\n\n2. Sobaya - same restaurant group as Hi Collar, has a michelin Bibgourmand\n\n3. Raku - has best udon in the city.\n\n4. Little Mynamar is cash only, NYC top 100, Michelin Bib Gourmand, family run place and generally under 30$ per peson. They are small 14 seats, but I usually walk in. I posted about them recently here: https://www.reddit.com/r/FoodNYC/comments/1r6r8da/comment/o5slloj/?\n\n5. Gazab is a suprisingly affordable high quality indian restaurant in the border of EV/LES.  Get the Dum Biriyani for sure and a few other appetizers dishes. Easy dinner for three around a 100ish bucks,.\n\n6. Saigon social for unique vietnamese that moves aways from stereotypical Bahn Mi, Pho, Lemon Grass Chicken\n\n7. Pig and Khao does a family style meal at 50$ per person if you want to try a few different things. I think for 3 it would be 2 apps, 2 rice/noodle, 2 meats. \n\n8. Trappazino is a restaurant (originally from italy) that is focused on Trappazini an roman street food. Has a couple of pastas and a part of three could probably order the whole menu and the price with out drinks probably would be under 150 (thats including tax and tips).\n\nbone apple tea.\n</comment_to_extract>",
+   "context": {
+    "title": "Fun, not too expensive dinner spot for two adventurous teens?",
+    "selftext": "I am taking my very sweet and very fun niece and nephew (19 and 16) for dinner in a few weeks and I’m looking for recs of places I can take them that will feel somewhat trendy and exciting but won’t break the bank… they are adventurous eaters. They loved Kenka but I am looking for something new to excite them with. Manhattan, LES / East Village preferred.",
+    "ancestors": [],
+    "author": "boroughthoughts",
+    "body": "East Village for Japanese\n\n1. Go to Hi Collar during the day time, when they operate as a Japanese Kisaten (traditional cafe) and do yoshuko cuisine (Japanese Western Cuisine). Get the Siphon Pour Over, Fluffy Pancakes, Omurice and a Sando.  *I reread and realized you are talking about dinner, but am gonna leave this here anyway as I just don't want to change the numbering.*\n\n2. Sobaya - same restaurant group as Hi Collar, has a michelin Bibgourmand\n\n3. Raku - has best udon in the city.\n\n4. Little Mynamar is cash only, NYC top 100, Michelin Bib Gourmand, family run place and generally under 30$ per peson. They are small 14 seats, but I usually walk in. I posted about them recently here: https://www.reddit.com/r/FoodNYC/comments/1r6r8da/comment/o5slloj/?\n\n5. Gazab is a suprisingly affordable high quality indian restaurant in the border of EV/LES.  Get the Dum Biriyani for sure and a few other appetizers dishes. Easy dinner for three around a 100ish bucks,.\n\n6. Saigon social for unique vietnamese that moves aways from stereotypical Bahn Mi, Pho, Lemon Grass Chicken\n\n7. Pig and Khao does a family style meal at 50$ per person if you want to try a few different things. I think for 3 it would be 2 apps, 2 rice/noodle, 2 meats. \n\n8. Trappazino is a restaurant (originally from italy) that is focused on Trappazini an roman street food. Has a couple of pastas and a part of three could probably order the whole menu and the price with out drinks probably would be under 150 (thats including tax and tips).\n\nbone apple tea.",
+    "replies": [
+     {
+      "author": "FitzwilliamTDarcy",
+      "body": "Damn.\n\n\nBe my friend."
+     },
+     {
+      "author": "seashellsnyc",
+      "body": "Pig and Khao closed."
+     },
+     {
+      "author": "ThundergunExpress200",
+      "body": "Great list and I can weigh in for 11; Les Enfants Boheme is excellent. Very well priced and food is great. However, not a particularly “exciting” spot - I would recommend instantly to anyone looking for great, well priced French food that’s a long way from the TikTok vibes that are unfortunately present at many other restaurants. But if OP is more interested in the vibe of Nowon, LEB is probably not the vibe they are looking for."
+     },
+     {
+      "author": "MidnightCurrent6766",
+      "body": "What a list! Curious if you or anyone else has been to Hi-Collar on a jazz night, as it seems this is the case on the night we would go. Adds a $20 cover charge pp, wondering if it’s worth the extra cost. May make them feel even cooler"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Sobaya",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "East Village",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "award",
+       "text": "Michelin Bib Gourmand."
+      },
+      {
+       "about": "group",
+       "text": "Same restaurant group as Hi Collar."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "japanese"
+     ]
+    },
+    {
+     "name": "Raku",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "East Village",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "udon",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "japanese",
+      "udon"
+     ]
+    },
+    {
+     "name": "Little Mynamar",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "payment",
+       "text": "Cash only."
+      },
+      {
+       "about": "recognition",
+       "text": "NYC top 100 and Michelin Bib Gourmand."
+      },
+      {
+       "about": "price",
+       "text": "Generally under $30 per person."
+      },
+      {
+       "about": "size",
+       "text": "Only about 14 seats."
+      },
+      {
+       "about": "ownership",
+       "text": "Family run."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "burmese",
+      "cash only",
+      "family run"
+     ]
+    },
+    {
+     "name": "Gazab",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "border of East Village and LES",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "Dum Biriyani",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "cost",
+       "text": "Easy dinner for three around $100."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "indian"
+     ]
+    },
+    {
+     "name": "Saigon Social",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "menu",
+       "text": "Unique Vietnamese that moves away from banh mi, pho and lemongrass chicken."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "vietnamese"
+     ]
+    },
+    {
+     "name": "Pig and Khao",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "format",
+       "text": "Family-style meal at about $50 per person, good for trying several dishes."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "family style"
+     ]
+    },
+    {
+     "name": "Trappazino",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "Trappazini",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "origin",
+       "text": "Originally from Italy."
+      },
+      {
+       "about": "cost",
+       "text": "Three people ordering the whole menu would likely spend under $150 with tax and tip, excluding drinks."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian",
+      "roman street food"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1189",
+   "comment_id": "t1_ongtrb0",
+   "model_view": "<post_title>Going to Kabawa for a special occasion what should I get?</post_title>\n<post_body>I am going to Kabawa for a special occasion and had some questions for people who have been recently.\n\nWhat are some of the best items other than the pork chop? Neither of us eat pork. \n\nIs the dry aged steak incredible? I don’t normally eat red meat, but it’s a celebration.\n\nIs the turnover for two worth it? It seems like getting two different desserts would be more interesting.</post_body>\n<thread_above>\n[1] you, earlier: Pepper shrimp and cassava dumplings are both very good. Goat is phenomenal. Duck sausage is good too, very interesting and wasnt what i was expecting. Ive only had the birthday flan for dessert. Outside of that and the turnover i think the other items are new i dont recall them being on the menu. I ...\n[2] OP: Thanks for the in depth answer! Its one of those places where every menu item sounds good so it’s hard to choose\n</thread_above>\n<comment_to_extract>\nYeah pretty much the case. Ask the staff for recommendationa and just order what you're feeling\n</comment_to_extract>",
+   "context": {
+    "title": "Going to Kabawa for a special occasion what should I get?",
+    "selftext": "I am going to Kabawa for a special occasion and had some questions for people who have been recently.\n\nWhat are some of the best items other than the pork chop? Neither of us eat pork. \n\nIs the dry aged steak incredible? I don’t normally eat red meat, but it’s a celebration.\n\nIs the turnover for two worth it? It seems like getting two different desserts would be more interesting. ",
+    "ancestors": [
+     {
+      "author": "thatguy8856",
+      "body": "Pepper shrimp and cassava dumplings are both very good. Goat is phenomenal. Duck sausage is good too, very interesting and wasnt what i was expecting. Ive only had the birthday flan for dessert. Outside of that and the turnover i think the other items are new i dont recall them being on the menu. I really like the flan, but the turnover seems to be the \"it\" dessert. You can most probably can order the turnover and something else youll just have to pay both the supplement (i forget if it has a supplement, but i think it does) and probably extra for the additional dessert. They will also box and let you take to go whatever you want, I've seen a girl solo the turnover and take half of it to go. The portions are hefty and they give you a lot of other stuff included as well so its pretty normal to box some stuff.\n\n\nHave fun and enjoy!"
+     },
+     {
+      "author": "SadCombination7535",
+      "body": "Thanks for the in depth answer! Its one of those places where every menu item sounds good so it’s hard to choose "
+     }
+    ],
+    "author": "thatguy8856",
+    "body": "Yeah pretty much the case. Ask the staff for recommendationa and just order what you're feeling ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Kabawa",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "tip",
+       "text": "Ask the staff for recommendations and order whatever you're in the mood for"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1190",
+   "comment_id": "t1_o78zhdw",
+   "model_view": "<post_title>Jean-George Vongerichten’s Tin Building Has Closed</post_title>\n<thread_above>\n[1] you, earlier: So sad. I wish JGV would open a standalone bakery. The bakery in there was excellent\n[2] another user: 100% on this. They were the last place downtown with consistently excellent pastries and I still miss Arcade- Frenchette is just not the same.\n</thread_above>\n<comment_to_extract>\nI honestly haven’t even tried Frenchette bc I saw what their croissants look like and knew it wouldn’t come close. Petrossian (it was near Central Park before covid) and arcade were my two faves for pastries and baked goods. Lots of places in nyc for good pastries but nowhere really exceptional after those two closed. Petrossian is in meatpacking now but now they only sell caviar. So lame\n</comment_to_extract>",
+   "context": {
+    "title": "Jean-George Vongerichten’s Tin Building Has Closed",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Spiritual_Option4465",
+      "body": "So sad. I wish JGV would open a standalone bakery. The bakery in there was excellent"
+     },
+     {
+      "author": "wmjoh1",
+      "body": "100% on this.  They were the last place downtown with consistently excellent pastries and I still miss Arcade- Frenchette is just not the same."
+     }
+    ],
+    "author": "Spiritual_Option4465",
+    "body": "I honestly haven’t even tried Frenchette bc I saw what their croissants look like and knew it wouldn’t come close. Petrossian (it was near Central Park before covid) and arcade were my two faves for pastries and baked goods. Lots of places in nyc for good pastries but nowhere really exceptional after those two closed. Petrossian is in meatpacking now but now they only sell caviar. So lame",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Frenchette",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "croissants",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "untried",
+       "text": "judged from how the croissants look, never tried"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "french"
+     ]
+    },
+    {
+     "name": "Petrossian",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Meatpacking (formerly near Central Park)",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pastries and baked goods",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "current offering",
+       "text": "now only sells caviar"
+      },
+      {
+       "about": "past location",
+       "text": "was near Central Park before covid"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "moved",
+     "price": null,
+     "tags": [
+      "caviar"
+     ]
+    },
+    {
+     "name": "arcade",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pastries and baked goods",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "pastries"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1191",
+   "comment_id": "t1_mazwti6",
+   "model_view": "<post_title>What NYC chains have more locations than they deserve?</post_title>\n<post_body>I’m sometimes shocked to see which business have a number of locations despite being painfully mid but i guess sometimes that just works?? Couldn’t help but think as i keep seeing places that im shocked by the midness. Ok i’ll go first.\n\nHungry Ghost coffee - not sure how they have as many as they do. \n\nSophie’s Cuban - mid although there is a distinct lack of other cuban spots\n\n\nWhat else???</post_body>\n<thread_above>\n[1] another user: Pret a Manger. 15 bucks for a sandwich that is somehow worse than the one I would make in 2 minutes. And I'm a pretty shifty cook.\n</thread_above>\n<comment_to_extract>\nMan after spending two years in London it really showed me how bad we have it in NY. In the UK pret is legitimately good for the price\n</comment_to_extract>",
+   "context": {
+    "title": "What NYC chains have more locations than they deserve?",
+    "selftext": "I’m sometimes shocked to see which business have a number of locations despite being painfully mid but i guess sometimes that just works?? Couldn’t help but think as i keep seeing places that im shocked by the midness. Ok i’ll go first.\n\nHungry Ghost coffee - not sure how they have as many as they do. \n\nSophie’s Cuban - mid although there is a distinct lack of other cuban spots\n\n\nWhat else???\n\n\n",
+    "ancestors": [
+     {
+      "author": "phoenixmatrix",
+      "body": "Pret a Manger.\n\n\n15 bucks for a sandwich that is somehow worse than the one I would make in 2 minutes. And I'm a pretty shifty cook."
+     }
+    ],
+    "author": "CassKent",
+    "body": "Man after spending two years in London it really showed me how bad we have it in NY. In the UK pret is legitimately good for the price",
+    "replies": [
+     {
+      "author": "Mayor__Defacto",
+      "body": "I think the pandemic basically bankrupted the US arm."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "pret",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "UK comparison",
+       "text": "Commenter spent two years in London; Pret there is legitimately good for the price, unlike NYC"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "chain",
+      "sandwiches"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1192",
+   "comment_id": "t1_o3m9fu3",
+   "model_view": "<post_title>Noona's Ice Cream</post_title>\n<post_body>Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)</post_body>\n<comment_to_extract>\nwhats the flavour and topping in the white cup?? looks delicious\n</comment_to_extract>",
+   "context": {
+    "title": "Noona's Ice Cream",
+    "selftext": "Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)",
+    "ancestors": [],
+    "author": "blogterms",
+    "body": "whats the flavour and topping in the white cup?? looks delicious",
+    "replies": [
+     {
+      "author": "Hour_Ad5821",
+      "body": "Banana pudding mochi w/ strawberry jam drizzle + mochi topping"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R1193",
+   "comment_id": "t1_pakr0ya",
+   "model_view": "<post_title>Good Places for a Party of 18 in a Private Room in Manhattan?</post_title>\n<post_body>Hi All\n\n  \nI am looking to book a private room for an Engagement Dinner for a party of \\~18 or so. Looking for restaurants that would be similar to il Buco, Massara, or Forsythia, if anyone has recs would love to hear! (Also if anyone has experiences with il Buco or Forsythia in general, whether private or normal dining experience would love to hear about it too!)</post_body>\n<comment_to_extract>\nI had my rehearsal dinner at Il Buco in 2022. We had it in their cellar, which was really wonderful.  \nThey were professional and the food was good.\n\nAmbiance was great, though they removed the flowers that we brought in during the meal to make room for the food. If I could redo it, would not have spent money on flowers for the event. (We worked with a florist, the flowers were not part of the restaurant package.)\n\nDuring the dinner it started raining and there was a leak on one side of the room, so the floor got wet for around maybe 5-10 people, it wasn’t a flood and people generally didn’t care but in case that’s something that’s important to you.\n\nOverall, if you don’t mind those issues raised (which I didn’t) I thought it was a really great dinner. Iirc the price point was competitive for what they had to offer (vs other places in manhattan)\n</comment_to_extract>",
+   "context": {
+    "title": "Good Places for a Party of 18 in a Private Room in Manhattan?",
+    "selftext": "Hi All\n\n  \nI am looking to book a private room for an Engagement Dinner for a party of \\~18 or so. Looking for restaurants that would be similar to il Buco, Massara, or Forsythia, if anyone has recs would love to hear! (Also if anyone has experiences with il Buco or Forsythia in general, whether private or normal dining experience would love to hear about it too!) ",
+    "ancestors": [],
+    "author": "ashwizzle",
+    "body": "I had my rehearsal dinner at Il Buco in 2022. We had it in their cellar, which was really wonderful.  \nThey were professional and the food was good.\n\nAmbiance was great, though they removed the flowers that we brought in during the meal to make room for the food. If I could redo it, would not have spent money on flowers for the event. (We worked with a florist, the flowers were not part of the restaurant package.)\n\nDuring the dinner it started raining and there was a leak on one side of the room, so the floor got wet for around maybe 5-10 people, it wasn’t a flood and people generally didn’t care but in case that’s something that’s important to you.\n\nOverall, if you don’t mind those issues raised (which I didn’t) I thought it was a really great dinner. Iirc the price point was competitive for what they had to offer (vs other places in manhattan)",
+    "replies": [
+     {
+      "author": "blee1236",
+      "body": "thank you, this is really helpful, and sorry to hear about the rain issue! Is the Cellar the same as their Showroom or is it a different venue? (if i recall the Showroom is a different building at a slightly different address)"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Il Buco",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "private cellar room",
+       "text": "Rehearsal dinner held in their cellar in 2022, described as really wonderful."
+      },
+      {
+       "about": "flowers removed",
+       "text": "Staff removed the client's outside-florist flowers mid-meal to make room for food; flowers were not part of the restaurant package. Commenter would not spend on flowers again."
+      },
+      {
+       "about": "leak during rain",
+       "text": "Rain caused a leak on one side of the room; floor wet for about 5-10 people. Not a flood, and the commenter says people didn't care."
+      },
+      {
+       "about": "price",
+       "text": "Price point felt competitive for what they offer compared with other Manhattan places."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": "neutral",
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "private dining",
+      "rehearsal dinner",
+      "cellar"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1194",
+   "comment_id": "t1_nrk55ob",
+   "model_view": "<post_title>3 years of taco reviews. Here my ratings:</post_title>\n<post_body>Heres my ratings based on the Beli app(@feedmebk). The ratings are not perfect but its somewhat a good reflection of my preferences: \n\n- Taqueria Tlaxcalli, Parkchester, Bronx: 10\n- Taquería Ramirez, Greenpoint, BK: 9.9\n- Los Tacos No 1, everywhere in Manhattan: 9.7\n- Taqueria El Chato, Greenpoint, BK: 9.6\n- Birria-Landia, multiple locations: 9.4\n- Tacos El Bronco, Sunset Park, BK: 9.3\n- Carnitas Ramirez, Loisaida, Manhattan: 9.3\n- Santo Taco, Greenwich, Manhattan: 8.9\n- Cariñito Tacos, Greenwich, Manhattan: 8.7\n- Jalapeño King, Sunset Park, BK: 8.7\n\nI feel like NYC’s taco scene is been getting much better.</post_body>\n<comment_to_extract>\nMaybe I'm alone in this but I always thought Los Tacos No. 1 was pretty overrated - maybe an 8/10 but not the god tier tacos that some other people describe them as\n\nEach their own I suppose\n</comment_to_extract>",
+   "context": {
+    "title": "3 years of taco reviews. Here my ratings:",
+    "selftext": "Heres my ratings based on the Beli app(@feedmebk). The ratings are not perfect but its somewhat a good reflection of my preferences: \n\n- Taqueria Tlaxcalli, Parkchester, Bronx: 10\n- Taquería Ramirez, Greenpoint, BK: 9.9\n- Los Tacos No 1, everywhere in Manhattan: 9.7\n- Taqueria El Chato, Greenpoint, BK: 9.6\n- Birria-Landia, multiple locations: 9.4\n- Tacos El Bronco, Sunset Park, BK: 9.3\n- Carnitas Ramirez, Loisaida, Manhattan: 9.3\n- Santo Taco, Greenwich, Manhattan: 8.9\n- Cariñito Tacos, Greenwich, Manhattan: 8.7\n- Jalapeño King, Sunset Park, BK: 8.7\n\nI feel like NYC’s taco scene is been getting much better.",
+    "ancestors": [],
+    "author": "No-Produce2097",
+    "body": "Maybe I'm alone in this but I always thought Los Tacos No. 1 was pretty overrated - maybe an 8/10 but not the god tier tacos that some other people describe them as\n\nEach their own I suppose",
+    "replies": [
+     {
+      "author": "Macredd",
+      "body": "I would say food ratings are always very subjective. We all have our different cultural backgrounds and preferences."
+     },
+     {
+      "author": "ArtDecoNewYork",
+      "body": "I think their sister restaurant Los Mariscos is basically a 10/10"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Los Tacos No. 1",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "tacos",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "rating",
+       "text": "commenter thinks maybe 8/10 but not god tier"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tacos"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1195",
+   "comment_id": "t1_o255q7c",
+   "model_view": "<post_title>Weightloss veg orders in NYC</post_title>\n<post_body>I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.</post_body>\n<comment_to_extract>\nSweetgreen is partnering with an anti vaxer so would avoid them. Veggie sandwiches from lenwich are filling, you can do a veggie bowl. Mediterranean bowls can be filling and healthy - just watch out for sauces as they can have added calories\n</comment_to_extract>",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [],
+    "author": "Parms84",
+    "body": "Sweetgreen is partnering with an anti vaxer so would avoid them. Veggie sandwiches from lenwich are filling, you can do a veggie bowl. Mediterranean bowls can be filling and healthy - just watch out for sauces as they can have added calories",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sweetgreen",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "anti-vax partnership",
+       "text": "Partners with an anti-vaxer; commenter would avoid them. Business reason, not about the food."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "lenwich",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "veggie sandwiches",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "veggie",
+      "sandwiches"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1196",
+   "comment_id": "t1_nt72q0q",
+   "model_view": "<post_title>If you could bring back one closed restaurant, what would it be?</post_title>\n<post_body>This cold winter day’s got me feeling nostalgic. What’s restaurants or eateries of the past would you bring back if given the chance? For me, it’s a tie between Caracas Arepa & Marble Dessert Bar. Oh, how miss dousing their seafood arepa with their signature yellow sauce. And to this day, I still can’t find a dessert tasting quite like Marble’s. Lysee comes close, but it’s not quite the same.</post_body>\n<comment_to_extract>\nRosemary's Pantry. Which has been closed just to extend rosemary's east and offer private dining. The main reason is they had an amazing chicken parm sub that I miss dearly, I've been looking for a substitute for over a year now and have never found one. The closest is the sandwich they put on the lunch menu to replace it, but its not the same. \n\nIt had a couple freshly fried chicken milanese, house made bread, and a good quality mozerella doused in a house red sauce. Somehow they were charging 14$ the same as every other place in the area serving a chicken parm hero.\n</comment_to_extract>",
+   "context": {
+    "title": "If you could bring back one closed restaurant, what would it be?",
+    "selftext": "This cold winter day’s got me feeling nostalgic. What’s restaurants or eateries of the past would you bring back if given the chance? For me, it’s a tie between Caracas Arepa & Marble Dessert Bar. Oh, how miss dousing their seafood arepa with their signature yellow sauce. And to this day, I still can’t find a dessert tasting quite like Marble’s. Lysee comes close, but it’s not quite the same. ",
+    "ancestors": [],
+    "author": "boroughthoughts",
+    "body": "Rosemary's Pantry. Which has been closed just to extend rosemary's east and offer private dining. The main reason is they had an amazing chicken parm sub that I miss dearly, I've been looking for a substitute for over a year now and have never found one. The closest is the sandwich they put on the lunch menu to replace it, but its not the same. \n\nIt had a couple freshly fried chicken milanese, house made bread, and a good quality mozerella doused in a house red sauce. Somehow they were charging 14$ the same as every other place in the area serving a chicken parm hero.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Rosemary's Pantry",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "chicken parm sub",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "lunch menu sandwich replacing the chicken parm sub",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "temporary closure",
+       "text": "Closed temporarily to extend Rosemary's east and offer private dining."
+      },
+      {
+       "about": "price",
+       "text": "Chicken parm hero costs $14, same as other area places serving one."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwiches",
+      "chicken parm",
+      "italian-american",
+      "lunch"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1197",
+   "comment_id": "t1_oebn8kj",
+   "model_view": "<post_title>How hard is it to walk-in to Fish Cheeks?</post_title>\n<post_body>My friend and I want to try Fish Cheeks at Soho tomorrow, but since we weren’t able to get a reservation at the time we want, we’re thinking of walking in.\n\nHow bad/easy is the line to Fish Cheeks on a weekend dinner?</post_body>\n<comment_to_extract>\nif you go around 4/4:40ish there always one or two free tables\n</comment_to_extract>",
+   "context": {
+    "title": "How hard is it to walk-in to Fish Cheeks?",
+    "selftext": "My friend and I want to try Fish Cheeks at Soho tomorrow, but since we weren’t able to get a reservation at the time we want, we’re thinking of walking in.\n\nHow bad/easy is the line to Fish Cheeks on a weekend dinner?",
+    "ancestors": [],
+    "author": "nyccitygorl",
+    "body": "if you go around 4/4:40ish there always one or two free tables\n\n",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Fish Cheeks",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Soho",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "walk-in tip",
+       "text": "Go around 4 to 4:40pm; there are always one or two free tables then."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "opinion": "stated",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "seafood"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1198",
+   "comment_id": "t1_nnk9ab6",
+   "model_view": "<post_title>Just so you know, The Eighty Six does NOT do walk-in bar seating, if you appear before opening. Save yourself from lining up beforehand.</post_title>\n<post_body>People please save yourself from the cold & the wait time for The Corner Store sister restaurant, The Eighty Six, they will NOT do bar seating for walkins even if you appear before open! Please save yourself the public hype of standing in that line they have they will NOT seat you. \n\nOn Wednesday & today my friends and I have all attempted seating and we appeared before open and the lady & door man stated the bar seating is reservation based and not for walk-ins, they claim they’ll text you if cancellation happens but the hostess will NOT message you even if a cancellation occurs.</post_body>\n<thread_above>\n[1] another user: Why would anyone go to these places?\n</thread_above>\n<comment_to_extract>\nI came to ask this too, the wait in line for bakeries and bagels and these places is wild .\n\n\nI went by the area corner store is in a month ago and noticed a huge crowd standing outside 2 hours before it opened lol.. what could they possibly be serving that's that good?\n</comment_to_extract>",
+   "context": {
+    "title": "Just so you know, The Eighty Six does NOT do walk-in bar seating, if you appear before opening. Save yourself from lining up beforehand.",
+    "selftext": "People please save yourself from the cold & the wait time for The Corner Store sister restaurant, The Eighty Six, they will NOT do bar seating for walkins even if you appear before open! Please save yourself the public hype of standing in that line they have they will NOT seat you. \n\nOn Wednesday & today my friends and I have all attempted seating and we appeared before open and the lady & door man stated the bar seating is reservation based and not for walk-ins, they claim they’ll text you if cancellation happens but the hostess will NOT message you even if a cancellation occurs.",
+    "ancestors": [
+     {
+      "author": "Bigdaddyhef-365",
+      "body": "Why would anyone go to these places?"
+     }
+    ],
+    "author": "akmalhot",
+    "body": "I came to ask this too, the wait in line for bakeries and bagels and these places is wild .\n\n\nI went by the area corner store is in a month ago and noticed a huge crowd standing outside 2 hours before it opened lol.. what could they possibly be serving that's that good?",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "corner store",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "crowd",
+       "text": "Commenter passed by and saw a huge crowd outside two hours before opening; they haven't eaten there."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1199",
+   "comment_id": "t1_nofjk09",
+   "model_view": "<post_title>Kindest thing that was happened to you in a NYC restaurant?</post_title>\n<post_body>It was a cold spring day when I visited L'Industrie in west village. After standing in line for 40 minutes, I finally ordered my burrata slice and waited. When my name was called, the server actually gave me an extra slice of burrata - I asked him why. To which he replied \"your original slice was slightly smaller than our usual, so I added another, on the house\"\n\nIt really brought a smile to my face and wondered, if people had similar experiences at other NYC eateries? More than the stars or reviews, such acts win you as a customer for life!!\n\nSimilarly at \"Semma\" I once faced a racist remark from someone else, the restaurant manager apologized sincerely, gave us better seats and at the end of the meal, while we were waiting for the cheque, the manager came, apologized again, and said it was on the house. \n\nWould love to hear similar (nice) stories!!</post_body>\n<comment_to_extract>\n**Chick-Fil-A** in Times Square - No I'm not fucking you. First time ever going to CFA. When I told the cashier that I never been to CFA before he excitedly said \"No way!\" and then got me a sample of EVERY SINGLE SAUCE so that I could try it all at once\n</comment_to_extract>",
+   "context": {
+    "title": "Kindest thing that was happened to you in a NYC restaurant?",
+    "selftext": "It was a cold spring day when I visited L'Industrie in west village. After standing in line for 40 minutes, I finally ordered my burrata slice and waited. When my name was called, the server actually gave me an extra slice of burrata - I asked him why. To which he replied \"your original slice was slightly smaller than our usual, so I added another, on the house\"\n\nIt really brought a smile to my face and wondered, if people had similar experiences at other NYC eateries? More than the stars or reviews, such acts win you as a customer for life!!\n\nSimilarly at \"Semma\" I once faced a racist remark from someone else, the restaurant manager apologized sincerely, gave us better seats and at the end of the meal, while we were waiting for the cheque, the manager came, apologized again, and said it was on the house. \n\nWould love to hear similar (nice) stories!!",
+    "ancestors": [],
+    "author": "Rusiano",
+    "body": "**Chick-Fil-A** in Times Square - No I'm not fucking you. First time ever going to CFA. When I told the cashier that I never been to CFA before he excitedly said \"No way!\" and then got me a sample of EVERY SINGLE SAUCE so that I could try it all at once",
+    "replies": [
+     {
+      "author": "paulderev",
+      "body": "that’s very cool of them to do for you. right on. but i will also say that this is just a normal service day at chick fil a lol"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Chick-Fil-A",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Times Square",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "sauces",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "sample",
+       "text": "cashier gave a sample of every sauce after learning it was the commenter's first visit"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": "positive",
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "fast food",
+      "chain"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1200",
+   "comment_id": "t1_omhbn0q",
+   "model_view": "<post_title>Anyone been to Sofreh in Prospect Heights and can recommend some dishes for my bday dinner?</post_title>\n<post_body>Hi! I am going to Sofreh for the first time this week for my birthday dinner. It will be me and 5 friends.\n\nI’ve never been - would someone so kindly recommend some good dishes to get? Is it a place to share food our get our own entrees? Tysm <3</post_body>\n<comment_to_extract>\nLiterally anything, sharing recommended.\n</comment_to_extract>",
+   "context": {
+    "title": "Anyone been to Sofreh in Prospect Heights and can recommend some dishes for my bday dinner?",
+    "selftext": "Hi! I am going to Sofreh for the first time this week for my birthday dinner. It will be me and 5 friends.\n\nI’ve never been - would someone so kindly recommend some good dishes to get? Is it a place to share food our get our own entrees? Tysm <3",
+    "ancestors": [],
+    "author": "Other-Aside-1170",
+    "body": "Literally anything, sharing recommended. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sofreh",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Prospect Heights",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "sharing",
+       "text": "Sharing recommended for the group"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  }
+ ]
+}

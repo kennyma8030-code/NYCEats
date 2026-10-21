@@ -1,0 +1,1431 @@
+{
+ "packet": "r017",
+ "items": [
+  {
+   "item_id": "Q0401",
+   "comment_id": "t1_opkioan",
+   "model_view": "POST TITLE: Le Bernardin Review - TLDR: Did not match the hype\n\nPOST BODY: Sorry I couldn't get the photos in order.\n\nOverall: 3/5.\n\nTasting menu starts off with amuse bouche, naturally, which were 3 small items ... and one of the stand-outs.\n\nThere were more let downs than spectacular moments.\n\nTurbot, tile fish, halibut were the last savory dishes and aside from each sauce, the choice of each of those fish were relatively similar. There wasn't much to separate them. Th ...\n\nCOMMENT: I went two years ago and had a similar experience.  The first few bites were exceptional, but then we were led into kind of the doldrums during the middle of the menu - a lot of fish that was unremarkably similar - until the final course, which was overwhelmingly salty.  The service during our dinner was also probably the worst I can recall at a fine dining place.  \n\nI feel like there’s a lot of weird gaslighting specifically around Le B with people getting weirdly defensive and saying that they’ve never had a bad meal there or the diners can’t appreciate the subtlety of the food that is not present when people give a mediocre assessment of their meals at per se or EMP, for example.",
+   "context": {
+    "title": "Le Bernardin Review - TLDR: Did not match the hype",
+    "selftext": "Sorry I couldn't get the photos in order.\n\nOverall: 3/5.\n\nTasting menu starts off with amuse bouche, naturally, which were 3 small items ... and one of the stand-outs.\n\nThere were more let downs than spectacular moments.\n\nTurbot, tile fish, halibut were the last savory dishes and aside from each sauce, the choice of each of those fish were relatively similar. There wasn't much to separate them. There was no salmon, swordfish, cod or anything from a mostly-meaty white fish type.\n\nLangoustine in one of the photos were SO salty, and not typical \"ocean salty\" but was unbearably salty. Wife and I had the same reaction.  The nori with tuna & caviar was good.  One dish, not pictured, had gooey duck, razor clam, and something else all on a bed of sea urchin. It was very intense and I think a bit much.   Dessert was a chocolate tart thing (pictured) which was mid, petit fours were as expected but it's tough to enjoy being the third dessert course.  Of the 12 or so different bits of the tasting from amuse bouche to petit fours I would say 6 of them were spectacular, 3 were ok and 3 did not cut it.  I remember being more wowed from prior visits, this was a bit of a let down.\n\nThis was my sixth time to LB but first time with the tasting menu. If I go back again I'll stick to the normal menu and get the pounded tuna/foie gras dish and the egg for dessert. I missed those two items.  \n\n\n\n\n\n\n\n",
+    "ancestors": [],
+    "author": "Ice_Like_Winnipeg",
+    "body": "I went two years ago and had a similar experience.  The first few bites were exceptional, but then we were led into kind of the doldrums during the middle of the menu - a lot of fish that was unremarkably similar - until the final course, which was overwhelmingly salty.  The service during our dinner was also probably the worst I can recall at a fine dining place.  \n\nI feel like there’s a lot of weird gaslighting specifically around Le B with people getting weirdly defensive and saying that they’ve never had a bad meal there or the diners can’t appreciate the subtlety of the food that is not present when people give a mediocre assessment of their meals at per se or EMP, for example.  \n",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Le B",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": "very_negative",
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "fish courses",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "fine dining",
+      "tasting menu"
+     ],
+     "notes": [
+      {
+       "about": "first bites",
+       "text": "first few bites were exceptional",
+       "level": "very_positive",
+       "dish": null
+      },
+      {
+       "about": "middle of menu",
+       "text": "doldrums, a lot of unremarkably similar fish",
+       "level": "negative",
+       "dish": "fish courses"
+      },
+      {
+       "about": "final course",
+       "text": "overwhelmingly salty",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "service",
+       "text": "probably the worst recalled at a fine dining place",
+       "level": "very_negative",
+       "dish": null
+      },
+      {
+       "about": "fan reaction",
+       "text": "fans get defensive and say they've never had a bad meal there",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Per Se",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "people give mediocre assessments of meals there, unlike Le B fans' defensiveness",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "EMP",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "people give mediocre assessments of meals there, unlike Le B fans' defensiveness",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0402",
+   "comment_id": "t1_obibaj3",
+   "model_view": "POST TITLE: red hook tavern dinner walk in - how early would I have to be to get a seat?\n\nPOST BODY: I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?\n\nCOMMENT: Might have better luck trying the opposite - go late on a week night",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [],
+    "author": "nycago",
+    "body": "Might have better luck trying the opposite - go late on a week night ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "red hook tavern",
+     "named_in": "context",
+     "location": "Red Hook",
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "walk-in",
+      "dinner"
+     ],
+     "notes": [
+      {
+       "about": "walk-in wait",
+       "text": "arriving at 4:45 meant seating at 9:30; a late weeknight visit is suggested as better for walk-ins",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0403",
+   "comment_id": "t1_nic4wuw",
+   "model_view": "POST TITLE: Son Del North (LES)\n\nPOST BODY: No, I’ve been posting quite a bit but I couldn’t not jump on the hype train after trying this \n\n\nI usually stay away from burritos because they’re carb city and the Mexican food in Manhattan is mid to say the least (although there still are hidden gems) but these don’t have rice and you can get it without beans as well. I got the steak one (double steak) with just salsa and cheese and Guac. $25. A ...\n\nCOMMENT: Extremely overrated once again\n\n\nDon't understand all the hype for this one too.",
+   "context": {
+    "title": "Son Del North (LES)",
+    "selftext": "No, I’ve been posting quite a bit but I couldn’t not jump on the hype train after trying this \n\n\nI usually stay away from burritos because they’re carb city and the Mexican food in Manhattan is mid to say the least (although there still are hidden gems) but these don’t have rice and you can get it without beans as well. I got the steak one (double steak) with just salsa and cheese and Guac. $25. Also got a large dipping sauce, picked veggies and a side of Guac. So $39. Not insane but kind of insane. But without a doubt this is the best burrito I’ve ever had in my life. Holy shit was it stuffed with steak. And I think like the best burgers have great buns, the fact that the tortilla here was so soft, love that they grill. It’s just realll pillowy. This place only does burritos and only a few types but I suspect that will not matter if you love burritos it’s a must do. ",
+    "ancestors": [],
+    "author": "SchnitzelRaider",
+    "body": "Extremely overrated once again\n\n\nDon't understand all the hype for this one too.",
+    "replies": [
+     {
+      "author": "poopship462",
+      "body": "The tortilla is really good. But the filling is kinda eh"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Son Del North",
+     "named_in": "context",
+     "location": "LES",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "burrito"
+     ],
+     "notes": [
+      {
+       "about": "overrated",
+       "text": "commenter says it is extremely overrated and doesn't get the hype",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0404",
+   "comment_id": "t1_owlhmv1",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nCOMMENT: Killed by proteinmaxing",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [],
+    "author": "walkingthecowww",
+    "body": "Killed by proteinmaxing",
+    "replies": [
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Bro everything is protein now. They even got protein soda...like wtf? "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Pressed Juicery",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": "declined",
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "closures",
+       "text": "Pressed Juicery location closed, killed by proteinmaxing trend",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0405",
+   "comment_id": "t1_nl21xm0",
+   "model_view": "POST TITLE: Looking for a dive bar along the 1 train between Lincoln Center and the Hudson stop\n\nPOST BODY: I know it’s a tough area because Times Square and MSG are right in the middle of this route. Basically looking for somewhere quiet and not crazy expensive to catch up and have a drink with a friend.\n\nPARENT COMMENT: This place was sick as hell. Thank you.\n\nCOMMENT: truly a cathedral",
+   "context": {
+    "title": "Looking for a dive bar along the 1 train between Lincoln Center and the Hudson stop",
+    "selftext": "I know it’s a tough area because Times Square and MSG are right in the middle of this route. Basically looking for somewhere quiet and not crazy expensive to catch up and have a drink with a friend.",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     },
+     {
+      "author": "Infinite_Treacle",
+      "body": "This place was sick as hell. Thank you."
+     }
+    ],
+    "author": "cooktheebooks",
+    "body": "truly a cathedral",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0406",
+   "comment_id": "t1_np2lbw8",
+   "model_view": "POST TITLE: How does it work at Ceres?\n\nPOST BODY: I know there's mixed opinions on this place, and maybe it's hype, but I wanna try it. Visiting NYC soon and I'm always looking for great pizza. \n\nQuestion is, how does it work currently? Specifically, if I want a pizza later at night, say 6 or 7?\n\nDoes a person get in line at 11/11:30 and pre-order/reserve a pizza for later that evening?\n\nPARENT COMMENT: How was the line and the pizza? 🍕\n\nCOMMENT: Pizza was actually pretty damn incredible. Super thin, crispy. It’s well made. Showed up at 10:30. Reservations started at 11:30. Booked dine in for 6 pm. Came back at 540 to snag a table. Worth the trouble imho",
+   "context": {
+    "title": "How does it work at Ceres?",
+    "selftext": "I know there's mixed opinions on this place, and maybe it's hype, but I wanna try it. Visiting NYC soon and I'm always looking for great pizza. \n\nQuestion is, how does it work currently? Specifically, if I want a pizza later at night, say 6 or 7?\n\nDoes a person get in line at 11/11:30 and pre-order/reserve a pizza for later that evening? ",
+    "ancestors": [
+     {
+      "author": "verndogz",
+      "body": "Yep pretty much.  You choose a time slot when you order."
+     },
+     {
+      "author": "TwoColorsInMyHead_",
+      "body": "Do you also choose dine in vs carry out?"
+     },
+     {
+      "author": "verndogz",
+      "body": "Yes.  You can choose either option.  If you dine in, do get there around 15 min in advance to snag a seat."
+     },
+     {
+      "author": "TwoColorsInMyHead_",
+      "body": "How early are people getting in line now?"
+     },
+     {
+      "author": "moxymoxy",
+      "body": "Have you gone on your trip yet? If so would love to hear thoughts. Will be there in winter for a pizza crawl wondering if we should work it into our plan"
+     },
+     {
+      "author": "TwoColorsInMyHead_",
+      "body": "Next week 👀"
+     },
+     {
+      "author": "thebarbz",
+      "body": "How was the line and the pizza? 🍕"
+     }
+    ],
+    "author": "TwoColorsInMyHead_",
+    "body": "Pizza was actually pretty damn incredible. Super thin, crispy. It’s well made. Showed up at 10:30. Reservations started at 11:30. Booked dine in for 6 pm. Came back at 540 to snag a table. Worth the trouble imho",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Ceres",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "pizza",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "notes": [
+      {
+       "about": "reservations",
+       "text": "showed up at 10:30, reservations opened at 11:30, booked dine-in for 6 pm",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "wait",
+       "text": "had to come back at 5:40 to snag a table",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "crust",
+       "text": "super thin and crispy",
+       "level": "very_positive",
+       "dish": "pizza"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0407",
+   "comment_id": "t1_o25pnrx",
+   "model_view": "POST TITLE: Weightloss veg orders in NYC\n\nPOST BODY: I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.\n\nPARENT COMMENT: Many Asian places have a version of sautéed veggies, it my usual go to if I am having a low calorie takeout day\n\nCOMMENT: You can also request them to make it less oily and salty.",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [
+     {
+      "author": "mashie_sauce",
+      "body": "Many Asian places have a version of sautéed veggies, it my usual go to if I am having a low calorie takeout day"
+     }
+    ],
+    "author": "cute_polarbear",
+    "body": "You can also request them to make it less oily and salty.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0408",
+   "comment_id": "t1_owwu0q6",
+   "model_view": "POST TITLE: Chinatown crawl - recommendations for each restaurant\n\nPOST BODY: Here is a list of places I have identified (based on this subreddit) for a food/dumpling crawl in Chinatown. Any particular dishes you would recommend at any of these places:\n\n  \nJin Mei Dumpling\n\nFu Zhou Wei Zong\n\nSuper Taste\n\nXi'an Famous Foods - Cumin Lamb noodles\n\nGreat NY Noodletown \n\nMei Lah Wah - cha siu bao, pineapple buns, and pineapple pork bun\n\nFried Dumpling\n\nTasty Dumpling\n\nWest Rice ...\n\nCOMMENT: I would suggest you skip mei lai wah since you are going to wah fung there is a bakery called tao hong next to it that makes all the same buns. Not only is Tao hong better tasting, they are bigger and cheaper as well, i would also try their egg tarts. If you go there past noon on a weekend, chances are they will be sold out.\n\nGreat NY Noodle town \nfor soft shell crab\n\nNoodle village for soup dumplings and curry oxtail\n\nBanh mi saigon for the #1 special \n\nBanh Mi Co Ut for the more traditional sandwich\n\nMalaysian jerky place on mott street for all sorts of Jerky",
+   "context": {
+    "title": "Chinatown crawl - recommendations for each restaurant",
+    "selftext": "Here is a list of places I have identified (based on this subreddit) for a food/dumpling crawl in Chinatown. Any particular dishes you would recommend at any of these places:\n\n  \nJin Mei Dumpling\n\nFu Zhou Wei Zong\n\nSuper Taste\n\nXi'an Famous Foods - Cumin Lamb noodles\n\nGreat NY Noodletown \n\nMei Lah Wah - cha siu bao, pineapple buns, and pineapple pork bun\n\nFried Dumpling\n\nTasty Dumpling\n\nWest Rice Roll King\n\nWah Fund No 1\n\nShu Jiao Fu Zhou",
+    "ancestors": [],
+    "author": "Nucaw",
+    "body": "I would suggest you skip mei lai wah since you are going to wah fung there is a bakery called tao hong next to it that makes all the same buns. Not only is Tao hong better tasting, they are bigger and cheaper as well, i would also try their egg tarts. If you go there past noon on a weekend, chances are they will be sold out.\n\nGreat NY Noodle town \nfor soft shell crab\n\nNoodle village for soup dumplings and curry oxtail\n\nBanh mi saigon for the #1 special \n\nBanh Mi Co Ut for the more traditional sandwich\n\nMalaysian jerky place on mott street for all sorts of Jerky\n\n",
+    "replies": [
+     {
+      "author": "SimonBelmont91",
+      "body": "Yep I came here to mention replacing Mei Lai Wah with Tao Hong, MLW's pork is too fatty and Tao Hong uses better cuts of meat for their pork buns. And seconded on Tao Hong having great egg tarts, you could add a few spots like Tai Pan, New Cameron, and Double Crispy to make an egg tart crawl out of it too!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "mei lai wah",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": true,
+     "dishes": [
+      {
+       "dish": "buns",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bakery"
+     ],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Tao Hong makes the same buns, tastes better and is cheaper",
+       "level": null,
+       "dish": "buns"
+      }
+     ]
+    },
+    {
+     "name": "wah fung",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    },
+    {
+     "name": "tao hong",
+     "named_in": "comment",
+     "location": "next to Wah Fung",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "egg tarts",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "buns",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bakery"
+     ],
+     "notes": [
+      {
+       "about": "size",
+       "text": "buns are bigger than Mei Lai Wah's",
+       "level": "positive",
+       "dish": "buns"
+      },
+      {
+       "about": "best time to go",
+       "text": "go before noon on weekends, sells out after",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Great NY Noodle town",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "soft shell crab",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    },
+    {
+     "name": "Noodle village",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "soup dumplings",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "curry oxtail",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    },
+    {
+     "name": "Banh mi saigon",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "#1 special",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "banh mi"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Banh Mi Co Ut",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "traditional sandwich",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "banh mi"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Malaysian jerky place on mott street",
+     "named_in": "comment",
+     "location": "Mott Street",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "jerky",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "jerky",
+      "malaysian"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0409",
+   "comment_id": "t1_p6ahbyv",
+   "model_view": "POST TITLE: Mama’s Too in NYC has some of my favorite slices ever!!\n\nCOMMENT: No hate, flamewars, rude comments, etc",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     }
+    ],
+    "author": "FoodNYC-ModTeam",
+    "body": "No hate, flamewars, rude comments, etc",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0410",
+   "comment_id": "t1_ojzi91m",
+   "model_view": "POST TITLE: Where can I get a kir royale in Brooklyn?\n\nPOST BODY: That’s all. It’s my favorite drink. Also willing to go to the city but prefer bk.\n\nPARENT COMMENT: I feel like most bars have these ingredients. Or just go to a French restaurant\n\nCOMMENT: I haven’t been able to find a bar in nyc that has crème de cassis. Hence the question.",
+   "context": {
+    "title": "Where can I get a kir royale in Brooklyn?",
+    "selftext": "That’s all. It’s my favorite drink. Also willing to go to the city but prefer bk. ",
+    "ancestors": [
+     {
+      "author": "BartBeachGuy",
+      "body": "Umm, any bar that has champagne and cassis. "
+     },
+     {
+      "author": "Greedy_Produce2276",
+      "body": "Right so that’s the question I’m asking"
+     },
+     {
+      "author": "Royal_Potential_3299",
+      "body": "I feel like most bars have these ingredients. Or just go to a French restaurant"
+     }
+    ],
+    "author": "Greedy_Produce2276",
+    "body": "I haven’t been able to find a bar in nyc that has crème de cassis. Hence the question.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0411",
+   "comment_id": "t1_p0r7mzk",
+   "model_view": "POST TITLE: Seafood restaurant recommendations that are must try\n\nPOST BODY: Going to be in the city this weekend for an anniversary! Any recommendations for good seafood? Have heard about Crab House, Astoria Seafood, Penny, Cervo’s, Crevette, Dame. Want to know if these are just overhyped, worth it, or better options! Thanks in advance!\n\nCOMMENT: “Must” will be relative. Personal favs:\n\n-\tMariscos El Submarino\n-\tEast Harbor Seafood\n-\tWu’s Wonton King\n-\tAbuqir\n-\tHamido Seafood\n-\tAstoria Seafood\n-\tChuan Tian Xia\n-\tHug Esan\n-\tZaab Zaab\n\nI would do one Cantonese place, one Sichuan, one Thai, one pick-your-own, and definitely Mariscos El Submarino. \n\n[More recent seafood recs](https://www.reddit.com/r/FoodNYC/comments/1uid3qv/new_york_best_seafood_eats_looking_for_2_days/)",
+   "context": {
+    "title": "Seafood restaurant recommendations that are must try",
+    "selftext": "Going to be in the city this weekend for an anniversary! Any recommendations for good seafood? Have heard about Crab House, Astoria Seafood, Penny, Cervo’s, Crevette, Dame. Want to know if these are just overhyped, worth it, or better options! Thanks in advance!",
+    "ancestors": [],
+    "author": "justflipping",
+    "body": "“Must” will be relative. Personal favs:\n\n-\tMariscos El Submarino\n-\tEast Harbor Seafood\n-\tWu’s Wonton King\n-\tAbuqir\n-\tHamido Seafood\n-\tAstoria Seafood\n-\tChuan Tian Xia\n-\tHug Esan\n-\tZaab Zaab\n\nI would do one Cantonese place, one Sichuan, one Thai, one pick-your-own, and definitely Mariscos El Submarino. \n\n[More recent seafood recs](https://www.reddit.com/r/FoodNYC/comments/1uid3qv/new_york_best_seafood_eats_looking_for_2_days/)",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mariscos El Submarino",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "mariscos",
+      "seafood",
+      "mexican"
+     ],
+     "notes": []
+    },
+    {
+     "name": "East Harbor Seafood",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "seafood",
+      "cantonese"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Wu's Wonton King",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "cantonese"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Abuqir",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "egyptian"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Hamido Seafood",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "seafood"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Astoria Seafood",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "seafood"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Chuan Tian Xia",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Hug Esan",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "thai",
+      "isan"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Zaab Zaab",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "thai",
+      "isan"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0412",
+   "comment_id": "t1_ong5ofx",
+   "model_view": "POST TITLE: Peanut butter burger. Does any restaurant have a decent one?\n\nPOST BODY: First. Don’t knock it till you try it. I had one in LIC and it was a gimmicky one where they cut it in half and lay it face down. Then drizzle it all over the top. Was bad all around. I had a good one back in college and had it weekly. Has anyone had one that’s decent here?\n\nPARENT COMMENT: Harlem Public, hands down.\n\nCOMMENT: Their loaded grilled cheese is something else.",
+   "context": {
+    "title": "Peanut butter burger. Does any restaurant have a decent one?",
+    "selftext": "First. Don’t knock it till you try it. I had one in LIC and it was a gimmicky one where they cut it in half and lay it face down. Then drizzle it all over the top. Was bad all around. I had a good one back in college and had it weekly. Has anyone had one that’s decent here? ",
+    "ancestors": [
+     {
+      "author": "Aggressive-Taco-86",
+      "body": "Harlem Public, hands down. "
+     }
+    ],
+    "author": "JudgmentUnited5297",
+    "body": "Their loaded grilled cheese is something else. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Harlem Public",
+     "named_in": "context",
+     "location": null,
+     "experience": "secondhand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "loaded grilled cheese",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "burger"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0413",
+   "comment_id": "t1_ojiehi2",
+   "model_view": "POST TITLE: What is the best bagel shop that both delivers and freezes well?\n\nPOST BODY: I like to buy bagels a dozen at a time, sliced, pop them in the freezer, and eat half each morning.\n\nI've been doing this with my go-to, Tompkins Square Bagels, but would like to perhaps expand outside of where I normally go in the city to diversify my taste!\n\nAny recommendations? I'm not sure if some shops make bagels that would freeze better than others. I love Pop Up Bagels, for example, but th ...\n\nCOMMENT: The ones from Best bagel & coffee hold up well in the freezer!",
+   "context": {
+    "title": "What is the best bagel shop that both delivers and freezes well?",
+    "selftext": "I like to buy bagels a dozen at a time, sliced, pop them in the freezer, and eat half each morning.\n\nI've been doing this with my go-to, Tompkins Square Bagels, but would like to perhaps expand outside of where I normally go in the city to diversify my taste!\n\nAny recommendations? I'm not sure if some shops make bagels that would freeze better than others. I love Pop Up Bagels, for example, but they're meant to be eaten fresh.",
+    "ancestors": [],
+    "author": "concernedcanary",
+    "body": "The ones from Best bagel & coffee hold up well in the freezer! ",
+    "replies": [
+     {
+      "author": "iggy555",
+      "body": "💯 "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Best bagel & coffee",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "bagels",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bagel shop",
+      "coffee"
+     ],
+     "notes": [
+      {
+       "about": "freezing",
+       "text": "bagels hold up well in the freezer",
+       "level": "positive",
+       "dish": "bagels"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0414",
+   "comment_id": "t1_p69ujb6",
+   "model_view": "POST TITLE: Mama’s Too in NYC has some of my favorite slices ever!!\n\nPARENT COMMENT: Kind of surprising how Portnoy panned the site in 2018 and gave it a 6.8 review. I can't add the link here, but you can google it.\n\nCOMMENT: I’m not too big on his opinions of pizza or anything else for that matter lol",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Icy_Possibility_9312",
+      "body": "Kind of surprising how Portnoy panned the site in 2018 and gave it a 6.8 review. I can't add the link here, but you can google it."
+     }
+    ],
+    "author": "RumPunchKid",
+    "body": "I’m not too big on his opinions of pizza or anything else for that matter lol",
+    "replies": [
+     {
+      "author": "nelozero",
+      "body": "Agreed. I've tried several places he's reviewed and they're straight up not good."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0415",
+   "comment_id": "t1_p68puys",
+   "model_view": "POST TITLE: For people who buy street food - not food carts or food trucks but things like cut fruit, churros, tamales, etc - if it's not a vendor you're  familiar with, and if there isn't a line at the time you walk past, how do you decide who and when to buy from?\n\nPOST BODY: I feel like a line is a pretty good indicator that it's gonna taste good, that there's high turnover (when applicable), and that hopefully, there's less risk of getting sick. But if you're walking past a random seller at a time when there is no line, how do you decide when to take a chance?\n\nPARENT COMMENT: \"there's no grand calculous\" is exactly it. \n\nI think with the advent of checking reddit for every last review or relying on social media to get recommendations we constantly outsource our decision making power. It's a crazy thing to say but it really does feel like we are losing the art of just....doing it. Saying this as i know i am guilty of checking reviews before doing x - but i've been becoming more aware of how i/we need to hit the brakes on it a bit\n\nCOMMENT: I'm not outsourcing to reddit for tamale lady reviews because I can't make a decision on my own. Has no one else in this thread ever gotten horrendous food poisoning before? I don't think it's unreasonable to ask about something that has a little more inherent risk than the average food purchase.",
+   "context": {
+    "title": "For people who buy street food - not food carts or food trucks but things like cut fruit, churros, tamales, etc - if it's not a vendor you're  familiar with, and if there isn't a line at the time you walk past, how do you decide who and when to buy from?",
+    "selftext": "I feel like a line is a pretty good indicator that it's gonna taste good, that there's high turnover (when applicable), and that hopefully, there's less risk of getting sick. But if you're walking past a random seller at a time when there is no line, how do you decide when to take a chance?",
+    "ancestors": [
+     {
+      "author": "StinkyStangler",
+      "body": "You really need to have a little more risk in your life lol\n\nSometimes I am in the mood for fruit and I see somebody selling fruit so I buy fruit. Sometimes I want something hot and I see somebody selling something hot so I buy something hot. Sometimes I see somebody selling pastries and I buy a pastry.\n\nThere's no grand calculus, I'm just doing stuff"
+     },
+     {
+      "author": "Third_eye1017",
+      "body": "\"there's no grand calculous\" is exactly it. \n\nI think with the advent of checking reddit for every last review or relying on social media to get recommendations we constantly outsource our decision making power. It's a crazy thing to say but it really does feel like we are losing the art of just....doing it. Saying this as i know i am guilty of checking reviews before doing x - but i've been becoming more aware of how i/we need to hit the brakes on it a bit"
+     }
+    ],
+    "author": "jaded_toast",
+    "body": "I'm not outsourcing to reddit for tamale lady reviews because I can't make a decision on my own. Has no one else in this thread ever gotten horrendous food poisoning before? I don't think it's unreasonable to ask about something that has a little more inherent risk than the average food purchase.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0416",
+   "comment_id": "t1_o84lada",
+   "model_view": "POST TITLE: Best Froyo in NYC?\n\nPOST BODY: I'm obsessed with the original tart flavor of frozen yogurt places. I know there's a few popular spots like Culture/Birdies etc. I was also thinking about Butterfield Market, Mimis, etc. Was wondering if anyone had any strong recs or places I missed? I really love a tangy yogurt, so which one of those places has the most \"yogurt\" tasting froyo, if that makes sense? Thanks!\n\nPARENT COMMENT: actually- Zabar's on the UWS is very very good!! The zebra's cafe right next to their store!\n\nCOMMENT: meant Zabar's! whoops",
+   "context": {
+    "title": "Best Froyo in NYC?",
+    "selftext": "I'm obsessed with the original tart flavor of frozen yogurt places. I know there's a few popular spots like Culture/Birdies etc. I was also thinking about Butterfield Market, Mimis, etc. Was wondering if anyone had any strong recs or places I missed? I really love a tangy yogurt, so which one of those places has the most \"yogurt\" tasting froyo, if that makes sense? Thanks!",
+    "ancestors": [
+     {
+      "author": "Specialist-Young-261",
+      "body": "actually- Zabar's on the UWS is very very good!! The zebra's cafe right next to their store!"
+     }
+    ],
+    "author": "Specialist-Young-261",
+    "body": "meant Zabar's! whoops",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0417",
+   "comment_id": "t1_o946m3r",
+   "model_view": "POST TITLE: What food starts “increasing” in your life when you’re in NYC?\n\nPOST BODY: Random question, but do you have a food or ingredient that becomes a way bigger part of your routine in New York, then kind of disappears when you leave? For me it’s cream cheese. I use/eat way more of it here than anywhere else.\n\nWondering if other people have their own NYC food pattern like this.\n\nPARENT COMMENT: As a non New Yorker until moving here it’s really hard to truly understand the pizza thing until you live here. It’s not about it just being good (it is) it’s that it’s everywhere. It’s always there for you. In a pinch. Late at night. At a party. It’s just a commodity you can’t find anywhere else. It’s a proper food culture that just ain’t anywhere else in the U.S.\n\nCOMMENT: It's also often the cheapest thing around (or nearly)! Hard to spend $5 or less on lunch in the city otherwise.",
+   "context": {
+    "title": "What food starts “increasing” in your life when you’re in NYC?",
+    "selftext": "Random question, but do you have a food or ingredient that becomes a way bigger part of your routine in New York, then kind of disappears when you leave? For me it’s cream cheese. I use/eat way more of it here than anywhere else.\n\nWondering if other people have their own NYC food pattern like this.",
+    "ancestors": [
+     {
+      "author": "Curious_Turnover3091",
+      "body": "Pizza is the only correct answer. "
+     },
+     {
+      "author": "SceneOfShadows",
+      "body": "As a non New Yorker until moving here it’s really hard to truly understand the pizza thing until you live here. It’s not about it just being good (it is) it’s that it’s everywhere. It’s always there for you. In a pinch. Late at night. At a party. It’s just a commodity you can’t find anywhere else. It’s a proper food culture that just ain’t anywhere else in the U.S. "
+     }
+    ],
+    "author": "One-Opposite-4571",
+    "body": "It's also often the cheapest thing around (or nearly)! Hard to spend $5 or less on lunch in the city otherwise.",
+    "replies": [
+     {
+      "author": "SceneOfShadows",
+      "body": "Exactly. Similar reasons BECs are such a thing."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0418",
+   "comment_id": "t1_olcuujb",
+   "model_view": "POST TITLE: I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?\n\nPARENT COMMENT: Yes! I also enjoy the egg salad with bacon once and a while too.\n\nCOMMENT: Lol you know what. Imma go to Utopia today 😂 i suddenly have a craving",
+   "context": {
+    "title": "I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "rjstang",
+      "body": "Utopia Bagel’s country chicken salad on an everything bagel. "
+     },
+     {
+      "author": "Kooky_Comb6051",
+      "body": "This is my go to order for Utopia. I live down the block from them 😂"
+     },
+     {
+      "author": "rjstang",
+      "body": "Yes! I also enjoy the egg salad with bacon once and a while too. "
+     }
+    ],
+    "author": "Kooky_Comb6051",
+    "body": "Lol you know what. Imma go to Utopia today 😂 i suddenly have a craving",
+    "replies": [
+     {
+      "author": "rjstang",
+      "body": "Do it! I’m waiting for their new location to open by me in midtown. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Utopia",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "plans",
+       "text": "going there today because of a craving",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0419",
+   "comment_id": "t1_p5he4s9",
+   "model_view": "POST TITLE: What is a good place for ginger scallion chicken in Chinatown?\n\nPOST BODY: Chinatown NYC while anywhere in lower manhattan is fine too. Preferably small portion over rice while 1/4 lb is fine too. I know it can be called hainanese chicken rice. Cantonese, Singaporean, Malaysian style etc doesn’t matter. I’ve only had Cantonese style.\n\nPARENT COMMENT: Hmm ginger scallion chicken and hainanese chicken are different. I like Kings Kitchen for the Cantonese ginger scallion style. Nyonya is a good Malaysian place.\n\nCOMMENT: agree, the ginger scallion version hits different from hainanese. not really the same dish imo",
+   "context": {
+    "title": "What is a good place for ginger scallion chicken in Chinatown?",
+    "selftext": "Chinatown NYC while anywhere in lower manhattan is fine too. Preferably small portion over rice while 1/4 lb is fine too. I know it can be called hainanese chicken rice. Cantonese, Singaporean, Malaysian style etc doesn’t matter. I’ve only had Cantonese style. ",
+    "ancestors": [
+     {
+      "author": "PopcornKiki",
+      "body": "Hmm ginger scallion chicken and hainanese chicken are different. I like Kings Kitchen for the Cantonese ginger scallion style. Nyonya is a good Malaysian place. "
+     }
+    ],
+    "author": "HumanButton3223",
+    "body": "agree, the ginger scallion version hits different from hainanese. not really the same dish imo",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0420",
+   "comment_id": "t1_onna4nk",
+   "model_view": "POST TITLE: Noodle Village is hyped here but what’s the deal with the menu pricing and what you get?\n\nPOST BODY: Went there today with my family because it has such glowing reviews here. $11 for shrimp noodle soup with 4 tiny dumplings? $17 for beef chow fun with tiny bits of beef? Comparing this to KST, this feels like it’s catering for the West Village crowd.\n\nCOMMENT: Noodle village is great at what they do great, but the things I order there are limited to the clay pot casseroles, soup dumplings, and wontons on chili oil.\n\nTbh it’s how I feel about most Chinatown spots - each one has a few things they do great and then a ton of things that are pretty mid. Just gotta know what to order.",
+   "context": {
+    "title": "Noodle Village is hyped here but what’s the deal with the menu pricing and what you get?",
+    "selftext": "Went there today with my family because it has such glowing reviews here. $11 for shrimp noodle soup with 4 tiny dumplings? $17 for beef chow fun with tiny bits of beef? Comparing this to KST, this feels like it’s catering for the West Village crowd. ",
+    "ancestors": [],
+    "author": "Mumbojmbo",
+    "body": "Noodle village is great at what they do great, but the things I order there are limited to the clay pot casseroles, soup dumplings, and wontons on chili oil.\n\nTbh it’s how I feel about most Chinatown spots - each one has a few things they do great and then a ton of things that are pretty mid. Just gotta know what to order.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0421",
+   "comment_id": "t1_orsydim",
+   "model_view": "POST TITLE: Best deli pickles in NYC (preferably near manhattan)\n\nPOST BODY: Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!\n\nCOMMENT: I also like Japanese/Korean pickles  In HMart or Japanese markets (prob. Katagiri) will have takuan (long yellow radish pickle) or bags of pickled eggplant etc.  Used over rice or with sushi, very refreshing and good for macrobiotics.  And Kimchi too (korean picked vegetables like nappa cabbage or radish amongst others).",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [],
+    "author": "DetectiveOk3902",
+    "body": "I also like Japanese/Korean pickles  In HMart or Japanese markets (prob. Katagiri) will have takuan (long yellow radish pickle) or bags of pickled eggplant etc.  Used over rice or with sushi, very refreshing and good for macrobiotics.  And Kimchi too (korean picked vegetables like nappa cabbage or radish amongst others).",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0422",
+   "comment_id": "t1_ng885xv",
+   "model_view": "POST TITLE: Going to NYC for the first time next month. Anyone restaurant recommendations near time Times Square area?\n\nPOST BODY: I know this is pretty broad. Just looking for recommendations to start with\n\nCOMMENT: No. Dont eat there. Dont stay there either.",
+   "context": {
+    "title": "Going to NYC for the first time next month. Anyone restaurant recommendations near time Times Square area?",
+    "selftext": "I know this is pretty broad. Just looking for recommendations to start with",
+    "ancestors": [],
+    "author": "myxyplyxy",
+    "body": "No. Dont eat there. Dont stay there either.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0423",
+   "comment_id": "t1_ox4o1zv",
+   "model_view": "POST TITLE: Every Sunday is Soup Sunday. I'm running out of soups. Where are the best soups?\n\nPOST BODY: Any soup will do, does not have to be the regular ramens, phos, any soup, as long as its tasty. Soup is being treated as a second class food and needs awareness.\n\nCOMMENT: White Borscht - it’s delicious but a tad heavy. But, though I don’t love soups in hot weather, you seem too.",
+   "context": {
+    "title": "Every Sunday is Soup Sunday. I'm running out of soups. Where are the best soups?",
+    "selftext": "Any soup will do, does not have to be the regular ramens, phos, any soup, as long as its tasty. Soup is being treated as a second class food and needs awareness.",
+    "ancestors": [],
+    "author": "SeriesSenior3327",
+    "body": "White Borscht - it’s delicious but a tad heavy. But, though I don’t love soups in hot weather, you seem too.",
+    "replies": [
+     {
+      "author": "XxTehBanditxX",
+      "body": "Do you have any preferred places to get this?"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0424",
+   "comment_id": "t1_obj5hsr",
+   "model_view": "POST TITLE: red hook tavern dinner walk in - how early would I have to be to get a seat?\n\nPOST BODY: I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?\n\nPARENT COMMENT: Had to wait about an hour, but we did it!\n\nCOMMENT: Was it worth the wait?",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [
+     {
+      "author": "DoritosDewItRight",
+      "body": "If you have the ability to do so, go on a Thursday for lunch. The menu is the same and when I showed up at 2pm, I was seated immediately."
+     },
+     {
+      "author": "lucas_214",
+      "body": "We’ve decided to go for lunch today"
+     },
+     {
+      "author": "DoritosDewItRight",
+      "body": "Good luck, lemme know how it goes"
+     },
+     {
+      "author": "lucas_214",
+      "body": "Had to wait about an hour, but we did it! "
+     }
+    ],
+    "author": "DoritosDewItRight",
+    "body": "Was it worth the wait?",
+    "replies": [
+     {
+      "author": "lucas_214",
+      "body": "Debatable but yes "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "red hook tavern",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "dinner",
+      "walk-in"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0425",
+   "comment_id": "t1_laknyez",
+   "model_view": "POST TITLE: What's the worst food you've had in NYC?\n\nPOST BODY: Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places.\n\nCOMMENT: I got tacos at a place on rivington one time and they all had large chicken bones in them.",
+   "context": {
+    "title": "What's the worst food you've had in NYC?",
+    "selftext": "Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places. ",
+    "ancestors": [],
+    "author": "OilyRicardo",
+    "body": "I got tacos at a place on rivington one time and they all had large chicken bones in them.",
+    "replies": []
+   },
+   "shown": []
+  }
+ ]
+}

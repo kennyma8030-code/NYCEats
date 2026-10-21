@@ -1,0 +1,1096 @@
+{
+ "packet": "r018",
+ "items": [
+  {
+   "item_id": "Q0426",
+   "comment_id": "t1_p2d1ocg",
+   "model_view": "POST TITLE: Lifelong New Yorker; this is my favorite bacon, egg and cheese!\n\nPOST BODY: I get it. We don’t support chains. Mom and pop over everything but for the past 2 years, I’ve yet to find a better, more balanced BEC than Daily Provisions’. A bit pricey but your regular BEC from a local store will probably run you $6-$8. This was $9. I’d say it’s worth the premium.\n\nPARENT COMMENT: I don’t hate it or love it, I just think it’s mid and overhyped\n\nCOMMENT: No one is hyping Daily Provisions. it's just a solid place for a quick bite",
+   "context": {
+    "title": "Lifelong New Yorker; this is my favorite bacon, egg and cheese!",
+    "selftext": "I get it. We don’t support chains. Mom and pop over everything but for the past 2 years, I’ve yet to find a better, more balanced BEC than Daily Provisions’. A bit pricey but your regular BEC from a local store will probably run you $6-$8. This was $9. I’d say it’s worth the premium.",
+    "ancestors": [
+     {
+      "author": "justthekoufax",
+      "body": "I’m sure people will hate because it’s a chain but I do love Daily Provisions."
+     },
+     {
+      "author": "Many-Acanthocephala4",
+      "body": "I don’t hate it or love it, I just think it’s mid and overhyped"
+     }
+    ],
+    "author": "DinerEnBlanc",
+    "body": "No one is hyping Daily Provisions. it's just a solid place for a quick bite",
+    "replies": [
+     {
+      "author": "Many-Acanthocephala4",
+      "body": "Not really given how busy all the locations are when there are plenty of often actual local spots that serve better coffee and food imo "
+     },
+     {
+      "author": "buryyourhaze",
+      "body": "This is a post literally hyping daily provisions"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Daily Provisions",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "quick bite"
+     ],
+     "notes": [
+      {
+       "about": "hype",
+       "text": "says no one is hyping it, just a solid quick bite spot",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0427",
+   "comment_id": "t1_p685xca",
+   "model_view": "POST TITLE: Mama’s Too in NYC has some of my favorite slices ever!!\n\nCOMMENT: That might be delicious but - hot take here- its not a slice.",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "misstheolddaysfan",
+    "body": "That might be delicious but - hot take here- its not a slice. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "slice",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "notes": [
+      {
+       "about": "not a slice",
+       "text": "commenter says it isn't really a slice, though it might be delicious",
+       "level": "negative",
+       "dish": "slice"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0428",
+   "comment_id": "t1_p795a0l",
+   "model_view": "POST TITLE: Mama’s Too in NYC has some of my favorite slices ever!!\n\nCOMMENT: A cow was brutally raped for this",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Manfromearth90",
+    "body": "A cow was brutally raped for this",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0429",
+   "comment_id": "t1_o8a9ipa",
+   "model_view": "POST TITLE: Best Sports Bar in NYC?\n\nPOST BODY: Looking to watch March Madness and the World Baseball Classic somewhere in NYC! Recommendations please! Thank you!\n\nCOMMENT: Define best? If youre looking for a high energy crowd, your best bet for march madness would be a college bar. Blue haven in murray hill will undoubtedly be crazy.",
+   "context": {
+    "title": "Best Sports Bar in NYC?",
+    "selftext": "Looking to watch March Madness and the World Baseball Classic somewhere in NYC! Recommendations please! Thank you! ",
+    "ancestors": [],
+    "author": "Cortisj",
+    "body": "Define best? If youre looking for a high energy crowd, your best bet for march madness would be a college bar. Blue haven in murray hill will undoubtedly be crazy.",
+    "replies": [
+     {
+      "author": "BigBackedBeefPatty",
+      "body": "Absolutely looking for a high energy bar! "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Blue haven",
+     "named_in": "comment",
+     "location": "Murray Hill",
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "college bar",
+      "sports bar"
+     ],
+     "notes": [
+      {
+       "about": "crowd",
+       "text": "will be crazy for March Madness, high energy",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0430",
+   "comment_id": "t1_nopmqcd",
+   "model_view": "POST TITLE: Who is your favorite NYC Food YouTuber?\n\nPOST BODY: Who’s your favorite?\n\nCOMMENT: **Future Canoe.** Then Babish.\n\nBut seriously everyone who enjoys food you-tube, should  check out future canoe. The kid is brilliant.  Its mostly cooking content, but the kid is LES based and does the occasional lets go checkout a bunch of NYC restaurants and make a version at home. The whole theme is just wing it cooking with a healthy does of dry, gen-z, self depreciating humor.\n\n\n\n\n\nFor restaurants:   1. James Andrews. 2.Kristin and Will. These two channels tend to hit NYC fine dining and clearly are hobbies.  They go to restaurants that are mostly already popular and don't need any attention to fill tables. They also clearly state what things cost, what their bill is. They also have diverse enough palette that I can trust their opinion of food. They  do a good job of letting me know if its worth dropping 100$ plus on an expensive dinner.",
+   "context": {
+    "title": "Who is your favorite NYC Food YouTuber?",
+    "selftext": "Who’s your favorite?",
+    "ancestors": [],
+    "author": "boroughthoughts",
+    "body": "**Future Canoe.** Then Babish.\n\nBut seriously everyone who enjoys food you-tube, should  check out future canoe. The kid is brilliant.  Its mostly cooking content, but the kid is LES based and does the occasional lets go checkout a bunch of NYC restaurants and make a version at home. The whole theme is just wing it cooking with a healthy does of dry, gen-z, self depreciating humor.\n\n\n\n\n\nFor restaurants:   1. James Andrews. 2.Kristin and Will. These two channels tend to hit NYC fine dining and clearly are hobbies.  They go to restaurants that are mostly already popular and don't need any attention to fill tables. They also clearly state what things cost, what their bill is. They also have diverse enough palette that I can trust their opinion of food. They  do a good job of letting me know if its worth dropping 100$ plus on an expensive dinner.",
+    "replies": [
+     {
+      "author": "rep-old-timer",
+      "body": "Just watched about 30 reviews in prep for a last minute trip to NYC. \n\nIn the style of James himself: Simply put, I find his reviews of the establishments pleasant but I think they could be a bit  better. \n\nCompared to the obnoxiously inane, self-congratulatory, and/or Wow-I'm-actually-eating-Michelin-Star-food! approach of other YouTubers I agree that his reviews are at least watchable from start to finish.\n\nAlso agree 100% on the long-form thing. More people should follow the lead of  restaurant youtubers who recognize that actual *reviewing* with intelligent observations is hard. They just show the menu, document the server's description of the food as it arrives, film the plate, sometimes never appearing or speaking on camera.  No LLM grappling, \"umami\" overusing, superlative-overload descriptions.  No Food O-faces.  Just enough info for potential diners to get a good idea of what the experience is going to be like. "
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0431",
+   "comment_id": "t1_oul6udm",
+   "model_view": "POST TITLE: Chirashi ‘First Class’ Osakana $43 (why does the title need to be 50 characters)\n\nPOST BODY: Someone left a comment on my ‘Parcel’s or Mr. Moto” post that at $43 this is better value. While it’s certainly more visually appealing, there’s no crab, no toro, no scallop……it was quite good but there’s no world where it’s better value than the Moto box. Lots of filler too with the radish, carrot and cucumber. Also no wasabi or ginger. Would still order again. \n\nhttps://osakana.nyc\n\nPARENT COMMENT: 😂 i add so much fluff to my review post titles too\n\nCOMMENT: It’s so stupid. Why is that a rule?",
+   "context": {
+    "title": "Chirashi ‘First Class’ Osakana $43 (why does the title need to be 50 characters)",
+    "selftext": "Someone left a comment on my ‘Parcel’s or Mr. Moto” post that at $43 this is better value. While it’s certainly more visually appealing, there’s no crab, no toro, no scallop……it was quite good but there’s no world where it’s better value than the Moto box. Lots of filler too with the radish, carrot and cucumber. Also no wasabi or ginger. Would still order again. \n\nhttps://osakana.nyc",
+    "ancestors": [
+     {
+      "author": "swh74",
+      "body": "😂 i add so much fluff to my review post titles too"
+     }
+    ],
+    "author": "mheusler1",
+    "body": "It’s so stupid. Why is that a rule?",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0432",
+   "comment_id": "t1_nlelf2z",
+   "model_view": "POST TITLE: A Brit's first time\n\nPOST BODY: Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break ...\n\nPARENT COMMENT: Good point! Obviously want to see the sights so I've booked us on a bus tour of downtown. Also booked a walking tour of Central Park. When we visit London, we like to look at street art around Shoreditch so I'm looking for something similar. Any suggestions of museums or galleries would be good. Or anything off the beaten path. As a Manhatten, how do you enjoy the city?\n\nCOMMENT: >As a Manhatten, how do you enjoy the city?\n\nInherently differently than someone that's only here for a short time. Honestly one of the great joys of helping out people visiting is that they're seeing it through different eyes. \n\nAnd all that sounds great! But like, it's still hard to recommend things without knowing what you like. If you like trains the Transit Museum is amazing. Planes? The Intrepid. Grave Art? Greenwood is stunning. Medieval art and history? The Cloisters. What are your interests and hobbies and we (or the other NYC travel subs) can give you much better advice.",
+   "context": {
+    "title": "A Brit's first time",
+    "selftext": "Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.",
+    "ancestors": [
+     {
+      "author": "president_of_burundi",
+      "body": ">Also, if you've got any suggestions of must-do experiences whilst in the city for the first time\n\nWhat do you like?  There's no one-size-fits all itinerary."
+     },
+     {
+      "author": "snakesandladders212",
+      "body": "Good point! Obviously want to see the sights so I've booked us on a bus tour of downtown. Also booked a walking tour of Central Park. When we visit London, we like to look at street art around Shoreditch so I'm looking for something similar. Any suggestions of museums or galleries would be good. Or anything off the beaten path. As a Manhatten, how do you enjoy the city?"
+     }
+    ],
+    "author": "president_of_burundi",
+    "body": ">As a Manhatten, how do you enjoy the city?\n\nInherently differently than someone that's only here for a short time. Honestly one of the great joys of helping out people visiting is that they're seeing it through different eyes. \n\nAnd all that sounds great! But like, it's still hard to recommend things without knowing what you like. If you like trains the Transit Museum is amazing. Planes? The Intrepid. Grave Art? Greenwood is stunning. Medieval art and history? The Cloisters. What are your interests and hobbies and we (or the other NYC travel subs) can give you much better advice.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0433",
+   "comment_id": "t1_osaz7jt",
+   "model_view": "POST TITLE: Navigating NYC Dining & Sightseeing Hours: Help a group of 8 adjust from a Spanish \"Late\" Schedule!\n\nPOST BODY: Hey NYC! We’re finalizing planning our 9-day summer trip from Spain, traveling as a group of 8 (mixed adults and teens). In Spain, our daily rhythm is notoriously late: we usually have lunch around 2:00 PM and dinner around 9:30 PM or 10:00 PM.\n\nWe know NYC is 'the city that never sleeps,' but we’ve been warned that restaurant kitchens definitely do. Since we are a large group, we really want to a ...\n\nCOMMENT: A lot of restaurants that post a closing time of X means that's the last time at which they'll allow guests to enter, but guests already there can finish their meals.\n\nIs there a reason you're avoiding making reservations? Trying to rock up to a place with an 8-top is a bad idea unless you know what you're doing. If you use Resy or OpenTable you can usually find things even with less than an hour's notice, although I admit I've never made an app reservation for more than 6 people.",
+   "context": {
+    "title": "Navigating NYC Dining & Sightseeing Hours: Help a group of 8 adjust from a Spanish \"Late\" Schedule!",
+    "selftext": "Hey NYC! We’re finalizing planning our 9-day summer trip from Spain, traveling as a group of 8 (mixed adults and teens). In Spain, our daily rhythm is notoriously late: we usually have lunch around 2:00 PM and dinner around 9:30 PM or 10:00 PM.\n\nWe know NYC is 'the city that never sleeps,' but we’ve been warned that restaurant kitchens definitely do. Since we are a large group, we really want to avoid being 'that' annoying party that shows up right as the chef is cleaning the grills.\n\nI’d love to get your insights on how to balance our internal clocks with the local NYC rhythm:\n\n* **The Dinner Kitchen Cutoff:** If we roll up to a casual or sit-down restaurant at 9:15 PM or 9:30 PM, are we pushing our luck for a group of 8? What is the standard time when mid-range kitchens in Manhattan and Brooklyn actually stop taking orders? Are there specific neighborhoods (like Chinatown or the Village) where late dining is safer, or should we strictly force ourselves to eat by 8:00 PM?\n* **The 9:00 AM Start Time:** We’re planning to head out of our hotel next to Rockefeller Center around 9:00 AM every morning. Is this considered 'too late' to beat the morning rush and the worst of the July heat, or is it a solid time to start sightseeing?\n* **The Lunch Rush Window:** Back home, the 1:00 PM to 2:00 PM slot is just the warm-up for lunch, but we know that's peak chaos in NYC. To avoid the massive 12:30 PM – 1:30 PM office/tourist rush, what’s the best tactical window for us to aim for lunch? Should we go early (11:30 AM) or push it late (2:15 PM)?\n* **The \"Golden Hour\" for Group Walk-ins:** For a party of 8, is there a magical time of day where a restaurant is empty enough to seat us without a massive wait, or is it a hard 'no reservation, no entry' policy across the board in July? We are fully prepared to split into two tables of 4 if it makes life easier for the staff.\n\nWe want to respect the local restaurant culture and the servers, but we also want to avoid getting locked out of good food. Any tips on how to sync our schedule without causing a logistical nightmare would be amazing! Gracias!",
+    "ancestors": [],
+    "author": "that_was_way_harsh",
+    "body": "A lot of restaurants that post a closing time of X means that's the last time at which they'll allow guests to enter, but guests already there can finish their meals.\n\nIs there a reason you're avoiding making reservations? Trying to rock up to a place with an 8-top is a bad idea unless you know what you're doing. If you use Resy or OpenTable you can usually find things even with less than an hour's notice, although I admit I've never made an app reservation for more than 6 people.",
+    "replies": [
+     {
+      "author": "__theoneandonly",
+      "body": "> A lot of restaurants that post a closing time of X means that's the last time at which they'll allow guests to enter, but guests already there can finish their meals.\n\nDon't count on this, though. Tons of restaurants will be passing around take-out to pack the rest of your meal and putting checks on the table 10-ish minutes before closing. I would never count on a restaurant letting you sit and eat after their closing hours."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0434",
+   "comment_id": "t1_ornj05g",
+   "model_view": "POST TITLE: Best deli pickles in NYC (preferably near manhattan)\n\nPOST BODY: Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!\n\nCOMMENT: I have enjoyed the picked cake at mason pickel.",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [],
+    "author": "bikerfriend",
+    "body": "I have enjoyed the picked cake at mason pickel.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "mason pickel",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "picked cake",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0435",
+   "comment_id": "t1_o3n7uyu",
+   "model_view": "POST TITLE: Noona's Ice Cream\n\nPOST BODY: Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasic ...\n\nCOMMENT: I've been following her since she did mail order pints a couple years ago!! She does amazing flavors!",
+   "context": {
+    "title": "Noona's Ice Cream",
+    "selftext": "Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)",
+    "ancestors": [],
+    "author": "hunneybunny",
+    "body": "I've been following her since she did mail order pints a couple years ago!! She does amazing flavors!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Noona's Ice Cream",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "ice cream"
+     ],
+     "notes": [
+      {
+       "about": "mail order pints",
+       "text": "followed her since she did mail order pints a couple years ago",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0436",
+   "comment_id": "t1_p7w3ib3",
+   "model_view": "POST TITLE: Move over Ceres, Kirbee’s beef rib plate is 90 dollars\n\nPOST BODY: I love overpaying for a fun meal as much as the next person but wow!\n\nCOMMENT: The whole city is insane honestly. I know the price of stuff is going up, and the cost of ingredients is going up, but I just went to Bar Kabawa and had 4 (pretty small) Jamaican patties for 80 bucks, and like, they were tasty, but I was so annoyed.",
+   "context": {
+    "title": "Move over Ceres, Kirbee’s beef rib plate is 90 dollars",
+    "selftext": "I love overpaying for a fun meal as much as the next person but wow! ",
+    "ancestors": [],
+    "author": "Archibald-Tuttle",
+    "body": "The whole city is insane honestly. I know the price of stuff is going up, and the cost of ingredients is going up, but I just went to Bar Kabawa and had 4 (pretty small) Jamaican patties for 80 bucks, and like, they were tasty, but I was so annoyed.  ",
+    "replies": [
+     {
+      "author": "lovehandlz",
+      "body": "Good lord"
+     },
+     {
+      "author": "Desperate_Wallaby966",
+      "body": "$20 patties is beyond insane, used to get 2 and a coke for lunch almost every day in high-school for $5. Could get a round trip bus ticket to Toronto and have the best Jamaican food outside of the island for around that much if you had a few days to spare."
+     },
+     {
+      "author": "wipny",
+      "body": "You should only be angry at yourself for spending that much for beef patties. \n\nIf people are stupidly willing to pay $20 for a single beef patty or lining up for $50 pizza pies that’s on them. When it comes to dining out we still have the free will to vote with our wallets."
+     },
+     {
+      "author": "boroughthoughts",
+      "body": "You are paying for sit down dining experience.   \n  \n Rent for restaurants are about 3 to 10x per square foot what residential rent is. You think your rent is high? There are ramen places in LES that pay 15000$ a month for rent and seats 10 people.  Then each staff serving you costs the restaurant employing them 20 to 25$.   \n  \nYou walk into a fine dining place in lower Manhattan  that has dozens of people working at all times to serve some 50 to 100 diners? Its going to show up on your bill. Your bill has to be high enough to cover rents, wages. Which is why if you want cheap food you have to go to the carts and to go only places that have like 2 people working in a 200 square feet of space. \n\nEating out at fine dining places is a luxury, your paying for not just the food, but the labor costs and operating costs of the businesses.  Your not entitled to eat at this places and if you find it too expensive maybe you were never the intended audience. We all have budgets constraints. People complaining in this thread are the ones who do not get it, which is why I dine solo. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Bar Kabawa",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "positive",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "Jamaican patties",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "jamaican",
+      "patties"
+     ],
+     "notes": [
+      {
+       "about": "portion size",
+       "text": "4 pretty small patties",
+       "level": "negative",
+       "dish": "Jamaican patties"
+      },
+      {
+       "about": "price",
+       "text": "80 bucks for 4 patties",
+       "level": "negative",
+       "dish": "Jamaican patties"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0437",
+   "comment_id": "t1_ouzyjz6",
+   "model_view": "POST TITLE: I need a list of quintessential NYC drinks that are not alcoholic.\n\nPOST BODY: I know all the major cocktails that are \"NYC\" but I'm trying to see if there's anything else that's not alcoholic besides Egg Cream. I have a client who wants a Nyc themed party but wants non alcoholic options\n\nCOMMENT: Arizona iced tea, Dr Browns, Orangina (not from New York, but a pizzeria classic), Vintage Seltzer, Snapple",
+   "context": {
+    "title": "I need a list of quintessential NYC drinks that are not alcoholic.",
+    "selftext": "I know all the major cocktails that are \"NYC\" but I'm trying to see if there's anything else that's not alcoholic besides Egg Cream. I have a client who wants a Nyc themed party but wants non alcoholic options ",
+    "ancestors": [],
+    "author": "ligmata1nt",
+    "body": "Arizona iced tea, Dr Browns, Orangina (not from New York, but a pizzeria classic), Vintage Seltzer, Snapple",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0438",
+   "comment_id": "t1_p65ak1y",
+   "model_view": "POST TITLE: Mama’s Too in NYC has some of my favorite slices ever!!\n\nCOMMENT: Oooo this looks so good. I’ve never been and I think I need to change that.",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Jpkmets7",
+    "body": "Oooo this looks so good. I’ve never been and I think I need to change that. ",
+    "replies": [
+     {
+      "author": "RumPunchKid",
+      "body": "It’s worth a trip"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0439",
+   "comment_id": "t1_ox5h50u",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nPARENT COMMENT: Bro everything is protein now. They even got protein soda...like wtf?\n\nCOMMENT: It’s probably mirroring the increase of GLP-1s. You need to be consuming a decent amount of protein while on it. Also fiber, which is why there are more and more foods and snack brands are upping their fiber marketing game.",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "walkingthecowww",
+      "body": "Killed by proteinmaxing"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Bro everything is protein now. They even got protein soda...like wtf? "
+     }
+    ],
+    "author": "PresentBasic3279",
+    "body": "It’s probably mirroring the increase of GLP-1s. You need to be consuming a decent amount of protein while on it. Also fiber, which is why there are more and more foods and snack brands are upping their fiber marketing game. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0440",
+   "comment_id": "t1_lag7dqq",
+   "model_view": "POST TITLE: What's the worst food you've had in NYC?\n\nPOST BODY: Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places.\n\nPARENT COMMENT: The chipotle on Murray street in Tribeca is the worst eatery in the entire city. I can’t even put into words how bad it is, which is especially mindblowing because it’s a franchise!! \n\nAnyone who’s been should know what I’m talking about.\n\nCOMMENT: I legit don’t know why anyone goes to chipotle in NYC when we have dos toros, los tacos and a million other amazing Mexican places…\n\nLike I get why in Iowa they go there, but not in NYC",
+   "context": {
+    "title": "What's the worst food you've had in NYC?",
+    "selftext": "Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places. ",
+    "ancestors": [
+     {
+      "author": "BiddyBij",
+      "body": "The chipotle on Murray street in Tribeca is the worst eatery in the entire city. I can’t even put into words how bad it is, which is especially mindblowing because it’s a franchise!! \n\nAnyone who’s been should know what I’m talking about."
+     }
+    ],
+    "author": "BlondDeutcher",
+    "body": "I legit don’t know why anyone goes to chipotle in NYC when we have dos toros, los tacos and a million other amazing Mexican places…\n\nLike I get why in Iowa they go there, but not in NYC",
+    "replies": [
+     {
+      "author": "Purple-Show",
+      "body": "I eat chipotle over other chains because the carnitas don’t have garlic or onion, and a kids meal is cheap. i actually  salt but it killlllls me sometimes."
+     },
+     {
+      "author": "m1a2c2kali",
+      "body": "I just really like their rice for some reason lol"
+     },
+     {
+      "author": "rbnch",
+      "body": "Life has been brighter ever since I discovered Dos Toros. It’s so good I legit had a future nostalgic moment of missing it when I leave NYC in a few years."
+     },
+     {
+      "author": "BiddyBij",
+      "body": "Completely agree! I used to live literally across the street from this chipotle so it seemed awfully convenient… if it were even mediocre."
+     },
+     {
+      "author": "WorriedAd5024",
+      "body": "I had dos toros once and thought it was terrible. Local mexican is the way to go, if I had to go chain I would go Chipotle because the flavors are way beyond qdoba or Dos Toros"
+     },
+     {
+      "author": "Strange1130",
+      "body": "Chipotle is not a Mexican place, you don’t go to chipotle because you want Mexican you go because you want chipotle.  And dos toros is pretty mid too.  I’m sure there is tons of better food than chipotle in Iowa too."
+     },
+     {
+      "author": "LongIsland1995",
+      "body": "Because not every neighborhood is filled with Mexican restaurants"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "chipotle",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "mexican",
+      "chain",
+      "fast casual"
+     ],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "understandable in Iowa but not in NYC",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "dos toros",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "mexican"
+     ],
+     "notes": []
+    },
+    {
+     "name": "los tacos",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "mexican",
+      "tacos"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0441",
+   "comment_id": "t1_oj78tm4",
+   "model_view": "POST TITLE: Had a really nice lunch at Casa D’Angelo with my family today\n\nPOST BODY: [https://cangelomulberry.com/](https://cangelomulberry.com/)\n\nu/casadangelonyc\n\nCOMMENT: Welcome to r/FoodNYC!  As a new participant your post has been filtered for further review due to the influx of low effort, unresearched posts here.  Please be patient and your post will be approved (or not) shortly!\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/FoodNYC) if you have any questions or concerns.*",
+   "context": {
+    "title": "Had a really nice lunch at Casa D’Angelo with my family today",
+    "selftext": "[https://cangelomulberry.com/](https://cangelomulberry.com/)\n\nu/casadangelonyc",
+    "ancestors": [],
+    "author": "AutoModerator",
+    "body": "Welcome to r/FoodNYC!  As a new participant your post has been filtered for further review due to the influx of low effort, unresearched posts here.  Please be patient and your post will be approved (or not) shortly!\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/FoodNYC) if you have any questions or concerns.*",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0442",
+   "comment_id": "t1_p7c0wq7",
+   "model_view": "POST TITLE: The combination Pizza Hut and Applebees coming to Times Square aka The Smith/Parla\n\nPOST BODY: Whispers about this happening for years.\n\nPARENT COMMENT: Same clowns complaining about Taco Bell prices.\n\nCOMMENT: If im going to lick a chalupa im not paying for it, kapeesh? 🤌",
+   "context": {
+    "title": "The combination Pizza Hut and Applebees coming to Times Square aka The Smith/Parla",
+    "selftext": "Whispers about this happening for years. ",
+    "ancestors": [
+     {
+      "author": "Garconavecunreve",
+      "body": "“It’s the restaurant Gotham deserves, but not the one it needs” - Lieutenant James Gordon "
+     },
+     {
+      "author": "wgdaytona",
+      "body": "you people were just glazing 4 Charles and Monkey Bar a day ago and I'm looking at the menu and it's an 80% overlap. \n\n\"but but I'm too good for fancy Applebee's!!\""
+     },
+     {
+      "author": "d3arleader",
+      "body": "Same clowns complaining about Taco Bell prices."
+     }
+    ],
+    "author": "KittyInspector3217",
+    "body": "If im going to lick a chalupa im not paying for it, kapeesh? 🤌",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Taco Bell",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "chalupa",
+       "text": "commenter jokes about licking a chalupa, implying they would not pay for one",
+       "level": null,
+       "dish": "chalupa"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0443",
+   "comment_id": "t1_o2548ih",
+   "model_view": "POST TITLE: Weightloss veg orders in NYC\n\nPOST BODY: I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.\n\nCOMMENT: maybe look at factor foods or another meal prep company. i feel those foods may be healthier and more cost effective than fast casual places",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [],
+    "author": "overworkedasian",
+    "body": "maybe look at factor foods or another meal prep company. i feel those foods may be healthier and more cost effective than fast casual places",
+    "replies": [
+     {
+      "author": "shegothis",
+      "body": "My job pays for the food so it’s fine."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0444",
+   "comment_id": "t1_osa74fp",
+   "model_view": "POST TITLE: Worked a shift at a restaurant in Brooklyn, what I saw in the kitchen needs to be talked about\n\nPOST BODY: Worked a shift at a Djon Djon in NYC and what I saw in the kitchen needs to be talked about\n\nDuring a shift, I had access to the kitchen and back-of-house area. Here's what I documented:\n\n\\- Raw meat sitting on a filthy floor in an open tray — no table, no rack, directly on a visibly dirty, wet surface surrounded by broken-down cardboard and trash  \n\\- Large bags of raw meat stored at the front do ...\n\nCOMMENT: I just submitted a complaint for the Department of Health and included your photos as evidence. The place will be shut down soon or at least an inspector will go check it out",
+   "context": {
+    "title": "Worked a shift at a restaurant in Brooklyn, what I saw in the kitchen needs to be talked about",
+    "selftext": "Worked a shift at a Djon Djon in NYC and what I saw in the kitchen needs to be talked about\n\nDuring a shift, I had access to the kitchen and back-of-house area. Here's what I documented:\n\n\\- Raw meat sitting on a filthy floor in an open tray — no table, no rack, directly on a visibly dirty, wet surface surrounded by broken-down cardboard and trash  \n\\- Large bags of raw meat stored at the front door — not in a walk-in, not on a speed rack, just piled near the entrance next to dirty dishes  \n\\- Whole fish marinating in what looks like a green sauce, sitting on top of a chest freezer on a grimy counter.\n\nNone of this is minor.\n\nDjon Djon in BK needs to do better.\n\nTrying to figure out if I should keep working there, any thoughts?",
+    "ancestors": [],
+    "author": "Optimal-Energy8227",
+    "body": "I just submitted a complaint for the Department of Health and included your photos as evidence. The place will be shut down soon or at least an inspector will go check it out ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Djon Djon",
+     "named_in": "context",
+     "location": null,
+     "experience": "secondhand",
+     "opinion": "stated",
+     "overall": "very_negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "health complaint",
+       "text": "Commenter filed a Department of Health complaint using the OP's kitchen photos as evidence",
+       "level": "very_negative",
+       "dish": null
+      },
+      {
+       "about": "expected outcome",
+       "text": "Commenter expects the place to be shut down or inspected soon",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0445",
+   "comment_id": "t1_p2axkfn",
+   "model_view": "POST TITLE: Restaurant Week: where have you gone and was it worth it?\n\nPOST BODY: Let’s hear people’s opinions on their restaurant week experiences. Was it worth the price? What dishes are a must try? \n\nI’ve been to 3 so far\n\n\\#1 Mokyo. $45 for 4 dishes. Very good. Crudo was very tasty. Corn dumplings are a MUST. Fried rice was ok. Sorbet was solid \n\n\\#2 la pecora Bianca. $45 for 3 dishes. I was honestly just walking last night and saw it so I said why not. It was fine. Had the ...\n\nCOMMENT: francie was terrible",
+   "context": {
+    "title": "Restaurant Week: where have you gone and was it worth it?",
+    "selftext": "Let’s hear people’s opinions on their restaurant week experiences. Was it worth the price? What dishes are a must try? \n\nI’ve been to 3 so far\n\n\\#1 Mokyo. $45 for 4 dishes. Very good. Crudo was very tasty. Corn dumplings are a MUST. Fried rice was ok. Sorbet was solid \n\n\\#2 la pecora Bianca. $45 for 3 dishes. I was honestly just walking last night and saw it so I said why not. It was fine. Had the whipped ricotta toast and the vodka pasta. Dessert was a little cannoli \n\n\\#3 Mable BBQ. $45 for two dishes. Got the frito lie which tasted just like Taco Bell. Wasn’t bad but just expected more than Taco Bell. I wish they would let you get more meat for the entree. Like instead of one, you can get a half portion of 2 meats. But ribs were fine. Sides were pretty bland. Beans and potato salad which all came recommended \n\nWhere should we go or avoid? ",
+    "ancestors": [],
+    "author": "joegerbstein",
+    "body": "francie was terrible",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "francie",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0446",
+   "comment_id": "t1_nz1e6s8",
+   "model_view": "POST TITLE: French dip or Roast beef recommendations in manhattan?\n\nPOST BODY: Looking for good roast beef or French dip. Would like to also have a view while eating. Being a bit needy lol but any help would be appreciated.\n\nCOMMENT: Hillstone has a nice view of 27th and Park I guess",
+   "context": {
+    "title": "French dip or Roast beef recommendations in manhattan?",
+    "selftext": "Looking for good roast beef or French dip. Would like to also have a view while eating. Being a bit needy lol but any help would be appreciated. ",
+    "ancestors": [],
+    "author": "Walts2ndcellphone",
+    "body": "Hillstone has a nice view of 27th and Park I guess",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Hillstone",
+     "named_in": "comment",
+     "location": "27th and Park",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "view"
+     ],
+     "notes": [
+      {
+       "about": "view",
+       "text": "nice view of 27th and Park, hedged with 'I guess'",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0447",
+   "comment_id": "t1_owmphip",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nPARENT COMMENT: Agree to disagree, but thats ok. Thats the beauty of opinions, and America. Hope you have a nice evening!\n\nCOMMENT: I honestly think that’s the problem with America right now, there’s facts and there’s opinions. People are just like well, I don’t like that fact, so I’m going to say that’s your opinion instead so I can continue to believe something that’s not true. A fact is that a jerky doesn’t have to be meat.\n\nBut it absolutely is your right to your opinion that you don’t like way western veganism is marketed, you don’t like mushroom jerky, you don’t want to eat imitation animal products. I respect that.\n\nBut not addressing the hypocrisy of “I only like pure foods that haven’t been heavily manipulated” but you’ll eat cheese.. like people are so stuck in their ways that they can’t think logically and change their minds when they get new perspectives or information.\n\nAbsolutely I’m off on a tangent now, and I mean zero hostility. I just like when Reddit used to be a chat forum instead of an echo chamber where people come to reinforce their ideas. And honestly, same for real life. I hope you have a great night too and eat many delicious things in the near future",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!"
+     },
+     {
+      "author": "mycateatstoenails",
+      "body": "vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb. "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\"  Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it.\n\nRespectfully, a chef."
+     },
+     {
+      "author": "flythearc",
+      "body": "As a chef, you should know that jerky refers more to the process of making it than “beef” because it’s not just beef. Pork jerky is the more popular choice in China and if you haven’t tried bak kwa you should because you need to open your mind. Same with a “steak.” Have you never heard of a calamari steak? Pork steak? Tofu steak? Steak is a slab of something. So yes, a cauliflower steak absolutely qualifies. \n\nNobody is claiming to milk an oat. But can you make a milk like product out of it? Sure. Would you be more comfortable if it was called oat water? Because that’s not accurate either. Many of them are called oat beverages, just so you know. That process is WAY less manipulated than cheese making. So how are you a purist if you enjoy cheese?\n\nYou might be great in the kitchen, but don’t limit yourself because you don’t understand how language can be flexible."
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "My primary problem with western veganism is how it is market. Yes, there are other forms of jerky. You can do it with any meat. You can't do it with vegetables...ya just can't. So why even call it that? "
+     },
+     {
+      "author": "flythearc",
+      "body": "You can though. As you said, it’s marinating, salting, slow dehydration. That’s not even marketing, that’s labeling. But are restaurants not marketing all the time?\n\nI just think that for me, and you especially, all that matters should be- is it delicious? I’m not vegan but I’ll eat soft serve made from bananas all day because it slaps. I don’t like plant based burgers because I do not think they are delicious."
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Agree to disagree, but thats ok. Thats the beauty of opinions, and America. Hope you have a nice evening! "
+     }
+    ],
+    "author": "flythearc",
+    "body": "I honestly think that’s the problem with America right now, there’s facts and there’s opinions. People are just like well, I don’t like that fact, so I’m going to say that’s your opinion instead so I can continue to believe something that’s not true. A fact is that a jerky doesn’t have to be meat.\n\nBut it absolutely is your right to your opinion that you don’t like way western veganism is marketed, you don’t like mushroom jerky, you don’t want to eat imitation animal products. I respect that.\n\nBut not addressing the hypocrisy of “I only like pure foods that haven’t been heavily manipulated” but you’ll eat cheese.. like people are so stuck in their ways that they can’t think logically and change their minds when they get new perspectives or information.\n\nAbsolutely I’m off on a tangent now, and I mean zero hostility. I just like when Reddit used to be a chat forum instead of an echo chamber where people come to reinforce their ideas. And honestly, same for real life. I hope you have a great night too and eat many delicious things in the near future ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0448",
+   "comment_id": "t1_padzyzp",
+   "model_view": "POST TITLE: Weekly Reservation Transfer Thread\n\nPOST BODY: **Please read the rules before commenting. Also, any type of \"looking for a reservation\" type of request is NOT ALLOWED.**\n\n1. This thread is the only place on the subreddit for transferring  restaurant reservations. If you make your own thread, it will be  removed.\n2. You may transfer reservations for below or equal to face value (plus all taxes and fees) ONLY. You must clearly state both the pri ...\n\nCOMMENT: Atera NYC — Chef’s Counter for 2 | Sep 19 at 5 PM ET\n\nUnfortunately can’t make the reservation anymore 😔. Official Tock transfer only. DM if interested.\n\nSaturday, Sep 19  \n5:00 PM  \nParty of 2 — Chef’s Counter\n\n  \nTotal price: **$707 (face value + tax)**",
+   "context": {
+    "title": "Weekly Reservation Transfer Thread",
+    "selftext": "  **Please read the rules before commenting. Also, any type of \"looking for a reservation\" type of request is NOT ALLOWED.**\n\n1. This thread is the only place on the subreddit for transferring  restaurant reservations. If you make your own thread, it will be  removed.\n2. You may transfer reservations for below or equal to face value (plus all taxes and fees) ONLY. You must clearly state both the price you paid  and the price you're looking for in the post. Gouging will not be tolerated.\n3. You can only transfer reservations that are nonrefundable, ie, you cannot cancel them without forfeiting your money. If you have a refundable or free reservation and you can't make it, cancel it with the restaurant.\n4. The only reason we're allowing transfers is so people don't have to forfeit expensive pre-paid meals. If you want to *buy* a reservation, you are not one of these people. No posts asking to buy reservations.\n5. The mods of [/r/FoodNYC](https://old.reddit.com/r/FoodNYC) accept no responsibility for these transactions. Tock and Resy both  allow transfers on the website - if someone tells you otherwise it's a  scam.  Do your own research  on your transaction before handing over any money to a third party. Check with the restaurant, check account ages,  meet in person if feasible.\n\nNote that this thread is reposted Sunday evenings.",
+    "ancestors": [],
+    "author": "Decent_Bee_5517",
+    "body": "Atera NYC — Chef’s Counter for 2 | Sep 19 at 5 PM ET\n\nUnfortunately can’t make the reservation anymore 😔. Official Tock transfer only. DM if interested.\n\nSaturday, Sep 19  \n5:00 PM  \nParty of 2 — Chef’s Counter\n\n  \nTotal price: **$707 (face value + tax)**",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Atera NYC",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "chef's counter",
+      "reservation transfer"
+     ],
+     "notes": [
+      {
+       "about": "reservation transfer",
+       "text": "Transferring a Chef's Counter reservation for 2 on Sep 19 at 5 PM via official Tock, total $707 face value plus tax",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0449",
+   "comment_id": "t1_pakr0ya",
+   "model_view": "POST TITLE: Good Places for a Party of 18 in a Private Room in Manhattan?\n\nPOST BODY: Hi All\n\n  \nI am looking to book a private room for an Engagement Dinner for a party of \\~18 or so. Looking for restaurants that would be similar to il Buco, Massara, or Forsythia, if anyone has recs would love to hear! (Also if anyone has experiences with il Buco or Forsythia in general, whether private or normal dining experience would love to hear about it too!)\n\nCOMMENT: I had my rehearsal dinner at Il Buco in 2022. We had it in their cellar, which was really wonderful.  \nThey were professional and the food was good.\n\nAmbiance was great, though they removed the flowers that we brought in during the meal to make room for the food. If I could redo it, would not have spent money on flowers for the event. (We worked with a florist, the flowers were not part of the restaurant package.)\n\nDuring the dinner it started raining and there was a leak on one side of the room, so the floor got wet for around maybe 5-10 people, it wasn’t a flood and people generally didn’t care but in case that’s something that’s important to you.\n\nOverall, if you don’t mind those issues raised (which I didn’t) I thought it was a really great dinner. Iirc the price point was competitive for what they had to offer (vs other places in manhattan)",
+   "context": {
+    "title": "Good Places for a Party of 18 in a Private Room in Manhattan?",
+    "selftext": "Hi All\n\n  \nI am looking to book a private room for an Engagement Dinner for a party of \\~18 or so. Looking for restaurants that would be similar to il Buco, Massara, or Forsythia, if anyone has recs would love to hear! (Also if anyone has experiences with il Buco or Forsythia in general, whether private or normal dining experience would love to hear about it too!) ",
+    "ancestors": [],
+    "author": "ashwizzle",
+    "body": "I had my rehearsal dinner at Il Buco in 2022. We had it in their cellar, which was really wonderful.  \nThey were professional and the food was good.\n\nAmbiance was great, though they removed the flowers that we brought in during the meal to make room for the food. If I could redo it, would not have spent money on flowers for the event. (We worked with a florist, the flowers were not part of the restaurant package.)\n\nDuring the dinner it started raining and there was a leak on one side of the room, so the floor got wet for around maybe 5-10 people, it wasn’t a flood and people generally didn’t care but in case that’s something that’s important to you.\n\nOverall, if you don’t mind those issues raised (which I didn’t) I thought it was a really great dinner. Iirc the price point was competitive for what they had to offer (vs other places in manhattan)",
+    "replies": [
+     {
+      "author": "blee1236",
+      "body": "thank you, this is really helpful, and sorry to hear about the rain issue! Is the Cellar the same as their Showroom or is it a different venue? (if i recall the Showroom is a different building at a slightly different address)"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Il Buco",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": "positive",
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "private dining",
+      "rehearsal dinner",
+      "cellar"
+     ],
+     "notes": [
+      {
+       "about": "flowers",
+       "text": "Staff removed the flowers the group brought in during the meal to make room for food; the commenter would not spend on flowers again. Flowers came from their own florist, not the restaurant package.",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "leak",
+       "text": "Leak on one side of the room during rain made the floor wet for about 5-10 people; not a flood and most didn't care.",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "price",
+       "text": "Price point was competitive for Manhattan, per the commenter's recollection",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0450",
+   "comment_id": "t1_owv75vo",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nPARENT COMMENT: Bro everything is protein now. They even got protein soda...like wtf?\n\nCOMMENT: Crowtein. A full crownin every can",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "walkingthecowww",
+      "body": "Killed by proteinmaxing"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Bro everything is protein now. They even got protein soda...like wtf? "
+     }
+    ],
+    "author": "upyourattraction",
+    "body": "Crowtein. A full crownin every can",
+    "replies": [
+     {
+      "author": "SpongeyBobaruu",
+      "body": "For bodyguards, by body guards."
+     }
+    ]
+   },
+   "shown": []
+  }
+ ]
+}

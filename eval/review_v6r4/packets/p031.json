@@ -1,0 +1,1425 @@
+{
+ "packet": "p031",
+ "items": [
+  {
+   "item_id": "R0751",
+   "comment_id": "t1_itx1iva",
+   "model_view": "<post_title>plant based NYC</post_title>\n<post_body>Hello!\n\nGoing to be coming to new york and will have a few days on my own. Does anyone have any plant based food places to recommend?\nI'll be eating alone so nothing too pretentious and doesn't need to be strictly plant based, vegetarian is cool just not too much processed 'impossible burger' style places.\n\nAny help would me amazing,\n\nTy!\n\n\nEdit - amazing responses thank you so much keep them coming!</post_body>\n<thread_above>\n[1] another user: Champs diner in Brooklyn for 'junky\" vegan food ;)\n</thread_above>\n<comment_to_extract>\nOne of my favorite places in the world.  Always have to get a milkshake, it's great having one and not having any intestinal distress after!\n\nAlso, right by them is Dun Well Doughnuts.  Not the best donuts in the city, but it's all vegan, so that's nice.\n</comment_to_extract>",
+   "context": {
+    "title": "plant based NYC",
+    "selftext": "Hello!\n\nGoing to be coming to new york and will have a few days on my own. Does anyone have any plant based food places to recommend?\nI'll be eating alone so nothing too pretentious and doesn't need to be strictly plant based, vegetarian is cool just not too much processed 'impossible burger' style places.\n\nAny help would me amazing,\n\nTy!\n\n\nEdit - amazing responses thank you so much keep them coming!",
+    "ancestors": [
+     {
+      "author": "Cartadimusica",
+      "body": "Champs diner in Brooklyn for 'junky\" vegan food ;)"
+     }
+    ],
+    "author": "thansal",
+    "body": "One of my favorite places in the world.  Always have to get a milkshake, it's great having one and not having any intestinal distress after!\n\nAlso, right by them is Dun Well Doughnuts.  Not the best donuts in the city, but it's all vegan, so that's nice.",
+    "replies": [
+     {
+      "author": "Cartadimusica",
+      "body": "I also like Clementine for vegan treats"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Champs diner",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Brooklyn",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "milkshake",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "digestion",
+       "text": "no intestinal distress after the milkshake"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "vegan",
+      "diner",
+      "milkshake"
+     ]
+    },
+    {
+     "name": "Dun Well Doughnuts",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": "Brooklyn, right next to Champs diner",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "donuts",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "vegan",
+       "text": "all vegan, which the commenter appreciates"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "vegan",
+      "doughnuts"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0752",
+   "comment_id": "t1_o2548ih",
+   "model_view": "<post_title>Weightloss veg orders in NYC</post_title>\n<post_body>I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.</post_body>\n<comment_to_extract>\nmaybe look at factor foods or another meal prep company. i feel those foods may be healthier and more cost effective than fast casual places\n</comment_to_extract>",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [],
+    "author": "overworkedasian",
+    "body": "maybe look at factor foods or another meal prep company. i feel those foods may be healthier and more cost effective than fast casual places",
+    "replies": [
+     {
+      "author": "shegothis",
+      "body": "My job pays for the food so it’s fine."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0753",
+   "comment_id": "t1_p2gqmqh",
+   "model_view": "<post_title>Raoul’s vs. Minetta Tavern for dinner? We have reservations at both for the same night and are bringing friends from out of town. If you had to choose just one, which would you pick?</post_title>\n<post_body>I have reservations at both Raoul’s and Minetta Tavern for the same evening, and we’re bringing friends who are visiting from out of town. If you had to choose just ONE for dinner, which would you pick and why?\n\nLooking for the “better” overall NYC experience food, atmosphere, vibe, all of it!</post_body>\n<comment_to_extract>\nRaoul’s specializes in steak frites with a famous au poivre sauce. Either that or the burger. Never ordered anything else there. \n\nMinetta has a more diverse menu, kind of a steak house, but with pasta dishes etc. \n\nVibe wise both are great. Both will be packed and lively. \n\nRaoul’s interior feels a bit eclectic and goofy as far as bistros go (in a good way). There used to be a tarot reader upstairs next to the bathrooms. \n\nMinetta feels more buttoned up with moody amber lighting. It’s a beautiful interior with a lot of warm cozy tones. \n\nOverall can’t go wrong with either but my personal preference is Raoul’s it just feels more authentic (authentic to what, exactly, I cannot say …).\n</comment_to_extract>",
+   "context": {
+    "title": "Raoul’s vs. Minetta Tavern for dinner? We have reservations at both for the same night and are bringing friends from out of town. If you had to choose just one, which would you pick?",
+    "selftext": "I have reservations at both Raoul’s and Minetta Tavern for the same evening, and we’re bringing friends who are visiting from out of town. If you had to choose just ONE for dinner, which would you pick and why?\n\nLooking for the “better” overall NYC experience food, atmosphere, vibe, all of it!",
+    "ancestors": [],
+    "author": "manicakes1",
+    "body": "Raoul’s specializes in steak frites with a famous au poivre sauce. Either that or the burger. Never ordered anything else there. \n\nMinetta has a more diverse menu, kind of a steak house, but with pasta dishes etc. \n\nVibe wise both are great. Both will be packed and lively. \n\nRaoul’s interior feels a bit eclectic and goofy as far as bistros go (in a good way). There used to be a tarot reader upstairs next to the bathrooms. \n\nMinetta feels more buttoned up with moody amber lighting. It’s a beautiful interior with a lot of warm cozy tones. \n\nOverall can’t go wrong with either but my personal preference is Raoul’s it just feels more authentic (authentic to what, exactly, I cannot say …). ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Raoul’s",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "steak frites",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "au poivre sauce",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "burger",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "tarot reader",
+       "text": "A tarot reader used to work upstairs by the bathrooms."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bistro",
+      "french",
+      "date night"
+     ]
+    },
+    {
+     "name": "Minetta Tavern",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pasta dishes",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "menu",
+       "text": "More diverse menu, a steakhouse-style place that also has pasta."
+      },
+      {
+       "about": "crowd",
+       "text": "Packed and lively."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse",
+      "pasta"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0754",
+   "comment_id": "t1_obj5hsr",
+   "model_view": "<post_title>red hook tavern dinner walk in - how early would I have to be to get a seat?</post_title>\n<post_body>I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?</post_body>\n<thread_above>\n[1] you, earlier: If you have the ability to do so, go on a Thursday for lunch. The menu is the same and when I showed up at 2pm, I was seated immediately.\n[2] OP: We’ve decided to go for lunch today\n[3] you, earlier: Good luck, lemme know how it goes\n[4] OP: Had to wait about an hour, but we did it!\n</thread_above>\n<comment_to_extract>\nWas it worth the wait?\n</comment_to_extract>",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [
+     {
+      "author": "DoritosDewItRight",
+      "body": "If you have the ability to do so, go on a Thursday for lunch. The menu is the same and when I showed up at 2pm, I was seated immediately."
+     },
+     {
+      "author": "lucas_214",
+      "body": "We’ve decided to go for lunch today"
+     },
+     {
+      "author": "DoritosDewItRight",
+      "body": "Good luck, lemme know how it goes"
+     },
+     {
+      "author": "lucas_214",
+      "body": "Had to wait about an hour, but we did it! "
+     }
+    ],
+    "author": "DoritosDewItRight",
+    "body": "Was it worth the wait?",
+    "replies": [
+     {
+      "author": "lucas_214",
+      "body": "Debatable but yes "
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0755",
+   "comment_id": "t1_o9n74s5",
+   "model_view": "<post_title>Yankee players share their favorite New York restaurants 🍽️</post_title>\n<thread_above>\n[1] another user: as expected none of these guys said any place remotely interesting\n[2] another user: Oswaldo had some interesting choices. The white guys all have the taste of a basic 25 year old girl living in west village which is pretty embarrassing but also kind of unsurprising\n</thread_above>\n<comment_to_extract>\nThe west village jfc\n</comment_to_extract>",
+   "context": {
+    "title": "Yankee players share their favorite New York restaurants 🍽️",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "ry690",
+      "body": "as expected none of these guys said any place remotely interesting"
+     },
+     {
+      "author": "burnshimself",
+      "body": "Oswaldo had some interesting choices. The white guys all have the taste of a basic 25 year old girl living in west village which is pretty embarrassing but also kind of unsurprising "
+     }
+    ],
+    "author": "Electrical_Space_850",
+    "body": "The west village jfc",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0756",
+   "comment_id": "t1_osa74fp",
+   "model_view": "<post_title>Worked a shift at a restaurant in Brooklyn, what I saw in the kitchen needs to be talked about</post_title>\n<post_body>Worked a shift at a Djon Djon in NYC and what I saw in the kitchen needs to be talked about\n\nDuring a shift, I had access to the kitchen and back-of-house area. Here's what I documented:\n\n\\- Raw meat sitting on a filthy floor in an open tray — no table, no rack, directly on a visibly dirty, wet surface surrounded by broken-down cardboard and trash  \n\\- Large bags of raw meat stored at the front door — not in a walk-in, not on a speed rack, just piled near the entrance next to dirty dishes  \n\\- Whole fish marinating in what looks like a green sauce, sitting on top of a chest freezer on a grimy counter.\n\nNone of this is minor.\n\nDjon Djon in BK needs to do better.\n\nTrying to figure out if I should keep working there, any thoughts?</post_body>\n<comment_to_extract>\nI just submitted a complaint for the Department of Health and included your photos as evidence. The place will be shut down soon or at least an inspector will go check it out\n</comment_to_extract>",
+   "context": {
+    "title": "Worked a shift at a restaurant in Brooklyn, what I saw in the kitchen needs to be talked about",
+    "selftext": "Worked a shift at a Djon Djon in NYC and what I saw in the kitchen needs to be talked about\n\nDuring a shift, I had access to the kitchen and back-of-house area. Here's what I documented:\n\n\\- Raw meat sitting on a filthy floor in an open tray — no table, no rack, directly on a visibly dirty, wet surface surrounded by broken-down cardboard and trash  \n\\- Large bags of raw meat stored at the front door — not in a walk-in, not on a speed rack, just piled near the entrance next to dirty dishes  \n\\- Whole fish marinating in what looks like a green sauce, sitting on top of a chest freezer on a grimy counter.\n\nNone of this is minor.\n\nDjon Djon in BK needs to do better.\n\nTrying to figure out if I should keep working there, any thoughts?",
+    "ancestors": [],
+    "author": "Optimal-Energy8227",
+    "body": "I just submitted a complaint for the Department of Health and included your photos as evidence. The place will be shut down soon or at least an inspector will go check it out ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0757",
+   "comment_id": "t1_onwkswn",
+   "model_view": "<post_title>Hit up L’Industrie and Myka. Total of 2 hours of line waiting.</post_title>\n<post_body>Participated in NYCs line epidemic. Had dinner at L’Industrie (3 slices - would go back to burrata next time rather than L’Industrie with prosciutto, pepperoni, and spicy salami). \n\nTook my pizza to Myka to eat in line. After a 90 minute wait! (watching Knicks game on my phone), I ordered. It was delicious, it felt health and great, but in no way worth the obnoxious wait.</post_body>\n<comment_to_extract>\nI did a pizza tour with Lindustrie as a stop and it was very satisfying to skip the big ass line. The pizza is definitely not worth the wait. A good slice but only a slight step above every other NYC slice I’ve ever had\n</comment_to_extract>",
+   "context": {
+    "title": "Hit up L’Industrie and Myka. Total of 2 hours of line waiting.",
+    "selftext": "Participated in NYCs line epidemic. Had dinner at L’Industrie (3 slices - would go back to burrata next time rather than L’Industrie with prosciutto, pepperoni, and spicy salami). \n\nTook my pizza to Myka to eat in line. After a 90 minute wait! (watching Knicks game on my phone), I ordered. It was delicious, it felt health and great, but in no way worth the obnoxious wait. ",
+    "ancestors": [],
+    "author": "cogginsmatt",
+    "body": "I did a pizza tour with Lindustrie as a stop and it was very satisfying to skip the big ass line. The pizza is definitely not worth the wait. A good slice but only a slight step above every other NYC slice I’ve ever had ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Lindustrie",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "pizza tour",
+       "text": "Was a stop on a pizza tour; skipping the long line was satisfying."
+      },
+      {
+       "about": "wait",
+       "text": "Line is big; the pizza is not worth waiting for."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0758",
+   "comment_id": "t1_kzm7zk2",
+   "model_view": "<post_title>Dishoom Rival in NYC?</post_title>\n<post_body>For anyone familiar with the London restaurant, Dishoom… What might you recommend that is on par with this in Manhattan?</post_body>\n<thread_above>\n[1] another user: The Inday in Williamsburg is probably the closest in food and vibe. Gupshup is also pretty comparable.\n</thread_above>\n<comment_to_extract>\nInday is so promising but the food is horrible\n</comment_to_extract>",
+   "context": {
+    "title": "Dishoom Rival in NYC?",
+    "selftext": "For anyone familiar with the London restaurant, Dishoom… What might you recommend that is on par with this in Manhattan?",
+    "ancestors": [
+     {
+      "author": "Acceptable-Ratio-219",
+      "body": "The Inday in Williamsburg is probably the closest in food and vibe.  Gupshup is also pretty comparable."
+     }
+    ],
+    "author": "Deskydesk",
+    "body": "Inday is so promising but the food is horrible",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Inday",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Williamsburg",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "very_negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "indian"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0759",
+   "comment_id": "t1_nl76cvp",
+   "model_view": "<post_title>Where in NYC can you eat with your hands?</post_title>\n<post_body>I went to a Bangladeshi restaurant yesterday and the customers were eating with their hands. My husband and I went with the flow, washed our hands, and went to town. It was awesome. I really liked the tactile experience and it also kept me off my phone during dinner. I would like to find more places like this and try new ways of engaging with my food!\n\nWhat’s your favorite restaurant in NYC where you can eat with your hands? What other kinds of cuisine should we be trying? We just moved to Astoria so recs in queens will be especially helpful!\n\nMy husband is Iranian so he’s from a culture where people eat with hands, but most Persian restaurants in NYC that we’ve come across are very westernized (often run by monarchist expats who love western style cutlery). I’m taiwanese so i don’t eat much food with my hands besides western finger foods (fries, chicken tenders, sandwiches).</post_body>\n<comment_to_extract>\nOmakase. Pizza. Fried chicken.\n</comment_to_extract>",
+   "context": {
+    "title": "Where in NYC can you eat with your hands?",
+    "selftext": "I went to a Bangladeshi restaurant yesterday and the customers were eating with their hands. My husband and I went with the flow, washed our hands, and went to town. It was awesome. I really liked the tactile experience and it also kept me off my phone during dinner. I would like to find more places like this and try new ways of engaging with my food!\n\nWhat’s your favorite restaurant in NYC where you can eat with your hands? What other kinds of cuisine should we be trying? We just moved to Astoria so recs in queens will be especially helpful!\n\nMy husband is Iranian so he’s from a culture where people eat with hands, but most Persian restaurants in NYC that we’ve come across are very westernized (often run by monarchist expats who love western style cutlery). I’m taiwanese so i don’t eat much food with my hands besides western finger foods (fries, chicken tenders, sandwiches). \n\n",
+    "ancestors": [],
+    "author": "KHDNVC",
+    "body": "Omakase. Pizza. Fried chicken.",
+    "replies": [
+     {
+      "author": "rayrayraybies",
+      "body": "three major food groups!"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0760",
+   "comment_id": "t1_jpt7g3p",
+   "model_view": "<post_title>APPOINTMENT TRADER IS A SCAM!!!!! BEWARE</post_title>\n<post_body>I used it on Friday to get a reservation at Carbone because it was my last resort and my husband was dying to go and it took my money then immediately cancelled the reservation saying that it will be refunded but it never did. Then I emailed the support team and got an automatic reply saying to use the support button on the app so when I tried to do that, it said my account wasn’t set up and asked to provide my first and last name with address, DOB, and SSN WITH PICTURES OF MY DOCUMENTS. Definitley not doing that after just losing $80 so looks like I won’t be getting my money back.</post_body>\n<comment_to_extract>\nI'd honestly check out a subscription site like [https://bookitfor.me](https://bookitfor.me). I think it is full right now but there's a waitlist you can join. But for the price of 1 of these reservations, you can get 3 months of unlimited reservations ($25/mo). It also books directly to your Resy account so there's no worry about it getting canceled without you knowing, and you're super unlikely to get banned because the only thing tied to your account is the actual booking, not any of the bot crawling nonsense.\n</comment_to_extract>",
+   "context": {
+    "title": "APPOINTMENT TRADER IS A SCAM!!!!! BEWARE",
+    "selftext": "I used it on Friday to get a reservation at Carbone because it was my last resort and my husband was dying to go and it took my money then immediately cancelled the reservation saying that it will be refunded but it never did. Then I emailed the support team and got an automatic reply saying to use the support button on the app so when I tried to do that, it said my account wasn’t set up and asked to provide my first and last name with address, DOB, and SSN WITH PICTURES OF MY DOCUMENTS. Definitley not doing that after just losing $80 so looks like I won’t be getting my money back.",
+    "ancestors": [],
+    "author": "pianoman2017",
+    "body": "I'd honestly check out a subscription site like [https://bookitfor.me](https://bookitfor.me). I think it is full right now but there's a waitlist you can join. But for the price of 1 of these reservations, you can get 3 months of unlimited reservations ($25/mo). It also books directly to your Resy account so there's no worry about it getting canceled without you knowing, and you're super unlikely to get banned because the only thing tied to your account is the actual booking, not any of the bot crawling nonsense.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0761",
+   "comment_id": "t1_nt7bl4a",
+   "model_view": "<post_title>If you could bring back one closed restaurant, what would it be?</post_title>\n<post_body>This cold winter day’s got me feeling nostalgic. What’s restaurants or eateries of the past would you bring back if given the chance? For me, it’s a tie between Caracas Arepa & Marble Dessert Bar. Oh, how miss dousing their seafood arepa with their signature yellow sauce. And to this day, I still can’t find a dessert tasting quite like Marble’s. Lysee comes close, but it’s not quite the same.</post_body>\n<comment_to_extract>\nBagock on Montrose 💔 the best fried chicken\n</comment_to_extract>",
+   "context": {
+    "title": "If you could bring back one closed restaurant, what would it be?",
+    "selftext": "This cold winter day’s got me feeling nostalgic. What’s restaurants or eateries of the past would you bring back if given the chance? For me, it’s a tie between Caracas Arepa & Marble Dessert Bar. Oh, how miss dousing their seafood arepa with their signature yellow sauce. And to this day, I still can’t find a dessert tasting quite like Marble’s. Lysee comes close, but it’s not quite the same. ",
+    "ancestors": [],
+    "author": "nervous_nellie_13",
+    "body": "Bagock on Montrose 💔 the best fried chicken",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Bagock",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Montrose",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "fried chicken",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "fried chicken"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0762",
+   "comment_id": "t1_p0041k1",
+   "model_view": "<post_title>Best KBBQ + Korean Restaurants/Spots for First Timers in NYC</post_title>\n<post_body>Hello!\n\nMy sister and I are coming to NYC for the first time this week and know we are likely going to be eating quite a bit of Korean food while there lol\n\nSeems like most of the places in Koreatown have tons of good reviews, but I am curious what places others here suggest. I did peek thru some older posts, but was hoping to get more recent opinions if possible lol. \n\nAlso, I was surprised to not see miss korea bbq mentioned much given that it has almost 20k reviews! \n\nThx!</post_body>\n<comment_to_extract>\nKpot, its cheap AYCE and decent for the price.\n</comment_to_extract>",
+   "context": {
+    "title": "Best KBBQ + Korean Restaurants/Spots for First Timers in NYC",
+    "selftext": "Hello!\n\nMy sister and I are coming to NYC for the first time this week and know we are likely going to be eating quite a bit of Korean food while there lol\n\nSeems like most of the places in Koreatown have tons of good reviews, but I am curious what places others here suggest. I did peek thru some older posts, but was hoping to get more recent opinions if possible lol. \n\nAlso, I was surprised to not see miss korea bbq mentioned much given that it has almost 20k reviews! \n\nThx!",
+    "ancestors": [],
+    "author": "Lostdreamer89",
+    "body": "Kpot, its cheap AYCE and decent for the price.",
+    "replies": [
+     {
+      "author": "jenjenjk",
+      "body": "We have quite a few KPots in Michigan so I don'ttttt think we'll be going there LOL"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Kpot",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "format",
+       "text": "all-you-can-eat"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": "cheap",
+     "tags": [
+      "ayce",
+      "korean bbq"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0763",
+   "comment_id": "t1_noo36x6",
+   "model_view": "<post_title>10 East Village bakeries in 2.5 days</post_title>\n<post_body>My husband and I are bakery enthusiasts so of course when we were staying in the East Village for a few days, we hit up as many as we could. Here's our thoughts: \n  \n1-2) Petit Chou: 5/10 - We visited in the mid-afternoon so I don't think the baked goods were as fresh as they could be. The famous chocolate croissant was a letdown as it was almost completely hollow inside and half-filled with cjocolate pudding. The croissant pastry itself was nice but we wished it was more substantial. It felt a bit like a croissant casing outside of a big mass of chocolate. The pistachio eclair was fine but not memorable. \n  \n3) La Cabra: 8/10 - This is a repeat visit for us. The famous cardamom bun is nowhere near as good as it was a couple of years ago. It's now tougher and lacking in cardamom flavor. The croissants however were excellent, particularly the ham and cheese croissant. The sweetness of the ham against the salty cheese was perfection. \n  \n4) Spirals: 10/10 - I was fully expecting this to be a gimmick, but the pumpkin cinnamon roll was everything I've wanted a cinnamon roll to be (and never found until now). Perfectly plush and soft, balanced in sweetness, perfect amount of tangy cream ...</post_body>\n<thread_above>\n[1] another user: I’ve tried to like Hanis several times and it just doesn’t do it for me. I don’t get the hype. Maybe I need to try that rice krispie treat and the honey cake\n[2] you, earlier: I felt forced to try the Hani's cookie, ended up loving the cookie when it came out warm and the chocolate so gooey. Also, I hated the rice krispie treat the first time, but LOVE rice krispie treats, so came again - and the second time must have been a better production day because it was exciting a ...\n[3] another user: OK well now I feel like I have to go back a fourth time to try it again. I really want to like this place but I’ve just been disappointed each time. At this point I feel like I’ve bought half the menu and spent over $100 there collectively..\n</thread_above>\n<comment_to_extract>\nhahaha. I say, only stop in if you happen to walk by. Also, if you get anything, as per usual, it tastes better first thing in the morning outta the fresh bake. Campbell & Co makes a really good classic rice Krispies treat. I love what's happening at Amanda's Good Morning Cafe in Fort Greene esp if you want beignets and a damn good cinnamon roll and don't want to break the bank.\n</comment_to_extract>",
+   "context": {
+    "title": "10 East Village bakeries in 2.5 days",
+    "selftext": "My husband and I are bakery enthusiasts so of course when we were staying in the East Village for a few days, we hit up as many as we could. Here's our thoughts: \n  \n1-2) Petit Chou: 5/10 - We visited in the mid-afternoon so I don't think the baked goods were as fresh as they could be. The famous chocolate croissant was a letdown as it was almost completely hollow inside and half-filled with cjocolate pudding. The croissant pastry itself was nice but we wished it was more substantial. It felt a bit like a croissant casing outside of a big mass of chocolate. The pistachio eclair was fine but not memorable. \n  \n3) La Cabra: 8/10 - This is a repeat visit for us. The famous cardamom bun is nowhere near as good as it was a couple of years ago. It's now tougher and lacking in cardamom flavor. The croissants however were excellent, particularly the ham and cheese croissant. The sweetness of the ham against the salty cheese was perfection. \n  \n4) Spirals: 10/10 - I was fully expecting this to be a gimmick, but the pumpkin cinnamon roll was everything I've wanted a cinnamon roll to be (and never found until now). Perfectly plush and soft, balanced in sweetness, perfect amount of tangy cream cheese frosting. Definitely say yes if they ask to heat it up for you. We will be back to try more flavors. \n  \n5-6) Win Son Bakery: 9/10 - I know this place gets a lot of heat for gentrifying Taiwanese food but I just needed to try that fan tuan once. I'm glad I did because it was delicious. I've never had one before but I grew up loving pork floss, so this was right up my alley. The millet mochi donut was warm and freshly fried. It tasted like a cross between a cider donut (without the apple cinnamon flavor profile) and Chinese nian gao. It could be a tiny bit sweeter for my taste but I otherwise really enjoyed it. \n  \n7-8) From Lucie: 8/10 - I hated how expensive the carrot cake was but damn if it wasn't one of the best I've ever had. The cake was so moist, light, and bouncy while the cream cheese frosting was almost whipped in its texture. 10/10 for that alone. However we felt the chocolate chip cookie was a big letdown. It tasted like a sugar cookie that happened to have chocolate chips in it, and there was too much sea salt. \n  \n9) The Pastry Box: 10/10 - Absolutely elite chocolate chip cookie. Perfect texture and just the right balance of toffee flavor, chocolate, and salt. Would've loved to try more things here if we had more stomach space because the vibes were great inside. \n  \n10) LaLa Bakeshop: 7/10 - The matcha lava cake was beautiful. Moist fluffy dough with plenty of strongly flavored matcha cream inside. The pork floss sausage roll however was really disappointing. Very dry and hard with an overly sweet filling that really threw me off. I expected to love this because pork floss rolls are my favorite thing to get at Chinese bakery but I had to throw this out after a few bites. I would give them another shot though since we bought these at the end of the day. \n  \n11) Smor Bakery: 9/10 - A much better cardamom bun than the one at La Cabra. We were just in Copenhagen last month, and this tasted spot-on with the cardamom buns we had there. \n  \n12) Mary O's Irish Soda Bread Shop: 7/10 - I was hoping for a more buttery melt-in-your-mouth texture, but the texture here was a little bit of a letdown. The jam and Irish butter was doing a lot of the heavy lifting. We waited 20 minutes on a Thursday morning for these because they were only baking a few batches at a time, and I'd say that was too long. \n  \n13-14) Hani's Bakery: 9/10 - This was a repeat visit for us. Everything costs $2-3 more than it should but I love the flavors of the baked goods here. The shakshuka Danish was so unique and delicious. The pistachio halva rice krispie treat is really good too. I'm also a big fan of their honey cake. ",
+    "ancestors": [
+     {
+      "author": "seltzer321",
+      "body": "I’ve tried to like Hanis several times and it just doesn’t do it for me. I don’t get the hype. Maybe I need to try that rice krispie treat and the honey cake"
+     },
+     {
+      "author": "skeeter_skeets",
+      "body": "I felt forced to try the Hani's cookie, ended up loving the cookie when it came out warm and the chocolate so gooey. Also, I hated the rice krispie treat the first time, but LOVE rice krispie treats, so came again - and the second time must have been a better production day because it was exciting and the halva came through and it was just a really cool bite!"
+     },
+     {
+      "author": "seltzer321",
+      "body": "OK well now I feel like I have to go back a fourth time to try it again. I really want to like this place but I’ve just been disappointed each time. At this point I feel like I’ve bought half the menu and spent over $100 there collectively.."
+     }
+    ],
+    "author": "skeeter_skeets",
+    "body": "hahaha. I say, only stop in if you happen to walk by. Also, if you get anything, as per usual, it tastes better first thing in the morning outta the fresh bake. Campbell & Co makes a really good classic rice Krispies treat. I love what's happening at Amanda's Good Morning Cafe in Fort Greene esp if you want beignets and a damn good cinnamon roll and don't want to break the bank.",
+    "replies": [
+     {
+      "author": "seltzer321",
+      "body": "Thanks for those additional recommendations. I’ll definitely look into them. You’re speaking my language."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Hanis",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "visit timing",
+       "text": "Only stop in if you happen to walk by; the food tastes better first thing in the morning, fresh from the bake."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bakery"
+     ]
+    },
+    {
+     "name": "Campbell & Co",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "classic rice Krispies treat",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "rice krispies treat"
+     ]
+    },
+    {
+     "name": "Amanda's Good Morning Cafe",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "Fort Greene",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cinnamon roll",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "beignets",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "Good for those who don't want to break the bank."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "beignets",
+      "cinnamon roll",
+      "brunch"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0764",
+   "comment_id": "t1_p7lvz2k",
+   "model_view": "<post_title>Finally went to 4 Charles: Im appalled. Anyone else?</post_title>\n<post_body>Finally made it to 4 Charles last night. Girlfriend could not go so I was dining solo. Now.. the food really was phenomenal, but I was literally put on a gurney and carted out of the restaurant. I am so embarrassed and need to know who else had this experience??\n\nStarted out with the King Crab. I went with the 3/4lb because the missus wasn't there. Ugh this was great but just felt like a bit much. \n\nNext, was trying to keep it light so I did the Smoked Salmon Caesar. This was really a highlight.. that smoked salmon is so good. \n\nObviously, its 4 Charles so I had to do the prime rib. I couldn't decide between doing the roast or sandwich - so I did both. One King Cut and One Sandwich. And you know I also got the burger.. had to do bacon and an egg. Simply put: delectable. \n\nAfter I put this down though I was already started to feel a little full. Weird, but whatever..\n\nI followed this up with 2 sides of the bacon because it was just so good. And then for dessert? Lemon Meringue Pie & the Sundae. I just couldn't decide! \n\nPost dessert I was looking over the menu when it hit me, I was really full. Like, really really full. I almost felt sick. I couldn't even get up! I paid my check and ...</post_body>\n<comment_to_extract>\nCan I have the last 2 minutes of my life back please\n</comment_to_extract>",
+   "context": {
+    "title": "Finally went to 4 Charles: Im appalled. Anyone else?",
+    "selftext": "Finally made it to 4 Charles last night. Girlfriend could not go so I was dining solo. Now.. the food really was phenomenal, but I was literally put on a gurney and carted out of the restaurant. I am so embarrassed and need to know who else had this experience??\n\nStarted out with the King Crab. I went with the 3/4lb because the missus wasn't there. Ugh this was great but just felt like a bit much. \n\nNext, was trying to keep it light so I did the Smoked Salmon Caesar. This was really a highlight.. that smoked salmon is so good. \n\nObviously, its 4 Charles so I had to do the prime rib. I couldn't decide between doing the roast or sandwich - so I did both. One King Cut and One Sandwich. And you know I also got the burger.. had to do bacon and an egg. Simply put: delectable. \n\nAfter I put this down though I was already started to feel a little full. Weird, but whatever..\n\nI followed this up with 2 sides of the bacon because it was just so good. And then for dessert? Lemon Meringue Pie & the Sundae. I just couldn't decide! \n\nPost dessert I was looking over the menu when it hit me, I was really full. Like, really really full. I almost felt sick. I couldn't even get up! I paid my check and discreetly told the waiters about my problem and they brought a gurney out of the back and carted me out!! I could not believe it. \n\nObviously other people must have experienced something like this before?? I cannot believe how heavy their food is. Like.. it is just too rich or something. Why is it so popular when you literally can't walk after eating?? \n\n",
+    "ancestors": [],
+    "author": "fatskippy1",
+    "body": "Can I have the last 2 minutes of my life back please",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0765",
+   "comment_id": "t1_ld5wcqn",
+   "model_view": "<post_title>Aska (**)</post_title>\n<post_body>This is my second time at Aska and it was better than the first. The scallop dish, lobster + foam, and the last 2 meat courses were completely new and the sauces were perfect. This tasting menu is very straight forward, fish / meat + sauce but they execute it so well. It is very much the style of food I enjoy. There were a few amuse / desserts I didn't picture. I've done a bit of fine dining in the city and I think the chef here just matches my palate perfectly.\n\nThe less tangible or relevant stuff is the service was great. They use Zaltos for everything. The plates / silverware is so beautiful. Its a minimalist design but the lighting / feel is perfect. The garden is magical, it sucks they got rid of their cocktail menu because you used to be able to order cocktails in the garden even if you weren't dining for the evening.\n\nScallop\nLobster\nTrout\nLangoustine\nHake + caviar\nMorel + Quail\nQuail</post_body>\n<thread_above>\n[1] another user: Aw, did they get rid of the kohlrabi course?\n</thread_above>\n<comment_to_extract>\nOP didn't post any pictures of the first couple courses that are served outside, but kohlrabi is one of them! I just went a few days ago\n</comment_to_extract>",
+   "context": {
+    "title": "Aska (**)",
+    "selftext": "This is my second time at Aska and it was better than the first. The scallop dish, lobster + foam, and the last 2 meat courses were completely new and the sauces were perfect. This tasting menu is very straight forward, fish / meat + sauce but they execute it so well. It is very much the style of food I enjoy. There were a few amuse / desserts I didn't picture. I've done a bit of fine dining in the city and I think the chef here just matches my palate perfectly.\n\nThe less tangible or relevant stuff is the service was great. They use Zaltos for everything. The plates / silverware is so beautiful. Its a minimalist design but the lighting / feel is perfect. The garden is magical, it sucks they got rid of their cocktail menu because you used to be able to order cocktails in the garden even if you weren't dining for the evening.\n\nScallop\nLobster\nTrout\nLangoustine\nHake + caviar\nMorel + Quail\nQuail",
+    "ancestors": [
+     {
+      "author": "Fragdict",
+      "body": "Aw, did they get rid of the kohlrabi course?"
+     }
+    ],
+    "author": "syddlesquiddle",
+    "body": "OP didn't post any pictures of the first couple courses that are served outside, but kohlrabi is one of them! I just went a few days ago",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0766",
+   "comment_id": "t1_m3bp85z",
+   "model_view": "<post_title>What did you think of Semma?</post_title>\n<post_body>I went there last year, I stood in line at 5pm and was seated at the bar a few minutes later.\n\nI ordered the Attu Kari Sukka (lamb) and Kozhi Allepey (chicken). They tasted different (in a good way) than anything I've tried at the 30+ Indian restaurants I've been to, but the portions felt smaller with the bone. Perhaps slightly more flavor would have been great. The rice has to be ordered separately, extra $5. It came up to around $90-100 overall, which would be $30-40 higher than what I would have paid for 2 entrees at other Indian restaurants.\n\nIt looks like the [menu](https://www.semma.nyc/) changed a bit since then, but I am thinking of going back.\n\nHow was your experience there?</post_body>\n<comment_to_extract>\nI thought the food was good but not proportionately better than other places for the price and poor service/experience I had there (post star). We were sat at a small 2-top, but then some kind of VIP family visiting their NYU son arrived and they set up a new table next to us for them, so we were super cramped. A long litany of people came to greet these people comping them with a lot of food and we were kind of lost in their shadow. To add insult every time someone from the kitchen/management attended to them, their ass was thrust to within 1 inch of my face. After the third (or so) time i recoiled from someone's butt swooping toward my face our server apologized, but wasn't really able to do anything to prevent more from coming.\n</comment_to_extract>",
+   "context": {
+    "title": "What did you think of Semma?",
+    "selftext": "I went there last year, I stood in line at 5pm and was seated at the bar a few minutes later.\n\nI ordered the Attu Kari Sukka (lamb) and Kozhi Allepey (chicken). They tasted different (in a good way) than anything I've tried at the 30+ Indian restaurants I've been to, but the portions felt smaller with the bone. Perhaps slightly more flavor would have been great. The rice has to be ordered separately, extra $5. It came up to around $90-100 overall, which would be $30-40 higher than what I would have paid for 2 entrees at other Indian restaurants.\n\nIt looks like the [menu](https://www.semma.nyc/) changed a bit since then, but I am thinking of going back.\n\nHow was your experience there?",
+    "ancestors": [],
+    "author": "ali0",
+    "body": "I thought the food was good but not proportionately better than other places for the price and poor service/experience I had there (post star). We were sat at a small 2-top, but then some kind of VIP family visiting their NYU son arrived and they set up a new table next to us for them, so we were super cramped. A long litany of people came to greet these people comping them with a lot of food and we were kind of lost in their shadow. To add insult every time someone from the kitchen/management attended to them, their ass was thrust to within 1 inch of my face. After the third (or so) time i recoiled from someone's butt swooping toward my face our server apologized, but wasn't really able to do anything to prevent more from coming.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Semma",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "seating",
+       "text": "Small 2-top was cramped after a VIP family's table was set up beside them; they felt lost in the VIP group's attention."
+      },
+      {
+       "about": "staff conduct",
+       "text": "Staff repeatedly leaned over the table, with a rear end coming within an inch of the commenter's face; the server apologized but couldn't stop it."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "negative",
+      "service": "negative",
+      "atmosphere": "negative",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0767",
+   "comment_id": "t1_mrfz1ze",
+   "model_view": "<post_title>Post Flight Pizza</post_title>\n<post_body>Going to visit family in New Jersey in a few months but landing in New York. Thinking about picking up either Giuseppinas or Scars. Is there a pizza that I have to have before I come to the West Coast? Lucali seems unrealistic</post_body>\n<thread_above>\n[1] another user: none of the airports in the area are close to those places. how much time ya got?\n[2] OP: Landing at JFK. And I got all day but just don’t wanna wait super long cause I’ll be with my wife.\n</thread_above>\n<comment_to_extract>\nNew Park (right next to JFK) was really good last time I had. But I’d search for that spot in this sub or on Google maps to see latest reviews 🤷‍♀️\n</comment_to_extract>",
+   "context": {
+    "title": "Post Flight Pizza",
+    "selftext": "Going to visit family in New Jersey in a few months but landing in New York. Thinking about picking up either Giuseppinas or Scars. Is there a pizza that I have to have before I come to the West Coast? Lucali seems unrealistic ",
+    "ancestors": [
+     {
+      "author": "BaetrixReloaded",
+      "body": "none of the airports in the area are close to those places. how much time ya got?"
+     },
+     {
+      "author": "BIGCBG",
+      "body": "Landing at JFK. And I got all day but just don’t wanna wait super long cause I’ll be with my wife."
+     }
+    ],
+    "author": "Potential_Owl7825",
+    "body": "New Park (right next to JFK) was really good last time I had. But I’d search for that spot in this sub or on Google maps to see latest reviews 🤷‍♀️",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "New Park",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "right next to JFK",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "where to find",
+       "text": "search this sub or Google Maps for latest reviews"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0768",
+   "comment_id": "t1_ocf83gy",
+   "model_view": "<post_title>Rate My Itinerary</post_title>\n<post_body>For Context, I’ll be at a work trip near NYU for about 5 days. I’m living in Chicago and have never been to NYC, but don’t have a lot of time to leave the West Village/ Chinatown/ Lower Manhattan Areas. I’m looking to try things NYC has that Chicago doesn’t. Such as bagels, NY style pizza, vegetarian/ vegan stuff, Korean, and even BETTER Chinese food. The meals on days 2-4 need to be somewhat fast, but perhaps in NY fashion I can eat a slice on the go. Breakfast joints need to open relatively early to make the list (\\~7am). I have two free days, where I’m planning to eat as much as possible. \n\n\\-How's the plan look? Anything so good I need to add it to the itinerary? Anything skippable? Any late night snack reccs? Coffee reccs? Better bagel joints in the area? I'm looking to generally NOT spend an arm and a leg, but if there's a restaurant that's truly worth it, I'd maybe sub out Gotham's or Vatan.   \n\n\nFood Itinerary:  \nDay 1 (Free Day):   \n\\-Breakfast: Thai Diner  \n\\-Lunch: Her Name is Han  \n\\-Dinner 1: L’Industrie (slice or 2)  \n\\-Dinner 2: Third Kingdom (couple apps and dessert)\n\nDay 2: Work Day 1  \n\\-Quick Breakfast: Apollo Bagel  \n\\-Quick Lunch: Rubirosa pizza  \n\\-Quick Dinne ...</post_body>\n<comment_to_extract>\nSwitch out Rubrirosa with Joe and Pats unless you have a reservation at Rubirosa. \n\nA variant view is skip the overrated tourist clusterF at Katz’s and go to S&P Lunch (breakfast or lunch) . \n\nMaybe switch one of your bagel mornings for something like Win Son Bakery (or S&P). That’s a lot of bagels.\n</comment_to_extract>",
+   "context": {
+    "title": "Rate My Itinerary",
+    "selftext": "For Context, I’ll be at a work trip near NYU for about 5 days. I’m living in Chicago and have never been to NYC, but don’t have a lot of time to leave the West Village/ Chinatown/ Lower Manhattan Areas. I’m looking to try things NYC has that Chicago doesn’t. Such as bagels, NY style pizza, vegetarian/ vegan stuff, Korean, and even BETTER Chinese food. The meals on days 2-4 need to be somewhat fast, but perhaps in NY fashion I can eat a slice on the go. Breakfast joints need to open relatively early to make the list (\\~7am). I have two free days, where I’m planning to eat as much as possible. \n\n\\-How's the plan look? Anything so good I need to add it to the itinerary? Anything skippable? Any late night snack reccs? Coffee reccs? Better bagel joints in the area? I'm looking to generally NOT spend an arm and a leg, but if there's a restaurant that's truly worth it, I'd maybe sub out Gotham's or Vatan.   \n\n\nFood Itinerary:  \nDay 1 (Free Day):   \n\\-Breakfast: Thai Diner  \n\\-Lunch: Her Name is Han  \n\\-Dinner 1: L’Industrie (slice or 2)  \n\\-Dinner 2: Third Kingdom (couple apps and dessert)\n\nDay 2: Work Day 1  \n\\-Quick Breakfast: Apollo Bagel  \n\\-Quick Lunch: Rubirosa pizza  \n\\-Quick Dinner: Wah Fung No. 1 Fast Food  \n\\-Snack: Fong On- tofu pudding\n\nDay 3: Work Day 2  \n\\-Quick Breakfast: Utopia Bagel  \n\\-Quick Lunch: Mama’s TOO slice (or something other than pizza maybe LOL)  \n\\-Dinner: Szechuan Mtn House\n\nDay 4: Work Day 3  \n\\-Quick Breakfast: Russ and Daughters- lox  \n\\-Lunch: Banh mi from Banh Mi Co Ut?? (pick up in the AM)  \n\\-Dinner: Gotham Social Club\n\nDay 5: Free Day  \n\\-Breakfast: Pancakes at Golden Diner  \nLunch: Katz’s Delicatessan?   \nDinner: Vatan? (Entirely diff vibe, but is Jeju Noodle Bar worth the price? or Casa Mono?) \n\n",
+    "ancestors": [],
+    "author": "Cpalms139",
+    "body": "Switch out Rubrirosa with Joe and Pats unless you have a reservation at Rubirosa. \n\nA variant view is skip the overrated tourist clusterF at Katz’s and go to S&P Lunch (breakfast or lunch) . \n\nMaybe switch one of your bagel mornings for something like Win Son Bakery (or S&P). That’s a lot of bagels. ",
+    "replies": [
+     {
+      "author": "bruiserbrody45",
+      "body": "Lol S&P over Katz it's incomparable. S&P also always has a line and is basically Katz for young tik tokers. And I'm saying this as someone who lives by and loves OG CSG.\n\nKatz is in a league of their own and is one of the true tourist/hype spots that's undisputably worth it."
+     },
+     {
+      "author": "bruiserbrody45",
+      "body": "Lol S&P over Katz it's incomparable. S&P also always has a line and is basically Katz for young tik tokers. And I'm saying this as someone who lives by and loves OG CSG.\n\nKatz is in a league of their own and is one of the true tourist/hype spots that's undisputably worth it."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Joe and Pats",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Rubirosa",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "swap",
+       "text": "Suggested swapping it out for Joe and Pats unless you have a reservation there"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "S&P Lunch",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "meals",
+       "text": "Good for breakfast or lunch"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "breakfast",
+      "lunch"
+     ]
+    },
+    {
+     "name": "Katz's",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "crowds",
+       "text": "Touristy crowd scene"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": true,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "deli"
+     ]
+    },
+    {
+     "name": "Win Son Bakery",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "swap",
+       "text": "Suggested as a replacement for one of the bagel mornings"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "taiwanese",
+      "bakery"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0769",
+   "comment_id": "t1_mpw2p4m",
+   "model_view": "<post_title>Recs for vegan food</post_title>\n<post_body>I have a friend visiting me this weekend. They are vegan. Any recs in Brooklyn for vegan food?</post_body>\n<comment_to_extract>\nI don’t know anything immediately near highland park, but check out Maloya, it’s about 3 miles away. Food is cuisine of Réunion Island so it’s not something you’ll find anywhere, and they have fantastic vegan offerings.\n</comment_to_extract>",
+   "context": {
+    "title": "Recs for vegan food",
+    "selftext": "I have a friend visiting me this weekend. They are vegan. Any recs in Brooklyn for vegan food?",
+    "ancestors": [],
+    "author": "Miserable_Put5273",
+    "body": "I don’t know anything immediately near highland park, but check out Maloya, it’s about 3 miles away. Food is cuisine of Réunion Island so it’s not something you’ll find anywhere, and they have fantastic vegan offerings.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Maloya",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "cuisine",
+       "text": "Réunion Island cuisine, not found elsewhere"
+      },
+      {
+       "about": "distance",
+       "text": "about 3 miles from Highland Park"
+      }
+     ],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "Réunion",
+      "vegan"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0770",
+   "comment_id": "t1_nlee9b4",
+   "model_view": "<post_title>A Brit's first time</post_title>\n<post_body>Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.</post_body>\n<comment_to_extract>\nThere’s so many great things, if you’re not trying to spend a lot I think it’s almost more fun to just explore and use Google reviews.  But ill throw one into the ring maybe ten blocks from you:  Zoom Zib:  super quick, reasonable price and delicious Thai food\n</comment_to_extract>",
+   "context": {
+    "title": "A Brit's first time",
+    "selftext": "Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.",
+    "ancestors": [],
+    "author": "merlin401",
+    "body": "There’s so many great things, if you’re not trying to spend a lot I think it’s almost more fun to just explore and use Google reviews.  But ill throw one into the ring maybe ten blocks from you:  Zoom Zib:  super quick, reasonable price and delicious Thai food ",
+    "replies": [
+     {
+      "author": "snakesandladders212",
+      "body": "Thank you so much. This is the sort of thing I was looking for. It's 10 minutes from our hotel!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Zoom Zib",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "about ten blocks from Times Square",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "speed",
+       "text": "super quick"
+      },
+      {
+       "about": "price",
+       "text": "reasonable price"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "thai",
+      "quick bite",
+      "budget"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0771",
+   "comment_id": "t1_nk7lo0e",
+   "model_view": "<post_title>Favorite non-sushi seafood forward restaurant in Manhattan for about $150 p/p?</post_title>\n<post_body>Can have raw fish, just not looking for an omakase with this question</post_body>\n<comment_to_extract>\nAvra,next to the Pierre Hotel. I've been there once\n</comment_to_extract>",
+   "context": {
+    "title": "Favorite non-sushi seafood forward restaurant in Manhattan for about $150 p/p?",
+    "selftext": "Can have raw fish, just not looking for an omakase with this question",
+    "ancestors": [],
+    "author": "semajnielk",
+    "body": "Avra,next to the Pierre Hotel. I've been there once",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Avra",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Next to the Pierre Hotel",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "visits",
+       "text": "Commenter has been once"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "seafood",
+      "greek"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0772",
+   "comment_id": "t1_ni0888n",
+   "model_view": "<post_title>Neighborhood food tours with my son</post_title>\n<post_body>My son (11) and I occasionally go on day-long tours of NYC neighborhoods in search of great ethnic food. We’ve done Astoria, Jackson Heights, Harlem, Brighton Beach, Flatbush, BX Little Italy, and West/East Village. We also did Manhattan Chinatown, but it was kind of a bust, and I’d like to try it again with a new list of places. \n\nTwo questions: \n\n1: If you could build a kid-friendly tour of  your own neighborhood, what would be on the list? He’s a pretty adventurous eater for 11, but he is still 11. \n\n2: Neighborhood tours aside, what’s your favorite sub-$20 NYC eatery?</post_body>\n<comment_to_extract>\nHave you been to queens night market? It only has like 2-3 days left (Saturday afternoon/evenings) and I know it’s not really a neighborhood food crawl in the traditional sense, but it’s super kid friendly (being  picnic blanket and get there are like 4 or 5pm) and has a huge variety of foods in one place. Everything is $6 or under (portion sizes vary). I highly recommend Burmese Bites — the noodles are amazing (the dry noodles, not the ramen — I’m sure the ramen is killer but I haven’t had it yet)\n</comment_to_extract>",
+   "context": {
+    "title": "Neighborhood food tours with my son",
+    "selftext": "My son (11) and I occasionally go on day-long tours of NYC neighborhoods in search of great ethnic food. We’ve done Astoria, Jackson Heights, Harlem, Brighton Beach, Flatbush, BX Little Italy, and West/East Village. We also did Manhattan Chinatown, but it was kind of a bust, and I’d like to try it again with a new list of places. \n\nTwo questions: \n\n1: If you could build a kid-friendly tour of  your own neighborhood, what would be on the list? He’s a pretty adventurous eater for 11, but he is still 11. \n\n2: Neighborhood tours aside, what’s your favorite sub-$20 NYC eatery? ",
+    "ancestors": [],
+    "author": "pandaspuppiespizza",
+    "body": "Have you been to queens night market? It only has like 2-3 days left (Saturday afternoon/evenings) and I know it’s not really a neighborhood food crawl in the traditional sense, but it’s super kid friendly (being  picnic blanket and get there are like 4 or 5pm) and has a huge variety of foods in one place. Everything is $6 or under (portion sizes vary). I highly recommend Burmese Bites — the noodles are amazing (the dry noodles, not the ramen — I’m sure the ramen is killer but I haven’t had it yet)",
+    "replies": [
+     {
+      "author": "thgfingfk",
+      "body": "This sounds awesome. We live very close to Smorgasburg in Prospect Park. Kid’s always bugging me to go there, but it has become a circus of ridiculous foods sold at exorbitant prices. We’re definitely doing this next Saturday."
+     },
+     {
+      "author": "thgfingfk",
+      "body": "UPDATE, this was a huge hit. Taiwanese sausage. Pupusas. Cashew juice. Cachepas. Bao. Pasteles de nata. Fried ice cream. Stroopwaffels. Neither of us had ever had a pastel before. We were both blown away."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Queens Night Market",
+     "named_in": "comment",
+     "kind": "food_hall",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "timing",
+       "text": "Only 2-3 days left; Saturday afternoon/evenings"
+      },
+      {
+       "about": "kids",
+       "text": "Super kid friendly; bring a picnic blanket, arrive around 4 or 5pm"
+      },
+      {
+       "about": "prices",
+       "text": "Everything is $6 or under; portion sizes vary"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "night market",
+      "kid friendly",
+      "food hall"
+     ]
+    },
+    {
+     "name": "Burmese Bites",
+     "named_in": "comment",
+     "kind": "market_stall",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "dry noodles",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "ramen",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "ramen",
+       "text": "Commenter has not tried the ramen; assumes it is good"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "burmese",
+      "noodles"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0773",
+   "comment_id": "t1_itg4w8t",
+   "model_view": "<post_title>Red Hook Tavern Burger</post_title>\n<post_body>Best burger in NYC. Fight me.</post_body>\n<thread_above>\n[1] another user: I also ate one of those last weekend, one of the best burgers in the world\n</thread_above>\n<comment_to_extract>\nHow many countries have you visited?\n</comment_to_extract>",
+   "context": {
+    "title": "Red Hook Tavern Burger",
+    "selftext": "Best burger in NYC. Fight me.",
+    "ancestors": [
+     {
+      "author": "calllmeknighthawk",
+      "body": "I also ate one of those last weekend, one of the best burgers in the world"
+     }
+    ],
+    "author": "schroberg_pk",
+    "body": "How many countries have you visited?",
+    "replies": [
+     {
+      "author": "SceneOfShadows",
+      "body": "Are you uh, surprised that possibly one of the best burgers in the world would be in the US? Let alone New York fucking City lol."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0774",
+   "comment_id": "t1_ocpsj0b",
+   "model_view": "<post_title>Where can a girl get some white sauce prosciutto pizza</post_title>\n<post_body>I’m talking with arugula, honey, flat crust  \nin dire search \n\nPlease and thank you 🙏🏻🫡</post_body>\n<comment_to_extract>\nPretty sure they have at Eataly. Haven’t been for a min tho\n</comment_to_extract>",
+   "context": {
+    "title": "Where can a girl get some white sauce prosciutto pizza",
+    "selftext": "I’m talking with arugula, honey, flat crust  \nin dire search \n\nPlease and thank you 🙏🏻🫡\n",
+    "ancestors": [],
+    "author": "Imaginary-Minimum918",
+    "body": "Pretty sure they have at Eataly. Haven’t been for a min tho",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Eataly",
+     "named_in": "comment",
+     "kind": "food_hall",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "white sauce prosciutto pizza",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "recency",
+       "text": "commenter hasn't been in a while, so the pick is from an older visit"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "italian"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0775",
+   "comment_id": "t1_obriz7s",
+   "model_view": "<post_title>Wait times at Golden Diner</post_title>\n<post_body>I am looking to visit Golden Diner to try out their honey butter pancakes and was wondering what are the wait times like if I walk in on the weekdays around the morning or early afternoon.\n\nI looked at Resy and reservations are pretty packed.</post_body>\n<comment_to_extract>\nHere's a tip: go to Golden Hof - Korean Bar & Grill. Same owner and they also do the pancakes, little to no wait\n</comment_to_extract>",
+   "context": {
+    "title": "Wait times at Golden Diner",
+    "selftext": "I am looking to visit Golden Diner to try out their honey butter pancakes and was wondering what are the wait times like if I walk in on the weekdays around the morning or early afternoon.\n\nI looked at Resy and reservations are pretty packed.",
+    "ancestors": [],
+    "author": "turtleXL",
+    "body": "Here's a tip: go to Golden Hof - Korean Bar & Grill. Same owner and they also do the pancakes, little to no wait",
+    "replies": [
+     {
+      "author": "djcurry",
+      "body": "Hmm I did always wonder why golden diner had Korean fried chicken. Guess it makes sense now since the same owner has a Korean restaurant."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Golden Hof - Korean Bar & Grill",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pancakes",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "owner",
+       "text": "same owner as Golden Diner"
+      },
+      {
+       "about": "wait",
+       "text": "little to no wait"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "korean",
+      "bar and grill"
+     ]
+    },
+    {
+     "name": "Golden Diner",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "honey butter pancakes",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "swap",
+       "text": "commenter points readers to Golden Hof instead, which shares the owner and pancakes"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "diner"
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,605 @@
+{
+ "items_judged": 600,
+ "problems": [],
+ "items_with_real_output": 542,
+ "haiku_item_ok_rate": 0.517,
+ "haiku_field_accuracy": {
+  "aspects.atmosphere": {
+   "acc": 0.98,
+   "n": 590
+  },
+  "aspects.service": {
+   "acc": 0.976,
+   "n": 590
+  },
+  "aspects.taste": {
+   "acc": 0.912,
+   "n": 590
+  },
+  "aspects.value": {
+   "acc": 0.976,
+   "n": 590
+  },
+  "aspects.wait": {
+   "acc": 0.981,
+   "n": 590
+  },
+  "avoid": {
+   "acc": 0.985,
+   "n": 590
+  },
+  "dishes": {
+   "acc": 0.779,
+   "n": 263
+  },
+  "experience": {
+   "acc": 0.864,
+   "n": 590
+  },
+  "opinion": {
+   "acc": 0.903,
+   "n": 590
+  },
+  "overall": {
+   "acc": 0.805,
+   "n": 590
+  },
+  "price": {
+   "acc": 0.988,
+   "n": 590
+  },
+  "status": {
+   "acc": 0.985,
+   "n": 590
+  },
+  "timeframe": {
+   "acc": 0.971,
+   "n": 590
+  },
+  "trend": {
+   "acc": 0.983,
+   "n": 590
+  }
+ },
+ "mention_recall": 0.938,
+ "mention_precision": 0.959,
+ "missed_negatives": {
+  "final_negative_mentions": 172,
+  "haiku_caught": 148,
+  "recall": 0.86
+ },
+ "notes_grades": {
+  "location:missing": 6,
+  "location:ok": 595,
+  "location:wrong": 8,
+  "notes:missing": 49,
+  "notes:ok": 537,
+  "notes:wrong": 23,
+  "tags:missing": 3,
+  "tags:ok": 579,
+  "tags:wrong": 27
+ },
+ "judge_first_read_accuracy": {
+  "aspects.atmosphere": {
+   "acc": 0.995,
+   "n": 623
+  },
+  "aspects.service": {
+   "acc": 1.0,
+   "n": 623
+  },
+  "aspects.taste": {
+   "acc": 0.965,
+   "n": 623
+  },
+  "aspects.value": {
+   "acc": 0.997,
+   "n": 623
+  },
+  "aspects.wait": {
+   "acc": 0.992,
+   "n": 623
+  },
+  "avoid": {
+   "acc": 1.0,
+   "n": 623
+  },
+  "experience": {
+   "acc": 0.973,
+   "n": 623
+  },
+  "opinion": {
+   "acc": 0.968,
+   "n": 623
+  },
+  "overall": {
+   "acc": 0.971,
+   "n": 623
+  }
+ },
+ "disagreement_resolution": {
+  "judge": 639,
+  "haiku": 162,
+  "neither": 32
+ },
+ "judge_overturned_share": 0.194,
+ "planted_catch_rate": {
+  "drop_dish": {
+   "caught": 5,
+   "n": 5,
+   "rate": 1.0
+  },
+  "drop_mention": {
+   "caught": 15,
+   "n": 15,
+   "rate": 1.0
+  },
+  "flip_overall": {
+   "caught": 9,
+   "n": 9,
+   "rate": 1.0
+  },
+  "r1_substitute": {
+   "caught": 6,
+   "n": 10,
+   "rate": 0.6
+  },
+  "upgrade_negative": {
+   "caught": 3,
+   "n": 4,
+   "rate": 0.75
+  },
+  "wrong_experience": {
+   "caught": 12,
+   "n": 15,
+   "rate": 0.8
+  }
+ },
+ "planted_catch_rate_all": 0.862,
+ "rule_questions": [
+  {
+   "item_id": "Q0004",
+   "question": "Does a not-yet-tried 'looks so nice' (an impression from photos) count as a stated positive or as opinion none?"
+  },
+  {
+   "item_id": "Q0007",
+   "question": "Same as the S&P case: an untried 'looks so good, gonna order' reply; should it be none or an endorse?"
+  },
+  {
+   "item_id": "Q0008",
+   "question": "A comment attacking the chef (David Chang) personally, under a Momofuku thread, without naming or judging the restaurant: I treated it as no mention; should a knock on the owner count against the place?"
+  },
+  {
+   "item_id": "Q0009",
+   "question": "When a bare list answers 'easiest places to walk in', should the post's framing set wait positive on each endorsement, or do endorsements keep all aspects null?"
+  },
+  {
+   "item_id": "Q0020",
+   "question": "When the only remark is a wait complaint put as a fact ('line started at 4:15'), should overall stay null or follow the strongest point to negative?"
+  },
+  {
+   "item_id": "Q0025",
+   "question": "Untried-place impressions ('looks tasty', 'looks so good') recur often; the rubric should say whether they are stated levels or opinion none."
+  },
+  {
+   "item_id": "Q0031",
+   "question": "Zabar's (a grocery store with a famous deli counter) praised for its deli pickles: grocery store excluded, or a deli mention?"
+  },
+  {
+   "item_id": "Q0043",
+   "question": "A chain used as a rhetorical jab in an argument (McDonald's 'pink slime' nuggets): should it count as a judged mention, and is 'pink slime' extreme enough for very_negative?"
+  },
+  {
+   "item_id": "Q0048",
+   "question": "Supermarkets praised for prepared food (Pomegranate's chicken salad, Zabar's pickles): exclude as grocery stores even when the comment gives no hint that they are stores?"
+  },
+  {
+   "item_id": "Q0059",
+   "question": "'That is what I was afraid of' under a 'too spicy' complaint about an untried place: an agreement reply (stated, negative) or a worry/question (none)?"
+  },
+  {
+   "item_id": "Q0071",
+   "question": "When the place is named only in an ancestor Haiku did not see, should the missed object still be listed (as here), given Haiku could not have named it?"
+  },
+  {
+   "item_id": "Q0078",
+   "question": "Is a packaged-food brand (Grillo's Pickles) that runs a one-off NYC pop-up a mention, or a product like a grocery item?"
+  },
+  {
+   "item_id": "Q0081",
+   "question": "When the commenter is evidently the asker reacting to recommendations ('seem like the obvious choice ... Thanks'), should their picks be firsthand by default or none as not-yet-tried?"
+  },
+  {
+   "item_id": "Q0083",
+   "question": "Is 'not the best or worst price' a neutral value verdict or lukewarm (negative) like 'fine'?"
+  },
+  {
+   "item_id": "Q0084",
+   "question": "Are multi-vendor food markets such as Queens Night Market or Smorgasburg mentions, or venues like the rubric's non-places?"
+  },
+  {
+   "item_id": "Q0087",
+   "question": "Is a joking gatekeeping reply ('you be quiet now', 'don't tell anyone') under a recommendation an endorsement of the recommended place?"
+  },
+  {
+   "item_id": "Q0091",
+   "question": "When a place is named only to identify a person ('the Una Pizza Napoletana guy'), is it a name-in-passing mention or part of a person reference?"
+  },
+  {
+   "item_id": "Q0096",
+   "question": "When a commenter's past firsthand praise is overridden by someone else's report of decline, is the current verdict firsthand or secondhand?"
+  },
+  {
+   "item_id": "Q0098",
+   "question": "Should a bare list answer to a dish question ('best chicken salad sandwich?') carry that dish as a dish entry, and at what level?"
+  },
+  {
+   "item_id": "Q0101",
+   "question": "Should a chain's announced-but-not-yet-open new branch set status 'opened', or stay null with a note?"
+  },
+  {
+   "item_id": "Q0107",
+   "question": "Which aspect takes a complaint about format or menu structure (prix-fixe only, no a la carte): service as 'how the place is run', or overall?"
+  },
+  {
+   "item_id": "Q0113",
+   "question": "Is 'terrible' / 'awful experience' very_negative or negative under the owner's extremes-only calibration?"
+  },
+  {
+   "item_id": "Q0114",
+   "question": "Is enthusiasm about an untried new place ('so cool, can't wait to try') a stated positive opinion or opinion none?"
+  },
+  {
+   "item_id": "Q0115",
+   "question": "Pig and Khao is closed according to a reply the model could not see; the missed object records status closed, but should a list recommendation of a since-closed place be scored as positive in the past?"
+  },
+  {
+   "item_id": "Q0118",
+   "question": "When a commenter's only visit was years ago but they endorse current criticism, is the timeframe current or past?"
+  },
+  {
+   "item_id": "Q0120",
+   "question": "Is a plain list of names given as examples of a trend (answering 'which places do you mean?') endorse like a list item under a recommendation request, or opinion none?"
+  },
+  {
+   "item_id": "Q0123",
+   "question": "Is a suitability caveat ('not somewhere I'd take a young kid') a complaint that lowers atmosphere, or a neutral fit note?"
+  },
+  {
+   "item_id": "Q0124",
+   "question": "Does a prediction that a place will get worse (e.g. after a private-equity deal) count as a current negative verdict?"
+  },
+  {
+   "item_id": "Q0127",
+   "question": "Is hyperbole without a comparison ('to die for', 'unreal') positive, or very_positive like 'god tier' and 'life-changing'?"
+  },
+  {
+   "item_id": "Q0129",
+   "question": "Is a sentimental-occasion anecdote ('a friend proposed there, it'll never close. Sweet.') a positive verdict on the place or opinion none?"
+  },
+  {
+   "item_id": "Q0131",
+   "question": "Is 'the closest substitute, but not the same' a negative (comparison loser) verdict, or mild praise?"
+  },
+  {
+   "item_id": "Q0132",
+   "question": "When the only judgment is a wait aspect ('free tables at 4', 'never had a problem walking in'), should overall follow it or stay null as a tip?"
+  },
+  {
+   "item_id": "Q0135",
+   "question": "Is a restaurant group (Unapologetic Foods) a mention when criticized, or a company outside the place list?"
+  },
+  {
+   "item_id": "Q0140",
+   "question": "Should a boycott over a company's politics (not food or service) lower overall at all, given rankings are about the food place?"
+  },
+  {
+   "item_id": "Q0143",
+   "question": "Does trend cover a change in a single aspect such as booking difficulty, or only the overall verdict?"
+  },
+  {
+   "item_id": "Q0149",
+   "question": "Is 'that sounds amazing' about an untried place secondhand (based on the parent's report) or experience none (not yet tried)?"
+  },
+  {
+   "item_id": "Q0153",
+   "question": "Should a verdict from a visit years ago ('I used to work a few blocks away') be timeframe past when the comment gives no sign the place changed?"
+  },
+  {
+   "item_id": "Q0156",
+   "question": "Should an unnamed place the commenter can't recall ('that place on Christopher St around the corner') be a mention when no name appears anywhere in the context?"
+  },
+  {
+   "item_id": "Q0178",
+   "question": "When the only judgment is about one aspect (here the wait), should overall follow it as the strongest point or stay null? Haiku leaves it null; I followed 'strongest point'."
+  },
+  {
+   "item_id": "Q0179",
+   "question": "Is a reply that only excuses a place's flaw ('it's a small business, one person doing everything') a judgment of the place, or a fact with opinion none?"
+  },
+  {
+   "item_id": "Q0184",
+   "question": "Should a closed place with no verdict at all still get timeframe past, as rule 10 says, when there are no levels for it to describe?"
+  },
+  {
+   "item_id": "Q0188",
+   "question": "When a place loses a comparison about its food ('X is better'), should the loser's taste be set, or only overall?"
+  },
+  {
+   "item_id": "Q0200",
+   "question": "Is 'looks amazing' about photos of a place the commenter has not tried a stated positive verdict, or opinion none?"
+  },
+  {
+   "item_id": "Q0214",
+   "question": "Is 'best on the UES' (a neighborhood-limited superlative) broad enough for very_positive?"
+  },
+  {
+   "item_id": "Q0218",
+   "question": "Is a mild lament like 'too bad it closed' enough for a positive verdict, or only an explicit 'I miss it'?"
+  },
+  {
+   "item_id": "Q0223",
+   "question": "When the only judgment is on one aspect (value here, wait in Q0209), should overall follow it or stay null? Judges so far have done both."
+  },
+  {
+   "item_id": "Q0224",
+   "question": "Does a reply saying 'I did' file a health complaint about the post's place count as a negative verdict on it, when the commenter may not be the poster?"
+  },
+  {
+   "item_id": "Q0232",
+   "question": "Whether a reply that answers the post's question about a named place only with a general rule (no name, no judgment) counts as an opinion-none mention of that place."
+  },
+  {
+   "item_id": "Q0238",
+   "question": "Whether an unnamed reply that implicitly ranks the post's place below an unnamed alternative counts as a comparison loser (negative) or as no mention."
+  },
+  {
+   "item_id": "Q0242",
+   "question": "Whether a ranked list of recommendations ('A, B, C, D in that order') makes the lower-ranked picks comparison losers (negative) or keeps them all as endorsements."
+  },
+  {
+   "item_id": "Q0243",
+   "question": "Whether music/comedy clubs that serve drinks (The Groove, Terra Blues, Comedy Cellar) are bars (mentions) or venues (not places)."
+  },
+  {
+   "item_id": "Q0249",
+   "question": "Whether a bookable room or counter inside a restaurant (the Modern's Kitchen Table) is its own mention or part of the restaurant's mention."
+  },
+  {
+   "item_id": "Q0251",
+   "question": "When one location of a still-open chain closes, whether the chain mention gets status closed / timeframe past."
+  },
+  {
+   "item_id": "Q0267",
+   "question": "Whether 'do your worst' framing on an enemy-recommendation thread makes a seconded pick very_negative or only negative."
+  },
+  {
+   "item_id": "Q0268",
+   "question": "Whether food poisoning should also set taste (the food) very_negative, or only overall."
+  },
+  {
+   "item_id": "Q0272",
+   "question": "Whether Zabar's (a gourmet food store that sells bagels and has a cafe) counts as a place or as an excluded store."
+  },
+  {
+   "item_id": "Q0281",
+   "question": "Whether a booking tip like 'book at the specific time slots open' is wait negative (like 'be there by 11:30') when it answers 'easiest to get a reservation'."
+  },
+  {
+   "item_id": "Q0283",
+   "question": "Whether 'barely any seating' / 'no seating' is wait (getting a table) or atmosphere (the room)."
+  },
+  {
+   "item_id": "Q0284",
+   "question": "Whether 'replace X with Y' tells others to avoid X (avoid true) or is only a comparison loss."
+  },
+  {
+   "item_id": "Q0286",
+   "question": "Whether a reaction to a post photo ('real mood') counts as a mention of the place the photo most likely shows."
+  },
+  {
+   "item_id": "Q0288",
+   "question": "Whether a comparison loser on bookability alone ('Carbone picks you') gets overall negative or only wait negative."
+  },
+  {
+   "item_id": "Q0294",
+   "question": "Whether an insincere superlative walked back in favor of an unnamed favorite makes the place a negative comparison loser or leaves overall null."
+  },
+  {
+   "item_id": "Q0295",
+   "question": "Whether 'temporarily closed' should set status closed or stay null, since status has no temporary value."
+  },
+  {
+   "item_id": "Q0297",
+   "question": "Whether a chain's visibly declining business (empty stores, closures) counts as trend declined when quality isn't mentioned."
+  },
+  {
+   "item_id": "Q0299",
+   "question": "Whether a bare 'RIP X' is a fond (positive) verdict like 'I miss it' or only a closure fact."
+  },
+  {
+   "item_id": "Q0304",
+   "question": "Does a 'go to A instead' suggestion motivated by fit (casualness for a tween) rather than quality count as a comparison that makes B negative?"
+  },
+  {
+   "item_id": "Q0307",
+   "question": "When a post announces one location of a chain is closing and the comment is about another location, should status be closed?"
+  },
+  {
+   "item_id": "Q0309",
+   "question": "'avoid the Times Sq location' of a chain otherwise called worth a visit: avoid stays false for the place?"
+  },
+  {
+   "item_id": "Q0309",
+   "question": "'You've basically listed the standard tourist spots' knocks the post's list collectively without naming them; are those places mentions?"
+  },
+  {
+   "item_id": "Q0334",
+   "question": "A remembered favorite that moved and changed its offering ('now they only sell caviar. So lame'): rule 9 current negative, or rule 10 remembered verdict with timeframe past?"
+  },
+  {
+   "item_id": "Q0354",
+   "question": "Jazz clubs that serve food and drink (Birdland, Iridium) are called 'venues' in the comment; are they bars (mentions) or venues (excluded)?"
+  },
+  {
+   "item_id": "Q0358",
+   "question": "Is 'one of the best meals we've had lately' a broad superlative (very_positive) or does 'lately' make it positive?"
+  },
+  {
+   "item_id": "Q0367",
+   "question": "Does a bare pick answering 'where did you have the best X?' inherit the superlative (very_positive) from the question's framing, or stay an endorsement?"
+  },
+  {
+   "item_id": "Q0370",
+   "question": "A list posted under 'terrible restaurants with great reviews' followed by 'I've always had great experiences here': does thread framing make the list negative, or does the explicit praise win?"
+  },
+  {
+   "item_id": "Q0374",
+   "question": "Are 'terrible' and 'awful' extremes (very_negative) or strong plain knocks (negative) under the owner's calibration?"
+  },
+  {
+   "item_id": "Q0385",
+   "question": "Whether enthusiasm about a dish the commenter has not yet tried ('sounds FIRE') counts as stated or endorse is not decided by the rubric."
+  },
+  {
+   "item_id": "Q0392",
+   "question": "Whether a wait complaint from someone who has not yet been, with no other verdict, should set overall negative or leave it null is not decided by the rubric."
+  },
+  {
+   "item_id": "Q0400",
+   "question": "Zabar's is a gourmet grocery store that sells bagels; the rubric excludes grocery stores, but it is discussed here as a bagel source, so whether it counts is unclear."
+  },
+  {
+   "item_id": "Q0404",
+   "question": "When one branch of a chain closes, the rubric does not say whether status should be closed on the chain mention or left null."
+  },
+  {
+   "item_id": "Q0405",
+   "question": "When the praised place is only 'this place' and the comment that named it is deleted, the rubric does not say whether to keep an unnamed mention or drop it."
+  },
+  {
+   "item_id": "Q0416",
+   "question": "Zabar's is a grocery store with an attached cafe; when the cafe is what is meant, the rubric's grocery-store exclusion is unclear."
+  },
+  {
+   "item_id": "Q0420",
+   "question": "'Great at what they do great' plus 'a ton of things that are pretty mid', applied to Chinatown spots in general, reads as hit-or-miss (neutral), but the rubric does not say whether a generalization should count against the named place."
+  },
+  {
+   "item_id": "Q0425",
+   "question": "An unnamed, unidentifiable place ('a place on rivington') with a strong complaint: the rubric does not say whether it is a mention."
+  },
+  {
+   "item_id": "Q0427",
+   "question": "Whether a pedantic category objection ('it's not a slice') counts as a complaint about the place or is opinion-free."
+  },
+  {
+   "item_id": "Q0438",
+   "question": "How to treat praise for an untried place based on a photo ('looks so good, never been'): stated with experience none, or endorse."
+  },
+  {
+   "item_id": "Q0442",
+   "question": "Whether a sexual-innuendo joke replying to a price complaint ('if I'm going to lick a chalupa I'm not paying for it') is a value judgment or opinion-free."
+  },
+  {
+   "item_id": "Q0444",
+   "question": "Whether reporting a place to the Health Department over kitchen hygiene is an extreme (very_negative) verdict without extreme words, and whether hygiene belongs under service."
+  },
+  {
+   "item_id": "Q0445",
+   "question": "Whether 'terrible' alone counts as an extreme (very_negative) or a plain negative; the calibration list does not name it."
+  },
+  {
+   "item_id": "Q0453",
+   "question": "When a commenter says they like a place very much but it is not worth the money, is not worth it a bottom line (negative) or a balanced verdict (neutral)?"
+  },
+  {
+   "item_id": "Q0457",
+   "question": "Does a nostalgic joke reply under a recommendation (memories, or lack thereof) count as an endorsement or as opinion none?"
+  },
+  {
+   "item_id": "Q0460",
+   "question": "When a bare recommendation names a dish as the answer (the X at Y), is the dish level positive like get the X, or null as only named?"
+  },
+  {
+   "item_id": "Q0461",
+   "question": "When vendors are listed as examples of Smorgasburg alumni that Redditors can enjoy, is that an endorsement or a name in passing?"
+  },
+  {
+   "item_id": "Q0462",
+   "question": "Is it not that bad used to defend a place against a knock still lukewarm and negative, or does the defensive framing make it positive?"
+  },
+  {
+   "item_id": "Q0468",
+   "question": "Do gourmet food stores with deli counters, like Zabar, count as delis (mentions) or as grocery stores (not places)?"
+  },
+  {
+   "item_id": "Q0469",
+   "question": "Should a general money complaint about a whole category (100 dollars for a steak is wacky) lower value for the specific places the commenter just named in that category?"
+  },
+  {
+   "item_id": "Q0475",
+   "question": "When one location of a still-open chain closes, should the mention carry status closed, or only a note that a location closed?"
+  },
+  {
+   "item_id": "Q0476",
+   "question": "When the comparison winner is framed as a low bar (even Chipotle is better), is the winner positive by default, neutral, or negative?"
+  },
+  {
+   "item_id": "Q0482",
+   "question": "Are health-code violations and shutdowns a service complaint (how the place is run) or an overall-only complaint?"
+  },
+  {
+   "item_id": "Q0488",
+   "question": "Is a chain named only as a supermarket product brand (frozen Arbys curly fries) a mention of the chain?"
+  },
+  {
+   "item_id": "Q0491",
+   "question": "Is a food court or food hall (Food Gallery 32, Smorgasburg) a mention in its own right, or only its stalls?"
+  },
+  {
+   "item_id": "Q0500",
+   "question": "Is a ping-pong bar like Spin a bar (mention) or a venue (not a place)?"
+  },
+  {
+   "item_id": "Q0506",
+   "question": "Does a superlative about one dish (serves the best baked ziti) make the place overall very_positive?"
+  },
+  {
+   "item_id": "Q0513",
+   "question": "Does clarifying another commenter complaint (they meant the partnership, here is the link) count as a secondhand negative opinion or as a fact?"
+  },
+  {
+   "item_id": "Q0515",
+   "question": "Gourmet Garage, Citarella and Jefferson Market are gourmet grocers with prepared food; are they grocery stores (not places) or delis?"
+  },
+  {
+   "item_id": "Q0540",
+   "question": "Is a former go-to offered as a current recommendation ('used to work here and my go tos were X') timeframe past or current?"
+  },
+  {
+   "item_id": "Q0541",
+   "question": "When an agreement reply ('Get Out Of My Head!') mostly agrees with the parent's analogy rather than its restaurant verdict, does rule 8 still carry the parent's verdict on the place?"
+  },
+  {
+   "item_id": "Q0550",
+   "question": "When a terse reply ('Damn if it aint delicious though') could point at the parent's place or the post's place, should the extractor prefer the post's subject?"
+  },
+  {
+   "item_id": "Q0556",
+   "question": "Is 'terrible' with nothing else extreme enough for very_negative, or negative under the strict calibration?"
+  },
+  {
+   "item_id": "Q0565",
+   "question": "Does hyperbole like 'should be burned to the ground' count as telling others to avoid the place?"
+  },
+  {
+   "item_id": "Q0587",
+   "question": "When a comment says it would rather go to B for 'less the headache' than A, should the unspecified headache count as wait?"
+  },
+  {
+   "item_id": "Q0589",
+   "question": "Is a best-time-to-go tip given in reply to 'those lines are brutal' wait negative (like 'be there by 11:30') or opinion none?"
+  }
+ ]
+}

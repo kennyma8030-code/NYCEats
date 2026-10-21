@@ -141,6 +141,20 @@ retry after a timeout that may have been billed. A batch submission whose
 outcome is unknown is never resubmitted; it stays pending until matched to
 the API's batch list. One v6 run at a time, by advisory lock.
 
+**Thread mode (built, not yet chosen).** `extract_v6.py --mode thread` sends
+a post and up to ~25 of its comments as one request, to fit the backfill in
+the owner's budget; it is benchmarked offline first
+(`docs/handoffs/extraction-v6-thread.md`). Same cursor, same mention rows,
+its own prompt hash (`ac9b063da8e6`: round 4's thread prompt plus a
+`<post_item>` section). Whole reply groups (a top-level comment and its
+replies) are packed to a soft budget of 15 items or 3,000 tokens; only a
+group over 25 comments is split, between branches. A chunk whose comments
+hang under comments outside it quotes their whole ancestor chain. The post is
+item `[0]` of a thread's first chunk while it is due, else context. Comments
+already done, and deleted ones, are context only. A failed chunk is split in
+half once; a half that fails sends its items one at a time in comment and
+post mode. Effort medium by default, `max_tokens` 32,000.
+
 ---
 
 ## Decided — storage

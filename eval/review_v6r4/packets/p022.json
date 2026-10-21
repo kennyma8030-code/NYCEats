@@ -1,0 +1,1396 @@
+{
+ "packet": "p022",
+ "items": [
+  {
+   "item_id": "R0526",
+   "comment_id": "t1_owzr573",
+   "model_view": "<post_title author=\"you\">Another Pressed Juicery location bites the dust...</post_title>\n<post_body author=\"you\">I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n[1] another user: Meanwhile that market has been \"opening\" at that location for like 2 years.\n</thread_above>\n<comment_to_extract>\nYeah, that was weird as well. The supermarket next to it closed suddenly and there hadn't been much activity despite the promise of opening up shop\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "jblue212",
+      "body": "Meanwhile that market has been \"opening\" at that location for like 2 years."
+     }
+    ],
+    "author": "Organic-SurroundSnd",
+    "body": "Yeah, that was weird as well. The supermarket next to it closed suddenly and there hadn't been much activity despite the promise of opening up shop",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0527",
+   "comment_id": "t1_pb1y8yh",
+   "model_view": "<post_title>New FiDi Golden Mall. Any opinions yet? ...... ? ?</post_title>\n<post_body>Visited the recently new FiDi outpost of the Golden Mall (from Flushing). Half empty or closed. Seems promising judging from menus of open, closed or not yet open spots. \n\nPrices were interestingly reasonable for FiDi (or I'm just jaded now).\n\nI can see it being busy during work week (Yip's anyone) with the variety it offers.\n\nI think it's basement level isn't bad (has street level entrance) but not helpful for visibility. \n\nCertainly we have a Glut of \"food halls\" and many are being culled.\n\nWill it thrive and survive?</post_body>\n<comment_to_extract>\nI thought the noodle place (Golden Bull handmade noodles) near the entrance had pretty good noodles! Don't get the sandwiches / rou jia mo though, it was terrible. The noodles are good enough to make my regular rotation.\n\nXing Fu Tang and the coconut place downstairs are welcome additions to the neighborhood of otherwise very mid drinks. Neither are amazing in their category if you consider the whole city, but definitely the best in the area.\n\nJoju (Vietnamese) and MalaTang are both fine and I'd go again if I was in the mood for it.\n</comment_to_extract>",
+   "context": {
+    "title": "New FiDi Golden Mall. Any opinions yet? ...... ? ?",
+    "selftext": "Visited the recently new FiDi outpost of the Golden Mall (from Flushing). Half empty or closed. Seems promising judging from menus of open, closed or not yet open spots. \n\nPrices were interestingly reasonable for FiDi (or I'm just jaded now).\n\nI can see it being busy during work week (Yip's anyone) with the variety it offers.\n\nI think it's basement level isn't bad (has street level entrance) but not helpful for visibility. \n\nCertainly we have a Glut of \"food halls\" and many are being culled.\n\nWill it thrive and survive?",
+    "ancestors": [],
+    "author": "anjellya",
+    "body": "I thought the noodle place (Golden Bull handmade noodles) near the entrance had pretty good noodles! Don't get the sandwiches / rou jia mo though, it was terrible. The noodles are good enough to make my regular rotation.\n\nXing Fu Tang and the coconut place downstairs are welcome additions to the neighborhood of otherwise very mid drinks. Neither are amazing in their category if you consider the whole city, but definitely the best in the area.\n\nJoju (Vietnamese) and MalaTang are both fine and I'd go again if I was in the mood for it.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Golden Bull handmade noodles",
+     "named_in": "comment",
+     "kind": "market_stall",
+     "location": "FiDi Golden Mall, near the entrance",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "noodles",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "sandwiches",
+       "level": "negative",
+       "avoid": true
+      },
+      {
+       "dish": "rou jia mo",
+       "level": "negative",
+       "avoid": true
+      }
+     ],
+     "notes": [
+      {
+       "about": "regular",
+       "text": "noodles good enough for their regular rotation"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "handmade noodles"
+     ]
+    },
+    {
+     "name": "Xing Fu Tang",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "ranking",
+       "text": "not amazing citywide, but the best in the immediate area"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bubble tea"
+     ]
+    },
+    {
+     "name": "the coconut place downstairs",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "FiDi Golden Mall, downstairs",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "ranking",
+       "text": "not amazing citywide, but the best in the immediate area"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "coconut drinks"
+     ]
+    },
+    {
+     "name": "Joju",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "return",
+       "text": "would go again when in the mood"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "vietnamese"
+     ]
+    },
+    {
+     "name": "MalaTang",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "return",
+       "text": "would go again when in the mood"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "malatang"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0528",
+   "comment_id": "t1_ldq6px9",
+   "model_view": "<post_title>Best matcha and croissant place</post_title>\n<post_body>I’m gonna have a short trip to NYC and I’m excited to try matcha drinks and the “supreme croissants” can I have some recommendations pleaseee. Thanksss</post_body>\n<comment_to_extract>\nSetsugekka and cha an in East village are good for more premium matcha, matcha cafe maiko in Chinatown is a really solid staple for a standard matcha latte (or soft serve).\n\nI would steer clear of cha cha matcha on principle cuz the founders absolutely suck https://ny.eater.com/2020/7/9/21308552/cha-cha-matcha-owners-under-fire\n</comment_to_extract>",
+   "context": {
+    "title": "Best matcha and croissant place ",
+    "selftext": "I’m gonna have a short trip to NYC and I’m excited to try matcha drinks and the “supreme croissants” can I have some recommendations pleaseee. Thanksss",
+    "ancestors": [],
+    "author": "5100474throwaway",
+    "body": "Setsugekka and cha an in East village are good for more premium matcha, matcha cafe maiko in Chinatown is a really solid staple for a standard matcha latte (or soft serve).\n\nI would steer clear of cha cha matcha on principle cuz the founders absolutely suck https://ny.eater.com/2020/7/9/21308552/cha-cha-matcha-owners-under-fire",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Setsugekka",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "East Village",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "premium matcha",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "matcha"
+     ]
+    },
+    {
+     "name": "cha an",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "East Village",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "premium matcha",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "matcha"
+     ]
+    },
+    {
+     "name": "matcha cafe maiko",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "Chinatown",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "matcha latte",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "soft serve",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "matcha",
+      "soft serve",
+      "staple"
+     ]
+    },
+    {
+     "name": "cha cha matcha",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "boycott",
+       "text": "commenter steers clear on principle because the founders' conduct"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": true,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "matcha"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0529",
+   "comment_id": "t1_ou0vavd",
+   "model_view": "<post_title>family meal blue hill reviews?Debating for family birthday</post_title>\n<post_body>Family meal at blue hill reviews? For a family birthday celebration!</post_body>\n<comment_to_extract>\nI was whelmed. Maybe expectations were high. The veggies tasted like veggies and 2/3 were from the farmers market\n</comment_to_extract>",
+   "context": {
+    "title": "family meal blue hill reviews?Debating for family birthday",
+    "selftext": "Family meal at blue hill reviews? For a family birthday celebration! ",
+    "ancestors": [],
+    "author": "billychasen",
+    "body": "I was whelmed. Maybe expectations were high. The veggies tasted like veggies and 2/3 were from the farmers market",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Blue Hill",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "veggies",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "sourcing",
+       "text": "2/3 of the produce was from the farmers market"
+      },
+      {
+       "about": "expectations",
+       "text": "commenter says expectations may have been high"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0530",
+   "comment_id": "t1_p64pxoc",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<comment_to_extract>\nGreat pizza. Horrible staff\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "kave1790",
+    "body": "Great pizza. Horrible staff",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pizza",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": "negative",
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0531",
+   "comment_id": "t1_ol26t5w",
+   "model_view": "<post_title>What’s the non-touristy Cheesecake Factory of NYC?</post_title>\n<post_body>I know people love to clown on Cheesecake Factory, but hear me out. Massive menu, decent portions, open late, comfortable booths, good for groups, solid cocktails/desserts, and everyone can usually find something they want.\n\nWhat’s the NYC equivalent of that? Not necessarily fancy or trendy and preferably not a tourist trap. Just a reliable spot with a huge menu/vibe where you can go with almost anyone and have a good time.</post_body>\n<thread_above>\n[1] another user: Shopsins\n[2] you, earlier: this is a great take that i think kenny would have appreciated. it just occurred to me, does shopsins even have desserts?\n[3] another user: I'm of the opinion that most of their breakfast constitutes dessert, especially the bread pudding french toast. Yum! I think they have shakes/malts too. Unfortunately, they are lacking in the cocktails/open late department.\n</thread_above>\n<comment_to_extract>\n100%, those breakfasts are insane. i wonder if theyd let you eat an entree and then order pancakes or something as a second course. i feel like that would have been a “get the fuck out” in kennys day\n</comment_to_extract>",
+   "context": {
+    "title": "What’s the non-touristy Cheesecake Factory of NYC?",
+    "selftext": "I know people love to clown on Cheesecake Factory, but hear me out. Massive menu, decent portions, open late, comfortable booths, good for groups, solid cocktails/desserts, and everyone can usually find something they want.\n\nWhat’s the NYC equivalent of that? Not necessarily fancy or trendy and preferably not a tourist trap. Just a reliable spot with a huge menu/vibe where you can go with almost anyone and have a good time.",
+    "ancestors": [
+     {
+      "author": "Dirac3974",
+      "body": "Shopsins "
+     },
+     {
+      "author": "Thin-Animal7809",
+      "body": "this is a great take that i think kenny would have appreciated. it just occurred to me, does shopsins even have desserts?"
+     },
+     {
+      "author": "Dirac3974",
+      "body": "I'm of the opinion that most of their breakfast constitutes dessert, especially the bread pudding french toast. Yum! I think they have shakes/malts too. Unfortunately, they are lacking in the cocktails/open late department. "
+     }
+    ],
+    "author": "Thin-Animal7809",
+    "body": "100%, those breakfasts are insane. i wonder if theyd let you eat an entree and then order pancakes or something as a second course. i feel like that would have been a “get the fuck out” in kennys day",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Shopsins",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "breakfast",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "policy history",
+       "text": "Hypothetical: ordering an entree then pancakes as a second course would have been unacceptable in Kenny's day"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "breakfast",
+      "huge menu"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0532",
+   "comment_id": "t1_jl3n9pm",
+   "model_view": "<post_title>from what bakery are the donuts in Succession?</post_title>\n<post_body>Succession is set in NYC (Manhattan, probably Financial District) and often includes props from real locations. these donuts are in s3e2 and i want them!</post_body>\n<thread_above>\n[1] another user: I used to visit a client (5+ years ago) that had offices in Brookfield plaza and sometimes we’d grab coffee at a French-ish place (I remember they also sold macaroons which I hate) and the packaging on the box vaguely reminds me of that place. I tired searching Yelp and couldn’t find a name than rings any bells, but they do have Sant Ambroeus in Brookfield which is about the same length as whatever is on the box logo. But I’m pretty sure they don’t sell donuts that look like that.\n</thread_above>\n<comment_to_extract>\nThis place. https://m.yelp.com/biz/financier-patisserie-new-york-28\n</comment_to_extract>",
+   "context": {
+    "title": "from what bakery are the donuts in Succession?",
+    "selftext": "Succession is set in NYC (Manhattan, probably Financial District) and often includes props from real locations. these donuts are in s3e2 and i want them!",
+    "ancestors": [
+     {
+      "author": "mxdalloway",
+      "body": "I used to visit a client (5+ years ago) that had offices in Brookfield plaza and sometimes we’d grab coffee at a French-ish place (I remember they also sold macaroons which I hate) and the packaging on the box vaguely reminds me of that place.\n\nI tired searching Yelp and couldn’t find a name than rings any bells, but they do have Sant Ambroeus in Brookfield which is about the same length as whatever is on the box logo. But I’m pretty sure they don’t sell donuts that look like that."
+     }
+    ],
+    "author": "STUPIDNEWCOMMENTS",
+    "body": "This place. https://m.yelp.com/biz/financier-patisserie-new-york-28",
+    "replies": [
+     {
+      "author": "mxdalloway",
+      "body": "Yes!! That was it! But I guess I was off with the logo/box being similar."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Financier Patisserie",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "suggested source",
+       "text": "Commenter links a Yelp page for Financier Patisserie as the answer to the donut box question; no verdict given"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "patisserie",
+      "donuts"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0533",
+   "comment_id": "t1_orne7q0",
+   "model_view": "<post_title author=\"you\">Best deli pickles in NYC (preferably near manhattan)</post_title>\n<post_body author=\"you\">Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!</post_body>\n<thread_above>\n[1] another user: I used to go to my neighborhood deli and get a free bucket of pickles with anything I ordered, like an actual bucket, paint can sized. Those were the days… It’s been about 4 years since that place closed and I still think about them. Otherwise I go to Liebmans, but I don’t particularly like any Manhattan based Delis, sorry. Jacob’s Pickles and The Pickle Guys are pretty famous but I’d honestly say their pickles are mid and not worth the time or money (because you would also usually order other food when visiting them too). If you’re purely going to delis for pickles, and not any other food, it might be easier to just pick up a jar from a market/store and eat them on a park bench with your fingers as god intended. Grillos pickles (while not kosher pickles) eaten cold in the sun, slaps.\n</thread_above>\n<comment_to_extract>\nA bucket of pickles sounds heavenly\n</comment_to_extract>",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [
+     {
+      "author": "guatemamaLF",
+      "body": "I used to go to my neighborhood deli and get a free bucket of pickles with anything I ordered, like an actual bucket, paint can sized. Those were the days… It’s been about 4 years since that place closed and I still think about them.\n\nOtherwise I go to Liebmans, but I don’t particularly like any Manhattan based Delis, sorry. \n\nJacob’s Pickles and The Pickle Guys are pretty famous but I’d honestly say their pickles are mid and not worth the time or money (because you would also usually order other food when visiting them too).\n\nIf you’re purely going to delis for pickles, and not any other food, it might be easier to just pick up a jar from a market/store and eat them on a park bench with your fingers as god intended. Grillos pickles (while not kosher pickles) eaten cold in the sun, slaps. "
+     }
+    ],
+    "author": "aalliias",
+    "body": "A bucket of pickles sounds heavenly ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0534",
+   "comment_id": "t1_l6l7z0j",
+   "model_view": "<post_title>Anyone ever go to Rockaway Queens for the seafood?</post_title>\n<post_body>Just curious if anyone ever enjoys going to that specific area of NYC as how do I put it? I feel like there is some good seafood found over there, but I don’t know how to explain it, but the little island has some wonderful dining spots.</post_body>\n<thread_above>\n[1] another user: I would rather go out further out into long island to get \"fresher\" seafood if I to pick a region of NYC for that.\n[2] OP: That’s fine as I respect your decision.\n[3] another user: Go to Astoria Seafood , Abuqir or Sabrys. I can vouch that everything’s super fresh and you get decent value\n[4] OP: Thanks as I can go there for that kind of food as I enjoy stuff like shrimp.\n</thread_above>\n<comment_to_extract>\nNYC has no local shrimp, so a restaurant's location has no impact on the freshness of shrimp. (Rare exceptions for those extremely few places that bring in, for example, sweet shrimp from Maine... but that's different.) I do wish more places served local seafood in general, but lots of customers don't know or appreciate the difference.\n</comment_to_extract>",
+   "context": {
+    "title": "Anyone ever go to Rockaway Queens for the seafood?",
+    "selftext": "Just curious if anyone ever enjoys going to that specific area of NYC as how do I put it? I feel like there is some good seafood found over there, but I don’t know how to explain it, but the little island has some wonderful dining spots.",
+    "ancestors": [
+     {
+      "author": "killerasp",
+      "body": "I would rather go out further out into long island to get \"fresher\" seafood if I to pick a region of NYC for that."
+     },
+     {
+      "author": "KaleidoArachnid",
+      "body": "That’s fine as I respect your decision."
+     },
+     {
+      "author": "grackychan",
+      "body": "Go to Astoria Seafood , Abuqir or Sabrys. I can vouch that everything’s super fresh and you get decent value"
+     },
+     {
+      "author": "KaleidoArachnid",
+      "body": "Thanks as I can go there for that kind of food as I enjoy stuff like shrimp."
+     }
+    ],
+    "author": "naranja_sanguina",
+    "body": "NYC has no local shrimp, so a restaurant's location has no impact on the freshness of shrimp. (Rare exceptions for those extremely few places that bring in, for example, sweet shrimp from Maine... but that's different.) I do wish more places served local seafood in general, but lots of customers don't know or appreciate the difference.",
+    "replies": [
+     {
+      "author": "KaleidoArachnid",
+      "body": "Oh I didn’t know that actually."
+     },
+     {
+      "author": "natty_points",
+      "body": "It’s worth seeking out [local royal red shrimp (eater article)](https://ny.eater.com/2024/4/23/24138326/royal-red-shrimp-dock-to-dish-greenpoint-fish-and-lobster-long-island) if you’re curious! They harvest off of Montauk."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0535",
+   "comment_id": "t1_ouzhcwi",
+   "model_view": "<post_title>What are a few of your fav restaurants/eateries that have permanently closed?</post_title>\n<post_body>A few of mine are: Gotham Bar&Grill, Arizona 206 and Mustang Grill</post_body>\n<comment_to_extract>\nMars 2112.  Devastated I was never old enough to sit at the bar before they closed\n</comment_to_extract>",
+   "context": {
+    "title": "What are a few of your fav restaurants/eateries that have permanently closed?",
+    "selftext": "A few of mine are: Gotham Bar&Grill, Arizona 206 and Mustang Grill",
+    "ancestors": [],
+    "author": "Beneficial_Size6913",
+    "body": "Mars 2112.  Devastated I was never old enough to sit at the bar before they closed ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mars 2112",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "never old enough to sit at the bar",
+       "text": "commenter was too young to sit at the bar before it closed"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "bar seating"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0536",
+   "comment_id": "t1_n5zihqf",
+   "model_view": "<post_title>Don Peppe. Very disappointing.</post_title>\n<post_body>People often point to Peter Luger as the #1 example of an iconic NYC restaurant coasting on its reputation, but at least at PL their burger is still one of the best in the city. All the food we ate at Don Peppe, including the shrimp cocktail, rigatoni with sausage, baked clams, and chicken parmigiana lacked flavor and was way too salty. The bread was also pathetic for an Italian restaurant. In my opinion, the portions were big, but not overwhelmingly big as advertised. The baked clams especially could easily be finished by one person. \n\nNot to mention that the waiter was so hostile and unfriendly that he seemed to believe that him getting a good tip was a given.</post_body>\n<thread_above>\n[1] another user: No shrimp Luciano? No chicken parm? No veal don peppe? Gotta admit that those clams are top tier at least\n</thread_above>\n<comment_to_extract>\nOP said they had the chicken parm.\n</comment_to_extract>",
+   "context": {
+    "title": "Don Peppe. Very disappointing.",
+    "selftext": "People often point to Peter Luger as the #1 example of an iconic NYC restaurant coasting on its reputation, but at least at PL their burger is still one of the best in the city. All the food we ate at Don Peppe, including the shrimp cocktail, rigatoni with sausage, baked clams, and chicken parmigiana lacked flavor and was way too salty. The bread was also pathetic for an Italian restaurant. In my opinion, the portions were big, but not overwhelmingly big as advertised. The baked clams especially could easily be finished by one person. \n\nNot to mention that the waiter was so hostile and unfriendly that he seemed to believe that him getting a good tip was a given. ",
+    "ancestors": [
+     {
+      "author": "Rare-Satisfaction-61",
+      "body": "No shrimp Luciano? No chicken parm? No veal don peppe? Gotta admit that those clams are top tier at least"
+     }
+    ],
+    "author": "Mr-Macphisto",
+    "body": "OP said they had the chicken parm.",
+    "replies": [
+     {
+      "author": "Rare-Satisfaction-61",
+      "body": "Correct. I got worked up and didn’t read lol"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Don Peppe",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0537",
+   "comment_id": "t1_o0ygykz",
+   "model_view": "<post_title>Viral Food that’s actually worth the hype?</post_title>\n<post_body>What goes in the center?</post_body>\n<thread_above>\n[1] another user: Katz\n[2] another user: is katz viral food? isnt it just a long-standing classic?\n[3] another user: Might have been viral recently. I was going to the gym around the corner (on the next corner over) and the line from katz was literally past the door\n[4] another user: It just gets like that sometimes, long before social media was omnipresent.\n</thread_above>\n<comment_to_extract>\nI never had to stand in line outside before COVID in probably a dozen visits over several years. Was I just lucky? It wasn’t immediate counter service, there would be lines at each cutter inside but never a line outside.\n</comment_to_extract>",
+   "context": {
+    "title": "Viral Food that’s actually worth the hype?",
+    "selftext": "What goes in the center? ",
+    "ancestors": [
+     {
+      "author": "benbraddock2002",
+      "body": "Katz"
+     },
+     {
+      "author": "NlNTENDO",
+      "body": "is katz viral food? isnt it just a long-standing classic?"
+     },
+     {
+      "author": "pvshabba",
+      "body": "Might have been viral recently. I was going to the gym around the corner (on the next corner over) and the line from katz was literally past the door"
+     },
+     {
+      "author": "Neckwrecker",
+      "body": "It just gets like that sometimes, long before social media was omnipresent."
+     }
+    ],
+    "author": "murmurinc",
+    "body": "I never had to stand in line outside before COVID in probably a dozen visits over several years. Was I just lucky? It wasn’t immediate counter service, there would be lines at each cutter inside but never a line outside.",
+    "replies": [
+     {
+      "author": "asyouwish-buttercup",
+      "body": "You were lucky. I remember standing outside at 1 in the morning in the 90s"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0538",
+   "comment_id": "t1_nbnkyvy",
+   "model_view": "<post_title>60 hours in NYC</post_title>\n<post_body>Hi! I’m from Montreal and me and my wife love NY! We have gone a few times and normally we fly but this time we decided to drive, we love eating and walking so here our adventure!\n\nSince there are too many places, feel free to ask questions on the comments, I’ll be answering all of them. I won’t be able to post photos of all or to comment too much on each, to not make this post longer than it will inevitably be.\n\n**Day 1**\n\nWe left Montreal at around 10am on Sunday, it is a 6 and a half our drive, so our first stop was after a 3 hours driving for gas and:\n\n- Starbucks + KFC. (Great fries, and KFC is a million times better in USA than in Canada)\n\nWe checked in to our hotel close to Times Square and started our food tour! All of it was walking, no metro, bus, taxi, etc.\n\n- Zeppola (Just for a pistachio croissant that we shared)\n\nTried my luck with 4 Charles which I had tried Rsv from a month before through 2 Cc concierges and resy without success, still no luck getting in. \n\n- Starbucks Reserve (Had the flight of martinis, really loved the different flavors)\n\n- L’Industrie (Great pizza, we had the whole pie to share) [Photo 1]\n\n- Magnolia Bakery (the OG to try their Oreo Banana Puddi ...</post_body>\n<comment_to_extract>\nno asian food? WOWWWWWW\n</comment_to_extract>",
+   "context": {
+    "title": "60 hours in NYC",
+    "selftext": "Hi! I’m from Montreal and me and my wife love NY! We have gone a few times and normally we fly but this time we decided to drive, we love eating and walking so here our adventure!\n\nSince there are too many places, feel free to ask questions on the comments, I’ll be answering all of them. I won’t be able to post photos of all or to comment too much on each, to not make this post longer than it will inevitably be.\n\n**Day 1**\n\nWe left Montreal at around 10am on Sunday, it is a 6 and a half our drive, so our first stop was after a 3 hours driving for gas and:\n\n- Starbucks + KFC. (Great fries, and KFC is a million times better in USA than in Canada)\n\nWe checked in to our hotel close to Times Square and started our food tour! All of it was walking, no metro, bus, taxi, etc.\n\n- Zeppola (Just for a pistachio croissant that we shared)\n\nTried my luck with 4 Charles which I had tried Rsv from a month before through 2 Cc concierges and resy without success, still no luck getting in. \n\n- Starbucks Reserve (Had the flight of martinis, really loved the different flavors)\n\n- L’Industrie (Great pizza, we had the whole pie to share) [Photo 1]\n\n- Magnolia Bakery (the OG to try their Oreo Banana Pudding.\n\n**Day 2**\n\n- Culture Espresso (Still my fav cookie in NY)\n- Cafe Leone\n- Sunday Morning (Amazing cinnamon rolls!)\n- King of Cannoli (4 mini-cannolis to go, the best was the og)\n- Golden Diner - 3 hour waitlist and it was an actual 3 hour wait. The pancakes and wings were amazing but wouldn’t wait again for 3 hours.\n- Matcha 108 (While waiting, great matcha!) [Photo 2]\n- La Mercerie (1 cookie to share, while waiting)\n- Peter Pan - By the time we arrived they didn’t have a lot of variety but they gave us a pastry for free since they didn’t take card and we had no cash, very nice lady!\n- La Gnoccheria ( Amazing fried gnocchi with truffle) [Photo 3]\n- Anita Gelato - to walk back to the hotel [Photo 4]\n\n**Day 3**\n\n- Popup Bagels (I found the salt bagel way too salty, but the everything was amazing) [Photo 5]\n\nAfter a 10k run in Central Park\n\n- Arabica %\n- Glace foodtruck (Shared that funny face cookie with ice cream)\n- 7th Street Burger (My first smash burger ever and I loved it)\n- mini Reese’s cup to share\n- Krispy Kreme (Trying the Harry Potter donuts, I loved the Revenclaw one! Nothing like a good classic American donut) [Photo 6]\n- Nathan’s Cart (Loaded fries were great)\n- Adele’s Famous (Still amazing food and the line wasn’t terrible)\n- Junior’s Cheesecake (Plain and Oreo, I liked both, but I if I had to choose it would be Oreo)\n\n**Day 4**\n\n- Gumption Coffee\n- Los tacos No.1 food cart (“the Donkey”) [Photo 7] \n- I’m Donut ? (Great donuts with a twist!)\n\nChecked out from the hotel at noon and on our way driving off the city picked up:\n\n- Levain (Second favorite cookie in NY, it’s also massive) [Photo 8]\n- Mama’s Too [Photo 9]\n\nWill be back soon to try more new places and return to my favs! \n ",
+    "ancestors": [],
+    "author": "trickedx5",
+    "body": "no asian food? WOWWWWWW",
+    "replies": [
+     {
+      "author": "Viktordarko",
+      "body": "On our trip in December we did pecking house and this trip only golden diner for some Korean wings and pancakes. Had great matcha too, but definitely need more Asian on the next trip. Where do you recommend?"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0539",
+   "comment_id": "t1_nlehol4",
+   "model_view": "<post_title>A Brit's first time</post_title>\n<post_body>Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.</post_body>\n<comment_to_extract>\n<quote>Also, if you've got any suggestions of must-do experiences whilst in the city for the first time</quote>\n\nWhat do you like?  There's no one-size-fits all itinerary.\n</comment_to_extract>",
+   "context": {
+    "title": "A Brit's first time",
+    "selftext": "Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.",
+    "ancestors": [],
+    "author": "president_of_burundi",
+    "body": ">Also, if you've got any suggestions of must-do experiences whilst in the city for the first time\n\nWhat do you like?  There's no one-size-fits all itinerary.",
+    "replies": [
+     {
+      "author": "snakesandladders212",
+      "body": "Good point! Obviously want to see the sights so I've booked us on a bus tour of downtown. Also booked a walking tour of Central Park. When we visit London, we like to look at street art around Shoreditch so I'm looking for something similar. Any suggestions of museums or galleries would be good. Or anything off the beaten path. As a Manhatten, how do you enjoy the city?"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0540",
+   "comment_id": "t1_k56rx8k",
+   "model_view": "<post_title>Spots to hit for wine and appetizers in Prospect Heights?</post_title>\n<post_body>I biked down Vanderbilt Ave a fair bit this summer and it always looked like there were some interesting restaurants there.  My wife and I want to go out in that area for a couple drinks and apps or small plates.  Looking for 3 or 4 spots that would have a decent wine or beer, some good apps or plates, and maybe spread out a bit so we can do a little walking en route too.\n\nIdeally places that would make it worth us making the trip from Astoria?  Either good food, or really nice ambiance?\n\nI don't know the neighborhood that well but say, anything between Vanderbilt and Nostrand?</post_body>\n<thread_above>\n[1] another user: Place des Fêtes, great wire bar from the Oxalis team\n[2] another user: Just remembered another solid spot: https://www.margotbrooklyn.com/\n</thread_above>\n<comment_to_extract>\nneither of these are in PH haha\n</comment_to_extract>",
+   "context": {
+    "title": "Spots to hit for wine and appetizers in Prospect Heights?",
+    "selftext": "I biked down Vanderbilt Ave a fair bit this summer and it always looked like there were some interesting restaurants there.  My wife and I want to go out in that area for a couple drinks and apps or small plates.  Looking for 3 or 4 spots that would have a decent wine or beer, some good apps or plates, and maybe spread out a bit so we can do a little walking en route too.\n\nIdeally places that would make it worth us making the trip from Astoria?  Either good food, or really nice ambiance?\n\nI don't know the neighborhood that well but say, anything between Vanderbilt and Nostrand?",
+    "ancestors": [
+     {
+      "author": "4td1game",
+      "body": "Place des Fêtes, great wire bar from the Oxalis team"
+     },
+     {
+      "author": "4td1game",
+      "body": "Just remembered another solid spot: https://www.margotbrooklyn.com/"
+     }
+    ],
+    "author": "mb389",
+    "body": "neither of these are in PH haha",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0541",
+   "comment_id": "t1_o6hxdke",
+   "model_view": "<post_title>The Best Dumplings in NYC are in an abandoned mall</post_title>\n<post_body>If you have not yet tried Fu Zhou Wei Zhong Wei Jia Xiang Feng Wei you need to immediately for the best friend dumplings and pork buns you’ll ever have. If you pardon the ambiance you’ll see them making everything by had and PACKING those buns with flavor. 100/10 recommend. \n\nEater.com/23598627/fu-zhao-wei-zhong-dumplings-chinatown-mall</post_body>\n<comment_to_extract>\nYes - these dumplings are best in the city (actually, I’m a gatekeeping asshole and happy for traffic to grow at this spot instead - my fave is busy enough as it is!)\n</comment_to_extract>",
+   "context": {
+    "title": "The Best Dumplings in NYC are in an abandoned mall",
+    "selftext": "If you have not yet tried Fu Zhou Wei Zhong Wei Jia Xiang Feng Wei you need to immediately for the best friend dumplings and pork buns you’ll ever have. If you pardon the ambiance you’ll see them making everything by had and PACKING those buns with flavor. 100/10 recommend. \n\nEater.com/23598627/fu-zhao-wei-zhong-dumplings-chinatown-mall",
+    "ancestors": [],
+    "author": "jagarico",
+    "body": "Yes - these dumplings are best in the city (actually, I’m a gatekeeping asshole and happy for traffic to grow at this spot instead - my fave is busy enough as it is!)",
+    "replies": [
+     {
+      "author": "nilas_november",
+      "body": "So then ur fave probably isn't a gate kept secret lmao I dont understand ppl gate keeping"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Fu Zhou Wei Zhong Wei Jia Xiang Feng Wei",
+     "named_in": "context",
+     "kind": "market_stall",
+     "location": "Chinatown mall",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "dumplings",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "fave joke",
+       "text": "Jokingly says they'd rather traffic not grow because it's already busy enough as their favorite"
+      }
+     ],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "dumplings",
+      "chinatown"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0542",
+   "comment_id": "t1_ox6u9r5",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n[1] another user: People are just doing it themselves more\n[2] OP: I care more about their vegan soft serve\n[3] another user: Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off.... Vegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan. You dont see the Jain monks eating tofurkey. They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!\n</thread_above>\n<comment_to_extract>\nNo hate, flamewars, rude comments, etc\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!"
+     }
+    ],
+    "author": "FoodNYC-ModTeam",
+    "body": "No hate, flamewars, rude comments, etc",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0543",
+   "comment_id": "t1_ng1gdoe",
+   "model_view": "<post_title>Cote</post_title>\n<post_body>Went to Cote for my friends birthday (guy who won't eat sushi),I loved it.  We do a monthly supper club and these guys are meat and potatoes folks, so I try and make them eat adventurous stuff (not that Korean bbq is adventurous).  \n\nI thought the butchers feast was a really good deal.  My friends usually won't eat many vegetables but they loved the sides (scallion, okra, pickled cauliflower).  I didn't know they will bring you more of the sides if you want, and they gave my friends like 3 servings each of the dessert too.  I was stoked to see my meat eating friends loving vegetables.  I even convinced them to do the leaf wrap which they loved too.\n\nI know the place gets flak, but $78 for all that food is actually a good deal.  We did get the wagyu which was the best bite, and I think wagyu is kind of overrated.</post_body>\n<comment_to_extract>\nI’m Korean and from LA. Cote is quite good and serves traditional Korean but in a modern environment. It works.\n\nCocodaq though is an abomination and should be burned to the ground.\n</comment_to_extract>",
+   "context": {
+    "title": "Cote",
+    "selftext": "Went to Cote for my friends birthday (guy who won't eat sushi),I loved it.  We do a monthly supper club and these guys are meat and potatoes folks, so I try and make them eat adventurous stuff (not that Korean bbq is adventurous).  \n\nI thought the butchers feast was a really good deal.  My friends usually won't eat many vegetables but they loved the sides (scallion, okra, pickled cauliflower).  I didn't know they will bring you more of the sides if you want, and they gave my friends like 3 servings each of the dessert too.  I was stoked to see my meat eating friends loving vegetables.  I even convinced them to do the leaf wrap which they loved too.\n\nI know the place gets flak, but $78 for all that food is actually a good deal.  We did get the wagyu which was the best bite, and I think wagyu is kind of overrated.",
+    "ancestors": [],
+    "author": "Seo_Coach",
+    "body": "I’m Korean and from LA. Cote is quite good and serves traditional Korean but in a modern environment. It works.\n\nCocodaq though is an abomination and should be burned to the ground. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Cote",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "korean",
+      "modern korean"
+     ]
+    },
+    {
+     "name": "Cocodaq",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "korean"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0544",
+   "comment_id": "t1_owmaom5",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n(1 earlier comments not shown)\n[1] OP: I care more about their vegan soft serve\n[2] you, earlier: Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off.... Vegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan. You dont see the Jain monks eating tofurkey. They eat food that is naturally vegan ...\n[3] another user: vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb.\n[4] you, earlier: It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions ma ...\n[5] another user: Get off your soap box. There are traditional meat substitutes around the world, like mock meats and mock fish that are a part of Chinese Buddhist cuisine. Who gives a fuck if people call an oat beverage \"oat milk\"? So vegans are not allowed to say \"vegan cheese\", but having to say \"vegan cheese substitute\" would be fine? You're a purist with food, but you're ok with the nugget-shaped pink slime McDonalds sells is allowed to be called chicken?? When did being a chef make you the police of what people call things that it sounds like you don't even eat.\n</thread_above>\n<comment_to_extract>\nFirst off, McNuggets with their honey is bomb. Its far from chicken though lol.\n\nTo say again...my main problem is the marketing around it and this weird sense of pretending to be a meat eater. Veggie burgers are fine...why eat that factory made ImpossibleBurger? Its just so bizarre. Eat lentils. Eat eggplant. Eat quinoa. Wtf is imitation burgers?\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!"
+     },
+     {
+      "author": "mycateatstoenails",
+      "body": "vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb. "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\"  Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it.\n\nRespectfully, a chef."
+     },
+     {
+      "author": "jaded_toast",
+      "body": "Get off your soap box. There are traditional meat substitutes around the world, like mock meats and mock fish that are a part of Chinese Buddhist cuisine. Who gives a fuck if people call an oat beverage \"oat milk\"? So vegans are not allowed to say \"vegan cheese\", but having to say \"vegan cheese substitute\" would be fine?\n\nYou're a purist with food, but you're ok with the nugget-shaped pink slime McDonalds sells is allowed to be called chicken??\n\nWhen did being a chef make you the police of what people call things that it sounds like you don't even eat. "
+     }
+    ],
+    "author": "SpongeyBobaruu",
+    "body": "First off, McNuggets with their honey is bomb. Its far from chicken though lol.\n\nTo say again...my main problem is the marketing around it and this weird sense of pretending to be a meat eater. Veggie burgers are fine...why eat that factory made ImpossibleBurger? Its just so bizarre. Eat lentils. Eat eggplant. Eat quinoa. Wtf is imitation burgers? ",
+    "replies": [
+     {
+      "author": "jaded_toast",
+      "body": "It doesn't affect you, so why do you care so much? People always complain about vegans trying to sanctimoniously trying to convert others, but I have never heard any vegan/vegetarians speak with the antagonism of the average meat eater speaks about plant-based diets - like you.\n\nIf someone wants to eat impossible instead of lentils or eggplant, who gives a fuck? Let them live their lives. You don't like it, then don't eat it. Again, it literally doesn't affect you what other people want to eat."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0545",
+   "comment_id": "t1_oh61yef",
+   "model_view": "<post_title>4 days eating through NYC</post_title>\n<post_body>1) Zabars for a simple bagel lox \n\nThis was quite good and the lox was amazing. It was also cool to walk around the store and explore the bakery.\n\n2) lunch at torrisi\n\nThe tortellini pomodoro is so simple and delicious. We went 30 minutes before opening. Service was great and all the dishes were really polished. I would definitely go back.\n\n3) Dinner at Kabawa\n\nThe pepper shrimp and goat were the highlights. I do agree with the sentiment from this sub that this place is slightly overpriced but I still enjoyed my meal here.\n\n4) Lunch at The Modern Kitchen Table\n\nReally fun experience at the kitchen table. Everything was good but this eggs on eggs on eggs dish was the real standout.\n\n5) Dinner at Penny\n\nLoved this spot and the seafood is really well done. I have to say besides the icebox I didn’t LOVE the other dishes we ordered but the seafood is really high quality and delicious.\n\n6) Pizza at Lucky Charlie’s \n\nThis was an interesting pizza as it had awesome char and crisp but also felt top heavy and wet at times? I think i prefer dry mozzarella over fresh mozzarella but still an enjoyable pizza. Not sure I’d wait an hour or go to bushwick again though but glad I tried it.\n\nNOT PICT ...</post_body>\n<thread_above>\n[1] you, earlier: Damn. This is a spendy weekend.\n[2] OP: We were celebrating getting married!\n</thread_above>\n<comment_to_extract>\nPhenomenal choices. I've been to the Modern more times than I can count but I haven't ever eaten at the Kitchen Table. Looks really fun.\n</comment_to_extract>",
+   "context": {
+    "title": "4 days eating through NYC",
+    "selftext": "1) Zabars for a simple bagel lox \n\nThis was quite good and the lox was amazing. It was also cool to walk around the store and explore the bakery.\n\n2) lunch at torrisi\n\nThe tortellini pomodoro is so simple and delicious. We went 30 minutes before opening. Service was great and all the dishes were really polished. I would definitely go back.\n\n3) Dinner at Kabawa\n\nThe pepper shrimp and goat were the highlights. I do agree with the sentiment from this sub that this place is slightly overpriced but I still enjoyed my meal here.\n\n4) Lunch at The Modern Kitchen Table\n\nReally fun experience at the kitchen table. Everything was good but this eggs on eggs on eggs dish was the real standout.\n\n5) Dinner at Penny\n\nLoved this spot and the seafood is really well done. I have to say besides the icebox I didn’t LOVE the other dishes we ordered but the seafood is really high quality and delicious.\n\n6) Pizza at Lucky Charlie’s \n\nThis was an interesting pizza as it had awesome char and crisp but also felt top heavy and wet at times? I think i prefer dry mozzarella over fresh mozzarella but still an enjoyable pizza. Not sure I’d wait an hour or go to bushwick again though but glad I tried it.\n\nNOT PICTURED:\n\n7th St burger Late Night: great late night option\n\nBrooklyn DOP slices in Park Slope was excellent\n\nMariscos Submarino in Park Slope: coming from LA I didn’t LOVE the tacos but the aguachiles was a pleasant surprise and well done I thought \n\nBrooklyn Crab in Red Hook: really fun environment on a nice sunny day, I thought the fish and chips and lobster roll were solid here, nothing crazy.\n\nOverall another really successful long weekend of eating in the city concentrated in Manhattan and Brooklyn. Hopefully the next trip we’ll be looking to explore queens and some more ethnic cuisines. Let me know if yall have any good recs for me, especially for non hyped places that really care about food and ingredients.",
+    "ancestors": [
+     {
+      "author": "Dammit_Jim",
+      "body": "Damn. This is a spendy weekend. "
+     },
+     {
+      "author": "CapOnBrimBent",
+      "body": "We were celebrating getting married! "
+     }
+    ],
+    "author": "Dammit_Jim",
+    "body": "Phenomenal choices. I've been to the Modern more times than I can count but I haven't ever eaten at the Kitchen Table. Looks really fun.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "The Modern",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "Kitchen Table",
+       "text": "Commenter has never eaten at the Kitchen Table room but says it looks really fun"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "kitchen table"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0546",
+   "comment_id": "t1_kol5c29",
+   "model_view": "<post_title>NYC food is the best</post_title>\n<post_body>I live in Manhattan and took a work trip to Vegas for a week recently and the food was simply just disappointing. \n\nI even ate at some pretty famous places and it just didn't compare to the flavor and overall quality of my favorite NYC spots. \n\nI guess I'm just spoiled, but it's hard to beat my favorite food.</post_body>\n<thread_above>\n[1] another user: There is a permanently high, and currently increasing, amount of BS one has to tolerate to live here, and many things are getting worse, not better -- but happily the food remains incredible and unparalleled.\n[2] OP: My job would have a wayyyy lower salary somewhere else. And living costs are getting expensive everywhere. It's hard to win unless you live on your parents land in the middle of the woods for zero dollars.\n</thread_above>\n<comment_to_extract>\ni keep hearing about how rent in random places are basically at southern brooklyn levels. That there are people anywhere in Florida or even near Atlanta paying what I did for rent in Bay Ridge is baffling to me. alaandlorfs are greedy wverywhere, regardless of location. Might as well live here at that point, and get the bump in pay to make it easier to pay it.\n</comment_to_extract>",
+   "context": {
+    "title": "NYC food is the best",
+    "selftext": "I live in Manhattan and took a work trip to Vegas for a week recently and the food was simply just disappointing. \n\nI even ate at some pretty famous places and it just didn't compare to the flavor and overall quality of my favorite NYC spots. \n\nI guess I'm just spoiled, but it's hard to beat my favorite food.",
+    "ancestors": [
+     {
+      "author": "ricosabre",
+      "body": "There is a permanently high, and currently increasing, amount of BS one has to tolerate to live here, and many things are getting worse, not better -- but happily the food remains incredible and unparalleled."
+     },
+     {
+      "author": "Shoddy_Reveal5789",
+      "body": "My job would have a wayyyy lower salary somewhere else. And living costs are getting expensive everywhere. It's hard to win unless you live on your parents land in the middle of the woods for zero dollars."
+     }
+    ],
+    "author": "Master-Opportunity25",
+    "body": "i keep hearing about how rent in random places are basically at southern brooklyn levels. That there are people anywhere in Florida or even near Atlanta paying what I did for rent in Bay Ridge is baffling to me. alaandlorfs are greedy wverywhere, regardless of location. Might as well live here at that point, and get the bump in pay to make it easier to pay it.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0547",
+   "comment_id": "t1_p4ai0t6",
+   "model_view": "<post_title>De-influence or influence my NYC Bakery Wishlist, Please!</post_title>\n<post_body>During my last trip to NY, I prioritized visiting bakeries and got more than I could eat in a few days. On this 3-day trip, I'd like to keep it reasonable, but l am having a hard time choosing where to go. My favorite types of baked goods are cakes and (soft and/or chewy) cookies. I like unique flavor options for cakes. While I do enjoy laminated pastries, I have learned they aren't my preference, especially without exciting flavors. With that, what would you recommend from my list for a 3-day trip? What is a skip? I'm open to repeating bakeries! I'll also take suggestions, and I'd love more bakeries in the Bronx and Queens too. Luckily, I'll be visiting again in 2 months.\n\nHave been:  \nRed Gate Bakery (favorite, loved...randomly stumbled upon the shop)  \nKora (loved)  \nJanie's Life Changing Baked Goods (loved)  \nLevain (indifferent)  \nHani's (want to try again)  \nBKLYN Larder (indifferent)  \nRadio Bakery (OK, underwhelming)  \nFrom Lucie (did not enjoy, seemed flavorless to me)  \nMaman (did not enjoy, crunchy cookie)\n\nHaven't Visited Yet:  \nLittle Flower Cafe  \nBench Flour Bakers  \nSupermoon Bakehouse  \nDiljān Bakery  \nBirdee  \nLibrae  \nSaint Street Cakes  \nByClio Bakery  \nClaude B ...</post_body>\n<comment_to_extract>\nLibrae is a must! Their pistachio rose croissant tastes like a piece of Turkish baklava. \n\nUnless you’re staying in Astoria, Bench Flour and Little Flower are not worth it. I didn’t love Diljan, either, which I was very upset about.\n</comment_to_extract>",
+   "context": {
+    "title": "De-influence or influence my NYC Bakery Wishlist, Please!",
+    "selftext": "During my last trip to NY, I prioritized visiting bakeries and got more than I could eat in a few days. On this 3-day trip, I'd like to keep it reasonable, but l am having a hard time choosing where to go. My favorite types of baked goods are cakes and (soft and/or chewy) cookies. I like unique flavor options for cakes. While I do enjoy laminated pastries, I have learned they aren't my preference, especially without exciting flavors. With that, what would you recommend from my list for a 3-day trip? What is a skip? I'm open to repeating bakeries! I'll also take suggestions, and I'd love more bakeries in the Bronx and Queens too. Luckily, I'll be visiting again in 2 months.\n\nHave been:  \nRed Gate Bakery (favorite, loved...randomly stumbled upon the shop)  \nKora (loved)  \nJanie's Life Changing Baked Goods (loved)  \nLevain (indifferent)  \nHani's (want to try again)  \nBKLYN Larder (indifferent)  \nRadio Bakery (OK, underwhelming)  \nFrom Lucie (did not enjoy, seemed flavorless to me)  \nMaman (did not enjoy, crunchy cookie)\n\nHaven't Visited Yet:  \nLittle Flower Cafe  \nBench Flour Bakers  \nSupermoon Bakehouse  \nDiljān Bakery  \nBirdee  \nLibrae  \nSaint Street Cakes  \nByClio Bakery  \nClaude Bakery",
+    "ancestors": [],
+    "author": "Financial_Clock_5016",
+    "body": "Librae is a must! Their pistachio rose croissant tastes like a piece of Turkish baklava. \n\nUnless you’re staying in Astoria, Bench Flour and Little Flower are not worth it. I didn’t love Diljan, either, which I was very upset about. ",
+    "replies": [
+     {
+      "author": "Financial_Clock_5016",
+      "body": "OH would like to add Bread Story on 1st ave. I’m obsessed with their olive loaf & whatever laminated pastries they sell "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Librae",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pistachio rose croissant",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Bench Flour Bakers",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "exception",
+       "text": "Not worth it unless you're staying in Astoria"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Little Flower Cafe",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "exception",
+       "text": "Not worth it unless you're staying in Astoria"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Diljan Bakery",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0548",
+   "comment_id": "t1_omzt4s3",
+   "model_view": "<post_title>The “Variety Burger” at Hearth in the East Village</post_title>\n<post_body>VARIETY BURGER  \ngrass-fed beef brisket, liver, heart & bone marrow with caramelized onions & fontina on a sesame milk bun, served with beef fat-fried potatoes\n\nI am shocked this is not on the top of any lists of best burgers in the City.  The smoky beefy flavor comes through naturally from a wild and incredibly varied blend of cuts that are masterfully blended with the perfect onions and choice of cheese, toasted home made bun, beef tallow fries… just incredible.  I was too mesmerized to capture the cross-section.</post_body>\n<comment_to_extract>\nI want to try it but do you get the option of temperature? It was featured in an Eater video with the una napoleon pizza guy and it was sickeningly rare.\n</comment_to_extract>",
+   "context": {
+    "title": "The “Variety Burger” at Hearth in the East Village",
+    "selftext": "VARIETY BURGER  \ngrass-fed beef brisket, liver, heart & bone marrow with caramelized onions & fontina on a sesame milk bun, served with beef fat-fried potatoes\n\nI am shocked this is not on the top of any lists of best burgers in the City.  The smoky beefy flavor comes through naturally from a wild and incredibly varied blend of cuts that are masterfully blended with the perfect onions and choice of cheese, toasted home made bun, beef tallow fries… just incredible.  I was too mesmerized to capture the cross-section. ",
+    "ancestors": [],
+    "author": "dannydevitosmanager",
+    "body": "I want to try it but do you get the option of temperature? It was featured in an Eater video with the una napoleon pizza guy and it was sickeningly rare. ",
+    "replies": [
+     {
+      "author": "scarstring",
+      "body": "Mine was served as a perfect medium but I appreciated the char, maybe with a touch of pink deep in the middle of the whole patty.  My friend’s was a medium rare plus with just the right amount of pink to make one appreciate the quality of the meat without emitting any pink myoglobin, haha to get scientific.  I think they put it to a scorching fire and the beef was premium and fresh.  It crumbled in the just the right size chunks and mouthfeel, it was truly delicious and tastefully done.  For 27 dollars these days with a sea of average burger just a couple bucks below that price point, this one is absolutely worth being considered truly top-tier.  "
+     },
+     {
+      "author": "Purple-Mix1033",
+      "body": "Mine was a more on the well done side - still good, even though I asked for medium rare"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Hearth",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "East Village",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "Variety Burger",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "temperature",
+       "text": "Asks whether the burger can be ordered at a chosen temperature"
+      },
+      {
+       "about": "Eater video",
+       "text": "Burger was featured in an Eater video with the una napoleon pizza guy, where it looked sickeningly rare"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "burger"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0549",
+   "comment_id": "t1_omzrcs0",
+   "model_view": "<post_title>Trying to decide if Carbone is worth it for lunch?</post_title>\n<post_body>I snagged a lunch reservation for Carbone and I’m trying to decide if it lives up to its hype. It would be taking a tween during a vacation. We would be dressed nice but casual (think dark jean, sweater (this weekend is cold) and Nikes. \n\nWould our attire be alright?\n\nUltimately, is it worth the hype?</post_body>\n<comment_to_extract>\nTake them to parm same menu for the pasta & more casual\n</comment_to_extract>",
+   "context": {
+    "title": "Trying to decide if Carbone is worth it for lunch?",
+    "selftext": "I snagged a lunch reservation for Carbone and I’m trying to decide if it lives up to its hype. It would be taking a tween during a vacation. We would be dressed nice but casual (think dark jean, sweater (this weekend is cold) and Nikes. \n\nWould our attire be alright?\n\nUltimately, is it worth the hype? ",
+    "ancestors": [],
+    "author": "Grand-Economist5066",
+    "body": "Take them to parm same menu for the pasta & more casual ",
+    "replies": [
+     {
+      "author": "Jog212",
+      "body": "The last 2 times I went to parm it was lousy.   It wasn't slightly off.  It was very bad.   Service, quality both bad.   Chicken was totally over cooked. "
+     },
+     {
+      "author": "bearleft4",
+      "body": "This \\^"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Parm",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pasta",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "alternative to Carbone",
+       "text": "same menu as Carbone, more casual; suggested for a tween visit"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "casual",
+      "italian-american",
+      "tween-friendly"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0550",
+   "comment_id": "t1_p7c0wq7",
+   "model_view": "<post_title>The combination Pizza Hut and Applebees coming to Times Square aka The Smith/Parla</post_title>\n<post_body>Whispers about this happening for years.</post_body>\n<thread_above>\n[1] another user: “It’s the restaurant Gotham deserves, but not the one it needs” - Lieutenant James Gordon\n[2] another user: you people were just glazing 4 Charles and Monkey Bar a day ago and I'm looking at the menu and it's an 80% overlap. \"but but I'm too good for fancy Applebee's!!\"\n[3] another user: Same clowns complaining about Taco Bell prices.\n</thread_above>\n<comment_to_extract>\nIf im going to lick a chalupa im not paying for it, kapeesh? 🤌\n</comment_to_extract>",
+   "context": {
+    "title": "The combination Pizza Hut and Applebees coming to Times Square aka The Smith/Parla",
+    "selftext": "Whispers about this happening for years. ",
+    "ancestors": [
+     {
+      "author": "Garconavecunreve",
+      "body": "“It’s the restaurant Gotham deserves, but not the one it needs” - Lieutenant James Gordon "
+     },
+     {
+      "author": "wgdaytona",
+      "body": "you people were just glazing 4 Charles and Monkey Bar a day ago and I'm looking at the menu and it's an 80% overlap. \n\n\"but but I'm too good for fancy Applebee's!!\""
+     },
+     {
+      "author": "d3arleader",
+      "body": "Same clowns complaining about Taco Bell prices."
+     }
+    ],
+    "author": "KittyInspector3217",
+    "body": "If im going to lick a chalupa im not paying for it, kapeesh? 🤌",
+    "replies": []
+   },
+   "shown": []
+  }
+ ]
+}

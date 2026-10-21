@@ -1,6 +1,6 @@
 -- v6 extraction storage: the v6 columns on mentions, post mentions, the v6
--- cursor, the batch ledger, and the one switch that says which mentions the
--- board reads.
+-- cursor, the batch ledger, the one switch that says which mentions the
+-- board reads, and thread mode's chunk record (extract_chunks, last).
 --
 --   psql "$DATABASE_URL" -f extract_v6_schema.sql
 --
@@ -252,6 +252,54 @@ begin
                                      and s.prompt_hash = m.prompt_hash)
             else m.schema_version is null
           end;
+  end if;
+end $$;
+-- Thread mode (extract_v6.py --mode thread) sends a post and up to about 25
+-- of its comments as one request. Every item still gets its own
+-- extraction_state row; this table keeps what the request itself was: which
+-- items it numbered, which comments it quoted as context, the model's whole
+-- answer (so a mention's attribution can be checked against it later), the
+-- usage, the cost and the batch it went in. members is in bracket order: the
+-- thread id first when the post was item [0] (post_item), then the comments
+-- as numbered. It is also the retry queue: a chunk that fails is split in
+-- half and the halves wait here as 'queued' until a run sends them; a half
+-- that fails too is 'failed' with fallback set, and its items go out one at a
+-- time in comment and post mode instead. A new table, so creating it takes no
+-- lock anything else waits on.
+create table if not exists extract_chunks (
+  id           text primary key,          -- 'ch-' + 32 hex digits; the batch request's custom_id
+  version      text not null,
+  thread_id    text not null,
+  prompt_hash  text not null,
+  effort       text not null,
+  post_item    boolean not null default false,
+  members      text[] not null,
+  context_ids  text[] not null default '{}',
+  generation   smallint not null default 0,   -- 0 as chunked, 1 a half of a chunk that failed
+  split_from   text,
+  status       text not null default 'queued'
+               check (status in ('queued', 'batched', 'done', 'failed', 'dropped')),
+  fallback     boolean not null default false,
+  batch_id     text,
+  error        text,
+  bad_ids      int,                        -- mentions dropped because their id names no item
+  output       jsonb,                      -- the model's whole answer
+  usage        jsonb,
+  cost_usd     numeric(12, 8),
+  created_at   timestamptz not null default now(),
+  updated_at   timestamptz not null default now(),
+  finished_at  timestamptz
+);
+-- Checked in the catalog first, like every index in this file: CREATE INDEX
+-- IF NOT EXISTS takes its SHARE lock before it notices the index is there.
+do $$
+begin
+  perform set_config('lock_timeout', '5s', true);
+  if to_regclass('extract_chunks_batch_idx') is null then
+    create index extract_chunks_batch_idx on extract_chunks(batch_id) where batch_id is not null;
+  end if;
+  if to_regclass('extract_chunks_open_idx') is null then
+    create index extract_chunks_open_idx on extract_chunks(thread_id) where status = 'queued' or fallback;
   end if;
 end $$;
 -- v6-extraction-schema:end

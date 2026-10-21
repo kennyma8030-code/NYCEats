@@ -1,0 +1,1289 @@
+{
+ "packet": "p028",
+ "items": [
+  {
+   "item_id": "R0676",
+   "comment_id": "t1_p6549gx",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<comment_to_extract>\nEverything from Mama's Too does not miss, but I always need to get a vodka slice when I go there.\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Mak_daddy623",
+    "body": "Everything from Mama's Too does not miss, but I always need to get a vodka slice when I go there.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "vodka slice",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "slice shop",
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0677",
+   "comment_id": "t1_jctt0m1",
+   "model_view": "<post_title>Carbone Reservation experience</post_title>\n<post_body>So just wanted to share my little insight on trying to “Get a res” at the infamous Carbone.\n\nIt’s one of the most precocious little systems I’ve ever seen.\n\nBack in Feb I wanted for my SOs birthday.\nI noticed it was through Resy and thought this actually might be a tidy experience, outsourcing the whole mess to a third party.\n\nAccording to them the Resy calendar opens up @ 10am and runs avails up to one month in advance. Perfect, I thought.\n\nSo next day I hop on, 10am ready and waiting. Except by that time reservations it turns out are not open. Confused I wait thirty minutes to see if does and finally give up wasting my time refreshing. I even check to see if Carbone is closed or something.\n\nAt 12 out of curiosity I glance back at the site and sure enough the res had opened and were totally filled. So at some point between 10:30 and 12 it came back online. \n\nWary of this I try again the next day and for the entirety of that day, the res never turns on. At all.\n\nWhich leads me to believe that someone is manually switching it on and off which is strange since I originally thought with it being Resy the whole thing was just automated, like a ticket sales website or something.\n\nIt tur ...</post_body>\n<thread_above>\n[1] you, earlier: I'd like to try Carbone but I'm completely uninterested in dealing with this shit so I'll keep kicking the can down the road. I don't need to work so hard to give someone my money.\n[2] another user: Reflecting your and others’ comments, I’ve never found any restaurant worth those kinds of velvet-rope shenanigans. The truly great places (Daniel, The Four Seasons and Lutece way back when, etc.) have utterly scrutable ways of getting in. Also, just gotta say it: Any place that’s opening up outposts in Vegas is already too cardboard and mechanical to be worth a frustrating runaround in Manhattan.\n</thread_above>\n<comment_to_extract>\nYour second paragraph is exactly what I was thinking too 😂 killed any leftover desire to go to Carbone tbh\n</comment_to_extract>",
+   "context": {
+    "title": "Carbone Reservation experience",
+    "selftext": "So just wanted to share my little insight on trying to “Get a res” at the infamous Carbone.\n\nIt’s one of the most precocious little systems I’ve ever seen.\n\nBack in Feb I wanted for my SOs birthday.\nI noticed it was through Resy and thought this actually might be a tidy experience, outsourcing the whole mess to a third party.\n\nAccording to them the Resy calendar opens up @ 10am and runs avails up to one month in advance. Perfect, I thought.\n\nSo next day I hop on, 10am ready and waiting. Except by that time reservations it turns out are not open. Confused I wait thirty minutes to see if does and finally give up wasting my time refreshing. I even check to see if Carbone is closed or something.\n\nAt 12 out of curiosity I glance back at the site and sure enough the res had opened and were totally filled. So at some point between 10:30 and 12 it came back online. \n\nWary of this I try again the next day and for the entirety of that day, the res never turns on. At all.\n\nWhich leads me to believe that someone is manually switching it on and off which is strange since I originally thought with it being Resy the whole thing was just automated, like a ticket sales website or something.\n\nIt turns out also that unlike say Fandango or Ticketmaster or any other site, Resy does NOT hold the reservation you are making as you place the Order. Meaning you can click through the access your reservation but if someone moves faster, they can take from you as you reserve it.\n\nI finally got one long story short but I would give anything to know who is really running that res thing because I absolutely believe they are trying to fuck with people. Somehow the wonky launch times must be some way to offset people sitting waiting to get one, it’s just frustrating there is no sure fire method to plan toward to get it.\n\nAnd yes, I know- the hassle is simply not worth it, but what can I say , it was on the bucket list. Being disappointed in Carbone is just part of the New York experience.",
+    "ancestors": [
+     {
+      "author": "curiiouscat",
+      "body": "I'd like to try Carbone but I'm completely uninterested in dealing with this shit so I'll keep kicking the can down the road. I don't need to work so hard to give someone my money."
+     },
+     {
+      "author": "GoliathGrouper_0417",
+      "body": "Reflecting your and others’ comments, I’ve never found any restaurant worth those kinds of velvet-rope shenanigans. The truly great places (Daniel, The Four Seasons and Lutece way back when, etc.) have utterly scrutable ways of getting in. \n\nAlso, just gotta say it: Any place that’s opening up outposts in Vegas is already too cardboard and mechanical to be worth a frustrating runaround in Manhattan."
+     }
+    ],
+    "author": "curiiouscat",
+    "body": "Your second paragraph is exactly what I was thinking too 😂 killed any leftover desire to go to Carbone tbh",
+    "replies": [
+     {
+      "author": "GoliathGrouper_0417",
+      "body": "Yeah, you stirred my latent bleechh. I think I first figured this out 15 years ago when I was in Nassau, Bahamas and a group wanted to go to Nobu on Paradise Island. Cured me of Nobu and the Bahamas."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Carbone",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reservations",
+       "text": "Commenter lost interest in going because of the Resy reservation runaround described in the post; no visit."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0678",
+   "comment_id": "t1_oqgs3t6",
+   "model_view": "<post_title>Which would you prefer Tatiana vs Kabawa for Dinner</post_title>\n<post_body>Opinions on Tatiana and Kabawa?</post_body>\n<comment_to_extract>\nKabawa. Everything I ate was great, and the service was wonderful. (At Tatiana, most everything was good, some even great, but the service was terrible)\n</comment_to_extract>",
+   "context": {
+    "title": "Which would you prefer Tatiana vs Kabawa for Dinner",
+    "selftext": "Opinions on Tatiana and Kabawa?",
+    "ancestors": [],
+    "author": "pigeonmachine",
+    "body": "Kabawa. Everything I ate was great, and the service was wonderful. (At Tatiana, most everything was good, some even great, but the service was terrible)",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Kabawa",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": "positive",
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Tatiana",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": "negative",
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0679",
+   "comment_id": "t1_m7vnvqb",
+   "model_view": "<post_title>4 Charles prime reservation ?</post_title>\n<post_body>Hi!! \n\nIt’s my bfs birthday on 2/3 and I’m DYING to get us a reservation at 4 Charles prime (he reallllly wants to go ). \n\nHow the hell do people get reservations? If anyone has one , id literally PAY you for the reservation.</post_body>\n<thread_above>\n(1 earlier comments not shown)\n[1] another user: The ambiance is pretty cool though.\n[2] you, earlier: Totally agreed. If it’s all about the aesthetics that place is difficult to beat.\n[3] another user: The food is very, very good though. It's not like it's Corner Bar where people are going because Taylor Swift goes. It's very good food in a small place with a great vibe and 9 tables.\n[4] you, earlier: You’re literally referring to a place Taylor Swift has reported to have been seen. You’re not making the argument you think you are. https://www.instagram.com/backgrid_usa/p/Cy7ZPjEL-71/\n[5] another user: 4 Charles has 9 tables and since day 1 they have been always booked. The majority of the tables are held by regulars. I'm not saying no celebrity has ever visited the place, I'm saying that the place isn't popular because it's a celeb hotspot. The food is very, very, good.\n</thread_above>\n<comment_to_extract>\nIt’s an import from Chicago. lol\n</comment_to_extract>",
+   "context": {
+    "title": "4 Charles prime reservation ? ",
+    "selftext": "Hi!! \n\nIt’s my bfs birthday on 2/3 and I’m DYING to get us a reservation at 4 Charles prime (he reallllly wants to go ). \n\nHow the hell do people get reservations? If anyone has one , id literally PAY you for the reservation. ",
+    "ancestors": [
+     {
+      "author": "ReliabilityTalkinGuy",
+      "body": "This isn’t the answer you want, but it’s just hype. It’s not actually that amazing. Find him an actually great restaurant to go to, instead. "
+     },
+     {
+      "author": "MSPCSchertzer",
+      "body": "The ambiance is pretty cool though."
+     },
+     {
+      "author": "ReliabilityTalkinGuy",
+      "body": "Totally agreed. If it’s all about the aesthetics that place is difficult to beat. "
+     },
+     {
+      "author": "bruiserbrody45",
+      "body": "The food is very, very good though. It's not like it's Corner Bar where people are going because Taylor Swift goes. It's very good food in a small place with a great vibe and 9 tables."
+     },
+     {
+      "author": "ReliabilityTalkinGuy",
+      "body": "You’re literally referring to a place Taylor Swift has reported to have been seen. You’re not making the argument you think you are. \n\nhttps://www.instagram.com/backgrid_usa/p/Cy7ZPjEL-71/"
+     },
+     {
+      "author": "bruiserbrody45",
+      "body": "4 Charles has 9 tables and since day 1 they have been always booked. The majority of the tables are held by regulars. I'm not saying no celebrity has ever visited the place, I'm saying that the place isn't popular because it's a celeb hotspot. The food is very, very, good."
+     }
+    ],
+    "author": "ReliabilityTalkinGuy",
+    "body": "It’s an import from Chicago. lol",
+    "replies": [
+     {
+      "author": "bruiserbrody45",
+      "body": "Not sure what your point is? 4 Charles was a unique to NY concept from a Chicago based restaurant group."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0680",
+   "comment_id": "t1_o1y1my9",
+   "model_view": "<post_title>Reservation Sales Thread - **READ BEFORE POSTING!!**</post_title>\n<post_body>This thread exists *solely* to create a space for people to avoid losing their deposits on pre-paid meals. Gouging is not tolerated on this subreddit. The below rules exist to ensure it stays that way. Read them before posting because violations can lead to an immediate permanent ban.  \n\n1. This thread is the only place on the subreddit for selling restaurant reservations. You may not ask to buy reservations.\n2. You may ONLY sell non-refundable reservations for below or equal to face value. (plus all taxes and fees)\n3. You must clearly state both the price you paid and the price you're looking for in the post.\n4. We do not know every restaurant's deposit and cancellation policies. If you do not make it clear that you're operating by the rules above, we will assume you're not. \n\nGood post:\n\n> I have a table for 4 at Eleven Madison Park at 8:30 PM on Sunday, February 3rd. Tickets are nonrefundable and a business emergency came up. Paid $1589.58, willing to take $1200 OBO. Transfer on Resy.\n\nBad post:\n\n> Got a table for 2 at 4 Charles. DM for details.\n\nThe mods of [/r/FoodNYC](https://old.reddit.com/r/FoodNYC) accept no responsibility for these transactions. Tock and Resy both allow t ...</post_body>\n<thread_above>\n[1] another user: Atomix Chef's Table for 1 person Tuesday, February 10, 5:30 pm Paid $466.09, asking the same. Transfer on Tock. Can't make it because of an important work event. .\n</thread_above>\n<comment_to_extract>\nUnable to DM you\n</comment_to_extract>",
+   "context": {
+    "title": "Reservation Sales Thread - **READ BEFORE POSTING!!**",
+    "selftext": "This thread exists *solely* to create a space for people to avoid losing their deposits on pre-paid meals. Gouging is not tolerated on this subreddit. The below rules exist to ensure it stays that way. Read them before posting because violations can lead to an immediate permanent ban.  \n\n1. This thread is the only place on the subreddit for selling restaurant reservations. You may not ask to buy reservations.\n2. You may ONLY sell non-refundable reservations for below or equal to face value. (plus all taxes and fees)\n3. You must clearly state both the price you paid and the price you're looking for in the post.\n4. We do not know every restaurant's deposit and cancellation policies. If you do not make it clear that you're operating by the rules above, we will assume you're not. \n\nGood post:\n\n> I have a table for 4 at Eleven Madison Park at 8:30 PM on Sunday, February 3rd. Tickets are nonrefundable and a business emergency came up. Paid $1589.58, willing to take $1200 OBO. Transfer on Resy.\n\nBad post:\n\n> Got a table for 2 at 4 Charles. DM for details.\n\nThe mods of [/r/FoodNYC](https://old.reddit.com/r/FoodNYC) accept no responsibility for these transactions. Tock and Resy both allow transfers on the website - if someone tells you otherwise it's a scam. Do your own research on your transaction before handing over any money to a third party. Check with the restaurant, check account ages, meet in person if feasible.",
+    "ancestors": [
+     {
+      "author": "Toutress",
+      "body": "Atomix Chef's Table for 1 person\nTuesday, February 10, 5:30 pm\nPaid $466.09, asking the same. \nTransfer on Tock.\nCan't make it because of an important work event. ."
+     }
+    ],
+    "author": "inatcto",
+    "body": "Unable to DM you",
+    "replies": [
+     {
+      "author": "Toutress",
+      "body": "Just messaged"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0681",
+   "comment_id": "t1_nuwhimj",
+   "model_view": "<post_title>Fette Sau</post_title>\n<post_body>Pork belly, beef brisket, and \"Cora's broccoli salad\" — a nice complement to the meats, which I'd never tried — at Fette Sau in Williamsburg, Brooklyn. After nearly two decades, Fette Sau will close its doors (and its gate) forever on Sunday evening, December 21.</post_body>\n<comment_to_extract>\nI was never the biggest fan of their food but I was happy that it existed. I’m sad to see them go. Definitely one of the last relics of early-gentrification Williamsburg. I’m terrified of what’s going to replace it.\n</comment_to_extract>",
+   "context": {
+    "title": "Fette Sau",
+    "selftext": "Pork belly, beef brisket, and \"Cora's broccoli salad\" — a nice complement to the meats, which I'd never tried — at Fette Sau in Williamsburg, Brooklyn. After nearly two decades, Fette Sau will close its doors (and its gate) forever on Sunday evening, December 21.",
+    "ancestors": [],
+    "author": "Seezur",
+    "body": "I was never the biggest fan of their food but I was happy that it existed. I’m sad to see them go. Definitely one of the last relics of early-gentrification Williamsburg. I’m terrified of what’s going to replace it.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Fette Sau",
+     "named_in": "context",
+     "kind": "bar",
+     "location": "Williamsburg, Brooklyn",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "closing",
+       "text": "Closing forever on Sunday, December 21 after nearly two decades"
+      },
+      {
+       "about": "neighborhood",
+       "text": "One of the last relics of early-gentrification Williamsburg"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "barbecue"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0682",
+   "comment_id": "t1_orsydim",
+   "model_view": "<post_title>Best deli pickles in NYC (preferably near manhattan)</post_title>\n<post_body>Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!</post_body>\n<comment_to_extract>\nI also like Japanese/Korean pickles  In HMart or Japanese markets (prob. Katagiri) will have takuan (long yellow radish pickle) or bags of pickled eggplant etc.  Used over rice or with sushi, very refreshing and good for macrobiotics.  And Kimchi too (korean picked vegetables like nappa cabbage or radish amongst others).\n</comment_to_extract>",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [],
+    "author": "DetectiveOk3902",
+    "body": "I also like Japanese/Korean pickles  In HMart or Japanese markets (prob. Katagiri) will have takuan (long yellow radish pickle) or bags of pickled eggplant etc.  Used over rice or with sushi, very refreshing and good for macrobiotics.  And Kimchi too (korean picked vegetables like nappa cabbage or radish amongst others).",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0683",
+   "comment_id": "t1_nfoflgg",
+   "model_view": "<post_title>Seeking affordable lunches near Hudson Yards</post_title>\n<post_body>Hi, starting a new job soon in Hudson Yards and I was hoping to find some affordable lunch options in the area.  I would love to find a place that sells weighted food so I can control my portions, any suggestions on this or others that are not overly unhealthy?</post_body>\n<comment_to_extract>\nThere's an Essen on 36th and 8th that offered a buffet that's charges by the pound.\n</comment_to_extract>",
+   "context": {
+    "title": "Seeking affordable lunches near Hudson Yards",
+    "selftext": "Hi, starting a new job soon in Hudson Yards and I was hoping to find some affordable lunch options in the area.  I would love to find a place that sells weighted food so I can control my portions, any suggestions on this or others that are not overly unhealthy?",
+    "ancestors": [],
+    "author": "Acceptable-Ratio-219",
+    "body": "There's an Essen on 36th and 8th that offered a buffet that's charges by the pound.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Essen",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "36th and 8th",
+     "experience": "secondhand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "pricing",
+       "text": "buffet charged by the pound"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "buffet",
+      "pay by the pound"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0684",
+   "comment_id": "t1_p6vw2ux",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<comment_to_extract>\nIt’s good what’s that place on Christopher St around? The corner is better.\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Thin-Stranger1369",
+    "body": "It’s good what’s that place on Christopher St around? The corner is better.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Commenter says the corner spot is better than Mama's Too; 'it's good' is also said of Mama's Too."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "slice shop"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0685",
+   "comment_id": "t1_mf3ozh7",
+   "model_view": "<post_title>What ethnic foods can we agree that NY is a top 3 city for?</post_title>\n<post_body>Right away I will say Caribbean food. New York is easily number 1 in this category and has the most diverse Caribbean diaspora in the USA. I would put Miami behind New York just based on nyc having a more Caribbean variety. But Caribbean food is also very good in Boston, Philly, Baltimore and Washington DC as well.</post_body>\n<thread_above>\n[1] another user: Definitely Greek, and doubly Greek food in Astoria. Depending on the year you ask, Astoria has the most Greeks outside of Greece, with the exception of Melbourne.\n[2] another user: Favorite spots? I lived in Astoria for a couple years and now live in Yonkers, so I only get back out to Queens every so often. I'd like to be strategic with my next Greek restaurant visit.\n</thread_above>\n<comment_to_extract>\nfor super traditional greek - bahari estiatorio has just as good of food as kyclades for better prices but half the crowds!!\n\nfor greek with a few twists - ovelia is great\n\nbut honestly, I think it'd be hard for a bad greek restaurant to survive long in astoria, there's too much competition.\n</comment_to_extract>",
+   "context": {
+    "title": "What ethnic foods can we agree that NY is a top 3 city for?",
+    "selftext": "Right away I will say Caribbean food. New York is easily number 1 in this category and has the most diverse Caribbean diaspora in the USA. I would put Miami behind New York just based on nyc having a more Caribbean variety. But Caribbean food is also very good in Boston, Philly, Baltimore and Washington DC as well. ",
+    "ancestors": [
+     {
+      "author": "SeekersWorkAccount",
+      "body": "Definitely Greek, and doubly Greek food in Astoria.\n\nDepending on the year you ask, Astoria has the most Greeks outside of Greece, with the exception of Melbourne."
+     },
+     {
+      "author": "BaskingInWanderlust",
+      "body": "Favorite spots?\n\nI lived in Astoria for a couple years and now live in Yonkers, so I only get back out to Queens every so often. I'd like to be strategic with my next Greek restaurant visit."
+     }
+    ],
+    "author": "petits_riens",
+    "body": "for super traditional greek - bahari estiatorio has just as good of food as kyclades for better prices but half the crowds!!\n\nfor greek with a few twists - ovelia is great\n\nbut honestly, I think it'd be hard for a bad greek restaurant to survive long in astoria, there's too much competition.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Bahari Estiatorio",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Food as good as Kyclades for better prices and half the crowds"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "greek",
+      "traditional"
+     ]
+    },
+    {
+     "name": "Kyclades",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Food is just as good as Bahari but pricier, and much more crowded"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "greek",
+      "traditional"
+     ]
+    },
+    {
+     "name": "Ovelia",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "greek",
+      "greek with a twist"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0686",
+   "comment_id": "t1_p3jg7s3",
+   "model_view": "<post_title>Seeking Economical dinner places ($45-60) pp in Manhattan?</post_title>\n<post_body>My friend in I (both early 60's) meet up once a month to catch up and have a nice dinner.  We did restaurant week last nite and with the meal and additional drinks, tax & tip it was $100pp.  We're looking for less expensive places that aren't diners, in Flatiron, Chelsea, GV, EV etc.  Trying to spend less as she's on limited income now.  I know this is a broad question.</post_body>\n<comment_to_extract>\nI’m going to second this. Surprisingly enough Chinatown is still a great place to go.\n\nSpeaking as an older disabled person I CANNOT handle the stairs but if you can, the second oldest Chinese restaurant in New York City still running is Wo Hop. It is absolutely a classic. It is not classy and it is noisy. But a lot of their dishes are just unbelievably good and reasonably priced.\n\nEvery time I go into the city I have to get the roast duck and roast pork chow mei fun. A big portion for a very reasonable price; and they are one of a few places I find that still has serious Wok Hei, that deep almost charred Taste that you should get from proper woks at a high heat.\n\nI also absolutely love their lobster with garlic and scallions or their Cantonese lobster. I think those are like 56 bucks each but that’s freaking lobster. Take a look at their menu and take a look at the pictures on Yelp.\n\nAgain: if you’re going for classy and quiet this ain’t it. But it’s a bit of an adventure. It’s also worth looking at some other restaurants in that area.\n</comment_to_extract>",
+   "context": {
+    "title": "Seeking Economical dinner places ($45-60) pp in Manhattan?",
+    "selftext": "My friend in I (both early 60's) meet up once a month to catch up and have a nice dinner.  We did restaurant week last nite and with the meal and additional drinks, tax & tip it was $100pp.  We're looking for less expensive places that aren't diners, in Flatiron, Chelsea, GV, EV etc.  Trying to spend less as she's on limited income now.  I know this is a broad question.",
+    "ancestors": [],
+    "author": "allisondbl",
+    "body": "I’m going to second this. Surprisingly enough Chinatown is still a great place to go.\n\nSpeaking as an older disabled person I CANNOT handle the stairs but if you can, the second oldest Chinese restaurant in New York City still running is Wo Hop. It is absolutely a classic. It is not classy and it is noisy. But a lot of their dishes are just unbelievably good and reasonably priced.\n\nEvery time I go into the city I have to get the roast duck and roast pork chow mei fun. A big portion for a very reasonable price; and they are one of a few places I find that still has serious Wok Hei, that deep almost charred Taste that you should get from proper woks at a high heat.\n\nI also absolutely love their lobster with garlic and scallions or their Cantonese lobster. I think those are like 56 bucks each but that’s freaking lobster. Take a look at their menu and take a look at the pictures on Yelp.\n\nAgain: if you’re going for classy and quiet this ain’t it. But it’s a bit of an adventure. It’s also worth looking at some other restaurants in that area.",
+    "replies": [
+     {
+      "author": "DetectiveOk3902",
+      "body": "I love Chinatown--but she's Chinese and is tired of it.  But I go often for my own time.  I too love Wo Hop!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Wo Hop",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Chinatown",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "roast duck",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "roast pork chow mei fun",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "lobster with garlic and scallions",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "Cantonese lobster",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "stairs",
+       "text": "Upstairs; the commenter, who is disabled, cannot handle the stairs."
+      },
+      {
+       "about": "history",
+       "text": "Second oldest Chinese restaurant in NYC still running."
+      },
+      {
+       "about": "wok hei",
+       "text": "Still has serious wok hei, a deep charred flavor from high heat woks."
+      },
+      {
+       "about": "lobster price",
+       "text": "Lobster about $56 each, which the commenter says is worth it for lobster."
+      },
+      {
+       "about": "tip",
+       "text": "Check the menu and Yelp photos before going."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": null,
+      "atmosphere": "negative",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cantonese",
+      "chinatown",
+      "classic",
+      "budget-friendly",
+      "adventure"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0687",
+   "comment_id": "t1_kqmpj6a",
+   "model_view": "<post_title>Taking my SO to the city! Whats your favorite Asian cuisine near grand central?</post_title>\n<post_body>I am a college student taking my SO to NYC this weekend, I’d greatly appreciate your suggestions for spots 20 minutes or less walk from Grand Central. I’m looking to spend $15-40 a person, and the specific cuisine doesn’t matter!</post_body>\n<comment_to_extract>\nMomosan. It’s Morimoto’s ramen bar.\n</comment_to_extract>",
+   "context": {
+    "title": "Taking my SO to the city! Whats your favorite Asian cuisine near grand central?",
+    "selftext": "I am a college student taking my SO to NYC this weekend, I’d greatly appreciate your suggestions for spots 20 minutes or less walk from Grand Central. I’m looking to spend $15-40 a person, and the specific cuisine doesn’t matter! ",
+    "ancestors": [],
+    "author": "RealPantosaurusRex",
+    "body": "Momosan. It’s Morimoto’s ramen bar.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Momosan",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "affiliation",
+       "text": "Ramen bar run by Morimoto's group (fact, no verdict)"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ramen",
+      "japanese"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0688",
+   "comment_id": "t1_nsyph1j",
+   "model_view": "<post_title>Best Brooklyn Blackout cake</post_title>\n<post_body>My mother adores chocolate, and for her birthday, I wanted to get a good chocolate cake. We usually would get our cakes from Paris Baugette, but I'm interested in other places as well.</post_body>\n<thread_above>\n[1] you, earlier: Ladybird Bakery (fka Two Little Red Hens) is famous for theirs\n[2] another user: Can someone give me the details on why this is thought to be fka TLRH?? I traveled to the bakery from the UWS and the lady I spoke with ADAMANTLY DENIED being connected to them in any way. To me, the quality of the products didn't even compare.\n</thread_above>\n<comment_to_extract>\n<quote>Since 1992, Ladybird Bakery (formerly known as Two Little Red Hens) has been delighting Brooklyn's Park Slope neighborhood with delicious, American-style baked treats.</quote>\n\nYou can show them their own website \n\nwww.ladybirdbakery.com/hours-location\n\nGenerally speaking the story as I understand it is they were 2 business partners that broke up. For as long as the UES was open they were considered the better of the 2, but the way they kept making empty promises and claims reopening the bakery is basically impossible, while the neighborhood has a new bakery open once a week now, turned me off to them\n</comment_to_extract>",
+   "context": {
+    "title": "Best Brooklyn Blackout cake",
+    "selftext": "My mother adores chocolate, and for her birthday, I wanted to get a good chocolate cake. We usually would get our cakes from Paris Baugette, but I'm interested in other places as well.",
+    "ancestors": [
+     {
+      "author": "virtual_adam",
+      "body": "Ladybird Bakery (fka Two Little Red Hens) is famous for theirs"
+     },
+     {
+      "author": "Horror_Basket",
+      "body": "Can someone give me the details on why this is thought to be fka TLRH?? I traveled to the bakery from the UWS and the lady I spoke with ADAMANTLY DENIED being connected to them in any way. To me, the quality of the products didn't even compare."
+     }
+    ],
+    "author": "virtual_adam",
+    "body": ">Since 1992, Ladybird Bakery (formerly known as Two Little Red Hens) has been delighting Brooklyn's Park Slope neighborhood with delicious, American-style baked treats. \n\nYou can show them their own website \n\nwww.ladybirdbakery.com/hours-location\n\nGenerally speaking the story as I understand it is they were 2 business partners that broke up. For as long as the UES was open they were considered the better of the 2, but the way they kept making empty promises and claims reopening the bakery is basically impossible, while the neighborhood has a new bakery open once a week now, turned me off to them",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Ladybird Bakery",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": "Park Slope, Brooklyn",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "former name",
+       "text": "formerly Two Little Red Hens"
+      },
+      {
+       "about": "UES location",
+       "text": "UES branch was closed; commenter says it was once considered the better of the two"
+      },
+      {
+       "about": "reopening claims",
+       "text": "commenter says the owner's reopening promises were empty and reopening is basically impossible; business conduct, no food verdict"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0689",
+   "comment_id": "t1_oh37te5",
+   "model_view": "<post_title>Help Finding Cheap Prosciutto Chunks?</post_title>\n<post_body>Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!</post_body>\n<comment_to_extract>\nI bought one of these once and proceeded to nearly chop off a finger trying to dice up that unevenly shaped, tough, greasy mess.\n\nI stick with pancetta now.\n</comment_to_extract>",
+   "context": {
+    "title": "Help Finding Cheap Prosciutto Chunks?",
+    "selftext": "Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!",
+    "ancestors": [],
+    "author": "breakinbread",
+    "body": "I bought one of these once and proceeded to nearly chop off a finger trying to dice up that unevenly shaped, tough, greasy mess.\n\nI stick with pancetta now.",
+    "replies": [
+     {
+      "author": "VisualReality4495",
+      "body": "Make sure it’s cold and use a sharp knife. Fat is solid until it is warmed. Follow the saw technique and you should be able to easily slice it."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0690",
+   "comment_id": "t1_p69zka5",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<thread_above>\n[1] you, earlier: I've tasted 5 different slices, aa well as two sandwiches, and all were great\n[2] OP: Even the ones that sound weird are good\n[3] another user: which ones sound weird?\n[4] OP: The one with pears\n[5] another user: oh i love that one!\n</thread_above>\n<comment_to_extract>\nI got that one last year and it was much better than expected. I may go again on Saturday\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Neptune28",
+      "body": "I've tasted 5 different slices, aa well as two sandwiches, and all were great"
+     },
+     {
+      "author": "RumPunchKid",
+      "body": "Even the ones that sound weird are good"
+     },
+     {
+      "author": "nightkhan",
+      "body": "which ones sound weird?"
+     },
+     {
+      "author": "RumPunchKid",
+      "body": "The one with pears"
+     },
+     {
+      "author": "nightkhan",
+      "body": "oh i love that one!"
+     }
+    ],
+    "author": "Neptune28",
+    "body": "I got that one last year and it was much better than expected. I may go again on Saturday",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pear slice",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "visit timing",
+       "text": "had the pear slice last year"
+      },
+      {
+       "about": "plans",
+       "text": "may go again Saturday"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0691",
+   "comment_id": "t1_owfwxrp",
+   "model_view": "<post_title>Does anyone know where I can find Vietnamese La Lot leaves?</post_title>\n<post_body>I was recently in Vietnam and had the yummiest leaf. It was wrapped around ground pork and its peppery in flavor. There HAS to be some here in NYC! Does anyone know??   \nAny Vietnamese here? #vietnam #nyc</post_body>\n<thread_above>\n[1] another user: Moc mac in east village does this\n</thread_above>\n<comment_to_extract>\nWhat about for those who want to cook it at home?\n</comment_to_extract>",
+   "context": {
+    "title": "Does anyone know where I can find Vietnamese La Lot leaves?",
+    "selftext": "I was recently in Vietnam and had the yummiest leaf. It was wrapped around ground pork and its peppery in flavor. There HAS to be some here in NYC! Does anyone know??   \nAny Vietnamese here? #vietnam #nyc",
+    "ancestors": [
+     {
+      "author": "BumFroe",
+      "body": "Moc mac in east village does this"
+     }
+    ],
+    "author": "StrawberrieCoconut",
+    "body": "What about for those who want to cook it at home?",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0692",
+   "comment_id": "t1_nte951b",
+   "model_view": "<post_title>Taim in the West Village has abruptly shut down</post_title>\n<post_body>Closed by Order of the Commissioner of Health and Mental Hygiene.</post_body>\n<thread_above>\n[1] another user: They left without notice in LIC a few weeks ago. I really miss their puffy pita.\n[2] another user: Naya opened nearby and was better in every way imo. Taim fell off hard a year or two ago, they used to be so generous with their portions.\n</thread_above>\n<comment_to_extract>\nI could eat Naya every day\n</comment_to_extract>",
+   "context": {
+    "title": "Taim in the West Village has abruptly shut down",
+    "selftext": "Closed by Order of the Commissioner of Health and Mental Hygiene. ",
+    "ancestors": [
+     {
+      "author": "slowcanteloupe",
+      "body": "They left without notice in LIC a few weeks ago.  I really miss their puffy pita."
+     },
+     {
+      "author": "nightkingscat",
+      "body": "Naya opened nearby and was better in every way imo. Taim fell off hard a year or two ago, they used to be so generous with their portions."
+     }
+    ],
+    "author": "fuzz11",
+    "body": "I could eat Naya every day",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Naya",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0693",
+   "comment_id": "t1_ngu2q9z",
+   "model_view": "<post_title>We finally went to carbone</post_title>\n<post_body>We have never really *tried* to go to carbone. We know everything about it, from when it first opened people wouldn’t shut up about it to how it recently got a bad inspection rating and lost its Michelin star. \n\nThe new Amex global dining thing is making these resys easier, I think. Or the B rating. I was looking to book a place for dinner with my boyfriend and friend as we were planning to get together on a Tuesday and saw a multiple tables open at carbone. I had never seen that on resy. I called my boyfriend and asked him if it makes us less hypebeasts if we had waited 12 years. He said get the table let’s try it out.\n\nWe had the burrata with caviar, baked clams, some raw fish situation, the spicy rigatoni, the meatballs, pork chops, broccolini, corn and the tiramisu. The appetizers and pasta were amazing. Great ingredients, well cooked, no complaints. The pork chops and veggies sides, however, were mediocre. They were very simply seasoned but the meat was too slowly cooked and not long enough, it was tough and dry. Corn was extremely truffle heavy and not in a good way. The broccolini was burned. Amazing liquor and wine menu, though, and my drinks were all made to perfection.\n\nM ...</post_body>\n<comment_to_extract>\nWent a while back and while I was ready to trash the place thinking “I’ve seen this menu at every sauce joint ever” they executed some of the best renditions of those menu items I’ve ever had. Had a blast, great grub, hard to top that bread service. Was pretty bowled over. \n\nWent last week and was kinda a dud. Food was fine but at a certain point I’d rather just go to Parm and get the spicy rigatoni for like 25% the price and 100% less the headache\n</comment_to_extract>",
+   "context": {
+    "title": "We finally went to carbone",
+    "selftext": "We have never really *tried* to go to carbone. We know everything about it, from when it first opened people wouldn’t shut up about it to how it recently got a bad inspection rating and lost its Michelin star. \n\nThe new Amex global dining thing is making these resys easier, I think. Or the B rating. I was looking to book a place for dinner with my boyfriend and friend as we were planning to get together on a Tuesday and saw a multiple tables open at carbone. I had never seen that on resy. I called my boyfriend and asked him if it makes us less hypebeasts if we had waited 12 years. He said get the table let’s try it out.\n\nWe had the burrata with caviar, baked clams, some raw fish situation, the spicy rigatoni, the meatballs, pork chops, broccolini, corn and the tiramisu. The appetizers and pasta were amazing. Great ingredients, well cooked, no complaints. The pork chops and veggies sides, however, were mediocre. They were very simply seasoned but the meat was too slowly cooked and not long enough, it was tough and dry. Corn was extremely truffle heavy and not in a good way. The broccolini was burned. Amazing liquor and wine menu, though, and my drinks were all made to perfection.\n\nMy boyfriend had a better time there than I did, I think. He thinks if he made a friend there we would be able to come back whenever we want easily and drunken tipped the staff close to 50% of our bill just for him to snobbishly tell him to look on the resy app at 9am. As someone who worked in the industry, I’m all for tipping heavy so I didn’t mind whatever outcome but thought the exchange was hilarious and very on par with the reputation of the restaurant. I’m happy we tried it, though, but I wouldn’t initiate to visit it again. \n\n\n",
+    "ancestors": [],
+    "author": "double_bakes",
+    "body": "Went a while back and while I was ready to trash the place thinking “I’ve seen this menu at every sauce joint ever” they executed some of the best renditions of those menu items I’ve ever had. Had a blast, great grub, hard to top that bread service. Was pretty bowled over. \n\nWent last week and was kinda a dud. Food was fine but at a certain point I’d rather just go to Parm and get the spicy rigatoni for like 25% the price and 100% less the headache",
+    "replies": [
+     {
+      "author": "atotalmess__",
+      "body": "It’s always meh. Not good not bad, just fine. \n\nAnd no matter if I spend $200 or $2000 the snobbery is always the same…"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "carbone",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bread service",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "past visit",
+       "text": "Went a while back; the menu items were some of the best renditions they've had, a blast, bowled over"
+      },
+      {
+       "about": "recent visit",
+       "text": "Went last week and it was a dud; food fine"
+      },
+      {
+       "about": "Parm alternative",
+       "text": "Would rather go to Parm for the spicy rigatoni, about 25% of the price and far less headache"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": "declined",
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian-american",
+      "red sauce"
+     ]
+    },
+    {
+     "name": "Parm",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "spicy rigatoni",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "About 25% of Carbone's price for the spicy rigatoni"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian-american",
+      "red sauce"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0694",
+   "comment_id": "t1_p2d1t0w",
+   "model_view": "<post_title>no more taïm mediterranean kitchen in manhattan???</post_title>\n<post_body>I wanted to go to the taim mediterranean on West 56th Street today and found it closed. The sign on the door mentioned unpaid taxes.\n\nThe Nolita and Lower Manhattan locations show as temporarily closed on Google Maps.\n\nDoes anyone know if the Brooklyn locations are still open? I’m curious if the whole chain shut down or just the Manhattan spots.</post_body>\n<thread_above>\n[1] you, earlier: Crazy. I used to work for the chef who started it but she later sold it to some guy. RIP\n[2] another user: What is she doing now? Did she retire? I miss old taim so much 😭 it was so fucking good\n[3] you, earlier: She still runs balaboosta in the west village\n[4] another user: I actually forgot about that place, wow. It was such a trendy spot in the 2010s, I’m glad it’s still around. Going to make a res, thanks!\n</thread_above>\n<comment_to_extract>\nSo she combined balaboosta from nolita into her previous restaurant bar bolonat in the west village but yea still the same idea. Enjoy!\n</comment_to_extract>",
+   "context": {
+    "title": "no more taïm mediterranean kitchen in manhattan???",
+    "selftext": "I wanted to go to the taim mediterranean on West 56th Street today and found it closed. The sign on the door mentioned unpaid taxes.\n\nThe Nolita and Lower Manhattan locations show as temporarily closed on Google Maps.\n\nDoes anyone know if the Brooklyn locations are still open? I’m curious if the whole chain shut down or just the Manhattan spots.",
+    "ancestors": [
+     {
+      "author": "Yanischemas21",
+      "body": "Crazy. I used to work for the chef who started it but she later sold it to some guy. RIP"
+     },
+     {
+      "author": "Spiritual_Option4465",
+      "body": "What is she doing now? Did she retire? I miss old taim  \nso much 😭 it was so fucking good"
+     },
+     {
+      "author": "Yanischemas21",
+      "body": "She still runs balaboosta in the west village "
+     },
+     {
+      "author": "Spiritual_Option4465",
+      "body": "I actually forgot about that place, wow. It was such a trendy spot in the 2010s, I’m glad it’s still around. Going to make a res, thanks! "
+     }
+    ],
+    "author": "Yanischemas21",
+    "body": "So she combined balaboosta from nolita into her previous restaurant bar bolonat in the west village but yea still the same idea. Enjoy!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "balaboosta",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "West Village",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "chef moved",
+       "text": "Chef moved her Nolita spot balaboosta into her previous restaurant bar bolonat in the West Village"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": "moved",
+     "price": null,
+     "tags": [
+      "mediterranean"
+     ]
+    },
+    {
+     "name": "bar bolonat",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": "West Village",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "relocation",
+       "text": "Balaboosta concept combined into bar bolonat in the West Village"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": "opened",
+     "price": null,
+     "tags": [
+      "mediterranean"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0695",
+   "comment_id": "t1_k7kmge4",
+   "model_view": "<post_title>Italian Restaurant</post_title>\n<post_body>Hi Everyone! \n\nLooking for locals favourite Italian restaurants in NYC, going there in 2 weeks and would love recommendations of your favourite Italian restaurants, preferably near Central Park south/midtown.</post_body>\n<comment_to_extract>\nMarea is by far the best in that area.\n</comment_to_extract>",
+   "context": {
+    "title": "Italian Restaurant",
+    "selftext": "Hi Everyone! \n\nLooking for locals favourite Italian restaurants in NYC, going there in 2 weeks and would love recommendations of your favourite Italian restaurants, preferably near Central Park south/midtown.",
+    "ancestors": [],
+    "author": "gsbound",
+    "body": "Marea is by far the best in that area.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Marea",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Central Park South/midtown area",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0696",
+   "comment_id": "t1_ju07ovh",
+   "model_view": "<post_title>Why do New Yorkers not like their bagels toasted?</post_title>\n<post_body>Where can I find a good toasted bagel in NYC? The famous places I’ve gone to look at me like I’m crazy when I ask for my bagel toasted.\nI tried Edith’s and Russ and Daughters.</post_body>\n<thread_above>\n[1] another user: Because it's like buying a cheeseburger that was cooked to perfection on a BBQ grill and then asking to put it in a microwave while it's still hot and fresh 90% of bagel places worth their salt are cranking out warm bagels consistently through the day. The texture and temp of them baked out of the o ...\n[2] you, earlier: I don’t get toasted bagels, but, like I do at donut shops, I ask what’s the freshest. This is because I’ve gotten a bagel and my friend got a bagel at the same time and the same place and one is warmer and tastier than the other. When I ask this though, I get pretty mixed results. People saying they ...\n[3] another user: >Why is it hard to get this information? I would say it's because the people making the bagels aren't the same people that are working the cash register. So how does a cashier who's busy with the line of customers pay attention to every time the baker comes and dumps some new bagels into the bins? How do they keep track of how long it's been since each type of bagel has been dumped into each bin? I'm sure they have a lot of other things to worry about. If you want a guaranteed hot and fresh bagel go to Pop up bagels on Thompson st. It's a permanent storefront for these guys from Connecticut who make the best bagel I've ever had in my 20 odd years of eating New York bagels. They only make three kinds and they don't make sandwiches or put the cream cheese on for you You can buy a set of three with a schmear and that's it. They're not even cut you just rip into them and dip them in the cream cheese they're so hot and fresh.\n</thread_above>\n<comment_to_extract>\nI will try it, thank you!  I have asked register people as well as the guys literally taking the bagels out of the oven (but not putting them up in the front yet :/ )\n</comment_to_extract>",
+   "context": {
+    "title": "Why do New Yorkers not like their bagels toasted?",
+    "selftext": "Where can I find a good toasted bagel in NYC? The famous places I’ve gone to look at me like I’m crazy when I ask for my bagel toasted.\nI tried Edith’s and Russ and Daughters.",
+    "ancestors": [
+     {
+      "author": "Suitable-Peanut",
+      "body": "Because it's like buying a cheeseburger that was cooked to perfection on a BBQ grill and then asking to put it in a microwave while it's still hot and fresh \n\n90% of bagel places worth their salt are cranking out warm bagels consistently through the day. The texture and temp of them baked out of the oven is the texture and temperature that they were meant to be eaten at.\n\nAlso like someone else commented, it tends to make the cream cheese runnier and weird if it's that hot. To me even a bagel untoasted and a couple hours old is better than a fresh toasted bagel. I prefer chewy over crispy and charred.\n\nThe only bagels that are improved from toasting are ones that weren't good in the first place, or good bagels that you have taken home and frozen for later."
+     },
+     {
+      "author": "mayonuki",
+      "body": "I don’t get toasted bagels, but, like I do at donut shops, I ask what’s the freshest. This is because I’ve gotten a bagel and my friend got a bagel at the same time and the same place and one is warmer and tastier than the other. When I ask this though, I get pretty mixed results. People saying they don’t understand. People saying everything’s fresh and acting annoyed before eventually saying some thing specific. Why is it hard to get this information?  Is there a secret to getting the best?  I’ve found everything’s tend to be worse than average and plains to be better than average."
+     },
+     {
+      "author": "Suitable-Peanut",
+      "body": ">Why is it hard to get this information?\n\nI would say it's because the people making the bagels aren't the same people that are working the cash register. So how does a cashier who's busy with the line of customers pay attention to every time the baker comes and dumps some new bagels into the bins? How do they keep track of how long it's been since each type of bagel has been dumped into each bin? I'm sure they have a lot of other things to worry about.\n\nIf you want a guaranteed hot and fresh bagel go to Pop up bagels on Thompson st. It's a permanent storefront for these guys from Connecticut who make the best bagel I've ever had in my 20 odd years of eating New York bagels. They only make three kinds and they don't make sandwiches or put the cream cheese on for you You can buy a set of three with a schmear and that's it. They're not even cut you just rip into them and dip them in the cream cheese they're so hot and fresh."
+     }
+    ],
+    "author": "mayonuki",
+    "body": "I will try it, thank you!  I have asked register people as well as the guys literally taking the bagels out of the oven (but not putting them up in the front yet :/ )",
+    "replies": [
+     {
+      "author": "btrd_toast",
+      "body": "I second Pop Up. It's amazing."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0697",
+   "comment_id": "t1_op50m8q",
+   "model_view": "<post_title>My thoughts on The Corner Store - hard ass reservation not worth it</post_title>\n<post_body>One of NYCs hardest reservations - worth it? Nope. I found all the food to be average average, but nothing great. \n\nLobster bites were the best part of the meal, but the lobster overpowers the caviar on top. Caesar salad was good, but not at the top of my recent NYC rankings. Dip sandwich was good, but not better than 4 Charles or Salt Hanks even. I got the sour cream and onion martini, which was okay. But my recent visit to The 86 shows the 86 is better in every way. I do think Or’Esh will be better. \n\nI got this reservation from an app called Snag. Not an ad, but I do recommend it for those who will ask how I got the reservation. \n\nhttps://www.instagram.com/thecornerstore?igsh=bWxuc3dpY3Nlamh2</post_body>\n<thread_above>\n[1] another user: Hillstone clears by miles\n[2] you, earlier: Yeah that version of hipster Applebees is WAY better\n[3] another user: it's been around for decades. it was in the basement of the citicorp building for like 30 years as Houston's. my grandma used to take me there. not only is \"hipster\" no longer a useful cultural identifier or term, it always meant something small-scale and outside the mainstream. hillstone is about a ...\n[4] you, earlier: You still know what I mean. It’s Applebees for yuppies, transplants, people with faux-pretentious and nouveau riche tastes. This style of restaurant is boring and largely a scam. I personally avoid it but if you have no qualms paying $25 for a Caesar salad then be my guest.\n[5] another user: > yuppies, transplants, people with faux-pretentious and nouveau riche tastes. these are definitionally not hipsters bud. hipsters were a *reaction* to those things, especially yuppies. that's why they went for hyper-local, small scale, farm to table, small batch, rare, etc. shit. this is episode 1 of portlandia level shit my guy it's ok to be wrong. it's ok to admit when you are wrong, or to at least stop engaging.\n</thread_above>\n<comment_to_extract>\nOk but what if you engaged with the substance of what I’m saying instead of one word? I get it’s the internet so it’s easier to dunk on word choice rather than engage an argument. I’m just going to assume you agree these places suck\n</comment_to_extract>",
+   "context": {
+    "title": "My thoughts on The Corner Store - hard ass reservation not worth it",
+    "selftext": "One of NYCs hardest reservations - worth it? Nope. I found all the food to be average average, but nothing great. \n\nLobster bites were the best part of the meal, but the lobster overpowers the caviar on top. Caesar salad was good, but not at the top of my recent NYC rankings. Dip sandwich was good, but not better than 4 Charles or Salt Hanks even. I got the sour cream and onion martini, which was okay. But my recent visit to The 86 shows the 86 is better in every way. I do think Or’Esh will be better. \n\nI got this reservation from an app called Snag. Not an ad, but I do recommend it for those who will ask how I got the reservation. \n\nhttps://www.instagram.com/thecornerstore?igsh=bWxuc3dpY3Nlamh2",
+    "ancestors": [
+     {
+      "author": "QnsPrince",
+      "body": "Hillstone clears by miles"
+     },
+     {
+      "author": "Baudri_Hard",
+      "body": "Yeah that version of hipster Applebees is WAY better "
+     },
+     {
+      "author": "parisidiot",
+      "body": "it's been around for decades. it was in the basement of the citicorp building for like 30 years as Houston's. my grandma used to take me there.\n\nnot only is \"hipster\" no longer a useful cultural identifier or term, it always meant something small-scale and outside the mainstream. hillstone is about as mainstream as it gets for nyc, it's literally a gigantic chain restaurant that people go to for fries and burgers and ceaser salads.\n\nlike even if it was 2012 and that term meant anything you still wouldn't be right"
+     },
+     {
+      "author": "Baudri_Hard",
+      "body": "You still know what I mean. It’s Applebees for yuppies, transplants, people with faux-pretentious and nouveau riche tastes. This style of restaurant is boring and largely a scam. I personally avoid it but if you have no qualms paying $25 for a Caesar salad then be my guest. "
+     },
+     {
+      "author": "parisidiot",
+      "body": ">  yuppies, transplants, people with faux-pretentious and nouveau riche tastes.\n\nthese are definitionally not hipsters bud. hipsters were a *reaction* to those things, especially yuppies. that's why they went for hyper-local, small scale, farm to table, small batch, rare, etc. shit. this is episode 1 of portlandia level shit my guy\n\nit's ok to be wrong. it's ok to admit when you are wrong, or to at least stop engaging."
+     }
+    ],
+    "author": "Baudri_Hard",
+    "body": "Ok but what if you engaged with the substance of what I’m saying instead of one word? I get it’s the internet so it’s easier to dunk on word choice rather than engage an argument. I’m just going to assume you agree these places suck",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0698",
+   "comment_id": "t1_ooni9fm",
+   "model_view": "<post_title>Where can we get mie gorang? Preferably in Brooklyn.</post_title>\n<post_body>Looking for this specific Indonesian dish, but also welcome Indonesian recs in general!</post_body>\n<comment_to_extract>\nYou can find it at Little House Restoran in Brooklyn.\n</comment_to_extract>",
+   "context": {
+    "title": "Where can we get mie gorang? Preferably in Brooklyn.",
+    "selftext": "Looking for this specific Indonesian dish, but also welcome Indonesian recs in general! ",
+    "ancestors": [],
+    "author": "chancepack",
+    "body": "You can find it at Little House Restoran in Brooklyn.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Little House Restoran",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Brooklyn",
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "mie goreng",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "indonesian"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0699",
+   "comment_id": "t1_mnep6nf",
+   "model_view": "<post_title>whete can i find the best Matcha?</post_title>\n<post_body>Best matcha in LES / EV / williamsburg?  Im in these areas more \n\nOr if any other matcha place recs in other areas, im open to hearing about them as well, ill make the trip for some good matcha, I see Matcha 12 just opened, anyone try that yet ? Or if you know any coffee shops that have a good one\n\nI tried cha cha matcha and did not like it at all, it looks nice inside but it was so watered down and legit tasted like nothing even sweetned 💀</post_body>\n<comment_to_extract>\nget it from tea dealers in tribeca and make it at home. best i've found\n</comment_to_extract>",
+   "context": {
+    "title": "whete can i find the best Matcha?",
+    "selftext": "Best matcha in LES / EV / williamsburg?  Im in these areas more \n\nOr if any other matcha place recs in other areas, im open to hearing about them as well, ill make the trip for some good matcha, I see Matcha 12 just opened, anyone try that yet ? Or if you know any coffee shops that have a good one\n\nI tried cha cha matcha and did not like it at all, it looks nice inside but it was so watered down and legit tasted like nothing even sweetned 💀 ",
+    "ancestors": [],
+    "author": "les-118",
+    "body": "get it from tea dealers in tribeca and make it at home. best i've found",
+    "replies": [
+     {
+      "author": "Photo_Icy",
+      "body": "where can I find these tea dealers?"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0700",
+   "comment_id": "t1_jhumrd8",
+   "model_view": "<post_title>Best Burgers in NYC | A Local's Guide</post_title>\n<post_body>In no particular order, these are the **best burgers I've tried in NYC**:\n\n\\- Raoul's $$$\n\n\\- Minetta Tavern $$$$\n\n\\- Corner Bar/Swan Room (they only serve the burger for weekday lunch @ Corner Bar now) $$$$\n\n\\- Nowon $$\n\n\\- 7th Street $\n\n\\- Monkey Bar $$$\n\n\\- 4 Charles Prime $$$\n\n\\- Peter Luger's $$\n\n\\- Pastis $$$\n\n\\- Emily $$\n\n\\- Bernie's $$\n\n\\- L'Artusi $$$\n\n**Added based on other user feedback (and I agree):**\n\n\\- Shake Shack $\n\n\\- Corner Bistro $\n\n\\- Brindle Room $$\n\n\\- Fairfax $$ (formerly the Fedora Burger at Bar Sardine)\n\n\\- JG Melon $\n\n\\- Gramercy Tavern $$$\n\n**Burgers I really want to try:**\n\n\\- Virginia's $$ (They reopened!)\n\n\\- Red Hook Tavern $$$\n\n\\- Rolo's $$\n\n\\- Midwood Flats $\n\n\\- Au Cheval $$$ (I had a weird first experience, but want to try it again.)\n\n\\- Golden Diner $$\n\n\\- Gotham Burger Social Club $\n\n**Burgers I miss:**\n\n\\- Chumley's (RIP)</post_body>\n<comment_to_extract>\nI’m not thinking it would be top-tier, but is Smashed anything?\n</comment_to_extract>",
+   "context": {
+    "title": "Best Burgers in NYC | A Local's Guide",
+    "selftext": "In no particular order, these are the **best burgers I've tried in NYC**:\n\n\\- Raoul's $$$\n\n\\- Minetta Tavern $$$$\n\n\\- Corner Bar/Swan Room (they only serve the burger for weekday lunch @ Corner Bar now) $$$$\n\n\\- Nowon $$\n\n\\- 7th Street $\n\n\\- Monkey Bar $$$\n\n\\- 4 Charles Prime $$$\n\n\\- Peter Luger's $$\n\n\\- Pastis $$$\n\n\\- Emily $$\n\n\\- Bernie's $$\n\n\\- L'Artusi $$$\n\n**Added based on other user feedback (and I agree):**\n\n\\- Shake Shack $\n\n\\- Corner Bistro $\n\n\\- Brindle Room $$\n\n\\- Fairfax $$ (formerly the Fedora Burger at Bar Sardine)\n\n\\- JG Melon $\n\n\\- Gramercy Tavern $$$\n\n**Burgers I really want to try:**\n\n\\- Virginia's $$ (They reopened!)\n\n\\- Red Hook Tavern $$$\n\n\\- Rolo's $$\n\n\\- Midwood Flats $\n\n\\- Au Cheval $$$ (I had a weird first experience, but want to try it again.)\n\n\\- Golden Diner $$\n\n\\- Gotham Burger Social Club $\n\n**Burgers I miss:**\n\n\\- Chumley's (RIP)",
+    "ancestors": [],
+    "author": "halermine",
+    "body": "I’m not thinking it would be top-tier, but is Smashed anything?",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Smashed",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  }
+ ]
+}

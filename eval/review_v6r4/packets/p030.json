@@ -1,0 +1,1567 @@
+{
+ "packet": "p030",
+ "items": [
+  {
+   "item_id": "R0726",
+   "comment_id": "t1_k18lqzb",
+   "model_view": "<post_title>Doing a 4 day trip to NYC alone in one month, where I should go?</post_title>\n<post_body>Hello my dear newyorkers, I'm travelling to NYC in mid October and want to know what places are ideal for a solo person since I found some places don't take bookings for one.\n\nPS: Not interested in drinking wine, should I still (try to) go to Four Horsemen?</post_body>\n<comment_to_extract>\nNo mention of budget, interests, location… love it\n</comment_to_extract>",
+   "context": {
+    "title": "Doing a 4 day trip to NYC alone in one month, where I should go?",
+    "selftext": "Hello my dear newyorkers, I'm travelling to NYC in mid October and want to know what places are ideal for a solo person since I found some places don't take bookings for one.\n\nPS: Not interested in drinking wine, should I still (try to) go to Four Horsemen?",
+    "ancestors": [],
+    "author": "Garconavecunreve",
+    "body": "No mention of budget, interests, location… love it",
+    "replies": [
+     {
+      "author": "coifman4",
+      "body": "Max budget $200, interested in everything and location everywhere in NYC"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0727",
+   "comment_id": "t1_l1fvp56",
+   "model_view": "<post_title>Favorite Pizza in NYC?</post_title>\n<thread_above>\n[1] another user: Luigi’s\n[2] another user: Which Luigi’s ?\n</thread_above>\n<comment_to_extract>\nProbably talking about the park slope one. 5th ave and 21st\n\nhttps://www.yelp.com/biz/luigis-pizza-brooklyn\n</comment_to_extract>",
+   "context": {
+    "title": "Favorite Pizza in NYC?",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Wehungry257",
+      "body": "Luigi’s"
+     },
+     {
+      "author": "TypicalOwl5438",
+      "body": "Which Luigi’s ?"
+     }
+    ],
+    "author": "No-Yogurtcloset2314",
+    "body": "Probably talking about the park slope one. 5th ave and 21st\n\nhttps://www.yelp.com/biz/luigis-pizza-brooklyn",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0728",
+   "comment_id": "t1_p4ugg8u",
+   "model_view": "<post_title>Cheesesteak from Danny & Coop's. Not the prettiest photo, but it was damn good.</post_title>\n<post_body>Website: https://dannyandcoops.com/</post_body>\n<thread_above>\n[1] another user: I'm from Philly suburbs and been to all the Philly jawns for cheesesteak. It's 100% legit.\n</thread_above>\n<comment_to_extract>\nI’m heading to Philly this weekend - tried all the big ones and loved uncle gus’s. Should Angelo’s be my next try?\n</comment_to_extract>",
+   "context": {
+    "title": "Cheesesteak from Danny & Coop's. Not the prettiest photo, but it was damn good.",
+    "selftext": "Website: https://dannyandcoops.com/",
+    "ancestors": [
+     {
+      "author": "Icy_Possibility_9312",
+      "body": "I'm from Philly suburbs and been to all the Philly jawns for cheesesteak. It's 100% legit."
+     }
+    ],
+    "author": "Mysterious_View4415",
+    "body": "I’m heading to Philly this weekend - tried all the big ones and loved uncle gus’s. Should Angelo’s be my next try?",
+    "replies": [
+     {
+      "author": "Icy_Possibility_9312",
+      "body": "Yes, but you should prepare yourself for how busy it will be. Showing up at 12:30 and wondering why 100 people are in line isn't the move."
+     },
+     {
+      "author": "XSC",
+      "body": "Try your luck calling a few times"
+     },
+     {
+      "author": "mk11201",
+      "body": "Start calling when you get to exit 14 on the turnpike.  This is the way. "
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0729",
+   "comment_id": "t1_nsfkd6q",
+   "model_view": "<post_title author=\"you\">Anybody know where I can find this ?</post_title>\n<post_body author=\"you\">Brought it in Singapore a year ago , but wonder if I can get this here or something similar</post_body>\n<thread_above>\n[1] another user: H Mart\n</thread_above>\n<comment_to_extract>\nLike .. which h mart ? I live in flushing there was 2 and I saw none\n</comment_to_extract>",
+   "context": {
+    "title": "Anybody know where I can find this ?",
+    "selftext": "Brought it in Singapore a year ago , but wonder if I can get this here or something similar  ",
+    "ancestors": [
+     {
+      "author": "nyc_azn",
+      "body": "H Mart"
+     }
+    ],
+    "author": "ResearchCautious9665",
+    "body": "Like .. which h mart ? I live in flushing there was 2 and I saw none",
+    "replies": [
+     {
+      "author": "nyc_azn",
+      "body": "May be sold out\n\nTry the other large scale flushing grocery markets."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0730",
+   "comment_id": "t1_o25pnrx",
+   "model_view": "<post_title>Weightloss veg orders in NYC</post_title>\n<post_body>I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.</post_body>\n<thread_above>\n[1] another user: Many Asian places have a version of sautéed veggies, it my usual go to if I am having a low calorie takeout day\n</thread_above>\n<comment_to_extract>\nYou can also request them to make it less oily and salty.\n</comment_to_extract>",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [
+     {
+      "author": "mashie_sauce",
+      "body": "Many Asian places have a version of sautéed veggies, it my usual go to if I am having a low calorie takeout day"
+     }
+    ],
+    "author": "cute_polarbear",
+    "body": "You can also request them to make it less oily and salty.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0731",
+   "comment_id": "t1_nogqeaw",
+   "model_view": "<post_title>Birthday weekend food lineup - would love feedback from NYC food people</post_title>\n<post_body>Hi everyone! I used to live in NYC for 10 years and moved away a couple of years ago after having a baby (sadly was too expensive for us but miss it all the time). Visiting for 48 hours this weekend for my birthday and would love any thoughts, feedback, critiques, etc of my current itinerary. \n\nI’m traveling with just my husband, we’re leaving my toddler behind and we rarely get time away together so really looking forward to this trip. I miss the energy of going out in NYC and want to find spots have a great food as well as good, fun vibes (mid 30s so want to avoid super young crowds). \n\nWe have tickets for Hamilton on Friday night and then catching up with friends on Saturday. Staying at The Beekman in FiDi, leaving early Sunday. \n\nHere is the lineup thus far:\n\nFriday \n- Los Tacos No 1 (used to love this place)\n- Pre show drinks at the nines (I’ve been once, my husband has not)\n- Hamilton \n- Late night dinner reservation at L’artusi (have actually never been here)\n- night cap at the Bar at the Beekman (have heard good things but wondering how late it goes since our dinner res is at 11pm)\n\nSaturday \n- bfast: Grab bagels and people watch at Washington sq park (best bagel spot?)\n- c ...</post_body>\n<comment_to_extract>\nI would skip superbueno to go to Paradise Lost or Attaboy\n</comment_to_extract>",
+   "context": {
+    "title": "Birthday weekend food lineup - would love feedback from NYC food people",
+    "selftext": "Hi everyone! I used to live in NYC for 10 years and moved away a couple of years ago after having a baby (sadly was too expensive for us but miss it all the time). Visiting for 48 hours this weekend for my birthday and would love any thoughts, feedback, critiques, etc of my current itinerary. \n\nI’m traveling with just my husband, we’re leaving my toddler behind and we rarely get time away together so really looking forward to this trip. I miss the energy of going out in NYC and want to find spots have a great food as well as good, fun vibes (mid 30s so want to avoid super young crowds). \n\nWe have tickets for Hamilton on Friday night and then catching up with friends on Saturday. Staying at The Beekman in FiDi, leaving early Sunday. \n\nHere is the lineup thus far:\n\nFriday \n- Los Tacos No 1 (used to love this place)\n- Pre show drinks at the nines (I’ve been once, my husband has not)\n- Hamilton \n- Late night dinner reservation at L’artusi (have actually never been here)\n- night cap at the Bar at the Beekman (have heard good things but wondering how late it goes since our dinner res is at 11pm)\n\nSaturday \n- bfast: Grab bagels and people watch at Washington sq park (best bagel spot?)\n- check out Bryant park Xmas village \n- lunch: Monkey Bar (have only been here for dinner)\n- check out foliage at Central Park (if it’s still peak?)\n- pre-dinner drinks at 9pm: the coop at double chicken please \n- dinner at 10pm: rubirosa (old fav)\n- post dinner drinks at 12am: superbueno (have never been but heard it was good, wondering if it gets lively?)\n\nAny and all feedback is so appreciated! Thank you!\n\n",
+    "ancestors": [],
+    "author": "banallthemusic",
+    "body": "I would skip superbueno to go to Paradise Lost or Attaboy",
+    "replies": [
+     {
+      "author": "random882205",
+      "body": "Thank you, will check out availability!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Superbueno",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Paradise Lost",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Attaboy",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0732",
+   "comment_id": "t1_nkelw9y",
+   "model_view": "<post_title>Hanis thoughts</post_title>\n<post_body>went to hanis  super excited as everyone raves about it, and was pretty disappointed. There was a line (which we expected) but it moved verry slow and the inside was extremely hectic. And then, I’m not sure if we just ordered wrong,  but the food fell flat. Here’s a brief overview:\n- shakshuka pastry: flavor and pastry were really good, wasn’t a huge fan that there was no option to heat it up so you’re eating cold egg \n\n-cinnamon roll: by far the biggest disappointment, the dough was kinda tough and it was way too sweet and had too much icing (which I didn’t even think could be possible)\n\n- chocolate chip cookie: the best of the bunch but again just a little too sweet\n\n- carrot cake: super smooth texture but overly sweet and very one noted on the flavor. \n\n\nI will say the workers were very kind, and the coffee was good but I just don’t think for the wait and the price ($8 for a cookie) I’ll be returning. Tall poppy has was less of a wait and better pastries IMO. Did anyone else have a similar experience?</post_body>\n<comment_to_extract>\nThe smoked salmon foccacia is my favorite thing there. I agree with your takes on everything you had though.\n</comment_to_extract>",
+   "context": {
+    "title": "Hanis thoughts",
+    "selftext": "went to hanis  super excited as everyone raves about it, and was pretty disappointed. There was a line (which we expected) but it moved verry slow and the inside was extremely hectic. And then, I’m not sure if we just ordered wrong,  but the food fell flat. Here’s a brief overview:\n- shakshuka pastry: flavor and pastry were really good, wasn’t a huge fan that there was no option to heat it up so you’re eating cold egg \n\n-cinnamon roll: by far the biggest disappointment, the dough was kinda tough and it was way too sweet and had too much icing (which I didn’t even think could be possible)\n\n- chocolate chip cookie: the best of the bunch but again just a little too sweet\n\n- carrot cake: super smooth texture but overly sweet and very one noted on the flavor. \n\n\nI will say the workers were very kind, and the coffee was good but I just don’t think for the wait and the price ($8 for a cookie) I’ll be returning. Tall poppy has was less of a wait and better pastries IMO. Did anyone else have a similar experience? \n\n",
+    "ancestors": [],
+    "author": "Specific-Yak-6450",
+    "body": "The smoked salmon foccacia is my favorite thing there. I agree with your takes on everything you had though.",
+    "replies": [
+     {
+      "author": "candles83",
+      "body": "I usually love this too. But I had it this weekend and sadly the focaccia wasn’t as light and airy. It was kinda dry. Hopefully it was just a one off day!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Hanis",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "smoked salmon focaccia",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "shakshuka pastry",
+       "level": "neutral",
+       "avoid": false
+      },
+      {
+       "dish": "cinnamon roll",
+       "level": "negative",
+       "avoid": false
+      },
+      {
+       "dish": "chocolate chip cookie",
+       "level": "neutral",
+       "avoid": false
+      },
+      {
+       "dish": "carrot cake",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "agreement",
+       "text": "Commenter agrees with the OP's takes on everything the OP ordered"
+      }
+     ],
+     "aspects": {
+      "taste": "neutral",
+      "value": "negative",
+      "service": "positive",
+      "atmosphere": "negative",
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pastries"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0733",
+   "comment_id": "t1_o7x674w",
+   "model_view": "<post_title>Food (cinnamon roll) recs</post_title>\n<post_body>Going to new york with my girlfriend in a few weekends and we LOVE cinnamon rolls? Where are the best cinnamon rolls in manhattan? I’m talking fluffy and doughy and HUGE! All, where can we find the best brunch? We wanted to do Tao brunch downtown but it is all booked the day we are going! Any and all recommendations appreciated! Also, any other recommendations for date activities? We loved the ice cream museum and want other things similar. Thanks in advance!</post_body>\n<comment_to_extract>\nYou're in luck because we're currently undergoing a cinnamon roll craze here in NYC. Sunday Morning is the #1 answer. Recommend getting there just before they open.\n\nRed Gate Bakery does a specialty roll on weekends but only does their classic cinnamon roll on Wednesday and Thursday.\n\nHani's gets recommended a lot, they have a unique take with a malty cream cheese frosting but I prefer something a bit more ooey gooey (theirs isn't bready per se but just doesn't have a ton of filling).\n\nHaven't been to Spirals or Benji's Buns but they also specialize in cinnamon buns with a lot of flavors.\n\nAs an offbeat recommendation, the chai sticky bun at Librae deserves an honorable mention.\n\nFinally I know you said Manhattan but one of the best cinnamon rolls I had recently was at Vato in Park Slope.\n</comment_to_extract>",
+   "context": {
+    "title": "Food (cinnamon roll) recs",
+    "selftext": "Going to new york with my girlfriend in a few weekends and we LOVE cinnamon rolls? Where are the best cinnamon rolls in manhattan? I’m talking fluffy and doughy and HUGE! All, where can we find the best brunch? We wanted to do Tao brunch downtown but it is all booked the day we are going! Any and all recommendations appreciated! Also, any other recommendations for date activities? We loved the ice cream museum and want other things similar. Thanks in advance! ",
+    "ancestors": [],
+    "author": "ourannual",
+    "body": "You're in luck because we're currently undergoing a cinnamon roll craze here in NYC. Sunday Morning is the #1 answer. Recommend getting there just before they open.\n\nRed Gate Bakery does a specialty roll on weekends but only does their classic cinnamon roll on Wednesday and Thursday.\n\nHani's gets recommended a lot, they have a unique take with a malty cream cheese frosting but I prefer something a bit more ooey gooey (theirs isn't bready per se but just doesn't have a ton of filling).\n\nHaven't been to Spirals or Benji's Buns but they also specialize in cinnamon buns with a lot of flavors.\n\nAs an offbeat recommendation, the chai sticky bun at Librae deserves an honorable mention.\n\nFinally I know you said Manhattan but one of the best cinnamon rolls I had recently was at Vato in Park Slope.",
+    "replies": [
+     {
+      "author": "Garconavecunreve",
+      "body": "I’ll add welcome home (also Brooklyn), pastry box bakery, losers and Chloe’s on Bleecker"
+     },
+     {
+      "author": "ilovegreekyogurt321",
+      "body": "Sunday morning is also opening a new location in flatiron (with seating) at 11 W 25th St!"
+     },
+     {
+      "author": "unfurledseas",
+      "body": "Vato’s cinnamon roll is so good!! I love the cream cheese based frosting."
+     },
+     {
+      "author": "broadwayandbarbells",
+      "body": "Which of these has a cream cheesy frosting? I’ve seen reviews saying which are the best but not describing the frosting. Which has the best cream cheese frosting?"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Sunday Morning",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "timing",
+       "text": "Get there just before they open"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cinnamon rolls"
+     ]
+    },
+    {
+     "name": "Red Gate Bakery",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "specialty roll",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "classic cinnamon roll",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "schedule",
+       "text": "Specialty roll on weekends; classic cinnamon roll only on Wednesday and Thursday"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cinnamon rolls"
+     ]
+    },
+    {
+     "name": "Hani's",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cinnamon roll",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "frosting",
+       "text": "Unique take with malty cream cheese frosting"
+      },
+      {
+       "about": "filling",
+       "text": "Not much filling; commenter prefers a gooier roll"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cinnamon rolls"
+     ]
+    },
+    {
+     "name": "Spirals",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "specialty",
+       "text": "Specializes in cinnamon buns with many flavors"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cinnamon buns"
+     ]
+    },
+    {
+     "name": "Benji's Buns",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "specialty",
+       "text": "Specializes in cinnamon buns with many flavors"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cinnamon buns"
+     ]
+    },
+    {
+     "name": "Librae",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "chai sticky bun",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "recommendation",
+       "text": "Offbeat pick, given an honorable mention"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sticky bun",
+      "chai"
+     ]
+    },
+    {
+     "name": "Vato",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Park Slope, Brooklyn",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cinnamon roll",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cinnamon rolls"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0734",
+   "comment_id": "t1_owv75vo",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n[1] another user: Killed by proteinmaxing\n[2] another user: Bro everything is protein now. They even got protein soda...like wtf?\n</thread_above>\n<comment_to_extract>\nCrowtein. A full crownin every can\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "walkingthecowww",
+      "body": "Killed by proteinmaxing"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Bro everything is protein now. They even got protein soda...like wtf? "
+     }
+    ],
+    "author": "upyourattraction",
+    "body": "Crowtein. A full crownin every can",
+    "replies": [
+     {
+      "author": "SpongeyBobaruu",
+      "body": "For bodyguards, by body guards."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0735",
+   "comment_id": "t1_oiytz4n",
+   "model_view": "<post_title>Pregnancy Craving for CA-Style Breakfast Burrito</post_title>\n<post_body>I’m 15 weeks pregnant, and all I want is a Cali-style breakfast burrito. No separated, layered dry ingredients. No bell pepper. I want chorizo, potatoes, eggs and cheddar cheese all combined together in one glorious lump, where the chorizo grease turns the eggs and tortilla red. My craving is aggressive and it remains unsatisfied. I’m almost in tears because I can’t find one anywhere in NYC. I gave a place a chance yesterday and the chorizo was dry structured sausage, the layers separate, and there was bell pepper in it. I have been searching for one since I moved here 12 years ago. \n\nMy consolation is Tacombi because the ingredients are mushed together, but they open at 11 so that rules out weekday breakfast.</post_body>\n<comment_to_extract>\nTry Alfalfa in Jersey City or Hoboken\n</comment_to_extract>",
+   "context": {
+    "title": "Pregnancy Craving for CA-Style Breakfast Burrito",
+    "selftext": "I’m 15 weeks pregnant, and all I want is a Cali-style breakfast burrito. No separated, layered dry ingredients. No bell pepper. I want chorizo, potatoes, eggs and cheddar cheese all combined together in one glorious lump, where the chorizo grease turns the eggs and tortilla red. My craving is aggressive and it remains unsatisfied. I’m almost in tears because I can’t find one anywhere in NYC. I gave a place a chance yesterday and the chorizo was dry structured sausage, the layers separate, and there was bell pepper in it. I have been searching for one since I moved here 12 years ago. \n\nMy consolation is Tacombi because the ingredients are mushed together, but they open at 11 so that rules out weekday breakfast. ",
+    "ancestors": [],
+    "author": "No_Lawfulness7968",
+    "body": "Try Alfalfa in Jersey City or Hoboken ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0736",
+   "comment_id": "t1_nopix7b",
+   "model_view": "<post_title>Halal in Midtown - 42nd and Fifth?</post_title>\n<post_body>I started a job in Midtown at 42nd Street and Fifth Avenue.  Is there a \"best\" or favorite Halal cart in the neighborhood?</post_body>\n<comment_to_extract>\nAdding on - 6th ave around those street blocks probably has my favorite assortment of halal in the city.\n\nRoyal Grill and Kwik have been mentioned, and I like both. BUT - Kwik meal is an entirely different style (Tzatziki for white sauce, and an interesting spicy green sauce). It's great but it may not be what you're looking for. \n\nRoyal Grill has a punch card, but I find that their food can be a bit inconsistent. Some days its really good, other days I wish I went elsewhere. \n\nADel's just pay the mark up for pick up. It's not worth waiting an hour+ on line unless you'r ethere after 1am or the weather sucks. Then it's usually shorter. It is good though, equal rice seasoning and protein equal to my favorite spot in Queens although Adel's has better hot sauce. \n\nBiryani Cart is solid and also do a pretty tasty kati roll selection nearby.\n</comment_to_extract>",
+   "context": {
+    "title": "Halal in Midtown - 42nd and Fifth?",
+    "selftext": "I started a job in Midtown at 42nd Street and Fifth Avenue.  Is there a \"best\" or favorite Halal cart in the neighborhood?",
+    "ancestors": [],
+    "author": "iniquities",
+    "body": "Adding on - 6th ave around those street blocks probably has my favorite assortment of halal in the city.\n\nRoyal Grill and Kwik have been mentioned, and I like both. BUT - Kwik meal is an entirely different style (Tzatziki for white sauce, and an interesting spicy green sauce). It's great but it may not be what you're looking for. \n\nRoyal Grill has a punch card, but I find that their food can be a bit inconsistent. Some days its really good, other days I wish I went elsewhere. \n\nADel's just pay the mark up for pick up. It's not worth waiting an hour+ on line unless you'r ethere after 1am or the weather sucks. Then it's usually shorter. It is good though, equal rice seasoning and protein equal to my favorite spot in Queens although Adel's has better hot sauce. \n\nBiryani Cart is solid and also do a pretty tasty kati roll selection nearby.",
+    "replies": [
+     {
+      "author": "justflipping",
+      "body": ">\tIt is good though, equal rice seasoning and protein equal to my favorite spot in Queens although Adel’s has better hot sauce.\n\nWhat’s the spot in Queens?"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Kwik",
+     "named_in": "comment",
+     "kind": "truck_or_cart",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "style",
+       "text": "Kwik meal is a different style: tzatziki for white sauce and an interesting spicy green sauce; may not be what the asker wants"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "halal"
+     ]
+    },
+    {
+     "name": "Adel's",
+     "named_in": "comment",
+     "kind": "truck_or_cart",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "pickup markup",
+       "text": "pickup costs a markup"
+      },
+      {
+       "about": "wait",
+       "text": "lines often over an hour; shorter after 1am or in bad weather"
+      },
+      {
+       "about": "comparison",
+       "text": "rice seasoning and protein equal to the commenter's favorite Queens spot; hot sauce is better here"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "halal"
+     ]
+    },
+    {
+     "name": "Biryani Cart",
+     "named_in": "comment",
+     "kind": "truck_or_cart",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "kati roll",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "halal"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0737",
+   "comment_id": "t1_p4zv9lf",
+   "model_view": "<post_title>Looking for Different Pizza Styles (chicago, detroit, grandma etc.)</post_title>\n<post_body>Hey!\n\nIm a big fan of all the different pizza style (for example Chicago and Detroit, NOT italian) and I would love to be able to try them all in a authentic way when coming to NYC. \n\nAny recommendations for pizza spots where they have some special type of pizza? \n\nThanks! 🤌🙏</post_body>\n<thread_above>\n[1] another user: Detroit pizza - High - Emmy Medium - Ace’s Low - Jet’s Chicago pizza - High - Emmett’s Low - UNO’s\n</thread_above>\n<comment_to_extract>\nA lot of people tell me aces is better than Emmy squared or Emily. Guess I’ll just have to try for myself. \n\nDo love Emily tho. Gotta get the pepperoni, jalapeño and hot honey pie. Forgot the name\n</comment_to_extract>",
+   "context": {
+    "title": "Looking for Different Pizza Styles (chicago, detroit, grandma etc.)",
+    "selftext": "Hey!\n\nIm a big fan of all the different pizza style (for example Chicago and Detroit, NOT italian) and I would love to be able to try them all in a authentic way when coming to NYC. \n\nAny recommendations for pizza spots where they have some special type of pizza? \n\nThanks! 🤌🙏",
+    "ancestors": [
+     {
+      "author": "Fmbounce",
+      "body": "Detroit pizza -   \nHigh - Emmy   \nMedium - Ace’s  \nLow - Jet’s\n\nChicago pizza -  \nHigh - Emmett’s  \nLow - UNO’s"
+     }
+    ],
+    "author": "Boring_Specific_2022",
+    "body": "A lot of people tell me aces is better than Emmy squared or Emily. Guess I’ll just have to try for myself. \n\nDo love Emily tho. Gotta get the pepperoni, jalapeño and hot honey pie. Forgot the name ",
+    "replies": [
+     {
+      "author": "michepc",
+      "body": "Ace’s is great."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "aces",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "secondhand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Many people say it beats Emmy Squared; commenter plans to try it themselves"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Emmy squared",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pepperoni, jalapeño and hot honey pie",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "order",
+       "text": "Commenter says to get the pepperoni, jalapeño and hot honey pie; forgot its name"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0738",
+   "comment_id": "t1_njpbhzm",
+   "model_view": "<post_title>Memorable experience in or around West Village next week?</post_title>\n<post_body>In town and looking to take a local friend out next Thurs for a memorable evening. Anyone have any  recommendations near West Village or say within 20 mins uber/train/bike?\n\n  \nHave taken him in the past to Don Angie and Buvette. Both were nice. Anyone have any recs for an experience that is memorable? Would also settle for mediocre food if it included some form of strong live entertainment / interesting atmosphere or experience.\n\n  \nMany thanks in advance!</post_body>\n<comment_to_extract>\nMinetta tavern and the groove (live music venue) comedy cellar next to it. Terra blues (blues club) some amazing cocktail bars   Incredible area to just explore and find fun\n</comment_to_extract>",
+   "context": {
+    "title": "Memorable experience in or around West Village next week?",
+    "selftext": "In town and looking to take a local friend out next Thurs for a memorable evening. Anyone have any  recommendations near West Village or say within 20 mins uber/train/bike?\n\n  \nHave taken him in the past to Don Angie and Buvette. Both were nice. Anyone have any recs for an experience that is memorable? Would also settle for mediocre food if it included some form of strong live entertainment / interesting atmosphere or experience.\n\n  \nMany thanks in advance!",
+    "ancestors": [],
+    "author": "wdrub",
+    "body": "Minetta tavern and the groove (live music venue) comedy cellar next to it. Terra blues (blues club) some amazing cocktail bars   Incredible area to just explore and find fun",
+    "replies": [
+     {
+      "author": "Tasty-Ad-5175",
+      "body": "Great recs, thank you! Especially curious about Terra Blues"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Minetta tavern",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tavern"
+     ]
+    },
+    {
+     "name": "Terra blues",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "type",
+       "text": "blues club"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "blues",
+      "live music"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0739",
+   "comment_id": "t1_p6ak2ii",
+   "model_view": "<post_title author=\"you\">Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<thread_above>\n[1] another user: I've tasted 5 different slices, aa well as two sandwiches, and all were great\n[2] you, earlier: Even the ones that sound weird are good\n[3] another user: which ones sound weird?\n[4] you, earlier: The one with pears\n[5] another user: oh i love that one!\n</thread_above>\n<comment_to_extract>\nYea it’s really good I was surprised\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Neptune28",
+      "body": "I've tasted 5 different slices, aa well as two sandwiches, and all were great"
+     },
+     {
+      "author": "RumPunchKid",
+      "body": "Even the ones that sound weird are good"
+     },
+     {
+      "author": "nightkhan",
+      "body": "which ones sound weird?"
+     },
+     {
+      "author": "RumPunchKid",
+      "body": "The one with pears"
+     },
+     {
+      "author": "nightkhan",
+      "body": "oh i love that one!"
+     }
+    ],
+    "author": "RumPunchKid",
+    "body": "Yea it’s really good I was surprised ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0740",
+   "comment_id": "t1_jrqd79z",
+   "model_view": "<post_title>List of terrible restaurants in NYC with great customer reviews</post_title>\n<post_body>Wo hop\nAiththi \nSpice Symphony\nPongisiri \nkarahi\nTipsy Shanghai\nSOL Mexican</post_body>\n<thread_above>\n[1] another user: - marsalawala—my shrimp was completely disintegrated mush in the curry, which probably means it sat in the shells too long. They did refund me but wouldn’t acknowledge the shrimp were bad or offer to remake it. They said they were supposed to be that way. - parm-bland as hell - ugly baby- totally overpriced with shitty attitude. Food was ok. -magnolia bakery-driest cupcakes I’ve ever eaten\n</thread_above>\n<comment_to_extract>\nMy sister and her Bf basically live at Parm. Are there once had to return the meatballs cause they seemed undercooked. \n\nMagnolia Bakery is only good for that Banana Pudding\n</comment_to_extract>",
+   "context": {
+    "title": "List of terrible restaurants in NYC with great customer reviews",
+    "selftext": "Wo hop\nAiththi \nSpice Symphony\nPongisiri \nkarahi\nTipsy Shanghai\nSOL Mexican",
+    "ancestors": [
+     {
+      "author": "Artistic-Dot-2279",
+      "body": "- marsalawala—my shrimp was completely disintegrated mush in the curry, which probably means it sat in the shells too long. They did refund me but wouldn’t acknowledge the shrimp were bad or offer to remake it. They said they were supposed to be that way. \n\n- parm-bland as hell\n\n- ugly baby- totally overpriced with shitty attitude. Food was ok.\n\n-magnolia bakery-driest cupcakes I’ve ever eaten"
+     }
+    ],
+    "author": "plainbagel11",
+    "body": "My sister and her Bf basically live at Parm. Are there once had to return the meatballs cause they seemed undercooked. \n\nMagnolia Bakery is only good for that Banana Pudding",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Parm",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "secondhand",
+     "dishes": [
+      {
+       "dish": "meatballs",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "meatballs",
+       "text": "Sister once had to return the meatballs because they seemed undercooked."
+      },
+      {
+       "about": "sister",
+       "text": "Sister and her boyfriend basically live at Parm."
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian-american"
+     ]
+    },
+    {
+     "name": "Magnolia Bakery",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "Banana Pudding",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "dessert"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0741",
+   "comment_id": "t1_nkegmc5",
+   "model_view": "<post_title>What are some good examples of nyc restaurants/food businesses that have scaled up, expanded and become chains without sacrificing quality?</post_title>\n<thread_above>\n[1] another user: Shake Shack is still good right?\n[2] another user: Shake Shack is still good, but man was it amazing when it was one location in Mad Sq Park. I believe he originally used a beef blend for the burgers (brisket, sirloin, chuck if memory serves) and it was a gigantic difference. The food was always fresh off the grill and I'm sure waiting an hour built up quite a hunger, but to this day I remember it being some of the best food I'd ever had.\n</thread_above>\n<comment_to_extract>\nThey don’t use that blend any more??!! That blend was shake shacks calling card back in the day. I recall some butchers would copy the mix/ratio and market it as such\n</comment_to_extract>",
+   "context": {
+    "title": "What are some good examples of nyc restaurants/food businesses that have scaled up, expanded and become chains without sacrificing quality?",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "tacologic",
+      "body": "Shake Shack is still good right?"
+     },
+     {
+      "author": "FajitaTits",
+      "body": "Shake Shack is still good, but man was it amazing when it was one location in Mad Sq Park. I believe he originally used a beef blend for the burgers (brisket, sirloin, chuck if memory serves) and it was a gigantic difference. The food was always fresh off the grill and I'm sure waiting an hour built up quite a hunger, but to this day I remember it being some of the best food I'd ever had."
+     }
+    ],
+    "author": "ScreenPuzzleheaded48",
+    "body": "They don’t use that blend any more??!! That blend was shake shacks calling card back in the day. I recall some butchers would copy the mix/ratio and market it as such",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Shake Shack",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "burgers",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "beef blend",
+       "text": "Commenter asks whether Shake Shack still uses the original beef blend (brisket, sirloin, chuck) that was its signature in the early days; also recalls butchers copying the blend."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "burgers",
+      "chain"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0742",
+   "comment_id": "t1_owl51n5",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<comment_to_extract>\nAw I used to love their freezes so much! But the last time I got one I noticed the ingredients had completely changed (which was a huge reason I got them, in addition to their tasting so great) so I kind of figured they’ve been having to cut corners…\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [],
+    "author": "blueberrycrispp",
+    "body": "Aw I used to love their freezes so much! But the last time I got one I noticed the ingredients had completely changed (which was a huge reason I got them, in addition to their tasting so great) so I kind of figured they’ve been having to cut corners…",
+    "replies": [
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "This was the 2nd time they changed their vanilla flavor and it's sooo good this time. Fewer of their locations serve the freeze and I wanted to try it again "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Pressed Juicery",
+     "named_in": "context",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "freezes",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "ingredients changed",
+       "text": "The commenter noticed the freezes' ingredients had completely changed on their last order, which was a major reason they bought them."
+      },
+      {
+       "about": "cutting corners",
+       "text": "The commenter suspects the company has been cutting corners."
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": "declined",
+     "status": null,
+     "price": null,
+     "tags": [
+      "juice",
+      "freezes"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0743",
+   "comment_id": "t1_o9jchty",
+   "model_view": "<post_title>CMV: Lucky Charlie has got the best pie in the city.</post_title>\n<thread_above>\n[1] another user: its really good. not the best pie though.\n[2] another user: It all just comes down to personal preference at this point. Pizza around the area, NJ, NY, New Haven, is on a whole tier of its own. I didn’t even know how good we had it until I moved out. Went to some pizzeria that’s supposed to be number 1 in the area, and it was meh.\n[3] you, earlier: Ain't that the truth. I'm such a gremlin for a sweet umami sauce & will never back down on Dani's being the best slice *for me*.\n[4] another user: It's an A tier slice, but S tier after midnight for some reason.\n</thread_above>\n<comment_to_extract>\nThey do huge late night volume with it being on top of the LIRR stop, that's the real key. Take a late night off peak out there.\n</comment_to_extract>",
+   "context": {
+    "title": "CMV: Lucky Charlie has got the best pie in the city.",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "ted_the_ked1",
+      "body": "its really good. not the best pie though. "
+     },
+     {
+      "author": "Legote",
+      "body": "It all just comes down to personal preference at this point. Pizza around the area, NJ, NY, New Haven, is on a whole tier of its own. I didn’t even know how good we had it until I moved out. Went to some pizzeria that’s supposed to be number 1 in the area, and it was meh."
+     },
+     {
+      "author": "Smooth_Influence_488",
+      "body": "Ain't that the truth. I'm such a gremlin for a sweet umami sauce & will never back down on Dani's being the best slice *for me*. "
+     },
+     {
+      "author": "lambretta76",
+      "body": "It's an A tier slice, but S tier after midnight for some reason."
+     }
+    ],
+    "author": "Smooth_Influence_488",
+    "body": "They do huge late night volume with it being on top of the LIRR stop, that's the real key. Take a late night off peak out there. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Lucky Charlie",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "on top of the LIRR stop",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "late night tip",
+       "text": "huge late night volume; go late night off peak"
+      },
+      {
+       "about": "location",
+       "text": "sits on top of the LIRR stop"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "late night",
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0744",
+   "comment_id": "t1_ninbfx6",
+   "model_view": "<post_title>heading off to new york and looking for restaurant recommendations!! were staying 6 min walk away from times square so nottoo far</post_title>\n<comment_to_extract>\nIf you are here for more than 1 night, I would recommend venturing out of Midtown. Check out the West Village, Chelsea, Lower East Side as a few places that have amazing restaurants. The subway is fast and the least expensive but you could also taxi if you wanted to.\n</comment_to_extract>",
+   "context": {
+    "title": "heading off to new york and looking for restaurant recommendations!! were staying 6 min walk away from times square so nottoo far",
+    "selftext": "",
+    "ancestors": [],
+    "author": "amyheming",
+    "body": "If you are here for more than 1 night, I would recommend venturing out of Midtown. Check out the West Village, Chelsea, Lower East Side as a few places that have amazing restaurants. The subway is fast and the least expensive but you could also taxi if you wanted to.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0745",
+   "comment_id": "t1_owtdezk",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<comment_to_extract>\nThat rent too high\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [],
+    "author": "LordDiddyBootyJaxson",
+    "body": "That rent too high ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Pressed Juicery",
+     "named_in": "context",
+     "kind": "cafe",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "closure reason",
+       "text": "Commenter attributes the closure of the location to high rent."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "juice"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0746",
+   "comment_id": "t1_n7h06l3",
+   "model_view": "<post_title>Delivery in Manhattan with a daily $40 lunch budget?</post_title>\n<post_body>What would you get? I’ve gotten Ravagh, Shuka, Cafe Mogador so far. \n\nI’m eating in an office (in Flatiron) and prefer to not eat overly adventurous dishes during the work day. Thank you!!!</post_body>\n<comment_to_extract>\nYou spend $200/week on *lunch*?! I'm so jealous\n</comment_to_extract>",
+   "context": {
+    "title": "Delivery in Manhattan with a daily $40 lunch budget?",
+    "selftext": "What would you get? I’ve gotten Ravagh, Shuka, Cafe Mogador so far. \n\nI’m eating in an office (in Flatiron) and prefer to not eat overly adventurous dishes during the work day. Thank you!!! ",
+    "ancestors": [],
+    "author": "BehemothJr",
+    "body": "You spend $200/week on *lunch*?! I'm so jealous",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0747",
+   "comment_id": "t1_ox4o1zv",
+   "model_view": "<post_title>Every Sunday is Soup Sunday. I'm running out of soups. Where are the best soups?</post_title>\n<post_body>Any soup will do, does not have to be the regular ramens, phos, any soup, as long as its tasty. Soup is being treated as a second class food and needs awareness.</post_body>\n<comment_to_extract>\nWhite Borscht - it’s delicious but a tad heavy. But, though I don’t love soups in hot weather, you seem too.\n</comment_to_extract>",
+   "context": {
+    "title": "Every Sunday is Soup Sunday. I'm running out of soups. Where are the best soups?",
+    "selftext": "Any soup will do, does not have to be the regular ramens, phos, any soup, as long as its tasty. Soup is being treated as a second class food and needs awareness.",
+    "ancestors": [],
+    "author": "SeriesSenior3327",
+    "body": "White Borscht - it’s delicious but a tad heavy. But, though I don’t love soups in hot weather, you seem too.",
+    "replies": [
+     {
+      "author": "XxTehBanditxX",
+      "body": "Do you have any preferred places to get this?"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0748",
+   "comment_id": "t1_ors3no0",
+   "model_view": "<post_title>Best deli pickles in NYC (preferably near manhattan)</post_title>\n<post_body>Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!</post_body>\n<comment_to_extract>\nPickle guy on Grand St.\n</comment_to_extract>",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [],
+    "author": "Otherwise-Air-4473",
+    "body": "Pickle guy on Grand St.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Pickle guy on Grand St.",
+     "named_in": "comment",
+     "kind": "market_stall",
+     "location": "Grand St",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pickles"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0749",
+   "comment_id": "t1_kzf6gm2",
+   "model_view": "<post_title author=\"you\">Cheap/Hole-in-the-wall Persian and Turkish food</post_title>\n<post_body author=\"you\">Hey guys I’m an Azerbaijani jew and love both Turkish and Persian cuisine as my culture is a mix of both. I’m from Staten Island and living in the city rn but really miss homemade or good restaurant food. Any recs for Persian or Turkish food hole in the wall type places. The cheaper the better as I’m a college student and anywhere in the city works that’s not Staten Island. Ideally it’s a run down shop with a dude in the back and a charcoal grill Prbly smoking a cig but if not any recs work too!</post_body>\n<thread_above>\n[1] another user: Istanbul Kebab House in Hell's Kitchen sounds like it fits the bill, it's a tiny place but still has table service and HUGE portions for great prices. Also heard that Bereket/Ankara on the LES has similar vibes and was a longtime late-night staple that just reopened.\n</thread_above>\n<comment_to_extract>\nIstanbul kebab house seems very similar to Turco which is right there and Turco has higher reviews wdyt? Bereket looks kinda mid by reviews have you been?\n</comment_to_extract>",
+   "context": {
+    "title": "Cheap/Hole-in-the-wall Persian and Turkish food",
+    "selftext": "Hey guys I’m an Azerbaijani jew and love both Turkish and Persian cuisine as my culture is a mix of both. I’m from Staten Island and living in the city rn but really miss homemade or good restaurant food. Any recs for Persian or Turkish food hole in the wall type places. The cheaper the better as I’m a college student and anywhere in the city works that’s not Staten Island. Ideally it’s a run down shop with a dude in the back and a charcoal grill Prbly smoking a cig but if not any recs work too!",
+    "ancestors": [
+     {
+      "author": "superturtle48",
+      "body": "Istanbul Kebab House in Hell's Kitchen sounds like it fits the bill, it's a tiny place but still has table service and HUGE portions for great prices. Also heard that Bereket/Ankara on the LES has similar vibes and was a longtime late-night staple that just reopened."
+     }
+    ],
+    "author": "zekromy123456789",
+    "body": "Istanbul kebab house seems very similar to Turco which is right there and Turco has higher reviews wdyt? Bereket looks kinda mid by reviews have you been?",
+    "replies": [
+     {
+      "author": "superturtle48",
+      "body": "I've only been to Istanbul Kebab House so can only speak to my positive experience there. If you're around for a while why not try them all and report back!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Istanbul kebab house",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "question",
+       "text": "asks whether it is similar to Turco"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "turkish"
+     ]
+    },
+    {
+     "name": "Turco",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reviews",
+       "text": "asks whether its higher review scores make it the better pick over Istanbul kebab house"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "turkish"
+     ]
+    },
+    {
+     "name": "Bereket",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reviews",
+       "text": "commenter says it looks mid by online reviews, not from their own visit; asks if others have been"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "turkish"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0750",
+   "comment_id": "t1_icznqaj",
+   "model_view": "<post_title>I’m coming to NYC from the UK in April 2023 with my wife and 2 kids, it’s my 40th while we’re there and I’d like some suggestions on amazing family friendly restaurants where I can enjoy birthday meal please?! TIA</post_title>\n<thread_above>\n[1] another user: There's hundreds of good options for this. * What do you like to eat? Don't like? Can't eat? What's game breakers for the fam? * How much do you want to/can spend? * Where are you staying? Where are you willing to travel to? * How old are the kids?\n[2] OP: Food wise, no sushi (probably an unpopular opinion 😂) happy with anything else I want it to be something to remember so willing to pay so probably thinking $750 max for all 4 of us We’re staying in Midtown East so happy to go anywhere in lower Manhattan and Williamsburg Kids will be 12 and 9\n[3] another user: $750 for 4 only really puts top end tasting menus out the door, so you have a lot of room to work with. Your kids are also of an age where what will work with them is down to you (I wouldn't have sat still for something fancy at age 9, but my brother 100% would have). The obvious (to me) option is the steakhouse (I'm a fan of a steakhouse for birthdays). Here's a brief rundown of options (if you decide a steakhouse fits the bill. There are plenty of other good options as well): * Keens - classic old school NYC, you're not going to be surprised by anything, but it's an institution. * Quality Meats/Italian - a lot of people are fans, and it's near where you're staying. I liked them, but wasn't blown away. Much more modern. * St. Anselm - My favorite steakhouse in NYC. Setting is very informal, the rib eye is always the thing to get (I think that large format steaks for the table are always the right option at any steakhouse). They really stand out w/ their sides, almost everything comes off their wood burning grill. * Cote - The most unusual, a Korean take on the steakhouse. They have 2 tasting menus that show off a bunch of different cuts, and there's a lot of options for addons (If you do the Butcher's feast, you can add some Wagyu as something special). * 4 Charles for prime rib, good luck getting a rez that's at a time where your kids will be a awake. * This is far from an exhaustive list, but it's a few of the front runners. Also, my current reach for reservations (I need ...\n</thread_above>\n<comment_to_extract>\nid add peter leugers to that steakhouse list!\n</comment_to_extract>",
+   "context": {
+    "title": "I’m coming to NYC from the UK in April 2023 with my wife and 2 kids, it’s my 40th while we’re there and I’d like some suggestions on amazing family friendly restaurants where I can enjoy birthday meal please?! TIA",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "thansal",
+      "body": "There's hundreds of good options for this.\n\n* What do you like to eat? Don't like? Can't eat?  What's game breakers for the fam?\n* How much do you want to/can spend?\n* Where are you staying? Where are you willing to travel to?\n* How old are the kids?"
+     },
+     {
+      "author": "No_Needleworker_2266",
+      "body": "Food wise, no sushi (probably an unpopular opinion 😂) happy with anything else\n\nI want it to be something to remember so willing to pay so probably thinking $750 max for all 4 of us\n\nWe’re staying in Midtown East so happy to go anywhere in lower Manhattan and Williamsburg \n\nKids will be 12 and 9"
+     },
+     {
+      "author": "thansal",
+      "body": "$750 for 4 only really puts top end tasting menus out the door, so you have a lot of room to work with.  Your kids are also of an age where what will work with them is down to you (I wouldn't have sat still for something fancy at age 9, but my brother 100% would have).\n\nThe obvious (to me) option is the steakhouse (I'm a fan of a steakhouse for birthdays).  Here's a brief rundown of options (if you decide a steakhouse fits the bill.  There are plenty of other good options as well):\n\n* Keens - classic old school NYC, you're not going to be surprised by anything, but it's an institution.\n* Quality Meats/Italian - a lot of people are fans, and it's near where you're staying.  I liked them, but wasn't blown away.  Much more modern.\n* St. Anselm - My favorite steakhouse in NYC.  Setting is very informal, the rib eye is always the thing to get (I think that large format steaks for the table are always the right option at any steakhouse).  They really stand out w/ their sides, almost everything comes off their wood burning grill.\n* Cote - The most unusual, a Korean take on the steakhouse. They have 2 tasting menus that show off a bunch of different cuts, and there's a lot of options for addons (If you do the Butcher's feast, you can add some Wagyu as something special).\n* 4 Charles for prime rib, good luck getting a rez that's at a time where your kids will be a awake.\n* This is far from an exhaustive list, but it's a few of the front runners.\n\nAlso, my current reach for reservations (I need to snag a time that works w/ people): Rabbit from Dhamaka.  I'm a huge fan of the restaurant group behind Dhamaka, but haven't been to Dhamaka itself yet, and would love to get their whole rabbit (one a night, book well in advance).\n\nAnd as one April '83 baby to another: happy early birthday :) Now I need to start thinking about what I want to do for my 40th in April as well..."
+     }
+    ],
+    "author": "New_Independent_9221",
+    "body": "id add peter leugers to that steakhouse list!",
+    "replies": [
+     {
+      "author": "stevehobbes",
+      "body": "Are you drunk? Why?"
+     },
+     {
+      "author": "lasagnaman",
+      "body": "Absolutely not, lol"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "peter leugers",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse"
+     ]
+    }
+   ]
+  }
+ ]
+}

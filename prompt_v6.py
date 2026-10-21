@@ -20,6 +20,12 @@ author="you" when the commenter wrote the post), up to five ancestors (the
 parent cut at 1,500, the rest at 300, labelled OP / you, earlier / another
 user, with deleted and missing ones marked) and the comment, with '>' quote
 blocks marked. Post mode sees the title and the body cut at 4,000.
+
+Thread mode (prompts_v6/v6_thread.py) is the one prompt here that is not
+byte for byte the benchmark's: it is round 4's thread prompt plus the
+additions listed in tests/v6_thread_additions.py (the post as item [0], and
+quoted ancestor chains), so it has its own hash. fetch_thread_rows reads the
+whole comment tree it needs; thread_chunks.py cuts it into chunks.
 """
 
 import importlib.util
@@ -38,6 +44,10 @@ def _load(name):
 
 _comment = _load("v6_comment")   # loads v6_common.py and v6_schema.json from the same folder
 adapter = _load("v6_adapter")
+# Thread mode: the round-4 thread prompt and renderer plus two production
+# additions (the post as item [0], quoted ancestor chains), each listed in
+# tests/v6_thread_additions.py. thread_chunks.py decides what goes in a chunk.
+thread = _load("v6_thread")
 
 SYSTEM_PROMPT = _comment.SYSTEM_PROMPT
 SYSTEM_PROMPT_POST = _comment.SYSTEM_PROMPT_POST
@@ -46,6 +56,9 @@ PROMPT_HASH = _comment.PROMPT_HASH                 # 979dcd6b9267
 PROMPT_HASH_POST = _comment.PROMPT_HASH_POST       # 436d834d7edd
 build_user_message = _comment.build_user_message   # (comment_rows record) -> str
 build_post_message = _comment.build_post_message   # (title, selftext) -> str
+SYSTEM_PROMPT_THREAD = thread.SYSTEM_PROMPT
+SCHEMA_THREAD = thread.SCHEMA                      # the comment schema with an integer "id" first
+PROMPT_HASH_THREAD = thread.PROMPT_HASH            # ac9b063da8e6
 
 GONE = ("[deleted]", "[removed]")
 # One more ancestor than the renderer shows, so it knows when it cut and says
@@ -58,6 +71,13 @@ MODEL = "claude-haiku-5-5"
 EFFORT = "medium"
 MAX_TOKENS = 16000
 SCHEMA_VERSION = 6
+# Thread mode was benchmarked with round 1's prompt at low and medium: at
+# medium 109 of 361 chunks overflowed 16k on thinking, and at low the worst
+# chunk used 29k (eval/bench_v6/DIAGNOSIS.md), so a chunk gets 32k. Medium is
+# the owner's default; low is the cheaper setting under test.
+THREAD_MAX_TOKENS = 32000
+THREAD_EFFORTS = ("low", "medium")
+THREAD_EFFORT = "medium"
 
 # The owner's five levels as the small integers the v6 columns store, so they
 # sort and count directly. NULL means the text said nothing; 0 is "mixed".
@@ -133,6 +153,28 @@ def fetch_post_rows(conn, tids):
     with conn.cursor() as cur:
         cur.execute("select id, title, selftext, author from threads where id = any(%s)", (tids,))
         return {r[0]: (r[1], r[2], r[3]) for r in cur.fetchall()}
+
+
+def fetch_thread_rows(conn, tids):
+    """{thread_id: {"title", "selftext", "author", "comments": [row]}} for the given posts that exist.
+
+    Every comment of each thread, due or not and deleted or not, because the
+    chunker needs the whole tree to group replies and to quote ancestors. A
+    row is {"comment_id", "parent_comment_id", "author", "body", "created_utc"},
+    which is what thread_chunks reads."""
+    tids = sorted(set(tids))
+    if not tids:
+        return {}
+    with conn.cursor() as cur:
+        cur.execute("select id, title, selftext, author from threads where id = any(%s)", (tids,))
+        out = {r[0]: {"title": r[1], "selftext": r[2], "author": r[3], "comments": []} for r in cur.fetchall()}
+        cur.execute("""select id, thread_id, parent_comment_id, author, body, created_utc from comments
+                       where thread_id = any(%s) order by thread_id, created_utc, id""", (tids,))
+        for cid, tid, parent, author, body, created in cur.fetchall():
+            if tid in out:
+                out[tid]["comments"].append({"comment_id": cid, "parent_comment_id": parent, "author": author,
+                                             "body": body, "created_utc": created.isoformat() if created else ""})
+    return out
 
 
 def render(kind, row):

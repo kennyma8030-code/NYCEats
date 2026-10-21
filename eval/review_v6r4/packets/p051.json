@@ -1,0 +1,1734 @@
+{
+ "packet": "p051",
+ "items": [
+  {
+   "item_id": "R1243",
+   "comment_id": "t1_m5w5917",
+   "model_view": "<post_title>is my restaurant itinerary solid? should I add/remove anything</post_title>\n<post_body>Going to nyc for five days and trying to plan food itinerary a month in advance to ensure I'm able to lock down reservations. My main reason of traveling to NYC is just to eat so food kind of is the itinerary. List is comprised of recs from nyt, michelin guide and chefs I know who work in the area. The seemingly endless amount of good food in new york and hundreds of must try lists are a bit overwhelming though.  \n\nfor bakeries I have Radio Bakery and Librae\n\nFor pizza I have L'industrie, Roberta's and Stretch Pizza\n\nfor nicer restaurants I have Gramercy Tavern and Tatiana (should I somehow be able to score a res) \n\nI also have Veselka, Upland, Fish Cheeks, Great NY noodletown and La Mercerie.  \n\nI'm looking to eat the best of that food that exists in the city and have budgeted about $300 a day for food. Any advice for additions or places that could be skipped would be great. Thank you!</post_body>\n<thread_above>\n[1] another user: Maybe I'm missing something, but I don't think Stretch Pizza belongs on this list. I've had it before, it was fine, but the best pizza that exists in Manhattan? No way. I'd say the same for Veselka. I actually enjoy Veselka, but it's way overhyped. I might get downvoted, but honestly it's fairly basic diner food. For amazing pizza, but really tough to score a table Una Pizza Napoletana or Lucali. Rubirosa is a more attainable table wise in my experience and also makes incredible pizza. Also, feel like maybe a steakhouse could be worth a visit. Perhaps the mutton from Keens steakhouse. If you can score a table, a 4 charles visit would be well worth it for their burger too. If you're going to L'industrie in the west village, could also grab a slice from Mama Too's - amazing pizza, but you'll be stuffed after that. I also would argue Upland doesn't belong on this list. I used to live fairly close to Upland. It's good, but I don't know think it's best in NYC. Search the sub some more, it's overflowing with great recommendations.\n</thread_above>\n<comment_to_extract>\nAgree on the pizza. Lucali and Rubirosa are both great. Never heard of stretch. Mama Too’s is really good and while I do think L’industrie is overrated it’s probably still going to taste great for an out of towner.\n</comment_to_extract>",
+   "context": {
+    "title": "is my restaurant itinerary solid? should I add/remove anything ",
+    "selftext": "Going to nyc for five days and trying to plan food itinerary a month in advance to ensure I'm able to lock down reservations. My main reason of traveling to NYC is just to eat so food kind of is the itinerary. List is comprised of recs from nyt, michelin guide and chefs I know who work in the area. The seemingly endless amount of good food in new york and hundreds of must try lists are a bit overwhelming though.  \n\nfor bakeries I have Radio Bakery and Librae\n\nFor pizza I have L'industrie, Roberta's and Stretch Pizza\n\nfor nicer restaurants I have Gramercy Tavern and Tatiana (should I somehow be able to score a res) \n\nI also have Veselka, Upland, Fish Cheeks, Great NY noodletown and La Mercerie.  \n\nI'm looking to eat the best of that food that exists in the city and have budgeted about $300 a day for food. Any advice for additions or places that could be skipped would be great. Thank you!  ",
+    "ancestors": [
+     {
+      "author": "Party-Veterinarian60",
+      "body": "Maybe I'm missing something, but I don't think Stretch Pizza belongs on this list. I've had it before, it was fine, but the best pizza that exists in Manhattan? No way. \n\nI'd say the same for Veselka. I actually enjoy Veselka, but it's way overhyped. I might get downvoted, but honestly it's fairly basic diner food. \n\nFor amazing pizza, but really tough to score a table Una Pizza Napoletana or Lucali. Rubirosa is a more attainable table wise in my experience and also makes incredible pizza.\n\nAlso, feel like maybe a steakhouse could be worth a visit. Perhaps the mutton from Keens steakhouse. If you can score a table, a 4 charles visit would be well worth it for their burger too.\n\nIf you're going to L'industrie in the west village, could also grab a slice from Mama Too's - amazing pizza, but you'll be stuffed after that.\n\nI also would argue Upland doesn't belong on this list. I used to live fairly close to Upland. It's good, but I don't know think it's best in NYC.\n\nSearch the sub some more, it's overflowing with great recommendations."
+     }
+    ],
+    "author": "ItsTyroneeee",
+    "body": "Agree on the pizza. Lucali and Rubirosa are both great. Never heard of stretch. Mama Too’s is really good and while I do think L’industrie is overrated it’s probably still going to taste great for an out of towner.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Lucali",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Rubirosa",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Stretch",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    },
+    {
+     "name": "Mama Too’s",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ]
+    },
+    {
+     "name": "L’industrie",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1244",
+   "comment_id": "t1_la51g80",
+   "model_view": "<post_title>Best spicy wings NYC?</post_title>\n<post_body>I love the wings at Fish Cheeks and Mission Chinese - so much flavor. What are your favorite wings in NYC (beyond just Buffalo)?</post_body>\n<comment_to_extract>\nDry pepper wings at Han Dynasty.\n</comment_to_extract>",
+   "context": {
+    "title": "Best spicy wings NYC?",
+    "selftext": "I love the wings at Fish Cheeks and Mission Chinese - so much flavor. What are your favorite wings in NYC (beyond just Buffalo)?",
+    "ancestors": [],
+    "author": "cthd33",
+    "body": "Dry pepper wings at Han Dynasty.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Han Dynasty",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "dry pepper wings",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1245",
+   "comment_id": "t1_keas1lo",
+   "model_view": "<post_title>Is Adel's Famous Halal Food really better than Halal Guys?</post_title>\n<post_body>We got Halal Guys here in Toronto 4 years ago. I remember it like it was yesterday, halal guys took a nose dive in quality since the pandemic. I'm planning on travelling to NYC just to eat Adel's, is there anything better than Adel's that has a similar street shawarma taste to halal guys? Or is Adel's the goat?</post_body>\n<thread_above>\n[1] another user: Yes, much better. Adel’s is what the Halal Guys used to be. The only problem with Adels is the long wait.\n[2] another user: How long?\n[3] another user: I went at 3 AM last night and waited 45 minutes. Definitely *not* worth the wait\n</thread_above>\n<comment_to_extract>\nJust rolled by at 2AM on a wed night (thur morning) and the line was banged. Yes xmas season but damnnn\n</comment_to_extract>",
+   "context": {
+    "title": "Is Adel's Famous Halal Food really better than Halal Guys?",
+    "selftext": "We got Halal Guys here in Toronto 4 years ago. I remember it like it was yesterday, halal guys took a nose dive in quality since the pandemic. I'm planning on travelling to NYC just to eat Adel's, is there anything better than Adel's that has a similar street shawarma taste to halal guys? Or is Adel's the goat?",
+    "ancestors": [
+     {
+      "author": "ThePathOfTheRighteou",
+      "body": "Yes, much better. Adel’s is what the Halal Guys used to be. The only problem with Adels is the long wait."
+     },
+     {
+      "author": "bsigmon1",
+      "body": "How long?"
+     },
+     {
+      "author": "tell-me-your-wish",
+      "body": "I went at 3 AM last night and waited 45 minutes. Definitely *not* worth the wait"
+     }
+    ],
+    "author": "some1saveusnow",
+    "body": "Just rolled by at 2AM on a wed night (thur morning) and the line was banged. Yes xmas season but damnnn",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Adel's Famous Halal Food",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "visit timing",
+       "text": "Visited at 2 AM on a Wednesday night; the line was very long during Christmas season"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "halal",
+      "late night"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1246",
+   "comment_id": "t1_ju9bps1",
+   "model_view": "<post_title>Is it just me or is Veselka only okay?...</post_title>\n<post_body>Ate it today for lunch. It's been on my list for a while now. Eh... it's not bad, some foods there are quite nice. I especially loved the stuffed cabbage. The borscht was also refreshing and fresh. But other dishes were quite hit or miss. The famous pierogis, the skin was nice as it was made by hand, but I found the fillings quite... dry? And under-salted and seasoned. The cheese pierogi basically completely merged with the skin and was basically just some cheese doughball. The blintzes were too soft and the cheese inside was chalky and powdery. I don't know, I get that this restaurant has a history and it is also a very important spot to show solidarity in support for Ukraine, but I found the food basically along the lines of a good local diner, rather than epic must-eat destination worthy of lines out the door and 4.6+ out of 5 on Google</post_body>\n<comment_to_extract>\nAs someone who lives in the neighborhood: it’s become more touristy and the food is average, but we find ourselves eating there because it’s a solid option for groups and out-of-town guests. There are obv more “authentic” Ukrainian places and cheaper, better places for diner food, but sometimes Veselka is just easy\n</comment_to_extract>",
+   "context": {
+    "title": "Is it just me or is Veselka only okay?...",
+    "selftext": "Ate it today for lunch. It's been on my list for a while now. Eh... it's not bad, some foods there are quite nice. I especially loved the stuffed cabbage. The borscht was also refreshing and fresh. But other dishes were quite hit or miss. The famous pierogis, the skin was nice as it was made by hand, but I found the fillings quite... dry? And under-salted and seasoned. The cheese pierogi basically completely merged with the skin and was basically just some cheese doughball. The blintzes were too soft and the cheese inside was chalky and powdery. I don't know, I get that this restaurant has a history and it is also a very important spot to show solidarity in support for Ukraine, but I found the food basically along the lines of a good local diner, rather than epic must-eat destination worthy of lines out the door and 4.6+ out of 5 on Google",
+    "ancestors": [],
+    "author": "arthur_hairstyle",
+    "body": "As someone who lives in the neighborhood: it’s become more touristy and the food is average, but we find ourselves eating there because it’s a solid option for groups and out-of-town guests. There are obv more “authentic” Ukrainian places and cheaper, better places for diner food, but sometimes Veselka is just easy",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Veselka",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "neighborhood",
+       "text": "commenter lives nearby"
+      },
+      {
+       "about": "alternatives",
+       "text": "more authentic Ukrainian places exist, and cheaper, better diner food is available elsewhere"
+      },
+      {
+       "about": "use case",
+       "text": "eaten at for groups and out-of-town guests"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": "negative",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ukrainian",
+      "solid option for groups",
+      "diner"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1247",
+   "comment_id": "t1_lc325f1",
+   "model_view": "<post_title>What's your most controvertial nyc food scene opinion?</post_title>\n<post_body>Laserwolf would be a fraction as successful without the view.</post_body>\n<comment_to_extract>\nI don't consider $1 slices pizza. \n\nThe Halal Guys reputation is one that I question how they got it. Was it because they're open later than everyone else? I've had much better halal plates in that area of Midtown. One of the better carts was on the corner of 47th and Madison before JP Morgan tore down the old 270 Park building.\n</comment_to_extract>",
+   "context": {
+    "title": "What's your most controvertial nyc food scene opinion?",
+    "selftext": "Laserwolf would be a fraction as successful without the view.",
+    "ancestors": [],
+    "author": "Rell_826",
+    "body": "I don't consider $1 slices pizza. \n\nThe Halal Guys reputation is one that I question how they got it. Was it because they're open later than everyone else? I've had much better halal plates in that area of Midtown. One of the better carts was on the corner of 47th and Madison before JP Morgan tore down the old 270 Park building.",
+    "replies": [
+     {
+      "author": "verndogz",
+      "body": "I believe it's one of the first Halal trucks in NYC in the early 90s.  If you factor in word-of-mouth advertising among taxi drivers, the advent of the internet, plus catering to the late-night crowd, that's likely how the Halal Guys gave it its reputation.\n\nI do love Halal Guys, but personally, Kwik Meals is my favorite halal spot."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "The Halal Guys",
+     "named_in": "comment",
+     "kind": "truck_or_cart",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reputation",
+       "text": "Commenter questions how it earned its reputation, wondering if late hours were the reason."
+      },
+      {
+       "about": "comparison",
+       "text": "Commenter has had much better halal plates in that part of Midtown."
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "halal",
+      "cart"
+     ]
+    },
+    {
+     "name": "47th and Madison cart",
+     "named_in": "comment",
+     "kind": "truck_or_cart",
+     "location": "47th and Madison, Midtown Manhattan",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "past location",
+       "text": "Was on the corner before JP Morgan tore down the old 270 Park building."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "halal",
+      "cart"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1248",
+   "comment_id": "t1_nrswqk6",
+   "model_view": "<post_title>My procrastinating ass can’t find a bar to accommodate 15 for Saturday</post_title>\n<post_body>Appealing to your collective experience out of desperation. I have a lovely friend turning 30 this weekend. I am a terrible person and took too long to put together a plan for a place 10-15 of our friends can have a drink Saturday night. I’ve been reaching out to a few bars in Manhattan and have struck out on a private reservation. Does anyone have any recommendations for places where we have a reasonable chance of finding space for a walk-in party of this size? We’re having dinner in tribeca beforehand but doesn’t necessarily have to be nearby.</post_body>\n<comment_to_extract>\nTry terroir since youre already in tribeca. I see plenty of large reservations on resy (and you can definitely flex to fit more given their setup). Incredible wine list and a great vibe\n</comment_to_extract>",
+   "context": {
+    "title": "My procrastinating ass can’t find a bar to accommodate 15 for Saturday",
+    "selftext": "Appealing to your collective experience out of desperation. I have a lovely friend turning 30 this weekend. I am a terrible person and took too long to put together a plan for a place 10-15 of our friends can have a drink Saturday night. I’ve been reaching out to a few bars in Manhattan and have struck out on a private reservation. Does anyone have any recommendations for places where we have a reasonable chance of finding space for a walk-in party of this size? We’re having dinner in tribeca beforehand but doesn’t necessarily have to be nearby. ",
+    "ancestors": [],
+    "author": "xobasb",
+    "body": "Try terroir since youre already in tribeca. I see plenty of large reservations on resy (and you can definitely flex to fit more given their setup). Incredible wine list and a great vibe",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "terroir",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": "Tribeca",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "group reservations",
+       "text": "Plenty of large-party reservations on Resy, and the venue can flex to fit more people"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": "positive"
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "wine bar",
+      "group friendly"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1249",
+   "comment_id": "t1_lda1jbv",
+   "model_view": "<post_title>If you could only ever eat one pasta dish forever, in nyc, what would you choose?</post_title>\n<post_body>Choose wisely.</post_body>\n<comment_to_extract>\nAmatriciana from eataly\n</comment_to_extract>",
+   "context": {
+    "title": "If you could only ever eat one pasta dish forever, in nyc, what would you choose? ",
+    "selftext": "Choose wisely. ",
+    "ancestors": [],
+    "author": "ThePillsburyPlougher",
+    "body": "Amatriciana from eataly",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Eataly",
+     "named_in": "comment",
+     "kind": "food_hall",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "amatriciana",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian",
+      "pasta"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1250",
+   "comment_id": "t1_l448xkr",
+   "model_view": "<post_title>Intimate, Dimly-Lit Birthday Dinner Manhattan $175pp Max</post_title>\n<post_body>Hi all,\n\nFinancé's birthday is coming up and I'm looking for a nice restaurant to take her in Manhattan. Not a place that is too loud nor that has tables crammed too tightly together so that you're basically brushing up against your neighbor.\n\nMy only requirements not listed in the title are: 1) that it's not ridiculously hard to get a reservation and 2) no French places. Anything else I am totally open too!\n\nJust the two of us so $350 Max budget.\n\nThanks a ton!</post_body>\n<thread_above>\n[1] another user: I’d try Hawksmoor or Barbuto\n</thread_above>\n<comment_to_extract>\nHawksmoor is not really dimly lit unless you’re sitting in the quiet area in the back of the bar side. The main dining room is very bright and loud.\n</comment_to_extract>",
+   "context": {
+    "title": "Intimate, Dimly-Lit Birthday Dinner Manhattan $175pp Max",
+    "selftext": "Hi all,\n\nFinancé's birthday is coming up and I'm looking for a nice restaurant to take her in Manhattan. Not a place that is too loud nor that has tables crammed too tightly together so that you're basically brushing up against your neighbor.\n\nMy only requirements not listed in the title are: 1) that it's not ridiculously hard to get a reservation and 2) no French places. Anything else I am totally open too!\n\nJust the two of us so $350 Max budget.\n\nThanks a ton!",
+    "ancestors": [
+     {
+      "author": "beernerd6",
+      "body": "I’d try Hawksmoor or Barbuto"
+     }
+    ],
+    "author": "NewRazzmatazz2455",
+    "body": "Hawksmoor is not really dimly lit unless you’re sitting in the quiet area in the back of the bar side. The main dining room is very bright and loud.",
+    "replies": [
+     {
+      "author": "akmalhot",
+      "body": "When I went to Hawksmoor it was pretty empty, suddenly at 11pm 3 groups came it separately. It was 1 guy and 12 want to be models..what's the story w that .\n\n\nGave me a flash back to the last time I went to tao 6+ yrs ago and suddenly a train of women walked in - obviously brought in by the venue "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Hawksmoor",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "lighting",
+       "text": "Only dimly lit in the quiet back area of the bar side; the main dining room is very bright and loud"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "negative",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1251",
+   "comment_id": "t1_likac5u",
+   "model_view": "<post_title>Lucali's is so overrated and needs to be called out.</post_title>\n<post_body>First of all\n\n- John's of Bleecker street - Godly crust, Lucali's crust does not compare\n\n- Di Fara's - Just unique and perfect blend of crust + cheese + tomato sauce\n\n- L'Industrie Pizza - top tier dough with the best cheese to sauce ratio\n\nAre all objectively better. There are probably more but it might be subjective.\n\nLucali has very fresh ingredients and tastes great but their crust and dough is lacking, way too chewy and lacking flavor.\n\nAlso their ordering system is SOOO pretentious and ridiculous, more people need to call this out and this alone deducts points from their pizza.\n\nWhat's worse is that they shut down service ALL the time to cater to celebs. It would be fine if this was done once in a blue moon or off hours, but practically every week they shut down shop because some Celeb wants to drop by.\n\nRidiculous!</post_body>\n<thread_above>\n[1] another user: L’industrie is the real convo that needs to be had - most overrated of them all, I’ve had it multiple times and was never anything other than average pizza, there was nothing special. their popular slices make you question your sanity, bacon fig jam, trash & burrata slice makes you wonder why the hell its on the pizza.\n</thread_above>\n<comment_to_extract>\nSame, \n\nThe first bite is pretty good but over the meal, the oil slick gets overwhelming.\n</comment_to_extract>",
+   "context": {
+    "title": "Lucali's is so overrated and needs to be called out.",
+    "selftext": "First of all\n\n- John's of Bleecker street - Godly crust, Lucali's crust does not compare\n\n- Di Fara's - Just unique and perfect blend of crust + cheese + tomato sauce\n\n- L'Industrie Pizza - top tier dough with the best cheese to sauce ratio\n\nAre all objectively better. There are probably more but it might be subjective.\n\nLucali has very fresh ingredients and tastes great but their crust and dough is lacking, way too chewy and lacking flavor.\n\nAlso their ordering system is SOOO pretentious and ridiculous, more people need to call this out and this alone deducts points from their pizza.\n\nWhat's worse is that they shut down service ALL the time to cater to celebs. It would be fine if this was done once in a blue moon or off hours, but practically every week they shut down shop because some Celeb wants to drop by.\n\nRidiculous!",
+    "ancestors": [
+     {
+      "author": "bopdte",
+      "body": "L’industrie is the real convo that needs to be had - most overrated of them all, I’ve had it multiple times and was never anything other than average pizza, there was nothing special. their popular slices make you question your sanity, bacon fig jam, trash & burrata slice makes you wonder why the hell its on the pizza."
+     }
+    ],
+    "author": "JKBFree",
+    "body": "Same, \n\nThe first bite is pretty good but over the meal, the oil slick gets overwhelming.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "L'Industrie",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "oil",
+       "text": "First bite is pretty good, but the oil slick gets overwhelming over the meal"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1252",
+   "comment_id": "t1_m8zvvoq",
+   "model_view": "<post_title>Where do NYC Chinese Restaurants Source Duck?</post_title>\n<post_body>The title.  Just saw that the last duck farm on Long Island was closing and am selfishly concerned.  Photo of a roast duck I recently enjoyed.</post_body>\n<thread_above>\n[1] you, earlier: wtf is this presentation lmao\n[2] OP: It’s from Francie, and it’s very fancy 😂\n</thread_above>\n<comment_to_extract>\n🤣🤣🤣 that should be their tagline\n</comment_to_extract>",
+   "context": {
+    "title": "Where do NYC Chinese Restaurants Source Duck?",
+    "selftext": "The title.  Just saw that the last duck farm on Long Island was closing and am selfishly concerned.  Photo of a roast duck I recently enjoyed. ",
+    "ancestors": [
+     {
+      "author": "remykixxx",
+      "body": "wtf is this presentation lmao"
+     },
+     {
+      "author": "legaljellybean",
+      "body": "It’s from Francie, and it’s very fancy 😂"
+     }
+    ],
+    "author": "remykixxx",
+    "body": "🤣🤣🤣 that should be their tagline",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Francie",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "presentation",
+       "text": "Commenter jokes that 'very fancy' should be the restaurant's tagline, reacting to a photo of the dish; no verdict."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1253",
+   "comment_id": "t1_liti6xq",
+   "model_view": "<post_title>Raku reservation ?</post_title>\n<post_body>Looking for a good restaurant for my boyfriend’s birthday in a couple weekends, is Raku easy to get into? I saw they don’t take reservations for their East village location. Is it ever a horrid wait? Thanks</post_body>\n<thread_above>\n[1] you, earlier: Walked into the Hells Kitchen Raku last night (Fri) @7:30 & my friend and I only had to wait 10 minutes or so to be seated. I had ordered a drink from the pastry shop so we could sit while waiting & I didn’t even finish it before our table was ready. That said, right after we were seated a the place ...\n[2] OP: Ty for this! I ended up getting a res. at the soho location. What do you recommend from there? It all looks so good\n</thread_above>\n<comment_to_extract>\nMy friend had the kaisen don that iirc is only at the HK location. I had the Kani Maze which was good but i just  didn't enjoy it as much as id hoped. I did enjoy the pork gyoza. Have a great dinner!\n</comment_to_extract>",
+   "context": {
+    "title": "Raku reservation ?",
+    "selftext": "Looking for a good restaurant for my boyfriend’s birthday in a couple weekends, is Raku easy to get into? I saw they don’t take reservations for their East village location. Is it ever a horrid wait? Thanks",
+    "ancestors": [
+     {
+      "author": "bk3day",
+      "body": "Walked into the Hells Kitchen Raku last night (Fri)  @7:30 & my friend and I only had to wait 10 minutes or so to be seated. I had ordered a drink from the pastry shop so we could sit while waiting & I didn’t even finish it before our table was ready. That said, right after we were seated a the place filled up with folks looking for a table."
+     },
+     {
+      "author": "VariousSea3503",
+      "body": "Ty for this! I ended up getting a res. at the soho location. What do you recommend from there? It all looks so good"
+     }
+    ],
+    "author": "bk3day",
+    "body": "My friend had the kaisen don that iirc is only at the HK location. I had the Kani Maze which was good but i just  didn't enjoy it as much as id hoped. I did enjoy the pork gyoza. Have a great dinner!",
+    "replies": [
+     {
+      "author": "VariousSea3503",
+      "body": "Ty!! The help is much appreciated. Excited to try it out x"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Raku",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Hell's Kitchen",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "kaisen don",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "Kani Maze",
+       "level": "neutral",
+       "avoid": false
+      },
+      {
+       "dish": "pork gyoza",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "kaisen don",
+       "text": "Friend's dish; believed to be available only at the Hell's Kitchen location"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "japanese"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1254",
+   "comment_id": "t1_lai5yy2",
+   "model_view": "<post_title>What’s the strangest food you have ever tried in NYC?</post_title>\n<post_body>Basically I am talking about foods that have a strang yet oddly delicious taste as I don’t know how to explain it, but it’s unusual food with a unique flavor to it.</post_body>\n<thread_above>\n[1] you, earlier: A lot of Americans dislike the smell of jackfruit/durian. I personally love it. A couple Thai spots offer durian sticky rice and I love it.\n[2] another user: Yeah get some Durian somewhere. I know Flushing has some. Just won’t be as good as in Malaysia.\n</thread_above>\n<comment_to_extract>\nBest spot unless you order the pricey stuff from Miami Fruit is at Pata Market in Elmhurst. They also have some durian snacks\n</comment_to_extract>",
+   "context": {
+    "title": "What’s the strangest food you have ever tried in NYC?",
+    "selftext": "Basically I am talking about foods that have a strang yet oddly delicious taste as I don’t know how to explain it, but it’s unusual food with a unique flavor to it.",
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A lot of Americans dislike the smell of jackfruit/durian. I personally love it. A couple Thai spots offer durian sticky rice and I love it."
+     },
+     {
+      "author": "Alone-Course3048",
+      "body": "Yeah get some Durian somewhere. I know Flushing has some. Just won’t be as good as in Malaysia."
+     }
+    ],
+    "author": "CabassoG",
+    "body": "Best spot unless you order the pricey stuff from Miami Fruit is at Pata Market in Elmhurst. They also have some durian snacks",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R1255",
+   "comment_id": "t1_jbojutb",
+   "model_view": "<post_title>Momofuku Noodle Bar + Ssam bar</post_title>\n<post_body>BF just read Eat A Peach and wants to try Momofuku noodle bar- east vil or Columbus circle? We would wanna do Ssam bar but seems like for 2 it a commitment and a half, and better off with at least 4 people (thoughts)?</post_body>\n<thread_above>\n[1] another user: One of the best thing at Momofuku are the buns, and the dry rubbed wings. The buns are the same at both locations, but the \"good\" wings are only at the Columbus Circle location AFAIK. If that's still true, they're worth the trip on their own imo (the noodle dishes are medicore. The smoked pork ramen is decent). The wings at the east village location really suck IMO.\n</thread_above>\n<comment_to_extract>\nI agree with you. The ramen at Momofuku is subpar. It's all the other dishes that are really great.\n</comment_to_extract>",
+   "context": {
+    "title": "Momofuku Noodle Bar + Ssam bar",
+    "selftext": "BF just read Eat A Peach and wants to try Momofuku noodle bar- east vil or Columbus circle? We would wanna do Ssam bar but seems like for 2 it a commitment and a half, and better off with at least 4 people (thoughts)?",
+    "ancestors": [
+     {
+      "author": "phoenixmatrix",
+      "body": "One of the best thing at Momofuku are the buns, and the dry rubbed wings. The buns are the same at both locations, but the \"good\" wings are only at the Columbus Circle location AFAIK. If that's still true, they're worth the trip on their own imo (the noodle dishes are medicore. The smoked pork ramen is decent). The wings at the east village location really suck IMO."
+     }
+    ],
+    "author": "10throwaway123456789",
+    "body": "I agree with you. The ramen at Momofuku is subpar. It's all the other dishes that are really great.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Momofuku",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "ramen",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ramen",
+      "noodle bar"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1256",
+   "comment_id": "t1_kyk0oxp",
+   "model_view": "<post_title>The focaccia at Radio Bakery</post_title>\n<post_body>y’all, the tomato focaccia at radio bakery in greenpoint is an absolute masterpiece.\n\nare there any bakers in the chat? i’d like to know, how is radio’s focaccia so moist and fluffy, compared to the vast majority of focaccia that tends to be dry and crumbly? \n\nhow can i recreate that at home? i’m tired of waiting in their long ass line lol</post_body>\n<comment_to_extract>\ni have been thinking the exact same thing since i had it 2 weeks ago. i make focaccia a lot but its always more crispy and oily (which i love). id love to know how to make it light and fluffy and chewy and bubbly. its so good. and the tomato is so good.\n</comment_to_extract>",
+   "context": {
+    "title": "The focaccia at Radio Bakery",
+    "selftext": "y’all, the tomato focaccia at radio bakery in greenpoint is an absolute masterpiece.\n\nare there any bakers in the chat? i’d like to know, how is radio’s focaccia so moist and fluffy, compared to the vast majority of focaccia that tends to be dry and crumbly? \n\nhow can i recreate that at home? i’m tired of waiting in their long ass line lol",
+    "ancestors": [],
+    "author": "greatbigdicks",
+    "body": "i have been thinking the exact same thing since i had it 2 weeks ago. i make focaccia a lot but its always more crispy and oily (which i love). id love to know how to make it light and fluffy and chewy and bubbly. its so good. and the tomato is so good.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Radio Bakery",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "tomato focaccia",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "visit",
+       "text": "had the focaccia two weeks ago"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "focaccia"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1257",
+   "comment_id": "t1_k61uw9x",
+   "model_view": "<post_title>Mexican Restaurants Manhattan</post_title>\n<post_body>When someone asks for an upscale Mexican Restaurant recommendations… what’s your go to?? \n\nRosa Mexicana, El Vez, La Esquina… ?</post_body>\n<thread_above>\n[1] you, earlier: There used to be a place named El Paso on Lexington and 104th. Idk if it's the same place that moved up a few blocks but that place was very good.\n[2] another user: 64 E 97th St, New York, NY 10029\n</thread_above>\n<comment_to_extract>\nI've been to that one too. Very good. I did prefer the 104th street one though. It was a touch better at times. Maybe because it has more space.\n</comment_to_extract>",
+   "context": {
+    "title": "Mexican Restaurants Manhattan",
+    "selftext": "When someone asks for an upscale Mexican Restaurant recommendations… what’s your go to?? \n\nRosa Mexicana, El Vez, La Esquina… ?",
+    "ancestors": [
+     {
+      "author": "sir_topham_biff",
+      "body": "There used to be a place named El Paso on Lexington and 104th. Idk if it's the same place that moved up a few blocks but that place was very good."
+     },
+     {
+      "author": "NefariousnessFew4354",
+      "body": "64 E 97th St, New York, NY 10029"
+     }
+    ],
+    "author": "sir_topham_biff",
+    "body": "I've been to that one too. Very good. I did prefer the 104th street one though. It was a touch better at times. Maybe because it has more space.",
+    "replies": [
+     {
+      "author": "NefariousnessFew4354",
+      "body": "I live close enough to walk or get delivery. Will check it out 👍"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "El Paso",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "64 E 97th St",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "older 104th St branch",
+       "text": "Commenter preferred the 104th Street location, which was a touch better at times, possibly because it had more space."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "mexican",
+      "upscale"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1258",
+   "comment_id": "t1_mqp6cxd",
+   "model_view": "<post_title>Looking for a steakhouse</post_title>\n<post_body>My boyfriend is visiting NYC for the first time and celebrating his birthday this Month. He loves a good steak (specifically New York or ribeye), looking for a solid steakhouse that tastes better than what we can make at home. Looking at Club A and Keens right now, any thoughts or other suggestions?</post_body>\n<comment_to_extract>\nOld Homestead or Sparks are two of my favorites recently.\n</comment_to_extract>",
+   "context": {
+    "title": "Looking for a steakhouse",
+    "selftext": "My boyfriend is visiting NYC for the first time and celebrating his birthday this Month. He loves a good steak (specifically New York or ribeye), looking for a solid steakhouse that tastes better than what we can make at home. Looking at Club A and Keens right now, any thoughts or other suggestions?",
+    "ancestors": [],
+    "author": "HammerOfFamilyValues",
+    "body": "Old Homestead or Sparks are two of my favorites recently.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Old Homestead",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse"
+     ]
+    },
+    {
+     "name": "Sparks",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1259",
+   "comment_id": "t1_nl8ujdx",
+   "model_view": "<post_title>Sushi Nakazawa premium beverage pairing list??</post_title>\n<comment_to_extract>\nHave you considered contacting the restaurant and asking them?\n</comment_to_extract>",
+   "context": {
+    "title": "Sushi Nakazawa premium beverage pairing list??",
+    "selftext": "[removed]",
+    "ancestors": [],
+    "author": "FoodNYC-ModTeam",
+    "body": "Have you considered contacting the restaurant and asking them?",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sushi Nakazawa",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1260",
+   "comment_id": "t1_ksdqa81",
+   "model_view": "<post_title>Best restaurant merch?</post_title>\n<post_body>I’m looking for a cool cap to get from a ny restaurant or bar. Most places I’ve seen just have shirts or beanies, but are there any you like on a cap?</post_body>\n<comment_to_extract>\nKatz’s has sweet hats\n</comment_to_extract>",
+   "context": {
+    "title": "Best restaurant merch? ",
+    "selftext": "I’m looking for a cool cap to get from a ny restaurant or bar. Most places I’ve seen just have shirts or beanies, but are there any you like on a cap? ",
+    "ancestors": [],
+    "author": "murphanity",
+    "body": "Katz’s has sweet hats",
+    "replies": [
+     {
+      "author": "Hubianco",
+      "body": "Love my Katz hat"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Katz's",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "merch",
+       "text": "Sells hats the commenter likes as restaurant merch"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1261",
+   "comment_id": "t1_jvqgzq8",
+   "model_view": "<post_title>Romantic affordable dinner with a view?</post_title>\n<post_body>Later this month I will be staying in Manhattan with my lovely wife to celebrate our 2 year wedding anniversary.\n\nI would like to take her out to a romantic dinner. It doesn't have to be really fancy. Just tasty food with a nice ambience. A nice view would be an awesome extra.\n\nI've looked around on Google but I'm finding a lot of Italian restaurants. We're not a big fan of the Italian cuisine. Do you guys have any suggestions? We really enjoy Japanese, Thai and Indian food but we're also open to other stuff.\n\nBudget wise I'm hoping to find something under 200$ for 3 courses for 2 people. We don't drink alcohol.\n\nWould love to get some suggestions :)</post_body>\n<comment_to_extract>\nMomoya Soho is Japanese with really nice vibes\n\nThai Villa has a stunning interior, though it may not be what you’re looking for\n\nSemma is upscale Southern Indian, if you can get a res\n</comment_to_extract>",
+   "context": {
+    "title": "Romantic affordable dinner with a view?",
+    "selftext": "Later this month I will be staying in Manhattan with my lovely wife to celebrate our 2 year wedding anniversary.\n\nI would like to take her out to a romantic dinner. It doesn't have to be really fancy. Just tasty food with a nice ambience. A nice view would be an awesome extra.\n\nI've looked around on Google but I'm finding a lot of Italian restaurants. We're not a big fan of the Italian cuisine. Do you guys have any suggestions? We really enjoy Japanese, Thai and Indian food but we're also open to other stuff.\n\nBudget wise I'm hoping to find something under 200$ for 3 courses for 2 people. We don't drink alcohol.\n\nWould love to get some suggestions :)",
+    "ancestors": [],
+    "author": "sallire",
+    "body": "Momoya Soho is Japanese with really nice vibes\n\nThai Villa has a stunning interior, though it may not be what you’re looking for\n\nSemma is upscale Southern Indian, if you can get a res",
+    "replies": [
+     {
+      "author": "WinnieCerise",
+      "body": " None of these are romantic."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Momoya Soho",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Soho",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "japanese"
+     ]
+    },
+    {
+     "name": "Thai Villa",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "fit",
+       "text": "may not suit what the asker wants"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "thai"
+     ]
+    },
+    {
+     "name": "Semma",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reservations",
+       "text": "need a reservation, hard to get"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "indian",
+      "southern indian",
+      "upscale"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1262",
+   "comment_id": "t1_jzr6yez",
+   "model_view": "<post_title author=\"you\">FOOD SAFETY ALERT: Disturbing Experience at Two Hands Noho</post_title>\n<post_body author=\"you\">I wanted to share a recent experience I had at Two Hands (74 Bleecker St) that has left me deeply concerned about food safety & transparency.\n\nOn May 26, 2023, I went to Two Hands Noho location and ordered the Zoe's Market Plate. To my shock and horror, I discovered a giant cockroach in my food. It was camouflaged in the quinoa, and I had already eaten half the bowl before I discovered it.\n\nNaturally, I wanted to warn others about this incident, so I posted a detailed & honest review on Google. But here's the kicker: Two Hands marked my review as \"fraudulent\" and had it deleted! They even prevented my friend, Nicole, from sharing her similar experience. To make matters worse, they replied to another customer's review, calling mine \"fake and fraudulent\" and denying that it happened at their restaurant.\n\nI posted in the nyc subreddit and my post blew up. 20+ people posted reviews on Google on my behalf, they all got removed almost immediately. Then mods removed my post on reddit... So I don't expect this one to post but worth a shot.\n\nTwo Hands went one step further and blocked my social media accounts in what I can only assume is an attempt to silence me and hide the truth. I'm genu ...</post_body>\n<thread_above>\n[1] another user: OP is a Karen. There’s bugs in the food everywhere, this one got through. Shit happens, move on with your life.\n[2] another user: Wtf dumpster you getting your food out of?\n[3] another user: Trust me on this one. Food service vet. Cases of produce are loaded with bugs sometimes. You guys can downvote all you want. OP should simply not return to this place based on her experience, not try to start an online crusade to cancel a small business because of a waterbug\n</thread_above>\n<comment_to_extract>\nLol Two Hands is not a small business, I'd never post this about a small business. They're a chain with a ton of resources, 7 locations and quickly expanding. The only Karens here are Alicia and Tara, the communications team at Two Hands (I talked to them on the phone). You can even look at their pictures featured on their website, haha they even look like Karens. But what makes them even more Karen-like, if we're playing by the books, is their actions & words and how they treat others & run their business.\n</comment_to_extract>",
+   "context": {
+    "title": "FOOD SAFETY ALERT: Disturbing Experience at Two Hands Noho",
+    "selftext": "I wanted to share a recent experience I had at Two Hands (74 Bleecker St) that has left me deeply concerned about food safety & transparency.\n\nOn May 26, 2023, I went to Two Hands Noho location and ordered the Zoe's Market Plate. To my shock and horror, I discovered a giant cockroach in my food. It was camouflaged in the quinoa, and I had already eaten half the bowl before I discovered it.\n\nNaturally, I wanted to warn others about this incident, so I posted a detailed & honest review on Google. But here's the kicker: Two Hands marked my review as \"fraudulent\" and had it deleted! They even prevented my friend, Nicole, from sharing her similar experience. To make matters worse, they replied to another customer's review, calling mine \"fake and fraudulent\" and denying that it happened at their restaurant.\n\nI posted in the nyc subreddit and my post blew up. 20+ people posted reviews on Google on my behalf, they all got removed almost immediately. Then mods removed my post on reddit... So I don't expect this one to post but worth a shot.\n\nTwo Hands went one step further and blocked my social media accounts in what I can only assume is an attempt to silence me and hide the truth. I'm genuinely worried about the public health implications of this incident. I'm concerned about Two Hands' commitment to food safety & transparency, especially since they've gone to EXTREMELY lengths to silence me.\n\nStay safe out there, friends. Let's hope this investigation sheds some light on what's going on at Two Hands",
+    "ancestors": [
+     {
+      "author": "Designer-Ad-9373",
+      "body": "OP is a Karen. There’s bugs in the food everywhere, this one got through. Shit happens, move on with your life."
+     },
+     {
+      "author": "fork_yuu",
+      "body": "Wtf dumpster you getting your food out of?"
+     },
+     {
+      "author": "Designer-Ad-9373",
+      "body": "Trust me on this one. Food service vet. Cases of produce are loaded with bugs sometimes. You guys can downvote all you want. OP should simply not return to this place based on her experience, not try to start an online crusade to cancel a small business because of a waterbug"
+     }
+    ],
+    "author": "epi_walker",
+    "body": "Lol Two Hands is not a small business, I'd never post this about a small business. They're a chain with a ton of resources, 7 locations and quickly expanding. The only Karens here are Alicia and Tara, the communications team at Two Hands (I talked to them on the phone). You can even look at their pictures featured on their website, haha they even look like Karens. But what makes them even more Karen-like, if we're playing by the books, is their actions & words and how they treat others & run their business.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Two Hands",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "business size",
+       "text": "Commenter says Two Hands is not a small business: a chain with 7 locations, quickly expanding"
+      },
+      {
+       "about": "conduct",
+       "text": "Commenter says the company's actions, words and treatment of reviewers (deleted reviews, blocked accounts, calling reviews fake) are Karen-like; not about food"
+      },
+      {
+       "about": "phone call",
+       "text": "Commenter says the communications team (Alicia and Tara) acted badly on a phone call with them; no food or dining experience described"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1263",
+   "comment_id": "t1_pahn584",
+   "model_view": "<post_title>$16.50 for 1 potato @ abc cocina. absolutely absurd</post_title>\n<post_body>understand every restaurant has to pay their rent! but this feels nuts. on the bright side, they do throw in 1/2 a lime to sweeten the deal!</post_body>\n<comment_to_extract>\nWow having a minority hand deliver you a single cooked potato is expensive? I’m hearing this for the first time.\n</comment_to_extract>",
+   "context": {
+    "title": "$16.50 for 1 potato @ abc cocina. absolutely absurd",
+    "selftext": "understand every restaurant has to pay their rent! but this feels nuts. on the bright side, they do throw in 1/2 a lime to sweeten the deal! ",
+    "ancestors": [],
+    "author": "BombardierIsTrash",
+    "body": "Wow having a minority hand deliver you a single cooked potato is expensive? I’m hearing this for the first time.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R1264",
+   "comment_id": "t1_jofbmf4",
+   "model_view": "<post_title>Can I get some recommendations for restaurants at midtown Manhattan that aren't tourist traps?</post_title>\n<post_body>I am aware that midtown is not the best place for food in Manhattan, but I am staying at 54th in park, so I don't want to have to keep heading downtown for every single meal. Can anyone recommend me some restaurants close to or at the midtown region that are genuinely of good quality and aren't tourist traps? I'm open to any type of cuisine (italian, french, chinese, ramen, steakhouse, etc., anything good really) except japanese since I am already heading to some omakase spots while I'm in town. Thank you!</post_body>\n<thread_above>\n[1] you, earlier: Plenty of non-tourist trap restaurants in Midtown, just off the top of my head I can think of: Lamb's Club La Grand Boucherie Jupiter Le Rock Naro PJ Clarke's The OG Benihana (though that may be too touristy for you) On the more expensive side you have: Aquavit Le Bernardin The Grill Marea\n[2] another user: Pj Clark's ?\n</thread_above>\n<comment_to_extract>\nIt's good, cheap food, OP didn't indicate a budget.\n</comment_to_extract>",
+   "context": {
+    "title": "Can I get some recommendations for restaurants at midtown Manhattan that aren't tourist traps?",
+    "selftext": "I am aware that midtown is not the best place for food in Manhattan, but I am staying at 54th in park, so I don't want to have to keep heading downtown for every single meal. Can anyone recommend me some restaurants close to or at the midtown region that are genuinely of good quality and aren't tourist traps? I'm open to any type of cuisine (italian, french, chinese, ramen, steakhouse, etc., anything good really) except japanese since I am already heading to some omakase spots while I'm in town. Thank you!",
+    "ancestors": [
+     {
+      "author": "OBAFGKM17",
+      "body": "Plenty of non-tourist trap restaurants in Midtown, just off the top of my head I can think of:\n\nLamb's Club\n\nLa Grand Boucherie\n\nJupiter\n\nLe Rock\n\nNaro\n\nPJ Clarke's\n\nThe OG Benihana (though that may be too touristy for you)\n\nOn the more expensive side you have:\n\nAquavit\n\nLe Bernardin\n\nThe Grill\n\nMarea"
+     },
+     {
+      "author": "akmalhot",
+      "body": "Pj Clark's ?"
+     }
+    ],
+    "author": "OBAFGKM17",
+    "body": "It's good, cheap food, OP didn't indicate a budget.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "PJ Clarke's",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "budget",
+       "text": "OP did not state a budget"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": "cheap",
+     "tags": [
+      "cheap eats"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1265",
+   "comment_id": "t1_kv70vwu",
+   "model_view": "<post_title>Chicago Dogs and Fries at Dog Day Afternoon</post_title>\n<comment_to_extract>\nI love this place. The hot dogs are great, but they make a Chicago hot Italian beef sandwich that is amazing. Highly recommend it.\n</comment_to_extract>",
+   "context": {
+    "title": "Chicago Dogs and Fries at Dog Day Afternoon",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Gato1980",
+    "body": "I love this place. The hot dogs are great, but they make a Chicago hot Italian beef sandwich that is amazing. Highly recommend it.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Dog Day Afternoon",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "hot dogs",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "Chicago hot Italian beef sandwich",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "hot dogs",
+      "Chicago-style"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R1266",
+   "comment_id": "t1_lxxeypt",
+   "model_view": "<post_title>Any crazy / cool / unique restaurant ideas I can surprise my boyfriend with for his birthday?</post_title>\n<post_body>My boyfriend and I like to surprise each other for our birthdays. Does anyone have any restaurants you know of, that when you walk into the place, you audibly say \"whoa\"? I want to take him to a funky place with good food. Preferably under $150 for the two of us. Thanks!</post_body>\n<comment_to_extract>\nVatan  \n\nSezchuan Mountain House  \n\nHangwai  \n\nKonban   \n\nSappe  \n\nNot a fan of the food per se (I’m not too fond of heavily Americanised Italian) but the ambience at patsys Italian is impressive  \n\nProbably not in the budget: The Grill\n</comment_to_extract>",
+   "context": {
+    "title": "Any crazy / cool / unique restaurant ideas I can surprise my boyfriend with for his birthday?",
+    "selftext": "My boyfriend and I like to surprise each other for our birthdays. Does anyone have any restaurants you know of, that when you walk into the place, you audibly say \"whoa\"? I want to take him to a funky place with good food. Preferably under $150 for the two of us. Thanks!",
+    "ancestors": [],
+    "author": "Garconavecunreve",
+    "body": "Vatan  \n\nSezchuan Mountain House  \n\nHangwai  \n\nKonban   \n\nSappe  \n\nNot a fan of the food per se (I’m not too fond of heavily Americanised Italian) but the ambience at patsys Italian is impressive  \n\nProbably not in the budget: The Grill",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Vatan",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Sezchuan Mountain House",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Hangwai",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Konban",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Sappe",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    },
+    {
+     "name": "Patsys Italian",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "cuisine",
+       "text": "Heavily Americanised Italian food the commenter is not fond of"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian"
+     ]
+    },
+    {
+     "name": "The Grill",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "budget",
+       "text": "Probably not within the couple's budget"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R1267",
+   "comment_id": "t1_lzx9m24",
+   "model_view": "<post_title>Heir to the Cake Lady of Musco Street: NYC's Best 蛋糕仔/DanGaoZi/Hong Kong \"Bubble/Waffle Cake\" ?</post_title>\n<post_body>&#x200B;\n\n[The Egg-Cake Lady of Musco Street - the Incomparable Cecilia Tam](https://preview.redd.it/qd8ge8trlcvc1.png?width=877&format=png&auto=webp&s=38c972b269f3e118e04ba199db7af5218a6275bb)\n\nFor those of us who remember - back in the 80s/90s, an immigrant by the name of **Cecilia Tam** first introduced the Big Apple to what is now referred to as the Hong Kong \"Bubble Cake\" on instagram these days.  Her tiny stall was on Musco street across from the Church of the Transfiguration on Mott, right next to Hop Kee.  For $1.00 you'd get a 15 of these golden beauties - and i made sure whenever i dropped into NYC to stop on by.\n\n&#x200B;\n\n&#x200B;\n\nhttps://preview.redd.it/3m713pm4kcvc1.png?width=275&format=png&auto=webp&s=f24c1780c12e92f1f84c65aaea41374fe277282d\n\nI was told Cecilia, after successfully putting her two sons through college, eventually closed down the stall sometime in the early '00s.   My last visit was Pre 9/11 2001, so i would often blame terrorism and the economic funk of the post 9/11 for ending my favorite treat - but i also knew that Mrs. Tam was getting on in years.  I always wondered what happened to her - figured she headed back home to Hong Kong.\n\nSince then i'v ...</post_body>\n<comment_to_extract>\nI relived those fond childhood memories just today after a funeral! On monthly half-days at school my mom would take me with her for her weekly trip to Bangkok Center Grocery across Mosco St and we’d always stop by the “egg cookie” stall as we jokingly called it amongst ourselves. We’d also hit up Bo Ky for their egg noodle soup with a can of Sunkist and the Chinatown Ice Cream Factory afterwards (as I did again today) and I’m so glad the rest of these childhood favorites still exist at least. I think I shocked the ice cream scooper when I mentioned I still had a Tshirt I bought there about 25 years ago! I bought some Hong Kong cakes from a cart on Canal as well—never as good as Mrs. Tam’s were but worth it for the delicious nostalgia (plus they have toppings options nowadays). The closing of her stall was the end of an era for sure!\n</comment_to_extract>",
+   "context": {
+    "title": "Heir to the Cake Lady of Musco Street: NYC's Best 蛋糕仔/DanGaoZi/Hong Kong \"Bubble/Waffle Cake\" ?",
+    "selftext": "&#x200B;\n\n[The Egg-Cake Lady of Musco Street - the Incomparable Cecilia Tam](https://preview.redd.it/qd8ge8trlcvc1.png?width=877&format=png&auto=webp&s=38c972b269f3e118e04ba199db7af5218a6275bb)\n\nFor those of us who remember - back in the 80s/90s, an immigrant by the name of **Cecilia Tam** first introduced the Big Apple to what is now referred to as the Hong Kong \"Bubble Cake\" on instagram these days.  Her tiny stall was on Musco street across from the Church of the Transfiguration on Mott, right next to Hop Kee.  For $1.00 you'd get a 15 of these golden beauties - and i made sure whenever i dropped into NYC to stop on by.\n\n&#x200B;\n\n&#x200B;\n\nhttps://preview.redd.it/3m713pm4kcvc1.png?width=275&format=png&auto=webp&s=f24c1780c12e92f1f84c65aaea41374fe277282d\n\nI was told Cecilia, after successfully putting her two sons through college, eventually closed down the stall sometime in the early '00s.   My last visit was Pre 9/11 2001, so i would often blame terrorism and the economic funk of the post 9/11 for ending my favorite treat - but i also knew that Mrs. Tam was getting on in years.  I always wondered what happened to her - figured she headed back home to Hong Kong.\n\nSince then i've noticed Bubble cake stalls pop up around Manhattan's Chinatown in NYC and also in certain supermarkets.   Thus far, of the ones i've tried, its been rather sub-par - sometimes crunchy but no flavor.  \n\nAny suggestions on places to try?   Should i be heading to Flushing instead?  \n\nOr am i fresh out of luck and have to hunt for these beauties in Hong Kong?\n\n&#x200B;\n\n&#x200B;",
+    "ancestors": [],
+    "author": "SuriyaSuriyaSuriya",
+    "body": "I relived those fond childhood memories just today after a funeral! On monthly half-days at school my mom would take me with her for her weekly trip to Bangkok Center Grocery across Mosco St and we’d always stop by the “egg cookie” stall as we jokingly called it amongst ourselves. We’d also hit up Bo Ky for their egg noodle soup with a can of Sunkist and the Chinatown Ice Cream Factory afterwards (as I did again today) and I’m so glad the rest of these childhood favorites still exist at least. I think I shocked the ice cream scooper when I mentioned I still had a Tshirt I bought there about 25 years ago! I bought some Hong Kong cakes from a cart on Canal as well—never as good as Mrs. Tam’s were but worth it for the delicious nostalgia (plus they have toppings options nowadays). The closing of her stall was the end of an era for sure!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mrs. Tam's stall",
+     "named_in": "comment",
+     "kind": "truck_or_cart",
+     "location": "Musco Street",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "egg cookie",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "closing",
+       "text": "Stall closed; the commenter calls its closing the end of an era"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "hong kong cakes",
+      "egg cake",
+      "street stall"
+     ]
+    },
+    {
+     "name": "Bo Ky",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "egg noodle soup",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "pairing",
+       "text": "Commenter had it with a can of Sunkist"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "noodle soup"
+     ]
+    },
+    {
+     "name": "Chinatown Ice Cream Factory",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "Chinatown",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "visit",
+       "text": "Commenter stopped in again after a funeral; they have been going since childhood"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ice cream"
+     ]
+    },
+    {
+     "name": "Hong Kong cake cart on Canal",
+     "named_in": "comment",
+     "kind": "truck_or_cart",
+     "location": "Canal Street",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "Hong Kong cakes",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "toppings",
+       "text": "Now offers topping options"
+      },
+      {
+       "about": "comparison",
+       "text": "Not as good as Mrs. Tam's, but worth it for the nostalgia"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "hong kong cakes",
+      "street cart"
+     ]
+    }
+   ]
+  }
+ ]
+}

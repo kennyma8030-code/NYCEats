@@ -1,0 +1,948 @@
+{
+ "packet": "p021",
+ "items": [
+  {
+   "item_id": "R0501",
+   "comment_id": "t1_p64i28h",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<thread_above>\n[1] you, earlier: Just had the pepperoni square from Paulie Gee’s the other day for the first time and was blown away. The sesame crust on the bottom was next level\n[2] another user: Where is it located?\n[3] you, earlier: Greenpoint!\n[4] another user: Do they still have a C health rating?\n</thread_above>\n<comment_to_extract>\nNo idea nor do I really pay attention\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     },
+     {
+      "author": "poopship462",
+      "body": "Do they still have a C health rating?"
+     }
+    ],
+    "author": "Jxc_Heard",
+    "body": "No idea nor do I really pay attention ",
+    "replies": [
+     {
+      "author": "rdgn",
+      "body": "Famous last words"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0502",
+   "comment_id": "t1_o4gb64l",
+   "model_view": "<post_title>BLT from Fay Da. Don't sleep on the Chinese bakeries for awesome cheap sandwiches</post_title>\n<post_body>[https://fayda.com/](https://fayda.com/)\n\nThis was from the one on 6th Ave.  Given how things have been progressing around here, with Papaya Dog and Menkoi Sato (hopefully just temporarily) closing, and that stupid cheese wheel pasta place opening around the corner along with the soulless Cinnabon-Carvel-Auntie Anne's cluster, I've been feeling extra-grateful for local gems like this.  Picked this and a baked pork bun up this morning; the pork in that bun was quite good, a little leaner than Mei Lai Wah's.  \n\nThey got everything, baked pork buns, beef curry puffs, sandwiches, steamed buns, you name it.  Plenty of sweet stuff too of course, but I'm a savory hound and I treasure it when i find it.  And one of these sandwiches takes care of me for less $ than at a deli or sandwich shop.</post_body>\n<comment_to_extract>\nI used to get fay da all the time but after finding a hair in my food for the second time I had to say goodbye forever. Which is sad because I really do like the food\n</comment_to_extract>",
+   "context": {
+    "title": "BLT from Fay Da. Don't sleep on the Chinese bakeries for awesome cheap sandwiches",
+    "selftext": "[https://fayda.com/](https://fayda.com/)\n\nThis was from the one on 6th Ave.  Given how things have been progressing around here, with Papaya Dog and Menkoi Sato (hopefully just temporarily) closing, and that stupid cheese wheel pasta place opening around the corner along with the soulless Cinnabon-Carvel-Auntie Anne's cluster, I've been feeling extra-grateful for local gems like this.  Picked this and a baked pork bun up this morning; the pork in that bun was quite good, a little leaner than Mei Lai Wah's.  \n\nThey got everything, baked pork buns, beef curry puffs, sandwiches, steamed buns, you name it.  Plenty of sweet stuff too of course, but I'm a savory hound and I treasure it when i find it.  And one of these sandwiches takes care of me for less $ than at a deli or sandwich shop.",
+    "ancestors": [],
+    "author": "stonedsour",
+    "body": "I used to get fay da all the time but after finding a hair in my food for the second time I had to say goodbye forever. Which is sad because I really do like the food",
+    "replies": [
+     {
+      "author": "beepboop787",
+      "body": "Extra protein! "
+     },
+     {
+      "author": "littlebrownsnail",
+      "body": "They changed their recipes for a few things last year and I haven't returned. I was a ride or die for them back in the day"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "fay da",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "hygiene",
+       "text": "Found hair in their food twice; stopped going for good"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "chinese bakery"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0503",
+   "comment_id": "t1_p1e9hem",
+   "model_view": "<post_title>Hello! New York realistic food budget suggestions!</post_title>\n<post_body>Hi everyone!\n\nMy partner and I will be visiting NYC in early September, and we're trying to figure out a realistic daily food budget for two people.\n\nWe'll be spending most of our time in the Lower East Side, East Village, SoHo, Williamsburg, Greenpoint, Bushwick, and around Midtown (for MoMA). We don't eat meat (but do eat seafood), don't drink alcohol, and our hotel includes breakfast, so we're mainly budgeting for coffee, lunch, dinner, and the occasional dessert or snack. We'd also like to do one or two nicer sit-down dinners during the trip, but otherwise we're happy eating at casual restaurants and cafés.\n\nWould a budget of around $100–150 per day for two people be realistic for this type of trip, or should we plan for more? If you've eaten in these neighborhoods recently, I'd love to hear what you found to be a reasonable daily budget.\n\nThanks!</post_body>\n<comment_to_extract>\nThat budget is absolutely doable and with great cheap food mixed with a couple of fancy sit downs. \n\nPlan for one big meal a day (buy cold cuts for sandwiches, take an extra bagel or 2 from breakfast, carrots/celery sticks for roughage and no refrigerator needed. Picnic often, September is gorgeous weather). \n\nLunch specials at many places are great value. Eat on the later side with leftovers for dinner. \n\nVisit Queens, Brooklyn and uptown (nosebleed) Manhattan for foodie adventures.\n</comment_to_extract>",
+   "context": {
+    "title": "Hello! New York realistic food budget suggestions!",
+    "selftext": "Hi everyone!\n\nMy partner and I will be visiting NYC in early September, and we're trying to figure out a realistic daily food budget for two people.\n\nWe'll be spending most of our time in the Lower East Side, East Village, SoHo, Williamsburg, Greenpoint, Bushwick, and around Midtown (for MoMA). We don't eat meat (but do eat seafood), don't drink alcohol, and our hotel includes breakfast, so we're mainly budgeting for coffee, lunch, dinner, and the occasional dessert or snack. We'd also like to do one or two nicer sit-down dinners during the trip, but otherwise we're happy eating at casual restaurants and cafés.\n\nWould a budget of around $100–150 per day for two people be realistic for this type of trip, or should we plan for more? If you've eaten in these neighborhoods recently, I'd love to hear what you found to be a reasonable daily budget.\n\nThanks!",
+    "ancestors": [],
+    "author": "herewegoagain_2500",
+    "body": "That budget is absolutely doable and with great cheap food mixed with a couple of fancy sit downs. \n\nPlan for one big meal a day (buy cold cuts for sandwiches, take an extra bagel or 2 from breakfast, carrots/celery sticks for roughage and no refrigerator needed. Picnic often, September is gorgeous weather). \n\nLunch specials at many places are great value. Eat on the later side with leftovers for dinner. \n\nVisit Queens, Brooklyn and uptown (nosebleed) Manhattan for foodie adventures. \n\n",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0504",
+   "comment_id": "t1_ogfsrhl",
+   "model_view": "<post_title author=\"you\">Hot custard (British style) in NYC?</post_title>\n<post_body author=\"you\">When I was in London, I had Humble Crumble, which is hot custard with toppings and is DIVINE. I’ve been craving it ever since, but I can’t find any places that make it. Has anyone found one in NYC? If not, this is a serious gap in the market!</post_body>\n<thread_above>\n[1] another user: Tea and Sympathy has apple as well as rhubarb crumble if I'm recalling correctly.\n</thread_above>\n<comment_to_extract>\nDef checking this out!\n</comment_to_extract>",
+   "context": {
+    "title": "Hot custard (British style) in NYC?",
+    "selftext": "When I was in London, I had Humble Crumble, which is hot custard with toppings and is DIVINE. I’ve been craving it ever since, but I can’t find any places that make it. Has anyone found one in NYC? If not, this is a serious gap in the market!",
+    "ancestors": [
+     {
+      "author": "Lethave",
+      "body": "Tea and Sympathy has apple as well as rhubarb crumble if I'm recalling correctly. "
+     }
+    ],
+    "author": "Lenka087",
+    "body": "Def checking this out!",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0505",
+   "comment_id": "t1_kvu9bmw",
+   "model_view": "<post_title>Does anyone know what happened to this ice cream/hot chocolate place near IFC theater in greenwhich village?</post_title>\n<post_body>As a kid I remember going to this super good ice cream shop a few blocks down from the IFC theater in greenwhich village, but what I most fondly remember is they had a super good thick and creamy hot chocolate ive been craving for years, but the place moved a couple blocks down apparently, or they closed indefinitely, if anyone knows of this shop and or what happened to it please reply or reach out to me ! my thanks !</post_body>\n<thread_above>\n[1] you, earlier: Are you thinking of Grom? [https://www.yelp.com/biz/grom-new-york-7](https://www.yelp.com/biz/grom-new-york-7) Unfortunately they closed and were replaced with Amorino Gelato.\n[2] another user: I think there's a location near Columbus Circle, though, no?\n</thread_above>\n<comment_to_extract>\nThere was, but that's also closed: [https://www.yelp.com/biz/grom-new-york-3](https://www.yelp.com/biz/grom-new-york-3)\n</comment_to_extract>",
+   "context": {
+    "title": "Does anyone know what happened to this ice cream/hot chocolate place near IFC theater in greenwhich village?",
+    "selftext": "As a kid I remember going to this super good ice cream shop a few blocks down from the IFC theater in greenwhich village, but what I most fondly remember is they had a super good thick and creamy hot chocolate ive been craving for years, but the place moved a couple blocks down apparently, or they closed indefinitely, if anyone knows of this shop and or what happened to it please reply or reach out to me ! my thanks !",
+    "ancestors": [
+     {
+      "author": "kokoromelody",
+      "body": "Are you thinking of Grom? [https://www.yelp.com/biz/grom-new-york-7](https://www.yelp.com/biz/grom-new-york-7)\n\nUnfortunately they closed and were replaced with Amorino Gelato."
+     },
+     {
+      "author": "_avantgarde",
+      "body": "I think there's a location near Columbus Circle, though, no?"
+     }
+    ],
+    "author": "kokoromelody",
+    "body": "There was, but that's also closed: [https://www.yelp.com/biz/grom-new-york-3](https://www.yelp.com/biz/grom-new-york-3)",
+    "replies": [
+     {
+      "author": "_avantgarde",
+      "body": "Oh wow.  Guess I really haven't been around for a while!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Grom",
+     "named_in": "context",
+     "kind": "cafe",
+     "location": "Columbus Circle",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "Columbus Circle branch closed",
+       "text": "The Columbus Circle Grom location is reported closed"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "gelato",
+      "ice cream"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0506",
+   "comment_id": "t1_n7srx3y",
+   "model_view": "<post_title>Hamburger America or Gotham?</post_title>\n<post_body>We’re visiting Manhattan and have some meals lined up, but if we were only to do one of Hamburger America or Gotham, what would you recommend?</post_body>\n<comment_to_extract>\nDefinitely Gotham, Hamburger America is really greasy and is hit or miss at times\n</comment_to_extract>",
+   "context": {
+    "title": "Hamburger America or Gotham?",
+    "selftext": "We’re visiting Manhattan and have some meals lined up, but if we were only to do one of Hamburger America or Gotham, what would you recommend? ",
+    "ancestors": [],
+    "author": "shnyc",
+    "body": "Definitely Gotham, Hamburger America is really greasy and is hit or miss at times",
+    "replies": [
+     {
+      "author": "kidcurry1867",
+      "body": "This."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Gotham",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Recommended over Hamburger America as the one to pick if only doing one"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "burgers"
+     ]
+    },
+    {
+     "name": "Hamburger America",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "greasy",
+       "text": "Described as really greasy"
+      },
+      {
+       "about": "consistency",
+       "text": "Hit or miss at times"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "burgers"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0507",
+   "comment_id": "t1_owmlh53",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n(3 earlier comments not shown)\n[1] another user: vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb.\n[2] you, earlier: It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions ma ...\n[3] another user: Get off your soap box. There are traditional meat substitutes around the world, like mock meats and mock fish that are a part of Chinese Buddhist cuisine. Who gives a fuck if people call an oat beverage \"oat milk\"? So vegans are not allowed to say \"vegan cheese\", but having to say \"vegan cheese subs ...\n[4] you, earlier: First off, McNuggets with their honey is bomb. Its far from chicken though lol. To say again...my main problem is the marketing around it and this weird sense of pretending to be a meat eater. Veggie burgers are fine...why eat that factory made ImpossibleBurger? Its just so bizarre. Eat lentils. Eat ...\n[5] another user: It doesn't affect you, so why do you care so much? People always complain about vegans trying to sanctimoniously trying to convert others, but I have never heard any vegan/vegetarians speak with the antagonism of the average meat eater speaks about plant-based diets - like you. If someone wants to eat impossible instead of lentils or eggplant, who gives a fuck? Let them live their lives. You don't like it, then don't eat it. Again, it literally doesn't affect you what other people want to eat.\n</thread_above>\n<comment_to_extract>\nIt does though. My sister in law is vegan. My aunt is vegan. Its exhausting getting a \"do you even know the conditions the animals live in?\" Like holy shit....i dont care. Bacon is delicious. Plant based bacon is not bacon.\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!"
+     },
+     {
+      "author": "mycateatstoenails",
+      "body": "vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb. "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\"  Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it.\n\nRespectfully, a chef."
+     },
+     {
+      "author": "jaded_toast",
+      "body": "Get off your soap box. There are traditional meat substitutes around the world, like mock meats and mock fish that are a part of Chinese Buddhist cuisine. Who gives a fuck if people call an oat beverage \"oat milk\"? So vegans are not allowed to say \"vegan cheese\", but having to say \"vegan cheese substitute\" would be fine?\n\nYou're a purist with food, but you're ok with the nugget-shaped pink slime McDonalds sells is allowed to be called chicken??\n\nWhen did being a chef make you the police of what people call things that it sounds like you don't even eat. "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "First off, McNuggets with their honey is bomb. Its far from chicken though lol.\n\nTo say again...my main problem is the marketing around it and this weird sense of pretending to be a meat eater. Veggie burgers are fine...why eat that factory made ImpossibleBurger? Its just so bizarre. Eat lentils. Eat eggplant. Eat quinoa. Wtf is imitation burgers? "
+     },
+     {
+      "author": "jaded_toast",
+      "body": "It doesn't affect you, so why do you care so much? People always complain about vegans trying to sanctimoniously trying to convert others, but I have never heard any vegan/vegetarians speak with the antagonism of the average meat eater speaks about plant-based diets - like you.\n\nIf someone wants to eat impossible instead of lentils or eggplant, who gives a fuck? Let them live their lives. You don't like it, then don't eat it. Again, it literally doesn't affect you what other people want to eat."
+     }
+    ],
+    "author": "SpongeyBobaruu",
+    "body": "It does though. My sister in law is vegan. My aunt is vegan. Its exhausting getting a \"do you even know the conditions the animals live in?\" Like holy shit....i dont care. Bacon is delicious. Plant based bacon is not bacon.",
+    "replies": [
+     {
+      "author": "jaded_toast",
+      "body": "Again, who gives a fuck. You don't even consume it. That would be like the people of New York trying to decide what the laws should be in Idaho. It literally doesn't affect you.\n\nAnd you know exactly what they mean. A food product whose intended use and consumption is meant as a substitute for another food product. God forbid they use the simplest and most direct name to give it.\n\nAt this point, I have to believe that you're trolling."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0508",
+   "comment_id": "t1_p64gzqa",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<thread_above>\n[1] another user: Overrated AF\n</thread_above>\n<comment_to_extract>\nYou're one of those, huh?\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     }
+    ],
+    "author": "watchernyc",
+    "body": "You're one of those, huh?",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0509",
+   "comment_id": "t1_m8zvvoq",
+   "model_view": "<post_title>Where do NYC Chinese Restaurants Source Duck?</post_title>\n<post_body>The title.  Just saw that the last duck farm on Long Island was closing and am selfishly concerned.  Photo of a roast duck I recently enjoyed.</post_body>\n<thread_above>\n[1] you, earlier: wtf is this presentation lmao\n[2] OP: It’s from Francie, and it’s very fancy 😂\n</thread_above>\n<comment_to_extract>\n🤣🤣🤣 that should be their tagline\n</comment_to_extract>",
+   "context": {
+    "title": "Where do NYC Chinese Restaurants Source Duck?",
+    "selftext": "The title.  Just saw that the last duck farm on Long Island was closing and am selfishly concerned.  Photo of a roast duck I recently enjoyed. ",
+    "ancestors": [
+     {
+      "author": "remykixxx",
+      "body": "wtf is this presentation lmao"
+     },
+     {
+      "author": "legaljellybean",
+      "body": "It’s from Francie, and it’s very fancy 😂"
+     }
+    ],
+    "author": "remykixxx",
+    "body": "🤣🤣🤣 that should be their tagline",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0510",
+   "comment_id": "t1_p2axkfn",
+   "model_view": "<post_title>Restaurant Week: where have you gone and was it worth it?</post_title>\n<post_body>Let’s hear people’s opinions on their restaurant week experiences. Was it worth the price? What dishes are a must try? \n\nI’ve been to 3 so far\n\n\\#1 Mokyo. $45 for 4 dishes. Very good. Crudo was very tasty. Corn dumplings are a MUST. Fried rice was ok. Sorbet was solid \n\n\\#2 la pecora Bianca. $45 for 3 dishes. I was honestly just walking last night and saw it so I said why not. It was fine. Had the whipped ricotta toast and the vodka pasta. Dessert was a little cannoli \n\n\\#3 Mable BBQ. $45 for two dishes. Got the frito lie which tasted just like Taco Bell. Wasn’t bad but just expected more than Taco Bell. I wish they would let you get more meat for the entree. Like instead of one, you can get a half portion of 2 meats. But ribs were fine. Sides were pretty bland. Beans and potato salad which all came recommended \n\nWhere should we go or avoid?</post_body>\n<comment_to_extract>\nfrancie was terrible\n</comment_to_extract>",
+   "context": {
+    "title": "Restaurant Week: where have you gone and was it worth it?",
+    "selftext": "Let’s hear people’s opinions on their restaurant week experiences. Was it worth the price? What dishes are a must try? \n\nI’ve been to 3 so far\n\n\\#1 Mokyo. $45 for 4 dishes. Very good. Crudo was very tasty. Corn dumplings are a MUST. Fried rice was ok. Sorbet was solid \n\n\\#2 la pecora Bianca. $45 for 3 dishes. I was honestly just walking last night and saw it so I said why not. It was fine. Had the whipped ricotta toast and the vodka pasta. Dessert was a little cannoli \n\n\\#3 Mable BBQ. $45 for two dishes. Got the frito lie which tasted just like Taco Bell. Wasn’t bad but just expected more than Taco Bell. I wish they would let you get more meat for the entree. Like instead of one, you can get a half portion of 2 meats. But ribs were fine. Sides were pretty bland. Beans and potato salad which all came recommended \n\nWhere should we go or avoid? ",
+    "ancestors": [],
+    "author": "joegerbstein",
+    "body": "francie was terrible",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "francie",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0511",
+   "comment_id": "t1_ooomg70",
+   "model_view": "<post_title>Where can we get mie gorang? Preferably in Brooklyn.</post_title>\n<post_body>Looking for this specific Indonesian dish, but also welcome Indonesian recs in general!</post_body>\n<comment_to_extract>\nThe Indonesian bazaar at Masjid al-Hikmah, in Astoria, returns this Sunday (rescheduled from a rainy day last weekend). It's outdoors, in the parking lot behind the mosque, once a month during warmer weather, and definitely worthwhile even if you don't find your specific dish.\n</comment_to_extract>",
+   "context": {
+    "title": "Where can we get mie gorang? Preferably in Brooklyn.",
+    "selftext": "Looking for this specific Indonesian dish, but also welcome Indonesian recs in general! ",
+    "ancestors": [],
+    "author": "EatingInTranslation",
+    "body": "The Indonesian bazaar at Masjid al-Hikmah, in Astoria, returns this Sunday (rescheduled from a rainy day last weekend). It's outdoors, in the parking lot behind the mosque, once a month during warmer weather, and definitely worthwhile even if you don't find your specific dish.",
+    "replies": [
+     {
+      "author": "cathaysia",
+      "body": "Great rec!! Thank you so much! "
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0512",
+   "comment_id": "t1_oldge8t",
+   "model_view": "<post_title>I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?</post_title>\n<comment_to_extract>\nMangia's is really good\n</comment_to_extract>",
+   "context": {
+    "title": "I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "tadu1261",
+    "body": "Mangia's is really good",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mangia's",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "chicken salad sandwich",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwich"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0513",
+   "comment_id": "t1_p8t9z4m",
+   "model_view": "<post_title>Which taquerias in NYC are actually better than Los Tacos?</post_title>\n<post_body>I recently went to Los Tacos for the first time in a while (Penn Station location), and I was blown away by how good it was. The adobada was tender, juicy, and super savory. It was honestly better than most of the adobada/al pastor I had in Mexico.\n\nThe tortillas are excellent, and they even nixtamalize their own corn.\n\nPlus they have a nice salsa bar (served in molcajetes), which includes salsa matcha (not that common in NYC). \n\nYet loads of people on here and social media insist that it's terrible and random spot X that they won't name is actually better. I have eaten from dozens of taco trucks and taquerias in Brooklyn and Queens and few of them even come close in my opinion (Taqueria Al Pastor is also excellent).\n\nIt's rare for anywhere in NYC to really nail that tender, delicious al pastor + high quality tortilla combo. The carne is also very good (especially on their flour tortillas), but I think the adobada is really the star.\n\nSome of my other thoughts:\n\n\\-The ordering system is probably not the most efficient, though I assume this is by design to make it feel more rustic and not too computerized\n\n\\-it costs $2 more per taco than average in NYC. Factoring in extremely high ...</post_body>\n<thread_above>\n[1] you, earlier: Los Tacos is great, people just love to be contrarians against anything popular. But it’s popular for good reason: it’s a legit spot in highly trafficked areas. With that said, I also really enjoy Carnitas Ramirez, Nene’s Taqueria, Birria Landia, and Tacos El Bronco. I have a ton more on a list that ...\n[2] another user: Bronco is goated\n[3] another user: i’d like to add the taco truck for tacos el bronco is actually better than the restaurant for tacos everything there in general is pretty good don’t get me wrong\n</thread_above>\n<comment_to_extract>\nI gotta try their truck spot, I've only ever had at the restaurant\n</comment_to_extract>",
+   "context": {
+    "title": "Which taquerias in NYC are actually better than Los Tacos?",
+    "selftext": "I recently went to Los Tacos for the first time in a while (Penn Station location), and I was blown away by how good it was. The adobada was tender, juicy, and super savory. It was honestly better than most of the adobada/al pastor I had in Mexico.\n\nThe tortillas are excellent, and they even nixtamalize their own corn.\n\nPlus they have a nice salsa bar (served in molcajetes), which includes salsa matcha (not that common in NYC). \n\nYet loads of people on here and social media insist that it's terrible and random spot X that they won't name is actually better. I have eaten from dozens of taco trucks and taquerias in Brooklyn and Queens and few of them even come close in my opinion (Taqueria Al Pastor is also excellent).\n\nIt's rare for anywhere in NYC to really nail that tender, delicious al pastor + high quality tortilla combo. The carne is also very good (especially on their flour tortillas), but I think the adobada is really the star.\n\nSome of my other thoughts:\n\n\\-The ordering system is probably not the most efficient, though I assume this is by design to make it feel more rustic and not too computerized\n\n\\-it costs $2 more per taco than average in NYC. Factoring in extremely high rents and the quality of the food, I think that's fair. As long as it doesn't get much higher than that, I feel like it's a good enough value.\n\n\\-The workers in their work their ass off, the idea that they should charge $1 per taco to make redditors happy is ridiculous. \n\n\\-I hope they make a \"Los Burros\" spinoff, their breakfast burritos are excellent but limited in terms of availability\n\n\\-I hope Private Equity doesn't end up ruining this place",
+    "ancestors": [
+     {
+      "author": "GuzzyRawks",
+      "body": "Los Tacos is great, people just love to be contrarians against anything popular. But it’s popular for good reason: it’s a legit spot in highly trafficked areas.\n\nWith that said, I also really enjoy Carnitas Ramirez, Nene’s Taqueria, Birria Landia, and Tacos El Bronco. I have a ton more on a list that people recommend here that I haven’t tried out yet!"
+     },
+     {
+      "author": "theotherone72",
+      "body": "Bronco is goated"
+     },
+     {
+      "author": "ZestycloseMud1104",
+      "body": "i’d like to add the taco truck for tacos el bronco is actually better than the restaurant for tacos everything there in general is pretty good don’t get me wrong "
+     }
+    ],
+    "author": "GuzzyRawks",
+    "body": "I gotta try their truck spot, I've only ever had at the restaurant",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Tacos El Bronco",
+     "named_in": "context",
+     "kind": "truck_or_cart",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "truck",
+       "text": "Commenter plans to try the truck spot; has only eaten at the restaurant"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "tacos"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0514",
+   "comment_id": "t1_obkhwb2",
+   "model_view": "<post_title>red hook tavern dinner walk in - how early would I have to be to get a seat?</post_title>\n<post_body>I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?</post_body>\n<comment_to_extract>\nWent a few sundays ago, the line started around 4:15 I think\n</comment_to_extract>",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [],
+    "author": "Stanley___Nickels",
+    "body": "Went a few sundays ago, the line started around 4:15 I think ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "red hook tavern",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Red Hook",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "line timing",
+       "text": "Line started around 4:15 on a Sunday visit a few weeks ago"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "walk-in"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0515",
+   "comment_id": "t1_p320q1f",
+   "model_view": "<post_title author=\"you\">Eleven Madison Park, Lunch. Menu, drinks, and a game.</post_title>\n<post_body author=\"you\">I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.</post_body>\n<thread_above>\n[1] another user: This looks pretty uninspired IMO\n</thread_above>\n<comment_to_extract>\nAh... I get it now.  You're an amateur 'Neg'-ologist... looking at your post history, you seem to really truly enjoy sharing negative, shit-stirring, controversial, or plain aggressive comments.\n\nWell done.\n</comment_to_extract>",
+   "context": {
+    "title": "Eleven Madison Park, Lunch.  Menu, drinks, and a game.",
+    "selftext": "I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\n",
+    "ancestors": [
+     {
+      "author": "CheckItWhileIWreckIt",
+      "body": "This looks pretty uninspired IMO"
+     }
+    ],
+    "author": "MTonmyMind",
+    "body": "Ah... I get it now.  You're an amateur 'Neg'-ologist... looking at your post history, you seem to really truly enjoy sharing negative, shit-stirring, controversial, or plain aggressive comments.\n\nWell done.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0516",
+   "comment_id": "t1_nib6ys7",
+   "model_view": "<post_title>What is your go-to food choice?</post_title>\n<post_body>Hi, Born in NY, grew up in PHX. Our go-to food is Mexican, whether we make it ourselves, get it from a shop or go to a restaurant. If we don't have specific plans, it's Mexican food.\n\nI asked my mom about this (grew up in Washington Heights in the 50s & 60s). She said it would have been Italian or German, mostly because those restaurants and stores were in her neighborhood (probably deli foods).\n\nSo, today, what is your go-to food in NYC?</post_body>\n<comment_to_extract>\nPizza, tacos, Thai\n</comment_to_extract>",
+   "context": {
+    "title": "What is your go-to food choice?",
+    "selftext": "Hi, Born in NY, grew up in PHX. Our go-to food is Mexican, whether we make it ourselves, get it from a shop or go to a restaurant. If we don't have specific plans, it's Mexican food.\n\nI asked my mom about this (grew up in Washington Heights in the 50s & 60s). She said it would have been Italian or German, mostly because those restaurants and stores were in her neighborhood (probably deli foods).\n\nSo, today, what is your go-to food in NYC? ",
+    "ancestors": [],
+    "author": "Rusiano",
+    "body": "Pizza, tacos, Thai",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0517",
+   "comment_id": "t1_njicyu7",
+   "model_view": "<post_title>I analyzed 50+ Reddit threads to find the best pizza in NYC</post_title>\n<post_body>I scraped comments from 50+ posts (mostly from this subreddit and few other NYC related ones) where people asked “where’s the best pizza in New York?” or argued about Joe’s vs. Prince Street vs. Di Fara. Then I ran all those comments through an LLM pipeline to see which spots people actually rave about,  not just name-drop the most.\n\nGoal wasn’t just “most mentioned,” but “most positively talked about.” and upvoted.\n\n**Method in a nutshell:**  \n– Gathered 50+ “best pizza in NYC” and “NYC food recs” threads  \n– Ran GPT-5 + Gemini 2.5 to extract restaurant names and classify sentiment  \n– Scoring = \\~70% positive vs. negative differential + \\~30% positive/total ratio  \n– Merged name variants so duplicates didn’t inflate scores (e.g., “Prince Street Pizza,” “Prince St.” → one entry)  \n– Added small sentiment tweaks so passionate recommendations ranked above casual mentions\n\nCurious what locals think and would love to get your feedback!</post_body>\n<thread_above>\n[1] another user: Does anyone else who has tried these raved about nyc pizza shops think that they’re overrated? I’ve tried multiple and don’t understand the hype.\n</thread_above>\n<comment_to_extract>\nI think Lucali is the most overrated restaurant on the planet. They make a good pizza and won the marketing/hype lottery, but it's not something special to go out of your way for. There are places  walking distance from Lucali that I like more.\n</comment_to_extract>",
+   "context": {
+    "title": "I analyzed 50+ Reddit threads to find the best pizza in NYC",
+    "selftext": "I scraped comments from 50+ posts (mostly from this subreddit and few other NYC related ones) where people asked “where’s the best pizza in New York?” or argued about Joe’s vs. Prince Street vs. Di Fara. Then I ran all those comments through an LLM pipeline to see which spots people actually rave about,  not just name-drop the most.\n\nGoal wasn’t just “most mentioned,” but “most positively talked about.” and upvoted.\n\n**Method in a nutshell:**  \n– Gathered 50+ “best pizza in NYC” and “NYC food recs” threads  \n– Ran GPT-5 + Gemini 2.5 to extract restaurant names and classify sentiment  \n– Scoring = \\~70% positive vs. negative differential + \\~30% positive/total ratio  \n– Merged name variants so duplicates didn’t inflate scores (e.g., “Prince Street Pizza,” “Prince St.” → one entry)  \n– Added small sentiment tweaks so passionate recommendations ranked above casual mentions\n\nCurious what locals think and would love to get your feedback! ",
+    "ancestors": [
+     {
+      "author": "Lux_pearls",
+      "body": "Does anyone else who has tried these raved about nyc pizza shops think that they’re overrated? I’ve tried multiple and don’t understand the hype."
+     }
+    ],
+    "author": "sha256md5",
+    "body": "I think Lucali is the most overrated restaurant on the planet. They make a good pizza and won the marketing/hype lottery, but it's not something special to go out of your way for. There are places  walking distance from Lucali that I like more.",
+    "replies": [
+     {
+      "author": "Lux_pearls",
+      "body": "What’s your recommendations?"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Lucali",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "pizza",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "hype",
+       "text": "marketing/hype made it famous; not special enough to go out of the way for"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0518",
+   "comment_id": "t1_ojzi91m",
+   "model_view": "<post_title author=\"you\">Where can I get a kir royale in Brooklyn?</post_title>\n<post_body author=\"you\">That’s all. It’s my favorite drink. Also willing to go to the city but prefer bk.</post_body>\n<thread_above>\n[1] another user: Umm, any bar that has champagne and cassis.\n[2] you, earlier: Right so that’s the question I’m asking\n[3] another user: I feel like most bars have these ingredients. Or just go to a French restaurant\n</thread_above>\n<comment_to_extract>\nI haven’t been able to find a bar in nyc that has crème de cassis. Hence the question.\n</comment_to_extract>",
+   "context": {
+    "title": "Where can I get a kir royale in Brooklyn?",
+    "selftext": "That’s all. It’s my favorite drink. Also willing to go to the city but prefer bk. ",
+    "ancestors": [
+     {
+      "author": "BartBeachGuy",
+      "body": "Umm, any bar that has champagne and cassis. "
+     },
+     {
+      "author": "Greedy_Produce2276",
+      "body": "Right so that’s the question I’m asking"
+     },
+     {
+      "author": "Royal_Potential_3299",
+      "body": "I feel like most bars have these ingredients. Or just go to a French restaurant"
+     }
+    ],
+    "author": "Greedy_Produce2276",
+    "body": "I haven’t been able to find a bar in nyc that has crème de cassis. Hence the question.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0519",
+   "comment_id": "t1_p7lwc33",
+   "model_view": "<post_title>Finally went to 4 Charles: Im appalled. Anyone else?</post_title>\n<post_body>Finally made it to 4 Charles last night. Girlfriend could not go so I was dining solo. Now.. the food really was phenomenal, but I was literally put on a gurney and carted out of the restaurant. I am so embarrassed and need to know who else had this experience??\n\nStarted out with the King Crab. I went with the 3/4lb because the missus wasn't there. Ugh this was great but just felt like a bit much. \n\nNext, was trying to keep it light so I did the Smoked Salmon Caesar. This was really a highlight.. that smoked salmon is so good. \n\nObviously, its 4 Charles so I had to do the prime rib. I couldn't decide between doing the roast or sandwich - so I did both. One King Cut and One Sandwich. And you know I also got the burger.. had to do bacon and an egg. Simply put: delectable. \n\nAfter I put this down though I was already started to feel a little full. Weird, but whatever..\n\nI followed this up with 2 sides of the bacon because it was just so good. And then for dessert? Lemon Meringue Pie & the Sundae. I just couldn't decide! \n\nPost dessert I was looking over the menu when it hit me, I was really full. Like, really really full. I almost felt sick. I couldn't even get up! I paid my check and ...</post_body>\n<comment_to_extract>\n/r/circlejerknyc\n</comment_to_extract>",
+   "context": {
+    "title": "Finally went to 4 Charles: Im appalled. Anyone else?",
+    "selftext": "Finally made it to 4 Charles last night. Girlfriend could not go so I was dining solo. Now.. the food really was phenomenal, but I was literally put on a gurney and carted out of the restaurant. I am so embarrassed and need to know who else had this experience??\n\nStarted out with the King Crab. I went with the 3/4lb because the missus wasn't there. Ugh this was great but just felt like a bit much. \n\nNext, was trying to keep it light so I did the Smoked Salmon Caesar. This was really a highlight.. that smoked salmon is so good. \n\nObviously, its 4 Charles so I had to do the prime rib. I couldn't decide between doing the roast or sandwich - so I did both. One King Cut and One Sandwich. And you know I also got the burger.. had to do bacon and an egg. Simply put: delectable. \n\nAfter I put this down though I was already started to feel a little full. Weird, but whatever..\n\nI followed this up with 2 sides of the bacon because it was just so good. And then for dessert? Lemon Meringue Pie & the Sundae. I just couldn't decide! \n\nPost dessert I was looking over the menu when it hit me, I was really full. Like, really really full. I almost felt sick. I couldn't even get up! I paid my check and discreetly told the waiters about my problem and they brought a gurney out of the back and carted me out!! I could not believe it. \n\nObviously other people must have experienced something like this before?? I cannot believe how heavy their food is. Like.. it is just too rich or something. Why is it so popular when you literally can't walk after eating?? \n\n",
+    "ancestors": [],
+    "author": "CabassoG",
+    "body": "/r/circlejerknyc",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0520",
+   "comment_id": "t1_jrmks36",
+   "model_view": "<post_title>List of terrible restaurants in NYC with great customer reviews</post_title>\n<post_body>Wo hop\nAiththi \nSpice Symphony\nPongisiri \nkarahi\nTipsy Shanghai\nSOL Mexican</post_body>\n<thread_above>\n[1] another user: Dhamaka Tried to like it but I just couldn’t, and I’m Indian! Semma is much better by comparison. Not using basmati rice is a weird choice lol\n[2] another user: It’s no Dishoom that’s for sure\n</thread_above>\n<comment_to_extract>\n<quote>Do Indians like Dishoom? I'm Indian and I ate at Dishoom in Edinburgh and found it extremly blah. The place was absolutely packed and other people seemed to really enjoy it. I liked Semma in New York though. The flavors were on point and a couple of dishes felt close to what I eat at home (which is the ultimate compliment any Indian gives to an Indian restaurant).</quote>\n</comment_to_extract>",
+   "context": {
+    "title": "List of terrible restaurants in NYC with great customer reviews",
+    "selftext": "Wo hop\nAiththi \nSpice Symphony\nPongisiri \nkarahi\nTipsy Shanghai\nSOL Mexican",
+    "ancestors": [
+     {
+      "author": "BorrowedIdeas",
+      "body": "Dhamaka\n\nTried to like it but I just couldn’t, and I’m Indian! Semma is much better by comparison. Not using basmati rice is a weird choice lol"
+     },
+     {
+      "author": "entrepenoori",
+      "body": "It’s no Dishoom that’s for sure"
+     }
+    ],
+    "author": "cricketrules509",
+    "body": ">Do Indians like Dishoom? I'm Indian and I ate at Dishoom in Edinburgh and found it extremly blah. The place was absolutely packed and other people seemed to really enjoy it.   \n>  \n>  \n>  \n>I liked Semma in New York though. The flavors were on point and a couple of dishes felt close to what I eat at home (which is the ultimate compliment any Indian gives to an Indian restaurant).",
+    "replies": [
+     {
+      "author": "entrepenoori",
+      "body": "Edinburgh I can’t speak to, although I’ve been to the city I’ve never really needed to go up there. Semma is fine but Dishoom features many dishes I am familiar with from home just with its own zing- it’s not home style per se ofc not but I do love their take on restaurant Indian food. I love Dosa Hut, House of Dosa and places generally outside of Manhattan for my Desi food ofc"
+     },
+     {
+      "author": "LongIsland1995",
+      "body": "I know an Indian woman in the UK and she says it's one of the few places she's been to there that taste like real, non-Westernized Indian food"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0521",
+   "comment_id": "t1_pb7g476",
+   "model_view": "<post_title>Looking for a burger joint like Bob's Burgers in NYC</post_title>\n<post_body>I'm looking for a burger joint like the cartoon show Bob's Burgers in NYC.  Just plain simple burgers.  Not smash burgers.  Maybe they have a burger of the day.  It doesn't have to be fancy.  My go-to joint closed years ago.  It was a deli and they served their burgers on a Styrofoam plate with a brioche bun.  I don't believe their patties were ever frozen.  \n\nDoes this kind of place exist in NYC?  I find it hard to believe we have regional Indian food, regional Chinese food, Peruvian Chinese, etc. but no simple burger joint in NYC.</post_body>\n<thread_above>\n[1] another user: Lovely's Old Fashioned is going to be the vibe you're looking for.\n</thread_above>\n<comment_to_extract>\nGreat burger too\n</comment_to_extract>",
+   "context": {
+    "title": "Looking for a burger joint like Bob's Burgers in NYC",
+    "selftext": "I'm looking for a burger joint like the cartoon show Bob's Burgers in NYC.  Just plain simple burgers.  Not smash burgers.  Maybe they have a burger of the day.  It doesn't have to be fancy.  My go-to joint closed years ago.  It was a deli and they served their burgers on a Styrofoam plate with a brioche bun.  I don't believe their patties were ever frozen.  \n\nDoes this kind of place exist in NYC?  I find it hard to believe we have regional Indian food, regional Chinese food, Peruvian Chinese, etc. but no simple burger joint in NYC.  ",
+    "ancestors": [
+     {
+      "author": "MidtownGreen",
+      "body": "Lovely's Old Fashioned is going to be the vibe you're looking for. "
+     }
+    ],
+    "author": "sleepyhead",
+    "body": "Great burger too",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Lovely's Old Fashioned",
+     "named_in": "context",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "burger",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "burger"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0522",
+   "comment_id": "t1_leyz6yk",
+   "model_view": "<post_title>Family friendly yet trendy recs</post_title>\n<post_body>My mom, sister and niece (ages 27-75) are visiting in Sept and my bf and I want to do a brunch/lunch before the Mets game that weekend - either in midtown (to stay close to GC) or downtown/tribeca. Would love something with a view or on the water. Will be in game attire so casual yet trendy. Any recs? I’m stuck on my go to spots on Pazza Notte and City Vineyard but want to branch out. No Chinese cuisine please as we will be doing dinner in Flushjng after the game! Thank you!</post_body>\n<comment_to_extract>\nABCV by Jean Georges!\n</comment_to_extract>",
+   "context": {
+    "title": "Family friendly yet trendy recs",
+    "selftext": "My mom, sister and niece (ages 27-75) are visiting in Sept and my bf and I want to do a brunch/lunch before the Mets game that weekend - either in midtown (to stay close to GC) or downtown/tribeca. Would love something with a view or on the water. Will be in game attire so casual yet trendy. Any recs? I’m stuck on my go to spots on Pazza Notte and City Vineyard but want to branch out. No Chinese cuisine please as we will be doing dinner in Flushjng after the game! Thank you!",
+    "ancestors": [],
+    "author": "Special-Guidance5659",
+    "body": "ABCV by Jean Georges!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "ABCV",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "brunch",
+      "lunch",
+      "trendy"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0523",
+   "comment_id": "t1_p1ktt00",
+   "model_view": "<post_title>Suggestions for community-oriented Harlem bars and cafes?</post_title>\n<post_body>Hi! I’m staying in Harlem for a month this summer and I’m looking for a go-to cafe and a bar that are welcoming with a sense of community. I’m gonna be on 134th street if that helps, but I don’t mind walking for a bit :)\n\nThanks for your help!</post_body>\n<comment_to_extract>\nRough Draft on Hamilton Place and 143rd is a nice friendly neighborhood bar.\n</comment_to_extract>",
+   "context": {
+    "title": "Suggestions for community-oriented Harlem bars and cafes?",
+    "selftext": "Hi! I’m staying in Harlem for a month this summer and I’m looking for a go-to cafe and a bar that are welcoming with a sense of community. I’m gonna be on 134th street if that helps, but I don’t mind walking for a bit :)\n\nThanks for your help!",
+    "ancestors": [],
+    "author": "wasny",
+    "body": "Rough Draft on Hamilton Place and 143rd is a nice friendly neighborhood bar.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Rough Draft",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": "Hamilton Place and 143rd Street, Harlem",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "community feel",
+       "text": "welcoming, friendly neighborhood bar, matching what the OP asked for"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "neighborhood bar",
+      "community"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0524",
+   "comment_id": "t1_oulahyh",
+   "model_view": "<post_title>Remember this bar in the East Village back in 2012/2013?</post_title>\n<post_body>Hey! I used to hang out at this bar in the East Village back in 2012/2013-ish. Here's what I remember:\n\n\\-- Dark bar, walk through to the back to a really nice back patio/garden\n\n\\-- It was outdoors, but it was covered. Lots of plants. Big fountain!\n\n\\-- My photo captions said, \"beer garden\" but I'm sure it was just a dive...\n\n\\-- Would've been (I THINK) between 1st and 14th, somewhere on A/1st/2nd/3rd.\n\n\\-- There's a chance there was a photobooth OR hookah... but those could've been different bars.\n\nIf you can remember—THANK YOU!!!</post_body>\n<thread_above>\n[1] another user: They closed after the explosion. I miss that place\n[2] another user: What… what explosion?\n[3] another user: There was a fatal explosion on 2nd Ave in 2015 a few blocks from here. I heard that’s part of why they closed but I may be wrong. At any rate, they’re coming back also!\n</thread_above>\n<comment_to_extract>\nRIP Stage Restaurant too\n</comment_to_extract>",
+   "context": {
+    "title": "Remember this bar in the East Village back in 2012/2013?",
+    "selftext": "Hey! I used to hang out at this bar in the East Village back in 2012/2013-ish. Here's what I remember:\n\n\\-- Dark bar, walk through to the back to a really nice back patio/garden\n\n\\-- It was outdoors, but it was covered. Lots of plants. Big fountain!\n\n\\-- My photo captions said, \"beer garden\" but I'm sure it was just a dive...\n\n\\-- Would've been (I THINK) between 1st and 14th, somewhere on A/1st/2nd/3rd.\n\n\\-- There's a chance there was a photobooth OR hookah... but those could've been different bars.\n\nIf you can remember—THANK YOU!!!",
+    "ancestors": [
+     {
+      "author": "Elegant-Increase-726",
+      "body": "They closed after the explosion. I miss that place "
+     },
+     {
+      "author": "liquilife",
+      "body": "What… what explosion?"
+     },
+     {
+      "author": "Elegant-Increase-726",
+      "body": "There was a fatal explosion on 2nd Ave in 2015 a few blocks from here. I heard that’s part of why they closed but I may be wrong. At any rate, they’re coming back also! "
+     }
+    ],
+    "author": "Possible-Source-2454",
+    "body": "RIP Stage Restaurant too",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Stage Restaurant",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0525",
+   "comment_id": "t1_kslut1w",
+   "model_view": "<post_title>Tipping on Takeout?</post_title>\n<post_body>I if order takeout from a sit down restaurant am I expected to tip if I pick it up? I am thinking specifically of ordering breakfast from Friedmans.</post_body>\n<comment_to_extract>\nNot expected to but if I like the place / workers, I usually try to throw a couple bucks.\n\nVery rarely do people regret being generous.\n</comment_to_extract>",
+   "context": {
+    "title": "Tipping on Takeout?",
+    "selftext": "I if order takeout from a sit down restaurant am I expected to tip if I pick it up? I am thinking specifically of ordering breakfast from Friedmans.",
+    "ancestors": [],
+    "author": "doobie3101",
+    "body": "Not expected to but if I like the place / workers, I usually try to throw a couple bucks.\n\nVery rarely do people regret being generous.",
+    "replies": []
+   },
+   "shown": []
+  }
+ ]
+}

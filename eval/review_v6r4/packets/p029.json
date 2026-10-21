@@ -1,0 +1,1081 @@
+{
+ "packet": "p029",
+ "items": [
+  {
+   "item_id": "R0701",
+   "comment_id": "t1_obqfe7y",
+   "model_view": "<post_title>Peter Luger</post_title>\n<post_body>Is Peter Luger a must try in one’s life ? Or are there other steakhouses that are comparable and will give you a similar experience that are instead located in Manhattan? My husband is a huge steak enthusiast, but we are only coming for a 3 day trip with 2 kids and are wondering if it’s worth the trek.</post_body>\n<comment_to_extract>\nNever been to Keen’s but the atmosphere, food, and  service at the Strip House make it my favorite.\n</comment_to_extract>",
+   "context": {
+    "title": "Peter Luger",
+    "selftext": "Is Peter Luger a must try in one’s life ? Or are there other steakhouses that are comparable and will give you a similar experience that are instead located in Manhattan? My husband is a huge steak enthusiast, but we are only coming for a 3 day trip with 2 kids and are wondering if it’s worth the trek. ",
+    "ancestors": [],
+    "author": "durhamsbull",
+    "body": "Never been to Keen’s but the atmosphere, food, and  service at the Strip House make it my favorite. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Strip House",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": "positive",
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0702",
+   "comment_id": "t1_orojyyr",
+   "model_view": "<post_title>Best deli pickles in NYC (preferably near manhattan)</post_title>\n<post_body>Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!</post_body>\n<comment_to_extract>\nEddies in Maspeth  \nWholesale/Retail  \nTops!\n\nhttps://eddiespickles.com/pages/contact\n</comment_to_extract>",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [],
+    "author": "Bigdaddyhef-365",
+    "body": "Eddies in Maspeth  \nWholesale/Retail  \nTops!\n\nhttps://eddiespickles.com/pages/contact",
+    "replies": [
+     {
+      "author": "aunipine",
+      "body": "These are my favorite pickles "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Eddies",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": "Maspeth",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "sales",
+       "text": "Sells wholesale and retail"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pickles"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0703",
+   "comment_id": "t1_os1kpoq",
+   "model_view": "<post_title>Looking for a good caipirinha in Manhattan. Suggestions?</post_title>\n<post_body>Visiting manhattan this weekend, wonder where I can get a good/not too expensive caipirinha. Obrigado!</post_body>\n<comment_to_extract>\nBirimbau. You can even get them by the pitcher\n</comment_to_extract>",
+   "context": {
+    "title": "Looking for a good caipirinha in Manhattan. Suggestions?",
+    "selftext": "Visiting manhattan this weekend, wonder where I can get a good/not too expensive caipirinha. Obrigado!",
+    "ancestors": [],
+    "author": "laurenthead",
+    "body": "Birimbau. You can even get them by the pitcher",
+    "replies": [
+     {
+      "author": "RappedUp97",
+      "body": "Thank you!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Birimbau",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "caipirinha",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "serving size",
+       "text": "caipirinhas available by the pitcher"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "brazilian",
+      "caipirinha",
+      "cocktails"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0704",
+   "comment_id": "t1_m05c1yc",
+   "model_view": "<post_title>Wegman’s at Astor Place sold me a half parm wheel for $30</post_title>\n<comment_to_extract>\nThis happens because the cheesemonger grabs a smaller piece and puts it on the scale to print a label essentially to date and ID the cheese. The scales max out if you put a half wheel although a quarter should work, I assume they were just rushing and didn’t assume someone would try and buy it. \n\nIn any case, its kinda fucked up but also grocery stores can absolutely absorb the loss.\n</comment_to_extract>",
+   "context": {
+    "title": "Wegman’s at Astor Place sold me a half parm wheel for $30 ",
+    "selftext": "",
+    "ancestors": [],
+    "author": "extra_anus",
+    "body": "This happens because the cheesemonger grabs a smaller piece and puts it on the scale to print a label essentially to date and ID the cheese. The scales max out if you put a half wheel although a quarter should work, I assume they were just rushing and didn’t assume someone would try and buy it. \n\nIn any case, its kinda fucked up but also grocery stores can absolutely absorb the loss.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0705",
+   "comment_id": "t1_onliuvm",
+   "model_view": "<post_title>Best Bagels/breakfast near Barclays? My wife put me on a mission and I cannot fail</post_title>\n<post_body>My wife is demanding good bagels and I'm overwhelmed 😂\n\nGimme some good options near Barclays if possible. We're staying at a hotel on Schemerhorn St if that helps.</post_body>\n<thread_above>\n[1] another user: Bergen Bagels, Court St. Bagels, Smith St. Bagels are all good options within walking distance. Black Seed is the most convenient to you but they’re Montreal-style (and IMO deeply overrated) so I don’t recommend them to out-of-towners who want NY bagels.\n[2] OP: Appreciate it! I'll check out those others. I actually just walked by Black Seed lol. At White Noise Coffee rn. Do you have any lunch recommendations nearby?\n</thread_above>\n<comment_to_extract>\nBlack seed is terrible. Bergen bagels is alright. The rest are pretty good. Bagel pub is best (and makes the best breakfast sandwiches)\n</comment_to_extract>",
+   "context": {
+    "title": "Best Bagels/breakfast near Barclays? My wife put me on a mission and I cannot fail",
+    "selftext": "My wife is demanding good bagels and I'm overwhelmed 😂\n\nGimme some good options near Barclays if possible. We're staying at a hotel on Schemerhorn St if that helps. ",
+    "ancestors": [
+     {
+      "author": "festinalente27",
+      "body": "Bergen Bagels, Court St. Bagels, Smith St. Bagels are all good options within walking distance.\n\nBlack Seed is the most convenient to you but they’re Montreal-style (and IMO deeply overrated) so I don’t recommend them to out-of-towners who want NY bagels."
+     },
+     {
+      "author": "sanders04",
+      "body": "Appreciate it! I'll check out those others. I actually just walked by Black Seed lol. At White Noise Coffee rn. \n\nDo you have any lunch recommendations nearby? "
+     }
+    ],
+    "author": "Ihopeiremeberthis",
+    "body": "Black seed is terrible. Bergen bagels is alright. The rest are pretty good. Bagel pub is best (and makes the best breakfast sandwiches) ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Black seed",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels",
+      "montreal-style"
+     ]
+    },
+    {
+     "name": "Bergen bagels",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    },
+    {
+     "name": "Court St. Bagels",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": "Court St",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    },
+    {
+     "name": "Smith St. Bagels",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": "Smith St",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    },
+    {
+     "name": "Bagel pub",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "breakfast sandwiches",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "ranking",
+       "text": "named best of the group of recommended spots"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels",
+      "breakfast"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0706",
+   "comment_id": "t1_owp7pum",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<thread_above>\n[1] another user: Pressed sucks if we are being honest\n[2] OP: Tell me more...\n[3] another user: Let me hop in on this one to tell you more. Its overpriced produce in liquid form.\n[4] another user: Just remove the healthy fiber first\n</thread_above>\n<comment_to_extract>\nWhoa — I've always preferred smoothies but I didn't even clock that juices remove fiber, but it makes total sense\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": null,
+      "body": "(parent not available: deleted, or too short to keep)"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Let me hop in on this one to tell you more.\n\nIts overpriced produce in liquid form."
+     },
+     {
+      "author": "flythearc",
+      "body": "Just remove the healthy fiber first "
+     }
+    ],
+    "author": "trsvrs",
+    "body": "Whoa — I've always preferred smoothies but I didn't even clock that juices remove fiber, but it makes total sense",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0707",
+   "comment_id": "t1_oh36mnz",
+   "model_view": "<post_title author=\"you\">Help Finding Cheap Prosciutto Chunks?</post_title>\n<post_body author=\"you\">Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!</post_body>\n<thread_above>\n[1] another user: I miss Market Basket\n</thread_above>\n<comment_to_extract>\nNext time I go I’m bringing back a suitcase full of tinned seafood\n</comment_to_extract>",
+   "context": {
+    "title": "Help Finding Cheap Prosciutto Chunks?",
+    "selftext": "Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!",
+    "ancestors": [
+     {
+      "author": "cragelra",
+      "body": "I miss Market Basket"
+     }
+    ],
+    "author": "VisualReality4495",
+    "body": "Next time I go I’m bringing back a suitcase full of tinned seafood",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0708",
+   "comment_id": "t1_o3lkoy9",
+   "model_view": "<post_title>Noona's Ice Cream</post_title>\n<post_body>Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)</post_body>\n<comment_to_extract>\nHonestly, for this price point the best ice cream I've ever had in NYC is still Ice Cream made with Raw Buffalo Milk, Cream, Maple Syrup, Honey, Egg Yolks, and Celtic Sea Salt.\n</comment_to_extract>",
+   "context": {
+    "title": "Noona's Ice Cream",
+    "selftext": "Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)",
+    "ancestors": [],
+    "author": "johnbobby",
+    "body": "Honestly, for this price point the best ice cream I've ever had in NYC is still Ice Cream made with Raw Buffalo Milk, Cream, Maple Syrup, Honey, Egg Yolks, and Celtic Sea Salt.",
+    "replies": [
+     {
+      "author": "Spiritual_Option4465",
+      "body": " Curious … where was that?"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0709",
+   "comment_id": "t1_oa1tbql",
+   "model_view": "<post_title>I’m looking for the cheesiest cheeseburger in NYC</post_title>\n<post_body>My partner and I will visit NYC this year. I have never been to the US before and my dream goal for this trip is to have the ultimate cheeseburger. For me this means a burger covered in cheese. And I mean that quite literally. I want people to ask: would you like some burger with your cheese? I want it dirty but delicious. These type of burgers just simply don’t exist where I’m from. Hopefully someone knows a place like this! (I think I have a cheese addiction)</post_body>\n<thread_above>\n[1] another user: Roll n Roaster in Sheepshead Bay (Brooklyn) and ask for extra cheez\n</thread_above>\n<comment_to_extract>\nOr Brennan and Carr. They'll douse it in cheese too.\n</comment_to_extract>",
+   "context": {
+    "title": "I’m looking for the cheesiest cheeseburger in NYC",
+    "selftext": "My partner and I will visit NYC this year. I have never been to the US before and my dream goal for this trip is to have the ultimate cheeseburger. For me this means a burger covered in cheese. And I mean that quite literally. I want people to ask: would you like some burger with your cheese? I want it dirty but delicious. These type of burgers just simply don’t exist where I’m from. Hopefully someone knows a place like this! (I think I have a cheese addiction)",
+    "ancestors": [
+     {
+      "author": "playbehavior",
+      "body": "Roll n Roaster in Sheepshead Bay (Brooklyn) and ask for extra cheez"
+     }
+    ],
+    "author": "boringcranberry",
+    "body": "Or Brennan and Carr. They'll douse it in cheese too.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Brennan and Carr",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Sheepshead Bay, Brooklyn",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "cheeseburger",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "burger",
+      "cheeseburger"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0710",
+   "comment_id": "t1_kv70vwu",
+   "model_view": "<post_title>Chicago Dogs and Fries at Dog Day Afternoon</post_title>\n<comment_to_extract>\nI love this place. The hot dogs are great, but they make a Chicago hot Italian beef sandwich that is amazing. Highly recommend it.\n</comment_to_extract>",
+   "context": {
+    "title": "Chicago Dogs and Fries at Dog Day Afternoon",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Gato1980",
+    "body": "I love this place. The hot dogs are great, but they make a Chicago hot Italian beef sandwich that is amazing. Highly recommend it.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Dog Day Afternoon",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "hot dogs",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "Chicago hot Italian beef sandwich",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "hot dogs",
+      "italian beef"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0711",
+   "comment_id": "t1_nwve9o4",
+   "model_view": "<post_title>Hawksmoor and Comped Drinks</post_title>\n<post_body>My girlfriend and I just had a meal at the Hawksmoor. We showed up early and got a drink at the bar before our table was ready. When the bill came at the end, I noticed my first martini wasn’t on there. Has anyone had a similar experience? Is this part of their protocol?\n\nSide note we got the porterhouse which was cooked perfectly, the wine was good and the dining room was gorgeous. Not a place to go looking for value as our bill was around $350 for splitting a steak and some sides but all around very good.</post_body>\n<thread_above>\n[1] another user: Are y’all tipping out on that “comp” drink, or just including its proportional percentage?\n</thread_above>\n<comment_to_extract>\nYes if it's something I ordered and they comp it to be nice. I was obviously ready to pay full price for the item + tip if I ordered something and I might as well share my good fortune back with my server. \n\nNo if they comped something I never ordered. For example,  something they wanted me to try. Or if they accidentally gave me the wrong thing and then just let me keep the wrong order as well as my original order. At that point, I appreciate free stuff but I don't feel obligated to tip beyond my normal percentages.\n</comment_to_extract>",
+   "context": {
+    "title": "Hawksmoor and Comped Drinks",
+    "selftext": "My girlfriend and I just had a meal at the Hawksmoor. We showed up early and got a drink at the bar before our table was ready. When the bill came at the end, I noticed my first martini wasn’t on there. Has anyone had a similar experience? Is this part of their protocol?\n\nSide note we got the porterhouse which was cooked perfectly, the wine was good and the dining room was gorgeous. Not a place to go looking for value as our bill was around $350 for splitting a steak and some sides but all around very good. ",
+    "ancestors": [
+     {
+      "author": "geneticswag",
+      "body": "Are y’all tipping out on that “comp” drink, or just including its proportional percentage?"
+     }
+    ],
+    "author": "PitfulDate",
+    "body": "Yes if it's something I ordered and they comp it to be nice. I was obviously ready to pay full price for the item + tip if I ordered something and I might as well share my good fortune back with my server. \n\nNo if they comped something I never ordered. For example,  something they wanted me to try. Or if they accidentally gave me the wrong thing and then just let me keep the wrong order as well as my original order. At that point, I appreciate free stuff but I don't feel obligated to tip beyond my normal percentages.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0712",
+   "comment_id": "t1_oxom6g5",
+   "model_view": "<post_title>How’s my itinerary? Last-Minute 3 Day NYC Foodie Itinerary</post_title>\n<post_body>Staying in Manhattan from Jun 22-26 for context. This is just my foodie itinerary, not including sight-seeing. Any thoughts/feedback is appreciated. \n\nDinner Reservations: Il Gattopardo and Gallagher’s Steakhouse (these were based more on location/convenience because most places were booked up) \n\nBreakfast: Utopia Bagels on 3rd Ave + Blank Street Coffee, Librae Bakery, Apollo Bagels on 35th St + Culture Espresso\n\nOther - L’industrie, Los Tacos No. 1, LENWICH, Shake Shack, Cava, sweetgreen (last couple places are chains, but they don’t have them where I’m from and they’re more for a quick bite/convenience)\n\nDessert - Myka, Culture Frozen Yogurt, Levain Bakery</post_body>\n<comment_to_extract>\njeeze skip lenwich\n</comment_to_extract>",
+   "context": {
+    "title": "How’s my itinerary? Last-Minute 3 Day NYC Foodie Itinerary",
+    "selftext": "Staying in Manhattan from Jun 22-26 for context. This is just my foodie itinerary, not including sight-seeing. Any thoughts/feedback is appreciated. \n\nDinner Reservations: Il Gattopardo and Gallagher’s Steakhouse (these were based more on location/convenience because most places were booked up) \n\nBreakfast: Utopia Bagels on 3rd Ave + Blank Street Coffee, Librae Bakery, Apollo Bagels on 35th St + Culture Espresso\n\nOther - L’industrie, Los Tacos No. 1, LENWICH, Shake Shack, Cava, sweetgreen (last couple places are chains, but they don’t have them where I’m from and they’re more for a quick bite/convenience)\n\nDessert - Myka, Culture Frozen Yogurt, Levain Bakery",
+    "ancestors": [],
+    "author": "RainRose8093",
+    "body": "jeeze skip lenwich ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "lenwich",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": true,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwiches"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0713",
+   "comment_id": "t1_p7t592d",
+   "model_view": "<post_title>So much online discourse about Los tacos no. 1 not even being that great, and transplants hyping up mediocre touristy food</post_title>\n<post_body>I think it’s really good, tbf, but I think taco mix in east Harlem and Ramirez in Greenpoint (ik that’s v transplant-y too) are better. Maybe even homemade taqueria in UWS or that one place in the Bronx which is only open 9-5 on weekdays (forgetting the name) \n\nAs a transplant who’s been here for 3 years now… to the natives who say there’s so much better stuff apart from Los tacos, where are the good tacos??</post_body>\n<thread_above>\n[1] you, earlier: taco rameriz in greenpoint and sure i guess their location in greenpoint. i have yet to get a decent SINGLE corn tortilla taco out of sunset park what am i doing wrong\n</thread_above>\n<comment_to_extract>\nby that i mean in my opinion if your taco comes double tortilla’d you have lost me already\n</comment_to_extract>",
+   "context": {
+    "title": "So much online discourse about Los tacos no. 1 not even being that great, and transplants hyping up mediocre touristy food",
+    "selftext": "I think it’s really good, tbf, but I think taco mix in east Harlem and Ramirez in Greenpoint (ik that’s v transplant-y too) are better. Maybe even homemade taqueria in UWS or that one place in the Bronx which is only open 9-5 on weekdays (forgetting the name) \n\nAs a transplant who’s been here for 3 years now… to the natives who say there’s so much better stuff apart from Los tacos, where are the good tacos??",
+    "ancestors": [
+     {
+      "author": "jakekingdead",
+      "body": "taco rameriz in greenpoint and sure i guess their location in greenpoint. \n\ni have yet to get a decent SINGLE corn tortilla taco out of sunset park what am i doing wrong "
+     }
+    ],
+    "author": "jakekingdead",
+    "body": "by that i mean in my opinion if your taco comes double tortilla’d you have lost me already ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0714",
+   "comment_id": "t1_odqx1hw",
+   "model_view": "<post_title>When ordering a breakfast sandwich is it a thing in New York to ask for salt pepper ketchup?</post_title>\n<comment_to_extract>\nnah that’s a new jersey thing. jersey city the be exact. you usually just order the sandwich\n</comment_to_extract>",
+   "context": {
+    "title": "When ordering a breakfast sandwich is it a thing in New York to ask for salt pepper ketchup?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "BlurryUFOs",
+    "body": "nah that’s a new jersey thing. jersey city the be exact. you usually just order the sandwich ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0715",
+   "comment_id": "t1_orufvib",
+   "model_view": "<post_title>Please help I need to buy perilla leaves seed. Does anybody know where I can find them?</post_title>\n<comment_to_extract>\nI grow some if you want some. You’ll need to grow mine for a season then harvest the seeds at the end (let it bolt at the end of season). Mines the korean green kind. Have a purple one maybe. A bit late to start from seeds right. Dm me if u want.\n\nHmart in bayside sells them start of season too. Isk about seeds; im sure online sells some\n</comment_to_extract>",
+   "context": {
+    "title": "Please help I need to buy perilla leaves seed. Does anybody know where I can find them?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "whiteglov",
+    "body": "I grow some if you want some. You’ll need to grow mine for a season then harvest the seeds at the end (let it bolt at the end of season). Mines the korean green kind. Have a purple one maybe. A bit late to start from seeds right. Dm me if u want.\n\nHmart in bayside sells them start of season too. Isk about seeds; im sure online sells some",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0716",
+   "comment_id": "t1_oogicxe",
+   "model_view": "<post_title>Pricey omakase at 1 Michelin star Joji: my review.</post_title>\n<post_body>Hard for me to justify that this was the 2nd most expensive meal of my life, > $700 after tax and tip. I don’t think I’m an omakase fan but I’ll probably still check out Sushi Sho. \n\nOmakase priced at 459, I got the supplemental uni/hairy crab for 80, iced green tea was 20. Not pixtured, ice cream with caviar was 50 but they comped it for my first visit. \n\nYOLO. To each their own.</post_body>\n<thread_above>\n[1] another user: What are you looking for out of this experience? I’m just curious. TBH I’m at a place in my life where I totally \\*could\\* yolo $700 or more on something on a whim/risk, so I get the “eh whatever” sentiment. That being said, if you don’t like omakase, what motivates you to go?\n</thread_above>\n<comment_to_extract>\nYears ago (maybe 2017?) I spent $450 for two people at a very good (perhaps not quite this level) omakase place. It really is worth doing once if it's something you can do with financial responsibility, and if you're sure the place is legit.\n\nIt absolutely was an incredible meal, dare I say it even an experience, that set it apart from even just very good sushi I've had elsewhere.\n\nYou have to be stupid or Patrick Bateman level rich and self-centered to do it frequently tho.\n</comment_to_extract>",
+   "context": {
+    "title": "Pricey omakase at 1 Michelin star Joji: my review.",
+    "selftext": "Hard for me to justify that this was the 2nd most expensive meal of my life, > $700 after tax and tip. I don’t think I’m an omakase fan but I’ll probably still check out Sushi Sho. \n\nOmakase priced at 459, I got the supplemental uni/hairy crab for 80, iced green tea was 20. Not pixtured, ice cream with caviar was 50 but they comped it for my first visit. \n\nYOLO. To each their own. ",
+    "ancestors": [
+     {
+      "author": "Apprehensive_Fan_844",
+      "body": "What are you looking for out of this experience? I’m just curious. TBH I’m at a place in my life where I totally \\*could\\* yolo $700 or more on something on a whim/risk, so I get the “eh whatever” sentiment. That being said, if you don’t like omakase, what motivates you to go? "
+     }
+    ],
+    "author": "spectre256",
+    "body": "Years ago (maybe 2017?) I spent $450 for two people at a very good (perhaps not quite this level) omakase place. It really is worth doing once if it's something you can do with financial responsibility, and if you're sure the place is legit.\n\nIt absolutely was an incredible meal, dare I say it even an experience, that set it apart from even just very good sushi I've had elsewhere.\n\nYou have to be stupid or Patrick Bateman level rich and self-centered to do it frequently tho.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0717",
+   "comment_id": "t1_l2vhtlc",
+   "model_view": "<post_title author=\"you\">It's my job to get people into restaurants, here are the most requested for reservations.</post_title>\n<post_body author=\"you\">I work as a concierge in a very luxury hotel in Midtown. Every day we have guests who looked up a 10 Hardest Restaurant Reservations article or saw some Instagram food blogger and demand for these:\n\n**Carbone** & **Polo Bar** over and over and over again. These two have became triggers for every concierge in the city.\n\nFollowed by **Per Se**, **Monkey Bar**, **Le Bernardin**, **4 Charles Prime Rib**, **Don Angie**, **Torrisi**, **Blue Box Cafe**, **COTE, Balthazar**\n\nSometimes **Via Carota**, **I Sodi**, **Tatianna**, **Office of Mr. Moto**, **Peter Lugers**, etc.\n\nMajority of them do so same day or a day or two in advance for party of 4 or more on a Friday & Saturday night at 7PM, 8PM if we asked for flexibility. They don't read anything beyond the name of the restaurant and expects to be accommodated because they are staying at our hotel and think we control the reservation systems of all restaurants in New York City, somehow.\n\nLet's just say, unless you are a celebrity stylist and part of your dinner party is Pedro Pascal, you are not getting a last minute 7PM reservation for the Polo Bar. My favorite moments in life is when the restaurant tells me a certain pushy, rude, entitle ...</post_body>\n<thread_above>\n[1] another user: \"My favorite moments in life is when the restaurant tells me a certain pushy, rude, entitled individual is actually banned and will never be allowed back. No words can explain the amount of joy that brings me.\" God please expand on this lol\n[2] you, earlier: Guy from Miami calls us and goes \"I'm checking in tomorrow, I am very important, do you know who I am? I got married at the hotel last year, and you need to get me into \\_\\_\\_\\_\\_\\_\\_\\_ tomorrow (a Friday) 7PM.\" I replied with our usual we are happy to contact but reservations are booked up 30-days ...\n[3] another user: I suppose you or he could use Resy to make a reservation? Then they would have to reach out to cancel it, which doesn’t look good. Resy won’t allow restaurants to block guests, even for rude, offensive, or abusive behavior, which is crazy. We need that function!\n</thread_above>\n<comment_to_extract>\nLuckily it wasn't a restaurant where there's any availability on Resy, and he thought he is way too important for the Notify list.\n</comment_to_extract>",
+   "context": {
+    "title": "It's my job to get people into restaurants, here are the most requested for reservations.",
+    "selftext": "I work as a concierge in a very luxury hotel in Midtown. Every day we have guests who looked up a 10 Hardest Restaurant Reservations article or saw some Instagram food blogger and demand for these:\n\n**Carbone** & **Polo Bar** over and over and over again. These two have became triggers for every concierge in the city.\n\nFollowed by **Per Se**, **Monkey Bar**, **Le Bernardin**, **4 Charles Prime Rib**, **Don Angie**, **Torrisi**, **Blue Box Cafe**, **COTE, Balthazar**\n\nSometimes **Via Carota**, **I Sodi**, **Tatianna**, **Office of Mr. Moto**, **Peter Lugers**, etc.\n\nMajority of them do so same day or a day or two in advance for party of 4 or more on a Friday & Saturday night at 7PM, 8PM if we asked for flexibility. They don't read anything beyond the name of the restaurant and expects to be accommodated because they are staying at our hotel and think we control the reservation systems of all restaurants in New York City, somehow.\n\nLet's just say, unless you are a celebrity stylist and part of your dinner party is Pedro Pascal, you are not getting a last minute 7PM reservation for the Polo Bar. My favorite moments in life is when the restaurant tells me a certain pushy, rude, entitled individual is actually banned and will never be allowed back. No words can explain the amount of joy that brings me.",
+    "ancestors": [
+     {
+      "author": "Party-Veterinarian60",
+      "body": "\"My favorite moments in life is when the restaurant tells me a certain pushy, rude, entitled individual is actually banned and will never be allowed back. No words can explain the amount of joy that brings me.\"\n\nGod please expand on this lol"
+     },
+     {
+      "author": "Cee_Vader",
+      "body": "Guy from Miami calls us and goes \"I'm checking in tomorrow, I am very important, do you know who I am? I got married at the hotel last year, and you need to get me into \\_\\_\\_\\_\\_\\_\\_\\_ tomorrow (a Friday) 7PM.\" I replied with our usual we are happy to contact but reservations are booked up 30-days in advance, and he goes \"but I'm somebody. I go there all the time, they know me. And you are a concierge of \\_\\_\\_\\_\\_\\_\\_\\_, you can't get me in?!?!\"\n\nI called the restaurant and they looked him up. He wasn't lying when he said they know him, because he's been banned for being \"pushy, rude, always intoxicated and treated staff horribly\". I wish we had the liberty to tell him while he continued coming to the desk for two days demanding we keep trying to get him in, and oh boy was he hopeful. \n\n  \nMaybe I should send an anonymous letter to his job to break the news. Funny thing is he works in hospitality yet have no idea what it is."
+     },
+     {
+      "author": "ElliotGValad",
+      "body": "I suppose you or he could use Resy to make a reservation? Then they would have to reach out to cancel it, which doesn’t look good. Resy won’t allow restaurants to block guests, even for rude, offensive, or abusive behavior, which is crazy. We need that function!"
+     }
+    ],
+    "author": "Cee_Vader",
+    "body": "Luckily it wasn't a restaurant where there's any availability on Resy, and he thought he is way too important for the Notify list.",
+    "replies": [
+     {
+      "author": "ElliotGValad",
+      "body": "Heard"
+     },
+     {
+      "author": "ElliotGValad",
+      "body": "Resy needs the power to ban! It’s our business, we want to protect our staff, do not accept future reservation setting!!!"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0718",
+   "comment_id": "t1_o97mtyf",
+   "model_view": "<post_title>What food starts “increasing” in your life when you’re in NYC?</post_title>\n<post_body>Random question, but do you have a food or ingredient that becomes a way bigger part of your routine in New York, then kind of disappears when you leave? For me it’s cream cheese. I use/eat way more of it here than anywhere else.\n\nWondering if other people have their own NYC food pattern like this.</post_body>\n<thread_above>\n[1] another user: Jamaican beef patties.\n[2] you, earlier: Do you have a go to spot for them? I do but it’s deep in the Bronx.\n[3] another user: Beets Cafe in Brownsville has awesome Haitian patties. Same concept, but way more flaky.\n</thread_above>\n<comment_to_extract>\nHaitian food is seriously underrated.\n</comment_to_extract>",
+   "context": {
+    "title": "What food starts “increasing” in your life when you’re in NYC?",
+    "selftext": "Random question, but do you have a food or ingredient that becomes a way bigger part of your routine in New York, then kind of disappears when you leave? For me it’s cream cheese. I use/eat way more of it here than anywhere else.\n\nWondering if other people have their own NYC food pattern like this.",
+    "ancestors": [
+     {
+      "author": "We-are-flower-138",
+      "body": "Jamaican beef patties. "
+     },
+     {
+      "author": "KickBallFever",
+      "body": "Do you have a go to spot for them? I do but it’s deep in the Bronx. "
+     },
+     {
+      "author": "Ok-Carpenter5039",
+      "body": "Beets Cafe in Brownsville has awesome Haitian patties. Same concept, but way more flaky."
+     }
+    ],
+    "author": "KickBallFever",
+    "body": "Haitian food is seriously underrated. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0719",
+   "comment_id": "t1_o511bwx",
+   "model_view": "<post_title>People who go to office everyday, what do you guys order for lunch? What's your go to spot?</post_title>\n<post_body>What are your go-to spots in NYC? Do you ever get bored of the same places and go looking for something new?\n\nI’m putting together a list in this thread for anyone looking to switch things up when they get tired of their usual spots.</post_body>\n<thread_above>\n[1] another user: Usually just a bowl of slop from the slop bowl spots (Chipotle, Cava, Sweetgreen, etc.)\n</thread_above>\n<comment_to_extract>\nSlop indeed. I have been boycotting Sweetgreen aka SourBrown for the last 6 months\n</comment_to_extract>",
+   "context": {
+    "title": "People who go to office everyday, what do you guys order for lunch? What's your go to spot?",
+    "selftext": "What are your go-to spots in NYC? Do you ever get bored of the same places and go looking for something new?\n\nI’m putting together a list in this thread for anyone looking to switch things up when they get tired of their usual spots.",
+    "ancestors": [
+     {
+      "author": "Accrual_World_69",
+      "body": "Usually just a bowl of slop from the slop bowl spots (Chipotle, Cava, Sweetgreen, etc.)"
+     }
+    ],
+    "author": "pistolpeteza",
+    "body": "Slop indeed. I have been boycotting Sweetgreen aka SourBrown for the last 6 months",
+    "replies": [
+     {
+      "author": "Tellthemmore",
+      "body": "Why, if you don’t mind sharing?"
+     },
+     {
+      "author": "Tulsi_greeen",
+      "body": "Urgh me too … I got food poisoning from their UES location 2 yrs ago. Still want to throw up when I remember."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Sweetgreen",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "boycott",
+       "text": "Commenter has been boycotting it for the last 6 months; also called SourBrown"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "salad"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0720",
+   "comment_id": "t1_p64o4wn",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<comment_to_extract>\nThey are my favorite! ( their Philly cheesesteak and chicken parm sandwiches are great too)\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Thick-Definition7416",
+    "body": "They are my favorite! ( their Philly cheesesteak and chicken parm sandwiches are great too) ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "Philly cheesesteak",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "chicken parm sandwich",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "slice shop",
+      "sandwiches"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0721",
+   "comment_id": "t1_p5bkjug",
+   "model_view": "<post_title>where can I find the dirtiest martini near Madison square garden?</post_title>\n<post_body>Hi! My gf is in need of a very good dirty vodka martini prior to going to a show at msg- willing to walk a bit but would love a good, close option recommended!\n\nSearched the sub for dirty martini recs but none came up that were in that area!</post_body>\n<comment_to_extract>\nKeen’s Steakhouse on W36th is close and has incredible martinis\n</comment_to_extract>",
+   "context": {
+    "title": "where can I find the dirtiest martini near Madison square garden?",
+    "selftext": "Hi! My gf is in need of a very good dirty vodka martini prior to going to a show at msg- willing to walk a bit but would love a good, close option recommended!\n\nSearched the sub for dirty martini recs but none came up that were in that area! ",
+    "ancestors": [],
+    "author": "Queenfan1959",
+    "body": "Keen’s Steakhouse on W36th is close and has incredible martinis ",
+    "replies": [
+     {
+      "author": "D0ESTHISL00KINFECTED",
+      "body": "This is the spot"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Keen's Steakhouse",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "W 36th Street, near Madison Square Garden",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "martini",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse",
+      "martini",
+      "date night"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0722",
+   "comment_id": "t1_n1yy7wd",
+   "model_view": "<post_title>The NYT 100 Best Restaurants-- except FoodNYC Edition!</post_title>\n<post_body>I'm fairly late to the party, but I just got around to the NYT 100 Best Restaurants in NYC for 2025, and per usual… there’s **no ranking** besides the top 10. Having the other 90 in alphabetical order is cool, but also kinda frustrating?\n\nI'm not trying to discredit Pete, Priya, Melissa, and Brian for their tireless efforts in putting together the list. I'm super appreciative, I really am. But I figured—what do **actual NYC eaters** (aka us on this sub) think about the places on this list? What if we had our own ranked version of that list and what would it look like? \n\nSo I recreated the whole NYT list in a site where you can vote on which restaurants actually deserve to be on top. Every restaurant starts with 0 votes and the order changes in near real-time. \n\nNothing fancy—just a side project I threw together because I’m obsessed with these lists and wanted to see how ours could compare.\n\nLet me know if anyone would be down and I can drop a link in the comments. Just thought it’d be fun to have the 100 Best Restaurants **FoodNYC Edition**!\n\nMight be some bugs but I've added some other really cool recommended restaurants, if you think anymore should be added that didn't make the l ...</post_body>\n<comment_to_extract>\nPost link would love to participate\n</comment_to_extract>",
+   "context": {
+    "title": "The NYT 100 Best Restaurants-- except FoodNYC Edition!",
+    "selftext": "I'm fairly late to the party, but I just got around to the NYT 100 Best Restaurants in NYC for 2025, and per usual… there’s **no ranking** besides the top 10. Having the other 90 in alphabetical order is cool, but also kinda frustrating?\n\nI'm not trying to discredit Pete, Priya, Melissa, and Brian for their tireless efforts in putting together the list. I'm super appreciative, I really am. But I figured—what do **actual NYC eaters** (aka us on this sub) think about the places on this list? What if we had our own ranked version of that list and what would it look like? \n\nSo I recreated the whole NYT list in a site where you can vote on which restaurants actually deserve to be on top. Every restaurant starts with 0 votes and the order changes in near real-time. \n\nNothing fancy—just a side project I threw together because I’m obsessed with these lists and wanted to see how ours could compare.\n\nLet me know if anyone would be down and I can drop a link in the comments. Just thought it’d be fun to have the 100 Best Restaurants **FoodNYC Edition**!\n\nMight be some bugs but I've added some other really cool recommended restaurants, if you think anymore should be added that didn't make the list",
+    "ancestors": [],
+    "author": "Ok_Level9607",
+    "body": "Post link would love to participate",
+    "replies": [
+     {
+      "author": "tbspiff",
+      "body": "awesome! should be up now"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0723",
+   "comment_id": "t1_lzx9m24",
+   "model_view": "<post_title>Heir to the Cake Lady of Musco Street: NYC's Best 蛋糕仔/DanGaoZi/Hong Kong \"Bubble/Waffle Cake\" ?</post_title>\n<post_body>&#x200B;\n\n[The Egg-Cake Lady of Musco Street - the Incomparable Cecilia Tam](https://preview.redd.it/qd8ge8trlcvc1.png?width=877&format=png&auto=webp&s=38c972b269f3e118e04ba199db7af5218a6275bb)\n\nFor those of us who remember - back in the 80s/90s, an immigrant by the name of **Cecilia Tam** first introduced the Big Apple to what is now referred to as the Hong Kong \"Bubble Cake\" on instagram these days.  Her tiny stall was on Musco street across from the Church of the Transfiguration on Mott, right next to Hop Kee.  For $1.00 you'd get a 15 of these golden beauties - and i made sure whenever i dropped into NYC to stop on by.\n\n&#x200B;\n\n&#x200B;\n\nhttps://preview.redd.it/3m713pm4kcvc1.png?width=275&format=png&auto=webp&s=f24c1780c12e92f1f84c65aaea41374fe277282d\n\nI was told Cecilia, after successfully putting her two sons through college, eventually closed down the stall sometime in the early '00s.   My last visit was Pre 9/11 2001, so i would often blame terrorism and the economic funk of the post 9/11 for ending my favorite treat - but i also knew that Mrs. Tam was getting on in years.  I always wondered what happened to her - figured she headed back home to Hong Kong.\n\nSince then i'v ...</post_body>\n<comment_to_extract>\nI relived those fond childhood memories just today after a funeral! On monthly half-days at school my mom would take me with her for her weekly trip to Bangkok Center Grocery across Mosco St and we’d always stop by the “egg cookie” stall as we jokingly called it amongst ourselves. We’d also hit up Bo Ky for their egg noodle soup with a can of Sunkist and the Chinatown Ice Cream Factory afterwards (as I did again today) and I’m so glad the rest of these childhood favorites still exist at least. I think I shocked the ice cream scooper when I mentioned I still had a Tshirt I bought there about 25 years ago! I bought some Hong Kong cakes from a cart on Canal as well—never as good as Mrs. Tam’s were but worth it for the delicious nostalgia (plus they have toppings options nowadays). The closing of her stall was the end of an era for sure!\n</comment_to_extract>",
+   "context": {
+    "title": "Heir to the Cake Lady of Musco Street: NYC's Best 蛋糕仔/DanGaoZi/Hong Kong \"Bubble/Waffle Cake\" ?",
+    "selftext": "&#x200B;\n\n[The Egg-Cake Lady of Musco Street - the Incomparable Cecilia Tam](https://preview.redd.it/qd8ge8trlcvc1.png?width=877&format=png&auto=webp&s=38c972b269f3e118e04ba199db7af5218a6275bb)\n\nFor those of us who remember - back in the 80s/90s, an immigrant by the name of **Cecilia Tam** first introduced the Big Apple to what is now referred to as the Hong Kong \"Bubble Cake\" on instagram these days.  Her tiny stall was on Musco street across from the Church of the Transfiguration on Mott, right next to Hop Kee.  For $1.00 you'd get a 15 of these golden beauties - and i made sure whenever i dropped into NYC to stop on by.\n\n&#x200B;\n\n&#x200B;\n\nhttps://preview.redd.it/3m713pm4kcvc1.png?width=275&format=png&auto=webp&s=f24c1780c12e92f1f84c65aaea41374fe277282d\n\nI was told Cecilia, after successfully putting her two sons through college, eventually closed down the stall sometime in the early '00s.   My last visit was Pre 9/11 2001, so i would often blame terrorism and the economic funk of the post 9/11 for ending my favorite treat - but i also knew that Mrs. Tam was getting on in years.  I always wondered what happened to her - figured she headed back home to Hong Kong.\n\nSince then i've noticed Bubble cake stalls pop up around Manhattan's Chinatown in NYC and also in certain supermarkets.   Thus far, of the ones i've tried, its been rather sub-par - sometimes crunchy but no flavor.  \n\nAny suggestions on places to try?   Should i be heading to Flushing instead?  \n\nOr am i fresh out of luck and have to hunt for these beauties in Hong Kong?\n\n&#x200B;\n\n&#x200B;",
+    "ancestors": [],
+    "author": "SuriyaSuriyaSuriya",
+    "body": "I relived those fond childhood memories just today after a funeral! On monthly half-days at school my mom would take me with her for her weekly trip to Bangkok Center Grocery across Mosco St and we’d always stop by the “egg cookie” stall as we jokingly called it amongst ourselves. We’d also hit up Bo Ky for their egg noodle soup with a can of Sunkist and the Chinatown Ice Cream Factory afterwards (as I did again today) and I’m so glad the rest of these childhood favorites still exist at least. I think I shocked the ice cream scooper when I mentioned I still had a Tshirt I bought there about 25 years ago! I bought some Hong Kong cakes from a cart on Canal as well—never as good as Mrs. Tam’s were but worth it for the delicious nostalgia (plus they have toppings options nowadays). The closing of her stall was the end of an era for sure!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mrs. Tam's egg cake stall",
+     "named_in": "context",
+     "kind": "market_stall",
+     "location": "Musco Street, across from the Church of the Transfiguration",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "egg cakes",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "nostalgia",
+       "text": "childhood favorite; the commenter calls the closing the end of an era"
+      },
+      {
+       "about": "comparison",
+       "text": "the cart's Hong Kong cakes were never as good as Mrs. Tam's"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "egg cake",
+      "Hong Kong bubble cake",
+      "nostalgia"
+     ]
+    },
+    {
+     "name": "Bo Ky",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "egg noodle soup",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "pairing",
+       "text": "eaten with a can of Sunkist"
+      },
+      {
+       "about": "childhood favorite",
+       "text": "a childhood favorite that still exists"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "noodles",
+      "egg noodle soup",
+      "childhood favorite"
+     ]
+    },
+    {
+     "name": "Chinatown Ice Cream Factory",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "Chinatown",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "habit",
+       "text": "the commenter stops there after the grocery trip and did so again today"
+      },
+      {
+       "about": "childhood favorite",
+       "text": "a Tshirt bought there about 25 years ago"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "ice cream",
+      "dessert",
+      "childhood favorite"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0724",
+   "comment_id": "t1_obzlz7j",
+   "model_view": "<post_title author=\"you\">Food on Upper East Side?</post_title>\n<post_body author=\"you\">Hey Everyone! My wife and I are coming down from the Hudson Valley for our first cancer treatment for our dog at Schwarzman Animal Medical Center on E61st St tomorrow morning and was wondering if anyone had suggestions on quick bites for either breakfast or lunch while we are there…Any good coffee/bagel spots, pizza? Food carts we need to try? We will eat ANYTHING, lol- so don’t hold back on your suggestions. We are willing to travel a little out of the neighborhood if it’s worth it as well, so let us know!\n\n Thanks in advance!✌️</post_body>\n<thread_above>\n[1] another user: To cheer for your dog...check out the barking dog on 3rd Ave and 94street\n</thread_above>\n<comment_to_extract>\n🙂 Thanks! We will check it out!\n</comment_to_extract>",
+   "context": {
+    "title": "Food on Upper East Side?",
+    "selftext": "Hey Everyone! My wife and I are coming down from the Hudson Valley for our first cancer treatment for our dog at Schwarzman Animal Medical Center on E61st St tomorrow morning and was wondering if anyone had suggestions on quick bites for either breakfast or lunch while we are there…Any good coffee/bagel spots, pizza? Food carts we need to try? We will eat ANYTHING, lol- so don’t hold back on your suggestions. We are willing to travel a little out of the neighborhood if it’s worth it as well, so let us know!\n\n Thanks in advance!✌️",
+    "ancestors": [
+     {
+      "author": "Cartadimusica",
+      "body": "To cheer for your dog...check out the barking dog on 3rd Ave and 94street"
+     }
+    ],
+    "author": "Current-Spare4993",
+    "body": "🙂 Thanks! We will check it out!",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0725",
+   "comment_id": "t1_oomuqgw",
+   "model_view": "<post_title>Where can we get mie gorang? Preferably in Brooklyn.</post_title>\n<post_body>Looking for this specific Indonesian dish, but also welcome Indonesian recs in general!</post_body>\n<comment_to_extract>\nindo mix in clinton hill!\n</comment_to_extract>",
+   "context": {
+    "title": "Where can we get mie gorang? Preferably in Brooklyn.",
+    "selftext": "Looking for this specific Indonesian dish, but also welcome Indonesian recs in general! ",
+    "ancestors": [],
+    "author": "orca_eel",
+    "body": "indo mix in clinton hill!",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "indo mix",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Clinton Hill",
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "indonesian"
+     ]
+    }
+   ]
+  }
+ ]
+}

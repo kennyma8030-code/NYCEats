@@ -1,0 +1,1496 @@
+{
+ "packet": "r023",
+ "items": [
+  {
+   "item_id": "Q0551",
+   "comment_id": "t1_owsv3nx",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nCOMMENT: I was never impressed with them",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [],
+    "author": "CabassoG",
+    "body": "I was never impressed with them",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Pressed Juicery",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "juice bar"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0552",
+   "comment_id": "t1_oz30ojk",
+   "model_view": "POST TITLE: Recommendations for best yogurt parfaits in the city?\n\nPOST BODY: Hi! As the title says, I’m looking for the best yogurt parfaits in the city. Not frozen yogurt, but a classic Greek yogurt + granola + fruit parfait! I love thick yogurt + some jam/fruit + savory, well toasted granola. \n\nOpen to cafe/bakery/restaurants/coffee shops!\n\nSome of my thoughts so far:  \n\\- Granola Bar - didn’t think it lived up to the hype… OK but yogurt was not that thick…  \n\\- Kona cof ...\n\nCOMMENT: annoyingly the grapefruit and yogurt at jacks wife freda is really good, although at 15$ it’s highway robbery. i try to expense it for work when i can lmao",
+   "context": {
+    "title": "Recommendations for best yogurt parfaits in the city?",
+    "selftext": "Hi! As the title says, I’m looking for the best yogurt parfaits in the city. Not frozen yogurt, but a classic Greek yogurt + granola + fruit parfait! I love thick yogurt + some jam/fruit + savory, well toasted granola. \n\nOpen to cafe/bakery/restaurants/coffee shops!\n\nSome of my thoughts so far:  \n\\- Granola Bar - didn’t think it lived up to the hype… OK but yogurt was not that thick…  \n\\- Kona coffee - too much jam in their parfaits  \n\\- Tartinery - pretty good but kind of expensive  \n\\- Maman - too sweet  \n\\- Pura vida - wish it didn’t have pineapple",
+    "ancestors": [],
+    "author": "ayayadae",
+    "body": "annoyingly the grapefruit and yogurt at jacks wife freda is really good, although at 15$ it’s highway robbery. i try to expense it for work when i can lmao",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "jacks wife freda",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "neutral",
+     "aspects": {
+      "taste": "positive",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "grapefruit and yogurt",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": "expensive",
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "price",
+       "text": "$15, highway robbery",
+       "level": "negative",
+       "dish": "grapefruit and yogurt"
+      },
+      {
+       "about": "expensing",
+       "text": "commenter expenses it for work when they can",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0553",
+   "comment_id": "t1_owtn36n",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nPARENT COMMENT: i remember working in noho 10 years ago and there were so many juice shops everywhere. it's insane how fad-based our culture and economy is. though i guess culture is always fads regardless.\n\nbut still, they were such a force!!! i'm trying to remember what the really fancy one was, like the erewhon version of pressed, by broadway-lafayette, does anyone remember?\n\nCOMMENT: That’s how you spell that place??\n\nI’ve only heard of it from the Bad Friends podcast, where Bobby Lee jokes about drinking their $35 bottle of water. It always sounds like he’s saying Air Juan",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "parisidiot",
+      "body": "i remember working in noho 10 years ago and there were so many juice shops everywhere. it's insane how fad-based our culture and economy is. though i guess culture is always fads regardless.\n\nbut still, they were such a force!!! i'm trying to remember what the really fancy one was, like the erewhon version of pressed, by broadway-lafayette, does anyone remember?"
+     }
+    ],
+    "author": "sllikskills",
+    "body": "That’s how you spell that place??\n\nI’ve only heard of it from the Bad Friends podcast, where Bobby Lee jokes about drinking their $35 bottle of water. It always sounds like he’s saying Air Juan",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Air Juan",
+     "named_in": "comment",
+     "location": null,
+     "experience": "secondhand",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "juice bar"
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "$35 bottle of water, per Bobby Lee on Bad Friends podcast",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "spelling",
+       "text": "commenter asks if 'Air Juan' is how the name is spelled, suggesting the place is the fancy Pressed-style juice bar the parent described",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0554",
+   "comment_id": "t1_p3jg7s3",
+   "model_view": "POST TITLE: Seeking Economical dinner places ($45-60) pp in Manhattan?\n\nPOST BODY: My friend in I (both early 60's) meet up once a month to catch up and have a nice dinner.  We did restaurant week last nite and with the meal and additional drinks, tax & tip it was $100pp.  We're looking for less expensive places that aren't diners, in Flatiron, Chelsea, GV, EV etc.  Trying to spend less as she's on limited income now.  I know this is a broad question.\n\nCOMMENT: I’m going to second this. Surprisingly enough Chinatown is still a great place to go.\n\nSpeaking as an older disabled person I CANNOT handle the stairs but if you can, the second oldest Chinese restaurant in New York City still running is Wo Hop. It is absolutely a classic. It is not classy and it is noisy. But a lot of their dishes are just unbelievably good and reasonably priced.\n\nEvery time I go into the city I have to get the roast duck and roast pork chow mei fun. A big portion for a very reasonable price; and they are one of a few places I find that still has serious Wok Hei, that deep almost charred Taste that you should get from proper woks at a high heat.\n\nI also absolutely love their lobster with garlic and scallions or their Cantonese lobster. I think those are like 56 bucks each but that’s freaking lobster. Take a look at their menu and take a look at the pictures on Yelp.\n\nAgain: if you’re going for classy and quiet this ain’t it. But it’s a bit of an adventure. It’s also worth looking at some other restaurants in that area.",
+   "context": {
+    "title": "Seeking Economical dinner places ($45-60) pp in Manhattan?",
+    "selftext": "My friend in I (both early 60's) meet up once a month to catch up and have a nice dinner.  We did restaurant week last nite and with the meal and additional drinks, tax & tip it was $100pp.  We're looking for less expensive places that aren't diners, in Flatiron, Chelsea, GV, EV etc.  Trying to spend less as she's on limited income now.  I know this is a broad question.",
+    "ancestors": [],
+    "author": "allisondbl",
+    "body": "I’m going to second this. Surprisingly enough Chinatown is still a great place to go.\n\nSpeaking as an older disabled person I CANNOT handle the stairs but if you can, the second oldest Chinese restaurant in New York City still running is Wo Hop. It is absolutely a classic. It is not classy and it is noisy. But a lot of their dishes are just unbelievably good and reasonably priced.\n\nEvery time I go into the city I have to get the roast duck and roast pork chow mei fun. A big portion for a very reasonable price; and they are one of a few places I find that still has serious Wok Hei, that deep almost charred Taste that you should get from proper woks at a high heat.\n\nI also absolutely love their lobster with garlic and scallions or their Cantonese lobster. I think those are like 56 bucks each but that’s freaking lobster. Take a look at their menu and take a look at the pictures on Yelp.\n\nAgain: if you’re going for classy and quiet this ain’t it. But it’s a bit of an adventure. It’s also worth looking at some other restaurants in that area.",
+    "replies": [
+     {
+      "author": "DetectiveOk3902",
+      "body": "I love Chinatown--but she's Chinese and is tired of it.  But I go often for my own time.  I too love Wo Hop!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Wo Hop",
+     "named_in": "comment",
+     "location": "Chinatown",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": null,
+      "atmosphere": "negative",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "roast duck",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "roast pork chow mei fun",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "lobster with garlic and scallions",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "Cantonese lobster",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": "moderate",
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "cantonese",
+      "chinese",
+      "old-school",
+      "noisy",
+      "classic"
+     ],
+     "notes": [
+      {
+       "about": "stairs",
+       "text": "Stairs are hard for disabled diners to handle",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "wok hei",
+       "text": "Still has real wok hei, a charred smoky flavor",
+       "level": "positive",
+       "dish": null
+      },
+      {
+       "about": "lobster price",
+       "text": "Lobster dishes about $56 each",
+       "level": "neutral",
+       "dish": "lobster with garlic and scallions"
+      },
+      {
+       "about": "portion size",
+       "text": "Big portion of chow mei fun",
+       "level": "positive",
+       "dish": "roast pork chow mei fun"
+      },
+      {
+       "about": "menu tip",
+       "text": "Check the menu and Yelp photos before going",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "second oldest Chinese restaurant in NYC",
+       "text": "Second oldest Chinese restaurant in NYC still running",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0555",
+   "comment_id": "t1_oacgsiu",
+   "model_view": "POST TITLE: ISO: massive frozen margarita\n\nPOST BODY: I’m from socal and am in desperate need of a massive margarita with endless chips and salsa. I’ve attached a picture of the vibe I’m in search of below. Lower manhattan recs would be best (LES, EV, WV, SoHo, etc). Thank you so much 🧎‍♀️\n\nPARENT COMMENT: RIP blockheads\n\nCOMMENT: I was just reminiscing. Best bar to drink outside at when you couldn’t legally drink.",
+   "context": {
+    "title": "ISO: massive frozen margarita",
+    "selftext": "I’m from socal and am in desperate need of a massive margarita with endless chips and salsa. I’ve attached a picture of the vibe I’m in search of below. Lower manhattan recs would be best (LES, EV, WV, SoHo, etc). Thank you so much 🧎‍♀️",
+    "ancestors": [
+     {
+      "author": "alicehatesthis",
+      "body": "RIP blockheads"
+     }
+    ],
+    "author": "ironypoisonedposter",
+    "body": "I was just reminiscing. Best bar to drink outside at when you couldn’t legally drink.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Blockheads",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "very_positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "tags": [
+      "bar",
+      "outdoor drinking"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0556",
+   "comment_id": "t1_onliuvm",
+   "model_view": "POST TITLE: Best Bagels/breakfast near Barclays? My wife put me on a mission and I cannot fail\n\nPOST BODY: My wife is demanding good bagels and I'm overwhelmed 😂\n\nGimme some good options near Barclays if possible. We're staying at a hotel on Schemerhorn St if that helps.\n\nPARENT COMMENT: Appreciate it! I'll check out those others. I actually just walked by Black Seed lol. At White Noise Coffee rn. \n\nDo you have any lunch recommendations nearby?\n\nCOMMENT: Black seed is terrible. Bergen bagels is alright. The rest are pretty good. Bagel pub is best (and makes the best breakfast sandwiches)",
+   "context": {
+    "title": "Best Bagels/breakfast near Barclays? My wife put me on a mission and I cannot fail",
+    "selftext": "My wife is demanding good bagels and I'm overwhelmed 😂\n\nGimme some good options near Barclays if possible. We're staying at a hotel on Schemerhorn St if that helps. ",
+    "ancestors": [
+     {
+      "author": "festinalente27",
+      "body": "Bergen Bagels, Court St. Bagels, Smith St. Bagels are all good options within walking distance.\n\nBlack Seed is the most convenient to you but they’re Montreal-style (and IMO deeply overrated) so I don’t recommend them to out-of-towners who want NY bagels."
+     },
+     {
+      "author": "sanders04",
+      "body": "Appreciate it! I'll check out those others. I actually just walked by Black Seed lol. At White Noise Coffee rn. \n\nDo you have any lunch recommendations nearby? "
+     }
+    ],
+    "author": "Ihopeiremeberthis",
+    "body": "Black seed is terrible. Bergen bagels is alright. The rest are pretty good. Bagel pub is best (and makes the best breakfast sandwiches) ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Black seed",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_negative",
+     "aspects": {
+      "taste": "very_negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bagels"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Bergen bagels",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bagels"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Bagel pub",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_positive",
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "breakfast sandwiches",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bagels",
+      "breakfast"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0557",
+   "comment_id": "t1_p4npkf8",
+   "model_view": "POST TITLE: Door dash and  corner store reservations , booking\n\nPOST BODY: I'm checking door dash and I'm confused. I want to book Sept 18. I have to book 1 month ahead of time or 2 weeks before Sept 18 to get a seat?\n\nPARENT COMMENT: ok canceled.that slut Taylor swift liked it so I thought why not\n\nCOMMENT: No hate, flamewars, rude comments, etc\n\nNO MISOGYNY",
+   "context": {
+    "title": "Door dash and  corner store reservations , booking",
+    "selftext": "I'm checking door dash and I'm confused. I want to book Sept 18. I have to book 1 month ahead of time or 2 weeks before Sept 18 to get a seat? ",
+    "ancestors": [
+     {
+      "author": "No-Yogurtcloset2314",
+      "body": "Why do you want to go so badly for their Applebee's food."
+     },
+     {
+      "author": "yung_rhubarb",
+      "body": "ok canceled.that slut Taylor swift liked it so I thought why not"
+     }
+    ],
+    "author": "FoodNYC-ModTeam",
+    "body": "No hate, flamewars, rude comments, etc\n\nNO MISOGYNY",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0558",
+   "comment_id": "t1_o256pyx",
+   "model_view": "POST TITLE: Weightloss veg orders in NYC\n\nPOST BODY: I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.\n\nPARENT COMMENT: Westville is good for healthy and filling meals to help LOSE weight\n\nCOMMENT: Eh, I like westville and order from them quite a bit, but seems like their food is really on the oily side. I love trying all their market sides but I don't think in general I would call their menu healthy.",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [
+     {
+      "author": "Sirnando138",
+      "body": "Westville is good for healthy and filling meals to help LOSE weight"
+     }
+    ],
+    "author": "pstut",
+    "body": "Eh, I like westville and order from them quite a bit, but seems like their food is really on the oily side. I love trying all their market sides but I don't think in general I would call their menu healthy.",
+    "replies": [
+     {
+      "author": "AdministrationOk3820",
+      "body": "I agree. The quality of the food is like suburban diners in the 1990’s"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Westville",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "neutral",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "market sides",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "healthiness",
+       "text": "not a healthy menu in general",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "oiliness",
+       "text": "food is oily",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0559",
+   "comment_id": "t1_o34y8xe",
+   "model_view": "POST TITLE: New spots for an old NYCer?\n\nPOST BODY: Hello all. I lived in NYC up until 2024, and am planning a week back. Essentially, asking how my restaurant list looks, your thoughts on some spots, and if there is anything I've missed I should add to my list. Would appreciate all recs - cafes, restaurants, matcha spots, coffee shops, dessert spots...\n\n  \nRequested reservations from Amex Platinum: Torrisi, Corner Store (never been), 4 Charles Pri ...\n\nPARENT COMMENT: sorry man, I’m sure you’re a nice guy and everything but I don’t think it’s gonna work out. Good luck though.\n\nCOMMENT: laughed out loud 😭😭😭😭",
+   "context": {
+    "title": "New spots for an old NYCer?",
+    "selftext": "Hello all. I lived in NYC up until 2024, and am planning a week back. Essentially, asking how my restaurant list looks, your thoughts on some spots, and if there is anything I've missed I should add to my list. Would appreciate all recs - cafes, restaurants, matcha spots, coffee shops, dessert spots...\n\n  \nRequested reservations from Amex Platinum: Torrisi, Corner Store (never been), 4 Charles Prime (never been), Shmone (never been), Rezdora, Don Angie, Salt Hank (never been), Cote, Coqodaq, Shuka/Shukette\n\nThings I've bookmarked on social media, are these any good or worth the hype? - Bubba Bureka, 12 Matcha, Mimi Frozen Yogurt, Aoka Matcha, Ceres, Golden Diner, Santo Taco  \nMy old favorites I'd maybe like to revisit: Le Bernadin, Ume, Katz, Davelle, La Mercerie, Double Chicken Please, L'industrie, Artichoke, Los Tacos No1, Gotan, Bubbys, Buvette, Russ and Daughters, Maman, La Cabra\n\nMe: 30s, male, single, staying in either Chelsea but probably Public Hotel LES  \n",
+    "ancestors": [
+     {
+      "author": "Tomatillo-5276",
+      "body": "sorry man, I’m sure you’re a nice guy and everything but I don’t think it’s gonna work out. Good luck though."
+     }
+    ],
+    "author": "Even_Inspection305",
+    "body": "laughed out loud 😭😭😭😭",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0560",
+   "comment_id": "t1_o258091",
+   "model_view": "POST TITLE: Weightloss veg orders in NYC\n\nPOST BODY: I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.\n\nCOMMENT: Many Asian places have a version of sautéed veggies, it my usual go to if I am having a low calorie takeout day",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [],
+    "author": "mashie_sauce",
+    "body": "Many Asian places have a version of sautéed veggies, it my usual go to if I am having a low calorie takeout day",
+    "replies": [
+     {
+      "author": "cute_polarbear",
+      "body": "You can also request them to make it less oily and salty."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "oases",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "tofu",
+       "text": "their tofu is fried",
+       "level": "negative",
+       "dish": "tofu"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0561",
+   "comment_id": "t1_nlee9b4",
+   "model_view": "POST TITLE: A Brit's first time\n\nPOST BODY: Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break ...\n\nCOMMENT: There’s so many great things, if you’re not trying to spend a lot I think it’s almost more fun to just explore and use Google reviews.  But ill throw one into the ring maybe ten blocks from you:  Zoom Zib:  super quick, reasonable price and delicious Thai food",
+   "context": {
+    "title": "A Brit's first time",
+    "selftext": "Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.",
+    "ancestors": [],
+    "author": "merlin401",
+    "body": "There’s so many great things, if you’re not trying to spend a lot I think it’s almost more fun to just explore and use Google reviews.  But ill throw one into the ring maybe ten blocks from you:  Zoom Zib:  super quick, reasonable price and delicious Thai food ",
+    "replies": [
+     {
+      "author": "snakesandladders212",
+      "body": "Thank you so much. This is the sort of thing I was looking for. It's 10 minutes from our hotel!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Zoom Zib",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": "moderate",
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "thai"
+     ],
+     "notes": [
+      {
+       "about": "location",
+       "text": "about ten blocks from Times Square",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0562",
+   "comment_id": "t1_oqtv3vz",
+   "model_view": "POST TITLE: $20 at Kossars on the lower east side….. pure robbery\n\nPOST BODY: 1.5 slices of lox and a mid bagel\n\nCOMMENT: walk a bit to Heaven's Hot Bagels on Houston. $12 for way more.",
+   "context": {
+    "title": "$20 at Kossars on the lower east side….. pure robbery",
+    "selftext": "1.5 slices of lox and a mid bagel",
+    "ancestors": [],
+    "author": "magicroot75",
+    "body": "walk a bit to Heaven's Hot Bagels on Houston. $12 for way more.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Heaven's Hot Bagels",
+     "named_in": "comment",
+     "location": "on Houston",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bagels"
+     ],
+     "notes": [
+      {
+       "about": "price comparison",
+       "text": "$12 for way more than the $20 at Kossars",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Kossars",
+     "named_in": "context",
+     "location": "on the lower east side",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bagels",
+      "deli"
+     ],
+     "notes": [
+      {
+       "about": "price comparison",
+       "text": "$20 vs $12 at Heaven's Hot Bagels for much more food",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0563",
+   "comment_id": "t1_ozyzh4s",
+   "model_view": "POST TITLE: Where to find Long Island Meatball Parm Sandwiches?\n\nPOST BODY: I grew up on Long Island where every pizza place served these huge meatball Parm heros that always had giant meatballs, doused in sauce, and half toasted bread. Any time I try to get one in the city it's always these tiny meatballs that would equal maybe half of a long island one. Is there anywhere in the city that serves those huge meatball Parm Heros?\n\nCOMMENT: Avoid. Pizzeria meatballs are processed frozen garbage right off the Sysco truck.\n\nBack in the day Pizzerias were makin em from scratch\n\nOh….the Old School way was Meatball Hero with a lil sprinkled parmagiano or pecorino. Not eith a pound of melted basic mozz slop",
+   "context": {
+    "title": "Where to find Long Island Meatball Parm Sandwiches?",
+    "selftext": "I grew up on Long Island where every pizza place served these huge meatball Parm heros that always had giant meatballs, doused in sauce, and half toasted bread. Any time I try to get one in the city it's always these tiny meatballs that would equal maybe half of a long island one. Is there anywhere in the city that serves those huge meatball Parm Heros?",
+    "ancestors": [],
+    "author": "Bigdaddyhef-365",
+    "body": "Avoid. Pizzeria meatballs are processed frozen garbage right off the Sysco truck.\n\nBack in the day Pizzerias were makin em from scratch\n\nOh….the Old School way was Meatball Hero with a lil sprinkled parmagiano or pecorino. Not eith a pound of melted basic mozz slop",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0564",
+   "comment_id": "t1_ozkzz26",
+   "model_view": "POST TITLE: Good recommendations for restaurants with Queso dip?\n\nPOST BODY: I have a hankering for chips and queso right now but ever since I moved to nyc I’ve had the hardest time finding it. Does anyone have any recommendations? Preferably somewhere in queens but I WILL travel.\n\nCOMMENT: Javelina is the best answer but other options that haven’t been listed yet include cowgirl in the village and kelloggs diner in Brooklyn",
+   "context": {
+    "title": "Good recommendations for restaurants with Queso dip?",
+    "selftext": "I have a hankering for chips and queso right now but ever since I moved to nyc I’ve had the hardest time finding it. Does anyone have any recommendations? Preferably somewhere in queens but I WILL travel.",
+    "ancestors": [],
+    "author": "rdesai724",
+    "body": "Javelina is the best answer but other options that haven’t been listed yet include cowgirl in the village and kelloggs diner in Brooklyn ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Javelina",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    },
+    {
+     "name": "cowgirl",
+     "named_in": "comment",
+     "location": "in the Village",
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    },
+    {
+     "name": "kelloggs diner",
+     "named_in": "comment",
+     "location": "in Brooklyn",
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0565",
+   "comment_id": "t1_ng1gdoe",
+   "model_view": "POST TITLE: Cote\n\nPOST BODY: Went to Cote for my friends birthday (guy who won't eat sushi),I loved it.  We do a monthly supper club and these guys are meat and potatoes folks, so I try and make them eat adventurous stuff (not that Korean bbq is adventurous).  \n\nI thought the butchers feast was a really good deal.  My friends usually won't eat many vegetables but they loved the sides (scallion, okra, pickled cauliflower).  I ...\n\nCOMMENT: I’m Korean and from LA. Cote is quite good and serves traditional Korean but in a modern environment. It works.\n\nCocodaq though is an abomination and should be burned to the ground.",
+   "context": {
+    "title": "Cote",
+    "selftext": "Went to Cote for my friends birthday (guy who won't eat sushi),I loved it.  We do a monthly supper club and these guys are meat and potatoes folks, so I try and make them eat adventurous stuff (not that Korean bbq is adventurous).  \n\nI thought the butchers feast was a really good deal.  My friends usually won't eat many vegetables but they loved the sides (scallion, okra, pickled cauliflower).  I didn't know they will bring you more of the sides if you want, and they gave my friends like 3 servings each of the dessert too.  I was stoked to see my meat eating friends loving vegetables.  I even convinced them to do the leaf wrap which they loved too.\n\nI know the place gets flak, but $78 for all that food is actually a good deal.  We did get the wagyu which was the best bite, and I think wagyu is kind of overrated.",
+    "ancestors": [],
+    "author": "Seo_Coach",
+    "body": "I’m Korean and from LA. Cote is quite good and serves traditional Korean but in a modern environment. It works.\n\nCocodaq though is an abomination and should be burned to the ground. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Cote",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "Korean"
+     ],
+     "notes": [
+      {
+       "about": "style",
+       "text": "traditional Korean food in a modern setting; it works",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Cocodaq",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": "very_negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": true,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "Korean"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0566",
+   "comment_id": "t1_notnqvq",
+   "model_view": "POST TITLE: What do you think of this take on the nyc food scene?\n\nCOMMENT: I’m thrilled I don’t need the internet to know what I think of a restaurant and certainly don’t need it to decide whether a restaurant is worth going to, and therefore I can be marked safe from what douchebros ranging from this guy all the way to that pizza guy think about anything.  This sub is fun recreationally for answering some questions, but otherwise ignoring the hype train completely not only works fine for me in terms of quality of what I eat but also in terms of avoiding the worst of noxious restaurant companions.",
+   "context": {
+    "title": "What do you think of this take on the nyc food scene?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "some1105",
+    "body": "I’m thrilled I don’t need the internet to know what I think of a restaurant and certainly don’t need it to decide whether a restaurant is worth going to, and therefore I can be marked safe from what douchebros ranging from this guy all the way to that pizza guy think about anything.  This sub is fun recreationally for answering some questions, but otherwise ignoring the hype train completely not only works fine for me in terms of quality of what I eat but also in terms of avoiding the worst of noxious restaurant companions.",
+    "replies": [
+     {
+      "author": "EanmundsAvenger",
+      "body": "Yes exactly this. I have no idea which restaurants are “TikTok famous” because I don’t use that garbage. I don’t get annoyed by influencers because I’m not on Instagram. \n\nI just eat at restaurants my friends recommend or just try something that looks interesting. Avoid the social media bullshit from the start and you won’t have issues with it driving what you choose \n\nLike someone else commented - his opinion sounds like someone who spends more time looking at NYC restaurants on TikTok and IG than out trying places himself. I work in the restaurant  industry and actual chefs, sommeliers, bartenders, etc don’t share his opinion. I hear about great new spots all the time and there are still literally thousands of great restaurants that have been around for years"
+     },
+     {
+      "author": "tiggat",
+      "body": "dont you enjoy arguing?"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0567",
+   "comment_id": "t1_p0ypxkl",
+   "model_view": "POST TITLE: I had the Gargiulo Burger at Hamburger America today\n\nPOST BODY: Its a collaboration between Hamburger America and Brennan & Carr in Brooklyn. I gotta say it was nothing special. I was expecting to have my socks knocked off, but I was a little disappointed. It was tasty, but honestly, your basic classic Hamburger America smashburger with cheese is just as good.\n\nPARENT COMMENT: I went to Brennan & Carr for the first time recently, I think the entire vibe of that spot is underwhelming\n\nIt's a tasty sandwich and it's cheap and the vibe is fun but yeah, it's just a pretty straightforward roast beef sandwich, slapping a burger onto it won't change much\n\nCOMMENT: I feel like I'm taking crazy pills when people rant about Brennan and Carr. It's the only place I can remember where our food was so bad we walked up and said this is cold and awful and we'd like to not pay, and left.\n\nCold fries, gross sandwich, all the food came out one item at a time every 5 minutes, sodaa never arrived.\n\nMaybe it was a bad day but woof.",
+   "context": {
+    "title": "I had the Gargiulo Burger at Hamburger America today",
+    "selftext": "Its a collaboration between Hamburger America and Brennan & Carr in Brooklyn. I gotta say it was nothing special. I was expecting to have my socks knocked off, but I was a little disappointed. It was tasty, but honestly, your basic classic Hamburger America smashburger with cheese is just as good.",
+    "ancestors": [
+     {
+      "author": "StinkyStangler",
+      "body": "I went to Brennan & Carr for the first time recently, I think the entire vibe of that spot is underwhelming\n\nIt's a tasty sandwich and it's cheap and the vibe is fun but yeah, it's just a pretty straightforward roast beef sandwich, slapping a burger onto it won't change much"
+     }
+    ],
+    "author": "Practical-Bird-1270",
+    "body": "I feel like I'm taking crazy pills when people rant about Brennan and Carr. It's the only place I can remember where our food was so bad we walked up and said this is cold and awful and we'd like to not pay, and left.\n\nCold fries, gross sandwich, all the food came out one item at a time every 5 minutes, sodaa never arrived.\n\nMaybe it was a bad day but woof.",
+    "replies": [
+     {
+      "author": "StinkyStangler",
+      "body": "I think that sounds like a bad day tbh\n\nWhen I went everything was just fine, which made it underwhelming for sure, but nothing was actively bad. Just like “yeah this is definitely a roast beef sandwich with some fries” type vibe lol"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Brennan and Carr",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_negative",
+     "aspects": {
+      "taste": "very_negative",
+      "value": null,
+      "service": "very_negative",
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "fries",
+       "level": "negative",
+       "avoid": false
+      },
+      {
+       "dish": "sandwich",
+       "level": "negative",
+       "avoid": false
+      },
+      {
+       "dish": "soda",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "walked out",
+       "text": "food was so bad they asked not to pay and left",
+       "level": "very_negative",
+       "dish": null
+      },
+      {
+       "about": "food came out slowly",
+       "text": "all items came out one at a time every 5 minutes",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "missing order",
+       "text": "soda never arrived",
+       "level": "negative",
+       "dish": "soda"
+      },
+      {
+       "about": "possibly a bad day",
+       "text": "commenter says it may have been an off day",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0568",
+   "comment_id": "t1_o9l5o4p",
+   "model_view": "POST TITLE: Best slice of cake you’ve ever had in nyc?\n\nPOST BODY: \\*\n\nPARENT COMMENT: Honey cake from Hani's bakery\nCheckers cake from Lady M\nChocolate mousse from Red Ribbon\n\nCOMMENT: that honey cake is sooooo good… i’ve had it with currants once and apples another. slaps so hard",
+   "context": {
+    "title": "Best slice of cake you’ve ever had in nyc?",
+    "selftext": "\\*",
+    "ancestors": [
+     {
+      "author": "ahmimiii",
+      "body": "Honey cake from Hani's bakery\nCheckers cake from Lady M\nChocolate mousse from Red Ribbon"
+     }
+    ],
+    "author": "ObjectiveJazzlike773",
+    "body": "that honey cake is sooooo good… i’ve had it with currants once and apples another. slaps so hard ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Hani's bakery",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "honey cake",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bakery"
+     ],
+     "notes": [
+      {
+       "about": "variations",
+       "text": "has had the honey cake with currants and with apples",
+       "level": null,
+       "dish": "honey cake"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0569",
+   "comment_id": "t1_nsfkd6q",
+   "model_view": "POST TITLE: Anybody know where I can find this ?\n\nPOST BODY: Brought it in Singapore a year ago , but wonder if I can get this here or something similar\n\nPARENT COMMENT: H Mart\n\nCOMMENT: Like .. which h mart ? I live in flushing there was 2 and I saw none",
+   "context": {
+    "title": "Anybody know where I can find this ?",
+    "selftext": "Brought it in Singapore a year ago , but wonder if I can get this here or something similar  ",
+    "ancestors": [
+     {
+      "author": "nyc_azn",
+      "body": "H Mart"
+     }
+    ],
+    "author": "ResearchCautious9665",
+    "body": "Like .. which h mart ? I live in flushing there was 2 and I saw none",
+    "replies": [
+     {
+      "author": "nyc_azn",
+      "body": "May be sold out\n\nTry the other large scale flushing grocery markets."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "H Mart",
+     "named_in": "context",
+     "location": "Flushing",
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "supermarket"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0570",
+   "comment_id": "t1_o88qxrt",
+   "model_view": "POST TITLE: Soothr - OK for kids (grade school age)\n\nPOST BODY: I would like to bring my family with two kids in elementary school there. I read that it’s loud and kind of a hip place. If we go early for a 530pm dinner would there be any other families there or is the place kind of always in grown up mode? I might be overthinking this but not sure. Thanks.\n\nPARENT COMMENT: Soothr is great, but small and tightly packed even when it’s not a mob scene, I would also look into Pranakhon.  It can also be loud and crowded, but it’s more spacious, well lit and might be more comfortable for kids.\n\nCOMMENT: This spot and Mitr are way better than Soothr",
+   "context": {
+    "title": "Soothr - OK for kids (grade school age)",
+    "selftext": "I would like to bring my family with two kids in elementary school there. I read that it’s loud and kind of a hip place. If we go early for a 530pm dinner would there be any other families there or is the place kind of always in grown up mode? I might be overthinking this but not sure. Thanks. ",
+    "ancestors": [
+     {
+      "author": "canyouwink",
+      "body": "Soothr is great, but small and tightly packed even when it’s not a mob scene, I would also look into Pranakhon.  It can also be loud and crowded, but it’s more spacious, well lit and might be more comfortable for kids."
+     }
+    ],
+    "author": "chitowninthebay",
+    "body": "This spot and Mitr are way better than Soothr",
+    "replies": [
+     {
+      "author": "bigfathooker69",
+      "body": "Interesting, I much prefer Sooth"
+     },
+     {
+      "author": "StarrkDreams",
+      "body": "Mitr is amazing"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Pranakhon",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    },
+    {
+     "name": "Mitr",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "way better than Soothr",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Soothr",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "way worse than Pranakhon and Mitr",
+       "level": "very_negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0571",
+   "comment_id": "t1_p6b7wr9",
+   "model_view": "POST TITLE: Mama’s Too in NYC has some of my favorite slices ever!!\n\nCOMMENT: Those lines are brutal",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "further-research",
+    "body": "Those lines are brutal ",
+    "replies": [
+     {
+      "author": "RumPunchKid",
+      "body": "Weekdays 12-2 is the best time to go"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "line",
+       "text": "the lines are brutal",
+       "level": "very_negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0572",
+   "comment_id": "t1_l1azrve",
+   "model_view": "POST TITLE: What are some unpopular opinions you have about NYC cuisine?\n\nPOST BODY: With me, one of mine is that I *like* NYC/East Coast style chow mein. The type you get from Americanized Chinese restaurants, not actual chow mein.\n\nIf you search online and even on Reddit, you'll see people question and complain about why they get a weird vegetable mix whenever they ask for \"chow mein\". A lot of Chinese restaurants in NYC sell chop suey under the name \"chow mein\".\n\nChop suey look ...\n\nPARENT COMMENT: Generally i agree, but i think NYC BBQ is underrated. Hometown especially is as good or better than places I’ve been down south. \n\nI think NYC steakhouses are mediocre because they’re so beholden to tradition, that’s what southern BBQ feels to me. I’m sure there’s innovation and people doing neat stuff, but I’d take Hometown over Franklin’s in Austin any day.\n\nCOMMENT: Hometown can’t hold a candle to… Salt Lick or even Rudy’s BBQ. Sorry, but NYC BBQ is laughably overpriced- we don’t have to have access to everything everywhere… BBQ just isn’t good in NYC… I think it has to do more with their access to quality lean meat (so hard to get) and they need more space /smokers for these  methods.",
+   "context": {
+    "title": "What are some unpopular opinions you have about NYC cuisine?",
+    "selftext": "With me, one of mine is that I *like* NYC/East Coast style chow mein. The type you get from Americanized Chinese restaurants, not actual chow mein.\n\nIf you search online and even on Reddit, you'll see people question and complain about why they get a weird vegetable mix whenever they ask for \"chow mein\". A lot of Chinese restaurants in NYC sell chop suey under the name \"chow mein\".\n\nChop suey looks gross, but it's pretty yummy and healthy. It's just a mix of vegetables (mainly cabbage) after all. White rice+plain chow mein+wonton noodles is one of my go-to vegetarian friendly takeouts.",
+    "ancestors": [
+     {
+      "author": "BortSampson89",
+      "body": "NYC does other regional US food terribly "
+     },
+     {
+      "author": "NKR1978",
+      "body": "Generally i agree, but i think NYC BBQ is underrated. Hometown especially is as good or better than places I’ve been down south. \n\nI think NYC steakhouses are mediocre because they’re so beholden to tradition, that’s what southern BBQ feels to me. I’m sure there’s innovation and people doing neat stuff, but I’d take Hometown over Franklin’s in Austin any day."
+     }
+    ],
+    "author": "No_Conversation_7120",
+    "body": "Hometown can’t hold a candle to… Salt Lick or even Rudy’s BBQ. Sorry, but NYC BBQ is laughably overpriced- we don’t have to have access to everything everywhere… BBQ just isn’t good in NYC… I think it has to do more with their access to quality lean meat (so hard to get) and they need more space /smokers for these  methods.",
+    "replies": [
+     {
+      "author": "Marduk112",
+      "body": "It’s expensive in Texas too and unless you are Hank Hill, you only really eat it less than a handful of times a year because the meat sweats are no way to live."
+     },
+     {
+      "author": "Chimkimnuggets",
+      "body": "The best BBQ in NYC is like the worst Edley’s in Nashville but that Edley’s is still better."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Hometown",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bbq"
+     ],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Can't hold a candle to Salt Lick or Rudy's BBQ in Texas",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "price",
+       "text": "NYC BBQ called laughably overpriced",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "meat quality",
+       "text": "NYC BBQ lacks access to quality lean meat, plus needs more space and smokers",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0573",
+   "comment_id": "t1_p7swuq4",
+   "model_view": "POST TITLE: So much online discourse about Los tacos no. 1 not even being that great, and transplants hyping up mediocre touristy food\n\nPOST BODY: I think it’s really good, tbf, but I think taco mix in east Harlem and Ramirez in Greenpoint (ik that’s v transplant-y too) are better. Maybe even homemade taqueria in UWS or that one place in the Bronx which is only open 9-5 on weekdays (forgetting the name) \n\nAs a transplant who’s been here for 3 years now… to the natives who say there’s so much better stuff apart from Los tacos, where are the g ...\n\nCOMMENT: Los tacos may be the best tacos in NY but they aren't up to par to actual good tacos found elsewhere in the country and it's gotten to the point where you need to spend 25 dollars to be full",
+   "context": {
+    "title": "So much online discourse about Los tacos no. 1 not even being that great, and transplants hyping up mediocre touristy food",
+    "selftext": "I think it’s really good, tbf, but I think taco mix in east Harlem and Ramirez in Greenpoint (ik that’s v transplant-y too) are better. Maybe even homemade taqueria in UWS or that one place in the Bronx which is only open 9-5 on weekdays (forgetting the name) \n\nAs a transplant who’s been here for 3 years now… to the natives who say there’s so much better stuff apart from Los tacos, where are the good tacos??",
+    "ancestors": [],
+    "author": "hardindapaint12",
+    "body": "Los tacos may be the best tacos in NY but they aren't up to par to actual good tacos found elsewhere in the country and it's gotten to the point where you need to spend 25 dollars to be full ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Los tacos",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "neutral",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "tacos"
+     ],
+     "notes": [
+      {
+       "about": "best in NY",
+       "text": "may be the best tacos in NY",
+       "level": "very_positive",
+       "dish": null
+      },
+      {
+       "about": "not up to par nationally",
+       "text": "not up to par with good tacos elsewhere in the country",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "price",
+       "text": "need to spend $25 to be full",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0574",
+   "comment_id": "t1_ojxoaow",
+   "model_view": "POST TITLE: Berlin-style döner dürüm in NYC?\n\nPOST BODY: I recently got back from a month+ work trip in Tokyo and became obsessed with the kebab shops there, specifically the Berlin-style döner wraps. \n\nSpecifically sandwiches with:   \nThin dürüm**/**lavash** **wrap** **(not pita)  \nShaved döner meat (preferably beef)  \nCabbage + mayo / chili sauce drizzle\n\nNot exactly looking for traditional shawarma or halal cart platters, more like the European late- ...\n\nPARENT COMMENT: Not really the same style but Mamoun’s falafel in the west village is great\n\nCOMMENT: Somewhat amazingly, decent Berlin style doner just does not exist in NYC.\n\nTheres like 2 or 3 places that have tried and apparently none of them are any good. \n\nWhoever cracks the code deserves to be a rich man.",
+   "context": {
+    "title": "Berlin-style döner dürüm in NYC?",
+    "selftext": "I recently got back from a month+ work trip in Tokyo and became obsessed with the kebab shops there, specifically the Berlin-style döner wraps. \n\nSpecifically sandwiches with:   \nThin dürüm**/**lavash** **wrap** **(not pita)  \nShaved döner meat (preferably beef)  \nCabbage + mayo / chili sauce drizzle\n\nNot exactly looking for traditional shawarma or halal cart platters, more like the European late-night kebab spots.\n\nAnywhere in NYC doing this style well?\n\nPhotos are from a restaurant that I frequented, not my own. \n\nThanks! ",
+    "ancestors": [
+     {
+      "author": "L4urent_",
+      "body": "Not really the same style but Mamoun’s falafel in the west village is great "
+     }
+    ],
+    "author": "RecycledAccountName",
+    "body": "Somewhat amazingly, decent Berlin style doner just does not exist in NYC.\n\nTheres like 2 or 3 places that have tried and apparently none of them are any good. \n\nWhoever cracks the code deserves to be a rich man.  ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0575",
+   "comment_id": "t1_oycrsq6",
+   "model_view": "POST TITLE: Best crispy, bouncy non-oily Korean seafood pancake in Manhattan?\n\nPOST BODY: Tough to get this balance.  Does anyone have a reccomendation?\n\nThank you!\n\nCOMMENT: Update:\n\nThink I will try a few and report back.  First report:\n\n02 Hot Stone BBQ House\n\nThick pancake.  Pretty good crisp.  Nice big pieces of shrimp and very generous with green onion but some gluggy bits here and there.  Served with sweeter sauce that I did not prefer.  Their side kimchi was not tangy in a way that balanced the pancake for me.\n\nSearch continues",
+   "context": {
+    "title": "Best crispy, bouncy non-oily Korean seafood pancake in Manhattan?",
+    "selftext": "Tough to get this balance.  Does anyone have a reccomendation?\n\nThank you!",
+    "ancestors": [],
+    "author": "HomeboddE",
+    "body": "Update:\n\nThink I will try a few and report back.  First report:\n\n02 Hot Stone BBQ House\n\nThick pancake.  Pretty good crisp.  Nice big pieces of shrimp and very generous with green onion but some gluggy bits here and there.  Served with sweeter sauce that I did not prefer.  Their side kimchi was not tangy in a way that balanced the pancake for me.\n\nSearch continues",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "02 Hot Stone BBQ House",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "neutral",
+     "aspects": {
+      "taste": "neutral",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "seafood pancake",
+       "level": "neutral",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "korean",
+      "bbq",
+      "pancake"
+     ],
+     "notes": [
+      {
+       "about": "pancake texture",
+       "text": "thick pancake, pretty good crisp",
+       "level": "positive",
+       "dish": "seafood pancake"
+      },
+      {
+       "about": "shrimp and scallion",
+       "text": "nice big pieces of shrimp, very generous with green onion",
+       "level": "positive",
+       "dish": "seafood pancake"
+      },
+      {
+       "about": "texture",
+       "text": "some gluggy bits here and there",
+       "level": "negative",
+       "dish": "seafood pancake"
+      },
+      {
+       "about": "sauce",
+       "text": "served with a sweeter sauce the commenter did not prefer",
+       "level": "negative",
+       "dish": "seafood pancake"
+      },
+      {
+       "about": "side kimchi",
+       "text": "side kimchi not tangy enough to balance the pancake",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

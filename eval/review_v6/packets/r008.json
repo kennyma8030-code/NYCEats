@@ -1,0 +1,1320 @@
+{
+ "packet": "r008",
+ "items": [
+  {
+   "item_id": "Q0176",
+   "comment_id": "t1_oe25n6l",
+   "model_view": "POST TITLE: Best place for buying coffee beans\n\nPOST BODY: Hey all!! Wondering if anyone has any recommendations for good places to buy high quality coffee beans and places with fun selections! They can be coffee shops, but I just want the beans themselves for making my own pour over coffee. Thanks!\n\nPARENT COMMENT: not point in buying expensive beans if you're not grinding fresh. you can buy a hand grinder if you have to\n\nCOMMENT: +1 to this. Coffee stays fresher longer and you can adjust the grinds to dial your coffee. There are many high quality hand grinders to choose from.",
+   "context": {
+    "title": "Best place for buying coffee beans",
+    "selftext": "Hey all!! Wondering if anyone has any recommendations for good places to buy high quality coffee beans and places with fun selections! They can be coffee shops, but I just want the beans themselves for making my own pour over coffee. Thanks!",
+    "ancestors": [
+     {
+      "author": "Busy-Cantaloupe7900",
+      "body": "Somehow, no one has mentioned Devocion. They are phenomenal. "
+     },
+     {
+      "author": "SpaceBass18",
+      "body": "Do you know if they would grind the beans for me in shop?"
+     },
+     {
+      "author": "Relevant-Energy-1304",
+      "body": "not point in buying expensive beans if you're not grinding fresh. you can buy a hand grinder if you have to"
+     }
+    ],
+    "author": "justflipping",
+    "body": "+1 to this. Coffee stays fresher longer and you can adjust the grinds to dial your coffee. There are many high quality hand grinders to choose from.",
+    "replies": [
+     {
+      "author": "SpaceBass18",
+      "body": "Gotcha thank you very much for the information"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0177",
+   "comment_id": "t1_oqqr8vp",
+   "model_view": "POST TITLE: $20 at Kossars on the lower east side….. pure robbery\n\nPOST BODY: 1.5 slices of lox and a mid bagel\n\nCOMMENT: $20.00. Without consience. No way. You can add that to the list inc. $12.00 smoothie I encountered at Joe and the Juice.",
+   "context": {
+    "title": "$20 at Kossars on the lower east side….. pure robbery",
+    "selftext": "1.5 slices of lox and a mid bagel",
+    "ancestors": [],
+    "author": "CrazyCalligrapher206",
+    "body": "$20.00. Without consience. No way. You can add that to the list inc. $12.00 smoothie I encountered at Joe and the Juice.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Kossars",
+     "named_in": "context",
+     "location": "lower east side",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": "very_negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bagel shop",
+      "deli"
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "$20.00 order, called it without conscience",
+       "level": "very_negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Joe and the Juice",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "smoothie",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "juice bar",
+      "smoothie"
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "$12.00 smoothie, added to the list of overpriced items",
+       "level": "negative",
+       "dish": "smoothie"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0178",
+   "comment_id": "t1_objjsjv",
+   "model_view": "POST TITLE: red hook tavern dinner walk in - how early would I have to be to get a seat?\n\nPOST BODY: I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?\n\nCOMMENT: It would be faster to get on the Jitney and go to their place in Sag Harbor. \n\nYikes.",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [],
+    "author": "Cpalms139",
+    "body": "It would be faster to get on the Jitney and go to their place in Sag Harbor. \n\nYikes. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Red Hook Tavern",
+     "named_in": "context",
+     "location": "Red Hook",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "tavern"
+     ],
+     "notes": [
+      {
+       "about": "wait",
+       "text": "Getting a seat is so slow that driving out to the Sag Harbor location on the Jitney would be faster",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0179",
+   "comment_id": "t1_o3lbclv",
+   "model_view": "POST TITLE: Noona's Ice Cream\n\nPOST BODY: Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasic ...\n\nPARENT COMMENT: My ice cream was pretty good but they gotta work on showing up on time. I went an hour after opening (noon) a couple Saturdays ago - said they were open late due to the storm... Ok, tried the next day around the same time and again, closed but should have opened at 11.\n\nCOMMENT: It’s a small business get a grip literally one person doing everything",
+   "context": {
+    "title": "Noona's Ice Cream",
+    "selftext": "Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)",
+    "ancestors": [
+     {
+      "author": "n_nine",
+      "body": "My ice cream was pretty good but they gotta work on showing up on time. I went an hour after opening (noon) a couple Saturdays ago - said they were open late due to the storm... Ok, tried the next day around the same time and again, closed but should have opened at 11."
+     }
+    ],
+    "author": "WredditSmark",
+    "body": "It’s a small business get a grip literally one person doing everything",
+    "replies": [
+     {
+      "author": "n_nine",
+      "body": "It's still a business and it isn't one person since the owner is a Korean girl and whoever opened that day wasn't. Saying that I get it but ice creams a hard business. Some of the best are gone - if she wants customers coming back, should be open when they say they are before people take a train to the neighborhood and lose goodwill 🤷🏻"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Noona's Ice Cream",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "ice cream"
+     ],
+     "notes": [
+      {
+       "about": "staffing",
+       "text": "small business, one person doing everything",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0180",
+   "comment_id": "t1_p1kjgvj",
+   "model_view": "POST TITLE: In honor of National Chocolate Chip Cookie Day (8/4) 🍪\n\nPOST BODY: Sharing some of my favorite chocolate chip cookies from the past year in no particular order 🍪 \n\nGramercy Tavern   \nRed Gate Bakery   \nDaily Provisions   \nFunny Face Bakery   \nHani’s   \nSomedays   \nL’appartement 4F\n\nWhat are your favorites?!\n\nCOMMENT: The additional milk at Gramercy is so fun",
+   "context": {
+    "title": "In honor of National Chocolate Chip Cookie Day (8/4) 🍪",
+    "selftext": "Sharing some of my favorite chocolate chip cookies from the past year in no particular order 🍪 \n\nGramercy Tavern   \nRed Gate Bakery   \nDaily Provisions   \nFunny Face Bakery   \nHani’s   \nSomedays   \nL’appartement 4F\n\nWhat are your favorites?! ",
+    "ancestors": [],
+    "author": "stopsakura10",
+    "body": "The additional milk at Gramercy is so fun",
+    "replies": [
+     {
+      "author": "ssnd13",
+      "body": "Agree!! Such a nice touch and really elevates the experience ☺️"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Gramercy Tavern",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "chocolate chip cookie",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "dessert",
+      "cookies"
+     ],
+     "notes": [
+      {
+       "about": "milk pairing",
+       "text": "additional milk served with the cookie, fun",
+       "level": "positive",
+       "dish": "chocolate chip cookie"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0181",
+   "comment_id": "t1_nv259h3",
+   "model_view": "POST TITLE: A $600 Suckling Pig? Wagyu for All? On Menus, It’s a New Gilded Age (Gift Article)\n\nCOMMENT: \\> the chef at Le Chêne, who pays about $1,000 for each turbot she imports from France\n\nWhat?",
+   "context": {
+    "title": "A $600 Suckling Pig? Wagyu for All? On Menus, It’s a New Gilded Age (Gift Article)",
+    "selftext": "",
+    "ancestors": [],
+    "author": "pretender80",
+    "body": "\\> the chef at Le Chêne, who pays about $1,000 for each turbot she imports from France\n\nWhat?",
+    "replies": [
+     {
+      "author": "Euphoric-Group3157",
+      "body": "seems off…. whole turbot is priced at a fraction of this at Aqua Best or Citarella"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Le Chêne",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "turbot",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "sourcing cost",
+       "text": "chef pays about $1,000 for each turbot imported from France",
+       "level": null,
+       "dish": "turbot"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0182",
+   "comment_id": "t1_opwu6w6",
+   "model_view": "POST TITLE: Thai Frozen Coke - Is there anywhere in or near the city that has it?\n\nPOST BODY: Is there anywhere in or near the city that has Thai frozen Coke slushies?\n\nPARENT COMMENT: How much does he charge?\n\nCOMMENT: actually my bad, don't think he's selling soda anymore, just sorbet",
+   "context": {
+    "title": "Thai Frozen Coke - Is there anywhere in or near the city that has it?",
+    "selftext": "Is there anywhere in or near the city that has Thai frozen Coke slushies?",
+    "ancestors": [
+     {
+      "author": "blacktongue",
+      "body": "Summer, corner of Knickerbocker & Suydam, guy does it all the time. "
+     },
+     {
+      "author": "Incoming_Gunner",
+      "body": "How much does he charge? "
+     }
+    ],
+    "author": "blacktongue",
+    "body": "actually my bad, don't think he's selling soda anymore, just sorbet",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0183",
+   "comment_id": "t1_nnk9ab6",
+   "model_view": "POST TITLE: Just so you know, The Eighty Six does NOT do walk-in bar seating, if you appear before opening. Save yourself from lining up beforehand.\n\nPOST BODY: People please save yourself from the cold & the wait time for The Corner Store sister restaurant, The Eighty Six, they will NOT do bar seating for walkins even if you appear before open! Please save yourself the public hype of standing in that line they have they will NOT seat you. \n\nOn Wednesday & today my friends and I have all attempted seating and we appeared before open and the lady & door ma ...\n\nPARENT COMMENT: Why would anyone go to these places?\n\nCOMMENT: I came to ask this too, the wait in line for bakeries and bagels and these places is wild .\n\n\nI went by the area corner store is in a month ago and noticed a huge crowd standing outside 2 hours before it opened lol.. what could they possibly be serving that's that good?",
+   "context": {
+    "title": "Just so you know, The Eighty Six does NOT do walk-in bar seating, if you appear before opening. Save yourself from lining up beforehand.",
+    "selftext": "People please save yourself from the cold & the wait time for The Corner Store sister restaurant, The Eighty Six, they will NOT do bar seating for walkins even if you appear before open! Please save yourself the public hype of standing in that line they have they will NOT seat you. \n\nOn Wednesday & today my friends and I have all attempted seating and we appeared before open and the lady & door man stated the bar seating is reservation based and not for walk-ins, they claim they’ll text you if cancellation happens but the hostess will NOT message you even if a cancellation occurs.",
+    "ancestors": [
+     {
+      "author": "Bigdaddyhef-365",
+      "body": "Why would anyone go to these places?"
+     }
+    ],
+    "author": "akmalhot",
+    "body": "I came to ask this too, the wait in line for bakeries and bagels and these places is wild .\n\n\nI went by the area corner store is in a month ago and noticed a huge crowd standing outside 2 hours before it opened lol.. what could they possibly be serving that's that good?",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "corner store",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "wait",
+       "text": "huge crowd standing outside 2 hours before it opened",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "taste",
+       "text": "sarcastic doubt that the food is worth the hype",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0184",
+   "comment_id": "t1_o3g6sz7",
+   "model_view": "POST TITLE: Sit down dessert places that take reservations\n\nPOST BODY: Looking for a dessert place I can book. Lysee is ideal, but it's fully booked for the day I have in mind.\n\nAre there any reasonable alternatives?\n\nThanks!\n\nPARENT COMMENT: Chikalicious?\n\nCOMMENT: Chikalicious closed",
+   "context": {
+    "title": "Sit down dessert places that take reservations",
+    "selftext": "Looking for a dessert place I can book. Lysee is ideal, but it's fully booked for the day I have in mind.\n\nAre there any reasonable alternatives?\n\nThanks!",
+    "ancestors": [
+     {
+      "author": "PorkProofPrion",
+      "body": "Chikalicious?"
+     }
+    ],
+    "author": "CharacterBike314",
+    "body": "Chikalicious closed",
+    "replies": [
+     {
+      "author": "theRealDoctorG",
+      "body": "Indeed, It was great!"
+     },
+     {
+      "author": "desirepink",
+      "body": "Oh that's so sad.. even the takeout shop?"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Chikalicious",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": "closed",
+     "tags": [
+      "dessert"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0185",
+   "comment_id": "t1_nkegmc5",
+   "model_view": "POST TITLE: What are some good examples of nyc restaurants/food businesses that have scaled up, expanded and become chains without sacrificing quality?\n\nPARENT COMMENT: Shake Shack is still good, but man was it amazing when it was one location in Mad Sq Park. I believe he originally used a beef blend for the burgers (brisket, sirloin, chuck if memory serves) and it was a gigantic difference. The food was always fresh off the grill and I'm sure waiting an hour built up quite a hunger, but to this day I remember it being some of the best food I'd ever had.\n\nCOMMENT: They don’t use that blend any more??!! That blend was shake shacks calling card back in the day. I recall some butchers would copy the mix/ratio and market it as such",
+   "context": {
+    "title": "What are some good examples of nyc restaurants/food businesses that have scaled up, expanded and become chains without sacrificing quality?",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "tacologic",
+      "body": "Shake Shack is still good right?"
+     },
+     {
+      "author": "FajitaTits",
+      "body": "Shake Shack is still good, but man was it amazing when it was one location in Mad Sq Park. I believe he originally used a beef blend for the burgers (brisket, sirloin, chuck if memory serves) and it was a gigantic difference. The food was always fresh off the grill and I'm sure waiting an hour built up quite a hunger, but to this day I remember it being some of the best food I'd ever had."
+     }
+    ],
+    "author": "ScreenPuzzleheaded48",
+    "body": "They don’t use that blend any more??!! That blend was shake shacks calling card back in the day. I recall some butchers would copy the mix/ratio and market it as such",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Shake Shack",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "burgers",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "burgers",
+      "fast casual"
+     ],
+     "notes": [
+      {
+       "about": "beef blend",
+       "text": "commenter asks whether Shake Shack still uses its original burger beef blend, which they call its signature back in the day",
+       "level": "negative",
+       "dish": "burgers"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0186",
+   "comment_id": "t1_p6puvov",
+   "model_view": "POST TITLE: Mama’s Too in NYC has some of my favorite slices ever!!\n\nCOMMENT: Mamas too is pretty good, but Village Square is only a couple blocks away, cheaper, and never has a line",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "ShrimpSmith",
+    "body": "Mamas too is pretty good, but Village Square is only a couple blocks away, cheaper, and never has a line ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Village Square is a couple blocks away, cheaper, and never has a line",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Village Square",
+     "named_in": "comment",
+     "location": "a couple blocks from Mama's Too",
+     "experience": "secondhand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": "cheap",
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "a couple blocks from Mama's Too, cheaper, never has a line",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0187",
+   "comment_id": "t1_ozyedi1",
+   "model_view": "POST TITLE: Solid day of eats @ Mama’s Too & Red Gate Bakery 🍕 🍪\n\nPOST BODY: Had no plans on this beautiful Saturday, so treated myself to a very large lunch 😅 \n\nMama’s Too in WV - house slice, bruschetta, and vodka chicken sandwich. Arrived around 12:30 and in total, it was 20-30 minutes from stepping in line to getting my food. It would have been faster, but they were waiting for a new house pie to be put out. I must say, it was worth the short wait. The bruschetta was m ...\n\nPARENT COMMENT: Does Red Gate have lines now?\n\nCOMMENT: Unfortunately every time I’ve gone, I’ve had to wait in line. It moves quickly though!",
+   "context": {
+    "title": "Solid day of eats @ Mama’s Too & Red Gate Bakery 🍕 🍪",
+    "selftext": "Had no plans on this beautiful Saturday, so treated myself to a very large lunch 😅 \n\nMama’s Too in WV - house slice, bruschetta, and vodka chicken sandwich. Arrived around 12:30 and in total, it was 20-30 minutes from stepping in line to getting my food. It would have been faster, but they were waiting for a new house pie to be put out. I must say, it was worth the short wait. The bruschetta was my favorite of the three. \n\nRed Gate Bakery in EV - choco toffee cookie. One of my favorite chocolate chip cookies in the city. Waited in line about 15 min total, so not bad. I wanted the corn cake, but apparently they sold out within the first hour of the day so I was no where near close to achieving that goal. \n\nNot pictured - the juice I got after my morning run, and the ice cream I got at the end of the day 😋\n\nOverall a strong day of eats. 10/10. I love a solo day of walking around and eating ",
+    "ancestors": [
+     {
+      "author": "colaxxi",
+      "body": "Does Red Gate have lines now?"
+     }
+    ],
+    "author": "ssnd13",
+    "body": "Unfortunately every time I’ve gone, I’ve had to wait in line. It moves quickly though! ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Red Gate Bakery",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "line moves quickly",
+       "text": "every visit has a line, but it moves quickly",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0188",
+   "comment_id": "t1_njicv92",
+   "model_view": "POST TITLE: I analyzed 50+ Reddit threads to find the best pizza in NYC\n\nPOST BODY: I scraped comments from 50+ posts (mostly from this subreddit and few other NYC related ones) where people asked “where’s the best pizza in New York?” or argued about Joe’s vs. Prince Street vs. Di Fara. Then I ran all those comments through an LLM pipeline to see which spots people actually rave about,  not just name-drop the most.\n\nGoal wasn’t just “most mentioned,” but “most positively talked a ...\n\nCOMMENT: L’industrie is NOT the best pizza, it’s just in the West Village and trendy. I used to work across the street and I couldn’t believe that people stood in that long ass line every day when Village Square is literally next door. Even Mama’s Too around the corner is better. I stg I see more people taking pictures of L’industrie pizza than actually eating it.",
+   "context": {
+    "title": "I analyzed 50+ Reddit threads to find the best pizza in NYC",
+    "selftext": "I scraped comments from 50+ posts (mostly from this subreddit and few other NYC related ones) where people asked “where’s the best pizza in New York?” or argued about Joe’s vs. Prince Street vs. Di Fara. Then I ran all those comments through an LLM pipeline to see which spots people actually rave about,  not just name-drop the most.\n\nGoal wasn’t just “most mentioned,” but “most positively talked about.” and upvoted.\n\n**Method in a nutshell:**  \n– Gathered 50+ “best pizza in NYC” and “NYC food recs” threads  \n– Ran GPT-5 + Gemini 2.5 to extract restaurant names and classify sentiment  \n– Scoring = \\~70% positive vs. negative differential + \\~30% positive/total ratio  \n– Merged name variants so duplicates didn’t inflate scores (e.g., “Prince Street Pizza,” “Prince St.” → one entry)  \n– Added small sentiment tweaks so passionate recommendations ranked above casual mentions\n\nCurious what locals think and would love to get your feedback! ",
+    "ancestors": [],
+    "author": "PsychologicalAir213",
+    "body": "L’industrie is NOT the best pizza, it’s just in the West Village and trendy. I used to work across the street and I couldn’t believe that people stood in that long ass line every day when Village Square is literally next door. Even Mama’s Too around the corner is better. I stg I see more people taking pictures of L’industrie pizza than actually eating it.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "L’industrie",
+     "named_in": "comment",
+     "location": "West Village",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "negative",
+      "wait": "negative"
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "pizza",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "notes": [
+      {
+       "about": "hype",
+       "text": "trendy, people photograph the pizza more than eat it",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "line",
+       "text": "long line every day, worked across the street",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Village Square",
+     "named_in": "comment",
+     "location": "next door to L’industrie in the West Village",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "notes": [
+      {
+       "about": "no line",
+       "text": "no long line, unlike L’industrie next door",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Mama's Too",
+     "named_in": "comment",
+     "location": "around the corner from L’industrie",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "better than L’industrie",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0189",
+   "comment_id": "t1_oldge8t",
+   "model_view": "POST TITLE: I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?\n\nCOMMENT: Mangia's is really good",
+   "context": {
+    "title": "I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "tadu1261",
+    "body": "Mangia's is really good",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mangia's",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "chicken salad sandwich",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0190",
+   "comment_id": "t1_owlc9ce",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nCOMMENT: From a quality/price perspective you cant beat them with the VIP membership.  I just did the exact same walk up and shock.  Tried pickup at the new 42nd st “food hall” and it was a disaster and sh!t show.  I canceled my membership and them refund my pressed cash balance",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [],
+    "author": "mgianfal",
+    "body": "From a quality/price perspective you cant beat them with the VIP membership.  I just did the exact same walk up and shock.  Tried pickup at the new 42nd st “food hall” and it was a disaster and sh!t show.  I canceled my membership and them refund my pressed cash balance",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Pressed Juicery",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "neutral",
+     "aspects": {
+      "taste": "positive",
+      "value": "positive",
+      "service": "negative",
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "juice bar",
+      "membership"
+     ],
+     "notes": [
+      {
+       "about": "VIP membership",
+       "text": "VIP membership is hard to beat on quality and price",
+       "level": "positive",
+       "dish": null
+      },
+      {
+       "about": "42nd St food hall pickup",
+       "text": "pickup at the new 42nd St food hall location was a disaster",
+       "level": "very_negative",
+       "dish": null
+      },
+      {
+       "about": "membership",
+       "text": "canceled membership and got pressed cash balance refunded",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0191",
+   "comment_id": "t1_o3p6axy",
+   "model_view": "POST TITLE: Noona's Ice Cream\n\nPOST BODY: Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasic ...\n\nPARENT COMMENT: Honestly, for this price point the best ice cream I've ever had in NYC is still Ice Cream made with Raw Buffalo Milk, Cream, Maple Syrup, Honey, Egg Yolks, and Celtic Sea Salt.\n\nCOMMENT: Curious … where was that?",
+   "context": {
+    "title": "Noona's Ice Cream",
+    "selftext": "Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)",
+    "ancestors": [
+     {
+      "author": "johnbobby",
+      "body": "Honestly, for this price point the best ice cream I've ever had in NYC is still Ice Cream made with Raw Buffalo Milk, Cream, Maple Syrup, Honey, Egg Yolks, and Celtic Sea Salt."
+     }
+    ],
+    "author": "Spiritual_Option4465",
+    "body": " Curious … where was that?",
+    "replies": [
+     {
+      "author": "johnbobby",
+      "body": "Online order via Uddermilk"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0192",
+   "comment_id": "t1_ooomg70",
+   "model_view": "POST TITLE: Where can we get mie gorang? Preferably in Brooklyn.\n\nPOST BODY: Looking for this specific Indonesian dish, but also welcome Indonesian recs in general!\n\nCOMMENT: The Indonesian bazaar at Masjid al-Hikmah, in Astoria, returns this Sunday (rescheduled from a rainy day last weekend). It's outdoors, in the parking lot behind the mosque, once a month during warmer weather, and definitely worthwhile even if you don't find your specific dish.",
+   "context": {
+    "title": "Where can we get mie gorang? Preferably in Brooklyn.",
+    "selftext": "Looking for this specific Indonesian dish, but also welcome Indonesian recs in general! ",
+    "ancestors": [],
+    "author": "EatingInTranslation",
+    "body": "The Indonesian bazaar at Masjid al-Hikmah, in Astoria, returns this Sunday (rescheduled from a rainy day last weekend). It's outdoors, in the parking lot behind the mosque, once a month during warmer weather, and definitely worthwhile even if you don't find your specific dish.",
+    "replies": [
+     {
+      "author": "cathaysia",
+      "body": "Great rec!! Thank you so much! "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Indonesian bazaar at Masjid al-Hikmah",
+     "named_in": "comment",
+     "location": "Astoria, in the parking lot behind the mosque",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "indonesian",
+      "bazaar",
+      "outdoor",
+      "pop-up"
+     ],
+     "notes": [
+      {
+       "about": "schedule",
+       "text": "monthly, warmer weather only; returns this Sunday after a rainy-day reschedule",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "worth a visit",
+       "text": "worthwhile even if you don't find your specific dish",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0193",
+   "comment_id": "t1_o430eg1",
+   "model_view": "POST TITLE: Noona's Ice Cream\n\nPOST BODY: Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasic ...\n\nPARENT COMMENT: Curious … where was that?\n\nCOMMENT: Online order via Uddermilk",
+   "context": {
+    "title": "Noona's Ice Cream",
+    "selftext": "Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)",
+    "ancestors": [
+     {
+      "author": "johnbobby",
+      "body": "Honestly, for this price point the best ice cream I've ever had in NYC is still Ice Cream made with Raw Buffalo Milk, Cream, Maple Syrup, Honey, Egg Yolks, and Celtic Sea Salt."
+     },
+     {
+      "author": "Spiritual_Option4465",
+      "body": " Curious … where was that?"
+     }
+    ],
+    "author": "johnbobby",
+    "body": "Online order via Uddermilk",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Noona's Ice Cream",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "ice cream",
+      "online order"
+     ],
+     "notes": [
+      {
+       "about": "ordering",
+       "text": "ordered online via Uddermilk",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0194",
+   "comment_id": "t1_or4qg3r",
+   "model_view": "POST TITLE: Urgently Need this Mexican Restaurant Vibe!!!!!!!!!!!\n\nPOST BODY: I’m looking for a VERY SPECIFIC type of Mexican restaurant that’s common in suburban west coast towns but which I’ve never encountered in NYC.\n\nIt needs:  \n\\- Complimentary chips and salsa on the table  \n\\- Margaritas on the menu  \nMOST IMPORTANT!!!!!  \n\\- When you order a meal, it comes with on a huge platter of rice and beans!!!!!!!\n\nI will travel to any borough for this!!!!\n\nCOMMENT: There’s a Dominican/Mexican on Essex - El Nuevo Amanecer - not amazing but fun.",
+   "context": {
+    "title": "Urgently Need this Mexican Restaurant Vibe!!!!!!!!!!!",
+    "selftext": "I’m looking for a VERY SPECIFIC type of Mexican restaurant that’s common in suburban west coast towns but which I’ve never encountered in NYC.\n\nIt needs:  \n\\- Complimentary chips and salsa on the table  \n\\- Margaritas on the menu  \nMOST IMPORTANT!!!!!  \n\\- When you order a meal, it comes with on a huge platter of rice and beans!!!!!!!\n\nI will travel to any borough for this!!!!",
+    "ancestors": [],
+    "author": "ToothSuccessful5898",
+    "body": "There’s a Dominican/Mexican on Essex - El Nuevo Amanecer - not amazing but fun.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "El Nuevo Amanecer",
+     "named_in": "comment",
+     "location": "on Essex",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "neutral",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "dominican",
+      "mexican"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0195",
+   "comment_id": "t1_pbt8i4z",
+   "model_view": "POST TITLE: These AI slop menus need to end. I’m getting really sick of seeing them all over the city.\n\nCOMMENT: Truly disgusting",
+   "context": {
+    "title": "These AI slop menus need to end. I’m getting really sick of seeing them all over the city.",
+    "selftext": "",
+    "ancestors": [],
+    "author": "herseyhawkins33",
+    "body": "Truly disgusting ",
+    "replies": [
+     {
+      "author": "thats-gold-jerry",
+      "body": "The horror…"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0196",
+   "comment_id": "t1_oi4jwc1",
+   "model_view": "POST TITLE: Waited too long to make a reservation at Keen's, looking for a steakhouse rec around the East Village\n\nPOST BODY: My wife and I love Keen's, but don't want to risk not finding a table for our anniversary. Looking for a spot in the East Village, Bowery, etc. Preferably a steakhouse, doesn't have to be a traditional experience. What's your favorite spot?\n\nPARENT COMMENT: A server at the fancy Daniel boulud steakhouse in nomad recommended this place to our table last year! Haven’t been there but am curious about it.\n\nCOMMENT: It’s not classic NYC (or major city) steakhouse experience but super casual and high quality. Hard to compare with Keens overall vibe but for meat heads it’s great.",
+   "context": {
+    "title": "Waited too long to make a reservation at Keen's, looking for a steakhouse rec around the East Village",
+    "selftext": "My wife and I love Keen's, but don't want to risk not finding a table for our anniversary. Looking for a spot in the East Village, Bowery, etc. Preferably a steakhouse, doesn't have to be a traditional experience. What's your favorite spot?",
+    "ancestors": [
+     {
+      "author": "creddit-check",
+      "body": "Buenos Aires if actually in East Village - way more casual than Keens but cool experience "
+     },
+     {
+      "author": "NewRazzmatazz2455",
+      "body": "A server at the fancy Daniel boulud steakhouse in nomad recommended this place to our table last year! Haven’t been there but am curious about it. "
+     }
+    ],
+    "author": "creddit-check",
+    "body": "It’s not classic NYC (or major city) steakhouse experience but super casual and high quality. Hard to compare with Keens overall vibe but for meat heads it’s great. ",
+    "replies": [
+     {
+      "author": "datcookietho",
+      "body": "I think this place is fine to go to (I thought it was just okay) but probably not the best option for anniversary dinner. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Keens",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "steakhouse"
+     ],
+     "notes": [
+      {
+       "about": "vibe comparison",
+       "text": "vibe is hard to compare with the place being recommended, which is more casual",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0197",
+   "comment_id": "t1_paar0f1",
+   "model_view": "POST TITLE: Court Street Grocers sister restaurant opening in Williamsburg\n\nPOST BODY: The space has been vacant for a little while after Mekelburg’s closed earlier in the year. It’s a massive space on S3rd and Kent right across from Domino Park. Any ideas what they’re doing with it? I would love a spinoff of S&P!\n\nPARENT COMMENT: It couldn’t make in our post beer-craze world. We didn’t know how good we had it with those $16 dollar sandwiches.\n\nCOMMENT: i knew how good we had it i was there weekly and i miss it so much. should have never leaned in to the delivery food stuff as much as they did",
+   "context": {
+    "title": "Court Street Grocers sister restaurant opening in Williamsburg",
+    "selftext": "The space has been vacant for a little while after Mekelburg’s closed earlier in the year. It’s a massive space on S3rd and Kent right across from Domino Park. Any ideas what they’re doing with it? I would love a spinoff of S&P!",
+    "ancestors": [
+     {
+      "author": "Salty_Simmer_Sauce",
+      "body": "Man I miss Mekelburgs (Clinton Hill location) "
+     },
+     {
+      "author": "geneticswag",
+      "body": "It couldn’t make in our post beer-craze world. We didn’t know how good we had it with those $16 dollar sandwiches. "
+     }
+    ],
+    "author": "timetosucktodaysdick",
+    "body": "i knew how good we had it i was there weekly and i miss it so much. should have never leaned in to the delivery food stuff as much as they did",
+    "replies": [
+     {
+      "author": "geneticswag",
+      "body": "You have the menu and your autonomy. If you built legos you can make craft sandwiches with AI."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Mekelburg's",
+     "named_in": "context",
+     "location": "S3rd and Kent, across from Domino Park",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "past",
+     "trend": "declined",
+     "status": "closed",
+     "tags": [],
+     "notes": [
+      {
+       "about": "closing reason",
+       "text": "leaned too heavily into delivery food, which the commenter blames for its closing",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "regular visits",
+       "text": "commenter went weekly and misses it",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0198",
+   "comment_id": "t1_o2ekx7n",
+   "model_view": "POST TITLE: Weightloss veg orders in NYC\n\nPOST BODY: I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens.\n\nCOMMENT: You can set your exact macros at matter in noho",
+   "context": {
+    "title": "Weightloss veg orders in NYC",
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "ancestors": [],
+    "author": "Ok_Relationship7992",
+    "body": "You can set your exact macros at matter in noho",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "matter in noho",
+     "named_in": "comment",
+     "location": "NoHo",
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "build your own",
+      "macros",
+      "healthy"
+     ],
+     "notes": [
+      {
+       "about": "macro customization",
+       "text": "can set exact macros",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0199",
+   "comment_id": "t1_o71cmkz",
+   "model_view": "POST TITLE: Blizzard doesn’t stop the classic NY BEC\n\nPARENT COMMENT: A bagel is the only acceptable replacement for the Kaiser roll.\n\nCOMMENT: Bagel is the single worst vehicle for a BEC. There is nothing worse.",
+   "context": {
+    "title": "Blizzard doesn’t stop the classic NY BEC",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Eviana27",
+      "body": "Eating mine right now on an everything bagel it’s DELISH 🤤"
+     },
+     {
+      "author": "PhotonDealer2067",
+      "body": "A bagel is the only acceptable replacement for the Kaiser roll."
+     }
+    ],
+    "author": "Reasonable_Dealer869",
+    "body": "Bagel is the single worst vehicle for a BEC. There is nothing worse.",
+    "replies": [
+     {
+      "author": "QUINNFLORE",
+      "body": "it’s great if you want the whole sandwich to squeeze out the back and onto your plate"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0200",
+   "comment_id": "t1_p2ys5to",
+   "model_view": "POST TITLE: Eleven Madison Park, Lunch.  Menu, drinks, and a game.\n\nPOST BODY: I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\nCOMMENT: How much? Looks amaze",
+   "context": {
+    "title": "Eleven Madison Park, Lunch.  Menu, drinks, and a game.",
+    "selftext": "I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\n",
+    "ancestors": [],
+    "author": "lala_loopsy01",
+    "body": "How much? Looks amaze ",
+    "replies": [
+     {
+      "author": "annahhhnimous",
+      "body": "Amaze! Amaze! Amaze!"
+     }
+    ]
+   },
+   "shown": []
+  }
+ ]
+}

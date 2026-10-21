@@ -1,0 +1,1227 @@
+{
+ "packet": "p024",
+ "items": [
+  {
+   "item_id": "R0576",
+   "comment_id": "t1_oacgsiu",
+   "model_view": "<post_title>ISO: massive frozen margarita</post_title>\n<post_body>I’m from socal and am in desperate need of a massive margarita with endless chips and salsa. I’ve attached a picture of the vibe I’m in search of below. Lower manhattan recs would be best (LES, EV, WV, SoHo, etc). Thank you so much 🧎‍♀️</post_body>\n<thread_above>\n[1] another user: RIP blockheads\n</thread_above>\n<comment_to_extract>\nI was just reminiscing. Best bar to drink outside at when you couldn’t legally drink.\n</comment_to_extract>",
+   "context": {
+    "title": "ISO: massive frozen margarita",
+    "selftext": "I’m from socal and am in desperate need of a massive margarita with endless chips and salsa. I’ve attached a picture of the vibe I’m in search of below. Lower manhattan recs would be best (LES, EV, WV, SoHo, etc). Thank you so much 🧎‍♀️",
+    "ancestors": [
+     {
+      "author": "alicehatesthis",
+      "body": "RIP blockheads"
+     }
+    ],
+    "author": "ironypoisonedposter",
+    "body": "I was just reminiscing. Best bar to drink outside at when you couldn’t legally drink.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Blockheads",
+     "named_in": "context",
+     "kind": "bar",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "past visits",
+       "text": "Commenter reminisces about drinking outside there when underage"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "price": null,
+     "tags": [
+      "outdoor drinking",
+      "bar"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0577",
+   "comment_id": "t1_obhcwcx",
+   "model_view": "<post_title>red hook tavern dinner walk in - how early would I have to be to get a seat?</post_title>\n<post_body>I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?</post_body>\n<comment_to_extract>\nIf you have the ability to do so, go on a Thursday for lunch. The menu is the same and when I showed up at 2pm, I was seated immediately.\n</comment_to_extract>",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [],
+    "author": "DoritosDewItRight",
+    "body": "If you have the ability to do so, go on a Thursday for lunch. The menu is the same and when I showed up at 2pm, I was seated immediately.",
+    "replies": [
+     {
+      "author": "lucas_214",
+      "body": "We’ve decided to go for lunch today"
+     },
+     {
+      "author": "ObviousMonk9753",
+      "body": "Menu is slightly different for lunch. The burger is there. But missing arguably the best dish, the smoked pork chop! "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "red hook tavern",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Red Hook",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "best time",
+       "text": "Thursday lunch at 2pm, seated immediately; menu is the same as dinner"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "positive"
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "lunch",
+      "walk-in"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0578",
+   "comment_id": "t1_lc0d2yt",
+   "model_view": "<post_title>What's your most controvertial nyc food scene opinion?</post_title>\n<post_body>Laserwolf would be a fraction as successful without the view.</post_body>\n<thread_above>\n[1] another user: I have been to L’Industrie at least 3 times and genuinely have not understood the hype. I took some visiting friends around to different famous pizza spots and they were also not impressed by L’Industrie. I genuinely don’t know if I’m ordering the wrong slices or what.\n</thread_above>\n<comment_to_extract>\nDid you get the burrata slice with hot honey? It’s the only reason i go - absolute 10/10\n</comment_to_extract>",
+   "context": {
+    "title": "What's your most controvertial nyc food scene opinion?",
+    "selftext": "Laserwolf would be a fraction as successful without the view.",
+    "ancestors": [
+     {
+      "author": "CactusBoyScout",
+      "body": "I have been to L’Industrie at least 3 times and genuinely have not understood the hype. I took some visiting friends around to different famous pizza spots and they were also not impressed by L’Industrie. \n\nI genuinely don’t know if I’m ordering the wrong slices or what."
+     }
+    ],
+    "author": "gol_azizam",
+    "body": "Did you get the burrata slice with hot honey? It’s the only reason i go - absolute 10/10",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "L'Industrie",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "burrata slice with hot honey",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "reason to go",
+       "text": "the burrata slice with hot honey is the only reason the commenter goes"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0579",
+   "comment_id": "t1_oe25n6l",
+   "model_view": "<post_title>Best place for buying coffee beans</post_title>\n<post_body>Hey all!! Wondering if anyone has any recommendations for good places to buy high quality coffee beans and places with fun selections! They can be coffee shops, but I just want the beans themselves for making my own pour over coffee. Thanks!</post_body>\n<thread_above>\n[1] another user: Somehow, no one has mentioned Devocion. They are phenomenal.\n[2] OP: Do you know if they would grind the beans for me in shop?\n[3] another user: not point in buying expensive beans if you're not grinding fresh. you can buy a hand grinder if you have to\n</thread_above>\n<comment_to_extract>\n+1 to this. Coffee stays fresher longer and you can adjust the grinds to dial your coffee. There are many high quality hand grinders to choose from.\n</comment_to_extract>",
+   "context": {
+    "title": "Best place for buying coffee beans",
+    "selftext": "Hey all!! Wondering if anyone has any recommendations for good places to buy high quality coffee beans and places with fun selections! They can be coffee shops, but I just want the beans themselves for making my own pour over coffee. Thanks!",
+    "ancestors": [
+     {
+      "author": "Busy-Cantaloupe7900",
+      "body": "Somehow, no one has mentioned Devocion. They are phenomenal. "
+     },
+     {
+      "author": "SpaceBass18",
+      "body": "Do you know if they would grind the beans for me in shop?"
+     },
+     {
+      "author": "Relevant-Energy-1304",
+      "body": "not point in buying expensive beans if you're not grinding fresh. you can buy a hand grinder if you have to"
+     }
+    ],
+    "author": "justflipping",
+    "body": "+1 to this. Coffee stays fresher longer and you can adjust the grinds to dial your coffee. There are many high quality hand grinders to choose from.",
+    "replies": [
+     {
+      "author": "SpaceBass18",
+      "body": "Gotcha thank you very much for the information"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0580",
+   "comment_id": "t1_ovcpbvp",
+   "model_view": "<post_title>Why would anyone trust Dave Portnoy about pizza? He's from MA</post_title>\n<post_body>Pizza lovers and connoisseurs, I have an important question: no shade to Massachusetts, I have plenty of homies there, but as a New Yorker, it boggles my mind that ANYONE would trust a non-NYer about pizza. Again, I have no issue with MA as a state, but with respect, the pizza is terrible there (just as it is pretty much anywhere in the US outside of the tri-state area). NJ I could possibly accept, even Connecticut maybe, but some random dude from Massachusetts? Get out of here</post_body>\n<comment_to_extract>\nFunny thing is, I don’t\n</comment_to_extract>",
+   "context": {
+    "title": "Why would anyone trust Dave Portnoy about pizza? He's from MA",
+    "selftext": "Pizza lovers and connoisseurs, I have an important question: no shade to Massachusetts, I have plenty of homies there, but as a New Yorker, it boggles my mind that ANYONE would trust a non-NYer about pizza. Again, I have no issue with MA as a state, but with respect, the pizza is terrible there (just as it is pretty much anywhere in the US outside of the tri-state area). NJ I could possibly accept, even Connecticut maybe, but some random dude from Massachusetts? Get out of here",
+    "ancestors": [],
+    "author": "2_late_4_creativity",
+    "body": "Funny thing is, I don’t",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0581",
+   "comment_id": "t1_p7lw7nf",
+   "model_view": "<post_title>Finally went to 4 Charles: Im appalled. Anyone else?</post_title>\n<post_body>Finally made it to 4 Charles last night. Girlfriend could not go so I was dining solo. Now.. the food really was phenomenal, but I was literally put on a gurney and carted out of the restaurant. I am so embarrassed and need to know who else had this experience??\n\nStarted out with the King Crab. I went with the 3/4lb because the missus wasn't there. Ugh this was great but just felt like a bit much. \n\nNext, was trying to keep it light so I did the Smoked Salmon Caesar. This was really a highlight.. that smoked salmon is so good. \n\nObviously, its 4 Charles so I had to do the prime rib. I couldn't decide between doing the roast or sandwich - so I did both. One King Cut and One Sandwich. And you know I also got the burger.. had to do bacon and an egg. Simply put: delectable. \n\nAfter I put this down though I was already started to feel a little full. Weird, but whatever..\n\nI followed this up with 2 sides of the bacon because it was just so good. And then for dessert? Lemon Meringue Pie & the Sundae. I just couldn't decide! \n\nPost dessert I was looking over the menu when it hit me, I was really full. Like, really really full. I almost felt sick. I couldn't even get up! I paid my check and ...</post_body>\n<comment_to_extract>\njust one more....wa-fer.....\n</comment_to_extract>",
+   "context": {
+    "title": "Finally went to 4 Charles: Im appalled. Anyone else?",
+    "selftext": "Finally made it to 4 Charles last night. Girlfriend could not go so I was dining solo. Now.. the food really was phenomenal, but I was literally put on a gurney and carted out of the restaurant. I am so embarrassed and need to know who else had this experience??\n\nStarted out with the King Crab. I went with the 3/4lb because the missus wasn't there. Ugh this was great but just felt like a bit much. \n\nNext, was trying to keep it light so I did the Smoked Salmon Caesar. This was really a highlight.. that smoked salmon is so good. \n\nObviously, its 4 Charles so I had to do the prime rib. I couldn't decide between doing the roast or sandwich - so I did both. One King Cut and One Sandwich. And you know I also got the burger.. had to do bacon and an egg. Simply put: delectable. \n\nAfter I put this down though I was already started to feel a little full. Weird, but whatever..\n\nI followed this up with 2 sides of the bacon because it was just so good. And then for dessert? Lemon Meringue Pie & the Sundae. I just couldn't decide! \n\nPost dessert I was looking over the menu when it hit me, I was really full. Like, really really full. I almost felt sick. I couldn't even get up! I paid my check and discreetly told the waiters about my problem and they brought a gurney out of the back and carted me out!! I could not believe it. \n\nObviously other people must have experienced something like this before?? I cannot believe how heavy their food is. Like.. it is just too rich or something. Why is it so popular when you literally can't walk after eating?? \n\n",
+    "ancestors": [],
+    "author": "eventfieldvibration",
+    "body": "just one more....wa-fer.....",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0582",
+   "comment_id": "t1_p1j5f2c",
+   "model_view": "<post_title>Upper Manhattan highlights? Specifically Washington Heights</post_title>\n<post_body>Please give me any and all recommendations for food in Washington Heights and upper Manhattan. TY!</post_body>\n<thread_above>\n[1] another user: Malecon for Dominican food. Would recommend their roast chicken, mofongo, and asopado de pollo. If you're going to include Inwood, as in another post, there's a place oddly called Unique Fusion which does delicious Thai food.\n[2] another user: Came here to say Malecón! That chicken is SO good!\n</thread_above>\n<comment_to_extract>\nGet extra green sauce.\n</comment_to_extract>",
+   "context": {
+    "title": "Upper Manhattan highlights? Specifically Washington Heights",
+    "selftext": "Please give me any and all recommendations for food in Washington Heights and upper Manhattan. TY!",
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "Malecon for Dominican food. Would recommend their roast chicken, mofongo, and asopado de pollo. If you're going to include Inwood, as in another post, there's a place oddly called Unique Fusion which does delicious Thai food."
+     },
+     {
+      "author": "justmytoocents",
+      "body": "Came here to say Malecón! That chicken is SO good! "
+     }
+    ],
+    "author": "QuietPea3984",
+    "body": "Get extra green sauce.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Malecón",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "green sauce tip",
+       "text": "Commenter advises asking for extra green sauce, a tip about the place's food with no verdict"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "dominican"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0583",
+   "comment_id": "t1_oomq531",
+   "model_view": "<post_title>Where can we get mie gorang? Preferably in Brooklyn.</post_title>\n<post_body>Looking for this specific Indonesian dish, but also welcome Indonesian recs in general!</post_body>\n<thread_above>\n[1] another user: Java in Park Slope\n</thread_above>\n<comment_to_extract>\nI was so excited to try this place and we ordered delivery and it sucked\n</comment_to_extract>",
+   "context": {
+    "title": "Where can we get mie gorang? Preferably in Brooklyn.",
+    "selftext": "Looking for this specific Indonesian dish, but also welcome Indonesian recs in general! ",
+    "ancestors": [
+     {
+      "author": "justflipping",
+      "body": "Java in Park Slope"
+     }
+    ],
+    "author": "zzzzany",
+    "body": "I was so excited to try this place and we ordered delivery and it sucked",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Java",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "Park Slope",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "delivery",
+       "text": "Ordered delivery, and the experience was poor"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "indonesian",
+      "delivery"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0584",
+   "comment_id": "t1_oe2p5eo",
+   "model_view": "<post_title>Had lunch at Red Hook Tavern, had to try their Tavern Burger</post_title>\n<post_body>A nice Brooklyn spot with a great dry-aged burger.</post_body>\n<comment_to_extract>\nAs a defender and lover of this burger and establishment, I will say first of all, don’t wait in line. Nothing in nyc is worth a line. Get a reservation at off peak hours. No wait times, go straight to a table. Ignore everyone else focus on the food. \n\nIt is the best burger in nyc currently. It is admittedly inspired by chef Durney’s memories of the Peter Luger burger as a kid it even uses buns from the same bakery, and Minetta Tavern’s use of dry aged steak. It’s an evolution and homage to both made by chefs who cook countless a day but still nail it.\n\nThe magic is they added hanger steak. The mix is the umami funk of dry age with the minerality of hanger steak is what sets it apart. If you know why a cheaper cut of meat close the kidneys is one of the best tastes in the world then you’ll get it. It’s insanely juicy, and it’s all about the taste of the meat. It’s not overseasoned to point of wiping out that beef taste. Yes it has American cheese and onion, that’s part of the point. The onion is protecting the bottom bun. No sauces, it’s all about that burger. \n\nYou should order it as is, I ordered it medium once to see what it would do to texture and they did cook it perfectly but it wasn’t as juicy and satisfying. \n\nThe cottage fries are fine you don’t need a ton to go with that giant burger, JG Mellon style. I don’t think they’re from Sysco as someone alleges they’re too specific and unique. The pickle is terrific. Eat the burger over the fries and let the juices drip on them. Also the ham and cheese croquettes and salads are awesome. The kale one is way underrated over the wedge with bacon everyone orders.\n</comment_to_extract>",
+   "context": {
+    "title": "Had lunch at Red Hook Tavern, had to try their Tavern Burger",
+    "selftext": "A nice Brooklyn spot with a great dry-aged burger. ",
+    "ancestors": [],
+    "author": "DenyNothing1989",
+    "body": "As a defender and lover of this burger and establishment, I will say first of all, don’t wait in line. Nothing in nyc is worth a line. Get a reservation at off peak hours. No wait times, go straight to a table. Ignore everyone else focus on the food. \n\nIt is the best burger in nyc currently. It is admittedly inspired by chef Durney’s memories of the Peter Luger burger as a kid it even uses buns from the same bakery, and Minetta Tavern’s use of dry aged steak. It’s an evolution and homage to both made by chefs who cook countless a day but still nail it.\n\nThe magic is they added hanger steak. The mix is the umami funk of dry age with the minerality of hanger steak is what sets it apart. If you know why a cheaper cut of meat close the kidneys is one of the best tastes in the world then you’ll get it. It’s insanely juicy, and it’s all about the taste of the meat. It’s not overseasoned to point of wiping out that beef taste. Yes it has American cheese and onion, that’s part of the point. The onion is protecting the bottom bun. No sauces, it’s all about that burger. \n\nYou should order it as is, I ordered it medium once to see what it would do to texture and they did cook it perfectly but it wasn’t as juicy and satisfying. \n\nThe cottage fries are fine you don’t need a ton to go with that giant burger, JG Mellon style. I don’t think they’re from Sysco as someone alleges they’re too specific and unique. The pickle is terrific. Eat the burger over the fries and let the juices drip on them. Also the ham and cheese croquettes and salads are awesome. The kale one is way underrated over the wedge with bacon everyone orders. \n",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Red Hook Tavern",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Red Hook, Brooklyn",
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "Tavern Burger",
+       "level": "very_positive",
+       "avoid": false
+      },
+      {
+       "dish": "cottage fries",
+       "level": "neutral",
+       "avoid": false
+      },
+      {
+       "dish": "pickle",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "ham and cheese croquettes",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "kale salad",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "wedge salad with bacon",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "wait",
+       "text": "Don't wait in line; get a reservation at off-peak hours or go straight to a table"
+      },
+      {
+       "about": "ordering",
+       "text": "Order the burger as is; medium cooked perfectly but less juicy"
+      },
+      {
+       "about": "burger build",
+       "text": "Dry-aged beef with hanger steak, American cheese and onion, no sauces; onion protects the bottom bun"
+      },
+      {
+       "about": "inspiration",
+       "text": "Inspired by Peter Luger burger and Minetta Tavern dry-aged steak; uses same bakery buns as Peter Luger"
+      },
+      {
+       "about": "fries",
+       "text": "Cottage fries are fine; you don't need many with the burger; eat burger over fries to let juices drip on them"
+      },
+      {
+       "about": "sourcing",
+       "text": "Commenter doubts the fries come from Sysco"
+      },
+      {
+       "about": "kale salad",
+       "text": "Kale salad underrated compared to the wedge everyone orders"
+      }
+     ],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "burger",
+      "dry-aged",
+      "brooklyn",
+      "lunch"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0585",
+   "comment_id": "t1_li20km2",
+   "model_view": "<post_title>Rehearsal Dinner Help! Venue cancelled with barely a month left...</post_title>\n<comment_to_extract>\nTake the money you were going to spend on it and donate it to charity.\n</comment_to_extract>",
+   "context": {
+    "title": "Rehearsal Dinner Help! Venue cancelled with barely a month left...",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Cans_of_Fire",
+    "body": "Take the money you were going to spend on it and donate it to charity.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0586",
+   "comment_id": "t1_l1azrve",
+   "model_view": "<post_title>What are some unpopular opinions you have about NYC cuisine?</post_title>\n<post_body>With me, one of mine is that I *like* NYC/East Coast style chow mein. The type you get from Americanized Chinese restaurants, not actual chow mein.\n\nIf you search online and even on Reddit, you'll see people question and complain about why they get a weird vegetable mix whenever they ask for \"chow mein\". A lot of Chinese restaurants in NYC sell chop suey under the name \"chow mein\".\n\nChop suey looks gross, but it's pretty yummy and healthy. It's just a mix of vegetables (mainly cabbage) after all. White rice+plain chow mein+wonton noodles is one of my go-to vegetarian friendly takeouts.</post_body>\n<thread_above>\n[1] another user: NYC does other regional US food terribly\n[2] another user: Generally i agree, but i think NYC BBQ is underrated. Hometown especially is as good or better than places I’ve been down south. I think NYC steakhouses are mediocre because they’re so beholden to tradition, that’s what southern BBQ feels to me. I’m sure there’s innovation and people doing neat stuff, but I’d take Hometown over Franklin’s in Austin any day.\n</thread_above>\n<comment_to_extract>\nHometown can’t hold a candle to… Salt Lick or even Rudy’s BBQ. Sorry, but NYC BBQ is laughably overpriced- we don’t have to have access to everything everywhere… BBQ just isn’t good in NYC… I think it has to do more with their access to quality lean meat (so hard to get) and they need more space /smokers for these  methods.\n</comment_to_extract>",
+   "context": {
+    "title": "What are some unpopular opinions you have about NYC cuisine?",
+    "selftext": "With me, one of mine is that I *like* NYC/East Coast style chow mein. The type you get from Americanized Chinese restaurants, not actual chow mein.\n\nIf you search online and even on Reddit, you'll see people question and complain about why they get a weird vegetable mix whenever they ask for \"chow mein\". A lot of Chinese restaurants in NYC sell chop suey under the name \"chow mein\".\n\nChop suey looks gross, but it's pretty yummy and healthy. It's just a mix of vegetables (mainly cabbage) after all. White rice+plain chow mein+wonton noodles is one of my go-to vegetarian friendly takeouts.",
+    "ancestors": [
+     {
+      "author": "BortSampson89",
+      "body": "NYC does other regional US food terribly "
+     },
+     {
+      "author": "NKR1978",
+      "body": "Generally i agree, but i think NYC BBQ is underrated. Hometown especially is as good or better than places I’ve been down south. \n\nI think NYC steakhouses are mediocre because they’re so beholden to tradition, that’s what southern BBQ feels to me. I’m sure there’s innovation and people doing neat stuff, but I’d take Hometown over Franklin’s in Austin any day."
+     }
+    ],
+    "author": "No_Conversation_7120",
+    "body": "Hometown can’t hold a candle to… Salt Lick or even Rudy’s BBQ. Sorry, but NYC BBQ is laughably overpriced- we don’t have to have access to everything everywhere… BBQ just isn’t good in NYC… I think it has to do more with their access to quality lean meat (so hard to get) and they need more space /smokers for these  methods.",
+    "replies": [
+     {
+      "author": "Marduk112",
+      "body": "It’s expensive in Texas too and unless you are Hank Hill, you only really eat it less than a handful of times a year because the meat sweats are no way to live."
+     },
+     {
+      "author": "Chimkimnuggets",
+      "body": "The best BBQ in NYC is like the worst Edley’s in Nashville but that Edley’s is still better."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Hometown",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Says Hometown can't hold a candle to Salt Lick or Rudy's BBQ (both in Texas)"
+      },
+      {
+       "about": "NYC BBQ",
+       "text": "Blames NYC BBQ's quality on limited access to lean meat and too little smoker space"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bbq"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0587",
+   "comment_id": "t1_ourw1b5",
+   "model_view": "<post_title>Where is the best french toast in midtown (or brunch overall)?</post_title>\n<post_body>When my friends and I go to the city in a few months I know they want either a great brunch or diner. Since I'm the one in charge of research, I'm going out of my way to look for a good french toast.\n\n  \nAs a side note, is the Tick Tock Diner overrated?</post_body>\n<comment_to_extract>\nIf you're willing to branch out from the typical brunch spots, I'd honestly recommend Mangia. They have the best French toast I've ever had, and I'm pretty picky about French toast.\n\nEverything there is genuinely delicious and the quality is excellent. You can either order hot food from the chef or grab items from the self-serve section. The cool thing is that even the self-serve food is made by professional chefs- Mangia is actually a high-end catering company first, and during the week they open their kitchens to the public as a food spot.\n\nThey have a few locations around Midtown/Manhattan (I think 3–4), so it's usually pretty convenient too. It's one of those places I don't think gets recommended enough.\n</comment_to_extract>",
+   "context": {
+    "title": "Where is the best french toast in midtown (or brunch overall)?",
+    "selftext": "When my friends and I go to the city in a few months I know they want either a great brunch or diner. Since I'm the one in charge of research, I'm going out of my way to look for a good french toast.\n\n  \nAs a side note, is the Tick Tock Diner overrated?",
+    "ancestors": [],
+    "author": "Leather-Yard-5183",
+    "body": "If you're willing to branch out from the typical brunch spots, I'd honestly recommend Mangia. They have the best French toast I've ever had, and I'm pretty picky about French toast.\n\nEverything there is genuinely delicious and the quality is excellent. You can either order hot food from the chef or grab items from the self-serve section. The cool thing is that even the self-serve food is made by professional chefs- Mangia is actually a high-end catering company first, and during the week they open their kitchens to the public as a food spot.\n\nThey have a few locations around Midtown/Manhattan (I think 3–4), so it's usually pretty convenient too. It's one of those places I don't think gets recommended enough.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mangia",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Midtown/Manhattan, a few locations (about 3-4)",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "French toast",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "locations",
+       "text": "A few locations around Midtown/Manhattan, about 3-4, convenient"
+      },
+      {
+       "about": "format",
+       "text": "Hot food ordered from the chef or self-serve section; food made by professional chefs; high-end catering company that opens its kitchens to the public on weekdays"
+      }
+     ],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "brunch",
+      "catering",
+      "self-serve",
+      "French toast"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0588",
+   "comment_id": "t1_ozyeh95",
+   "model_view": "<post_title author=\"you\">Solid day of eats @ Mama’s Too & Red Gate Bakery 🍕 🍪</post_title>\n<post_body author=\"you\">Had no plans on this beautiful Saturday, so treated myself to a very large lunch 😅 \n\nMama’s Too in WV - house slice, bruschetta, and vodka chicken sandwich. Arrived around 12:30 and in total, it was 20-30 minutes from stepping in line to getting my food. It would have been faster, but they were waiting for a new house pie to be put out. I must say, it was worth the short wait. The bruschetta was my favorite of the three. \n\nRed Gate Bakery in EV - choco toffee cookie. One of my favorite chocolate chip cookies in the city. Waited in line about 15 min total, so not bad. I wanted the corn cake, but apparently they sold out within the first hour of the day so I was no where near close to achieving that goal. \n\nNot pictured - the juice I got after my morning run, and the ice cream I got at the end of the day 😋\n\nOverall a strong day of eats. 10/10. I love a solo day of walking around and eating</post_body>\n<thread_above>\n[1] another user: $25 for a chicken sandwich was a disappointment, solid house slice though.\n</thread_above>\n<comment_to_extract>\nDefinitely pricy, but it was very good. Still need to try their cheesesteak!\n</comment_to_extract>",
+   "context": {
+    "title": "Solid day of eats @ Mama’s Too & Red Gate Bakery 🍕 🍪",
+    "selftext": "Had no plans on this beautiful Saturday, so treated myself to a very large lunch 😅 \n\nMama’s Too in WV - house slice, bruschetta, and vodka chicken sandwich. Arrived around 12:30 and in total, it was 20-30 minutes from stepping in line to getting my food. It would have been faster, but they were waiting for a new house pie to be put out. I must say, it was worth the short wait. The bruschetta was my favorite of the three. \n\nRed Gate Bakery in EV - choco toffee cookie. One of my favorite chocolate chip cookies in the city. Waited in line about 15 min total, so not bad. I wanted the corn cake, but apparently they sold out within the first hour of the day so I was no where near close to achieving that goal. \n\nNot pictured - the juice I got after my morning run, and the ice cream I got at the end of the day 😋\n\nOverall a strong day of eats. 10/10. I love a solo day of walking around and eating ",
+    "ancestors": [
+     {
+      "author": "Impressive_Youth_331",
+      "body": "$25 for a chicken sandwich was a disappointment, solid house slice though. "
+     }
+    ],
+    "author": "ssnd13",
+    "body": "Definitely pricy, but it was very good. Still need to try their cheesesteak! ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": "West Village",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "vodka chicken sandwich",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "cheesesteak",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "untried",
+       "text": "Commenter still needs to try the cheesesteak"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": "expensive",
+     "tags": [
+      "slice shop",
+      "sandwiches"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0589",
+   "comment_id": "t1_mjgunf2",
+   "model_view": "<post_title>At Ceres Pizza — when the fuck did this become okay???</post_title>\n<thread_above>\n[1] another user: Curious if people who dislike dogs in restaurants are also against bodega cats? I mean the dogs are contained by their owners. The cats roam freely and bodegas also usually sell prepared food. Is there a difference? I’ve never seen a post complaining about bodega cats 🤷‍♀️\n[2] you, earlier: You either get bodega cats or bodega mice & rats. Your choice!\n[3] another user: I love bodega cats. But at the end of the day it’s pretty much the same as this little dog in a pizza shop in the picture above 🤷‍♀️\n[4] you, earlier: Not really. The cats are there to deter rodents. They’re live-in pest control, they’re employees. That dog is just visiting and hanging out.\n[5] another user: People in the comments seem to be worried about dander and cleanliness of an animal. These could easily apply to a bodega cat too. If this dog were catching mice, would they feel better about them hanging around the restaurant? If anything, a dog that hangs out for 30 mins exposes people to way less germs than would a cat that lives there all day every day. Just saying\n</thread_above>\n<comment_to_extract>\nPeople in the comments also say they don’t care about service dogs. Working animals are fine. \n\nBut if you want to get all transplant-like and try to take down NYC icons like bodega cats just because someone’s designer poodle hybrid shouldn’t sit at a restaurant then… I guess go off?\n</comment_to_extract>",
+   "context": {
+    "title": "At Ceres Pizza — when the fuck did this become okay???",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "PrincessGwyn",
+      "body": "Curious if people who dislike dogs in restaurants are also against bodega cats? I mean the dogs are contained by their owners. The cats roam freely and bodegas also usually sell prepared food. Is there a difference? I’ve never seen a post complaining about bodega cats 🤷‍♀️"
+     },
+     {
+      "author": "m1kasa4ckerman",
+      "body": "You either get bodega cats or bodega mice & rats. Your choice!"
+     },
+     {
+      "author": "PrincessGwyn",
+      "body": "I love bodega cats. But at the end of the day it’s pretty much the same as this little dog in a pizza shop in the picture above 🤷‍♀️"
+     },
+     {
+      "author": "m1kasa4ckerman",
+      "body": "Not really. The cats are there to deter rodents. They’re live-in pest control, they’re employees. That dog is just visiting and hanging out."
+     },
+     {
+      "author": "lawlgyroscopes",
+      "body": "People in the comments seem to be worried about dander and cleanliness of an animal. These could easily apply to a bodega cat too. If this dog were catching mice, would they feel better about them hanging around the restaurant? If anything, a dog that hangs out for 30 mins exposes people to way less germs than would a cat that lives there all day every day. Just saying"
+     }
+    ],
+    "author": "m1kasa4ckerman",
+    "body": "People in the comments also say they don’t care about service dogs. Working animals are fine. \n\nBut if you want to get all transplant-like and try to take down NYC icons like bodega cats just because someone’s designer poodle hybrid shouldn’t sit at a restaurant then… I guess go off?",
+    "replies": [
+     {
+      "author": "lawlgyroscopes",
+      "body": "I was asking the functional difference between two different types of animals in a space with food. U didn't rly answer the question. I'm all for bodega cats! And I also dgaf about dogs in a restaurant (well behaved dogs, that is)"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0590",
+   "comment_id": "t1_ooko90w",
+   "model_view": "<post_title>Looking for another omakase spot like Sushi Yasuda</post_title>\n<post_body>Hi all,\n\nSushi Yasuda is probably my favorite special occasion spot. I like that the omakase is not obscenely expensive, the quality of the fish is top level, and most importantly - you are not rushed and can even continue to order pieces after your planned set is done. The recent-ish fad of quick-fire omakase spots that cover everything in truffle oil and blowtorch half the pieces is not for me (though I can appreciate that it makes elitist food more accessible for everyone and I like that). \n\nIs there any other spot I can consider for a once-a-year type of special occasion meal in the same price range ($150-200 base price)?</post_body>\n<comment_to_extract>\nSushi by M - has expanded to 3 locations, but have been going multiple times a year for the last 5 years, and has never disappointed.\n\nIt’s not the highest end omakase, but it’s $100 for their 16 piece omakase. The sushi chef usually offers a few free shots of their house sake, and it’s quite casual. Great value and a great entry to mid level omakase.\n</comment_to_extract>",
+   "context": {
+    "title": "Looking for another omakase spot like Sushi Yasuda",
+    "selftext": "Hi all,\n\nSushi Yasuda is probably my favorite special occasion spot. I like that the omakase is not obscenely expensive, the quality of the fish is top level, and most importantly - you are not rushed and can even continue to order pieces after your planned set is done. The recent-ish fad of quick-fire omakase spots that cover everything in truffle oil and blowtorch half the pieces is not for me (though I can appreciate that it makes elitist food more accessible for everyone and I like that). \n\nIs there any other spot I can consider for a once-a-year type of special occasion meal in the same price range ($150-200 base price)?",
+    "ancestors": [],
+    "author": "ProfessionalHand8455",
+    "body": "Sushi by M - has expanded to 3 locations, but have been going multiple times a year for the last 5 years, and has never disappointed.\n\nIt’s not the highest end omakase, but it’s $100 for their 16 piece omakase. The sushi chef usually offers a few free shots of their house sake, and it’s quite casual. Great value and a great entry to mid level omakase. ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sushi by M",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "16 piece omakase",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "$100 for the 16 piece omakase"
+      },
+      {
+       "about": "locations",
+       "text": "expanded to 3 locations"
+      },
+      {
+       "about": "visits",
+       "text": "visited multiple times a year for the last 5 years"
+      },
+      {
+       "about": "perk",
+       "text": "chef usually offers a few free shots of house sake"
+      },
+      {
+       "about": "style",
+       "text": "not the highest end omakase, quite casual, a good entry to mid level omakase"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "positive",
+      "service": "positive",
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "omakase",
+      "sushi",
+      "casual"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0591",
+   "comment_id": "t1_owywwpe",
+   "model_view": "<post_title>Another Pressed Juicery location bites the dust...</post_title>\n<post_body>I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.</post_body>\n<comment_to_extract>\nThe natural food market opening up there took the space. And the pressed wasn’t getting enough foot traffic even on 14th street.. which is saying something\n</comment_to_extract>",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [],
+    "author": "nycerinldn",
+    "body": "The natural food market opening up there took the space. And the pressed wasn’t getting enough foot traffic even on 14th street.. which is saying something ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Pressed",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": "14th Street",
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "branch closed",
+       "text": "The 14th Street branch closed; a natural food market took the space"
+      },
+      {
+       "about": "foot traffic",
+       "text": "Commenter says the location didn't get enough foot traffic even on 14th Street"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "juice"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0592",
+   "comment_id": "t1_j2lea0d",
+   "model_view": "<post_title>Steakhouses suggestions for Valentine's Day</post_title>\n<post_body>Looking to book my reservation for Valentine's Day and thinking of doing a steakhouse. Was looking for a place that has a nice atmosphere for a couple, great steaks and if possible, a porterhouse steak made for 2 people.</post_body>\n<comment_to_extract>\nNot a steakhouse by standard measure but Ci Siamo has good atmosphere, great drinks and the bistecca alla fiorentina is amazing\n</comment_to_extract>",
+   "context": {
+    "title": "Steakhouses suggestions for Valentine's Day",
+    "selftext": "Looking to book my reservation for Valentine's Day and thinking of doing a steakhouse. Was looking for a place that has a nice atmosphere for a couple, great steaks and if possible, a porterhouse steak made for 2 people.",
+    "ancestors": [],
+    "author": "Garconavecunreve",
+    "body": "Not a steakhouse by standard measure but Ci Siamo has good atmosphere, great drinks and the bistecca alla fiorentina is amazing",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Ci Siamo",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bistecca alla fiorentina",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "not a steakhouse",
+       "text": "commenter says it is not a steakhouse by standard measure"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian",
+      "steak"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0593",
+   "comment_id": "t1_omzxv6c",
+   "model_view": "<post_title>Trying to decide if Carbone is worth it for lunch?</post_title>\n<post_body>I snagged a lunch reservation for Carbone and I’m trying to decide if it lives up to its hype. It would be taking a tween during a vacation. We would be dressed nice but casual (think dark jean, sweater (this weekend is cold) and Nikes. \n\nWould our attire be alright?\n\nUltimately, is it worth the hype?</post_body>\n<thread_above>\n[1] another user: Take them to parm same menu for the pasta & more casual\n[2] you, earlier: The last 2 times I went to parm it was lousy. It wasn't slightly off. It was very bad. Service, quality both bad. Chicken was totally over cooked.\n[3] another user: Yeah sounds like carbone at a 1/4 of the price - parm is the OG\n[4] another user: parm at palm is the OG\n</thread_above>\n<comment_to_extract>\nI haven't had  their parm in years.....but I remember it being very good.\n</comment_to_extract>",
+   "context": {
+    "title": "Trying to decide if Carbone is worth it for lunch?",
+    "selftext": "I snagged a lunch reservation for Carbone and I’m trying to decide if it lives up to its hype. It would be taking a tween during a vacation. We would be dressed nice but casual (think dark jean, sweater (this weekend is cold) and Nikes. \n\nWould our attire be alright?\n\nUltimately, is it worth the hype? ",
+    "ancestors": [
+     {
+      "author": "Grand-Economist5066",
+      "body": "Take them to parm same menu for the pasta & more casual "
+     },
+     {
+      "author": "Jog212",
+      "body": "The last 2 times I went to parm it was lousy.   It wasn't slightly off.  It was very bad.   Service, quality both bad.   Chicken was totally over cooked. "
+     },
+     {
+      "author": "Grand-Economist5066",
+      "body": "Yeah sounds like carbone at a 1/4 of the price - parm is the OG "
+     },
+     {
+      "author": "Waste_Tangerine_179",
+      "body": "parm at palm is the OG"
+     }
+    ],
+    "author": "Jog212",
+    "body": "I haven't had  their parm in years.....but I remember it being very good.  ",
+    "replies": [
+     {
+      "author": "Waste_Tangerine_179",
+      "body": "one of the best parms around after volare closed 😞"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "parm",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "parm",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "time since visit",
+       "text": "Hasn't had their parm in years; remembers it being very good."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "italian-american"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0594",
+   "comment_id": "t1_i6z1st0",
+   "model_view": "<post_title>Help please! MUST HAVE Food in NYC</post_title>\n<post_body>I’m taking my wife to a Broadway show for our 1 year wedding anniversary and we are staying a few days in the city. I found this sub in hopes that y’all can make this an awesome experience for her. I would like to find out:\n\n-A few places we HAVE to eat while we’re in NYC. (Best pizza, Asian cuisine, hotdog stands, etc.)\n-Things to do on the day of the show while on Broadway.\n- Other fun things to do in NYC!\n\nWe want to get tickets to another show, and we are just looking for some fun things to do on our trip! Thanks in advance!</post_body>\n<comment_to_extract>\nR u familiar with the search function\n</comment_to_extract>",
+   "context": {
+    "title": "Help please! MUST HAVE Food in NYC",
+    "selftext": "I’m taking my wife to a Broadway show for our 1 year wedding anniversary and we are staying a few days in the city. I found this sub in hopes that y’all can make this an awesome experience for her. I would like to find out:\n\n-A few places we HAVE to eat while we’re in NYC. (Best pizza, Asian cuisine, hotdog stands, etc.)\n-Things to do on the day of the show while on Broadway.\n- Other fun things to do in NYC!\n\nWe want to get tickets to another show, and we are just looking for some fun things to do on our trip! Thanks in advance!",
+    "ancestors": [],
+    "author": "gjggbbbhgvbnjhhgvv",
+    "body": "R u familiar with the search function",
+    "replies": [
+     {
+      "author": "nasatrainer",
+      "body": "Hi, looking for best $0.99 slice in NYC. My only criteria is that it has to be real cheese."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0595",
+   "comment_id": "t1_p6b7wr9",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<comment_to_extract>\nThose lines are brutal\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "further-research",
+    "body": "Those lines are brutal ",
+    "replies": [
+     {
+      "author": "RumPunchKid",
+      "body": "Weekdays 12-2 is the best time to go"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0596",
+   "comment_id": "t1_opczj0l",
+   "model_view": "<post_title>My thoughts on The Corner Store - hard ass reservation not worth it</post_title>\n<post_body>One of NYCs hardest reservations - worth it? Nope. I found all the food to be average average, but nothing great. \n\nLobster bites were the best part of the meal, but the lobster overpowers the caviar on top. Caesar salad was good, but not at the top of my recent NYC rankings. Dip sandwich was good, but not better than 4 Charles or Salt Hanks even. I got the sour cream and onion martini, which was okay. But my recent visit to The 86 shows the 86 is better in every way. I do think Or’Esh will be better. \n\nI got this reservation from an app called Snag. Not an ad, but I do recommend it for those who will ask how I got the reservation. \n\nhttps://www.instagram.com/thecornerstore?igsh=bWxuc3dpY3Nlamh2</post_body>\n<comment_to_extract>\nHonestly, it’s not that great and definitely not worth the long line + reservation hassle\n</comment_to_extract>",
+   "context": {
+    "title": "My thoughts on The Corner Store - hard ass reservation not worth it",
+    "selftext": "One of NYCs hardest reservations - worth it? Nope. I found all the food to be average average, but nothing great. \n\nLobster bites were the best part of the meal, but the lobster overpowers the caviar on top. Caesar salad was good, but not at the top of my recent NYC rankings. Dip sandwich was good, but not better than 4 Charles or Salt Hanks even. I got the sour cream and onion martini, which was okay. But my recent visit to The 86 shows the 86 is better in every way. I do think Or’Esh will be better. \n\nI got this reservation from an app called Snag. Not an ad, but I do recommend it for those who will ask how I got the reservation. \n\nhttps://www.instagram.com/thecornerstore?igsh=bWxuc3dpY3Nlamh2",
+    "ancestors": [],
+    "author": "Apprehensive_Pay8120",
+    "body": "Honestly, it’s not that great and definitely not worth the long line + reservation hassle ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "The Corner Store",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "reservation hassle",
+       "text": "hard-to-get reservation and a long line"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0597",
+   "comment_id": "t1_j7a8w7v",
+   "model_view": "<post_title>I plan on seeing NY through pizza.</post_title>\n<post_body>1. John's\n2. Di Fara\n3. Scarr's\n4. Emmy Squared\n5. Emily\n6. Patsy's\n7. Newpark\n8. Rubirosa\n9. Rizzo's\n10. Lombardi's\n11. L & B Spumoni\n12. Prince Street\n13. Bleecker Street\n14. Roberta's\n15. Joe's\n16. Artichoke\n17. Emmett's\n18. Lucali\n19. Julian's\n20. Grimaldi's\n21. Sauce\n22. Totonno's \n23. Sac's Place\n24. Keste\n25. Umberto's\n26. Fazio's\n27. Ignazio's\n28. Williamsburg\n29. Joe & Pat's\n30. Denino's\n31. Rose's\n32. Rosie's\n33. Nick's\n34. Sorrento's\n35. Rose & Joe's\n36. Luigi's\n37. Pelham \n\nAny I should add/omit?</post_body>\n<thread_above>\n[1] another user: L’industrie might be the best in the city and didn’t even make the list lol. Also Best Pizza in WB is excellent and about a 7 min walk from Lindustrie\n</thread_above>\n<comment_to_extract>\nI got a slice from L’Industrie recently and was not impressed whatsoever. Cannot believe how many people hail it as the city’s best. It’s not bad obviously, but out of all the notorious spots I’ve had here, it’s by far the biggest let down\n</comment_to_extract>",
+   "context": {
+    "title": "I plan on seeing NY through pizza.",
+    "selftext": "1. John's\n2. Di Fara\n3. Scarr's\n4. Emmy Squared\n5. Emily\n6. Patsy's\n7. Newpark\n8. Rubirosa\n9. Rizzo's\n10. Lombardi's\n11. L & B Spumoni\n12. Prince Street\n13. Bleecker Street\n14. Roberta's\n15. Joe's\n16. Artichoke\n17. Emmett's\n18. Lucali\n19. Julian's\n20. Grimaldi's\n21. Sauce\n22. Totonno's \n23. Sac's Place\n24. Keste\n25. Umberto's\n26. Fazio's\n27. Ignazio's\n28. Williamsburg\n29. Joe & Pat's\n30. Denino's\n31. Rose's\n32. Rosie's\n33. Nick's\n34. Sorrento's\n35. Rose & Joe's\n36. Luigi's\n37. Pelham \n\nAny I should add/omit?",
+    "ancestors": [
+     {
+      "author": "kissmyash24",
+      "body": "L’industrie might be the best in the city and didn’t even make the list lol. Also Best Pizza in WB is excellent and about a 7 min walk from Lindustrie"
+     }
+    ],
+    "author": "Khal-Stevo",
+    "body": "I got a slice from L’Industrie recently and was not impressed whatsoever. Cannot believe how many people hail it as the city’s best. It’s not bad obviously, but out of all the notorious spots I’ve had here, it’s by far the biggest let down",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "L’Industrie",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "slice",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "hype",
+       "text": "Widely called the city's best; commenter disagrees and calls it a big letdown among notorious spots"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "slice shop"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0598",
+   "comment_id": "t1_obc8zv8",
+   "model_view": "<post_title>Carbone</post_title>\n<post_body>can someone level with me and tell me honestly if Carbone is worth the hype? i feel like i have to go just to say i tried it, but i’m trying to manage my expectations</post_body>\n<thread_above>\n[1] another user: Carbone was definitely subject to some annoying internet hype a decade ago, but the pendulum has swung way too far in the other direction. Especially since it lost its star. It's become this subreddit's favorite punching bag. The truth is...the food, service, and ambiance are pretty good. I'd wager ...\n[2] another user: Yeah I mean come on, Bourdain loved their food. Mario even admits Rich is a much better chef than he is, and Torrisi is definitely a notch above. Some incredible nyc chefs all did their time there. But if you accept Carbone and its food for what it is, it’s fantastic and a great NYC theatrical dining experience. I think a problem is everyone orders the same few things instead of trying out some hidden gems on the menu. The Chicken Scarpariello blows away Don Angie’s deconstructed, dehydrated version of the dish. It’s such a better restaurant than Don Angie in every way, but you don’t get the same reactionary posts about that place. ‘Major food group’ and their investment in Dorsia is so not my thing but I will admit they make good food and their restaurants stand out and are memorable. And it’s just not true that their food is the same at Parm. I eat Parm regularly and it’s satisfying but it’s no way got the same quality and prep time and care as the dishes at Carbone. The off menu chicken parm at Carbone is a whole other level than Parm’s. And so is the vodka rigatoni. It just doesn’t have the same single portion beautifully smooth emulsified sauce. Also the when it’s busy is way louder than Carbone. Go to Carbone at lest once it’s not that hard to get a reservation. Have fun with the hilarious menu and the excellent waitstaff the jabroni guests in hilarious outfits and order something other than the veal parm, rigatoni, and Caesar salad.\n</thread_above>\n<comment_to_extract>\nMario is not a Chef. Rich is. \nSource: I worked for Mario at Carbone for a year.\n</comment_to_extract>",
+   "context": {
+    "title": "Carbone",
+    "selftext": "can someone level with me and tell me honestly if Carbone is worth the hype? i feel like i have to go just to say i tried it, but i’m trying to manage my expectations",
+    "ancestors": [
+     {
+      "author": "AvatarofBro",
+      "body": "Carbone was definitely subject to some annoying internet hype a decade ago, but the pendulum has swung way too far in the other direction. Especially since it lost its star. It's become this subreddit's favorite punching bag. The truth is...the food, service, and ambiance are pretty good. I'd wager you will have a nice time if you go."
+     },
+     {
+      "author": "DenyNothing1989",
+      "body": "Yeah I mean come on, Bourdain loved their food. Mario even admits Rich is a much better chef than he is, and Torrisi is definitely a notch above. Some incredible nyc chefs all did their time there. But if you accept Carbone and its food for what it is, it’s fantastic and a great NYC theatrical dining experience. I think a problem is everyone orders the same few things instead of trying out some hidden gems on the menu. The Chicken Scarpariello blows away Don Angie’s deconstructed, dehydrated version of the dish. It’s such a better restaurant than Don Angie in every way, but you don’t get the same reactionary posts about that place. ‘Major food group’ and their investment in Dorsia is so not my thing but I will admit they make good food and their restaurants stand out and are memorable. \n\nAnd it’s just not true that their food is the same at Parm. I eat Parm regularly and it’s satisfying but it’s no way got the same quality and prep time and care as the dishes at Carbone. The off menu chicken parm at Carbone is a whole other level than Parm’s. And so is the vodka rigatoni. It just doesn’t have the same single portion beautifully smooth emulsified sauce. Also the when it’s busy is way louder than Carbone. \n\nGo to Carbone at lest once it’s not that hard to get a reservation. Have fun with the hilarious menu and the excellent waitstaff the jabroni guests in hilarious outfits and order something other than the veal parm, rigatoni, and Caesar salad."
+     }
+    ],
+    "author": "Personal-Gur-7355",
+    "body": "Mario is not a Chef. Rich is. \nSource: I worked for Mario at Carbone for a year. ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0599",
+   "comment_id": "t1_nx5jd1n",
+   "model_view": "<post_title>Visiting from a small town with very little cuisine diversity. What to try?</post_title>\n<post_body>I'm so excited to visit at the end of January (mostly will be in Manhattan, staying near midtown but obviously can travel around) for 5 days and can't wait to try new ethnic foods that I don't normally have access to. My small, semi rural town has enough Mexican, Italian, Thai, Greek, Japanese, Peruvian, and standard American fare of course, but very little else. The only minor hitch is I can't handle too much spicy, but mild is okay. I don't even know where to start to look, since I'm sure there are cuisines I've never had or heard of. Open to a variety of budgets as well, I'll have plenty of time to try a range of price tiers. Thank you so much!\n\n[](https://www.reddit.com/submit/?source_id=t3_1q1cjef)</post_body>\n<comment_to_extract>\nKorean!!!!  Lunch is a good deal in Korea town.  bCD tofu house is fun.  Yes to dim sum.  Yes to ethiopian, yes to georgian cheese boat.  Prefer Saperavi over Chama Mama.  Try south indian dosa with chutneys.  Try lebanese?  Try vietnamese pho.  Malaysian.  Filipino.  Have a great time!\n</comment_to_extract>",
+   "context": {
+    "title": "Visiting from a small town with very little cuisine diversity. What to try?",
+    "selftext": "I'm so excited to visit at the end of January (mostly will be in Manhattan, staying near midtown but obviously can travel around) for 5 days and can't wait to try new ethnic foods that I don't normally have access to. My small, semi rural town has enough Mexican, Italian, Thai, Greek, Japanese, Peruvian, and standard American fare of course, but very little else. The only minor hitch is I can't handle too much spicy, but mild is okay. I don't even know where to start to look, since I'm sure there are cuisines I've never had or heard of. Open to a variety of budgets as well, I'll have plenty of time to try a range of price tiers. Thank you so much!\n\n[](https://www.reddit.com/submit/?source_id=t3_1q1cjef)",
+    "ancestors": [],
+    "author": "HomeboddE",
+    "body": "Korean!!!!  Lunch is a good deal in Korea town.  bCD tofu house is fun.  Yes to dim sum.  Yes to ethiopian, yes to georgian cheese boat.  Prefer Saperavi over Chama Mama.  Try south indian dosa with chutneys.  Try lebanese?  Try vietnamese pho.  Malaysian.  Filipino.  Have a great time!",
+    "replies": [
+     {
+      "author": "Hot-Special-4236",
+      "body": "Woorijip is like a prepared foods Korean spot on 32nd between 5th and 6th that is worth a stop"
+     },
+     {
+      "author": "wildblueberry9",
+      "body": "Georgians I know don't care for Chama Mama. I've been to Chama Mama a couple of times. I think it's just OK, not great. Chama Mama probably has a great PR team. In the city, I prefer Oda House. I've heard great things about Lalikko. Will definitely add Saperavi to my list!"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "bCD tofu house",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "tip",
+       "text": "Recommended as fun; Koreatown lunch deal mentioned generally"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "korean",
+      "tofu house"
+     ]
+    },
+    {
+     "name": "Chama Mama",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Commenter prefers Saperavi over Chama Mama"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "georgian"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0600",
+   "comment_id": "t1_lxdpncy",
+   "model_view": "<post_title>The only booth at the holiday markets that I need. Yes it's tourist-priced and no I don't care</post_title>\n<thread_above>\n[1] another user: Our cats are obsessed with the catnip candy cane plushies from the cat toy vendor in Union Square. It's also tourist prices but they still go crazy over them.\n</thread_above>\n<comment_to_extract>\nThat's remarkable! You got any other tidbits about yourself that are totally unrelated to the post you'd like to share?\n</comment_to_extract>",
+   "context": {
+    "title": "The only booth at the holiday markets that I need. Yes it's tourist-priced and no I don't care",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "donut_butt",
+      "body": "Our cats are obsessed with the catnip candy cane plushies from the cat toy vendor in Union Square.\n\nIt's also tourist prices but they still go crazy over them."
+     }
+    ],
+    "author": "ThatFakeAirplane",
+    "body": "That's remarkable! You got any other tidbits about yourself that are totally unrelated to the post you'd like to share?",
+    "replies": []
+   },
+   "shown": []
+  }
+ ]
+}

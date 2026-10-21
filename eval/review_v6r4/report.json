@@ -1,0 +1,1477 @@
+{
+ "judged_items": 1327,
+ "judged_expected": 1327,
+ "problems": [],
+ "auto_resolved": {
+  "r600-med": 367,
+  "hard-med": 36,
+  "fresh-med": 190
+ },
+ "missing_outputs": 0,
+ "by_source": {
+  "fresh-low": {
+   "items": 300,
+   "item_ok_rate": 0.634,
+   "mention_recall": 0.891,
+   "mention_precision": 0.974,
+   "negative_recall": 0.818,
+   "final_mentions": 294,
+   "final_negative_mentions": 44,
+   "field_accuracy": {
+    "overall": {
+     "acc": 0.912,
+     "n": 260
+    },
+    "aspects.taste": {
+     "acc": 0.828,
+     "n": 262
+    },
+    "aspects.value": {
+     "acc": 0.985,
+     "n": 262
+    },
+    "aspects.service": {
+     "acc": 0.992,
+     "n": 262
+    },
+    "aspects.atmosphere": {
+     "acc": 0.958,
+     "n": 262
+    },
+    "aspects.wait": {
+     "acc": 0.985,
+     "n": 262
+    },
+    "experience": {
+     "acc": 0.926,
+     "n": 257
+    },
+    "opinion": {
+     "acc": 0.893,
+     "n": 262
+    },
+    "avoid": {
+     "acc": 1.0,
+     "n": 262
+    },
+    "timeframe": {
+     "acc": 0.996,
+     "n": 262
+    },
+    "trend": {
+     "acc": 0.996,
+     "n": 262
+    },
+    "status": {
+     "acc": 1.0,
+     "n": 262
+    },
+    "price": {
+     "acc": 0.996,
+     "n": 262
+    },
+    "dishes": {
+     "acc": 0.661,
+     "n": 118
+    }
+   }
+  },
+  "fresh-med": {
+   "items": 300,
+   "item_ok_rate": 0.791,
+   "mention_recall": 0.935,
+   "mention_precision": 0.972,
+   "negative_recall": 0.884,
+   "final_mentions": 292,
+   "final_negative_mentions": 43,
+   "field_accuracy": {
+    "overall": {
+     "acc": 0.937,
+     "n": 270
+    },
+    "aspects.taste": {
+     "acc": 0.938,
+     "n": 273
+    },
+    "aspects.value": {
+     "acc": 0.985,
+     "n": 273
+    },
+    "aspects.service": {
+     "acc": 0.989,
+     "n": 273
+    },
+    "aspects.atmosphere": {
+     "acc": 0.967,
+     "n": 273
+    },
+    "aspects.wait": {
+     "acc": 0.996,
+     "n": 273
+    },
+    "experience": {
+     "acc": 0.944,
+     "n": 267
+    },
+    "opinion": {
+     "acc": 0.93,
+     "n": 273
+    },
+    "avoid": {
+     "acc": 1.0,
+     "n": 273
+    },
+    "timeframe": {
+     "acc": 0.993,
+     "n": 273
+    },
+    "trend": {
+     "acc": 0.996,
+     "n": 273
+    },
+    "status": {
+     "acc": 1.0,
+     "n": 273
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 273
+    },
+    "dishes": {
+     "acc": 0.807,
+     "n": 119
+    }
+   }
+  },
+  "hard-low": {
+   "items": 60,
+   "item_ok_rate": 0.627,
+   "mention_recall": 0.883,
+   "mention_precision": 0.968,
+   "negative_recall": 0.708,
+   "final_mentions": 103,
+   "final_negative_mentions": 24,
+   "field_accuracy": {
+    "overall": {
+     "acc": 0.893,
+     "n": 84
+    },
+    "aspects.taste": {
+     "acc": 0.89,
+     "n": 91
+    },
+    "aspects.value": {
+     "acc": 0.989,
+     "n": 91
+    },
+    "aspects.service": {
+     "acc": 0.989,
+     "n": 91
+    },
+    "aspects.atmosphere": {
+     "acc": 1.0,
+     "n": 91
+    },
+    "aspects.wait": {
+     "acc": 0.978,
+     "n": 91
+    },
+    "experience": {
+     "acc": 0.91,
+     "n": 89
+    },
+    "opinion": {
+     "acc": 0.857,
+     "n": 91
+    },
+    "avoid": {
+     "acc": 0.978,
+     "n": 91
+    },
+    "timeframe": {
+     "acc": 1.0,
+     "n": 91
+    },
+    "trend": {
+     "acc": 1.0,
+     "n": 91
+    },
+    "status": {
+     "acc": 0.989,
+     "n": 91
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 91
+    },
+    "dishes": {
+     "acc": 0.71,
+     "n": 31
+    }
+   }
+  },
+  "hard-med": {
+   "items": 60,
+   "item_ok_rate": 0.686,
+   "mention_recall": 0.913,
+   "mention_precision": 0.979,
+   "negative_recall": 0.833,
+   "final_mentions": 103,
+   "final_negative_mentions": 24,
+   "field_accuracy": {
+    "overall": {
+     "acc": 0.943,
+     "n": 88
+    },
+    "aspects.taste": {
+     "acc": 0.894,
+     "n": 94
+    },
+    "aspects.value": {
+     "acc": 1.0,
+     "n": 94
+    },
+    "aspects.service": {
+     "acc": 1.0,
+     "n": 94
+    },
+    "aspects.atmosphere": {
+     "acc": 1.0,
+     "n": 94
+    },
+    "aspects.wait": {
+     "acc": 0.947,
+     "n": 94
+    },
+    "experience": {
+     "acc": 0.946,
+     "n": 93
+    },
+    "opinion": {
+     "acc": 0.904,
+     "n": 94
+    },
+    "avoid": {
+     "acc": 0.979,
+     "n": 94
+    },
+    "timeframe": {
+     "acc": 1.0,
+     "n": 94
+    },
+    "trend": {
+     "acc": 1.0,
+     "n": 94
+    },
+    "status": {
+     "acc": 0.989,
+     "n": 94
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 94
+    },
+    "dishes": {
+     "acc": 0.656,
+     "n": 32
+    }
+   }
+  },
+  "r600-low": {
+   "items": 600,
+   "item_ok_rate": 0.637,
+   "mention_recall": 0.916,
+   "mention_precision": 0.987,
+   "negative_recall": 0.873,
+   "final_mentions": 729,
+   "final_negative_mentions": 157,
+   "field_accuracy": {
+    "overall": {
+     "acc": 0.921,
+     "n": 657
+    },
+    "aspects.taste": {
+     "acc": 0.849,
+     "n": 668
+    },
+    "aspects.value": {
+     "acc": 0.984,
+     "n": 668
+    },
+    "aspects.service": {
+     "acc": 0.993,
+     "n": 668
+    },
+    "aspects.atmosphere": {
+     "acc": 0.99,
+     "n": 668
+    },
+    "aspects.wait": {
+     "acc": 0.964,
+     "n": 668
+    },
+    "experience": {
+     "acc": 0.934,
+     "n": 655
+    },
+    "opinion": {
+     "acc": 0.916,
+     "n": 668
+    },
+    "avoid": {
+     "acc": 0.994,
+     "n": 668
+    },
+    "timeframe": {
+     "acc": 0.982,
+     "n": 668
+    },
+    "trend": {
+     "acc": 0.994,
+     "n": 668
+    },
+    "status": {
+     "acc": 0.991,
+     "n": 668
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 668
+    },
+    "dishes": {
+     "acc": 0.701,
+     "n": 401
+    }
+   }
+  },
+  "r600-med": {
+   "items": 600,
+   "item_ok_rate": 0.753,
+   "mention_recall": 0.961,
+   "mention_precision": 0.981,
+   "negative_recall": 0.918,
+   "final_mentions": 739,
+   "final_negative_mentions": 159,
+   "field_accuracy": {
+    "overall": {
+     "acc": 0.935,
+     "n": 697
+    },
+    "aspects.taste": {
+     "acc": 0.918,
+     "n": 710
+    },
+    "aspects.value": {
+     "acc": 0.989,
+     "n": 710
+    },
+    "aspects.service": {
+     "acc": 0.993,
+     "n": 710
+    },
+    "aspects.atmosphere": {
+     "acc": 0.994,
+     "n": 710
+    },
+    "aspects.wait": {
+     "acc": 0.977,
+     "n": 710
+    },
+    "experience": {
+     "acc": 0.963,
+     "n": 696
+    },
+    "opinion": {
+     "acc": 0.945,
+     "n": 710
+    },
+    "avoid": {
+     "acc": 0.992,
+     "n": 710
+    },
+    "timeframe": {
+     "acc": 0.987,
+     "n": 710
+    },
+    "trend": {
+     "acc": 0.996,
+     "n": 710
+    },
+    "status": {
+     "acc": 0.994,
+     "n": 710
+    },
+    "price": {
+     "acc": 0.999,
+     "n": 710
+    },
+    "dishes": {
+     "acc": 0.82,
+     "n": 406
+    }
+   }
+  }
+ },
+ "by_source_with_validators": {
+  "fresh-low": {
+   "items": 300,
+   "item_ok_rate": 0.666,
+   "mention_recall": 0.891,
+   "mention_precision": 0.974,
+   "negative_recall": 0.818,
+   "final_mentions": 294,
+   "final_negative_mentions": 44,
+   "field_accuracy": {
+    "overall": {
+     "acc": 0.923,
+     "n": 260
+    },
+    "aspects.taste": {
+     "acc": 0.832,
+     "n": 262
+    },
+    "aspects.value": {
+     "acc": 0.985,
+     "n": 262
+    },
+    "aspects.service": {
+     "acc": 0.992,
+     "n": 262
+    },
+    "aspects.atmosphere": {
+     "acc": 0.962,
+     "n": 262
+    },
+    "aspects.wait": {
+     "acc": 0.985,
+     "n": 262
+    },
+    "experience": {
+     "acc": 0.942,
+     "n": 257
+    },
+    "opinion": {
+     "acc": 0.893,
+     "n": 262
+    },
+    "avoid": {
+     "acc": 1.0,
+     "n": 262
+    },
+    "timeframe": {
+     "acc": 0.996,
+     "n": 262
+    },
+    "trend": {
+     "acc": 0.996,
+     "n": 262
+    },
+    "status": {
+     "acc": 1.0,
+     "n": 262
+    },
+    "price": {
+     "acc": 0.996,
+     "n": 262
+    },
+    "dishes": {
+     "acc": 0.661,
+     "n": 118
+    }
+   }
+  },
+  "fresh-med": {
+   "items": 300,
+   "item_ok_rate": 0.787,
+   "mention_recall": 0.935,
+   "mention_precision": 0.972,
+   "negative_recall": 0.884,
+   "final_mentions": 292,
+   "final_negative_mentions": 43,
+   "field_accuracy": {
+    "overall": {
+     "acc": 0.926,
+     "n": 270
+    },
+    "aspects.taste": {
+     "acc": 0.934,
+     "n": 273
+    },
+    "aspects.value": {
+     "acc": 0.985,
+     "n": 273
+    },
+    "aspects.service": {
+     "acc": 0.989,
+     "n": 273
+    },
+    "aspects.atmosphere": {
+     "acc": 0.967,
+     "n": 273
+    },
+    "aspects.wait": {
+     "acc": 0.996,
+     "n": 273
+    },
+    "experience": {
+     "acc": 0.944,
+     "n": 267
+    },
+    "opinion": {
+     "acc": 0.93,
+     "n": 273
+    },
+    "avoid": {
+     "acc": 1.0,
+     "n": 273
+    },
+    "timeframe": {
+     "acc": 0.993,
+     "n": 273
+    },
+    "trend": {
+     "acc": 0.996,
+     "n": 273
+    },
+    "status": {
+     "acc": 1.0,
+     "n": 273
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 273
+    },
+    "dishes": {
+     "acc": 0.798,
+     "n": 119
+    }
+   }
+  },
+  "hard-low": {
+   "items": 60,
+   "item_ok_rate": 0.627,
+   "mention_recall": 0.883,
+   "mention_precision": 0.968,
+   "negative_recall": 0.708,
+   "final_mentions": 103,
+   "final_negative_mentions": 24,
+   "field_accuracy": {
+    "overall": {
+     "acc": 0.893,
+     "n": 84
+    },
+    "aspects.taste": {
+     "acc": 0.89,
+     "n": 91
+    },
+    "aspects.value": {
+     "acc": 1.0,
+     "n": 91
+    },
+    "aspects.service": {
+     "acc": 0.989,
+     "n": 91
+    },
+    "aspects.atmosphere": {
+     "acc": 1.0,
+     "n": 91
+    },
+    "aspects.wait": {
+     "acc": 0.978,
+     "n": 91
+    },
+    "experience": {
+     "acc": 0.899,
+     "n": 89
+    },
+    "opinion": {
+     "acc": 0.857,
+     "n": 91
+    },
+    "avoid": {
+     "acc": 0.978,
+     "n": 91
+    },
+    "timeframe": {
+     "acc": 1.0,
+     "n": 91
+    },
+    "trend": {
+     "acc": 1.0,
+     "n": 91
+    },
+    "status": {
+     "acc": 0.989,
+     "n": 91
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 91
+    },
+    "dishes": {
+     "acc": 0.677,
+     "n": 31
+    }
+   }
+  },
+  "hard-med": {
+   "items": 60,
+   "item_ok_rate": 0.686,
+   "mention_recall": 0.913,
+   "mention_precision": 0.979,
+   "negative_recall": 0.833,
+   "final_mentions": 103,
+   "final_negative_mentions": 24,
+   "field_accuracy": {
+    "overall": {
+     "acc": 0.943,
+     "n": 88
+    },
+    "aspects.taste": {
+     "acc": 0.894,
+     "n": 94
+    },
+    "aspects.value": {
+     "acc": 1.0,
+     "n": 94
+    },
+    "aspects.service": {
+     "acc": 1.0,
+     "n": 94
+    },
+    "aspects.atmosphere": {
+     "acc": 1.0,
+     "n": 94
+    },
+    "aspects.wait": {
+     "acc": 0.947,
+     "n": 94
+    },
+    "experience": {
+     "acc": 0.946,
+     "n": 93
+    },
+    "opinion": {
+     "acc": 0.904,
+     "n": 94
+    },
+    "avoid": {
+     "acc": 0.979,
+     "n": 94
+    },
+    "timeframe": {
+     "acc": 1.0,
+     "n": 94
+    },
+    "trend": {
+     "acc": 1.0,
+     "n": 94
+    },
+    "status": {
+     "acc": 0.989,
+     "n": 94
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 94
+    },
+    "dishes": {
+     "acc": 0.656,
+     "n": 32
+    }
+   }
+  },
+  "r600-low": {
+   "items": 600,
+   "item_ok_rate": 0.646,
+   "mention_recall": 0.916,
+   "mention_precision": 0.987,
+   "negative_recall": 0.873,
+   "final_mentions": 729,
+   "final_negative_mentions": 157,
+   "field_accuracy": {
+    "overall": {
+     "acc": 0.921,
+     "n": 657
+    },
+    "aspects.taste": {
+     "acc": 0.853,
+     "n": 668
+    },
+    "aspects.value": {
+     "acc": 0.984,
+     "n": 668
+    },
+    "aspects.service": {
+     "acc": 0.991,
+     "n": 668
+    },
+    "aspects.atmosphere": {
+     "acc": 0.99,
+     "n": 668
+    },
+    "aspects.wait": {
+     "acc": 0.964,
+     "n": 668
+    },
+    "experience": {
+     "acc": 0.956,
+     "n": 655
+    },
+    "opinion": {
+     "acc": 0.916,
+     "n": 668
+    },
+    "avoid": {
+     "acc": 0.994,
+     "n": 668
+    },
+    "timeframe": {
+     "acc": 0.982,
+     "n": 668
+    },
+    "trend": {
+     "acc": 0.994,
+     "n": 668
+    },
+    "status": {
+     "acc": 0.991,
+     "n": 668
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 668
+    },
+    "dishes": {
+     "acc": 0.711,
+     "n": 401
+    }
+   }
+  },
+  "r600-med": {
+   "items": 600,
+   "item_ok_rate": 0.756,
+   "mention_recall": 0.961,
+   "mention_precision": 0.981,
+   "negative_recall": 0.918,
+   "final_mentions": 739,
+   "final_negative_mentions": 159,
+   "field_accuracy": {
+    "overall": {
+     "acc": 0.937,
+     "n": 697
+    },
+    "aspects.taste": {
+     "acc": 0.92,
+     "n": 710
+    },
+    "aspects.value": {
+     "acc": 0.989,
+     "n": 710
+    },
+    "aspects.service": {
+     "acc": 0.993,
+     "n": 710
+    },
+    "aspects.atmosphere": {
+     "acc": 0.994,
+     "n": 710
+    },
+    "aspects.wait": {
+     "acc": 0.977,
+     "n": 710
+    },
+    "experience": {
+     "acc": 0.96,
+     "n": 696
+    },
+    "opinion": {
+     "acc": 0.945,
+     "n": 710
+    },
+    "avoid": {
+     "acc": 0.992,
+     "n": 710
+    },
+    "timeframe": {
+     "acc": 0.987,
+     "n": 710
+    },
+    "trend": {
+     "acc": 0.996,
+     "n": 710
+    },
+    "status": {
+     "acc": 0.994,
+     "n": 710
+    },
+    "price": {
+     "acc": 0.999,
+     "n": 710
+    },
+    "dishes": {
+     "acc": 0.823,
+     "n": 406
+    }
+   }
+  }
+ },
+ "round3_on_same_finals": {
+  "items": 600,
+  "item_ok_rate": 0.403,
+  "mention_recall": 0.938,
+  "mention_precision": 0.984,
+  "negative_recall": 0.904,
+  "final_mentions": 729,
+  "final_negative_mentions": 157,
+  "unjudged_mentions": 45,
+  "judged_coverage": 0.939,
+  "field_accuracy": {
+   "overall": {
+    "acc": 0.756,
+    "n": 673
+   },
+   "aspects.taste": {
+    "acc": 0.724,
+    "n": 684
+   },
+   "aspects.value": {
+    "acc": 0.971,
+    "n": 684
+   },
+   "aspects.service": {
+    "acc": 0.982,
+    "n": 684
+   },
+   "aspects.atmosphere": {
+    "acc": 0.975,
+    "n": 684
+   },
+   "aspects.wait": {
+    "acc": 0.94,
+    "n": 684
+   },
+   "experience": {
+    "acc": 0.835,
+    "n": 671
+   },
+   "opinion": {
+    "acc": 0.829,
+    "n": 684
+   },
+   "avoid": {
+    "acc": 0.974,
+    "n": 684
+   },
+   "timeframe": {
+    "acc": 0.968,
+    "n": 684
+   },
+   "trend": {
+    "acc": 0.982,
+    "n": 684
+   },
+   "status": {
+    "acc": 0.969,
+    "n": 684
+   },
+   "price": {
+    "acc": 0.981,
+    "n": 684
+   },
+   "dishes": {
+    "acc": 0.58,
+    "n": 393
+   }
+  }
+ },
+ "round3_on_same_finals_with_validators": {
+  "items": 600,
+  "item_ok_rate": 0.469,
+  "mention_recall": 0.938,
+  "mention_precision": 0.984,
+  "negative_recall": 0.911,
+  "final_mentions": 729,
+  "final_negative_mentions": 157,
+  "unjudged_mentions": 45,
+  "judged_coverage": 0.939,
+  "field_accuracy": {
+   "overall": {
+    "acc": 0.829,
+    "n": 673
+   },
+   "aspects.taste": {
+    "acc": 0.753,
+    "n": 684
+   },
+   "aspects.value": {
+    "acc": 0.975,
+    "n": 684
+   },
+   "aspects.service": {
+    "acc": 0.988,
+    "n": 684
+   },
+   "aspects.atmosphere": {
+    "acc": 0.98,
+    "n": 684
+   },
+   "aspects.wait": {
+    "acc": 0.942,
+    "n": 684
+   },
+   "experience": {
+    "acc": 0.89,
+    "n": 671
+   },
+   "opinion": {
+    "acc": 0.829,
+    "n": 684
+   },
+   "avoid": {
+    "acc": 0.974,
+    "n": 684
+   },
+   "timeframe": {
+    "acc": 0.968,
+    "n": 684
+   },
+   "trend": {
+    "acc": 0.982,
+    "n": 684
+   },
+   "status": {
+    "acc": 0.969,
+    "n": 684
+   },
+   "price": {
+    "acc": 0.981,
+    "n": 684
+   },
+   "dishes": {
+    "acc": 0.623,
+    "n": 393
+   }
+  }
+ },
+ "judge_first_read_accuracy": {
+  "overall": 0.98,
+  "aspects.taste": 0.965,
+  "aspects.value": 0.994,
+  "aspects.service": 0.997,
+  "aspects.atmosphere": 0.992,
+  "aspects.wait": 0.995,
+  "experience": 0.99,
+  "opinion": 0.977,
+  "avoid": 0.998,
+  "timeframe": 0.996,
+  "trend": 0.998,
+  "status": 0.994
+ },
+ "disagreement_resolution": {
+  "judge": 1267,
+  "haiku": 368,
+  "neither": 16
+ },
+ "judge_overturned_share": 0.223,
+ "planted_catch_rate": {
+  "drop_dish": {
+   "caught": 11,
+   "n": 13
+  },
+  "drop_mention": {
+   "caught": 26,
+   "n": 27
+  },
+  "flip_overall": {
+   "caught": 23,
+   "n": 24
+  },
+  "upgrade_negative": {
+   "caught": 10,
+   "n": 10
+  },
+  "wrong_experience": {
+   "caught": 30,
+   "n": 32
+  }
+ },
+ "planted_catch_rate_all": 0.943,
+ "rule_questions": [
+  {
+   "item_id": "R0006",
+   "source": "fresh-low",
+   "question": "The rules don't say whether two branches of one place compared in one comment are one mention or one per branch (Haiku split Milano Market into UWS and UES entries)."
+  },
+  {
+   "item_id": "R0016",
+   "source": "r600-low",
+   "question": "Whether questions to OP about their visit ('did you have to book far ahead? what did it cost?') under a single-restaurant post count as referring to that place is not decided."
+  },
+  {
+   "item_id": "R0030",
+   "source": "r600-low",
+   "question": "When a commenter says 'Avoid X' only because X doesn't fit the asker's stated preference (all raw seafood for someone who wants cooked meat), the rules don't say whether opinion is stated with no level or whether the skip sets overall."
+  },
+  {
+   "item_id": "R0034",
+   "source": "r600-low",
+   "question": "A jab like 'They don't deserve the cleavage' (the place isn't worth dressing up for) sits between a joke with no verdict and an insult; the rules don't say which."
+  },
+  {
+   "item_id": "R0104",
+   "source": "r600-low",
+   "question": "When a list answering a negative question is followed by 'I've always had great experiences here', it is unclear whether 'here' covers the whole list or only the next-named place."
+  },
+  {
+   "item_id": "R0109",
+   "source": "fresh-low",
+   "question": "An asker who hasn't been saying a place 'seems to be the leader' among the thread's recs could be read as a secondhand pick or as an untried plan; the rules don't say which."
+  },
+  {
+   "item_id": "R0123",
+   "source": "fresh-low",
+   "question": "Whether 'Also ...' extending the parent's knock counts as agreement with that verdict (rule 8) is not decided."
+  },
+  {
+   "item_id": "R0171",
+   "source": "r600-low",
+   "question": "A packaged brand that also runs a pop-up (named in the parent) is not decided: brand, or a counted pop-up when the comment only praises the product?"
+  },
+  {
+   "item_id": "R0180",
+   "source": "r600-low",
+   "question": "Whether 'I live near Levain and it breaks my heart to see visitors hitting up Crumbl' is a comparison with Levain as winner, or only a knock on Crumbl, is not decided by rule 5."
+  },
+  {
+   "item_id": "R0195",
+   "source": "r600-low",
+   "question": "An unnamed food hall pinned down only as 'that food hall' where a named place has a stall: should it be a mention named by description, and must it be kept apart from the stall's own name?"
+  },
+  {
+   "item_id": "R0242",
+   "source": "hard-low",
+   "question": "A place that moved (\"Jing Fong's old location\") named under a 'places you miss' title: the rules treat one branch closing as no verdict, but don't say whether a relocated restaurant's old address is a branch or a fond verdict tied to the old address."
+  },
+  {
+   "item_id": "R0267",
+   "source": "hard-low",
+   "question": "A hearsay verdict on a chain known only abroad ('I've heard Dishoom is bland') before its NYC branch opens: the rules give secondhand verdicts and also say the NYC one gets only what is said about it, without saying which wins."
+  },
+  {
+   "item_id": "R0277",
+   "source": "fresh-low",
+   "question": "A pick answering a non-food question ('best restaurant merch?' -> 'Katz's has sweet hats'): the rules make any answer a pick, but don't say whether praise of merchandise is a verdict on the place."
+  },
+  {
+   "item_id": "R0307",
+   "source": "hard-low",
+   "question": "'No way A gets 10/10, and B and C get 9s' can mean all three are overrated or that B and C deserve more than A; the rules don't say which."
+  },
+  {
+   "item_id": "R0308",
+   "source": "r600-low",
+   "question": "Whether timeframe should be past for a mention that is only about a closed branch is not stated (status says null, timeframe is silent)."
+  },
+  {
+   "item_id": "R0314",
+   "source": "r600-low",
+   "question": "Whether picks answering 'best restaurants that you can actually get into' take wait praise from the framing when the reply says 'my faves' (not a bare answer) is not spelled out."
+  },
+  {
+   "item_id": "R0331",
+   "source": "fresh-low",
+   "question": "Whether 'their prices have continued to rise', said among complaints, is a value knock or only a price fact is not decided by the rules."
+  },
+  {
+   "item_id": "R0333",
+   "source": "fresh-low",
+   "question": "Whether a defense of a dish's price that concedes 'it's a bit ridiculous' should set overall through the lone value knock is not clearly decided."
+  },
+  {
+   "item_id": "R0336",
+   "source": "fresh-low",
+   "question": "When a question names two criteria (cozy and easy to book), whether a near-bare answer takes both aspects is not spelled out."
+  },
+  {
+   "item_id": "R0344",
+   "source": "fresh-low",
+   "question": "Whether an unscoped 'X is the best' counts as the city-wide superlative is not stated."
+  },
+  {
+   "item_id": "R0355",
+   "source": "r600-low",
+   "question": "'Skip X since you're going near Y, which makes the same buns better' says 'skip' but is a swap; the rules don't say which wins for avoid."
+  },
+  {
+   "item_id": "R0366",
+   "source": "fresh-low",
+   "question": "Whether a reply that offers only an alternative ('Midos is the only option') under a post knocking B makes B a mention is not clearly decided when B is not named or pronoun-referenced."
+  },
+  {
+   "item_id": "R0373",
+   "source": "fresh-low",
+   "question": "Whether a steakhouse's filet mignon counts as 'the dish is what it sells' for lifting overall to superlative is not spelled out."
+  },
+  {
+   "item_id": "R0385",
+   "source": "hard-low",
+   "question": "'Overrated, maybe an 8/10' pits a knock word against a praise score; the rules don't say whether the score sets taste while 'overrated' sets overall."
+  },
+  {
+   "item_id": "R0394",
+   "source": "r600-low",
+   "question": "Whether 'I really miss X' alone (no closed-places title) is the closed-place fond verdict of rule 7 is not decided."
+  },
+  {
+   "item_id": "R0401",
+   "source": "hard-low",
+   "question": "Whether a hedged '/s' on a tourist-chain pick ('not sure if /s is needed') makes it opinion none or flips it to a knock is not decided."
+  },
+  {
+   "item_id": "R0412",
+   "source": "r600-low",
+   "question": "Whether a joke about a wait the post reports ('faster to take the Jitney to Sag Harbor. Yikes.') is an untried reaction or a wait knock is not decided."
+  },
+  {
+   "item_id": "R0418",
+   "source": "r600-low",
+   "question": "A reply that refers to a context place only by pronoun with no verdict ('like so many vegans before them') sits between 'refers to it as they' and 'a reply that neither names nor judges a place is not a mention'."
+  },
+  {
+   "item_id": "R0427",
+   "source": "fresh-low",
+   "question": "When a cart's likely name contains 'Best' ('Best Halal food truck'), whether it counts as a superlative is not decided."
+  },
+  {
+   "item_id": "R0450",
+   "source": "r600-low",
+   "question": "Whether a reply defending one's own earlier pick with only a fact ('they wanted old school, so it is that') is a fresh endorse or opinion none is not decided."
+  },
+  {
+   "item_id": "R0458",
+   "source": "hard-low",
+   "question": "Whether 'NY food scene is so much better than this' from someone who shows no visit counts as a jab at the food (rule 10) or an untried reaction (rule 3) is not decided."
+  },
+  {
+   "item_id": "R0460",
+   "source": "r600-low",
+   "question": "When the question asks about two dishes ('French dip or roast beef'), which dish a bare pick takes is not decided."
+  },
+  {
+   "item_id": "R0463",
+   "source": "r600-low",
+   "question": "Whether a free extra served with a dish ('the additional milk is so fun') is service, taste or only a dish level is not decided."
+  },
+  {
+   "item_id": "R0464",
+   "source": "r600-low",
+   "question": "A vendor based outside NYC that sells at NYC fairs and a seasonal Bryant Park stall: the rules don't say whether it counts as an NYC place."
+  },
+  {
+   "item_id": "R0465",
+   "source": "r600-low",
+   "question": "A pick answering 'easiest to get a reservation?' whose own words say you must book when slots drop: the framing (wait praise) and the alarm rule (wait knock) collide."
+  },
+  {
+   "item_id": "R0468",
+   "source": "r600-low",
+   "question": "Whether 'seems fairly reasonable' about prices read off a linked menu is a value verdict or a menu-only reaction (rule 3) is not decided."
+  },
+  {
+   "item_id": "R0471",
+   "source": "r600-low",
+   "question": "When the commenter's own praise is old and the current decline is only heard from another user, rule 9 (levels are what they think now) and timeframe past pull in different directions."
+  },
+  {
+   "item_id": "R0489",
+   "source": "r600-low",
+   "question": "A commenter (the OP) restating their own post's complaint: whether a passing 'recipe changed for a dip I'd enjoyed' re-sets the dish knock is not decided."
+  },
+  {
+   "item_id": "R0505",
+   "source": "fresh-low",
+   "question": "When the comment reports the last remaining branch closing ('that's also closed'), the rules don't say whether that is a branch closing (status null) or the whole place (closed)."
+  },
+  {
+   "item_id": "R0509",
+   "source": "fresh-low",
+   "question": "A pronoun reference ('their') makes a mention, but a reply that neither names nor judges is not one; the rules don't say which wins for a no-verdict joke that refers by pronoun."
+  },
+  {
+   "item_id": "R0520",
+   "source": "hard-low",
+   "question": "A comment made only of a quote (possibly the commenter quoting their own words, here praising Semma) has no rule saying whether the quoted verdicts count."
+  },
+  {
+   "item_id": "R0528",
+   "source": "fresh-low",
+   "question": "Whether avoid can be true for a boycott told to readers ('I would steer clear on principle') when rule 10 makes the mention opinion none."
+  },
+  {
+   "item_id": "R0532",
+   "source": "hard-low",
+   "question": "Rule 6 says a place offered as an answer is a pick; it doesn't say whether an answer to an identification question ('which bakery is this from?') is a pick or a fact."
+  },
+  {
+   "item_id": "R0541",
+   "source": "r600-low",
+   "question": "A superlative the commenter half-retracts in the same breath ('best in the city (actually I'm gatekeeping, my fave is elsewhere)') isn't covered by the takeback rule, which only names retracted names."
+  },
+  {
+   "item_id": "R0543",
+   "source": "r600-low",
+   "question": "Whether 'abomination' counts as an extreme word like 'disgusting' for extreme_knock is not listed."
+  },
+  {
+   "item_id": "R0549",
+   "source": "r600-low",
+   "question": "Rule 5 makes 'go to A instead' answering 'is B worth it?' a knock on B but a swap for fit ('same food, more casual') no level; this comment is both, and the fit reading was taken."
+  },
+  {
+   "item_id": "R0556",
+   "source": "r600-low",
+   "question": "Rule 6 doesn't say whether a side preference in the post ('somewhere quiet') counts as the question asking about that aspect."
+  },
+  {
+   "item_id": "R0558",
+   "source": "fresh-low",
+   "question": "Whether an unscoped 'best spot' in an NYC thread counts as a city-wide superlative is not stated."
+  },
+  {
+   "item_id": "R0561",
+   "source": "r600-low",
+   "question": "'I miss the old X and their prices' about a place still open isn't covered: whether it is a past-tied verdict or only a price fact."
+  },
+  {
+   "item_id": "R0568",
+   "source": "fresh-low",
+   "question": "Whether an annual street festival (Feast of San Gennaro) counts as a night market/food hall mention or as a venue/event is not stated."
+  },
+  {
+   "item_id": "R0571",
+   "source": "fresh-low",
+   "question": "A chain with no NYC branch (CiCi's) can't be told from the text alone; the rules don't say whether to extract it."
+  },
+  {
+   "item_id": "R0574",
+   "source": "r600-low",
+   "question": "Whether a 'best time to go' tip under a complaint about lines is a wait knock (plan around it) or just a tip note isn't stated."
+  },
+  {
+   "item_id": "R0575",
+   "source": "r600-low",
+   "question": "When a chain closed everywhere and one location returns ('risen from the ashes'), the rules don't say whether that is the place reopening or a branch opening."
+  },
+  {
+   "item_id": "R0578",
+   "source": "fresh-low",
+   "question": "Whether 'X is the only reason I go' is lone-exception praise (taste knock) like 'only good for X' is not settled."
+  },
+  {
+   "item_id": "R0601",
+   "source": "r600-low",
+   "question": "Whether a cuisine/format heading like \"sushi -\" set beside \"omakase -\" counts as a dish heading (dish praise) or only a tag."
+  },
+  {
+   "item_id": "R0623",
+   "source": "fresh-low",
+   "question": "Whether a superlative scoped by price tier (\"the king of under \\$100\") counts as city-wide superlative_praise."
+  },
+  {
+   "item_id": "R0671",
+   "source": "r600-low",
+   "question": "Whether a criterion in the post body (\"looking for somewhere quiet\") counts as the question asking about atmosphere, so bare picks take atmosphere praise as walk-in picks take wait praise."
+  },
+  {
+   "item_id": "R0673",
+   "source": "fresh-low",
+   "question": "In a \"NY region\" thread, whether a place the text does not locate (possibly NJ, compared with an Edison NJ place) should be extracted or skipped."
+  },
+  {
+   "item_id": "R0681",
+   "source": "r600-low",
+   "question": "When regret at a whole place closing comes with a mild knock on its food (\"never the biggest fan of their food, but sad to see them go\"), whether overall is the rule-7 fond praise or a knock."
+  },
+  {
+   "item_id": "R0732",
+   "source": "r600-low",
+   "question": "Whether 'I agree with your takes on everything you had' adopts only the OP's dish verdicts or also the OP's wait, price, room and staff complaints."
+  },
+  {
+   "item_id": "R0738",
+   "source": "r600-low",
+   "question": "Where a bar with live music ('the groove (live music venue)', 'Terra blues (blues club)') falls between bar-with-music and venue is not decided."
+  },
+  {
+   "item_id": "R0776",
+   "source": "r600-low",
+   "question": "Whether a broad 'head to Woodside, plenty of Filipino food there' list under 'Best tocino?' still takes the tocino dish for each pick."
+  },
+  {
+   "item_id": "R0794",
+   "source": "hard-low",
+   "question": "Whether an unscoped 'Best X' ('Best Burger', 'the best fried chicken') counts as a city-wide superlative or only as praise."
+  },
+  {
+   "item_id": "R0804",
+   "source": "fresh-low",
+   "question": "Whether a comment that is only a place's website URL counts as naming the place is not decided by the rules."
+  },
+  {
+   "item_id": "R0845",
+   "source": "r600-low",
+   "question": "Whether a nameless timing tip that answers a post about one specific place's line refers to that place, and whether such a tip sets a wait knock, is not spelled out."
+  },
+  {
+   "item_id": "R0847",
+   "source": "fresh-low",
+   "question": "When an untried commenter restates the parent's verdict as their own conclusion ('execution is not there right now'), the rules don't say whether that is rule 3's untried reaction or a secondhand verdict."
+  },
+  {
+   "item_id": "R0864",
+   "source": "fresh-low",
+   "question": "When the compared loser is an out-of-NYC branch (San Jose Din Tai Fung), the rules don't say whether the NYC winner still takes the comparison's level."
+  },
+  {
+   "item_id": "R0925",
+   "source": "hard-low",
+   "question": "Whether a question asking for pizza places like Sally's counts as asking about the dish pizza (rule 6), giving each pick dish pizza and taste praise."
+  },
+  {
+   "item_id": "R0988",
+   "source": "r600-med",
+   "question": "Whether an unscoped 'the best X' (no 'in the city' or 'ever') counts as a city-wide superlative for superlative_praise."
+  },
+  {
+   "item_id": "R0998",
+   "source": "r600-med",
+   "question": "When the question asks for two dishes ('French dip or roast beef'), whether a bare answer takes either dish under rule 6."
+  },
+  {
+   "item_id": "R1007",
+   "source": "r600-med",
+   "question": "Does a requirement inside a broader request ('and I need to be able to get a table Saturday') make bare picks wait praise under rule 6, or only a question mainly about the wait?"
+  },
+  {
+   "item_id": "R1022",
+   "source": "r600-med",
+   "question": "Is a 'best time to go' tip under a complaint about lines a wait knock (planning around it) or a tip with no level?"
+  },
+  {
+   "item_id": "R1030",
+   "source": "r600-med",
+   "question": "Does a chain named only to make a rhetorical point in an argument (McDonald's 'pink slime' nuggets) count as a mention with a knock?"
+  },
+  {
+   "item_id": "R1036",
+   "source": "r600-med",
+   "question": "Jazz clubs like Birdland and Iridium serve food and drink but are named for music: venue (not counted) or bar?"
+  },
+  {
+   "item_id": "R1045",
+   "source": "hard-med",
+   "question": "Is a place named only inside a URL ('This place. yelp.com/biz/financier-patisserie') a mention?"
+  },
+  {
+   "item_id": "R1081",
+   "source": "r600-med",
+   "question": "Is 'at opening you get a table right away or in 45-90 minutes' a wait knock (plan around it) or praise relative to the post's 5-hour wait?"
+  },
+  {
+   "item_id": "R1083",
+   "source": "r600-med",
+   "question": "When the loser of a dish comparison is called good overall ('it really is'), does its losing dish still take a knock?"
+  },
+  {
+   "item_id": "R1103",
+   "source": "r600-med",
+   "question": "Whether 'the pizza is definitely not worth the wait' is a bottom-line knock on overall or a wait-only remark the rules keep out of overall."
+  },
+  {
+   "item_id": "R1121",
+   "source": "r600-med",
+   "question": "Two bare numbers after names under a 'related to?' question: the rules don't say whether to read them as years or scores."
+  },
+  {
+   "item_id": "R1132",
+   "source": "r600-med",
+   "question": "Whether 'skip the overrated tourist clusterF at X and go to Y' is a swap (avoid false) or a tourist-trap skip (avoid true)."
+  },
+  {
+   "item_id": "R1149",
+   "source": "r600-med",
+   "question": "How far 'I agree with your takes on everything you had' carries a post's verdicts: dishes only, or also the post's wait and price complaints."
+  },
+  {
+   "item_id": "R1174",
+   "source": "r600-med",
+   "question": "Whether 'a long way to go for a BEC' is a not-worth-the-trip knock or a fit note about distance."
+  },
+  {
+   "item_id": "R1177",
+   "source": "r600-med",
+   "question": "Whether sarcastic mockery of a knock ('Brave and courageous stance!' under 'Overrated AF') implies the opposite verdict or none."
+  },
+  {
+   "item_id": "R1180",
+   "source": "r600-med",
+   "question": "Whether a price verdict read off a posted menu ('seems fairly reasonable') counts as an untried menu reaction or a stated value verdict."
+  },
+  {
+   "item_id": "R1194",
+   "source": "hard-med",
+   "question": "'Overrated - maybe an 8/10': the rules make 8/10 praise and 'overrated' a knock, and don't say which wins."
+  },
+  {
+   "item_id": "R1223",
+   "source": "fresh-med",
+   "question": "Two branches of one place compared in the same comment: one mention or one per branch is not decided by the rules."
+  },
+  {
+   "item_id": "R1226",
+   "source": "fresh-med",
+   "question": "Praise of a brewery for hosting pop-ups (a business practice toward vendors): service level or no verdict is not decided."
+  },
+  {
+   "item_id": "R1239",
+   "source": "fresh-med",
+   "question": "Whether an unscoped 'the best' (no 'in the city' or 'ever') counts as a city-wide superlative is not decided."
+  },
+  {
+   "item_id": "R1254",
+   "source": "fresh-med",
+   "question": "An Asian market named as the best spot to buy durian fruit to eat: grocery (uncounted) or a counted food kind is not clearly decided."
+  },
+  {
+   "item_id": "R1260",
+   "source": "fresh-med",
+   "question": "Praise for a restaurant's merchandise (hats) answering a merch question: verdict on the place or a note only is not decided."
+  },
+  {
+   "item_id": "R1271",
+   "source": "fresh-med",
+   "question": "A national chain with no NYC branch, named without a place: the rules don't say whether to extract it."
+  },
+  {
+   "item_id": "R1286",
+   "source": "fresh-med",
+   "question": "When the last remaining NYC branch closes ('that's also closed'), whether that is a branch closing or the whole place closing is not decided."
+  },
+  {
+   "item_id": "R1290",
+   "source": "fresh-med",
+   "question": "'X is the only option' under a post knocking Y: whether Y is a mention with an overall knock (a swap) is not clearly decided."
+  },
+  {
+   "item_id": "R1300",
+   "source": "fresh-med",
+   "question": "Whether a '+1'/'seconding' inherits the parent's unscoped superlative ('the best Turkish food') or stays at endorse praise."
+  },
+  {
+   "item_id": "R1302",
+   "source": "fresh-med",
+   "question": "Whether a boycott told to readers ('steer clear on principle') sets avoid true when rule 10 makes it opinion none."
+  }
+ ]
+}

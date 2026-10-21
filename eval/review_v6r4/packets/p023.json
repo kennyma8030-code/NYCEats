@@ -1,0 +1,1700 @@
+{
+ "packet": "p023",
+ "items": [
+  {
+   "item_id": "R0551",
+   "comment_id": "t1_p64hhkf",
+   "model_view": "<post_title>Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<comment_to_extract>\nI've tasted 5 different slices, aa well as two sandwiches, and all were great\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Neptune28",
+    "body": "I've tasted 5 different slices, aa well as two sandwiches, and all were great",
+    "replies": [
+     {
+      "author": "RumPunchKid",
+      "body": "Even the ones that sound weird are good"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "slices",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "sandwiches",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "slice shop",
+      "sandwiches"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0552",
+   "comment_id": "t1_ornphy1",
+   "model_view": "<post_title>Best deli pickles in NYC (preferably near manhattan)</post_title>\n<post_body>Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!</post_body>\n<thread_above>\n[1] another user: I used to go to my neighborhood deli and get a free bucket of pickles with anything I ordered, like an actual bucket, paint can sized. Those were the days… It’s been about 4 years since that place closed and I still think about them. Otherwise I go to Liebmans, but I don’t particularly like any Manhattan based Delis, sorry. Jacob’s Pickles and The Pickle Guys are pretty famous but I’d honestly say their pickles are mid and not worth the time or money (because you would also usually order other food when visiting them too). If you’re purely going to delis for pickles, and not any other food, it might be easier to just pick up a jar from a market/store and eat them on a park bench with your fingers as god intended. Grillos pickles (while not kosher pickles) eaten cold in the sun, slaps.\n</thread_above>\n<comment_to_extract>\nI like pickle guys fruit, oddly enough. Other stuff seems average in a nice atmosphere.\n</comment_to_extract>",
+   "context": {
+    "title": "Best deli pickles in NYC (preferably near manhattan)",
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "ancestors": [
+     {
+      "author": "guatemamaLF",
+      "body": "I used to go to my neighborhood deli and get a free bucket of pickles with anything I ordered, like an actual bucket, paint can sized. Those were the days… It’s been about 4 years since that place closed and I still think about them.\n\nOtherwise I go to Liebmans, but I don’t particularly like any Manhattan based Delis, sorry. \n\nJacob’s Pickles and The Pickle Guys are pretty famous but I’d honestly say their pickles are mid and not worth the time or money (because you would also usually order other food when visiting them too).\n\nIf you’re purely going to delis for pickles, and not any other food, it might be easier to just pick up a jar from a market/store and eat them on a park bench with your fingers as god intended. Grillos pickles (while not kosher pickles) eaten cold in the sun, slaps. "
+     }
+    ],
+    "author": "Relative_Prize9052",
+    "body": "I like pickle guys fruit, oddly enough. Other stuff seems average in a nice atmosphere.",
+    "replies": [
+     {
+      "author": "helcat",
+      "body": "The Pickle Guys is the first time I've ever had pickled pineapple. Goddamn that was good. Now I make my own. "
+     },
+     {
+      "author": "bmsa131",
+      "body": "I LOVE their pickled mango.  🥭 "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Pickle Guys",
+     "named_in": "context",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "fruit",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "other stuff",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "neutral",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "neutral",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pickles"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0553",
+   "comment_id": "t1_odz9pr0",
+   "model_view": "<post_title>Rate our food tour</post_title>\n<post_body>So every time my friend visits town from SLC, we do a full day food tour. So far we’ve done flushing (8 spots), pizza slices (15 spots), and burgers (8 spots). \n\nThis time we’re going to do a sandwich tour, what do you all think, are these the best places to get those kinds of sandwiches? Should we add another sandwich we might be missing?\n\nPastrami Sandwich - Katz Delicatessen\n\nBahn Mi - Saigutte\n\nItalian Sub - Faicco's Italian Specialties\n\nChicken Caesar Wrap - Milano Market\n\nCuban - Cafe Habana\n\nBacon, Egg and Cheese - Frankel's Delicatessen & Appetizing\n\nHot Dog - Gray's Papaya\n\nPhilly Cheesesteak - Danny & Coop's</post_body>\n<comment_to_extract>\nAdd S&P, skip Milano market, Cafe Habana and replace Saigutte with Banh And Em.  Love Grays but it's way out of your way and Katz's has better hotdogs.Add in Taqueria Ramirez (close enough). Crossing a river to Frankel's is a long way to go for a BEC.\n</comment_to_extract>",
+   "context": {
+    "title": "Rate our food tour",
+    "selftext": "So every time my friend visits town from SLC, we do a full day food tour. So far we’ve done flushing (8 spots), pizza slices (15 spots), and burgers (8 spots). \n\nThis time we’re going to do a sandwich tour, what do you all think, are these the best places to get those kinds of sandwiches? Should we add another sandwich we might be missing?\n\nPastrami Sandwich - Katz Delicatessen\n\nBahn Mi - Saigutte\n\nItalian Sub - Faicco's Italian Specialties\n\nChicken Caesar Wrap - Milano Market\n\nCuban - Cafe Habana\n\nBacon, Egg and Cheese - Frankel's Delicatessen & Appetizing\n\nHot Dog - Gray's Papaya\n\nPhilly Cheesesteak - Danny & Coop's",
+    "ancestors": [],
+    "author": "Cpalms139",
+    "body": "Add S&P, skip Milano market, Cafe Habana and replace Saigutte with Banh And Em.  Love Grays but it's way out of your way and Katz's has better hotdogs.Add in Taqueria Ramirez (close enough). Crossing a river to Frankel's is a long way to go for a BEC.",
+    "replies": [
+     {
+      "author": "Malsperanza",
+      "body": "Saiguette is pretty damn good if they're doing an UWS crawl. Lox and bagel at Barney Greengrass would also fit. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "S&P",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwich"
+     ]
+    },
+    {
+     "name": "Milano Market",
+     "named_in": "context",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": true,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "sandwich"
+     ]
+    },
+    {
+     "name": "Cafe Habana",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": true,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "cuban"
+     ]
+    },
+    {
+     "name": "Saigutte",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "replacement",
+       "text": "suggested replacing it with Banh And Em"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "banh mi"
+     ]
+    },
+    {
+     "name": "Banh And Em",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "banh mi"
+     ]
+    },
+    {
+     "name": "Gray's Papaya",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "hot dogs",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "location",
+       "text": "way out of the way to get to"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "hot dog"
+     ]
+    },
+    {
+     "name": "Katz's Delicatessen",
+     "named_in": "context",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "hot dogs",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "deli",
+      "pastrami"
+     ]
+    },
+    {
+     "name": "Taqueria Ramirez",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "fit",
+       "text": "suggested as a close-enough addition"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "mexican"
+     ]
+    },
+    {
+     "name": "Frankel's Delicatessen & Appetizing",
+     "named_in": "context",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bacon egg and cheese",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "location",
+       "text": "across a river, a long trip for a BEC"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "breakfast sandwich"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0554",
+   "comment_id": "t1_ngyenua",
+   "model_view": "<post_title>Where do you go for really good coffee in New York?</post_title>\n<comment_to_extract>\nSey and suited.\n\nBut best is home\n</comment_to_extract>",
+   "context": {
+    "title": "Where do you go for really good coffee in New York?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "No_Tourist_8927",
+    "body": "Sey and suited.\n\nBut best is home",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Sey",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "coffee"
+     ]
+    },
+    {
+     "name": "Suited",
+     "named_in": "comment",
+     "kind": "cafe",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "coffee"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0555",
+   "comment_id": "t1_nic3aqa",
+   "model_view": "<post_title>Best dinner date place</post_title>\n<post_body>As the title says what is the best dinner date place to take my wife. If hallal that would be much better.</post_body>\n<comment_to_extract>\nFrequent or low effort question, try searching the sub first.\n</comment_to_extract>",
+   "context": {
+    "title": "Best dinner date place",
+    "selftext": "As the title says what is the best dinner date place to take my wife. If hallal that would be much better. ",
+    "ancestors": [],
+    "author": "FoodNYC-ModTeam",
+    "body": "Frequent or low effort question, try searching the sub first.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0556",
+   "comment_id": "t1_nl4zysc",
+   "model_view": "<post_title>Looking for a dive bar along the 1 train between Lincoln Center and the Hudson stop</post_title>\n<post_body>I know it’s a tough area because Times Square and MSG are right in the middle of this route. Basically looking for somewhere quiet and not crazy expensive to catch up and have a drink with a friend.</post_body>\n<comment_to_extract>\nWakamba bar baby. Gotta go wakamba. 37th and 8th.\n</comment_to_extract>",
+   "context": {
+    "title": "Looking for a dive bar along the 1 train between Lincoln Center and the Hudson stop",
+    "selftext": "I know it’s a tough area because Times Square and MSG are right in the middle of this route. Basically looking for somewhere quiet and not crazy expensive to catch up and have a drink with a friend.",
+    "ancestors": [],
+    "author": "paulderev",
+    "body": "Wakamba bar baby. Gotta go wakamba. 37th and 8th.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Wakamba",
+     "named_in": "comment",
+     "kind": "bar",
+     "location": "37th and 8th",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "dive bar"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0557",
+   "comment_id": "t1_p9rjiy9",
+   "model_view": "<post_title>All the momos I tried from the Momo Crawl (Jackson Heights) 2026!</post_title>\n<post_body>1. Merit Kebab (beef, veg, chicken)  \n2. Gang Chen Bodkyi (beef, potato)  \n3. Manaslu (chicken)  \n4. Kathmandu Fusion (pork)  \n5. Tenzins Kitchen (chicken)  \n6. Woodside Cafe (chicken)  \n7. Tibetan Japanese Restaurant (chicken)  \n8. Lakeside (veggie)  \n9. Nepali Momo Cafe (jhol chicken)\n\nLines were long but still such a great time! My number one was definitely **Kathmandu Fusion** but I’ve yet to meet a dumpling I didn’t like</post_body>\n<thread_above>\n[1] another user: Nice job! I hit up 17 stops and the express pass was well worth the investment since it let you cut to the front of the line, get a shirt, and a tibetan scarf. The only issue is that I pushed my love of spicy food too hard and feel all that Tibetan/Nepali hot sauce coursing through my intestines hou ...\n[2] another user: Could also be the 17 momos you ate.\n[3] another user: I doubled up at a few places so realistically its around 26ish. But no, I know hot sauce burn because I way too much hot sauce (and sauces in general). I carry hot sauce or ghost pepper flakes with me to most places too haha\n</thread_above>\n<comment_to_extract>\nI mean… 26 momos is certainly contributing lol.\n</comment_to_extract>",
+   "context": {
+    "title": "All the momos I tried from the Momo Crawl (Jackson Heights) 2026!",
+    "selftext": "1. Merit Kebab (beef, veg, chicken)  \n2. Gang Chen Bodkyi (beef, potato)  \n3. Manaslu (chicken)  \n4. Kathmandu Fusion (pork)  \n5. Tenzins Kitchen (chicken)  \n6. Woodside Cafe (chicken)  \n7. Tibetan Japanese Restaurant (chicken)  \n8. Lakeside (veggie)  \n9. Nepali Momo Cafe (jhol chicken)\n\nLines were long but still such a great time! My number one was definitely **Kathmandu Fusion** but I’ve yet to meet a dumpling I didn’t like",
+    "ancestors": [
+     {
+      "author": "iniquities",
+      "body": "Nice job!\n\nI hit up 17 stops and the express pass was well worth the investment since it let you cut to the front of the line, get a shirt, and a tibetan scarf. The only issue is that I pushed my love of spicy food too hard and feel all that Tibetan/Nepali hot sauce coursing through my intestines hours later.\n\nI haven't done it since 2022 or so, but it was good to take in some of the spots I haven't hit up yet. Or to review other spots (like Mom's Momo is still the most mid momo yet the most famous). But Gang Chen Bodkyi was on my radar and was one of my top 3 (alongside Om Wok that won this year)"
+     },
+     {
+      "author": "Hadrians_Fall",
+      "body": " Could also be the 17 momos you ate. "
+     },
+     {
+      "author": "iniquities",
+      "body": "I doubled up at a few places so realistically its around 26ish.\n\nBut no, I know hot sauce burn because I way too much hot sauce (and sauces in general). I carry hot sauce or ghost pepper flakes with me to most places too haha"
+     }
+    ],
+    "author": "UnconfidentShirt",
+    "body": "I mean… 26 momos is certainly contributing lol.",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0558",
+   "comment_id": "t1_lai5yy2",
+   "model_view": "<post_title>What’s the strangest food you have ever tried in NYC?</post_title>\n<post_body>Basically I am talking about foods that have a strang yet oddly delicious taste as I don’t know how to explain it, but it’s unusual food with a unique flavor to it.</post_body>\n<thread_above>\n[1] you, earlier: A lot of Americans dislike the smell of jackfruit/durian. I personally love it. A couple Thai spots offer durian sticky rice and I love it.\n[2] another user: Yeah get some Durian somewhere. I know Flushing has some. Just won’t be as good as in Malaysia.\n</thread_above>\n<comment_to_extract>\nBest spot unless you order the pricey stuff from Miami Fruit is at Pata Market in Elmhurst. They also have some durian snacks\n</comment_to_extract>",
+   "context": {
+    "title": "What’s the strangest food you have ever tried in NYC?",
+    "selftext": "Basically I am talking about foods that have a strang yet oddly delicious taste as I don’t know how to explain it, but it’s unusual food with a unique flavor to it.",
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A lot of Americans dislike the smell of jackfruit/durian. I personally love it. A couple Thai spots offer durian sticky rice and I love it."
+     },
+     {
+      "author": "Alone-Course3048",
+      "body": "Yeah get some Durian somewhere. I know Flushing has some. Just won’t be as good as in Malaysia."
+     }
+    ],
+    "author": "CabassoG",
+    "body": "Best spot unless you order the pricey stuff from Miami Fruit is at Pata Market in Elmhurst. They also have some durian snacks",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Pata Market",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": "Elmhurst",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "durian snacks",
+       "level": null,
+       "avoid": false
+      },
+      {
+       "dish": "durian",
+       "level": "very_positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "pricey durian",
+       "text": "Miami Fruit stall at the market sells pricier durian; order that with care"
+      }
+     ],
+     "aspects": {
+      "taste": "very_positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "durian",
+      "specialty food",
+      "snacks"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0559",
+   "comment_id": "t1_le9g249",
+   "model_view": "<post_title>Finally tried Chez Ma Tante - good but way overrated.</post_title>\n<post_body>$18 for 2 pancakes and $7 for a small sausage patty that was lukewarm. $32 after tip and tax. \n\nI love making pancakes for myself and very rarely order them for that reason but obviously this place gets insane hype. I was dumbfounded how small of a portion $18 pancakes were here. They tasted good but were they THAT much better than a good diner? Honestly no. I’d prefer to go somewhere like Colina Cuervo in Crown Heights for good pancakes that comes with eggs and meat for $16. \n\nThe staff were great and I love the neighborhood but it felt gimmicky paying that much for what you get. It’s a pass for me.</post_body>\n<thread_above>\n[1] another user: The more I try all these overhyped restaurants I keep seeing on social media the more I realize how overrated everything is.\n[2] you, earlier: Maybe don't try things based off social media hype of videos.\n[3] another user: Where else would you know where to go?\n</thread_above>\n<comment_to_extract>\nWalk around? Talk to friends? Look at actual food rewards like James Beard?\n</comment_to_extract>",
+   "context": {
+    "title": "Finally tried Chez Ma Tante - good but way overrated. ",
+    "selftext": "$18 for 2 pancakes and $7 for a small sausage patty that was lukewarm. $32 after tip and tax. \n\nI love making pancakes for myself and very rarely order them for that reason but obviously this place gets insane hype. I was dumbfounded how small of a portion $18 pancakes were here. They tasted good but were they THAT much better than a good diner? Honestly no. I’d prefer to go somewhere like Colina Cuervo in Crown Heights for good pancakes that comes with eggs and meat for $16. \n\nThe staff were great and I love the neighborhood but it felt gimmicky paying that much for what you get. It’s a pass for me.",
+    "ancestors": [
+     {
+      "author": "Trippydudes",
+      "body": "The more I try all these overhyped restaurants I keep seeing on social media the more I realize how overrated everything is."
+     },
+     {
+      "author": "PushforlibertyAlways",
+      "body": "Maybe don't try things based off social media hype of videos."
+     },
+     {
+      "author": "Trippydudes",
+      "body": "Where else would you know where to go?"
+     }
+    ],
+    "author": "PushforlibertyAlways",
+    "body": "Walk around? Talk to friends? Look at actual food rewards like James Beard?",
+    "replies": [
+     {
+      "author": "Trippydudes",
+      "body": "Long lines at restaurants= people who heard about it on social media. Talk to friends = recommends places they saw on social media."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0560",
+   "comment_id": "t1_olfe5mv",
+   "model_view": "<post_title>I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?</post_title>\n<comment_to_extract>\nPomegranate or everfresh  kosher but very good\n</comment_to_extract>",
+   "context": {
+    "title": "I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "kaptiankuff",
+    "body": "Pomegranate or everfresh  kosher but very good ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "everfresh",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "chicken salad sandwich",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "kosher",
+       "text": "kosher restaurant"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "kosher"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0561",
+   "comment_id": "t1_ntamyvd",
+   "model_view": "<post_title>If you could bring back one closed restaurant, what would it be?</post_title>\n<post_body>This cold winter day’s got me feeling nostalgic. What’s restaurants or eateries of the past would you bring back if given the chance? For me, it’s a tie between Caracas Arepa & Marble Dessert Bar. Oh, how miss dousing their seafood arepa with their signature yellow sauce. And to this day, I still can’t find a dessert tasting quite like Marble’s. Lysee comes close, but it’s not quite the same.</post_body>\n<thread_above>\n[1] another user: In no particular order: * I never ate there but my father says the ribs at Max’s Kansas City were banging and the atmosphere was great … until Warhol showed up and turned the place into a scene. * A steam table place in alphabet city called Mama’s had some of the best bread pudding I’ve ever tasted. * Christy’s Jamaican Patties on Flatbush. Loved their currant roll. * Sun Lok Kee at 13 Mott *Schicks bakery in Boro Park * Many pizzerias in which I wasted hours as a youth. Particularly one on 16th and Third (Marinara?) that had a crazy meat lovers stuffed slice * A deli by Stuy Town that I never learned the name of but made a slamming Italian sub * Pakistan Tea House, the Thai Blimpie’s on Reade and West Broadway, We’re Nuts for Nuts * Sun in Bloom * Phoenix Garden and Ma Po Tofu - solid neighborhood Chinese places taken from us too soon * Pho Saigon * Anyplace to get a $2 bahn mi (yes, that’s what they cost back in 1999) * Purple Yam * The Farm on Adderly * Cinco de Mayo (on Cortelyou) * Talde on Seventh Ave in Park Slope * The Grocery * The hot dog place that became a Swatch store * Babycakes/ Erin McKenna * Tortilleria Nixtamal\n</thread_above>\n<comment_to_extract>\nPakistani Tea House!! This was right by my office and they kept me happily & cheaply fed multiple times a week for years. Christy’s too, their patties were so good. \n\nThis reminds me I miss the old Hancos and their prices from about 20 years ago. I think the Bahn Mi were $6 back when I got them all the time. They have multiple locations now and prices are at least twice that\n</comment_to_extract>",
+   "context": {
+    "title": "If you could bring back one closed restaurant, what would it be?",
+    "selftext": "This cold winter day’s got me feeling nostalgic. What’s restaurants or eateries of the past would you bring back if given the chance? For me, it’s a tie between Caracas Arepa & Marble Dessert Bar. Oh, how miss dousing their seafood arepa with their signature yellow sauce. And to this day, I still can’t find a dessert tasting quite like Marble’s. Lysee comes close, but it’s not quite the same. ",
+    "ancestors": [
+     {
+      "author": "epolonsky",
+      "body": "In no particular order:\n\n* I never ate there but my father says the ribs at Max’s Kansas City were banging and the atmosphere was great … until Warhol showed up and turned the place into a scene. \n* A steam table place in alphabet city called Mama’s had some of the best bread pudding I’ve ever tasted. \n* Christy’s Jamaican Patties on Flatbush. Loved their currant roll. \n* Sun Lok Kee at 13 Mott\n*Schicks bakery in Boro Park\n* Many pizzerias in which I wasted hours as a youth. Particularly one on 16th and Third (Marinara?) that had a crazy meat lovers stuffed slice\n* A deli by Stuy Town that I never learned the name of but made a slamming Italian sub\n* Pakistan Tea House, the Thai Blimpie’s on Reade and West Broadway, We’re Nuts for Nuts\n* Sun in Bloom\n* Phoenix Garden and Ma Po Tofu - solid neighborhood Chinese places taken from us too soon\n* Pho Saigon\n* Anyplace to get a $2 bahn mi (yes, that’s what they cost back in 1999)\n* Purple Yam\n* The Farm on Adderly\n* Cinco de Mayo (on Cortelyou)\n* Talde on Seventh Ave in Park Slope\n* The Grocery\n* The hot dog place that became a Swatch store\n* Babycakes/ Erin McKenna\n* Tortilleria Nixtamal"
+     }
+    ],
+    "author": "Bec_not_Becky",
+    "body": "Pakistani Tea House!! This was right by my office and they kept me happily & cheaply fed multiple times a week for years. Christy’s too, their patties were so good. \n\nThis reminds me I miss the old Hancos and their prices from about 20 years ago. I think the Bahn Mi were $6 back when I got them all the time. They have multiple locations now and prices are at least twice that",
+    "replies": [
+     {
+      "author": "epolonsky",
+      "body": "Ever go to the Thai Blimpie’s across the street from PTH? No idea what it was actually called, but it was an old Blimpie’s that was bought by a Thai family. The husband still served Blimpie’s style sandwiches from the front counter but if you went in the back, the wife would cook you various stir fried noodles for super cheap."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Pakistani Tea House",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "nearby office",
+       "text": "Was right by the commenter's office and fed them several times a week for years."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "price": "cheap",
+     "tags": [
+      "pakistani",
+      "cheap eats"
+     ]
+    },
+    {
+     "name": "Christy’s",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Flatbush",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "patties",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "jamaican",
+      "patties"
+     ]
+    },
+    {
+     "name": "Hancos",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "none",
+     "dishes": [
+      {
+       "dish": "bahn mi",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "old prices",
+       "text": "Bahn mi was about $6 around 20 years ago; prices now at least double."
+      },
+      {
+       "about": "locations",
+       "text": "Now has multiple locations."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "vietnamese",
+      "bahn mi"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0562",
+   "comment_id": "t1_o84lada",
+   "model_view": "<post_title>Best Froyo in NYC?</post_title>\n<post_body>I'm obsessed with the original tart flavor of frozen yogurt places. I know there's a few popular spots like Culture/Birdies etc. I was also thinking about Butterfield Market, Mimis, etc. Was wondering if anyone had any strong recs or places I missed? I really love a tangy yogurt, so which one of those places has the most \"yogurt\" tasting froyo, if that makes sense? Thanks!</post_body>\n<thread_above>\n[1] you, earlier: actually- Zabar's on the UWS is very very good!! The zebra's cafe right next to their store!\n</thread_above>\n<comment_to_extract>\nmeant Zabar's! whoops\n</comment_to_extract>",
+   "context": {
+    "title": "Best Froyo in NYC?",
+    "selftext": "I'm obsessed with the original tart flavor of frozen yogurt places. I know there's a few popular spots like Culture/Birdies etc. I was also thinking about Butterfield Market, Mimis, etc. Was wondering if anyone had any strong recs or places I missed? I really love a tangy yogurt, so which one of those places has the most \"yogurt\" tasting froyo, if that makes sense? Thanks!",
+    "ancestors": [
+     {
+      "author": "Specialist-Young-261",
+      "body": "actually- Zabar's on the UWS is very very good!! The zebra's cafe right next to their store!"
+     }
+    ],
+    "author": "Specialist-Young-261",
+    "body": "meant Zabar's! whoops",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Zabar's",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": "Upper West Side",
+     "experience": "none",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0563",
+   "comment_id": "t1_kt5yw5q",
+   "model_view": "<post_title>What's the best steakhouse in Manhattan?</post_title>\n<comment_to_extract>\nGallagher's. next question.\n</comment_to_extract>",
+   "context": {
+    "title": "What's the best steakhouse in Manhattan?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "Particular_Cow_1116",
+    "body": "Gallagher's. next question.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Gallagher's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Manhattan",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "steakhouse"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0564",
+   "comment_id": "t1_k7q5gdf",
+   "model_view": "<post_title>Best chicken tenders in the city??</post_title>\n<thread_above>\n[1] another user: i fucking love Raising Cane's\n[2] another user: they are so bad compared to canes in southern cities and even chicago suburbs. all nyc fried chicken is a dark brown color from being over fried or too oily or maybe its the burners? idk\n</thread_above>\n<comment_to_extract>\nI thought Raising Canes in Arkansas was bland and not that great.\n</comment_to_extract>",
+   "context": {
+    "title": "Best chicken tenders in the city??",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "creativeuniquename69",
+      "body": "i fucking love Raising Cane's"
+     },
+     {
+      "author": "aberrantdinosaur",
+      "body": "they are so bad compared to canes in southern cities and even chicago suburbs. all nyc fried chicken is a dark brown color from being over fried or too oily or maybe its the burners? idk"
+     }
+    ],
+    "author": "moomooraincloud",
+    "body": "I thought Raising Canes in Arkansas was bland and not that great.",
+    "replies": [
+     {
+      "author": "ResearchBot15",
+      "body": "I personally don’t eat that type of dipping sauce and I thought the chicken itself was incredibly bland and lacking salt. Toast was great though"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0565",
+   "comment_id": "t1_oa4wcoq",
+   "model_view": "<post_title>Dessert place</post_title>\n<post_body>I'm taking my daughter out for her 18th birthday.  We're going to be eating near Union Square. Can anyone give some suggestions for places, in the area, to go for a nice dessert, please.</post_body>\n<thread_above>\n[1] another user: Caffe Panna, if you’re okay with it not being a sit down place\n</thread_above>\n<comment_to_extract>\nI just waited in line there all sold out got what was left overpriced and gross do not waste your time\n</comment_to_extract>",
+   "context": {
+    "title": "Dessert place",
+    "selftext": "I'm taking my daughter out for her 18th birthday.  We're going to be eating near Union Square. Can anyone give some suggestions for places, in the area, to go for a nice dessert, please.",
+    "ancestors": [
+     {
+      "author": "Cold_Effective9582",
+      "body": "Caffe Panna, if you’re okay with it not being a sit down place"
+     }
+    ],
+    "author": "Lower_Confusion5072",
+    "body": "I just waited in line there all sold out got what was left overpriced and gross do not waste your time ",
+    "replies": [
+     {
+      "author": "Cold_Effective9582",
+      "body": "Oh? I’m sorry you had a bad experience. It’s regarded as one of the top ice cream shops in the country. I’ve been easily over 20 times and never felt there was a lack of quality. "
+     },
+     {
+      "author": "yourgrandmasgrandma",
+      "body": "Doesn’t sound like they were all sold out."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Caffe Panna",
+     "named_in": "context",
+     "kind": "cafe",
+     "location": "Union Square",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "sold out",
+       "text": "Sold out by the time the commenter got there; waited in line for leftovers."
+      }
+     ],
+     "aspects": {
+      "taste": "very_negative",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": true,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "dessert"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0566",
+   "comment_id": "t1_nz2xrcq",
+   "model_view": "<post_title author=\"you\">60 hours in NYC (v 01-2026)</post_title>\n<post_body author=\"you\">This is my second post on this subreddit, another 60 hours in NYC after a drive from Montreal.\n\nThis days were some of the coldest on NYC history, a few degrees warmer than Montreal, but still pretty cold to try to replicate my previous trips of sunrise to sunset walking outdoors \n\n**Day 1**\n\n\\- We stopped for breakfast in Elizabethtown, a small restaurant called “*Pleasant Valley Cafe*”, great service and good coffee and food.\n\n\\- We arrived late to NYC so only had “*Adel’s Famous*”, it never disappoints and the line was around an hour, so not terrible.\n\n\\- To end the night, a stop at “*I’m Donut ?*”, I tried the limited edition Moët donut, and I loved it, the texture and flavor were just perfect, if you don’t like alcohol you won’t like it since it has a strong taste of champagne. (Photo1)\n\n**Day 2**\n\n\\- After a 13km run in Central Park, I headed out to “*Culture Espresso*”, to try their vanilla dough cookie, it was really good, however my favorite is still the classic chocolate chip, and that one is still my favorite cookie.\n\n\\-  Stopped at “*Los Tacos 1*”, next to Madison Square Garden and shared with my wife 2 tacos. Adobada and steak, both were great and their sauces are actu ...</post_body>\n<thread_above>\n[1] another user: Bagel Pub is so fucking good\n</thread_above>\n<comment_to_extract>\nIt really is!!!\nI personally prefer the style of bagels of Apollo (more crunchy, less doughy) but the spread and their salmon is amazing!\n</comment_to_extract>",
+   "context": {
+    "title": "60 hours in NYC (v 01-2026)",
+    "selftext": "This is my second post on this subreddit, another 60 hours in NYC after a drive from Montreal.\n\nThis days were some of the coldest on NYC history, a few degrees warmer than Montreal, but still pretty cold to try to replicate my previous trips of sunrise to sunset walking outdoors \n\n**Day 1**\n\n\\- We stopped for breakfast in Elizabethtown, a small restaurant called “*Pleasant Valley Cafe*”, great service and good coffee and food.\n\n\\- We arrived late to NYC so only had “*Adel’s Famous*”, it never disappoints and the line was around an hour, so not terrible.\n\n\\- To end the night, a stop at “*I’m Donut ?*”, I tried the limited edition Moët donut, and I loved it, the texture and flavor were just perfect, if you don’t like alcohol you won’t like it since it has a strong taste of champagne. (Photo1)\n\n**Day 2**\n\n\\- After a 13km run in Central Park, I headed out to “*Culture Espresso*”, to try their vanilla dough cookie, it was really good, however my favorite is still the classic chocolate chip, and that one is still my favorite cookie.\n\n\\-  Stopped at “*Los Tacos 1*”, next to Madison Square Garden and shared with my wife 2 tacos. Adobada and steak, both were great and their sauces are actually spicy, would definitely go back if I didn’t go so often to Mexico City. (Photo2)\n\n\\- Tried the “*Mamas Too!*” Chicken Vodka Sandwich, and even if it was great, I’ll stick to having pizzas from there. (Photo3)\n\n**-** As I was getting hungry, I checked if there could be some place at opening time at 4Charles, of course there wasn’t, I left my name on the waitlist but went instead to “*Sip and Guzzle*”, wow! This was the highlight of my trip, I shared the burger and the volcano tuna roll with my wife and I wish we hadn’t shared, they were both amazing! The drinks were a great experience, my favorite drink is the Negroni and here is didn’t disappoint, it’s worth the wait to sit at the bar, the bartenders are really nice and she recommended me some places around that I’ll try in the future! (Photos5&6)\n\n\\- Walked to Chelsea market and after having read good reviews of “*Very Fresh Noodles*”, I tried them and the classic lamb dry noodles didn’t disappoint, also had some dumplings on the side.(Photo7)\n\n\\- I wanted to try the overrated, but affordable Din Tai Fung, however there wasn’t a waitlist as well, so walked instead to “*Golden Hof*”, where we shared the chicken sandwich and the sticky noodles, also had the pancakes as dessert. On my last visit I went to Golden Diner and I loved the pancakes, but somehow I think they tasted different here, I didn’t live them, however the sandwich and noodles were really good and the place is nice and 0 wait compared to the OG in Chinatown.\n\n**Day 3**\n\n\\- “*Chip City”*, cookies and cream cookie, my 2nd favorite of the day. (Photo 8)\n\n\\- “*Bagel Pub*”, first time here and decided to try their limited edition “Super Nova”, I loved it, my favorite bagel overall so far, however, the bagel itself, the bread, I prefer Apollo. (Photo9)\n\n\\- Coffee stop and chocolate chip cookie at “*Seven Grams*”, good coffee, but my least favorite cookie of the day. (Photo10)\n\n\\- “Mei Lai Wah” bakery for their famous pineapple  bun and tried as well the pork one, I prefer the pork, but both were great, specially for the price and speed. (Photo11)\n\n\\- “Pecking House” never disappoints, amazing spicy chicken sandwich with great service and foo quality.(Photo12)\n\n\\- Got a lobster tail at “*Ferrara*”, it was a recommendation from a friend and a great one, I didn’t eat it right away since I was full but ate it at the hotel later that night and it didn’t get soggy, it was still crispy and the size was humongous. (Photo 13)\n\n\\-Coffee stop at “*Caffe Paradiso*”, where I would have usually had their tap coffee, but it was freezing out, so I had instead their cardamom hot latte and it was a really good one. \n\n\\- Stopped for a coffee at “*L’Appartement 4F*” and tried their chocolate cookie, it was a good cookie, but wouldn’t go out of my way again to get it. 3rd favorite cookie of the day. (Photo4)\n\n\\- My favorite cookie of the day was from “*Hani’s*”, a cookie that I would go out of my way to get again, I had a hot chocolate here, but I found it too heavy. (Photo14)\n\n\\- A matcha from “*Ralph’s Coffee*” before our Broadway musical\n\n\\- I went out to eat with a group after broadway, so we chose “*Carmine’s*”, to be honest, I was expecting very little from this place and it didn’t disappoint, big portions sine we were 6 people, we had a Caesar salad, a veal limone and pasta à la vodka and we even had leftovers, quick and good service and more than decent food. Definitely not the best Italian, but centric and good to seat and talk.\n\n**Day 4**\n\n\\- After another 13 km run, I had a coffee at “*Culture Espresso*” (again) and this time the traditional chocolate chip cookie, where I confirmed it’s really my favorite cookie.\n\n\\- “*Apollo Bagels*” and had the salmon on everything bagel, to have a fair comparison with Bagel Pub, and even if I liked more the bread, all of the inside was better from Bagel Pub, however I liked the fresh dill.\n\nAnd that was the end of another 60 hour trip to New York!",
+    "ancestors": [
+     {
+      "author": "Fear_the_chicken",
+      "body": "Bagel Pub is so fucking good"
+     }
+    ],
+    "author": "Viktordarko",
+    "body": "It really is!!!\nI personally prefer the style of bagels of Apollo (more crunchy, less doughy) but the spread and their salmon is amazing!",
+    "replies": [
+     {
+      "author": "Fear_the_chicken",
+      "body": "Haven’t tried Apollo before gonna grab it for breakfast this weekend"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Bagel Pub",
+     "named_in": "context",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "spread",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "salmon",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "bagel style",
+       "text": "commenter prefers Apollo's bagel style (crunchier, less doughy)"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    },
+    {
+     "name": "Apollo",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bagels",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "bagel style",
+       "text": "commenter prefers Apollo's bagel style: more crunchy, less doughy"
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0567",
+   "comment_id": "t1_oelsyji",
+   "model_view": "<post_title>Can Wonder please fuck off</post_title>\n<post_body>I’m genuinely so sick of their shit. They’re literally just 100 ”restaurants” in one, horrible frozen food microwaved and designed (probably even ai-generated) to look good in their ads, taking loads of money from actually delicious small businesses.\n\nI suggest trying Ladybird or PLNTBurger for good healthy vegetarian stuff rather than “Hanu Poke by Wonder” or “Royal Greens” or some shit. You can get Ichiran or Din Tai Fung instead of “Kin House”, 19 Cleveland instead of ”Yasas by Wonder”, Maya Taqueria or Tacombi instead of “Limesalt,” even fucking Dominos rather than “Alanza Pizza.” Buy from your local bakery instead of their dumbass “Room for Dessert.” Literally anything but Wonder will taste better. Support local businesses. Fuck ghost kitchens.</post_body>\n<comment_to_extract>\nI am especially pissed that they are licensing local brands and then selling garbage food. I got thai food that was branded under a legendary spot in Queens (\"SriPraPhai by Wonder\") thinking the food would be up to the restaurant's standards. It was dogshit. I hope SriPraPhai is making some money off the licensing, but I would rather they maintain their brand and dump this horrible deal.\n</comment_to_extract>",
+   "context": {
+    "title": "Can Wonder please fuck off",
+    "selftext": "I’m genuinely so sick of their shit. They’re literally just 100 ”restaurants” in one, horrible frozen food microwaved and designed (probably even ai-generated) to look good in their ads, taking loads of money from actually delicious small businesses.\n\nI suggest trying Ladybird or PLNTBurger for good healthy vegetarian stuff rather than “Hanu Poke by Wonder” or “Royal Greens” or some shit. You can get Ichiran or Din Tai Fung instead of “Kin House”, 19 Cleveland instead of ”Yasas by Wonder”, Maya Taqueria or Tacombi instead of “Limesalt,” even fucking Dominos rather than “Alanza Pizza.” Buy from your local bakery instead of their dumbass “Room for Dessert.” Literally anything but Wonder will taste better. Support local businesses. Fuck ghost kitchens.",
+    "ancestors": [],
+    "author": "generaljoie",
+    "body": "I am especially pissed that they are licensing local brands and then selling garbage food. I got thai food that was branded under a legendary spot in Queens (\"SriPraPhai by Wonder\") thinking the food would be up to the restaurant's standards. It was dogshit. I hope SriPraPhai is making some money off the licensing, but I would rather they maintain their brand and dump this horrible deal.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "SriPraPhai by Wonder",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "thai food",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "licensing",
+       "text": "Branded under the legendary Queens spot SriPraPhai via Wonder licensing; commenter hopes SriPraPhai profits but wants them to end the deal"
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "negative",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "thai"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0568",
+   "comment_id": "t1_ndorn9j",
+   "model_view": "<post_title>The Feast of San Gennaro starts today in Little Italy</post_title>\n<thread_above>\n[1] another user: Why is everyone in this thread such a hater? If you grew up here, especially downtown, you likely be going down there and having a blast... just like every other year. Not everything is so serious. Yeah, a lot of the food is not the same as it was 20yrs ago, but neither is anything here. Sometimes \"good food\" is just wanting to eat some fried shit and hopefully bump into old acquaintances. SMH.\n</thread_above>\n<comment_to_extract>\nI agree, yeah the food is overpriced and mid but so is a lot of festival/fair food.  It's more about the celebration.  IMO it's all the food I frankly would never get usually like Zeppole, Fried Oreos, Sausage and Peppers, Torrone, ect.  What more can you expect from Little Italy?  The place is a dying tourist trap\n</comment_to_extract>",
+   "context": {
+    "title": "The Feast of San Gennaro starts today in Little Italy",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "enuffofthiscrap",
+      "body": "Why is everyone in this thread such a hater?\n\nIf you grew up here, especially downtown, you likely be going down there and having a blast... just like every other year. \n\nNot everything is so serious.  \n\nYeah, a lot of the food is not the same as it was 20yrs ago, but neither is anything here. \n\nSometimes \"good food\" is just wanting to eat some fried shit and hopefully bump into old acquaintances.\n\n\nSMH."
+     }
+    ],
+    "author": "Cold-Metal-2737",
+    "body": "I agree, yeah the food is overpriced and mid but so is a lot of festival/fair food.  It's more about the celebration.  IMO it's all the food I frankly would never get usually like Zeppole, Fried Oreos, Sausage and Peppers, Torrone, ect.  What more can you expect from Little Italy?  The place is a dying tourist trap",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0569",
+   "comment_id": "t1_nsslctm",
+   "model_view": "<post_title>Are there no more middle class restaurants?</post_title>\n<post_body>Seems more and more places are either long lined viral food trucks or popups, or very expensive tasting menus/omakase. The in-between restaurants seem very mediocre and overpriced, looking for a decent restaurant in midtown and every menu has a $39 priced chicken or salmon, maybe enshittification is just dawning on me now? Even the previous go-to affordable eats (ramen, tacos) are expensive now. Is it price hike for rent? Labor? Ingredients? Apologies if this belongs in /r/economicCollapse</post_body>\n<comment_to_extract>\nPolish Restaurants in Greenpoint\n\nRelax*\n\nPysza*\n\nSteve’s Deli*\n\nRetro\n\nKarczma\n\nAll big portions\n\nFull meals with sides, $12-18\n\n*self serve\n</comment_to_extract>",
+   "context": {
+    "title": "Are there no more middle class restaurants?",
+    "selftext": "Seems more and more places are either long lined viral food trucks or popups, or very expensive tasting menus/omakase. The in-between restaurants seem very mediocre and overpriced, looking for a decent restaurant in midtown and every menu has a $39 priced chicken or salmon, maybe enshittification is just dawning on me now? Even the previous go-to affordable eats (ramen, tacos) are expensive now. Is it price hike for rent? Labor? Ingredients? Apologies if this belongs in /r/economicCollapse",
+    "ancestors": [],
+    "author": "Bigdaddyhef-365",
+    "body": "Polish Restaurants in Greenpoint\n\nRelax*\n\nPysza*\n\nSteve’s Deli*\n\nRetro\n\nKarczma\n\nAll big portions\n\nFull meals with sides, $12-18\n\n*self serve",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Relax",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Greenpoint",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "self serve",
+       "text": "Self-serve."
+      },
+      {
+       "about": "portions and prices",
+       "text": "Big portions; full meals with sides $12-18."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "polish",
+      "self serve",
+      "affordable"
+     ]
+    },
+    {
+     "name": "Pysza",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Greenpoint",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "self serve",
+       "text": "Self-serve."
+      },
+      {
+       "about": "portions and prices",
+       "text": "Big portions; full meals with sides $12-18."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "polish",
+      "self serve",
+      "affordable"
+     ]
+    },
+    {
+     "name": "Steve's Deli",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": "Greenpoint",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "self serve",
+       "text": "Self-serve."
+      },
+      {
+       "about": "portions and prices",
+       "text": "Big portions; full meals with sides $12-18."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "polish",
+      "self serve",
+      "affordable"
+     ]
+    },
+    {
+     "name": "Retro",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Greenpoint",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "portions and prices",
+       "text": "Big portions; full meals with sides $12-18."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "polish",
+      "affordable"
+     ]
+    },
+    {
+     "name": "Karczma",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Greenpoint",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "portions and prices",
+       "text": "Big portions; full meals with sides $12-18."
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": "positive",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "endorse",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "polish",
+      "affordable"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0570",
+   "comment_id": "t1_ongtrb0",
+   "model_view": "<post_title>Going to Kabawa for a special occasion what should I get?</post_title>\n<post_body>I am going to Kabawa for a special occasion and had some questions for people who have been recently.\n\nWhat are some of the best items other than the pork chop? Neither of us eat pork. \n\nIs the dry aged steak incredible? I don’t normally eat red meat, but it’s a celebration.\n\nIs the turnover for two worth it? It seems like getting two different desserts would be more interesting.</post_body>\n<thread_above>\n[1] you, earlier: Pepper shrimp and cassava dumplings are both very good. Goat is phenomenal. Duck sausage is good too, very interesting and wasnt what i was expecting. Ive only had the birthday flan for dessert. Outside of that and the turnover i think the other items are new i dont recall them being on the menu. I ...\n[2] OP: Thanks for the in depth answer! Its one of those places where every menu item sounds good so it’s hard to choose\n</thread_above>\n<comment_to_extract>\nYeah pretty much the case. Ask the staff for recommendationa and just order what you're feeling\n</comment_to_extract>",
+   "context": {
+    "title": "Going to Kabawa for a special occasion what should I get?",
+    "selftext": "I am going to Kabawa for a special occasion and had some questions for people who have been recently.\n\nWhat are some of the best items other than the pork chop? Neither of us eat pork. \n\nIs the dry aged steak incredible? I don’t normally eat red meat, but it’s a celebration.\n\nIs the turnover for two worth it? It seems like getting two different desserts would be more interesting. ",
+    "ancestors": [
+     {
+      "author": "thatguy8856",
+      "body": "Pepper shrimp and cassava dumplings are both very good. Goat is phenomenal. Duck sausage is good too, very interesting and wasnt what i was expecting. Ive only had the birthday flan for dessert. Outside of that and the turnover i think the other items are new i dont recall them being on the menu. I really like the flan, but the turnover seems to be the \"it\" dessert. You can most probably can order the turnover and something else youll just have to pay both the supplement (i forget if it has a supplement, but i think it does) and probably extra for the additional dessert. They will also box and let you take to go whatever you want, I've seen a girl solo the turnover and take half of it to go. The portions are hefty and they give you a lot of other stuff included as well so its pretty normal to box some stuff.\n\n\nHave fun and enjoy!"
+     },
+     {
+      "author": "SadCombination7535",
+      "body": "Thanks for the in depth answer! Its one of those places where every menu item sounds good so it’s hard to choose "
+     }
+    ],
+    "author": "thatguy8856",
+    "body": "Yeah pretty much the case. Ask the staff for recommendationa and just order what you're feeling ",
+    "replies": []
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0571",
+   "comment_id": "t1_m5uhij9",
+   "model_view": "<post_title>Name a place to eat at thats nasty af but people hype tf out of it</post_title>\n<thread_above>\n[1] another user: Golden Corral and CiCis Pizza\n</thread_above>\n<comment_to_extract>\nCici’s hit when I was 7. Can’t imagine walking in there without a kid.\n</comment_to_extract>",
+   "context": {
+    "title": "Name a place to eat at thats nasty af but people hype tf out of it",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "Accomplished-One7476",
+      "body": "Golden Corral and CiCis Pizza"
+     }
+    ],
+    "author": "cityofsebastian",
+    "body": "Cici’s hit when I was 7. Can’t imagine walking in there without a kid.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Cici's",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "childhood visits",
+       "text": "Went when the commenter was 7; now they say they wouldn't walk in without a kid"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "pizza",
+      "kids"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0572",
+   "comment_id": "t1_p0c5hc8",
+   "model_view": "<post_title>Why do people think it's a flex to hate on hyped places?</post_title>\n<post_body>I really don't get it. Everyone on here boasts about these places not being worth it. Not worth what exactly? All the alternates that everyone seems to rattle off are worth what? None of these places are worth the money to be honest. So what does it come down to? Good food and entertainment honestly. Sometimes it's about experiencing a hyped place. Then I hear people say wait until the hype dies down. Waiting for it to die down is like rooting for a team when they aren't any good. If someone wants to wait in line for an hour or desperately try to get a reservation for a place, to me that's part of their experience.</post_body>\n<thread_above>\n[1] another user: People are going to call you a transplant for this.\n</thread_above>\n<comment_to_extract>\nNYC is majority non-native, which is one of the things that makes it great.\n\nUsing the word \"transplant,\" reveals infinitely more about the speaker/writer than the subject.\n</comment_to_extract>",
+   "context": {
+    "title": "Why do people think it's a flex to hate on hyped places?",
+    "selftext": "I really don't get it. Everyone on here boasts about these places not being worth it. Not worth what exactly? All the alternates that everyone seems to rattle off are worth what? None of these places are worth the money to be honest. So what does it come down to? Good food and entertainment honestly. Sometimes it's about experiencing a hyped place. Then I hear people say wait until the hype dies down. Waiting for it to die down is like rooting for a team when they aren't any good. If someone wants to wait in line for an hour or desperately try to get a reservation for a place, to me that's part of their experience. ",
+    "ancestors": [
+     {
+      "author": "NOT-GR8-BOB",
+      "body": "People are going to call you a transplant for this. "
+     }
+    ],
+    "author": "isqueakforthetrees",
+    "body": "NYC is majority non-native, which is one of the things that makes it great.\n\nUsing the word \"transplant,\" reveals infinitely more about the speaker/writer than the subject.",
+    "replies": [
+     {
+      "author": "shredded_pork",
+      "body": "There’s nothing wrong with being a transplant- nor is there anything inherently negative about the word. "
+     },
+     {
+      "author": "DinerEnBlanc",
+      "body": "100% this. I'm born in Brooklyn and have lived in the borough my entire life barring the 6 months I stay in Iowa (shivers), and nothing gives me the ick more than people labbing other's a transplants when they have a different opinion. This is a city of immigrants, and we're proud of our diversity. If you live in NY, you are a NYer, end of story."
+     },
+     {
+      "author": "ThePartTimeProphet",
+      "body": "It's no different than people hating on immigrants. People are frustrated with the costs and inconveniences of the city, so they look for an out group (transplants) to blame\n\nHumans never really evolved much past monkeys"
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "R0573",
+   "comment_id": "t1_nhwr3g4",
+   "model_view": "<post_title>How do NYC bagel shops actually differ from each other?</post_title>\n<post_body>Maybe this is a hot take, but I feel like every bagel spot I’ve been to kinda tastes the same. Not just in NYC but even in places like Long Island and New Jersey. It's like takeout Chinese food - literally everywhere taste pretty much the same. \n\nSure some are fresher or chewier than others, but overall they all hit the same notes. For people who really know their bagels, what makes one shop actually stand out?</post_body>\n<comment_to_extract>\nComes down to personal preference. People were screaming about Utopia bagels. OMG, you would think someone found the cormorants common cold. I went to the one in Whitestone. I was completely underwhelmed compared to the hype. Too pillowy soft inside for me.  I don’t know, I live near Zabar’s. Are they the best, maybe not but they are predictable and consistently good and convenient.  Proper chew and not supersized like so many places and definitely boiled not steamed which imho should be banished.\n</comment_to_extract>",
+   "context": {
+    "title": "How do NYC bagel shops actually differ from each other?",
+    "selftext": "Maybe this is a hot take, but I feel like every bagel spot I’ve been to kinda tastes the same. Not just in NYC but even in places like Long Island and New Jersey. It's like takeout Chinese food - literally everywhere taste pretty much the same. \n\nSure some are fresher or chewier than others, but overall they all hit the same notes. For people who really know their bagels, what makes one shop actually stand out? ",
+    "ancestors": [],
+    "author": "Remarkable-World-234",
+    "body": " Comes down to personal preference. People were screaming about Utopia bagels. OMG, you would think someone found the cormorants common cold. I went to the one in Whitestone. I was completely underwhelmed compared to the hype. Too pillowy soft inside for me.  I don’t know, I live near Zabar’s. Are they the best, maybe not but they are predictable and consistently good and convenient.  Proper chew and not supersized like so many places and definitely boiled not steamed which imho should be banished.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Utopia Bagels",
+     "named_in": "comment",
+     "kind": "bakery",
+     "location": "Whitestone",
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bagels",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "hype",
+       "text": "Hyped by others; the commenter was underwhelmed by the Whitestone shop."
+      }
+     ],
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "very_positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels"
+     ]
+    },
+    {
+     "name": "Zabar's",
+     "named_in": "comment",
+     "kind": "deli",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [
+      {
+       "dish": "bagels",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "notes": [
+      {
+       "about": "style",
+       "text": "Proper chew, not oversized, boiled rather than steamed."
+      },
+      {
+       "about": "consistency",
+       "text": "Predictable and consistently good; convenient for the commenter, who lives nearby."
+      }
+     ],
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": [
+      "bagels",
+      "convenient"
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "R0574",
+   "comment_id": "t1_p6b9zgz",
+   "model_view": "<post_title author=\"you\">Mama’s Too in NYC has some of my favorite slices ever!!</post_title>\n<thread_above>\n[1] another user: Those lines are brutal\n</thread_above>\n<comment_to_extract>\nWeekdays 12-2 is the best time to go\n</comment_to_extract>",
+   "context": {
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!",
+    "selftext": "",
+    "ancestors": [
+     {
+      "author": "further-research",
+      "body": "Those lines are brutal "
+     }
+    ],
+    "author": "RumPunchKid",
+    "body": "Weekdays 12-2 is the best time to go",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mama's Too",
+     "named_in": "context",
+     "kind": "restaurant",
+     "location": null,
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "best time to go",
+       "text": "weekdays 12-2 is the best time to visit"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "none",
+     "overall": null,
+     "avoid": false,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "price": null,
+     "tags": []
+    }
+   ]
+  },
+  {
+   "item_id": "R0575",
+   "comment_id": "t1_np1rzga",
+   "model_view": "<post_title>Hale & Hearty Is it back??</post_title>\n<post_body>Is Hale and Hearty back? This was on 7th and 21st in Chelsea.  Hope it’s just as good! Anyone have a scoop.</post_body>\n<comment_to_extract>\nH&H in the Metrotech Center was my go-to for a quick inexpensive lunch when I worked in downtown Brooklyn, and I missed it greatly after it closed.  Glad to know they've risen from the ashes.\n</comment_to_extract>",
+   "context": {
+    "title": "Hale & Hearty Is it back??",
+    "selftext": "Is Hale and Hearty back? This was on 7th and 21st in Chelsea.  Hope it’s just as good! Anyone have a scoop. \n\n",
+    "ancestors": [],
+    "author": "Working_Week_8784",
+    "body": "H&H in the Metrotech Center was my go-to for a quick inexpensive lunch when I worked in downtown Brooklyn, and I missed it greatly after it closed.  Glad to know they've risen from the ashes.",
+    "replies": [
+     {
+      "author": "Lovesyubreddit",
+      "body": "Me too! Early 2000s."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "H&H",
+     "named_in": "comment",
+     "kind": "restaurant",
+     "location": "Metrotech Center, downtown Brooklyn",
+     "experience": "firsthand",
+     "dishes": [],
+     "notes": [
+      {
+       "about": "branch closed",
+       "text": "Metrotech branch closed; commenter is glad the place has returned"
+      },
+      {
+       "about": "lunch",
+       "text": "quick, inexpensive lunch spot when the commenter worked downtown Brooklyn"
+      }
+     ],
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "opinion": "stated",
+     "overall": "positive",
+     "avoid": false,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "price": "cheap",
+     "tags": [
+      "quick lunch",
+      "inexpensive"
+     ]
+    }
+   ]
+  }
+ ]
+}

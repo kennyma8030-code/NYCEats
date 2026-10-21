@@ -1,0 +1,1982 @@
+{
+ "packet": "r019",
+ "items": [
+  {
+   "item_id": "Q0451",
+   "comment_id": "t1_nz6olf5",
+   "model_view": "POST TITLE: French dip or Roast beef recommendations in manhattan?\n\nPOST BODY: Looking for good roast beef or French dip. Would like to also have a view while eating. Being a bit needy lol but any help would be appreciated.\n\nCOMMENT: If you’re a tourist I would skip this, but if you’re a local and just want something good… Parm low key has an incredible roast beef sandwich. Add arugula and balsamic glaze and it’s fantastic. There is one down by the WTC, you can grab the sandwich and go sit at the free outdoor seating behind Brookfield place overlooking the water",
+   "context": {
+    "title": "French dip or Roast beef recommendations in manhattan?",
+    "selftext": "Looking for good roast beef or French dip. Would like to also have a view while eating. Being a bit needy lol but any help would be appreciated. ",
+    "ancestors": [],
+    "author": "Flaky_Ad7885",
+    "body": "If you’re a tourist I would skip this, but if you’re a local and just want something good… Parm low key has an incredible roast beef sandwich. Add arugula and balsamic glaze and it’s fantastic. There is one down by the WTC, you can grab the sandwich and go sit at the free outdoor seating behind Brookfield place overlooking the water",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Parm",
+     "named_in": "comment",
+     "location": "the one down by the WTC",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": true,
+     "dishes": [
+      {
+       "dish": "roast beef sandwich",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "sandwiches",
+      "roast beef",
+      "italian-american"
+     ],
+     "notes": [
+      {
+       "about": "who to avoid it for",
+       "text": "skip it if you're a tourist; better for locals",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "order tip",
+       "text": "add arugula and balsamic glaze",
+       "level": "positive",
+       "dish": "roast beef sandwich"
+      },
+      {
+       "about": "where to eat",
+       "text": "grab the sandwich and eat at the free outdoor seating behind Brookfield Place overlooking the water",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0452",
+   "comment_id": "t1_o3leq0o",
+   "model_view": "POST TITLE: Noona's Ice Cream\n\nPOST BODY: Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasic ...\n\nCOMMENT: Their banana pudding  mochi flavor is so frickin good",
+   "context": {
+    "title": "Noona's Ice Cream",
+    "selftext": "Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)",
+    "ancestors": [],
+    "author": "jjfreshhh",
+    "body": "Their banana pudding  mochi flavor is so frickin good",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Noona's Ice Cream",
+     "named_in": "context",
+     "location": null,
+     "experience": "secondhand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "banana pudding mochi ice cream",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "ice cream"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0453",
+   "comment_id": "t1_ois3ta6",
+   "model_view": "POST TITLE: Can I talk about Los Tacos 1 again?\n\nPOST BODY: Ok I have seen a shit ton of posts/comments saying that LST1 is over rated.  I for one, have lived in nyc my whole life.  Most of my experience is in Manhattan because I live here.  I've tried a lot of small mom and pop shops, trucks, stands, and restaurants in my time. Please don't tell me to travel 45-60 minutes outside of Manhattan to go to sunset park or queens to find better tacos. thats ridi ...\n\nCOMMENT: I don’t hate Los tacos, in fact I like it very much, but when 3 tacos and a drink is nearing 30 bucks it becomes very not worth it very fast",
+   "context": {
+    "title": "Can I talk about Los Tacos 1 again?",
+    "selftext": "Ok I have seen a shit ton of posts/comments saying that LST1 is over rated.  I for one, have lived in nyc my whole life.  Most of my experience is in Manhattan because I live here.  I've tried a lot of small mom and pop shops, trucks, stands, and restaurants in my time. Please don't tell me to travel 45-60 minutes outside of Manhattan to go to sunset park or queens to find better tacos. thats ridiculous and most likely the tacos are just ok.  But please tell me if theres anything better in Manhattan.   \n  \nI dont get why theres so much hate for Los tacos 1?  I finally tried their tacos last week and loved them so I'm judging most of you for groupthink. Please prove me wrong.",
+    "ancestors": [],
+    "author": "Federal_Stay824",
+    "body": "I don’t hate Los tacos, in fact I like it very much, but when 3 tacos and a drink is nearing 30 bucks it becomes very not worth it very fast ",
+    "replies": [
+     {
+      "author": "Purple-Mix1033",
+      "body": "It’s a little pricey for sure. \n\nStill good, but I’m not going out of my way to go there anymore. \n\nI’ll make a trip to Greenpoint for Taco Ramirez. Place is special. And if I need to eat and I’m in the vicinity of a Los Tacos, it’s a solid choice over others.\n\nThere’s so many places to try though. "
+     },
+     {
+      "author": "Additional_Pea_1877",
+      "body": "When a salad and not much else costs $20 at Sweetgreen….food is expensive everywhere. Now add the cost of labor, rent, utilities, insurance, licenses…it’s a miracle that any restaurant survives in NYC. "
+     },
+     {
+      "author": "m0rbius",
+      "body": "I will agree that it's a bit on the pricey side. "
+     },
+     {
+      "author": "GunkisKrumpis",
+      "body": "If I’m still hungry after 30 bucks I’ll pass. Another spot people say is overrated is Katz’s, I disagree. Sandwich is 28 bucks but for me that’s my lunch and dinner and I love their pastrami and brisket. Another spot that I consider expensive and has great food is Birria Landia on Roosevelt Ave"
+     },
+     {
+      "author": "gucci_pucci",
+      "body": "My only gripe is the price. And I’ll suck it an pay every single time because I love it that much"
+     },
+     {
+      "author": "InSearchOfGoodPun",
+      "body": "Sure, it's pricey, but most of the other high-quality taco places in high-rent parts of Manhattan are charging comparable prices, so I don't think they're really that guilty of being \"overpriced.\""
+     },
+     {
+      "author": "warfighter187",
+      "body": "3 steak quesadillas from them are massive and loaded with meat for like $24 after tax which is my usual order\n\n2 is enough really. And that’s only $16"
+     },
+     {
+      "author": "No_Thing1303",
+      "body": "$30 bucks! Sorry I will make my own and throw in a Modelo or 2!🙏🏽✊🏽"
+     },
+     {
+      "author": "EggDisastrous3489",
+      "body": "It’s essentially standard market rate for quality tacos. "
+     },
+     {
+      "author": "misstheolddaysfan",
+      "body": "I dunno, six bucks a pop for real chicken or steak, I find it to be one of the best deals in midtown. "
+     },
+     {
+      "author": "Pelayo_217",
+      "body": "Is a the drink a soft drink or alcoholic? If not the latter that’s wild. "
+     },
+     {
+      "author": "chaseme",
+      "body": "You are way overestimating the cost? Even 3x most expensive item is less than $30…and that’s also a lot of food. "
+     },
+     {
+      "author": "a5d3x0h",
+      "body": "Skip the drink. I routinely get 6 tacos and it’s $36 before tip"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Los Tacos 1",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "neutral",
+     "aspects": {
+      "taste": "positive",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": "expensive",
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "tacos"
+     ],
+     "notes": [
+      {
+       "about": "price",
+       "text": "3 tacos and a drink nearing $30",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0454",
+   "comment_id": "t1_owl51n5",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nCOMMENT: Aw I used to love their freezes so much! But the last time I got one I noticed the ingredients had completely changed (which was a huge reason I got them, in addition to their tasting so great) so I kind of figured they’ve been having to cut corners…",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [],
+    "author": "blueberrycrispp",
+    "body": "Aw I used to love their freezes so much! But the last time I got one I noticed the ingredients had completely changed (which was a huge reason I got them, in addition to their tasting so great) so I kind of figured they’ve been having to cut corners…",
+    "replies": [
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "This was the 2nd time they changed their vanilla flavor and it's sooo good this time. Fewer of their locations serve the freeze and I wanted to try it again "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Pressed Juicery",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": "declined",
+     "status": null,
+     "tags": [
+      "juice bar"
+     ],
+     "notes": [
+      {
+       "about": "ingredients changed",
+       "text": "ingredients completely changed, suspects cutting corners",
+       "level": "negative",
+       "dish": "freezes"
+      },
+      {
+       "about": "past favorite",
+       "text": "used to love their freezes, tasted great before",
+       "level": "positive",
+       "dish": "freezes"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0455",
+   "comment_id": "t1_ocf83gy",
+   "model_view": "POST TITLE: Rate My Itinerary\n\nPOST BODY: For Context, I’ll be at a work trip near NYU for about 5 days. I’m living in Chicago and have never been to NYC, but don’t have a lot of time to leave the West Village/ Chinatown/ Lower Manhattan Areas. I’m looking to try things NYC has that Chicago doesn’t. Such as bagels, NY style pizza, vegetarian/ vegan stuff, Korean, and even BETTER Chinese food. The meals on days 2-4 need to be somewhat fast ...\n\nCOMMENT: Switch out Rubrirosa with Joe and Pats unless you have a reservation at Rubirosa. \n\nA variant view is skip the overrated tourist clusterF at Katz’s and go to S&P Lunch (breakfast or lunch) . \n\nMaybe switch one of your bagel mornings for something like Win Son Bakery (or S&P). That’s a lot of bagels.",
+   "context": {
+    "title": "Rate My Itinerary",
+    "selftext": "For Context, I’ll be at a work trip near NYU for about 5 days. I’m living in Chicago and have never been to NYC, but don’t have a lot of time to leave the West Village/ Chinatown/ Lower Manhattan Areas. I’m looking to try things NYC has that Chicago doesn’t. Such as bagels, NY style pizza, vegetarian/ vegan stuff, Korean, and even BETTER Chinese food. The meals on days 2-4 need to be somewhat fast, but perhaps in NY fashion I can eat a slice on the go. Breakfast joints need to open relatively early to make the list (\\~7am). I have two free days, where I’m planning to eat as much as possible. \n\n\\-How's the plan look? Anything so good I need to add it to the itinerary? Anything skippable? Any late night snack reccs? Coffee reccs? Better bagel joints in the area? I'm looking to generally NOT spend an arm and a leg, but if there's a restaurant that's truly worth it, I'd maybe sub out Gotham's or Vatan.   \n\n\nFood Itinerary:  \nDay 1 (Free Day):   \n\\-Breakfast: Thai Diner  \n\\-Lunch: Her Name is Han  \n\\-Dinner 1: L’Industrie (slice or 2)  \n\\-Dinner 2: Third Kingdom (couple apps and dessert)\n\nDay 2: Work Day 1  \n\\-Quick Breakfast: Apollo Bagel  \n\\-Quick Lunch: Rubirosa pizza  \n\\-Quick Dinner: Wah Fung No. 1 Fast Food  \n\\-Snack: Fong On- tofu pudding\n\nDay 3: Work Day 2  \n\\-Quick Breakfast: Utopia Bagel  \n\\-Quick Lunch: Mama’s TOO slice (or something other than pizza maybe LOL)  \n\\-Dinner: Szechuan Mtn House\n\nDay 4: Work Day 3  \n\\-Quick Breakfast: Russ and Daughters- lox  \n\\-Lunch: Banh mi from Banh Mi Co Ut?? (pick up in the AM)  \n\\-Dinner: Gotham Social Club\n\nDay 5: Free Day  \n\\-Breakfast: Pancakes at Golden Diner  \nLunch: Katz’s Delicatessan?   \nDinner: Vatan? (Entirely diff vibe, but is Jeju Noodle Bar worth the price? or Casa Mono?) \n\n",
+    "ancestors": [],
+    "author": "Cpalms139",
+    "body": "Switch out Rubrirosa with Joe and Pats unless you have a reservation at Rubirosa. \n\nA variant view is skip the overrated tourist clusterF at Katz’s and go to S&P Lunch (breakfast or lunch) . \n\nMaybe switch one of your bagel mornings for something like Win Son Bakery (or S&P). That’s a lot of bagels. ",
+    "replies": [
+     {
+      "author": "bruiserbrody45",
+      "body": "Lol S&P over Katz it's incomparable. S&P also always has a line and is basically Katz for young tik tokers. And I'm saying this as someone who lives by and loves OG CSG.\n\nKatz is in a league of their own and is one of the true tourist/hype spots that's undisputably worth it."
+     },
+     {
+      "author": "bruiserbrody45",
+      "body": "Lol S&P over Katz it's incomparable. S&P also always has a line and is basically Katz for young tik tokers. And I'm saying this as someone who lives by and loves OG CSG.\n\nKatz is in a league of their own and is one of the true tourist/hype spots that's undisputably worth it."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Rubrirosa",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "notes": [
+      {
+       "about": "swap suggestion",
+       "text": "swap out for Joe and Pats unless you have a reservation",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Joe and Pats",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "notes": []
+    },
+    {
+     "name": "Katz's",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "negative",
+      "wait": null
+     },
+     "avoid": true,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "deli"
+     ],
+     "notes": [
+      {
+       "about": "overrated",
+       "text": "overrated tourist trap",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "S&P Lunch",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "breakfast",
+      "lunch"
+     ],
+     "notes": [
+      {
+       "about": "best time to go",
+       "text": "good for breakfast or lunch",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Win Son Bakery",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "bakery"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0456",
+   "comment_id": "t1_pa7h4g8",
+   "model_view": "POST TITLE: Finding the spiciest food in the city. Spiciest only.\n\nPOST BODY: Hey guys. So my wife cannot feel any spicy at all. Like we were in Cali trying some of the spiciest food we could find and it still didn’t do anything for her.  I’m trying to look for a “spicy challenge” type of place to try. She tried carolina reaper and ghost pepper and even they are not spicy for her. It’s kinda crazy but if any of you guys know any place worth stopping by lmk. I don’t mind goi ...\n\nPARENT COMMENT: Hungry Spicy! Its Thai spicy lol\n\nCOMMENT: This is the right answer. It's not very tasty IMO but if you want to challenge yourself with spice, this is the place to go.",
+   "context": {
+    "title": "Finding the spiciest food in the city. Spiciest only.",
+    "selftext": "Hey guys. So my wife cannot feel any spicy at all. Like we were in Cali trying some of the spiciest food we could find and it still didn’t do anything for her.  I’m trying to look for a “spicy challenge” type of place to try. She tried carolina reaper and ghost pepper and even they are not spicy for her. It’s kinda crazy but if any of you guys know any place worth stopping by lmk. I don’t mind going to the city or even yonkers or Long island. Just no staten Island pls. Thank you",
+    "ancestors": [
+     {
+      "author": "halster123",
+      "body": "Hungry Spicy! Its Thai spicy lol"
+     }
+    ],
+    "author": "CheckItWhileIWreckIt",
+    "body": "This is the right answer. It's not very tasty IMO but if you want to challenge yourself with spice, this is the place to go.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Hungry Spicy",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "neutral",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "thai",
+      "spicy challenge"
+     ],
+     "notes": [
+      {
+       "about": "spice challenge",
+       "text": "the right place to go for a spice challenge",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0457",
+   "comment_id": "t1_ower5z6",
+   "model_view": "POST TITLE: Favorite places to get drinks or desserts made with lychee?\n\nPOST BODY: I normally think of lychee as a snacking fruit, but I was reminded last week of how refreshing it is. I feel like lychee is a flavor or ingredient you don't often come across, so before the next temp spike, what are some of your favorite places making drinks or desserts with it?\n\nIronically, what sparked this thought was an ice cream from the new Unnecessary ice cream shop. I tried the Yakult and ...\n\nPARENT COMMENT: Verlain for Lychee Martinis\n\nCOMMENT: Ahh the memories….or lack thereof…",
+   "context": {
+    "title": "Favorite places to get drinks or desserts made with lychee?",
+    "selftext": "I normally think of lychee as a snacking fruit, but I was reminded last week of how refreshing it is. I feel like lychee is a flavor or ingredient you don't often come across, so before the next temp spike, what are some of your favorite places making drinks or desserts with it?\n\nIronically, what sparked this thought was an ice cream from the new Unnecessary ice cream shop. I tried the Yakult and elderflower flavor, and even though it didn't have any lychee in it, the light sweetness, slight tang, and floral notes reminded me a lot of it.\n\nAnd another dessert that comes to mind is the bing fen (ice jelly) from Shan in Brooklyn. It's flavored with oolong, topped with lychee and cream (which might be cool whip, which I normally despise but strangely don't mind here). It's very simple, lightly sweet, cold, and super refreshing.\n\n",
+    "ancestors": [
+     {
+      "author": "What_a_life_1995",
+      "body": "Verlain for Lychee Martinis "
+     }
+    ],
+    "author": "Precious_marimo",
+    "body": "Ahh the memories….or lack thereof… ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Verlain",
+     "named_in": "context",
+     "location": null,
+     "experience": "secondhand",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "cocktails",
+      "lychee martini"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0458",
+   "comment_id": "t1_obkg08l",
+   "model_view": "POST TITLE: red hook tavern dinner walk in - how early would I have to be to get a seat?\n\nPOST BODY: I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?\n\nPARENT COMMENT: Red Hook Tavern is a reaaally small space, and I'm always baffled at the length of the line. You'd feel like people would know by now you have zero shot of getting in for the night if there's more than like...10 groups in line, but no, there's a group of like 20+ people every day waiting an hour plus just to get told there's no spots or MAYBE they'll seat you at 9:30.\n\nCOMMENT: I’m surprised since it’s not super easy to get to without a car",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [
+     {
+      "author": "AvocadoBeefToast",
+      "body": "Red Hook Tavern is a reaaally small space, and I'm always baffled at the length of the line. You'd feel like people would know by now you have zero shot of getting in for the night if there's more than like...10 groups in line, but no, there's a group of like 20+ people every day waiting an hour plus just to get told there's no spots or MAYBE they'll seat you at 9:30."
+     }
+    ],
+    "author": "Glizzys4everyone",
+    "body": "I’m surprised since it’s not super easy to get to without a car ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Red Hook Tavern",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "access",
+       "text": "not super easy to get to without a car",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0459",
+   "comment_id": "t1_lafq521",
+   "model_view": "POST TITLE: What's the worst food you've had in NYC?\n\nPOST BODY: Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places.\n\nCOMMENT: LoveMama was the worst Asian food I’ve ever had. IIRC they bribe people for the five star ratings with some small promo",
+   "context": {
+    "title": "What's the worst food you've had in NYC?",
+    "selftext": "Everybody is always asking for the best of everything. What's the worst you've had?\n\nI will go and try some of these places. ",
+    "ancestors": [],
+    "author": "iamfromcanada",
+    "body": "LoveMama was the worst Asian food I’ve ever had. IIRC they bribe people for the five star ratings with some small promo",
+    "replies": [
+     {
+      "author": "Cartadimusica",
+      "body": "I knew it's all bribery. What they got free food?"
+     },
+     {
+      "author": "cjmmoseley",
+      "body": "agreed! overrated af. i’m more of a saigon shack girl when im in the mood for pho"
+     },
+     {
+      "author": "Catac0",
+      "body": "wait I really like lovemama lmao, maybe not the best but its also not the worst"
+     },
+     {
+      "author": "zenni321",
+      "body": "Oh man. I used to always go there for their rendang dish. The atmosphere there has definitely gone down the tubes since covid though."
+     },
+     {
+      "author": "DACula",
+      "body": "I hated it as well and the owner had the nerve to ask us to rate them 5 stars multiple times in one sitting."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "LoveMama",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_negative",
+     "aspects": {
+      "taste": "very_negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "asian"
+     ],
+     "notes": [
+      {
+       "about": "ratings",
+       "text": "suspects they bribe people for five star ratings with a small promo",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0460",
+   "comment_id": "t1_olo4yxm",
+   "model_view": "POST TITLE: I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?\n\nCOMMENT: The smoked chicken salad at Foster Sundry in Bushwick",
+   "context": {
+    "title": "I am craving chicken salad sandwich. Where in the city did you have the best chicken salad sandwich?",
+    "selftext": "",
+    "ancestors": [],
+    "author": "poopship462",
+    "body": "The smoked chicken salad at Foster Sundry in Bushwick ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Foster Sundry",
+     "named_in": "comment",
+     "location": "Bushwick",
+     "experience": "firsthand",
+     "opinion": "endorse",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "smoked chicken salad",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0461",
+   "comment_id": "t1_ohdl53k",
+   "model_view": "POST TITLE: What are your thoughts on Smorgasburg food market?\n\nPOST BODY: Hi, I'll be visiting NYC next month, and I was wondering what the thoughts on Smorgasburg was?  How crowded does it get, are the prices somewhat within reason, and is the food actually decent?  Any  past favorite you recommend (or dislikes)?\n\nI've never really been to a food festival, and it looked fun to go to.\n\nCOMMENT: I’m gonna be in the minority here and say that I would recommend checking it out for a couple reasons:\n\n— FoodNYC opinions tend to be pretty anti/super critical of tourist and hype places, I’d also keep in mind majority opinions tend to be those who live here \n\n— You’d be a tourist in this instance and have never been to a food market. While it’s great people are saying Queens Night Market is better I imagine you’ll more likely hit up the main tourist sites. I live downtown and still haven’t been to Queens Night Market since I personally deem it a trek so I wouldn’t recommend a tourist to go out of their way to go there (unless you happen to be in the area)\n\n— I’d take a look at the website and see which vendors you’d be interested in checking out and where they’ll show up. World Trade Center is super convenient if you’ll be checking out the sites there but I’m partial to the Williamsburg location since you can check out the area/neighborhood and there are gorgeous views of Manhattan across the water. This is of course dependent on weather.\n\n— Lots of people here are saying quality has gone down, it’s more pricey, etc. and while this may be true to those who are familiar with food festivals I still think Smogarsburg is worth visiting if you’re a tourist/out of town. Still a diverse variety of foods/cuisines and lots of vendors who have gone on to opening their own retail locations and restaurants (Noodle Lane, Birria LES, Hen House comes to mind) that most Redditors here can venture/enjoy but you wouldn’t have the opportunity to see in one place if not for a food festival experience. I personally LOVE the So Sarap stand in Williamsburg because I’m Filipino American and it satisfies my Filipino bbq craving — will also add that except for So Sarap that does pop ups, it’s really hard to get skewers like this since it’s meant to be cooked open fire/grill and the only comparisons I have that come to mind on where to find something similar is in Sunnyside Queens and in Baguio which is my mom’s hometown in the Philippines.\n\nTLDR: don’t listen to the haters and check it out if it interests you!",
+   "context": {
+    "title": "What are your thoughts on Smorgasburg food market?",
+    "selftext": "Hi, I'll be visiting NYC next month, and I was wondering what the thoughts on Smorgasburg was?  How crowded does it get, are the prices somewhat within reason, and is the food actually decent?  Any  past favorite you recommend (or dislikes)?\n\nI've never really been to a food festival, and it looked fun to go to.",
+    "ancestors": [],
+    "author": "aspiring-green-thumb",
+    "body": "I’m gonna be in the minority here and say that I would recommend checking it out for a couple reasons:\n\n— FoodNYC opinions tend to be pretty anti/super critical of tourist and hype places, I’d also keep in mind majority opinions tend to be those who live here \n\n— You’d be a tourist in this instance and have never been to a food market. While it’s great people are saying Queens Night Market is better I imagine you’ll more likely hit up the main tourist sites. I live downtown and still haven’t been to Queens Night Market since I personally deem it a trek so I wouldn’t recommend a tourist to go out of their way to go there (unless you happen to be in the area)\n\n— I’d take a look at the website and see which vendors you’d be interested in checking out and where they’ll show up. World Trade Center is super convenient if you’ll be checking out the sites there but I’m partial to the Williamsburg location since you can check out the area/neighborhood and there are gorgeous views of Manhattan across the water. This is of course dependent on weather.\n\n— Lots of people here are saying quality has gone down, it’s more pricey, etc. and while this may be true to those who are familiar with food festivals I still think Smogarsburg is worth visiting if you’re a tourist/out of town. Still a diverse variety of foods/cuisines and lots of vendors who have gone on to opening their own retail locations and restaurants (Noodle Lane, Birria LES, Hen House comes to mind) that most Redditors here can venture/enjoy but you wouldn’t have the opportunity to see in one place if not for a food festival experience. I personally LOVE the So Sarap stand in Williamsburg because I’m Filipino American and it satisfies my Filipino bbq craving — will also add that except for So Sarap that does pop ups, it’s really hard to get skewers like this since it’s meant to be cooked open fire/grill and the only comparisons I have that come to mind on where to find something similar is in Sunnyside Queens and in Baguio which is my mom’s hometown in the Philippines.\n\nTLDR: don’t listen to the haters and check it out if it interests you!",
+    "replies": [
+     {
+      "author": "ohmosdefinitely",
+      "body": "spot on - no one should be telling this person to trek to queens night market as a substitute. \n\nOP, if your trip itinerary includes activities in those parts of BK on sat or sun, you should go check it out. if you find yourself trying to shoehorn it in, it's probably not worth sacrificing other plans just to make it to smorgasburg. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Smorgasburg",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "food market",
+      "food festival",
+      "outdoor",
+      "tourist"
+     ],
+     "notes": [
+      {
+       "about": "variety",
+       "text": "diverse variety of foods and cuisines, many vendors who went on to open their own restaurants",
+       "level": "positive",
+       "dish": null
+      },
+      {
+       "about": "quality complaints",
+       "text": "others say quality has declined and prices have risen; commenter says that may be true for regulars but it is still worth visiting as a tourist",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "location tip",
+       "text": "World Trade Center location is convenient for sightseeing; Williamsburg location has views of Manhattan across the water, weather dependent",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Queens Night Market",
+     "named_in": "comment",
+     "location": "Queens",
+     "experience": "none",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "food market"
+     ],
+     "notes": [
+      {
+       "about": "distance",
+       "text": "a trek to get to; not worth a tourist going out of their way for it",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Noodle Lane",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "origin",
+       "text": "began as a Smorgasburg vendor and now has its own restaurant",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Birria LES",
+     "named_in": "comment",
+     "location": "LES",
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "birria"
+     ],
+     "notes": [
+      {
+       "about": "origin",
+       "text": "began as a Smorgasburg vendor and now has its own restaurant",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Hen House",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "origin",
+       "text": "began as a Smorgasburg vendor and now has its own restaurant",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "So Sarap",
+     "named_in": "comment",
+     "location": "Williamsburg",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "Filipino bbq skewers",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "filipino",
+      "bbq",
+      "skewers",
+      "pop-up"
+     ],
+     "notes": [
+      {
+       "about": "rarity",
+       "text": "hard to find skewers like this cooked over open fire elsewhere in NYC; does pop-ups beyond Smorgasburg",
+       "level": null,
+       "dish": "Filipino bbq skewers"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0462",
+   "comment_id": "t1_nwffz4v",
+   "model_view": "POST TITLE: Manhatta lived up to the hype\n\nPOST BODY: I’ve gone to a few places that got hyped here and it’s been a little hit or miss but dang Manhatta lived up to the hype.\n\n* sauce work was mind blowing especially on the ribeye\n* service was super nice! not pretentious not overbearing and yet super attentive and present and helpful.\n* ingredient quality was really high and everything tasted excellent, not one thing did I have where I thought ah I ...\n\nPARENT COMMENT: They need to step up the food then. The service is there but the food quality is a half step below Michelin level\n\nCOMMENT: I don’t know, it’s not that bad. I’ve had some pretty\nmid Michelin before.",
+   "context": {
+    "title": "Manhatta lived up to the hype",
+    "selftext": "I’ve gone to a few places that got hyped here and it’s been a little hit or miss but dang Manhatta lived up to the hype.\n\n* sauce work was mind blowing especially on the ribeye\n* service was super nice! not pretentious not overbearing and yet super attentive and present and helpful.\n* ingredient quality was really high and everything tasted excellent, not one thing did I have where I thought ah I could make this at home. Not that it’s a bad thing to think you can make things yourself but it’s nice when something feels special / unique? idk\n* portion sizes were good and for the quality/service the value prop is great imo\n* view was amazing\n\nOverall - believe the hype! I’m def gonna go back.",
+    "ancestors": [
+     {
+      "author": "PostPostMinimalist",
+      "body": "I also thought it was quite good. Service excellent, food very good.  Seems like they are trying to act like a Michelin star restaurant, though to me the food is a touch under that level (obviously, that doesn’t make it bad)."
+     },
+     {
+      "author": "IllResponsibility671",
+      "body": "They probably are trying to get a Michelin. Other restaurants they own have them."
+     },
+     {
+      "author": "Rhino_Thunder",
+      "body": "They need to step up the food then. The service is there but the food quality is a half step below Michelin level"
+     }
+    ],
+    "author": "IllResponsibility671",
+    "body": "I don’t know, it’s not that bad. I’ve had some pretty\nmid Michelin before.",
+    "replies": [
+     {
+      "author": "Rhino_Thunder",
+      "body": "Yeah I guess it doesn’t reach the level of the 1 star places I’ve personally been.\n\nBut I definitely enjoyed the food and plan to go back! The price is lower than most Michelin places too, so that helps"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Manhatta",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "food quality",
+       "text": "says it's not that bad, pushing back on the parent's claim that the food is below Michelin level",
+       "level": "negative",
+       "dish": null
+      },
+      {
+       "about": "michelin comparison",
+       "text": "has had some mid Michelin places before, implying Manhatta is comparable to them",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0463",
+   "comment_id": "t1_lujdud4",
+   "model_view": "POST TITLE: What are cuisines/dishes that are most lacking in NYC?\n\nPOST BODY: For a city with arguably more food options than anywhere else in the country, which foods, either entire cuisines or specific dishes, do you think are hardest to find in NYC?\n\nFor me, personally, its BBQ and Cuban sandwhiches.  Yes, I know there are a few spots, but they are few and far between and decent, at best, compared to southern states and Southern Florida respectively.\n\nPARENT COMMENT: Cajun/Creole. I feel like I can count on one hand how many places there are in the whole city.\n\nCOMMENT: And none are very good. We had a glut of them in the late 80s to mid 90s, but too many were mediocre or worse, just pumping out blackened salmon (after the redfish population collapsed) that was actually just burned and flavorless, slimy gumbo. But there were good restaurants too; heck, K-Paul's had a branch here that opened as a popup in 1985 and later a full restaurant in 89.",
+   "context": {
+    "title": "What are cuisines/dishes that are most lacking in NYC?",
+    "selftext": "For a city with arguably more food options than anywhere else in the country, which foods, either entire cuisines or specific dishes, do you think are hardest to find in NYC?\n\nFor me, personally, its BBQ and Cuban sandwhiches.  Yes, I know there are a few spots, but they are few and far between and decent, at best, compared to southern states and Southern Florida respectively.  ",
+    "ancestors": [
+     {
+      "author": "president_of_burundi",
+      "body": "Cajun/Creole. I feel like I can count on one hand how many places there are in the whole city."
+     }
+    ],
+    "author": "Costco1L",
+    "body": "And none are very good. We had a glut of them in the late 80s to mid 90s, but too many were mediocre or worse, just pumping out blackened salmon (after the redfish population collapsed) that was actually just burned and flavorless, slimy gumbo. But there were good restaurants too; heck, K-Paul's had a branch here that opened as a popup in 1985 and later a full restaurant in 89.",
+    "replies": [
+     {
+      "author": "tacologic",
+      "body": "K-JUN is pretty delicious"
+     },
+     {
+      "author": "president_of_burundi",
+      "body": "I've heard good things about Strange Delight out in BK but haven't made it out there yet, otherwise definitely agree that most are extremely mid.\n\n>K-Paul's had a branch here that opened as a popup in 1985 and later a full restaurant in 89.\n\nI found out years after it closed that we apparently had Jacques Imo's here for a hot second. Missed out on that alligator cheesecake."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "K-Paul's",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "past",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "cajun",
+      "creole"
+     ],
+     "notes": [
+      {
+       "about": "history",
+       "text": "Had a NYC popup in 1985 and a full restaurant from 1989",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0464",
+   "comment_id": "t1_obiye2l",
+   "model_view": "POST TITLE: red hook tavern dinner walk in - how early would I have to be to get a seat?\n\nPOST BODY: I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive?\n\nPARENT COMMENT: Good luck, lemme know how it goes\n\nCOMMENT: Had to wait about an hour, but we did it!",
+   "context": {
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?",
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "ancestors": [
+     {
+      "author": "DoritosDewItRight",
+      "body": "If you have the ability to do so, go on a Thursday for lunch. The menu is the same and when I showed up at 2pm, I was seated immediately."
+     },
+     {
+      "author": "lucas_214",
+      "body": "We’ve decided to go for lunch today"
+     },
+     {
+      "author": "DoritosDewItRight",
+      "body": "Good luck, lemme know how it goes"
+     }
+    ],
+    "author": "lucas_214",
+    "body": "Had to wait about an hour, but we did it! ",
+    "replies": [
+     {
+      "author": "DoritosDewItRight",
+      "body": "Was it worth the wait?"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Red Hook Tavern",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": "negative"
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "wait",
+       "text": "had to wait about an hour for a seat",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0465",
+   "comment_id": "t1_pb1y8yh",
+   "model_view": "POST TITLE: New FiDi Golden Mall. Any opinions yet? ...... ? ?\n\nPOST BODY: Visited the recently new FiDi outpost of the Golden Mall (from Flushing). Half empty or closed. Seems promising judging from menus of open, closed or not yet open spots. \n\nPrices were interestingly reasonable for FiDi (or I'm just jaded now).\n\nI can see it being busy during work week (Yip's anyone) with the variety it offers.\n\nI think it's basement level isn't bad (has street level entrance) but n ...\n\nCOMMENT: I thought the noodle place (Golden Bull handmade noodles) near the entrance had pretty good noodles! Don't get the sandwiches / rou jia mo though, it was terrible. The noodles are good enough to make my regular rotation.\n\nXing Fu Tang and the coconut place downstairs are welcome additions to the neighborhood of otherwise very mid drinks. Neither are amazing in their category if you consider the whole city, but definitely the best in the area.\n\nJoju (Vietnamese) and MalaTang are both fine and I'd go again if I was in the mood for it.",
+   "context": {
+    "title": "New FiDi Golden Mall. Any opinions yet? ...... ? ?",
+    "selftext": "Visited the recently new FiDi outpost of the Golden Mall (from Flushing). Half empty or closed. Seems promising judging from menus of open, closed or not yet open spots. \n\nPrices were interestingly reasonable for FiDi (or I'm just jaded now).\n\nI can see it being busy during work week (Yip's anyone) with the variety it offers.\n\nI think it's basement level isn't bad (has street level entrance) but not helpful for visibility. \n\nCertainly we have a Glut of \"food halls\" and many are being culled.\n\nWill it thrive and survive?",
+    "ancestors": [],
+    "author": "anjellya",
+    "body": "I thought the noodle place (Golden Bull handmade noodles) near the entrance had pretty good noodles! Don't get the sandwiches / rou jia mo though, it was terrible. The noodles are good enough to make my regular rotation.\n\nXing Fu Tang and the coconut place downstairs are welcome additions to the neighborhood of otherwise very mid drinks. Neither are amazing in their category if you consider the whole city, but definitely the best in the area.\n\nJoju (Vietnamese) and MalaTang are both fine and I'd go again if I was in the mood for it.",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Golden Bull handmade noodles",
+     "named_in": "comment",
+     "location": "near the entrance",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "noodles",
+       "level": "positive",
+       "avoid": false
+      },
+      {
+       "dish": "sandwiches",
+       "level": "negative",
+       "avoid": true
+      },
+      {
+       "dish": "rou jia mo",
+       "level": "negative",
+       "avoid": true
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "noodle shop",
+      "handmade noodles"
+     ],
+     "notes": [
+      {
+       "about": "regular rotation",
+       "text": "noodles good enough to be in their regular rotation",
+       "level": "positive",
+       "dish": "noodles"
+      }
+     ]
+    },
+    {
+     "name": "Xing Fu Tang",
+     "named_in": "comment",
+     "location": "in the FiDi Golden Mall",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "neutral",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "drinks"
+     ],
+     "notes": [
+      {
+       "about": "citywide standing",
+       "text": "not amazing in its category citywide, but the best in the area",
+       "level": "neutral",
+       "dish": null
+      },
+      {
+       "about": "neighborhood",
+       "text": "welcome addition to the neighborhood",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "coconut place downstairs",
+     "named_in": "comment",
+     "location": "downstairs in the FiDi Golden Mall",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "neutral",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "coconut drinks"
+     ],
+     "notes": [
+      {
+       "about": "citywide standing",
+       "text": "not amazing in its category citywide, but the best in the area",
+       "level": "neutral",
+       "dish": null
+      },
+      {
+       "about": "neighborhood",
+       "text": "welcome addition to the neighborhood",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Joju",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "vietnamese"
+     ],
+     "notes": [
+      {
+       "about": "would return",
+       "text": "would go again if in the mood for Vietnamese",
+       "level": null,
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "MalaTang",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "malatang"
+     ],
+     "notes": [
+      {
+       "about": "would return",
+       "text": "would go again if in the mood for it",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0466",
+   "comment_id": "t1_o628web",
+   "model_view": "POST TITLE: Cake slice rec\n\nPOST BODY: I just like a decent not too sweet cake slice in the city. Something under $10 and preferably like from a chain (whole foods, tai pan). Any suggestions? Thanks.\n\nCOMMENT: Mia's has many options and they have a location in Times Square.",
+   "context": {
+    "title": "Cake slice rec",
+    "selftext": "I just like a decent not too sweet cake slice in the city. Something under $10 and preferably like from a chain (whole foods, tai pan). Any suggestions? Thanks. ",
+    "ancestors": [],
+    "author": "DealerEquivalent3558",
+    "body": "Mia's has many options and they have a location in Times Square.\n\n",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Mia's",
+     "named_in": "comment",
+     "location": "Times Square",
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "cake slice"
+     ],
+     "notes": [
+      {
+       "about": "menu variety",
+       "text": "has many options",
+       "level": "positive",
+       "dish": null
+      },
+      {
+       "about": "location",
+       "text": "has a location in Times Square",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0467",
+   "comment_id": "t1_oomo25u",
+   "model_view": "POST TITLE: Where can we get mie gorang? Preferably in Brooklyn.\n\nPOST BODY: Looking for this specific Indonesian dish, but also welcome Indonesian recs in general!\n\nCOMMENT: Java in Park Slope",
+   "context": {
+    "title": "Where can we get mie gorang? Preferably in Brooklyn.",
+    "selftext": "Looking for this specific Indonesian dish, but also welcome Indonesian recs in general! ",
+    "ancestors": [],
+    "author": "justflipping",
+    "body": "Java in Park Slope",
+    "replies": [
+     {
+      "author": "zzzzany",
+      "body": "I was so excited to try this place and we ordered delivery and it sucked"
+     },
+     {
+      "author": "cathaysia",
+      "body": "Looks like we will have to make a Queens trip 😂"
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Java",
+     "named_in": "comment",
+     "location": "Park Slope",
+     "experience": "none",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "mie goreng",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "indonesian"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0468",
+   "comment_id": "t1_oh291ix",
+   "model_view": "POST TITLE: Help Finding Cheap Prosciutto Chunks?\n\nPOST BODY: Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!\n\nCOMMENT: Zabars occasionally has them. You could go and ask at the deli counter.",
+   "context": {
+    "title": "Help Finding Cheap Prosciutto Chunks?",
+    "selftext": "Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!",
+    "ancestors": [],
+    "author": "runfromthelaw",
+    "body": "Zabars occasionally has them. You could go and ask at the deli counter.  ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Zabars",
+     "named_in": "comment",
+     "location": null,
+     "experience": "secondhand",
+     "opinion": "endorse",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "prosciutto chunks",
+       "level": null,
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "deli"
+     ],
+     "notes": [
+      {
+       "about": "availability",
+       "text": "occasionally has prosciutto chunks; ask at the deli counter",
+       "level": null,
+       "dish": "prosciutto chunks"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0469",
+   "comment_id": "t1_nxfa85m",
+   "model_view": "POST TITLE: Rate these steakhouses 1-10\n\nPOST BODY: Want to make a running list of the best steakhouses in nyc that are authentic, not gimmicky, and truly have mouth watering steak or prime rib. If i list a few spots, can you rate them for me? Feel free to add more hits. Thanks!!\n\nKeens \n\nSmith& Wollensky\n\nGallagher’s \n\nPeter Luger\n\nGUI Steakhouse\n\nCote\n\n4 Charles\n\nCOMMENT: i have my fav steakhouse depending on what I'm in the mood for.. I like keens for prime rib (and old feel), quality meats for ribeye, etc. that said, $100 for a steak these days is wacky so prefer to just buy steaks and cook it at home. Steak is probably one of the easier things to cook at home (just make sure you have a decent thermometer)..",
+   "context": {
+    "title": "Rate these steakhouses 1-10",
+    "selftext": "Want to make a running list of the best steakhouses in nyc that are authentic, not gimmicky, and truly have mouth watering steak or prime rib. If i list a few spots, can you rate them for me? Feel free to add more hits. Thanks!!\n\nKeens \n\nSmith& Wollensky\n\nGallagher’s \n\nPeter Luger\n\nGUI Steakhouse\n\nCote\n\n4 Charles",
+    "ancestors": [],
+    "author": "mfairview",
+    "body": "i have my fav steakhouse depending on what I'm in the mood for.. I like keens for prime rib (and old feel), quality meats for ribeye, etc. that said, $100 for a steak these days is wacky so prefer to just buy steaks and cook it at home. Steak is probably one of the easier things to cook at home (just make sure you have a decent thermometer)..",
+    "replies": [
+     {
+      "author": "Malsperanza",
+      "body": "Exactly. Buy a good cut of meat - I'm lucky to have a real butcher nearby as well as a farmer's market. Figure out the seasoning you like and how you like to sear. Use a timer. \n\nAn occasional steak dinner at a good steakhouse is still a treat. But I go as much for the atmosphere as for the food. Which is why Luger and Keen's are probably still my first choice - and not because I want to get into a Reddit debate about whether 4 Charles Is Objectively Better Than St. Anselm."
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Keens",
+     "named_in": "comment",
+     "location": null,
+     "experience": "none",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "prime rib",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "steakhouse"
+     ],
+     "notes": [
+      {
+       "about": "old feel",
+       "text": "old-school feel",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "Quality Meats",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "ribeye",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "steakhouse"
+     ],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0470",
+   "comment_id": "t1_p7uqwca",
+   "model_view": "POST TITLE: Best Italian in little Italy\n\nPOST BODY: We should be there around lunchtime time\n\nPARENT COMMENT: Il Cortile is still oustanding. There are other very good restaurants in L.I.\n\nCOMMENT: went to that place once and never again. asked for their filet mignon medium rare and got a well done tire steak and with $10 extra for a soggy bland potato side. It's my fault for ordering a steak in an italian place. Even then it was still not even decent at the very least.",
+   "context": {
+    "title": "Best Italian in little Italy",
+    "selftext": "We should be there around lunchtime time ",
+    "ancestors": [
+     {
+      "author": "JeanCerise",
+      "body": "Little Italy has not been good for itlalian food for about 35 years.  There are many many many places for great Italian food.  Little Italy is not where one goes.  Only unaware mid-market tourists go there."
+     },
+     {
+      "author": "jackchicagobigballs",
+      "body": "Il Cortile is still oustanding. There are other very good restaurants in L.I. "
+     }
+    ],
+    "author": "Forsaken-Teaching-26",
+    "body": "went to that place once and never again. asked for their filet mignon medium rare and got a well done tire steak and with $10 extra for a soggy bland potato side. It's my fault for ordering a steak in an italian place. Even then it was still not even decent at the very least.",
+    "replies": [
+     {
+      "author": "jackchicagobigballs",
+      "body": "should've stuck to veal . or chicken. or pasta! sorry. that does suck. did you speak to the manager? they're so responsive, and usually so good, wonder what happens. "
+     }
+    ]
+   },
+   "shown": [
+    {
+     "name": "Il Cortile",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "very_negative",
+     "aspects": {
+      "taste": "very_negative",
+      "value": "negative",
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "filet mignon",
+       "level": "very_negative",
+       "avoid": false
+      },
+      {
+       "dish": "potato side",
+       "level": "negative",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "italian"
+     ],
+     "notes": [
+      {
+       "about": "doneness",
+       "text": "ordered medium rare, got well done",
+       "level": "very_negative",
+       "dish": "filet mignon"
+      },
+      {
+       "about": "price",
+       "text": "$10 extra for the potato side",
+       "level": "negative",
+       "dish": "potato side"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0471",
+   "comment_id": "t1_oqhkbrq",
+   "model_view": "POST TITLE: Any LGBTQIA+ Restaurants or Bars in NYC to patronize for Pride?\n\nPOST BODY: Same as title. My friend is coming to town for the first time and I wanna show him a good time but absolutely love to take him somewhere inclusive. Preferably, I’d like to take him somewhere Black or POC. Open to all suggestions! \n\nSo far I have St James Libations in Brooklyn. We will definitely be going here for drinks.\n\nCOMMENT: Hi and welcome to your friend!\n\nTwo suggestions for you 😄\n\n1. Someday Bar/Restaurant on Atlantic Ave and Hoyt St. Downtown Brooklyn. Queer owned and also great queer bar staff! They have drag shows on Wednesdays and some weekends they have drag bingo brunch too! Get the burger!\n\n[https://www.somedaybarnyc.com/events/](https://www.somedaybarnyc.com/events/)\n\n2. HAGS - Someone in the thread mentioned them already, Queer owned, POC Queer staff. They have an amazing fixed menu during the week and also a pay what you can brunch on Sundays which is fabulous!\n\n[https://hagsnyc.com/](https://hagsnyc.com/)",
+   "context": {
+    "title": "Any LGBTQIA+ Restaurants or Bars in NYC to patronize for Pride?",
+    "selftext": "Same as title. My friend is coming to town for the first time and I wanna show him a good time but absolutely love to take him somewhere inclusive. Preferably, I’d like to take him somewhere Black or POC. Open to all suggestions! \n\nSo far I have St James Libations in Brooklyn. We will definitely be going here for drinks. ",
+    "ancestors": [],
+    "author": "DealerEquivalent3558",
+    "body": "Hi and welcome to your friend!\n\nTwo suggestions for you 😄\n\n1. Someday Bar/Restaurant on Atlantic Ave and Hoyt St. Downtown Brooklyn. Queer owned and also great queer bar staff! They have drag shows on Wednesdays and some weekends they have drag bingo brunch too! Get the burger!\n\n[https://www.somedaybarnyc.com/events/](https://www.somedaybarnyc.com/events/)\n\n2. HAGS - Someone in the thread mentioned them already, Queer owned, POC Queer staff. They have an amazing fixed menu during the week and also a pay what you can brunch on Sundays which is fabulous!\n\n[https://hagsnyc.com/](https://hagsnyc.com/)",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Someday Bar/Restaurant",
+     "named_in": "comment",
+     "location": "Atlantic Ave and Hoyt St, Downtown Brooklyn",
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": "positive",
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "burger",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "queer owned",
+      "drag shows",
+      "drag brunch",
+      "bar"
+     ],
+     "notes": [
+      {
+       "about": "drag shows",
+       "text": "drag shows on Wednesdays and some weekends",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "drag bingo brunch",
+       "text": "drag bingo brunch some weekends",
+       "level": null,
+       "dish": null
+      },
+      {
+       "about": "staff",
+       "text": "queer bar staff",
+       "level": "positive",
+       "dish": null
+      }
+     ]
+    },
+    {
+     "name": "HAGS",
+     "named_in": "comment",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "positive",
+     "aspects": {
+      "taste": "positive",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "dish": "fixed menu",
+       "level": "positive",
+       "avoid": false
+      }
+     ],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [
+      "queer owned",
+      "fixed menu",
+      "brunch"
+     ],
+     "notes": [
+      {
+       "about": "pay what you can brunch",
+       "text": "pay what you can brunch on Sundays",
+       "level": "positive",
+       "dish": null
+      },
+      {
+       "about": "staff",
+       "text": "POC queer staff",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0472",
+   "comment_id": "t1_oiz9se5",
+   "model_view": "POST TITLE: Pregnancy Craving for CA-Style Breakfast Burrito\n\nPOST BODY: I’m 15 weeks pregnant, and all I want is a Cali-style breakfast burrito. No separated, layered dry ingredients. No bell pepper. I want chorizo, potatoes, eggs and cheddar cheese all combined together in one glorious lump, where the chorizo grease turns the eggs and tortilla red. My craving is aggressive and it remains unsatisfied. I’m almost in tears because I can’t find one anywhere in NYC. I gav ...\n\nPARENT COMMENT: Lived in Arizona for a decade. Santa Fe BK is the closest in nyc I’ve found. \n\nThey also sell flour tortillas that are the best I’ve found.\n\nCOMMENT: It’s so bland. I don’t get the hype",
+   "context": {
+    "title": "Pregnancy Craving for CA-Style Breakfast Burrito",
+    "selftext": "I’m 15 weeks pregnant, and all I want is a Cali-style breakfast burrito. No separated, layered dry ingredients. No bell pepper. I want chorizo, potatoes, eggs and cheddar cheese all combined together in one glorious lump, where the chorizo grease turns the eggs and tortilla red. My craving is aggressive and it remains unsatisfied. I’m almost in tears because I can’t find one anywhere in NYC. I gave a place a chance yesterday and the chorizo was dry structured sausage, the layers separate, and there was bell pepper in it. I have been searching for one since I moved here 12 years ago. \n\nMy consolation is Tacombi because the ingredients are mushed together, but they open at 11 so that rules out weekday breakfast. ",
+    "ancestors": [
+     {
+      "author": "DiscountSilent817",
+      "body": "Lived in Arizona for a decade. Santa Fe BK is the closest in nyc I’ve found. \n\nThey also sell flour tortillas that are the best I’ve found. \n"
+     }
+    ],
+    "author": "Boring_Specific_2022",
+    "body": "It’s so bland. I don’t get the hype ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Santa Fe BK",
+     "named_in": "context",
+     "location": null,
+     "experience": "firsthand",
+     "opinion": "stated",
+     "overall": "negative",
+     "aspects": {
+      "taste": "negative",
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": [
+      {
+       "about": "hype",
+       "text": "doesn't see why it's hyped",
+       "level": "negative",
+       "dish": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "item_id": "Q0473",
+   "comment_id": "t1_own36s3",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nPARENT COMMENT: It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\"  Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it.\n\nRespectfully, a chef.\n\nCOMMENT: because nut juice is frowned upon",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!"
+     },
+     {
+      "author": "mycateatstoenails",
+      "body": "vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb. "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\"  Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it.\n\nRespectfully, a chef."
+     }
+    ],
+    "author": "didnt_knew",
+    "body": "because nut juice is frowned upon ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Pressed Juicery",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "current",
+     "trend": null,
+     "status": null,
+     "tags": [],
+     "notes": []
+    }
+   ]
+  },
+  {
+   "item_id": "Q0474",
+   "comment_id": "t1_owmbvpo",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nPARENT COMMENT: First off, McNuggets with their honey is bomb. Its far from chicken though lol.\n\nTo say again...my main problem is the marketing around it and this weird sense of pretending to be a meat eater. Veggie burgers are fine...why eat that factory made ImpossibleBurger? Its just so bizarre. Eat lentils. Eat eggplant. Eat quinoa. Wtf is imitation burgers?\n\nCOMMENT: It doesn't affect you, so why do you care so much? People always complain about vegans trying to sanctimoniously trying to convert others, but I have never heard any vegan/vegetarians speak with the antagonism of the average meat eater speaks about plant-based diets - like you.\n\nIf someone wants to eat impossible instead of lentils or eggplant, who gives a fuck? Let them live their lives. You don't like it, then don't eat it. Again, it literally doesn't affect you what other people want to eat.",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!"
+     },
+     {
+      "author": "mycateatstoenails",
+      "body": "vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb. "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\"  Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it.\n\nRespectfully, a chef."
+     },
+     {
+      "author": "jaded_toast",
+      "body": "Get off your soap box. There are traditional meat substitutes around the world, like mock meats and mock fish that are a part of Chinese Buddhist cuisine. Who gives a fuck if people call an oat beverage \"oat milk\"? So vegans are not allowed to say \"vegan cheese\", but having to say \"vegan cheese substitute\" would be fine?\n\nYou're a purist with food, but you're ok with the nugget-shaped pink slime McDonalds sells is allowed to be called chicken??\n\nWhen did being a chef make you the police of what people call things that it sounds like you don't even eat. "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "First off, McNuggets with their honey is bomb. Its far from chicken though lol.\n\nTo say again...my main problem is the marketing around it and this weird sense of pretending to be a meat eater. Veggie burgers are fine...why eat that factory made ImpossibleBurger? Its just so bizarre. Eat lentils. Eat eggplant. Eat quinoa. Wtf is imitation burgers? "
+     }
+    ],
+    "author": "jaded_toast",
+    "body": "It doesn't affect you, so why do you care so much? People always complain about vegans trying to sanctimoniously trying to convert others, but I have never heard any vegan/vegetarians speak with the antagonism of the average meat eater speaks about plant-based diets - like you.\n\nIf someone wants to eat impossible instead of lentils or eggplant, who gives a fuck? Let them live their lives. You don't like it, then don't eat it. Again, it literally doesn't affect you what other people want to eat.",
+    "replies": [
+     {
+      "author": "SpongeyBobaruu",
+      "body": "It does though. My sister in law is vegan. My aunt is vegan. Its exhausting getting a \"do you even know the conditions the animals live in?\" Like holy shit....i dont care. Bacon is delicious. Plant based bacon is not bacon."
+     }
+    ]
+   },
+   "shown": []
+  },
+  {
+   "item_id": "Q0475",
+   "comment_id": "t1_owtdezk",
+   "model_view": "POST TITLE: Another Pressed Juicery location bites the dust...\n\nPOST BODY: I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.\n\nCOMMENT: That rent too high",
+   "context": {
+    "title": "Another Pressed Juicery location bites the dust...",
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "ancestors": [],
+    "author": "LordDiddyBootyJaxson",
+    "body": "That rent too high ",
+    "replies": []
+   },
+   "shown": [
+    {
+     "name": "Pressed Juicery",
+     "named_in": "context",
+     "location": null,
+     "experience": "none",
+     "opinion": "none",
+     "overall": null,
+     "aspects": {
+      "taste": null,
+      "value": null,
+      "service": null,
+      "atmosphere": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "price": null,
+     "timeframe": "past",
+     "trend": null,
+     "status": "closed",
+     "tags": [],
+     "notes": [
+      {
+       "about": "closure reason",
+       "text": "location closed because rent is too high",
+       "level": null,
+       "dish": null
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
