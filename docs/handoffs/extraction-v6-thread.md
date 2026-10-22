@@ -321,13 +321,13 @@ thread-better / comment-better / same counts with their difference types,
 and up to five examples each way, beside the headline. Comments covered:
 **fresh 300 at medium and 300 at low** (every target has both round-4
 answers), and **146 of v2half's 240** (round 3's 600, which `bench6-med-r4`
-ran, covers them; medium only). v2half's run goes in as `--pairs-only`, so
-only those 146 are judged and the rest stay with gold scoring. Of the sampled
-whole-thread chunks, the 1 big and 4 recent comments with a round-4 answer
-are paired by the same rule if their chunk is sampled. v1 has 227 such
-comments too; it is scored against gold and left out of the packets, but
-adding its runs as `--pairs-only` would pair them. How many pairs need a
-judge (rather than being identical) is known only once the runs are back.
+ran, covers them; medium only), and **227 of v1's comments at medium and
+the same 227 at low**. The v2half and v1 runs go in as `--pairs-only`, so only
+those comments are judged here and gold scoring for both stays as it is. Of
+the sampled whole-thread chunks, the 1 big and 4 recent comments with a
+round-4 answer are paired by the same rule if their chunk is sampled. How
+many pairs need a judge (rather than being identical) is known only once the
+runs are back.
 
 Grading for big and recent is a sample of chunks (default 12 a run), every
 item in them, so a mention filed under the wrong comment is counted
@@ -406,7 +406,7 @@ python eval/thread_v6/review.py cost RUN(fresh-med32k) RUN(fresh-low) ... RUN(bi
 python eval/thread_v6/review.py provisional RUN(fresh-med32k) RUN(fresh-low)    # against round 4's finals, before judging
 python eval/thread_v6/score_gold.py v1 RUN(v1-med32k) RUN(v1-low)
 python eval/thread_v6/score_gold.py v2half RUN(v2half-med32k) --baseline eval/runs/claude-haiku-5-5__979dcd6b9267__comment__bench6-med-r4_schema.jsonl
-python eval/thread_v6/review.py packets RUN(fresh-med32k) RUN(fresh-low) RUN(recent-med32k) RUN(big-med32k) --sample-chunks 12 --pairs-only RUN(v2half-med32k)
+python eval/thread_v6/review.py packets RUN(fresh-med32k) RUN(fresh-low) RUN(recent-med32k) RUN(big-med32k) --sample-chunks 12 --pairs-only RUN(v2half-med32k) RUN(v1-med32k) RUN(v1-low)
 #   -> eval/thread_v6/review/packets/tNNN.md (chunks) and pairs/aNNN.md (A/B side by side);
 #      one Opus judge per packet, with eval/review_v6r4/RUBRIC.md and eval/thread_v6/RUBRIC_THREAD.md
 python eval/thread_v6/review.py check
