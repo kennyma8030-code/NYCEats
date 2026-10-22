@@ -8,8 +8,10 @@ is different when Haiku read a **chunk of a thread** instead of one comment.
 ## Files you may open
 
 This file, `eval/review_v6r4/RUBRIC.md`, and your one packet
-(`eval/thread_v6/review/packets/tNNN.md` or `.json`). Write only
-`eval/thread_v6/review/judgments/tNNN.jsonl`. Do not open `eval/runs/`, any
+(`eval/thread_v6/review/packets/tNNN.md` or `.json`, or a side-by-side
+packet `eval/thread_v6/review/pairs/aNNN.md` or `.json`). Write only its
+judgment file (`judgments/tNNN.jsonl`, or `pair_judgments/aNNN.jsonl`, under
+`eval/thread_v6/review/`). Do not open `eval/runs/`, any
 `.sealed/` directory, gold or label files, `eval/review_v6r4/packets/` or
 `judgments/`, other packets or other judges' judgments.
 
@@ -59,6 +61,36 @@ and what the poster says about them, their own visits and verdicts included;
 a place the poster only asks about is a mention with opinion "none";
 named_in is always "comment". A place that only a comment names is not the
 post's.
+
+## Two answers for one comment (side-by-side packets, `pairs/aNNN`)
+
+Some packets show one comment with **two answers, A and B**, from two
+different setups; which is which is not said and must not be guessed at.
+There is no "What the model saw" here: judge from the comment, its thread
+and the rules, as if the model had seen what you see.
+
+1. Write your `own_read` once, before the divider, as usual.
+2. Grade **A** and **B** each exactly as you would one answer: a `compare`
+   entry for every place or field where it differs from your own read, its
+   `missed` places, its `notes_grade`, its `overall_item_ok`.
+3. Then say which is better: `"A"`, `"B"`, or `"same"` when they are equally
+   right or equally wrong in the same way. In one sentence, say how they
+   differ (`difference`), and tag it (`difference_types`, any of
+   `missed_place`, `added_place`, `polarity`, `level`, `opinion`,
+   `experience`, `attribution`, `dish`, `other`). Set `"clear": true` when
+   the difference is a clear-cut case worth quoting.
+
+One line per comment in `eval/thread_v6/review/pair_judgments/aNNN.jsonl`:
+
+```json
+{"item_id": "P0001", "comment_id": "t1_...", "own_read": [...],
+ "a": {"compare": [...], "missed": [...], "notes_grade": [...], "overall_item_ok": true},
+ "b": {"compare": [...], "missed": [...], "notes_grade": [...], "overall_item_ok": false},
+ "rule_questions": [], "better": "A", "difference": "B misses the knock on Keens in the reply.",
+ "difference_types": ["missed_place"], "clear": true}
+```
+
+Either answer may carry a planted change, as in every packet.
 
 ## The thread prompt's own words
 

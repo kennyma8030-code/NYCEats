@@ -2,7 +2,7 @@
 
     python eval/thread_v6/review.py finals             # rebuild round 4's sealed key locally, check it
     python eval/thread_v6/review.py provisional RUN    # fresh targets scored against round 4's finals
-    python eval/thread_v6/review.py packets RUN [RUN ...] --sample-chunks 12
+    python eval/thread_v6/review.py packets RUN [RUN ...] --sample-chunks 12 [--pairs-only RUN ...]
     python eval/thread_v6/review.py check              # every packet item judged once, valid
     python eval/thread_v6/review.py score              # -> eval/thread_v6/review/report.json, .md
     python eval/thread_v6/review.py posts RUN --postreview DIR   # [0] against post mode, same posts
@@ -30,6 +30,19 @@ chunks is judged item by item, every numbered comment and the post, so a
 mention filed under the wrong comment shows up (an output mention that is
 not in its item's finals but is in another item's of the same chunk is
 counted as misattributed). The post ([0]) is judged wherever it was an item.
+
+Side by side with round 4 (the owner's rule). Every graded comment that also
+has a round-4 comment-mode answer (prompt 979dcd6b9267, eval/runs/'s
+committed low and medium runs: the fresh 300, and round 3's 600, which
+covers part of v2half) is judged with both answers in front of the judge,
+labelled A and B in an order only the sealed key holds, the thread run paired
+with round 4's run of the same effort. The judge grades each against the
+rubric, then says which is better (or "same") and how they differ. Identical
+answers need no judge: both take round 4's finals and count as "same". The
+score reports, for those comments, each mode's fully-right rate, the
+better/worse/same counts with the kinds of difference, and examples each way,
+beside the headline. These packets are pairs/aNNN, judged into
+pair_judgments/aNNN.jsonl. No other prompt or round is compared this way.
 
 About 8% of judged items show an output with one planted change, round 3's
 five kinds plus one for thread mode (a place moved in from another item of
@@ -329,19 +342,214 @@ def render(name, group):
     return "\n".join(out) + "\n"
 
 
+# ---------------------------------------------------------------- side by side with round 4
+# Where a graded comment also has a round-4 comment-mode answer (prompt
+# 979dcd6b9267, the committed runs: the fresh 300 at both efforts, round 3's
+# 600 at both, which covers part of v2half), the judge grades both answers of
+# that comment side by side, as A and B in an order only the sealed key
+# knows, and says which is better and how they differ. The thread-mode run is
+# paired with round 4's run of the same effort. Identical answers need no
+# judge: both take round 4's finals for that comment, and count as "same".
+R4_RUNS = {"medium": R4_MED, "low": R4_LOW}
+R4_SETS = ("fresh", "r600", "hard")
+PAIRS = os.path.join(OUT, "pairs")
+PAIR_JUDGMENTS = os.path.join(OUT, "pair_judgments")
+BETTER = ("A", "B", "same")
+DIFF_TYPES = ("missed_place", "added_place", "polarity", "level", "opinion", "experience", "attribution",
+              "dish", "other")
+
+
+def effort_of(rec):
+    return "low" if rec.get("reasoning_effort") == "low" else "medium"
+
+
+def r4_source(finals, effort, cid):
+    """Round 4's source label holding this comment's finals at this effort (fresh-med, r600-low ...)."""
+    tag = "low" if effort == "low" else "med"
+    return next((f"{s}-{tag}" for s in R4_SETS if (f"{s}-{tag}", cid) in finals), None)
+
+
+def r4_answers():
+    """{effort: {comment_id: shown answer}} from the round-4 comment runs."""
+    return {e: {cid: B4.shown_form(ms) for cid, ms in J4.raw_outputs(path).items()} for e, path in R4_RUNS.items()}
+
+
+def render_pairs(name, items):
+    """A side-by-side packet: per comment, its thread as context, a divider, then answers A and B."""
+    out = [f"# Side-by-side packet {name}: {len(items)} comments, two answers each",
+           "", "Judge every comment with `eval/review_v6r4/RUBRIC.md` and `eval/thread_v6/RUBRIC_THREAD.md` "
+           "(\"Two answers for one comment\"). Write your `own_read` **before** reading below the comment's "
+           f"divider. Write one JSON line per comment to `eval/thread_v6/review/pair_judgments/{name}.jsonl`, in "
+           "this order. Open nothing else: not `eval/runs/`, any `.sealed/` directory, gold or label files, "
+           "other packets or judgments.", ""]
+    for it in items:
+        c = it["context"]
+        out += [f"## {it['item_id']}: comment {it['comment_id']}", "", f"**Title:** {c['title']}", "",
+                "**Post body:**", "", B3.block(c["selftext"] or "(none)"), ""]
+        if c["ancestors"]:
+            out += ["**Every ancestor, oldest first:**", ""]
+            out += [f"- u/{a.get('author') or '?'}: " + " ".join((a.get("body") or "").split()) for a in c["ancestors"]]
+            out.append("")
+        out += [f"**>>> THE COMMENT (u/{c['author'] or '?'}):**", "", B3.block(c["body"]), ""]
+        if c["replies"]:
+            out += ["**Replies:**", ""]
+            out += [f"- u/{r.get('author') or '?'}: " + " ".join((r.get("body") or "").split())[:400]
+                    for r in c["replies"]]
+            out.append("")
+        out += [B3.DIVIDER, ""]
+        for side in ("A", "B"):
+            out += [f"### {it['item_id']}: answer {side}", "",
+                    B3.block(json.dumps({"mentions": it["answers"][side]}, ensure_ascii=False, indent=1), "json"), ""]
+    return "\n".join(out) + "\n"
+
+
+def side_judgment(j, side):
+    """One side of a pair judgment in round 4's judgment-line shape, for its checker."""
+    s = j.get(side.lower()) or {}
+    return {"item_id": j.get("item_id"), "comment_id": j.get("comment_id"), "own_read": j.get("own_read"),
+            "compare": s.get("compare"), "missed": s.get("missed"), "notes_grade": s.get("notes_grade", []),
+            "rule_questions": j.get("rule_questions", []), "overall_item_ok": s.get("overall_item_ok")}
+
+
+def read_pairs():
+    """({item_id: judgment}, problems, {item_id: packet item}) for the side-by-side packets."""
+    got, problems, items = {}, [], {}
+    if not os.path.isdir(PAIRS):
+        return got, problems, items
+    for fn in sorted(os.listdir(PAIRS)):
+        if not fn.endswith(".json"):
+            continue
+        d = json.load(open(os.path.join(PAIRS, fn), encoding="utf-8"))
+        allowed = {it["item_id"]: it for it in d["items"]}
+        items.update(allowed)
+        path = os.path.join(PAIR_JUDGMENTS, d["packet"] + ".jsonl")
+        if not os.path.exists(path):
+            continue
+        for n, line in enumerate(open(path, encoding="utf-8"), 1):
+            if not line.strip():
+                continue
+            where = f"{d['packet']}:{n}"
+            try:
+                j = json.loads(line)
+            except json.JSONDecodeError as e:
+                problems.append(f"{where}: bad JSON ({e})")
+                continue
+            iid = j.get("item_id")
+            if iid not in allowed:
+                problems.append(f"{where}: {iid!r} is not in this packet")
+                continue
+            if iid in got:
+                problems.append(f"{where}: {iid} judged twice")
+                continue
+            for side in ("A", "B"):
+                if not isinstance(j.get(side.lower()), dict):
+                    problems.append(f"{where}: {iid}: missing the {side.lower()!r} object")
+                    continue
+                problems += [f"{where}: {iid}: answer {side}: {p}"
+                             for p in J4.validate(side_judgment(j, side), allowed[iid]["answers"][side])]
+            if j.get("better") not in BETTER:
+                problems.append(f"{where}: {iid}: better must be one of {BETTER}")
+            if j.get("better") != "same" and not (j.get("difference") or "").strip():
+                problems.append(f"{where}: {iid}: say in `difference` how A and B differ")
+            bad = [t for t in j.get("difference_types") or [] if t not in DIFF_TYPES]
+            if bad:
+                problems.append(f"{where}: {iid}: difference_types {bad} not in {DIFF_TYPES}")
+            got[iid] = j
+    return got, problems, items
+
+
+def caught(p, fin):
+    """Whether a judge's finals undid a planted change."""
+    if p["kind"] == "drop_mention":
+        return any(J3.same(n, p["mention"]) for n, _ in fin)
+    if p["kind"] == FOREIGN:
+        return not any(J3.same(n, p["mention"]) for n, _ in fin)
+    if p["kind"] == "drop_dish":
+        return any(J3.same(n, p["mention"]) and any(J3.S.lenient_same(d, p["field"][5:]) for d in f["dishes"])
+                   for n, f in fin)
+    return any(J3.same(n, p["mention"]) and f.get(p["field"]) != p["shown"] for n, f in fin)
+
+
+def score_pairs(key, r4f, r4s, outputs):
+    """The side-by-side half of the report, and the thread side's finals for the headline.
+
+    Returns (report part, {(source, comment_id): (finals, skips)}, catch counts)."""
+    got, problems, items = read_pairs()
+    answers = r4_answers()
+    acc = collections.defaultdict(collections.Counter)
+    verdicts = collections.defaultdict(collections.Counter)
+    types = collections.defaultdict(collections.Counter)
+    examples = collections.defaultdict(list)
+    thread_finals = {}
+    catch = collections.defaultdict(lambda: [0, 0])
+    for iid, meta in key.get("pairs", {}).items():
+        if iid not in got:
+            continue
+        j, src, cid = got[iid], meta["source"], meta["comment_id"]
+        mode_of = {"A": "thread" if meta["thread_is"] == "A" else "comment"}
+        mode_of["B"] = "comment" if mode_of["A"] == "thread" else "thread"
+        shown = {"thread": outputs.get((src, cid), (None, []))[1],
+                 "comment": answers[meta["effort"]].get(cid, [])}
+        p = meta.get("planted")
+        for side in ("A", "B"):
+            fin = J4.final_places(side_judgment(j, side), items[iid]["answers"][side])
+            skip = {(p["mention"], p["field"])} if p and p["side"] == side else set()
+            J4.score(shown[mode_of[side]], fin, skip, acc[(src, mode_of[side])])
+            if mode_of[side] == "thread":
+                thread_finals[(src, cid)] = (fin, skip)
+            if p and p["side"] == side:
+                catch[p["kind"]][0] += caught(p, fin)
+                catch[p["kind"]][1] += 1
+        better = "same" if j["better"] == "same" else mode_of[j["better"]]
+        verdicts[src][better] += 1
+        for t in j.get("difference_types") or []:
+            types[(src, better)][t] += 1
+        if better != "same":
+            examples[(src, better)].append((not j.get("clear"), cid, j.get("difference", "")))
+    for s in key.get("pairs_same", []):
+        src, cid = s["source"], s["comment_id"]
+        k = (s["r4_source"], cid)
+        if k not in r4f:
+            continue
+        fin, skip = r4f[k], r4s.get(k, set())
+        same = outputs.get((src, cid), (None, []))[1]
+        for mode in ("thread", "comment"):
+            J4.score(same, fin, skip, acc[(src, mode)])
+        thread_finals[(src, cid)] = (fin, skip)
+        verdicts[src]["same"] += 1
+    part = {"problems": problems[:100], "judged": len(got), "expected": len(key.get("pairs", {})),
+            "same_without_a_judge": collections.Counter(s["source"] for s in key.get("pairs_same", [])),
+            "by_source": {}}
+    for src in sorted(verdicts):
+        t, c = J4.summary(acc[(src, "thread")]), J4.summary(acc[(src, "comment")])
+        part["by_source"][src] = {
+            "comments": sum(verdicts[src].values()),
+            "thread_item_ok_rate": t["item_ok_rate"], "comment_item_ok_rate": c["item_ok_rate"],
+            "thread": t, "comment": c, "verdicts": dict(verdicts[src]),
+            "difference_types": {w: dict(types[(src, w)].most_common()) for w in ("thread", "comment")},
+            "examples": {w: [{"comment_id": cid, "difference": d} for _, cid, d in sorted(examples[(src, w)])[:5]]
+                         for w in ("thread", "comment")}}
+    return part, thread_finals, catch
+
+
 def cmd_packets(args):
-    """Packets for every run given: fresh targets whose output differs from round 4's finals
-    (and the post wherever it was item [0]); for whole-thread slices, a sample of chunks, every
-    item in them. Existing packets and judgments are kept: run once per batch of runs."""
+    """Packets for every run given. A graded comment that has a round-4 comment-mode answer of
+    the same effort goes side by side with it (pairs/, unless the two are identical); other
+    fresh targets are judged where their output differs from round 4's finals; the post
+    wherever it was item [0]; for whole-thread slices, a sample of chunks, every item in them.
+    Run once per batch of runs."""
     if os.path.exists(os.path.join(SEALED, "key.json")):
         raise SystemExit("packets were built already (.sealed/key.json exists); judge them, or move them away")
-    finals = r4_finals()[0] if any("fresh" in run_source(p) for p in args.runs) else {}
+    finals = r4_finals()[0]
+    r4 = r4_answers()
     threads = slice_threads()
     fresh = set(fresh_targets())
-    chunks, auto = [], []
+    chunks, auto, pairs, same = [], [], [], []
     first_seen = {}       # item id -> (source, shown) of the first run that sends it to a judge
-    for path in args.runs:
+    pairs_only = {os.path.abspath(p) for p in getattr(args, "pairs_only", None) or []}
+    for path in list(args.runs) + sorted(pairs_only - {os.path.abspath(p) for p in args.runs}):
         src = run_source(path)
+        only = os.path.abspath(path) in pairs_only
         recs = [r for r in run_chunks(path) if r.get("raw") is not None]
         whole = threads[recs[0]["chunk"]["thread_id"]].get("targets") is None if recs else False
         if whole:
@@ -349,11 +557,25 @@ def cmd_packets(args):
         for r in recs:
             view, ids, th, tree = chunk_view(r, threads)
             per = {i: B4.shown_form((r.get("mentions_by_comment") or {}).get(i, [])) for i in r["covers"]}
+            effort = effort_of(r)
             items = []
             for n in sorted(ids):
                 i = ids[n]
                 if i not in r["item_ids"]:
                     continue
+                theirs = None if i.startswith("t3_") else r4[effort].get(i)
+                if theirs is not None:
+                    pair = {"source": src, "comment_id": i, "effort": effort,
+                            "chunk_key": f"{src}:{r['call_key']}",
+                            "r4_source": r4_source(finals, effort, i)}
+                    if B4.same_output(per[i], theirs):
+                        same.append(pair)
+                    else:
+                        pairs.append({**pair, "thread": per[i], "comment": theirs, "context": wider(th, tree, i),
+                                      "neighbours": [m for j, ms in per.items() if j != i for m in ms]})
+                    continue
+                if only:
+                    continue          # a run graded elsewhere (v2half: gold): only its pairs are judged here
                 if i in fresh and src.startswith("fresh") and ("fresh-med", i) in finals \
                         and B4.equal_to_finals(per[i], finals[("fresh-med", i)]):
                     auto.append({"source": src, "comment_id": i, "same_as": "fresh-med finals"})
@@ -370,23 +592,37 @@ def cmd_packets(args):
                               "neighbours": neighbours, "context": wider(th, tree, i)})
             if items:
                 chunks.append({"chunk_key": f"{src}:{r['call_key']}", "view": view, "items": items})
-    todo = [it for g in chunks for it in g["items"]]
+    # Which answer of a pair is A: a coin per comment from the secret salt.
+    for pr in pairs:
+        pr["thread_is"] = "A" if int(hsh("ab|" + pr["source"] + pr["comment_id"]), 16) % 2 == 0 else "B"
+        pr["answers"] = {pr["thread_is"]: pr["thread"], ("B" if pr["thread_is"] == "A" else "A"): pr["comment"]}
+    # About 8% of everything judged carries a planted change, in a chunk item or in
+    # either answer of a pair, so the side-by-side judges are checked too.
+    todo = [("item", it) for g in chunks for it in g["items"]] + [("pair", pr) for pr in pairs]
     planted, k = {}, 0
-    for it in sorted(todo, key=lambda x: hsh("plant|" + x["source"] + x["comment_id"])):
+    for what, it in sorted(todo, key=lambda x: hsh("plant|" + x[0] + x[1]["source"] + x[1]["comment_id"])):
         if k >= round(len(todo) * PLANT_SHARE):
             break
-        res = plant(it, k)
+        if what == "item":
+            res = plant(it, k)
+        else:
+            side = "A" if int(hsh("plant-side|" + it["source"] + it["comment_id"]), 16) % 2 == 0 else "B"
+            is_thread = side == it["thread_is"]
+            res = plant({"shown": it["answers"][side], "neighbours": it["neighbours"] if is_thread else []}, k)
+            if res:
+                res = (res[0], {"side": side, **res[1]})
         if res:
-            planted[(it["source"], it["comment_id"])] = res
+            planted[(what, it["source"], it["comment_id"])] = res
             k += 1
     random.Random(hsh("order")).shuffle(chunks)
-    key = {"items": {}, "auto": auto, "runs": [os.path.relpath(p, EVAL) for p in args.runs]}
+    key = {"items": {}, "auto": auto,
+           "runs": [os.path.relpath(p, EVAL) for p in list(args.runs) + sorted(pairs_only)]}
     n = 0
     for g in chunks:
         for it in g["items"]:
             n += 1
             it["item_id"] = f"T{n:04d}"
-            p = planted.get((it["source"], it["comment_id"]))
+            p = planted.get(("item", it["source"], it["comment_id"]))
             if p:
                 it["shown"] = p[0]
             key["items"][it["item_id"]] = {"source": it["source"], "comment_id": it["comment_id"],
@@ -413,9 +649,40 @@ def cmd_packets(args):
                    "chunk": g["chunk_key"], "model_view": g["view"], "context": it["context"], "shown": it["shown"]}
                   for g in group for it in g["items"]]
         write_json(os.path.join(PACKETS, name + ".json"), {"packet": name, "items": public})
+    random.Random(hsh("pair-order")).shuffle(pairs)
+    key["pairs"], key["pairs_same"] = {}, [{k: v for k, v in s.items()} for s in same]
+    for m, pr in enumerate(pairs, 1):
+        pr["item_id"] = f"P{m:04d}"
+        p = planted.get(("pair", pr["source"], pr["comment_id"]))
+        if p:
+            pr["answers"][p[1]["side"]] = p[0]
+        key["pairs"][pr["item_id"]] = {"source": pr["source"], "comment_id": pr["comment_id"],
+                                       "effort": pr["effort"], "r4_source": pr["r4_source"],
+                                       "chunk_key": pr["chunk_key"], "thread_is": pr["thread_is"],
+                                       **({"planted": p[1]} if p else {})}
+    groups = []
+    for pr in pairs:
+        home = next((g for g in groups if len(g) < PER_PACKET and pr["comment_id"] not in
+                     {x["comment_id"] for x in g}), None)
+        if home is None:
+            groups.append([pr])
+        else:
+            home.append(pr)
+    os.makedirs(PAIRS, exist_ok=True)
+    os.makedirs(PAIR_JUDGMENTS, exist_ok=True)
+    for m, group in enumerate(groups, 1):
+        name = f"a{m:03d}"
+        with open(os.path.join(PAIRS, name + ".md"), "w", encoding="utf-8", newline="\n") as f:
+            f.write(render_pairs(name, group))
+        public = [{"item_id": pr["item_id"], "comment_id": pr["comment_id"], "context": pr["context"],
+                   "answers": pr["answers"]} for pr in group]
+        write_json(os.path.join(PAIRS, name + ".json"), {"packet": name, "items": public})
     write_json(os.path.join(SEALED, "key.json"), key)
     by = collections.Counter(v["source"] for v in key["items"].values())
     print(json.dumps({"packets": len(packets), "judged_items": n, "by_source": by, "auto_resolved": len(auto),
+                      "pair_packets": len(groups), "pairs_judged": len(pairs),
+                      "pairs_by_source": collections.Counter(pr["source"] for pr in pairs),
+                      "pairs_identical": collections.Counter(s["source"] for s in same),
                       "planted": len(planted)}, indent=1))
 
 
@@ -428,10 +695,12 @@ def paths():
 
 def cmd_check(_args):
     got, problems, items = J4.read(paths())
-    print(f"{len(got)} of {len(items)} items judged, {len(problems)} problem(s)")
-    for p in problems[:50]:
+    pgot, pproblems, pitems = read_pairs()
+    print(f"{len(got)} of {len(items)} items judged, {len(pgot)} of {len(pitems)} side-by-side comments judged, "
+          f"{len(problems) + len(pproblems)} problem(s)")
+    for p in (problems + pproblems)[:50]:
         print("  " + p)
-    return 1 if problems or len(got) < len(items) else 0
+    return 1 if problems or pproblems or len(got) < len(items) or len(pgot) < len(pitems) else 0
 
 
 def cmd_score(_args):
@@ -440,7 +709,9 @@ def cmd_score(_args):
     apart, misattributed mentions, and the planted catch rate."""
     key = json.load(open(paths().key, encoding="utf-8"))
     got, problems, items = J4.read(paths())
-    r4f, r4s = r4_finals()[:2] if any(a["same_as"] == "fresh-med finals" for a in key["auto"]) else ({}, {})
+    needs_r4 = key.get("pairs") or key.get("pairs_same") or any(a["same_as"] == "fresh-med finals"
+                                                                 for a in key["auto"])
+    r4f, r4s = r4_finals()[:2] if needs_r4 else ({}, {})
     outputs = {}
     for p in key["runs"]:
         src = run_source(p)
@@ -461,10 +732,13 @@ def cmd_score(_args):
         elif (a["same_as"], a["comment_id"]) in finals:
             finals[k] = finals[(a["same_as"], a["comment_id"])]
             skips[k] = skips.get((a["same_as"], a["comment_id"]), set())
+    side_by_side, thread_finals, pair_catch = score_pairs(key, r4f, r4s, outputs)
+    for k, (fin, skip) in thread_finals.items():
+        finals[k], skips[k] = fin, skip
     acc = collections.defaultdict(collections.Counter)
     misattributed = collections.Counter()
     by_chunk = collections.defaultdict(dict)
-    for iid, meta in key["items"].items():
+    for meta in list(key["items"].values()) + list(key.get("pairs", {}).values()) + key.get("pairs_same", []):
         by_chunk[meta["chunk_key"]][meta["comment_id"]] = (meta["source"], meta["comment_id"])
     for (src, cid), fin in finals.items():
         if (src, cid) not in outputs:
@@ -484,24 +758,15 @@ def cmd_score(_args):
               "auto_resolved": collections.Counter(a["source"] for a in key["auto"]),
               "by_source": {s: J4.summary(a) for s, a in sorted(acc.items())},
               "misattributed_mentions": dict(misattributed),
+              "side_by_side_with_round_4": side_by_side,
               "baseline_comment_mode_fresh_med": json.load(open(os.path.join(R4_DIR, "report.json"),
                                                                 encoding="utf-8"))["by_source"]["fresh-med"]}
-    catch = collections.defaultdict(lambda: [0, 0])
+    catch = pair_catch
     for iid, meta in key["items"].items():
         p = meta.get("planted")
         if not p or iid not in got:
             continue
-        fin = J4.final_places(got[iid], items[iid]["shown"])
-        if p["kind"] == "drop_mention":
-            hit = any(J3.same(n, p["mention"]) for n, _ in fin)
-        elif p["kind"] == FOREIGN:
-            hit = not any(J3.same(n, p["mention"]) for n, _ in fin)
-        elif p["kind"] == "drop_dish":
-            hit = any(J3.same(n, p["mention"]) and any(J3.S.lenient_same(d, p["field"][5:]) for d in f["dishes"])
-                      for n, f in fin)
-        else:
-            hit = any(J3.same(n, p["mention"]) and f.get(p["field"]) != p["shown"] for n, f in fin)
-        catch[p["kind"]][0] += hit
+        catch[p["kind"]][0] += caught(p, J4.final_places(got[iid], items[iid]["shown"]))
         catch[p["kind"]][1] += 1
     report["planted_catch_rate"] = {k: {"caught": v[0], "n": v[1]} for k, v in sorted(catch.items())}
     write_json(os.path.join(OUT, "report.json"), report)
@@ -514,7 +779,21 @@ def cmd_score(_args):
         lines.append(f"| {s} | {v['items']} | {v['item_ok_rate']} | {v['mention_recall']} | {v['mention_precision']} | "
                      f"{v['negative_recall']} |")
     lines += ["", f"Misattributed mentions: {report['misattributed_mentions']}",
-              f"Planted catch: {report['planted_catch_rate']}"]
+              f"Planted catch: {report['planted_catch_rate']}", "",
+              "## Side by side with round 4's comment mode (same comments, same effort)", "",
+              f"Judged {side_by_side['judged']} of {side_by_side['expected']} pairs; identical without a judge: "
+              f"{dict(side_by_side['same_without_a_judge'])}.", "",
+              "| thread run | comments | thread fully right | comment fully right | thread better | "
+              "comment better | same |", "|---|---:|---:|---:|---:|---:|---:|"]
+    for src, v in side_by_side["by_source"].items():
+        vd = v["verdicts"]
+        lines.append(f"| {src} | {v['comments']} | {v['thread_item_ok_rate']} | {v['comment_item_ok_rate']} | "
+                     f"{vd.get('thread', 0)} | {vd.get('comment', 0)} | {vd.get('same', 0)} |")
+    for src, v in side_by_side["by_source"].items():
+        for w in ("thread", "comment"):
+            if v["difference_types"][w] or v["examples"][w]:
+                lines += ["", f"**{src}, {w} mode better**: {v['difference_types'][w]}"]
+                lines += [f"- {e['comment_id']}: {e['difference']}" for e in v["examples"][w]]
     with open(os.path.join(OUT, "report.md"), "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(lines) + "\n")
     print("\n".join(lines))
@@ -591,6 +870,9 @@ def main():
     p = sub.add_parser("packets")
     p.add_argument("runs", nargs="+")
     p.add_argument("--sample-chunks", type=int, default=12, help="chunks judged per whole-thread run")
+    p.add_argument("--pairs-only", nargs="*", default=[],
+                   help="runs graded elsewhere (v2half, against gold): only their comments with a round-4 "
+                        "answer are judged, side by side")
     sub.add_parser("check")
     sub.add_parser("score")
     p = sub.add_parser("posts")

@@ -305,6 +305,30 @@ it is item `[0]` of a chunk that is sent, and never sent for):
 - **recent**: 40 of the owner's 100 post-reviewed threads (Aug 1 to Oct 21
   2026), whole; `review.py posts` sets each `[0]` beside post mode's answer.
 
+**Side by side with round 4 (the owner's rule).** Every graded comment that
+also has a round-4 comment-mode answer (prompt `979dcd6b9267`, the committed
+runs `bench6-med-r4` and `bench6-low-r4`) is judged with both answers in
+front of the judge, labelled A and B in an order only `.sealed/key.json`
+holds; the thread run is paired with round 4's run of the same effort. The
+judge grades each against the round-4 rubric, then records which is better
+(or "same") and one sentence on the difference, tagged (missed or added
+place, polarity, level, opinion, experience, attribution, dish).
+`RUBRIC_THREAD.md` has the section. Identical answers need no judge: both
+take round 4's finals and count as "same". Either answer may carry a planted
+change, at the same ~8% overall. `review.py score` reports, for these
+comments, each mode's fully-right rate on the same comments, the
+thread-better / comment-better / same counts with their difference types,
+and up to five examples each way, beside the headline. Comments covered:
+**fresh 300 at medium and 300 at low** (every target has both round-4
+answers), and **146 of v2half's 240** (round 3's 600, which `bench6-med-r4`
+ran, covers them; medium only). v2half's run goes in as `--pairs-only`, so
+only those 146 are judged and the rest stay with gold scoring. Of the sampled
+whole-thread chunks, the 1 big and 4 recent comments with a round-4 answer
+are paired by the same rule if their chunk is sampled. v1 has 227 such
+comments too; it is scored against gold and left out of the packets, but
+adding its runs as `--pairs-only` would pair them. How many pairs need a
+judge (rather than being identical) is known only once the runs are back.
+
 Grading for big and recent is a sample of chunks (default 12 a run), every
 item in them, so a mention filed under the wrong comment is counted
 (`misattributed_mentions`). About 8% of judged items carry a planted change:
@@ -382,9 +406,9 @@ python eval/thread_v6/review.py cost RUN(fresh-med32k) RUN(fresh-low) ... RUN(bi
 python eval/thread_v6/review.py provisional RUN(fresh-med32k) RUN(fresh-low)    # against round 4's finals, before judging
 python eval/thread_v6/score_gold.py v1 RUN(v1-med32k) RUN(v1-low)
 python eval/thread_v6/score_gold.py v2half RUN(v2half-med32k) --baseline eval/runs/claude-haiku-5-5__979dcd6b9267__comment__bench6-med-r4_schema.jsonl
-python eval/thread_v6/review.py packets RUN(fresh-med32k) RUN(fresh-low) RUN(recent-med32k) RUN(big-med32k) --sample-chunks 12
-#   -> eval/thread_v6/review/packets/tNNN.md; one Opus judge per packet, with
-#      eval/review_v6r4/RUBRIC.md and eval/thread_v6/RUBRIC_THREAD.md
+python eval/thread_v6/review.py packets RUN(fresh-med32k) RUN(fresh-low) RUN(recent-med32k) RUN(big-med32k) --sample-chunks 12 --pairs-only RUN(v2half-med32k)
+#   -> eval/thread_v6/review/packets/tNNN.md (chunks) and pairs/aNNN.md (A/B side by side);
+#      one Opus judge per packet, with eval/review_v6r4/RUBRIC.md and eval/thread_v6/RUBRIC_THREAD.md
 python eval/thread_v6/review.py check
 python eval/thread_v6/review.py score                  # -> eval/thread_v6/review/report.md
 python eval/thread_v6/review.py posts RUN(recent-med32k) --postreview DIR_WITH_batchN.txt
