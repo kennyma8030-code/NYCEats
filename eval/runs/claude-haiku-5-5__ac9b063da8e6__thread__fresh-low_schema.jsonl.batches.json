@@ -1,0 +1,1540 @@
+{
+ "batches": {
+  "msgbatch_01B4TfWNbnbTBHtaDdkWBAUj": {
+   "requests": {
+    "r000000": [
+     "chunk:t3_1011w5r:1de5df24a686",
+     0,
+     1
+    ],
+    "r000001": [
+     "chunk:t3_109bme2:38aee675a2d9",
+     0,
+     1
+    ],
+    "r000002": [
+     "chunk:t3_10akksk:521b2eef497d",
+     0,
+     1
+    ],
+    "r000003": [
+     "chunk:t3_10mehbu:14d042fbdd3c",
+     0,
+     1
+    ],
+    "r000004": [
+     "chunk:t3_10q9htq:dfacb965b115",
+     0,
+     1
+    ],
+    "r000005": [
+     "chunk:t3_10tj2ii:c17348e1b1d6",
+     0,
+     1
+    ],
+    "r000006": [
+     "chunk:t3_10x0g6a:06af5543ecb4",
+     0,
+     1
+    ],
+    "r000007": [
+     "chunk:t3_111kfux:0214c292a955",
+     0,
+     1
+    ],
+    "r000008": [
+     "chunk:t3_117h98m:6eb61eb1aba6",
+     0,
+     1
+    ],
+    "r000009": [
+     "chunk:t3_11gg0o8:66ab0ab78ed3",
+     0,
+     1
+    ],
+    "r000010": [
+     "chunk:t3_11liwzc:2a38b41e2c4a",
+     0,
+     1
+    ],
+    "r000011": [
+     "chunk:t3_11ne9b5:6440a43ee182",
+     0,
+     1
+    ],
+    "r000012": [
+     "chunk:t3_11urpfj:bb2195e4172a",
+     0,
+     1
+    ],
+    "r000013": [
+     "chunk:t3_12lw73j:bb625c5828af",
+     0,
+     1
+    ],
+    "r000014": [
+     "chunk:t3_12m400k:9f1afcc4d7d6",
+     0,
+     1
+    ],
+    "r000015": [
+     "chunk:t3_12qy4d1:12a710d37714",
+     0,
+     1
+    ],
+    "r000016": [
+     "chunk:t3_12wc7kc:3cb6cbd9abf1",
+     0,
+     1
+    ],
+    "r000017": [
+     "chunk:t3_12zx0rw:e8d1166f8003",
+     0,
+     1
+    ],
+    "r000018": [
+     "chunk:t3_13i7uki:3d4b686a7724",
+     0,
+     1
+    ],
+    "r000019": [
+     "chunk:t3_149ofqv:5266f742a602",
+     0,
+     1
+    ],
+    "r000020": [
+     "chunk:t3_14ayced:7b54d0b96ed8",
+     0,
+     1
+    ],
+    "r000021": [
+     "chunk:t3_14fju2x:4f77f01c7d4e",
+     0,
+     1
+    ],
+    "r000022": [
+     "chunk:t3_14x4c1m:c563bbac1386",
+     0,
+     1
+    ],
+    "r000023": [
+     "chunk:t3_14z1ptj:e13cf6f6ee83",
+     0,
+     1
+    ],
+    "r000024": [
+     "chunk:t3_15cxxt3:9f29bd025fa9",
+     0,
+     1
+    ],
+    "r000025": [
+     "chunk:t3_15erh5n:82e6a86ebcf0",
+     0,
+     1
+    ],
+    "r000026": [
+     "chunk:t3_15fl3sp:2a27aa71c695",
+     0,
+     1
+    ],
+    "r000027": [
+     "chunk:t3_15iwd01:5f41d4eb0bda",
+     0,
+     1
+    ],
+    "r000028": [
+     "chunk:t3_15j7op9:e0b0c8c324a7",
+     0,
+     1
+    ],
+    "r000029": [
+     "chunk:t3_15ndkn9:7c1da5d80d9d",
+     0,
+     1
+    ],
+    "r000030": [
+     "chunk:t3_15o6l1b:71ed228c28e4",
+     0,
+     1
+    ],
+    "r000031": [
+     "chunk:t3_169vpa1:784e6984b0f6",
+     0,
+     1
+    ],
+    "r000032": [
+     "chunk:t3_169vpa1:20f9da70d27e",
+     0,
+     1
+    ],
+    "r000033": [
+     "chunk:t3_16dgof4:9af55446c5a6",
+     0,
+     1
+    ],
+    "r000034": [
+     "chunk:t3_16mirrj:0cc824a8816a",
+     0,
+     1
+    ],
+    "r000035": [
+     "chunk:t3_16rntdc:116187f39101",
+     0,
+     1
+    ],
+    "r000036": [
+     "chunk:t3_176gimq:7cdab9093571",
+     0,
+     1
+    ],
+    "r000037": [
+     "chunk:t3_177hxzb:89f4e3ecf836",
+     0,
+     1
+    ],
+    "r000038": [
+     "chunk:t3_178mi7s:e647aee29fd4",
+     0,
+     1
+    ],
+    "r000039": [
+     "chunk:t3_178p8w8:aa69c980761b",
+     0,
+     1
+    ],
+    "r000040": [
+     "chunk:t3_179fpon:23c6fdc18dec",
+     0,
+     1
+    ],
+    "r000041": [
+     "chunk:t3_17e66ao:690908b531f6",
+     0,
+     1
+    ],
+    "r000042": [
+     "chunk:t3_17lk81j:9f3e1890e7a1",
+     0,
+     1
+    ],
+    "r000043": [
+     "chunk:t3_17mequh:c5044b5f3c18",
+     0,
+     1
+    ],
+    "r000044": [
+     "chunk:t3_17n32qz:ab3c9240467c",
+     0,
+     1
+    ],
+    "r000045": [
+     "chunk:t3_17siei6:42b7145f4b74",
+     0,
+     1
+    ],
+    "r000046": [
+     "chunk:t3_17vz94k:ad90507b51f4",
+     0,
+     1
+    ],
+    "r000047": [
+     "chunk:t3_181uvtf:d18a38960edd",
+     0,
+     1
+    ],
+    "r000048": [
+     "chunk:t3_18eqpgm:4fda60684013",
+     0,
+     1
+    ],
+    "r000049": [
+     "chunk:t3_18g4a31:33799a4fd368",
+     0,
+     1
+    ],
+    "r000050": [
+     "chunk:t3_18gbp6k:883a2f3ce4a9",
+     0,
+     1
+    ],
+    "r000051": [
+     "chunk:t3_18gpacv:9a175dddc6e8",
+     0,
+     1
+    ],
+    "r000052": [
+     "chunk:t3_18necdk:18654f7005f5",
+     0,
+     1
+    ],
+    "r000053": [
+     "chunk:t3_18pi624:fbb35ac08114",
+     0,
+     1
+    ],
+    "r000054": [
+     "chunk:t3_18vcq6b:e89b000280de",
+     0,
+     1
+    ],
+    "r000055": [
+     "chunk:t3_18y5xg8:86b84b109057",
+     0,
+     1
+    ],
+    "r000056": [
+     "chunk:t3_190gxif:e23bea8ee3eb",
+     0,
+     1
+    ],
+    "r000057": [
+     "chunk:t3_1922tk8:0d1f1433d03f",
+     0,
+     1
+    ],
+    "r000058": [
+     "chunk:t3_194twex:149246149d65",
+     0,
+     1
+    ],
+    "r000059": [
+     "chunk:t3_1978o5r:4a61c3eda1f4",
+     0,
+     1
+    ],
+    "r000060": [
+     "chunk:t3_1aeai5l:8cd8bed96465",
+     0,
+     1
+    ],
+    "r000061": [
+     "chunk:t3_1agbort:5538e28c63ef",
+     0,
+     1
+    ],
+    "r000062": [
+     "chunk:t3_1agbort:61246b0e210a",
+     0,
+     1
+    ],
+    "r000063": [
+     "chunk:t3_1arqdqo:1b37cb15c9b8",
+     0,
+     1
+    ],
+    "r000064": [
+     "chunk:t3_1avorcu:69e712eb3a17",
+     0,
+     1
+    ],
+    "r000065": [
+     "chunk:t3_1awekdt:a06bfd33228a",
+     0,
+     1
+    ],
+    "r000066": [
+     "chunk:t3_1b11mr4:434150b7b8c9",
+     0,
+     1
+    ],
+    "r000067": [
+     "chunk:t3_1b2hnr4:ba37ff15d4a6",
+     0,
+     1
+    ],
+    "r000068": [
+     "chunk:t3_1b5gct1:1aadfe85803e",
+     0,
+     1
+    ],
+    "r000069": [
+     "chunk:t3_1b84dta:33189752f2d7",
+     0,
+     1
+    ],
+    "r000070": [
+     "chunk:t3_1b8vys2:fc8a3de5f085",
+     0,
+     1
+    ],
+    "r000071": [
+     "chunk:t3_1bfpa8a:65eec599885a",
+     0,
+     1
+    ],
+    "r000072": [
+     "chunk:t3_1bgebbz:a81d881354f6",
+     0,
+     1
+    ],
+    "r000073": [
+     "chunk:t3_1bgfbb6:f956dd1c86a8",
+     0,
+     1
+    ],
+    "r000074": [
+     "chunk:t3_1bj6qkp:b419b83b230e",
+     0,
+     1
+    ],
+    "r000075": [
+     "chunk:t3_1bk9lel:51b264b457ba",
+     0,
+     1
+    ],
+    "r000076": [
+     "chunk:t3_1bkr5re:1ddbe4a4f5dc",
+     0,
+     1
+    ],
+    "r000077": [
+     "chunk:t3_1bl4fdr:443661a30b3a",
+     0,
+     1
+    ],
+    "r000078": [
+     "chunk:t3_1bny8jw:88242c8915ad",
+     0,
+     1
+    ],
+    "r000079": [
+     "chunk:t3_1bqmi3j:2a40e652fe9e",
+     0,
+     1
+    ],
+    "r000080": [
+     "chunk:t3_1bsmkwm:4477b8161bfa",
+     0,
+     1
+    ],
+    "r000081": [
+     "chunk:t3_1bsmkwm:6d00e0471208",
+     0,
+     1
+    ],
+    "r000082": [
+     "chunk:t3_1btyoqv:099cb0d01d27",
+     0,
+     1
+    ],
+    "r000083": [
+     "chunk:t3_1bw7lcw:dd2286e364be",
+     0,
+     1
+    ],
+    "r000084": [
+     "chunk:t3_1bws3ug:e7e95a39b53f",
+     0,
+     1
+    ],
+    "r000085": [
+     "chunk:t3_1byebr9:961d52cc7c52",
+     0,
+     1
+    ],
+    "r000086": [
+     "chunk:t3_1c2wfyx:d5b2f80c76a3",
+     0,
+     1
+    ],
+    "r000087": [
+     "chunk:t3_1c3u1b2:9b24d5bdd66d",
+     0,
+     1
+    ],
+    "r000088": [
+     "chunk:t3_1c7lzce:c29c8bd7b26e",
+     0,
+     1
+    ],
+    "r000089": [
+     "chunk:t3_1cdwys1:978fc4a7b791",
+     0,
+     1
+    ],
+    "r000090": [
+     "chunk:t3_1cef40m:ad7e14916661",
+     0,
+     1
+    ],
+    "r000091": [
+     "chunk:t3_1cl6hz1:fcdf53862ffd",
+     0,
+     1
+    ],
+    "r000092": [
+     "chunk:t3_1codznz:1a06b47f131e",
+     0,
+     1
+    ],
+    "r000093": [
+     "chunk:t3_1cs9dkz:383d3caad056",
+     0,
+     1
+    ],
+    "r000094": [
+     "chunk:t3_1ct13dd:1945c2bbb225",
+     0,
+     1
+    ],
+    "r000095": [
+     "chunk:t3_1cz3yat:0e49e21303ef",
+     0,
+     1
+    ],
+    "r000096": [
+     "chunk:t3_1d01f4k:449401e6f8e3",
+     0,
+     1
+    ],
+    "r000097": [
+     "chunk:t3_1d1gwc5:48c5d93b4e71",
+     0,
+     1
+    ],
+    "r000098": [
+     "chunk:t3_1d24w8s:bc02105d4247",
+     0,
+     1
+    ],
+    "r000099": [
+     "chunk:t3_1d5bkf1:657333c70ccc",
+     0,
+     1
+    ],
+    "r000100": [
+     "chunk:t3_1dksfxi:3a34b35eabc6",
+     0,
+     1
+    ],
+    "r000101": [
+     "chunk:t3_1dnqm9g:e127f9b419e4",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_01B4TfWNbnbTBHtaDdkWBAUj",
+   "submitted": "2026-10-22T03:36:20",
+   "collected": true,
+   "retry": [],
+   "cost": 0.16888581
+  },
+  "msgbatch_01HJZpotFjX2VvUP6cogQKnv": {
+   "requests": {
+    "r000000": [
+     "chunk:t3_1dpidgf:12782fd81df0",
+     0,
+     1
+    ],
+    "r000001": [
+     "chunk:t3_1dx6giq:2c952b68baec",
+     0,
+     1
+    ],
+    "r000002": [
+     "chunk:t3_1dx6giq:3de20c611ad3",
+     0,
+     1
+    ],
+    "r000003": [
+     "chunk:t3_1dzxkt6:b4f9936c661e",
+     0,
+     1
+    ],
+    "r000004": [
+     "chunk:t3_1e362ss:0e99b0982790",
+     0,
+     1
+    ],
+    "r000005": [
+     "chunk:t3_1e3gm5x:b37edfaf13db",
+     0,
+     1
+    ],
+    "r000006": [
+     "chunk:t3_1e61l3x:6e63e69a01c5",
+     0,
+     1
+    ],
+    "r000007": [
+     "chunk:t3_1e8q20n:5f86ad5b10af",
+     0,
+     1
+    ],
+    "r000008": [
+     "chunk:t3_1e9tu9z:da6f1f9f09fe",
+     0,
+     1
+    ],
+    "r000009": [
+     "chunk:t3_1ebjefh:fd42c458a09c",
+     0,
+     1
+    ],
+    "r000010": [
+     "chunk:t3_1ebk0a2:4f48dbf79b9d",
+     0,
+     1
+    ],
+    "r000011": [
+     "chunk:t3_1ehwinu:77a0767ce4a1",
+     0,
+     1
+    ],
+    "r000012": [
+     "chunk:t3_1eltmxo:00bbad72f97e",
+     0,
+     1
+    ],
+    "r000013": [
+     "chunk:t3_1embkrd:15859daf7c04",
+     0,
+     1
+    ],
+    "r000014": [
+     "chunk:t3_1epdv7w:f761e9d3f85c",
+     0,
+     1
+    ],
+    "r000015": [
+     "chunk:t3_1erkjfb:099569254a6d",
+     0,
+     1
+    ],
+    "r000016": [
+     "chunk:t3_1esz8lf:c6631a819897",
+     0,
+     1
+    ],
+    "r000017": [
+     "chunk:t3_1et9yqr:0b1bdd7abba7",
+     0,
+     1
+    ],
+    "r000018": [
+     "chunk:t3_1eu0zqw:00e96e9a47ef",
+     0,
+     1
+    ],
+    "r000019": [
+     "chunk:t3_1eyp9cp:5d5202a35db7",
+     0,
+     1
+    ],
+    "r000020": [
+     "chunk:t3_1fqucy8:ce450d0b0108",
+     0,
+     1
+    ],
+    "r000021": [
+     "chunk:t3_1gekpm2:211662496be2",
+     0,
+     1
+    ],
+    "r000022": [
+     "chunk:t3_1gmjyvg:5e9e51c5ccc8",
+     0,
+     1
+    ],
+    "r000023": [
+     "chunk:t3_1gs5h5k:eed59d823f1b",
+     0,
+     1
+    ],
+    "r000024": [
+     "chunk:t3_1gur7jo:2bcfbaaff8ff",
+     0,
+     1
+    ],
+    "r000025": [
+     "chunk:t3_1gyqdii:c26b49172688",
+     0,
+     1
+    ],
+    "r000026": [
+     "chunk:t3_1h5cgxi:85dddaff2867",
+     0,
+     1
+    ],
+    "r000027": [
+     "chunk:t3_1h9jpny:420b564e1232",
+     0,
+     1
+    ],
+    "r000028": [
+     "chunk:t3_1hk2ql2:2d05aa2abfa5",
+     0,
+     1
+    ],
+    "r000029": [
+     "chunk:t3_1hkzknt:d6c06ba7f0a3",
+     0,
+     1
+    ],
+    "r000030": [
+     "chunk:t3_1hl2rka:30577648948e",
+     0,
+     1
+    ],
+    "r000031": [
+     "chunk:t3_1hogmhs:d200569a72be",
+     0,
+     1
+    ],
+    "r000032": [
+     "chunk:t3_1hs2127:70e466e62a22",
+     0,
+     1
+    ],
+    "r000033": [
+     "chunk:t3_1huk7w4:93f8d0761422",
+     0,
+     1
+    ],
+    "r000034": [
+     "chunk:t3_1hvl0vj:078d577ed574",
+     0,
+     1
+    ],
+    "r000035": [
+     "chunk:t3_1hzz32a:77cf33e74712",
+     0,
+     1
+    ],
+    "r000036": [
+     "chunk:t3_1i4f893:a94693826e01",
+     0,
+     1
+    ],
+    "r000037": [
+     "chunk:t3_1i6a754:4f57baef6612",
+     0,
+     1
+    ],
+    "r000038": [
+     "chunk:t3_1i94dd9:e9998e998c6c",
+     0,
+     1
+    ],
+    "r000039": [
+     "chunk:t3_1ibp783:46e4f79e29c8",
+     0,
+     1
+    ],
+    "r000040": [
+     "chunk:t3_1ig3fh2:70389ea71813",
+     0,
+     1
+    ],
+    "r000041": [
+     "chunk:t3_1im8jim:cdbc0d83922b",
+     0,
+     1
+    ],
+    "r000042": [
+     "chunk:t3_1imjceh:bd8952d2e4f8",
+     0,
+     1
+    ],
+    "r000043": [
+     "chunk:t3_1imy6bh:1a91b3a8f633",
+     0,
+     1
+    ],
+    "r000044": [
+     "chunk:t3_1itf6z3:a70189f705ac",
+     0,
+     1
+    ],
+    "r000045": [
+     "chunk:t3_1iyyrn4:339f31b642d7",
+     0,
+     1
+    ],
+    "r000046": [
+     "chunk:t3_1iz5i44:8fcaebb42b6a",
+     0,
+     1
+    ],
+    "r000047": [
+     "chunk:t3_1j1zhvr:c353ea171d44",
+     0,
+     1
+    ],
+    "r000048": [
+     "chunk:t3_1j56o4d:ae0139eca678",
+     0,
+     1
+    ],
+    "r000049": [
+     "chunk:t3_1j6uxkd:2a64ea9a693d",
+     0,
+     1
+    ],
+    "r000050": [
+     "chunk:t3_1jgi4mk:72e106d12128",
+     0,
+     1
+    ],
+    "r000051": [
+     "chunk:t3_1jhwitc:b4a083932a50",
+     0,
+     1
+    ],
+    "r000052": [
+     "chunk:t3_1jhxvko:b960b4f4715c",
+     0,
+     1
+    ],
+    "r000053": [
+     "chunk:t3_1jiqn7n:65a86ca094cb",
+     0,
+     1
+    ],
+    "r000054": [
+     "chunk:t3_1jqry06:f4fef1efd002",
+     0,
+     1
+    ],
+    "r000055": [
+     "chunk:t3_1jwem6s:946b1ff5db88",
+     0,
+     1
+    ],
+    "r000056": [
+     "chunk:t3_1jwr8wh:0c5a86eae38b",
+     0,
+     1
+    ],
+    "r000057": [
+     "chunk:t3_1jz84b5:691e3a46278b",
+     0,
+     1
+    ],
+    "r000058": [
+     "chunk:t3_1jzzoxd:f31fd401f796",
+     0,
+     1
+    ],
+    "r000059": [
+     "chunk:t3_1k0c594:25e3e123cbfd",
+     0,
+     1
+    ],
+    "r000060": [
+     "chunk:t3_1k3vkiz:8cad18964476",
+     0,
+     1
+    ],
+    "r000061": [
+     "chunk:t3_1k4nke9:e55db74b0658",
+     0,
+     1
+    ],
+    "r000062": [
+     "chunk:t3_1k6xg4a:3c32fb4ae236",
+     0,
+     1
+    ],
+    "r000063": [
+     "chunk:t3_1kbo6l8:041d7c6c5c65",
+     0,
+     1
+    ],
+    "r000064": [
+     "chunk:t3_1kfarzo:8f1db5832871",
+     0,
+     1
+    ],
+    "r000065": [
+     "chunk:t3_1kilnzk:bebe80531866",
+     0,
+     1
+    ],
+    "r000066": [
+     "chunk:t3_1klq5dr:b307e407f436",
+     0,
+     1
+    ],
+    "r000067": [
+     "chunk:t3_1kr18qv:43205efaef62",
+     0,
+     1
+    ],
+    "r000068": [
+     "chunk:t3_1ktp1bv:2f2464e5a04b",
+     0,
+     1
+    ],
+    "r000069": [
+     "chunk:t3_1l6dvra:442b70689b50",
+     0,
+     1
+    ],
+    "r000070": [
+     "chunk:t3_1lafk7m:c2db7a531795",
+     0,
+     1
+    ],
+    "r000071": [
+     "chunk:t3_1lez8mp:9283a5e59b8b",
+     0,
+     1
+    ],
+    "r000072": [
+     "chunk:t3_1lgm0sh:53a6bed7637f",
+     0,
+     1
+    ],
+    "r000073": [
+     "chunk:t3_1lh0j9r:7d3e31152ab4",
+     0,
+     1
+    ],
+    "r000074": [
+     "chunk:t3_1lq4wh4:6fda49d09df9",
+     0,
+     1
+    ],
+    "r000075": [
+     "chunk:t3_1lt1975:e7400a59e177",
+     0,
+     1
+    ],
+    "r000076": [
+     "chunk:t3_1lumgew:1a36933a3bc2",
+     0,
+     1
+    ],
+    "r000077": [
+     "chunk:t3_1m6v32x:a64a12c4f398",
+     0,
+     1
+    ],
+    "r000078": [
+     "chunk:t3_1md71jw:e425c0d47d88",
+     0,
+     1
+    ],
+    "r000079": [
+     "chunk:t3_1mhy8ju:cff99a3b1e65",
+     0,
+     1
+    ],
+    "r000080": [
+     "chunk:t3_1mk5hq6:76b7cc663651",
+     0,
+     1
+    ],
+    "r000081": [
+     "chunk:t3_1mltmma:a8548132158d",
+     0,
+     1
+    ],
+    "r000082": [
+     "chunk:t3_1mow0qh:8bedd4ab946d",
+     0,
+     1
+    ],
+    "r000083": [
+     "chunk:t3_1mwbc6v:f2c58bd84415",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_01HJZpotFjX2VvUP6cogQKnv",
+   "submitted": "2026-10-22T03:43:25",
+   "collected": true,
+   "retry": [],
+   "cost": 0.12695107
+  },
+  "msgbatch_01XGhmhKsuvDc5emtYTPzd3v": {
+   "requests": {
+    "r000000": [
+     "chunk:t3_1n04171:af9ef10bc9ed",
+     0,
+     1
+    ],
+    "r000001": [
+     "chunk:t3_1n4exyz:5e2cfff5f23a",
+     0,
+     1
+    ],
+    "r000002": [
+     "chunk:t3_1n4iiq0:327799497669",
+     0,
+     1
+    ],
+    "r000003": [
+     "chunk:t3_1n8ogkt:3478bdb54b7e",
+     0,
+     1
+    ],
+    "r000004": [
+     "chunk:t3_1nacy7y:1b7787dfbd99",
+     0,
+     1
+    ],
+    "r000005": [
+     "chunk:t3_1nef4rp:736031492a62",
+     0,
+     1
+    ],
+    "r000006": [
+     "chunk:t3_1nhbnsr:0f112f59bea2",
+     0,
+     1
+    ],
+    "r000007": [
+     "chunk:t3_1nir4nw:375057b55e46",
+     0,
+     1
+    ],
+    "r000008": [
+     "chunk:t3_1nitx5d:d34477338437",
+     0,
+     1
+    ],
+    "r000009": [
+     "chunk:t3_1nnpzj5:77b0da1d1374",
+     0,
+     1
+    ],
+    "r000010": [
+     "chunk:t3_1nolkz7:f54f7cdc60ce",
+     0,
+     1
+    ],
+    "r000011": [
+     "chunk:t3_1nqfo56:9e34c60d38cb",
+     0,
+     1
+    ],
+    "r000012": [
+     "chunk:t3_1nw4a0i:af15d977741c",
+     0,
+     1
+    ],
+    "r000013": [
+     "chunk:t3_1o84jjc:a3a96de58506",
+     0,
+     1
+    ],
+    "r000014": [
+     "chunk:t3_1o9y98g:731402a8c8b2",
+     0,
+     1
+    ],
+    "r000015": [
+     "chunk:t3_1offey8:c89ec992990a",
+     0,
+     1
+    ],
+    "r000016": [
+     "chunk:t3_1omj7is:d46e7229d4dc",
+     0,
+     1
+    ],
+    "r000017": [
+     "chunk:t3_1ovsqcf:899e4503dc46",
+     0,
+     1
+    ],
+    "r000018": [
+     "chunk:t3_1oyuz67:545ab26e5c44",
+     0,
+     1
+    ],
+    "r000019": [
+     "chunk:t3_1pbofs1:caf3451bbc00",
+     0,
+     1
+    ],
+    "r000020": [
+     "chunk:t3_1pf8bdb:0392e2a875ed",
+     0,
+     1
+    ],
+    "r000021": [
+     "chunk:t3_1pg4eni:f9b110cb9538",
+     0,
+     1
+    ],
+    "r000022": [
+     "chunk:t3_1pg6459:c6b121171f9c",
+     0,
+     1
+    ],
+    "r000023": [
+     "chunk:t3_1phgayn:666bffde7075",
+     0,
+     1
+    ],
+    "r000024": [
+     "chunk:t3_1pitzh7:de6fd45e83cb",
+     0,
+     1
+    ],
+    "r000025": [
+     "chunk:t3_1prpxbe:854d1d02ca34",
+     0,
+     1
+    ],
+    "r000026": [
+     "chunk:t3_1prq83t:cead856c4bbe",
+     0,
+     1
+    ],
+    "r000027": [
+     "chunk:t3_1px05tf:f1cc5aa2d41e",
+     0,
+     1
+    ],
+    "r000028": [
+     "chunk:t3_1q4rrpy:60cf275bfd6d",
+     0,
+     1
+    ],
+    "r000029": [
+     "chunk:t3_1q6760p:2a7f212f4be9",
+     0,
+     1
+    ],
+    "r000030": [
+     "chunk:t3_1qbi0ya:7de5436a11f4",
+     0,
+     1
+    ],
+    "r000031": [
+     "chunk:t3_1qd39m4:0ab1e2220e22",
+     0,
+     1
+    ],
+    "r000032": [
+     "chunk:t3_1ql7oe9:9c6ee242aef2",
+     0,
+     1
+    ],
+    "r000033": [
+     "chunk:t3_1qladke:bc82349d3485",
+     0,
+     1
+    ],
+    "r000034": [
+     "chunk:t3_1r8jske:c581be8ebe04",
+     0,
+     1
+    ],
+    "r000035": [
+     "chunk:t3_1ri0ym3:dcc346973e70",
+     0,
+     1
+    ],
+    "r000036": [
+     "chunk:t3_1rklksb:6ce8ae50b0c9",
+     0,
+     1
+    ],
+    "r000037": [
+     "chunk:t3_1rky2k1:ab5a9f21fa29",
+     0,
+     1
+    ],
+    "r000038": [
+     "chunk:t3_1rmzb4q:d77774f47ed1",
+     0,
+     1
+    ],
+    "r000039": [
+     "chunk:t3_1rn9s4v:cba7373f3954",
+     0,
+     1
+    ],
+    "r000040": [
+     "chunk:t3_1rpgtts:bb76b6687cc5",
+     0,
+     1
+    ],
+    "r000041": [
+     "chunk:t3_1rpj56d:7367cd9beb33",
+     0,
+     1
+    ],
+    "r000042": [
+     "chunk:t3_1rve1uh:4e864d84b727",
+     0,
+     1
+    ],
+    "r000043": [
+     "chunk:t3_1rvrjyg:898b9a0d3e55",
+     0,
+     1
+    ],
+    "r000044": [
+     "chunk:t3_1rz3egn:6c08fe61c285",
+     0,
+     1
+    ],
+    "r000045": [
+     "chunk:t3_1s5hn88:fc860c7482fd",
+     0,
+     1
+    ],
+    "r000046": [
+     "chunk:t3_1sddx4h:ced09ffcaf5d",
+     0,
+     1
+    ],
+    "r000047": [
+     "chunk:t3_1sh7f28:b1e120125ec7",
+     0,
+     1
+    ],
+    "r000048": [
+     "chunk:t3_1sk62s1:93d725d57284",
+     0,
+     1
+    ],
+    "r000049": [
+     "chunk:t3_1smd798:28629ae57ba4",
+     0,
+     1
+    ],
+    "r000050": [
+     "chunk:t3_1sp2a3w:5662a0db457f",
+     0,
+     1
+    ],
+    "r000051": [
+     "chunk:t3_1sxhsgb:63014424ec7c",
+     0,
+     1
+    ],
+    "r000052": [
+     "chunk:t3_1syhnja:f15e3373a620",
+     0,
+     1
+    ],
+    "r000053": [
+     "chunk:t3_1syie9w:6f76ac6d4c4b",
+     0,
+     1
+    ],
+    "r000054": [
+     "chunk:t3_1ta2nri:556e0b4eeb2b",
+     0,
+     1
+    ],
+    "r000055": [
+     "chunk:t3_1tbxsqb:c9d72dad3013",
+     0,
+     1
+    ],
+    "r000056": [
+     "chunk:t3_1tdt9ij:a09c1f04da9e",
+     0,
+     1
+    ],
+    "r000057": [
+     "chunk:t3_1th7mlv:5cb6251df90f",
+     0,
+     1
+    ],
+    "r000058": [
+     "chunk:t3_1tirkld:c99a93dacc91",
+     0,
+     1
+    ],
+    "r000059": [
+     "chunk:t3_1tqzcss:b67fa5b07585",
+     0,
+     1
+    ],
+    "r000060": [
+     "chunk:t3_1ts7c6f:2065687ff11c",
+     0,
+     1
+    ],
+    "r000061": [
+     "chunk:t3_1tsvd9k:a3e5914429b5",
+     0,
+     1
+    ],
+    "r000062": [
+     "chunk:t3_1u7l65l:a596694f2a8c",
+     0,
+     1
+    ],
+    "r000063": [
+     "chunk:t3_1ual0qs:8aed04aaf0bf",
+     0,
+     1
+    ],
+    "r000064": [
+     "chunk:t3_1uee3ck:e4e983277d54",
+     0,
+     1
+    ],
+    "r000065": [
+     "chunk:t3_1ugiad9:cd7ff6ca9f7b",
+     0,
+     1
+    ],
+    "r000066": [
+     "chunk:t3_1uj904k:4d45fdcc7678",
+     0,
+     1
+    ],
+    "r000067": [
+     "chunk:t3_1umjc2b:0866be91c8e8",
+     0,
+     1
+    ],
+    "r000068": [
+     "chunk:t3_1uq26n8:0f559c72011c",
+     0,
+     1
+    ],
+    "r000069": [
+     "chunk:t3_1uz9khv:21a266223a84",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_01XGhmhKsuvDc5emtYTPzd3v",
+   "submitted": "2026-10-22T11:32:06",
+   "collected": true,
+   "retry": [],
+   "cost": 0.0899253
+  },
+  "msgbatch_015W1XiktUDch4MdXR9QTozc": {
+   "requests": {
+    "r000000": [
+     "chunk:t3_1v0zn3v:5c344d0888d7",
+     0,
+     1
+    ],
+    "r000001": [
+     "chunk:t3_1v16ule:10ed1cf27788",
+     0,
+     1
+    ],
+    "r000002": [
+     "chunk:t3_1v4vrt4:dfdbb2319742",
+     0,
+     1
+    ],
+    "r000003": [
+     "chunk:t3_1v5tg0f:65e5f8d21b1c",
+     0,
+     1
+    ],
+    "r000004": [
+     "chunk:t3_1v99zzw:0e6cdafd2d08",
+     0,
+     1
+    ],
+    "r000005": [
+     "chunk:t3_1vbzmhb:086e1aef15d2",
+     0,
+     1
+    ],
+    "r000006": [
+     "chunk:t3_1vjatls:877d76f61e40",
+     0,
+     1
+    ],
+    "r000007": [
+     "chunk:t3_1vl0xzn:1f64afb204d9",
+     0,
+     1
+    ],
+    "r000008": [
+     "chunk:t3_1vvd909:984673634ef5",
+     0,
+     1
+    ],
+    "r000009": [
+     "chunk:t3_1vxwnij:7b2c988a7eac",
+     0,
+     1
+    ],
+    "r000010": [
+     "chunk:t3_1vyrpgo:8f2d19a614d8",
+     0,
+     1
+    ],
+    "r000011": [
+     "chunk:t3_1w87s0y:171481174352",
+     0,
+     1
+    ],
+    "r000012": [
+     "chunk:t3_1wc63u4:d184ef1505d0",
+     0,
+     1
+    ],
+    "r000013": [
+     "chunk:t3_1wefj4j:57a3c8a4234a",
+     0,
+     1
+    ],
+    "r000014": [
+     "chunk:t3_1wfhvsu:8ec2a13817e5",
+     0,
+     1
+    ],
+    "r000015": [
+     "chunk:t3_1wjchp7:965f0c99a054",
+     0,
+     1
+    ],
+    "r000016": [
+     "chunk:t3_1wk46b3:346b5a999893",
+     0,
+     1
+    ],
+    "r000017": [
+     "chunk:t3_1wqi2yj:12dff9299687",
+     0,
+     1
+    ],
+    "r000018": [
+     "chunk:t3_1wsn8lw:85a61d52cb7f",
+     0,
+     1
+    ],
+    "r000019": [
+     "chunk:t3_1wtjswe:466ee207c1bf",
+     0,
+     1
+    ],
+    "r000020": [
+     "chunk:t3_1wv2e5k:c9971224aa25",
+     0,
+     1
+    ],
+    "r000021": [
+     "chunk:t3_1x3burx:bc66b67338ab",
+     0,
+     1
+    ],
+    "r000022": [
+     "chunk:t3_1x3oi88:69846c8b1bb5",
+     0,
+     1
+    ],
+    "r000023": [
+     "chunk:t3_1x8sd4l:4fe863eacc44",
+     0,
+     1
+    ],
+    "r000024": [
+     "chunk:t3_quosj3:496bb6f9ca85",
+     0,
+     1
+    ],
+    "r000025": [
+     "chunk:t3_r01bey:29f807b4cf97",
+     0,
+     1
+    ],
+    "r000026": [
+     "chunk:t3_sh7njo:deca1a8479c4",
+     0,
+     1
+    ],
+    "r000027": [
+     "chunk:t3_tcn98w:d7ac0416c7c3",
+     0,
+     1
+    ],
+    "r000028": [
+     "chunk:t3_tmzmyn:b2396485280f",
+     0,
+     1
+    ],
+    "r000029": [
+     "chunk:t3_u8zuyn:b6320f8661c2",
+     0,
+     1
+    ],
+    "r000030": [
+     "chunk:t3_ud1y5p:413f352b428a",
+     0,
+     1
+    ],
+    "r000031": [
+     "chunk:t3_ugdogd:335543e5854e",
+     0,
+     1
+    ],
+    "r000032": [
+     "chunk:t3_vg3qzp:70e11415e4e7",
+     0,
+     1
+    ],
+    "r000033": [
+     "chunk:t3_vvqcd9:5286842468a6",
+     0,
+     1
+    ],
+    "r000034": [
+     "chunk:t3_wgcssx:00528b677089",
+     0,
+     1
+    ],
+    "r000035": [
+     "chunk:t3_xb0gyo:301df5f32cce",
+     0,
+     1
+    ],
+    "r000036": [
+     "chunk:t3_xd6tg2:aa9d9fbc34f1",
+     0,
+     1
+    ],
+    "r000037": [
+     "chunk:t3_xfspr3:4c6e8b9a6958",
+     0,
+     1
+    ],
+    "r000038": [
+     "chunk:t3_yawsei:f9d529170a51",
+     0,
+     1
+    ],
+    "r000039": [
+     "chunk:t3_ye05je:7428690b5538",
+     0,
+     1
+    ],
+    "r000040": [
+     "chunk:t3_ypc170:14a0e5afc66b",
+     0,
+     1
+    ],
+    "r000041": [
+     "chunk:t3_zg21xt:e0a56a4293a5",
+     0,
+     1
+    ],
+    "r000042": [
+     "chunk:t3_zl01yb:ed3a823670a8",
+     0,
+     1
+    ],
+    "r000043": [
+     "chunk:t3_zzf8ee:9e92134ad950",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_015W1XiktUDch4MdXR9QTozc",
+   "submitted": "2026-10-22T11:39:10",
+   "collected": true,
+   "retry": [],
+   "cost": 0.06532287
+  }
+ }
+}

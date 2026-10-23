@@ -1,0 +1,2740 @@
+{
+ "items": [
+  {
+   "bracket": 1,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oxbakur",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights)\n\nWay too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)"
+     }
+    ],
+    "author": "Glizzys4everyone",
+    "body": "Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. \n\nI do wanna try Tanoreen",
+    "replies": [
+     {
+      "author": "CabassoG",
+      "body": "As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright"
+     },
+     {
+      "author": "BrooklynRich29",
+      "body": "Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation. "
+     },
+     {
+      "author": "liveaxel",
+      "body": "I've been to Ayat many times over the years and *never* understood what people see in it.  Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.  "
+     }
+    ],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0226",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "babanganosh",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Ayat",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "off night",
+       "text": "maybe it was an off night"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "negative",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 1,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Tanoreen",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "untried",
+       "text": "poster wants to try it"
+      }
+     ],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 2,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oxctwe4",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights)\n\nWay too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)"
+     },
+     {
+      "author": "Glizzys4everyone",
+      "body": "Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. \n\nI do wanna try Tanoreen"
+     }
+    ],
+    "author": "CabassoG",
+    "body": "As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0227",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "Mezze Filistini",
+       "level": "positive"
+      },
+      {
+       "avoid": false,
+       "dish": "maklouba",
+       "level": "positive"
+      },
+      {
+       "avoid": false,
+       "dish": "musakahan",
+       "level": "positive"
+      },
+      {
+       "avoid": false,
+       "dish": "kebabs",
+       "level": "negative"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 2,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Ayat",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "kebabs",
+       "text": "kebabs just alright"
+      },
+      {
+       "about": "Bay Ridge menu",
+       "text": "original Bay Ridge menu lacked kebabs; they wish it had stayed"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern",
+      "mezze"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 3,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oxit7mb",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights)\n\nWay too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)"
+     },
+     {
+      "author": "Glizzys4everyone",
+      "body": "Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. \n\nI do wanna try Tanoreen"
+     }
+    ],
+    "author": "BrooklynRich29",
+    "body": "Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation. ",
+    "replies": [
+     {
+      "author": "djdjddhshdbhd",
+      "body": "I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years."
+     }
+    ],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0228",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "negative",
+      "value": null,
+      "wait": null
+     },
+     "avoid": true,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 3,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Ayat",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "health code",
+       "text": "multiple locations, both Bay Ridge spots, shut down several times for health code violations"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "negative",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 4,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oxqwly5",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights)\n\nWay too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)"
+     },
+     {
+      "author": "Glizzys4everyone",
+      "body": "Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. \n\nI do wanna try Tanoreen"
+     },
+     {
+      "author": "BrooklynRich29",
+      "body": "Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation. "
+     }
+    ],
+    "author": "djdjddhshdbhd",
+    "body": "I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.",
+    "replies": [
+     {
+      "author": "BrooklynRich29",
+      "body": "Sorry to hear that for you. I've fortunately only had good experiences eating there. "
+     },
+     {
+      "author": "liveaxel",
+      "body": "I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. \n\nIn my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me."
+     }
+    ],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0229",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "negative",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 4,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Tanoreen",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "seasoning",
+       "text": "food unseasoned and filled with acid"
+      },
+      {
+       "about": "expectations",
+       "text": "had looked forward to it for years"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "negative",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "babanganosh",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Ayat",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "off night",
+       "text": "maybe it was an off night"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "negative",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 5,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oxr423i",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights)\n\nWay too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)"
+     },
+     {
+      "author": "Glizzys4everyone",
+      "body": "Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. \n\nI do wanna try Tanoreen"
+     },
+     {
+      "author": "BrooklynRich29",
+      "body": "Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation. "
+     },
+     {
+      "author": "djdjddhshdbhd",
+      "body": "I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years."
+     }
+    ],
+    "author": "BrooklynRich29",
+    "body": "Sorry to hear that for you. I've fortunately only had good experiences eating there. ",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0230",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 5,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Tanoreen",
+     "named_in": "context",
+     "notes": [
+      {
+       "about": "experiences",
+       "text": "only good experiences there"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 6,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oyiu21y",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights)\n\nWay too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)"
+     },
+     {
+      "author": "Glizzys4everyone",
+      "body": "Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. \n\nI do wanna try Tanoreen"
+     },
+     {
+      "author": "BrooklynRich29",
+      "body": "Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation. "
+     },
+     {
+      "author": "djdjddhshdbhd",
+      "body": "I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years."
+     }
+    ],
+    "author": "liveaxel",
+    "body": "I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. \n\nIn my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.",
+    "replies": [
+     {
+      "author": "djdjddhshdbhd",
+      "body": "I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me."
+     }
+    ],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0231",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 6,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Tanoreen",
+     "named_in": "context",
+     "notes": [
+      {
+       "about": "menu range",
+       "text": "some dishes regretted, others among favorites in NYC"
+      },
+      {
+       "about": "ranking",
+       "text": "still a top 10 NYC restaurant for them"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "very_positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 7,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oykp1bq",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights)\n\nWay too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)"
+     },
+     {
+      "author": "Glizzys4everyone",
+      "body": "Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. \n\nI do wanna try Tanoreen"
+     },
+     {
+      "author": "BrooklynRich29",
+      "body": "Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation. "
+     },
+     {
+      "author": "djdjddhshdbhd",
+      "body": "I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years."
+     },
+     {
+      "author": "liveaxel",
+      "body": "I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. \n\nIn my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me."
+     }
+    ],
+    "author": "djdjddhshdbhd",
+    "body": "I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.",
+    "replies": [
+     {
+      "author": "liveaxel",
+      "body": "To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.  "
+     }
+    ],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0232",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "negative",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 7,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Tanoreen",
+     "named_in": "context",
+     "notes": [
+      {
+       "about": "acid",
+       "text": "used a lot of acid"
+      },
+      {
+       "about": "alternative",
+       "text": "Alkofeia in Bayonne, NJ, much better; not motivated to go back"
+      },
+      {
+       "about": "experiences",
+       "text": "similar bad experiences reported online"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "negative",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 8,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oyoj2lj",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights)\n\nWay too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)"
+     },
+     {
+      "author": "Glizzys4everyone",
+      "body": "Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. \n\nI do wanna try Tanoreen"
+     },
+     {
+      "author": "BrooklynRich29",
+      "body": "Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation. "
+     },
+     {
+      "author": "djdjddhshdbhd",
+      "body": "I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years."
+     },
+     {
+      "author": "liveaxel",
+      "body": "I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. \n\nIn my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me."
+     },
+     {
+      "author": "djdjddhshdbhd",
+      "body": "I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me."
+     }
+    ],
+    "author": "liveaxel",
+    "body": "To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.  ",
+    "replies": [
+     {
+      "author": "djdjddhshdbhd",
+      "body": "Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid."
+     }
+    ],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0233",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": []
+  },
+  {
+   "bracket": 9,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oyoo8nb",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights)\n\nWay too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)"
+     },
+     {
+      "author": "Glizzys4everyone",
+      "body": "Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. \n\nI do wanna try Tanoreen"
+     },
+     {
+      "author": "BrooklynRich29",
+      "body": "Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation. "
+     },
+     {
+      "author": "djdjddhshdbhd",
+      "body": "I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years."
+     },
+     {
+      "author": "liveaxel",
+      "body": "I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. \n\nIn my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me."
+     },
+     {
+      "author": "djdjddhshdbhd",
+      "body": "I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me."
+     },
+     {
+      "author": "liveaxel",
+      "body": "To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.  "
+     }
+    ],
+    "author": "djdjddhshdbhd",
+    "body": "Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0234",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "negative",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 9,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Tanoreen",
+     "named_in": "context",
+     "notes": [
+      {
+       "about": "seasoning",
+       "text": "lacking seasoning and drowning in acid"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "negative",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 10,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oxp61u5",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights)\n\nWay too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)"
+     },
+     {
+      "author": "Glizzys4everyone",
+      "body": "Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. \n\nI do wanna try Tanoreen"
+     }
+    ],
+    "author": "liveaxel",
+    "body": "I've been to Ayat many times over the years and *never* understood what people see in it.  Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.  ",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0235",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Ayat",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "Tanoreen, Yemenat, Yemen Cafe and Laila are much better"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "negative",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Tanoreen",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "much better than Ayat"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Yemenat",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "much better than Ayat"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Yemen Cafe",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "much better than Ayat"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Laila",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "much better than Ayat"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 11,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oxdqcvo",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights)\n\nWay too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)"
+     },
+     {
+      "author": "[deleted]",
+      "body": "[removed]"
+     }
+    ],
+    "author": "FoodNYC-ModTeam",
+    "body": "NO POLITICS",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0236",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": []
+  },
+  {
+   "bracket": 12,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oygz95t",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights)\n\nWay too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)"
+     }
+    ],
+    "author": "HomeboddE",
+    "body": "Al Badawi very salty",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0237",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "negative",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 12,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Al Badawi",
+     "named_in": "context",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "negative",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 13,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oxajbey",
+   "context": {
+    "ancestors": [],
+    "author": "Icy_Comparison5665",
+    "body": "Huda in Williamsburg, or Dar 525 in Greenpoint. \n\nAlso + to Ayat and Al Badawi!",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0238",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 13,
+     "kind": "restaurant",
+     "location": "Williamsburg",
+     "name": "Huda",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 13,
+     "kind": "restaurant",
+     "location": "Greenpoint",
+     "name": "Dar 525",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 13,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Ayat",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 13,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Al Badawi",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 14,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oxajvsp",
+   "context": {
+    "ancestors": [],
+    "author": "pavelysnotekapret",
+    "body": "al badawi genuinely insanely good and also massive portions on the entrees",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0239",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 14,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Al Badawi",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "portions",
+       "text": "massive portions on the entrees"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 15,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:da5ff8844650",
+   "comment_id": "t1_oxak7ul",
+   "context": {
+    "ancestors": [],
+    "author": "GauchoAmigo123",
+    "body": "Zaytoons on Vanderbilt is amazing. Cash only ",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0240",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\nu/CabassoG: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, but the best: Yemenat or Tanoreen (both in Bay Ridge)\"\n  (a deleted comment, reply to u/CabassoG)\n\n[1] u/Glizzys4everyone (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Maybe it was an off night but Ayat was a little disappointing. The babanganosh was great though. I do wanna try Tanoreen\n  [2] u/CabassoG (reply to [1]): As said, I would really only recommend them for their mezze (especially the Mezze Filistini.) Their maklouba/Musakahan. Kinda wish they stuck with their original menu back in Bay Ridge which lacked their kebabs which are just alright\n  [3] u/BrooklynRich29 (reply to [1]): Tanorren is incredible. Ayat, you should avoid. They've had multiple locations (both Bay Ridge spots) shut down multiple times for health code violations. Grossly overrated for what they provide in terms of food and sanitation.\n    [4] u/djdjddhshdbhd (reply to [3]): I found Tanoreen to be awful. The food was unseasoned and filled with acid. I was looking forward to it for years.\n      [5] u/BrooklynRich29 (reply to [4]): Sorry to hear that for you. I've fortunately only had good experiences eating there.\n      [6] u/liveaxel (reply to [4]): I've been to Tanoreen many times, and there are absolutely dishes on the menu that I regretted ordering. There are also dishes that are among my favorites in NYC all up. In my experience, there's more of a range on Tanoreen's menu than most other highly regarded restaurants I've been to. It's still a Top 10 NYC restaurant for me.\n        [7] u/djdjddhshdbhd (reply to [6]): I wanted to go for many years and ended up in the area by chance so I ordered a lot on purpose and brought leftovers home. I at least partially ordered based on recommendations. There was one good thing. Alkofeia restaurant i Bayonne was so drastically better and I’m in that area a bit more, so I’m honestly not motivated to go back. I’ve come across a bunch of similar experiences online. They used a lot of acid, so perhaps people who like it, like that more than me.\n          [8] u/liveaxel (reply to [7]): To be fair, I do like acidic foods (I cook a lot with lemon juice and/or vinegars), so that might substantially account for our difference in experiences.\n            [9] u/djdjddhshdbhd (reply to [8]): Oh yes that would explain it though it was also lacking seasoning. Some lemon is fine for me. It was drowning in acid.\n  [10] u/liveaxel (reply to [1]): I've been to Ayat many times over the years and *never* understood what people see in it. Tanoreen, Yemenat, Yemen Cafe and Laila are all much, much, MUCH, better.\n[11] u/FoodNYC-ModTeam (reply to a deleted comment): NO POLITICS\n[12] u/HomeboddE (reply to u/CabassoG, not in this chunk: \"A bit closer and good: Ayat (East Village location more than the others) or Al Badawi (Brooklyn Heights) Way too far away from Williamsburg, ...\"): Al Badawi very salty\n[13] u/Icy_Comparison5665: Huda in Williamsburg, or Dar 525 in Greenpoint. Also + to Ayat and Al Badawi!\n[14] u/pavelysnotekapret: al badawi genuinely insanely good and also massive portions on the entrees\n[15] u/GauchoAmigo123: Zaytoons on Vanderbilt is amazing. Cash only",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 15,
+     "kind": "restaurant",
+     "location": "Vanderbilt",
+     "name": "Zaytoons",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "payment",
+       "text": "cash only"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "cash only",
+      "middle eastern"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_1e61l3x:6e63e69a01c5",
+   "comment_id": "t3_1e61l3x",
+   "context": {
+    "ancestors": [],
+    "author": "Careless-Goose-8532",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "I’m gonna have a short trip to NYC and I’m excited to try matcha drinks and the “supreme croissants” can I have some recommendations pleaseee. Thanksss",
+    "title": "Best matcha and croissant place "
+   },
+   "item_id": "T0241",
+   "model_view": "[0] POST: Best matcha and croissant place\nI’m gonna have a short trip to NYC and I’m excited to try matcha drinks and the “supreme croissants” can I have some recommendations pleaseee. Thanksss\n\n[1] u/goldenapple212: Setsugekka for matcha and librae for croissants\n[2] u/CatPillar: Librae La cabra and Radio bakery for croissants Kettl for matcha\n[3] u/Malt529: Matcha - Kettl Croissant - Nick + Son\n  [4] u/Downtown-Driver-6122 (reply to [3]): Came here to share this exact same pairing\n[5] u/LittleAd4104: Brooklyn Ball Factory for both.\n  [6] u/LocalFix (reply to [5]): +1 on this recc! Brooklyn ball factory has the best matcha I’ve ever had\n[7] u/acidphlaps: Nippon Cha >> Kettl, imo\n  [8] u/Yeahy_ (reply to [7]): went yesterday really solid\n[9] u/jschless: Sorate - new matcha place in soho.\n[10] u/Defeated-925: The draft matcha at cha cha matcha is so good. Been going everyday the one in soho and then walk over to la cabra for a croissant. If I’m dumbo go to 4f / cha cha at time out market.\n  [11] u/viktoriasaintclaire (reply to [10]): Draft Matcha at cha-cha is great\n[12] u/Ok_Fox6079: my kitchen for matcha 🥰 i’ve given up trying matcha at most coffee shops i can easily/randomly walk into when i’m out and about without taking a special trip to the best places\n[13] u/5100474throwaway: Setsugekka and cha an in East village are good for more premium matcha, matcha cafe maiko in Chinatown is a really solid staple for a standard matcha latte (or soft serve). I would steer clear of cha cha matcha on principle cuz the founders absolutely suck https://ny.eater.com/2020/7/9/21308552/cha-cha-matcha-owners-under-fire",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "matcha",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "cafe",
+     "location": null,
+     "name": "Setsugekka",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "matcha"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-low:chunk:t3_1hkzknt:d6c06ba7f0a3",
+   "comment_id": "t3_1hkzknt",
+   "context": {
+    "ancestors": [],
+    "author": "ianzabel",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "My wife and I celebrate our wedding anniversary by going to nice restaurants. In the past we've loved these:\n\n- Atera\n- Blue Hill at Stone Barns\n- Family Meal\n- Jean-Georges\n- Eleven Madison Park (pre-vegan) \n- Clover Hill\n- Gramercy Tavern (Dining Room, several times) \n- Union Square Cafe\n\nAny recommendations for our next? It's in March.",
+    "title": "Recommendations for our next anniversary dinner?"
+   },
+   "item_id": "T0242",
+   "model_view": "[0] POST: Recommendations for our next anniversary dinner?\nMy wife and I celebrate our wedding anniversary by going to nice restaurants. In the past we've loved these: - Atera - Blue Hill at Stone Barns - Family Meal - Jean-Georges - Eleven Madison Park (pre-vegan) - Clover Hill - Gramercy Tavern (Dining Room, several times) - Union Square Cafe Any recommendations for our next? It's in March.\n\n[1] u/nippyhedren: Le Bernardin\n[2] u/SuurRae: I suggest you try Per Se over Le Bernardin.\n  [3] u/ianzabel (reply to [2]): Any specific reason? we've def been interested in both\n    [4] u/SuurRae (reply to [3]): Food is always top notch if not boundary breaking. Service is stellar. We go 1-2 times a year for major celebrations/anniversaries and have never been disappointed.\n      [5] u/loratliff (reply to [4]): Huh, I feel like the menu at Per Se hasn't changed in 15 years — I wouldn't really call it pushing boundaries either.\n    [6] u/MSPCSchertzer (reply to [3]): Le Bernadin is the best seafood meal I have ever had. Per Se service is not as good (small sample size, only been once), but they are more meat focused. Seafood is my favorite and Le Bernadin is a better deal at $335 vs $390. Both are amazing. People say its not modern enough, I counter that it is classic and they call them the classics for a reason.\n[7] u/violetb23: I have similar taste to you. Some other places you might look in to are Jungsik, The Modern, Aquavit or One White Street. I am not a fan of Le B (too corporate) or Per Se, but I fall in the minority. On your list, I'm a huge fan of Jean Georges and Atera, and I like Gramercy a lot too.\n  [8] u/ianzabel (reply to [7]): Ooh, we haven't considered any of these, so, thank you for these suggestions! Will take a look\n    [9] u/violetb23 (reply to [8]): If you're good with counter dining which it sounds like you are, add Frevo to the list too....!\n      [10] u/ianzabel (reply to [9]): Ooh, never heard of Frevo, but looks great too\n[11] u/hygnevi: How about Family Meal at Blue Hill. I love everything they make and the cost is reasonable and then you can grab a drink at a nice bar.\n  [12] u/ianzabel (reply to [11]): Yes, we love Family Meal! One of our favorites, and we have been many times. Looking for something new this time\n[13] u/kevin122000: Gabriel Kreuther\n[14] u/iqee: Tsubame for a fantastic kaiseki meal",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Atera",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "anniversary"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": "Greenwich Village",
+     "name": "Family Meal",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "loved",
+       "text": "a past anniversary favorite"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "anniversary"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": "Upper West Side",
+     "name": "Jean-Georges",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "anniversary"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Eleven Madison Park",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "pre-vegan",
+       "text": "loved it before it went vegan"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "anniversary"
+     ],
+     "timeframe": "past",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": "Brooklyn",
+     "name": "Clover Hill",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "anniversary"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": "Flatiron",
+     "name": "Gramercy Tavern",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "visits",
+       "text": "Dining Room, several times"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "anniversary"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": "Union Square",
+     "name": "Union Square Cafe",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "anniversary"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-low:chunk:t3_1prq83t:cead856c4bbe",
+   "comment_id": "t3_1prq83t",
+   "context": {
+    "ancestors": [],
+    "author": "BlendedSarcasm",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "Hi all! Trying to plan an outing next month with around 5-10 people and am looking for food halls that have different vendors or variety food options and also ample seating. I was eyeing DeKalb Market Food Hall (i love the variety) in Brooklyn but was unsure if they had ample seating? So basically anywhere in Manhattan / Brooklyn or Queens (but closer to Manhattan) with different vendors where you can just go and order and take your food to your table. ",
+    "title": "Food Hall Recommendations?"
+   },
+   "item_id": "T0243",
+   "model_view": "[0] POST: Food Hall Recommendations?\nHi all! Trying to plan an outing next month with around 5-10 people and am looking for food halls that have different vendors or variety food options and also ample seating. I was eyeing DeKalb Market Food Hall (i love the variety) in Brooklyn but was unsure if they had ample seating? So basically anywhere in Manhattan / Brooklyn or Queens (but closer to Manhattan) with different vendors where you can just go and order and take your food to your table.\n\n[1] u/enragedsausage: I’d highly recommend Chelsea Market. So many great options (Los Tacos, Miznon, Tonga) and can usually find seating by most options. Also plenty of other fun shops and activities for a group!\n  [2] u/NapNapKitty (reply to [1]): Los Tacos doesn’t have any seating. They will let you go into Los Mariscos with Los Tacos food but not from other places. I find the public seating inside the market is limited. Miznon is really good! Olly Olly at 11th Ave and 26th has several vendors and there’s always seating available. OP would have to see if the vendor offerings match up to what the group would like.\n[3] u/JeanCerise: https://ny.eater.com/maps/best-food-halls-nyc-what-to-eat https://www.reddit.com/r/FoodNYC/s/QNHXOzAarQ https://www.reddit.com/r/FoodNYC/s/LP03A3XkPv Ton of posts here if you don’t get a lot of responses.\n[4] u/BklynFuhgeddaboudit: Timeout marker in Brooklyn has a lot of seating. I’m not sure about their new union square location. Pier 57 is another option. Chelsea market sucks for seating.\n  [5] u/Rhino_Thunder (reply to [4]): The union square location looks really overpriced Source: I walked through last week and didn’t stop for anything\n[6] u/justflipping: Industry City\n[7] u/BlueTourmeline: DeKalb Market has a reasonable amount of seats. The Union Square market is not as good as other Time Out markets.\n  [8] u/BlendedSarcasm (reply to [7]): Thank you! Yeah i plan to go on a weekday so hopefully that helps that it's not a Friday, Saturday or Sunday.\n    [9] u/BlueTourmeline (reply to [8]): Oh, you should absolutely be fine with seating, then. But be aware that it’s basically a basement with no windows. It’s got a cool vibe and great food choices, but if you prefer natural light, you will have an issue.\n      [10] u/BlendedSarcasm (reply to [9]): oh that's fine haha. my main concern is seating.\n        [11] u/BlueTourmeline (reply to [10]): Oh, I think there’s plenty.\n[12] u/verndogz: For LIC - you got the LIC food hall and JAX food hall near the Queens Plaza Stop\n  [13] u/BlendedSarcasm (reply to [12]): thanks! imma look up these places as well :). I should've added that I'm going on a weekday so hopefully that helps with seating more lmfao\n    [14] u/slowcanteloupe (reply to [13]): Lic food hall is pan Asian. Jax food hall is dead. There's a Mexican spot, a Bob white fried chicken sandwich that's the worst one I've tried, alidoro that also is the worst alidoro, and Ace's, which is great but it's a lot of food.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "food_hall",
+     "location": "Brooklyn",
+     "name": "DeKalb Market Food Hall",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "poster's wish",
+       "text": "wants ample seating for 5-10 people and variety of vendors"
+      }
+     ],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "food hall"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_1qd39m4:0ab1e2220e22",
+   "comment_id": "t3_1qd39m4",
+   "context": {
+    "ancestors": [],
+    "author": "ellalikesdogs",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "This has to be the best new burger in the city! ",
+    "title": "The new Lamb 'Al Pastor\" Burger at Comal!"
+   },
+   "item_id": "T0254",
+   "model_view": "[0] POST: The new Lamb 'Al Pastor\" Burger at Comal!\nThis has to be the best new burger in the city!\n\n[1] u/Cassius-Bellona: That sounds great\n[2] u/Hopeful-Pollution-70: Since we are here looking at this ad for your restaurants burger, maybe tell us more about it OP\n[3] u/Johnnadawearsglasses: This is an ad [https://www.instagram.com/p/DTV0JROCWRQ/](https://www.instagram.com/p/DTV0JROCWRQ/)\n  [4] u/justflipping (reply to [3]): Well damn, this ain’t a good look for them.\n[5] u/FoodNYC-ModTeam: Please add venue's website or social media (IG, 4SQ, Yelp) links if you're only posting a photo. Respond to this message once you've added a comment with a link and this post will be restored.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "very_positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "Lamb 'Al Pastor' Burger",
+       "level": "very_positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Comal",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "promotion",
+       "text": "Post is the restaurant's own ad for the new burger, not an independent review"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "burger"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_1kr18qv:43205efaef62",
+   "comment_id": "t3_1kr18qv",
+   "context": {
+    "ancestors": [],
+    "author": "LuuukeKirby",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "Will be arriving in Time Square, New York this August. Wanted to know which famous bakeries offer the best pastries (particularly cookies and cupcakes, but please give me more suggestions!).",
+    "title": "As someone with a huge sweet tooth, which bakeries do you recommend for a first-timer?"
+   },
+   "item_id": "T0255",
+   "model_view": "[0] POST: As someone with a huge sweet tooth, which bakeries do you recommend for a first-timer?\nWill be arriving in Time Square, New York this August. Wanted to know which famous bakeries offer the best pastries (particularly cookies and cupcakes, but please give me more suggestions!).\n\n[1] u/Hopeful-Pride1791: Carlo's\n  [2] u/LuuukeKirby (reply to [1]): Great! What would you recommend there?\n    [3] u/Hopeful-Pride1791 (reply to [2]): Cheesecake, cannolis, rainbow cake\n[4] u/Hopeful-Pride1791: Cheesecake, cannolis, rainbow cake 🎂\n[5] u/jyeatbvg: Magnolia’s banana cream pudding Levain’s cookies\n[6] u/cocktailians: Breads for cinnamon roll or babka.\n[7] u/garlic-chair: Chocolate chip cookies: Culture, Jacques Torres Banana pudding: Magnolia’s Cannoli: Eataly (get the sheep’s milk) Pastries: Radio Bakery, Hani’s (Not bakeries) Ice cream/gelato: Cafe Panna, Salt & Straw, Anita La Mamma\n[8] u/justflipping: Did you see some of these recent posts? [What’re the top 5 chocolate chips cookies in order?](https://www.reddit.com/r/FoodNYC/comments/1k01tr8/whatre_the_top_5_chocolate_chips_cookies_in_order/) [Planning a bakery crawl](https://www.reddit.com/r/FoodNYC/comments/1jn1oth/planning_a_bakery_crawl/)\n[9] u/riseandshine234: Red Gate, Culture Espresso, Janie's and Jacques Torres for cookies. Veneiro's for cake.\n[10] u/LessLake9514: In bk- nicks, fan fan doughuts(the best!!!), patisserie tomoko, fortunato bros\n[11] u/bitter_sweet9798: Little cupcake bake shop - blackout chocolate cake Breads bakery - chocolate babka Caffe panna - ice cream Veniero's - cheesecake, chocolate raspberry truffle cake Claude - chocolate cake Sunday morning - cinnamon rolls (9am - 4pm)\n[12] u/manicakes1: Veniero’s but not for the reasons others listed: their chocolate lobster tail is one of the best things I’ve eaten Magnolia banana pudding Lady M crepe cake Joey Bats - Pastel de natas Empire Cake - any of their dipped cake snacks\n[13] u/petit_aubergine: super moon bakehouse, red gate bakery, hani’s, little cupcake bakeshop\n[14] u/GVas22: Breads for the chocolate babka, or the chocolate rugelach if you wasn't something easier to eat on the go.",
+   "shown": []
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_1hs2127:70e466e62a22",
+   "comment_id": "t3_1hs2127",
+   "context": {
+    "ancestors": [],
+    "author": "Independent-Paper-21",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "Hi — I am a  prof taking a 12 college students from the midwest to NYC for spring break (early March; Monday - Wednesday).  Having done this several times before, one stop we have always made was lunch @ Katz’s.   Lately, however, online I have been seeing crazy long lines to get in, which I don’t want to waste time on as it's a school trip with lot’s of activities packed in.  Last time I went in 2023 I reserved space for the group in the private room which was good, but it included waiter service and omitted the “walking in line and getting food from the cutters” experience, which I really enjoy.   So my questions are \n\n1) Is there a “good time” to eat there where it won’t be mobbed with people and my students can wait in line without too long of a delay?\n\n2) If the popularity is such that I cannot expect a short wait, and I would rather not do the “private room” option, is there another good Jewish deli in NYC (relatively close to a subway line) that doesn’t have crazy waits and can handle a group of 14 sitting down for lunch? \n\n  \nThanks in advance for any advice!\n\n",
+    "title": "Advice on Katz’s or Alternatives"
+   },
+   "item_id": "T0256",
+   "model_view": "[0] POST: Advice on Katz’s or Alternatives\nHi — I am a prof taking a 12 college students from the midwest to NYC for spring break (early March; Monday - Wednesday). Having done this several times before, one stop we have always made was lunch @ Katz’s. Lately, however, online I have been seeing crazy long lines to get in, which I don’t want to waste time on as it's a school trip with lot’s of activities packed in. Last time I went in 2023 I reserved space for the group in the private room which was good, but it included waiter service and omitted the “walking in line and getting food from the cutters” experience, which I really enjoy. So my questions are 1) Is there a “good time” to eat there where it won’t be mobbed with people and my students can wait in line without too long of a delay? 2) If the popularity is such that I cannot expect a short wait, and I would rather not do the “private room” option, is there another good Jewish deli in NYC (relatively close to a subway line) that doesn’t have crazy waits and can handle a group of 14 sitting down for lunch? Thanks in advance for any advice!\n\n[1] u/lhbiii: Go to Sarge’s instead. Food just as good, no tourist, not rushed.\n  [2] u/tartarus2 (reply to [1]): Looks like Sarge's pastrami are thin cut? That makes them kind of completely different things\n    [3] u/__Art__Vandalay__ (reply to [2]): Just my preference but that's actually what I like about Sarge's over Katz's.\n[4] u/BartBeachGuy: There is a branch of Katz in the DeKalb market food hall in Brooklyn. Never had a long wait to get my order. Maybe a challenge finding seating for everyone. So if you go scout out a table first and then send some to order and bring the food.\n  [5] u/Comfortable-Power-71 (reply to [4]): +1 on DeKalb.\n  [6] u/No_Many_5784 (reply to [4]): Going to DeKalb is fine for the food, but it loses most of the experience\n  [7] u/morganzabeans20 (reply to [4]): Don’t tell people about our mini Katz’s 😂 But fr it’s the same food who cares about the ambiance & if anyone in your group doesn’t want a sandwich they can go to any of the 20 other restaurants in Dekalb (most of which are pretty darn good) you’ll definitely have to maneuver to sit all together but you would have to do that in Katz’s too.\n  [8] u/long-islands-own-joe (reply to [4]): Dekalb BK is not the same as going to Manhattan\n    [9] u/BartBeachGuy (reply to [8]): True. You don’t get to stand in line with a bunch of tourists or drunks forever and worry about losing your ticket all to get the exact same sandwich.\n  [10] u/HRHchickenfarmer (reply to [4]): This was going to be my suggestion too! Is the BK Juniors pastrami any good? My friends and I havent had that in our Juniors regular rotation yet. BKJuniors would def be super doable with 12 and is an NY institution.\n    [11] u/BartBeachGuy (reply to [10]): No, Junior’s is not remotely close",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": "positive",
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "deli",
+     "location": null,
+     "name": "Katz's",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "2023 visit",
+       "text": "Reserved the private room last time; it had waiter service and skipped the line and cutters experience the poster enjoys."
+      },
+      {
+       "about": "current lines",
+       "text": "Poster has seen online reports of very long lines to get in."
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "jewish deli",
+      "group lunch"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_10tj2ii:c17348e1b1d6",
+   "comment_id": "t3_10tj2ii",
+   "context": {
+    "ancestors": [],
+    "author": "cosi_bloggs",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "1. John's\n2. Di Fara\n3. Scarr's\n4. Emmy Squared\n5. Emily\n6. Patsy's\n7. Newpark\n8. Rubirosa\n9. Rizzo's\n10. Lombardi's\n11. L & B Spumoni\n12. Prince Street\n13. Bleecker Street\n14. Roberta's\n15. Joe's\n16. Artichoke\n17. Emmett's\n18. Lucali\n19. Julian's\n20. Grimaldi's\n21. Sauce\n22. Totonno's \n23. Sac's Place\n24. Keste\n25. Umberto's\n26. Fazio's\n27. Ignazio's\n28. Williamsburg\n29. Joe & Pat's\n30. Denino's\n31. Rose's\n32. Rosie's\n33. Nick's\n34. Sorrento's\n35. Rose & Joe's\n36. Luigi's\n37. Pelham \n\nAny I should add/omit?",
+    "title": "I plan on seeing NY through pizza."
+   },
+   "item_id": "T0257",
+   "model_view": "[0] POST: I plan on seeing NY through pizza.\n1. John's 2. Di Fara 3. Scarr's 4. Emmy Squared 5. Emily 6. Patsy's 7. Newpark 8. Rubirosa 9. Rizzo's 10. Lombardi's 11. L & B Spumoni 12. Prince Street 13. Bleecker Street 14. Roberta's 15. Joe's 16. Artichoke 17. Emmett's 18. Lucali 19. Julian's 20. Grimaldi's 21. Sauce 22. Totonno's 23. Sac's Place 24. Keste 25. Umberto's 26. Fazio's 27. Ignazio's 28. Williamsburg 29. Joe & Pat's 30. Denino's 31. Rose's 32. Rosie's 33. Nick's 34. Sorrento's 35. Rose & Joe's 36. Luigi's 37. Pelham Any I should add/omit?\n\nEarlier comments in this thread, quoted as context (not in this chunk; never extract from them):\n          (a deleted comment, reply to [11])\n\n[1] u/kissmyash24: L’industrie might be the best in the city and didn’t even make the list lol. Also Best Pizza in WB is excellent and about a 7 min walk from Lindustrie\n  [2] u/Jolly-Truth-557 (reply to [1]): There are about 5-8 great pizza spots all in that area that are easy to do in one go https://www.grubstreet.com/2022/12/best-pizza-neighborhood-williamsburg-nyc.html\n  [3] u/yankuniz (reply to [1]): Skip lindustry and go to Leo for better pizza better environment and better service, plus excellent wine and dessert. Other pizza places in the neighborhood that are better than lindustrie include fini (elevated), motorino (brick oven) best pizza (slices) and Emmy square (dish style, check out the cheeseburger too)\n    [4] u/PicksMuff (reply to [3]): I feel like it’s unfair to replace l’industrie with non-slice shop options\n      [5] u/yankuniz (reply to [4]): Valid I just chose Leo for proximity. Go to fini for a slice I promise it’s better than lindustrie and you will get treated with respect\n    [6] u/Jolly-Truth-557 (reply to [3]): Out here complaining about slice shop service\n      [7] u/yankuniz (reply to [6]): Is it too much to ask for to not be harassed, even at a slice shop?\n        [8] u/Jolly-Truth-557 (reply to [7]): I give them money, they give me pizza. That’s the whole interaction.\n    [9] u/kissmyash24 (reply to [3]): Nominating u for worst comment and pizza taste of 2023 congrats\n      [10] u/yankuniz (reply to [9]): If you say lindustrie is the best pizza in nyc then you are nothing but a hypebeast. A follower of TikTok trends or whatever you heard is fashionable and cool. This is a pizza spot that children visit but people who live in the neighborhood do not. I for one do not eat pizza for the street cred\n        [11] u/kissmyash24 (reply to [10]): Hold this L\n        [12] u/ihlest (reply to [10]): The entire neighborhood eats at L'Industrie\n          [13] u/yankuniz (reply to [12]): Nah. Not the hipsters not the Puerto Ricans and not the Hasidics. That spot is for the posers\n            [14] u/ihlest (reply to [13]): You must not have been there in a while.\n            [15] u/ihlest (reply to [13]): Does the Hasidic community eat at your favorite Pizza place?\n  [16] u/Khal-Stevo (reply to [1]): I got a slice from L’Industrie recently and was not impressed whatsoever. Cannot believe how many people hail it as the city’s best. It’s not bad obviously, but out of all the notorious spots I’ve had here, it’s by far the biggest let down\n  [17] u/joe_gdit (reply to [1]): Might as well hit Fini and Paulie Gee’s while you are there\n[18] u/Business-Heart6696 (reply to a deleted comment): You’re. “You’re really hip”. It’s not very hard at all to get it right, assuming you know the English language.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "John's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Di Fara",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Scarr's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Emmy Squared",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Emily",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Patsy's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Newpark",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Rubirosa",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Rizzo's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Lombardi's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "L & B Spumoni",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Prince Street",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Bleecker Street",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Roberta's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Joe's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Artichoke",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Emmett's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Lucali",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Julian's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Grimaldi's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Sauce",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Totonno's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Sac's Place",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Keste",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Umberto's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Fazio's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Ignazio's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Williamsburg",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Joe & Pat's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Denino's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Rose's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Rosie's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Nick's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Sorrento's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Rose & Joe's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Luigi's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Pelham",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_ugdogd:335543e5854e",
+   "comment_id": "t3_ugdogd",
+   "context": {
+    "ancestors": [],
+    "author": "Big_Worm_8388",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "I’m taking my wife to a Broadway show for our 1 year wedding anniversary and we are staying a few days in the city. I found this sub in hopes that y’all can make this an awesome experience for her. I would like to find out:\n\n-A few places we HAVE to eat while we’re in NYC. (Best pizza, Asian cuisine, hotdog stands, etc.)\n-Things to do on the day of the show while on Broadway.\n- Other fun things to do in NYC!\n\nWe want to get tickets to another show, and we are just looking for some fun things to do on our trip! Thanks in advance!",
+    "title": "Help please! MUST HAVE Food in NYC"
+   },
+   "item_id": "T0258",
+   "model_view": "[0] POST: Help please! MUST HAVE Food in NYC\nI’m taking my wife to a Broadway show for our 1 year wedding anniversary and we are staying a few days in the city. I found this sub in hopes that y’all can make this an awesome experience for her. I would like to find out: -A few places we HAVE to eat while we’re in NYC. (Best pizza, Asian cuisine, hotdog stands, etc.) -Things to do on the day of the show while on Broadway. - Other fun things to do in NYC! We want to get tickets to another show, and we are just looking for some fun things to do on our trip! Thanks in advance!\n\n[1] u/gjggbbbhgvbnjhhgvv: R u familiar with the search function\n  [2] u/nasatrainer (reply to [1]): Hi, looking for best $0.99 slice in NYC. My only criteria is that it has to be real cheese.\n[3] u/WinnieCerise: Shion 69 Leonard Street Masa Per Se Atomix Sushi Noz Le Bernardin",
+   "shown": []
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_1jwem6s:946b1ff5db88",
+   "comment_id": "t3_1jwem6s",
+   "context": {
+    "ancestors": [],
+    "author": "Cartadimusica",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "Any of the three location for 2 people weekday lunch. Can't make rez so what my luck with lunch walk in ? ",
+    "title": "Walk in for Raku ?"
+   },
+   "item_id": "T0259",
+   "model_view": "[0] POST: Walk in for Raku ?\nAny of the three location for 2 people weekday lunch. Can't make rez so what my luck with lunch walk in ?\n\n[1] u/xlaurenthead: I’ve had good luck walking into the one near Astor Place for lunch\n[2] u/eMeSsBee: Should be okay to walk in for 2, especially if you’re fine sitting at the bar\n[3] u/barkgoofball: Haven't had issues with walk in at the hells kitchen location\n  [4] u/Cartadimusica (reply to [3]): Yes that's where I plan to go and have thonglor as backup\n[5] u/JayMoots: Lunch you should be fine. I walked into the SoHo location on a random Wednesday at 1ish and was seated immediately at the bar.\n[6] u/Ambitious_Big_1879: Subway surfers 🏄\n[7] u/archmommy: There's a waitlist sometimes for some locations if you want to be sure\n  [8] u/Cartadimusica (reply to [7]): What udon did you like\n    [9] u/archmommy (reply to [8]): The toriten and the chicken curry are my favs\n[10] u/Snoo-18544: I've walked into raku multiple times. If your not during peak hours your fine. This is EV. I am sure most weekday lunches won't be annoyingly busy.\n  [11] u/Cartadimusica (reply to [10]): Just went today for two people. No wait in midtown.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Raku",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "locations",
+       "text": "three locations; asking about walk-in for two at weekday lunch without a reservation"
+      }
+     ],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_1kbo6l8:041d7c6c5c65",
+   "comment_id": "t3_1kbo6l8",
+   "context": {
+    "ancestors": [],
+    "author": "Brobauser",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "I have a friend visiting me this weekend. They are vegan. Any recs in Brooklyn for vegan food?",
+    "title": "Recs for vegan food"
+   },
+   "item_id": "T0260",
+   "model_view": "[0] POST: Recs for vegan food\nI have a friend visiting me this weekend. They are vegan. Any recs in Brooklyn for vegan food?\n\n[1] u/thansal: Where in Brooklyn would you like to be? How much would you like to spend? Any other preferences/restrictions? Bunna Cafe, get the full spread to share.\n  [2] u/Brobauser (reply to [1]): Around Highland park if possible. Less than $100 pp. I’ll check out Bunna Cafe and their menu. Thanks.\n    [3] u/thansal (reply to [2]): Bunna is pretty awesome, but a bit of a trek from there (Highland Park is the Ridgewood Reservoir, right?). Are y'all driving? If so you could theoretically drive down Atlantic to Franklin for Screamers (pizza) and RAS Plant Based.\n[4] u/dbstandsfor: Not in BK, but I always take visiting vegetarian/vegan friends to Bodhi Kosher Vegan in Chinatown. They have classic Chinese dishes made totally vegan— the “roast pork” (which is tempeh or seitan, I forget which) is a big hit.\n  [5] u/Brobauser (reply to [4]): I’ll check it out! Thanks\n[6] u/Miserable_Put5273: I don’t know anything immediately near highland park, but check out Maloya, it’s about 3 miles away. Food is cuisine of Réunion Island so it’s not something you’ll find anywhere, and they have fantastic vegan offerings.\n[7] u/Emergency_Fee8895: It’s not Brooklyn but Superiority Burger should be on your list.\n[8] u/julsey414: If you’re in/near Bushwick seitan’s helper and yough are both great take out sandwich shops. There’s also Grilled next to maria Hernandez which is just a junk food stand, but they do burgers and fries and milkshakes all vegan.\n[9] u/Cartadimusica: Cafe mogador\n[10] u/Juiceisworththesquee: Hi, I don't know what ambiance you're going for but try Slutty Vegan in Downtown Brooklyn/Fulton area. It's not as far down as Barclay's Center but it's in that area, not far at all from the Target Mall.\n[11] u/DealerEquivalent3558: Modern Love in Williamsburg is awesome! [https://www.modernlovebrooklyn.com/](https://www.modernlovebrooklyn.com/)\n[12] u/revengeofthebiscuit: What’s your price point / which neighborhoods?",
+   "shown": []
+  }
+ ],
+ "packet": "t010"
+}

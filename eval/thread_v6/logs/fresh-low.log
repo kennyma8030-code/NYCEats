@@ -1,0 +1,52 @@
+budget $0.95, $0.0000 already spent on eval/thread_v6/ledgers/fresh-low.json
+claude-haiku-5-5 prompt=production thread prompt (prompt_v6) (ac9b063da8e6) mode=thread: 300 calls to make, 0 cached -> C:\Users\km\foodnyc\.claude\worktrees\agent-ac58f1a7c0ba83592\eval\runs\claude-haiku-5-5__ac9b063da8e6__thread__fresh-low_schema.jsonl
+submitted batch msgbatch_01B4TfWNbnbTBHtaDdkWBAUj: 102 requests, worst case $0.9458 held
+  batch msgbatch_01B4TfWNbnbTBHtaDdkWBAUj: in_progress, 102 processing, 0 succeeded, 0 errored
+  batch msgbatch_01B4TfWNbnbTBHtaDdkWBAUj: in_progress, 102 processing, 0 succeeded, 0 errored
+  batch msgbatch_01B4TfWNbnbTBHtaDdkWBAUj: in_progress, 102 processing, 0 succeeded, 0 errored
+  batch msgbatch_01B4TfWNbnbTBHtaDdkWBAUj: in_progress, 102 processing, 0 succeeded, 0 errored
+  batch msgbatch_01B4TfWNbnbTBHtaDdkWBAUj: in_progress, 102 processing, 0 succeeded, 0 errored
+  batch msgbatch_01B4TfWNbnbTBHtaDdkWBAUj: in_progress, 102 processing, 0 succeeded, 0 errored
+  batch msgbatch_01B4TfWNbnbTBHtaDdkWBAUj: in_progress, 102 processing, 0 succeeded, 0 errored
+  batch msgbatch_01B4TfWNbnbTBHtaDdkWBAUj ended after 403s: $0.1689, 102 written, 0 to retry
+submitted batch msgbatch_01HJZpotFjX2VvUP6cogQKnv: 84 requests, worst case $0.7775 held
+  batch msgbatch_01HJZpotFjX2VvUP6cogQKnv: in_progress, 84 processing, 0 succeeded, 0 errored
+  batch msgbatch_01HJZpotFjX2VvUP6cogQKnv: in_progress, 84 processing, 0 succeeded, 0 errored
+  batch msgbatch_01HJZpotFjX2VvUP6cogQKnv: in_progress, 84 processing, 0 succeeded, 0 errored
+  batch msgbatch_01HJZpotFjX2VvUP6cogQKnv: in_progress, 84 processing, 0 succeeded, 0 errored
+  batch msgbatch_01HJZpotFjX2VvUP6cogQKnv ended after 206s: $0.1270, 84 written, 0 to retry
+Traceback (most recent call last):
+  File "C:\Users\km\foodnyc\.claude\worktrees\agent-ac58f1a7c0ba83592\eval\run.py", line 691, in <module>
+    main()
+  File "C:\Users\km\foodnyc\.claude\worktrees\agent-ac58f1a7c0ba83592\eval\run.py", line 651, in main
+    n, refused, errors = run_batches(todo, args, system, ph, out, f)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\km\foodnyc\.claude\worktrees\agent-ac58f1a7c0ba83592\eval\run.py", line 480, in run_batches
+    if not args.ledger.hold(hold_id, held):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\km\foodnyc\.claude\worktrees\agent-ac58f1a7c0ba83592\eval\budget.py", line 165, in hold
+    self._update(take)
+  File "C:\Users\km\foodnyc\.claude\worktrees\agent-ac58f1a7c0ba83592\eval\budget.py", line 111, in _update
+    os.replace(tmp, self.path)
+PermissionError: [WinError 5] Access is denied: 'eval/thread_v6/ledgers/fresh-low.json.51640.tmp' -> 'eval/thread_v6/ledgers/fresh-low.json'
+budget $0.95, $0.2958 already spent on eval/thread_v6/ledgers/fresh-low.json
+claude-haiku-5-5 prompt=production thread prompt (prompt_v6) (ac9b063da8e6) mode=thread: 114 calls to make, 186 cached -> C:\Users\km\foodnyc\.claude\worktrees\agent-ac58f1a7c0ba83592\eval\runs\claude-haiku-5-5__ac9b063da8e6__thread__fresh-low_schema.jsonl
+submitted batch msgbatch_01XGhmhKsuvDc5emtYTPzd3v: 70 requests, worst case $0.6483 held
+  batch msgbatch_01XGhmhKsuvDc5emtYTPzd3v: in_progress, 70 processing, 0 succeeded, 0 errored
+  batch msgbatch_01XGhmhKsuvDc5emtYTPzd3v: in_progress, 70 processing, 0 succeeded, 0 errored
+  batch msgbatch_01XGhmhKsuvDc5emtYTPzd3v: in_progress, 70 processing, 0 succeeded, 0 errored
+  batch msgbatch_01XGhmhKsuvDc5emtYTPzd3v: in_progress, 70 processing, 0 succeeded, 0 errored
+  batch msgbatch_01XGhmhKsuvDc5emtYTPzd3v: in_progress, 70 processing, 0 succeeded, 0 errored
+  batch msgbatch_01XGhmhKsuvDc5emtYTPzd3v: in_progress, 70 processing, 0 succeeded, 0 errored
+  batch msgbatch_01XGhmhKsuvDc5emtYTPzd3v: in_progress, 70 processing, 0 succeeded, 0 errored
+  batch msgbatch_01XGhmhKsuvDc5emtYTPzd3v ended after 365s: $0.0899, 70 written, 0 to retry
+submitted batch msgbatch_015W1XiktUDch4MdXR9QTozc: 44 requests, worst case $0.4078 held
+  batch msgbatch_015W1XiktUDch4MdXR9QTozc: in_progress, 44 processing, 0 succeeded, 0 errored
+  batch msgbatch_015W1XiktUDch4MdXR9QTozc: in_progress, 44 processing, 0 succeeded, 0 errored
+  batch msgbatch_015W1XiktUDch4MdXR9QTozc: in_progress, 44 processing, 0 succeeded, 0 errored
+  batch msgbatch_015W1XiktUDch4MdXR9QTozc: in_progress, 44 processing, 0 succeeded, 0 errored
+  batch msgbatch_015W1XiktUDch4MdXR9QTozc: in_progress, 44 processing, 0 succeeded, 0 errored
+  batch msgbatch_015W1XiktUDch4MdXR9QTozc: in_progress, 44 processing, 0 succeeded, 0 errored
+  batch msgbatch_015W1XiktUDch4MdXR9QTozc: in_progress, 44 processing, 0 succeeded, 0 errored
+  batch msgbatch_015W1XiktUDch4MdXR9QTozc ended after 362s: $0.0653, 44 written, 0 to retry
+batch records written 114, errors 0, ledger $0.4511 spent, $0.0000 held for batches in flight

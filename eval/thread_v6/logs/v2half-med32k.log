@@ -1,0 +1,24 @@
+budget $0.95, $0.0000 already spent on eval/thread_v6/ledgers/v2half-med32k.json
+claude-haiku-5-5 prompt=production thread prompt (prompt_v6) (ac9b063da8e6) mode=thread: 197 calls to make, 0 cached -> C:\Users\km\foodnyc\.claude\worktrees\agent-ac58f1a7c0ba83592\eval\runs\claude-haiku-5-5__ac9b063da8e6__thread__v2half-med32k_schema.jsonl
+submitted batch msgbatch_01PRCBgu7Z1khJVi5G5g14uh: 102 requests, worst case $0.9471 held
+  batch msgbatch_01PRCBgu7Z1khJVi5G5g14uh: in_progress, 102 processing, 0 succeeded, 0 errored
+  batch msgbatch_01PRCBgu7Z1khJVi5G5g14uh: in_progress, 102 processing, 0 succeeded, 0 errored
+  batch msgbatch_01PRCBgu7Z1khJVi5G5g14uh: in_progress, 102 processing, 0 succeeded, 0 errored
+  batch msgbatch_01PRCBgu7Z1khJVi5G5g14uh: in_progress, 102 processing, 0 succeeded, 0 errored
+  batch msgbatch_01PRCBgu7Z1khJVi5G5g14uh: in_progress, 102 processing, 0 succeeded, 0 errored
+  batch msgbatch_01PRCBgu7Z1khJVi5G5g14uh: in_progress, 102 processing, 0 succeeded, 0 errored
+  batch msgbatch_01PRCBgu7Z1khJVi5G5g14uh ended after 337s: $0.2939, 102 written, 0 to retry
+submitted batch msgbatch_017aoxDTZTAjoLNpMesFbbjP: 70 requests, worst case $0.6496 held
+  batch msgbatch_017aoxDTZTAjoLNpMesFbbjP: in_progress, 70 processing, 0 succeeded, 0 errored
+  batch msgbatch_017aoxDTZTAjoLNpMesFbbjP: in_progress, 70 processing, 0 succeeded, 0 errored
+  batch msgbatch_017aoxDTZTAjoLNpMesFbbjP: in_progress, 70 processing, 0 succeeded, 0 errored
+  batch msgbatch_017aoxDTZTAjoLNpMesFbbjP ended after 171s: $0.1801, 70 written, 0 to retry
+submitted batch msgbatch_015LDH94c8wg8Fzc3zvQKYuX: 25 requests, worst case $0.2316 held
+  batch msgbatch_015LDH94c8wg8Fzc3zvQKYuX: in_progress, 25 processing, 0 succeeded, 0 errored
+  batch msgbatch_015LDH94c8wg8Fzc3zvQKYuX: in_progress, 25 processing, 0 succeeded, 0 errored
+  batch msgbatch_015LDH94c8wg8Fzc3zvQKYuX: in_progress, 25 processing, 0 succeeded, 0 errored
+  batch msgbatch_015LDH94c8wg8Fzc3zvQKYuX: in_progress, 25 processing, 0 succeeded, 0 errored
+  batch msgbatch_015LDH94c8wg8Fzc3zvQKYuX: in_progress, 25 processing, 0 succeeded, 0 errored
+  batch msgbatch_015LDH94c8wg8Fzc3zvQKYuX: in_progress, 25 processing, 0 succeeded, 0 errored
+  batch msgbatch_015LDH94c8wg8Fzc3zvQKYuX ended after 332s: $0.0640, 25 written, 0 to retry
+batch records written 197, errors 0, ledger $0.5381 spent, $0.0000 held for batches in flight

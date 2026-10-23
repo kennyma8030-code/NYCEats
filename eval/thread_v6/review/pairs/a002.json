@@ -1,0 +1,2791 @@
+{
+ "items": [
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Lucali",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Rubirosa",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "stretch",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "unfamiliar",
+        "text": "commenter has never heard of it"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mama Too’s",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "L’industrie",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "out-of-towner",
+        "text": "still likely tastes great for a visitor despite being overrated"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 21,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Lucali",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 21,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Rubirosa",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 21,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Stretch Pizza",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "awareness",
+        "text": "never heard of it"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 21,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mama Too's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 21,
+      "kind": "restaurant",
+      "location": null,
+      "name": "L'industrie",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "verdict",
+        "text": "overrated, though likely great for an out-of-towner"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_m5w5917",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Party-Veterinarian60",
+      "body": "Maybe I'm missing something, but I don't think Stretch Pizza belongs on this list. I've had it before, it was fine, but the best pizza that exists in Manhattan? No way. \n\nI'd say the same for Veselka. I actually enjoy Veselka, but it's way overhyped. I might get downvoted, but honestly it's fairly basic diner food. \n\nFor amazing pizza, but really tough to score a table Una Pizza Napoletana or Lucali. Rubirosa is a more attainable table wise in my experience and also makes incredible pizza.\n\nAlso, feel like maybe a steakhouse could be worth a visit. Perhaps the mutton from Keens steakhouse. If you can score a table, a 4 charles visit would be well worth it for their burger too.\n\nIf you're going to L'industrie in the west village, could also grab a slice from Mama Too's - amazing pizza, but you'll be stuffed after that.\n\nI also would argue Upland doesn't belong on this list. I used to live fairly close to Upland. It's good, but I don't know think it's best in NYC.\n\nSearch the sub some more, it's overflowing with great recommendations."
+     }
+    ],
+    "author": "ItsTyroneeee",
+    "body": "Agree on the pizza. Lucali and Rubirosa are both great. Never heard of stretch. Mama Too’s is really good and while I do think L’industrie is overrated it’s probably still going to taste great for an out of towner.",
+    "replies": [],
+    "selftext": "Going to nyc for five days and trying to plan food itinerary a month in advance to ensure I'm able to lock down reservations. My main reason of traveling to NYC is just to eat so food kind of is the itinerary. List is comprised of recs from nyt, michelin guide and chefs I know who work in the area. The seemingly endless amount of good food in new york and hundreds of must try lists are a bit overwhelming though.  \n\nfor bakeries I have Radio Bakery and Librae\n\nFor pizza I have L'industrie, Roberta's and Stretch Pizza\n\nfor nicer restaurants I have Gramercy Tavern and Tatiana (should I somehow be able to score a res) \n\nI also have Veselka, Upland, Fish Cheeks, Great NY noodletown and La Mercerie.  \n\nI'm looking to eat the best of that food that exists in the city and have budgeted about $300 a day for food. Any advice for additions or places that could be skipped would be great. Thank you!  ",
+    "title": "is my restaurant itinerary solid? should I add/remove anything "
+   },
+   "item_id": "P0026"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": "positive",
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 4,
+      "kind": "food_hall",
+      "location": "Brooklyn",
+      "name": "Timeout marker in Brooklyn",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "food hall"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 4,
+      "kind": "food_hall",
+      "location": "Union Square",
+      "name": "Timeout Market Union Square",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "new location",
+        "text": "unsure how the new Union Square location is"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "food hall"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 4,
+      "kind": "food_hall",
+      "location": "Chelsea",
+      "name": "Pier 57",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "food hall"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": "negative",
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 4,
+      "kind": "food_hall",
+      "location": "Chelsea",
+      "name": "Chelsea Market",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "food hall"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": "positive",
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "food_hall",
+      "location": "Brooklyn",
+      "name": "Timeout marker",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "Union Square branch",
+        "text": "Commenter is unsure about the new Union Square location, so no verdict."
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "food hall",
+       "seating"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "food_hall",
+      "location": "Manhattan",
+      "name": "Pier 57",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "food hall"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": "negative",
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "food_hall",
+      "location": "Manhattan, Chelsea",
+      "name": "Chelsea market",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "seating",
+        "text": "Seating is poor, a reason for the commenter's dislike."
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "food hall"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_nv40l1k",
+   "context": {
+    "ancestors": [],
+    "author": "BklynFuhgeddaboudit",
+    "body": "Timeout marker in Brooklyn has a lot of seating. I’m not sure about their new union square location. Pier 57 is another option. Chelsea market sucks for seating.",
+    "replies": [
+     {
+      "author": "Rhino_Thunder",
+      "body": "The union square location looks really overpriced\n\nSource: I walked through last week and didn’t stop for anything"
+     }
+    ],
+    "selftext": "Hi all! Trying to plan an outing next month with around 5-10 people and am looking for food halls that have different vendors or variety food options and also ample seating. I was eyeing DeKalb Market Food Hall (i love the variety) in Brooklyn but was unsure if they had ample seating? So basically anywhere in Manhattan / Brooklyn or Queens (but closer to Manhattan) with different vendors where you can just go and order and take your food to your table. ",
+    "title": "Food Hall Recommendations?"
+   },
+   "item_id": "P0027"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": "positive"
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "cafe",
+      "location": null,
+      "name": "Dunkin'",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "availability",
+        "text": "found everywhere in the city"
+       }
+      ],
+      "opinion": "stated",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "chain",
+       "coffee",
+       "donuts",
+       "quick"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": "positive"
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "cafe",
+      "location": null,
+      "name": "Dunkin",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "coffee",
+       "donuts",
+       "fast food"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_p619lrv",
+   "context": {
+    "ancestors": [
+     {
+      "author": "DJLarryDavid",
+      "body": "Originally from LA, still have yet to find a good donut like the Cambodian shops make back home. Donut scene is pretty bleak out here, closer to frosted bread.\n\nRandy's in the village is close but not quite there. All in, it's a pretty small potatoes concern."
+     },
+     {
+      "author": "Zuchm0",
+      "body": "Donut Pub and Peter Pan are good but you're absolutely right. I used to go to LA a few times a year for work and the burger and donut scenes in L.A. are exponentially better. I'll never understand the stranglehold dunkin has on this city."
+     }
+    ],
+    "author": "littlemac564",
+    "body": "Dunkin’ is every where and it is quick and easy.😁",
+    "replies": [
+     {
+      "author": "Zuchm0",
+      "body": "thats what bothers me. Clearly there is an economy for quick coffee and donuts. We can't do better than 90% of it being dunkin?"
+     },
+     {
+      "author": "Lizzzy261",
+      "body": "Dunkin, Krispy Kreme are GROSS!! Donut Plant if a want a donut"
+     }
+    ],
+    "selftext": "Hey everyone,\n\nI love how diverse the food scene is here, and I want to know where people go when they are genuinely homesick.\n\nIf you moved to NYC from another country, state, or specific culinary region: what is the one restaurant in the five boroughs that gets your hometown food 100% right?",
+    "title": "Expats and transplants of NYC: What is your absolute favorite restaurant in the city for your own hometown/home country’s food?"
+   },
+   "item_id": "P0028"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "dim sum",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Golden unicorn",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "menu",
+        "text": "Has American-style dishes on the a la carte menu alongside dim sum"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "dim sum"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Golden unicorn",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "menu",
+        "text": "Has Americanized-style dishes on the a la carte menu alongside dim sum"
+       },
+       {
+        "about": "tip",
+        "text": "Order both dim sum and more familiar dishes to suit picky eaters"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "dim sum",
+       "chinese",
+       "a la carte",
+       "picky eaters"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_obj59p1",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Kennected",
+      "body": "Girl.  Take them where you normally dine.\n\n"
+     },
+     {
+      "author": "Ok_Engineering_9180",
+      "body": "I want to but my husband is insistent that we find somewhere that will have something for them as well. "
+     }
+    ],
+    "author": "Kooky_Comb6051",
+    "body": "Golden unicorn also does some things you would expect from what you described as “americanized”. It’s on the a la carte menu. Get both dim sum and things that are more familiar/palatable. At least it gets them more exposure to what actual chinese food is lol.",
+    "replies": [
+     {
+      "author": "justflipping",
+      "body": "Yup it’s common that dim sum places including Golden Unicorn also do American-Chinese food. \n\nJust got to ask for the menu and request it. Golden Unicorn’s menu: https://www.goldenunicornrestaurant.com/menu-1"
+     },
+     {
+      "author": "RawrRawr83",
+      "body": "Nah, get them some chicken feet and tripe. Culture up fam"
+     }
+    ],
+    "selftext": "Hello. \n\nMy husband & I are going to NYC w/ his parents. We love traditional dimsum and typically hit up Golden unicorn when we are in the city. However, his parents are pickier eater and only eat Americanized Chinese. Think general tso chicken and whatnot. \n\nWe are looking for a restaurant that will serve both as my husband and I reaaaally want dimsum when we’re in the city but we also want to accommodate his parents. \n\nTIA! ",
+    "title": "Dimsum + Americanized Chinese"
+   },
+   "item_id": "P0029"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 15,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mama's Too",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "joke",
+        "text": "animal-cruelty joke about the cheese; not a verdict on eating there"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza",
+       "slice shop"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_p795a0l",
+   "context": {
+    "ancestors": [],
+    "author": "Manfromearth90",
+    "body": "A cow was brutally raped for this",
+    "replies": [],
+    "selftext": "",
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!"
+   },
+   "item_id": "P0030"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cookies",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Red Gate",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "cookies"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cookies",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": null,
+      "name": "Culture Espresso",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "cookies"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cookies",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Janie's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "cookies"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cookies",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Jacques Torres",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "cookies"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cake",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Veneiro's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "cake"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "bakery",
+      "location": null,
+      "name": "Red Gate",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cookies",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "cafe",
+      "location": null,
+      "name": "Culture Espresso",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cookies",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "bakery",
+      "location": null,
+      "name": "Janie's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cookies",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "bakery",
+      "location": null,
+      "name": "Jacques Torres",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cake",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "bakery",
+      "location": null,
+      "name": "Veniero's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_mta1ks6",
+   "context": {
+    "ancestors": [],
+    "author": "riseandshine234",
+    "body": "Red Gate, Culture Espresso, Janie's and Jacques Torres for cookies.\n\nVeneiro's for cake.",
+    "replies": [],
+    "selftext": "Will be arriving in Time Square, New York this August. Wanted to know which famous bakeries offer the best pastries (particularly cookies and cupcakes, but please give me more suggestions!).",
+    "title": "As someone with a huge sweet tooth, which bakeries do you recommend for a first-timer?"
+   },
+   "item_id": "P0032"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 8,
+      "kind": "restaurant",
+      "location": "Madison Square Garden",
+      "name": "Carnegie Deli",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "use",
+        "text": "the only place they eat at Ranger games"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "arena food",
+       "pastrami"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "deli",
+      "location": "Madison Square Garden",
+      "name": "Carnegie Deli",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_k4vuvli",
+   "context": {
+    "ancestors": [
+     {
+      "author": "metromade",
+      "body": "Where is the original Carnegie Deli when you need them?"
+     }
+    ],
+    "author": "superdad0206",
+    "body": "At Madison Square Garden. It’s the only place I eat at Ranger games.",
+    "replies": [],
+    "selftext": "Yes, some places are popular with tourists. That does not mean they automatically suck. Almost every born and raised New Yorker loves to tell me \"Katz's Deli is trash\" or \"it's the most overrated sandwich on earth.\" What are they smoking because I'd love some. You can say it's overpriced. I can even entertain the it's overrated angle if you mostly are referring to the price. But to say it is terrible is just annoying New Yorker contrarian pretentious behavior. I bet most of them have never even had it before and are just saying that to sound cool. It is objectively a fantastic sandwich. Yes it is overpriced but so is every pastrami sandwich on earth now.",
+    "title": "I'm tired of New Yorkers hating on Katz's Deli just because it's a tourist spot"
+   },
+   "item_id": "P0033"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": "Central Park South area",
+      "name": "Marea",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "italian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Central Park South/midtown area",
+      "name": "Marea",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "very_positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "italian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_k7kmge4",
+   "context": {
+    "ancestors": [],
+    "author": "gsbound",
+    "body": "Marea is by far the best in that area.",
+    "replies": [],
+    "selftext": "Hi Everyone! \n\nLooking for locals favourite Italian restaurants in NYC, going there in 2 weeks and would love recommendations of your favourite Italian restaurants, preferably near Central Park south/midtown.",
+    "title": "Italian Restaurant"
+   },
+   "item_id": "P0034"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "negative",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Breads",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "price",
+        "text": "$12 babka pizza; commenter says paying $12 for it is the buyer's fault"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_ol69txi",
+   "context": {
+    "ancestors": [],
+    "author": "jaded_toast",
+    "body": "....... If you voluntarily paid $12 for a slice of *chocolate babka* with tomato sauce and cheese on top, I feel like that's on you.",
+    "replies": [
+     {
+      "author": "yyyyk",
+      "body": "That’s a very fair criticism. But it’s not chocolate it’s more like a grandma slice-shaped croissant with pizza toppings. I have no defense for my behavior."
+     },
+     {
+      "author": "parisidiot",
+      "body": "Wait. I thought they were talking about a loaf. Babka pizza slice for $12? What the fuck?"
+     },
+     {
+      "author": "dertigo",
+      "body": "Last time I was in NYC I ate at about 5 different babka places and breads was #2 for me. So while this sounds bizarre I would also give it a try. "
+     }
+    ],
+    "selftext": "I just had a $12 babka pizza from Breads. It was good but $12? With all the hype around the new wave of high end pizza I’m curious to hear what didn’t hit for folks. ",
+    "title": "What is the most overrated or overpriced piece of pizza you’ve had?"
+   },
+   "item_id": "P0035"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "very_positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "lamb chops",
+        "level": "very_positive"
+       },
+       {
+        "avoid": false,
+        "dish": "filet mignon",
+        "level": "very_positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "The Capital Grille",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "occasion",
+        "text": "relative's birthday dinner, visited last week"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "very_positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "birthday dinner"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "very_positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "lamb chops",
+        "level": "very_positive"
+       },
+       {
+        "avoid": false,
+        "dish": "filet mignon",
+        "level": "very_positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 4,
+      "kind": "restaurant",
+      "location": null,
+      "name": "The Capital Grille",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "occasion",
+        "text": "went there last week for a relative's birthday"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "steakhouse"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_l5nlpu2",
+   "context": {
+    "ancestors": [],
+    "author": "MessageSecret4585",
+    "body": "The Capital Grille. Went there last week for a relatives bday. Hands down the best lamb chops and filet mignon I’ve had",
+    "replies": [
+     {
+      "author": "sandwichofwonder",
+      "body": "I still think about their mashed potatoes all the damn time"
+     }
+    ],
+    "selftext": "Any area, ideally $$-$$$. I’ve done a lot of the 2 and 3 star Michelin restaurants so looking more for new exciting spots. ",
+    "title": "Where would you go if you only had one meal? From nyc but haven’t lived there in years, coming back for one night in June "
+   },
+   "item_id": "P0036"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mama's Too",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "photo",
+        "text": "reacting only to photos of the pizzas"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "pizza",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mama's Too",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_p67gw25",
+   "context": {
+    "ancestors": [],
+    "author": "Waste-Street-4697",
+    "body": "Both of these pizzas look delicious ",
+    "replies": [],
+    "selftext": "",
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!"
+   },
+   "item_id": "P0037"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 3,
+      "kind": "restaurant",
+      "location": "Noho",
+      "name": "matter",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "macros",
+        "text": "you can set your exact macros"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "NoHo",
+      "name": "Matter",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "customization",
+        "text": "You can set exact macros to match your targets"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "macros",
+       "healthy",
+       "weight loss"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_o2ekx7n",
+   "context": {
+    "ancestors": [],
+    "author": "Ok_Relationship7992",
+    "body": "You can set your exact macros at matter in noho",
+    "replies": [],
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "title": "Weightloss veg orders in NYC"
+   },
+   "item_id": "P0038"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Nneji",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "west african"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Divine Flavor Nigerian",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "nigerian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Nneji",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "west african"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Divine Flavor Nigerian",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "nigerian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_j9f8guo",
+   "context": {
+    "ancestors": [
+     {
+      "author": "vagrantwastrel",
+      "body": "Cka Ka Qellu - Albanian\n\nZooba - Egyptian\n\nVoila Afrique - Nigerian\n\nFarida - Uzbekistani\n\nOr also you could do a tour of some of the wildly varied Chinese cuisines we have here: Hak Box (Hakkan), Spicy Village (Henan), Cheli (Shanghainese), Szechuan Mountain House (Szechuan), Jiang Kitchen (Xinjiang), etc."
+     },
+     {
+      "author": "benign_listener",
+      "body": "Seconding Voila Afrique. \n\nEgusi, tostones, or waakye are favorites. \n\nIf you’ve got the time go in for the Kelewele & Peanuts (takes about 40 minutes to prepare.)"
+     }
+    ],
+    "author": "vagrantwastrel",
+    "body": "Do you have other favorite African spots? Plenty of good Ethiopian spots, but my other favorites are West African (Nneji, Divine Flavor Nigerian) and I know there’s so much more variety I don’t know about",
+    "replies": [
+     {
+      "author": "benign_listener",
+      "body": "None off the top. It’s a scene I’m still just dipping a toe into. Excited to find more!"
+     }
+    ],
+    "selftext": "Im visiting nyc and trying all kinds of food. So far i’ve tried mexican, chinese, thai, bagels, sandwich, pizza, ramen, donut, cronut, burgers,… is there a not so famous type of cuisine that is a classic or really good that i should try??\n\nthanks everyone, i’ve read this comunity a lot before coming here",
+    "title": "Not so famous types of food i should try"
+   },
+   "item_id": "P0039"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 5,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Red Hook Tavern",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_obj5hsr",
+   "context": {
+    "ancestors": [
+     {
+      "author": "DoritosDewItRight",
+      "body": "If you have the ability to do so, go on a Thursday for lunch. The menu is the same and when I showed up at 2pm, I was seated immediately."
+     },
+     {
+      "author": "lucas_214",
+      "body": "We’ve decided to go for lunch today"
+     },
+     {
+      "author": "DoritosDewItRight",
+      "body": "Good luck, lemme know how it goes"
+     },
+     {
+      "author": "lucas_214",
+      "body": "Had to wait about an hour, but we did it! "
+     }
+    ],
+    "author": "DoritosDewItRight",
+    "body": "Was it worth the wait?",
+    "replies": [
+     {
+      "author": "lucas_214",
+      "body": "Debatable but yes "
+     }
+    ],
+    "selftext": "I just saw this TikTok of a woman who went at like 445 and couldn’t get seated until 9:30. what do you think is a safe time to arrive? ",
+    "title": "red hook tavern dinner walk in - how early would I have to be to get a seat?"
+   },
+   "item_id": "P0040"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "coffee",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Olive's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "coffee",
+        "level": "very_positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": null,
+      "name": "Olive's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "coffee"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_mc5771z",
+   "context": {
+    "ancestors": [],
+    "author": "isitatomic",
+    "body": "The coffee at Olive's is goddamn delicious.",
+    "replies": [],
+    "selftext": "",
+    "title": "Recent eats: Vanessa's, Wo Hop, Hamburger America, Cappone's, Brown Bag, Pop's, Olive's, Greenberg's, Brooklyn Bagel, Milano Market UES"
+   },
+   "item_id": "P0041"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "pineapple dole whip",
+        "level": null
+       },
+       {
+        "avoid": false,
+        "dish": "rotating flavor soft serve",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "kind": "cafe",
+      "location": null,
+      "name": "chikarashi",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "allergen check",
+        "text": "Commenter says to contact the shop about allergens; they haven't asked in years."
+       },
+       {
+        "about": "dairy in machine",
+        "text": "Commenter has never seen dairy in the soft serve machine."
+       },
+       {
+        "about": "serving style",
+        "text": "Sometimes the dole whip is served out of an actual pineapple."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "soft serve",
+       "dessert",
+       "dairy-free"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "dole whip",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "id": 14,
+      "kind": "restaurant",
+      "location": null,
+      "name": "chikarashi",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "allergens",
+        "text": "suggests contacting them; pineapple dole whip with a rotating flavor, no dairy seen in the machine"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_oiyd15w",
+   "context": {
+    "ancestors": [
+     {
+      "author": "salted-egg-yolk",
+      "body": "chikarashi. can even get a dole whip\n\nyou can get halal carts if you don’t get white sauce. some places have tahini which honestly tastes better anyway. always add green sauce if they have it. lots of halal/middle eastern sit down restaurants here have yogurt-based stuff tho, beware\n\nlots of chinese and sushi options fortunately \n\nthere’s a blog called nut free new york which is out of date but may be of some use. \n\n\nand in general i recommend calling places before just showing up with severe allergies. may be super obvious advice but i see a lot of diners show up during rush hours with strict requests and it’s not ideal*"
+     },
+     {
+      "author": "DetectiveOk3902",
+      "body": "didn't know about chikarashi--they don't have any cross contamination ever (like they don't swap out flavors in the soft serve machine that you know?)  My son loves dole whip"
+     }
+    ],
+    "author": "salted-egg-yolk",
+    "body": "you should 100% contact them. i haven’t asked them about allergens in years \n\n\nbut they do pineapple dole whip + a rotating flavor, usually. sometimes it’s served out of an actual pineapple\n\ni’ve never seen dairy in the machine tho",
+    "replies": [],
+    "selftext": "I am allergic to dairy and nuts. Going to New York City. Any recommendations for  restaurants and dishes that are safe for allergies and really super-great? Love Chinese, Middle Eastern, sushi but have fear of Italian.",
+    "title": "Dairy-free (and -nut) in NYC?"
+   },
+   "item_id": "P0042"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "French Dip combo",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "kind": "deli",
+      "location": "Bleecker St.",
+      "name": "Salt Hanks",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "combo price",
+        "text": "Combo with sandwich, fries and drink came to $38.11; commenter calls almost $40 excessive but hasn't eaten there"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "sandwich",
+       "french dip"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "sandwich and fry combo",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Salt Hanks",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "combo price",
+        "text": "combo came to almost $40 with fries and drink"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_mz0ixbf",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Oreos_and",
+      "body": "$?"
+     },
+     {
+      "author": "DozaOT",
+      "body": "The combo came out to $38.11. You get fries and drink also."
+     }
+    ],
+    "author": "Otherwiseaware",
+    "body": "I can imagine how delicious this was, but almost $40 for a sandwich and fry combo is a bit excessive, no? I get it’s up to what the individual finds appropriate and I don’t have to pay for it, but goddamn! 🤣",
+    "replies": [
+     {
+      "author": "RedditGotSoulDoubt",
+      "body": "We’ve got to agree collectively to stop paying absurd prices but the hype zombie TikTok acolytes won’t allow that."
+     }
+    ],
+    "selftext": "The French Dip combo at Salt Hanks which is literally right next to John's of Bleecker. The bread was nice and crunchy even after dipping it. Highly recommend. ",
+    "title": "Salt Hanks on Bleecker St."
+   },
+   "item_id": "P0043"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "very_positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "pastrami egg and cheese",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": null,
+      "name": "Frankels",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "timing",
+        "text": "Commenter ate it this morning"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pastrami",
+       "breakfast sandwich"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "Pastrami Egg and Cheese",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 4,
+      "kind": "deli",
+      "location": null,
+      "name": "Frankels",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "deli",
+       "breakfast sandwich"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_krjy12o",
+   "context": {
+    "ancestors": [
+     {
+      "author": "DC25NYC",
+      "body": "Not really a sammy- but unique- Scallion Bacon Egg and Cheese from Win Son\n\nI also love the Pastrami Egg and Cheese from Frankel's"
+     }
+    ],
+    "author": "ASymphonyOfQueefs",
+    "body": "Omg I can here to say the pastrami egg and cheese from Frankels. I just ate it this morning. It’s easily my favorite pastrami.",
+    "replies": [],
+    "selftext": "I'm looking for your favorite sandwiches themselves (not the shop). Ideally in the panini/hot sandwich realm rather than hero/sub/cold cuts. \n\nGive me your favorite paninis, french dips, etc. I'm craving the sort of sandwich that you bite into and say 'ohmygod'. ",
+    "title": "Favorite unique sandwiches in Brooklyn?"
+   },
+   "item_id": "P0044"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "SB",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "quality change",
+        "text": "claims the place dropped what made it great"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": "declined"
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 6,
+      "kind": "restaurant",
+      "location": null,
+      "name": "SB",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "decline",
+        "text": "Threw out what made them great."
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": "declined"
+     }
+    ]
+   },
+   "comment_id": "t1_m4ay1an",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Spiritual_Option4465",
+      "body": "Scarr’s"
+     }
+    ],
+    "author": "pedootz",
+    "body": "SB took what made them great and threw it out completely.",
+    "replies": [],
+    "selftext": "I find that with some food places once they become famous, they start slacking and cutting corners to make profit from the fame, leading to lower quality food. \n\nI’ll start with Halal Guys. 10 years ago it was great right as they were getting famous. \n\nRoughly 5 years ago I had it and the meat and rice was so dry. I think it’s because they precook so much meat and rice to meet the demand and it just sits there on the grill drying out. Never been back since.",
+    "title": "Which places suffered from the curse of success leading to worse quality food?"
+   },
+   "item_id": "P0045"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "deli",
+      "location": null,
+      "name": "Katz's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": null,
+      "name": "Katz's",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "merch",
+        "text": "Sells hats the commenter likes; a cap pick for the asker's question"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "merch",
+       "cap"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ksdqa81",
+   "context": {
+    "ancestors": [],
+    "author": "murphanity",
+    "body": "Katz’s has sweet hats",
+    "replies": [
+     {
+      "author": "Hubianco",
+      "body": "Love my Katz hat"
+     }
+    ],
+    "selftext": "I’m looking for a cool cap to get from a ny restaurant or bar. Most places I’ve seen just have shirts or beanies, but are there any you like on a cap? ",
+    "title": "Best restaurant merch? "
+   },
+   "item_id": "P0046"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": null,
+      "name": "Katz",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "line history",
+        "text": "Over a dozen visits across several years before COVID, never had to wait in line outside; lines formed only at each cutter inside."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "deli",
+       "pastrami"
+      ],
+      "timeframe": "past",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_o0ygykz",
+   "context": {
+    "ancestors": [
+     {
+      "author": "benbraddock2002",
+      "body": "Katz"
+     },
+     {
+      "author": "NlNTENDO",
+      "body": "is katz viral food? isnt it just a long-standing classic?"
+     },
+     {
+      "author": "pvshabba",
+      "body": "Might have been viral recently. I was going to the gym around the corner (on the next corner over) and the line from katz was literally past the door"
+     },
+     {
+      "author": "Neckwrecker",
+      "body": "It just gets like that sometimes, long before social media was omnipresent."
+     }
+    ],
+    "author": "murmurinc",
+    "body": "I never had to stand in line outside before COVID in probably a dozen visits over several years. Was I just lucky? It wasn’t immediate counter service, there would be lines at each cutter inside but never a line outside.",
+    "replies": [
+     {
+      "author": "asyouwish-buttercup",
+      "body": "You were lucky. I remember standing outside at 1 in the morning in the 90s"
+     }
+    ],
+    "selftext": "What goes in the center? ",
+    "title": "Viral Food that’s actually worth the hype?"
+   },
+   "item_id": "P0047"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Gramercy Park, Manhattan",
+      "name": "Grammercy",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Brooklyn",
+      "name": "Gage & Tollner",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 8,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Grammercy",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_n4mq30f",
+   "context": {
+    "ancestors": [],
+    "author": "MSPCSchertzer",
+    "body": "Grammercy hand down.",
+    "replies": [
+     {
+      "author": "Purple-Mix1033",
+      "body": "Only one hand?"
+     }
+    ],
+    "selftext": "Hello! Boyfriend’s parents are visiting and we’re looking to make a rez at a steakhouse. We’re deciding between these two based on logistics for our other plans with them. \n\nWhich one is better across the board? In terms of apps / starters / entrees (steak in particular) / dessert / drinks",
+    "title": "Gage & Tollner or Gramercy Tavern?"
+   },
+   "item_id": "P0048"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "durian snacks",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "id": 4,
+      "kind": "market_stall",
+      "location": "Pata Market in Elmhurst",
+      "name": "Miami Fruit",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "pricey durian",
+        "text": "the pricier durian stuff is sold there too"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "durian",
+       "fruit stand"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 4,
+      "kind": "food_hall",
+      "location": "Elmhurst",
+      "name": "Pata Market",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_lai5yy2",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A lot of Americans dislike the smell of jackfruit/durian. I personally love it. A couple Thai spots offer durian sticky rice and I love it."
+     },
+     {
+      "author": "Alone-Course3048",
+      "body": "Yeah get some Durian somewhere. I know Flushing has some. Just won’t be as good as in Malaysia."
+     }
+    ],
+    "author": "CabassoG",
+    "body": "Best spot unless you order the pricey stuff from Miami Fruit is at Pata Market in Elmhurst. They also have some durian snacks",
+    "replies": [],
+    "selftext": "Basically I am talking about foods that have a strang yet oddly delicious taste as I don’t know how to explain it, but it’s unusual food with a unique flavor to it.",
+    "title": "What’s the strangest food you have ever tried in NYC?"
+   },
+   "item_id": "P0049"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "italian style espresso",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 10,
+      "kind": "cafe",
+      "location": null,
+      "name": "Fortunato Bros",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "italian espresso"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "italian style espresso",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": null,
+      "name": "Fortunato bros",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "italian espresso"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ozn3guu",
+   "context": {
+    "ancestors": [],
+    "author": "Turbulent_Bit9154",
+    "body": "so true and third wave cafes pull really long shots too like why is a sour espresso also 3-4oz. i go to Fortunato bros for italian style espresso and make my own at home.",
+    "replies": [],
+    "selftext": "I can't with the light roast sour espresso everywhere. I just can't stand the taste. Why do all coffee place - and I mean 99% of them - have these disgusting espresso shots?\n\nI want a normal, old school espresso, no milk no sugar, like the ones you get in Italy (and don't get me started about the price).\n\nWhat's going on? Why can't you find these anywhere?",
+    "title": "I give up, I can't drink coffee in this city anymore"
+   },
+   "item_id": "P0050"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "deli pickles",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 10,
+      "kind": "deli",
+      "location": null,
+      "name": "Zabar's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pickles"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "pickles",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": null,
+      "name": "Zabars",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pickles"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_orpu53d",
+   "context": {
+    "ancestors": [],
+    "author": "devoida",
+    "body": "zabars deli pickles for the win!",
+    "replies": [],
+    "selftext": "Ilove pickles of all kinds and i wanna go on a pickle tour of NYC. I already have the well-known places on my list, but I want to deli hop and try some good/ interesting pickles. Any recommendations are appreciated!",
+    "title": "Best deli pickles in NYC (preferably near manhattan)"
+   },
+   "item_id": "P0051"
+  }
+ ],
+ "packet": "a002"
+}

@@ -1,0 +1,21 @@
+budget $0.15, $0.0000 already spent on eval/thread_v6/ledgers/v1-low.json
+claude-haiku-5-5 prompt=production thread prompt (prompt_v6) (ac9b063da8e6) mode=thread: 35 calls to make, 0 cached -> C:\Users\km\foodnyc\.claude\worktrees\agent-ac58f1a7c0ba83592\eval\runs\claude-haiku-5-5__ac9b063da8e6__thread__v1-low_schema.jsonl
+submitted batch msgbatch_01U13x7CNQS8gDAGyofN26DY: 16 requests, worst case $0.1477 held
+  batch msgbatch_01U13x7CNQS8gDAGyofN26DY: in_progress, 16 processing, 0 succeeded, 0 errored
+  batch msgbatch_01U13x7CNQS8gDAGyofN26DY: in_progress, 16 processing, 0 succeeded, 0 errored
+  batch msgbatch_01U13x7CNQS8gDAGyofN26DY: in_progress, 16 processing, 0 succeeded, 0 errored
+  batch msgbatch_01U13x7CNQS8gDAGyofN26DY: in_progress, 16 processing, 0 succeeded, 0 errored
+  batch msgbatch_01U13x7CNQS8gDAGyofN26DY: in_progress, 16 processing, 0 succeeded, 0 errored
+  batch msgbatch_01U13x7CNQS8gDAGyofN26DY: in_progress, 16 processing, 0 succeeded, 0 errored
+  batch msgbatch_01U13x7CNQS8gDAGyofN26DY ended after 361s: $0.0182, 16 written, 0 to retry
+submitted batch msgbatch_01Q8j6ZaHoeUrsPkkPajaE3x: 14 requests, worst case $0.1296 held
+  batch msgbatch_01Q8j6ZaHoeUrsPkkPajaE3x: in_progress, 14 processing, 0 succeeded, 0 errored
+  batch msgbatch_01Q8j6ZaHoeUrsPkkPajaE3x: in_progress, 14 processing, 0 succeeded, 0 errored
+  batch msgbatch_01Q8j6ZaHoeUrsPkkPajaE3x: in_progress, 14 processing, 0 succeeded, 0 errored
+  batch msgbatch_01Q8j6ZaHoeUrsPkkPajaE3x ended after 129s: $0.0184, 14 written, 0 to retry
+submitted batch msgbatch_01QiK2zfhz9dH5YWu9WcTEgU: 5 requests, worst case $0.0461 held
+  batch msgbatch_01QiK2zfhz9dH5YWu9WcTEgU: in_progress, 5 processing, 0 succeeded, 0 errored
+  batch msgbatch_01QiK2zfhz9dH5YWu9WcTEgU: in_progress, 5 processing, 0 succeeded, 0 errored
+  batch msgbatch_01QiK2zfhz9dH5YWu9WcTEgU: in_progress, 5 processing, 0 succeeded, 0 errored
+  batch msgbatch_01QiK2zfhz9dH5YWu9WcTEgU ended after 182s: $0.0065, 5 written, 0 to retry
+batch records written 35, errors 0, ledger $0.0431 spent, $0.0000 held for batches in flight

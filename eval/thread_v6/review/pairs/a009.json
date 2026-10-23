@@ -1,0 +1,3852 @@
+{
+ "items": [
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Tarrytown",
+      "name": "Goosefeather",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "distance",
+        "text": "about an hour outside NYC"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "New Haven",
+      "name": "Frank Pepe's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_kv37wdc",
+   "context": {
+    "ancestors": [],
+    "author": "Independent-Air-6207",
+    "body": "Goosefeather is amazing - only an hour outside of nyc (Tarrytown)\n\nFrank Pepe’s pizza in New Haven 🫠",
+    "replies": [],
+    "selftext": "that aren't blue hill at stone barns? \n\nLooking to get out of the city for the weekend so preferably no restaurants in philly/dc/boston proper. Love the vibe of a place like blue hill and wonder if there's anything else like that out here. ",
+    "title": "Any destination-worthy restaurants within a 5 hour drive/train from the city?"
+   },
+   "item_id": "P0201"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 4,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Cafe Himalaya",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "menu",
+        "text": "also does desi-Chinese"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "desi-chinese"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_nfmz4wl",
+   "context": {
+    "ancestors": [
+     {
+      "author": "rok3109",
+      "body": "Try Cafe Himalaya, I love their chili chicken"
+     },
+     {
+      "author": "ebonyway",
+      "body": "That's distinctly Nepali but I absolutely love them"
+     }
+    ],
+    "author": "The_CerealDefense",
+    "body": "They do desi-Chinese as well",
+    "replies": [],
+    "selftext": "I might to going to NYC soon so was looking for recommendations. Thanks 😊 ",
+    "title": "Best Indochinese spots in NYC?"
+   },
+   "item_id": "P0202"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Hanis",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "tip",
+        "text": "Best eaten first thing in the morning, fresh from the bake; only stop in if you happen to walk by"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "classic rice Krispies treat",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Campbell & Co",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "beignets",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "cinnamon roll",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": "Fort Greene",
+      "name": "Amanda's Good Morning Cafe",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "cafe",
+       "beignets"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 19,
+      "kind": "bakery",
+      "location": null,
+      "name": "Hani's",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "tip",
+        "text": "only stop in if you happen to walk by; best first thing in the morning"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "bakery"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "classic rice krispie treat",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 19,
+      "kind": "bakery",
+      "location": null,
+      "name": "Campbell & Co",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "bakery"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "beignets",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "cinnamon roll",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 19,
+      "kind": "cafe",
+      "location": "Fort Greene",
+      "name": "Amanda's Good Morning Cafe",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "price",
+        "text": "good if you don't want to break the bank"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": "cheap",
+      "status": null,
+      "tags": [
+       "cafe",
+       "beignets"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_noo36x6",
+   "context": {
+    "ancestors": [
+     {
+      "author": "seltzer321",
+      "body": "I’ve tried to like Hanis several times and it just doesn’t do it for me. I don’t get the hype. Maybe I need to try that rice krispie treat and the honey cake"
+     },
+     {
+      "author": "skeeter_skeets",
+      "body": "I felt forced to try the Hani's cookie, ended up loving the cookie when it came out warm and the chocolate so gooey. Also, I hated the rice krispie treat the first time, but LOVE rice krispie treats, so came again - and the second time must have been a better production day because it was exciting and the halva came through and it was just a really cool bite!"
+     },
+     {
+      "author": "seltzer321",
+      "body": "OK well now I feel like I have to go back a fourth time to try it again. I really want to like this place but I’ve just been disappointed each time. At this point I feel like I’ve bought half the menu and spent over $100 there collectively.."
+     }
+    ],
+    "author": "skeeter_skeets",
+    "body": "hahaha. I say, only stop in if you happen to walk by. Also, if you get anything, as per usual, it tastes better first thing in the morning outta the fresh bake. Campbell & Co makes a really good classic rice Krispies treat. I love what's happening at Amanda's Good Morning Cafe in Fort Greene esp if you want beignets and a damn good cinnamon roll and don't want to break the bank.",
+    "replies": [
+     {
+      "author": "seltzer321",
+      "body": "Thanks for those additional recommendations. I’ll definitely look into them. You’re speaking my language."
+     }
+    ],
+    "selftext": "My husband and I are bakery enthusiasts so of course when we were staying in the East Village for a few days, we hit up as many as we could. Here's our thoughts: \n  \n1-2) Petit Chou: 5/10 - We visited in the mid-afternoon so I don't think the baked goods were as fresh as they could be. The famous chocolate croissant was a letdown as it was almost completely hollow inside and half-filled with cjocolate pudding. The croissant pastry itself was nice but we wished it was more substantial. It felt a bit like a croissant casing outside of a big mass of chocolate. The pistachio eclair was fine but not memorable. \n  \n3) La Cabra: 8/10 - This is a repeat visit for us. The famous cardamom bun is nowhere near as good as it was a couple of years ago. It's now tougher and lacking in cardamom flavor. The croissants however were excellent, particularly the ham and cheese croissant. The sweetness of the ham against the salty cheese was perfection. \n  \n4) Spirals: 10/10 - I was fully expecting this to be a gimmick, but the pumpkin cinnamon roll was everything I've wanted a cinnamon roll to be (and never found until now). Perfectly plush and soft, balanced in sweetness, perfect amount of tangy cream cheese frosting. Definitely say yes if they ask to heat it up for you. We will be back to try more flavors. \n  \n5-6) Win Son Bakery: 9/10 - I know this place gets a lot of heat for gentrifying Taiwanese food but I just needed to try that fan tuan once. I'm glad I did because it was delicious. I've never had one before but I grew up loving pork floss, so this was right up my alley. The millet mochi donut was warm and freshly fried. It tasted like a cross between a cider donut (without the apple cinnamon flavor profile) and Chinese nian gao. It could be a tiny bit sweeter for my taste but I otherwise really enjoyed it. \n  \n7-8) From Lucie: 8/10 - I hated how expensive the carrot cake was but damn if it wasn't one of the best I've ever had. The cake was so moist, light, and bouncy while the cream cheese frosting was almost whipped in its texture. 10/10 for that alone. However we felt the chocolate chip cookie was a big letdown. It tasted like a sugar cookie that happened to have chocolate chips in it, and there was too much sea salt. \n  \n9) The Pastry Box: 10/10 - Absolutely elite chocolate chip cookie. Perfect texture and just the right balance of toffee flavor, chocolate, and salt. Would've loved to try more things here if we had more stomach space because the vibes were great inside. \n  \n10) LaLa Bakeshop: 7/10 - The matcha lava cake was beautiful. Moist fluffy dough with plenty of strongly flavored matcha cream inside. The pork floss sausage roll however was really disappointing. Very dry and hard with an overly sweet filling that really threw me off. I expected to love this because pork floss rolls are my favorite thing to get at Chinese bakery but I had to throw this out after a few bites. I would give them another shot though since we bought these at the end of the day. \n  \n11) Smor Bakery: 9/10 - A much better cardamom bun than the one at La Cabra. We were just in Copenhagen last month, and this tasted spot-on with the cardamom buns we had there. \n  \n12) Mary O's Irish Soda Bread Shop: 7/10 - I was hoping for a more buttery melt-in-your-mouth texture, but the texture here was a little bit of a letdown. The jam and Irish butter was doing a lot of the heavy lifting. We waited 20 minutes on a Thursday morning for these because they were only baking a few batches at a time, and I'd say that was too long. \n  \n13-14) Hani's Bakery: 9/10 - This was a repeat visit for us. Everything costs $2-3 more than it should but I love the flavors of the baked goods here. The shakshuka Danish was so unique and delicious. The pistachio halva rice krispie treat is really good too. I'm also a big fan of their honey cake. ",
+    "title": "10 East Village bakeries in 2.5 days"
+   },
+   "item_id": "P0203"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "very_positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "bagel",
+        "level": "very_positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Utopia bagel",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "very_positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "bagels"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "bagel",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "bakery",
+      "location": null,
+      "name": "Utopia bagel",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "bagels"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ioc6win",
+   "context": {
+    "ancestors": [],
+    "author": "donghyuk48",
+    "body": "Utopia bagel is the best",
+    "replies": [],
+    "selftext": "My husband and I are visiting America for the first time in October. We are both huge foodies, and want to make sure we go to all the right places. \n\nWe are going to be there for 10 nights, I will include all of the places we have on our list so far. Would love to hear your thoughts about, what to skip out on and places we have missed and must include. The list has some rooftop bars included as well. \n\nI understand my list is huge, and we will not get through all of these places in 10 days, so any advice would be great!\n\nHere is the list \n\n- Katz deli \n- Magnolia bakery \n- Dominique ansel bakery \n- Keens steakhouse\n- J.G Melon\n- Peter Luger\n- Price St pizza \n- Rubirosa Pizza \n- Rus and daughters\n- Pastrami queen \n- Brooklyn bagel and coffee company\n- Kung fu xiao long bao\n- Joes steam rice roll \n- Broilermaker \n- Toro, ichiran, kame ramen (Ramen options)\n- Bleeker st pizza \n- Boucherie \n- Peak \n- Surreal\n- Water tower bar \n- Tompkins bagel\n- Boba guys \n- Sylvias \n- Los tacos no.1\n- Joe and Pats pizza\n- Luigis pizza Brooklyn\n- Lucali pizza Brooklyn \n- Di Fara pizza Brooklyn\n- Marea\n- Ciprianni (dessert) \n- The Fulton \n- Johns of bleeker st (pizza)\n- Eds lobster bar \n- Angry lobster rolls \n- Forma Greenpoint \n- Levian bakery\n- Angelina bakery \n- Joes pizza\n- Misi \n- Bleaker st pizza \n- Kyuramen\n- Charles pan fried chicken \n- Via carota \n- RH rooftop \n- Minton \n- Zuma\n\nAny advice would be appreciated, thank you!\n\nEdit- \n\nI forgot to mention, we are coming from Australia. I did not expect so many responses, thank you all so much, you all have most definitely helped with narrowing options down. I am literally counting down the days until we are there, and visit your amazing city!\n\nI do have another question, the first day we get there, it won’t be until 8pm, we are staying on West 57th st, since it’s going to very late and after flying for almost 24hours, we probably won’t want to go too far, where should we go eat that’s relatively close? From what I can see none of the restaurants in my list, are close to us. \n\nAlso any recommendations for eats near Brooklyn museum?\n\nThanks again!",
+    "title": "Help us plan our first trip to NYC"
+   },
+   "item_id": "P0204"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Zoom Zib",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "distance",
+        "text": "About 10 minutes from the commenter's hotel"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "thai"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_nleeujt",
+   "context": {
+    "ancestors": [
+     {
+      "author": "merlin401",
+      "body": "There’s so many great things, if you’re not trying to spend a lot I think it’s almost more fun to just explore and use Google reviews.  But ill throw one into the ring maybe ten blocks from you:  Zoom Zib:  super quick, reasonable price and delicious Thai food "
+     }
+    ],
+    "author": "snakesandladders212",
+    "body": "Thank you so much. This is the sort of thing I was looking for. It's 10 minutes from our hotel!",
+    "replies": [],
+    "selftext": "Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.",
+    "title": "A Brit's first time"
+   },
+   "item_id": "P0205"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": "positive",
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "bar",
+      "location": null,
+      "name": "Sake bar decibel",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "sake bar"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": "very_positive",
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "bar",
+      "location": "the Village",
+      "name": "Sake bar decibel",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "sake bar",
+       "vibe"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_jgutq3r",
+   "context": {
+    "ancestors": [
+     {
+      "author": "IManageTacoBell",
+      "body": "I'm a big fan of Evelina in ft Greene. The food is just ok Italian but it's a sexy space and the ppl there are having fun. A little pricey tho but overall like it. \n\nSecond option here is LaLou in prospect heights. The food is actually good it's just a real limited menu and isn't a standout type place. \n\nThird, the Long Island bar on Atlantic Ave. Again leans closer to a bar but a great old school vibe. \n\nGreat question btw as much as I love food and debate about food - sometimes you just want to go out and have fun somewhere and the food takes a backseat. \n\nHonorable mention:\n\nSake bar decibel in the village."
+     }
+    ],
+    "author": "IvenaDarcy",
+    "body": "Sake bar decibel is a good example of a place with mediocre food but excellent vibe.",
+    "replies": [
+     {
+      "author": "avtchrd345",
+      "body": "I’ve been there many times. Never even occurred to me that they had food."
+     }
+    ],
+    "selftext": "This sub has plenty of posts for “the best” food but what about the neighborhood joints that just create an atmosphere that keeps you coming back but their food is just 7/10?\n\nObviously the food has to be good enough but I find myself lately preferring to go to a spot where the vibe is solid and staff are friendly and welcoming. Generally a smaller intimate spot versus a massive institutional restaurant. They’re pretty easy to find in Brooklyn but I’m curious to know what others enjoy hitting up when they’re just looking to get out of the house and find their place of comfort.",
+    "title": "Places you go for the vibe and staff but not for the food?"
+   },
+   "item_id": "P0206"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 14,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Los Tacos No. 1",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "investment",
+        "text": "'$8 great taco'; predicts the investment will make it worse"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "tacos"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_p7m31w0",
+   "context": {
+    "ancestors": [
+     {
+      "author": "somniphobiac",
+      "body": "Enshitification comes for tacos."
+     }
+    ],
+    "author": "BankshotMcG",
+    "body": "In the age of the $8 great taco the only place to move is to make it worse. ",
+    "replies": [],
+    "selftext": "",
+    "title": "New York City’s Los Tacos No. 1 nabs private-equity investment from Crumbl and Dutch Bros backers"
+   },
+   "item_id": "P0207"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 10,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Blue Hill",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "expectations",
+        "text": "expectations were high"
+       },
+       {
+        "about": "produce",
+        "text": "two-thirds of the veggies came from the farmers market"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "veggies",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Blue Hill",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "sourcing",
+        "text": "2/3 of the ingredients were from the farmers market"
+       },
+       {
+        "about": "expectations",
+        "text": "commenter says expectations may have been high"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ou0vavd",
+   "context": {
+    "ancestors": [],
+    "author": "billychasen",
+    "body": "I was whelmed. Maybe expectations were high. The veggies tasted like veggies and 2/3 were from the farmers market",
+    "replies": [],
+    "selftext": "Family meal at blue hill reviews? For a family birthday celebration! ",
+    "title": "family meal blue hill reviews?Debating for family birthday"
+   },
+   "item_id": "P0208"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 2,
+      "kind": "cafe",
+      "location": null,
+      "name": "Blue Box Cafe",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "resale",
+        "text": "Commenter is selling a reservation for July 15th for $200"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "reservations"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_jp1z9ht",
+   "context": {
+    "ancestors": [],
+    "author": "DangerousAnswer3740",
+    "body": "Hi there! I’m selling my reservation for $200 for July 15th if you want it!",
+    "replies": [],
+    "selftext": "I was in resy at 8:59-9:01 sharp and there was nothing under the blue box cafe or breakfast at Tiffany’s. Is it labeled differently? Want to try again tomorrow",
+    "title": "Anyone know how to get a reservation at blue box cafe?"
+   },
+   "item_id": "P0209"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "meatballs",
+        "level": "negative"
+       }
+      ],
+      "experience": "secondhand",
+      "id": 15,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Parm",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "meatballs",
+        "text": "sister had to return undercooked meatballs"
+       },
+       {
+        "about": "sister",
+        "text": "sister and her boyfriend basically live at Parm"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "banana pudding",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 15,
+      "kind": "bakery",
+      "location": null,
+      "name": "Magnolia Bakery",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "rest of menu",
+        "text": "only good for the banana pudding"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "meatballs",
+        "level": "negative"
+       }
+      ],
+      "experience": "secondhand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Parm",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "returned meatballs",
+        "text": "sister had to return the meatballs because they seemed undercooked"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "italian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "banana pudding",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Magnolia Bakery",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "dessert"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_jrqd79z",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Artistic-Dot-2279",
+      "body": "- marsalawala—my shrimp was completely disintegrated mush in the curry, which probably means it sat in the shells too long. They did refund me but wouldn’t acknowledge the shrimp were bad or offer to remake it. They said they were supposed to be that way. \n\n- parm-bland as hell\n\n- ugly baby- totally overpriced with shitty attitude. Food was ok.\n\n-magnolia bakery-driest cupcakes I’ve ever eaten"
+     }
+    ],
+    "author": "plainbagel11",
+    "body": "My sister and her Bf basically live at Parm. Are there once had to return the meatballs cause they seemed undercooked. \n\nMagnolia Bakery is only good for that Banana Pudding",
+    "replies": [],
+    "selftext": "Wo hop\nAiththi \nSpice Symphony\nPongisiri \nkarahi\nTipsy Shanghai\nSOL Mexican",
+    "title": "List of terrible restaurants in NYC with great customer reviews"
+   },
+   "item_id": "P0210"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Village",
+      "name": "Jeffrey's Grocery",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "lunch pick",
+        "text": "best option for lunch among those in the question"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "lunch"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Jeffrey's Grocery",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "lunch"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ms48maq",
+   "context": {
+    "ancestors": [],
+    "author": "Dunesgirl",
+    "body": "For lunch I like Jeffrey’s Grocery the best.",
+    "replies": [],
+    "selftext": "Taking my sister-in-law to lunch in the Village prior to a Wednesday matinee in June, and looking for thoughts on best overall experience for lunch in case we don't get into my first choice (Via Carota). Ideally it's a nice day so I'd be looking for vibrant and casual bright restaurant with absolutely amazing food. I've been to these and love them all - but it's been a while since Joseph Leonard and Little Owl and hoping they're still great spots. Anything I'm missing, I'm all ears (ruling out Buvette because of line and tight space in the back and I'd like to be near the windows if not outside.",
+    "title": "Better WV Lunch - Little Owl v. Jeffrey's Grocery v. Joseph Leonard"
+   },
+   "item_id": "P0211"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": "negative",
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": "negative"
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "bar",
+      "location": null,
+      "name": "Tomi Jazz Bar",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "best times",
+        "text": "Sunday-Tuesday are best for the late show"
+       },
+       {
+        "about": "crowd",
+        "text": "constant line of tourists waiting to get in"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "jazz",
+       "live music"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "bar",
+      "location": null,
+      "name": "Ginny's",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "alternative",
+        "text": "suggested instead of Tomi's, without the crowd"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "supper club",
+       "jazz"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "bar",
+      "location": null,
+      "name": "Bill's supper club",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "alternative",
+        "text": "suggested instead of Tomi's, without the crowd"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "supper club",
+       "jazz"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "bar",
+      "location": null,
+      "name": "Birdland",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "alternative",
+        "text": "suggested instead of Tomi's, without the crowd"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "jazz"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "bar",
+      "location": null,
+      "name": "Iridium",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "alternative",
+        "text": "suggested instead of Tomi's, without the crowd"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "jazz"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": "negative"
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "bar",
+      "location": null,
+      "name": "Tomi Jazz Bar",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "timing",
+        "text": "best times are Sunday to Tuesday for the late show"
+       },
+       {
+        "about": "crowd",
+        "text": "constant tourists waiting to get in"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "jazz"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "bar",
+      "location": null,
+      "name": "Ginny's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "bar",
+      "location": null,
+      "name": "Bill's supper club",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "bar",
+      "location": null,
+      "name": "Birdland",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "bar",
+      "location": null,
+      "name": "Iridium",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ob4i1hy",
+   "context": {
+    "ancestors": [],
+    "author": "Forgemasterblaster",
+    "body": "Yes, I live near there and it’s constant barrage of tourists just waiting to get in.  Best times are Sunday-Tuesday for the late show, but totally not worth it as there’s a bunch of other venues without the crazy hyper. \n\nGinny’s, Bill’s supper club, birdland, iridium.",
+    "replies": [
+     {
+      "author": "tshneier",
+      "body": "When did it become like this? I had friends who used to play there, like 2016-2018. I used to go hang sometimes, maybe sit in for a tune, but often just get a drink and hang, and I would just walk in, no wait whatsoever. But I haven't been since probably 2018."
+     }
+    ],
+    "selftext": "I have a coworker coming in next week and I want to take him to Tomi's. Is the wait to get inside still crazy? Thinking of going on a Thursday hoping the midw=-week wait isn't as bad",
+    "title": "Tomi Jazz Bar wait still crazy?"
+   },
+   "item_id": "P0212"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "onigiri",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "near Grand Central",
+      "name": "Omusubi Gonbei",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "freshness",
+        "text": "makes fresh onigiri"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "japanese",
+       "onigiri"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "onigiri",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Times Square",
+      "name": "Ootoya",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "lunch window",
+        "text": "lunchtime window counter makes fresh onigiri"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "japanese",
+       "onigiri"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "onigiri",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "bento sets",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Rice and Miso",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "variety",
+        "text": "fewer onigiri varieties than other places"
+       },
+       {
+        "about": "best format",
+        "text": "onigiri better as part of a bento set than standalone"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "japanese",
+       "onigiri",
+       "bento"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "onigiri",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": "near Grand Central",
+      "name": "Omusubi Gonbei",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "freshness",
+        "text": "makes fresh onigiri"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "onigiri",
+       "japanese"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "onigiri",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": "Times Square",
+      "name": "Times Square Ootoya",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "lunch counter",
+        "text": "lunchtime window counter makes fresh onigiri"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "japanese",
+       "onigiri",
+       "lunch"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "onigiri",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Rice and Miso",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "variety",
+        "text": "fewer onigiri varieties; onigiri better in bento sets than standalone"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "japanese",
+       "bento"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_kcy9qsi",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Tyler_s_Burden",
+      "body": "Can share some examples of underrepresented Japanese cuisine you’d like to see given more love?"
+     },
+     {
+      "author": "Texas_Rockets",
+      "body": "Look honestly my experience of being in Japan was maybe half just having no fucking clue what something was called because it was in Japanese, trying it, and loving it. So I can’t give a definitive list but I’ve listed out the things I miss the most\n\n- Japanese curry. Hands down the most accessible thing in Japanese cuisine. It’s basically gravy, rice, and (usually) fried meat. But despite being so simple and being something that most people can get down with, I’m only aware of one spot serving it in Manhattan, Greenwich in particular (admittedly this may more mean I’m only aware of one spot within 1-1.5 miles of me. But the point is you really have to go out of your way to find it). \n\n- onigiri. There you can just go to any corner store and they have a dozen varieties of it all served in perfect condition. Here I’ve found it at a few Japanese marts but they clearly source it from a central supplier and it’s not particularly fresh or well done. If you want something to be of high quality you need several different options to get it because otherwise the only person serving it knows you don’t have any other options so there is no need to really invest time and resources into making it better\n\n- the various sobas"
+     }
+    ],
+    "author": "jaded_toast",
+    "body": "Omusubi Gonbei near Grand Central and a lunchtime window counter at the Times Square Ootoya both make fresh onigiri. Rice and Miso also does, although for them, there are fewer varieties, and I feel like the onigiri are better as a part of one of their bento sets than as standalone onigiri.",
+    "replies": [
+     {
+      "author": "thansal",
+      "body": "Another good shot for rice balls is Yaya Tea.  A bubble tea (small) chain who do onigiri like Japanese convenience stores, with the specially constructed plastic wrapper so the nori stays away from the rice till you take it apart."
+     }
+    ],
+    "selftext": "Don’t get me wrong, I love sushi. I lived in Japan for several years and really enjoyed it. But there is just an over saturation of sushi spots. It seems like every few restaurants I see on the map are some form of sushi. \n\n1. There is definitely a difference between an average sushi spot and a top tier one, but people get too in their heads about the distinctions among the top places. What they are providing, in terms of either the flavor of it or the quality of it (again among the top places) just is not super different from each other - at least not to the extent that it justifies this many establishments. \n\n2. An incredible thing has happened with sushi over the past few decades. It began as this food that most Americans thought was gross and was really brought into the mainstream and popularized and elevated. But we need to do that for both the other cuisines of Japan as well as other cuisines that haven’t experienced that. There are some amazing parts of Japanese cuisine that just haven’t made their way over, and there are cuisines out there that just haven’t really gained much exposure here which not only should be but should be given the elevated treatment that sushi has experienced.",
+    "title": "There are too many damn sushi/sashimi/omakase spots"
+   },
+   "item_id": "P0213"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "S&P",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "tour pick",
+        "text": "add to the tour"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": true,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "deli",
+      "location": null,
+      "name": "Milano Market",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "tour",
+        "text": "drop from the tour"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Saigutte",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "swap",
+        "text": "replace with Banh And Em"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "banh mi"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Banh And Em",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "banh mi"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": true,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Cafe Habana",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "tour",
+        "text": "drop from the tour"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "cuban"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "hot dog",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Grays",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "location",
+        "text": "way out of the way"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "hot dogs"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "hot dogs",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Katz's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "deli"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Taqueria Ramirez",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "tour fit",
+        "text": "close enough, add to the tour"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "tacos"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "deli",
+      "location": null,
+      "name": "Frankel's",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "trip",
+        "text": "across a river, a long way to go for a BEC"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "bec"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": null,
+      "name": "S&P",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "tour pick",
+        "text": "suggested adding it to the sandwich tour"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": true,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": null,
+      "name": "Milano Market",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": true,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Cafe Habana",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "cuban"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Saigutte",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "swap",
+        "text": "replaced on the tour list by Banh And Em"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "bahn mi",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Banh And Em",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "vietnamese"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "hot dogs",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": null,
+      "name": "Katz's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "hot dogs",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Grays",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "distance",
+        "text": "way out of your way to get to"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "hot dog"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "BEC",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": "across a river",
+      "name": "Frankel's Delicatessen & Appetizing",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "distance",
+        "text": "crossing a river is a long way to go for a BEC"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Taqueria Ramirez",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "fit",
+        "text": "close enough to the tour route"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "mexican"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_odz9pr0",
+   "context": {
+    "ancestors": [],
+    "author": "Cpalms139",
+    "body": "Add S&P, skip Milano market, Cafe Habana and replace Saigutte with Banh And Em.  Love Grays but it's way out of your way and Katz's has better hotdogs.Add in Taqueria Ramirez (close enough). Crossing a river to Frankel's is a long way to go for a BEC.",
+    "replies": [
+     {
+      "author": "Malsperanza",
+      "body": "Saiguette is pretty damn good if they're doing an UWS crawl. Lox and bagel at Barney Greengrass would also fit. "
+     }
+    ],
+    "selftext": "So every time my friend visits town from SLC, we do a full day food tour. So far we’ve done flushing (8 spots), pizza slices (15 spots), and burgers (8 spots). \n\nThis time we’re going to do a sandwich tour, what do you all think, are these the best places to get those kinds of sandwiches? Should we add another sandwich we might be missing?\n\nPastrami Sandwich - Katz Delicatessen\n\nBahn Mi - Saigutte\n\nItalian Sub - Faicco's Italian Specialties\n\nChicken Caesar Wrap - Milano Market\n\nCuban - Cafe Habana\n\nBacon, Egg and Cheese - Frankel's Delicatessen & Appetizing\n\nHot Dog - Gray's Papaya\n\nPhilly Cheesesteak - Danny & Coop's",
+    "title": "Rate our food tour"
+   },
+   "item_id": "P0214"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": "negative",
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": "negative"
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Corner Store",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "hype",
+        "text": "TikTok buzz and unnecessary exclusivity"
+       },
+       {
+        "about": "waitlist",
+        "text": "lines around the corner at 2pm for a waitlist spot that may not get them in"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": "negative",
+       "service": "negative",
+       "taste": null,
+       "value": null,
+       "wait": "negative"
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 5,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Corner Store",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "hype and waitlist",
+        "text": "TikTok buzz, unnecessary exclusivity, line around the corner at 2pm for a waitlist spot that may not get you in"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ntco0qg",
+   "context": {
+    "ancestors": [
+     {
+      "author": "PuddingAdorable9260",
+      "body": "Corner Store is the only answer to this question. Long live the West Houston Dos Caminos."
+     },
+     {
+      "author": "Appropriate-Tie-6524",
+      "body": "It's not good? Or is it the bouncer out front? Or are you a Dos Camino's enthusiast?"
+     }
+    ],
+    "author": "PuddingAdorable9260",
+    "body": "Tiktok restaurant buzz, unnecessary exclusivity, lines around the corner at 2pm to get on a waitlist to maybe get in. Nothing about the corner store seems appealing to me. Just unfriendly vibes all around.",
+    "replies": [],
+    "selftext": "... what would it be? \n\nWhat are you deeply sick of, what spot grinds your gears or feels so past its prime yet just won't die?",
+    "title": "If you could close one NYC restaurant for good..."
+   },
+   "item_id": "P0215"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "mie goreng",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": "Brooklyn",
+      "name": "Little House Restoran",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "indonesian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "mie gorang",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "restaurant",
+      "location": "Brooklyn",
+      "name": "Little House Restoran",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ooni9fm",
+   "context": {
+    "ancestors": [],
+    "author": "chancepack",
+    "body": "You can find it at Little House Restoran in Brooklyn.",
+    "replies": [],
+    "selftext": "Looking for this specific Indonesian dish, but also welcome Indonesian recs in general! ",
+    "title": "Where can we get mie gorang? Preferably in Brooklyn."
+   },
+   "item_id": "P0216"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "restaurant",
+      "location": "Upper West Side",
+      "name": "Sushi Yasaka",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "when to go",
+        "text": "worth a trip only if staying on the Upper West Side or visiting the natural history museum"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "sushi"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 7,
+      "kind": "bakery",
+      "location": null,
+      "name": "Levain Bakery",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "neighborhood",
+        "text": "commenter lives very close to it"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "cookies"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 7,
+      "kind": "restaurant",
+      "location": null,
+      "name": "LOS TACOS No.1",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "wait",
+        "text": "dinner line probably shorter than lunch line"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "tacos"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Upper West Side",
+      "name": "Sushi Yasaka",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "when to go",
+        "text": "Not worth a special trip; worth it if you're staying in the Upper West Side or visiting the Natural History Museum"
+       },
+       {
+        "about": "citywide sushi",
+        "text": "NYC has many sushi places"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "sushi",
+       "japanese"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "crumble cookies",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "availability",
+        "text": "Sold in a random strip mall in Virginia, so it's not special"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "cookies",
+       "chain"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "bakery",
+      "location": null,
+      "name": "Levain Bakery",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "commenter lives nearby",
+        "text": "The commenter lives very close to Levain"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "cookies"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Los Tacos No.1",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "dinner line",
+        "text": "Dinner line probably shorter than lunch line"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "tacos",
+       "mexican"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_obvlp3r",
+   "context": {
+    "ancestors": [],
+    "author": "SelfReporter",
+    "body": "Unless you plan to be on the upper west side I wouldn’t go out of my way for sushi yasaka. It is very good, nyc just has so many sushi places but if you plan to stay in that area or go to the natural history museum, it’s worth it! \n\nI haven’t Been to a lot of these places listed but I would try to avoid really popular pizza places for dinner and just go there for an early lunch when they open. Depends on location but Los tacos No. 1 would probably have a shortish line for dinner compared to lunch. \n\nI live very close to levain bakery and it breaks my heart to see visitors  hitting up crumble cookies. You can get crumble cookies in a random strip mall in Virginia! ",
+    "replies": [],
+    "selftext": "Hey everyone,\n\nI'm heading to NYC next week and I need some recommendations for places where I can go to have dinner (sit down places preferably). I'll be there with my sister and we've got a couple of places we want to go to but we're not sure whether we want to go to these places for dinner or rather have some food on the go.\n\nThese are the places we've picked out so far, some we've found online and a few were recommended by a friend:\n\n\\- Song' E Napule\n\n\\- Chalong Southern Thai\n\n\\- John's Pizzeria\n\n\\- Prince Street Pizza\n\n\\- Wo Hop\n\n\\- Levain Bakery\n\n\\- Hatsuhana\n\n\\- Sushi Yasaka\n\n\\- Russ & Daughters\n\n\\- L’industrie Pizzeria\n\n\\- LOS TACOS No.1\n\n\\- ICHIRAN Ramen\n\n\\- Katz’s Delicatessen\n\n  \nFeel free to give better alternatives as well to the ones above. I'm especially looking for really good asian food (japanese, thai, vietnamese, chinese...). But like I said my main question is which places I could go for dinner.\n\nThanks in advance!",
+    "title": "Need help with good dinner places"
+   },
+   "item_id": "P0217"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 8,
+      "kind": "cafe",
+      "location": null,
+      "name": "Noona's Ice Cream",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "question",
+        "text": "asks the flavor and topping of a white cup ice cream"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_o3m9fu3",
+   "context": {
+    "ancestors": [],
+    "author": "blogterms",
+    "body": "whats the flavour and topping in the white cup?? looks delicious",
+    "replies": [
+     {
+      "author": "Hour_Ad5821",
+      "body": "Banana pudding mochi w/ strawberry jam drizzle + mochi topping"
+     }
+    ],
+    "selftext": "Noona’s Ice Cream is maybe some of my favorite in the city. I really love their passionfruit flavor when it’s out in the summer. If you’re into cookie butter, definitely try their winter flavor: biscuits n chai w/ Lotus Biscoff (so good).\n\nPlus, the woman who works there is soooo lovely. Highly, highly recommend.\n\n  \n[https://www.noonasicecream.com/shop-noonas-ice-cream-pints](https://www.noonasicecream.com/shop-noonas-ice-cream-pints)",
+    "title": "Noona's Ice Cream"
+   },
+   "item_id": "P0218"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 10,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Tea and Sympathy",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "british"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ogfsrhl",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Lethave",
+      "body": "Tea and Sympathy has apple as well as rhubarb crumble if I'm recalling correctly. "
+     }
+    ],
+    "author": "Lenka087",
+    "body": "Def checking this out!",
+    "replies": [],
+    "selftext": "When I was in London, I had Humble Crumble, which is hot custard with toppings and is DIVINE. I’ve been craving it ever since, but I can’t find any places that make it. Has anyone found one in NYC? If not, this is a serious gap in the market!",
+    "title": "Hot custard (British style) in NYC?"
+   },
+   "item_id": "P0219"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": true,
+      "dishes": [],
+      "experience": "none",
+      "id": 13,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Sweetgreen",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "partnership",
+        "text": "partners with an anti-vaccine figure, so would avoid"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "veggie sandwiches",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 13,
+      "kind": "deli",
+      "location": null,
+      "name": "lenwich",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "sandwiches",
+       "veggie"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Sweetgreen",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "anti-vax partnership",
+        "text": "Partners with an anti-vaxer; commenter would avoid them. Business reason, not about the food."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "veggie sandwiches",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": null,
+      "name": "lenwich",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "veggie",
+       "sandwiches"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_o255q7c",
+   "context": {
+    "ancestors": [],
+    "author": "Parms84",
+    "body": "Sweetgreen is partnering with an anti vaxer so would avoid them. Veggie sandwiches from lenwich are filling, you can do a veggie bowl. Mediterranean bowls can be filling and healthy - just watch out for sauces as they can have added calories",
+    "replies": [],
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "title": "Weightloss veg orders in NYC"
+   },
+   "item_id": "P0220"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Eleven Madison Park",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "booking",
+        "text": "asks OP how far in advance they had to book"
+       },
+       {
+        "about": "cost",
+        "text": "asks OP the total cost of the meal"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "lunch",
+       "plant based"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 8,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Eleven Madison Park",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "price",
+        "text": "Asks the total cost of the meal."
+       },
+       {
+        "about": "booking",
+        "text": "Asks how far in advance to book."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_p2xigq9",
+   "context": {
+    "ancestors": [],
+    "author": "helloivar",
+    "body": "Lovely! Did you have to book far in advanced OP? And if you don’t my asking, what was the total cost of the meal?",
+    "replies": [
+     {
+      "author": "MTonmyMind",
+      "body": "Couple of weeks for lunch.\n\nI had tried for a couple of years to get a dinner res that fit my travel, and it never worked out (this was pre-vegetarian menu).  Since they went back to their optional animal protein menu, I've been 4 times and it has not been difficult to find a spot."
+     }
+    ],
+    "selftext": "I love this place.  \nOnly been for lunch, in both the main dining room and the bar room.  In the main room, I've had both the 'all plant based' and then, like this visit, substituted the animal proteins.\n\n",
+    "title": "Eleven Madison Park, Lunch.  Menu, drinks, and a game."
+   },
+   "item_id": "P0221"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "saba",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Sushi Nakazawa",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "hikarimono",
+        "text": "chef avoids hikarimono; only saba noticed"
+       },
+       {
+        "about": "visit",
+        "text": "visit a couple of years ago"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "omakase"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Noz 17",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "portions",
+        "text": "only around 12 pieces"
+       },
+       {
+        "about": "price",
+        "text": "similar price point to Nakazawa"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "omakase"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "saba",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Sushi Nakazawa",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "neta variety",
+        "text": "agrees neta should reflect the season; hikarimono avoided, saba/mackerel the only one noticed"
+       },
+       {
+        "about": "past visit",
+        "text": "visited a couple of years ago"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "omakase",
+       "high-end",
+       "sushi"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Noz 17",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "price",
+        "text": "similar price point to Nakazawa"
+       },
+       {
+        "about": "portions",
+        "text": "only around 12 pieces"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "omakase",
+       "sushi"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_o4dhki9",
+   "context": {
+    "ancestors": [
+     {
+      "author": "reezyrice",
+      "body": "Nah this place is mediocre period. Rice is inconsistent, fish are all precut. Beverage selection is solid. There’s so much better sushi spots around the same price point. Kanoyama, Mumi, Tsubame etc etc. \n\nReasonable is a stretch when you have places like Sendo too which does a few things worse but a lot of things better."
+     },
+     {
+      "author": "NYCFoodieDad",
+      "body": "Definitely disagree. But to each their own"
+     },
+     {
+      "author": "reezyrice",
+      "body": "Indeed! To each their own, but I think I’m being objective regarding precut fish and inconsistent rice. They don’t even offer to redo the rice when it crumbles. \n\n I don’t think they change the fish variety much.  What’s the point of omakase if it’s not slightly seasonal? Almost all the pieces served except for like two was the same as when I went in the summer."
+     }
+    ],
+    "author": "AlcianB",
+    "body": "I completely agree that the neta should reflect what’s in season. Also, one of my pet peeves is when chefs avoid using hikarimono, and in this case, the only example I noticed was saba/mackerel. I also found my experience at Nakazawa a couple of years ago pretty underwhelming. I’d definitely recommend Noz 17 instead; it’s a much better choice at a similar price point, though you only get around 12 pieces.",
+    "replies": [],
+    "selftext": "Revisited Sushi Nakazawa after a long gap. Still a classic. For NYC high-end omakase, it remains one of the better values relative to quality. Nearly every piece hit.\n\nNoz 17 edges it out for me on both fish and ambiance, but Nakazawa stays a contender.",
+    "title": "Sushi Nakazawa - Still a classic"
+   },
+   "item_id": "P0222"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "bakery",
+      "location": null,
+      "name": "Kamboat bakery",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "bakery",
+      "location": null,
+      "name": "Golden Fung",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "cafe",
+      "location": "Bayard Street",
+      "name": "tong sui shop on Bayard",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "tong sui"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": "Bowery, next to Baked Culture",
+      "name": "old school Chinese snack shop next to Baked Culture",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "snack shop"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 2,
+      "kind": "bakery",
+      "location": "Bowery",
+      "name": "Baked Culture",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "landmark",
+        "text": "used as a location landmark for the snack shop"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Quantum Leap",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "locations",
+        "text": "both Manhattan and Flushing"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Hoomoos Asli",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "hummus"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": "St. Mark's Place",
+      "name": "hummus place on St Mark's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "hummus"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Dojo",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": "Greenwich Village",
+      "name": "Souen",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "macrobiotic"
+      ],
+      "timeframe": "past",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Kamboat bakery",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "golden fung",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": "Bayard Street",
+      "name": "this tong sui shop on Bayard street",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [
+       "tong sui"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Bowery, next to Baked Culture",
+      "name": "this old school Chinese snack shop next to Baked culture on Bowery",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [
+       "chinese snacks"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "bakery",
+      "location": "Bowery",
+      "name": "Baked culture",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "landmark",
+        "text": "used only to locate the snack shop next to it"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Manhattan and Flushing",
+      "name": "Quantum leap",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "hoomoos asli",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [
+       "hummus"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "St Mark's Place",
+      "name": "the hummus place on st mark",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [
+       "hummus"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Dojo",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Greenwich Village",
+      "name": "souen",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [
+       "macrobiotic"
+      ],
+      "timeframe": "past",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_mggrmyl",
+   "context": {
+    "ancestors": [],
+    "author": "Cartadimusica",
+    "body": "Kamboat bakery, golden fung, this tong sui shop on Bayard street, this old school Chinese snack shop next to where's Baked culture is on Bowery, Quantum leap (both Manhattan and flushing), hoomoos asli, the hummus place on st mark, Dojo, souen (in Greenwich village)",
+    "replies": [],
+    "selftext": "Lucky Strike, El international, Rio Mar, Carnegie Deli…",
+    "title": "I miss-"
+   },
+   "item_id": "P0223"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "nuggets",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "McDonalds",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "example",
+        "text": "Cited as an example in an argument about food naming, not a verdict on the food."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "fast food"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_owma05g",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Low-Introduction-531",
+      "body": "People are just doing it themselves more"
+     },
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "I care more about their vegan soft serve"
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "Thats the softest (pun intended) thing I've read all day lmfaooo. Ok...im about to go off....\n\nVegan soft serve? Just eat sorbet. I bet you eat \"nut cheese\" too huh?. Idk why vegans want to eat things that arent vegan.  You dont see the Jain monks eating tofurkey.  They eat food that is naturally vegan. Vegan this, vegan that. Just eat vegan food!!"
+     },
+     {
+      "author": "mycateatstoenails",
+      "body": "vegans do eat vegan food. why does tofurkey bother you? most people aren’t jain monks and don’t want to copy their diet. why does someone else’s food choices bother YOU? and im not vegan, as my post history will tell you. but vegan products are often healthy and they taste bomb. "
+     },
+     {
+      "author": "SpongeyBobaruu",
+      "body": "It bothers me because im a purist with food. Why have overly engineered food that is not food? For example, oat milk is not milk. It is soaked in water then strained. You can't milk a grain, or a cat (meet the parents!). I just can't agree with the marketing around western veganism. Calling lions mane mushroom a \"steak.\" Its not a steak! Its not cow! Its a delicious mushroom, sure, but its not a steak. And things like \"vegan cheese.\"  Its an oxymoron. There's no such thing as vegan cheese. Cheese requires lactose. Just call it a cheese substitute, or something. Im all down for vegetarian and vegan diets....but dont try to fool yourself by thinking you are eating an omnivore's diet. The funniest one i have seen yet was \"vegan jerky.\" Like holy shit...jerky is 100% beef that has been cured in salt and heat. There is nothing vegan about it.\n\nRespectfully, a chef."
+     }
+    ],
+    "author": "jaded_toast",
+    "body": "Get off your soap box. There are traditional meat substitutes around the world, like mock meats and mock fish that are a part of Chinese Buddhist cuisine. Who gives a fuck if people call an oat beverage \"oat milk\"? So vegans are not allowed to say \"vegan cheese\", but having to say \"vegan cheese substitute\" would be fine?\n\nYou're a purist with food, but you're ok with the nugget-shaped pink slime McDonalds sells is allowed to be called chicken??\n\nWhen did being a chef make you the police of what people call things that it sounds like you don't even eat. ",
+    "replies": [
+     {
+      "author": "SpongeyBobaruu",
+      "body": "First off, McNuggets with their honey is bomb. Its far from chicken though lol.\n\nTo say again...my main problem is the marketing around it and this weird sense of pretending to be a meat eater. Veggie burgers are fine...why eat that factory made ImpossibleBurger? Its just so bizarre. Eat lentils. Eat eggplant. Eat quinoa. Wtf is imitation burgers? "
+     }
+    ],
+    "selftext": "I had been at this location nearly a month ago and it's already gone. I've been a fan of Pressed for 10 years and I love their freezes 🍦. I'm noticing they have fewer locations than they did 3 years ago.",
+    "title": "Another Pressed Juicery location bites the dust..."
+   },
+   "item_id": "P0224"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "secondhand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Monterey",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "source",
+        "text": "Recommended via the commenter's friend, who loved it; commenter has never been"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "secondhand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Monterey",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_m11c60a",
+   "context": {
+    "ancestors": [],
+    "author": "Mental_Ganache5112",
+    "body": "I’ve never been, but my friend loved it - Monterey",
+    "replies": [
+     {
+      "author": "nippyhedren",
+      "body": "Wouldn’t recommend."
+     }
+    ],
+    "selftext": "Well, I lost the reservation war for Monkey Bar for a Saturday night during the holidays. What are some comparable places with similar food, ambiance and great cocktails?? Looking to stay in the somewhat general area of Monkey Bar! Only in NYC for 2 days so looking to have a really nice classic dinner!! ",
+    "title": "Replacements for Monkey Bar for a nice, classic NYC restaurant?"
+   },
+   "item_id": "P0225"
+  }
+ ],
+ "packet": "a009"
+}

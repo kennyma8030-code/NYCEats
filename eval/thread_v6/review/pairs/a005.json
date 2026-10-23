@@ -1,0 +1,3132 @@
+{
+ "items": [
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": "Greenpoint",
+      "name": "Relax",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "self-serve",
+        "text": "marked self-serve"
+       },
+       {
+        "about": "price",
+        "text": "full meals with sides $12-18"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "polish"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": "Greenpoint",
+      "name": "Pysza",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "self-serve",
+        "text": "marked self-serve"
+       },
+       {
+        "about": "price",
+        "text": "full meals with sides $12-18"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "polish"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "deli",
+      "location": "Greenpoint",
+      "name": "Steve's Deli",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "self-serve",
+        "text": "marked self-serve"
+       },
+       {
+        "about": "price",
+        "text": "full meals with sides $12-18"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "polish"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": "Greenpoint",
+      "name": "Retro Karczma",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "price",
+        "text": "full meals with sides $12-18"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "polish"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Greenpoint",
+      "name": "Pysza",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "portions",
+        "text": "all big portions"
+       },
+       {
+        "about": "price",
+        "text": "full meals with sides, $12-18"
+       },
+       {
+        "about": "service",
+        "text": "self serve"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "polish",
+       "self serve",
+       "affordable"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": "Greenpoint",
+      "name": "Steve's Deli",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "portions",
+        "text": "all big portions"
+       },
+       {
+        "about": "price",
+        "text": "full meals with sides, $12-18"
+       },
+       {
+        "about": "service",
+        "text": "self serve"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "polish",
+       "self serve",
+       "affordable"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Greenpoint",
+      "name": "Retro",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "portions",
+        "text": "all big portions"
+       },
+       {
+        "about": "price",
+        "text": "full meals with sides, $12-18"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "polish",
+       "affordable"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Greenpoint",
+      "name": "Karczma",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "portions",
+        "text": "all big portions"
+       },
+       {
+        "about": "price",
+        "text": "full meals with sides, $12-18"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "polish",
+       "affordable"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_nsslctm",
+   "context": {
+    "ancestors": [],
+    "author": "Bigdaddyhef-365",
+    "body": "Polish Restaurants in Greenpoint\n\nRelax*\n\nPysza*\n\nSteve’s Deli*\n\nRetro\n\nKarczma\n\nAll big portions\n\nFull meals with sides, $12-18\n\n*self serve",
+    "replies": [],
+    "selftext": "Seems more and more places are either long lined viral food trucks or popups, or very expensive tasting menus/omakase. The in-between restaurants seem very mediocre and overpriced, looking for a decent restaurant in midtown and every menu has a $39 priced chicken or salmon, maybe enshittification is just dawning on me now? Even the previous go-to affordable eats (ramen, tacos) are expensive now. Is it price hike for rent? Labor? Ingredients? Apologies if this belongs in /r/economicCollapse",
+    "title": "Are there no more middle class restaurants?"
+   },
+   "item_id": "P0101"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": []
+   },
+   "comment_id": "t1_ndorn9j",
+   "context": {
+    "ancestors": [
+     {
+      "author": "enuffofthiscrap",
+      "body": "Why is everyone in this thread such a hater?\n\nIf you grew up here, especially downtown, you likely be going down there and having a blast... just like every other year. \n\nNot everything is so serious.  \n\nYeah, a lot of the food is not the same as it was 20yrs ago, but neither is anything here. \n\nSometimes \"good food\" is just wanting to eat some fried shit and hopefully bump into old acquaintances.\n\n\nSMH."
+     }
+    ],
+    "author": "Cold-Metal-2737",
+    "body": "I agree, yeah the food is overpriced and mid but so is a lot of festival/fair food.  It's more about the celebration.  IMO it's all the food I frankly would never get usually like Zeppole, Fried Oreos, Sausage and Peppers, Torrone, ect.  What more can you expect from Little Italy?  The place is a dying tourist trap",
+    "replies": [],
+    "selftext": "",
+    "title": "The Feast of San Gennaro starts today in Little Italy"
+   },
+   "item_id": "P0102"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 14,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Wonder",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "legal",
+        "text": "asks whether Wonder can be sued or taken to task by the CFPB for defrauding consumers"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_pco8gtg",
+   "context": {
+    "ancestors": [],
+    "author": "TheFlyingBoat",
+    "body": "Can Wonder be sued for defrauding consumers or taken to task by the CFPB (when a real admin returns)",
+    "replies": [],
+    "selftext": "As if you needed another reason not to patronize. Google Maps is probably just going to leave it up too.",
+    "title": "Wonder paying for fake reviews/AI slop photos on Google"
+   },
+   "item_id": "P0103"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "matcha",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 13,
+      "kind": "cafe",
+      "location": null,
+      "name": "Setsugekka",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "premium",
+        "text": "good for more premium matcha"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 13,
+      "kind": "cafe",
+      "location": "East Village",
+      "name": "cha an",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "matcha latte",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "soft serve",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 13,
+      "kind": "cafe",
+      "location": "Chinatown",
+      "name": "matcha cafe maiko",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "staple",
+        "text": "a solid standard matcha latte or soft serve"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha",
+       "soft serve"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 13,
+      "kind": "cafe",
+      "location": null,
+      "name": "cha cha matcha",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "boycott",
+        "text": "steers clear because of the founders' conduct, not the food"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "premium matcha",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": "East Village",
+      "name": "Setsugekka",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha",
+       "cafe"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "premium matcha",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": "East Village",
+      "name": "cha an",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha",
+       "cafe"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "matcha latte",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "soft serve",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": "Chinatown",
+      "name": "matcha cafe maiko",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha",
+       "cafe",
+       "staple"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": true,
+      "dishes": [],
+      "experience": "none",
+      "kind": "cafe",
+      "location": null,
+      "name": "cha cha matcha",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "boycott",
+        "text": "Commenter avoids it over the founders' conduct, not the food."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ldq6px9",
+   "context": {
+    "ancestors": [],
+    "author": "5100474throwaway",
+    "body": "Setsugekka and cha an in East village are good for more premium matcha, matcha cafe maiko in Chinatown is a really solid staple for a standard matcha latte (or soft serve).\n\nI would steer clear of cha cha matcha on principle cuz the founders absolutely suck https://ny.eater.com/2020/7/9/21308552/cha-cha-matcha-owners-under-fire",
+    "replies": [],
+    "selftext": "I’m gonna have a short trip to NYC and I’m excited to try matcha drinks and the “supreme croissants” can I have some recommendations pleaseee. Thanksss",
+    "title": "Best matcha and croissant place "
+   },
+   "item_id": "P0104"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Theodora",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_mymklq0",
+   "context": {
+    "ancestors": [],
+    "author": "justflipping",
+    "body": "Nice photos! Looks really good. Thanks for sharing!",
+    "replies": [],
+    "selftext": "Website- [https://www.theodoranyc.com/](https://www.theodoranyc.com/)\n\nYelp page- [https://www.yelp.com/biz/theodora-brooklyn](https://www.yelp.com/biz/theodora-brooklyn)\n\nShort review- All of the main dishes were good but if I had to pick one, my favorite was probably the trout. For smaller plates, my favorite was either the sourdough or if I can look past the price; the pita. Favorite dessert was the Camembert Cheesecake but all were good. Nothing I disliked outside of maybe thinking the baklava sundae was a bit too deconstructed. Hard to get into for a really good reason.",
+    "title": "Theodora- Brooklyn. Wood-fired Mediterranean cooking"
+   },
+   "item_id": "P0105"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "very_positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "durian snacks",
+        "level": null
+       },
+       {
+        "avoid": false,
+        "dish": "durian",
+        "level": "very_positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": "Elmhurst",
+      "name": "Pata Market",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "pricey durian",
+        "text": "Miami Fruit stall at the market sells pricier durian; order that with care"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "durian",
+       "specialty food",
+       "snacks"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "durian snacks",
+        "level": null
+       },
+       {
+        "avoid": false,
+        "dish": "durian",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "id": 4,
+      "kind": "market_stall",
+      "location": "Pata Market, Elmhurst",
+      "name": "Miami Fruit",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "pricey durian",
+        "text": "Pricier durian options are available to order."
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "durian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 4,
+      "kind": "food_hall",
+      "location": "Elmhurst",
+      "name": "Pata Market",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_lai5yy2",
+   "context": {
+    "ancestors": [
+     {
+      "author": "CabassoG",
+      "body": "A lot of Americans dislike the smell of jackfruit/durian. I personally love it. A couple Thai spots offer durian sticky rice and I love it."
+     },
+     {
+      "author": "Alone-Course3048",
+      "body": "Yeah get some Durian somewhere. I know Flushing has some. Just won’t be as good as in Malaysia."
+     }
+    ],
+    "author": "CabassoG",
+    "body": "Best spot unless you order the pricey stuff from Miami Fruit is at Pata Market in Elmhurst. They also have some durian snacks",
+    "replies": [],
+    "selftext": "Basically I am talking about foods that have a strang yet oddly delicious taste as I don’t know how to explain it, but it’s unusual food with a unique flavor to it.",
+    "title": "What’s the strangest food you have ever tried in NYC?"
+   },
+   "item_id": "P0106"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 8,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Francie",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_m8zvvoq",
+   "context": {
+    "ancestors": [
+     {
+      "author": "remykixxx",
+      "body": "wtf is this presentation lmao"
+     },
+     {
+      "author": "legaljellybean",
+      "body": "It’s from Francie, and it’s very fancy 😂"
+     }
+    ],
+    "author": "remykixxx",
+    "body": "🤣🤣🤣 that should be their tagline",
+    "replies": [],
+    "selftext": "The title.  Just saw that the last duck farm on Long Island was closing and am selfishly concerned.  Photo of a roast duck I recently enjoyed. ",
+    "title": "Where do NYC Chinese Restaurants Source Duck?"
+   },
+   "item_id": "P0108"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "tomato feta mint focaccia sandwich",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "tomato croissant",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 4,
+      "kind": "bakery",
+      "location": null,
+      "name": "radio bakery",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "focaccia",
+        "text": "fresh oregano makes the sandwich special"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "tomato croissant",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Radio Bakery",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_p6tebe7",
+   "context": {
+    "ancestors": [
+     {
+      "author": "harperavenue",
+      "body": "radio bakery’s tomato croissant. "
+     },
+     {
+      "author": "Key-Progress4115",
+      "body": "the tomato feta mint focaccia sandwich is also incredible. "
+     }
+    ],
+    "author": "Proud_Community_9293",
+    "body": "Seconding the focaccia—the fresh oregano really makes it special. The tomato croissant was just ok. ",
+    "replies": [],
+    "selftext": "i just tried tor heirloom tomato bagel at frankel’s and it blew my mind. are there any other amazing tomato dishes i must try before peak tomato season ends?",
+    "title": "it’s tomato season! what are your favorite tomato based dishes in the city?"
+   },
+   "item_id": "P0109"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 9,
+      "kind": "cafe",
+      "location": "East Broadway",
+      "name": "Little One",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "kakigori"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_pcyctoc",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Marzipanny",
+      "body": "Have you been to the Little One on East Broadway?  such good kakigori!"
+     }
+    ],
+    "author": "Yomatius",
+    "body": "Hey! I did not know about this place! Thanks for the tip! ",
+    "replies": [],
+    "selftext": "I've run out of great ideas for my friend's birthday. I used to take her to the annual chocolate show, I booked a tour of the Rakka chocolate factory, and also a chocolate tasting event at the Cocoa Store. She loves sweets, chocolate, and matcha, and she has traveled and eaten all over the world. \n\nI need to keep up my reputation of taking her to cool and interesting experiences around food. Please help! Preferably Brooklyn or Manhattan, or Queens. ",
+    "title": "Helping finding a unique food experience for a sweet-tooth foodie friend"
+   },
+   "item_id": "P0110"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": "negative",
+       "wait": "negative"
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "smoked salmon focaccia",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "shakshuka pastry",
+        "level": "neutral"
+       },
+       {
+        "avoid": false,
+        "dish": "cinnamon roll",
+        "level": "negative"
+       },
+       {
+        "avoid": false,
+        "dish": "chocolate chip cookie",
+        "level": "neutral"
+       },
+       {
+        "avoid": false,
+        "dish": "carrot cake",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Hanis",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "agreement",
+        "text": "Agrees with the original poster's takes on everything they ordered"
+       },
+       {
+        "about": "cold shakshuka pastry",
+        "text": "No option to heat it up, so the egg is served cold"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "bakery",
+       "pastry",
+       "coffee"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "neutral",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "smoked salmon focaccia",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "bakery",
+      "location": null,
+      "name": "hanis",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "agreement",
+        "text": "agrees with the post's takes on the rest of the menu"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "bakery"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_nkelw9y",
+   "context": {
+    "ancestors": [],
+    "author": "Specific-Yak-6450",
+    "body": "The smoked salmon foccacia is my favorite thing there. I agree with your takes on everything you had though.",
+    "replies": [
+     {
+      "author": "candles83",
+      "body": "I usually love this too. But I had it this weekend and sadly the focaccia wasn’t as light and airy. It was kinda dry. Hopefully it was just a one off day!"
+     }
+    ],
+    "selftext": "went to hanis  super excited as everyone raves about it, and was pretty disappointed. There was a line (which we expected) but it moved verry slow and the inside was extremely hectic. And then, I’m not sure if we just ordered wrong,  but the food fell flat. Here’s a brief overview:\n- shakshuka pastry: flavor and pastry were really good, wasn’t a huge fan that there was no option to heat it up so you’re eating cold egg \n\n-cinnamon roll: by far the biggest disappointment, the dough was kinda tough and it was way too sweet and had too much icing (which I didn’t even think could be possible)\n\n- chocolate chip cookie: the best of the bunch but again just a little too sweet\n\n- carrot cake: super smooth texture but overly sweet and very one noted on the flavor. \n\n\nI will say the workers were very kind, and the coffee was good but I just don’t think for the wait and the price ($8 for a cookie) I’ll be returning. Tall poppy has was less of a wait and better pastries IMO. Did anyone else have a similar experience? \n\n",
+    "title": "Hanis thoughts"
+   },
+   "item_id": "P0111"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "truffle tasting",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Manhattan",
+      "name": "Per Se",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "price",
+        "text": "truffle tasting about $2000 per person"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": "very_expensive",
+      "status": null,
+      "tags": [
+       "tasting menu",
+       "special occasion"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "truffle tasting",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Per Se",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "price",
+        "text": "About $2000 per person"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "tasting menu"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_j45g2uu",
+   "context": {
+    "ancestors": [],
+    "author": "AbaloneEither3110",
+    "body": "Per se truffle tasting 2000 pp, pretty nice.",
+    "replies": [
+     {
+      "author": "[deleted]",
+      "body": "[deleted]"
+     }
+    ],
+    "selftext": "What are the most expensive restaurants in Manhattan? Any that are worth it? I don’t care for Michelin artsy modern cuisine with foam and gels or gold encrusted foods. Just amazing tasting traditional meals in beautiful surroundings. Traveling to NYC in June looking to reserve now.",
+    "title": "Most expensive traditional meals in Manhattan?"
+   },
+   "item_id": "P0112"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "dosa",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "other dishes",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Semma",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "dosa comparison",
+        "text": "dosa was amazing but not leagues ahead of other dosas"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "neutral",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "dosa",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Semma",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "other dishes",
+        "text": "other dishes lacked the depth and complexity expected from Indian food"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ntjg7a4",
+   "context": {
+    "ancestors": [
+     {
+      "author": "moshi-monster",
+      "body": "casa mono (especially if you eat everything/are not picky about meat) - one of the best meals i had in the city.\n\nreally like semma as well, but as someone who grew up eating Indian food, it is pretty overhyped what it is - would recommend Kanyakumari for coastal indian.\n\nif you’re on a budget, try the tasting menu at Corima - changes often but when I went was the most value for money tasting menu i’ve ever had (very good for ~120)"
+     }
+    ],
+    "author": "idkwhattowriteee",
+    "body": "I agree with you on Semma. The dosa was amazing, but definitely not leagues ahead of others I have had. Other dishes lacked the depth and complexity I expected from Indian food.",
+    "replies": [],
+    "selftext": "So I have a reservation for Jeju on Saturday Dec 20th. I am visiting NYC for weekend with my boyfriend - coming from Utah where the food is actual dog shit (we are both east coasters originally). We both are on a little bit of a budget (rocking on 2 non profit salaries) - but are willing to splurge on good restaurants Friday and Saturday night. I am on the waiting list for Semma and Casa Mono - both of which I would be stoked to go to (I think). I put myself on the waiting list a couple of days ago for Jeju as a backup and ended up getting a reservation there fairly quickly. The menu looks pretty good - but I am worried we are going to spend sooo much there with the Toro Saam Bap being $56 (and all of the reviews from people online are saying that is THE dish to get there!). But we won’t be able to get much else (maybe 1-2 other dishes) if we get the Toro Saam Bap to stay within budget. I am seeing mixed reviews online, Reddit, etc … some people are saying Jeju is overrated - what’s the move everyone? Give me advice! Thanks! ",
+    "title": "Tourist question! Is Jeju worth it? Is Semma, Casa Mono or somewhere else better better?"
+   },
+   "item_id": "P0113"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "restaurant",
+      "location": null,
+      "name": "PJ Clarke's",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": "cheap",
+      "status": null,
+      "tags": [
+       "pub"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_jofbmf4",
+   "context": {
+    "ancestors": [
+     {
+      "author": "OBAFGKM17",
+      "body": "Plenty of non-tourist trap restaurants in Midtown, just off the top of my head I can think of:\n\nLamb's Club\n\nLa Grand Boucherie\n\nJupiter\n\nLe Rock\n\nNaro\n\nPJ Clarke's\n\nThe OG Benihana (though that may be too touristy for you)\n\nOn the more expensive side you have:\n\nAquavit\n\nLe Bernardin\n\nThe Grill\n\nMarea"
+     },
+     {
+      "author": "akmalhot",
+      "body": "Pj Clark's ?"
+     }
+    ],
+    "author": "OBAFGKM17",
+    "body": "It's good, cheap food, OP didn't indicate a budget.",
+    "replies": [],
+    "selftext": "I am aware that midtown is not the best place for food in Manhattan, but I am staying at 54th in park, so I don't want to have to keep heading downtown for every single meal. Can anyone recommend me some restaurants close to or at the midtown region that are genuinely of good quality and aren't tourist traps? I'm open to any type of cuisine (italian, french, chinese, ramen, steakhouse, etc., anything good really) except japanese since I am already heading to some omakase spots while I'm in town. Thank you!",
+    "title": "Can I get some recommendations for restaurants at midtown Manhattan that aren't tourist traps?"
+   },
+   "item_id": "P0114"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": "negative",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "salads",
+        "level": "negative"
+       },
+       {
+        "avoid": false,
+        "dish": "salad dressings",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Wonder",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "coupon",
+        "text": "Got a coupon from them for about 50% off, or possibly free; the commenter isn't sure."
+       },
+       {
+        "about": "dressing samples",
+        "text": "Asked for many different dressings to try, and the staff didn't limit them."
+       },
+       {
+        "about": "full price",
+        "text": "Would never pay full price."
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "salads"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_oejd4be",
+   "context": {
+    "ancestors": [],
+    "author": "AppUnwrapper1",
+    "body": "I used the coupon they gave me for like 50% off or maybe it was even free? I can’t remember. The salads were fine, nothing to call home about. But every salad dressing I tried from them was awful (they didn’t limit you so I just asked for a bunch of different ones to try). Was fine for free/mostly free but would never pay full price for it. ",
+    "replies": [],
+    "selftext": "I’m genuinely so sick of their shit. They’re literally just 100 ”restaurants” in one, horrible frozen food microwaved and designed (probably even ai-generated) to look good in their ads, taking loads of money from actually delicious small businesses.\n\nI suggest trying Ladybird or PLNTBurger for good healthy vegetarian stuff rather than “Hanu Poke by Wonder” or “Royal Greens” or some shit. You can get Ichiran or Din Tai Fung instead of “Kin House”, 19 Cleveland instead of ”Yasas by Wonder”, Maya Taqueria or Tacombi instead of “Limesalt,” even fucking Dominos rather than “Alanza Pizza.” Buy from your local bakery instead of their dumbass “Room for Dessert.” Literally anything but Wonder will taste better. Support local businesses. Fuck ghost kitchens.",
+    "title": "Can Wonder please fuck off"
+   },
+   "item_id": "P0115"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 4,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Salteña Pop Up",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "photo",
+        "text": "first photo looked like a hot dog"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_mjbwia5",
+   "context": {
+    "ancestors": [],
+    "author": "KittenLina",
+    "body": "I'm still waking up.  I literally thought the first pic was a weird-ass hot dog, and my first thought was \"Oh man, what'll they do to hot dogs next?\"",
+    "replies": [
+     {
+      "author": "Chef_Lazo-718",
+      "body": "😂"
+     }
+    ],
+    "selftext": "Hey Food Fam\n\nToday is the day  Whoopsie Daisy Bar will be hosting my Salteña Pop Up  where I will have 3 savory options and 1 dessert Salteña. We will be starting at 3pm  the address is 225 Rogers Ave \n\nHope to see you all there! ",
+    "title": "Salteña Pop Up Today Brooklyn"
+   },
+   "item_id": "P0116"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cacio e pepe",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "restaurant",
+      "location": "2nd Ave, East Village",
+      "name": "Cacio e Pepe",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "italian",
+       "cacio e pepe"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_o88bdj7",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Unionsquaremom",
+      "body": "Used to be a place in eAst vill on 2nd ave called cacio e pepe dunno if still exists"
+     }
+    ],
+    "author": "Foreign-Candle-4103",
+    "body": "It’s nice enough but I wasn’t wowed by the titular dish there",
+    "replies": [],
+    "selftext": "Piggybacking on the Carbonara thread. Any other Cacio e Pepe fans here? Give me your favorites!\n\nGabriel’s near Central Park does a unique one with extra wide pappardelle noodles, and Joseph’s in FiDi makes a decent one as well.\n\nWould love to try some others, so let’s hear it.",
+    "title": "Best Cacio e Pepe in the city?"
+   },
+   "item_id": "P0117"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "dumplings",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Vanessa's",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "price comparison",
+        "text": "the cost of an entire boatload of dumplings from Vanessa's is compared with what the commenter paid for takeaway elsewhere"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "dumplings"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "dumplings",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Vanessa's Dumpling House",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "comparison",
+        "text": "an entire boatload of dumplings for the same cost as DTF"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "dumplings"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_phfp8h8",
+   "context": {
+    "ancestors": [],
+    "author": "traggedy_ann",
+    "body": "I've gotten takeaway with my partner when we go back to [San Jose at the time] to visit their mother. It's so fine, just completely whatever. If it was half as expensive, it'd be great for the price. Instead it's terribly mid for the same cost as an entire boatload of dumplings from Vanessa's.",
+    "replies": [],
+    "selftext": "Ive heard AMAZING things about how AMAZING DTF is. After making plans, I’ve been excited to finally visit the restaurant all month. Every post I have ever seen about the restaurant is flooded with reviews about how “this specific food item is SOOOO amazing” or “this is the MOST DELICIOUS specific food item i’ve ever had.” Everyone has always hyped up the popular food items talking about how amazing and worth it and delicious it all is. \n\nLet me be what seems the first one to say my friend and I were EXTREMELY disappointed and underwhelmed. Now, let me clarify that none of the items we got were bad. Absolutely none of them. But, they were all just fine. The cucumber salad, the mini ribs, the green beans, were all exactly what you think they’d taste like. We also got the pork XLB and chicken wontons, and they were good. But thats the problem. At no point of this dinner were we in AWE, the way that everyone online always is about the same food items. \n\nAfter our average dinner, we were at least holding hope for the infamous chocolate dumplings, and they were good. That’s ALL. And this item seems like it is the most loved and gets the most praise in the world for being mouth-watering, delicious, amazing, life changing, etc. We thought they were good and it stops there (and i LOVEEEEE chocolate, but they were fine)\n\nIDK. my whole reason in this post is to find out, did anyone else have a similar experience? My WHOLE point is, none of the food was bad, it was all average. So considering the waitlist and the prices, my soup dumplings from trader joe’s taste just as good. ",
+    "title": "Din Tai Fung was so underwhelming and is not worth the hype"
+   },
+   "item_id": "P0118"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Pakistani Tea House",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "cheap meals",
+        "text": "fed the commenter cheaply several times a week for years"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": "cheap",
+      "status": "closed",
+      "tags": [
+       "pakistani"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "patties",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Christy's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [
+       "jamaican"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "Bahn Mi",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Hancos",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "old prices",
+        "text": "Bahn Mi about $6 twenty years ago; now prices at least double that, with multiple locations"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "vietnamese"
+      ],
+      "timeframe": "past",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Pakistani Tea House",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "office",
+        "text": "was right by the commenter's office and fed them multiple times a week for years"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": "cheap",
+      "status": "closed",
+      "tags": [
+       "pakistani"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "patties",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Christy's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [
+       "jamaican"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "negative",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "bahn mi",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Hancos",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "old prices",
+        "text": "bahn mi about $6 around 20 years ago; prices now at least double"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "vietnamese",
+       "bahn mi"
+      ],
+      "timeframe": "past",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ntamyvd",
+   "context": {
+    "ancestors": [
+     {
+      "author": "epolonsky",
+      "body": "In no particular order:\n\n* I never ate there but my father says the ribs at Max’s Kansas City were banging and the atmosphere was great … until Warhol showed up and turned the place into a scene. \n* A steam table place in alphabet city called Mama’s had some of the best bread pudding I’ve ever tasted. \n* Christy’s Jamaican Patties on Flatbush. Loved their currant roll. \n* Sun Lok Kee at 13 Mott\n*Schicks bakery in Boro Park\n* Many pizzerias in which I wasted hours as a youth. Particularly one on 16th and Third (Marinara?) that had a crazy meat lovers stuffed slice\n* A deli by Stuy Town that I never learned the name of but made a slamming Italian sub\n* Pakistan Tea House, the Thai Blimpie’s on Reade and West Broadway, We’re Nuts for Nuts\n* Sun in Bloom\n* Phoenix Garden and Ma Po Tofu - solid neighborhood Chinese places taken from us too soon\n* Pho Saigon\n* Anyplace to get a $2 bahn mi (yes, that’s what they cost back in 1999)\n* Purple Yam\n* The Farm on Adderly\n* Cinco de Mayo (on Cortelyou)\n* Talde on Seventh Ave in Park Slope\n* The Grocery\n* The hot dog place that became a Swatch store\n* Babycakes/ Erin McKenna\n* Tortilleria Nixtamal"
+     }
+    ],
+    "author": "Bec_not_Becky",
+    "body": "Pakistani Tea House!! This was right by my office and they kept me happily & cheaply fed multiple times a week for years. Christy’s too, their patties were so good. \n\nThis reminds me I miss the old Hancos and their prices from about 20 years ago. I think the Bahn Mi were $6 back when I got them all the time. They have multiple locations now and prices are at least twice that",
+    "replies": [
+     {
+      "author": "epolonsky",
+      "body": "Ever go to the Thai Blimpie’s across the street from PTH? No idea what it was actually called, but it was an old Blimpie’s that was bought by a Thai family. The husband still served Blimpie’s style sandwiches from the front counter but if you went in the back, the wife would cook you various stir fried noodles for super cheap."
+     }
+    ],
+    "selftext": "This cold winter day’s got me feeling nostalgic. What’s restaurants or eateries of the past would you bring back if given the chance? For me, it’s a tie between Caracas Arepa & Marble Dessert Bar. Oh, how miss dousing their seafood arepa with their signature yellow sauce. And to this day, I still can’t find a dessert tasting quite like Marble’s. Lysee comes close, but it’s not quite the same. ",
+    "title": "If you could bring back one closed restaurant, what would it be?"
+   },
+   "item_id": "P0119"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": "positive",
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "patsys Italian",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "food",
+        "text": "heavily Americanised Italian; commenter not a fan of the food"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "italian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Vatan",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Sezchuan Mountain House",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Hangwai",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Konban",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Sappe",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "The Grill",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "budget",
+        "text": "probably not in the budget"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Vatan",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Sezchuan Mountain House",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Hangwai",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Konban",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Sappe",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": "positive",
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Patsys Italian",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "cuisine",
+        "text": "Heavily Americanised Italian food the commenter is not fond of"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "italian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "The Grill",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "budget",
+        "text": "Probably not within the couple's budget"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_lxxeypt",
+   "context": {
+    "ancestors": [],
+    "author": "Garconavecunreve",
+    "body": "Vatan  \n\nSezchuan Mountain House  \n\nHangwai  \n\nKonban   \n\nSappe  \n\nNot a fan of the food per se (I’m not too fond of heavily Americanised Italian) but the ambience at patsys Italian is impressive  \n\nProbably not in the budget: The Grill",
+    "replies": [],
+    "selftext": "My boyfriend and I like to surprise each other for our birthdays. Does anyone have any restaurants you know of, that when you walk into the place, you audibly say \"whoa\"? I want to take him to a funky place with good food. Preferably under $150 for the two of us. Thanks!",
+    "title": "Any crazy / cool / unique restaurant ideas I can surprise my boyfriend with for his birthday?"
+   },
+   "item_id": "P0120"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "pizza",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Emporio",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "NY style pizza",
+       "italian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Rubirosa",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "comparison",
+        "text": "poster thinks Rubirosa is better than Emporio"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "NY style pizza",
+       "italian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "pizza",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Emporio",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza",
+       "sit-down"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Rubirosa",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "comparison",
+        "text": "Commenter thinks Rubirosa is better than Emporio, while calling Emporio good."
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza",
+       "sit-down"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_k31e9dq",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Hopeful-Mirror1664",
+      "body": "Hands down go to Rubirosa. Book in advance on Resy as it’s hard to get into. It’s right on Mulberry St near where you will be. You won’t be disappointed.\nI practically live in this place. The pizza and pasta is probably the best in the area."
+     },
+     {
+      "author": "willb",
+      "body": "I think emporio one street over is actuslly even better"
+     }
+    ],
+    "author": "Hopeful-Mirror1664",
+    "body": "Hi. Sitting in Emporio right now. The pizza is definitely good, thank you for the recommendation and I will return here but I think Rubirosa is better.\nJust my opinion.\nThank you again, it is really good.",
+    "replies": [],
+    "selftext": "Hi all,\n\nLooking for recommendations for the best place for a NY Style Pizza when we visit next month. We want to sit down and order a pie, not grab a slice and go. We'll be staying in China Town so lower Manhattan would be ideal. Tempted to go for Scarr's but I've read mixed opinions. Any better places to check out?\n\nAppreciate any pointers.",
+    "title": "Best NY Style Pizza - Sit Down Dining, Whole Pie"
+   },
+   "item_id": "P0121"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 8,
+      "kind": "restaurant",
+      "location": "East Elmhurst, Queens",
+      "name": "Taste",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_oon6ugv",
+   "context": {
+    "ancestors": [],
+    "author": "HuckleberryPale1469",
+    "body": "Taste good in east elmhurst (I know this is queens but it’s so good) ",
+    "replies": [],
+    "selftext": "Looking for this specific Indonesian dish, but also welcome Indonesian recs in general! ",
+    "title": "Where can we get mie gorang? Preferably in Brooklyn."
+   },
+   "item_id": "P0122"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 8,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Le'Baratin",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "french"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "West Village",
+      "name": "Le'Baratin",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "cozy",
+       "date night"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_k9fj69q",
+   "context": {
+    "ancestors": [],
+    "author": "Oblivious350",
+    "body": "Le’Baratin is great",
+    "replies": [],
+    "selftext": "What are some of your favorite cozy/cute west village restaurants that are also not impossible to get a reservation at? Trying to keep it under/around $75pp. \n\nAlso open to Greenwich village and nolita",
+    "title": "Cute West Village restaurants"
+   },
+   "item_id": "P0124"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": "negative",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "croissant",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": null,
+      "name": "La Cabra",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": null,
+      "name": "bicyclette",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": "negative",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "croissant",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "La Cabra",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "french",
+       "pastry"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "croissant",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Bicyclette",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "comparison",
+        "text": "better croissants than La Cabra"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "french",
+       "pastry"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_nzgb1xo",
+   "context": {
+    "ancestors": [
+     {
+      "author": "PriclessSami",
+      "body": "thus far, it’s La Cabra."
+     }
+    ],
+    "author": "Zealousideal-You-661",
+    "body": "Overpriced and too crispy, bicyclette's better",
+    "replies": [
+     {
+      "author": "Smooth_Influence_488",
+      "body": "Really tired of the over baked trend, La Cabra's croissant tasted like a wonder bread crust and half of it flaked into crumbs/wasn't edible."
+     }
+    ],
+    "selftext": "Hi French people in NYC... where has the best croissants in the city? \n\nHaving hard time finding good croissants... \n\nThank you!!! ",
+    "title": "French people in NYC... where has best croissants in the city?"
+   },
+   "item_id": "P0125"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "Royale with cheese",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "id": 8,
+      "kind": "bar",
+      "location": null,
+      "name": "Sip",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "markup",
+        "text": "restaurants charge 2-4x base cost"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_olnmw0t",
+   "context": {
+    "ancestors": [
+     {
+      "author": "tengentopp",
+      "body": "150 for the sando? Insanity. "
+     },
+     {
+      "author": "HarviousMaximus",
+      "body": "One hundred and fifty DOLLARS?? We have lost the plot entirely "
+     },
+     {
+      "author": "tengentopp",
+      "body": "I’ll take this opportunity to clown anyone who pretends to appreciate wagyu and then slathers it with sauce/extras"
+     },
+     {
+      "author": "fork_yuu",
+      "body": "That's also a huge fucking piece of a5 wagyu. Isn't it supposed to be better enjoyed in smaller portions of like 1-2 oz lol"
+     },
+     {
+      "author": "yeet420133769",
+      "body": "meant to be shared but some people can def eat all of that at once (me)\n\nits kinda like how mashed potatoes should be enjoyed in small portions cause the best ones are like half butter but so many pig out on those\n\ni also wanna say the pic makes it look bigger than it is and its prob only ~4oz"
+     },
+     {
+      "author": "boroughthoughts",
+      "body": "But 4 oz portion of that stuff not frozen is 40 to 50$ whole sale."
+     }
+    ],
+    "author": "yeet420133769",
+    "body": "sure? i don't get your point. restaurants charging 2-4x their base cost (food, labor, rent, etc) is a well known thing. yes i could buy it myself for 50, which i have. i could also completely fuck it up and overcook it, which i have. still tasted great tho, one of the nice benefits of a5.\n\nno one is going out to a restaurant hoping to save money and no one going to a place like Sip especially where cocktails are like 25 each is hoping to save money. it's a menu item, youre not forced to buy it\n\ni dont disagree it's a bit ridiculous but so are the vast vast majority of high and even mid end products. who am i to judge how someone wastes their money",
+    "replies": [
+     {
+      "author": "boroughthoughts",
+      "body": "I don't know why you are down voting me. We agree. Your original comment does not make it clear that you disagree with the  person above."
+     }
+    ],
+    "selftext": "Went to Sip from Sip & Guzzle. Their Royale with cheese was delicious and my favorite thing on the menu. The shake it came with I didn’t like at all. The pork yaki skewer I highly recommend. Volcano roll was good, but probably wouldn’t order again. Mochi fries were good as well. I thought the Hokkaido milk soft serve was ok. For the cocktails I recommend the Strawberry Hot Pot and Hi-chew chu hi. \n\nSip & Guzzle website: https://www.sipandguzzlenyc.com/",
+    "title": "Sip from Sip & Guzzle | West Village Food & Drinks"
+   },
+   "item_id": "P0126"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Lucali",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Rubirosa",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Stretch",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mama Too’s",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza",
+       "slice shop"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "L’industrie",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 21,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Lucali",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 21,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Rubirosa",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 21,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Stretch Pizza",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "prior",
+        "text": "never heard of it"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 21,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mama Too's",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza",
+       "slice shop"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 21,
+      "kind": "restaurant",
+      "location": null,
+      "name": "L'industrie",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "taste",
+        "text": "likely still tastes great for an out-of-towner"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_m5w5917",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Party-Veterinarian60",
+      "body": "Maybe I'm missing something, but I don't think Stretch Pizza belongs on this list. I've had it before, it was fine, but the best pizza that exists in Manhattan? No way. \n\nI'd say the same for Veselka. I actually enjoy Veselka, but it's way overhyped. I might get downvoted, but honestly it's fairly basic diner food. \n\nFor amazing pizza, but really tough to score a table Una Pizza Napoletana or Lucali. Rubirosa is a more attainable table wise in my experience and also makes incredible pizza.\n\nAlso, feel like maybe a steakhouse could be worth a visit. Perhaps the mutton from Keens steakhouse. If you can score a table, a 4 charles visit would be well worth it for their burger too.\n\nIf you're going to L'industrie in the west village, could also grab a slice from Mama Too's - amazing pizza, but you'll be stuffed after that.\n\nI also would argue Upland doesn't belong on this list. I used to live fairly close to Upland. It's good, but I don't know think it's best in NYC.\n\nSearch the sub some more, it's overflowing with great recommendations."
+     }
+    ],
+    "author": "ItsTyroneeee",
+    "body": "Agree on the pizza. Lucali and Rubirosa are both great. Never heard of stretch. Mama Too’s is really good and while I do think L’industrie is overrated it’s probably still going to taste great for an out of towner.",
+    "replies": [],
+    "selftext": "Going to nyc for five days and trying to plan food itinerary a month in advance to ensure I'm able to lock down reservations. My main reason of traveling to NYC is just to eat so food kind of is the itinerary. List is comprised of recs from nyt, michelin guide and chefs I know who work in the area. The seemingly endless amount of good food in new york and hundreds of must try lists are a bit overwhelming though.  \n\nfor bakeries I have Radio Bakery and Librae\n\nFor pizza I have L'industrie, Roberta's and Stretch Pizza\n\nfor nicer restaurants I have Gramercy Tavern and Tatiana (should I somehow be able to score a res) \n\nI also have Veselka, Upland, Fish Cheeks, Great NY noodletown and La Mercerie.  \n\nI'm looking to eat the best of that food that exists in the city and have budgeted about $300 a day for food. Any advice for additions or places that could be skipped would be great. Thank you!  ",
+    "title": "is my restaurant itinerary solid? should I add/remove anything "
+   },
+   "item_id": "P0127"
+  }
+ ],
+ "packet": "a005"
+}

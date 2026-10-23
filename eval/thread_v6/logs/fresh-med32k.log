@@ -1,0 +1,34 @@
+budget $1.25, $0.0000 already spent on eval/thread_v6/ledgers/fresh-med32k.json
+claude-haiku-5-5 prompt=production thread prompt (prompt_v6) (ac9b063da8e6) mode=thread: 300 calls to make, 0 cached -> C:\Users\km\foodnyc\.claude\worktrees\agent-ac58f1a7c0ba83592\eval\runs\claude-haiku-5-5__ac9b063da8e6__thread__fresh-med32k_schema.jsonl
+submitted batch msgbatch_0146apSPqWQuXXCFsYD989Dm: 134 requests, worst case $1.2422 held
+  batch msgbatch_0146apSPqWQuXXCFsYD989Dm: in_progress, 134 processing, 0 succeeded, 0 errored
+  batch msgbatch_0146apSPqWQuXXCFsYD989Dm: in_progress, 134 processing, 0 succeeded, 0 errored
+  batch msgbatch_0146apSPqWQuXXCFsYD989Dm: in_progress, 134 processing, 0 succeeded, 0 errored
+  batch msgbatch_0146apSPqWQuXXCFsYD989Dm: in_progress, 134 processing, 0 succeeded, 0 errored
+  batch msgbatch_0146apSPqWQuXXCFsYD989Dm: in_progress, 134 processing, 0 succeeded, 0 errored
+  batch msgbatch_0146apSPqWQuXXCFsYD989Dm: in_progress, 134 processing, 0 succeeded, 0 errored
+  batch msgbatch_0146apSPqWQuXXCFsYD989Dm: in_progress, 134 processing, 0 succeeded, 0 errored
+  batch msgbatch_0146apSPqWQuXXCFsYD989Dm: in_progress, 134 processing, 0 succeeded, 0 errored
+  batch msgbatch_0146apSPqWQuXXCFsYD989Dm ended after 454s: $0.2884, 134 written, 0 to retry
+submitted batch msgbatch_01Rc7NfbubCJ6472h5brUv2S: 103 requests, worst case $0.9530 held
+  batch msgbatch_01Rc7NfbubCJ6472h5brUv2S: in_progress, 103 processing, 0 succeeded, 0 errored
+  batch msgbatch_01Rc7NfbubCJ6472h5brUv2S: in_progress, 103 processing, 0 succeeded, 0 errored
+  batch msgbatch_01Rc7NfbubCJ6472h5brUv2S: in_progress, 103 processing, 0 succeeded, 0 errored
+  batch msgbatch_01Rc7NfbubCJ6472h5brUv2S: in_progress, 103 processing, 0 succeeded, 0 errored
+  batch msgbatch_01Rc7NfbubCJ6472h5brUv2S: in_progress, 103 processing, 0 succeeded, 0 errored
+  batch msgbatch_01Rc7NfbubCJ6472h5brUv2S: in_progress, 103 processing, 0 succeeded, 0 errored
+  batch msgbatch_01Rc7NfbubCJ6472h5brUv2S: in_progress, 103 processing, 0 succeeded, 0 errored
+  batch msgbatch_01Rc7NfbubCJ6472h5brUv2S: in_progress, 103 processing, 0 succeeded, 0 errored
+  batch msgbatch_01Rc7NfbubCJ6472h5brUv2S ended after 443s: $0.1933, 103 written, 0 to retry
+submitted batch msgbatch_014oCPAycmPnKpBqe3GGWWwv: 63 requests, worst case $0.5841 held
+  batch msgbatch_014oCPAycmPnKpBqe3GGWWwv: in_progress, 63 processing, 0 succeeded, 0 errored
+  batch msgbatch_014oCPAycmPnKpBqe3GGWWwv: in_progress, 63 processing, 0 succeeded, 0 errored
+  batch msgbatch_014oCPAycmPnKpBqe3GGWWwv: in_progress, 63 processing, 0 succeeded, 0 errored
+  batch msgbatch_014oCPAycmPnKpBqe3GGWWwv: in_progress, 63 processing, 0 succeeded, 0 errored
+  batch msgbatch_014oCPAycmPnKpBqe3GGWWwv: in_progress, 63 processing, 0 succeeded, 0 errored
+  batch msgbatch_014oCPAycmPnKpBqe3GGWWwv: in_progress, 63 processing, 0 succeeded, 0 errored
+  batch msgbatch_014oCPAycmPnKpBqe3GGWWwv: in_progress, 63 processing, 0 succeeded, 0 errored
+  batch msgbatch_014oCPAycmPnKpBqe3GGWWwv: in_progress, 63 processing, 0 succeeded, 0 errored
+  batch msgbatch_014oCPAycmPnKpBqe3GGWWwv: in_progress, 63 processing, 0 succeeded, 0 errored
+  batch msgbatch_014oCPAycmPnKpBqe3GGWWwv ended after 526s: $0.1520, 63 written, 0 to retry
+batch records written 300, errors 0, ledger $0.6338 spent, $0.0000 held for batches in flight

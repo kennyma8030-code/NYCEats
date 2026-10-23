@@ -1,0 +1,1826 @@
+{
+ "items": [
+  {
+   "bracket": 1,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1dojv8",
+   "context": {
+    "ancestors": [],
+    "author": "orangekayak",
+    "body": "Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. \n\nAnd take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s. ",
+    "replies": [],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0066",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "homemade orangeade",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "restaurant",
+     "location": "Upper East Side",
+     "name": "UES candy shop diner",
+     "named_in": "context",
+     "notes": [
+      {
+       "about": "cokes",
+       "text": "one of the few still mixing cokes by hand"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "diner",
+      "candy shop"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "cookie shot",
+       "level": null
+      },
+      {
+       "avoid": false,
+       "dish": "Madeline's",
+       "level": "positive"
+      },
+      {
+       "avoid": true,
+       "dish": "cronuts",
+       "level": "negative"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "bakery",
+     "location": null,
+     "name": "Dominque Ansel",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "cookie shot",
+       "text": "fun to do with a kid"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "dessert"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 2,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1dscal",
+   "context": {
+    "ancestors": [],
+    "author": "dagoogster",
+    "body": "NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.",
+    "replies": [
+     {
+      "author": "gMhRGr65q4-F",
+      "body": "Please share! We are definitely open to traveling and will probably do a couple of ferry rides "
+     }
+    ],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0067",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": []
+  },
+  {
+   "bracket": 3,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1savbh",
+   "context": {
+    "ancestors": [
+     {
+      "author": "dagoogster",
+      "body": "NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC."
+     }
+    ],
+    "author": "gMhRGr65q4-F",
+    "body": "Please share! We are definitely open to traveling and will probably do a couple of ferry rides ",
+    "replies": [],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0068",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": []
+  },
+  {
+   "bracket": 4,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1f414v",
+   "context": {
+    "ancestors": [],
+    "author": "DelugeOfBlood",
+    "body": "11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there. ",
+    "replies": [],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0069",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 4,
+     "kind": "restaurant",
+     "location": null,
+     "name": "11 Madison Park",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "crowd",
+       "text": "joke that many dads bring their daughters there"
+      }
+     ],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "homemade orangeade",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "restaurant",
+     "location": "Upper East Side",
+     "name": "UES candy shop diner",
+     "named_in": "context",
+     "notes": [
+      {
+       "about": "cokes",
+       "text": "one of the few still mixing cokes by hand"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "diner",
+      "candy shop"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 5,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1fdunz",
+   "context": {
+    "ancestors": [],
+    "author": "Girlinnyc35",
+    "body": "The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience. \n\n",
+    "replies": [],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0070",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "fondue",
+       "level": null
+      }
+     ],
+     "experience": "firsthand",
+     "id": 5,
+     "kind": "restaurant",
+     "location": null,
+     "name": "The Lavaux",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "kids",
+       "text": "fondue is fun for kids"
+      }
+     ],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "fondue",
+      "kid-friendly"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 5,
+     "kind": "cafe",
+     "location": null,
+     "name": "Max Brenner",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "fit",
+       "text": "good if she likes chocolate"
+      }
+     ],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "chocolate"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 5,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Dirt Candy",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "booking",
+       "text": "prix fixe menu and early reservation"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "tasting menu",
+      "prix fixe"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 6,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1frugj",
+   "context": {
+    "ancestors": [],
+    "author": "rjr017",
+    "body": "My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot. ",
+    "replies": [],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0071",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "secondhand",
+     "id": 6,
+     "kind": "restaurant",
+     "location": null,
+     "name": "TabeTomo",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "japanese"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 6,
+     "kind": "bakery",
+     "location": "about a 10-15 minute walk from TabeTomo",
+     "name": "Supermoon Bakehouse",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "bakery"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 7,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1ftcij",
+   "context": {
+    "ancestors": [],
+    "author": "chococatcunt",
+    "body": "For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly. ",
+    "replies": [],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0072",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 7,
+     "kind": "bakery",
+     "location": null,
+     "name": "Librae",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "bakery"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 7,
+     "kind": "bakery",
+     "location": null,
+     "name": "La Cabra",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "bakery"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 7,
+     "kind": "bakery",
+     "location": null,
+     "name": "Dominique Ansel",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "kids",
+       "text": "would be fun for a kid too"
+      }
+     ],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "bakery"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 7,
+     "kind": "restaurant",
+     "location": "Chinatown",
+     "name": "House of Joy",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "format",
+       "text": "carts come around and you pick dim sum"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "dim sum"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "homemade orangeade",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "restaurant",
+     "location": "Upper East Side",
+     "name": "UES candy shop diner",
+     "named_in": "context",
+     "notes": [
+      {
+       "about": "cokes",
+       "text": "one of the few still mixing cokes by hand"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "diner",
+      "candy shop"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 8,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1gebnn",
+   "context": {
+    "ancestors": [],
+    "author": "Candid_Space",
+    "body": "That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.",
+    "replies": [],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0073",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "homemade orangeade",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "restaurant",
+     "location": "Upper East Side",
+     "name": "UES candy shop diner",
+     "named_in": "context",
+     "notes": [
+      {
+       "about": "cokes",
+       "text": "one of the few still mixing cokes by hand"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "diner",
+      "candy shop"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 9,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1h50jm",
+   "context": {
+    "ancestors": [],
+    "author": "Normal-Sun450",
+    "body": "Follow foodbaby on Instagram.  You’ll get plenty of recommendations ",
+    "replies": [],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0074",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": []
+  },
+  {
+   "bracket": 10,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1hsx3h",
+   "context": {
+    "ancestors": [],
+    "author": "Boss-Unfair",
+    "body": "L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun ",
+    "replies": [
+     {
+      "author": "gMhRGr65q4-F",
+      "body": "Great recs, thank you!"
+     }
+    ],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0075",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "L'Industrie Pizza",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "pizza"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "bakery",
+     "location": null,
+     "name": "Apollo Bagels",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "bagels"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "bakery",
+     "location": null,
+     "name": "Levain Cookies",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "cookies"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "bakery",
+     "location": "Chinatown",
+     "name": "Mei Lai Wah",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "chinatown bakery"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "deli",
+     "location": null,
+     "name": "Katz Deli",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "deli"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Danny & Coops Cheesesteaks",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "cheesesteak"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "pancakes",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Golden Diner",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "diner",
+      "pancakes"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "pancakes",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "bakery",
+     "location": null,
+     "name": "Clinton St Bakery",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "pancakes"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "bakery",
+     "location": null,
+     "name": "Laduree",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "kids",
+       "text": "a sweet shop where she can pick out treats"
+      }
+     ],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "patisserie"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "banana pudding",
+       "level": "positive"
+      },
+      {
+       "avoid": false,
+       "dish": "cupcakes",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "bakery",
+     "location": null,
+     "name": "Magnolia Bakery",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "bakery"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "smash burger",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Gotham St Burger",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "smash burger"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "smash burger",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "7th St Burger",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "smash burger"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "smash burger",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Hamburger America",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "smash burger"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Los Tacos 1",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "tacos"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "seafood",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Los Mariscos",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "seafood"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "truck_or_cart",
+     "location": null,
+     "name": "Birria Lancia",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "birria"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "carnitas Ramirez",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "carnitas"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 11,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1s8acc",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Boss-Unfair",
+      "body": "L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun "
+     }
+    ],
+    "author": "gMhRGr65q4-F",
+    "body": "Great recs, thank you!",
+    "replies": [],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0076",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": []
+  },
+  {
+   "bracket": 12,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1jx9k7",
+   "context": {
+    "ancestors": [],
+    "author": "ReasonableHamsterBK",
+    "body": "Oh I thought you meant like a cute high tea service for you two (from your title)...",
+    "replies": [],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0077",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": []
+  },
+  {
+   "bracket": 13,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1rc69g",
+   "context": {
+    "ancestors": [],
+    "author": "Outrageous-Orange-40",
+    "body": "Serendipity ",
+    "replies": [],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0078",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 13,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Serendipity",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 14,
+   "chunk": "recent-med32k:chunk:t3_1vdiwgs:8b52ac8d8e10",
+   "comment_id": "t1_p1re9et",
+   "context": {
+    "ancestors": [],
+    "author": "2000cab",
+    "body": "Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll! ",
+    "replies": [],
+    "selftext": "Help a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10).\n\nWe LOVE watching restaurant review videos and travel videos on YouTube together. \n\nI’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else?\n\nShe loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?!\n\nThank you!\n\nP.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.",
+    "title": "Looking for Dad + Daughter food recommendations in NYC"
+   },
+   "item_id": "T0079",
+   "model_view": "POST: Looking for Dad + Daughter food recommendations in NYC\nHelp a brother out! I’m taking my daughter on our first trip where it’s just me and her, instead of with the whole family (she’s 10). We LOVE watching restaurant review videos and travel videos on YouTube together. I’d really love to take her a couple of unique “foodie” restaurant experiences but without paying $500-1k. Just not going to spend that much $ to eat with my 10 year old. The wife? Sure 🤣. Is there a tasting menu that would work for her? Something else? She loves fish and seafood, sushi, but pretty adventurous for a 10 year old. Any ideas?! Thank you! P.S. if you’ve got a rec for best bakery we’ll take that too, but I’m sure I can search the sub for posts in that.\n\n[1] u/orangekayak: Forgot the name.. the candy shop? Diner on ues. It’s like the only one still mixing cokes by hand. I like their homemade orangeaid. I’m in my 30s F and when my dad visits we go there. And take her to Dominque Ansel for a cookie shot. They are fun to do. Skip the cronuts. Get the fresh Madeline’s.\n[2] u/dagoogster: NYC is 5 boros, do you plan on traveling or staying in Manhattan? As a native, I will gladly share my top spots in non-gentrified NYC.\n  [3] u/gMhRGr65q4-F (reply to [2]): Please share! We are definitely open to traveling and will probably do a couple of ferry rides\n[4] u/DelugeOfBlood: 11 Madison Park. I have never been to a place where so many \"dads\" take their \"daughters\" there.\n[5] u/Girlinnyc35: The Lavaux has fondue which is fun for kids, also Max Brenner if she likes chocolate. If you both are ok with the pre fix menu and early reservation, Dirt Candy may be a fun and foodie experience.\n[6] u/rjr017: My daughter (around the same age) really loves TabeTomo, and Supermoon Bakehouse is not far from there (like 10-15min walk) and is really excellent. If you continue another 10min walk past there you can check out Chinatown for bubble tea and whatnot.\n[7] u/chococatcunt: For bakeries, I love Librae, La Cabra and Dominique Ansel would be fun for a kid too. A true dim sum experience in Chinatown where the carts come around and you get to choose would also be so fun - House of Joy is a great option for that. If she likes sushi, you could treat her to an omakase (NYC has a lot of them under $100) or even just take her to a sushi spot where you get to sit at the bar and watch the chefs work and get handed your sushi directly.\n[8] u/Candid_Space: That's a great setup, watching those videos together and then actually going. For tasting menus in that price range, check out spots in the $40-75 per person zone, especially during lunch, you'll get the experience without the dinner markup.\n[9] u/Normal-Sun450: Follow foodbaby on Instagram. You’ll get plenty of recommendations\n[10] u/Boss-Unfair: L’Industrie Pizza, Apollo Bagels, Levain Cookies, Chinatown (Mei Lai Wah et al), Katz Deli, Danny & Coops Cheesesteaks, Golden Diner or Clinton St Bakery for pancakes, Ice cream suggestions from others, Laduree or another sweet store she can pick out treats, Magnolia Bakery banana pudding or cupcakes, Gotham St Burger/7th St Burger/Hamburger America for a smash burger; Los Tacos 1 or Los Mariscos for seafood, Birria Lancia food truck, carnitas Ramirez. Excited for any Daddy/Daughter food crawl! Have fun\n  [11] u/gMhRGr65q4-F (reply to [10]): Great recs, thank you!\n[12] u/ReasonableHamsterBK: Oh I thought you meant like a cute high tea service for you two (from your title)...\n[13] u/Outrageous-Orange-40: Serendipity\n[14] u/2000cab: Some of my best memories were on daddy daughter dates to the American girl doll store where you can eat breakfast with your doll!",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 14,
+     "kind": "restaurant",
+     "location": null,
+     "name": "American Girl doll store",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "breakfast",
+       "text": "you can eat breakfast with your doll; a memory of daddy-daughter dates"
+      }
+     ],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "breakfast"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_1rz3egn:6c08fe61c285",
+   "comment_id": "t3_1rz3egn",
+   "context": {
+    "ancestors": [],
+    "author": "Ok_Engineering_9180",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "Hello. \n\nMy husband & I are going to NYC w/ his parents. We love traditional dimsum and typically hit up Golden unicorn when we are in the city. However, his parents are pickier eater and only eat Americanized Chinese. Think general tso chicken and whatnot. \n\nWe are looking for a restaurant that will serve both as my husband and I reaaaally want dimsum when we’re in the city but we also want to accommodate his parents. \n\nTIA! ",
+    "title": "Dimsum + Americanized Chinese"
+   },
+   "item_id": "T0133",
+   "model_view": "[0] POST: Dimsum + Americanized Chinese\nHello. My husband & I are going to NYC w/ his parents. We love traditional dimsum and typically hit up Golden unicorn when we are in the city. However, his parents are pickier eater and only eat Americanized Chinese. Think general tso chicken and whatnot. We are looking for a restaurant that will serve both as my husband and I reaaaally want dimsum when we’re in the city but we also want to accommodate his parents. TIA!\n\n[1] u/Kennected: Girl. Take them where you normally dine.\n  [2] u/Ok_Engineering_9180 (reply to [1]): I want to but my husband is insistent that we find somewhere that will have something for them as well.\n    [3] u/Kooky_Comb6051 (reply to [2]): Golden unicorn also does some things you would expect from what you described as “americanized”. It’s on the a la carte menu. Get both dim sum and things that are more familiar/palatable. At least it gets them more exposure to what actual chinese food is lol.\n      [4] u/justflipping (reply to [3]): Yup it’s common that dim sum places including Golden Unicorn also do American-Chinese food. Just got to ask for the menu and request it. Golden Unicorn’s menu: https://www.goldenunicornrestaurant.com/menu-1\n      [5] u/RawrRawr83 (reply to [3]): Nah, get them some chicken feet and tripe. Culture up fam\n        [6] u/justflipping (reply to [5]): So gooood\n        [7] u/bklyninhouse (reply to [5]): I was born and raised on HK dim sum and I wouldn't touch chicken feet and tripe. Even egg rolls and shrimp and pork shu mai will be palatable to an American diet. OP can order some noodles to appease the parents.\n    [8] u/DinerEnBlanc (reply to [2]): FYI, a lot of Americanized dishes are often just slight tweaks to Cantonese dishes, so a lot of Dim Sum places like Golden Unicorn will work. Just ask for the menu during dim sum service. You’ll see stuff like sweet and sour pork, fried rice, and lo mein. I’m Cantonese and my dad usually orders a noodle dish from the main menu during dim sum cause it’s not enough to make him full.\n    [9] u/PorkProofPrion (reply to [2]): They all have dishes for Americans, esp the restaurants in Chinatown",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "dim sum",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Golden Unicorn",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "visits",
+       "text": "Couple's usual NYC dim sum spot"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "dim sum"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_1ebk0a2:4f48dbf79b9d",
+   "comment_id": "t3_1ebk0a2",
+   "context": {
+    "ancestors": [],
+    "author": "halvor13",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "My cousin and I are coming into town and hitting the comedy cellar for some shows Sunday night on the way to Philly in a few weeks. Looking for a good recommendation for a place a good burger and an atmosphere (or nearby neighborhood atmosphere) for some Sunday day drinking in the city.  Looking at Minetta, Au Cheval, and Redhook right now.  Will be there August 4, if that helps.  We’re into the neighborhood bar, good vibes, reasonable drinks, outside if possible kind of situations… \n\n\nWe’re coming in from the Midwest and know nothing about anything, so be kind! Haha \n\n\nThanks everyone! ",
+    "title": "One night only. Best place to grab a burger on a Sunday?"
+   },
+   "item_id": "T0135",
+   "model_view": "[0] POST: One night only. Best place to grab a burger on a Sunday?\nMy cousin and I are coming into town and hitting the comedy cellar for some shows Sunday night on the way to Philly in a few weeks. Looking for a good recommendation for a place a good burger and an atmosphere (or nearby neighborhood atmosphere) for some Sunday day drinking in the city. Looking at Minetta, Au Cheval, and Redhook right now. Will be there August 4, if that helps. We’re into the neighborhood bar, good vibes, reasonable drinks, outside if possible kind of situations… We’re coming in from the Midwest and know nothing about anything, so be kind! Haha Thanks everyone!\n\n[1] u/chipperclocker: Take Red Hook Tavern off your list due to travel time alone - that neighborhood is isolated and not very transit accessible compared to other great burger options. With one night only, minimize travel time and stay in Manhattan.\n  [2] u/some1105 (reply to [1]): Which is too bad, because it’s closest to the vibe OP is looking for of the options listed. If they were going to be in Brooklyn during the day, or willing to Uber it, it would be a great choice. But in location alone, if they’re going to the Comedy Cellar on McDougal, I’d probably say Minetta Lane.\n    [3] u/halvor13 (reply to [2]): I wouldn’t mind taking an Uber. We’re staying in the East Village area. An Uber wouldn’t bug me if it get us to a neighborhood with stuff to do during the day. I’m not interested in tourist stuff. Done enough of that other times in town.\n      [4] u/gary_a_gooner (reply to [3]): Check out my other reply. If you’re in East vil, then def take the ferry from Pier 11. You’ll get there super quick.\n      [5] u/zzzzany (reply to [3]): red hook tavern is absolutely amazing. there's also cool bars (sunny's is one of the oldest in the city I believe) and also some galleries there as well (not sure if they'll be open or not). but there's not a ton in red hook. you can go nearby to carroll gardens though but it's not a quick walk.\n      [6] u/tonyrocks922 (reply to [3]): People down vote anything mentioning driving or taking a car in the city. Don't take it personally.\n        [7] u/halvor13 (reply to [6]): Haha ok. I don’t know the tone of this sub and wasn’t quite sure what I did to offend the masses.\n      [8] u/needygonzales (reply to [3]): Based on what you've said, I'd go for Red Hook Tavern then! I actually think Red Hook would be a great neighborhood to do a little \"day trip\" to since you've been to NYC before and don't want to do tourist-y stuff. Aside from Red Hook, there's tons to do there imo: Drinks - Strong Rope Brewery and the Red Hook Winery are both by the water; having a pint at Strong Rope makes me feel like I'm being transported to another city entirely, yet the Statue of Liberty is in the distance, so it's a lot of fun. There's a distillery there called Widow Jane that does tours and has a cocktail bar attached. Food/Snacks - Key lime pie at Steve's. Brooklyn Crab is this big three-story establishment with food, drinks, minigolf, etc. that feels like it could be in a beach town. Some would say hometown Bar-B-Que is arguably the best BBQ in NYC (though NYC not a huge BBQ city). Activities - This might make me a dork, but I love walking around the Ikea there lol, but that's mostly bc it's more of a novelty if you live in the city. And there are plenty of record shops, galleries, coffee shops, bakeries, etc. that you can check out. Or just walking along the water is a good time. Going to Red Hook really feels like you're visiting a separate little town of its own. Also, if you have even more time to kill, Carroll Gardens is a walkable distance and is another awesome neighborhood to check out.\n        [9] u/halvor13 (reply to [8]): This is SO helpful and you’ve nailed the vibes. Thank you!\n          [10] u/hulks_brother (reply to [9]): You are going to end up enjoying yourself in Red Hook and skipping the comedy show. Be warned.\n      [11] u/JustAnotherRussian90 (reply to [3]): You can take a ferry from wall street/pier 11 directly to redhook- it's a great way to access the neighborhood from Manhattan. And it's like 4 dollars. Way cheaper than an Uber.\n        [12] u/halvor13 (reply to [11]): This is great advice, thank you\n  [13] u/halvor13 (reply to [1]): Thank you. I appreciate this. I lived in Chicago for a long time and I know travel in New York is a different beast.\n    [14] u/NewRazzmatazz2455 (reply to [13]): Have you been to the Au Cheval in Chicago?\n      [15] u/halvor13 (reply to [14]): Yeah, several times. I assume the NYC one is the same?\n        [16] u/migansia (reply to [15]): Red hook tavern. Amazing burger! Hit up Sunny’s right next to it for vibes\n        [17] u/NewRazzmatazz2455 (reply to [15]): I actually thought the NYC one was slightly better (the burger) than the Chicago one. But I guess it depends on personal preference. I thought the brioche bun at NYC location was better and that the sauce on the NYC burger was more noticeable / a better ratio\n    [18] u/ohlawlz (reply to [13]): I would 100% do the ferry. I take it all the time and it goes right to redhook. Redhook tavern is great, but a little overpriced in my opinion. And go to the icehouse for a few beers while you wait for the next ferry. It’s my favorite bar in Brooklyn.\n      [19] u/halvor13 (reply to [18]): This sounds like a fun time, honestly. May have to do that. A little ferry ride sounds cool.\n  [20] u/gary_a_gooner (reply to [1]): Red Hook is actually really accessible if you use the NYC Ferry from Pier 11/ Wall St. It’s a nice ride with great views of bridges, lower Manhattan and Brooklyn. It’s also the first stop, which is a 10 min ride and then a short walk from there. So I think it’s probably worth it.\n    [21] u/ZombieLifter (reply to [20]): I actually did this on a weekend for fun once. I highly recommend it.\n  [22] u/nirvanand (reply to [1]): Hate to say it but I agree. I love RHT but travel for an out of Towner makes it less palatable",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Minetta",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "burger"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Au Cheval",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "burger"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Redhook",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "burger"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "big-med32k:chunk:t3_1sxca1o:afcedfdae867",
+   "comment_id": "t3_1sxca1o",
+   "context": {
+    "ancestors": [],
+    "author": "ThrowawayNYCJ",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "Such a delicious burger ",
+    "title": "Burger at Park Avenue Tavern"
+   },
+   "item_id": "T0136",
+   "model_view": "[0] POST: Burger at Park Avenue Tavern\nSuch a delicious burger\n\n[1] u/pastypatissiere: Looks good. Fries look great and the peppers are a nice touch.\n  [2] u/Boot_das (reply to [1]): Ngl the burger doesn’t look great..",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "burger",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Park Avenue Tavern",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 1,
+   "chunk": "big-med32k:chunk:t3_1sxca1o:afcedfdae867",
+   "comment_id": "t1_oilsoch",
+   "context": {
+    "ancestors": [],
+    "author": "pastypatissiere",
+    "body": "Looks good. Fries look great and the peppers are a nice touch. ",
+    "replies": [
+     {
+      "author": "Boot_das",
+      "body": "Ngl the burger doesn’t look great.. "
+     }
+    ],
+    "selftext": "Such a delicious burger ",
+    "title": "Burger at Park Avenue Tavern"
+   },
+   "item_id": "T0137",
+   "model_view": "[0] POST: Burger at Park Avenue Tavern\nSuch a delicious burger\n\n[1] u/pastypatissiere: Looks good. Fries look great and the peppers are a nice touch.\n  [2] u/Boot_das (reply to [1]): Ngl the burger doesn’t look great..",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "fries",
+       "level": null
+      }
+     ],
+     "experience": "none",
+     "id": 1,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Park Avenue Tavern",
+     "named_in": "context",
+     "notes": [
+      {
+       "about": "photo",
+       "text": "Reacts only to a photo of the fries; untried."
+      }
+     ],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 2,
+   "chunk": "big-med32k:chunk:t3_1sxca1o:afcedfdae867",
+   "comment_id": "t1_oinidbs",
+   "context": {
+    "ancestors": [
+     {
+      "author": "pastypatissiere",
+      "body": "Looks good. Fries look great and the peppers are a nice touch. "
+     }
+    ],
+    "author": "Boot_das",
+    "body": "Ngl the burger doesn’t look great.. ",
+    "replies": [],
+    "selftext": "Such a delicious burger ",
+    "title": "Burger at Park Avenue Tavern"
+   },
+   "item_id": "T0138",
+   "model_view": "[0] POST: Burger at Park Avenue Tavern\nSuch a delicious burger\n\n[1] u/pastypatissiere: Looks good. Fries look great and the peppers are a nice touch.\n  [2] u/Boot_das (reply to [1]): Ngl the burger doesn’t look great..",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "burger",
+       "level": null
+      }
+     ],
+     "experience": "none",
+     "id": 2,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Park Avenue Tavern",
+     "named_in": "context",
+     "notes": [
+      {
+       "about": "photo",
+       "text": "Judges the burger only from a photo; untried."
+      }
+     ],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-low:chunk:t3_1prpxbe:854d1d02ca34",
+   "comment_id": "t3_1prpxbe",
+   "context": {
+    "ancestors": [],
+    "author": "DanielMekelburg",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "Was walking passed the n train today when i told me i was 20 minutes from sunset park.  well, the idea of a quick shopping trip and breakfast was too hard to pass up.  \n\nI was going to get some bao's or maybe a quick congee but, the egg foo young with clams struck chord.   \n\nFor 9 dollars i had solid plate of razor clams.cauliflower and eggs over rice with bok choy, served with a coffee cup of chicken broth.  the egg were perfect.  few people around me got the baos and some soup but i was too full to get them.  \n\nat that at 10 am and still going strong.  regrettably i didn't buy their frozen baos as i didn't want to carry them with the other groceries, my mistake \n\nhttps://maps.app.goo.gl/bqvJ8tnjdecNs7sYA?g_st=ic\n\n",
+    "title": "Razor Clam Egg Foo Young"
+   },
+   "item_id": "T0139",
+   "model_view": "[0] POST: Razor Clam Egg Foo Young\nWas walking passed the n train today when i told me i was 20 minutes from sunset park. well, the idea of a quick shopping trip and breakfast was too hard to pass up. I was going to get some bao's or maybe a quick congee but, the egg foo young with clams struck chord. For 9 dollars i had solid plate of razor clams.cauliflower and eggs over rice with bok choy, served with a coffee cup of chicken broth. the egg were perfect. few people around me got the baos and some soup but i was too full to get them. at that at 10 am and still going strong. regrettably i didn't buy their frozen baos as i didn't want to carry them with the other groceries, my mistake https://maps.app.goo.gl/bqvJ8tnjdecNs7sYA?g_st=ic\n\n[1] u/justflipping: That looks nice and hearty for $9. Thanks for sharing!\n[2] u/Quantumercifier: I make a shrimp version of that, sans the cauliflower. The key for me is the oyster sauce, and specifically Lee Kum Kee original, not the Panda line. But that looks really good. I think will make mine soon.\n  [3] u/DanielMekelburg (reply to [2]): i too make egg foo young and am i chef and usually add oyster sauce and thought i would miss it but, god damn if this wasn't one of the best cooked eggs i've ever had. it was delicious and i am guessing 4 eggs worth of a dish and i didn't think i could finish it and i would have eaten more\n    [4] u/Quantumercifier (reply to [3]): I much prefer this \"foo young\" style over the wet-egg, smooth style. I need to perfect this recipe as it is one of my comfort dishes.\n  [5] u/grackychan (reply to [2]): The OG boat lady oyster sauce is the one my family swears by.\n[6] u/zbewbies: Is that really called egg foo young? It just looks like clam egg / omelet over white rice.\n  [7] u/DanielMekelburg (reply to [6]): i mean it said egg foo young in english and omelette in chinese\n    [8] u/zbewbies (reply to [7]): It looks like the menu says razor oyster egg over rice. Just wanted to make sure I wasn't confusing egg foo young the Americanized egg patty with gravy.\n      [9] u/DanielMekelburg (reply to [8]): i am willing to say the menu was written in chinese first and then english came later :-). i was kind of shocked that it said egg foo young and was willing to roll the dice either way.\n        [10] u/NYCQuilts (reply to [9]): I’ve been embarrassed to ask this sub where to get good egg foo young. Thanks!\n          [11] u/ElcidBarrett (reply to [10]): If you like the American Chinese style with gravy, it's hard to beat Wo Hop.\n            [12] u/NYCQuilts (reply to [11]): TY!\n[13] u/Smooth_Influence_488: Looks cozy af\n[14] u/CaptainObvious110: This looks so good. I can't wait till I can take another trip to NYC",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "razor clam egg foo young",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": "Sunset Park",
+     "name": "Sunset Park shop (razor clam egg foo young)",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "price",
+       "text": "$9 for the plate, with a cup of chicken broth"
+      },
+      {
+       "about": "groceries",
+       "text": "frozen baos available but not bought"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "breakfast",
+      "egg foo young",
+      "dim sum"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_1922tk8:0d1f1433d03f",
+   "comment_id": "t3_1922tk8",
+   "context": {
+    "ancestors": [],
+    "author": "Gas7248",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "For those who have been to Semma, do you think it would be worth it to go by yourself while still being able to try a few different items? Their menu seems to be more conducive to sharing with another person/larger group, so just curious if it might be a waste to go by yourself.\n\nThanks in advance!",
+    "title": "Semma for 1 - Worth it?"
+   },
+   "item_id": "T0140",
+   "model_view": "[0] POST: Semma for 1 - Worth it?\nFor those who have been to Semma, do you think it would be worth it to go by yourself while still being able to try a few different items? Their menu seems to be more conducive to sharing with another person/larger group, so just curious if it might be a waste to go by yourself. Thanks in advance!\n\n[1] u/udonforlunch: Yes\n[2] u/tychus-findlay: Do it\n[3] u/Rindhallow: I went in a group of 6 and we shared everything. I think one person is fine. Realistically you can still eat the most important dishes, you're not missing THAT much. The dosa was the bomb. A lot of the appetizers were what was good.\n  [4] u/Gas7248 (reply to [3]): Thanks! What would you say are the most important dishes to try? Sounds like the gunpowder dosa is a must\n[5] u/SupremeGreen: You can definitely go as one person and enjoy it, but I did feel that the variety that comes with eating family style in a small group contributed greatly to my positive experience.\n[6] u/UsagiButt: Just get yourself a gunpowder dosa and have a great time. There’s really no need to overthink things\n  [7] u/Gas7248 (reply to [6]): Thank you! Anything you’d recommend to get with the gunpowder dosa?\n    [8] u/Happy_Lie1926 (reply to [7]): The lobster curry was one of the best curries I had ever had.\n[9] u/right_meowr: Yes!!!\n[10] u/Happy_Lie1926: The dosa is great, but it’s a giant portion that is best with 3+. The stand out items to me were the tiger prawn app, and the lobster curry. You can get a delicious dosa elsewhere, but that lobster curry was unlike anything I’ve had before in an Indian restaurant. Make sure to get paratha to sop up what’s left.\n[11] u/ludenschartz: I was thinking about going by myself on an upcoming Saturday. Any idea how early I would have to go before 5pm to secure a bar seat?",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Semma",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "solo visit",
+       "text": "asks whether going alone to try a few items is worth it, since the menu seems built for sharing"
+      }
+     ],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_1nw4a0i:af15d977741c",
+   "comment_id": "t3_1nw4a0i",
+   "context": {
+    "ancestors": [],
+    "author": "Plastic_Positive3512",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "[removed]",
+    "title": "“Pongal in 1 Minute 🍲 | Quick South Indian Recipe #Shorts #trendingreels #food, #reels, #tasty"
+   },
+   "item_id": "T0141",
+   "model_view": "[0] POST: “Pongal in 1 Minute 🍲 | Quick South Indian Recipe #Shorts #trendingreels #food, #reels, #tasty\n[removed]\n\n[1] u/AutoModerator: Welcome to r/FoodNYC! As a new participant your post has been filtered for further review due to the influx of low effort, unresearched posts here. Please be patient and your post will be approved (or not) shortly! *I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/FoodNYC) if you have any questions or concerns.*",
+   "shown": []
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_1btyoqv:099cb0d01d27",
+   "comment_id": "t3_1btyoqv",
+   "context": {
+    "ancestors": [],
+    "author": "liulide",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "",
+    "title": "Pete Wells' 100 Best Restaurants in New York City in 2024"
+   },
+   "item_id": "T0151",
+   "model_view": "[0] POST: Pete Wells' 100 Best Restaurants in New York City in 2024\n\n[1] u/Swagyolodemon: Ooo this is gonna rustle some feathers\n[2] u/3axel3loop: i don’t really like how changes in placement are so highlighted in this year’s list\n  [3] u/Barry_McCocciner (reply to [2]): Yeah it's bizarre to frame this a cross-section culinary tour of NYC instead of a true \"ranking\" list then focus so much on the actual rankings that you highlight the ups and downs...\n    [4] u/Delaywaves (reply to [3]): Pretty certain that would've been the editors' choice rather than Wells'. (He even says he didn't plan to make this list more than once!)\n  [5] u/johnsciarrino (reply to [2]): agreed but i do like the highlighting of new restaurants.\n  [6] u/Chodepoker1 (reply to [2]): I think he’s really trying to emphasize how upset he is at The Grill for his 85 dollar chicken pot pie fiasco.\n[7] u/joe_gdit: Lilia down at least 83 spots from last year\n  [8] u/vowelqueue (reply to [7]): I ate there a few weeks ago and honestly I don't think it belongs on the list.\n  [9] u/sidenote (reply to [7]): Lilia is so average - Fausto / I Sodi / L’Artisi all way better\n  [10] u/Chodepoker1 (reply to [7]): I live pretty close to Lilia and it truly has gotten alot worse since it first opened.\n  [11] u/TheModernWalker (reply to [7]): I suspect this is because he put Misi on the list more so than Lilia falling off that hard\n    [12] u/joe_gdit (reply to [11]): Misi was also on the list in 2023 at #39",
+   "shown": []
+  },
+  {
+   "bracket": 0,
+   "chunk": "recent-med32k:chunk:t3_1vnr0p7:9b108abe93f7",
+   "comment_id": "t3_1vnr0p7",
+   "context": {
+    "ancestors": [],
+    "author": "Admirable-Reality440",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "[removed]",
+    "title": "Overwhelmed and overcooked: a couple's first time in NYC"
+   },
+   "item_id": "T0152",
+   "model_view": "[0] POST: Overwhelmed and overcooked: a couple's first time in NYC\n[removed]\n\n[1] u/AutoModerator: Welcome to r/FoodNYC! As a new participant your post has been filtered for further review due to the influx of low effort, unresearched posts here. Please be patient and your post will be approved (or not) shortly! *I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/FoodNYC) if you have any questions or concerns.*",
+   "shown": []
+  },
+  {
+   "bracket": 1,
+   "chunk": "recent-med32k:chunk:t3_1vnr0p7:9b108abe93f7",
+   "comment_id": "t1_p3jo8q2",
+   "context": {
+    "ancestors": [],
+    "author": "AutoModerator",
+    "body": "Welcome to r/FoodNYC!  As a new participant your post has been filtered for further review due to the influx of low effort, unresearched posts here.  Please be patient and your post will be approved (or not) shortly!\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/FoodNYC) if you have any questions or concerns.*",
+    "replies": [],
+    "selftext": "[removed]",
+    "title": "Overwhelmed and overcooked: a couple's first time in NYC"
+   },
+   "item_id": "T0153",
+   "model_view": "[0] POST: Overwhelmed and overcooked: a couple's first time in NYC\n[removed]\n\n[1] u/AutoModerator: Welcome to r/FoodNYC! As a new participant your post has been filtered for further review due to the influx of low effort, unresearched posts here. Please be patient and your post will be approved (or not) shortly! *I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/FoodNYC) if you have any questions or concerns.*",
+   "shown": []
+  }
+ ],
+ "packet": "t004"
+}

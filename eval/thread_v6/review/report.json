@@ -1,0 +1,1991 @@
+{
+ "auto_resolved": {
+  "fresh-low": 106
+ },
+ "baseline_comment_mode_fresh_med": {
+  "field_accuracy": {
+   "aspects.atmosphere": {
+    "acc": 0.967,
+    "n": 273
+   },
+   "aspects.service": {
+    "acc": 0.989,
+    "n": 273
+   },
+   "aspects.taste": {
+    "acc": 0.938,
+    "n": 273
+   },
+   "aspects.value": {
+    "acc": 0.985,
+    "n": 273
+   },
+   "aspects.wait": {
+    "acc": 0.996,
+    "n": 273
+   },
+   "avoid": {
+    "acc": 1.0,
+    "n": 273
+   },
+   "dishes": {
+    "acc": 0.807,
+    "n": 119
+   },
+   "experience": {
+    "acc": 0.944,
+    "n": 267
+   },
+   "opinion": {
+    "acc": 0.93,
+    "n": 273
+   },
+   "overall": {
+    "acc": 0.937,
+    "n": 270
+   },
+   "price": {
+    "acc": 1.0,
+    "n": 273
+   },
+   "status": {
+    "acc": 1.0,
+    "n": 273
+   },
+   "timeframe": {
+    "acc": 0.993,
+    "n": 273
+   },
+   "trend": {
+    "acc": 0.996,
+    "n": 273
+   }
+  },
+  "final_mentions": 292,
+  "final_negative_mentions": 43,
+  "item_ok_rate": 0.791,
+  "items": 300,
+  "mention_precision": 0.972,
+  "mention_recall": 0.935,
+  "negative_recall": 0.884
+ },
+ "by_source": {
+  "big-med32k": {
+   "field_accuracy": {
+    "aspects.atmosphere": {
+     "acc": 0.983,
+     "n": 118
+    },
+    "aspects.service": {
+     "acc": 0.992,
+     "n": 118
+    },
+    "aspects.taste": {
+     "acc": 0.88,
+     "n": 117
+    },
+    "aspects.value": {
+     "acc": 0.983,
+     "n": 118
+    },
+    "aspects.wait": {
+     "acc": 0.983,
+     "n": 118
+    },
+    "avoid": {
+     "acc": 1.0,
+     "n": 118
+    },
+    "dishes": {
+     "acc": 0.943,
+     "n": 35
+    },
+    "experience": {
+     "acc": 0.991,
+     "n": 114
+    },
+    "opinion": {
+     "acc": 0.992,
+     "n": 118
+    },
+    "overall": {
+     "acc": 0.957,
+     "n": 117
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 118
+    },
+    "status": {
+     "acc": 1.0,
+     "n": 118
+    },
+    "timeframe": {
+     "acc": 0.992,
+     "n": 118
+    },
+    "trend": {
+     "acc": 0.992,
+     "n": 118
+    }
+   },
+   "final_mentions": 121,
+   "final_negative_mentions": 25,
+   "item_ok_rate": 0.85,
+   "items": 139,
+   "mention_precision": 0.992,
+   "mention_recall": 0.975,
+   "negative_recall": 0.96
+  },
+  "big-med32k-posts": {
+   "field_accuracy": {
+    "aspects.atmosphere": {
+     "acc": 1.0,
+     "n": 3
+    },
+    "aspects.service": {
+     "acc": 1.0,
+     "n": 3
+    },
+    "aspects.taste": {
+     "acc": 1.0,
+     "n": 3
+    },
+    "aspects.value": {
+     "acc": 1.0,
+     "n": 3
+    },
+    "aspects.wait": {
+     "acc": 1.0,
+     "n": 3
+    },
+    "avoid": {
+     "acc": 1.0,
+     "n": 3
+    },
+    "dishes": {
+     "acc": 1.0,
+     "n": 2
+    },
+    "experience": {
+     "acc": 1.0,
+     "n": 3
+    },
+    "opinion": {
+     "acc": 1.0,
+     "n": 3
+    },
+    "overall": {
+     "acc": 1.0,
+     "n": 3
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 3
+    },
+    "status": {
+     "acc": 1.0,
+     "n": 3
+    },
+    "timeframe": {
+     "acc": 1.0,
+     "n": 3
+    },
+    "trend": {
+     "acc": 1.0,
+     "n": 3
+    }
+   },
+   "final_mentions": 3,
+   "final_negative_mentions": 0,
+   "item_ok_rate": 1.0,
+   "items": 2,
+   "mention_precision": 1.0,
+   "mention_recall": 1.0,
+   "negative_recall": null
+  },
+  "fresh-low": {
+   "field_accuracy": {
+    "aspects.atmosphere": {
+     "acc": 0.989,
+     "n": 264
+    },
+    "aspects.service": {
+     "acc": 0.981,
+     "n": 264
+    },
+    "aspects.taste": {
+     "acc": 0.864,
+     "n": 264
+    },
+    "aspects.value": {
+     "acc": 0.989,
+     "n": 264
+    },
+    "aspects.wait": {
+     "acc": 0.992,
+     "n": 264
+    },
+    "avoid": {
+     "acc": 1.0,
+     "n": 264
+    },
+    "dishes": {
+     "acc": 0.667,
+     "n": 114
+    },
+    "experience": {
+     "acc": 0.927,
+     "n": 261
+    },
+    "opinion": {
+     "acc": 0.883,
+     "n": 264
+    },
+    "overall": {
+     "acc": 0.92,
+     "n": 261
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 264
+    },
+    "status": {
+     "acc": 1.0,
+     "n": 264
+    },
+    "timeframe": {
+     "acc": 0.992,
+     "n": 264
+    },
+    "trend": {
+     "acc": 1.0,
+     "n": 264
+    }
+   },
+   "final_mentions": 289,
+   "final_negative_mentions": 42,
+   "item_ok_rate": 0.704,
+   "items": 300,
+   "mention_precision": 0.953,
+   "mention_recall": 0.913,
+   "negative_recall": 0.81
+  },
+  "fresh-low-posts": {
+   "field_accuracy": {
+    "aspects.atmosphere": {
+     "acc": 1.0,
+     "n": 191
+    },
+    "aspects.service": {
+     "acc": 0.984,
+     "n": 191
+    },
+    "aspects.taste": {
+     "acc": 0.895,
+     "n": 191
+    },
+    "aspects.value": {
+     "acc": 0.99,
+     "n": 191
+    },
+    "aspects.wait": {
+     "acc": 0.99,
+     "n": 191
+    },
+    "avoid": {
+     "acc": 0.995,
+     "n": 191
+    },
+    "dishes": {
+     "acc": 0.714,
+     "n": 119
+    },
+    "experience": {
+     "acc": 0.968,
+     "n": 190
+    },
+    "opinion": {
+     "acc": 0.921,
+     "n": 191
+    },
+    "overall": {
+     "acc": 0.958,
+     "n": 191
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 191
+    },
+    "status": {
+     "acc": 1.0,
+     "n": 191
+    },
+    "timeframe": {
+     "acc": 0.99,
+     "n": 191
+    },
+    "trend": {
+     "acc": 0.995,
+     "n": 191
+    }
+   },
+   "final_mentions": 199,
+   "final_negative_mentions": 16,
+   "item_ok_rate": 0.79,
+   "items": 130,
+   "mention_precision": 0.979,
+   "mention_recall": 0.96,
+   "negative_recall": 0.75
+  },
+  "fresh-med32k": {
+   "field_accuracy": {
+    "aspects.atmosphere": {
+     "acc": 0.967,
+     "n": 274
+    },
+    "aspects.service": {
+     "acc": 0.996,
+     "n": 274
+    },
+    "aspects.taste": {
+     "acc": 0.916,
+     "n": 274
+    },
+    "aspects.value": {
+     "acc": 0.989,
+     "n": 274
+    },
+    "aspects.wait": {
+     "acc": 0.996,
+     "n": 274
+    },
+    "avoid": {
+     "acc": 1.0,
+     "n": 274
+    },
+    "dishes": {
+     "acc": 0.748,
+     "n": 107
+    },
+    "experience": {
+     "acc": 0.936,
+     "n": 267
+    },
+    "opinion": {
+     "acc": 0.88,
+     "n": 274
+    },
+    "overall": {
+     "acc": 0.923,
+     "n": 273
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 274
+    },
+    "status": {
+     "acc": 0.967,
+     "n": 274
+    },
+    "timeframe": {
+     "acc": 0.996,
+     "n": 274
+    },
+    "trend": {
+     "acc": 0.996,
+     "n": 274
+    }
+   },
+   "final_mentions": 287,
+   "final_negative_mentions": 43,
+   "item_ok_rate": 0.766,
+   "items": 300,
+   "mention_precision": 0.951,
+   "mention_recall": 0.955,
+   "negative_recall": 0.837
+  },
+  "fresh-med32k-posts": {
+   "field_accuracy": {
+    "aspects.atmosphere": {
+     "acc": 1.0,
+     "n": 200
+    },
+    "aspects.service": {
+     "acc": 0.99,
+     "n": 200
+    },
+    "aspects.taste": {
+     "acc": 0.925,
+     "n": 200
+    },
+    "aspects.value": {
+     "acc": 0.99,
+     "n": 200
+    },
+    "aspects.wait": {
+     "acc": 0.985,
+     "n": 200
+    },
+    "avoid": {
+     "acc": 1.0,
+     "n": 200
+    },
+    "dishes": {
+     "acc": 0.756,
+     "n": 127
+    },
+    "experience": {
+     "acc": 0.93,
+     "n": 199
+    },
+    "opinion": {
+     "acc": 0.93,
+     "n": 200
+    },
+    "overall": {
+     "acc": 0.92,
+     "n": 199
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 200
+    },
+    "status": {
+     "acc": 1.0,
+     "n": 200
+    },
+    "timeframe": {
+     "acc": 0.96,
+     "n": 200
+    },
+    "trend": {
+     "acc": 0.995,
+     "n": 200
+    }
+   },
+   "final_mentions": 202,
+   "final_negative_mentions": 17,
+   "item_ok_rate": 0.811,
+   "items": 130,
+   "mention_precision": 0.995,
+   "mention_recall": 0.99,
+   "negative_recall": 0.706
+  },
+  "recent-med32k": {
+   "field_accuracy": {
+    "aspects.atmosphere": {
+     "acc": 1.0,
+     "n": 140
+    },
+    "aspects.service": {
+     "acc": 1.0,
+     "n": 140
+    },
+    "aspects.taste": {
+     "acc": 0.914,
+     "n": 140
+    },
+    "aspects.value": {
+     "acc": 0.986,
+     "n": 140
+    },
+    "aspects.wait": {
+     "acc": 0.979,
+     "n": 140
+    },
+    "avoid": {
+     "acc": 1.0,
+     "n": 140
+    },
+    "dishes": {
+     "acc": 0.857,
+     "n": 56
+    },
+    "experience": {
+     "acc": 0.978,
+     "n": 137
+    },
+    "opinion": {
+     "acc": 0.943,
+     "n": 140
+    },
+    "overall": {
+     "acc": 0.964,
+     "n": 138
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 140
+    },
+    "status": {
+     "acc": 1.0,
+     "n": 140
+    },
+    "timeframe": {
+     "acc": 1.0,
+     "n": 140
+    },
+    "trend": {
+     "acc": 1.0,
+     "n": 140
+    }
+   },
+   "final_mentions": 146,
+   "final_negative_mentions": 14,
+   "item_ok_rate": 0.796,
+   "items": 104,
+   "mention_precision": 0.979,
+   "mention_recall": 0.959,
+   "negative_recall": 0.786
+  },
+  "recent-med32k-posts": {
+   "field_accuracy": {
+    "aspects.atmosphere": {
+     "acc": 1.0,
+     "n": 5
+    },
+    "aspects.service": {
+     "acc": 1.0,
+     "n": 5
+    },
+    "aspects.taste": {
+     "acc": 1.0,
+     "n": 5
+    },
+    "aspects.value": {
+     "acc": 1.0,
+     "n": 5
+    },
+    "aspects.wait": {
+     "acc": 1.0,
+     "n": 5
+    },
+    "avoid": {
+     "acc": 1.0,
+     "n": 5
+    },
+    "dishes": {
+     "acc": null,
+     "n": 0
+    },
+    "experience": {
+     "acc": 1.0,
+     "n": 5
+    },
+    "opinion": {
+     "acc": 1.0,
+     "n": 5
+    },
+    "overall": {
+     "acc": 1.0,
+     "n": 5
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 5
+    },
+    "status": {
+     "acc": 1.0,
+     "n": 5
+    },
+    "timeframe": {
+     "acc": 1.0,
+     "n": 5
+    },
+    "trend": {
+     "acc": 1.0,
+     "n": 5
+    }
+   },
+   "final_mentions": 5,
+   "final_negative_mentions": 2,
+   "item_ok_rate": 1.0,
+   "items": 5,
+   "mention_precision": 1.0,
+   "mention_recall": 1.0,
+   "negative_recall": 1.0
+  },
+  "v1-low": {
+   "field_accuracy": {
+    "aspects.atmosphere": {
+     "acc": 0.933,
+     "n": 45
+    },
+    "aspects.service": {
+     "acc": 1.0,
+     "n": 45
+    },
+    "aspects.taste": {
+     "acc": 0.844,
+     "n": 45
+    },
+    "aspects.value": {
+     "acc": 0.978,
+     "n": 45
+    },
+    "aspects.wait": {
+     "acc": 0.933,
+     "n": 45
+    },
+    "avoid": {
+     "acc": 1.0,
+     "n": 45
+    },
+    "dishes": {
+     "acc": 0.471,
+     "n": 17
+    },
+    "experience": {
+     "acc": 0.909,
+     "n": 44
+    },
+    "opinion": {
+     "acc": 0.8,
+     "n": 45
+    },
+    "overall": {
+     "acc": 0.933,
+     "n": 45
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 45
+    },
+    "status": {
+     "acc": 1.0,
+     "n": 45
+    },
+    "timeframe": {
+     "acc": 1.0,
+     "n": 45
+    },
+    "trend": {
+     "acc": 1.0,
+     "n": 45
+    }
+   },
+   "final_mentions": 53,
+   "final_negative_mentions": 8,
+   "item_ok_rate": 0.659,
+   "items": 92,
+   "mention_precision": 0.957,
+   "mention_recall": 0.849,
+   "negative_recall": 0.625
+  },
+  "v1-med32k": {
+   "field_accuracy": {
+    "aspects.atmosphere": {
+     "acc": 1.0,
+     "n": 48
+    },
+    "aspects.service": {
+     "acc": 1.0,
+     "n": 48
+    },
+    "aspects.taste": {
+     "acc": 0.938,
+     "n": 48
+    },
+    "aspects.value": {
+     "acc": 0.938,
+     "n": 48
+    },
+    "aspects.wait": {
+     "acc": 0.979,
+     "n": 48
+    },
+    "avoid": {
+     "acc": 1.0,
+     "n": 48
+    },
+    "dishes": {
+     "acc": 0.828,
+     "n": 29
+    },
+    "experience": {
+     "acc": 0.938,
+     "n": 48
+    },
+    "opinion": {
+     "acc": 0.917,
+     "n": 48
+    },
+    "overall": {
+     "acc": 0.938,
+     "n": 48
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 48
+    },
+    "status": {
+     "acc": 1.0,
+     "n": 48
+    },
+    "timeframe": {
+     "acc": 0.979,
+     "n": 48
+    },
+    "trend": {
+     "acc": 1.0,
+     "n": 48
+    }
+   },
+   "final_mentions": 53,
+   "final_negative_mentions": 14,
+   "item_ok_rate": 0.786,
+   "items": 86,
+   "mention_precision": 0.941,
+   "mention_recall": 0.906,
+   "negative_recall": 0.714
+  },
+  "v2half-med32k": {
+   "field_accuracy": {
+    "aspects.atmosphere": {
+     "acc": 0.992,
+     "n": 256
+    },
+    "aspects.service": {
+     "acc": 1.0,
+     "n": 256
+    },
+    "aspects.taste": {
+     "acc": 0.887,
+     "n": 256
+    },
+    "aspects.value": {
+     "acc": 0.98,
+     "n": 256
+    },
+    "aspects.wait": {
+     "acc": 0.98,
+     "n": 256
+    },
+    "avoid": {
+     "acc": 0.992,
+     "n": 256
+    },
+    "dishes": {
+     "acc": 0.716,
+     "n": 194
+    },
+    "experience": {
+     "acc": 0.949,
+     "n": 256
+    },
+    "opinion": {
+     "acc": 0.945,
+     "n": 256
+    },
+    "overall": {
+     "acc": 0.922,
+     "n": 255
+    },
+    "price": {
+     "acc": 1.0,
+     "n": 256
+    },
+    "status": {
+     "acc": 0.992,
+     "n": 256
+    },
+    "timeframe": {
+     "acc": 0.988,
+     "n": 256
+    },
+    "trend": {
+     "acc": 0.996,
+     "n": 256
+    }
+   },
+   "final_mentions": 268,
+   "final_negative_mentions": 66,
+   "item_ok_rate": 0.511,
+   "items": 146,
+   "mention_precision": 0.977,
+   "mention_recall": 0.955,
+   "negative_recall": 0.879
+  }
+ },
+ "expected": 404,
+ "judged": 404,
+ "misattributed_mentions": {
+  "big-med32k": 1,
+  "fresh-med32k": 1,
+  "v1-low": 1,
+  "v1-med32k": 1
+ },
+ "planted_catch_rate": {
+  "drop_dish": {
+   "caught": 3,
+   "n": 3
+  },
+  "drop_mention": {
+   "caught": 12,
+   "n": 12
+  },
+  "flip_overall": {
+   "caught": 8,
+   "n": 8
+  },
+  "foreign_mention": {
+   "caught": 18,
+   "n": 18
+  },
+  "upgrade_negative": {
+   "caught": 1,
+   "n": 1
+  },
+  "wrong_experience": {
+   "caught": 15,
+   "n": 17
+  }
+ },
+ "problems": [
+  "t001:22: T0022: no compare entry for 'Wah Fung Fast Food' _mention (Haiku None, own 'present')",
+  "t001:22: T0022: no compare entry for 'Magnolia' _mention (Haiku None, own 'present')",
+  "t001:22: T0022: no compare entry for 'Wah Fung' _mention (Haiku 'present', own None)",
+  "t001:22: T0022: no compare entry for 'Magnolia Banana Pudding' _mention (Haiku 'present', own None)",
+  "t017:2: T0402: no compare entry for 'Sevilla' _mention (Haiku None, own 'present')",
+  "t017:2: T0402: no compare entry for 'Wollensky Grill' _mention (Haiku None, own 'present')",
+  "t017:2: T0402: no compare entry for 'Spanish Sevilla' _mention (Haiku 'present', own None)",
+  "t017:2: T0402: no compare entry for 'Steak Wollensky' _mention (Haiku 'present', own None)"
+ ],
+ "side_by_side_with_round_4": {
+  "by_source": {
+   "fresh-low": {
+    "comment": {
+     "field_accuracy": {
+      "aspects.atmosphere": {
+       "acc": 0.985,
+       "n": 259
+      },
+      "aspects.service": {
+       "acc": 0.992,
+       "n": 259
+      },
+      "aspects.taste": {
+       "acc": 0.822,
+       "n": 259
+      },
+      "aspects.value": {
+       "acc": 0.981,
+       "n": 259
+      },
+      "aspects.wait": {
+       "acc": 0.988,
+       "n": 259
+      },
+      "avoid": {
+       "acc": 1.0,
+       "n": 259
+      },
+      "dishes": {
+       "acc": 0.661,
+       "n": 112
+      },
+      "experience": {
+       "acc": 0.929,
+       "n": 255
+      },
+      "opinion": {
+       "acc": 0.88,
+       "n": 259
+      },
+      "overall": {
+       "acc": 0.922,
+       "n": 257
+      },
+      "price": {
+       "acc": 0.992,
+       "n": 259
+      },
+      "status": {
+       "acc": 1.0,
+       "n": 259
+      },
+      "timeframe": {
+       "acc": 0.996,
+       "n": 259
+      },
+      "trend": {
+       "acc": 0.996,
+       "n": 259
+      }
+     },
+     "final_mentions": 293,
+     "final_negative_mentions": 43,
+     "item_ok_rate": 0.62,
+     "items": 300,
+     "mention_precision": 0.959,
+     "mention_recall": 0.884,
+     "negative_recall": 0.837
+    },
+    "comment_item_ok_rate": 0.62,
+    "comments": 300,
+    "difference_types": {
+     "comment": {
+      "added_place": 7,
+      "attribution": 1,
+      "dish": 11,
+      "experience": 6,
+      "level": 16,
+      "missed_place": 9,
+      "opinion": 11,
+      "other": 4,
+      "polarity": 4
+     },
+     "thread": {
+      "added_place": 6,
+      "attribution": 2,
+      "dish": 10,
+      "experience": 8,
+      "level": 29,
+      "missed_place": 24,
+      "opinion": 19,
+      "other": 4,
+      "polarity": 8
+     }
+    },
+    "examples": {
+     "comment": [
+      {
+       "comment_id": "t1_j7a8w7v",
+       "difference": "A invents a mention of Fini, which the comment never names, and leaves the knocked slice unrated; B is right."
+      },
+      {
+       "comment_id": "t1_jbojutb",
+       "difference": "A carries the agreed praise for the buns and wings and keeps taste praise with the ramen knock; B calls taste mixed and files a vague 'other dishes' entry instead."
+      },
+      {
+       "comment_id": "t1_kgeemqi",
+       "difference": "B splits Peppercorn Station and its Chinese name 青花椒 into two mentions, double-counting one pick; A keeps one."
+      },
+      {
+       "comment_id": "t1_kw6gbym",
+       "difference": "A misses 7th St. and Halal Guys, mislocates Gotham on 7th St and calls 'good for a burger' a bare endorse; both leave the Korean fried chicken and pizza picks without dish praise."
+      },
+      {
+       "comment_id": "t1_lai5yy2",
+       "difference": "A gives Pata Market the 'best spot' praise for durian (overstated as superlative), while B hands the verdict to Miami Fruit as a stall inside the market and leaves Pata Market opinion none."
+      }
+     ],
+     "thread": [
+      {
+       "comment_id": "t1_jg8llb2",
+       "difference": "A drops the untried 'Looks good, thanks' reply about Emperor Dumplings; B records it."
+      },
+      {
+       "comment_id": "t1_jgutq3r",
+       "difference": "B raises 'excellent vibe' to superlative atmosphere praise with no city-wide word."
+      },
+      {
+       "comment_id": "t1_jofbmf4",
+       "difference": "A extracts the 'it's good, cheap food' praise for PJ Clarke's with price cheap; B misses the place entirely."
+      },
+      {
+       "comment_id": "t1_ju07ovh",
+       "difference": "A drops Pop Up Bagels, which 'I will try it' refers to; B records it as untried."
+      },
+      {
+       "comment_id": "t1_jvqgzq8",
+       "difference": "B gives the hedged Thai Villa pick its overall praise from 'stunning interior'; A leaves overall null; both miss Semma's hard-to-book wait knock."
+      }
+     ]
+    },
+    "thread": {
+     "field_accuracy": {
+      "aspects.atmosphere": {
+       "acc": 0.989,
+       "n": 264
+      },
+      "aspects.service": {
+       "acc": 0.981,
+       "n": 264
+      },
+      "aspects.taste": {
+       "acc": 0.864,
+       "n": 264
+      },
+      "aspects.value": {
+       "acc": 0.989,
+       "n": 264
+      },
+      "aspects.wait": {
+       "acc": 0.992,
+       "n": 264
+      },
+      "avoid": {
+       "acc": 1.0,
+       "n": 264
+      },
+      "dishes": {
+       "acc": 0.667,
+       "n": 114
+      },
+      "experience": {
+       "acc": 0.927,
+       "n": 261
+      },
+      "opinion": {
+       "acc": 0.883,
+       "n": 264
+      },
+      "overall": {
+       "acc": 0.92,
+       "n": 261
+      },
+      "price": {
+       "acc": 1.0,
+       "n": 264
+      },
+      "status": {
+       "acc": 1.0,
+       "n": 264
+      },
+      "timeframe": {
+       "acc": 0.992,
+       "n": 264
+      },
+      "trend": {
+       "acc": 1.0,
+       "n": 264
+      }
+     },
+     "final_mentions": 289,
+     "final_negative_mentions": 42,
+     "item_ok_rate": 0.704,
+     "items": 300,
+     "mention_precision": 0.953,
+     "mention_recall": 0.913,
+     "negative_recall": 0.81
+    },
+    "thread_item_ok_rate": 0.704,
+    "verdicts": {
+     "comment": 40,
+     "same": 178,
+     "thread": 82
+    }
+   },
+   "fresh-med32k": {
+    "comment": {
+     "field_accuracy": {
+      "aspects.atmosphere": {
+       "acc": 0.97,
+       "n": 271
+      },
+      "aspects.service": {
+       "acc": 0.989,
+       "n": 271
+      },
+      "aspects.taste": {
+       "acc": 0.937,
+       "n": 271
+      },
+      "aspects.value": {
+       "acc": 0.993,
+       "n": 271
+      },
+      "aspects.wait": {
+       "acc": 0.996,
+       "n": 271
+      },
+      "avoid": {
+       "acc": 0.996,
+       "n": 271
+      },
+      "dishes": {
+       "acc": 0.821,
+       "n": 117
+      },
+      "experience": {
+       "acc": 0.947,
+       "n": 266
+      },
+      "opinion": {
+       "acc": 0.934,
+       "n": 271
+      },
+      "overall": {
+       "acc": 0.937,
+       "n": 269
+      },
+      "price": {
+       "acc": 1.0,
+       "n": 271
+      },
+      "status": {
+       "acc": 1.0,
+       "n": 271
+      },
+      "timeframe": {
+       "acc": 0.989,
+       "n": 271
+      },
+      "trend": {
+       "acc": 0.996,
+       "n": 271
+      }
+     },
+     "final_mentions": 293,
+     "final_negative_mentions": 47,
+     "item_ok_rate": 0.771,
+     "items": 300,
+     "mention_precision": 0.964,
+     "mention_recall": 0.925,
+     "negative_recall": 0.809
+    },
+    "comment_item_ok_rate": 0.771,
+    "comments": 300,
+    "difference_types": {
+     "comment": {
+      "added_place": 8,
+      "attribution": 2,
+      "dish": 11,
+      "experience": 4,
+      "level": 16,
+      "missed_place": 11,
+      "opinion": 10,
+      "other": 5
+     },
+     "thread": {
+      "added_place": 3,
+      "attribution": 2,
+      "dish": 2,
+      "experience": 2,
+      "level": 5,
+      "missed_place": 17,
+      "opinion": 3,
+      "other": 2,
+      "polarity": 3
+     }
+    },
+    "examples": {
+     "comment": [
+      {
+       "comment_id": "t1_io8ayf7",
+       "difference": "B drops Claro, which 'I'll check it out' refers to; A records it as untried."
+      },
+      {
+       "comment_id": "t1_j2c2c8r",
+       "difference": "B turns a 'love it or hate it' pick into a stated mixed verdict; A keeps it an endorse with praise."
+      },
+      {
+       "comment_id": "t1_jzf6uzx",
+       "difference": "B extracts Mamouns with the lone-exception falafel praise, the taste knock and most dish verdicts; A returns nothing."
+      },
+      {
+       "comment_id": "t1_jzr6yez",
+       "difference": "B turns complaints about the chain's communications team into a service and overall knock; A keeps them as notes with no level."
+      },
+      {
+       "comment_id": "t1_ki0159y",
+       "difference": "A calls the fit remark on Tamarind stated and leaves the endorsed Semma without overall praise; B has Tamarind as no verdict and Semma as endorse with praise."
+      }
+     ],
+     "thread": [
+      {
+       "comment_id": "t1_j9f8guo",
+       "difference": "B gives Nneji a knock though it is one of the commenter's 'favorites'; A's only slip is copying the praise into taste."
+      },
+      {
+       "comment_id": "t1_jg8llb2",
+       "difference": "B drops the untried 'Looks good, thanks' reply about Emperor Dumplings; A records it."
+      },
+      {
+       "comment_id": "t1_jgd6jqo",
+       "difference": "B misses the nameless reply praising Mr. Dips' burgers; A has it with the dish."
+      },
+      {
+       "comment_id": "t1_l4cr3cq",
+       "difference": "A ties 'Get the fries' to Little Pepper from the parent as an endorse with dish praise; B misses it."
+      },
+      {
+       "comment_id": "t1_lxxeypt",
+       "difference": "A keeps The Grill as an endorsed pick with a budget note, while B turns it into an opinion-none mention; both skip the atmosphere praise the question implies."
+      }
+     ]
+    },
+    "thread": {
+     "field_accuracy": {
+      "aspects.atmosphere": {
+       "acc": 0.967,
+       "n": 274
+      },
+      "aspects.service": {
+       "acc": 0.996,
+       "n": 274
+      },
+      "aspects.taste": {
+       "acc": 0.916,
+       "n": 274
+      },
+      "aspects.value": {
+       "acc": 0.989,
+       "n": 274
+      },
+      "aspects.wait": {
+       "acc": 0.996,
+       "n": 274
+      },
+      "avoid": {
+       "acc": 1.0,
+       "n": 274
+      },
+      "dishes": {
+       "acc": 0.748,
+       "n": 107
+      },
+      "experience": {
+       "acc": 0.936,
+       "n": 267
+      },
+      "opinion": {
+       "acc": 0.88,
+       "n": 274
+      },
+      "overall": {
+       "acc": 0.923,
+       "n": 273
+      },
+      "price": {
+       "acc": 1.0,
+       "n": 274
+      },
+      "status": {
+       "acc": 0.967,
+       "n": 274
+      },
+      "timeframe": {
+       "acc": 0.996,
+       "n": 274
+      },
+      "trend": {
+       "acc": 0.996,
+       "n": 274
+      }
+     },
+     "final_mentions": 287,
+     "final_negative_mentions": 43,
+     "item_ok_rate": 0.766,
+     "items": 300,
+     "mention_precision": 0.951,
+     "mention_recall": 0.955,
+     "negative_recall": 0.837
+    },
+    "thread_item_ok_rate": 0.766,
+    "verdicts": {
+     "comment": 44,
+     "same": 225,
+     "thread": 31
+    }
+   },
+   "v1-low": {
+    "comment": {
+     "field_accuracy": {
+      "aspects.atmosphere": {
+       "acc": 0.952,
+       "n": 42
+      },
+      "aspects.service": {
+       "acc": 1.0,
+       "n": 42
+      },
+      "aspects.taste": {
+       "acc": 0.762,
+       "n": 42
+      },
+      "aspects.value": {
+       "acc": 0.976,
+       "n": 42
+      },
+      "aspects.wait": {
+       "acc": 0.929,
+       "n": 42
+      },
+      "avoid": {
+       "acc": 1.0,
+       "n": 42
+      },
+      "dishes": {
+       "acc": 0.611,
+       "n": 18
+      },
+      "experience": {
+       "acc": 0.921,
+       "n": 38
+      },
+      "opinion": {
+       "acc": 0.881,
+       "n": 42
+      },
+      "overall": {
+       "acc": 0.905,
+       "n": 42
+      },
+      "price": {
+       "acc": 1.0,
+       "n": 42
+      },
+      "status": {
+       "acc": 1.0,
+       "n": 42
+      },
+      "timeframe": {
+       "acc": 1.0,
+       "n": 42
+      },
+      "trend": {
+       "acc": 1.0,
+       "n": 42
+      }
+     },
+     "final_mentions": 52,
+     "final_negative_mentions": 8,
+     "item_ok_rate": 0.659,
+     "items": 92,
+     "mention_precision": 0.933,
+     "mention_recall": 0.808,
+     "negative_recall": 0.5
+    },
+    "comment_item_ok_rate": 0.659,
+    "comments": 92,
+    "difference_types": {
+     "comment": {
+      "dish": 1,
+      "level": 1,
+      "missed_place": 4,
+      "opinion": 6,
+      "polarity": 1
+     },
+     "thread": {
+      "dish": 2,
+      "experience": 2,
+      "level": 5,
+      "missed_place": 6,
+      "opinion": 4,
+      "polarity": 2
+     }
+    },
+    "examples": {
+     "comment": [
+      {
+       "comment_id": "t1_nl4zysc",
+       "difference": "B calls a bare 'gotta go' pick opinion stated; A correctly has endorse."
+      },
+      {
+       "comment_id": "t1_nleeujt",
+       "difference": "B drops the OP's untried thank-you reaction to Zoom Zib, which refers to it as 'this' and 'it'; A records it as an opinion-none mention."
+      },
+      {
+       "comment_id": "t1_o25cmbj",
+       "difference": "B drops the boycott reply about Sweetgreen; A records it as an opinion-none mention with a boycott note."
+      },
+      {
+       "comment_id": "t1_ox2u9mb",
+       "difference": "B turns business news (closures, a visibly dead shop) into an overall knock; A keeps it opinion none."
+      },
+      {
+       "comment_id": "t1_o255q7c",
+       "difference": "B rates the veggie sandwiches as praise and the comment as stated; A leaves the dish unrated and calls it a bare endorse."
+      }
+     ],
+     "thread": [
+      {
+       "comment_id": "t1_nlee9b4",
+       "difference": "A marks the recommender's own 'delicious' pick as experience none and a bare endorse and misses 'super quick' as wait praise; B gets all three."
+      },
+      {
+       "comment_id": "t1_o256pyx",
+       "difference": "A flips Westville to an overall knock though the commenter says 'I like westville and order from them quite a bit'; B keeps overall praise."
+      },
+      {
+       "comment_id": "t1_oon6ugv",
+       "difference": "B drops Taste Good (East Elmhurst) entirely, likely reading the name as a phrase; A extracts it with praise."
+      },
+      {
+       "comment_id": "t1_ooni9fm",
+       "difference": "A marks the pick as experience none with the asked-for dish unrated; B gives it firsthand endorse with mie goreng and taste praise per rule 6."
+      },
+      {
+       "comment_id": "t1_p31zbsv",
+       "difference": "A drops EMP, which the reply refers to with menu facts; B records it as an opinion-none mention."
+      }
+     ]
+    },
+    "thread": {
+     "field_accuracy": {
+      "aspects.atmosphere": {
+       "acc": 0.933,
+       "n": 45
+      },
+      "aspects.service": {
+       "acc": 1.0,
+       "n": 45
+      },
+      "aspects.taste": {
+       "acc": 0.844,
+       "n": 45
+      },
+      "aspects.value": {
+       "acc": 0.978,
+       "n": 45
+      },
+      "aspects.wait": {
+       "acc": 0.933,
+       "n": 45
+      },
+      "avoid": {
+       "acc": 1.0,
+       "n": 45
+      },
+      "dishes": {
+       "acc": 0.471,
+       "n": 17
+      },
+      "experience": {
+       "acc": 0.909,
+       "n": 44
+      },
+      "opinion": {
+       "acc": 0.8,
+       "n": 45
+      },
+      "overall": {
+       "acc": 0.933,
+       "n": 45
+      },
+      "price": {
+       "acc": 1.0,
+       "n": 45
+      },
+      "status": {
+       "acc": 1.0,
+       "n": 45
+      },
+      "timeframe": {
+       "acc": 1.0,
+       "n": 45
+      },
+      "trend": {
+       "acc": 1.0,
+       "n": 45
+      }
+     },
+     "final_mentions": 53,
+     "final_negative_mentions": 8,
+     "item_ok_rate": 0.659,
+     "items": 92,
+     "mention_precision": 0.957,
+     "mention_recall": 0.849,
+     "negative_recall": 0.625
+    },
+    "thread_item_ok_rate": 0.659,
+    "verdicts": {
+     "comment": 10,
+     "same": 68,
+     "thread": 14
+    }
+   },
+   "v1-med32k": {
+    "comment": {
+     "field_accuracy": {
+      "aspects.atmosphere": {
+       "acc": 1.0,
+       "n": 52
+      },
+      "aspects.service": {
+       "acc": 1.0,
+       "n": 52
+      },
+      "aspects.taste": {
+       "acc": 0.904,
+       "n": 52
+      },
+      "aspects.value": {
+       "acc": 0.962,
+       "n": 52
+      },
+      "aspects.wait": {
+       "acc": 0.981,
+       "n": 52
+      },
+      "avoid": {
+       "acc": 1.0,
+       "n": 52
+      },
+      "dishes": {
+       "acc": 0.875,
+       "n": 32
+      },
+      "experience": {
+       "acc": 0.904,
+       "n": 52
+      },
+      "opinion": {
+       "acc": 0.904,
+       "n": 52
+      },
+      "overall": {
+       "acc": 0.904,
+       "n": 52
+      },
+      "price": {
+       "acc": 1.0,
+       "n": 52
+      },
+      "status": {
+       "acc": 1.0,
+       "n": 52
+      },
+      "timeframe": {
+       "acc": 0.981,
+       "n": 52
+      },
+      "trend": {
+       "acc": 1.0,
+       "n": 52
+      }
+     },
+     "final_mentions": 53,
+     "final_negative_mentions": 14,
+     "item_ok_rate": 0.881,
+     "items": 86,
+     "mention_precision": 0.981,
+     "mention_recall": 0.981,
+     "negative_recall": 0.714
+    },
+    "comment_item_ok_rate": 0.881,
+    "comments": 86,
+    "difference_types": {
+     "comment": {
+      "added_place": 2,
+      "dish": 1,
+      "level": 1,
+      "missed_place": 5,
+      "opinion": 1,
+      "other": 3,
+      "polarity": 2
+     },
+     "thread": {
+      "experience": 1,
+      "missed_place": 1,
+      "opinion": 1,
+      "polarity": 2
+     }
+    },
+    "examples": {
+     "comment": [
+      {
+       "comment_id": "t1_o2ekx7n",
+       "difference": "A treats a recommendation answering the post as a bare fact with no verdict; B correctly has an endorse with praise."
+      },
+      {
+       "comment_id": "t1_omg1q43",
+       "difference": "A misses the dish tip that answers the post about Sofreh; B keeps it as an endorse."
+      },
+      {
+       "comment_id": "t1_owmaom5",
+       "difference": "A misses McDonald's, whose McNuggets the comment calls 'bomb'; B has the praise."
+      },
+      {
+       "comment_id": "t1_ozujedh",
+       "difference": "B drops Mama's Too, named as a landmark ('a couple blocks from mamas'); A keeps it as an opinion-none mention."
+      },
+      {
+       "comment_id": "t1_o25j5zj",
+       "difference": "A turns Rooted's overall into a knock despite it being offered as a healthy pick, while B keeps it praise; B's only slip is a past timeframe for sweetgreen's present decline."
+      }
+     ],
+     "thread": [
+      {
+       "comment_id": "t1_o3m9fu3",
+       "difference": "A drops the photo question about Noona's; B records it as an untried opinion-none mention as in the Lucky Fold example."
+      },
+      {
+       "comment_id": "t1_p6puvov",
+       "difference": "B flips Mama's Too's overall to a knock although the comment calls it 'pretty good' and only loses it on price and line."
+      },
+      {
+       "comment_id": "t1_p0hwhxl",
+       "difference": "A treats Emilio's Ballato and Arthur & Sons, named as 'the only real options for a parm', as no-verdict examples; B gives them picks (though neither adds the parm dish or the price complaint)."
+      },
+      {
+       "comment_id": "t1_p6vw2ux",
+       "difference": "A knocks Mama's Too's taste as the comparison's loser although the commenter calls it good, while B only leaves taste null."
+      }
+     ]
+    },
+    "thread": {
+     "field_accuracy": {
+      "aspects.atmosphere": {
+       "acc": 1.0,
+       "n": 48
+      },
+      "aspects.service": {
+       "acc": 1.0,
+       "n": 48
+      },
+      "aspects.taste": {
+       "acc": 0.938,
+       "n": 48
+      },
+      "aspects.value": {
+       "acc": 0.938,
+       "n": 48
+      },
+      "aspects.wait": {
+       "acc": 0.979,
+       "n": 48
+      },
+      "avoid": {
+       "acc": 1.0,
+       "n": 48
+      },
+      "dishes": {
+       "acc": 0.828,
+       "n": 29
+      },
+      "experience": {
+       "acc": 0.938,
+       "n": 48
+      },
+      "opinion": {
+       "acc": 0.917,
+       "n": 48
+      },
+      "overall": {
+       "acc": 0.938,
+       "n": 48
+      },
+      "price": {
+       "acc": 1.0,
+       "n": 48
+      },
+      "status": {
+       "acc": 1.0,
+       "n": 48
+      },
+      "timeframe": {
+       "acc": 0.979,
+       "n": 48
+      },
+      "trend": {
+       "acc": 1.0,
+       "n": 48
+      }
+     },
+     "final_mentions": 53,
+     "final_negative_mentions": 14,
+     "item_ok_rate": 0.786,
+     "items": 86,
+     "mention_precision": 0.941,
+     "mention_recall": 0.906,
+     "negative_recall": 0.714
+    },
+    "thread_item_ok_rate": 0.786,
+    "verdicts": {
+     "comment": 11,
+     "same": 71,
+     "thread": 4
+    }
+   },
+   "v2half-med32k": {
+    "comment": {
+     "field_accuracy": {
+      "aspects.atmosphere": {
+       "acc": 0.984,
+       "n": 257
+      },
+      "aspects.service": {
+       "acc": 0.992,
+       "n": 257
+      },
+      "aspects.taste": {
+       "acc": 0.907,
+       "n": 257
+      },
+      "aspects.value": {
+       "acc": 0.984,
+       "n": 257
+      },
+      "aspects.wait": {
+       "acc": 0.988,
+       "n": 257
+      },
+      "avoid": {
+       "acc": 0.996,
+       "n": 257
+      },
+      "dishes": {
+       "acc": 0.847,
+       "n": 190
+      },
+      "experience": {
+       "acc": 0.961,
+       "n": 256
+      },
+      "opinion": {
+       "acc": 0.949,
+       "n": 257
+      },
+      "overall": {
+       "acc": 0.929,
+       "n": 255
+      },
+      "price": {
+       "acc": 0.992,
+       "n": 257
+      },
+      "status": {
+       "acc": 0.996,
+       "n": 257
+      },
+      "timeframe": {
+       "acc": 0.977,
+       "n": 257
+      },
+      "trend": {
+       "acc": 0.996,
+       "n": 257
+      }
+     },
+     "final_mentions": 269,
+     "final_negative_mentions": 67,
+     "item_ok_rate": 0.529,
+     "items": 146,
+     "mention_precision": 0.977,
+     "mention_recall": 0.955,
+     "negative_recall": 0.91
+    },
+    "comment_item_ok_rate": 0.529,
+    "comments": 146,
+    "difference_types": {
+     "comment": {
+      "added_place": 1,
+      "dish": 17,
+      "experience": 3,
+      "level": 17,
+      "missed_place": 11,
+      "opinion": 10,
+      "other": 3,
+      "polarity": 4
+     },
+     "thread": {
+      "added_place": 4,
+      "attribution": 1,
+      "dish": 8,
+      "experience": 3,
+      "level": 17,
+      "missed_place": 7,
+      "opinion": 5,
+      "other": 4,
+      "polarity": 4
+     }
+    },
+    "examples": {
+     "comment": [
+      {
+       "comment_id": "t1_jrqd79z",
+       "difference": "A gives Parm overall praise despite the only verdict being undercooked meatballs sent back; B gives it the knock."
+      },
+      {
+       "comment_id": "t1_nopix7b",
+       "difference": "B turns Adel's pickup markup, a fee paid as a workaround, into a value knock; A keeps it a note (A's only extra is a 'biryani' dish taken from the name)."
+      },
+      {
+       "comment_id": "t1_nt72q0q",
+       "difference": "Both miss the closure and the value point; A also turns the fond 'amazing sub I miss dearly' into an overall mixed verdict, where B keeps praise."
+      },
+      {
+       "comment_id": "t1_nx532u2",
+       "difference": "B gives each bare pick the bread the question asks about (dish and taste praise), as rule 6 says; A leaves Rolos, Diner and Shewolf without the dish."
+      },
+      {
+       "comment_id": "t1_o65rrko",
+       "difference": "A sets overall mixed for a pick answering the question; B gives the pick overall praise as the rules say."
+      }
+     ],
+     "thread": [
+      {
+       "comment_id": "t1_njccozj",
+       "difference": "A turns a sympathetic reaction to another user's story into a firsthand service and overall knock; B correctly keeps it an opinion-none mention."
+      },
+      {
+       "comment_id": "t1_noo36x6",
+       "difference": "A turns the 'don't break the bank' price remark into value praise for Amanda's; B keeps it as price and a note."
+      },
+      {
+       "comment_id": "t1_ofnmpk3",
+       "difference": "B lowers Carbone's overall from a remark only about getting a table; A keeps it a wait knock with overall null."
+      },
+      {
+       "comment_id": "t1_omzxv6c",
+       "difference": "B credits the praise to Parm, the restaurant the commenter just panned, instead of Palm, whose parm the parent named."
+      },
+      {
+       "comment_id": "t1_oon6ugv",
+       "difference": "B catches the place (as a truncated 'Taste') with its praise, missing only the asked-about dish; A misses the place, likely mistaking 'Taste good' for a phrase."
+      }
+     ]
+    },
+    "thread": {
+     "field_accuracy": {
+      "aspects.atmosphere": {
+       "acc": 0.992,
+       "n": 256
+      },
+      "aspects.service": {
+       "acc": 1.0,
+       "n": 256
+      },
+      "aspects.taste": {
+       "acc": 0.887,
+       "n": 256
+      },
+      "aspects.value": {
+       "acc": 0.98,
+       "n": 256
+      },
+      "aspects.wait": {
+       "acc": 0.98,
+       "n": 256
+      },
+      "avoid": {
+       "acc": 0.992,
+       "n": 256
+      },
+      "dishes": {
+       "acc": 0.716,
+       "n": 194
+      },
+      "experience": {
+       "acc": 0.949,
+       "n": 256
+      },
+      "opinion": {
+       "acc": 0.945,
+       "n": 256
+      },
+      "overall": {
+       "acc": 0.922,
+       "n": 255
+      },
+      "price": {
+       "acc": 1.0,
+       "n": 256
+      },
+      "status": {
+       "acc": 0.992,
+       "n": 256
+      },
+      "timeframe": {
+       "acc": 0.988,
+       "n": 256
+      },
+      "trend": {
+       "acc": 0.996,
+       "n": 256
+      }
+     },
+     "final_mentions": 268,
+     "final_negative_mentions": 66,
+     "item_ok_rate": 0.511,
+     "items": 146,
+     "mention_precision": 0.977,
+     "mention_recall": 0.955,
+     "negative_recall": 0.879
+    },
+    "thread_item_ok_rate": 0.511,
+    "verdicts": {
+     "comment": 42,
+     "same": 70,
+     "thread": 34
+    }
+   }
+  },
+  "expected": 338,
+  "judged": 338,
+  "problems": [
+   "a001:2: P0002: answer B: no compare entry for 'peter mc manus' _mention (Haiku None, own 'present')",
+   "a001:2: P0002: answer B: no compare entry for 'Peter McManus' _mention (Haiku 'present', own None)",
+   "a001:25: P0025: answer B: no compare entry for 'Salt Hanks' dish:sandwich and fry combo (Haiku None, own {'level': None, 'avoid': False})",
+   "a001:25: P0025: answer B: no compare entry for 'Salt Hanks' dish:French Dip combo (Haiku {'level': None, 'avoid': False}, own None)",
+   "a002:16: P0042: answer A: no compare entry for 'chikarashi' dish:rotating flavor soft serve (Haiku {'level': None, 'avoid': False}, own None)",
+   "a002:17: P0043: answer A: no compare entry for 'Salt Hanks' dish:sandwich and fry combo (Haiku None, own {'level': None, 'avoid': False})",
+   "a002:17: P0043: answer A: no compare entry for 'Salt Hanks' dish:French Dip combo (Haiku {'level': None, 'avoid': False}, own None)",
+   "a003:4: P0054: answer B: no compare entry for 'cart on the corner of 47th and Madison' _mention (Haiku None, own 'present')",
+   "a003:4: P0054: answer B: no compare entry for 'halal cart at 47th and Madison' _mention (Haiku 'present', own None)",
+   "a003:10: P0060: answer A: no compare entry for 'Emily' opinion (Haiku 'stated', own 'endorse')",
+   "a003:10: P0060: answer A: no compare entry for 'Emily' dish:burger (Haiku {'level': 'positive', 'avoid': False}, own None)",
+   "a003:10: P0060: answer B: no compare entry for 'Emily' opinion (Haiku 'stated', own 'endorse')",
+   "a003:10: P0060: answer B: no compare entry for 'Emily' dish:burger (Haiku {'level': 'positive', 'avoid': False}, own None)",
+   "a003:18: P0069: answer B: no compare entry for 'Ammazzacaffee' _mention (Haiku None, own 'present')",
+   "a003:18: P0069: answer B: no compare entry for 'Ammazzacaffe' _mention (Haiku 'present', own None)",
+   "a004:1: P0066: answer A: no compare entry for 'cart on the corner of 47th and Madison' _mention (Haiku None, own 'present')",
+   "a004:1: P0066: answer A: no compare entry for 'halal cart at 47th and Madison' _mention (Haiku 'present', own None)",
+   "a004:1: P0066: answer B: no compare entry for 'cart on the corner of 47th and Madison' _mention (Haiku None, own 'present')",
+   "a004:1: P0066: answer B: no compare entry for '47th and Madison cart' _mention (Haiku 'present', own None)",
+   "a004:9: P0084: answer B: no compare entry for 'Pret' _mention (Haiku None, own 'present')",
+   "a004:9: P0084: answer B: no compare entry for \"Pret's\" _mention (Haiku 'present', own None)",
+   "a004:17: P0092: answer B: no compare entry for 'Dun Well Doughnuts' dish:donuts (Haiku None, own {'level': None, 'avoid': False})",
+   "a006:1: P0107: answer B: no compare entry for 'Retro' opinion (Haiku 'stated', own 'endorse')",
+   "a006:5: P0130: answer A: no compare entry for 'la esquina' overall (Haiku None, own 'positive')",
+   "a006:5: P0130: answer A: no compare entry for 'la esquina' experience (Haiku 'none', own 'firsthand')",
+   "a006:5: P0130: answer A: no compare entry for 'la esquina' opinion (Haiku 'none', own 'stated')",
+   "a006:5: P0130: answer A: no compare entry for 'taco stand above la esquina' _mention (Haiku 'present', own None)",
+   "a006:5: P0130: answer B: no compare entry for 'la esquina' _mention (Haiku None, own 'present')",
+   "a006:5: P0130: answer B: no compare entry for 'taco stand above la esquina' _mention (Haiku 'present', own None)",
+   "a006:21: P0147: answer B: no compare entry for \"Wolfgang's\" dish:fillet (Haiku None, own {'level': 'negative', 'avoid': True})",
+   "a006:21: P0147: answer B: no compare entry for \"Wolfgang's\" dish:filet mignon (Haiku {'level': 'negative', 'avoid': True}, own None)",
+   "a007:2: P0152: answer B: no compare entry for 'Café China' _mention (Haiku None, own 'present')",
+   "a007:2: P0152: answer B: no compare entry for 'NYC Café China' _mention (Haiku 'present', own None)",
+   "a008:13: P0188: answer B: no compare entry for \"L'industrie\" experience (Haiku 'firsthand', own 'none')",
+   "a008:18: P0193: answer B: no compare entry for \"Junior's\" _mention (Haiku None, own 'present')",
+   "a008:18: P0193: answer B: no compare entry for 'BK Juniors' _mention (Haiku 'present', own None)",
+   "a009:13: P0213: answer B: no compare entry for 'Ootoya' _mention (Haiku None, own 'present')",
+   "a009:13: P0213: answer B: no compare entry for 'Times Square Ootoya' _mention (Haiku 'present', own None)",
+   "a009:23: P0223: answer B: no compare entry for 'tong sui shop on Bayard street' _mention (Haiku None, own 'present')",
+   "a009:23: P0223: answer B: no compare entry for 'old school Chinese snack shop next to Baked Culture on Bowery' _mention (Haiku None, own 'present')",
+   "a009:23: P0223: answer B: no compare entry for 'this tong sui shop on Bayard street' _mention (Haiku 'present', own None)",
+   "a009:23: P0223: answer B: no compare entry for 'this old school Chinese snack shop next to Baked culture on Bowery' _mention (Haiku 'present', own None)",
+   "a010:4: P0229: answer A: no compare entry for '11MP' _mention (Haiku None, own 'present')",
+   "a010:4: P0229: answer A: no compare entry for 'Eleven Madison Park' _mention (Haiku 'present', own None)",
+   "a010:19: P0244: answer A: no compare entry for 'tong sui shop on Bayard street' _mention (Haiku None, own 'present')",
+   "a010:19: P0244: answer A: no compare entry for 'this tong sui shop on Bayard street' _mention (Haiku 'present', own None)",
+   "a010:24: P0250: answer A: no compare entry for \"Mrs. Tam's stall\" _mention (Haiku None, own 'present')",
+   "a010:24: P0250: answer A: no compare entry for 'cart on Canal' _mention (Haiku None, own 'present')",
+   "a010:24: P0250: answer A: no compare entry for \"Cecilia Tam's stall\" _mention (Haiku 'present', own None)",
+   "a010:24: P0250: answer A: no compare entry for 'Canal Street cart' _mention (Haiku 'present', own None)",
+   "a010:24: P0250: answer B: no compare entry for \"Mrs. Tam's stall\" _mention (Haiku None, own 'present')",
+   "a010:24: P0250: answer B: no compare entry for \"Mrs. Tam's egg cake stall\" _mention (Haiku 'present', own None)",
+   "a011:4: P0254: answer A: no compare entry for 'Rubrirosa' _mention (Haiku None, own 'present')",
+   "a011:4: P0254: answer A: no compare entry for 'Rubirosa' _mention (Haiku 'present', own None)",
+   "a011:5: P0255: answer B: no compare entry for 'Broadway Slice' dish:pepperoni grandma (Haiku None, own {'level': 'positive', 'avoid': False})",
+   "a011:11: P0262: answer A: no compare entry for 'the one on 46th and 6th' _mention (Haiku None, own 'present')",
+   "a011:11: P0262: answer A: no compare entry for 'halal cart at 46th and 6th' _mention (Haiku 'present', own None)",
+   "a011:11: P0262: answer B: no compare entry for 'the one on 46th and 6th' _mention (Haiku None, own 'present')",
+   "a011:11: P0262: answer B: no compare entry for 'halal cart on 46th and 6th' _mention (Haiku 'present', own None)",
+   "a012:14: P0289: answer A: no compare entry for \"Mama's Too\" dish:the rest (Haiku {'level': None, 'avoid': False}, own None)",
+   "a012:22: P0297: answer A: no compare entry for 'Halal food truck on E 225th st' _mention (Haiku None, own 'present')",
+   "a012:22: P0297: answer A: no compare entry for 'Best Halal food truck' _mention (Haiku 'present', own None)",
+   "a012:22: P0297: answer B: no compare entry for 'Halal food truck on E 225th st' _mention (Haiku None, own 'present')",
+   "a012:22: P0297: answer B: no compare entry for 'Halal food truck at E 225th St and White Plains Rd' _mention (Haiku 'present', own None)",
+   "a013:17: P0318: answer B: no compare entry for 'New Northern Dumpling King' dish:chive and egg bao (Haiku None, own {'level': 'positive', 'avoid': False})",
+   "a013:20: P0321: answer B: no compare entry for 'Hong Kong cake cart on Canal' _mention (Haiku None, own 'present')",
+   "a013:20: P0321: answer B: no compare entry for 'cart on Canal' _mention (Haiku 'present', own None)",
+   "a014:9: P0334: answer A: no compare entry for 'bicyclette' _mention (Haiku None, own 'present')",
+   "a014:9: P0334: answer A: no compare entry for \"bicyclette's\" _mention (Haiku 'present', own None)",
+   "a014:12: P0337: answer B: no compare entry for 'H&H' _mention (Haiku None, own 'present')",
+   "a014:12: P0337: answer B: no compare entry for 'H&H in the Metrotech Center' _mention (Haiku 'present', own None)"
+  ],
+  "same_without_a_judge": {
+   "fresh-low": 176,
+   "fresh-med32k": 212,
+   "v1-low": 66,
+   "v1-med32k": 69,
+   "v2half-med32k": 63
+  }
+ }
+}

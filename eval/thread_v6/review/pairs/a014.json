@@ -1,0 +1,1453 @@
+{
+ "items": [
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "paysan breton butter",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": "5th Ave in Park Slope and Court Street in Carroll Gardens",
+      "name": "Le French Tart Deli",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "locations",
+        "text": "Two locations: one on 5th Ave in Park Slope, one on Court Street in Carroll Gardens"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "french",
+       "deli",
+       "butter"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "French butter",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 4,
+      "kind": "deli",
+      "location": "Park Slope or Carroll Gardens",
+      "name": "Le French Tart Deli",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "locations",
+        "text": "two locations: 5th Ave in Park Slope and Court St in Carroll Gardens"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "french deli"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_nxutisp",
+   "context": {
+    "ancestors": [],
+    "author": "laurazabs",
+    "body": "If you're willing to go a little farther into Brooklyn, Le French Tart Deli should have it. They have two locations, one on 5th Ave in Park Slope and one on Court Street in Carroll Gardens.",
+    "replies": [],
+    "selftext": "hello I am looking for where I can buy paysan breton french butter in new york (ideally lower manhattan or williamsburg / greenpoint). Thanks!!!",
+    "title": "paysan breton french butter"
+   },
+   "item_id": "P0314"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "bakery",
+      "location": null,
+      "name": "Golden Steamer",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "steamed buns"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "big bun",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Golden Steamer",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "bao",
+       "steamed buns"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_jo6ssl2",
+   "context": {
+    "ancestors": [
+     {
+      "author": "crazeman",
+      "body": "Golden Steamer has a \"big bun\" that has pork/egg/sausage inside.\n\nThey have locations in Brooklyn's Chinatown (Both Bensonhurst and 8th ave) too."
+     },
+     {
+      "author": "Djpizzle13",
+      "body": "Second this so good and you can get frozen to take home"
+     }
+    ],
+    "author": "Easy-Concentrate2636",
+    "body": "Being a third on this.  Just delicious.",
+    "replies": [],
+    "selftext": "It's a request for my Dad and I think the place in Chinatown he told me to go to doesn't make them anymore. I don't know that just any Chinatown bakery would have this kind?",
+    "title": "Where can I get big bao buns with pork, Chinese sausage, and egg in Manhattan?"
+   },
+   "item_id": "P0327"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 4,
+      "kind": "restaurant",
+      "location": "225 Rogers Ave, Brooklyn (at Whoopsie Daisy Bar)",
+      "name": "Salteña Pop Up",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "photo reaction",
+        "text": "Joke about the first photo looking like a hot dog; untried"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "pop-up"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_mjbwia5",
+   "context": {
+    "ancestors": [],
+    "author": "KittenLina",
+    "body": "I'm still waking up.  I literally thought the first pic was a weird-ass hot dog, and my first thought was \"Oh man, what'll they do to hot dogs next?\"",
+    "replies": [
+     {
+      "author": "Chef_Lazo-718",
+      "body": "😂"
+     }
+    ],
+    "selftext": "Hey Food Fam\n\nToday is the day  Whoopsie Daisy Bar will be hosting my Salteña Pop Up  where I will have 3 savory options and 1 dessert Salteña. We will be starting at 3pm  the address is 225 Rogers Ave \n\nHope to see you all there! ",
+    "title": "Salteña Pop Up Today Brooklyn"
+   },
+   "item_id": "P0328"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 14,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Wonder",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "legal",
+        "text": "Asks whether Wonder can be sued or reported to the CFPB for fraud"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "delivery"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_pco8gtg",
+   "context": {
+    "ancestors": [],
+    "author": "TheFlyingBoat",
+    "body": "Can Wonder be sued for defrauding consumers or taken to task by the CFPB (when a real admin returns)",
+    "replies": [],
+    "selftext": "As if you needed another reason not to patronize. Google Maps is probably just going to leave it up too.",
+    "title": "Wonder paying for fake reviews/AI slop photos on Google"
+   },
+   "item_id": "P0329"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "drunken noodles",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "Massaman curry",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Saranrom Thai",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "delivery",
+        "text": "ordered in for delivery"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "thai"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_neaox4i",
+   "context": {
+    "ancestors": [
+     {
+      "author": "LadyDirtyMartini",
+      "body": "Saranrom Thai is so freaking good holy shite"
+     }
+    ],
+    "author": "Rusiano",
+    "body": "We ordered in drunken noodles and Massaman curry. It was so good. The Massaman curry specifically had an amazing flavor twist at the end, it was like Mariano Rivera’s cutter",
+    "replies": [
+     {
+      "author": "trey1928",
+      "body": "Headass 😂"
+     }
+    ],
+    "selftext": "I went to eat at a top-notch Thai place in Manhattan. One of the restaurants that is often mentioned on here and has great reviews. The food was good but quite expensive. Also while the food was good, I feel like an average Thai place in Elmhurst blows it away in terms of flavor. Restaurants like Chao Thai, Ayada, Saranrom, Khao Kang, Playground, SriPraPhai are on the next level. And I don't think anything in Manhattan can match them despite the much higher prices\n\nSo if you have an extra hour to spare, I'd definitely recommend making the trek out to Elmhurst for Thai food",
+    "title": "Queens Thai food destroys Manhattan"
+   },
+   "item_id": "P0330"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": null,
+      "name": "Cafe Panna",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "ice cream"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "sorbet",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": null,
+      "name": "il laboratorio del gelato",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "selection",
+        "text": "giant selection of interesting flavors that taste like their names"
+       },
+       {
+        "about": "sorbet texture",
+        "text": "sorbets have a bad, icy texture"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "very_positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "ice cream"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "passionfruit",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Supermoon Bakehouse",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "flavors",
+        "text": "flavors are super punchy; the passionfruit was the tartest they've had"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "ice cream"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "sorbet",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": null,
+      "name": "Salt and Straw",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "flavors",
+        "text": "weak flavors that miss half of what they name them"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "ice cream"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": null,
+      "name": "ice and vice",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "closed",
+        "text": "commenter regrets the closing (RIP)"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [
+       "ice cream"
+      ],
+      "timeframe": "past",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "sorbets",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 8,
+      "kind": "cafe",
+      "location": null,
+      "name": "il laboratorio del gelato",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "flavors",
+        "text": "giant selection of flavors that taste like their names"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "very_positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "gelato"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "passionfruit",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 8,
+      "kind": "cafe",
+      "location": null,
+      "name": "Supermoon Bakehouse",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "flavors",
+        "text": "punchy flavors, very tart passionfruit"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "ice cream"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "ice cream",
+        "level": "negative"
+       },
+       {
+        "avoid": false,
+        "dish": "sorbets",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 8,
+      "kind": "cafe",
+      "location": null,
+      "name": "Salt and Straw",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "flavors",
+        "text": "weak flavors that miss half of what they are named"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "ice cream"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 8,
+      "kind": "cafe",
+      "location": null,
+      "name": "Cafe Panna",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "flavors",
+        "text": "falls down on flavors"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "ice cream"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_on3wlkb",
+   "context": {
+    "ancestors": [
+     {
+      "author": "personaljournal325",
+      "body": "They also kinda fell off recently? Hasn't been hitting the way it used to.\n\nEither way there's better ice cream in the city. Similar to pizza, we can get 90% of the quality without the line."
+     },
+     {
+      "author": "Tiny_Tax_2148",
+      "body": "Out of curiosity, where do you like to get ice cream in the city? "
+     }
+    ],
+    "author": "thansal",
+    "body": "disclaimer: I think Cafe Panna is 'fine', so my tastes might not align with other people:\n\n* il laboratorio del gelato - my favorite ice cream shop in the city atm.  Giant selection of interesting flavors that 100% taste like the name (I think Cafe Panna falls down on flavors).  Their sorbets tend to have a bad texture I think (icy).\n* Supermoon Bakehouse - Their flavors tend to be super punchy, which makes me happy.  I had the tartest passionfruit from them, every bite was full on pucker mode.\n* Salt and Straw - Their ice cream is pants on head bad (weak ass flavors that just miss half of what they name it, same as panna), but the sorbets are good.\n\nrip ice and vice.\n\nI don't think we have really great ice cream in NYC, doesn't stop me from eating it though...",
+    "replies": [],
+    "selftext": "Don’t get me wrong, their ice cream is amazing but there are several things about this business that really frustrate me. \n\n1. The hours are already limited (9:30pm closing) and   \nafter seeing all their creative flavors posted on Instagram, you get there at 8:30 and they are out of almost all their flavors except one or two, one if which is usually a sorbet. For people who are coming for the first time, they don’t realize they essentially having nothing left until they get to the front of the line. \n\n2. They do nothing to help move the line along. On a busy summer night they have one person taking orders, who does not appear to be in any sort of a rush. Meanwhile, there are 5-10 people behind the counter seemingly socializing or on their phones. Sometimes a second person comes out to take orders from people on the line, which helps a lot, but it just goes to show how easily they could speed up the line. \n\n3. Given all this, their ice cream is super expensive, which of course is not unique for nyc ice cream, but still frustrating that you pay $6.50 for a size literally called “tiny.”\n\nLove their ice cream but wondering if others share any of these frustrations. ",
+    "title": "I love Caffe Panna ice cream, but it’s a frustrating business"
+   },
+   "item_id": "P0331"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Junoon",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "fit for vegetarians",
+        "text": "Recommended as the better option for a vegetarian couple."
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian",
+       "fine dining",
+       "vegetarian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": "Tribeca",
+      "name": "Tamarind",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "not fine dining",
+        "text": "The commenter does not classify it as fine dining."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian",
+       "fine dining"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Semma",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "not the pick for this couple",
+        "text": "Normally recommended, but not for this vegetarian couple, so no verdict on it here."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": "negative",
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 14,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Tamarind",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "category",
+        "text": "Not classed as fine dining."
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 14,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Semma",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 14,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Junoon",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "vegetarians",
+        "text": "Recommended over Semma for vegetarian diners."
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian",
+       "fine dining",
+       "vegetarian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ki0159y",
+   "context": {
+    "ancestors": [],
+    "author": "justaman_nyc",
+    "body": "I wouldn’t classify Tamarind as fine dining. \n\nI would normally recommend Semma over Junoon, but since you’re vegetarian I think Junoon is a better option for you.",
+    "replies": [],
+    "selftext": "For our anniversary, I’ve shortlisted 2 Indian restaurants, Junoon and Tamarind Tribeca. Please help me decide one. We are both vegetarians.",
+    "title": "Indian fine dining"
+   },
+   "item_id": "P0332"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "restaurant",
+      "location": "right next to JFK",
+      "name": "New Park",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "check reviews",
+        "text": "suggests checking latest reviews since it may have changed"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "past",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "right next to JFK",
+      "name": "New Park",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "check latest reviews",
+        "text": "Commenter suggests searching this sub or Google Maps for the latest reviews before going."
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_mrfz1ze",
+   "context": {
+    "ancestors": [
+     {
+      "author": "BaetrixReloaded",
+      "body": "none of the airports in the area are close to those places. how much time ya got?"
+     },
+     {
+      "author": "BIGCBG",
+      "body": "Landing at JFK. And I got all day but just don’t wanna wait super long cause I’ll be with my wife."
+     }
+    ],
+    "author": "Potential_Owl7825",
+    "body": "New Park (right next to JFK) was really good last time I had. But I’d search for that spot in this sub or on Google maps to see latest reviews 🤷‍♀️",
+    "replies": [],
+    "selftext": "Going to visit family in New Jersey in a few months but landing in New York. Thinking about picking up either Giuseppinas or Scars. Is there a pizza that I have to have before I come to the West Coast? Lucali seems unrealistic ",
+    "title": "Post Flight Pizza"
+   },
+   "item_id": "P0333"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": "negative",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "croissant",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": null,
+      "name": "La Cabra",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "price",
+        "text": "overpriced"
+       },
+       {
+        "about": "texture",
+        "text": "too crispy"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "croissants"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "croissant",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": null,
+      "name": "bicyclette's",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "comparison",
+        "text": "better than La Cabra's croissant"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "croissants"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": "negative",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "croissant",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "La Cabra",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "french",
+       "croissants"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "croissant",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Bicyclette",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "french",
+       "croissants"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_nzgb1xo",
+   "context": {
+    "ancestors": [
+     {
+      "author": "PriclessSami",
+      "body": "thus far, it’s La Cabra."
+     }
+    ],
+    "author": "Zealousideal-You-661",
+    "body": "Overpriced and too crispy, bicyclette's better",
+    "replies": [
+     {
+      "author": "Smooth_Influence_488",
+      "body": "Really tired of the over baked trend, La Cabra's croissant tasted like a wonder bread crust and half of it flaked into crumbs/wasn't edible."
+     }
+    ],
+    "selftext": "Hi French people in NYC... where has the best croissants in the city? \n\nHaving hard time finding good croissants... \n\nThank you!!! ",
+    "title": "French people in NYC... where has best croissants in the city?"
+   },
+   "item_id": "P0334"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "Royale with cheese",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "id": 8,
+      "kind": "bar",
+      "location": null,
+      "name": "Sip & Guzzle",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "markup",
+        "text": "restaurants mark up 2 to 4x; cocktails about $25 each; wagyu is a menu item"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Sip",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "cocktail price",
+        "text": "cocktails are about $25 each"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_olnmw0t",
+   "context": {
+    "ancestors": [
+     {
+      "author": "tengentopp",
+      "body": "150 for the sando? Insanity. "
+     },
+     {
+      "author": "HarviousMaximus",
+      "body": "One hundred and fifty DOLLARS?? We have lost the plot entirely "
+     },
+     {
+      "author": "tengentopp",
+      "body": "I’ll take this opportunity to clown anyone who pretends to appreciate wagyu and then slathers it with sauce/extras"
+     },
+     {
+      "author": "fork_yuu",
+      "body": "That's also a huge fucking piece of a5 wagyu. Isn't it supposed to be better enjoyed in smaller portions of like 1-2 oz lol"
+     },
+     {
+      "author": "yeet420133769",
+      "body": "meant to be shared but some people can def eat all of that at once (me)\n\nits kinda like how mashed potatoes should be enjoyed in small portions cause the best ones are like half butter but so many pig out on those\n\ni also wanna say the pic makes it look bigger than it is and its prob only ~4oz"
+     },
+     {
+      "author": "boroughthoughts",
+      "body": "But 4 oz portion of that stuff not frozen is 40 to 50$ whole sale."
+     }
+    ],
+    "author": "yeet420133769",
+    "body": "sure? i don't get your point. restaurants charging 2-4x their base cost (food, labor, rent, etc) is a well known thing. yes i could buy it myself for 50, which i have. i could also completely fuck it up and overcook it, which i have. still tasted great tho, one of the nice benefits of a5.\n\nno one is going out to a restaurant hoping to save money and no one going to a place like Sip especially where cocktails are like 25 each is hoping to save money. it's a menu item, youre not forced to buy it\n\ni dont disagree it's a bit ridiculous but so are the vast vast majority of high and even mid end products. who am i to judge how someone wastes their money",
+    "replies": [
+     {
+      "author": "boroughthoughts",
+      "body": "I don't know why you are down voting me. We agree. Your original comment does not make it clear that you disagree with the  person above."
+     }
+    ],
+    "selftext": "Went to Sip from Sip & Guzzle. Their Royale with cheese was delicious and my favorite thing on the menu. The shake it came with I didn’t like at all. The pork yaki skewer I highly recommend. Volcano roll was good, but probably wouldn’t order again. Mochi fries were good as well. I thought the Hokkaido milk soft serve was ok. For the cocktails I recommend the Strawberry Hot Pot and Hi-chew chu hi. \n\nSip & Guzzle website: https://www.sipandguzzlenyc.com/",
+    "title": "Sip from Sip & Guzzle | West Village Food & Drinks"
+   },
+   "item_id": "P0335"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "sweet potato casserole",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "New Jersey or Long Island",
+      "name": "Ruth Chris",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "location",
+        "text": "Ruth Chris is in Jersey City or Long Island, outside NYC's five boroughs; the commenter says to be willing to go there"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "steakhouse"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_mccd1yl",
+   "context": {
+    "ancestors": [],
+    "author": "Worried_Plum1373",
+    "body": "Ruth Chris does a great one, just be willing to go to JC or LI",
+    "replies": [
+     {
+      "author": "Organic-SurroundSnd",
+      "body": "Just Googled it, I'm surprised many dope restaurants in Midtown closed down just when I'm finding out about them"
+     }
+    ],
+    "selftext": "Since Boston Market is dying and the quality of their food is now questionable, I'm looking for alternatives for this dish",
+    "title": "Looking for Sweet Potato Casserole 🍠"
+   },
+   "item_id": "P0336"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Metrotech Center, downtown Brooklyn",
+      "name": "H&H",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "Metrotech branch closed",
+        "text": "The commenter missed the Metrotech Center branch after it closed and is glad to hear the chain has returned."
+       },
+       {
+        "about": "Lunch habit",
+        "text": "Was their go-to for a quick lunch when the commenter worked in downtown Brooklyn."
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": "cheap",
+      "status": null,
+      "tags": [
+       "lunch",
+       "quick lunch",
+       "sandwiches"
+      ],
+      "timeframe": "past",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 5,
+      "kind": "restaurant",
+      "location": "Metrotech Center, downtown Brooklyn",
+      "name": "H&H in the Metrotech Center",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "closed branch",
+        "text": "Metrotech branch closed and the commenter missed it"
+       },
+       {
+        "about": "lunch",
+        "text": "was their go-to quick inexpensive lunch when working downtown"
+       },
+       {
+        "about": "return",
+        "text": "glad the brand has come back"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": "cheap",
+      "status": null,
+      "tags": [
+       "lunch"
+      ],
+      "timeframe": "past",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_np1rzga",
+   "context": {
+    "ancestors": [],
+    "author": "Working_Week_8784",
+    "body": "H&H in the Metrotech Center was my go-to for a quick inexpensive lunch when I worked in downtown Brooklyn, and I missed it greatly after it closed.  Glad to know they've risen from the ashes.",
+    "replies": [
+     {
+      "author": "Lovesyubreddit",
+      "body": "Me too! Early 2000s."
+     }
+    ],
+    "selftext": "Is Hale and Hearty back? This was on 7th and 21st in Chelsea.  Hope it’s just as good! Anyone have a scoop. \n\n",
+    "title": "Hale & Hearty Is it back??"
+   },
+   "item_id": "P0337"
+  }
+ ],
+ "packet": "a014"
+}

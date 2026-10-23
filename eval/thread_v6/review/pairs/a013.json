@@ -1,0 +1,3760 @@
+{
+ "items": [
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 10,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Tea and Sympathy",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_ogfsrhl",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Lethave",
+      "body": "Tea and Sympathy has apple as well as rhubarb crumble if I'm recalling correctly. "
+     }
+    ],
+    "author": "Lenka087",
+    "body": "Def checking this out!",
+    "replies": [],
+    "selftext": "When I was in London, I had Humble Crumble, which is hot custard with toppings and is DIVINE. I’ve been craving it ever since, but I can’t find any places that make it. Has anyone found one in NYC? If not, this is a serious gap in the market!",
+    "title": "Hot custard (British style) in NYC?"
+   },
+   "item_id": "P0301"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "burger",
+        "level": "negative"
+       },
+       {
+        "avoid": false,
+        "dish": "fries",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Red Hook Tavern",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "tavern"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "burger",
+        "level": "negative"
+       },
+       {
+        "avoid": false,
+        "dish": "fries",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Red Hook Tavern",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "very_negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_p7vrpc9",
+   "context": {
+    "ancestors": [],
+    "author": "RaisinFresh8364",
+    "body": "Horrendous burger. The fries are also soggy af. One of my worst dining experiences in the city. ",
+    "replies": [],
+    "selftext": "Finally got to walk into this place. Steak tartare was the standout, the crunchy bits + the steak + the egg + the bread hit every note it needed to and then more. The burger was huge + good, but for $34 why would you give us these soggy round fries…I thought it was a little overhyped.\n\nThis place and then a Steve’s Key Lime Pie run after was a really good combo on a summer night!",
+    "title": "Red Hook Tavern: Burger Overhyped Steak Tartare Underhyped"
+   },
+   "item_id": "P0302"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 8,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Grammercy",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 8,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Gage & Tollner",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "steakhouse"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Grammercy",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Gage & Tollner",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_n4mq30f",
+   "context": {
+    "ancestors": [],
+    "author": "MSPCSchertzer",
+    "body": "Grammercy hand down.",
+    "replies": [
+     {
+      "author": "Purple-Mix1033",
+      "body": "Only one hand?"
+     }
+    ],
+    "selftext": "Hello! Boyfriend’s parents are visiting and we’re looking to make a rez at a steakhouse. We’re deciding between these two based on logistics for our other plans with them. \n\nWhich one is better across the board? In terms of apps / starters / entrees (steak in particular) / dessert / drinks",
+    "title": "Gage & Tollner or Gramercy Tavern?"
+   },
+   "item_id": "P0303"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cheese fondue with veggies and bread",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "9th Ave and 55th",
+      "name": "Kashkaval garden",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "location",
+        "text": "on 9th Ave at 55th"
+       },
+       {
+        "about": "kids",
+        "text": "cheese fondue with veggies and bread is fun for kids to try"
+       },
+       {
+        "about": "price",
+        "text": "prices are reasonable"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "kid friendly",
+       "vegetarian options",
+       "fondue"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cheese fondue with veggies and bread",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": "9th Ave and 55th",
+      "name": "Kashkaval Garden",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "prices",
+        "text": "prices are reasonable"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "fondue",
+       "kid friendly"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ng6is08",
+   "context": {
+    "ancestors": [],
+    "author": "thatsreallynotok",
+    "body": "Kashkaval garden is on 9th ave and 55th. Among many other things, they do cheese fondue with veggies and bread, which is a really fun thing for kids to try. Prices are reasonable, too.",
+    "replies": [],
+    "selftext": "We are taking our grandchildren, ages 6 and 10, to an off Broadway matinee and then to dinner. They are vegetarian. Any suggestions for a good restaurant that kids would enjoy near West 50th and 8th or 9th Avenues? It doesn’t have to be a vegetarian restaurant as long as there are some vegetarian options in the menu that kids would like. ",
+    "title": "Child friendly restaurant near W 50th and 8th?"
+   },
+   "item_id": "P0304"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "French butter",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "id": 4,
+      "kind": "deli",
+      "location": "Park Slope (5th Ave) and Carroll Gardens (Court St)",
+      "name": "Le French Tart Deli",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "branches",
+        "text": "two locations, one in Park Slope and one in Carroll Gardens"
+       },
+       {
+        "about": "stock",
+        "text": "should have the butter"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "french"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "paysan breton butter",
+        "level": null
+       }
+      ],
+      "experience": "secondhand",
+      "kind": "deli",
+      "location": "Park Slope (5th Ave) and Carroll Gardens (Court Street), Brooklyn",
+      "name": "Le French Tart Deli",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "stock",
+        "text": "Should carry Paysan Breton butter, per the commenter (not confirmed as tried)"
+       },
+       {
+        "about": "branches",
+        "text": "Two locations: 5th Ave in Park Slope and Court Street in Carroll Gardens"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "french",
+       "deli",
+       "butter"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_nxutisp",
+   "context": {
+    "ancestors": [],
+    "author": "laurazabs",
+    "body": "If you're willing to go a little farther into Brooklyn, Le French Tart Deli should have it. They have two locations, one on 5th Ave in Park Slope and one on Court Street in Carroll Gardens.",
+    "replies": [],
+    "selftext": "hello I am looking for where I can buy paysan breton french butter in new york (ideally lower manhattan or williamsburg / greenpoint). Thanks!!!",
+    "title": "paysan breton french butter"
+   },
+   "item_id": "P0305"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Park Slope",
+      "name": "Java",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "delivery",
+        "text": "Ordered delivery, and the experience was poor"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "indonesian",
+       "delivery"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": "Park Slope",
+      "name": "Java",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "delivery",
+        "text": "ordered delivery and it was bad"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_oomq531",
+   "context": {
+    "ancestors": [
+     {
+      "author": "justflipping",
+      "body": "Java in Park Slope"
+     }
+    ],
+    "author": "zzzzany",
+    "body": "I was so excited to try this place and we ordered delivery and it sucked",
+    "replies": [],
+    "selftext": "Looking for this specific Indonesian dish, but also welcome Indonesian recs in general! ",
+    "title": "Where can we get mie gorang? Preferably in Brooklyn."
+   },
+   "item_id": "P0306"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": "negative",
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 4,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Hawksmoor",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "lighting tip",
+        "text": "only the quiet area in the back of the bar side is dim"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": "negative",
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Hawksmoor",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "lighting",
+        "text": "Not really dimly lit; the quiet back area of the bar side is the exception"
+       },
+       {
+        "about": "noise and light",
+        "text": "Main dining room is very bright and loud"
+       }
+      ],
+      "opinion": "stated",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "steakhouse",
+       "dimly lit",
+       "date night"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_l448xkr",
+   "context": {
+    "ancestors": [
+     {
+      "author": "beernerd6",
+      "body": "I’d try Hawksmoor or Barbuto"
+     }
+    ],
+    "author": "NewRazzmatazz2455",
+    "body": "Hawksmoor is not really dimly lit unless you’re sitting in the quiet area in the back of the bar side. The main dining room is very bright and loud.",
+    "replies": [
+     {
+      "author": "akmalhot",
+      "body": "When I went to Hawksmoor it was pretty empty, suddenly at 11pm 3 groups came it separately. It was 1 guy and 12 want to be models..what's the story w that .\n\n\nGave me a flash back to the last time I went to tao 6+ yrs ago and suddenly a train of women walked in - obviously brought in by the venue "
+     }
+    ],
+    "selftext": "Hi all,\n\nFinancé's birthday is coming up and I'm looking for a nice restaurant to take her in Manhattan. Not a place that is too loud nor that has tables crammed too tightly together so that you're basically brushing up against your neighbor.\n\nMy only requirements not listed in the title are: 1) that it's not ridiculously hard to get a reservation and 2) no French places. Anything else I am totally open too!\n\nJust the two of us so $350 Max budget.\n\nThanks a ton!",
+    "title": "Intimate, Dimly-Lit Birthday Dinner Manhattan $175pp Max"
+   },
+   "item_id": "P0307"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mama's Too",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "comparison",
+        "text": "A corner place nearby is better than Mama's Too"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza",
+       "slice shop"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_p6vw2ux",
+   "context": {
+    "ancestors": [],
+    "author": "Thin-Stranger1369",
+    "body": "It’s good what’s that place on Christopher St around? The corner is better.",
+    "replies": [],
+    "selftext": "",
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!"
+   },
+   "item_id": "P0308"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": "negative",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "babka pizza",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Breads",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "price",
+        "text": "$12 babka pizza"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ol69txi",
+   "context": {
+    "ancestors": [],
+    "author": "jaded_toast",
+    "body": "....... If you voluntarily paid $12 for a slice of *chocolate babka* with tomato sauce and cheese on top, I feel like that's on you.",
+    "replies": [
+     {
+      "author": "yyyyk",
+      "body": "That’s a very fair criticism. But it’s not chocolate it’s more like a grandma slice-shaped croissant with pizza toppings. I have no defense for my behavior."
+     },
+     {
+      "author": "parisidiot",
+      "body": "Wait. I thought they were talking about a loaf. Babka pizza slice for $12? What the fuck?"
+     },
+     {
+      "author": "dertigo",
+      "body": "Last time I was in NYC I ate at about 5 different babka places and breads was #2 for me. So while this sounds bizarre I would also give it a try. "
+     }
+    ],
+    "selftext": "I just had a $12 babka pizza from Breads. It was good but $12? With all the hype around the new wave of high end pizza I’m curious to hear what didn’t hit for folks. ",
+    "title": "What is the most overrated or overpriced piece of pizza you’ve had?"
+   },
+   "item_id": "P0309"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Blue Ribbon Fried Chicken",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "fried chicken",
+       "southern"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Pelicana",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "korean fried chicken"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Jollibee",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "filipino",
+       "fast food"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "very_positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "karaage",
+        "level": "very_positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": "E 93rd St, Manhattan",
+      "name": "chochin",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "closed",
+        "text": "Closed after COVID; the commenter has not found a replacement."
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [
+       "izakaya",
+       "japanese"
+      ],
+      "timeframe": "past",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "fried chicken",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "blue ribbon fried chicken",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "southern fried chicken",
+       "fried chicken"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "pelicana",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "korean fried chicken"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Jollibee",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "fast food",
+       "filipino"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "karaage",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "E 93rd St",
+      "name": "chochin",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "closed",
+        "text": "Did not survive COVID; the commenter has not found a good replacement since."
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [
+       "izakaya",
+       "japanese",
+       "hidden gem"
+      ],
+      "timeframe": "past",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ior1bqh",
+   "context": {
+    "ancestors": [],
+    "author": "CasinoMagic",
+    "body": "Really depends if we're talking Southern fried chicken, Korean fried chicken, japanese karaage, etc\n\nSome of my faves, in no particular order:\n\n- blue ribbon fried chicken \n\n- pelicana\n\n- Jollibee\n\n- chochin was a hidden Japanese izakaya on E 93rd St with the best karaage, but unfortunately they didn't survive COVID. I never found a good replacement since then and am taking all the suggestions.",
+    "replies": [],
+    "selftext": "",
+    "title": "best fried chicken in NYC?"
+   },
+   "item_id": "P0310"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "blueberry scone",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 6,
+      "kind": "bakery",
+      "location": null,
+      "name": "Kerbers Farm",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "scones"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "blueberry scone",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Kerbers Farm",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "scones"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_m3kd5y5",
+   "context": {
+    "ancestors": [],
+    "author": "sp00ky_diva",
+    "body": "Kerbers Farm blueberry scone 😭😭😭",
+    "replies": [],
+    "selftext": "I’m looking to bring some scones back home with me for the holidays to enjoy with some tea. Any suggestions on where I should go to get some? Open to going anywhere that’s subway accessible in NYC!",
+    "title": "Where has the best scones in NYC?"
+   },
+   "item_id": "P0311"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "Sunday salad",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Carmine’s",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "salad",
+        "text": "The iceberg, banana pepper salad is colloquially called a Sunday salad and is also found at other red sauce Italian places."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "red sauce",
+       "italian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "Sunday salad",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Parm",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "salad",
+        "text": "Has the Sunday salad that is common at red sauce Italian places."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "red sauce",
+       "italian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "Sunday salad",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "id": 8,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Parm",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "salad",
+        "text": "Parm also has the Sunday salad"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "red sauce"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_p71aq8x",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Queenfan1959",
+      "body": "It’s ok. They are a family style place that serves big portions. Not the best available. Try La Masseria on W48th St off Eighth Avenue, family owned and fresh made pasta. I highly recommend it "
+     },
+     {
+      "author": "splatooey123",
+      "body": "I only really love the salad from carmines! It’s like iceberg with some banana peppers and stuff, in an oil and vinegar.    I have no idea why I’m so partial to it, does anyone else feel that way???"
+     }
+    ],
+    "author": "JelloDarkness",
+    "body": "It's colloquially called a \"Sunday salad\" and you can find it at a variety of different \"red sauce\" Italian places (e.g. Parm has one, as well)",
+    "replies": [],
+    "selftext": "My wife and I come to the city once a year for a few days. We like to try different places each time. She is a bit picky, so the more “unique” spots are tough to do with options for her.\n\nIs Carmine’s a waste of a dinner? We were going to get some kind of pasta dish and then the Titanic dessert. Just don’t want to be disappointed if it’s just an NYC version of Olive Garden or something.",
+    "title": "Thoughts on Carmine’s for a dinner during a short trip?"
+   },
+   "item_id": "P0312"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": "negative",
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Coqodaq",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "worth it",
+        "text": "only worth it if you want the upscale experience"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "korean fried chicken"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": "Saint Marks",
+      "name": "Boka",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "korean fried chicken"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": "Ktown",
+      "name": "bbq Chicken",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "korean fried chicken"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Rubirosa",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "burger",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Emily/Emmy Squared",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza",
+       "burger"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 3,
+      "kind": "restaurant",
+      "location": "7th St",
+      "name": "Gotham Burger Social Club",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "burger"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": "negative",
+       "service": null,
+       "taste": null,
+       "value": "negative",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "Korean fried chicken",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Coqodaq",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "upscale experience",
+        "text": "only worth it if you want an upscale experience"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "korean fried chicken",
+       "upscale"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "pizza",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Rubirosa",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "pizza",
+        "level": null
+       },
+       {
+        "avoid": false,
+        "dish": "burger",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Emily/Emmy Squared",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza",
+       "burger"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Gotham Burger Social Club",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "burger"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "7th Street Burger",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "burger"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Halal Guys",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "brick and mortar",
+        "text": "recommended over the cart at their brick and mortar locations"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "halal"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Ktown",
+      "name": "bbq Chicken",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "korean fried chicken"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Saint Marks",
+      "name": "Boka",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "korean fried chicken"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_kw6gbym",
+   "context": {
+    "ancestors": [],
+    "author": "Opsimessedup",
+    "body": "Imo Coqodaq isn’t worth it unless you really want the upscale experience. Korean fried chicken doesn’t really need to be that pretentious. There’s plenty of good Korean fried chicken around that’s more easily accessible. You can try bbq Chicken in Ktown or Boka in Saint Marks. \n\nFor pizza, there’s also Rubirosa and Emily/Emmy Squared. The later is also good for a burger. And if you’re trying 7th St. you should try Gotham Burger Social Club too. \n\nAlso, what u/crazeman said about the Halal Guys cart is accurate but if you still want to try it, I’d recommend hitting up one of their brick and mortar locations.",
+    "replies": [
+     {
+      "author": "True-Complaint6899",
+      "body": "Oh, thank you for sharing. I only put it there because of the chicken wings bucket concept. I love Korean fried chicken so I will do another research for it."
+     }
+    ],
+    "selftext": "So after a few days of looking, these are the places that I will most likely going for my upcoming trip. How did I do? Am I missing anything for each section? I’m still looking for good lunch options( maybe with happy hour for cheap food- I am not a drinker). \n\nCoffee shops: \n- [ ] SEY\n- [ ] La Cabra \n- [ ] Birch and Brand \n- [ ] Kona Coffee Roasters- Hawaiian latte \n- [ ] Noa a cafe - baklava iced coffee \n- [ ] Seven grams \n- [ ]  Cafe Joah \n- [ ] Le Phin\n- [ ] % Arabica \n- [ ] Devoción \n- [ ] Cafe Leon Dore \n- [ ] Cafe Lyria \n- [ ] Art Bean Coffee \n\nBakery: \n- [ ] Lady Wong \n- [ ] Little Cupcake Bakeshop\n- [ ] Librae Bakery \n- [ ] Supermoon Bakehouse \n- [ ] L’Appartement 4F\n- [ ] La Cabra \n- [ ] Yonah Schimmel’s Knish Bakery \n- [ ] Eileen’s Special Cheesecake \n- [ ] Mei Lai Wah \n- [ ] Spongies Cafe \n\n\nDinner: \n- [ ] 7th Street Burger \n- [ ] Halal Guy \n- [ ] Fish Cheeks \n- [ ] Don Angie\n- [ ] L’Artusi \n- [ ] Misi\n- [ ] Fiaschetteria Pistoria\n- [ ] Soothr\n- [ ] Coqodaq \n- [ ] Ippudo\n- [ ] Tonchin\n- [ ] Icharan \n- [ ] Velseka \n- [ ] Kopitiam \n- [ ] Wonder Pig KBBQ\n- [ ] Nha Trang One \n\nPizza and Bagel:\n- [ ] Liberty \n- [ ] Ess-a Bagel \n- [ ] Absolute Bagel \n- [ ] Utopia Bagel \n- [ ] Apollo Bagel \n- [ ] Popup Bagel \n- [ ] L’industrie Pizzeria \n- [ ] Mama’s Too\n- [ ] John’s \n- [ ] Prince St \n\nLunch\n- [ ] Saiguette\n- [ ] Charles Pan-Fried Chicken \n- [ ] Datz \n- [ ] Katz\n- [ ] Mắm\n- [ ] Clinton St. Baking Company\n",
+    "title": "My food places "
+   },
+   "item_id": "P0313"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "spread",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "salmon",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "bakery",
+      "location": null,
+      "name": "Bagel Pub",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "style",
+        "text": "poster prefers the crunchier, less doughy bagels of Apollo"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "bagels"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "bakery",
+      "location": null,
+      "name": "Apollo",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "style",
+        "text": "crunchier, less doughy bagel style, personally preferred"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "bagels"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "spread",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "salmon",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": null,
+      "name": "Bagel Pub",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "bagels"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "bagels",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": null,
+      "name": "Apollo",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "bagel style",
+        "text": "commenter prefers Apollo's crunchier, less doughy bagel style"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "bagels"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_nz2xrcq",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Fear_the_chicken",
+      "body": "Bagel Pub is so fucking good"
+     }
+    ],
+    "author": "Viktordarko",
+    "body": "It really is!!!\nI personally prefer the style of bagels of Apollo (more crunchy, less doughy) but the spread and their salmon is amazing!",
+    "replies": [
+     {
+      "author": "Fear_the_chicken",
+      "body": "Haven’t tried Apollo before gonna grab it for breakfast this weekend"
+     }
+    ],
+    "selftext": "This is my second post on this subreddit, another 60 hours in NYC after a drive from Montreal.\n\nThis days were some of the coldest on NYC history, a few degrees warmer than Montreal, but still pretty cold to try to replicate my previous trips of sunrise to sunset walking outdoors \n\n**Day 1**\n\n\\- We stopped for breakfast in Elizabethtown, a small restaurant called “*Pleasant Valley Cafe*”, great service and good coffee and food.\n\n\\- We arrived late to NYC so only had “*Adel’s Famous*”, it never disappoints and the line was around an hour, so not terrible.\n\n\\- To end the night, a stop at “*I’m Donut ?*”, I tried the limited edition Moët donut, and I loved it, the texture and flavor were just perfect, if you don’t like alcohol you won’t like it since it has a strong taste of champagne. (Photo1)\n\n**Day 2**\n\n\\- After a 13km run in Central Park, I headed out to “*Culture Espresso*”, to try their vanilla dough cookie, it was really good, however my favorite is still the classic chocolate chip, and that one is still my favorite cookie.\n\n\\-  Stopped at “*Los Tacos 1*”, next to Madison Square Garden and shared with my wife 2 tacos. Adobada and steak, both were great and their sauces are actually spicy, would definitely go back if I didn’t go so often to Mexico City. (Photo2)\n\n\\- Tried the “*Mamas Too!*” Chicken Vodka Sandwich, and even if it was great, I’ll stick to having pizzas from there. (Photo3)\n\n**-** As I was getting hungry, I checked if there could be some place at opening time at 4Charles, of course there wasn’t, I left my name on the waitlist but went instead to “*Sip and Guzzle*”, wow! This was the highlight of my trip, I shared the burger and the volcano tuna roll with my wife and I wish we hadn’t shared, they were both amazing! The drinks were a great experience, my favorite drink is the Negroni and here is didn’t disappoint, it’s worth the wait to sit at the bar, the bartenders are really nice and she recommended me some places around that I’ll try in the future! (Photos5&6)\n\n\\- Walked to Chelsea market and after having read good reviews of “*Very Fresh Noodles*”, I tried them and the classic lamb dry noodles didn’t disappoint, also had some dumplings on the side.(Photo7)\n\n\\- I wanted to try the overrated, but affordable Din Tai Fung, however there wasn’t a waitlist as well, so walked instead to “*Golden Hof*”, where we shared the chicken sandwich and the sticky noodles, also had the pancakes as dessert. On my last visit I went to Golden Diner and I loved the pancakes, but somehow I think they tasted different here, I didn’t live them, however the sandwich and noodles were really good and the place is nice and 0 wait compared to the OG in Chinatown.\n\n**Day 3**\n\n\\- “*Chip City”*, cookies and cream cookie, my 2nd favorite of the day. (Photo 8)\n\n\\- “*Bagel Pub*”, first time here and decided to try their limited edition “Super Nova”, I loved it, my favorite bagel overall so far, however, the bagel itself, the bread, I prefer Apollo. (Photo9)\n\n\\- Coffee stop and chocolate chip cookie at “*Seven Grams*”, good coffee, but my least favorite cookie of the day. (Photo10)\n\n\\- “Mei Lai Wah” bakery for their famous pineapple  bun and tried as well the pork one, I prefer the pork, but both were great, specially for the price and speed. (Photo11)\n\n\\- “Pecking House” never disappoints, amazing spicy chicken sandwich with great service and foo quality.(Photo12)\n\n\\- Got a lobster tail at “*Ferrara*”, it was a recommendation from a friend and a great one, I didn’t eat it right away since I was full but ate it at the hotel later that night and it didn’t get soggy, it was still crispy and the size was humongous. (Photo 13)\n\n\\-Coffee stop at “*Caffe Paradiso*”, where I would have usually had their tap coffee, but it was freezing out, so I had instead their cardamom hot latte and it was a really good one. \n\n\\- Stopped for a coffee at “*L’Appartement 4F*” and tried their chocolate cookie, it was a good cookie, but wouldn’t go out of my way again to get it. 3rd favorite cookie of the day. (Photo4)\n\n\\- My favorite cookie of the day was from “*Hani’s*”, a cookie that I would go out of my way to get again, I had a hot chocolate here, but I found it too heavy. (Photo14)\n\n\\- A matcha from “*Ralph’s Coffee*” before our Broadway musical\n\n\\- I went out to eat with a group after broadway, so we chose “*Carmine’s*”, to be honest, I was expecting very little from this place and it didn’t disappoint, big portions sine we were 6 people, we had a Caesar salad, a veal limone and pasta à la vodka and we even had leftovers, quick and good service and more than decent food. Definitely not the best Italian, but centric and good to seat and talk.\n\n**Day 4**\n\n\\- After another 13 km run, I had a coffee at “*Culture Espresso*” (again) and this time the traditional chocolate chip cookie, where I confirmed it’s really my favorite cookie.\n\n\\- “*Apollo Bagels*” and had the salmon on everything bagel, to have a fair comparison with Bagel Pub, and even if I liked more the bread, all of the inside was better from Bagel Pub, however I liked the fresh dill.\n\nAnd that was the end of another 60 hour trip to New York!",
+    "title": "60 hours in NYC (v 01-2026)"
+   },
+   "item_id": "P0315"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "snacks",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "bar",
+      "location": null,
+      "name": "Life and Trust",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "early entry",
+        "text": "early-entry ticket includes snacks in the bar before the show"
+       },
+       {
+        "about": "date night tip",
+        "text": "split up to explore the show, then compare experiences over drinks"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "immersive theater",
+       "date night"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "bar",
+      "location": null,
+      "name": "Life and Trust",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "no dinner",
+        "text": "No dinner, but an early entry ticket includes small snacks in the bar before the show"
+       },
+       {
+        "about": "date night tip",
+        "text": "Split up to explore the show separately, then get drinks after to compare experiences"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "immersive theater",
+       "date night",
+       "show"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_mdt5wj8",
+   "context": {
+    "ancestors": [],
+    "author": "Fabulous_Public_5649",
+    "body": "Life and Trust. It was created by the team that was involved with Sleep No More. There isn't a dinner aspect, but if you get an early entry ticket there are some little snacks in the bar before you go into the show. I highly recommend going for a date night and splitting up while you explore the show then having drinks after so that you can compare your experiences.",
+    "replies": [
+     {
+      "author": "marizul24",
+      "body": "Also closed recently )):"
+     }
+    ],
+    "selftext": "I'm looking for a recommendation for date night and would love to do dinner, but would want one that is more lively/interactive/party-vibes in a sense. Thinking:\n\n* Sushi on Me/AYCD or AYCE Suhi\n* Murder mystery theatre\n* Taste the menu type places\n* Venhue\n* Hibachi even?\n\nOr anything else that falls in that category. Prefer for the food to be at least reasonably \"good\" with respect to its category. Open to any price point!",
+    "title": "Best \"Dinner and a Show\" Experiences in NYC?"
+   },
+   "item_id": "P0316"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "amatriciana",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "food_hall",
+      "location": null,
+      "name": "Eataly",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pasta"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "Amatriciana",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "kind": "food_hall",
+      "location": null,
+      "name": "Eataly",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_lda1jbv",
+   "context": {
+    "ancestors": [],
+    "author": "ThePillsburyPlougher",
+    "body": "Amatriciana from eataly",
+    "replies": [],
+    "selftext": "Choose wisely. ",
+    "title": "If you could only ever eat one pasta dish forever, in nyc, what would you choose? "
+   },
+   "item_id": "P0317"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "very_positive",
+       "value": null,
+       "wait": "negative"
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "chive dumplings",
+        "level": "very_positive"
+       },
+       {
+        "avoid": false,
+        "dish": "chive and egg bao",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "41-22 Main St, Flushing",
+      "name": "New Northern Dumpling King",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "sell-out timing",
+        "text": "chive and egg bao always sold out by the afternoon"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "very_positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "dumplings",
+       "chinese",
+       "flushing"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": "negative"
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "chive dumplings",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "chive and egg bao",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": "41-22 Main St",
+      "name": "New Northern Dumpling King",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "sell-out timing",
+        "text": "chive and egg bao is always sold out by the afternoon"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "dumplings",
+       "chinese",
+       "flushing"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_nfsgev5",
+   "context": {
+    "ancestors": [],
+    "author": "pocariz",
+    "body": "The best dumplings in flushing are at New Northern Dumpling King at 41-22 Main St, you must order their chive dumplings! I also really like their chive and egg bao but it’s always sold out by the afternoon fyi",
+    "replies": [],
+    "selftext": "[removed]",
+    "title": "Best dishes/dumplings in Flushing"
+   },
+   "item_id": "P0318"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Librae",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Bench Flour",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "when to go",
+        "text": "only worth it if you're staying in Astoria"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": null,
+      "name": "Little Flower",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "when to go",
+        "text": "only worth it if you're staying in Astoria"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "bakery",
+      "location": null,
+      "name": "Diljan",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "pistachio rose croissant",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "bakery",
+      "location": null,
+      "name": "Librae",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "taste",
+        "text": "tastes like Turkish baklava"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "bakery",
+      "location": null,
+      "name": "Bench Flour",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "Astoria exception",
+        "text": "only worth it if staying in Astoria"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "bakery",
+      "location": null,
+      "name": "Little Flower",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "Astoria exception",
+        "text": "only worth it if staying in Astoria"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "bakery",
+      "location": null,
+      "name": "Diljan",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_p4ai0t6",
+   "context": {
+    "ancestors": [],
+    "author": "Financial_Clock_5016",
+    "body": "Librae is a must! Their pistachio rose croissant tastes like a piece of Turkish baklava. \n\nUnless you’re staying in Astoria, Bench Flour and Little Flower are not worth it. I didn’t love Diljan, either, which I was very upset about. ",
+    "replies": [
+     {
+      "author": "Financial_Clock_5016",
+      "body": "OH would like to add Bread Story on 1st ave. I’m obsessed with their olive loaf & whatever laminated pastries they sell "
+     }
+    ],
+    "selftext": "During my last trip to NY, I prioritized visiting bakeries and got more than I could eat in a few days. On this 3-day trip, I'd like to keep it reasonable, but l am having a hard time choosing where to go. My favorite types of baked goods are cakes and (soft and/or chewy) cookies. I like unique flavor options for cakes. While I do enjoy laminated pastries, I have learned they aren't my preference, especially without exciting flavors. With that, what would you recommend from my list for a 3-day trip? What is a skip? I'm open to repeating bakeries! I'll also take suggestions, and I'd love more bakeries in the Bronx and Queens too. Luckily, I'll be visiting again in 2 months.\n\nHave been:  \nRed Gate Bakery (favorite, loved...randomly stumbled upon the shop)  \nKora (loved)  \nJanie's Life Changing Baked Goods (loved)  \nLevain (indifferent)  \nHani's (want to try again)  \nBKLYN Larder (indifferent)  \nRadio Bakery (OK, underwhelming)  \nFrom Lucie (did not enjoy, seemed flavorless to me)  \nMaman (did not enjoy, crunchy cookie)\n\nHaven't Visited Yet:  \nLittle Flower Cafe  \nBench Flour Bakers  \nSupermoon Bakehouse  \nDiljān Bakery  \nBirdee  \nLibrae  \nSaint Street Cakes  \nByClio Bakery  \nClaude Bakery",
+    "title": "De-influence or influence my NYC Bakery Wishlist, Please!"
+   },
+   "item_id": "P0319"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Kabawa",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "tip",
+        "text": "Ask the staff for recommendations and order whatever you're in the mood for"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ongtrb0",
+   "context": {
+    "ancestors": [
+     {
+      "author": "thatguy8856",
+      "body": "Pepper shrimp and cassava dumplings are both very good. Goat is phenomenal. Duck sausage is good too, very interesting and wasnt what i was expecting. Ive only had the birthday flan for dessert. Outside of that and the turnover i think the other items are new i dont recall them being on the menu. I really like the flan, but the turnover seems to be the \"it\" dessert. You can most probably can order the turnover and something else youll just have to pay both the supplement (i forget if it has a supplement, but i think it does) and probably extra for the additional dessert. They will also box and let you take to go whatever you want, I've seen a girl solo the turnover and take half of it to go. The portions are hefty and they give you a lot of other stuff included as well so its pretty normal to box some stuff.\n\n\nHave fun and enjoy!"
+     },
+     {
+      "author": "SadCombination7535",
+      "body": "Thanks for the in depth answer! Its one of those places where every menu item sounds good so it’s hard to choose "
+     }
+    ],
+    "author": "thatguy8856",
+    "body": "Yeah pretty much the case. Ask the staff for recommendationa and just order what you're feeling ",
+    "replies": [],
+    "selftext": "I am going to Kabawa for a special occasion and had some questions for people who have been recently.\n\nWhat are some of the best items other than the pork chop? Neither of us eat pork. \n\nIs the dry aged steak incredible? I don’t normally eat red meat, but it’s a celebration.\n\nIs the turnover for two worth it? It seems like getting two different desserts would be more interesting. ",
+    "title": "Going to Kabawa for a special occasion what should I get?"
+   },
+   "item_id": "P0320"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "egg cookie",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "truck_or_cart",
+      "location": "Musco Street",
+      "name": "Mrs. Tam's stall",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "closing",
+        "text": "Stall closed; the commenter calls its closing the end of an era"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [
+       "hong kong cakes",
+       "egg cake",
+       "street stall"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "egg noodle soup",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Bo Ky",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "pairing",
+        "text": "Commenter had it with a can of Sunkist"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "noodle soup"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": "Chinatown",
+      "name": "Chinatown Ice Cream Factory",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "visit",
+        "text": "Commenter stopped in again after a funeral; they have been going since childhood"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "ice cream"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "Hong Kong cakes",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "truck_or_cart",
+      "location": "Canal Street",
+      "name": "Hong Kong cake cart on Canal",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "toppings",
+        "text": "Now offers topping options"
+       },
+       {
+        "about": "comparison",
+        "text": "Not as good as Mrs. Tam's, but worth it for the nostalgia"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "hong kong cakes",
+       "street cart"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "egg cookies",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "truck_or_cart",
+      "location": "Musco Street",
+      "name": "Mrs. Tam's stall",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "nickname",
+        "text": "kids called it the egg cookie stall"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": "closed",
+      "tags": [
+       "egg cake"
+      ],
+      "timeframe": "past",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "egg noodle soup",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Bo Ky",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "noodle soup",
+       "chinatown"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "cafe",
+      "location": null,
+      "name": "Chinatown Ice Cream Factory",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "ice cream"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "Hong Kong cakes",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "truck_or_cart",
+      "location": "Canal Street",
+      "name": "cart on Canal",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "toppings",
+        "text": "now has toppings options"
+       },
+       {
+        "about": "comparison",
+        "text": "never as good as Mrs. Tam's"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "hong kong cakes",
+       "cart"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_lzx9m24",
+   "context": {
+    "ancestors": [],
+    "author": "SuriyaSuriyaSuriya",
+    "body": "I relived those fond childhood memories just today after a funeral! On monthly half-days at school my mom would take me with her for her weekly trip to Bangkok Center Grocery across Mosco St and we’d always stop by the “egg cookie” stall as we jokingly called it amongst ourselves. We’d also hit up Bo Ky for their egg noodle soup with a can of Sunkist and the Chinatown Ice Cream Factory afterwards (as I did again today) and I’m so glad the rest of these childhood favorites still exist at least. I think I shocked the ice cream scooper when I mentioned I still had a Tshirt I bought there about 25 years ago! I bought some Hong Kong cakes from a cart on Canal as well—never as good as Mrs. Tam’s were but worth it for the delicious nostalgia (plus they have toppings options nowadays). The closing of her stall was the end of an era for sure!",
+    "replies": [],
+    "selftext": "&#x200B;\n\n[The Egg-Cake Lady of Musco Street - the Incomparable Cecilia Tam](https://preview.redd.it/qd8ge8trlcvc1.png?width=877&format=png&auto=webp&s=38c972b269f3e118e04ba199db7af5218a6275bb)\n\nFor those of us who remember - back in the 80s/90s, an immigrant by the name of **Cecilia Tam** first introduced the Big Apple to what is now referred to as the Hong Kong \"Bubble Cake\" on instagram these days.  Her tiny stall was on Musco street across from the Church of the Transfiguration on Mott, right next to Hop Kee.  For $1.00 you'd get a 15 of these golden beauties - and i made sure whenever i dropped into NYC to stop on by.\n\n&#x200B;\n\n&#x200B;\n\nhttps://preview.redd.it/3m713pm4kcvc1.png?width=275&format=png&auto=webp&s=f24c1780c12e92f1f84c65aaea41374fe277282d\n\nI was told Cecilia, after successfully putting her two sons through college, eventually closed down the stall sometime in the early '00s.   My last visit was Pre 9/11 2001, so i would often blame terrorism and the economic funk of the post 9/11 for ending my favorite treat - but i also knew that Mrs. Tam was getting on in years.  I always wondered what happened to her - figured she headed back home to Hong Kong.\n\nSince then i've noticed Bubble cake stalls pop up around Manhattan's Chinatown in NYC and also in certain supermarkets.   Thus far, of the ones i've tried, its been rather sub-par - sometimes crunchy but no flavor.  \n\nAny suggestions on places to try?   Should i be heading to Flushing instead?  \n\nOr am i fresh out of luck and have to hunt for these beauties in Hong Kong?\n\n&#x200B;\n\n&#x200B;",
+    "title": "Heir to the Cake Lady of Musco Street: NYC's Best 蛋糕仔/DanGaoZi/Hong Kong \"Bubble/Waffle Cake\" ?"
+   },
+   "item_id": "P0321"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "dry pepper wings",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 4,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Han Dynasty",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "wings",
+       "chinese"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "dry pepper wings",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Han Dynasty",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "sichuan",
+       "spicy wings"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_la51g80",
+   "context": {
+    "ancestors": [],
+    "author": "cthd33",
+    "body": "Dry pepper wings at Han Dynasty.",
+    "replies": [],
+    "selftext": "I love the wings at Fish Cheeks and Mission Chinese - so much flavor. What are your favorite wings in NYC (beyond just Buffalo)?",
+    "title": "Best spicy wings NYC?"
+   },
+   "item_id": "P0322"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Old Homestead",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "steakhouse"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Sparks",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "steakhouse"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Old Homestead",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "steakhouse"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Sparks",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "steakhouse"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_mqp6cxd",
+   "context": {
+    "ancestors": [],
+    "author": "HammerOfFamilyValues",
+    "body": "Old Homestead or Sparks are two of my favorites recently.",
+    "replies": [],
+    "selftext": "My boyfriend is visiting NYC for the first time and celebrating his birthday this Month. He loves a good steak (specifically New York or ribeye), looking for a solid steakhouse that tastes better than what we can make at home. Looking at Club A and Keens right now, any thoughts or other suggestions?",
+    "title": "Looking for a steakhouse"
+   },
+   "item_id": "P0323"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 10,
+      "kind": "food_hall",
+      "location": null,
+      "name": "Smorgasburg",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "quality and price",
+        "text": "others say quality dropped and prices rose; commenter says that may be true for regulars"
+       },
+       {
+        "about": "vendors",
+        "text": "many vendors went on to open their own restaurants"
+       },
+       {
+        "about": "variety",
+        "text": "diverse variety of foods and cuisines"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "food market"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": "positive",
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 10,
+      "kind": "food_hall",
+      "location": "Williamsburg",
+      "name": "Smorgasburg",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "views",
+        "text": "gorgeous views of Manhattan across the water; commenter's favorite location"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "food market"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 10,
+      "kind": "food_hall",
+      "location": "Queens",
+      "name": "Queens Night Market",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "trek",
+        "text": "commenter has not been; a trek from downtown, not recommended for tourists unless nearby"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "night market"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 10,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Noodle Lane",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "origin",
+        "text": "former Smorgasburg vendor that opened its own restaurant"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 10,
+      "kind": "restaurant",
+      "location": "LES",
+      "name": "Birria LES",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "origin",
+        "text": "former Smorgasburg vendor that opened its own restaurant"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 10,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Hen House",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "origin",
+        "text": "former Smorgasburg vendor that opened its own restaurant"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": "positive",
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "food_hall",
+      "location": null,
+      "name": "Smorgasburg",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "locations",
+        "text": "Williamsburg and World Trade Center sites; commenter likes Williamsburg for the Manhattan views, weather permitting"
+       },
+       {
+        "about": "crowds and prices",
+        "text": "others say quality has dropped and prices have risen; commenter says it is still worth visiting for tourists"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "food market",
+       "food festival"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "Filipino bbq skewers",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "market_stall",
+      "location": "Williamsburg Smorgasburg",
+      "name": "So Sarap",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "availability",
+        "text": "skewers are hard to find elsewhere; the stand does pop-ups"
+       },
+       {
+        "about": "similar places",
+        "text": "commenter says comparable skewers are found in Sunnyside, Queens and in Baguio, Philippines"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "filipino",
+       "bbq",
+       "pop-up"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "food_hall",
+      "location": "Queens",
+      "name": "Queens Night Market",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "distance",
+        "text": "commenter calls it a trek from downtown and would not send tourists out of their way to it, unless already nearby"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "night market"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Noodle Lane",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "origin",
+        "text": "named as a former Smorgasburg vendor that now has its own restaurant"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Birria LES",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "origin",
+        "text": "named as a former Smorgasburg vendor that now has its own restaurant"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Hen House",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "origin",
+        "text": "named as a former Smorgasburg vendor that now has its own restaurant"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ohdl53k",
+   "context": {
+    "ancestors": [],
+    "author": "aspiring-green-thumb",
+    "body": "I’m gonna be in the minority here and say that I would recommend checking it out for a couple reasons:\n\n— FoodNYC opinions tend to be pretty anti/super critical of tourist and hype places, I’d also keep in mind majority opinions tend to be those who live here \n\n— You’d be a tourist in this instance and have never been to a food market. While it’s great people are saying Queens Night Market is better I imagine you’ll more likely hit up the main tourist sites. I live downtown and still haven’t been to Queens Night Market since I personally deem it a trek so I wouldn’t recommend a tourist to go out of their way to go there (unless you happen to be in the area)\n\n— I’d take a look at the website and see which vendors you’d be interested in checking out and where they’ll show up. World Trade Center is super convenient if you’ll be checking out the sites there but I’m partial to the Williamsburg location since you can check out the area/neighborhood and there are gorgeous views of Manhattan across the water. This is of course dependent on weather.\n\n— Lots of people here are saying quality has gone down, it’s more pricey, etc. and while this may be true to those who are familiar with food festivals I still think Smogarsburg is worth visiting if you’re a tourist/out of town. Still a diverse variety of foods/cuisines and lots of vendors who have gone on to opening their own retail locations and restaurants (Noodle Lane, Birria LES, Hen House comes to mind) that most Redditors here can venture/enjoy but you wouldn’t have the opportunity to see in one place if not for a food festival experience. I personally LOVE the So Sarap stand in Williamsburg because I’m Filipino American and it satisfies my Filipino bbq craving — will also add that except for So Sarap that does pop ups, it’s really hard to get skewers like this since it’s meant to be cooked open fire/grill and the only comparisons I have that come to mind on where to find something similar is in Sunnyside Queens and in Baguio which is my mom’s hometown in the Philippines.\n\nTLDR: don’t listen to the haters and check it out if it interests you!",
+    "replies": [
+     {
+      "author": "ohmosdefinitely",
+      "body": "spot on - no one should be telling this person to trek to queens night market as a substitute. \n\nOP, if your trip itinerary includes activities in those parts of BK on sat or sun, you should go check it out. if you find yourself trying to shoehorn it in, it's probably not worth sacrificing other plans just to make it to smorgasburg. "
+     }
+    ],
+    "selftext": "Hi, I'll be visiting NYC next month, and I was wondering what the thoughts on Smorgasburg was?  How crowded does it get, are the prices somewhat within reason, and is the food actually decent?  Any  past favorite you recommend (or dislikes)?\n\nI've never really been to a food festival, and it looked fun to go to.",
+    "title": "What are your thoughts on Smorgasburg food market?"
+   },
+   "item_id": "P0324"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "pizza",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Queens",
+      "name": "Rosa's",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "Long Island",
+        "text": "the only good pizza they had on Long Island came from Rosa's"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_o9u5fm7",
+   "context": {
+    "ancestors": [
+     {
+      "author": "One-Opposite-4571",
+      "body": "Bagels and pizza. Just not as good outside of NYC, in my opinion!"
+     },
+     {
+      "author": "bmsa131",
+      "body": "As a former NYC resident living on LI now- bagels and pizza are as good here.  But NOT Westchester.    "
+     }
+    ],
+    "author": "Athos427",
+    "body": "This is absolutely not true. Westchester has amazing bagels like from Bagel Emporium and Johnny’s and Johnny’s in Mount Vernon has some of the best pizza anywhere. The only good pizza I ever had in Long Island was from Rosa’s, and they’re from Queens.",
+    "replies": [],
+    "selftext": "Random question, but do you have a food or ingredient that becomes a way bigger part of your routine in New York, then kind of disappears when you leave? For me it’s cream cheese. I use/eat way more of it here than anywhere else.\n\nWondering if other people have their own NYC food pattern like this.",
+    "title": "What food starts “increasing” in your life when you’re in NYC?"
+   },
+   "item_id": "P0325"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "matcha",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 13,
+      "kind": "cafe",
+      "location": null,
+      "name": "Setsugekka",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "quality",
+        "text": "good for more premium matcha"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha",
+       "premium"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 13,
+      "kind": "cafe",
+      "location": "East Village",
+      "name": "cha an",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "matcha latte",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "soft serve",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "id": 13,
+      "kind": "cafe",
+      "location": "Chinatown",
+      "name": "matcha cafe maiko",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "staple",
+        "text": "standard matcha latte staple"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha",
+       "staple"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": true,
+      "dishes": [],
+      "experience": "none",
+      "id": 13,
+      "kind": "cafe",
+      "location": null,
+      "name": "cha cha matcha",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "founders",
+        "text": "steer clear over the founders' conduct, not the food"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "premium matcha",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": "East Village",
+      "name": "Setsugekka",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "premium matcha",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": "East Village",
+      "name": "cha an",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "matcha latte",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "soft serve",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": "Chinatown",
+      "name": "matcha cafe maiko",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha",
+       "soft serve",
+       "staple"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": true,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "cafe",
+      "location": null,
+      "name": "cha cha matcha",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "boycott",
+        "text": "commenter steers clear on principle because the founders' conduct"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "matcha"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ldq6px9",
+   "context": {
+    "ancestors": [],
+    "author": "5100474throwaway",
+    "body": "Setsugekka and cha an in East village are good for more premium matcha, matcha cafe maiko in Chinatown is a really solid staple for a standard matcha latte (or soft serve).\n\nI would steer clear of cha cha matcha on principle cuz the founders absolutely suck https://ny.eater.com/2020/7/9/21308552/cha-cha-matcha-owners-under-fire",
+    "replies": [],
+    "selftext": "I’m gonna have a short trip to NYC and I’m excited to try matcha drinks and the “supreme croissants” can I have some recommendations pleaseee. Thanksss",
+    "title": "Best matcha and croissant place "
+   },
+   "item_id": "P0326"
+  }
+ ],
+ "packet": "a013"
+}

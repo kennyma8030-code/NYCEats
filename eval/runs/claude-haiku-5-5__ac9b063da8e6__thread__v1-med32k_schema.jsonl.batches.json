@@ -1,0 +1,197 @@
+{
+ "batches": {
+  "msgbatch_015mLNrvysCkKUBsk1e59WhL": {
+   "requests": {
+    "r000000": [
+     "chunk:t3_1oeazb6:4439889c885d",
+     0,
+     1
+    ],
+    "r000001": [
+     "chunk:t3_1oeazb6:63a30919aefd",
+     0,
+     1
+    ],
+    "r000002": [
+     "chunk:t3_1og6uol:f650585b76bf",
+     0,
+     1
+    ],
+    "r000003": [
+     "chunk:t3_1qoyhc6:24056f2a6fda",
+     0,
+     1
+    ],
+    "r000004": [
+     "chunk:t3_1qoyhc6:ebe26d061ff8",
+     0,
+     1
+    ],
+    "r000005": [
+     "chunk:t3_1qoyhc6:0fee38a1e654",
+     0,
+     1
+    ],
+    "r000006": [
+     "chunk:t3_1qvx95d:a2b64c15bcb5",
+     0,
+     1
+    ],
+    "r000007": [
+     "chunk:t3_1qvx95d:5079e0d9f47f",
+     0,
+     1
+    ],
+    "r000008": [
+     "chunk:t3_1ryvvhd:8310f4226812",
+     0,
+     1
+    ],
+    "r000009": [
+     "chunk:t3_1ryvvhd:130a4c40ba40",
+     0,
+     1
+    ],
+    "r000010": [
+     "chunk:t3_1spkzwx:2c0152eec139",
+     0,
+     1
+    ],
+    "r000011": [
+     "chunk:t3_1spkzwx:064fac7f9088",
+     0,
+     1
+    ],
+    "r000012": [
+     "chunk:t3_1t41slb:adb87044b714",
+     0,
+     1
+    ],
+    "r000013": [
+     "chunk:t3_1tarwra:3be8761af5aa",
+     0,
+     1
+    ],
+    "r000014": [
+     "chunk:t3_1tarwra:6656aa73a6b3",
+     0,
+     1
+    ],
+    "r000015": [
+     "chunk:t3_1tgc53s:6d99a9dd3a37",
+     0,
+     1
+    ],
+    "r000016": [
+     "chunk:t3_1trcpi3:9e6838484dbe",
+     0,
+     1
+    ],
+    "r000017": [
+     "chunk:t3_1u5380k:04d3656fd2e4",
+     0,
+     1
+    ],
+    "r000018": [
+     "chunk:t3_1u5t5ql:63a57d98c157",
+     0,
+     1
+    ],
+    "r000019": [
+     "chunk:t3_1u5t5ql:195ccaa751f8",
+     0,
+     1
+    ],
+    "r000020": [
+     "chunk:t3_1u5t5ql:aa22049ead85",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_015mLNrvysCkKUBsk1e59WhL",
+   "submitted": "2026-10-22T03:47:30",
+   "collected": true,
+   "retry": [],
+   "cost": 0.03411251
+  },
+  "msgbatch_01RND1Ajm29xRNbk3fxoT6h3": {
+   "requests": {
+    "r000000": [
+     "chunk:t3_1us3txb:0111038079ee",
+     0,
+     1
+    ],
+    "r000001": [
+     "chunk:t3_1us3txb:ec5092db337b",
+     0,
+     1
+    ],
+    "r000002": [
+     "chunk:t3_1us3txb:36e6ad76c569",
+     0,
+     1
+    ],
+    "r000003": [
+     "chunk:t3_1us3txb:c637f7b63c11",
+     0,
+     1
+    ],
+    "r000004": [
+     "chunk:t3_1v6qq5o:511e959a2602",
+     0,
+     1
+    ],
+    "r000005": [
+     "chunk:t3_1v6qq5o:5c5f43e2327a",
+     0,
+     1
+    ],
+    "r000006": [
+     "chunk:t3_1vktrj1:6d488a62d44a",
+     0,
+     1
+    ],
+    "r000007": [
+     "chunk:t3_1vktrj1:cb40179e0c78",
+     0,
+     1
+    ],
+    "r000008": [
+     "chunk:t3_1vzfd60:17fb2db32e35",
+     0,
+     1
+    ],
+    "r000009": [
+     "chunk:t3_1vzfd60:c3a2abfcd2bf",
+     0,
+     1
+    ],
+    "r000010": [
+     "chunk:t3_1vzfd60:73ecdf33c7d6",
+     0,
+     1
+    ],
+    "r000011": [
+     "chunk:t3_1vzfd60:ec2005705eb5",
+     0,
+     1
+    ],
+    "r000012": [
+     "chunk:t3_1vzfd60:f119e02a60b3",
+     0,
+     1
+    ],
+    "r000013": [
+     "chunk:t3_1w6chew:07b6d73455d6",
+     0,
+     1
+    ]
+   },
+   "hold": "msgbatch_01RND1Ajm29xRNbk3fxoT6h3",
+   "submitted": "2026-10-22T03:50:32",
+   "collected": true,
+   "retry": [],
+   "cost": 0.02465527
+  }
+ }
+}

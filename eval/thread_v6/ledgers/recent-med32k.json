@@ -1,0 +1,14 @@
+{
+ "budget": 0.35,
+ "spent": 0.11442841,
+ "calls": 70,
+ "estimated_calls": 0,
+ "runs": {
+  "claude-haiku-5-5__ac9b063da8e6__thread__recent-med32k_schema.jsonl": {
+   "spent": 0.11442841,
+   "calls": 70,
+   "estimated_calls": 0
+  }
+ },
+ "inflight": {}
+}

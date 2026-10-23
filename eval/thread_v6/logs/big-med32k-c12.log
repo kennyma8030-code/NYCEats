@@ -1,0 +1,18 @@
+budget $0.45, $0.0000 already spent on eval/thread_v6/ledgers/big-med32k-c12.json
+claude-haiku-5-5 prompt=production thread prompt (prompt_v6) (ac9b063da8e6) mode=thread: 79 calls to make, 0 cached -> C:\Users\km\foodnyc\.claude\worktrees\agent-ac58f1a7c0ba83592\eval\runs\claude-haiku-5-5__ac9b063da8e6__thread__big-med32k-c12_schema.jsonl
+submitted batch msgbatch_01TS4V2Cc82j1e4bjKszZE1X: 48 requests, worst case $0.4455 held
+  batch msgbatch_01TS4V2Cc82j1e4bjKszZE1X: in_progress, 48 processing, 0 succeeded, 0 errored
+  batch msgbatch_01TS4V2Cc82j1e4bjKszZE1X: in_progress, 48 processing, 0 succeeded, 0 errored
+  batch msgbatch_01TS4V2Cc82j1e4bjKszZE1X: in_progress, 48 processing, 0 succeeded, 0 errored
+  batch msgbatch_01TS4V2Cc82j1e4bjKszZE1X: in_progress, 48 processing, 0 succeeded, 0 errored
+  batch msgbatch_01TS4V2Cc82j1e4bjKszZE1X: in_progress, 48 processing, 0 succeeded, 0 errored
+  batch msgbatch_01TS4V2Cc82j1e4bjKszZE1X: in_progress, 48 processing, 0 succeeded, 0 errored
+  batch msgbatch_01TS4V2Cc82j1e4bjKszZE1X ended after 353s: $0.0867, 48 written, 0 to retry
+submitted batch msgbatch_012Sn6sruWeFMysbmEmm8oy7: 31 requests, worst case $0.2871 held
+  batch msgbatch_012Sn6sruWeFMysbmEmm8oy7: in_progress, 31 processing, 0 succeeded, 0 errored
+  batch msgbatch_012Sn6sruWeFMysbmEmm8oy7: in_progress, 31 processing, 0 succeeded, 0 errored
+  batch msgbatch_012Sn6sruWeFMysbmEmm8oy7: in_progress, 31 processing, 0 succeeded, 0 errored
+  batch msgbatch_012Sn6sruWeFMysbmEmm8oy7: in_progress, 31 processing, 0 succeeded, 0 errored
+  batch msgbatch_012Sn6sruWeFMysbmEmm8oy7: in_progress, 31 processing, 0 succeeded, 0 errored
+  batch msgbatch_012Sn6sruWeFMysbmEmm8oy7 ended after 266s: $0.0379, 31 written, 0 to retry
+batch records written 79, errors 0, ledger $0.1246 spent, $0.0000 held for batches in flight

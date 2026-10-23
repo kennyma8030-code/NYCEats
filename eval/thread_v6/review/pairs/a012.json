@@ -1,0 +1,3016 @@
+{
+ "items": [
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "very_positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Maloya",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "cuisine",
+        "text": "Réunion Island cuisine, not found elsewhere"
+       },
+       {
+        "about": "distance",
+        "text": "about 3 miles from Highland Park"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "Réunion",
+       "vegan"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 6,
+      "kind": "restaurant",
+      "location": "about 3 miles from Highland Park",
+      "name": "Maloya",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "cuisine",
+        "text": "Réunion Island cuisine"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "Réunion",
+       "vegan"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_mpw2p4m",
+   "context": {
+    "ancestors": [],
+    "author": "Miserable_Put5273",
+    "body": "I don’t know anything immediately near highland park, but check out Maloya, it’s about 3 miles away. Food is cuisine of Réunion Island so it’s not something you’ll find anywhere, and they have fantastic vegan offerings.",
+    "replies": [],
+    "selftext": "I have a friend visiting me this weekend. They are vegan. Any recs in Brooklyn for vegan food?",
+    "title": "Recs for vegan food"
+   },
+   "item_id": "P0257"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "steak",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "bacon",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "sauce",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Peter Luger's",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "visit timing",
+        "text": "Visited over a decade before the Keen's trip, so a direct comparison is hard"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "steakhouse"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": "positive",
+       "service": null,
+       "taste": "neutral",
+       "value": "negative",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "steak",
+        "level": "neutral"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Keen's",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "comparison",
+        "text": "Commenter preferred Peter Luger's steak, bacon and sauce"
+       },
+       {
+        "about": "price",
+        "text": "Felt like a disappointment for the price range"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "steakhouse"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": "positive",
+       "service": null,
+       "taste": "positive",
+       "value": "negative",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "steak",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 6,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Keens",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "steakhouse"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_oot4196",
+   "context": {
+    "ancestors": [
+     {
+      "author": "grooveman15",
+      "body": "I equate it to something like Keens Steakhouse and NOT Peter Luger. \n\nKeens is 100% a NYC institution and is one of the best steakhouses in nyc. It’s touristy but also special. It probably isn’t THE BEST steakhouse in terms of the food but is IS in the discussion. While Peter Luger’s sucks and is just a tourist trap. \n\nKatz’s might not be THE BEST pastrami and such but it IS in discussion. It’s 100% a NYC institution and a classic while being touristy. \n\nBoth Keens and Katz’s also have a special ambiance that is unmatched"
+     }
+    ],
+    "author": "Akronite14",
+    "body": "My trip to Peter Luger’s was over a decade before I got to Keen’s, so hard to make a direct comparison, but I preferred their steak, bacon, and sauce. Keen’s was kind of a disappointment for the price range, but the atmosphere was really cool and it was still a quality steak of course.",
+    "replies": [
+     {
+      "author": "g_mmy1",
+      "body": "To me both were a disappointment. I kinda avoid steakhouses now. I’ll go Anywhere else than a steakhouse."
+     }
+    ],
+    "selftext": "I've somehow made it this far without ever going to Katz's.\n\nDoes the food actually live up to the reputation or is a lot of the appeal the history, fame, and tourist factor?.\n\nIf it's worth going, what should I order?",
+    "title": "For someone who's never been, is Katz's Deli worth trying or is it mostly hype?"
+   },
+   "item_id": "P0277"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 2,
+      "kind": "deli",
+      "location": null,
+      "name": "Di Palo's",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "italian deli"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_oh1f7re",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Diuleilomopukgaai",
+      "body": "Di Palo's "
+     }
+    ],
+    "author": "VisualReality4495",
+    "body": "Do you know roughly how much it is per pound?",
+    "replies": [],
+    "selftext": "Does anyone know where I can find prosciutto chunks? These are 3-4 pieces of \\~2 inch slabs of prosciutto packaged together. Probably not di Parma but it’s center sections and already trimmed. At $4.59/lb, it makes for a great snack!",
+    "title": "Help Finding Cheap Prosciutto Chunks?"
+   },
+   "item_id": "P0278"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": "negative",
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": "negative"
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 6,
+      "kind": "restaurant",
+      "location": "West Village",
+      "name": "L'industrie",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "crowds",
+        "text": "long lines; more people photographing the pizza than eating it"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 6,
+      "kind": "restaurant",
+      "location": "next door to L'industrie, West Village",
+      "name": "Village Square",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 6,
+      "kind": "restaurant",
+      "location": "around the corner from L'industrie, West Village",
+      "name": "Mama's Too",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": "negative"
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "pizza",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "West Village",
+      "name": "L’industrie",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "hype",
+        "text": "Commenter says it's trendy and people photograph the pizza more than they eat it"
+       },
+       {
+        "about": "past work",
+        "text": "Commenter used to work across the street"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": "next door to L’industrie, West Village",
+      "name": "Village Square",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "comparison",
+        "text": "Named as a nearby option with no line, next to L’industrie"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "pizza",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "around the corner from L’industrie, West Village",
+      "name": "Mama’s Too",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_njicv92",
+   "context": {
+    "ancestors": [],
+    "author": "PsychologicalAir213",
+    "body": "L’industrie is NOT the best pizza, it’s just in the West Village and trendy. I used to work across the street and I couldn’t believe that people stood in that long ass line every day when Village Square is literally next door. Even Mama’s Too around the corner is better. I stg I see more people taking pictures of L’industrie pizza than actually eating it.",
+    "replies": [],
+    "selftext": "I scraped comments from 50+ posts (mostly from this subreddit and few other NYC related ones) where people asked “where’s the best pizza in New York?” or argued about Joe’s vs. Prince Street vs. Di Fara. Then I ran all those comments through an LLM pipeline to see which spots people actually rave about,  not just name-drop the most.\n\nGoal wasn’t just “most mentioned,” but “most positively talked about.” and upvoted.\n\n**Method in a nutshell:**  \n– Gathered 50+ “best pizza in NYC” and “NYC food recs” threads  \n– Ran GPT-5 + Gemini 2.5 to extract restaurant names and classify sentiment  \n– Scoring = \\~70% positive vs. negative differential + \\~30% positive/total ratio  \n– Merged name variants so duplicates didn’t inflate scores (e.g., “Prince Street Pizza,” “Prince St.” → one entry)  \n– Added small sentiment tweaks so passionate recommendations ranked above casual mentions\n\nCurious what locals think and would love to get your feedback! ",
+    "title": "I analyzed 50+ Reddit threads to find the best pizza in NYC"
+   },
+   "item_id": "P0279"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 7,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Emperor Dumplings",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_jg8llb2",
+   "context": {
+    "ancestors": [
+     {
+      "author": "PokingSmoles",
+      "body": "Stayed in that area the other day, stopped by emperor dumplings a few times. Enjoyed the food and they had a lunch special that might fit what you are looking for."
+     }
+    ],
+    "author": "str8grizzlee",
+    "body": "Looks good, thanks",
+    "replies": [],
+    "selftext": "Got a new job in the ESB and I’m having trouble finding a place for lunch that is \n\n- less than $15 \n- within a 10 minute walk\n- reasonably healthy (open to unhealthy suggestions too but I’m not trying to eat fried chicken too often)\n\nDefinitely open to Ktown options but I’ve been surprised to find how little on 32nd street is fast and under $15.",
+    "title": "Best fast casual lunch near the Empire State Building"
+   },
+   "item_id": "P0280"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": "positive",
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": "about ten blocks from Times Square",
+      "name": "Zoom Zib",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "speed",
+        "text": "super quick"
+       },
+       {
+        "about": "price",
+        "text": "reasonable price"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "thai",
+       "quick bite",
+       "budget"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": "positive",
+       "wait": "positive"
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "restaurant",
+      "location": "about ten blocks from Times Square",
+      "name": "Zoom Zib",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "speed",
+        "text": "super quick"
+       },
+       {
+        "about": "price",
+        "text": "reasonable price"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "thai"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_nlee9b4",
+   "context": {
+    "ancestors": [],
+    "author": "merlin401",
+    "body": "There’s so many great things, if you’re not trying to spend a lot I think it’s almost more fun to just explore and use Google reviews.  But ill throw one into the ring maybe ten blocks from you:  Zoom Zib:  super quick, reasonable price and delicious Thai food ",
+    "replies": [
+     {
+      "author": "snakesandladders212",
+      "body": "Thank you so much. This is the sort of thing I was looking for. It's 10 minutes from our hotel!"
+     }
+    ],
+    "selftext": "Evening all! It's my wife's 40th in February and she has always wanted to visit NYC. I've booked a few days in Manhatten for us. Obviously, it's a long way for us to travel and with the cost of the hotel the budget is running thin. We are staying close to Time Square. \nI'm looking for recommendations of breakfast, lunch and dinner places that are within walking distance that aren't going to break the bank. Even if it's the best place to grab a slice of pizza or a taco whilst we are out and about.\n\nAlso, if you've got any suggestions of must-do experiences whilst in the city for the first time (cheeky I know because this sub is all about the food) then it would be very appreciated.",
+    "title": "A Brit's first time"
+   },
+   "item_id": "P0281"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "bar",
+      "location": null,
+      "name": "Evil Twin",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "suggestion",
+        "text": "suggested as a brewery to reach out to for pop-ups"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "brewery",
+       "pop-up host"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "bar",
+      "location": null,
+      "name": "Bridge and Tunnel",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "suggestion",
+        "text": "suggested as a brewery to reach out to for pop-ups"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "brewery",
+       "pop-up host"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": "positive",
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "bar",
+      "location": null,
+      "name": "KCBC",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "pop-ups",
+        "text": "said to love hosting new pop-ups"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "brewery",
+       "pop-up host"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": "positive",
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "bar",
+      "location": null,
+      "name": "Fifth Hammer",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "pop-ups",
+        "text": "said to be a great proponent of new pop-ups"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "brewery",
+       "pop-up host"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "bar",
+      "location": null,
+      "name": "Evil Twin",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "popups",
+        "text": "Suggested as a nearby brewery to reach out to about hosting a popup."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "bar",
+      "location": null,
+      "name": "Bridge and Tunnel",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "popups",
+        "text": "Suggested as a nearby brewery to reach out to about hosting a popup."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "bar",
+      "location": null,
+      "name": "KCBC",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "popups",
+        "text": "Described as a brewery that is open to new popups."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "bar",
+      "location": null,
+      "name": "Fifth Hammer",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "popups",
+        "text": "Described as a brewery that is open to new popups."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_p14uvbf",
+   "context": {
+    "ancestors": [],
+    "author": "iniquities",
+    "body": "I can't make it for the first half of August but I hope you continue so that I CAN make it. \n\nAlso, you can try to reach out to the nearby breweries like Evil Twin or Bridge and Tunnel to do popups too. Many breweries in general love popups - KCBC and Fifth Hammer are also great proponents of new popups",
+    "replies": [],
+    "selftext": "Hey! My name is Raini and I'm a member of the Lakota tribe. I realized theres been a gap in indigenous foods available so I decided to start my own frybread stand! Complete with toppings such as honey, powdered sugar, and three different types of jelly!\n\nOur first day open will be this Sunday at TV Eye. Starting at Noon and going until supplies last!\n\nIts $5/pc and you wont regret it <3\n\nIf you can't make it, follow my IG for updates on our next pop-up!:\n\n# @lakotafrybreadco\n\nIt's pretty bare bones rn but I'llbe posting pics and vids of our frybread very soon! 🥰",
+    "title": "New Indigenous Frybread Pop-Up Stand in Ridgewood, NYC!"
+   },
+   "item_id": "P0282"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "tacos de canasta",
+        "level": null
+       }
+      ],
+      "experience": "none",
+      "id": 3,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Aldama",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "availability",
+        "text": "tacos de canasta are served if you ask for them"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "mexican"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_kw04iay",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Cartadimusica",
+      "body": "Aldama"
+     },
+     {
+      "author": "DMmepicsofyourdog",
+      "body": "I’m looking at the menu and don’t see basket tacos on there. Is it something you have to ask for?"
+     }
+    ],
+    "author": "Cartadimusica",
+    "body": "Tacos de canasta",
+    "replies": [],
+    "selftext": "I love basket tacos (tacos de canasta) like you can get at Los Especiales in Mexico City. Where can I get those here? Willing to travel anywhere via subway for them. ",
+    "title": "Where can I get tacos de canasta?"
+   },
+   "item_id": "P0283"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 8,
+      "kind": "restaurant",
+      "location": null,
+      "name": "4 Charles",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "origin",
+        "text": "Mocked as an import from Chicago; not about the food."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_m7vnvqb",
+   "context": {
+    "ancestors": [
+     {
+      "author": "ReliabilityTalkinGuy",
+      "body": "This isn’t the answer you want, but it’s just hype. It’s not actually that amazing. Find him an actually great restaurant to go to, instead. "
+     },
+     {
+      "author": "MSPCSchertzer",
+      "body": "The ambiance is pretty cool though."
+     },
+     {
+      "author": "ReliabilityTalkinGuy",
+      "body": "Totally agreed. If it’s all about the aesthetics that place is difficult to beat. "
+     },
+     {
+      "author": "bruiserbrody45",
+      "body": "The food is very, very good though. It's not like it's Corner Bar where people are going because Taylor Swift goes. It's very good food in a small place with a great vibe and 9 tables."
+     },
+     {
+      "author": "ReliabilityTalkinGuy",
+      "body": "You’re literally referring to a place Taylor Swift has reported to have been seen. You’re not making the argument you think you are. \n\nhttps://www.instagram.com/backgrid_usa/p/Cy7ZPjEL-71/"
+     },
+     {
+      "author": "bruiserbrody45",
+      "body": "4 Charles has 9 tables and since day 1 they have been always booked. The majority of the tables are held by regulars. I'm not saying no celebrity has ever visited the place, I'm saying that the place isn't popular because it's a celeb hotspot. The food is very, very, good."
+     }
+    ],
+    "author": "ReliabilityTalkinGuy",
+    "body": "It’s an import from Chicago. lol",
+    "replies": [
+     {
+      "author": "bruiserbrody45",
+      "body": "Not sure what your point is? 4 Charles was a unique to NY concept from a Chicago based restaurant group."
+     }
+    ],
+    "selftext": "Hi!! \n\nIt’s my bfs birthday on 2/3 and I’m DYING to get us a reservation at 4 Charles prime (he reallllly wants to go ). \n\nHow the hell do people get reservations? If anyone has one , id literally PAY you for the reservation. ",
+    "title": "4 Charles prime reservation ? "
+   },
+   "item_id": "P0284"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 12,
+      "kind": "restaurant",
+      "location": "Manhattan",
+      "name": "Xi'an Famous Foods",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "location",
+        "text": "in Manhattan, so a Flushing trip to it is a waste"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_k53lpmf",
+   "context": {
+    "ancestors": [
+     {
+      "author": "NYerInTex",
+      "body": "Grab the 7 and go to Flushing. He may well be able to beat discern which options are most authentic, but the lesser known food court called New York Food Court has some really traditional options from my admittedly not of Chinese descent knowledge."
+     },
+     {
+      "author": "veggieliv",
+      "body": "Here are some of the best places to go in Flushing. We like to get a dish or two (and a beer 🙂) at a few places and then move on, so we can try as many places as possible. Most places are cash only, FYI\n\nXi'an Famous (they're known for their lamb noodles, but I highly recommend the cucumber salad).\nDaxi Sichuan (we like to get the potatoes, green beans, and cabbage with glass/bean thread noodles). It is upstairs in the New World Mall.\nDownstairs from Daxi, there is a whole huge food court that is very well-known. Grab a few treats there.\nShanghai You Garden (we always get scallion pancakes and noodles, but they also give you free soup dumplings there with any order). We usually end here because the servers are so wonderful, we end up having more than one beer...\nWhite Bear (dumplings) or Tian Jin Dumpling house. These are great to-go too if you can't eat another bite on your journey.\n\nThe Attic is a fun little speakeasy with oysters and cocktails\n\nFor something sweet, I recommend walking down to Fay-Da Bakery and looking at all of the markets along the way. You can stop at Jin Feng Fishball for $3 peanut noodles too as you walk down to it. \n\nAnother place to check out that people rave about in Flushing is Joe's Rice roll, but it's not our favorite. "
+     },
+     {
+      "author": "strawboy1234",
+      "body": "Pls don’t recommend Xi’an Famous Foods as authentic. They haven’t been good since 10 years ago and have been shuttering their various locations for good reason. Quality is way down and portions are a joke."
+     }
+    ],
+    "author": "ItsArtCrawl77",
+    "body": "Also they’re in Manhattan; it’s a waste of a trip to Flushing",
+    "replies": [],
+    "selftext": "My boyfriend and I are in NYC for a few more days. He’s Chinese and would eat only Chinese food for the rest of his life if he had it his way. What’s the best places to eat in Midtown so I can take him?",
+    "title": "Best authentic Chinese restaurants?"
+   },
+   "item_id": "P0285"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 8,
+      "kind": "food_hall",
+      "location": null,
+      "name": "New York City Wine & Food Festival",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "last visit",
+        "text": "last attended before Covid; no verdict given"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "food festival"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_njtdnxr",
+   "context": {
+    "ancestors": [
+     {
+      "author": "fontanick",
+      "body": "What’s the wine and food festival like? Thinking of taking my dad as a gift but haven’t heard if it’s worth it or not"
+     }
+    ],
+    "author": "EatingInTranslation",
+    "body": "Haven't been since before Covid. Perhaps someone else here can weigh in.",
+    "replies": [],
+    "selftext": "**New York City Wine & Food Festival**  \nConcludes Thursday through Sunday, October 16-19, various hours  \nVarious locations  \n[http://www.nycwff.org/](http://www.nycwff.org/)See website for ticket details\n\n**Midtown East Food Fair**  \nThursday, October 16, 10:00-6:00  \nEast 54th St. between Lexington and Third Aves., Manhattan  \nFree admission\n\n**Smorgasburg**  \nFriday through Sunday, October 17-19, 11:00-6:00; repeats through the last weekend of October  \nFriday: WTC/Oculus Plaza, Fulton St. at Church St., Manhattan  \nSaturday: Marsha P. Johnson State Park, 90 Kent Ave. (at North 7th St.), Williamsburg, Brooklyn  \nSunday: Breeze Hill, East Dr. at Lincoln Rd., Prospect Park, Brooklyn  \n[https://www.smorgasburg.com/vendors/](https://www.smorgasburg.com/vendors/)Previously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&view\\_all=1&text=smorgasburg](https://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&view_all=1&text=smorgasburg)Free admission\n\n**St. Leon Armenian Church Food Festival**  \nFriday through Sunday, October 17-19, various hours  \nSt. Leon Armenian Church, 12-61 Saddle River Rd., Fair Lawn, New Jerse  \n[https://www.facebook.com/photo?fbid=1203870915098276&set=pcb.1203871388431562](https://www.facebook.com/photo?fbid=1203870915098276&set=pcb.1203871388431562)Free admission\n\n**Korean Harvest & Multicultural Festival**  \nFriday, October 25, 11:00-9:00; Saturday, 10:00-6:00  \nJack Alter Fort Lee Community Center, 1355 Inwood Terr., Fort Lee, New Jersey  \nSunday, October 27, 11:00-6:00  \nMurray Hill Square, 149th St. and 41st Ave., Murray Hill, Queens  \n[https://www.instagram.com/p/DPMQV3ajlNV/](https://www.instagram.com/p/DPMQV3ajlNV/)Free admission\n\n**JapanFes**  \nSaturday, October 18, 10:00-6:00; repeats weekly, more or less, through early December  \nAstor Place, Manhattan  \n[https://www.japanfes.com/new-blog/2025/oct-18-east-village ](https://www.japanfes.com/new-blog/2025/oct-18-east-village)  \nPreviously: [https://www.Flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&view\\_all=1&text=japanfes](http://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&view_all=1&text=japanfes)  \nFree admission\n\n**Sussex County Harvest, Honey, & Garlic Festival**  \nSaturday, October 18, 10:00-4:00  \nSussex County Fairgrounds, Augusta, New Jersey  \n[http://www.sussexfarmvisits.com/harvestfest.htm](http://www.sussexfarmvisits.com/harvestfest.htm)Free admission\n\n**The Great Community Bake Sale**  \nSaturday, October 18, 11:00-3:00  \n180 Maiden Ln. (at Front St.), Manhattan  \n[https://www.eventbrite.com/e/the-great-community-bake-sale-tickets-1738986107259](https://www.eventbrite.com/e/the-great-community-bake-sale-tickets-1738986107259)Free admission; \"All proceeds will be distributed across four New York City-based nonprofits providing essential services to New Yorkers in need: Heart of Dinner, Make the Road New York, One Love Community Fridge, and The Teaching Kitchen at Lenox Hill Neighborhood House\"\n\n**Oyster Bay Oyster Fest**  \nSaturday and Sunday, October 18-19, 11:00-6:00  \nIn and near Theodore Roosevelt Park, Oyster Bay, New York  \n[https://theoysterfest.org/](https://theoysterfest.org/)Free admission\n\n**Taste of Korea**  \nSaturday, October 18, 11:00-5:00  \nGood News New Jersey Church, 1075 Queen Anne Rd., Teaneck, New Jersey  \n[https://www.eventbrite.com/e/taste-of-korea-teaneck-tickets-1763181757099](https://www.eventbrite.com/e/taste-of-korea-teaneck-tickets-1763181757099)Free admission\n\n**The New Jersey Seafood & Music Festival**  \nSaturday, October 18, 11:00-6:30  \nBell Works, 101 Crawfords Corner Rd., Holmdel, New Jersey  \n[https://www.facebook.com/events/bell-works/new-jersey-seafood-music-festival/1960591411460380/](https://www.facebook.com/events/bell-works/new-jersey-seafood-music-festival/1960591411460380/)Admission: $5; children under age 5, free\n\n**Secaucus Diwali Mela**  \nSaturday, October 18, noon-6:00 (postponed from October 12)  \nBuchmuller Park, 150 Plaza Center, Secaucus, New Jersey  \n[https://www.instagram.com/p/DPmeN-qDijd/](https://www.instagram.com/p/DPmeN-qDijd/)Free admission\n\n**Fall Market & Halal Food Fest**  \nSaturday, October 18, 1:00-7:00  \nNansen Lodge, 3465 Victory Blvd. (Graham-Travis Aves.), Travis, Staten Island  \n[https://www.instagram.com/p/DNyC8zz3PYe/](https://www.instagram.com/p/DNyC8zz3PYe/)Admission: adults, $5; children ages 3 to 12, $3\n\n**Queens Night Market**  \nSaturday, October 18, 4:00-midnight; continues weekly through October 25  \nNear the New York Hall of Science, 4701 111th St. (inside Flushing Meadows Corona Park), Corona, Queens  \n[http://queensnightmarket.com/](http://queensnightmarket.com/)Previously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&view\\_all=1&text=%22queens+night+market%22](https://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&view_all=1&text=%22queens+night+market%22)Free admission\n\n**Season finale: Indonesian bazaar at Masjid al-Hikmah**  \nSunday, October 19, 10:00-5:00  \n4801 31st Ave. (at 48th St.), Astoria, Queens  \n[https://www.instagram.com/p/DPuGTfaEdoC/](https://www.instagram.com/p/DPuGTfaEdoC/)  \nPreviously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&text=hikmah&view\\_all=1](https://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&text=hikmah&view_all=1)Free admission\n\n**Little Manila Festival**  \nSunday, October 19, 10:00-6:00; repeats October 26  \nLittle Manila, Roosevelt Ave. between 69th and 70th Sts., Woodside, Queens  \n[https://www.facebook.com/photo?fbid=10229056311769345&set=gm.24776203928704099&idorvanity=2999775473440258](https://www.facebook.com/photo?fbid=10229056311769345&set=gm.24776203928704099&idorvanity=2999775473440258)Previously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&text=%22little%20manila%22](https://www.flickr.com/search/?user_id=61177627%40N00&text=%22little%20manila%22)Free admission\n\n**Grand Bazaar NYC**  \nSunday, October 19, 10:00-5:00; repeats weekly  \n100 West 77th St. (at Columbus Ave.), Manhattan  \n[https://grandbazaarnyc.org](https://grandbazaarnyc.org)Previously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&view\\_all=1&text=%22grand+bazaar%22](https://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&view_all=1&text=%22grand+bazaar%22)Free admission\n\n**JapanFes**  \nSunday, October 19, 10:00-6:00; repeats weekly, more or less, through early December  \nAmsterdam Ave. between 78th and 79th Sts. (likely one block of a longer street festival), Manhattan  \n[https://www.japanfes.com/new-blog/2025/oct-19th-uws](https://www.japanfes.com/new-blog/2025/oct-19th-uws)   \nPreviously: [https://www.Flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&view\\_all=1&text=japanfes](http://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&view_all=1&text=japanfes)  \nFree admission\n\n**Plaza Cuahtémoc**  \nSunday, October 19, 11:00-9:00; repeats weekly  \n[https://www.instagram.com/plaza.cuauhtemoc/](https://www.instagram.com/plaza.cuauhtemoc/)  \nFree admission\n\n**Jackson Heights Diwali Mela**  \nSunday, October 19, in past years noon-6:00 (postponed from October 12)  \n74th St. between 37th Rd. and 37th Ave., Jackson Heights, Queens  \n[https://www.flickr.com/photos/eatingintranslation/54841937785/lightbox/](https://www.flickr.com/photos/eatingintranslation/54841937785/lightbox/)Previously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&text=diwali%20jackson&view\\_all=1](https://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&text=diwali%20jackson&view_all=1)Free admission\n\n**K-Fest JC 2025**  \nSunday, October 19, noon-3:30  \nCity Hall Plaza, 280 Grove St. (Mercer-Montgomery Sts.), Jersey City  \n[https://www.instagram.com/p/DPeo9uuDfcY/](https://www.instagram.com/p/DPeo9uuDfcY/)Free admission\n\n**Planted Culture Market**  \nTuesday, October 21, 4:00-9:00  \nWashington Square Park, at the corner of Waverly Pl. and MacDougal St., Manhattan  \n[https://www.instagram.com/p/DPZJ8pgDpge](https://www.instagram.com/p/DPZJ8pgDpge)/  \nFree admission\n\n**Bowl of 'Zole**  \nThursday, October 23, 6:00-9:00  \nIndustry City's 5 2 A venue, 33 35th St. (Second-Third Aves.), Greenwood, Brooklyn  \n[https://www.eventbrite.com/e/bowl-of-zoletm-brooklyn-2025-tickets-1373325907759](https://www.eventbrite.com/e/bowl-of-zoletm-brooklyn-2025-tickets-1373325907759)Previously: [https://www.flickr.com/search/?user\\_id=61177627%40N00&sort=date-taken-desc&text=%22bowl+of+%27zole%22&view\\_all=1](https://www.flickr.com/search/?user_id=61177627%40N00&sort=date-taken-desc&text=%22bowl+of+%27zole%22&view_all=1)Tickets: $59.78, or $81.06 for hour-earlier VIP entry; ages 21 and over only; all Bowl of 'Zole chefs will prepare extra pozole for City Harvest: [https://www.cityharvest.org/](https://www.cityharvest.org/)",
+    "title": "New York-area food events, October 16-23"
+   },
+   "item_id": "P0286"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "neutral",
+       "value": null,
+       "wait": "negative"
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "lamb",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "biryani",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 5,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Bungalow",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "booking",
+        "text": "reservations open at a specific time, which Resy shows"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "neutral",
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "neutral",
+       "value": null,
+       "wait": "negative"
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "lamb",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "biryani",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Bungalow",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "booking timing",
+        "text": "You have to book at a specific time, when Resy says they open slots."
+       },
+       {
+        "about": "popular dishes",
+        "text": "Commenter skipped the more popular dishes and ordered lamb and biryani."
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian",
+       "upscale",
+       "reservations"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_o65rrko",
+   "context": {
+    "ancestors": [],
+    "author": "truth_bespoken",
+    "body": "Bungalow. There's a specific time you're supposed to book..resy mentions when they open their slots.\n\nWe went very recently. Didn't order the more popular dishes but lamb and biryani. Biryani was underwhelming but the lamb was amazing",
+    "replies": [
+     {
+      "author": "[deleted]",
+      "body": "[deleted]"
+     },
+     {
+      "author": "truth_bespoken",
+      "body": "I liked the lamb starter so just a recommendation if someone goes"
+     }
+    ],
+    "selftext": "Visiting mid march and trying to plan :)",
+    "title": "What upscale indian restaurant is easiest to get a reservation for?"
+   },
+   "item_id": "P0287"
+  },
+  {
+   "answers": {
+    "A": [],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": "negative"
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 13,
+      "kind": "truck_or_cart",
+      "location": null,
+      "name": "Adel's",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "wait",
+        "text": "2 AM Wednesday, line was packed during holiday season"
+       }
+      ],
+      "opinion": "stated",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "halal",
+       "street food"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_keas1lo",
+   "context": {
+    "ancestors": [
+     {
+      "author": "ThePathOfTheRighteou",
+      "body": "Yes, much better. Adel’s is what the Halal Guys used to be. The only problem with Adels is the long wait."
+     },
+     {
+      "author": "bsigmon1",
+      "body": "How long?"
+     },
+     {
+      "author": "tell-me-your-wish",
+      "body": "I went at 3 AM last night and waited 45 minutes. Definitely *not* worth the wait"
+     }
+    ],
+    "author": "some1saveusnow",
+    "body": "Just rolled by at 2AM on a wed night (thur morning) and the line was banged. Yes xmas season but damnnn",
+    "replies": [],
+    "selftext": "We got Halal Guys here in Toronto 4 years ago. I remember it like it was yesterday, halal guys took a nose dive in quality since the pandemic. I'm planning on travelling to NYC just to eat Adel's, is there anything better than Adel's that has a similar street shawarma taste to halal guys? Or is Adel's the goat?",
+    "title": "Is Adel's Famous Halal Food really better than Halal Guys?"
+   },
+   "item_id": "P0288"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "gorgonzola pear pizza",
+        "level": "negative"
+       },
+       {
+        "avoid": false,
+        "dish": "the rest",
+        "level": null
+       }
+      ],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mama's Too",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "neutral",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "Gorgonzola pear slice",
+        "level": "negative"
+       },
+       {
+        "avoid": false,
+        "dish": "slices",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mama's Too",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza",
+       "slice shop"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_p6aylfm",
+   "context": {
+    "ancestors": [],
+    "author": "d3lk33",
+    "body": "Gorgonzola pear was meh. The rest tho....heaven!",
+    "replies": [],
+    "selftext": "",
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!"
+   },
+   "item_id": "P0289"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 8,
+      "kind": "restaurant",
+      "location": "East Elmhurst",
+      "name": "Taste",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": []
+   },
+   "comment_id": "t1_oon6ugv",
+   "context": {
+    "ancestors": [],
+    "author": "HuckleberryPale1469",
+    "body": "Taste good in east elmhurst (I know this is queens but it’s so good) ",
+    "replies": [],
+    "selftext": "Looking for this specific Indonesian dish, but also welcome Indonesian recs in general! ",
+    "title": "Where can we get mie gorang? Preferably in Brooklyn."
+   },
+   "item_id": "P0290"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "market sides",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Westville",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "oily food",
+        "text": "Food is really on the oily side, not healthy in general"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "healthy",
+       "market sides"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "neutral",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "market sides",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 7,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Westville",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "oiliness",
+        "text": "food is on the oily side; menu not healthy in general"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "healthy"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_o256pyx",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Sirnando138",
+      "body": "Westville is good for healthy and filling meals to help LOSE weight"
+     }
+    ],
+    "author": "pstut",
+    "body": "Eh, I like westville and order from them quite a bit, but seems like their food is really on the oily side. I love trying all their market sides but I don't think in general I would call their menu healthy.",
+    "replies": [
+     {
+      "author": "AdministrationOk3820",
+      "body": "I agree. The quality of the food is like suburban diners in the 1990’s"
+     }
+    ],
+    "selftext": "I am trying to loose weight but since I have long working hours I am unable to cook. I usually order lunch on the weekdays. \n\nLooking to find tasty filling veg food under 500 calories. Send reccs pls. \n\nI have tried oases but their tofu is fried and usually order sweet greens. ",
+    "title": "Weightloss veg orders in NYC"
+   },
+   "item_id": "P0291"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": true,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 6,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Casa Mono",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "shellfish",
+        "text": "standout dishes are shellfish-based"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 6,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Golden Swan",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 6,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Gramercy Tavern",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 6,
+      "kind": "restaurant",
+      "location": null,
+      "name": "ci Simao",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": true,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Casa Mono",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "shellfish dishes",
+        "text": "standout dishes are shellfish-based, a problem for a pescatarian diner"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "tapas"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Golden Swan",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Gramercy Tavern",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "ci Simao",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_o1xbybo",
+   "context": {
+    "ancestors": [],
+    "author": "frogtownrd",
+    "body": "skip casa mono, I love tapas but I was not a big fan and their standout dishes are shellfish based. I liked golden swan, but I’d also try for gramercy tavern or ci Simao.",
+    "replies": [
+     {
+      "author": "swh74",
+      "body": "Strongly agree with not casa mono"
+     },
+     {
+      "author": "amyheming",
+      "body": "I agree! I don't get the big whoop about Casa Mono. It was good but not a standout."
+     }
+    ],
+    "selftext": "Hello everyone, I am looking to book a reservation at one of the restaurants apart of the Open Table Chase Sapphire Reserve program for Valentine’s Day. I am pescatarian (no meat or shellfish) and my boyfriend can eat anything. Some of the restaurants I have an eye on include:\n\n\\- Golden Swan\n\n\\- Estela\n\n\\- Phoenix Palace\n\n\\- Casa Mono\n\n\\- Kabawa \n\n\\- Moody Tongue\n\n\\- Brass\n\n\\- Sailor\n\n\\- Ci Siamo\n\n\\- Gramercy Tavern\n\nDoes anybody know anything about these restaurants?",
+    "title": "Chase Sapphire Reserve Restaurants for Valentine’s Day"
+   },
+   "item_id": "P0292"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": "positive",
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "grilled oysters",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "squid and scallion skewers",
+        "level": null
+       },
+       {
+        "avoid": false,
+        "dish": "crispy polenta with leeks and mackerel",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "citrus salad with peekytoe crab and sea beans",
+        "level": null
+       },
+       {
+        "avoid": false,
+        "dish": "fish and chips",
+        "level": "neutral"
+       },
+       {
+        "avoid": false,
+        "dish": "sticky toffee pudding",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Dame",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "fish and chips",
+        "text": "breading on the fried outside is pretty unique, but the rest didn't match the hype"
+       },
+       {
+        "about": "Friday wine",
+        "text": "on Friday nights they open one expensive wine bottle and serve it by the glass for staff education, which is normally not possible"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": "positive",
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "grilled oysters",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "squid and scallion skewers",
+        "level": null
+       },
+       {
+        "avoid": false,
+        "dish": "crispy polenta with leeks",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "mackerel",
+        "level": null
+       },
+       {
+        "avoid": false,
+        "dish": "citrus salad with peekytoe crab and sea beans",
+        "level": null
+       },
+       {
+        "avoid": false,
+        "dish": "fish and chips",
+        "level": "neutral"
+       },
+       {
+        "avoid": false,
+        "dish": "sticky toffee pudding",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Dame",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "Friday wine",
+        "text": "On Friday nights they open one expensive bottle and serve it by the glass to train staff"
+       },
+       {
+        "about": "seating",
+        "text": "two guests sat at the bar"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "neutral",
+      "price": null,
+      "status": null,
+      "tags": [
+       "seafood",
+       "bar seating"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ohnbobe",
+   "context": {
+    "ancestors": [],
+    "author": "HaLoGuY007",
+    "body": "When I went we had the grilled oysters, squid and scallion skewers, crispy polenta with leeks and mackerel, citrus salad with peekytoe crab and sea beans, fish and chips, and sticky toffee pudding.\n\nFavorites were grilled oysters, crispy polenta, and sticky toffee pudding. \n\nThe breading/fried outside on the fish and chips is pretty unique, but otherwise I did not understand the hype.\n\nTwo of us sat and the bar and chatted a bit with the couple next to us, one of whom was very drunk, amazing vibes.\n\n--\n\nOne thing I'd flag that I haven't seen elsewhere - on Friday nights, they do staff education by opening up one expensive wine bottle and serving it by the glass, which is normally not possible. I tried a taste, but if I was a big wine person I would definitely take advantage of that.",
+    "replies": [],
+    "selftext": "Slid into a counter seat last night at Dame for an excellent meal.  Been eating across the city for a couple years via work, and this spot is now amongst my favorites  \n\nOpened with some delicious sourdough and what seemed like house-made butter plus anchovies.  Great start.  \n\nHad a couple of their chartreuse oysters - they are as good as everyone says they are.  \n\nHiramasa with mint, pea puree, snap peas, greens and some sort of herby/shallot pesto-ish sauce.  Also extremely good. \n\nRamps w peas, fresh cheese, and smoked trout roe.  This was outstanding.  The sauce for it was just the whey from the cheese they make, mixed with olive oil from above.  Salty roe provided texture and pop.  One of my favorite dishes I've had in ny.  \n\nSteamed Black bass w Greens(Brassicas) and Artichoke hearts.  Lovely and light.  Everything perfectly cooked and seasoned.  Great little plate. \n\nLemon Posset (custard) w rhubarb and earl grey meringue - absolutely outstanding. currently fave dessert in the city.   \n\nService was good/attentive.  Casual atmosphere/not stuffy - I believe one of the owners was there expediting.  I loved sitting at the counter watching the two guys calmly crank out perfect plates.  \n\nWill certainly need to go back and try fish n chips, tuna toast (looked excellent) and the squid skewers.  They also had shrimp stuffed morels which looked awesome.   But if you're there, get the Ramps and the Posset",
+    "title": "Dame - That was great."
+   },
+   "item_id": "P0293"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Dame",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "joke",
+        "text": "Commenter jokes about eliminating Dame, a British restaurant, as the answer to the post's question; no verdict on the place."
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "british"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 5,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Dame",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "elimination pick",
+        "text": "Named as the place they would sacrifice in a cuisine-elimination thread, as a joke about British food."
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "british"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_lg2ga9s",
+   "context": {
+    "ancestors": [],
+    "author": "CatPillar",
+    "body": "if british food isn’t cheating then i am willing to sacrifice dame",
+    "replies": [
+     {
+      "author": "Ricemap",
+      "body": "There's only a handful of British places, I vote for Chinese takeout.  We have more authentic Chinese to take its place anyway"
+     }
+    ],
+    "selftext": "",
+    "title": "If you had to eliminate one internationally known cusine from the face of NYC, what would you choose?"
+   },
+   "item_id": "P0294"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "neutral",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "sandwiches",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "slices",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mama's Too",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "comparison",
+        "text": "sandwiches rated above slices"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "slices",
+       "sandwiches"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "neutral",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "sandwiches",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "slices",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 12,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mama's Too",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "neutral",
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza",
+       "sandwiches"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_p65u95m",
+   "context": {
+    "ancestors": [],
+    "author": "Garconavecunreve",
+    "body": "Their sandwiches > their slices",
+    "replies": [],
+    "selftext": "",
+    "title": "Mama’s Too in NYC has some of my favorite slices ever!!"
+   },
+   "item_id": "P0295"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "hot dogs",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "Chicago hot Italian beef sandwich",
+        "level": "very_positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Dog Day Afternoon",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "hot dogs",
+       "italian beef"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "hot dogs",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "Chicago hot Italian beef sandwich",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 4,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Dog Day Afternoon",
+      "named_in": "context",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "chicago dog",
+       "italian beef"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_kv70vwu",
+   "context": {
+    "ancestors": [],
+    "author": "Gato1980",
+    "body": "I love this place. The hot dogs are great, but they make a Chicago hot Italian beef sandwich that is amazing. Highly recommend it.",
+    "replies": [],
+    "selftext": "",
+    "title": "Chicago Dogs and Fries at Dog Day Afternoon"
+   },
+   "item_id": "P0296"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "truck_or_cart",
+      "location": "E 225th St and White Plains Road, Bronx",
+      "name": "Best Halal food truck",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "visit history",
+        "text": "commenter has gone to the truck religiously for over 7 years"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "halal"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 1,
+      "kind": "truck_or_cart",
+      "location": "E 225th St and White Plains Rd, Bronx",
+      "name": "Halal food truck at E 225th St and White Plains Rd",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "regular",
+        "text": "going to this truck religiously for over 7 years"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "halal",
+       "food truck"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_nsp8yka",
+   "context": {
+    "ancestors": [],
+    "author": "Sharp_Athlete_6847",
+    "body": "Best Halal food truck is right outside on E 225th st Bronx, white plains road. I‘ve been going to that truck religiously for over 7 years",
+    "replies": [
+     {
+      "author": "lolofraggle",
+      "body": "Anything notable about this one? Or just a reliable spot?"
+     }
+    ],
+    "selftext": "Kinda over these influencers providing shit recommendations. Don’t even know where to get actual reccs now🥲\n\nThank you!!",
+    "title": "What’s your favorite “hole in the wall” that you swear is deserves more hype?"
+   },
+   "item_id": "P0297"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "drunken noodles",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "Massaman curry",
+        "level": "positive"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 2,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Saranrom Thai",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "ordering",
+        "text": "ordered in"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "thai"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "positive",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "drunken noodles",
+        "level": "positive"
+       },
+       {
+        "avoid": false,
+        "dish": "Massaman curry",
+        "level": "very_positive"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Saranrom Thai",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "ordering",
+        "text": "ordered in (delivery or takeout)"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "thai",
+       "delivery"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_neaox4i",
+   "context": {
+    "ancestors": [
+     {
+      "author": "LadyDirtyMartini",
+      "body": "Saranrom Thai is so freaking good holy shite"
+     }
+    ],
+    "author": "Rusiano",
+    "body": "We ordered in drunken noodles and Massaman curry. It was so good. The Massaman curry specifically had an amazing flavor twist at the end, it was like Mariano Rivera’s cutter",
+    "replies": [
+     {
+      "author": "trey1928",
+      "body": "Headass 😂"
+     }
+    ],
+    "selftext": "I went to eat at a top-notch Thai place in Manhattan. One of the restaurants that is often mentioned on here and has great reviews. The food was good but quite expensive. Also while the food was good, I feel like an average Thai place in Elmhurst blows it away in terms of flavor. Restaurants like Chao Thai, Ayada, Saranrom, Khao Kang, Playground, SriPraPhai are on the next level. And I don't think anything in Manhattan can match them despite the much higher prices\n\nSo if you have an extra hour to spare, I'd definitely recommend making the trek out to Elmhurst for Thai food",
+    "title": "Queens Thai food destroys Manhattan"
+   },
+   "item_id": "P0298"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cutlet sandwich",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": null,
+      "name": "Faiccos",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "temperature",
+        "text": "sandwich is too cold"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "cutlet sandwich"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "cutlet sandwich",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "kind": "deli",
+      "location": null,
+      "name": "Parisi",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "breading",
+        "text": "not enough breading"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "cutlet sandwich"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Parm",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "thickness",
+        "text": "parm too thick"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "parm sandwich"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Caponne",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "cutlet sandwich"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mamas too",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "popularity",
+        "text": "looks overly popular, so commenter guesses quality is poor; not tried"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Emilios Ballato",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "sit-down parm",
+        "text": "named as a sit-down parm option that is pricey, more than $20"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "sit-down",
+       "parm"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Arthur and sons",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "sit-down parm",
+        "text": "named as a sit-down parm option that is pricey, more than $20"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "sit-down",
+       "parm"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [
+       {
+        "avoid": false,
+        "dish": "chicken cutlet sandwich",
+        "level": "negative"
+       }
+      ],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "deli",
+      "location": null,
+      "name": "Faiccos",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "temperature",
+        "text": "too cold"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "sandwiches"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Parisi",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "breading",
+        "text": "not enough breading"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "chicken parm"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Parm",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "coating",
+        "text": "parm coating too thick"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "chicken parm"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "id": 9,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Mama's Too",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "crowds",
+        "text": "looks overly popular; judged from the look of the place, not tried"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "pizza"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Caponne",
+      "named_in": "comment",
+      "notes": [],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [
+       "chicken parm"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "restaurant",
+      "location": null,
+      "name": "emilios ballato",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "price",
+        "text": "sit-down option, pricey, more than $20"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "sit-down",
+       "parm"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 9,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Arthur and sons",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "price",
+        "text": "sit-down option, pricey, more than $20"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "sit-down",
+       "parm"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_p0hwhxl",
+   "context": {
+    "ancestors": [
+     {
+      "author": "dummonger",
+      "body": "Looks great and great pics! Next time walk a couple blocks from mamas and try faiccos for a chicken cutlet sando!"
+     },
+     {
+      "author": "Interesting-Shop4638",
+      "body": "I know I'm 3 days late, but I want to +1 this. I'm a pretty big cutlet sandwich hater because usually it's just old, microwaved chicken on bread, but the way Faicco's makes an almost pesto out of the broccoli rabe is so good"
+     }
+    ],
+    "author": "why_squ1rtle",
+    "body": "Idk their cutlet sandwich is so disappointing to me. But to be fair most Manhattan to go cutlet spots r mid so really what option is there. Faiccos is too cold. Parisi not enough breading. Parm too thick. Mamas too looks overly popular so that means the quality is probably shite. Caponne meh. The only real options for a parm is a sit down which is ridiculous cuz u know it’s gonna be pricey aka more than 20 bucks. Like emilios ballato or Arthur and sons. Maybe im too picky ",
+    "replies": [],
+    "selftext": "Had no plans on this beautiful Saturday, so treated myself to a very large lunch 😅 \n\nMama’s Too in WV - house slice, bruschetta, and vodka chicken sandwich. Arrived around 12:30 and in total, it was 20-30 minutes from stepping in line to getting my food. It would have been faster, but they were waiting for a new house pie to be put out. I must say, it was worth the short wait. The bruschetta was my favorite of the three. \n\nRed Gate Bakery in EV - choco toffee cookie. One of my favorite chocolate chip cookies in the city. Waited in line about 15 min total, so not bad. I wanted the corn cake, but apparently they sold out within the first hour of the day so I was no where near close to achieving that goal. \n\nNot pictured - the juice I got after my morning run, and the ice cream I got at the end of the day 😋\n\nOverall a strong day of eats. 10/10. I love a solo day of walking around and eating ",
+    "title": "Solid day of eats @ Mama’s Too & Red Gate Bakery 🍕 🍪"
+   },
+   "item_id": "P0299"
+  },
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": "Bedford",
+      "name": "Sweet Chick",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "Bedford visit",
+        "text": "Last visit the order came out undercooked; hasn't been back since"
+       },
+       {
+        "about": "Branch status",
+        "text": "Only the Bedford branch is mentioned; the LES branch closing is in the post"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "past",
+      "trend": "declined"
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": "negative",
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 5,
+      "kind": "restaurant",
+      "location": "Bedford",
+      "name": "Sweet Chick",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "last visit",
+        "text": "order came out undercooked; hasn't been back since; remembers it fondly in its heyday"
+       }
+      ],
+      "opinion": "stated",
+      "overall": "negative",
+      "price": null,
+      "status": null,
+      "tags": [],
+      "timeframe": "current",
+      "trend": "declined"
+     }
+    ]
+   },
+   "comment_id": "t1_p43wt6b",
+   "context": {
+    "ancestors": [],
+    "author": "thechangbang",
+    "body": "Damn last time I went to the Bedford Sweet Chick my order came out undercooked and haven't been back but in their hayday it was such a nice treat ",
+    "replies": [],
+    "selftext": "Sweet Chick (LES) closing after today ",
+    "title": "One more before they close the door for good from the neighborhood"
+   },
+   "item_id": "P0300"
+  }
+ ],
+ "packet": "a012"
+}

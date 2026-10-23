@@ -1,0 +1,1796 @@
+{
+ "items": [
+  {
+   "bracket": 1,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:1bec75655220",
+   "comment_id": "t1_oxam3fw",
+   "context": {
+    "ancestors": [],
+    "author": "anonmarmot17",
+    "body": "Qanoon and ilili and another vote for Ayat/tanoreen/al badawi",
+    "replies": [
+     {
+      "author": "26point2miles",
+      "body": "Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok."
+     }
+    ],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0083",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\n[1] u/anonmarmot17: Qanoon and ilili and another vote for Ayat/tanoreen/al badawi\n  [2] u/26point2miles (reply to [1]): Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.\n    [3] u/anonmarmot17 (reply to [2]): That’s sad to hear I haven’t been in a while since I moved out of the area\n[4] u/primagallerina: I think about the knafeh from tanoreen every single day.\n  [5] u/Internal_Setting_738 (reply to [4]): I think i will start doing this as well. Seems like a good way to pass the time.\n[6] u/laflurz: Barbounia, Shuka, Shukette, Shmone\n[7] u/Asleep_Owl_6893: I’m plant based so my favorite is Anixi on 8th Ave.\n[8] u/Perfect_Highlight581: Ilili is consistently good and is upscale.\n  [9] u/Perfect_Highlight581 (reply to [8]): Another good one is Zaytinya. Although I like ilili better.\n    [10] u/wanderlust_escapist (reply to [9]): Adding Mama Mezze to third place on this list.\n  [11] u/luncheroni (reply to [8]): Those brussels sprouts 🤤\n[12] u/GraveDiggerSedan: Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!\n[13] u/dummonger: \\- Mustache Pitza \\- Zaytoons \\- Omar’s \\- Illili",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Qanoon",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "restaurant",
+     "location": null,
+     "name": "ilili",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Ayat",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "restaurant",
+     "location": null,
+     "name": "tanoreen",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "restaurant",
+     "location": null,
+     "name": "al badawi",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 2,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:1bec75655220",
+   "comment_id": "t1_oxd4db5",
+   "context": {
+    "ancestors": [
+     {
+      "author": "anonmarmot17",
+      "body": "Qanoon and ilili and another vote for Ayat/tanoreen/al badawi"
+     }
+    ],
+    "author": "26point2miles",
+    "body": "Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.",
+    "replies": [
+     {
+      "author": "anonmarmot17",
+      "body": "That’s sad to hear I haven’t been in a while since I moved out of the area"
+     }
+    ],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0084",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\n[1] u/anonmarmot17: Qanoon and ilili and another vote for Ayat/tanoreen/al badawi\n  [2] u/26point2miles (reply to [1]): Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.\n    [3] u/anonmarmot17 (reply to [2]): That’s sad to hear I haven’t been in a while since I moved out of the area\n[4] u/primagallerina: I think about the knafeh from tanoreen every single day.\n  [5] u/Internal_Setting_738 (reply to [4]): I think i will start doing this as well. Seems like a good way to pass the time.\n[6] u/laflurz: Barbounia, Shuka, Shukette, Shmone\n[7] u/Asleep_Owl_6893: I’m plant based so my favorite is Anixi on 8th Ave.\n[8] u/Perfect_Highlight581: Ilili is consistently good and is upscale.\n  [9] u/Perfect_Highlight581 (reply to [8]): Another good one is Zaytinya. Although I like ilili better.\n    [10] u/wanderlust_escapist (reply to [9]): Adding Mama Mezze to third place on this list.\n  [11] u/luncheroni (reply to [8]): Those brussels sprouts 🤤\n[12] u/GraveDiggerSedan: Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!\n[13] u/dummonger: \\- Mustache Pitza \\- Zaytoons \\- Omar’s \\- Illili",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "negative",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 2,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Qanoon",
+     "named_in": "context",
+     "notes": [
+      {
+       "about": "menu",
+       "text": "menu felt thin"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "negative",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 3,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:1bec75655220",
+   "comment_id": "t1_oxdcloq",
+   "context": {
+    "ancestors": [
+     {
+      "author": "anonmarmot17",
+      "body": "Qanoon and ilili and another vote for Ayat/tanoreen/al badawi"
+     },
+     {
+      "author": "26point2miles",
+      "body": "Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok."
+     }
+    ],
+    "author": "anonmarmot17",
+    "body": "That’s sad to hear I haven’t been in a while since I moved out of the area",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0085",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\n[1] u/anonmarmot17: Qanoon and ilili and another vote for Ayat/tanoreen/al badawi\n  [2] u/26point2miles (reply to [1]): Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.\n    [3] u/anonmarmot17 (reply to [2]): That’s sad to hear I haven’t been in a while since I moved out of the area\n[4] u/primagallerina: I think about the knafeh from tanoreen every single day.\n  [5] u/Internal_Setting_738 (reply to [4]): I think i will start doing this as well. Seems like a good way to pass the time.\n[6] u/laflurz: Barbounia, Shuka, Shukette, Shmone\n[7] u/Asleep_Owl_6893: I’m plant based so my favorite is Anixi on 8th Ave.\n[8] u/Perfect_Highlight581: Ilili is consistently good and is upscale.\n  [9] u/Perfect_Highlight581 (reply to [8]): Another good one is Zaytinya. Although I like ilili better.\n    [10] u/wanderlust_escapist (reply to [9]): Adding Mama Mezze to third place on this list.\n  [11] u/luncheroni (reply to [8]): Those brussels sprouts 🤤\n[12] u/GraveDiggerSedan: Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!\n[13] u/dummonger: \\- Mustache Pitza \\- Zaytoons \\- Omar’s \\- Illili",
+   "shown": []
+  },
+  {
+   "bracket": 4,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:1bec75655220",
+   "comment_id": "t1_oxawqi0",
+   "context": {
+    "ancestors": [],
+    "author": "primagallerina",
+    "body": "I think about the knafeh from tanoreen every single day. ",
+    "replies": [
+     {
+      "author": "Internal_Setting_738",
+      "body": "I think i will start doing this as well. Seems like a good way to pass the time. "
+     }
+    ],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0086",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\n[1] u/anonmarmot17: Qanoon and ilili and another vote for Ayat/tanoreen/al badawi\n  [2] u/26point2miles (reply to [1]): Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.\n    [3] u/anonmarmot17 (reply to [2]): That’s sad to hear I haven’t been in a while since I moved out of the area\n[4] u/primagallerina: I think about the knafeh from tanoreen every single day.\n  [5] u/Internal_Setting_738 (reply to [4]): I think i will start doing this as well. Seems like a good way to pass the time.\n[6] u/laflurz: Barbounia, Shuka, Shukette, Shmone\n[7] u/Asleep_Owl_6893: I’m plant based so my favorite is Anixi on 8th Ave.\n[8] u/Perfect_Highlight581: Ilili is consistently good and is upscale.\n  [9] u/Perfect_Highlight581 (reply to [8]): Another good one is Zaytinya. Although I like ilili better.\n    [10] u/wanderlust_escapist (reply to [9]): Adding Mama Mezze to third place on this list.\n  [11] u/luncheroni (reply to [8]): Those brussels sprouts 🤤\n[12] u/GraveDiggerSedan: Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!\n[13] u/dummonger: \\- Mustache Pitza \\- Zaytoons \\- Omar’s \\- Illili",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "knafeh",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 4,
+     "kind": "restaurant",
+     "location": null,
+     "name": "tanoreen",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 5,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:1bec75655220",
+   "comment_id": "t1_oxhreyt",
+   "context": {
+    "ancestors": [
+     {
+      "author": "primagallerina",
+      "body": "I think about the knafeh from tanoreen every single day. "
+     }
+    ],
+    "author": "Internal_Setting_738",
+    "body": "I think i will start doing this as well. Seems like a good way to pass the time. ",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0087",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\n[1] u/anonmarmot17: Qanoon and ilili and another vote for Ayat/tanoreen/al badawi\n  [2] u/26point2miles (reply to [1]): Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.\n    [3] u/anonmarmot17 (reply to [2]): That’s sad to hear I haven’t been in a while since I moved out of the area\n[4] u/primagallerina: I think about the knafeh from tanoreen every single day.\n  [5] u/Internal_Setting_738 (reply to [4]): I think i will start doing this as well. Seems like a good way to pass the time.\n[6] u/laflurz: Barbounia, Shuka, Shukette, Shmone\n[7] u/Asleep_Owl_6893: I’m plant based so my favorite is Anixi on 8th Ave.\n[8] u/Perfect_Highlight581: Ilili is consistently good and is upscale.\n  [9] u/Perfect_Highlight581 (reply to [8]): Another good one is Zaytinya. Although I like ilili better.\n    [10] u/wanderlust_escapist (reply to [9]): Adding Mama Mezze to third place on this list.\n  [11] u/luncheroni (reply to [8]): Those brussels sprouts 🤤\n[12] u/GraveDiggerSedan: Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!\n[13] u/dummonger: \\- Mustache Pitza \\- Zaytoons \\- Omar’s \\- Illili",
+   "shown": []
+  },
+  {
+   "bracket": 6,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:1bec75655220",
+   "comment_id": "t1_oxay75q",
+   "context": {
+    "ancestors": [],
+    "author": "laflurz",
+    "body": "Barbounia, Shuka, Shukette, Shmone",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0088",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\n[1] u/anonmarmot17: Qanoon and ilili and another vote for Ayat/tanoreen/al badawi\n  [2] u/26point2miles (reply to [1]): Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.\n    [3] u/anonmarmot17 (reply to [2]): That’s sad to hear I haven’t been in a while since I moved out of the area\n[4] u/primagallerina: I think about the knafeh from tanoreen every single day.\n  [5] u/Internal_Setting_738 (reply to [4]): I think i will start doing this as well. Seems like a good way to pass the time.\n[6] u/laflurz: Barbounia, Shuka, Shukette, Shmone\n[7] u/Asleep_Owl_6893: I’m plant based so my favorite is Anixi on 8th Ave.\n[8] u/Perfect_Highlight581: Ilili is consistently good and is upscale.\n  [9] u/Perfect_Highlight581 (reply to [8]): Another good one is Zaytinya. Although I like ilili better.\n    [10] u/wanderlust_escapist (reply to [9]): Adding Mama Mezze to third place on this list.\n  [11] u/luncheroni (reply to [8]): Those brussels sprouts 🤤\n[12] u/GraveDiggerSedan: Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!\n[13] u/dummonger: \\- Mustache Pitza \\- Zaytoons \\- Omar’s \\- Illili",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 6,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Barbounia",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 6,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Shuka",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 6,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Shukette",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 6,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Shmone",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 7,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:1bec75655220",
+   "comment_id": "t1_oxay7oz",
+   "context": {
+    "ancestors": [],
+    "author": "Asleep_Owl_6893",
+    "body": "I’m plant based so my favorite is Anixi on 8th Ave. ",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0089",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\n[1] u/anonmarmot17: Qanoon and ilili and another vote for Ayat/tanoreen/al badawi\n  [2] u/26point2miles (reply to [1]): Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.\n    [3] u/anonmarmot17 (reply to [2]): That’s sad to hear I haven’t been in a while since I moved out of the area\n[4] u/primagallerina: I think about the knafeh from tanoreen every single day.\n  [5] u/Internal_Setting_738 (reply to [4]): I think i will start doing this as well. Seems like a good way to pass the time.\n[6] u/laflurz: Barbounia, Shuka, Shukette, Shmone\n[7] u/Asleep_Owl_6893: I’m plant based so my favorite is Anixi on 8th Ave.\n[8] u/Perfect_Highlight581: Ilili is consistently good and is upscale.\n  [9] u/Perfect_Highlight581 (reply to [8]): Another good one is Zaytinya. Although I like ilili better.\n    [10] u/wanderlust_escapist (reply to [9]): Adding Mama Mezze to third place on this list.\n  [11] u/luncheroni (reply to [8]): Those brussels sprouts 🤤\n[12] u/GraveDiggerSedan: Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!\n[13] u/dummonger: \\- Mustache Pitza \\- Zaytoons \\- Omar’s \\- Illili",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 7,
+     "kind": "restaurant",
+     "location": "8th Ave",
+     "name": "Anixi",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "plant based"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 8,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:1bec75655220",
+   "comment_id": "t1_oxayarv",
+   "context": {
+    "ancestors": [],
+    "author": "Perfect_Highlight581",
+    "body": "Ilili is consistently good and is upscale. ",
+    "replies": [
+     {
+      "author": "Perfect_Highlight581",
+      "body": "Another good one is Zaytinya. Although I like ilili better. "
+     },
+     {
+      "author": "luncheroni",
+      "body": "Those brussels sprouts 🤤"
+     }
+    ],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0090",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\n[1] u/anonmarmot17: Qanoon and ilili and another vote for Ayat/tanoreen/al badawi\n  [2] u/26point2miles (reply to [1]): Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.\n    [3] u/anonmarmot17 (reply to [2]): That’s sad to hear I haven’t been in a while since I moved out of the area\n[4] u/primagallerina: I think about the knafeh from tanoreen every single day.\n  [5] u/Internal_Setting_738 (reply to [4]): I think i will start doing this as well. Seems like a good way to pass the time.\n[6] u/laflurz: Barbounia, Shuka, Shukette, Shmone\n[7] u/Asleep_Owl_6893: I’m plant based so my favorite is Anixi on 8th Ave.\n[8] u/Perfect_Highlight581: Ilili is consistently good and is upscale.\n  [9] u/Perfect_Highlight581 (reply to [8]): Another good one is Zaytinya. Although I like ilili better.\n    [10] u/wanderlust_escapist (reply to [9]): Adding Mama Mezze to third place on this list.\n  [11] u/luncheroni (reply to [8]): Those brussels sprouts 🤤\n[12] u/GraveDiggerSedan: Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!\n[13] u/dummonger: \\- Mustache Pitza \\- Zaytoons \\- Omar’s \\- Illili",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": "positive",
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 8,
+     "kind": "restaurant",
+     "location": null,
+     "name": "ilili",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "upscale"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 9,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:1bec75655220",
+   "comment_id": "t1_oxb1010",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Perfect_Highlight581",
+      "body": "Ilili is consistently good and is upscale. "
+     }
+    ],
+    "author": "Perfect_Highlight581",
+    "body": "Another good one is Zaytinya. Although I like ilili better. ",
+    "replies": [
+     {
+      "author": "wanderlust_escapist",
+      "body": "Adding Mama Mezze to third place on this list. "
+     }
+    ],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0091",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\n[1] u/anonmarmot17: Qanoon and ilili and another vote for Ayat/tanoreen/al badawi\n  [2] u/26point2miles (reply to [1]): Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.\n    [3] u/anonmarmot17 (reply to [2]): That’s sad to hear I haven’t been in a while since I moved out of the area\n[4] u/primagallerina: I think about the knafeh from tanoreen every single day.\n  [5] u/Internal_Setting_738 (reply to [4]): I think i will start doing this as well. Seems like a good way to pass the time.\n[6] u/laflurz: Barbounia, Shuka, Shukette, Shmone\n[7] u/Asleep_Owl_6893: I’m plant based so my favorite is Anixi on 8th Ave.\n[8] u/Perfect_Highlight581: Ilili is consistently good and is upscale.\n  [9] u/Perfect_Highlight581 (reply to [8]): Another good one is Zaytinya. Although I like ilili better.\n    [10] u/wanderlust_escapist (reply to [9]): Adding Mama Mezze to third place on this list.\n  [11] u/luncheroni (reply to [8]): Those brussels sprouts 🤤\n[12] u/GraveDiggerSedan: Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!\n[13] u/dummonger: \\- Mustache Pitza \\- Zaytoons \\- Omar’s \\- Illili",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 9,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Zaytinya",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "ranking",
+       "text": "second to ilili for this commenter"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 9,
+     "kind": "restaurant",
+     "location": null,
+     "name": "ilili",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "ranking",
+       "text": "preferred over Zaytinya"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 10,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:1bec75655220",
+   "comment_id": "t1_oxcmlo8",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Perfect_Highlight581",
+      "body": "Ilili is consistently good and is upscale. "
+     },
+     {
+      "author": "Perfect_Highlight581",
+      "body": "Another good one is Zaytinya. Although I like ilili better. "
+     }
+    ],
+    "author": "wanderlust_escapist",
+    "body": "Adding Mama Mezze to third place on this list. ",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0092",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\n[1] u/anonmarmot17: Qanoon and ilili and another vote for Ayat/tanoreen/al badawi\n  [2] u/26point2miles (reply to [1]): Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.\n    [3] u/anonmarmot17 (reply to [2]): That’s sad to hear I haven’t been in a while since I moved out of the area\n[4] u/primagallerina: I think about the knafeh from tanoreen every single day.\n  [5] u/Internal_Setting_738 (reply to [4]): I think i will start doing this as well. Seems like a good way to pass the time.\n[6] u/laflurz: Barbounia, Shuka, Shukette, Shmone\n[7] u/Asleep_Owl_6893: I’m plant based so my favorite is Anixi on 8th Ave.\n[8] u/Perfect_Highlight581: Ilili is consistently good and is upscale.\n  [9] u/Perfect_Highlight581 (reply to [8]): Another good one is Zaytinya. Although I like ilili better.\n    [10] u/wanderlust_escapist (reply to [9]): Adding Mama Mezze to third place on this list.\n  [11] u/luncheroni (reply to [8]): Those brussels sprouts 🤤\n[12] u/GraveDiggerSedan: Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!\n[13] u/dummonger: \\- Mustache Pitza \\- Zaytoons \\- Omar’s \\- Illili",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 10,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Mama Mezze",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "ranking",
+       "text": "placed third on the list"
+      }
+     ],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 11,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:1bec75655220",
+   "comment_id": "t1_oxetb80",
+   "context": {
+    "ancestors": [
+     {
+      "author": "Perfect_Highlight581",
+      "body": "Ilili is consistently good and is upscale. "
+     }
+    ],
+    "author": "luncheroni",
+    "body": "Those brussels sprouts 🤤",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0093",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\n[1] u/anonmarmot17: Qanoon and ilili and another vote for Ayat/tanoreen/al badawi\n  [2] u/26point2miles (reply to [1]): Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.\n    [3] u/anonmarmot17 (reply to [2]): That’s sad to hear I haven’t been in a while since I moved out of the area\n[4] u/primagallerina: I think about the knafeh from tanoreen every single day.\n  [5] u/Internal_Setting_738 (reply to [4]): I think i will start doing this as well. Seems like a good way to pass the time.\n[6] u/laflurz: Barbounia, Shuka, Shukette, Shmone\n[7] u/Asleep_Owl_6893: I’m plant based so my favorite is Anixi on 8th Ave.\n[8] u/Perfect_Highlight581: Ilili is consistently good and is upscale.\n  [9] u/Perfect_Highlight581 (reply to [8]): Another good one is Zaytinya. Although I like ilili better.\n    [10] u/wanderlust_escapist (reply to [9]): Adding Mama Mezze to third place on this list.\n  [11] u/luncheroni (reply to [8]): Those brussels sprouts 🤤\n[12] u/GraveDiggerSedan: Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!\n[13] u/dummonger: \\- Mustache Pitza \\- Zaytoons \\- Omar’s \\- Illili",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "brussels sprouts",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 11,
+     "kind": "restaurant",
+     "location": null,
+     "name": "ilili",
+     "named_in": "context",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 12,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:1bec75655220",
+   "comment_id": "t1_oxb0hfx",
+   "context": {
+    "ancestors": [],
+    "author": "GraveDiggerSedan",
+    "body": "Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0094",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\n[1] u/anonmarmot17: Qanoon and ilili and another vote for Ayat/tanoreen/al badawi\n  [2] u/26point2miles (reply to [1]): Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.\n    [3] u/anonmarmot17 (reply to [2]): That’s sad to hear I haven’t been in a while since I moved out of the area\n[4] u/primagallerina: I think about the knafeh from tanoreen every single day.\n  [5] u/Internal_Setting_738 (reply to [4]): I think i will start doing this as well. Seems like a good way to pass the time.\n[6] u/laflurz: Barbounia, Shuka, Shukette, Shmone\n[7] u/Asleep_Owl_6893: I’m plant based so my favorite is Anixi on 8th Ave.\n[8] u/Perfect_Highlight581: Ilili is consistently good and is upscale.\n  [9] u/Perfect_Highlight581 (reply to [8]): Another good one is Zaytinya. Although I like ilili better.\n    [10] u/wanderlust_escapist (reply to [9]): Adding Mama Mezze to third place on this list.\n  [11] u/luncheroni (reply to [8]): Those brussels sprouts 🤤\n[12] u/GraveDiggerSedan: Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!\n[13] u/dummonger: \\- Mustache Pitza \\- Zaytoons \\- Omar’s \\- Illili",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Qanoon",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 13,
+   "chunk": "big-med32k:chunk:t3_1uvetpm:1bec75655220",
+   "comment_id": "t1_oxb1saq",
+   "context": {
+    "ancestors": [],
+    "author": "dummonger",
+    "body": "\\- Mustache Pitza  \n\\- Zaytoons  \n\\- Omar’s  \n\\- Illili ",
+    "replies": [],
+    "selftext": "Oasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc.\n\nAny borough is fair game.",
+    "title": "Favorite Middle Eastern restaurant in New York City?"
+   },
+   "item_id": "T0095",
+   "model_view": "POST: Favorite Middle Eastern restaurant in New York City?\nOasis in Williamsburg is my favorite for a casual meal, but I'm looking for something a little more elevated for a nice evening dinner. Not necessarily fine dining.. just somewhere with a slightly elevated atmosphere and great quality food? Hummus, babaganoush, chicken, etc. Any borough is fair game.\n\n[1] u/anonmarmot17: Qanoon and ilili and another vote for Ayat/tanoreen/al badawi\n  [2] u/26point2miles (reply to [1]): Qanoon was underwhelming to me. Didn't really think the menu had enough, and good was ok.\n    [3] u/anonmarmot17 (reply to [2]): That’s sad to hear I haven’t been in a while since I moved out of the area\n[4] u/primagallerina: I think about the knafeh from tanoreen every single day.\n  [5] u/Internal_Setting_738 (reply to [4]): I think i will start doing this as well. Seems like a good way to pass the time.\n[6] u/laflurz: Barbounia, Shuka, Shukette, Shmone\n[7] u/Asleep_Owl_6893: I’m plant based so my favorite is Anixi on 8th Ave.\n[8] u/Perfect_Highlight581: Ilili is consistently good and is upscale.\n  [9] u/Perfect_Highlight581 (reply to [8]): Another good one is Zaytinya. Although I like ilili better.\n    [10] u/wanderlust_escapist (reply to [9]): Adding Mama Mezze to third place on this list.\n  [11] u/luncheroni (reply to [8]): Those brussels sprouts 🤤\n[12] u/GraveDiggerSedan: Cross the bridge to Patterson and Al Basha is by far the best most authentic food of the Palestinian/Jordanian/Lebanese region. It’s soo good that my family visiting from Jordan and Palestine want to eat there!\n[13] u/dummonger: \\- Mustache Pitza \\- Zaytoons \\- Omar’s \\- Illili",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 13,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Mustache Pitza",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 13,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Zaytoons",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 13,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Omar's",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 13,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Illili",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-low:chunk:t3_1rz3egn:6c08fe61c285",
+   "comment_id": "t3_1rz3egn",
+   "context": {
+    "ancestors": [],
+    "author": "Ok_Engineering_9180",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "Hello. \n\nMy husband & I are going to NYC w/ his parents. We love traditional dimsum and typically hit up Golden unicorn when we are in the city. However, his parents are pickier eater and only eat Americanized Chinese. Think general tso chicken and whatnot. \n\nWe are looking for a restaurant that will serve both as my husband and I reaaaally want dimsum when we’re in the city but we also want to accommodate his parents. \n\nTIA! ",
+    "title": "Dimsum + Americanized Chinese"
+   },
+   "item_id": "T0134",
+   "model_view": "[0] POST: Dimsum + Americanized Chinese\nHello. My husband & I are going to NYC w/ his parents. We love traditional dimsum and typically hit up Golden unicorn when we are in the city. However, his parents are pickier eater and only eat Americanized Chinese. Think general tso chicken and whatnot. We are looking for a restaurant that will serve both as my husband and I reaaaally want dimsum when we’re in the city but we also want to accommodate his parents. TIA!\n\n[1] u/Kennected: Girl. Take them where you normally dine.\n  [2] u/Ok_Engineering_9180 (reply to [1]): I want to but my husband is insistent that we find somewhere that will have something for them as well.\n    [3] u/Kooky_Comb6051 (reply to [2]): Golden unicorn also does some things you would expect from what you described as “americanized”. It’s on the a la carte menu. Get both dim sum and things that are more familiar/palatable. At least it gets them more exposure to what actual chinese food is lol.\n      [4] u/justflipping (reply to [3]): Yup it’s common that dim sum places including Golden Unicorn also do American-Chinese food. Just got to ask for the menu and request it. Golden Unicorn’s menu: https://www.goldenunicornrestaurant.com/menu-1\n      [5] u/RawrRawr83 (reply to [3]): Nah, get them some chicken feet and tripe. Culture up fam\n        [6] u/justflipping (reply to [5]): So gooood\n        [7] u/bklyninhouse (reply to [5]): I was born and raised on HK dim sum and I wouldn't touch chicken feet and tripe. Even egg rolls and shrimp and pork shu mai will be palatable to an American diet. OP can order some noodles to appease the parents.\n    [8] u/DinerEnBlanc (reply to [2]): FYI, a lot of Americanized dishes are often just slight tweaks to Cantonese dishes, so a lot of Dim Sum places like Golden Unicorn will work. Just ask for the menu during dim sum service. You’ll see stuff like sweet and sour pork, fried rice, and lo mein. I’m Cantonese and my dad usually orders a noodle dish from the main menu during dim sum cause it’s not enough to make him full.\n    [9] u/PorkProofPrion (reply to [2]): They all have dishes for Americans, esp the restaurants in Chinatown",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "traditional dimsum",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Golden unicorn",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "dim sum"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 1,
+   "chunk": "recent-med32k:chunk:t3_1w3rupn:c0ef9cbb18e3",
+   "comment_id": "t1_p72yazp",
+   "context": {
+    "ancestors": [],
+    "author": "Weekly_Platform_648",
+    "body": "Breeze in Greenpoint!",
+    "replies": [],
+    "selftext": "Best Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??",
+    "title": "Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA"
+   },
+   "item_id": "T0142",
+   "model_view": "POST: Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA\nBest Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??\n\n[1] u/Weekly_Platform_648: Breeze in Greenpoint!\n[2] u/rxnbeats: Chiko in Greenpoint is great\n[3] u/Old-Panic-1453: By Antidote For local not fancy but really good Legend 72 on UWS.\n[4] u/snickersh: Mountain House! And Peppercorn Station\n[5] u/pockyandpandas: Antidote in Williamsburg is pretty good\n[6] u/pratikp26: Spicy Moon is an obvious one. In Brooklyn, I like Han Dynasty. The Dry Pepper Chicken is my go-to along with the Dan Dan Noodles. But most of the stuff I’ve tried has been nice. I also loved the Chong Qing Spicy Chicken at Authentic Szechuan Tofu in Park Slope.\n[7] u/Capable-Fish3678: I’m Chinese from Asia and me and my friends love Mountain House\n[8] u/what_mustache: Shan. I love that place\n[9] u/alimarqer: My spot in Manhattan used to be Sichuan gourmet on 56th i think, but it shut down. I recently tried Ollie's Sichuan in Manhattan it was decent, worth a shot when your in the area trying to find something to eat.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 1,
+     "kind": "restaurant",
+     "location": "Greenpoint",
+     "name": "Breeze",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 2,
+   "chunk": "recent-med32k:chunk:t3_1w3rupn:c0ef9cbb18e3",
+   "comment_id": "t1_p72ypg2",
+   "context": {
+    "ancestors": [],
+    "author": "rxnbeats",
+    "body": "Chiko in Greenpoint is great",
+    "replies": [],
+    "selftext": "Best Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??",
+    "title": "Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA"
+   },
+   "item_id": "T0143",
+   "model_view": "POST: Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA\nBest Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??\n\n[1] u/Weekly_Platform_648: Breeze in Greenpoint!\n[2] u/rxnbeats: Chiko in Greenpoint is great\n[3] u/Old-Panic-1453: By Antidote For local not fancy but really good Legend 72 on UWS.\n[4] u/snickersh: Mountain House! And Peppercorn Station\n[5] u/pockyandpandas: Antidote in Williamsburg is pretty good\n[6] u/pratikp26: Spicy Moon is an obvious one. In Brooklyn, I like Han Dynasty. The Dry Pepper Chicken is my go-to along with the Dan Dan Noodles. But most of the stuff I’ve tried has been nice. I also loved the Chong Qing Spicy Chicken at Authentic Szechuan Tofu in Park Slope.\n[7] u/Capable-Fish3678: I’m Chinese from Asia and me and my friends love Mountain House\n[8] u/what_mustache: Shan. I love that place\n[9] u/alimarqer: My spot in Manhattan used to be Sichuan gourmet on 56th i think, but it shut down. I recently tried Ollie's Sichuan in Manhattan it was decent, worth a shot when your in the area trying to find something to eat.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 2,
+     "kind": "restaurant",
+     "location": "Greenpoint",
+     "name": "Chiko",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "negative",
+     "price": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 3,
+   "chunk": "recent-med32k:chunk:t3_1w3rupn:c0ef9cbb18e3",
+   "comment_id": "t1_p730u9k",
+   "context": {
+    "ancestors": [],
+    "author": "Old-Panic-1453",
+    "body": "By Antidote  \nFor local not fancy but really good Legend 72 on UWS. ",
+    "replies": [],
+    "selftext": "Best Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??",
+    "title": "Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA"
+   },
+   "item_id": "T0144",
+   "model_view": "POST: Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA\nBest Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??\n\n[1] u/Weekly_Platform_648: Breeze in Greenpoint!\n[2] u/rxnbeats: Chiko in Greenpoint is great\n[3] u/Old-Panic-1453: By Antidote For local not fancy but really good Legend 72 on UWS.\n[4] u/snickersh: Mountain House! And Peppercorn Station\n[5] u/pockyandpandas: Antidote in Williamsburg is pretty good\n[6] u/pratikp26: Spicy Moon is an obvious one. In Brooklyn, I like Han Dynasty. The Dry Pepper Chicken is my go-to along with the Dan Dan Noodles. But most of the stuff I’ve tried has been nice. I also loved the Chong Qing Spicy Chicken at Authentic Szechuan Tofu in Park Slope.\n[7] u/Capable-Fish3678: I’m Chinese from Asia and me and my friends love Mountain House\n[8] u/what_mustache: Shan. I love that place\n[9] u/alimarqer: My spot in Manhattan used to be Sichuan gourmet on 56th i think, but it shut down. I recently tried Ollie's Sichuan in Manhattan it was decent, worth a shot when your in the area trying to find something to eat.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 3,
+     "kind": "restaurant",
+     "location": null,
+     "name": "By Antidote",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "vibe",
+       "text": "local, not fancy"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "negative",
+     "price": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 3,
+     "kind": "restaurant",
+     "location": "Upper West Side",
+     "name": "Legend 72",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 4,
+   "chunk": "recent-med32k:chunk:t3_1w3rupn:c0ef9cbb18e3",
+   "comment_id": "t1_p733cu8",
+   "context": {
+    "ancestors": [],
+    "author": "snickersh",
+    "body": "Mountain House! And Peppercorn Station",
+    "replies": [],
+    "selftext": "Best Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??",
+    "title": "Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA"
+   },
+   "item_id": "T0145",
+   "model_view": "POST: Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA\nBest Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??\n\n[1] u/Weekly_Platform_648: Breeze in Greenpoint!\n[2] u/rxnbeats: Chiko in Greenpoint is great\n[3] u/Old-Panic-1453: By Antidote For local not fancy but really good Legend 72 on UWS.\n[4] u/snickersh: Mountain House! And Peppercorn Station\n[5] u/pockyandpandas: Antidote in Williamsburg is pretty good\n[6] u/pratikp26: Spicy Moon is an obvious one. In Brooklyn, I like Han Dynasty. The Dry Pepper Chicken is my go-to along with the Dan Dan Noodles. But most of the stuff I’ve tried has been nice. I also loved the Chong Qing Spicy Chicken at Authentic Szechuan Tofu in Park Slope.\n[7] u/Capable-Fish3678: I’m Chinese from Asia and me and my friends love Mountain House\n[8] u/what_mustache: Shan. I love that place\n[9] u/alimarqer: My spot in Manhattan used to be Sichuan gourmet on 56th i think, but it shut down. I recently tried Ollie's Sichuan in Manhattan it was decent, worth a shot when your in the area trying to find something to eat.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 4,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Mountain House",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 4,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Peppercorn Station",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 5,
+   "chunk": "recent-med32k:chunk:t3_1w3rupn:c0ef9cbb18e3",
+   "comment_id": "t1_p739d40",
+   "context": {
+    "ancestors": [],
+    "author": "pockyandpandas",
+    "body": "Antidote in Williamsburg is pretty good",
+    "replies": [],
+    "selftext": "Best Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??",
+    "title": "Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA"
+   },
+   "item_id": "T0146",
+   "model_view": "POST: Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA\nBest Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??\n\n[1] u/Weekly_Platform_648: Breeze in Greenpoint!\n[2] u/rxnbeats: Chiko in Greenpoint is great\n[3] u/Old-Panic-1453: By Antidote For local not fancy but really good Legend 72 on UWS.\n[4] u/snickersh: Mountain House! And Peppercorn Station\n[5] u/pockyandpandas: Antidote in Williamsburg is pretty good\n[6] u/pratikp26: Spicy Moon is an obvious one. In Brooklyn, I like Han Dynasty. The Dry Pepper Chicken is my go-to along with the Dan Dan Noodles. But most of the stuff I’ve tried has been nice. I also loved the Chong Qing Spicy Chicken at Authentic Szechuan Tofu in Park Slope.\n[7] u/Capable-Fish3678: I’m Chinese from Asia and me and my friends love Mountain House\n[8] u/what_mustache: Shan. I love that place\n[9] u/alimarqer: My spot in Manhattan used to be Sichuan gourmet on 56th i think, but it shut down. I recently tried Ollie's Sichuan in Manhattan it was decent, worth a shot when your in the area trying to find something to eat.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 5,
+     "kind": "restaurant",
+     "location": "Williamsburg",
+     "name": "Antidote",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 6,
+   "chunk": "recent-med32k:chunk:t3_1w3rupn:c0ef9cbb18e3",
+   "comment_id": "t1_p73azj9",
+   "context": {
+    "ancestors": [],
+    "author": "pratikp26",
+    "body": "Spicy Moon is an obvious one.\n\nIn Brooklyn, I like Han Dynasty. The Dry Pepper Chicken is my go-to along with the Dan Dan Noodles. But most of the stuff I’ve tried has been nice. \n\nI also loved the Chong Qing Spicy Chicken at Authentic Szechuan Tofu in Park Slope. ",
+    "replies": [],
+    "selftext": "Best Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??",
+    "title": "Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA"
+   },
+   "item_id": "T0147",
+   "model_view": "POST: Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA\nBest Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??\n\n[1] u/Weekly_Platform_648: Breeze in Greenpoint!\n[2] u/rxnbeats: Chiko in Greenpoint is great\n[3] u/Old-Panic-1453: By Antidote For local not fancy but really good Legend 72 on UWS.\n[4] u/snickersh: Mountain House! And Peppercorn Station\n[5] u/pockyandpandas: Antidote in Williamsburg is pretty good\n[6] u/pratikp26: Spicy Moon is an obvious one. In Brooklyn, I like Han Dynasty. The Dry Pepper Chicken is my go-to along with the Dan Dan Noodles. But most of the stuff I’ve tried has been nice. I also loved the Chong Qing Spicy Chicken at Authentic Szechuan Tofu in Park Slope.\n[7] u/Capable-Fish3678: I’m Chinese from Asia and me and my friends love Mountain House\n[8] u/what_mustache: Shan. I love that place\n[9] u/alimarqer: My spot in Manhattan used to be Sichuan gourmet on 56th i think, but it shut down. I recently tried Ollie's Sichuan in Manhattan it was decent, worth a shot when your in the area trying to find something to eat.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 6,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Spicy Moon",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "Dry Pepper Chicken",
+       "level": "positive"
+      },
+      {
+       "avoid": false,
+       "dish": "Dan Dan Noodles",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 6,
+     "kind": "restaurant",
+     "location": "Brooklyn",
+     "name": "Han Dynasty",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "positive",
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "Chong Qing Spicy Chicken",
+       "level": "positive"
+      }
+     ],
+     "experience": "firsthand",
+     "id": 6,
+     "kind": "restaurant",
+     "location": "Park Slope",
+     "name": "Authentic Szechuan Tofu",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 7,
+   "chunk": "recent-med32k:chunk:t3_1w3rupn:c0ef9cbb18e3",
+   "comment_id": "t1_p73w8co",
+   "context": {
+    "ancestors": [],
+    "author": "Capable-Fish3678",
+    "body": "I’m Chinese from Asia and me and my friends love Mountain House",
+    "replies": [],
+    "selftext": "Best Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??",
+    "title": "Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA"
+   },
+   "item_id": "T0148",
+   "model_view": "POST: Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA\nBest Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??\n\n[1] u/Weekly_Platform_648: Breeze in Greenpoint!\n[2] u/rxnbeats: Chiko in Greenpoint is great\n[3] u/Old-Panic-1453: By Antidote For local not fancy but really good Legend 72 on UWS.\n[4] u/snickersh: Mountain House! And Peppercorn Station\n[5] u/pockyandpandas: Antidote in Williamsburg is pretty good\n[6] u/pratikp26: Spicy Moon is an obvious one. In Brooklyn, I like Han Dynasty. The Dry Pepper Chicken is my go-to along with the Dan Dan Noodles. But most of the stuff I’ve tried has been nice. I also loved the Chong Qing Spicy Chicken at Authentic Szechuan Tofu in Park Slope.\n[7] u/Capable-Fish3678: I’m Chinese from Asia and me and my friends love Mountain House\n[8] u/what_mustache: Shan. I love that place\n[9] u/alimarqer: My spot in Manhattan used to be Sichuan gourmet on 56th i think, but it shut down. I recently tried Ollie's Sichuan in Manhattan it was decent, worth a shot when your in the area trying to find something to eat.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 7,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Mountain House",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 8,
+   "chunk": "recent-med32k:chunk:t3_1w3rupn:c0ef9cbb18e3",
+   "comment_id": "t1_p75d0jb",
+   "context": {
+    "ancestors": [],
+    "author": "what_mustache",
+    "body": "Shan. I love that place ",
+    "replies": [],
+    "selftext": "Best Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??",
+    "title": "Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA"
+   },
+   "item_id": "T0149",
+   "model_view": "POST: Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA\nBest Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??\n\n[1] u/Weekly_Platform_648: Breeze in Greenpoint!\n[2] u/rxnbeats: Chiko in Greenpoint is great\n[3] u/Old-Panic-1453: By Antidote For local not fancy but really good Legend 72 on UWS.\n[4] u/snickersh: Mountain House! And Peppercorn Station\n[5] u/pockyandpandas: Antidote in Williamsburg is pretty good\n[6] u/pratikp26: Spicy Moon is an obvious one. In Brooklyn, I like Han Dynasty. The Dry Pepper Chicken is my go-to along with the Dan Dan Noodles. But most of the stuff I’ve tried has been nice. I also loved the Chong Qing Spicy Chicken at Authentic Szechuan Tofu in Park Slope.\n[7] u/Capable-Fish3678: I’m Chinese from Asia and me and my friends love Mountain House\n[8] u/what_mustache: Shan. I love that place\n[9] u/alimarqer: My spot in Manhattan used to be Sichuan gourmet on 56th i think, but it shut down. I recently tried Ollie's Sichuan in Manhattan it was decent, worth a shot when your in the area trying to find something to eat.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 8,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Shan",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 9,
+   "chunk": "recent-med32k:chunk:t3_1w3rupn:c0ef9cbb18e3",
+   "comment_id": "t1_p7edu98",
+   "context": {
+    "ancestors": [],
+    "author": "alimarqer",
+    "body": "My spot in Manhattan used to be Sichuan gourmet on 56th i think, but it shut down. I recently tried Ollie's Sichuan in Manhattan it was decent, worth a shot when your in the area trying to find something to eat.",
+    "replies": [],
+    "selftext": "Best Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??",
+    "title": "Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA"
+   },
+   "item_id": "T0150",
+   "model_view": "POST: Sichuan Chinese Food - NYC RECS BKLYN MANHATTAN CHINA\nBest Recs for sichuan Chinese in Manhattan or Brooklyn? Obviously so many choices but any standouts??\n\n[1] u/Weekly_Platform_648: Breeze in Greenpoint!\n[2] u/rxnbeats: Chiko in Greenpoint is great\n[3] u/Old-Panic-1453: By Antidote For local not fancy but really good Legend 72 on UWS.\n[4] u/snickersh: Mountain House! And Peppercorn Station\n[5] u/pockyandpandas: Antidote in Williamsburg is pretty good\n[6] u/pratikp26: Spicy Moon is an obvious one. In Brooklyn, I like Han Dynasty. The Dry Pepper Chicken is my go-to along with the Dan Dan Noodles. But most of the stuff I’ve tried has been nice. I also loved the Chong Qing Spicy Chicken at Authentic Szechuan Tofu in Park Slope.\n[7] u/Capable-Fish3678: I’m Chinese from Asia and me and my friends love Mountain House\n[8] u/what_mustache: Shan. I love that place\n[9] u/alimarqer: My spot in Manhattan used to be Sichuan gourmet on 56th i think, but it shut down. I recently tried Ollie's Sichuan in Manhattan it was decent, worth a shot when your in the area trying to find something to eat.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 9,
+     "kind": "restaurant",
+     "location": "56th Street, Manhattan",
+     "name": "Sichuan gourmet",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "closed",
+       "text": "shut down"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": "closed",
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "past",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 9,
+     "kind": "restaurant",
+     "location": "Manhattan",
+     "name": "Ollie's Sichuan",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "recent visit",
+       "text": "worth a shot when in the area"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "sichuan"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_190gxif:e23bea8ee3eb",
+   "comment_id": "t3_190gxif",
+   "context": {
+    "ancestors": [],
+    "author": "surfz",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "So I’m not sure why this place got so much high praise but I found it to be pretty bad in taste and quality.  I did the traditional 21 course tasting menu and none of the pieces stood out to me except for the bafun uni piece.  Toro with caviar is a usual standout bite at other sushi places but here it even lacked flavor. Most bites were white fish that had no real distinction between another, and most bites were overpowered by whatever rice vinegar they used. It was used so much on some pieces to the point where that was all I could taste. The texture and temperature of some pieces were all over the place and not consistent. The appetizers and dessert were non memorable as well. \n\nI don’t want others to waste their money as I did because it was not cheap at $235 after tip but I hope to provide some valuable feedback that this place was just hype on social media and the like. I would save your money and go somewhere like sushi blossoms or shogun omakase if I had the choice. There are much better value omakases at even under the $100 range such as korami and thirteen water as well. I’m not as well versed in true edomae style as fusion but if this is how other edomae places are as well, I truly question why there are so many purists supporting that style of sushi here. It just tasted off and not a delicacy as it should be.\n\n\nHere’s to better tasting sushi in the New Year!",
+    "title": "The Office of Mr Moto review 2/10"
+   },
+   "item_id": "T0154",
+   "model_view": "[0] POST: The Office of Mr Moto review 2/10\nSo I’m not sure why this place got so much high praise but I found it to be pretty bad in taste and quality. I did the traditional 21 course tasting menu and none of the pieces stood out to me except for the bafun uni piece. Toro with caviar is a usual standout bite at other sushi places but here it even lacked flavor. Most bites were white fish that had no real distinction between another, and most bites were overpowered by whatever rice vinegar they used. It was used so much on some pieces to the point where that was all I could taste. The texture and temperature of some pieces were all over the place and not consistent. The appetizers and dessert were non memorable as well. I don’t want others to waste their money as I did because it was not cheap at $235 after tip but I hope to provide some valuable feedback that this place was just hype on social media and the like. I would save your money and go somewhere like sushi blossoms or shogun omakase if I had the choice. There are much better value omakases at even under the $100 range such as korami and thirteen water as well. I’m not as well versed in true edomae style as fusion but if this is how other edomae places are as well, I truly question why there are so many purists supporting that style of sushi here. It just tasted off and not a delicacy as it should be. Here’s to better tasting sushi in the New Year!\n\n[1] u/asah: thx!!!!\n[2] u/MiseEnSagace: Cool concept and happy for the owners in that they’re crushing marketing. Agreed that the food was very mediocre, bordering on poor\n  [3] u/surfz (reply to [2]): Yeah definitely very poor for me, sushi by bou was better and that’s a pretty low standard to beat\n[4] u/chairmanpao10: Agree with you, it’s pretty mediocre and overhyped by influencers.\n[5] u/SpinachBisque: I love whimsically themed restaurants and was so excited when I saw this place first reviewed on social media. When I look at the photos I took during my meal, I have no memory of the food being particularly excellent or superior to omakase in the $100 range (as OP stated). It seems that the high price tag is mostly driven by the \"experience\"--such as the service, decor, and atmosphere. In that sense, you will probably be disappointed if you are primarily going for food--but might be OK if you're more interested in the \"theme park\" elements.\n  [6] u/surfz (reply to [5]): At first I thought Mr moto was the chef and the artifacts were his own collection on display but it’s really just some made up story they thought up.\n  [7] u/idgapho (reply to [5]): I also love a good whimsically themed restaurant! Unrelated to the OP’s topic but I’d love to know what some of your favorites are.\n[8] u/MrCakemeat: Did they raise their price or did you have the new “modern” menu? If this wasn’t the modern menu I’m surprised - I’ve been a few times and find them to be one of the only places in the city serving a nigiri-focused traditional menu at this price point. (saba, kohada, kawahagi, shirako, etc) They’re not perfect by any stretch, but most of the places I’ve found in NYC serving better traditional sushi are more than double the price.\n  [9] u/surfz (reply to [8]): I mentioned that I did the traditional and the pricing after tip was included. I’m sure the modern menu for me would have been better to my palate but based off the techniques used it wouldn’t have made much difference in the end. I’m just not seeing the appeal honestly.\n    [10] u/MrCakemeat (reply to [9]): You did, sorry I missed that bit. I think the appeal for many people (myself included) is the traditional nigiri-focused meal at that price point. Given your preferences for modern, I’d check out Thirteen Water (lower cost) and Seki or Gari (higher cost) if you haven’t already. Happy eating!\n[11] u/nippyhedren: Yeah, I found it to be very average overall and some pieces were actually bad.\n[12] u/richonarampage: 1000% social media influencer hype. Not serious place.\n[13] u/Agreeable-Ad-7110: This is not really an edomae place. In fact, a good edomae place has very lightly seasoned rice.",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": "negative",
+      "value": "negative",
+      "wait": null
+     },
+     "avoid": true,
+     "dishes": [
+      {
+       "avoid": false,
+       "dish": "bafun uni",
+       "level": "positive"
+      },
+      {
+       "avoid": false,
+       "dish": "toro with caviar",
+       "level": "negative"
+      },
+      {
+       "avoid": false,
+       "dish": "21-course tasting menu",
+       "level": null
+      }
+     ],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "The Office of Mr Moto",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "price",
+       "text": "$235 after tip for the 21-course tasting menu"
+      },
+      {
+       "about": "taste details",
+       "text": "rice vinegar overpowers most bites, white fish pieces indistinct, uneven texture and temperature, forgettable appetizers and dessert"
+      },
+      {
+       "about": "hype",
+       "text": "overhyped on social media"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "negative",
+     "price": "expensive",
+     "status": null,
+     "tags": [
+      "omakase",
+      "edomae",
+      "tasting menu"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Sushi Blossoms",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "pick",
+       "text": "OP would go here instead"
+      }
+     ],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "omakase"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Shogun Omakase",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "pick",
+       "text": "OP would go here instead"
+      }
+     ],
+     "opinion": "endorse",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "omakase"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Korami",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "price",
+       "text": "omakase under $100, better value"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "omakase"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": "positive",
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "thirteen water",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "price",
+       "text": "omakase under $100, better value"
+      }
+     ],
+     "opinion": "stated",
+     "overall": "positive",
+     "price": null,
+     "status": null,
+     "tags": [
+      "omakase"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "firsthand",
+     "id": 3,
+     "kind": "restaurant",
+     "location": null,
+     "name": "sushi by bou",
+     "named_in": "comment",
+     "notes": [
+      {
+       "about": "comparison",
+       "text": "a low bar, but better than the Office"
+      }
+     ],
+     "opinion": "stated",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "sushi"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  },
+  {
+   "bracket": 0,
+   "chunk": "fresh-med32k:chunk:t3_1mltmma:a8548132158d",
+   "comment_id": "t3_1mltmma",
+   "context": {
+    "ancestors": [],
+    "author": "mostlygroovy",
+    "body": "(the post itself is the item)",
+    "replies": [],
+    "selftext": "We’re visiting Manhattan and have some meals lined up, but if we were only to do one of Hamburger America or Gotham, what would you recommend? ",
+    "title": "Hamburger America or Gotham?"
+   },
+   "item_id": "T0155",
+   "model_view": "[0] POST: Hamburger America or Gotham?\nWe’re visiting Manhattan and have some meals lined up, but if we were only to do one of Hamburger America or Gotham, what would you recommend?\n\n[1] u/shnyc: Definitely Gotham, Hamburger America is really greasy and is hit or miss at times\n  [2] u/kidcurry1867 (reply to [1]): This.\n[3] u/WredditSmark: Both are really nothing special, don’t believe the hype. I get HA weekly because I play pickleball right there, it’s a burger, nothing crazy just grab for sheer convenience. Gotham to me tastes like burnt griddle\n  [4] u/Exciting-Site7119 (reply to [3]): \"nothing special\" ... just get it once a week. Rightttt rightttt\n[5] u/Red__dead: Neither are amazing to be honest and certainly not even close to the best in the city. But if I had to choose, Gotham.\n  [6] u/Character_Interest33 (reply to [5]): What is your fav in the city?\n    [7] u/Red__dead (reply to [6]): Red Hook Tavern, Nowon, Raoul's, Le B. Lord's too but I find their 12 a night gimmick annoying.\n      [8] u/iheartsexxytime (reply to [7]): Raoul’s also limits the burger to 12 per/night lol\n        [9] u/Red__dead (reply to [8]): Yeah but at least not at lunch.\n[10] u/beast_roast: Gotham was the most overrated burger I’ve ever had in the city. I actually really liked Hamburger America.\n  [11] u/Rush12345678 (reply to [10]): Same. Was quite disappointed with Gotham but I’ve had the onion burger at Hamburger America multiple times and it’s always great (as are the pie options).\n  [12] u/kkawesome1234 (reply to [10]): Exact opposite experience for me. I found hamburger america to be very mid and lacking flavor\n    [13] u/DMCer (reply to [12]): You can retire “mid” at this point. Meaningless term parroted by armchair experts on the sub.\n      [14] u/kkawesome1234 (reply to [13]): You mean armchair experts like yourself?",
+   "shown": [
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Hamburger America",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "burger"
+     ],
+     "timeframe": "current",
+     "trend": null
+    },
+    {
+     "aspects": {
+      "atmosphere": null,
+      "service": null,
+      "taste": null,
+      "value": null,
+      "wait": null
+     },
+     "avoid": false,
+     "dishes": [],
+     "experience": "none",
+     "id": 0,
+     "kind": "restaurant",
+     "location": null,
+     "name": "Gotham",
+     "named_in": "comment",
+     "notes": [],
+     "opinion": "none",
+     "overall": null,
+     "price": null,
+     "status": null,
+     "tags": [
+      "burger"
+     ],
+     "timeframe": "current",
+     "trend": null
+    }
+   ]
+  }
+ ],
+ "packet": "t005"
+}

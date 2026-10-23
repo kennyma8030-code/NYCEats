@@ -1,0 +1,214 @@
+{
+ "items": [
+  {
+   "answers": {
+    "A": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 14,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Tamarind",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "fit",
+        "text": "not fine dining"
+       }
+      ],
+      "opinion": "stated",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 14,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Semma",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "vegetarian fit",
+        "text": "normally recommended, but Junoon is the better pick for vegetarians"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "id": 14,
+      "kind": "restaurant",
+      "location": null,
+      "name": "Junoon",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "vegetarian fit",
+        "text": "better option for vegetarians"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian",
+       "fine dining"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ],
+    "B": [
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "none",
+      "kind": "restaurant",
+      "location": "Tribeca",
+      "name": "Tamarind Tribeca",
+      "named_in": "context",
+      "notes": [
+       {
+        "about": "category",
+        "text": "Commenter wouldn't classify it as fine dining"
+       }
+      ],
+      "opinion": "none",
+      "overall": null,
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Semma",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "suggestion",
+        "text": "Commenter would normally recommend it over Junoon, but not for this vegetarian couple"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     },
+     {
+      "aspects": {
+       "atmosphere": null,
+       "service": null,
+       "taste": null,
+       "value": null,
+       "wait": null
+      },
+      "avoid": false,
+      "dishes": [],
+      "experience": "firsthand",
+      "kind": "restaurant",
+      "location": null,
+      "name": "Junoon",
+      "named_in": "comment",
+      "notes": [
+       {
+        "about": "fit",
+        "text": "Commenter thinks it's the better option for a vegetarian couple"
+       }
+      ],
+      "opinion": "endorse",
+      "overall": "positive",
+      "price": null,
+      "status": null,
+      "tags": [
+       "indian",
+       "vegetarian"
+      ],
+      "timeframe": "current",
+      "trend": null
+     }
+    ]
+   },
+   "comment_id": "t1_ki0159y",
+   "context": {
+    "ancestors": [],
+    "author": "justaman_nyc",
+    "body": "I wouldn’t classify Tamarind as fine dining. \n\nI would normally recommend Semma over Junoon, but since you’re vegetarian I think Junoon is a better option for you.",
+    "replies": [],
+    "selftext": "For our anniversary, I’ve shortlisted 2 Indian restaurants, Junoon and Tamarind Tribeca. Please help me decide one. We are both vegetarians.",
+    "title": "Indian fine dining"
+   },
+   "item_id": "P0338"
+  }
+ ],
+ "packet": "a015"
+}
