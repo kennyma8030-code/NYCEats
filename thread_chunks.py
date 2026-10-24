@@ -141,7 +141,7 @@ class _Atom:
 
 
 def chunk_thread(thread_id, comments, due, post_due=False, post_tokens=0.0, soft_comments=SOFT_COMMENTS,
-                 soft_tokens=SOFT_TOKENS, max_comments=MAX_COMMENTS):
+                 soft_tokens=SOFT_TOKENS, max_comments=MAX_COMMENTS, tree=None):
     """The thread's chunks, in thread order. Every due comment is in exactly one.
 
     comments: every comment row of the thread (dicts with comment_id,
@@ -150,8 +150,10 @@ def chunk_thread(thread_id, comments, due, post_due=False, post_tokens=0.0, soft
     due: ids of the comments to extract. post_due: the post is to be
       extracted too, as item [0] of the first chunk; post_tokens is its text's
       estimated size, which counts against the first chunk's soft budget.
+    tree: the thread's Tree when the caller has built it already (it renders
+      the chunks with the same one), so it is not built twice.
     """
-    tree = Tree(comments)
+    tree = tree or Tree(comments)
     due = set(due) & set(tree.rows)
     size, toks = {}, {}
 

@@ -321,12 +321,13 @@ class Batches(ThreadCase):
         ws = sorted(j.worst(batch=True) for j in jobs)
         cap = ws[-1] + ws[-2] * 0.5       # never the two biggest at once
         seen = []
-        real = X._submit_chunks
+        real = X._submit
 
         def spy(conn, cl, budget, js, log):
+            self.assertTrue(all(isinstance(j, X.ChunkJob) for j in js))
             seen.append((sum(j.worst(batch=True) for j in js), budget.spent + sum(budget.held.values())))
             return real(conn, cl, budget, js, log)
-        with F.FakeAnthropic(answer) as api, mock.patch.object(X, "_submit_chunks", spy):
+        with F.FakeAnthropic(answer) as api, mock.patch.object(X, "_submit", spy):
             self.batch(api, budget=cap)
         self.assertGreater(len(seen), 1)
         self.assertTrue(all(h + used <= cap + 1e-12 for h, used in seen))
@@ -657,32 +658,6 @@ class Modes(ThreadCase):
             X.require_schema(self.conn)
 
 
-OLD_CHUNKS = """create table extract_chunks (
-  id           text primary key,
-  version      text not null,
-  thread_id    text not null,
-  prompt_hash  text not null,
-  effort       text not null,
-  post_item    boolean not null default false,
-  members      text[] not null,
-  context_ids  text[] not null default '{}',
-  generation   smallint not null default 0,
-  split_from   text,
-  status       text not null default 'queued'
-               check (status in ('queued', 'batched', 'done', 'failed', 'dropped')),
-  fallback     boolean not null default false,
-  batch_id     text,
-  error        text,
-  bad_ids      int,
-  output       jsonb,
-  usage        jsonb,
-  cost_usd     numeric(12, 8),
-  created_at   timestamptz not null default now(),
-  updated_at   timestamptz not null default now(),
-  finished_at  timestamptz
-)"""
-
-
 class Review2(ThreadCase):
     def comment_batch(self, api, **kw):
         stats = X.Stats()
@@ -825,26 +800,6 @@ class Review2(ThreadCase):
         self.assertEqual(len(together), 1)
         self.assertTrue(all(v[2] for v in self.state().values()))
 
-    def test_schema_upgrades_a_table_of_the_first_shape(self):
-        with self.conn.cursor() as cur:
-            cur.execute("drop table extract_chunks")
-            cur.execute(OLD_CHUNKS)
-        self.conn.commit()
-        self.assertFalse(X.schema_ready(self.conn))          # no attempts column: not ready
-        with self.assertRaises(X.SchemaMissing):
-            X.require_schema(self.conn)
-        with open(os.path.join(ROOT, "extract_v6_schema.sql"), encoding="utf-8") as f:
-            sql = f.read()
-        for _ in range(2):
-            with self.conn.cursor() as cur:
-                cur.execute(sql)
-            self.conn.commit()
-        self.assertTrue(X.schema_ready(self.conn))
-        self.assertEqual(self.q("select column_default, is_nullable from information_schema.columns "
-                                "where table_name = 'extract_chunks' and column_name = 'attempts'"), [("0", "NO")])
-        with F.FakeAnthropic(answer) as api:
-            self.direct(api, ids=["t3_c"])
-        self.assertEqual(self.q("select attempts from extract_chunks"), [(1,)])
 
 class Review3(ThreadCase):
     """The third review's findings, one test or more each."""
@@ -968,6 +923,58 @@ class Review3(ThreadCase):
                 redirect_stdout(io.StringIO()) as out:
             self.assertEqual(X.main(["--mode", "thread", "--max-usd", "1", "--ids", "t3_c"]), 3)
         self.assertIn("built and not sent", out.getvalue())
+
+    # (8) going alone is routed by the failed half's row, not by rewriting prompt_hash
+    def test_going_alone_is_routed_by_the_failed_half(self):
+        ids = [f"t1_d{i}" for i in range(1, 9)]
+        opts = self.opts(posts=False)
+        jobs, _ = X.build_thread_jobs(self.conn, ["t3_c"], opts, write=False, log=QUIET)
+        X._chunk_failed(self.conn, jobs[0], "max_tokens: by hand", None, 0.0, QUIET)
+        for half in X.build_thread_jobs(self.conn, ["t3_c"], opts, log=QUIET)[0]:
+            X._chunk_failed(self.conn, half, "max_tokens: by hand", None, 0.0, QUIET)
+        self.assertEqual(self.state(), {})                      # no cursor row written or rewritten
+        self.assertEqual(sorted(i for (a,) in self.q("select alone from extract_chunks where fallback") for i in a),
+                         ids)
+        self.assertEqual(sorted(i for _, i in X.build_thread_jobs(self.conn, ["t3_c"], opts, log=QUIET)[1]), ids)
+        # A refused submission of them alone leaves them routed alone.
+        with F.FakeAnthropic() as api:
+            api.submit_status = (429, {"type": "error", "error": {"type": "rate_limit_error", "message": "slow"}})
+            with self.assertRaises(AV.TransientAPIError):
+                self.batch(api, ids=["t3_c"], opts=opts)
+        self.assertTrue(all(not v[2] and v[4] is None for v in self.state().values()))
+        jobs, alone = X.build_thread_jobs(self.conn, ["t3_c"], opts, log=QUIET)
+        self.assertEqual((jobs, sorted(i for _, i in alone)), ([], ids))
+        # Alone, t1_d1 fails twice and is parked; --retry-errors sends it alone again.
+        def ans(p):
+            return (200, F.message("garbage")) if "PlaceDeep1" in F.user_text(p) else F.default_answer(p)
+        with F.FakeAnthropic(ans) as api:
+            self.direct(api, ids=["t3_c"], opts=opts)
+            self.direct(api, ids=["t3_c"], opts=opts)
+        self.assertTrue(self.state()["t1_d1"][3].startswith("invalid_json"))
+        self.assertEqual(self.state()["t1_d2"][1], prompt_v6.PROMPT_HASH)   # the prompt that extracted it
+        self.q("update extraction_state set extract_error = null, attempts = 0 where item_id = 't1_d1' returning 1")
+        self.assertEqual(X.build_thread_jobs(self.conn, ["t3_c"], opts, log=QUIET), ([], [("comment", "t1_d1")]))
+
+    # (9) the batch queue keeps a running set of the items waiting in it
+    def test_the_running_set_of_waiting_items_matches_the_queues(self):
+        checks = []
+
+        class Checked(X._ChunkQueue):
+            def _build(self, tids, front=False):
+                checks.append(self.waiting == ({i for j in self.jobs for i in j.chunk.items}
+                                               | {i for _, i in self.alone}))
+                super()._build(tids, front)
+
+        def results(cid, params):
+            if numbers(params["messages"][0]["content"], "u1"):       # any chunk numbering t1_d1
+                return {"type": "succeeded", "message": F.message('{"mentions": [', stop="max_tokens")}
+            _, msg = answer(params)
+            return {"type": "succeeded", "message": msg}
+        with F.FakeAnthropic(answer, batch_results=results) as api, mock.patch.object(X, "_ChunkQueue", Checked):
+            self.batch(api, batch_size=1, max_inflight=1)
+        self.assertGreaterEqual(len(checks), 3)          # the page, then the halves, then the items alone
+        self.assertTrue(all(checks))
+        self.assertTrue(all(v[2] for v in self.state().values()))
 
     # (5) comment mode refuses every thread-mode setting
     def test_comment_mode_refuses_the_chunk_flags(self):

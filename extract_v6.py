@@ -114,9 +114,6 @@ def schema_ready(conn):
                           and to_regclass('extract_chunks') is not null
                           and exists (select 1 from information_schema.columns
                                       where table_name = 'mentions' and column_name = 'schema_version'
-                                        and table_schema = current_schema())
-                          and exists (select 1 from information_schema.columns
-                                      where table_name = 'extract_chunks' and column_name = 'attempts'
                                         and table_schema = current_schema())""")
         ok = cur.fetchone()[0]
     conn.commit()
@@ -314,7 +311,11 @@ def late_backlog(conn, seen_since, written_before):
 
 
 class Item:
+    """One comment- or post-mode request. Thread mode's ChunkJob has the same
+    shape (id, worst, params, stream, state_rows), so the direct and batch
+    machinery below sends either."""
     __slots__ = ("kind", "id", "system", "user", "prompt_hash", "attempts")
+    stream = False            # a 16k answer fits in a plain request's timeout
 
     def __init__(self, kind, item_id, system, user, prompt_hash):
         self.kind, self.id, self.system, self.user, self.prompt_hash = kind, item_id, system, user, prompt_hash
@@ -326,6 +327,10 @@ class Item:
     def params(self):
         return AV.params(self.system, self.user)
 
+    def state_rows(self):
+        """(item id, kind, prompt hash) of every extraction_state row a batch carrying this request holds."""
+        return [(self.id, self.kind, self.prompt_hash)]
+
 
 def render_items(conn, kind, ids):
     """Items for these ids, in the given order, rendered exactly as benchmarked."""
@@ -336,6 +341,29 @@ def render_items(conn, kind, ids):
         if i in rows:
             system, user, ph = prompt_v6.render(kind, rows[i])
             out.append(Item(kind, i, system, user, ph))
+    return out
+
+
+def render_pairs(conn, pairs):
+    """Items for [(kind, id)] of either kind, in the given order; ids no longer in the database are left out."""
+    items = []
+    for kind in KINDS:
+        ids_k = [i for k, i in pairs if k == kind]
+        items += render_items(conn, kind, ids_k) if ids_k else []
+    order = {i: n for n, (_, i) in enumerate(pairs)}
+    items.sort(key=lambda it: order[it.id])
+    return items
+
+
+def _fit(requests, room):
+    """The longest head of `requests` whose worst cases, at batch prices, fit in `room`."""
+    out, held = [], 0.0
+    for r in requests:
+        w = r.worst(batch=True)
+        if held + w > room:
+            break
+        out.append(r)
+        held += w
     return out
 
 
@@ -625,15 +653,23 @@ def run_direct(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, 
 PAGE = 200
 
 
-def _direct_page(conn, cl, budget, items, workers, stats, stop, capped, log):
-    def work(item):
+def _send_direct(cl, budget, requests, workers, stop, capped, log, answered, unsent):
+    """Send requests (items or chunks) `workers` at a time under the cap.
+
+    The network half runs on threads and touches no database; answered(req,
+    message, cost) and unsent(req, why) are called on this thread, in the
+    order answers arrive, so every write stays on the caller's connection.
+    why is "skipped" (the cap, or a stop) or the FatalAPIError or
+    TransientAPIError that stopped the pass, which is raised once every
+    answer already received has been handed over."""
+    def work(req):
         if stop.is_set():
-            return item, "skipped", 0.0
-        w = item.worst(batch=False)
+            return req, "skipped", 0.0
+        w = req.worst(batch=False)
         if not budget.reserve(w):
             capped.set()
             stop.set()
-            return item, "skipped", 0.0
+            return req, "skipped", 0.0
         held = [True]
 
         def again():
@@ -643,31 +679,31 @@ def _direct_page(conn, cl, budget, items, workers, stats, stop, capped, log):
             held[0] = budget.reserve(w)
             return held[0]
         try:
-            msg = AV.call(cl, item.params(), log=log, retry_ok=again)
+            msg = AV.call(cl, req.params(), log=log, retry_ok=again, stream=req.stream)
         except AV.CapReached:
             capped.set()
             stop.set()
-            return item, "skipped", 0.0
+            return req, "skipped", 0.0
         except (AV.FatalAPIError, AV.TransientAPIError) as e:
             if held[0]:
                 budget.settle(w, w if getattr(e, "maybe_billed", False) else 0.0)
             stop.set()
-            return item, e, 0.0
+            return req, e, 0.0
         c = AV.cost(AV.usage_of(msg), batch=False)
         budget.settle(w, c)
-        return item, msg, c
+        return req, msg, c
 
     halt = None
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=workers)
     try:
-        for fut in concurrent.futures.as_completed([pool.submit(work, it) for it in items]):
-            item, res, c = fut.result()
-            if isinstance(res, str):
-                stats.refused += capped.is_set()
-            elif isinstance(res, Exception):
-                halt = halt or res
+        for fut in concurrent.futures.as_completed([pool.submit(work, r) for r in requests]):
+            req, res, c = fut.result()
+            if isinstance(res, (str, Exception)):
+                if isinstance(res, Exception):
+                    halt = halt or res
+                unsent(req, res)
             else:
-                _handle(conn, item, res, c, stats, log=log)
+                answered(req, res, c)
     except BaseException:
         # Ctrl-C, or a bug while storing: nothing queued may go out after this.
         # Requests already on the wire finish (their spend is counted); the
@@ -678,6 +714,16 @@ def _direct_page(conn, cl, budget, items, workers, stats, stop, capped, log):
     pool.shutdown(wait=True)
     if halt is not None:
         raise halt
+
+
+def _direct_page(conn, cl, budget, items, workers, stats, stop, capped, log):
+    """Comment and post mode's direct page: each answer stored as it comes;
+    an item the cap left unsent is counted in stats.refused."""
+    def unsent(item, why):
+        if isinstance(why, str):
+            stats.refused += capped.is_set()
+    _send_direct(cl, budget, items, workers, stop, capped, log,
+                 lambda item, msg, c: _handle(conn, item, msg, c, stats, log=log), unsent)
 
 
 # ---------------------------------------------------------------- batches
@@ -699,11 +745,19 @@ def _inflight(conn):
 
 
 def _submit(conn, cl, budget, batch, log):
-    """Persist the hold and the items' membership, then submit, then record
+    """Persist the hold and the requests' membership, then submit, then record
     the id. A crash between the two writes leaves a 'pending-' row, which
-    stops the next run rather than risk paying for the batch twice."""
-    held = sum(it.worst(batch=True) for it in batch)
+    stops the next run rather than risk paying for the batch twice.
+
+    A batch is all items (comment and post mode, custom_id the item id) or
+    all chunks (thread mode, custom_id the chunk id). A chunk's members all
+    get the batch id on their state rows, and its extract_chunks row is
+    'batched'; its count of sends goes up only once the API has taken the
+    batch, so a refused submission leaves it as it was."""
+    held = sum(r.worst(batch=True) for r in batch)
     pid = f"pending-{int(time.time() * 1000)}-{os.getpid()}"
+    rows = [m for r in batch for m in r.state_rows()]
+    chunks = [r for r in batch if isinstance(r, ChunkJob)]
     # One statement for the ledger row and every member's state row, and a
     # transaction that ends straight after it: a statement per item made this
     # 2,000 round trips (~10 minutes from a laptop) inside one open
@@ -719,18 +773,21 @@ def _submit(conn, cl, budget, batch, log):
               prompt_hash = excluded.prompt_hash, model = excluded.model, batch_id = excluded.batch_id,
               updated_at = now()""",
                     {"pid": pid, "v": VERSION, "n": len(batch), "held": held, "model": prompt_v6.MODEL,
-                     "ids": [it.id for it in batch], "kinds": [it.kind for it in batch],
-                     "hashes": [it.prompt_hash for it in batch]})
+                     "ids": [m[0] for m in rows], "kinds": [m[1] for m in rows], "hashes": [m[2] for m in rows]})
+        if chunks:
+            _upsert_chunks(cur, [_chunk_record(j, "batched", pid) for j in chunks])
     conn.commit()
     budget.hold(pid, held, force=True)
     try:
-        bid = AV.submit(cl, [(it.id, it.params()) for it in batch])
+        bid = AV.submit(cl, [(r.id, r.params()) for r in batch])
     except (AV.TransientAPIError, AV.FatalAPIError):
         # A refusal (4xx, 429): the API created nothing, so undo the bookkeeping.
         with conn.cursor() as cur:
             cur.execute("""with b as (delete from extract_batches where id = %(pid)s)
                            update extraction_state set batch_id = null where batch_id = %(pid)s""",
                         {"pid": pid})
+            if chunks:
+                _chunks_requeue(cur, pid)
         conn.commit()
         budget.release(pid, 0.0)
         raise
@@ -746,10 +803,50 @@ def _submit(conn, cl, budget, batch, log):
                                   where id = %(pid)s)
                        update extraction_state set batch_id = %(bid)s where batch_id = %(pid)s""",
                     {"bid": bid, "pid": pid})
+        if chunks:
+            cur.execute("update extract_chunks set batch_id = %s, attempts = attempts + 1 where batch_id = %s",
+                        (bid, pid))
     conn.commit()
     budget.rename(pid, bid)
-    log(f"submitted batch {bid}: {len(batch)} requests, worst case ${held:.4f} held")
+    what = f"{len(batch)} chunk(s), {len(rows)} item(s)" if chunks else f"{len(batch)} requests"
+    log(f"submitted batch {bid}: {what}, worst case ${held:.4f} held")
     return bid
+
+
+def _batch_costs(res, bid, attached, what, log):
+    """({custom_id: cost}, total) of a batch's answers. The batch's cost is
+    every answer it returned, whether or not its item or chunk is still
+    attached here: what was billed is what the cap must count."""
+    costs = {cid: AV.cost(AV.usage_of(r[1]), batch=True) for cid, r in res.items() if r[0] == "succeeded"}
+    stray = set(costs) - set(attached)
+    if stray:
+        log(f"  batch {bid}: {len(stray)} answer(s) for {what} no longer attached to it, counted, not stored")
+    return costs, sum(costs.values())
+
+
+def _unanswered(r):
+    """Why a batch result is no answer, when the request is not to blame
+    (expired, canceled, missing, an API error), as the code stored for it."""
+    return f"batch_{r[0]}" + (f": {r[1]}: {r[2]}" if r[0] == "errored" else "")
+
+
+def _batch_collected(conn, budget, bid, total, summary, invalid, log, before=None):
+    """The end of collecting a batch, either shape: before(cur) detaches what
+    an invalid_request_error left unanswered, the batch is marked collected
+    in the same transaction, its hold becomes its cost, and FatalAPIError is
+    raised if any request was rejected as invalid (the batch-shaped version
+    of a direct 4xx: the run stops once everything else is stored)."""
+    with conn.cursor() as cur:
+        if before is not None:
+            before(cur)
+        cur.execute("""update extract_batches set status = 'collected', cost_usd = %s, collected_at = now()
+                       where id = %s""", (total, bid))
+    conn.commit()
+    budget.release(bid, total)
+    log(f"  batch {bid} collected: ${total:.4f}, {summary}" + (f", {len(invalid)} invalid" if invalid else ""))
+    if invalid:
+        log("  invalid_request_error in batch " + bid + ":\n    " + "\n    ".join(invalid[:10]))
+        raise AV.FatalAPIError(f"batch {bid}: {len(invalid)} request(s) rejected as invalid; first: {invalid[0]}")
 
 
 def _collect(conn, cl, budget, bid, stats, log, sleep=None):
@@ -764,13 +861,7 @@ def _collect(conn, cl, budget, bid, stats, log, sleep=None):
         cur.execute("select item_id, kind, prompt_hash from extraction_state where batch_id = %s", (bid,))
         members = cur.fetchall()
     conn.commit()
-    # The batch's cost is every answer it returned, whether or not its item
-    # is still attached here: what was billed is what the cap must count.
-    costs = {cid: AV.cost(AV.usage_of(r[1]), batch=True) for cid, r in res.items() if r[0] == "succeeded"}
-    total = sum(costs.values())
-    stray = set(costs) - {m[0] for m in members}
-    if stray:
-        log(f"  batch {bid}: {len(stray)} answer(s) for items no longer attached to it, counted, not stored")
+    costs, total = _batch_costs(res, bid, [m[0] for m in members], "items", log)
     # Everything is parsed first, then written WRITE_CHUNK items per
     # transaction (see write()). A crash part way leaves the chunks already
     # committed done and detached from the batch; the next run re-attaches,
@@ -787,95 +878,75 @@ def _collect(conn, cl, budget, bid, stats, log, sleep=None):
         else:
             # Only these are sent again in this run; an answer that could not
             # be used is queued for the next run, as on the direct path.
-            entries.append(Failed(item, f"batch_{r[0]}" + (f": {r[1]}: {r[2]}" if r[0] == "errored" else "")))
+            entries.append(Failed(item, _unanswered(r)))
             rebatch.add(item_id)
     parked = set()
     for start in range(0, len(entries), WRITE_CHUNK):
         parked |= _write_counted(conn, entries[start:start + WRITE_CHUNK], stats, log)
     retry = [(e.item.kind, e.item.id) for e in entries if e.item.id in rebatch and e.item.id not in parked]
-    with conn.cursor() as cur:
+
+    def detach(cur):
         if invalid_ids:
             cur.execute("update extraction_state set batch_id = null where version = %s and item_id = any(%s)",
                         (VERSION, invalid_ids))
-        cur.execute("""update extract_batches set status = 'collected', cost_usd = %s, collected_at = now()
-                       where id = %s""", (total, bid))
-    conn.commit()
-    budget.release(bid, total)
-    log(f"  batch {bid} collected: ${total:.4f}, {len(members) - len(retry) - len(invalid)} settled, "
-        f"{len(retry)} to retry" + (f", {len(invalid)} invalid" if invalid else ""))
-    if invalid:
-        log("  invalid_request_error in batch " + bid + ":\n    " + "\n    ".join(invalid[:10]))
-        raise AV.FatalAPIError(f"batch {bid}: {len(invalid)} request(s) rejected as invalid; first: {invalid[0]}")
+    _batch_collected(conn, budget, bid, total,
+                     f"{len(members) - len(retry) - len(invalid)} settled, {len(retry)} to retry", invalid, log,
+                     before=detach)
     return retry
 
 
-def run_batch(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, max_chars=None,
-              batch_size=BATCH_SIZE, max_inflight=MAX_INFLIGHT, poll_seconds=POLL_SECONDS,
-              log=print, sleep=time.sleep, stats=None):
-    """Extract due items through Message Batches under the cap. Returns Stats.
-
-    1. A 'pending-' batch row means a submission whose outcome is unknown.
-       It is matched against the API's batch list (resolve_pending_auto):
-       exactly one match is adopted; anything else stops the run for a
-       person to decide with --resolve-pending, so nothing is sent twice.
-    2. Re-attach to batches submitted earlier and not collected; their holds
-       count against this run's cap until they are. One the API no longer
-       knows (404) is marked lost, not fatal (see _lost).
-    3. Submit sub-batches that fit what remains under the cap, up to
-       max_inflight at once; collect each as it ends, and send the items it
-       hands back for a retry first.
-    """
-    stats = stats or Stats()
+def _settle_pending(conn, cl, log):
+    """Step one of every batch run: a 'pending-' batch row is a submission
+    whose outcome is unknown. It is matched against the API's batch list
+    (resolve_pending_auto); exactly one match is adopted, and anything else
+    stops the run for a person to decide with --resolve-pending, so nothing
+    is sent twice."""
     for pid in _pending(conn):
         bid = resolve_pending_auto(conn, cl, pid, log)
         if bid is None:
             raise SystemExit(f"submission {pid} has an unknown outcome and no single batch in the API's "
                              "list matches it: check the Console, then run --resolve-pending "
                              f"{pid} <batch id | none>")
+
+
+def _reattach(conn, budget, log):
+    """Step two: the batches submitted earlier and not collected, of either
+    shape. Their holds count against this run's cap until they are."""
     inflight = []
     for bid, hold in _inflight(conn):
         budget.hold(bid, hold, force=True)
         inflight.append(bid)
         log(f"re-attaching to batch {bid} (${hold:.4f} held)")
+    return inflight
 
-    queue = []          # (kind, id), retries first
-    for kind in kinds:
-        n = None if limit is None else max(limit - len(queue), 0)
-        if n == 0:
-            break
-        queue += [(kind, i) for i in candidate_ids(conn, kind, n, since, ids,
-                                                   max_chars if kind == "comment" else None)]
-    log(f"{len(queue):,} item(s) due, {len(inflight)} batch(es) in flight, cap ${budget.max:.2f}")
+
+def _run_batches(conn, cl, budget, queue, inflight, max_inflight, poll_seconds, log, sleep, stats):
+    """The batch loop both modes share: submit what `queue` hands out while it
+    fits under the cap, up to max_inflight batches at once; wait for one to
+    end; collect it, whichever shape it is, and hand what it returns to the
+    queue, whose retries go first. One the API no longer knows (404) is
+    marked lost, not fatal (see _lost).
+
+    `queue` is an _ItemQueue or a _ChunkQueue: take(room) gives the next
+    batch, [] when nothing fits in room (the cap), None when nothing is left;
+    sent(batch) drops a submitted batch from it; returned(bid, shape, retry)
+    takes back what a collected batch owes."""
     capped = False
-    while queue or inflight:
-        # Top up.
-        while queue and not capped and len(inflight) < max_inflight:
-            head = queue[:batch_size]
-            items = []
-            for kind in KINDS:
-                ids_k = [i for k, i in head if k == kind]
-                items += render_items(conn, kind, ids_k) if ids_k else []
-            if not items:
-                # Every id in the head is gone from the database; nothing to send.
-                queue = queue[len(head):]
-                continue
-            order = {i: n for n, (_, i) in enumerate(head)}
-            items.sort(key=lambda it: order[it.id])
-            room, batch, held = budget.remaining(), [], 0.0
-            for it in items:
-                w = it.worst(batch=True)
-                if held + w > room:
-                    break
-                batch.append(it)
-                held += w
+    while True:
+        while not capped and len(inflight) < max_inflight:
+            batch = queue.take(budget.remaining())
+            if batch is None:
+                break
             if not batch:
                 capped = True
                 break
-            taken = {it.id for it in batch}
-            # What was sent leaves the queue, and so do ids that no longer
-            # exist (nothing rendered); the rest of the head goes back in front.
-            queue = [(it.kind, it.id) for it in items if it.id not in taken] + queue[len(head):]
-            inflight.append(_submit(conn, cl, budget, batch, log))
+            try:
+                bid = _submit(conn, cl, budget, batch, log)
+            except AV.AmbiguousSubmit:
+                queue.sent(batch)        # pending now: the next run settles it, so it is not unsent
+                raise
+            queue.sent(batch)
+            inflight.append(bid)
         if not inflight:
             break
         # Wait for one to end.
@@ -908,20 +979,79 @@ def run_batch(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, m
             _lost(conn, budget, ended, e, log)
             capped = False
             continue
+        # Retries go first: they finish work already paid for. The hold just
+        # became the (much smaller) actual cost, so there may be room again.
+        queue.returned(ended, shape, retry)
+        capped = False
+
+
+class _ItemQueue:
+    """Comment and post mode's batch queue: (kind, id) pairs, retries first."""
+
+    def __init__(self, conn, pairs, batch_size, log):
+        self.conn, self.pairs, self.batch_size, self.log = conn, pairs, batch_size, log
+        self._rest = None
+
+    def take(self, room):
+        while self.pairs:
+            head = self.pairs[:self.batch_size]
+            items = render_pairs(self.conn, head)
+            if not items:
+                # Every id in the head is gone from the database; nothing to send.
+                self.pairs = self.pairs[len(head):]
+                continue
+            batch = _fit(items, room)
+            if not batch:
+                return []
+            taken = {it.id for it in batch}
+            # What was sent leaves the queue, and so do ids that no longer
+            # exist (nothing rendered); the rest of the head goes back in front.
+            self._rest = [(it.kind, it.id) for it in items if it.id not in taken] + self.pairs[len(head):]
+            return batch
+        return None
+
+    def sent(self, batch):
+        self.pairs = self._rest
+
+    def returned(self, bid, shape, retry):
         if shape == "chunks":
             # A thread-mode batch re-attached here: its answers are stored,
             # and what failed waits in extract_chunks (or is due again) for
             # the next run, which sends it.
             tids, held = retry
             if tids or held:
-                log(f"  batch {ended}: {len(tids)} thread(s) owe a retry"
-                    + (f", {len(held)} chunk(s) wait for another run" if held else "") + "; the next run sends them")
-            retry = []
-        # Retries go first: they finish work already paid for. The hold just
-        # became the (much smaller) actual cost, so there may be room again.
-        queue = retry + queue
-        capped = False
-    stats.refused += len(queue)
+                self.log(f"  batch {bid}: {len(tids)} thread(s) owe a retry"
+                         + (f", {len(held)} chunk(s) wait for another run" if held else "")
+                         + "; the next run sends them")
+            return
+        self.pairs = retry + self.pairs
+
+
+def run_batch(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, max_chars=None,
+              batch_size=BATCH_SIZE, max_inflight=MAX_INFLIGHT, poll_seconds=POLL_SECONDS,
+              log=print, sleep=time.sleep, stats=None):
+    """Extract due items through Message Batches under the cap. Returns Stats.
+
+    1. Pending submissions are matched or the run stops (_settle_pending).
+    2. Re-attach to batches submitted earlier and not collected (_reattach).
+    3. Submit sub-batches that fit what remains under the cap, up to
+       max_inflight at once; collect each as it ends, and send the items it
+       hands back for a retry first (_run_batches).
+    """
+    stats = stats or Stats()
+    _settle_pending(conn, cl, log)
+    inflight = _reattach(conn, budget, log)
+    pairs = []          # (kind, id), retries first
+    for kind in kinds:
+        n = None if limit is None else max(limit - len(pairs), 0)
+        if n == 0:
+            break
+        pairs += [(kind, i) for i in candidate_ids(conn, kind, n, since, ids,
+                                                   max_chars if kind == "comment" else None)]
+    log(f"{len(pairs):,} item(s) due, {len(inflight)} batch(es) in flight, cap ${budget.max:.2f}")
+    queue = _ItemQueue(conn, pairs, batch_size, log)
+    _run_batches(conn, cl, budget, queue, inflight, max_inflight, poll_seconds, log, sleep, stats)
+    stats.refused += len(queue.pairs)
     return stats
 
 
@@ -1078,16 +1208,15 @@ THREAD_PAGE = 50              # threads read and chunked at a time
 # the items of a half that failed too, then a margin: at most this many rounds
 # a page. Whatever is still owed after them is counted as not sent.
 THREAD_PASSES = 4
-# An item goes out alone in a thread-mode run only when both are true: a
-# failed half handed it over (it is a member of a failed chunk marked
-# fallback), and its cursor row has been rewritten to comment or post mode's
-# hash since (_chunk_failed does that). Either alone is not enough: comment
-# and post mode leave their hash on rows that never failed (a refused
-# submission, --drop-batch, a pending submission settled as none), and a
-# fallback chunk's item that was later reset or chunked again carries another
-# hash, or no row. The mark lasts until the item is settled; --reset-hash of
-# that mode's hash removes it with the row.
-ALONE_HASHES = (prompt_v6.PROMPT_HASH, prompt_v6.PROMPT_HASH_POST)
+# Going alone is routed by extract_chunks, not by the items' cursor rows: a
+# half that fails too is recorded failed with fallback set, and its `alone`
+# lists the items it handed over. A thread-mode run sends an item alone, in
+# comment or post mode, while it is still due and some failed chunk's `alone`
+# lists it; so a refused or ambiguous send, --drop-batch, or a first failure
+# alone (comment mode's own retry) sends it alone again, and so does
+# --retry-errors on a parked one. Once it is settled it is not due, and the
+# route has nothing to do; --reset-hash takes the items it resets off every
+# `alone` list, so a reset item starts afresh in a chunk.
 # A chunk a batch hands back for a reason that is not its size or content
 # (expired, canceled, missing, an API error) is queued again as it was. It is
 # sent again in the same run while it has gone out fewer than this many times
@@ -1111,6 +1240,9 @@ class ChunkJob:
     """One thread-mode request: a chunk, rendered, with the bracket map its answer is read against."""
     __slots__ = ("id", "chunk", "user", "ids", "context", "effort", "generation", "split_from", "system",
                  "prompt_hash", "attempts")
+    # Streamed when sent direct: a chunk may write up to 32k tokens, longer
+    # than a plain request may take (anthropic_v6.TIMEOUT).
+    stream = True
 
     def __init__(self, cid, chunk, user, ids, context, effort, generation=0, split_from=None, attempts=0):
         self.id, self.chunk, self.user, self.ids, self.context = cid, chunk, user, ids, context
@@ -1137,6 +1269,10 @@ class ChunkJob:
     def items(self):
         return [Item("post" if i == self.chunk.thread_id else "comment", i, None, None, self.prompt_hash)
                 for i in self.members]
+
+    def state_rows(self):
+        """(item id, kind, prompt hash) of every member: a batch holds each one's cursor row."""
+        return [(it.id, it.kind, it.prompt_hash) for it in self.items()]
 
     def worst(self, batch):
         return AV.worst_case(self.system, self.user, batch, prompt_v6.THREAD_MAX_TOKENS)
@@ -1209,32 +1345,26 @@ def retire_chunks(conn, log=print):
 
 
 def _due_in(conn, tids):
-    """({thread_id: due comment ids}, due post ids, ids due to go out alone,
-    queued chunk rows) for these threads."""
+    """({thread_id: due comment ids}, due post ids, ids routed to go out alone
+    (due or not), queued chunk rows) for these threads."""
     with conn.cursor() as cur:
-        cur.execute("""select members from extract_chunks
+        cur.execute("""select alone from extract_chunks
                        where version = %s and thread_id = any(%s) and status = 'failed' and fallback""",
                     (VERSION, list(tids)))
-        handed = {m for (ms,) in cur.fetchall() for m in ms}
-        cur.execute(f"""select c.thread_id, c.id, s.prompt_hash from comments c
+        alone = {m for (ms,) in cur.fetchall() for m in ms}
+        cur.execute(f"""select c.thread_id, c.id from comments c
                         left join extraction_state s on s.item_id = c.id and s.version = %(v)s
                         where c.thread_id = any(%(t)s) and c.subreddit = %(home)s
                           and btrim(c.body) not in ('', '[deleted]', '[removed]') and {queued('s')}""",
                     {"v": VERSION, "t": list(tids), "home": subreddits.HOME})
-        comments, alone = {}, set()
-        for tid, cid, ph in cur.fetchall():
+        comments = {}
+        for tid, cid in cur.fetchall():
             comments.setdefault(tid, set()).add(cid)
-            if ph in ALONE_HASHES and cid in handed:
-                alone.add(cid)
-        cur.execute(f"""select t.id, ps.prompt_hash from threads t
+        cur.execute(f"""select t.id from threads t
                         left join extraction_state ps on ps.item_id = t.id and ps.version = %(v)s
                         where t.id = any(%(t)s) and t.subreddit = %(home)s and {queued('ps')}""",
                     {"v": VERSION, "t": list(tids), "home": subreddits.HOME})
-        posts = set()
-        for tid, ph in cur.fetchall():
-            posts.add(tid)
-            if ph in ALONE_HASHES and tid in handed:
-                alone.add(tid)
+        posts = {r[0] for r in cur.fetchall()}
         cur.execute("""select id, thread_id, post_item, members, generation, split_from, attempts
                        from extract_chunks where version = %s and thread_id = any(%s) and status = 'queued'
                        order by created_at, id""", (VERSION, list(tids)))
@@ -1251,11 +1381,12 @@ def _job(chunk, th, tree, effort, cid=None, generation=0, split_from=None, attem
 def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=print):
     """(chunk jobs, [(kind, id)] to send alone) for these threads, in order.
 
-    Retries come first. A due item a failed half handed over (ALONE_HASHES)
-    goes out alone, in comment or post mode. A queued chunk is sent as recorded,
-    minus any item no longer due; one whose items are all no longer due is
-    marked dropped (unless write is False, as in a dry run). Everything else
-    due is chunked afresh.
+    Retries come first. A due item a failed half handed over (a failed chunk's
+    `alone`) goes out alone, in comment or post mode. A queued chunk is sent
+    as recorded, minus any item no longer due; one whose items are all no
+    longer due is marked dropped (unless write is False, as in a dry run),
+    and one that numbers a post this run's scope leaves out stays queued.
+    Everything else due is chunked afresh.
 
     `exclude` holds items already waiting in this run's memory, and `hold` the
     queued chunks this run will not send again: their items are claimed, so
@@ -1281,7 +1412,7 @@ def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=pri
         for i in sorted((due & due_alone) - claimed, key=lambda x: (x != tid, x)):
             alone.append(("post" if i == tid else "comment", i))
             claimed.add(i)
-        tree = None
+        tree = None               # built once a thread, only when something of it is drawn
         for cid, _, post_item, members, generation, split_from, attempts in by_thread.get(tid, []):
             mine = [i for i in members if i in owed]
             if not mine:
@@ -1307,7 +1438,7 @@ def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=pri
             tree = tree or T.Tree(th["comments"])
             ptoks = T.text_tokens(f"{th['title'] or ''} {th['selftext'] or ''}", R_POST_CHARS) if post else 0.0
             for ch in T.chunk_thread(tid, th["comments"], rest - {tid}, post, ptoks, opts.soft_comments,
-                                     opts.soft_tokens, opts.max_comments):
+                                     opts.soft_tokens, opts.max_comments, tree=tree):
                 jobs.append(_job(ch, th, tree, opts.effort))
     if dropped and write:
         with conn.cursor() as cur:
@@ -1329,17 +1460,18 @@ def _chunk_record(job, status, batch_id=None, output=None, usage=None, cost=None
     """One extract_chunks row's values, in _CHUNK_COLUMNS order. attempts is
     what this write adds to the row's count of sends: 1 for a direct send's
     answer, 0 for anything else. A batch's send is counted apart, when the API
-    accepts the batch (_submit_chunks, resolve_pending), so a submission that
-    never happened is never counted."""
+    accepts the batch (_submit, resolve_pending), so a submission that never
+    happened is never counted. A fallback chunk's `alone` is its members: the
+    items it hands over to go out one at a time."""
     return (job.id, VERSION, job.chunk.thread_id, job.prompt_hash, job.effort, job.chunk.post_item, job.members,
-            job.context, job.generation, job.split_from, status, fallback, batch_id, error, bad,
-            Json(output) if output is not None else None, Json(usage) if usage is not None else None, cost,
-            attempts)
+            job.context, job.generation, job.split_from, status, fallback, job.members if fallback else [],
+            batch_id, error, bad, Json(output) if output is not None else None,
+            Json(usage) if usage is not None else None, cost, attempts)
 
 
 _CHUNK_COLUMNS = ("id", "version", "thread_id", "prompt_hash", "effort", "post_item", "members", "context_ids",
-                  "generation", "split_from", "status", "fallback", "batch_id", "error", "bad_ids", "output",
-                  "usage", "cost_usd", "attempts")
+                  "generation", "split_from", "status", "fallback", "alone", "batch_id", "error", "bad_ids",
+                  "output", "usage", "cost_usd", "attempts")
 # Every column is taken from the values, except the record of what was sent
 # (members, context), which a batch's own row already holds when its answer
 # is collected without the rendering, and attempts, which is added to.
@@ -1350,7 +1482,7 @@ _CHUNK_UPSERT = f"""
       members = excluded.members,
       context_ids = case when cardinality(excluded.context_ids) > 0 or excluded.status in ('queued', 'batched')
                          then excluded.context_ids else extract_chunks.context_ids end,
-      status = excluded.status, fallback = excluded.fallback, batch_id = excluded.batch_id,
+      status = excluded.status, fallback = excluded.fallback, alone = excluded.alone, batch_id = excluded.batch_id,
       error = excluded.error, bad_ids = excluded.bad_ids, output = excluded.output, usage = excluded.usage,
       cost_usd = excluded.cost_usd, attempts = extract_chunks.attempts + excluded.attempts,
       updated_at = now(), finished_at = case when excluded.status in ('done', 'failed') then now() end"""
@@ -1465,10 +1597,11 @@ def _store_chunk_alone(conn, answer, stats, log, batch_id, attempts, together=Tr
 def _chunk_failed(conn, job, code, usage, cost, log, batch_id=None, attempts=0):
     """Record a chunk that got no usable answer (cut off, refused, not JSON,
     or not storable), and queue what comes next: its two halves, or, for a
-    half or a chunk of one item, its items alone. "Alone" is written on each
-    item's own cursor row (the comment- or post-mode hash, ALONE_HASHES), so it
-    applies until that item is settled and no longer. In a batch the items
-    are detached from it, so they are due again. Returns the thread id."""
+    half or a chunk of one item, its items alone. Going alone is recorded on
+    the chunk's own row (fallback, and its members in `alone`), which is what
+    routes the items while they are due; their cursor rows are not touched,
+    so each keeps the hash of the prompt that last tried it. In a batch the
+    items are detached from it, so they are due again. Returns the thread id."""
     halves = T.split_half(job.chunk) if job.generation == 0 and len(job.chunk) > 1 else []
     rec = _chunk_record(job, "failed", batch_id, None, usage, cost, error=str(code)[:500], fallback=not halves,
                         attempts=attempts)
@@ -1482,19 +1615,6 @@ def _chunk_failed(conn, job, code, usage, cost, log, batch_id=None, attempts=0):
             cur.execute("""update extraction_state set batch_id = null, updated_at = now()
                            where version = %s and batch_id = %s and item_id = any(%s)""",
                         (VERSION, batch_id, job.members))
-        if not halves:
-            its = job.items()
-            cur.execute("""
-                insert into extraction_state (item_id, version, kind, prompt_hash, model)
-                select u.item_id, %(v)s, u.kind, u.ph, %(model)s
-                from unnest(%(ids)s::text[], %(kinds)s::text[], %(hashes)s::text[]) as u(item_id, kind, ph)
-                on conflict (item_id, version) do update set
-                  prompt_hash = excluded.prompt_hash, batch_id = null, updated_at = now()
-                where extraction_state.extracted_at is null and extraction_state.extract_error is null""",
-                        {"v": VERSION, "model": prompt_v6.MODEL, "ids": [it.id for it in its],
-                         "kinds": [it.kind for it in its],
-                         "hashes": [prompt_v6.PROMPT_HASH_POST if it.kind == "post" else prompt_v6.PROMPT_HASH
-                                    for it in its]})
     conn.commit()
     log(f"  chunk {job.id} ({job.chunk.thread_id}, {len(job.chunk)} items) failed ({str(code)[:80]}): "
         + (f"split into {len(halves)} halves" if halves else "its items go out one at a time"))
@@ -1523,7 +1643,7 @@ def run_direct_threads(conn, cl, budget, opts, limit=None, since=None, ids=None,
     Each page's chunks go out `workers` at a time; then the halves of any that
     failed, then their items alone if a half failed too, before the next page.
     Holds, Ctrl-C and stopping on a fatal or lasting transient error work as
-    in comment mode (_direct_page). When it stops, stats counts what was not
+    in comment mode (_send_direct). When it stops, stats counts what was not
     sent: the items of chunks built and not sent (refused, threads_open) and
     the threads never reached (threads_left)."""
     stats = stats or Stats()
@@ -1539,12 +1659,8 @@ def run_direct_threads(conn, cl, budget, opts, limit=None, since=None, ids=None,
             for _ in range(THREAD_PASSES):
                 jobs, alone = build_thread_jobs(conn, todo, opts, log=log)
                 if alone:
-                    items = []
-                    for kind in KINDS:
-                        ids_k = [i for k, i in alone if k == kind]
-                        items += render_items(conn, kind, ids_k) if ids_k else []
                     # _direct_page counts the items the cap left unsent in stats.refused.
-                    _direct_page(conn, cl, budget, items, workers, stats, stop, capped, log)
+                    _direct_page(conn, cl, budget, render_pairs(conn, alone), workers, stats, stop, capped, log)
                 if stop.is_set():
                     stats.refused += sum(len(j.chunk) for j in jobs)
                     stats.threads_open |= {j.chunk.thread_id for j in jobs}
@@ -1581,114 +1697,25 @@ def run_direct_threads(conn, cl, budget, opts, limit=None, since=None, ids=None,
 
 
 def _direct_chunks(conn, cl, budget, jobs, workers, stats, stop, capped, log):
-    """Send chunk jobs concurrently under the cap; store each answer on this
-    thread. Returns the thread ids that owe a retry. A chunk not sent (the cap,
-    or a stop) is counted in stats.refused and its thread in threads_open."""
-    def work(job):
-        if stop.is_set():
-            return job, "skipped", 0.0
-        w = job.worst(batch=False)
-        if not budget.reserve(w):
-            capped.set()
-            stop.set()
-            return job, "skipped", 0.0
-        held = [True]
+    """Send chunk jobs concurrently under the cap (_send_direct); store each
+    answer on this thread. Returns the thread ids that owe a retry. A chunk
+    not sent (the cap, or a stop) is counted in stats.refused and its thread
+    in threads_open, also when the pass stops on an error."""
+    retry = set()
 
-        def again():
-            budget.settle(w, w)
-            held[0] = budget.reserve(w)
-            return held[0]
-        try:
-            # Streamed: a chunk may write up to 32k tokens, longer than a plain request may take.
-            msg = AV.call(cl, job.params(), log=log, retry_ok=again, stream=True)
-        except AV.CapReached:
-            capped.set()
-            stop.set()
-            return job, "skipped", 0.0
-        except (AV.FatalAPIError, AV.TransientAPIError) as e:
-            if held[0]:
-                budget.settle(w, w if getattr(e, "maybe_billed", False) else 0.0)
-            stop.set()
-            return job, e, 0.0
-        c = AV.cost(AV.usage_of(msg), batch=False)
-        budget.settle(w, c)
-        return job, msg, c
+    def answered(job, msg, cost):
+        got = _read_chunk(job, msg, cost, stats, log)
+        if got[0] == "done":
+            retry.update(_store_chunk_answers(conn, [(job, got[1], got[2], cost)], stats, log, attempts=1))
+        else:
+            stats.chunk_failures += 1
+            retry.add(_chunk_failed(conn, job, got[1], got[2], cost, log, attempts=1))
 
-    halt, retry = None, set()
-    pool = concurrent.futures.ThreadPoolExecutor(max_workers=workers)
-    try:
-        for fut in concurrent.futures.as_completed([pool.submit(work, j) for j in jobs]):
-            job, res, c = fut.result()
-            if isinstance(res, str) or isinstance(res, Exception):
-                stats.refused += len(job.chunk)
-                stats.threads_open.add(job.chunk.thread_id)
-                if isinstance(res, Exception):
-                    halt = halt or res
-                continue
-            got = _read_chunk(job, res, c, stats, log)
-            if got[0] == "done":
-                retry |= _store_chunk_answers(conn, [(job, got[1], got[2], c)], stats, log, attempts=1)
-            else:
-                stats.chunk_failures += 1
-                retry.add(_chunk_failed(conn, job, got[1], got[2], c, log, attempts=1))
-    except BaseException:
-        stop.set()
-        pool.shutdown(wait=True, cancel_futures=True)
-        raise
-    pool.shutdown(wait=True)
-    if halt is not None:
-        raise halt
+    def unsent(job, why):
+        stats.refused += len(job.chunk)
+        stats.threads_open.add(job.chunk.thread_id)
+    _send_direct(cl, budget, jobs, workers, stop, capped, log, answered, unsent)
     return retry
-
-
-def _submit_chunks(conn, cl, budget, jobs, log):
-    """The thread-mode _submit: the ledger row, every chunk's row and every
-    member's state row are written first (in one transaction), so a re-run
-    re-attaches and nothing is sent twice; then the batch, one request per
-    chunk with the chunk id as custom_id. Each chunk's attempts counts this
-    send once the API has accepted the batch, so a refused submission leaves
-    it as it was (CHUNK_SENDS_PER_RUN reads it)."""
-    held = sum(j.worst(batch=True) for j in jobs)
-    pid = f"pending-{int(time.time() * 1000)}-{os.getpid()}"
-    items = [(it.id, it.kind) for j in jobs for it in j.items()]
-    with conn.cursor() as cur:
-        cur.execute("insert into extract_batches (id, version, requests, hold_usd) values (%s, %s, %s, %s)",
-                    (pid, VERSION, len(jobs), held))
-        _upsert_chunks(cur, [_chunk_record(j, "batched", pid) for j in jobs])
-        cur.execute("""
-            insert into extraction_state (item_id, version, kind, prompt_hash, model, batch_id)
-            select u.item_id, %(v)s, u.kind, %(ph)s, %(model)s, %(pid)s
-            from unnest(%(ids)s::text[], %(kinds)s::text[]) as u(item_id, kind)
-            on conflict (item_id, version) do update set
-              prompt_hash = excluded.prompt_hash, model = excluded.model, batch_id = excluded.batch_id,
-              updated_at = now()""",
-                    {"v": VERSION, "ph": prompt_v6.PROMPT_HASH_THREAD, "model": prompt_v6.MODEL, "pid": pid,
-                     "ids": [i for i, _ in items], "kinds": [k for _, k in items]})
-    conn.commit()
-    budget.hold(pid, held, force=True)
-    try:
-        bid = AV.submit(cl, [(j.id, j.params()) for j in jobs])
-    except (AV.TransientAPIError, AV.FatalAPIError):
-        with conn.cursor() as cur:
-            cur.execute("delete from extract_batches where id = %s", (pid,))
-            cur.execute("update extraction_state set batch_id = null where batch_id = %s", (pid,))
-            _chunks_requeue(cur, pid)
-        conn.commit()
-        budget.release(pid, 0.0)
-        raise
-    except AV.AmbiguousSubmit:
-        log(f"  submission of {pid} has an unknown outcome; kept as pending, run stops")
-        raise
-    with conn.cursor() as cur:
-        cur.execute("""update extract_batches set id = %s, status = 'submitted', submitted_at = now()
-                       where id = %s""", (bid, pid))
-        cur.execute("update extraction_state set batch_id = %s where batch_id = %s", (bid, pid))
-        cur.execute("update extract_chunks set batch_id = %s, attempts = attempts + 1 where batch_id = %s",
-                    (bid, pid))
-    conn.commit()
-    budget.rename(pid, bid)
-    log(f"submitted batch {bid}: {len(jobs)} chunk(s), {len(items)} item(s), worst case ${held:.4f} held")
-    return bid
 
 
 def _batch_chunks(conn, bid):
@@ -1724,13 +1751,9 @@ def _collect_chunks(conn, cl, budget, bid, rows, stats, log, sleep=None):
     it has been sent fewer than CHUNK_SENDS_PER_RUN times in all. An
     invalid_request_error is fatal as in comment mode: that chunk is queued
     again unchanged, its items left due, and the run stops once the rest is
-    stored and the batch is marked collected."""
+    stored and the batch is marked collected (_batch_collected)."""
     res = AV.results(cl, bid, sleep=sleep, log=log)
-    costs = {cid: AV.cost(AV.usage_of(r[1]), batch=True) for cid, r in res.items() if r[0] == "succeeded"}
-    total = sum(costs.values())
-    stray = set(costs) - {r[0] for r in rows}
-    if stray:
-        log(f"  batch {bid}: {len(stray)} answer(s) for chunks no longer attached to it, counted, not stored")
+    costs, total = _batch_costs(res, bid, [r[0] for r in rows], "chunks", log)
     answers, failures, again, invalid = [], [], [], []
     for row in rows:
         job = ChunkJob.from_row(row)
@@ -1744,7 +1767,7 @@ def _collect_chunks(conn, cl, budget, bid, rows, stats, log, sleep=None):
         elif r[0] == "errored" and r[1] == "invalid_request_error":
             invalid.append((job, f"{job.id}: {r[2]}"))
         else:
-            again.append((job, f"batch_{r[0]}" + (f": {r[1]}: {r[2]}" if r[0] == "errored" else "")))
+            again.append((job, _unanswered(r)))
     retry = _store_chunk_answers(conn, answers, stats, log, batch_id=bid)
     for job, code, usage, cost in failures:
         stats.chunk_failures += 1
@@ -1756,163 +1779,124 @@ def _collect_chunks(conn, cl, budget, bid, rows, stats, log, sleep=None):
             retry.add(job.chunk.thread_id)
         else:
             hold.add(job.id)
-    with conn.cursor() as cur:
+
+    def detach(cur):
         for job, _ in invalid:
             cur.execute("update extract_chunks set status = 'queued', batch_id = null, updated_at = now() "
                         "where id = %s", (job.id,))
             cur.execute("update extraction_state set batch_id = null where version = %s and batch_id = %s "
                         "and item_id = any(%s)", (VERSION, bid, job.members))
-        cur.execute("""update extract_batches set status = 'collected', cost_usd = %s, collected_at = now()
-                       where id = %s""", (total, bid))
-    conn.commit()
-    budget.release(bid, total)
-    log(f"  batch {bid} collected: ${total:.4f}, {len(answers)} chunk(s) answered, {len(failures)} to retry "
-        f"smaller, {len(again)} to send again as they were" + (f", {len(invalid)} invalid" if invalid else ""))
-    if invalid:
-        log("  invalid_request_error in batch " + bid + ":\n    " + "\n    ".join(m for _, m in invalid[:10]))
-        raise AV.FatalAPIError(f"batch {bid}: {len(invalid)} request(s) rejected as invalid; first: {invalid[0][1]}")
+    _batch_collected(conn, budget, bid, total,
+                     f"{len(answers)} chunk(s) answered, {len(failures)} to retry smaller, "
+                     f"{len(again)} to send again as they were", [m for _, m in invalid], log, before=detach)
     return sorted(retry), hold
+
+
+class _ChunkQueue:
+    """Thread mode's batch queue for _run_batches: chunk jobs, and items owed
+    a retry alone, built a page of threads at a time as room is needed.
+    Threads that owe a retry are built again first (their halves, or a chunk
+    as it was), and items alone go out before chunks, in their own comment-
+    or post-mode batches.
+
+    `waiting` is every item id in the two queues, kept up to date as they
+    change (rather than gathered again from every queued job on each page):
+    build_thread_jobs takes those items as claimed, so none is built twice
+    or taken for done. `held` is the queued chunks this run will not send
+    again (CHUNK_SENDS_PER_RUN)."""
+
+    def __init__(self, conn, opts, tids, batch_size, log):
+        self.conn, self.opts, self.tids, self.batch_size, self.log = conn, opts, tids, batch_size, log
+        self.pos, self.retry_tids, self.jobs, self.alone = 0, [], [], []
+        self.waiting, self.held = set(), set()
+        self._rest = self._gone = None
+
+    def _build(self, tids, front=False):
+        jobs, alone = build_thread_jobs(self.conn, tids, self.opts, exclude=self.waiting, hold=self.held,
+                                        log=self.log)
+        self.waiting |= {i for j in jobs for i in j.chunk.items} | {i for _, i in alone}
+        if front:
+            self.jobs, self.alone = jobs + self.jobs, alone + self.alone
+        else:
+            self.jobs, self.alone = self.jobs + jobs, self.alone + alone
+
+    def take(self, room):
+        while True:
+            if self.retry_tids:
+                tids, self.retry_tids = self.retry_tids, []
+                self._build(tids, front=True)
+            while not self.alone and len(self.jobs) < self.batch_size and self.pos < len(self.tids):
+                page = self.tids[self.pos:self.pos + THREAD_PAGE]
+                self.pos += len(page)
+                self._build(page)
+            if not self.alone:
+                return _fit(self.jobs[:self.batch_size], room) if self.jobs else None
+            head = self.alone[:self.batch_size]
+            items = render_pairs(self.conn, head)
+            if not items:
+                # Every id in the head is gone from the database; nothing to send.
+                self.waiting -= {i for _, i in head}
+                self.alone = self.alone[len(head):]
+                continue
+            batch = _fit(items, room)
+            if not batch:
+                return []
+            taken = {it.id for it in batch}
+            kept = [(it.kind, it.id) for it in items if it.id not in taken]
+            self._gone = {i for _, i in head} - {i for _, i in kept}
+            self._rest = kept + self.alone[len(head):]
+            return batch
+
+    def sent(self, batch):
+        if isinstance(batch[0], Item):
+            self.alone = self._rest
+            self.waiting -= self._gone
+        else:
+            self.jobs = self.jobs[len(batch):]
+            self.waiting -= {i for j in batch for i in j.chunk.items}
+
+    def returned(self, bid, shape, retry):
+        if shape == "items":
+            self.alone = retry + self.alone
+            self.waiting |= {i for _, i in retry}
+        else:
+            again, held = retry
+            self.held |= held
+            self.retry_tids += [t for t in again if t not in self.retry_tids]
+
+    def close(self, stats):
+        """Count what was built and not sent, and the threads never reached."""
+        stats.refused += sum(len(j.chunk) for j in self.jobs) + len(self.alone)
+        stats.threads_open |= {j.chunk.thread_id for j in self.jobs}
+        stats.threads_left += len(self.tids) - self.pos
 
 
 def run_batch_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, newest_first=False,
                       batch_size=BATCH_SIZE, max_inflight=MAX_INFLIGHT, poll_seconds=POLL_SECONDS,
                       log=print, sleep=time.sleep, stats=None):
-    """Thread mode through Message Batches, as run_batch does it for items:
+    """Thread mode through Message Batches, in the loop run_batch uses:
     pending submissions matched first, batches in flight re-attached (of
     either shape), then sub-batches of up to batch_size chunks that fit what
     remains under the cap, max_inflight at once. Items owed a retry alone go
     out first, in their own comment- or post-mode batches; threads with a
     chunk to retry are chunked again (its halves, or the chunk as it was)
-    before new threads."""
+    before new threads (_ChunkQueue)."""
     stats = stats or Stats()
-    for pid in _pending(conn):
-        bid = resolve_pending_auto(conn, cl, pid, log)
-        if bid is None:
-            raise SystemExit(f"submission {pid} has an unknown outcome and no single batch in the API's "
-                             "list matches it: check the Console, then run --resolve-pending "
-                             f"{pid} <batch id | none>")
-    inflight = []
-    for bid, hold in _inflight(conn):
-        budget.hold(bid, hold, force=True)
-        inflight.append(bid)
-        log(f"re-attaching to batch {bid} (${hold:.4f} held)")
+    _settle_pending(conn, cl, log)
+    inflight = _reattach(conn, budget, log)
     retire_chunks(conn, log)
     tids = thread_candidates(conn, limit, since, ids, newest_first, opts.posts)
     log(f"{len(tids):,} thread(s) with items due, {len(inflight)} batch(es) in flight, cap ${budget.max:.2f}")
-    pos, retry_tids, jobs_q, items_q, held_rows = 0, [], [], [], set()
-    capped = False
-
-    def held_items():
-        return {i for j in jobs_q for i in j.chunk.items} | {i for _, i in items_q}
-
+    queue = _ChunkQueue(conn, opts, tids, batch_size, log)
     # However the loop ends (done, the cap, a fatal or lasting transient error,
     # Ctrl-C), what was built and not sent, and the threads never reached, are
-    # counted, so the closing line says what is left.
+    # counted, so the closing line says what is left. A refused submission
+    # stays in the queue, so it is counted; an ambiguous one is pending, and
+    # the next run settles it.
     try:
-        while True:
-            while not capped and len(inflight) < max_inflight:
-                if retry_tids:
-                    j, a = build_thread_jobs(conn, retry_tids, opts, exclude=held_items(), hold=held_rows, log=log)
-                    retry_tids = []
-                    jobs_q, items_q = j + jobs_q, a + items_q
-                while not items_q and len(jobs_q) < batch_size and pos < len(tids):
-                    page = tids[pos:pos + THREAD_PAGE]
-                    pos += len(page)
-                    j, a = build_thread_jobs(conn, page, opts, exclude=held_items(), hold=held_rows, log=log)
-                    jobs_q, items_q = jobs_q + j, items_q + a
-                room = budget.remaining()
-                if items_q:
-                    head = items_q[:batch_size]
-                    items = []
-                    for kind in KINDS:
-                        ids_k = [i for k, i in head if k == kind]
-                        items += render_items(conn, kind, ids_k) if ids_k else []
-                    batch, held = [], 0.0
-                    for it in items:
-                        w = it.worst(batch=True)
-                        if held + w > room:
-                            break
-                        batch.append(it)
-                        held += w
-                    if not batch:
-                        if not items:
-                            items_q = items_q[len(head):]
-                            continue
-                        capped = True
-                        break
-                    taken = {it.id for it in batch}
-                    rest = [(it.kind, it.id) for it in items if it.id not in taken] + items_q[len(head):]
-                    # A refused submission leaves its items in the queue, so the
-                    # closing count has them; an ambiguous one is pending, settled next run.
-                    try:
-                        bid = _submit(conn, cl, budget, batch, log)
-                    except AV.AmbiguousSubmit:
-                        items_q = rest
-                        raise
-                    items_q = rest
-                    inflight.append(bid)
-                    continue
-                if not jobs_q:
-                    break
-                batch, held = [], 0.0
-                for j in jobs_q[:batch_size]:
-                    w = j.worst(batch=True)
-                    if held + w > room:
-                        break
-                    batch.append(j)
-                    held += w
-                if not batch:
-                    capped = True
-                    break
-                try:
-                    bid = _submit_chunks(conn, cl, budget, batch, log)
-                except AV.AmbiguousSubmit:
-                    jobs_q = jobs_q[len(batch):]
-                    raise
-                jobs_q = jobs_q[len(batch):]
-                inflight.append(bid)
-            if not inflight:
-                break
-            ended, b, lost = None, None, None
-            for bid in inflight:
-                try:
-                    b = AV.retrieve(cl, bid, sleep=sleep, log=log)
-                except AV.NotFound as e:
-                    lost = bid
-                    _lost(conn, budget, bid, e, log)
-                    break
-                if b.processing_status == "ended":
-                    ended = bid
-                    break
-            if lost is not None:
-                inflight.remove(lost)
-                capped = False
-                continue
-            if ended is None:
-                c = getattr(b, "request_counts", None)
-                if c is not None:
-                    log(f"  batch {bid}: {b.processing_status}, {c.processing} processing, "
-                        f"{c.succeeded} succeeded, {c.errored} errored")
-                sleep(poll_seconds)
-                continue
-            inflight.remove(ended)
-            try:
-                shape, retry = _collect_any(conn, cl, budget, ended, stats, log, sleep=sleep)
-            except AV.NotFound as e:
-                _lost(conn, budget, ended, e, log)
-                capped = False
-                continue
-            if shape == "items":
-                items_q = retry + items_q
-            else:
-                again, hold = retry
-                held_rows |= hold
-                retry_tids += [t for t in again if t not in retry_tids]
-            capped = False
+        _run_batches(conn, cl, budget, queue, inflight, max_inflight, poll_seconds, log, sleep, stats)
     finally:
-        stats.refused += sum(len(j.chunk) for j in jobs_q) + len(items_q)
-        stats.threads_open |= {j.chunk.thread_id for j in jobs_q}
-        stats.threads_left += len(tids) - pos
+        queue.close(stats)
     return stats
 
 
@@ -2215,6 +2199,13 @@ def reset_hash(conn, prompt_hash, kinds=KINDS, yes=False, chunk=5000, log=print)
             cur.execute("delete from extraction_state where version = %s and prompt_hash = %s "
                         "and item_id = any(%s)", (VERSION, prompt_hash, cids + tids))
             gone_items += cur.rowcount
+            # A reset item starts afresh: a failed half that once sent it out
+            # alone routes it no longer, and it is chunked like any due item.
+            cur.execute("""update extract_chunks set alone = array(select a from unnest(alone) as a
+                                                                where a <> all(%(ids)s::text[])),
+                                                     updated_at = now()
+                           where version = %(v)s and alone && %(ids)s::text[]""",
+                        {"v": VERSION, "ids": cids + tids})
         conn.commit()
         log(f"  {min(start + chunk, len(todo)):,} / {len(todo):,} item(s) reset")
     # Rows of that hash whose state row is gone or names another hash (an

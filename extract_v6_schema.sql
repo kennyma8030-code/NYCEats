@@ -264,8 +264,8 @@ end $$;
 -- as numbered. It is also the retry queue: a chunk that fails is split in
 -- half and the halves wait here as 'queued' until a run sends them; a half
 -- that fails too is 'failed' with fallback set, and its items go out one at a
--- time in comment and post mode instead (each item's own extraction_state row
--- says so, by carrying that mode's prompt hash, until it is settled). A chunk
+-- time in comment and post mode instead: `alone` lists them, and routes each
+-- one there while it is due (a reset takes it off). A chunk
 -- a batch did not answer for another reason (expired, an API error) is
 -- 'queued' again as it was. A queued chunk with nothing left due is retired as
 -- 'dropped'. A new table, so creating it takes no lock anything else waits on.
@@ -283,7 +283,8 @@ create table if not exists extract_chunks (
   status       text not null default 'queued'
                check (status in ('queued', 'batched', 'done', 'failed', 'dropped')),
   fallback     boolean not null default false,  -- its failure sent its items out alone
-  attempts     int  not null default 0,          -- times it was sent
+  alone        text[] not null default '{}',     -- the items it sends alone while they are due
+  attempts     int  not null default 0,          -- times the API took it
   batch_id     text,
   error        text,
   bad_ids      int,                        -- mentions dropped because their id names no item
@@ -309,18 +310,6 @@ begin
   -- were handed over to go out alone.
   if to_regclass('extract_chunks_fallback_idx') is null then
     create index extract_chunks_fallback_idx on extract_chunks(thread_id) where fallback;
-  end if;
-end $$;
--- attempts came after the table's first version: a database that has that
--- one gets the column here (a constant default, so catalog-only), checked in
--- the catalog first so later runs alter nothing.
-do $$
-begin
-  perform set_config('lock_timeout', '5s', true);
-  if not exists (select 1 from information_schema.columns
-                 where table_schema = current_schema() and table_name = 'extract_chunks'
-                   and column_name = 'attempts') then
-    alter table extract_chunks add column if not exists attempts int not null default 0;
   end if;
 end $$;
 -- v6-extraction-schema:end
