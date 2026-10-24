@@ -405,7 +405,9 @@ class Batches(ThreadCase):
             return {"type": "succeeded", "message": msg}
         api = F.FakeAnthropic(answer, batch_results=results).__enter__()
         self.addCleanup(api.__exit__)
-        self.batch(api)
+        s = self.batch(api)
+        # Held for the next run, so counted as owed and not sent: the run exits 3, not 0.
+        self.assertEqual((s.refused, s.threads_open), (9, {"t3_c"}))
         sent = [r["custom_id"] for r in api.batch_requests]
         rows = self.q("select id, generation, status, attempts, error from extract_chunks where thread_id = 't3_c'")
         self.assertEqual(len(rows), 1)
@@ -944,16 +946,18 @@ class Review3(ThreadCase):
         self.assertEqual((budget.reserved, self.state()), (0.0, {}))
 
     # (second review, 3) what the scope holds back is reported, and does not crowd the order
-    def test_comments_held_by_the_scope_are_counted_as_not_sent(self):
+    def test_comments_held_by_the_scope_are_counted_apart(self):
         self.half_with_the_post_and_its_comments()
+        # Counted apart from what the cap left, since resuming the same run cannot send them.
         with F.FakeAnthropic(answer) as api:
             s = self.direct(api, ids=["t3_c"], opts=self.opts(posts=False))
             self.assertEqual(api.requests, [])
-        self.assertEqual((s.refused, s.threads_open), (4, {"t3_c"}))
+        self.assertEqual((s.held_scope, s.held_scope_threads, s.refused, s.threads_open), (4, {"t3_c"}, 0, set()))
+        self.assertIn("4 held for a run that takes posts", s.line())
         with F.FakeAnthropic(answer) as api:
             s = self.batch(api, ids=["t3_c"], opts=self.opts(posts=False))
             self.assertEqual(api.batch_requests, [])
-        self.assertEqual((s.refused, s.threads_open), (4, {"t3_c"}))
+        self.assertEqual((s.held_scope, s.held_scope_threads, s.refused, s.threads_open), (4, {"t3_c"}, 0, set()))
         real = AV.client
         with F.FakeAnthropic(answer) as api, mock.patch.object(db, "DATABASE_URL", base.URL), \
                 mock.patch.dict(os.environ, {AV.KEY_VAR: "k"}), \
@@ -961,7 +965,24 @@ class Review3(ThreadCase):
                 redirect_stdout(io.StringIO()) as out:
             code = X.main(["--mode", "thread", "--scope", "comments", "--max-usd", "1", "--ids", "t3_c"])
         self.assertEqual(code, 3)
-        self.assertIn("4 item(s) built and not sent in 1 thread(s)", out.getvalue())
+        self.assertIn("4 comment(s) in 1 thread(s) wait in queued chunks that number the post: a thread-mode "
+                      "run with --scope both sends them.", out.getvalue())
+        self.assertNotIn("built and not sent", out.getvalue())
+        self.assertIn("0 not sent (cap), 4 held for a run that takes posts", out.getvalue())
+
+    def test_a_batch_run_names_the_threads_of_items_alone_it_did_not_send(self):
+        # Every t3_c item was handed over to go alone; a cap too small for any
+        # request leaves them, and the other threads' chunks, unsent.
+        jobs, _ = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), write=False, log=QUIET)
+        X._chunk_failed(self.conn, jobs[0], "max_tokens: by hand", None, 0.0, QUIET)
+        for half in X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), log=QUIET)[0]:
+            X._chunk_failed(self.conn, half, "max_tokens: by hand", None, 0.0, QUIET)
+        others, _ = X.build_thread_jobs(self.conn, ["t3_a", "t3_b", "t3_old"], self.opts(), write=False, log=QUIET)
+        with F.FakeAnthropic(answer) as api:
+            s = self.batch(api, budget=1e-9)
+            self.assertEqual(api.batch_requests, [])
+        self.assertEqual(s.refused, sum(len(j.chunk) for j in others) + 9)
+        self.assertEqual(s.threads_open, {"t3_a", "t3_b", "t3_old", "t3_c"})
 
     def test_threads_held_by_the_scope_do_not_go_first(self):
         self.half_with_the_post_and_its_comments()

@@ -377,37 +377,47 @@ class Streaming(unittest.TestCase):
         with F.FakeAnthropic(lambda p: F.error(400, "invalid_request_error", "bad")) as api:
             with self.assertRaises(AV.FatalAPIError):
                 self.run_call(api)
+    def test_one_billing_rule_for_every_stream_failure(self):
+        # Once message_start has arrived the input is counted, so a fatal
+        # error event, a transient one and a clean early close are all
+        # possibly billed; before it (0 events), none is.
         bad = {"type": "error", "error": {"type": "invalid_request_error", "message": "x"}}
-        with F.FakeAnthropic() as api:
-            api.stream_failures = [bad]
-            with self.assertRaises(AV.FatalAPIError) as cm:
-                self.run_call(api, [])
-            self.assertEqual(len(api.requests), 1)
-        # Content had streamed, so output may have been billed: the caller charges it.
-        self.assertIs(cm.exception.maybe_billed, True)
-        with F.FakeAnthropic() as api:
-            api.stream_failures = [(1, bad)]                   # right after message_start, no content
-            with self.assertRaises(AV.FatalAPIError) as cm:
-                self.run_call(api, [])
-        self.assertIs(cm.exception.maybe_billed, False)
-
-    def test_a_stream_that_ends_before_message_stop_is_retried_as_possibly_billed(self):
-        # Closed in good order but early: after some content, after
-        # message_start alone, and before message_start (where the SDK's own
-        # assert would otherwise escape).
-        for fail in ("clean", (1, "clean"), (0, "clean"), (7, "clean")):
+        busy = {"type": "error", "error": {"type": "overloaded_error", "message": "busy"}}
+        for n, billed in ((0, False), (1, True), (3, True), (7, True)):
             with F.FakeAnthropic() as api:
-                api.stream_failures = [fail]
-                asked = []
-                msg = self.run_call(api, asked)
-            self.assertEqual(asked, [1], fail)                 # charged and reserved again
-            self.assertEqual(len(api.requests), 2)
-            self.assertEqual(AV.parse(msg), {"mentions": [F.mention("PlaceAlpha")]})
-        with F.FakeAnthropic() as api:
-            api.stream_failures = ["clean"] * 3
+                api.stream_failures = [(n, bad)]
+                with self.assertRaises(AV.FatalAPIError) as cm:
+                    self.run_call(api, [])
+                self.assertEqual(len(api.requests), 1)
+            self.assertIs(cm.exception.maybe_billed, billed, n)
+            for what in (busy, "clean", "cut"):
+                with F.FakeAnthropic() as api:
+                    api.stream_failures = [(n, what)]
+                    asked = []
+                    msg = self.run_call(api, asked)
+                self.assertEqual(asked, [1] if billed else [], (n, what))   # charged, reserved again
+                self.assertEqual(len(api.requests), 2)
+                self.assertEqual(AV.parse(msg), {"mentions": [F.mention("PlaceAlpha")]})
+        for n, billed in ((0, False), (1, True)):
+            with F.FakeAnthropic() as api:
+                api.stream_failures = [(n, "clean")] * 3
+                with self.assertRaises(AV.TransientAPIError) as cm:
+                    self.run_call(api, [])
+            self.assertIs(cm.exception.maybe_billed, billed)
+
+    def test_a_stream_without_message_start_is_caught_before_the_sdk_assembles_it(self):
+        # Every event but message_start: whatever this SDK version would do
+        # with it (an assert, gone under python -O, or another version's
+        # RuntimeError), call() never asks it to assemble the message.
+        from anthropic.lib.streaming import _messages
+        with F.FakeAnthropic() as api, mock.patch.object(
+                _messages.MessageStream, "get_final_message",
+                side_effect=RuntimeError("Unexpected event order")):
+            api.stream_failures = ["no_start"] * 3
             with self.assertRaises(AV.TransientAPIError) as cm:
                 self.run_call(api, [])
-        self.assertTrue(cm.exception.maybe_billed)
+        self.assertIn("without message_start", str(cm.exception))
+        self.assertIs(cm.exception.maybe_billed, False)
 
 
 if __name__ == "__main__":

@@ -284,26 +284,24 @@ class _StreamUnfinished(Exception):
 
 def _streamed(cl, p, seen):
     """The whole answer of a streamed request, as the same Message create()
-    returns. Raises _StreamUnfinished unless the stream reached message_stop:
-    the SDK would hand back the part it got (with message_start's near-zero
-    usage) or, before message_start, fail an assert. seen["content"] is set
-    once any content has streamed, so a later error knows output may have
-    been billed."""
+    returns. Raises _StreamUnfinished unless the stream both began
+    (message_start) and reached message_stop: the SDK would hand back the
+    part it got (with message_start's near-zero usage), or, with no
+    message_start, fail in its own way (an assert in this version).
+    seen["started"] is set at message_start, from which point the input is
+    counted, so call() knows any later failure may have been billed."""
     with cl.messages.stream(**p) as s:
         stopped = False
         for event in s:
-            if event.type.startswith("content_block"):
-                seen["content"] = True
+            if event.type == "message_start":
+                seen["started"] = True
             elif event.type == "message_stop":
                 stopped = True
-        if not stopped:
-            raise _StreamUnfinished("stream ended before message_stop"
-                                    + ("" if seen.get("content") else ", with no content"))
-        try:
-            return s.get_final_message()
-        except AssertionError:
-            # The SDK's own check that message_start came: a malformed stream.
+        if not seen.get("started"):
             raise _StreamUnfinished("stream ended without message_start")
+        if not stopped:
+            raise _StreamUnfinished("stream ended before message_stop")
+        return s.get_final_message()
 
 
 def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=False):
@@ -318,13 +316,13 @@ def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=Fals
     without asking.
 
     stream=True (thread mode) sends the same parameters as a stream and
-    returns the assembled message. A stream fails in three more ways, all
-    after the model may have started writing, so all count as possibly
-    billed: an error event part way (overloaded, say), a connection cut
-    while the body is read (which the SDK does not wrap), and a stream that
-    closes cleanly before message_stop. An error event about the request is
-    fatal as before, and carries maybe_billed once content has streamed, so
-    the caller charges it.
+    returns the assembled message. A stream fails in three more ways: an
+    error event part way (overloaded, say; one about the request is fatal),
+    a connection cut while the body is read (which the SDK does not wrap),
+    and a stream that closes cleanly before message_stop. One billing rule
+    covers all three: once message_start has arrived the input is counted,
+    so the failure is possibly billed (charged its worst case; a fatal one
+    carries maybe_billed for the caller); before it, none is.
     """
     import anthropic
     attempts = attempts or ATTEMPTS
@@ -344,9 +342,9 @@ def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=Fals
                 if kind in _FATAL_STREAM_ERRORS:
                     log(f"  anthropic stream {kind}: {_body(e)}")
                     err = FatalAPIError(f"stream {kind}: {_body(e)[:500]}")
-                    err.maybe_billed = bool(seen.get("content"))
+                    err.maybe_billed = bool(seen.get("started"))
                     raise err from e
-                last, wait, billed = f"stream {kind}", None, True
+                last, wait, billed = f"stream {kind}", None, bool(seen.get("started"))
             elif status != 429 and status < 500:
                 log(f"  anthropic {status}: {_body(e)}")
                 raise FatalAPIError(f"http {status}: {_body(e)[:500]}") from e
@@ -360,7 +358,7 @@ def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=Fals
         except cut as e:
             last = f"stream cut: {type(e).__name__}: {e}"
             wait = None
-            billed = True
+            billed = bool(seen.get("started"))
         if attempt == attempts - 1:
             break
         if billed and retry_ok is not None and not retry_ok():

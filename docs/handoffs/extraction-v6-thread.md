@@ -147,12 +147,14 @@ first, ten since the third review). No import needed fixing (the file loads
   stream, 300 s bounds the silence between events. An error event part way
   through a stream, a connection cut while it is read, and a stream that
   closes in good order before `message_stop` (cut-off JSON with
-  `message_start`'s near-zero usage, or nothing at all) all count as
-  possibly billed (charged their worst case, and the retry must fit under
-  the cap), never as the chunk's fault. An error event about the request
-  itself is fatal, as before, and is charged its worst case too once any
-  content has streamed. `parse()` refuses a missing `stop_reason`. Batches
-  are unchanged.
+  `message_start`'s near-zero usage, or nothing at all) are the API's
+  failure, never the chunk's: retried, or fatal for an error about the
+  request. One billing rule covers them all: once `message_start` has
+  arrived the input is counted, so the failure is possibly billed (charged
+  its worst case, and a retry must fit under the cap); before it, none is.
+  A stream with no `message_start` is caught by `_streamed` itself, not
+  left to the SDK. `parse()` refuses a missing `stop_reason`. Batches are
+  unchanged.
 - **Ids**: a mention counts only when its `id` is an integer that numbers an
   item of the chunk. Out of range, `0` when the post was context, `"1"`,
   `true`, `1.0` or null are dropped and logged (`bad_ids` on the chunk row),
@@ -226,8 +228,10 @@ first, ten since the third review). No import needed fixing (the file loads
   and so is one that numbers the post under `--scope comments` (the post is
   still due, only out of this run's scope): it waits, with its comments, for
   a run that takes posts, so the post is still sent as the half it is.
-  Its comments are counted as built and not sent (the run exits 3), and
-  under `--scope comments` such a chunk does not move its thread to the
+  Its comments are counted apart from what the cap left (`held_scope`):
+  the run exits 3 and its closing line says a run with `--scope both`
+  sends them, since resuming the same command cannot. Under
+  `--scope comments` such a chunk does not move its thread to the
   head of the candidate order, so a `--limit` run is not filled with
   threads it cannot serve.
   `--reset-hash H` also drops H's queued chunks, so reset items start afresh.
@@ -235,7 +239,8 @@ first, ten since the third review). No import needed fixing (the file loads
   alone and a margin: `THREAD_PASSES`, 4) counts what it still owes as built
   and not sent, so it prints that line and exits 3 rather than 0. Items
   alone that a stop (the cap, or an error) left unsent are counted with
-  their threads too.
+  their threads too, in both runs, and so are the chunks a batch run holds
+  for the next run after `CHUNK_SENDS_PER_RUN` sends.
 
 A failed chunk's cost stays on its row. No due item is left without a row
 saying what happened to it. The direct path does all of this in the same run,
@@ -594,7 +599,7 @@ pointing to it, with the parent's words sent once. Every comment-mode test
 passes unmodified.
 
 Run with this worktree's own throwaway Postgres 18 (no pgvector, so the 53
-embedding tests skip): **392 passed, 53 skipped** (372 and 53 before the
+embedding tests skip): **394 passed, 53 skipped** (372 and 53 before the
 third review). The second pass over the fixes added tests for an unfinished
 stream (retried and charged, never split), a fatal stream error after
 content (charged), a missing `stop_reason`, `--drop-batch` keeping the

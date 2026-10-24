@@ -81,7 +81,8 @@ class FakeAnthropic:
         # What goes wrong in the next streamed answers, one each: "cut" (the
         # connection drops part way), "clean" (the body ends part way, with no
         # message_stop) or an error body sent as an error event after the
-        # stream has started; (n, any of those) to stop after n events.
+        # stream has started; (n, any of those) to stop after n events; or
+        # "no_start" (every event but message_start).
         self.stream_failures = []
         # Seconds between two events of a streamed answer; a plain answer
         # waits as long as its stream would have taken, then comes whole.
@@ -149,6 +150,8 @@ class FakeAnthropic:
                                                   "delta": {"stop_reason": msg["stop_reason"], "stop_sequence": None},
                                                   "usage": msg["usage"]}))
                 events.append(("message_stop", {"type": "message_stop"}))
+                if fail == "no_start":
+                    events, fail = events[1:], None      # every event but message_start
                 if fail is not None:
                     # (n, what) stops after n events; a bare what stops after 3
                     # (message_start and the first content).
