@@ -110,8 +110,11 @@ class Direct(ThreadCase):
         self.assertEqual({k for k, v in st.items() if v[0] == "post"}, HOME_POSTS)
         self.assertTrue(all(is_thread(r) for r in api.requests))
         self.assertEqual(len(api.requests), 4)                 # one chunk per thread here
-        self.assertTrue(all(r == AV.params(r["system"][0]["text"], r["messages"][0]["content"], effort="medium",
-                                           max_tokens=32000, schema=AV.OUTPUT_SCHEMA_THREAD) for r in api.requests))
+        # Streamed (a chunk may write 32k tokens), otherwise exactly thread mode's parameters.
+        self.assertTrue(all(r["stream"] is True for r in api.requests))
+        self.assertTrue(all({k: v for k, v in r.items() if k != "stream"}
+                            == AV.params(r["system"][0]["text"], r["messages"][0]["content"], effort="medium",
+                                         max_tokens=32000, schema=AV.OUTPUT_SCHEMA_THREAD) for r in api.requests))
         self.assertEqual(api.requests[0]["max_tokens"], 32000)
         self.assertEqual(api.requests[0]["output_config"]["effort"], "medium")
         self.assertEqual(api.requests[0]["system"][0]["cache_control"], {"type": "ephemeral"})
@@ -842,6 +845,141 @@ class Review2(ThreadCase):
         with F.FakeAnthropic(answer) as api:
             self.direct(api, ids=["t3_c"])
         self.assertEqual(self.q("select attempts from extract_chunks"), [(1,)])
+
+class Review3(ThreadCase):
+    """The third review's findings, one test or more each."""
+
+    def t3c_expires_once(self, seen):
+        def results(cid, params):
+            text = params["messages"][0]["content"]
+            if numbers(text, "u1") and numbers(text, "u8"):              # the whole t3_c chunk
+                seen.append(cid)
+                if len(seen) == 1:
+                    return {"type": "expired"}
+            _, msg = answer(params)
+            return {"type": "succeeded", "message": msg}
+        return results
+
+    def t3c(self):
+        return self.q("select status, attempts from extract_chunks where thread_id = 't3_c'")
+
+    # (2) attempts counts only sends the API accepted
+    def test_a_refused_submission_is_not_a_send(self):
+        with F.FakeAnthropic(answer) as api:
+            api.submit_status = (429, {"type": "error", "error": {"type": "rate_limit_error", "message": "slow"}})
+            with self.assertRaises(AV.TransientAPIError):
+                self.batch(api)
+        self.assertEqual(self.q("select distinct status, attempts from extract_chunks"), [("queued", 0)])
+        # Sent once now, so an expiry sends it again in the same run.
+        seen = []
+        with F.FakeAnthropic(answer, batch_results=self.t3c_expires_once(seen)) as api:
+            self.batch(api)
+        self.assertEqual(len(seen), 2)
+        self.assertEqual(self.t3c(), [("done", 2)])
+
+    def test_a_pending_submission_counts_once_adopted_and_not_when_settled_as_none(self):
+        with F.FakeAnthropic(answer) as api:
+            api.accept_then_fail = (500, {"type": "error", "error": {"type": "api_error", "message": "x"}})
+            with self.assertRaises(AV.AmbiguousSubmit):
+                self.batch(api, ids=["t3_c"])
+            self.assertEqual(self.t3c(), [("batched", 0)])
+            self.batch(api, ids=["t3_c"])                                # adopted: the API did take it
+        self.assertEqual(self.t3c(), [("done", 1)])
+        self.q("delete from extract_chunks returning id")
+        self.q("delete from extraction_state returning item_id")
+        self.q("delete from extract_batches returning id")
+        with F.FakeAnthropic(answer) as api:
+            api.accept_then_fail = (500, {"type": "error", "error": {"type": "api_error", "message": "x"}})
+            with self.assertRaises(AV.AmbiguousSubmit):
+                self.batch(api, ids=["t3_c"])
+        X.resolve_pending(self.conn, self.q("select id from extract_batches")[0][0], "none")
+        self.assertEqual(self.t3c(), [("queued", 0)])
+
+    def test_a_dropped_batch_takes_its_send_back(self):
+        real, calls = X._collect_chunks, []
+
+        def interrupted(*a, **k):
+            calls.append(1)
+            if len(calls) == 1:
+                raise KeyboardInterrupt
+            return real(*a, **k)
+        with F.FakeAnthropic(answer) as api, mock.patch.object(X, "_collect_chunks", interrupted):
+            with self.assertRaises(KeyboardInterrupt):
+                self.batch(api, ids=["t3_c"])
+        self.assertEqual(self.t3c(), [("batched", 1)])
+        X.drop_batch(self.conn, self.q("select id from extract_batches")[0][0])
+        self.assertEqual(self.t3c(), [("queued", 0)])
+
+    # (3) a queued half the scope leaves out stays queued
+    def post_only_half(self):
+        th = prompt_v6.fetch_thread_rows(self.conn, ["t3_c"])["t3_c"]
+        tree = X.T.Tree(th["comments"])
+        X._chunk_failed(self.conn, X._job(X.T.Chunk("t3_c", True, ["t1_d1"]), th, tree, "medium"),
+                        "max_tokens: by hand", None, 0.0, QUIET)
+        return {tuple(r[1]): r[0] for r in self.q("select id, members from extract_chunks where status = 'queued'")}
+
+    def test_a_queued_post_only_half_stays_queued_under_scope_comments(self):
+        halves = self.post_only_half()
+        self.assertEqual(set(halves), {("t3_c",), ("t1_d1",)})
+        jobs, alone = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(posts=False), log=QUIET)
+        self.assertEqual(alone, [])
+        self.assertIn(halves[("t1_d1",)], [j.id for j in jobs])       # the comment's half goes out
+        self.assertNotIn(halves[("t3_c",)], [j.id for j in jobs])
+        self.assertTrue(all(not j.chunk.post_item for j in jobs))
+        self.assertEqual(self.q("select status from extract_chunks where id = %s", (halves[("t3_c",)],)),
+                         [("queued",)])
+        self.assertEqual(X.retire_chunks(self.conn, log=QUIET), 0)
+        # A run that takes posts sends it as the half it is, not in a fresh chunk.
+        jobs, _ = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), write=False, log=QUIET)
+        post = [j for j in jobs if j.chunk.post_item]
+        self.assertEqual([(j.id, j.generation) for j in post], [(halves[("t3_c",)], 1)])
+
+    def test_scope_comments_holds_a_half_with_the_post_without_dropping_it(self):
+        jobs, _ = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), write=False, log=QUIET)
+        X._chunk_failed(self.conn, jobs[0], "max_tokens: by hand", None, 0.0, QUIET)
+        first = self.q("select id, members from extract_chunks where status = 'queued' and 't3_c' = any(members)")
+        self.assertEqual(len(first), 1)
+        with F.FakeAnthropic(answer) as api:
+            self.direct(api, ids=["t3_c"], opts=self.opts(posts=False))
+        # The other half went out; the post's half waits, members as recorded.
+        self.assertEqual(self.q("select status, members from extract_chunks where id = %s", (first[0][0],)),
+                         [("queued", first[0][1])])
+        self.assertFalse(set(first[0][1]) & set(self.state()))
+        with F.FakeAnthropic(answer) as api:
+            self.direct(api, ids=["t3_c"])
+        self.assertEqual(self.q("select status from extract_chunks where id = %s", (first[0][0],)), [("done",)])
+        self.assertTrue(all(v[2] for v in self.state().values()))
+
+    # (4) a direct run out of passes counts what it still owes
+    def test_a_direct_run_out_of_passes_counts_what_is_left(self):
+        def ans(p):
+            if is_thread(p) and numbers(F.user_text(p), "u1"):
+                return 200, F.message('{"mentions": [', stop="max_tokens")
+            return answer(p)
+        with F.FakeAnthropic(ans) as api, mock.patch.object(X, "THREAD_PASSES", 1):
+            s = self.direct(api, ids=["t3_c"])
+        self.assertEqual(len(api.requests), 1)
+        self.assertEqual(s.refused, 9)                                   # both halves, owed and not sent
+        self.assertEqual(s.threads_open, {"t3_c"})
+        real = AV.client
+        with F.FakeAnthropic(ans) as api, mock.patch.object(X, "THREAD_PASSES", 1), \
+                mock.patch.object(db, "DATABASE_URL", base.URL), mock.patch.dict(os.environ, {AV.KEY_VAR: "k"}), \
+                mock.patch.object(AV, "client", lambda key, base_url=None: real(key, api.base_url)), \
+                redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(X.main(["--mode", "thread", "--max-usd", "1", "--ids", "t3_c"]), 3)
+        self.assertIn("built and not sent", out.getvalue())
+
+    # (5) comment mode refuses every thread-mode setting
+    def test_comment_mode_refuses_the_chunk_flags(self):
+        with mock.patch.object(db, "DATABASE_URL", base.URL):
+            for flag in (["--chunk-comments", "3"], ["--chunk-tokens", "900"], ["--chunk-max", "10"],
+                         ["--effort", "medium"], ["--newest-first"]):
+                with self.assertRaises(SystemExit) as cm:
+                    X.main(flag + ["--dry-run"])
+                self.assertIn(flag[0], str(cm.exception))
+            with redirect_stdout(io.StringIO()):
+                self.assertEqual(X.main(["--mode", "thread", "--chunk-max", "10", "--dry-run"]), 0)
+
 
 if __name__ == "__main__":
     unittest.main()

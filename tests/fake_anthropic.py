@@ -2,7 +2,9 @@
 
 The real SDK client is pointed at it (anthropic_v6.client(key, base_url=...)),
 so tests see exactly the JSON the SDK puts on the wire and parse exactly what
-it parses. Every request body is kept in `requests` / `batch_requests`.
+it parses. Every request body is kept in `requests` / `batch_requests`. A
+direct request with "stream": true (thread mode) gets the same answer as
+server-sent events, which the SDK assembles back into the message.
 
 `answer(params) -> (status, body)` decides each answer. The default reads
 the comment out of the user message and returns one mention per word
@@ -76,6 +78,13 @@ class FakeAnthropic:
         self.truncate_results = 0   # the next N results downloads stop halfway through the body
         self.no_results_url = 0     # the next N batch reads say ended but carry no results_url
         self.gets = 0               # every GET served
+        # What goes wrong in the next streamed answers, one each: "cut" (the
+        # connection drops part way) or an error body sent as an error event
+        # after the stream has started.
+        self.stream_failures = []
+        # Seconds between two events of a streamed answer; a plain answer
+        # waits as long as its stream would have taken, then comes whole.
+        self.event_delay = 0.0
         self._lock = threading.Lock()
         self._n = 0
 
@@ -104,8 +113,59 @@ class FakeAnthropic:
                 if self.path.startswith("/v1/messages"):
                     with fake._lock:
                         fake.requests.append(body)
-                    return self._send(*fake.answer(body))
+                        fail = fake.stream_failures.pop(0) if body.get("stream") and fake.stream_failures else None
+                    status, answer = fake.answer(body)
+                    if body.get("stream") and status == 200:
+                        return self._stream(answer, fail)
+                    if fake.event_delay and status == 200:
+                        # The same generation time, all of it before the first byte.
+                        threading.Event().wait(fake.event_delay * (4 * len(answer["content"]) + 3))
+                    return self._send(status, answer)
                 self._send(404, {"type": "error", "error": {"type": "not_found_error", "message": self.path}})
+
+            def _stream(self, msg, fail=None):
+                """The answer as the event stream the Messages API sends, cut
+                short or ended by an error event when the test asks."""
+                start = dict(msg, content=[], stop_reason=None, stop_sequence=None,
+                             usage=dict(msg["usage"], output_tokens=1))
+                events = [("message_start", {"type": "message_start", "message": start})]
+                for i, block in enumerate(msg["content"]):
+                    if block["type"] == "thinking":
+                        first = {"type": "thinking", "thinking": "", "signature": ""}
+                        deltas = [{"type": "thinking_delta", "thinking": block["thinking"]},
+                                  {"type": "signature_delta", "signature": block["signature"]}]
+                    else:
+                        first = {"type": "text", "text": ""}
+                        text = block["text"]
+                        deltas = [{"type": "text_delta", "text": text[:len(text) // 2]},
+                                  {"type": "text_delta", "text": text[len(text) // 2:]}]
+                    events.append(("content_block_start", {"type": "content_block_start", "index": i,
+                                                           "content_block": first}))
+                    events += [("content_block_delta", {"type": "content_block_delta", "index": i, "delta": d})
+                               for d in deltas]
+                    events.append(("content_block_stop", {"type": "content_block_stop", "index": i}))
+                events.append(("message_delta", {"type": "message_delta",
+                                                  "delta": {"stop_reason": msg["stop_reason"], "stop_sequence": None},
+                                                  "usage": msg["usage"]}))
+                events.append(("message_stop", {"type": "message_stop"}))
+                if fail is not None:
+                    events = events[:3]
+                    if fail != "cut":
+                        events.append(("error", fail))
+                chunks = [f"event: {e}\ndata: {json.dumps(d)}\n\n".encode() for e, d in events]
+                size = sum(len(c) for c in chunks)
+                self.send_response(200)
+                self.send_header("content-type", "text/event-stream")
+                # A cut promises more than it sends, then hangs up: a connection lost mid-answer.
+                self.send_header("content-length", str(size + (1000 if fail == "cut" else 0)))
+                self.end_headers()
+                for c in chunks:
+                    if fake.event_delay:
+                        threading.Event().wait(fake.event_delay)
+                    self.wfile.write(c)
+                    self.wfile.flush()
+                if fail == "cut":
+                    self.close_connection = True
 
             def do_GET(self):
                 with fake._lock:

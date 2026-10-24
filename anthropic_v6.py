@@ -71,6 +71,11 @@ _ENV_OVERRIDES = ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_PROFIL
 
 # Direct calls: how long one may take, and how often a transient failure is
 # retried before the pass gives up and leaves the rest for the next one.
+# Comment and post mode send a plain request, which has to finish inside
+# TIMEOUT. Thread mode streams (call's stream=True), because a chunk may write
+# 20 to 32k tokens, which can take longer than that; a stream only has to
+# keep sending (the API pings while the model thinks), so TIMEOUT bounds the
+# silence between two events instead of the whole answer.
 TIMEOUT = 300
 ATTEMPTS = 6
 MAX_WAIT = 120
@@ -264,7 +269,19 @@ def _retry_after(e):
         return None
 
 
-def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None):
+# An error event in the middle of a stream that is about the request or the
+# account, not the API's load: as fatal as the same error before the stream.
+_FATAL_STREAM_ERRORS = ("invalid_request_error", "authentication_error", "permission_error", "billing_error",
+                        "not_found_error", "request_too_large")
+
+
+def _streamed(cl, p):
+    """The whole answer of a streamed request, as the same Message create() returns."""
+    with cl.messages.stream(**p) as s:
+        return s.get_final_message()
+
+
+def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=False):
     """One direct request. Returns the Message (SDK object); raises FatalAPIError,
     TransientAPIError or CapReached. ItemError is the caller's: parse() the result.
 
@@ -274,24 +291,45 @@ def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None):
     fit under the cap it returns False and the request is given up
     (CapReached). A 429 or 5xx answer was not billed, so it is retried
     without asking.
+
+    stream=True (thread mode) sends the same parameters as a stream and
+    returns the assembled message. A stream fails in two more ways, both after
+    the model may have started writing, so both count as possibly billed: an
+    error event part way (overloaded, say; one about the request is fatal as
+    before), and a connection cut while the body is read, which the SDK does
+    not wrap.
     """
     import anthropic
     attempts = attempts or ATTEMPTS
     sleep = sleep or time.sleep
+    send = _streamed if stream else (lambda c, q: c.messages.create(**q))
+    cut = _stream_errors() if stream else ()
     last = None
     for attempt in range(attempts):
         billed = False
         try:
-            return cl.messages.create(**p)
+            return send(cl, p)
         except anthropic.APIStatusError as e:
             status = e.status_code
-            if status != 429 and status < 500:
+            if status < 400:
+                # An error event inside a stream that had already answered 200.
+                kind = ((e.body if isinstance(e.body, dict) else {}).get("error") or {}).get("type") or "error"
+                if kind in _FATAL_STREAM_ERRORS:
+                    log(f"  anthropic stream {kind}: {_body(e)}")
+                    raise FatalAPIError(f"stream {kind}: {_body(e)[:500]}") from e
+                last, wait, billed = f"stream {kind}", None, True
+            elif status != 429 and status < 500:
                 log(f"  anthropic {status}: {_body(e)}")
                 raise FatalAPIError(f"http {status}: {_body(e)[:500]}") from e
-            last = f"http {status}"
-            wait = _retry_after(e)
+            else:
+                last = f"http {status}"
+                wait = _retry_after(e)
         except anthropic.APIConnectionError as e:          # APITimeoutError included
             last = f"{type(e).__name__}: {e}"
+            wait = None
+            billed = True
+        except cut as e:
+            last = f"stream cut: {type(e).__name__}: {e}"
             wait = None
             billed = True
         if attempt == attempts - 1:

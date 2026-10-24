@@ -952,17 +952,20 @@ def drop_batch(conn, bid):
         cur.execute("""update extraction_state set batch_id = null, updated_at = now()
                        where batch_id = %s and extracted_at is null""", (bid,))
         n = cur.rowcount
-        _chunks_requeue(cur, bid)
+        _chunks_requeue(cur, bid, counted=True)
     conn.commit()
     return n
 
 
-def _chunks_requeue(cur, batch_id):
-    """A thread-mode batch that never ran (a pending submission settled as
-    none, a lost batch dropped by hand): its chunks go back to the queue as
-    they were, so a half of a failed chunk is still sent as a half."""
-    cur.execute("""update extract_chunks set status = 'queued', batch_id = null, updated_at = now()
-                   where batch_id = %s and status = 'batched'""", (batch_id,))
+def _chunks_requeue(cur, batch_id, counted=False):
+    """A thread-mode batch that never ran (a refused submission, a pending
+    submission settled as none, a lost batch dropped by hand): its chunks go
+    back to the queue as they were, so a half of a failed chunk is still sent
+    as a half. `counted` says the batch's send was counted when the API took
+    it (a dropped batch); it is taken back, since the batch gave nothing."""
+    cur.execute("""update extract_chunks set status = 'queued', batch_id = null, updated_at = now(),
+                     attempts = case when %s then greatest(attempts - 1, 0) else attempts end
+                   where batch_id = %s and status = 'batched'""", (counted, batch_id))
 
 
 # A pending row's batch, if the API made one, was created within this window
@@ -1041,7 +1044,9 @@ def resolve_pending(conn, pending_id, batch_id):
             if cur.rowcount != 1:
                 raise SystemExit(f"no pending batch {pending_id}")
             cur.execute("update extraction_state set batch_id = %s where batch_id = %s", (batch_id, pending_id))
-            cur.execute("update extract_chunks set batch_id = %s where batch_id = %s", (batch_id, pending_id))
+            # The API did take it after all: that counts as a send of each chunk.
+            cur.execute("update extract_chunks set batch_id = %s, attempts = attempts + 1 where batch_id = %s",
+                        (batch_id, pending_id))
     conn.commit()
 
 
@@ -1069,6 +1074,10 @@ def resolve_pending(conn, pending_id, batch_id):
 # dropped without a row that says why, and a queued chunk with nothing left
 # due is retired.
 THREAD_PAGE = 50              # threads read and chunked at a time
+# A direct run sends a page's chunks, then the halves of any that failed, then
+# the items of a half that failed too, then a margin: at most this many rounds
+# a page. Whatever is still owed after them is counted as not sent.
+THREAD_PASSES = 4
 # An item goes out alone in a thread-mode run only when both are true: a
 # failed half handed it over (it is a member of a failed chunk marked
 # fallback), and its cursor row has been rewritten to comment or post mode's
@@ -1256,7 +1265,7 @@ def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=pri
     due_c, due_p, due_alone, open_rows = _due_in(conn, tids)
     conn.commit()
     exclude, hold = set(exclude), set(hold)
-    jobs, alone, dropped = [], [], []
+    jobs, alone, dropped, out_of_scope = [], [], [], []
     by_thread = {}
     for r in open_rows:
         by_thread.setdefault(r[1], []).append(r)
@@ -1264,14 +1273,17 @@ def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=pri
         th = rows.get(tid)
         if th is None:
             continue
-        due = set(due_c.get(tid, set())) | ({tid} if opts.posts and tid in due_p else set())
+        # `owed` is everything of the thread still due, whatever this run's
+        # scope, as retire_chunks counts it; `due` is what this run may send.
+        owed = set(due_c.get(tid, set())) | ({tid} if tid in due_p else set())
+        due = owed if opts.posts else owed - {tid}
         claimed = due & exclude
         for i in sorted((due & due_alone) - claimed, key=lambda x: (x != tid, x)):
             alone.append(("post" if i == tid else "comment", i))
             claimed.add(i)
         tree = None
         for cid, _, post_item, members, generation, split_from, attempts in by_thread.get(tid, []):
-            mine = [i for i in members if i in due and (i != tid or post_item)]
+            mine = [i for i in members if i in owed]
             if not mine:
                 dropped.append(cid)
                 continue
@@ -1279,6 +1291,13 @@ def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=pri
             claimed |= set(mine)
             if cid in hold or not send:
                 continue                  # its items wait in memory or for the next run; the row stays queued
+            if not set(mine) <= due:
+                # It numbers the post, which --scope comments leaves out: sent
+                # without it, the half would lose the post, which would then
+                # start over in a fresh chunk. It waits, queued, for a run
+                # that takes posts; its comments wait with it.
+                out_of_scope.append(cid)
+                continue
             tree = tree or T.Tree(th["comments"])
             jobs.append(_job(T.Chunk(tid, tid in send, [i for i in send if i != tid]), th, tree, opts.effort, cid,
                              generation, split_from, attempts))
@@ -1296,6 +1315,9 @@ def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=pri
                            where id = any(%s) and status = 'queued'""", (dropped,))
         conn.commit()
         log(f"  {len(dropped)} queued chunk(s) had nothing left due (extracted since), dropped")
+    if out_of_scope:
+        log(f"  {len(out_of_scope)} queued chunk(s) number a post this run leaves out (--scope comments): "
+            "left queued for a run that takes posts")
     return jobs, alone
 
 
@@ -1306,7 +1328,9 @@ def _chunk_record(job, status, batch_id=None, output=None, usage=None, cost=None
                   fallback=False, attempts=0):
     """One extract_chunks row's values, in _CHUNK_COLUMNS order. attempts is
     what this write adds to the row's count of sends: 1 for a direct send's
-    answer and for a batch submission, 0 for anything else."""
+    answer, 0 for anything else. A batch's send is counted apart, when the API
+    accepts the batch (_submit_chunks, resolve_pending), so a submission that
+    never happened is never counted."""
     return (job.id, VERSION, job.chunk.thread_id, job.prompt_hash, job.effort, job.chunk.post_item, job.members,
             job.context, job.generation, job.split_from, status, fallback, batch_id, error, bad,
             Json(output) if output is not None else None, Json(usage) if usage is not None else None, cost,
@@ -1512,7 +1536,7 @@ def run_direct_threads(conn, cl, budget, opts, limit=None, since=None, ids=None,
         after = len(tids) - start - len(todo)
         jobs = []                            # built and not yet handed to _direct_chunks
         try:
-            for _ in range(4):               # fresh chunks, halves, items alone, and a margin
+            for _ in range(THREAD_PASSES):
                 jobs, alone = build_thread_jobs(conn, todo, opts, log=log)
                 if alone:
                     items = []
@@ -1537,6 +1561,17 @@ def run_direct_threads(conn, cl, budget, opts, limit=None, since=None, ids=None,
                     return stats
                 if not todo:
                     break
+            else:
+                # Out of passes with retries still owed: build them once more
+                # to count them, so the run says what it left and exits 3.
+                jobs, alone = build_thread_jobs(conn, todo, opts, log=log)
+                left = sum(len(j.chunk) for j in jobs) + len(alone)
+                if left:
+                    log(f"  {left} item(s) in {len(todo)} thread(s) still owe a retry after {THREAD_PASSES} "
+                        "passes; the next run sends them")
+                stats.refused += left
+                stats.threads_open |= {j.chunk.thread_id for j in jobs} | (set(todo) if alone else set())
+                jobs = []
         except BaseException:
             stats.refused += sum(len(j.chunk) for j in jobs)
             stats.threads_open |= {j.chunk.thread_id for j in jobs}
@@ -1564,7 +1599,8 @@ def _direct_chunks(conn, cl, budget, jobs, workers, stats, stop, capped, log):
             held[0] = budget.reserve(w)
             return held[0]
         try:
-            msg = AV.call(cl, job.params(), log=log, retry_ok=again)
+            # Streamed: a chunk may write up to 32k tokens, longer than a plain request may take.
+            msg = AV.call(cl, job.params(), log=log, retry_ok=again, stream=True)
         except AV.CapReached:
             capped.set()
             stop.set()
@@ -1610,14 +1646,15 @@ def _submit_chunks(conn, cl, budget, jobs, log):
     member's state row are written first (in one transaction), so a re-run
     re-attaches and nothing is sent twice; then the batch, one request per
     chunk with the chunk id as custom_id. Each chunk's attempts counts this
-    send."""
+    send once the API has accepted the batch, so a refused submission leaves
+    it as it was (CHUNK_SENDS_PER_RUN reads it)."""
     held = sum(j.worst(batch=True) for j in jobs)
     pid = f"pending-{int(time.time() * 1000)}-{os.getpid()}"
     items = [(it.id, it.kind) for j in jobs for it in j.items()]
     with conn.cursor() as cur:
         cur.execute("insert into extract_batches (id, version, requests, hold_usd) values (%s, %s, %s, %s)",
                     (pid, VERSION, len(jobs), held))
-        _upsert_chunks(cur, [_chunk_record(j, "batched", pid, attempts=1) for j in jobs])
+        _upsert_chunks(cur, [_chunk_record(j, "batched", pid) for j in jobs])
         cur.execute("""
             insert into extraction_state (item_id, version, kind, prompt_hash, model, batch_id)
             select u.item_id, %(v)s, u.kind, %(ph)s, %(model)s, %(pid)s
@@ -1646,7 +1683,8 @@ def _submit_chunks(conn, cl, budget, jobs, log):
         cur.execute("""update extract_batches set id = %s, status = 'submitted', submitted_at = now()
                        where id = %s""", (bid, pid))
         cur.execute("update extraction_state set batch_id = %s where batch_id = %s", (bid, pid))
-        cur.execute("update extract_chunks set batch_id = %s where batch_id = %s", (bid, pid))
+        cur.execute("update extract_chunks set batch_id = %s, attempts = attempts + 1 where batch_id = %s",
+                    (bid, pid))
     conn.commit()
     budget.rename(pid, bid)
     log(f"submitted batch {bid}: {len(jobs)} chunk(s), {len(items)} item(s), worst case ${held:.4f} held")
@@ -2272,15 +2310,17 @@ def main(argv=None):
                          "chunk of a thread, the post as item [0] while it is due. With thread, --limit counts "
                          "threads, --ids takes thread ids, --since is on the post's date, and --scope comments "
                          "keeps posts as context only")
-    th.add_argument("--effort", choices=prompt_v6.THREAD_EFFORTS, default=prompt_v6.THREAD_EFFORT,
-                    help="thread mode's effort (default medium)")
+    # Thread mode's settings default to None so that comment mode can tell
+    # one was given at all, even at its default value, and refuse it.
+    th.add_argument("--effort", choices=prompt_v6.THREAD_EFFORTS,
+                    help=f"thread mode's effort (default {prompt_v6.THREAD_EFFORT})")
     th.add_argument("--newest-first", action="store_true", help="newest threads first, so a capped run spends "
                                                                 "on recent months first")
-    th.add_argument("--chunk-comments", type=int, default=T.SOFT_COMMENTS,
+    th.add_argument("--chunk-comments", type=int,
                     help=f"soft budget: items per chunk (default {T.SOFT_COMMENTS})")
-    th.add_argument("--chunk-tokens", type=int, default=T.SOFT_TOKENS,
+    th.add_argument("--chunk-tokens", type=int,
                     help=f"soft budget: estimated tokens of comment text per chunk (default {T.SOFT_TOKENS})")
-    th.add_argument("--chunk-max", type=int, default=T.MAX_COMMENTS,
+    th.add_argument("--chunk-max", type=int,
                     help=f"hard max: comments in one chunk; only bigger reply groups are split "
                          f"(default {T.MAX_COMMENTS})")
     args = ap.parse_args(argv)
@@ -2288,6 +2328,9 @@ def main(argv=None):
     since, ids = _parse_since(args.since), _parse_ids(args.ids)
     thread = args.mode == "thread"
     opts = None
+    given = [f for f, v in (("--effort", args.effort), ("--chunk-comments", args.chunk_comments),
+                            ("--chunk-tokens", args.chunk_tokens), ("--chunk-max", args.chunk_max))
+             if v is not None] + (["--newest-first"] if args.newest_first else [])
     if thread:
         # Posts stay with post mode only if asked: --scope comments. A
         # thread-mode run never takes posts alone; post mode does that.
@@ -2296,12 +2339,14 @@ def main(argv=None):
                              "--mode comment --scope posts")
         if args.max_chars is not None:
             raise SystemExit("--max-chars is a comment-mode filter")
-        if min(args.chunk_comments, args.chunk_tokens, args.chunk_max) < 1:
+        sizes = [T.SOFT_COMMENTS if args.chunk_comments is None else args.chunk_comments,
+                 T.SOFT_TOKENS if args.chunk_tokens is None else args.chunk_tokens,
+                 T.MAX_COMMENTS if args.chunk_max is None else args.chunk_max]
+        if min(sizes) < 1:
             raise SystemExit("chunk sizes must be positive")
-        opts = ThreadOpts(args.effort, args.chunk_comments, args.chunk_tokens, args.chunk_max,
-                          posts=args.scope == "both")
-    elif args.effort != prompt_v6.THREAD_EFFORT or args.newest_first:
-        raise SystemExit("--effort and --newest-first are thread-mode settings (comment mode runs as benchmarked)")
+        opts = ThreadOpts(args.effort or prompt_v6.THREAD_EFFORT, *sizes, posts=args.scope == "both")
+    elif given:
+        raise SystemExit(f"{', '.join(given)}: thread-mode settings (comment mode runs as benchmarked)")
 
     conn = db.connect()
     require_schema(conn)
