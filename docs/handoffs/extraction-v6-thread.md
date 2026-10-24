@@ -19,8 +19,8 @@ the poller and the board are unchanged.
 | `thread_chunks.py` | the chunker and the call to the renderer: pure functions, shared by production and the eval |
 | `prompts_v6/v6_thread.py` | round 4's thread prompt and `render_chunk`, plus two additions (below) |
 | `tests/v6_thread_additions.py` | exactly those additions, as replacements on the benchmark's file; a test applies them to the branch's bytes and compares |
-| `prompt_v6.py` | exposes `SYSTEM_PROMPT_THREAD`, `PROMPT_HASH_THREAD` (`ac9b063da8e6`), `SCHEMA_THREAD`, `fetch_thread_rows` |
-| `anthropic_v6.py` | `params`/`worst_case`/`parse` take thread mode's effort, 32k and schema; comment mode's request is unchanged |
+| `prompt_v6.py` | exposes `SYSTEM_PROMPT_THREAD`, `PROMPT_HASH_THREAD` (`d92ec8610d8c`; the eval ran `ac9b063da8e6`, see below), `SCHEMA_THREAD`, `fetch_thread_rows` |
+| `anthropic_v6.py` | `params`/`worst_case`/`parse` take thread mode's effort, 32k and schema; `call(stream=True)` streams thread mode's direct calls; comment mode's request is unchanged |
 | `extract_v6.py` | the thread mode section: candidates, jobs, direct and batch runs, answers, failures, dry run, status, CLI |
 | `extract_v6_schema.sql`, `schema.sql` | `extract_chunks` and two indexes, at the end of the mirrored block |
 | `extract.py` | `--reset` also refuses the thread hash |
@@ -71,8 +71,9 @@ Measured on the eval slices: chunks average 9 to 13 items; quoted context is
 ## What changed in the renderer and the prompt
 
 `prompts_v6/v6_thread.py` is `origin/extraction-v6:eval/prompts/v6_thread.py`
-plus exactly the six replacements in `tests/v6_thread_additions.py`. No
-import needed fixing (the file loads `v6_common.py` from its own folder).
+plus exactly the replacements in `tests/v6_thread_additions.py` (six at
+first, ten since the third review). No import needed fixing (the file loads
+`v6_common.py` from its own folder).
 
 1. A docstring paragraph saying what production added.
 2. Constants: `POST_ITEM_CHARS = 4000`, `CONTEXT_CHARS = 1500`, and the
@@ -93,8 +94,11 @@ import needed fixing (the file loads `v6_common.py` from its own folder).
 
    A quoted comment says what it answers, like a numbered one: `[n]` when its
    parent is in the chunk (a done or deleted comment between two numbered
-   ones), else the parent's author. Numbered comments keep round 4's markers,
-   including the 140-character stub for a parent outside the chunk.
+   ones), else the parent's author. Numbered comments keep round 4's
+   markers, except that a reply whose parent is quoted above (which, in
+   production, is every parent outside the chunk that the database has) says
+   `(reply to u/zed, quoted above)` instead of repeating the parent's first
+   140 characters on its own line (the third review; `outside[p]["quoted"]`).
 5. The id map gets `{0: thread_id}` when the post is an item.
 6. The prompt: a `<post_item>` section right after `</input>`, everything
    else round 4 verbatim. Its middle sentences are post mode's own
@@ -107,10 +111,27 @@ import needed fixing (the file loads `v6_common.py` from its own folder).
    > asks about ("is X worth it?") is a mention with opinion "none". named_in
    > is always "comment" for item 0. A post with no number is context only.
 
-   The hash moves from round 4's thread hash to `ac9b063da8e6`. The prompt
-   says nothing about the quoted context block; the block's header line
-   carries the instruction. That is a judgment call worth watching in the
-   eval (see open questions).
+   The hash moved from round 4's thread hash to `ac9b063da8e6`, which is the
+   hash the eval below ran on.
+7. Since the third review, the prompt's `<input>` sentence on replies to
+   comments outside the chunk, and the thread example, match the renderer:
+   the old text described the stub, `(reply to u/zed, not in this chunk:
+   "...")`, which production never draws once the parent is quoted above.
+   Now:
+
+   > A reply to a comment outside this chunk says so: (reply to u/zed, quoted
+   > above). That comment, and the ones above it, are quoted before the
+   > chunk, with no number. The quotes are context only; never extract from
+   > them, but a reply that judges a quoted place is a mention of that place.
+
+   and the example draws u/zed's comment under the context header with `[5]`
+   pointing to it. **This changes the rendered prompt and the hash, to
+   `d92ec8610d8c`.** The eval's runs, ledgers and judgments are all on
+   `ac9b063da8e6`, so they measured the stub form (each outside parent sent
+   twice); re-running a slice through `eval/run.py` now renders and caches
+   under the new hash, and `--reset-hash ac9b063da8e6` no longer matches
+   anything production writes. Whether to re-run part of the eval on the
+   new hash is the owner's call.
 
 ## Request, answers, storage
 
@@ -118,7 +139,15 @@ import needed fixing (the file loads `v6_common.py` from its own folder).
   integer `id` first in every mention), adaptive thinking, `--effort low|medium`
   (default medium), `max_tokens` 32,000. The worst case held per chunk is all
   input as cache writes plus 32,000 out (about $0.0093 a chunk in a batch,
-  twice that direct), so `--max-usd` stays a hard cap on both paths.
+  twice that direct), so `--max-usd` stays a hard cap on both paths. A
+  direct call streams (`client.messages.stream(...).get_final_message()`,
+  same parameters, same usage and cost): 20 to 32k tokens can take longer
+  than the 300 s a plain request is allowed, and a timed-out plain request
+  is charged its worst case and retried the same way six times. With a
+  stream, 300 s bounds the silence between events. An error event part way
+  through a stream, or a connection cut while it is read, counts as
+  possibly billed (charged, and the retry must fit under the cap); an error
+  event about the request itself is fatal, as before. Batches are unchanged.
 - **Ids**: a mention counts only when its `id` is an integer that numbers an
   item of the chunk. Out of range, `0` when the post was context, `"1"`,
   `true`, `1.0` or null are dropped and logged (`bad_ids` on the chunk row),
@@ -137,8 +166,10 @@ import needed fixing (the file loads `v6_common.py` from its own folder).
   prompt hash, effort, whether the post was `[0]`, members in bracket order,
   quoted context ids, generation, the chunk it was split from, status
   (`queued`, `batched`, `done`, `failed`, `dropped`), `fallback` (its
-  failure sent its items out alone), `attempts` (times sent), batch id,
-  error, bad ids, the whole answer, usage, cost, timestamps. A chunk and its
+  failure sent its items out alone), `alone` (the items it routes to go out
+  alone while they are due), `attempts` (sends the API took: a direct answer,
+  or a batch once accepted or adopted; a dropped batch takes its send back),
+  batch id, error, bad ids, the whole answer, usage, cost, timestamps. A chunk and its
   items commit in one transaction. If the database refuses any of it, the
   chunk is written again on its own: its row with the whole answer, then
   each item alone, as comment mode does (a refused item is owed a retry, then
@@ -167,21 +198,31 @@ import needed fixing (the file loads `v6_common.py` from its own folder).
   run while it has been sent fewer than twice in all (`CHUNK_SENDS_PER_RUN`),
   else it waits, still queued, for the next run. An `invalid_request_error`
   still stops the run, as in comment mode.
-- **Going alone applies once.** A thread-mode run sends an item alone only
-  when both hold: it is a member of a failed half marked `fallback`, and its
-  own cursor row has been rewritten to comment or post mode's hash since
-  (`_chunk_failed` does that) and it is still due. Neither alone is enough:
-  comment and post mode leave their hash on rows that never failed (a refused
-  submission, `--drop-batch`, a pending submission settled as none), and
-  those items are chunked as usual. Once the item is settled the routing is
-  over; `--reset-hash` of that hash deletes the row and with it the routing.
-  `--retry-errors` on a parked item that went alone sends it alone again (it
-  failed alone; that is the retry it is owed).
+- **Going alone is routed by `extract_chunks`.** (Since the third review;
+  before, `_chunk_failed` rewrote each item's `prompt_hash` to comment or
+  post mode's and the route was inferred from that.) A failed half marked
+  `fallback` lists its items in `alone`, and a thread-mode run sends an item
+  alone while it is still due and some failed chunk's `alone` lists it. The
+  items' cursor rows are not touched, so `prompt_hash` keeps meaning the
+  prompt that last tried or extracted the item. A refused or ambiguous
+  submission of the items alone, `--drop-batch`, and comment mode's own
+  first-failure retry all leave them routed alone, and `--retry-errors` on a
+  parked one sends it alone again (it failed alone; that is the retry it is
+  owed). Once settled the item is not due and the route has nothing to do;
+  `--reset-hash` takes every item it resets off every `alone` list, so a
+  reset item is chunked afresh. Comment-mode rows that never failed in a
+  chunk are never routed alone.
 - **Retiring.** Every run that writes first marks `dropped` each queued chunk
   none of whose items is still due (extracted since in either mode, deleted,
   or parked), so `--status` no longer shows such a chunk as owed. A queued
-  chunk whose items are only waiting in the run's own queue is left queued.
+  chunk whose items are only waiting in the run's own queue is left queued,
+  and so is one that numbers the post under `--scope comments` (the post is
+  still due, only out of this run's scope): it waits, with its comments, for
+  a run that takes posts, so the post is still sent as the half it is.
   `--reset-hash H` also drops H's queued chunks, so reset items start afresh.
+- **A direct run out of passes** (a page's chunks, their halves, their items
+  alone and a margin: `THREAD_PASSES`, 4) counts what it still owes as built
+  and not sent, so it prints that line and exits 3 rather than 0.
 
 A failed chunk's cost stays on its row. No due item is left without a row
 saying what happened to it. The direct path does all of this in the same run,
@@ -193,7 +234,12 @@ reached.
 
 ## Batches
 
-One request per chunk, custom_id the chunk id. Before submitting, one
+One request per chunk, custom_id the chunk id. Comment and thread mode share
+one batch loop (`_run_batches`: settle pending, re-attach, top up under the
+cap, poll, collect either shape, lost batches), one submit (`_submit`) and
+one direct sender (`_send_direct`); what differs is the queue each mode
+hands the loop (`_ItemQueue`, `_ChunkQueue`) and how a collected batch is
+stored (`_collect`, `_collect_chunks`). Before submitting, one
 transaction writes the `extract_batches` row, every chunk's row (`batched`)
 and every member's state row with the batch id. A re-run re-attaches to
 batches in flight, and any run (comment or thread mode) collects either kind:
@@ -214,12 +260,13 @@ two combine (`--mode thread --scope comments` keeps posts as context;
 python extract_v6.py --mode thread --dry-run --newest-first --limit 2000   # read-only: threads, chunks, sizes, context, price at medium and low
 python extract_v6.py --mode thread --batch --max-usd N [--effort low] [--since 2026-08-01] [--newest-first] [--ids t3_a,t3_b] [--limit THREADS]
 python extract_v6.py --status        # adds per-prompt-hash lines and chunks by status, effort and cost
-python extract_v6.py --reset-hash ac9b063da8e6 [--yes]   # undo thread mode only
+python extract_v6.py --reset-hash d92ec8610d8c [--yes]   # undo thread mode only
 ```
 
 With `--mode thread`, `--limit` counts threads, `--ids` takes thread ids and
-`--since` is on the post's date. `--effort`, `--newest-first` and the chunk
-sizes are refused in comment mode, which runs as benchmarked.
+`--since` is on the post's date. `--effort`, `--newest-first`,
+`--chunk-comments`, `--chunk-tokens` and `--chunk-max` are refused in
+comment mode, even at their default values, which runs as benchmarked.
 
 ## The schema step
 
@@ -227,16 +274,15 @@ sizes are refused in comment mode, which runs as benchmarked.
 block in `extract_v6_schema.sql` and `schema.sql`, guarded like the rest
 (`create table if not exists`, indexes behind `to_regclass` checks,
 `lock_timeout` 5 s). A new table takes no lock anything else waits on.
-`schema_ready` now counts it (and its `attempts` column) as part of v6,
-because any run (comment mode too) may collect a thread batch, so **every
-`extract_v6.py` run refuses until it is applied**, and the poller's v6 pass
-skips until its boot applies `schema.sql`. A database holding the table's
-first shape (from this branch's first commit, `f096d9e`) gets `attempts`
-from a guarded `alter table ... add column` with a constant default
-(catalog-only). That shape exists only in throwaway test databases, since
-production never had the table, so its `failed` + `fallback` rows are not
-migrated: their items, which carry no comment-mode mark, are simply chunked
-again. Apply it before deploying this branch:
+`schema_ready` now counts it as part of v6, because any run (comment mode
+too) may collect a thread batch, so **every `extract_v6.py` run refuses
+until it is applied**, and the poller's v6 pass skips until its boot
+applies `schema.sql`. Production has no `extract_chunks` table, so its
+columns are simply those of the `create table` (the third review added
+`alone` there, and removed the guarded `alter table ... add column
+attempts` that upgraded a shape only throwaway test databases ever had;
+such a database needs the table dropped and created again). Nothing is
+added to `extraction_state`. Apply it before deploying this branch:
 
 ```
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f extract_v6_schema.sql; echo "exit $?"
@@ -397,7 +443,8 @@ $R --threads $S/big.threads.jsonl    --reasoning medium --tag big-med32k-c12 --c
 $R --threads $S/big.threads.jsonl    --reasoning medium --tag big-med32k-c25 --chunk-comments 25 --budget-file $L/big-med32k-c25.json --budget 0.30
 ```
 
-Each writes `eval/runs/claude-haiku-5-5__ac9b063da8e6__thread__<tag>_schema.jsonl`
+Each wrote `eval/runs/claude-haiku-5-5__ac9b063da8e6__thread__<tag>_schema.jsonl`
+(the hash the eval ran on; run again now, it writes under `d92ec8610d8c`)
 (call it `RUN(<tag>)`). A run stopped by its cap exits 3; re-running the same
 command resumes. Then, with no API:
 
@@ -428,28 +475,24 @@ backlog.
   even at low unless the eval's measured output is well under the dense
   fit. The decision (effort, chunk size, or a subset of years) needs the
   eval's numbers.
-- **The quoted context block is not described in the prompt.** Its header
-  line says it is context. I did not add prompt text for it, because the
-  owner approved only the `<post_item>` change; if the eval shows mentions
-  taken from quoted lines (they would be dropped as bad ids, or misfiled
-  under a reply), that is the place to look.
+- **The quoted context block in the prompt.** Until the third review the
+  prompt said nothing about it and its header line carried the
+  instruction. The review asked for the reply marker to point to the quote
+  rather than repeat it, and the prompt's `<input>` sentence and example now
+  describe that (item 7 above). That is a prompt change after the eval, on a
+  new hash; the eval's numbers are for the old one.
 - **The post's body cut in `[0]` is 4,000** (post mode's), against 800 when it
   is context. I read "extracted under the same rules post mode uses" as
   including post mode's input cut.
 - **A thread whose comments are all done but whose post is due** gets a chunk
   with only `[0]`, in the thread prompt; post mode would also do. Left in
   so that thread mode alone covers a backfill.
-- **Effort is not in the hash.** Low and medium runs share `ac9b063da8e6`,
+- **Effort is not in the hash.** Low and medium runs share `d92ec8610d8c`,
   so `--reset-hash` cannot undo one effort alone; `extract_chunks.effort`
   records it. Stamping effort into the hash would change what the hash means
   everywhere else.
 - **Equal cost shares.** Each item gets an equal share of its chunk's cost;
   splitting by text length is easy if per-comment cost matters.
-- **Follow-ups from the review, not done.** `run_batch_threads`,
-  `_direct_chunks` and `_submit_chunks` repeat much of `run_batch`,
-  `_direct_page` and `_submit`; they could share one loop over "requests"
-  (an item or a chunk). And `build_thread_jobs` builds each thread's `Tree`
-  once and `thread_chunks.chunk_thread` builds it again.
 - **A chunk that keeps expiring** is sent again on every run (twice in the
   first), never split and never parked, since expiry says nothing about the
   chunk. If one ever loops, `--status` shows it queued with its error.
@@ -504,13 +547,37 @@ the database tests skip. New:
   thread batch, and the real count when one failed; a batch run stopped by
   an error and a direct run stopped while items go alone both counting what
   they built and did not send; a direct send adding one to `attempts`; a
-  single chunk's refused write not repeated; the schema upgrading a table of
-  the first shape.
+  single chunk's refused write not repeated. (The test of the schema
+  upgrading a table of the first shape went with that upgrade.)
 - `tests/test_prompt_v6.py`: the vendored thread file pinned, equal to the
   branch's file with the listed additions, the prompt equal to round 4's
-  minus `<post_item>`, the renderer equal to round 4's without the new
-  arguments. `branch_file` now also tries `origin/extraction-v6`, so the
-  branch comparisons run in a worktree (they were skipping).
-- `eval/thread_v6/selftest.py`: offline, passes.
+  minus `<post_item>` and the quoted-reply sentence and example, the
+  renderer equal to round 4's without the new arguments. `branch_file` now
+  also tries `origin/extraction-v6`, so the branch comparisons run in a
+  worktree (they were skipping).
+- `eval/thread_v6/selftest.py`: offline, passed before the third review;
+  not run since (eval/ was left alone).
+
+The third review's, each failing without its fix: a streamed answer equal to
+the plain one, an answer longer than the timeout arriving by stream where a
+plain request times out on every attempt, an error event and a cut stream
+retried as possibly billed, status errors sorted as before
+(`tests/test_anthropic_v6.py`, through the fake's new event stream); thread
+requests on the wire streamed; a refused submission, a pending one settled
+as none and a dropped batch not counted as sends, an adopted one counted, so
+a chunk refused once and then expired is still sent again in the same run;
+a queued post-only half, and a half numbering the post, left queued under
+`--scope comments` and sent as halves by the next run that takes posts; a
+direct run out of passes counting what it owes and exiting 3; comment mode
+refusing each chunk flag; going alone routed by the failed half with no
+cursor row written, surviving a refused submission and `--retry-errors`;
+the batch queue's running set equal to its queues at every build; a tree
+passed to `chunk_thread` chunking the same; a reply to a quoted parent
+pointing to it, with the parent's words sent once. Every comment-mode test
+passes unmodified.
+
+Run with this worktree's own throwaway Postgres 18 (no pgvector, so the 53
+embedding tests skip): **386 passed, 53 skipped** (372 and 53 before the
+third review).
 
 No paid call was made, and production was only read.

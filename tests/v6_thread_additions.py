@@ -13,7 +13,13 @@ reviewable diff against what the benchmark ran:
   5. [0] in the id map when the post is an item;
   6. the <post_item> section of the system prompt, after <input>. Its
      sentences are post mode's (prompts_v6/v6_comment.py SYSTEM_PROMPT_POST,
-     <input>), with "here" made "for item 0". It changes the prompt hash.
+     <input>), with "here" made "for item 0". It changes the prompt hash;
+  7. a reply whose parent is quoted above (outside[p]["quoted"]) says
+     "(reply to u/zed, quoted above)" instead of repeating a 140-character
+     stub of a comment drawn in full a few lines up;
+  8. the <input> sentence on replies to comments outside the chunk, and
+  9. the thread example, both saying the same: the outside comment is quoted
+     above, and the reply points to it. They change the prompt hash too.
 """
 
 ADDITIONS = [
@@ -26,7 +32,10 @@ marked "production addition" below and listed in tests/v6_thread_additions.py:
   * the post can be an item, "[0] POST: ...", extracted under post mode's
     rules (<post_item> in the prompt, which therefore has its own hash);
   * a chunk whose comments hang under comments outside it quotes their whole
-    ancestor chains above its comments, as context lines with no number.
+    ancestor chains above its comments, as context lines with no number. A
+    reply to a quoted comment then points to it, "(reply to u/zed, quoted
+    above)", rather than repeating its first 140 characters, and the prompt's
+    <input> and thread example say so.
 """
 '''),
     ('''MAX_INDENT = 6             # indentation is a reading aid now; the marker carries the parent
@@ -51,6 +60,8 @@ CONTEXT_HEADER = "Earlier comments in this thread, quoted as context (not in thi
         parts.append(_cut(body, SELFTEXT_LIMIT))
     parts.append("")
 ''', '''      database; "[deleted]" / "[removed]" bodies are said to be deleted.
+      (production addition) "quoted": True when the parent is drawn in full
+      in `above`, so the reply points there instead of quoting it again.
     above (production addition): context lines quoted between the post and
       the comments, [(depth, author, body, parent)] in thread order, body
       None for a deleted comment, parent what it answers ("[3]", "u/zed",
@@ -94,6 +105,28 @@ When the post itself is numbered, "[0] POST: ...", it is an item too: extract it
 
 One object per place per comment.
 '''),
+    ('''                head = " (reply to a deleted comment)"
+            else:
+''', '''                head = " (reply to a deleted comment)"
+            elif o.get("quoted"):
+                head = f" (reply to u/{o.get('author') or '?'}, quoted above)"
+            else:
+'''),
+    ('''A reply to a comment outside this chunk quotes it: (reply to u/zed, not in this chunk: "..."). The quote is \
+context only; never extract from it, but a reply that judges the quoted place is a mention of that place.''',
+     '''A reply to a comment outside this chunk says so: (reply to u/zed, quoted above). That comment, and the ones \
+above it, are quoted before the chunk, with no number. The quotes are context only; never extract from them, but a \
+reply that judges a quoted place is a mention of that place.'''),
+    ('''POST: Best noodles in Queens?
+
+[1] u/ann:''', '''POST: Best noodles in Queens?
+
+Earlier comments in this thread, quoted as context (not in this chunk; never extract from them):
+u/zed: "Noodle Lab for knife-cut, skip the dumplings"
+
+[1] u/ann:'''),
+    ('''[5] u/cal (reply to u/zed, not in this chunk: "Noodle Lab for knife-cut, skip the dumplings"): meh''',
+     '''[5] u/cal (reply to u/zed, quoted above): meh'''),
 ]
 
 

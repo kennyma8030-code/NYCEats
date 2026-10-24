@@ -38,7 +38,10 @@ marked "production addition" below and listed in tests/v6_thread_additions.py:
   * the post can be an item, "[0] POST: ...", extracted under post mode's
     rules (<post_item> in the prompt, which therefore has its own hash);
   * a chunk whose comments hang under comments outside it quotes their whole
-    ancestor chains above its comments, as context lines with no number.
+    ancestor chains above its comments, as context lines with no number. A
+    reply to a quoted comment then points to it, "(reply to u/zed, quoted
+    above)", rather than repeating its first 140 characters, and the prompt's
+    <input> and thread example say so.
 """
 import collections
 import importlib.util
@@ -99,6 +102,8 @@ def render_chunk(title, selftext, rows, outside=None, above=None, post_item=None
     outside: {parent_comment_id: {"author", "body"} or None} for parents not
       in the chunk. None, or a missing key, means the parent is not in the
       database; "[deleted]" / "[removed]" bodies are said to be deleted.
+      (production addition) "quoted": True when the parent is drawn in full
+      in `above`, so the reply points there instead of quoting it again.
     above (production addition): context lines quoted between the post and
       the comments, [(depth, author, body, parent)] in thread order, body
       None for a deleted comment, parent what it answers ("[3]", "u/zed",
@@ -137,6 +142,8 @@ def render_chunk(title, selftext, rows, outside=None, above=None, post_item=None
                 head = " (reply to a comment not shown)"
             elif text in ("", "[deleted]", "[removed]"):
                 head = " (reply to a deleted comment)"
+            elif o.get("quoted"):
+                head = f" (reply to u/{o.get('author') or '?'}, quoted above)"
             else:
                 head = (f" (reply to u/{o.get('author') or '?'}, not in this chunk: "
                         f"\"{_cut(text, STUB_CHARS)}\")")
@@ -152,7 +159,7 @@ SYSTEM_PROMPT = f"""You extract restaurant opinions from a Reddit thread in a Ne
 
 <input>
 You get the post, then a chunk of its comments, each starting with a number in brackets. Extract from the comments only; the post, and the comment a reply answers, are its context. Every mention carries "id", the bracket number of the comment it came from; never use a number that is not in brackets. Go through EVERY comment, one-word replies included: they are easy to skip and often hold the only complaint.
-Each reply follows the comment it answers and says which one: "(reply to [3])". Trust that marker over position or indentation. A reply to a comment outside this chunk quotes it: (reply to u/zed, not in this chunk: "..."). The quote is context only; never extract from it, but a reply that judges the quoted place is a mention of that place.
+Each reply follows the comment it answers and says which one: "(reply to [3])". Trust that marker over position or indentation. A reply to a comment outside this chunk says so: (reply to u/zed, quoted above). That comment, and the ones above it, are quoted before the chunk, with no number. The quotes are context only; never extract from them, but a reply that judges a quoted place is a mention of that place.
 A reply is about the place in the comment it answers unless it names another, and the mention takes the REPLY's id, with named_in "context": "overrated" under a rec is a knock on that place; "hard disagree" under "X is overrated" is praise for X. Each comment's levels come only from what that comment says, plus a claim it agrees with ("+1", "exactly"); a commenter's earlier comment is counted on its own, with its own id. If the place still cannot be told (a reply to a deleted comment), skip it rather than guess. Most comments name no place and need no deliberation.
 </input>
 
@@ -175,11 +182,14 @@ One object per place per comment.
 <thread_example>
 POST: Best noodles in Queens?
 
+Earlier comments in this thread, quoted as context (not in this chunk; never extract from them):
+u/zed: "Noodle Lab for knife-cut, skip the dumplings"
+
 [1] u/ann: Golden Lotus, and Pepper House if you can stand the line
   [2] u/bob (reply to [1]): pepper house is overrated and $28 for noodles is a joke
     [3] u/ann (reply to [2]): hard disagree, the cumin lamb is worth it
   [4] u/eve (reply to [1]): golden lotus was mid last time
-[5] u/cal (reply to u/zed, not in this chunk: "Noodle Lab for knife-cut, skip the dumplings"): meh, wouldn't cross town for it
+[5] u/cal (reply to u/zed, quoted above): meh, wouldn't cross town for it
 [6] u/dee: is Noodle Lab still cash only?
 
 1: Golden Lotus endorse, overall praise, dish noodles praise and taste praise (a bare answer takes the dish the question asks about). Pepper House stated: dish noodles praise, taste praise, wait knock, overall praise (a pick; the wait never lowers overall).

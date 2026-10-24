@@ -298,12 +298,15 @@ def render(chunk, title, selftext, comments, tree=None):
     ctx = context_of(members, tree)
     rows = [{"comment_id": c, "parent_comment_id": tree.drawn_parent(c), "author": tree.rows[c].get("author"),
              "body": tree.rows[c].get("body")} for c in members]
-    outside = {}
+    # A parent outside the chunk that is in the database is always in ctx,
+    # quoted in full above, so its reply only points there ("quoted above")
+    # instead of sending its first 140 characters a second time.
+    quoted, outside = set(ctx), {}
     for r in rows:
         p = r["parent_comment_id"]
         if p and p not in chunk.members:
             o = tree.rows.get(p)
-            outside[p] = {"author": o.get("author"), "body": o.get("body")} if o else None
+            outside[p] = {"author": o.get("author"), "body": o.get("body"), "quoted": p in quoted} if o else None
     # A quoted comment says what it answers, as numbered comments do: a
     # number when its parent is in the chunk (a done or deleted comment
     # between two numbered ones), else the quoted parent's author.

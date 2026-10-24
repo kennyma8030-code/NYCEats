@@ -58,7 +58,7 @@ build_user_message = _comment.build_user_message   # (comment_rows record) -> st
 build_post_message = _comment.build_post_message   # (title, selftext) -> str
 SYSTEM_PROMPT_THREAD = thread.SYSTEM_PROMPT
 SCHEMA_THREAD = thread.SCHEMA                      # the comment schema with an integer "id" first
-PROMPT_HASH_THREAD = thread.PROMPT_HASH            # ac9b063da8e6
+PROMPT_HASH_THREAD = thread.PROMPT_HASH            # d92ec8610d8c (the eval ran ac9b063da8e6; see the handoff)
 
 GONE = ("[deleted]", "[removed]")
 # One more ancestor than the renderer shows, so it knows when it cut and says

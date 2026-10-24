@@ -204,8 +204,20 @@ class Items(unittest.TestCase):
         # A quoted comment between two numbered ones says which it answers.
         self.assertIn('  u/ub (reply to [1]): "words from b"', user)
         self.assertIn("      (a deleted comment, reply to [2])", user)
-        self.assertIn('[2] u/uc (reply to u/ub, not in this chunk: "words from b"): words from c', user)
+        # The parent is quoted in full above, so the reply only points there:
+        # its words are sent once, not again as a 140-character stub.
+        self.assertIn("[2] u/uc (reply to u/ub, quoted above): words from c", user)
+        self.assertEqual(user.count("words from b"), 1)
+        self.assertNotIn('not in this chunk: "', user)
         self.assertIn("[3] u/ue (reply to a deleted comment): words from e", user)
+
+    def test_a_tree_built_by_the_caller_chunks_the_same(self):
+        r = Rows()
+        group(r, "a", 30)
+        group(r, "b", 4)
+        tree = T.Tree(r.rows)
+        self.assertEqual([repr(c) for c in T.chunk_thread("t3_x", r.rows, set(tree.rows), tree=tree)],
+                         [repr(c) for c in T.chunk_thread("t3_x", r.rows, set(tree.rows))])
 
     def test_whole_groups_need_no_context(self):
         r = Rows()

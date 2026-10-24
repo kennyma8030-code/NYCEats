@@ -167,7 +167,7 @@ class ThreadPrompt(unittest.TestCase):
     additions in tests/v6_thread_additions.py. The file checks out with LF
     endings (.gitattributes), so its bytes hash the same on every machine."""
 
-    PINNED = "77661fffab7aa6ef9825629167e3b0ddc5f673754dfcf33f7a6958253b35c9a5"
+    PINNED = "5105af1584bd96faf14819be71b091bd9c6375b9f00b08f81fe2df09608e2489"
     ROUND4 = "b72ba75edf3964ac902281d8562e77ea311877c56424d0400bb1032e053d75ed"   # the branch's file
     PATH = "eval/prompts/v6_thread.py"
 
@@ -191,7 +191,7 @@ class ThreadPrompt(unittest.TestCase):
 
     def test_vendored_file_is_pinned(self):
         self.assertEqual(sha(os.path.join(ROOT, "prompts_v6", "v6_thread.py")), self.PINNED)
-        self.assertEqual(prompt_v6.PROMPT_HASH_THREAD, "ac9b063da8e6")
+        self.assertEqual(prompt_v6.PROMPT_HASH_THREAD, "d92ec8610d8c")
         self.assertEqual(hashlib.sha256(prompt_v6.SYSTEM_PROMPT_THREAD.encode()).hexdigest()[:12],
                          prompt_v6.PROMPT_HASH_THREAD)
 
@@ -202,11 +202,20 @@ class ThreadPrompt(unittest.TestCase):
         with open(os.path.join(ROOT, "prompts_v6", "v6_thread.py"), "rb") as f:
             self.assertEqual(A.apply(blob.decode("utf-8")).encode("utf-8"), f.read())
 
-    def test_prompt_differs_from_round_four_only_by_post_item(self):
+    def test_prompt_differs_from_round_four_only_by_post_item_and_quoted_replies(self):
+        import v6_thread_additions as A
         r4 = self.round4_module()
         block = prompt_v6.SYSTEM_PROMPT_THREAD.split("<post_item>")[1].split("</post_item>\n\n")[0]
         stripped = prompt_v6.SYSTEM_PROMPT_THREAD.replace("<post_item>" + block + "</post_item>\n\n", "")
+        # The <input> sentence and the thread example on quoted replies, put back as round 4 had them.
+        for old, new in A.ADDITIONS[-3:]:
+            self.assertEqual(stripped.count(new), 1)
+            stripped = stripped.replace(new, old)
         self.assertEqual(stripped, r4.SYSTEM_PROMPT)
+        # What the prompt shows is what the renderer draws.
+        self.assertIn("(reply to u/zed, quoted above)", prompt_v6.SYSTEM_PROMPT_THREAD)
+        self.assertIn(prompt_v6.thread.CONTEXT_HEADER + "\nu/zed: ", prompt_v6.SYSTEM_PROMPT_THREAD)
+        self.assertNotIn("not in this chunk: ", prompt_v6.SYSTEM_PROMPT_THREAD)
         self.assertNotEqual(prompt_v6.PROMPT_HASH_THREAD, r4.PROMPT_HASH)
         self.assertEqual(prompt_v6.SCHEMA_THREAD, r4.SCHEMA)
         # The post-mode sentences it borrows, word for word.

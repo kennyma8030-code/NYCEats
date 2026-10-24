@@ -145,8 +145,9 @@ the API's batch list. One v6 run at a time, by advisory lock.
 a post and up to ~25 of its comments as one request, to fit the backfill in
 the owner's budget; it is benchmarked offline first
 (`docs/handoffs/extraction-v6-thread.md`). Same cursor, same mention rows,
-its own prompt hash (`ac9b063da8e6`: round 4's thread prompt plus a
-`<post_item>` section). Whole reply groups (a top-level comment and its
+its own prompt hash (`d92ec8610d8c`: round 4's thread prompt plus a
+`<post_item>` section, and replies to quoted comments pointing to the quote).
+Whole reply groups (a top-level comment and its
 replies) are packed to a soft budget of 15 items or 3,000 tokens; only a
 group over 25 comments is split, between branches. A chunk whose comments
 hang under comments outside it quotes their whole ancestor chain. The post is
