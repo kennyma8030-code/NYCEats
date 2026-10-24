@@ -106,6 +106,8 @@ class Parse(unittest.TestCase):
         self.assertEqual(self.code(F.message('{"other": 1}')), "invalid_json")
         self.assertEqual(self.code(F.message('{"mentions": ["x"]}')), "invalid_json")
         self.assertEqual(self.code(F.message('{"mentions": []}', stop="pause_turn")), "stop_pause_turn")
+        # No stop_reason is no finished answer, even when the text parses.
+        self.assertEqual(self.code(F.message('{"mentions": []}', stop=None)), "stop_None")
 
 
 class Errors(unittest.TestCase):
@@ -375,11 +377,37 @@ class Streaming(unittest.TestCase):
         with F.FakeAnthropic(lambda p: F.error(400, "invalid_request_error", "bad")) as api:
             with self.assertRaises(AV.FatalAPIError):
                 self.run_call(api)
+        bad = {"type": "error", "error": {"type": "invalid_request_error", "message": "x"}}
         with F.FakeAnthropic() as api:
-            api.stream_failures = [{"type": "error", "error": {"type": "invalid_request_error", "message": "x"}}]
-            with self.assertRaises(AV.FatalAPIError):
+            api.stream_failures = [bad]
+            with self.assertRaises(AV.FatalAPIError) as cm:
                 self.run_call(api, [])
             self.assertEqual(len(api.requests), 1)
+        # Content had streamed, so output may have been billed: the caller charges it.
+        self.assertIs(cm.exception.maybe_billed, True)
+        with F.FakeAnthropic() as api:
+            api.stream_failures = [(1, bad)]                   # right after message_start, no content
+            with self.assertRaises(AV.FatalAPIError) as cm:
+                self.run_call(api, [])
+        self.assertIs(cm.exception.maybe_billed, False)
+
+    def test_a_stream_that_ends_before_message_stop_is_retried_as_possibly_billed(self):
+        # Closed in good order but early: after some content, after
+        # message_start alone, and before message_start (where the SDK's own
+        # assert would otherwise escape).
+        for fail in ("clean", (1, "clean"), (0, "clean"), (7, "clean")):
+            with F.FakeAnthropic() as api:
+                api.stream_failures = [fail]
+                asked = []
+                msg = self.run_call(api, asked)
+            self.assertEqual(asked, [1], fail)                 # charged and reserved again
+            self.assertEqual(len(api.requests), 2)
+            self.assertEqual(AV.parse(msg), {"mentions": [F.mention("PlaceAlpha")]})
+        with F.FakeAnthropic() as api:
+            api.stream_failures = ["clean"] * 3
+            with self.assertRaises(AV.TransientAPIError) as cm:
+                self.run_call(api, [])
+        self.assertTrue(cm.exception.maybe_billed)
 
 
 if __name__ == "__main__":

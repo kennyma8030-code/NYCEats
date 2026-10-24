@@ -229,7 +229,9 @@ def parse(message, max_tokens=None):
     """The extraction in an Anthropic message, as {"mentions": [...]}, or ItemError.
 
     stop_reason is checked before the text: a max_tokens stop is cut-off JSON,
-    and a refusal has none, and neither may be stored as "no mentions".
+    and a refusal has none, and neither may be stored as "no mentions". A
+    finished answer always says why it stopped, so a missing stop_reason (an
+    answer assembled from a stream that never finished) is refused too.
     """
     m = _dump(message) or {}
     stop = m.get("stop_reason")
@@ -238,7 +240,7 @@ def parse(message, max_tokens=None):
     if stop == "refusal":
         details = m.get("stop_details") or {}
         raise ItemError("refusal", str(details.get("category") or ""))
-    if stop not in ("end_turn", None):
+    if stop != "end_turn":
         raise ItemError("stop_" + str(stop))
     text = "".join(b.get("text") or "" for b in m.get("content") or [] if b.get("type") == "text")
     try:
@@ -275,10 +277,33 @@ _FATAL_STREAM_ERRORS = ("invalid_request_error", "authentication_error", "permis
                         "not_found_error", "request_too_large")
 
 
-def _streamed(cl, p):
-    """The whole answer of a streamed request, as the same Message create() returns."""
+class _StreamUnfinished(Exception):
+    """A stream that closed cleanly before message_stop: the answer is cut off
+    (or never began), though the model may have been billed for it."""
+
+
+def _streamed(cl, p, seen):
+    """The whole answer of a streamed request, as the same Message create()
+    returns. Raises _StreamUnfinished unless the stream reached message_stop:
+    the SDK would hand back the part it got (with message_start's near-zero
+    usage) or, before message_start, fail an assert. seen["content"] is set
+    once any content has streamed, so a later error knows output may have
+    been billed."""
     with cl.messages.stream(**p) as s:
-        return s.get_final_message()
+        stopped = False
+        for event in s:
+            if event.type.startswith("content_block"):
+                seen["content"] = True
+            elif event.type == "message_stop":
+                stopped = True
+        if not stopped:
+            raise _StreamUnfinished("stream ended before message_stop"
+                                    + ("" if seen.get("content") else ", with no content"))
+        try:
+            return s.get_final_message()
+        except AssertionError:
+            # The SDK's own check that message_start came: a malformed stream.
+            raise _StreamUnfinished("stream ended without message_start")
 
 
 def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=False):
@@ -293,22 +318,24 @@ def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=Fals
     without asking.
 
     stream=True (thread mode) sends the same parameters as a stream and
-    returns the assembled message. A stream fails in two more ways, both after
-    the model may have started writing, so both count as possibly billed: an
-    error event part way (overloaded, say; one about the request is fatal as
-    before), and a connection cut while the body is read, which the SDK does
-    not wrap.
+    returns the assembled message. A stream fails in three more ways, all
+    after the model may have started writing, so all count as possibly
+    billed: an error event part way (overloaded, say), a connection cut
+    while the body is read (which the SDK does not wrap), and a stream that
+    closes cleanly before message_stop. An error event about the request is
+    fatal as before, and carries maybe_billed once content has streamed, so
+    the caller charges it.
     """
     import anthropic
     attempts = attempts or ATTEMPTS
     sleep = sleep or time.sleep
-    send = _streamed if stream else (lambda c, q: c.messages.create(**q))
-    cut = _stream_errors() if stream else ()
+    cut = _stream_errors() + (_StreamUnfinished,) if stream else ()
     last = None
     for attempt in range(attempts):
         billed = False
+        seen = {}
         try:
-            return send(cl, p)
+            return _streamed(cl, p, seen) if stream else cl.messages.create(**p)
         except anthropic.APIStatusError as e:
             status = e.status_code
             if status < 400:
@@ -316,7 +343,9 @@ def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=Fals
                 kind = ((e.body if isinstance(e.body, dict) else {}).get("error") or {}).get("type") or "error"
                 if kind in _FATAL_STREAM_ERRORS:
                     log(f"  anthropic stream {kind}: {_body(e)}")
-                    raise FatalAPIError(f"stream {kind}: {_body(e)[:500]}") from e
+                    err = FatalAPIError(f"stream {kind}: {_body(e)[:500]}")
+                    err.maybe_billed = bool(seen.get("content"))
+                    raise err from e
                 last, wait, billed = f"stream {kind}", None, True
             elif status != 429 and status < 500:
                 log(f"  anthropic {status}: {_body(e)}")

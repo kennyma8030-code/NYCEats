@@ -767,8 +767,10 @@ class Review2(ThreadCase):
                 X.run_direct_threads(self.conn, AV.client("k", api.base_url), X.Budget(10), self.opts(),
                                      workers=1, log=QUIET, stats=stats)
         self.assertTrue(all(not is_thread(r) for r in api.requests))
-        self.assertEqual(stats.refused, sum(len(j.chunk) for j in others))
-        self.assertEqual(stats.threads_open, {"t3_a", "t3_b", "t3_old"})
+        # The built chunks, and every t3_c item alone the stop left unsent
+        # (the post and its 8 comments), with their thread.
+        self.assertEqual(stats.refused, sum(len(j.chunk) for j in others) + 9)
+        self.assertEqual(stats.threads_open, {"t3_a", "t3_b", "t3_old", "t3_c"})
 
     def test_a_direct_send_adds_one_to_attempts(self):
         jobs, _ = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), write=False, log=QUIET)
@@ -850,7 +852,8 @@ class Review3(ThreadCase):
         X.resolve_pending(self.conn, self.q("select id from extract_batches")[0][0], "none")
         self.assertEqual(self.t3c(), [("queued", 0)])
 
-    def test_a_dropped_batch_takes_its_send_back(self):
+    def test_a_dropped_batch_keeps_its_send(self):
+        # The API took the batch, and it may have run: attempts counts that.
         real, calls = X._collect_chunks, []
 
         def interrupted(*a, **k):
@@ -863,7 +866,7 @@ class Review3(ThreadCase):
                 self.batch(api, ids=["t3_c"])
         self.assertEqual(self.t3c(), [("batched", 1)])
         X.drop_batch(self.conn, self.q("select id from extract_batches")[0][0])
-        self.assertEqual(self.t3c(), [("queued", 0)])
+        self.assertEqual(self.t3c(), [("queued", 1)])
 
     # (3) a queued half the scope leaves out stays queued
     def post_only_half(self):
@@ -904,6 +907,101 @@ class Review3(ThreadCase):
             self.direct(api, ids=["t3_c"])
         self.assertEqual(self.q("select status from extract_chunks where id = %s", (first[0][0],)), [("done",)])
         self.assertTrue(all(v[2] for v in self.state().values()))
+
+    def half_with_the_post_and_its_comments(self):
+        """Fail t3_c's chunk by hand, then answer the half without the post,
+        so only the half numbering the post and 4 comments is left queued."""
+        jobs, _ = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), write=False, log=QUIET)
+        X._chunk_failed(self.conn, jobs[0], "max_tokens: by hand", None, 0.0, QUIET)
+        with F.FakeAnthropic(answer) as api:
+            self.direct(api, ids=["t3_c"], opts=self.opts(posts=False))
+        held = self.q("select members from extract_chunks where status = 'queued'")
+        self.assertEqual([len(m) for (m,) in held], [5])
+
+    # (second review, 1 and 2) a stream that does not finish is the API's failure, charged
+    def test_an_unfinished_stream_is_retried_and_charged_not_split(self):
+        jobs, _ = X.build_thread_jobs(self.conn, ["t3_c"], self.opts(), write=False, log=QUIET)
+        w = jobs[0].worst(batch=False)
+        with F.FakeAnthropic(answer) as api:
+            api.stream_failures = ["clean"]                # closed in good order before message_stop
+            budget = X.Budget(10)
+            X.run_direct_threads(self.conn, AV.client("k", api.base_url), budget, self.opts(), ids=["t3_c"],
+                                 log=QUIET, stats=X.Stats())
+        self.assertEqual(len(api.requests), 2)
+        self.assertEqual(self.q("select generation, status from extract_chunks"), [(0, "done")])   # not split
+        self.assertGreaterEqual(budget.spent, w)          # the lost attempt charged its worst case
+        self.q("delete from extract_chunks returning id")
+        self.q("delete from extraction_state returning item_id")
+        self.q("delete from mentions returning id")
+        bad = {"type": "error", "error": {"type": "invalid_request_error", "message": "x"}}
+        with F.FakeAnthropic(answer) as api:
+            api.stream_failures = [bad]                    # fatal, after content had streamed
+            budget = X.Budget(10)
+            with self.assertRaises(AV.FatalAPIError):
+                X.run_direct_threads(self.conn, AV.client("k", api.base_url), budget, self.opts(), ids=["t3_c"],
+                                     log=QUIET, stats=X.Stats())
+        self.assertAlmostEqual(budget.spent, w)
+        self.assertEqual((budget.reserved, self.state()), (0.0, {}))
+
+    # (second review, 3) what the scope holds back is reported, and does not crowd the order
+    def test_comments_held_by_the_scope_are_counted_as_not_sent(self):
+        self.half_with_the_post_and_its_comments()
+        with F.FakeAnthropic(answer) as api:
+            s = self.direct(api, ids=["t3_c"], opts=self.opts(posts=False))
+            self.assertEqual(api.requests, [])
+        self.assertEqual((s.refused, s.threads_open), (4, {"t3_c"}))
+        with F.FakeAnthropic(answer) as api:
+            s = self.batch(api, ids=["t3_c"], opts=self.opts(posts=False))
+            self.assertEqual(api.batch_requests, [])
+        self.assertEqual((s.refused, s.threads_open), (4, {"t3_c"}))
+        real = AV.client
+        with F.FakeAnthropic(answer) as api, mock.patch.object(db, "DATABASE_URL", base.URL), \
+                mock.patch.dict(os.environ, {AV.KEY_VAR: "k"}), \
+                mock.patch.object(AV, "client", lambda key, base_url=None: real(key, api.base_url)), \
+                redirect_stdout(io.StringIO()) as out:
+            code = X.main(["--mode", "thread", "--scope", "comments", "--max-usd", "1", "--ids", "t3_c"])
+        self.assertEqual(code, 3)
+        self.assertIn("4 item(s) built and not sent in 1 thread(s)", out.getvalue())
+
+    def test_threads_held_by_the_scope_do_not_go_first(self):
+        self.half_with_the_post_and_its_comments()
+        self.assertEqual(X.thread_candidates(self.conn)[0], "t3_c")              # a run that can send it
+        self.assertNotEqual(X.thread_candidates(self.conn, posts=False)[0], "t3_c")
+        self.assertEqual(X.thread_candidates(self.conn, posts=False, limit=1), ["t3_old"])
+
+    # (second review, 6) a table from before `alone` gets it from a guarded ALTER
+    def test_schema_adds_alone_to_an_older_extract_chunks(self):
+        with self.conn.cursor() as cur:
+            cur.execute("alter table extract_chunks drop column alone")
+        self.conn.commit()
+        self.assertFalse(X.schema_ready(self.conn))
+        with self.assertRaises(X.SchemaMissing):
+            X.require_schema(self.conn)
+        for name in ("extract_v6_schema.sql", "schema.sql"):
+            with open(os.path.join(ROOT, name), encoding="utf-8") as f:
+                block = f.read().split("v6-extraction-schema:begin")[-1].split("-- v6-extraction-schema:end")[0]
+            self.assertIn("add column if not exists alone text[] not null default '{}'", block, name)
+        with open(os.path.join(ROOT, "extract_v6_schema.sql"), encoding="utf-8") as f:
+            sql = f.read()
+        for _ in range(2):
+            with self.conn.cursor() as cur:
+                cur.execute(sql)
+            self.conn.commit()
+        self.assertTrue(X.schema_ready(self.conn))
+        self.assertEqual(self.q("select column_default, is_nullable from information_schema.columns "
+                                "where table_name = 'extract_chunks' and column_name = 'alone'"),
+                         [("'{}'::text[]", "NO")])
+
+    # (second review, 8) reset_hash's alone update reads the fallback index
+    def test_unrouting_alone_uses_the_fallback_index(self):
+        with self.conn.cursor() as cur:
+            cur.execute("set local enable_seqscan = off")
+            cur.execute("explain " + X._UNROUTE_ALONE, {"v": X.VERSION, "ids": ["t1_d1"]})
+            plan = "\n".join(r[0] for r in cur.fetchall())
+        self.conn.rollback()
+        self.assertIn("extract_chunks_fallback_idx", plan)
+        self.assertEqual(self.q("select indexdef like '%%WHERE fallback' from pg_indexes "
+                                "where indexname = 'extract_chunks_fallback_idx'"), [(True,)])
 
     # (4) a direct run out of passes counts what it still owes
     def test_a_direct_run_out_of_passes_counts_what_is_left(self):
@@ -962,7 +1060,7 @@ class Review3(ThreadCase):
         class Checked(X._ChunkQueue):
             def _build(self, tids, front=False):
                 checks.append(self.waiting == ({i for j in self.jobs for i in j.chunk.items}
-                                               | {i for _, i in self.alone}))
+                                               | {i for _, i in self.alone.pairs}))
                 super()._build(tids, front)
 
         def results(cid, params):

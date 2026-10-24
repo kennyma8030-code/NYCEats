@@ -295,6 +295,19 @@ create table if not exists extract_chunks (
   updated_at   timestamptz not null default now(),
   finished_at  timestamptz
 );
+-- alone came after the table's first version on this branch: a database
+-- whose extract_chunks predates it gets the column here. A constant default,
+-- so the ALTER only touches the catalog; checked there first, so a database
+-- that has it takes no lock at all.
+do $$
+begin
+  perform set_config('lock_timeout', '5s', true);
+  if not exists (select 1 from information_schema.columns
+                 where table_schema = current_schema() and table_name = 'extract_chunks'
+                   and column_name = 'alone') then
+    alter table extract_chunks add column if not exists alone text[] not null default '{}';
+  end if;
+end $$;
 -- Checked in the catalog first, like every index in this file: CREATE INDEX
 -- IF NOT EXISTS takes its SHARE lock before it notices the index is there.
 do $$

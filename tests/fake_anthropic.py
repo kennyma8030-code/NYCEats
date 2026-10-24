@@ -79,8 +79,9 @@ class FakeAnthropic:
         self.no_results_url = 0     # the next N batch reads say ended but carry no results_url
         self.gets = 0               # every GET served
         # What goes wrong in the next streamed answers, one each: "cut" (the
-        # connection drops part way) or an error body sent as an error event
-        # after the stream has started.
+        # connection drops part way), "clean" (the body ends part way, with no
+        # message_stop) or an error body sent as an error event after the
+        # stream has started; (n, any of those) to stop after n events.
         self.stream_failures = []
         # Seconds between two events of a streamed answer; a plain answer
         # waits as long as its stream would have taken, then comes whole.
@@ -149,14 +150,19 @@ class FakeAnthropic:
                                                   "usage": msg["usage"]}))
                 events.append(("message_stop", {"type": "message_stop"}))
                 if fail is not None:
-                    events = events[:3]
-                    if fail != "cut":
+                    # (n, what) stops after n events; a bare what stops after 3
+                    # (message_start and the first content).
+                    n, fail = fail if isinstance(fail, tuple) else (3, fail)
+                    events = events[:n]
+                    if fail not in ("cut", "clean"):
                         events.append(("error", fail))
                 chunks = [f"event: {e}\ndata: {json.dumps(d)}\n\n".encode() for e, d in events]
                 size = sum(len(c) for c in chunks)
                 self.send_response(200)
                 self.send_header("content-type", "text/event-stream")
-                # A cut promises more than it sends, then hangs up: a connection lost mid-answer.
+                # A cut promises more than it sends, then hangs up: a connection
+                # lost mid-answer. "clean" ends the body where it stops, as a
+                # stream closed early but in good order.
                 self.send_header("content-length", str(size + (1000 if fail == "cut" else 0)))
                 self.end_headers()
                 for c in chunks:

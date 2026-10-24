@@ -107,13 +107,18 @@ class SchemaMissing(SystemExit):
 def schema_ready(conn):
     """True when extract_v6_schema.sql has been applied (schema.sql applies it on boot),
     thread mode's extract_chunks included: every batch collection and
-    pending-batch settlement looks there, whichever mode submitted it."""
+    pending-batch settlement looks there, whichever mode submitted it. Its
+    `alone` column is checked too, since a table made before it lacks it
+    until the file's guarded ALTER has run."""
     with conn.cursor() as cur:
         cur.execute("""select to_regclass('extraction_state') is not null
                           and to_regclass('extract_batches') is not null
                           and to_regclass('extract_chunks') is not null
                           and exists (select 1 from information_schema.columns
                                       where table_name = 'mentions' and column_name = 'schema_version'
+                                        and table_schema = current_schema())
+                          and exists (select 1 from information_schema.columns
+                                      where table_name = 'extract_chunks' and column_name = 'alone'
                                         and table_schema = current_schema())""")
         ok = cur.fetchone()[0]
     conn.commit()
@@ -1082,20 +1087,20 @@ def drop_batch(conn, bid):
         cur.execute("""update extraction_state set batch_id = null, updated_at = now()
                        where batch_id = %s and extracted_at is null""", (bid,))
         n = cur.rowcount
-        _chunks_requeue(cur, bid, counted=True)
+        _chunks_requeue(cur, bid)
     conn.commit()
     return n
 
 
-def _chunks_requeue(cur, batch_id, counted=False):
-    """A thread-mode batch that never ran (a refused submission, a pending
-    submission settled as none, a lost batch dropped by hand): its chunks go
-    back to the queue as they were, so a half of a failed chunk is still sent
-    as a half. `counted` says the batch's send was counted when the API took
-    it (a dropped batch); it is taken back, since the batch gave nothing."""
-    cur.execute("""update extract_chunks set status = 'queued', batch_id = null, updated_at = now(),
-                     attempts = case when %s then greatest(attempts - 1, 0) else attempts end
-                   where batch_id = %s and status = 'batched'""", (counted, batch_id))
+def _chunks_requeue(cur, batch_id):
+    """A thread-mode batch that gave no answers (a refused submission, a
+    pending submission settled as none, a lost batch dropped by hand): its
+    chunks go back to the queue as they were, so a half of a failed chunk is
+    still sent as a half. attempts is left alone: it counts the times the API
+    took a chunk, which a refused or never-made batch did not add to, and a
+    dropped batch did (the API accepted it, and it may have run)."""
+    cur.execute("""update extract_chunks set status = 'queued', batch_id = null, updated_at = now()
+                   where batch_id = %s and status = 'batched'""", (batch_id,))
 
 
 # A pending row's batch, if the API made one, was created within this window
@@ -1292,8 +1297,12 @@ def thread_candidates(conn, limit=None, since=None, ids=None, newest_first=False
 
     Due means a comment due under v6 (the same QUEUED rule as comment mode),
     or, when posts are items, the post itself. Threads with a queued chunk
-    (a retry owed) come first, then by the post's created_utc, oldest first
-    unless newest_first, so a capped run can spend on recent months first.
+    this run can send (a retry owed) come first, then by the post's
+    created_utc, oldest first unless newest_first, so a capped run can spend
+    on recent months first. Under --scope comments a queued chunk that
+    numbers a post still due is not one this run can send (build_thread_jobs
+    holds it), so it does not move its thread ahead; otherwise such threads
+    would fill the head of every --limit run and leave it nothing to do.
     `since` is on the post's created_utc."""
     p = {"home": subreddits.HOME, "v": VERSION, "since": since, "ids": list(ids) if ids else None,
          "limit": limit, "posts": posts}
@@ -1310,7 +1319,8 @@ def thread_candidates(conn, limit=None, since=None, ids=None, newest_first=False
                           where c.thread_id = t.id and c.subreddit = %(home)s
                             and btrim(c.body) not in ('', '[deleted]', '[removed]') and {queued('s')}))
         order by exists (select 1 from extract_chunks k where k.thread_id = t.id and k.version = %(v)s
-                           and k.status = 'queued') desc,
+                           and k.status = 'queued'
+                           and (%(posts)s or not k.post_item or not {queued('ps')})) desc,
                  t.created_utc {order}, t.id
         limit %(limit)s"""
     with conn.cursor() as cur:
@@ -1378,7 +1388,7 @@ def _job(chunk, th, tree, effort, cid=None, generation=0, split_from=None, attem
     return ChunkJob(cid or new_chunk_id(), chunk, user, ids, ctx, effort, generation, split_from, attempts)
 
 
-def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=print):
+def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=print, held_out=None):
     """(chunk jobs, [(kind, id)] to send alone) for these threads, in order.
 
     Retries come first. A due item a failed half handed over (a failed chunk's
@@ -1391,7 +1401,12 @@ def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=pri
     `exclude` holds items already waiting in this run's memory, and `hold` the
     queued chunks this run will not send again: their items are claimed, so
     they are neither chunked a second time nor taken for done, and their rows
-    stay queued."""
+    stay queued.
+
+    `held_out`, when given, is a dict the caller keeps for the whole run:
+    each queued chunk left queued for being out of scope is recorded there
+    as {chunk id: (thread id, comments it holds back)}, once however often
+    its thread is built, so the run can count them as not sent."""
     rows = prompt_v6.fetch_thread_rows(conn, tids)
     due_c, due_p, due_alone, open_rows = _due_in(conn, tids)
     conn.commit()
@@ -1426,8 +1441,11 @@ def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=pri
                 # It numbers the post, which --scope comments leaves out: sent
                 # without it, the half would lose the post, which would then
                 # start over in a fresh chunk. It waits, queued, for a run
-                # that takes posts; its comments wait with it.
+                # that takes posts; its comments wait with it, and the run
+                # counts them as not sent (held_out).
                 out_of_scope.append(cid)
+                if held_out is not None:
+                    held_out[cid] = (tid, len([i for i in send if i != tid]))
                 continue
             tree = tree or T.Tree(th["comments"])
             jobs.append(_job(T.Chunk(tid, tid in send, [i for i in send if i != tid]), th, tree, opts.effort, cid,
@@ -1644,9 +1662,55 @@ def run_direct_threads(conn, cl, budget, opts, limit=None, since=None, ids=None,
     failed, then their items alone if a half failed too, before the next page.
     Holds, Ctrl-C and stopping on a fatal or lasting transient error work as
     in comment mode (_send_direct). When it stops, stats counts what was not
-    sent: the items of chunks built and not sent (refused, threads_open) and
-    the threads never reached (threads_left)."""
+    sent: the items of chunks built and not sent and of items alone not sent
+    (refused, threads_open), the comments of queued chunks held back by the
+    scope (_count_held), and the threads never reached (threads_left)."""
     stats = stats or Stats()
+    held_out = {}
+    try:
+        return _run_direct_threads(conn, cl, budget, opts, limit, since, ids, newest_first, workers, log, stats,
+                                   held_out)
+    finally:
+        _count_held(held_out, stats, log)
+
+
+def _count_held(held_out, stats, log):
+    """Count the comments of queued chunks this run's scope held back
+    (build_thread_jobs' held_out) as not sent, so a --scope comments run that
+    could only find such chunks says so and exits 3 instead of 0."""
+    n = sum(k for _, k in held_out.values())
+    if n:
+        stats.refused += n
+        stats.threads_open |= {t for t, k in held_out.values() if k}
+        log(f"  {n} comment(s) in {len(held_out)} queued chunk(s) wait for a run that takes posts "
+            "(they number the post as item [0])")
+
+
+def _alone_threads(conn, pairs):
+    """{item id: thread id} for items to send alone: a post is its own thread."""
+    cids = [i for k, i in pairs if k == "comment"]
+    with conn.cursor() as cur:
+        cur.execute("select id, thread_id from comments where id = any(%s)", (cids,))
+        out = dict(cur.fetchall())
+    conn.commit()
+    out.update({i: i for k, i in pairs if k == "post"})
+    return out
+
+
+def _direct_alone(conn, cl, budget, pairs, workers, stats, stop, capped, log):
+    """Thread mode's items alone, sent as comment and post mode send them.
+    Unlike comment mode's page, every item not sent (the cap, or a stop on
+    an error) is counted in stats.refused and its thread in threads_open."""
+    thread_of = _alone_threads(conn, pairs)
+
+    def unsent(item, why):
+        stats.refused += 1
+        stats.threads_open.add(thread_of.get(item.id, item.id))
+    _send_direct(cl, budget, render_pairs(conn, pairs), workers, stop, capped, log,
+                 lambda item, msg, c: _handle(conn, item, msg, c, stats, log=log), unsent)
+
+
+def _run_direct_threads(conn, cl, budget, opts, limit, since, ids, newest_first, workers, log, stats, held_out):
     stop, capped = threading.Event(), threading.Event()
     retire_chunks(conn, log)
     tids = thread_candidates(conn, limit, since, ids, newest_first, opts.posts)
@@ -1657,10 +1721,10 @@ def run_direct_threads(conn, cl, budget, opts, limit=None, since=None, ids=None,
         jobs = []                            # built and not yet handed to _direct_chunks
         try:
             for _ in range(THREAD_PASSES):
-                jobs, alone = build_thread_jobs(conn, todo, opts, log=log)
+                jobs, alone = build_thread_jobs(conn, todo, opts, log=log, held_out=held_out)
                 if alone:
-                    # _direct_page counts the items the cap left unsent in stats.refused.
-                    _direct_page(conn, cl, budget, render_pairs(conn, alone), workers, stats, stop, capped, log)
+                    # _direct_alone counts what it does not send, even when it raises.
+                    _direct_alone(conn, cl, budget, alone, workers, stats, stop, capped, log)
                 if stop.is_set():
                     stats.refused += sum(len(j.chunk) for j in jobs)
                     stats.threads_open |= {j.chunk.thread_id for j in jobs}
@@ -1680,13 +1744,13 @@ def run_direct_threads(conn, cl, budget, opts, limit=None, since=None, ids=None,
             else:
                 # Out of passes with retries still owed: build them once more
                 # to count them, so the run says what it left and exits 3.
-                jobs, alone = build_thread_jobs(conn, todo, opts, log=log)
+                jobs, alone = build_thread_jobs(conn, todo, opts, log=log, held_out=held_out)
                 left = sum(len(j.chunk) for j in jobs) + len(alone)
                 if left:
                     log(f"  {left} item(s) in {len(todo)} thread(s) still owe a retry after {THREAD_PASSES} "
                         "passes; the next run sends them")
                 stats.refused += left
-                stats.threads_open |= {j.chunk.thread_id for j in jobs} | (set(todo) if alone else set())
+                stats.threads_open |= {j.chunk.thread_id for j in jobs} | set(_alone_threads(conn, alone).values())
                 jobs = []
         except BaseException:
             stats.refused += sum(len(j.chunk) for j in jobs)
@@ -1797,67 +1861,65 @@ class _ChunkQueue:
     a retry alone, built a page of threads at a time as room is needed.
     Threads that owe a retry are built again first (their halves, or a chunk
     as it was), and items alone go out before chunks, in their own comment-
-    or post-mode batches.
+    or post-mode batches, through an _ItemQueue of their own (`alone`), so
+    they are cut into batches exactly as comment mode cuts its items.
 
     `waiting` is every item id in the two queues, kept up to date as they
     change (rather than gathered again from every queued job on each page):
     build_thread_jobs takes those items as claimed, so none is built twice
     or taken for done. `held` is the queued chunks this run will not send
-    again (CHUNK_SENDS_PER_RUN)."""
+    again (CHUNK_SENDS_PER_RUN), and `held_out` those the scope leaves out
+    (build_thread_jobs), counted as not sent when the run ends."""
 
     def __init__(self, conn, opts, tids, batch_size, log):
         self.conn, self.opts, self.tids, self.batch_size, self.log = conn, opts, tids, batch_size, log
-        self.pos, self.retry_tids, self.jobs, self.alone = 0, [], [], []
-        self.waiting, self.held = set(), set()
-        self._rest = self._gone = None
+        self.pos, self.retry_tids, self.jobs = 0, [], []
+        self.alone = _ItemQueue(conn, [], batch_size, log)
+        self.waiting, self.held, self.held_out = set(), set(), {}
 
     def _build(self, tids, front=False):
         jobs, alone = build_thread_jobs(self.conn, tids, self.opts, exclude=self.waiting, hold=self.held,
-                                        log=self.log)
+                                        log=self.log, held_out=self.held_out)
         self.waiting |= {i for j in jobs for i in j.chunk.items} | {i for _, i in alone}
         if front:
-            self.jobs, self.alone = jobs + self.jobs, alone + self.alone
+            self.jobs, self.alone.pairs = jobs + self.jobs, alone + self.alone.pairs
         else:
-            self.jobs, self.alone = self.jobs + jobs, self.alone + alone
+            self.jobs, self.alone.pairs = self.jobs + jobs, self.alone.pairs + alone
+
+    def _alone_changed(self, fn, *a):
+        """Run an _ItemQueue step on `alone`, then drop from `waiting` the ids
+        it no longer holds (sent, or gone from the database)."""
+        before = {i for _, i in self.alone.pairs}
+        out = fn(*a)
+        self.waiting -= before - {i for _, i in self.alone.pairs}
+        return out
 
     def take(self, room):
         while True:
             if self.retry_tids:
                 tids, self.retry_tids = self.retry_tids, []
                 self._build(tids, front=True)
-            while not self.alone and len(self.jobs) < self.batch_size and self.pos < len(self.tids):
+            while not self.alone.pairs and len(self.jobs) < self.batch_size and self.pos < len(self.tids):
                 page = self.tids[self.pos:self.pos + THREAD_PAGE]
                 self.pos += len(page)
                 self._build(page)
-            if not self.alone:
+            if not self.alone.pairs:
                 return _fit(self.jobs[:self.batch_size], room) if self.jobs else None
-            head = self.alone[:self.batch_size]
-            items = render_pairs(self.conn, head)
-            if not items:
-                # Every id in the head is gone from the database; nothing to send.
-                self.waiting -= {i for _, i in head}
-                self.alone = self.alone[len(head):]
-                continue
-            batch = _fit(items, room)
-            if not batch:
-                return []
-            taken = {it.id for it in batch}
-            kept = [(it.kind, it.id) for it in items if it.id not in taken]
-            self._gone = {i for _, i in head} - {i for _, i in kept}
-            self._rest = kept + self.alone[len(head):]
-            return batch
+            batch = self._alone_changed(self.alone.take, room)
+            if batch is not None:
+                return batch
+            # Every item alone was gone from the database: build more and look again.
 
     def sent(self, batch):
         if isinstance(batch[0], Item):
-            self.alone = self._rest
-            self.waiting -= self._gone
+            self._alone_changed(self.alone.sent, batch)
         else:
             self.jobs = self.jobs[len(batch):]
             self.waiting -= {i for j in batch for i in j.chunk.items}
 
     def returned(self, bid, shape, retry):
         if shape == "items":
-            self.alone = retry + self.alone
+            self.alone.returned(bid, shape, retry)
             self.waiting |= {i for _, i in retry}
         else:
             again, held = retry
@@ -1865,10 +1927,12 @@ class _ChunkQueue:
             self.retry_tids += [t for t in again if t not in self.retry_tids]
 
     def close(self, stats):
-        """Count what was built and not sent, and the threads never reached."""
-        stats.refused += sum(len(j.chunk) for j in self.jobs) + len(self.alone)
+        """Count what was built and not sent, what the scope held back, and
+        the threads never reached."""
+        stats.refused += sum(len(j.chunk) for j in self.jobs) + len(self.alone.pairs)
         stats.threads_open |= {j.chunk.thread_id for j in self.jobs}
         stats.threads_left += len(self.tids) - self.pos
+        _count_held(self.held_out, stats, self.log)
 
 
 def run_batch_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, newest_first=False,
@@ -2144,6 +2208,16 @@ def flip_check(conn, grace=FLIP_GRACE):
     return out, reasons
 
 
+# reset_hash's step that takes reset items off every `alone` list. Only failed
+# fallback rows have one, and the predicate implies extract_chunks_fallback_idx's
+# (where fallback), so each 5,000-item part reads that small index rather than
+# scanning the whole table.
+_UNROUTE_ALONE = """
+    update extract_chunks set alone = array(select a from unnest(alone) as a where a <> all(%(ids)s::text[])),
+                              updated_at = now()
+    where version = %(v)s and fallback and status = 'failed' and alone && %(ids)s::text[]"""
+
+
 def reset_hash(conn, prompt_hash, kinds=KINDS, yes=False, chunk=5000, log=print):
     """Undo every v6 extraction made with this prompt hash, so the items are
     due again (and go out under the current prompt): their mention rows and
@@ -2201,11 +2275,7 @@ def reset_hash(conn, prompt_hash, kinds=KINDS, yes=False, chunk=5000, log=print)
             gone_items += cur.rowcount
             # A reset item starts afresh: a failed half that once sent it out
             # alone routes it no longer, and it is chunked like any due item.
-            cur.execute("""update extract_chunks set alone = array(select a from unnest(alone) as a
-                                                                where a <> all(%(ids)s::text[])),
-                                                     updated_at = now()
-                           where version = %(v)s and alone && %(ids)s::text[]""",
-                        {"v": VERSION, "ids": cids + tids})
+            cur.execute(_UNROUTE_ALONE, {"v": VERSION, "ids": cids + tids})
         conn.commit()
         log(f"  {min(start + chunk, len(todo)):,} / {len(todo):,} item(s) reset")
     # Rows of that hash whose state row is gone or names another hash (an

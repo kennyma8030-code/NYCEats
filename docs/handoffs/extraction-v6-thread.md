@@ -145,9 +145,14 @@ first, ten since the third review). No import needed fixing (the file loads
   than the 300 s a plain request is allowed, and a timed-out plain request
   is charged its worst case and retried the same way six times. With a
   stream, 300 s bounds the silence between events. An error event part way
-  through a stream, or a connection cut while it is read, counts as
-  possibly billed (charged, and the retry must fit under the cap); an error
-  event about the request itself is fatal, as before. Batches are unchanged.
+  through a stream, a connection cut while it is read, and a stream that
+  closes in good order before `message_stop` (cut-off JSON with
+  `message_start`'s near-zero usage, or nothing at all) all count as
+  possibly billed (charged their worst case, and the retry must fit under
+  the cap), never as the chunk's fault. An error event about the request
+  itself is fatal, as before, and is charged its worst case too once any
+  content has streamed. `parse()` refuses a missing `stop_reason`. Batches
+  are unchanged.
 - **Ids**: a mention counts only when its `id` is an integer that numbers an
   item of the chunk. Out of range, `0` when the post was context, `"1"`,
   `true`, `1.0` or null are dropped and logged (`bad_ids` on the chunk row),
@@ -168,7 +173,9 @@ first, ten since the third review). No import needed fixing (the file loads
   (`queued`, `batched`, `done`, `failed`, `dropped`), `fallback` (its
   failure sent its items out alone), `alone` (the items it routes to go out
   alone while they are due), `attempts` (sends the API took: a direct answer,
-  or a batch once accepted or adopted; a dropped batch takes its send back),
+  or a batch once accepted or adopted; a refused submission or one settled as
+  none adds nothing, and `--drop-batch` takes nothing back, since the API
+  took that batch and it may have run),
   batch id, error, bad ids, the whole answer, usage, cost, timestamps. A chunk and its
   items commit in one transaction. If the database refuses any of it, the
   chunk is written again on its own: its row with the whole answer, then
@@ -219,10 +226,16 @@ first, ten since the third review). No import needed fixing (the file loads
   and so is one that numbers the post under `--scope comments` (the post is
   still due, only out of this run's scope): it waits, with its comments, for
   a run that takes posts, so the post is still sent as the half it is.
+  Its comments are counted as built and not sent (the run exits 3), and
+  under `--scope comments` such a chunk does not move its thread to the
+  head of the candidate order, so a `--limit` run is not filled with
+  threads it cannot serve.
   `--reset-hash H` also drops H's queued chunks, so reset items start afresh.
 - **A direct run out of passes** (a page's chunks, their halves, their items
   alone and a margin: `THREAD_PASSES`, 4) counts what it still owes as built
-  and not sent, so it prints that line and exits 3 rather than 0.
+  and not sent, so it prints that line and exits 3 rather than 0. Items
+  alone that a stop (the cap, or an error) left unsent are counted with
+  their threads too.
 
 A failed chunk's cost stays on its row. No due item is left without a row
 saying what happened to it. The direct path does all of this in the same run,
@@ -238,7 +251,8 @@ One request per chunk, custom_id the chunk id. Comment and thread mode share
 one batch loop (`_run_batches`: settle pending, re-attach, top up under the
 cap, poll, collect either shape, lost batches), one submit (`_submit`) and
 one direct sender (`_send_direct`); what differs is the queue each mode
-hands the loop (`_ItemQueue`, `_ChunkQueue`) and how a collected batch is
+hands the loop (`_ItemQueue`, and `_ChunkQueue`, which sends its items
+alone through an `_ItemQueue` of its own) and how a collected batch is
 stored (`_collect`, `_collect_chunks`). Before submitting, one
 transaction writes the `extract_batches` row, every chunk's row (`batched`)
 and every member's state row with the batch id. A re-run re-attaches to
@@ -277,12 +291,15 @@ block in `extract_v6_schema.sql` and `schema.sql`, guarded like the rest
 `schema_ready` now counts it as part of v6, because any run (comment mode
 too) may collect a thread batch, so **every `extract_v6.py` run refuses
 until it is applied**, and the poller's v6 pass skips until its boot
-applies `schema.sql`. Production has no `extract_chunks` table, so its
-columns are simply those of the `create table` (the third review added
-`alone` there, and removed the guarded `alter table ... add column
-attempts` that upgraded a shape only throwaway test databases ever had;
-such a database needs the table dropped and created again). Nothing is
-added to `extraction_state`. Apply it before deploying this branch:
+applies `schema.sql`. Production has no `extract_chunks` table, so it
+gets the `create table` as written. The third review added `alone` there,
+and also as a guarded `alter table extract_chunks add column if not exists
+alone text[] not null default '{}'` (a constant default, so catalog-only;
+checked in the catalog first, under the same 5 s `lock_timeout`), so a
+table made before it gets the column; `schema_ready` checks for `alone`.
+The older guarded ALTER for `attempts`, which only throwaway test databases
+ever needed, was removed. Nothing is added to `extraction_state`. Apply it
+before deploying this branch:
 
 ```
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f extract_v6_schema.sql; echo "exit $?"
@@ -577,7 +594,12 @@ pointing to it, with the parent's words sent once. Every comment-mode test
 passes unmodified.
 
 Run with this worktree's own throwaway Postgres 18 (no pgvector, so the 53
-embedding tests skip): **386 passed, 53 skipped** (372 and 53 before the
-third review).
+embedding tests skip): **392 passed, 53 skipped** (372 and 53 before the
+third review). The second pass over the fixes added tests for an unfinished
+stream (retried and charged, never split), a fatal stream error after
+content (charged), a missing `stop_reason`, `--drop-batch` keeping the
+send, comments held back by `--scope comments` counted and not crowding the
+candidate order, items alone left unsent by a stop counted, the guarded
+`alone` ALTER, and the alone reset reading the fallback index.
 
 No paid call was made, and production was only read.
