@@ -243,7 +243,7 @@ class PendingSettles(DbCase):
             with self.assertRaises(SystemExit):
                 batch(self.conn, api, kinds=("comment",))
             self.age(pid, 31)
-            with mock.patch.object(AV, "recent_batches", lambda cl, until=None: ([], False)), \
+            with mock.patch.object(AV, "recent_batches", lambda cl, until=None, **kw: ([], False)), \
                     self.assertRaises(SystemExit):
                 batch(self.conn, api, kinds=("comment",))
             self.assertEqual(api.batch_requests[len(HOME_LIVE):], [])      # nothing sent again

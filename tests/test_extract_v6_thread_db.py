@@ -15,12 +15,15 @@ import unittest
 from contextlib import redirect_stdout
 from unittest import mock
 
+import psycopg2.extensions
+
 from fakes import ROOT
 
 import anthropic_v6 as AV
 import db
 import extract_v6 as X
 import fake_anthropic as F
+import pgtest
 import prompt_v6
 import test_extract_v6_db as base
 
@@ -1105,6 +1108,126 @@ class Review3(ThreadCase):
                 self.assertIn(flag[0], str(cm.exception))
             with redirect_stdout(io.StringIO()):
                 self.assertEqual(X.main(["--mode", "thread", "--chunk-max", "10", "--dry-run"]), 0)
+
+
+class KeepAlive(ThreadCase):
+    """Railway's proxy drops a connection that carries no queries for about
+    seven minutes, and a batch run's connection holds the run's lock through
+    every wait on the API. So each wait sends a query first, outside any
+    transaction, and a run that loses its connection anyway ends on that
+    error, not on unlock's."""
+
+    def backend(self):
+        """(state, last query) of self.conn's backend, as another session sees it."""
+        other = pgtest.connect()
+        try:
+            with other.cursor() as cur:
+                cur.execute("select state, query from pg_stat_activity where pid = %s",
+                            (self.conn.get_backend_pid(),))
+                return cur.fetchone()
+        finally:
+            other.close()
+
+    def spied(self):
+        """Patch keep_alive to record ("ping",) in self.events before running it."""
+        real = X.keep_alive
+
+        def spy(conn):
+            self.events.append(("ping",))
+            real(conn)
+        return mock.patch.object(X, "keep_alive", spy)
+
+    def sleeper(self):
+        def sleep(s):
+            # Nothing may be open on the connection across a wait.
+            self.assertEqual(self.conn.get_transaction_status(), psycopg2.extensions.TRANSACTION_STATUS_IDLE)
+            self.assertEqual(self.backend()[0], "idle")
+            self.events.append(("sleep", s))
+        return sleep
+
+    def check_pinged(self):
+        sleeps = [i for i, e in enumerate(self.events) if e[0] == "sleep"]
+        self.assertGreater(len(sleeps), 0)
+        self.assertTrue(all(self.events[i - 1] == ("ping",) for i in sleeps))
+        self.assertTrue(all(self.events[i][1] == 60 for i in sleeps))        # the poll interval as it was
+
+    def test_comment_mode_batch_wait_queries_between_polls(self):
+        self.events = []
+        with F.FakeAnthropic(polls_until_ended=3) as api, self.spied():
+            X.run_batch(self.conn, AV.client("k", api.base_url), X.Budget(10), kinds=("comment",), log=QUIET,
+                        sleep=self.sleeper(), poll_seconds=60, stats=X.Stats())
+        self.check_pinged()
+        self.assertEqual({k for k, v in self.state().items() if v[2]}, HOME_LIVE)
+
+    def test_thread_mode_batch_wait_queries_between_polls(self):
+        self.events = []
+        with F.FakeAnthropic(answer, polls_until_ended=3) as api, self.spied():
+            X.run_batch_threads(self.conn, AV.client("k", api.base_url), X.Budget(10), self.opts(), log=QUIET,
+                                sleep=self.sleeper(), poll_seconds=60, stats=X.Stats())
+        self.check_pinged()
+        self.assertEqual(set(self.state()), HOME_LIVE | HOME_POSTS)
+
+    def test_retry_backoffs_query_too(self):
+        # A 529 while a batch is read is retried after a backoff, which is a
+        # wait like any other.
+        self.events = []
+        with F.FakeAnthropic(polls_until_ended=1) as api, self.spied():
+            api.get_failures = [F.error(529, "overloaded_error")]
+            X.run_batch(self.conn, AV.client("k", api.base_url), X.Budget(10), kinds=("comment",), log=QUIET,
+                        sleep=self.sleeper(), poll_seconds=60, stats=X.Stats())
+        waits = [e for i, e in enumerate(self.events) if e[0] == "sleep" and self.events[i - 1] == ("ping",)]
+        self.assertTrue(any(s != 60 for _, s in waits))
+        self.assertEqual(len(waits), sum(e[0] == "sleep" for e in self.events))
+
+    def test_a_long_wait_queries_every_keepalive_interval(self):
+        self.events = []
+        wait = X._keeping_alive(self.conn, lambda s: self.events.append(("sleep", s)))
+        with self.spied():
+            wait(150)
+        self.assertEqual(self.events, [("ping",), ("sleep", 60), ("ping",), ("sleep", 60), ("ping",), ("sleep", 30)])
+
+    def test_keep_alive_leaves_transactions_as_it_found_them(self):
+        X.keep_alive(self.conn)
+        self.assertEqual(self.conn.get_transaction_status(), psycopg2.extensions.TRANSACTION_STATUS_IDLE)
+        self.assertEqual(self.backend()[0], "idle")
+        # Inside the caller's transaction: joined, not committed.
+        with self.conn.cursor() as cur:
+            cur.execute("create table scratch (x int); insert into scratch values (1)")
+        X.keep_alive(self.conn)
+        self.assertEqual(self.conn.get_transaction_status(), psycopg2.extensions.TRANSACTION_STATUS_INTRANS)
+        self.conn.rollback()
+        self.assertEqual(self.q("select to_regclass('scratch') is null"), [(True,)])
+        # Inside a failed one: left for the caller to roll back.
+        with self.conn.cursor() as cur:
+            with self.assertRaises(psycopg2.Error):
+                cur.execute("select 1/0")
+        X.keep_alive(self.conn)
+        self.assertEqual(self.conn.get_transaction_status(), psycopg2.extensions.TRANSACTION_STATUS_INERROR)
+        self.conn.rollback()
+
+    def test_direct_mode_queries_while_answers_are_slow(self):
+        self.events = []
+        with F.FakeAnthropic(answer) as api, self.spied(), mock.patch.object(X, "KEEPALIVE_SECONDS", 0.02):
+            api.event_delay = 0.02
+            self.direct(api, ids=["t3_a"], workers=1)
+        self.assertIn(("ping",), self.events)
+        self.assertTrue(all(v[2] for v in self.state().values()))
+
+    def test_a_dropped_connection_ends_the_run_on_its_own_error(self):
+        self.assertTrue(X.try_lock(self.conn))
+        other = pgtest.connect()
+        try:
+            with other.cursor() as cur:
+                cur.execute("select pg_terminate_backend(%s, 5000)", (self.conn.get_backend_pid(),))
+            other.commit()
+            with self.assertRaises(psycopg2.OperationalError):
+                X.keep_alive(self.conn)                 # no reconnect: the error ends the run
+            self.assertTrue(self.conn.closed)
+            X.unlock(self.conn)                         # nothing to release, and no InterfaceError
+            self.assertTrue(X.try_lock(other))          # the session's lock went with it
+            X.unlock(other)
+        finally:
+            other.close()
 
 
 if __name__ == "__main__":

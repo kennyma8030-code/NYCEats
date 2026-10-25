@@ -76,6 +76,7 @@ import threading
 import time
 import uuid
 
+import psycopg2.extensions
 from psycopg2.extras import Json, execute_values
 
 import anthropic_v6 as AV
@@ -141,10 +142,55 @@ def try_lock(conn):
 
 
 def unlock(conn):
+    # A connection that died (dropped by the proxy, say) took its session and
+    # the lock with it, so there is nothing to release; trying would raise
+    # InterfaceError and hide the error that ended the run.
+    if conn.closed:
+        return
     conn.rollback()           # a failed statement may have left the transaction aborted
     with conn.cursor() as cur:
         cur.execute("select pg_advisory_unlock(%s)", (LOCK_KEY,))
     conn.commit()
+
+
+# Railway's TCP proxy drops a connection that has carried no queries for
+# about seven minutes. TCP keepalives (db.connect) do not stop it, evidently
+# because the proxy answers the probes itself. A run waits on the API for as
+# long as a batch takes, and its connection holds the lock above, so it sends
+# a query at least this often while it waits.
+KEEPALIVE_SECONDS = 60
+
+
+def keep_alive(conn):
+    """Send `select 1` so a connection waiting on the API is not idle.
+
+    It runs in a transaction of its own, ended at once, so nothing is held
+    open across the wait (an open transaction holds back vacuum). Inside a
+    caller's transaction it joins it and leaves it to the caller; in a failed
+    one it does nothing, as the query would only fail. No reconnect when the
+    connection is dead: a new one would not hold the lock, so the error ends
+    the run, and the next run picks up where it stopped."""
+    status = conn.get_transaction_status()
+    if status == psycopg2.extensions.TRANSACTION_STATUS_INERROR:
+        return
+    with conn.cursor() as cur:
+        cur.execute("select 1")
+    if status == psycopg2.extensions.TRANSACTION_STATUS_IDLE:
+        conn.rollback()
+
+
+def _keeping_alive(conn, sleep):
+    """`sleep`, with keep_alive(conn) before it and every KEEPALIVE_SECONDS of it.
+    A batch run hands this to every wait: the poll between status checks, and
+    the backoffs while a batch read is retried."""
+    def wait(seconds):
+        keep_alive(conn)
+        while seconds > KEEPALIVE_SECONDS:
+            sleep(KEEPALIVE_SECONDS)
+            keep_alive(conn)
+            seconds -= KEEPALIVE_SECONDS
+        sleep(seconds)
+    return wait
 
 
 def require_schema(conn):
@@ -664,7 +710,7 @@ def run_direct(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, 
 PAGE = 200
 
 
-def _send_direct(cl, budget, requests, workers, stop, capped, log, answered, unsent):
+def _send_direct(cl, budget, requests, workers, stop, capped, log, answered, unsent, idle):
     """Send requests (items or chunks) `workers` at a time under the cap.
 
     The network half runs on threads and touches no database; answered(req,
@@ -672,7 +718,9 @@ def _send_direct(cl, budget, requests, workers, stop, capped, log, answered, uns
     order answers arrive, so every write stays on the caller's connection.
     why is "skipped" (the cap, or a stop) or the FatalAPIError or
     TransientAPIError that stopped the pass, which is raised once every
-    answer already received has been handed over."""
+    answer already received has been handed over. idle() is called on this
+    thread whenever KEEPALIVE_SECONDS pass with no answer, so the caller can
+    keep its connection open while long streamed chunks or retries are out."""
     def work(req):
         if stop.is_set():
             return req, "skipped", 0.0
@@ -707,14 +755,20 @@ def _send_direct(cl, budget, requests, workers, stop, capped, log, answered, uns
     halt = None
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=workers)
     try:
-        for fut in concurrent.futures.as_completed([pool.submit(work, r) for r in requests]):
-            req, res, c = fut.result()
-            if isinstance(res, (str, Exception)):
-                if isinstance(res, Exception):
-                    halt = halt or res
-                unsent(req, res)
-            else:
-                answered(req, res, c)
+        waiting = [pool.submit(work, r) for r in requests]
+        while waiting:
+            done, waiting = concurrent.futures.wait(waiting, timeout=KEEPALIVE_SECONDS,
+                                                    return_when=concurrent.futures.FIRST_COMPLETED)
+            if not done:
+                idle()
+            for fut in done:
+                req, res, c = fut.result()
+                if isinstance(res, (str, Exception)):
+                    if isinstance(res, Exception):
+                        halt = halt or res
+                    unsent(req, res)
+                else:
+                    answered(req, res, c)
     except BaseException:
         # Ctrl-C, or a bug while storing: nothing queued may go out after this.
         # Requests already on the wire finish (their spend is counted); the
@@ -734,7 +788,8 @@ def _direct_page(conn, cl, budget, items, workers, stats, stop, capped, log):
         if isinstance(why, str):
             stats.refused += capped.is_set()
     _send_direct(cl, budget, items, workers, stop, capped, log,
-                 lambda item, msg, c: _handle(conn, item, msg, c, stats, log=log), unsent)
+                 lambda item, msg, c: _handle(conn, item, msg, c, stats, log=log), unsent,
+                 lambda: keep_alive(conn))
 
 
 # ---------------------------------------------------------------- batches
@@ -906,14 +961,14 @@ def _collect(conn, cl, budget, bid, stats, log, sleep=None):
     return retry
 
 
-def _settle_pending(conn, cl, log):
+def _settle_pending(conn, cl, log, sleep=None):
     """Step one of every batch run: a 'pending-' batch row is a submission
     whose outcome is unknown. It is matched against the API's batch list
     (resolve_pending_auto); exactly one match is adopted, and anything else
     stops the run for a person to decide with --resolve-pending, so nothing
     is sent twice."""
     for pid in _pending(conn):
-        bid = resolve_pending_auto(conn, cl, pid, log)
+        bid = resolve_pending_auto(conn, cl, pid, log, sleep=sleep)
         if bid is None:
             raise SystemExit(f"submission {pid} has an unknown outcome and no single batch in the API's "
                              "list matches it: check the Console, then run --resolve-pending "
@@ -1050,7 +1105,8 @@ def run_batch(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, m
        hands back for a retry first (_run_batches).
     """
     stats = stats or Stats()
-    _settle_pending(conn, cl, log)
+    sleep = _keeping_alive(conn, sleep)        # every wait from here on keeps the lock's connection open
+    _settle_pending(conn, cl, log, sleep)
     inflight = _reattach(conn, budget, log)
     pairs = []          # (kind, id), retries first
     for kind in kinds:
@@ -1115,7 +1171,7 @@ MATCH_BEFORE = dt.timedelta(minutes=5)
 MATCH_AFTER = dt.timedelta(minutes=30)
 
 
-def pending_matches(conn, cl, pending_id):
+def pending_matches(conn, cl, pending_id, sleep=None):
     """Batches in the API's list that could be this pending submission: created
     near the row's time, with its number of requests, and not already ours.
 
@@ -1138,7 +1194,7 @@ def pending_matches(conn, cl, pending_id):
         raise SystemExit(f"no pending batch {pending_id}")
     created, n, old = row
     out, later = [], []
-    listed, covered = AV.recent_batches(cl, until=created - MATCH_BEFORE)
+    listed, covered = AV.recent_batches(cl, until=created - MATCH_BEFORE, sleep=sleep)
     for b in listed:
         c = b.request_counts
         total = c.processing + c.succeeded + c.errored + c.canceled + c.expired
@@ -1149,12 +1205,12 @@ def pending_matches(conn, cl, pending_id):
     return out, bool(old and covered and not later)
 
 
-def resolve_pending_auto(conn, cl, pending_id, log=print):
+def resolve_pending_auto(conn, cl, pending_id, log=print, sleep=None):
     """Adopt the one batch that matches a pending row. When none matches and
     that answer is final (see pending_matches), the submission made nothing:
     drop the row and return its items to the queue. Returns the batch id,
     "none", or None when a person has to decide."""
-    found, settled = pending_matches(conn, cl, pending_id)
+    found, settled = pending_matches(conn, cl, pending_id, sleep=sleep)
     if len(found) == 1:
         resolve_pending(conn, pending_id, found[0])
         log(f"pending submission {pending_id} matched batch {found[0]}: re-attaching to it")
@@ -1707,7 +1763,8 @@ def _direct_alone(conn, cl, budget, pairs, workers, stats, stop, capped, log):
         stats.refused += 1
         stats.threads_open.add(item.thread_id)
     _send_direct(cl, budget, render_pairs(conn, pairs), workers, stop, capped, log,
-                 lambda item, msg, c: _handle(conn, item, msg, c, stats, log=log), unsent)
+                 lambda item, msg, c: _handle(conn, item, msg, c, stats, log=log), unsent,
+                 lambda: keep_alive(conn))
 
 
 def _run_direct_threads(conn, cl, budget, opts, limit, since, ids, newest_first, workers, log, stats, held_out):
@@ -1781,7 +1838,7 @@ def _direct_chunks(conn, cl, budget, jobs, workers, stats, stop, capped, log):
     def unsent(job, why):
         stats.refused += len(job.chunk)
         stats.threads_open.add(job.chunk.thread_id)
-    _send_direct(cl, budget, jobs, workers, stop, capped, log, answered, unsent)
+    _send_direct(cl, budget, jobs, workers, stop, capped, log, answered, unsent, lambda: keep_alive(conn))
     return retry
 
 
@@ -1957,7 +2014,8 @@ def run_batch_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, 
     chunk to retry are chunked again (its halves, or the chunk as it was)
     before new threads (_ChunkQueue)."""
     stats = stats or Stats()
-    _settle_pending(conn, cl, log)
+    sleep = _keeping_alive(conn, sleep)        # every wait from here on keeps the lock's connection open
+    _settle_pending(conn, cl, log, sleep)
     inflight = _reattach(conn, budget, log)
     retire_chunks(conn, log)
     tids = thread_candidates(conn, limit, since, ids, newest_first, opts.posts)
