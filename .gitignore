@@ -7,3 +7,9 @@ venv/
 *.log
 *.out
 *.err
+
+# Planted-error keys and the salt that picks them: judges must never see
+# them, and the thread review's salt is random so the repo cannot rebuild it.
+eval/review_v6/.sealed/
+eval/review_v6r4/.sealed/
+eval/thread_v6/.sealed/

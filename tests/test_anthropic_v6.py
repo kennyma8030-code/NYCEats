@@ -106,6 +106,8 @@ class Parse(unittest.TestCase):
         self.assertEqual(self.code(F.message('{"other": 1}')), "invalid_json")
         self.assertEqual(self.code(F.message('{"mentions": ["x"]}')), "invalid_json")
         self.assertEqual(self.code(F.message('{"mentions": []}', stop="pause_turn")), "stop_pause_turn")
+        # No stop_reason is no finished answer, even when the text parses.
+        self.assertEqual(self.code(F.message('{"mentions": []}', stop=None)), "stop_None")
 
 
 class Errors(unittest.TestCase):
@@ -293,6 +295,129 @@ class BatchReads(unittest.TestCase):
         with self.assertRaises(AV.FatalAPIError):
             self.read(AV.retrieve, self.bid)
         self.assertEqual(self.waits, [])
+
+
+class Streaming(unittest.TestCase):
+    """Thread mode's direct calls stream, so a 32k answer is not cut off by
+    the timeout a plain request has to finish inside."""
+
+    def params(self):
+        return AV.params(prompt_v6.SYSTEM_PROMPT_THREAD, "POST: t\n\n[1] u/a: PlaceAlpha", effort="medium",
+                         max_tokens=prompt_v6.THREAD_MAX_TOKENS, schema=AV.OUTPUT_SCHEMA_THREAD)
+
+    def run_call(self, api, asked=None, attempts=3):
+        return AV.call(AV.client("k", api.base_url), self.params(), attempts=attempts, sleep=lambda s: None,
+                       log=lambda *_: None, retry_ok=(lambda: asked.append(1) or True) if asked is not None else None,
+                       stream=True)
+
+    def test_a_streamed_answer_is_the_same_message(self):
+        with F.FakeAnthropic(lambda p: F.ok([F.mention("PlaceAlpha")])) as api:
+            msg = self.run_call(api)
+        body = api.requests[0]
+        self.assertIs(body.pop("stream"), True)
+        self.assertEqual(body, self.params())                  # the same request otherwise
+        self.assertEqual(AV.parse(msg, prompt_v6.THREAD_MAX_TOKENS), {"mentions": [F.mention("PlaceAlpha")]})
+        u = AV.usage_of(msg)
+        self.assertEqual({k: u[k] for k in F.USAGE}, F.USAGE)  # the totals from message_delta, as billed
+        self.assertEqual(AV.cost(u, False), AV.cost(F.USAGE, False))
+        with F.FakeAnthropic(lambda p: (200, F.message('{"mentions": [', stop="max_tokens"))) as api:
+            with self.assertRaises(AV.ItemError):
+                AV.parse(self.run_call(api), prompt_v6.THREAD_MAX_TOKENS)
+
+    def test_an_answer_longer_than_the_timeout_still_arrives(self):
+        # Every event comes well inside the timeout, the whole answer well
+        # after it: a plain request would have timed out and been retried.
+        with F.FakeAnthropic() as api, mock.patch.object(AV, "TIMEOUT", 0.25):
+            api.event_delay = 0.1
+            asked = []
+            msg = self.run_call(api, asked)
+        self.assertEqual(asked, [])
+        self.assertEqual(len(api.requests), 1)
+        self.assertEqual(AV.parse(msg), {"mentions": [F.mention("PlaceAlpha")]})
+        # The same answer as a plain request times out on every attempt, each
+        # charged as possibly billed, and the request is given up.
+        with F.FakeAnthropic() as api, mock.patch.object(AV, "TIMEOUT", 0.25):
+            api.event_delay = 0.1
+            asked = []
+            with self.assertRaises(AV.TransientAPIError) as cm:
+                AV.call(AV.client("k", api.base_url), self.params(), attempts=2, sleep=lambda s: None,
+                        log=lambda *_: None, retry_ok=lambda: asked.append(1) or True)
+        self.assertEqual(asked, [1])
+        self.assertTrue(cm.exception.maybe_billed)
+
+    def test_an_error_event_part_way_is_retried_as_possibly_billed(self):
+        with F.FakeAnthropic() as api:
+            api.stream_failures = [{"type": "error", "error": {"type": "overloaded_error", "message": "busy"}}]
+            asked = []
+            msg = self.run_call(api, asked)
+        self.assertEqual(asked, [1])                           # charged and reserved again before the retry
+        self.assertEqual(len(api.requests), 2)
+        self.assertEqual(AV.parse(msg), {"mentions": [F.mention("PlaceAlpha")]})
+
+    def test_a_cut_stream_is_retried_as_possibly_billed(self):
+        with F.FakeAnthropic() as api:
+            api.stream_failures = ["cut", "cut", "cut"]
+            asked = []
+            with self.assertRaises(AV.TransientAPIError) as cm:
+                self.run_call(api, asked)
+        self.assertEqual(asked, [1, 1])
+        self.assertTrue(cm.exception.maybe_billed)
+        with F.FakeAnthropic() as api:
+            api.stream_failures = ["cut"]
+            with self.assertRaises(AV.CapReached):
+                AV.call(AV.client("k", api.base_url), self.params(), attempts=3, sleep=lambda s: None,
+                        log=lambda *_: None, retry_ok=lambda: False, stream=True)
+
+    def test_status_errors_before_the_stream_sort_as_before(self):
+        seq = [F.error(529, "overloaded_error")]
+        with F.FakeAnthropic(lambda p: seq.pop(0) if seq else F.ok([])) as api:
+            asked = []
+            self.run_call(api, asked)
+        self.assertEqual((asked, len(api.requests)), ([], 2))  # not billed: no new reservation
+        with F.FakeAnthropic(lambda p: F.error(400, "invalid_request_error", "bad")) as api:
+            with self.assertRaises(AV.FatalAPIError):
+                self.run_call(api)
+    def test_one_billing_rule_for_every_stream_failure(self):
+        # Once message_start has arrived the input is counted, so a fatal
+        # error event, a transient one and a clean early close are all
+        # possibly billed; before it (0 events), none is.
+        bad = {"type": "error", "error": {"type": "invalid_request_error", "message": "x"}}
+        busy = {"type": "error", "error": {"type": "overloaded_error", "message": "busy"}}
+        for n, billed in ((0, False), (1, True), (3, True), (7, True)):
+            with F.FakeAnthropic() as api:
+                api.stream_failures = [(n, bad)]
+                with self.assertRaises(AV.FatalAPIError) as cm:
+                    self.run_call(api, [])
+                self.assertEqual(len(api.requests), 1)
+            self.assertIs(cm.exception.maybe_billed, billed, n)
+            for what in (busy, "clean", "cut"):
+                with F.FakeAnthropic() as api:
+                    api.stream_failures = [(n, what)]
+                    asked = []
+                    msg = self.run_call(api, asked)
+                self.assertEqual(asked, [1] if billed else [], (n, what))   # charged, reserved again
+                self.assertEqual(len(api.requests), 2)
+                self.assertEqual(AV.parse(msg), {"mentions": [F.mention("PlaceAlpha")]})
+        for n, billed in ((0, False), (1, True)):
+            with F.FakeAnthropic() as api:
+                api.stream_failures = [(n, "clean")] * 3
+                with self.assertRaises(AV.TransientAPIError) as cm:
+                    self.run_call(api, [])
+            self.assertIs(cm.exception.maybe_billed, billed)
+
+    def test_a_stream_without_message_start_is_caught_before_the_sdk_assembles_it(self):
+        # Every event but message_start: whatever this SDK version would do
+        # with it (an assert, gone under python -O, or another version's
+        # RuntimeError), call() never asks it to assemble the message.
+        from anthropic.lib.streaming import _messages
+        with F.FakeAnthropic() as api, mock.patch.object(
+                _messages.MessageStream, "get_final_message",
+                side_effect=RuntimeError("Unexpected event order")):
+            api.stream_failures = ["no_start"] * 3
+            with self.assertRaises(AV.TransientAPIError) as cm:
+                self.run_call(api, [])
+        self.assertIn("without message_start", str(cm.exception))
+        self.assertIs(cm.exception.maybe_billed, False)
 
 
 if __name__ == "__main__":

@@ -71,6 +71,11 @@ _ENV_OVERRIDES = ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_PROFIL
 
 # Direct calls: how long one may take, and how often a transient failure is
 # retried before the pass gives up and leaves the rest for the next one.
+# Comment and post mode send a plain request, which has to finish inside
+# TIMEOUT. Thread mode streams (call's stream=True), because a chunk may write
+# 20 to 32k tokens, which can take longer than that; a stream only has to
+# keep sending (the API pings while the model thinks), so TIMEOUT bounds the
+# silence between two events instead of the whole answer.
 TIMEOUT = 300
 ATTEMPTS = 6
 MAX_WAIT = 120
@@ -150,17 +155,22 @@ def strict_schema(schema):
 
 
 OUTPUT_SCHEMA = strict_schema(prompt_v6.SCHEMA)
+OUTPUT_SCHEMA_THREAD = strict_schema(prompt_v6.SCHEMA_THREAD)
 
 
-def params(system, user):
+def params(system, user, effort=None, max_tokens=None, schema=None):
     """One request's parameters: the benchmark's params() at effort medium,
-    with the schema and the cache marker it ran with."""
-    return {"model": prompt_v6.MODEL, "max_tokens": prompt_v6.MAX_TOKENS,
+    with the schema and the cache marker it ran with.
+
+    Comment and post mode never pass the keywords, so what they send is
+    exactly the benchmark's. Thread mode passes its own effort, its 32k
+    max_tokens and the thread schema (an integer "id" in every mention)."""
+    return {"model": prompt_v6.MODEL, "max_tokens": max_tokens or prompt_v6.MAX_TOKENS,
             "system": [{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}],
             "messages": [{"role": "user", "content": user}],
             "thinking": {"type": "adaptive"},
-            "output_config": {"effort": prompt_v6.EFFORT,
-                              "format": {"type": "json_schema", "schema": OUTPUT_SCHEMA}}}
+            "output_config": {"effort": effort or prompt_v6.EFFORT,
+                              "format": {"type": "json_schema", "schema": schema or OUTPUT_SCHEMA}}}
 
 
 def cost(usage, batch):
@@ -172,22 +182,38 @@ def cost(usage, batch):
     return c * (BATCH_DISCOUNT if batch else 1.0)
 
 
-def worst_case(system, user, batch):
+def worst_case(system, user, batch, max_tokens=None):
     """The most one request can cost: all input billed as a cache write, all of max_tokens out."""
     tin = (len(system) + len(user)) / CHARS_PER_TOKEN_UPPER + SCHEMA_OVERHEAD_TOKENS
-    return (tin * PRICES["cache_write"] + prompt_v6.MAX_TOKENS * PRICES["out"]) \
+    return (tin * PRICES["cache_write"] + (max_tokens or prompt_v6.MAX_TOKENS) * PRICES["out"]) \
         * (BATCH_DISCOUNT if batch else 1.0)
 
 
-def estimate(system, user, batch, cached):
+def estimate(system, user, batch, cached, output_tokens=None):
     """A typical request's cost, for dry runs: measured chars/token, the
-    benchmark's assumed output, and the system prompt either all cache reads
-    or all fresh input."""
+    benchmark's assumed output (or the caller's), and the system prompt
+    either all cache reads or all fresh input."""
     t_sys = len(system) / CHARS_PER_TOKEN + SCHEMA_OVERHEAD_TOKENS
     t_user = len(user) / CHARS_PER_TOKEN
     c = (t_sys * (PRICES["cache_read"] if cached else PRICES["in"]) + t_user * PRICES["in"]
-         + ASSUMED_OUTPUT_TOKENS * PRICES["out"])
+         + (ASSUMED_OUTPUT_TOKENS if output_tokens is None else output_tokens) * PRICES["out"])
     return c * (BATCH_DISCOUNT if batch else 1.0)
+
+
+# Thread mode's expected output, for dry runs and cost plans: a + b * items
+# tokens a chunk, thinking included. Fitted to the benchmark's round-1 thread
+# runs on 361 chunks of v2 comments (medium with 32k: 2,640 + 490 an item;
+# low: 2,250 + 345), then raised by the 12% round 4 added to comment mode's
+# output at medium (low's did not grow). Those chunks were picked for
+# diagnostic comments, 1.1 places a comment, so the backlog's typical thread
+# should come in under this. The post as item [0] counts as an item; post
+# mode measured about 700 output tokens a post in production.
+THREAD_OUTPUT = {"medium": (2950, 550), "low": (2250, 345)}
+
+
+def thread_output_tokens(effort, items, max_tokens=None):
+    a, b = THREAD_OUTPUT[effort]
+    return min(a + b * items, max_tokens or prompt_v6.THREAD_MAX_TOKENS)
 
 
 def _dump(message):
@@ -199,20 +225,22 @@ def usage_of(message):
     return {k: v for k, v in ((_dump(message) or {}).get("usage") or {}).items() if v is not None}
 
 
-def parse(message):
+def parse(message, max_tokens=None):
     """The extraction in an Anthropic message, as {"mentions": [...]}, or ItemError.
 
     stop_reason is checked before the text: a max_tokens stop is cut-off JSON,
-    and a refusal has none, and neither may be stored as "no mentions".
+    and a refusal has none, and neither may be stored as "no mentions". A
+    finished answer always says why it stopped, so a missing stop_reason (an
+    answer assembled from a stream that never finished) is refused too.
     """
     m = _dump(message) or {}
     stop = m.get("stop_reason")
     if stop == "max_tokens":
-        raise ItemError("max_tokens", f"stopped at {prompt_v6.MAX_TOKENS} output tokens")
+        raise ItemError("max_tokens", f"stopped at {max_tokens or prompt_v6.MAX_TOKENS} output tokens")
     if stop == "refusal":
         details = m.get("stop_details") or {}
         raise ItemError("refusal", str(details.get("category") or ""))
-    if stop not in ("end_turn", None):
+    if stop != "end_turn":
         raise ItemError("stop_" + str(stop))
     text = "".join(b.get("text") or "" for b in m.get("content") or [] if b.get("type") == "text")
     try:
@@ -243,7 +271,40 @@ def _retry_after(e):
         return None
 
 
-def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None):
+# An error event in the middle of a stream that is about the request or the
+# account, not the API's load: as fatal as the same error before the stream.
+_FATAL_STREAM_ERRORS = ("invalid_request_error", "authentication_error", "permission_error", "billing_error",
+                        "not_found_error", "request_too_large")
+
+
+class _StreamUnfinished(Exception):
+    """A stream that closed cleanly before message_stop: the answer is cut off
+    (or never began), though the model may have been billed for it."""
+
+
+def _streamed(cl, p, seen):
+    """The whole answer of a streamed request, as the same Message create()
+    returns. Raises _StreamUnfinished unless the stream both began
+    (message_start) and reached message_stop: the SDK would hand back the
+    part it got (with message_start's near-zero usage), or, with no
+    message_start, fail in its own way (an assert in this version).
+    seen["started"] is set at message_start, from which point the input is
+    counted, so call() knows any later failure may have been billed."""
+    with cl.messages.stream(**p) as s:
+        stopped = False
+        for event in s:
+            if event.type == "message_start":
+                seen["started"] = True
+            elif event.type == "message_stop":
+                stopped = True
+        if not seen.get("started"):
+            raise _StreamUnfinished("stream ended without message_start")
+        if not stopped:
+            raise _StreamUnfinished("stream ended before message_stop")
+        return s.get_final_message()
+
+
+def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=False):
     """One direct request. Returns the Message (SDK object); raises FatalAPIError,
     TransientAPIError or CapReached. ItemError is the caller's: parse() the result.
 
@@ -253,26 +314,51 @@ def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None):
     fit under the cap it returns False and the request is given up
     (CapReached). A 429 or 5xx answer was not billed, so it is retried
     without asking.
+
+    stream=True (thread mode) sends the same parameters as a stream and
+    returns the assembled message. A stream fails in three more ways: an
+    error event part way (overloaded, say; one about the request is fatal),
+    a connection cut while the body is read (which the SDK does not wrap),
+    and a stream that closes cleanly before message_stop. One billing rule
+    covers all three: once message_start has arrived the input is counted,
+    so the failure is possibly billed (charged its worst case; a fatal one
+    carries maybe_billed for the caller); before it, none is.
     """
     import anthropic
     attempts = attempts or ATTEMPTS
     sleep = sleep or time.sleep
+    cut = _stream_errors() + (_StreamUnfinished,) if stream else ()
     last = None
     for attempt in range(attempts):
         billed = False
+        seen = {}
         try:
-            return cl.messages.create(**p)
+            return _streamed(cl, p, seen) if stream else cl.messages.create(**p)
         except anthropic.APIStatusError as e:
             status = e.status_code
-            if status != 429 and status < 500:
+            if status < 400:
+                # An error event inside a stream that had already answered 200.
+                kind = ((e.body if isinstance(e.body, dict) else {}).get("error") or {}).get("type") or "error"
+                if kind in _FATAL_STREAM_ERRORS:
+                    log(f"  anthropic stream {kind}: {_body(e)}")
+                    err = FatalAPIError(f"stream {kind}: {_body(e)[:500]}")
+                    err.maybe_billed = bool(seen.get("started"))
+                    raise err from e
+                last, wait, billed = f"stream {kind}", None, bool(seen.get("started"))
+            elif status != 429 and status < 500:
                 log(f"  anthropic {status}: {_body(e)}")
                 raise FatalAPIError(f"http {status}: {_body(e)[:500]}") from e
-            last = f"http {status}"
-            wait = _retry_after(e)
+            else:
+                last = f"http {status}"
+                wait = _retry_after(e)
         except anthropic.APIConnectionError as e:          # APITimeoutError included
             last = f"{type(e).__name__}: {e}"
             wait = None
             billed = True
+        except cut as e:
+            last = f"stream cut: {type(e).__name__}: {e}"
+            wait = None
+            billed = bool(seen.get("started"))
         if attempt == attempts - 1:
             break
         if billed and retry_ok is not None and not retry_ok():

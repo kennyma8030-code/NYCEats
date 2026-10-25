@@ -37,9 +37,13 @@ def sha(path):
 
 
 def branch_file(path):
-    """The file's bytes on the benchmark branch, or None when the branch is not here."""
-    r = subprocess.run(["git", "-C", ROOT, "show", f"{BRANCH}:{path}"], capture_output=True)
-    return r.stdout if r.returncode == 0 else None
+    """The file's bytes on the benchmark branch, or None when the branch is not here.
+    A worktree often has only the remote-tracking ref, so that is tried too."""
+    for ref in (BRANCH, f"origin/{BRANCH}"):
+        r = subprocess.run(["git", "-C", ROOT, "show", f"{ref}:{path}"], capture_output=True)
+        if r.returncode == 0:
+            return r.stdout
+    return None
 
 
 def benchmark_module():
@@ -156,6 +160,87 @@ class Rendering(unittest.TestCase):
         system, user, h = prompt_v6.render("post", ("Is PlaceAlpha worth it?", "Going Friday", "op"))
         self.assertEqual((system, h), (prompt_v6.SYSTEM_PROMPT_POST, "436d834d7edd"))
         self.assertEqual(user, "<post_title>Is PlaceAlpha worth it?</post_title>\n<post_body>Going Friday</post_body>")
+
+
+class ThreadPrompt(unittest.TestCase):
+    """prompts_v6/v6_thread.py is the round-4 thread prompt plus exactly the
+    additions in tests/v6_thread_additions.py. The file checks out with LF
+    endings (.gitattributes), so its bytes hash the same on every machine."""
+
+    PINNED = "5105af1584bd96faf14819be71b091bd9c6375b9f00b08f81fe2df09608e2489"
+    ROUND4 = "b72ba75edf3964ac902281d8562e77ea311877c56424d0400bb1032e053d75ed"   # the branch's file
+    PATH = "eval/prompts/v6_thread.py"
+
+    def round4(self):
+        blob = branch_file(self.PATH)
+        if blob is None:
+            self.skipTest(f"branch {BRANCH} is not in this repository; the pinned hash still applies")
+        return blob
+
+    def round4_module(self):
+        d = tempfile.mkdtemp()
+        with open(os.path.join(d, "v6_thread.py"), "wb") as f:
+            f.write(self.round4())
+        for n in ("v6_common.py", "v6_schema.json"):
+            with open(os.path.join(d, n), "wb") as f:
+                f.write(open(os.path.join(ROOT, "prompts_v6", n), "rb").read())
+        spec = importlib.util.spec_from_file_location("bench_v6_thread", os.path.join(d, "v6_thread.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod
+
+    def test_vendored_file_is_pinned(self):
+        self.assertEqual(sha(os.path.join(ROOT, "prompts_v6", "v6_thread.py")), self.PINNED)
+        self.assertEqual(prompt_v6.PROMPT_HASH_THREAD, "d92ec8610d8c")
+        self.assertEqual(hashlib.sha256(prompt_v6.SYSTEM_PROMPT_THREAD.encode()).hexdigest()[:12],
+                         prompt_v6.PROMPT_HASH_THREAD)
+
+    def test_it_is_round_four_plus_the_listed_additions(self):
+        import v6_thread_additions as A
+        blob = self.round4()
+        self.assertEqual(hashlib.sha256(blob).hexdigest(), self.ROUND4)
+        with open(os.path.join(ROOT, "prompts_v6", "v6_thread.py"), "rb") as f:
+            self.assertEqual(A.apply(blob.decode("utf-8")).encode("utf-8"), f.read())
+
+    def test_prompt_differs_from_round_four_only_by_post_item_and_quoted_replies(self):
+        import v6_thread_additions as A
+        r4 = self.round4_module()
+        block = prompt_v6.SYSTEM_PROMPT_THREAD.split("<post_item>")[1].split("</post_item>\n\n")[0]
+        stripped = prompt_v6.SYSTEM_PROMPT_THREAD.replace("<post_item>" + block + "</post_item>\n\n", "")
+        # The <input> sentence and the thread example on quoted replies, put back as round 4 had them.
+        for old, new in A.ADDITIONS[-3:]:
+            self.assertEqual(stripped.count(new), 1)
+            stripped = stripped.replace(new, old)
+        self.assertEqual(stripped, r4.SYSTEM_PROMPT)
+        # What the prompt shows is what the renderer draws.
+        self.assertIn("(reply to u/zed, quoted above)", prompt_v6.SYSTEM_PROMPT_THREAD)
+        self.assertIn(prompt_v6.thread.CONTEXT_HEADER + "\nu/zed: ", prompt_v6.SYSTEM_PROMPT_THREAD)
+        self.assertNotIn("not in this chunk: ", prompt_v6.SYSTEM_PROMPT_THREAD)
+        self.assertNotEqual(prompt_v6.PROMPT_HASH_THREAD, r4.PROMPT_HASH)
+        self.assertEqual(prompt_v6.SCHEMA_THREAD, r4.SCHEMA)
+        # The post-mode sentences it borrows, word for word.
+        post_input = prompt_v6.SYSTEM_PROMPT_POST.split("<input>\n")[1].split("\n</input>")[0]
+        for sentence in ("Extract the places the post names and what the poster says about them, their own "
+                         "visits and verdicts included.",
+                         'A place the post only asks about ("is X worth it?") is a mention with opinion "none".'):
+            self.assertIn(sentence, post_input)
+            self.assertIn(sentence, block)
+
+    def test_rendering_without_the_additions_is_round_fours(self):
+        r4 = self.round4_module()
+        rows = [{"comment_id": "t1_a", "parent_comment_id": None, "author": "ann", "body": "Golden Lotus " * 200},
+                {"comment_id": "t1_c", "parent_comment_id": "t1_b", "author": "cal", "body": "meh"},
+                {"comment_id": "t1_b", "parent_comment_id": "t1_a", "author": "bob", "body": "pepper house"},
+                {"comment_id": "t1_d", "parent_comment_id": "t1_z", "author": None, "body": "who?"},
+                {"comment_id": "t1_e", "parent_comment_id": "t1_y", "author": "eve", "body": "x"}]
+        outside = {"t1_z": {"author": "zed", "body": "Noodle Lab for knife-cut " * 20}, "t1_y": None}
+        for title, body in (("Best noodles?", "In Queens " * 200), ("Title", None)):
+            self.assertEqual(prompt_v6.thread.render_chunk(title, body, rows, outside),
+                             r4.render_chunk(title, body, rows, outside))
+
+    def test_settings(self):
+        self.assertEqual((prompt_v6.THREAD_MAX_TOKENS, prompt_v6.THREAD_EFFORT, prompt_v6.THREAD_EFFORTS),
+                         (32000, "medium", ("low", "medium")))
 
 
 if __name__ == "__main__":

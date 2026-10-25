@@ -1,0 +1,4 @@
+# The vendored prompt files are pinned by sha256 (tests/test_prompt_v6.py) and
+# compared byte for byte with the benchmark branch, so they must check out with
+# the LF endings they were committed with, whatever core.autocrlf says.
+prompts_v6/** text eol=lf
