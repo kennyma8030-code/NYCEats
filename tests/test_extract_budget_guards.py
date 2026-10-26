@@ -44,9 +44,9 @@ class BudgetGates(unittest.TestCase):
     def test_the_ceiling_refuses_what_the_run_cap_would_allow(self):
         b = X.Budget(10.0, FixedCeiling(5.0, used=4.0))
         self.assertTrue(b.reserve(0.6))
-        self.assertFalse(b.ceiling_hit)
+        self.assertIsNone(b.refused_by)
         self.assertFalse(b.reserve(0.6))               # 4 + 0.6 + 0.6 > 5, though the run cap has $9.40
-        self.assertTrue(b.ceiling_hit)
+        self.assertEqual(b.refused_by, "ceiling")
         self.assertAlmostEqual(b.remaining(), 0.4)
         self.assertFalse(b.admit(0.5))
         self.assertTrue(b.admit(0.3))
@@ -54,7 +54,7 @@ class BudgetGates(unittest.TestCase):
     def test_the_run_cap_alone_is_not_the_ceiling(self):
         b = X.Budget(1.0, FixedCeiling(50.0))
         self.assertFalse(b.reserve(1.5))
-        self.assertFalse(b.ceiling_hit)
+        self.assertEqual(b.refused_by, "cap")
         self.assertFalse(b.ceiling_binds())
         c = FixedCeiling(1.0)
         b = X.Budget(10.0, c)
@@ -237,7 +237,7 @@ class Guards(TT.ThreadCase):
             X.run_direct_threads(self.conn, AV.client("k", api.base_url), b, self.opts(), ids=["t3_a"],
                                  log=QUIET, stats=X.Stats())
         self.assertEqual(api.requests, [])
-        self.assertTrue(b.ceiling_hit)
+        self.assertEqual(b.refused_by, "ceiling")
         # With room for it, it goes.
         b = X.Budget(10.0, ceiling(1.5 + w * 1.1))
         with F.FakeAnthropic(TT.answer) as api:
@@ -253,6 +253,7 @@ class Guards(TT.ThreadCase):
             X.run_batch_threads(self.conn, AV.client("k", api.base_url), b, self.opts(), log=QUIET,
                                 sleep=lambda s: None, stats=s, poll_seconds=0)
         self.assertEqual(api.batch_requests, [])
+        self.assertEqual(b.refused_by, "ceiling")
         self.assertTrue(b.ceiling_binds())
         self.assertGreater(s.refused, 0)
         self.assertEqual(self.q("select count(*) from extract_batches"), [(0,)])
@@ -325,7 +326,7 @@ class Guards(TT.ThreadCase):
                                     max_inflight=1, log=QUIET, sleep=lambda s: None, poll_seconds=0,
                                     stats=X.Stats())
         self.assertEqual(len(api.batches), 1)
-        self.assertIn("over the ceiling", b.tripped)
+        self.assertIn("the ceiling $20.00 allows", b.tripped)
 
     def test_main_exits_tripped_and_the_runner_exits_0(self):
         real = AV.client
@@ -343,6 +344,37 @@ class Guards(TT.ThreadCase):
         self.assertEqual(codes, [X.TRIPPED])
         self.assertIn("SPEND TRIPWIRE", out.getvalue())
         self.assertEqual(len(api.batches), 1)
+
+    def test_a_run_that_starts_over_the_ceiling_collects_without_tripping(self):
+        """Batches in flight when recorded spend is already over the ceiling
+        (a restart that only collects): collecting them is the ceiling
+        reached, not the tripwire; spend beyond what they held still trips."""
+        with F.FakeAnthropic(TT.answer) as api:
+            jobs, _ = X.build_thread_jobs(self.conn, ["t3_a"], self.opts(), log=QUIET)
+            X._submit(self.conn, AV.client("k", api.base_url), X.Budget(10.0), jobs, QUIET)
+            self.seed_spend(2.0)
+            b = X.Budget(10.0, ceiling(1.0))
+            s = X.Stats()
+            X.run_batch_threads(self.conn, AV.client("k", api.base_url), b, self.opts(), log=QUIET,
+                                sleep=lambda s: None, poll_seconds=0, stats=s)
+        self.assertIsNone(b.tripped)
+        self.assertEqual(len(api.batches), 1)                  # collected; nothing new sent
+        self.assertEqual(self.q("select status from extract_batches"), [("collected",)])
+        self.assertEqual(b.refused_by, "ceiling")
+        self.assertGreater(s.refused, 0)
+
+    def test_work_left_for_another_reason_is_not_the_ceiling(self):
+        """Exit 3 for comments the scope holds back stays 3, even with a ceiling tighter than the cap."""
+        TT.Review3.half_with_the_post_and_its_comments(self)
+        real = AV.client
+        with F.FakeAnthropic(TT.answer) as api, mock.patch.object(db, "DATABASE_URL", base.URL), \
+                mock.patch.dict(os.environ, {AV.KEY_VAR: "k"}), \
+                mock.patch.object(AV, "client", lambda key, base_url=None: real(key, api.base_url)), \
+                redirect_stdout(io.StringIO()) as out:
+            code = X.main(["--mode", "thread", "--scope", "comments", "--max-usd", "100", "--ceiling-usd", "50",
+                           "--ids", "t3_c"])
+        self.assertEqual(code, 3)
+        self.assertNotIn("CEILING REACHED", out.getvalue())
 
     def test_runner_cuts_its_cap_to_what_the_ceiling_leaves_above_recorded_spend(self):
         """Not also minus the batches in flight: the run re-attaches them and
@@ -509,18 +541,29 @@ class Redo(TT.ThreadCase):
             # A mention the database refuses (mentions_v6_chk): the answer cannot be stored.
             return TT.thread_answer(p, [dict(F.mention("PlaceBad", named_in="bogus"), id=1)])
         logs = []
-        for batch in (False, True):
+        for n, batch in enumerate((False, True), start=1):
+            c = ceiling(50.0)
+            spent0 = c.read()[0]
             with F.FakeAnthropic(bad) as api:
-                api._n = 10 * (1 + batch)
-                X.run_redo(self.conn, AV.client("k", api.base_url), X.Budget(10.0, ceiling(50.0)), self.opts(),
+                api._n = 10 * n
+                X.run_redo(self.conn, AV.client("k", api.base_url), X.Budget(10.0, c), self.opts(),
                            before, batch=batch, poll_seconds=0, log=logs.append, sleep=lambda s: None,
                            stats=X.Stats())
             self.assertEqual(self.places(), old)
             row = self.q(f"select {cols}, cost_usd from extraction_state where item_id = 't1_list'")[0]
-            self.assertEqual(row[:-1], before_row[:-1])              # exactly as it was, out of any batch
-            self.assertGreater(row[-1], before_row[-1])              # but what the redo cost is counted
-            before_row = row
+            self.assertEqual(row, before_row)                        # exactly as it was, out of any batch
+            # The answer's cost is counted once: on a failed redo chunk of the item's own.
+            cost = float(self.q("select cost_usd from extract_chunks where id like 'rd-%%' and status = 'done' "
+                                "order by created_at desc limit 1")[0][0])
+            self.assertGreater(cost, 0)
+            self.assertAlmostEqual(c.read()[0] - spent0, cost)
+            c.close()
+            failed = self.q("select members, error from extract_chunks where id like 'rd-%%' and status = 'failed'")
+            self.assertEqual(len(failed), n)
+            self.assertTrue(all(m == ["t1_list"] and e.startswith("store_error") for m, e in failed))
         self.assertTrue(any("its earlier extraction is kept" in line for line in logs))
+        # Two failed tries: the redo gives up on it, as on an answer that is no use.
+        self.assertEqual(X.redo_candidates(self.conn, before), {})
 
     def test_the_backlog_runs_after_a_redo_the_ceiling_held_back(self):
         """Mid-run, a batch in flight can leave no room under the ceiling;
@@ -569,7 +612,7 @@ class Redo(TT.ThreadCase):
         with F.FakeAnthropic(TT.answer) as api:
             s = self.redo(api, before, budget=b)
         self.assertEqual(api.requests, [])
-        self.assertTrue(b.ceiling_hit)
+        self.assertEqual(b.refused_by, "ceiling")
         self.assertEqual(s.refused, 1)
 
     def test_a_future_time_is_refused(self):

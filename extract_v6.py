@@ -204,11 +204,11 @@ class Budget:
     With a Ceiling, every reserve(), admit() and remaining() also asks it
     for the room left under the cumulative ceiling, which counts what is
     recorded in the database and every batch still in flight there, so a
-    restarted process cannot spend past it. ceiling_hit only says the
-    ceiling refused some request at some point, for the log: room comes back
-    as batches in flight are collected, so whether the ceiling is what ended
-    a run is asked afresh at the end (ceiling_binds). trip() stops
-    everything: nothing is reserved, held or admitted after it.
+    restarted process cannot spend past it. refused_by is which limit,
+    "cap" or "ceiling", last refused a request (None while none has); room
+    comes back as batches in flight are collected, so whether the ceiling is
+    what ended a run is asked afresh at the end (ceiling_binds). trip()
+    stops everything: nothing is reserved, held or admitted after it.
     """
 
     def __init__(self, max_usd, ceiling=None):
@@ -217,7 +217,7 @@ class Budget:
         self.reserved = 0.0
         self.held = {}
         self.ceiling = ceiling
-        self.ceiling_hit = False
+        self.refused_by = None
         self.tripped = None
         self._lock = threading.Lock()
 
@@ -236,13 +236,19 @@ class Budget:
         room, top = self._room()
         if amount <= room:
             return True
-        if top is not None and amount > top:
-            self.ceiling_hit = True
+        self.refused_by = "ceiling" if top is not None and amount > top else "cap"
         return False
 
     def remaining(self):
         with self._lock:
             return 0.0 if self.tripped else self._room()[0]
+
+    def nothing_fitted(self):
+        """The batch loop had work and none of it fitted what remaining()
+        offered: note which limit set that room, as _fits does for a request."""
+        with self._lock:
+            room, top = self._room()
+            self.refused_by = "ceiling" if top is not None and top <= room else "cap"
 
     def ceiling_binds(self):
         """Whether, now, the ceiling leaves less room than this run's cap: then
@@ -351,14 +357,19 @@ class Ceiling:
     its worst case.
 
     --reset-hash deletes items' cost with their rows, so it loosens the
-    ceiling by what they cost; lower the ceiling to match after a reset."""
+    ceiling by what they cost; lower the ceiling to match after a reset.
+
+    allowance() is what recorded spend may reach before the tripwire fires:
+    the ceiling, or, when a run starts with recorded spend plus batches in
+    flight already past it (a restart that only collects), that sum, since
+    collecting those batches can record up to their holds and no more."""
 
     def __init__(self, limit, connect):
         self.limit = float(limit)
         self._connect = connect
         self._conn = None
         self._lock = threading.Lock()
-        self.start = self.read()[0]
+        self.start, self.start_inflight = self.read()
 
     def read(self):
         """(recorded, in flight), from the database now."""
@@ -372,6 +383,9 @@ class Ceiling:
     def room(self, run_spent_held=0.0, run_reserved=0.0):
         recorded, inflight = self.read()
         return self.limit - max(recorded + inflight, self.start + run_spent_held) - run_reserved
+
+    def allowance(self):
+        return max(self.limit, self.start + self.start_inflight)
 
     def close(self):
         if self._conn is not None and not self._conn.closed:
@@ -405,13 +419,18 @@ def _trip(budget, why, log):
 
 
 def _check_ceiling(budget, log):
-    """The tripwire's second half: recorded spend over the ceiling means
-    something spent that the gates did not count, so the run stops."""
+    """The tripwire's second half: recorded spend past what the ceiling
+    allows (Ceiling.allowance) means something spent that the gates did not
+    count, so the run stops. A run that began over the ceiling with batches
+    to collect is not that: collecting them records what was already held,
+    and the run ends as the ceiling reached, not tripped."""
     if budget.ceiling is None:
         return
     recorded, _ = budget.ceiling.read()
-    if recorded > budget.ceiling.limit + TRIP_EPS:
-        _trip(budget, f"recorded v6 spend ${recorded:.4f} is over the ceiling ${budget.ceiling.limit:.2f}", log)
+    allowed = budget.ceiling.allowance()
+    if recorded > allowed + TRIP_EPS:
+        _trip(budget, f"recorded v6 spend ${recorded:.4f} is over the ${allowed:.2f} the ceiling "
+                      f"${budget.ceiling.limit:.2f} allows", log)
 
 
 class Stats:
@@ -839,13 +858,23 @@ def _store_one(conn, e, stats, log):
         log(f"  {e.item.id}: store failed ({type(err).__name__}: {err})")
         if isinstance(e, Done) and e.replace:
             # A redo of a done item: its earlier extraction and mentions stay
-            # exactly as they were. Only the redo's own traces change: it is
-            # detached from the batch that carried it, and what the answer
-            # cost is added, so the ceiling still counts it.
+            # exactly as they were, but for leaving the batch that carried the
+            # redo. The failure is kept as a failed redo chunk of its own,
+            # holding the item's share of the cost: the ceiling counts it
+            # there, once, and redo_candidates counts it as a failed try.
             with conn.cursor() as cur:
-                cur.execute("""update extraction_state set batch_id = null, cost_usd = coalesce(cost_usd, 0) + %s,
-                                 updated_at = now() where version = %s and item_id = %s""",
-                            (e.cost, VERSION, e.item.id))
+                cur.execute("update extraction_state set batch_id = null where version = %s and item_id = %s",
+                            (VERSION, e.item.id))
+                cur.execute("""insert into extract_chunks (id, version, thread_id, prompt_hash, effort, members,
+                                 status, error, cost_usd, finished_at)
+                               select %(id)s, %(v)s, c.thread_id, %(ph)s,
+                                      coalesce((select effort from extract_chunks where id = %(chunk)s), %(effort)s),
+                                      array[c.id], 'failed', %(err)s, %(cost)s, now()
+                               from comments c where c.id = %(item)s""",
+                            {"id": new_chunk_id(redo=True), "v": VERSION, "ph": e.item.prompt_hash,
+                             "chunk": (e.output or {}).get("chunk_id"), "effort": prompt_v6.THREAD_EFFORT,
+                             "err": f"store_error: {type(err).__name__}: {err}"[:500], "cost": e.cost,
+                             "item": e.item.id})
             conn.commit()
             stats.failed += 1
             log(f"  {e.item.id}: a redo, so its earlier extraction is kept")
@@ -1022,7 +1051,7 @@ def _submit(conn, cl, budget, batch, log):
     held = sum(r.worst(batch=True) for r in batch)
     if not budget.admit(held):
         log(f"  a batch of {len(batch)} request(s), worst case ${held:.4f}, does not fit under the "
-            + ("ceiling" if budget.ceiling_binds() else "cap") + ": not submitted")
+            + (budget.refused_by or "cap") + ": not submitted")
         return None
     pid = f"pending-{int(time.time() * 1000)}-{os.getpid()}"
     rows = [m for r in batch for m in r.state_rows()]
@@ -1219,6 +1248,7 @@ def _run_batches(conn, cl, budget, queue, inflight, max_inflight, poll_seconds, 
             if batch is None:
                 break
             if not batch:
+                budget.nothing_fitted()
                 capped = True
                 break
             try:
@@ -1905,7 +1935,9 @@ def _store_chunk_alone(conn, answer, stats, log, batch_id, attempts, together=Tr
     log(f"  chunk {job.id} ({job.chunk.thread_id}): its answer could not be stored "
         f"({type(why).__name__}: {str(why)[:120]})")
     stats.chunk_failures += 1
-    return {_chunk_failed(conn, job, f"store_error: {type(why).__name__}: {why}", usage, cost, log, batch_id,
+    # Its cost is on its items already (each stored, or failed, with its
+    # share), so the failed record carries none: the ceiling counts it once.
+    return {_chunk_failed(conn, job, f"store_error: {type(why).__name__}: {why}", usage, 0.0, log, batch_id,
                           attempts=attempts)}
 
 
@@ -2981,7 +3013,9 @@ def _main_locked(conn, args, kinds, since, ids, opts=None):
     if ceiling is not None:
         recorded, inflight = ceiling.read()
         print(f"ceiling ${limit:.2f}: ${recorded:.4f} recorded, ${inflight:.4f} still held for batches in flight")
-        binds = code == 3 and budget.ceiling_binds()
+        # Only when a limit refused work: a run that left work for another
+        # reason (the scope, threads not reached) is not the ceiling's doing.
+        binds = code == 3 and budget.refused_by is not None and budget.ceiling_binds()
         ceiling.close()
     if budget.tripped:
         print(f"\nTRIPWIRE: {budget.tripped}. Exit {TRIPPED}: do not restart until the cause is understood.")

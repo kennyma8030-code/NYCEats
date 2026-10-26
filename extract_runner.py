@@ -111,11 +111,13 @@ def command(env, cap, ceiling):
 def room_left(ceiling, connect=None):
     """(what the ceiling leaves above recorded spend, worst case of batches
     in flight), from the database now, as extract_v6's Ceiling counts them. Logged."""
-    c = X.Ceiling(ceiling, connect or db.connect)
+    conn = (connect or db.connect)()
     try:
-        recorded, inflight = c.read()
+        conn.set_session(readonly=True, autocommit=True)
+        with conn.cursor() as cur:
+            recorded, inflight = X.spend_on_record(cur)
     finally:
-        c.close()
+        conn.close()
     print(f"ceiling ${ceiling:.2f}: ${recorded:.4f} recorded, ${inflight:.4f} held for batches in flight, "
           f"${ceiling - recorded - inflight:.4f} of room for new work")
     return ceiling - recorded, inflight
