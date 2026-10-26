@@ -27,11 +27,12 @@ Environment:
   EXTRACT_LOCK_WAIT          optional: seconds to wait for the poller's v6
                              pass to let go of the lock (default 900)
 
-It refuses to start unless both caps are set, and when the run's cap is
-more than the room left under the ceiling (recorded spend plus what is
-still in flight), so the two can never disagree about who stops the run.
-A restart after the run has spent part of its cap therefore refuses too,
-until a person lowers EXTRACT_RUN_USD or raises the ceiling.
+It refuses to start unless both caps are set and the run's cap is no more
+than the ceiling. When the run's cap is more than the room left under the
+ceiling (recorded spend plus what is still in flight), the cap is cut to
+that room and both numbers are logged, so a restart after a crash resumes
+with what is left and the ceiling stays the binding total. With less than
+MIN_ROOM left it does nothing and exits 0 ("CEILING REACHED").
 
 Exit status, for restartPolicyType ON_FAILURE: 0 when the run finished,
 stopped at its cap or at the ceiling, or a spend tripwire fired (a restart
@@ -52,6 +53,9 @@ RUN_ENV = "EXTRACT_RUN_USD"
 REDO_ENV = "EXTRACT_REDO_CUT_BEFORE"
 WAIT_ENV = "EXTRACT_LOCK_WAIT"
 LOCK_WAIT = 900
+# Below this much room under the ceiling a run is not started: no chunk's
+# worst case would fit, and a start would only read the database and stop.
+MIN_ROOM = 0.05
 # extract_v6.main's statuses that end the job for good: done (0), work left
 # for another run because the cap or the scope stopped it (3), and a
 # tripwire (TRIPPED). A restart repeats none of them usefully.
@@ -72,42 +76,53 @@ def _dollars(name, raw):
 
 
 def plan(env):
-    """(run cap, ceiling, extract_v6 argv) from the environment, or SystemExit."""
+    """(run cap, ceiling) from the environment, or SystemExit."""
     run = _dollars(RUN_ENV, env.get(RUN_ENV))
     ceiling = _dollars(X.CEILING_ENV, env.get(X.CEILING_ENV))
     if run > ceiling:
         raise SystemExit(f"{RUN_ENV} ${run:.2f} is more than {X.CEILING_ENV} ${ceiling:.2f}")
-    wait = env.get(WAIT_ENV) or str(LOCK_WAIT)
+    return run, ceiling
+
+
+def command(env, cap, ceiling):
+    """The extract_v6 argv for a run capped at `cap`."""
     argv = ["--mode", "thread", "--effort", "medium", "--newest-first", "--batch",
-            "--max-usd", repr(run), "--ceiling-usd", repr(ceiling), "--lock-wait", wait]
+            "--max-usd", repr(cap), "--ceiling-usd", repr(ceiling), "--lock-wait", env.get(WAIT_ENV) or str(LOCK_WAIT)]
     redo = (env.get(REDO_ENV) or "").strip()
     if redo:
         argv += ["--redo-cut-before", redo]
-    return run, ceiling, argv
+    return argv
 
 
-def check_room(run, ceiling, connect=None):
-    """Refuse a run whose cap is more than the room left under the ceiling.
-    Returns the room."""
+def room_left(ceiling, connect=None):
+    """The room left under the ceiling now: recorded spend and batches in
+    flight, as extract_v6's Ceiling counts them. Logged."""
     c = X.Ceiling(ceiling, connect or db.connect)
     try:
         recorded, inflight = c.read()
         room = c.room()
     finally:
         c.close()
-    print(f"ceiling ${ceiling:.2f}: ${recorded:.4f} recorded, ${inflight:.4f} in flight, ${room:.4f} of room; "
-          f"this run's cap ${run:.2f}")
-    if run > room:
-        raise SystemExit(f"{RUN_ENV} ${run:.2f} is more than the ${room:.4f} left under {X.CEILING_ENV} "
-                         f"${ceiling:.2f}: lower the run's cap or raise the ceiling on purpose")
+    print(f"ceiling ${ceiling:.2f}: ${recorded:.4f} recorded, ${inflight:.4f} in flight, ${room:.4f} of room")
     return room
 
 
 def main(env=None, connect=None, run_extract=None):
     env = os.environ if env is None else env
-    run, ceiling, argv = plan(env)
+    run, ceiling = plan(env)
     AV.check_prices()
-    check_room(run, ceiling, connect)
+    room = room_left(ceiling, connect)
+    if room < MIN_ROOM:
+        print(f"\nCEILING REACHED: ${room:.4f} left under {X.CEILING_ENV} ${ceiling:.2f}; nothing to run. "
+              "Raise the ceiling to go on.", flush=True)
+        return 0
+    cap = min(run, room)
+    if cap < run:
+        # A restart after a crash, or a run started with spend already on
+        # record: it gets what is left, and the ceiling stays the total.
+        print(f"\n!!!!!!!! {RUN_ENV} ${run:.2f} is more than the ${room:.4f} left under {X.CEILING_ENV} "
+              f"${ceiling:.2f}: this run's cap is cut to ${cap:.4f} !!!!!!!!\n", flush=True)
+    argv = command(env, cap, ceiling)
     print("extract_v6.py " + " ".join(argv), flush=True)
     code = (run_extract or X.main)(argv) or 0
     if code in FINAL:

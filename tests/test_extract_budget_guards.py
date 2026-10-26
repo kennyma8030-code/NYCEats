@@ -101,16 +101,43 @@ class Runner(unittest.TestCase):
                 R.plan(env)
 
     def test_the_command(self):
-        run, ceiling, argv = R.plan(self.ENV)
-        self.assertEqual((run, ceiling), (20.0, 25.48))
-        self.assertEqual(argv, ["--mode", "thread", "--effort", "medium", "--newest-first", "--batch",
-                                "--max-usd", "20.0", "--ceiling-usd", "25.48", "--lock-wait", "900"])
-        _, _, argv = R.plan(dict(self.ENV, EXTRACT_REDO_CUT_BEFORE="2026-10-27T12:00", EXTRACT_LOCK_WAIT="60"))
+        self.assertEqual(R.plan(self.ENV), (20.0, 25.48))
+        self.assertEqual(R.command(self.ENV, 20.0, 25.48),
+                         ["--mode", "thread", "--effort", "medium", "--newest-first", "--batch",
+                          "--max-usd", "20.0", "--ceiling-usd", "25.48", "--lock-wait", "900"])
+        argv = R.command(dict(self.ENV, EXTRACT_REDO_CUT_BEFORE="2026-10-27T12:00", EXTRACT_LOCK_WAIT="60"),
+                         20.0, 25.48)
         self.assertEqual(argv[-4:], ["--lock-wait", "60", "--redo-cut-before", "2026-10-27T12:00"])
+
+    def run_with_room(self, room):
+        """R.main with this much room under the ceiling: (status, argv it ran or None, output)."""
+        seen = []
+        with mock.patch.object(R, "room_left", lambda *a: room), redirect_stdout(io.StringIO()) as out:
+            code = R.main(self.ENV, run_extract=lambda argv: seen.append(argv) or 0)
+        return code, (seen[0] if seen else None), out.getvalue()
+
+    def test_the_run_cap_is_cut_to_the_room_left(self):
+        code, argv, out = self.run_with_room(99.0)
+        self.assertEqual((code, argv[argv.index("--max-usd") + 1]), (0, "20.0"))
+        self.assertNotIn("is cut to", out)
+        # A restart after the first run spent $8.25 of its $20: it resumes with what is left.
+        code, argv, out = self.run_with_room(11.75)
+        self.assertEqual((code, argv[argv.index("--max-usd") + 1]), (0, "11.75"))
+        self.assertIn("EXTRACT_RUN_USD $20.00 is more than the $11.7500 left", out)
+        self.assertIn("this run's cap is cut to $11.7500", out)
+        self.assertEqual(argv[argv.index("--ceiling-usd") + 1], "25.48")       # the ceiling is untouched
+
+    def test_no_room_left_exits_0_without_running(self):
+        for room in (0.0499, 0.0, -1.0):
+            code, argv, out = self.run_with_room(room)
+            self.assertEqual((code, argv), (0, None))
+            self.assertIn("CEILING REACHED", out)
+        code, argv, _ = self.run_with_room(0.05)
+        self.assertEqual(argv[argv.index("--max-usd") + 1], "0.05")
 
     def test_exit_codes_for_a_restart_on_failure_policy(self):
         for got, want in ((0, 0), (None, 0), (3, 0), (X.TRIPPED, 0), (2, 2), (130, 130)):
-            with mock.patch.object(R, "check_room", lambda *a: 99.0), redirect_stdout(io.StringIO()) as out:
+            with mock.patch.object(R, "room_left", lambda *a: 99.0), redirect_stdout(io.StringIO()) as out:
                 self.assertEqual(R.main(self.ENV, run_extract=lambda argv, got=got: got), want)
             if got == X.TRIPPED:
                 self.assertIn("!!!!!!!! extraction run STOPPED BY A SPEND TRIPWIRE", out.getvalue())
@@ -118,7 +145,7 @@ class Runner(unittest.TestCase):
     def test_the_price_check_runs_before_anything(self):
         called = []
         with mock.patch.dict(AV.PRICE_TABLE, {prompt_v6.MODEL: {}}), \
-                mock.patch.object(R, "check_room", lambda *a: called.append(a)):
+                mock.patch.object(R, "room_left", lambda *a: called.append(a)):
             with self.assertRaises(SystemExit):
                 R.main(self.ENV, run_extract=lambda argv: called.append(argv))
         self.assertEqual(called, [])
@@ -291,13 +318,24 @@ class Guards(TT.ThreadCase):
         self.assertIn("SPEND TRIPWIRE", out.getvalue())
         self.assertEqual(len(api.batches), 1)
 
-    def test_runner_refuses_a_run_cap_over_the_room_left(self):
+    def test_runner_cuts_its_cap_to_the_room_the_database_leaves(self):
         self.seed_spend(6.0)
-        with redirect_stdout(io.StringIO()):
-            with self.assertRaises(SystemExit) as cm:
-                R.check_room(20.0, 25.48, pgtest.connect)
-            self.assertIn("more than the $19.4800 left", str(cm.exception))
-            self.assertAlmostEqual(R.check_room(19.0, 25.48, pgtest.connect), 19.48)
+        with self.conn.cursor() as cur:
+            cur.execute("insert into extract_batches (id, version, requests, hold_usd) "
+                        "values ('pending-9', 'v6', 1, 0.5)")
+        self.conn.commit()
+        seen = []
+        with redirect_stdout(io.StringIO()) as out:
+            self.assertAlmostEqual(R.room_left(25.48, pgtest.connect), 18.98)
+            self.assertEqual(R.main({"EXTRACT_RUN_USD": "20", "EXTRACT_CEILING_USD": "25.48"}, pgtest.connect,
+                                    run_extract=lambda argv: seen.append(argv) or 0), 0)
+            self.assertAlmostEqual(float(seen[0][seen[0].index("--max-usd") + 1]), 18.98)
+            seen.clear()
+            self.assertEqual(R.main({"EXTRACT_RUN_USD": "5", "EXTRACT_CEILING_USD": "6.53"}, pgtest.connect,
+                                    run_extract=lambda argv: seen.append(argv) or 0), 0)
+        self.assertEqual(seen, [])                                   # $0.03 left: not started
+        self.assertIn("$6.0000 recorded, $0.5000 in flight", out.getvalue())
+        self.assertIn("CEILING REACHED", out.getvalue())
 
 
 # ---------------------------------------------------------------- redo
