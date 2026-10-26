@@ -188,8 +188,12 @@ def params(system, user, effort=None, max_tokens=None, schema=None):
                               "format": {"type": "json_schema", "schema": schema or OUTPUT_SCHEMA}}}
 
 
-class PriceMissing(SystemExit):
-    """The model has no complete, non-zero price list: its spend could not be counted."""
+class PriceMissing(Exception):
+    """The model has no complete, non-zero price list: its spend could not be counted.
+
+    A plain Exception, not SystemExit: pricing raises it too, and inside the
+    poller that must stay a failed step, not end the process. Paid runs and
+    extract_runner.py check first and turn it into a refusal to start."""
 
 
 def check_prices(model=None):

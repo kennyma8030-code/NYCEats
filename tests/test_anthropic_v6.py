@@ -88,9 +88,12 @@ class Request(unittest.TestCase):
 
     def test_check_prices_refuses_a_missing_or_zero_price(self):
         AV.check_prices()                                       # the model in use is priced
-        with self.assertRaises(SystemExit) as cm:
+        with self.assertRaises(AV.PriceMissing) as cm:
             AV.check_prices("claude-unknown-9")
         self.assertIn("no prices for claude-unknown-9", str(cm.exception))
+        # An Exception, so a poller step that prices something is a failed step, not the end of the poller.
+        self.assertFalse(issubclass(AV.PriceMissing, SystemExit))
+        self.assertTrue(issubclass(AV.PriceMissing, Exception))
         good = AV.PRICE_TABLE[prompt_v6.MODEL]
         for bad in ({**good, "base": {**good["base"], "out": 0.0}},
                     {**good, "long": {k: v for k, v in good["long"].items() if k != "cache_write"}},

@@ -143,9 +143,13 @@ submission, spend recorded in the database plus every batch still in flight
 there plus the request's worst case must fit, so a restarted process cannot
 spend past it, and reaching it exits 0. A batch or call that costs more than
 was held for it, or recorded spend over the ceiling, trips a wire that stops
-the run (exit 5). A model without a full, non-zero price list never starts.
-Unattended runs go through `extract_runner.py` in a Railway service of their
-own (`railway.extract.json`), which requires both caps. A batch submission whose
+the run (exit 5; a direct call only trips under a ceiling, so the poller
+logs it and goes on). A model without a full, non-zero price list never
+starts. Unattended runs go through `extract_runner.py` in a Railway service
+of their own, deployed with `railway up` from a copy whose `railway.json` is
+`railway.extract.json`. It requires both caps: `EXTRACT_RUN_USD` caps one
+attempt (cut to what the ceiling leaves), `EXTRACT_CEILING_USD` is the total
+across restarts. `--reset-hash` deletes recorded cost and so loosens it. A batch submission whose
 outcome is unknown is never resubmitted; it stays pending until matched to
 the API's batch list. One v6 run at a time, by advisory lock.
 

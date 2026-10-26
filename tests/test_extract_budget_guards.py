@@ -55,13 +55,12 @@ class BudgetGates(unittest.TestCase):
         b = X.Budget(1.0, FixedCeiling(50.0))
         self.assertFalse(b.reserve(1.5))
         self.assertFalse(b.ceiling_hit)
-        b.remaining()
-        b.nothing_fitted()
-        self.assertFalse(b.ceiling_hit)
-        b = X.Budget(10.0, FixedCeiling(1.0))
-        b.remaining()
-        b.nothing_fitted()                             # the ceiling set the room that nothing fitted
-        self.assertTrue(b.ceiling_hit)
+        self.assertFalse(b.ceiling_binds())
+        c = FixedCeiling(1.0)
+        b = X.Budget(10.0, c)
+        self.assertTrue(b.ceiling_binds())             # read afresh: the ceiling leaves less than the cap
+        c.limit = 50.0
+        self.assertFalse(b.ceiling_binds())            # and room that comes back is seen
 
     def test_a_tripped_budget_lets_nothing_through(self):
         b = X.Budget(10.0)
@@ -109,10 +108,12 @@ class Runner(unittest.TestCase):
                          20.0, 25.48)
         self.assertEqual(argv[-4:], ["--lock-wait", "60", "--redo-cut-before", "2026-10-27T12:00"])
 
-    def run_with_room(self, room):
-        """R.main with this much room under the ceiling: (status, argv it ran or None, output)."""
+    def run_with_room(self, room, inflight=0.0):
+        """R.main with this much room above recorded spend and this much in
+        flight: (status, argv it ran or None, output)."""
         seen = []
-        with mock.patch.object(R, "room_left", lambda *a: room), redirect_stdout(io.StringIO()) as out:
+        with mock.patch.object(R, "room_left", lambda *a: (room, inflight)), \
+                redirect_stdout(io.StringIO()) as out:
             code = R.main(self.ENV, run_extract=lambda argv: seen.append(argv) or 0)
         return code, (seen[0] if seen else None), out.getvalue()
 
@@ -123,7 +124,7 @@ class Runner(unittest.TestCase):
         # A restart after the first run spent $8.25 of its $20: it resumes with what is left.
         code, argv, out = self.run_with_room(11.75)
         self.assertEqual((code, argv[argv.index("--max-usd") + 1]), (0, "11.75"))
-        self.assertIn("EXTRACT_RUN_USD $20.00 is more than the $11.7500 left", out)
+        self.assertIn("EXTRACT_RUN_USD $20.00 is more than the $11.7500 EXTRACT_CEILING_USD $25.48 leaves", out)
         self.assertIn("this run's cap is cut to $11.7500", out)
         self.assertEqual(argv[argv.index("--ceiling-usd") + 1], "25.48")       # the ceiling is untouched
 
@@ -134,10 +135,14 @@ class Runner(unittest.TestCase):
             self.assertIn("CEILING REACHED", out)
         code, argv, _ = self.run_with_room(0.05)
         self.assertEqual(argv[argv.index("--max-usd") + 1], "0.05")
+        # No room, but batches in flight: it runs, to collect them (the ceiling inside sends nothing new).
+        code, argv, out = self.run_with_room(0.0, inflight=3.0)
+        self.assertEqual(argv[argv.index("--max-usd") + 1], "0.05")
+        self.assertNotIn("CEILING REACHED", out)
 
     def test_exit_codes_for_a_restart_on_failure_policy(self):
         for got, want in ((0, 0), (None, 0), (3, 0), (X.TRIPPED, 0), (2, 2), (130, 130)):
-            with mock.patch.object(R, "room_left", lambda *a: 99.0), redirect_stdout(io.StringIO()) as out:
+            with mock.patch.object(R, "room_left", lambda *a: (99.0, 0.0)), redirect_stdout(io.StringIO()) as out:
                 self.assertEqual(R.main(self.ENV, run_extract=lambda argv, got=got: got), want)
             if got == X.TRIPPED:
                 self.assertIn("!!!!!!!! extraction run STOPPED BY A SPEND TRIPWIRE", out.getvalue())
@@ -188,23 +193,32 @@ class Guards(TT.ThreadCase):
         self.assertTrue(X.try_lock(self.conn))            # a dropped session let go of the lock
         X.unlock(self.conn)
 
-    def test_spend_on_record_counts_items_failed_chunks_and_batches_in_flight(self):
+    def test_spend_on_record_counts_items_failed_chunks_lost_batches_and_batches_in_flight(self):
         self.seed_spend(1.25)
         with self.conn.cursor() as cur:
+            # ch-y's cost is on its items (seed_spend stands for them); ch-z's
+            # batch cost $0.25 more than the chunks it stored (a stray answer).
             cur.execute("""insert into extract_chunks (id, version, thread_id, prompt_hash, effort, members, status,
-                             cost_usd) values ('ch-x', 'v6', 't3_a', %s, 'medium', '{t1_top}', 'failed', 0.5),
-                                              ('ch-y', 'v6', 't3_a', %s, 'medium', '{t1_top}', 'done', 9)""",
-                        (TH, TH))
+                             cost_usd, batch_id) values
+                             ('ch-x', 'v6', 't3_a', %s, 'medium', '{t1_top}', 'failed', 0.5, null),
+                             ('ch-y', 'v6', 't3_a', %s, 'medium', '{t1_top}', 'done', 9, null),
+                             ('ch-z', 'v6', 't3_a', %s, 'medium', '{t1_r1}', 'done', 0.75, 'msgbatch_4')""",
+                        (TH, TH, TH))
             cur.execute("""insert into extract_batches (id, version, requests, hold_usd, status, cost_usd) values
                              ('pending-1', 'v6', 1, 2, 'pending', null), ('msgbatch_1', 'v6', 1, 3, 'submitted', null),
-                             ('msgbatch_2', 'v6', 1, 4, 'collected', 0.1), ('msgbatch_3', 'v6', 1, 5, 'lost', null)""")
+                             ('msgbatch_2', 'v6', 1, 4, 'collected', 0.1), ('msgbatch_3', 'v6', 1, 5, 'lost', null),
+                             ('msgbatch_4', 'v6', 1, 2, 'collected', 1.0)""")
         self.conn.commit()
         c = ceiling(20.0)
         try:
-            self.assertEqual(c.read(), (1.75, 5.0))
-            self.assertAlmostEqual(c.room(), 20.0 - 6.75)
+            # 1.25 items + 0.5 failed chunk + 5 lost hold + 0.25 unstored; 2 pending + 3 submitted in flight.
+            # msgbatch_2 is a comment-mode batch: its cost is on its items.
+            recorded, inflight = c.read()
+            self.assertAlmostEqual(recorded, 7.0)
+            self.assertEqual(inflight, 5.0)
+            self.assertAlmostEqual(c.room(), 20.0 - 12.0)
             # This run's own view counts when it is the larger: spend not stored yet.
-            self.assertAlmostEqual(c.room(run_spent_held=8.0, run_reserved=1.0), 20.0 - (1.75 + 8.0) - 1.0)
+            self.assertAlmostEqual(c.room(run_spent_held=8.0, run_reserved=1.0), 20.0 - (7.0 + 8.0) - 1.0)
         finally:
             c.close()
 
@@ -239,7 +253,7 @@ class Guards(TT.ThreadCase):
             X.run_batch_threads(self.conn, AV.client("k", api.base_url), b, self.opts(), log=QUIET,
                                 sleep=lambda s: None, stats=s, poll_seconds=0)
         self.assertEqual(api.batch_requests, [])
-        self.assertTrue(b.ceiling_hit)
+        self.assertTrue(b.ceiling_binds())
         self.assertGreater(s.refused, 0)
         self.assertEqual(self.q("select count(*) from extract_batches"), [(0,)])
 
@@ -275,12 +289,24 @@ class Guards(TT.ThreadCase):
         self.assertEqual(self.q("select status from extract_batches"), [("collected",)])   # and it was stored
 
     def test_tripwire_a_direct_call_that_cost_more_than_its_reservation(self):
-        b = X.Budget(10.0)
+        b = X.Budget(10.0, ceiling(100.0))
         with F.FakeAnthropic(self.big) as api:
             with self.assertRaises(X.Tripped):
                 X.run_direct_threads(self.conn, AV.client("k", api.base_url), b, self.opts(), workers=1,
                                      log=QUIET, stats=X.Stats())
         self.assertEqual(len(api.requests), 1)
+
+    def test_without_a_ceiling_a_direct_overrun_is_logged_and_the_run_goes_on(self):
+        """The poller runs without a ceiling: its pass must not end in a traceback."""
+        logs = []
+        b = X.Budget(100.0)
+        with F.FakeAnthropic(self.big) as api:
+            X.run_direct_threads(self.conn, AV.client("k", api.base_url), b, self.opts(), workers=1,
+                                 log=logs.append, stats=X.Stats())
+        self.assertEqual(len(api.requests), 4)                 # every thread's chunk
+        self.assertIsNone(b.tripped)
+        self.assertEqual(sum("WORST CASE EXCEEDED" in line for line in logs), 4)
+        self.assertGreater(b.spent, 4 * 5.0 - 0.01)            # each counted at what it cost
 
     def test_tripwire_recorded_spend_over_the_ceiling(self):
         """Something spent that no gate counted (here another writer, while the
@@ -318,23 +344,35 @@ class Guards(TT.ThreadCase):
         self.assertIn("SPEND TRIPWIRE", out.getvalue())
         self.assertEqual(len(api.batches), 1)
 
-    def test_runner_cuts_its_cap_to_the_room_the_database_leaves(self):
+    def test_runner_cuts_its_cap_to_what_the_ceiling_leaves_above_recorded_spend(self):
+        """Not also minus the batches in flight: the run re-attaches them and
+        holds them against its own cap, so taking them off here too would
+        count them twice."""
         self.seed_spend(6.0)
         with self.conn.cursor() as cur:
             cur.execute("insert into extract_batches (id, version, requests, hold_usd) "
                         "values ('pending-9', 'v6', 1, 0.5)")
         self.conn.commit()
         seen = []
+        run = lambda argv: seen.append(argv) or 0       # noqa: E731
         with redirect_stdout(io.StringIO()) as out:
-            self.assertAlmostEqual(R.room_left(25.48, pgtest.connect), 18.98)
+            free, inflight = R.room_left(25.48, pgtest.connect)
+            self.assertAlmostEqual(free, 19.48)
+            self.assertEqual(inflight, 0.5)
             self.assertEqual(R.main({"EXTRACT_RUN_USD": "20", "EXTRACT_CEILING_USD": "25.48"}, pgtest.connect,
-                                    run_extract=lambda argv: seen.append(argv) or 0), 0)
-            self.assertAlmostEqual(float(seen[0][seen[0].index("--max-usd") + 1]), 18.98)
+                                    run_extract=run), 0)
+            self.assertAlmostEqual(float(seen[0][seen[0].index("--max-usd") + 1]), 19.48)
             seen.clear()
-            self.assertEqual(R.main({"EXTRACT_RUN_USD": "5", "EXTRACT_CEILING_USD": "6.53"}, pgtest.connect,
-                                    run_extract=lambda argv: seen.append(argv) or 0), 0)
-        self.assertEqual(seen, [])                                   # $0.03 left: not started
-        self.assertIn("$6.0000 recorded, $0.5000 in flight", out.getvalue())
+            # $0.03 above recorded spend, but a batch to collect: it runs at the minimum cap.
+            self.assertEqual(R.main({"EXTRACT_RUN_USD": "5", "EXTRACT_CEILING_USD": "6.03"}, pgtest.connect,
+                                    run_extract=run), 0)
+            self.assertEqual(seen[0][seen[0].index("--max-usd") + 1], "0.05")
+            seen.clear()
+            self.q("delete from extract_batches returning 1")
+            self.assertEqual(R.main({"EXTRACT_RUN_USD": "5", "EXTRACT_CEILING_USD": "6.03"}, pgtest.connect,
+                                    run_extract=run), 0)
+        self.assertEqual(seen, [])                                   # $0.03 left, nothing in flight: not started
+        self.assertIn("$6.0000 recorded, $0.5000 held for batches in flight", out.getvalue())
         self.assertIn("CEILING REACHED", out.getvalue())
 
 
@@ -459,6 +497,67 @@ class Redo(TT.ThreadCase):
         self.assertEqual(X.redo_candidates(self.conn, before), {})   # two failures: left as it was
         st = self.q("select extracted_at is not null, extract_error from extraction_state where item_id = 't1_list'")
         self.assertEqual(st, [(True, None)])
+
+    def test_a_redo_that_cannot_be_stored_keeps_the_earlier_extraction(self):
+        self.old_run()
+        old = self.places()
+        cols = "extracted_at, extract_error, attempts, output, prompt_hash, batch_id"
+        before_row = self.q(f"select {cols}, cost_usd from extraction_state where item_id = 't1_list'")[0]
+        before = dt.datetime.now(dt.timezone.utc)
+
+        def bad(p):
+            # A mention the database refuses (mentions_v6_chk): the answer cannot be stored.
+            return TT.thread_answer(p, [dict(F.mention("PlaceBad", named_in="bogus"), id=1)])
+        logs = []
+        for batch in (False, True):
+            with F.FakeAnthropic(bad) as api:
+                api._n = 10 * (1 + batch)
+                X.run_redo(self.conn, AV.client("k", api.base_url), X.Budget(10.0, ceiling(50.0)), self.opts(),
+                           before, batch=batch, poll_seconds=0, log=logs.append, sleep=lambda s: None,
+                           stats=X.Stats())
+            self.assertEqual(self.places(), old)
+            row = self.q(f"select {cols}, cost_usd from extraction_state where item_id = 't1_list'")[0]
+            self.assertEqual(row[:-1], before_row[:-1])              # exactly as it was, out of any batch
+            self.assertGreater(row[-1], before_row[-1])              # but what the redo cost is counted
+            before_row = row
+        self.assertTrue(any("its earlier extraction is kept" in line for line in logs))
+
+    def test_the_backlog_runs_after_a_redo_the_ceiling_held_back(self):
+        """Mid-run, a batch in flight can leave no room under the ceiling;
+        room comes back when it is collected, so the backlog still runs, and
+        the run's exit is not taken for the ceiling's."""
+        with self.conn.cursor() as cur:
+            cur.execute("""insert into comments (id, subreddit, thread_id, parent_id, author, body, permalink,
+                             created_utc, first_seen_at)
+                           select 't1_list2', subreddit, id, id, 'l2', %s, '/r/x/t1_list2', created_utc, created_utc
+                           from threads where id = 't3_b'""", (LIST.replace("PlaceL", "PlaceK"),))
+        self.conn.commit()
+        self.old_run()
+        before = dt.datetime.now(dt.timezone.utc)
+        with self.conn.cursor() as cur:
+            cur.execute("""insert into comments (id, subreddit, thread_id, parent_id, author, body, permalink,
+                             created_utc, first_seen_at)
+                           select 't1_new', subreddit, id, id, 'nu', 'PlaceNew now', '/r/x/t1_new', now(), now()
+                           from threads where id = 't3_c'""")
+        self.conn.commit()
+        jobs = X.build_redo_jobs(self.conn, X.redo_candidates(self.conn, before), self.opts())
+        self.assertEqual(len(jobs), 2)
+        w = max(j.worst(batch=True) for j in jobs)
+        c = ceiling(1.0)
+        recorded = c.read()[0]
+        c.close()
+        real = AV.client
+        with F.FakeAnthropic(TT.answer) as api, mock.patch.object(db, "DATABASE_URL", base.URL), \
+                mock.patch.dict(os.environ, {AV.KEY_VAR: "k"}), \
+                mock.patch.object(AV, "client", lambda key, base_url=None: real(key, api.base_url)), \
+                redirect_stdout(io.StringIO()) as out:
+            code = X.main(["--mode", "thread", "--batch", "--batch-size", "1", "--max-inflight", "2",
+                           "--poll-seconds", "0", "--max-usd", "5", "--ceiling-usd", repr(recorded + 1.5 * w),
+                           "--redo-cut-before", before.isoformat()])
+        self.assertEqual(code, 0)
+        self.assertEqual(len(api.batches), 3)                         # both redo chunks, then the new comment
+        self.assertIn("placenew", self.places("t1_new"))
+        self.assertNotIn("CEILING REACHED", out.getvalue())
 
     def test_redo_is_under_the_ceiling(self):
         self.old_run()
