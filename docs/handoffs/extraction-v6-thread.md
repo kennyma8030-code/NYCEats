@@ -36,7 +36,7 @@ As decided with the owner, in `thread_chunks.py`:
   starts a group of its own. A corrupt cycle in parent ids loses nothing.
 - Whole groups are **packed** until a soft budget: 15 items or 3,000
   estimated tokens of comment text (characters / 4, each comment cut at
-  1,500), whichever comes first. One group may stay whole past the budget up
+  6,000, as it is drawn), whichever comes first. One group may stay whole past the budget up
   to the hard max of 25 comments. `--chunk-comments`, `--chunk-tokens` and
   `--chunk-max` set them.
 - Only a group over 25 comments is **split**, depth-first, and only between

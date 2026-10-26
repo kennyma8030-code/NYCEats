@@ -167,7 +167,7 @@ class ThreadPrompt(unittest.TestCase):
     additions in tests/v6_thread_additions.py. The file checks out with LF
     endings (.gitattributes), so its bytes hash the same on every machine."""
 
-    PINNED = "5105af1584bd96faf14819be71b091bd9c6375b9f00b08f81fe2df09608e2489"
+    PINNED = "94d93d604344d33c0cc46c325e466a31e93d8fa45346d24c1f1c9ee9e509a2c8"
     ROUND4 = "b72ba75edf3964ac902281d8562e77ea311877c56424d0400bb1032e053d75ed"   # the branch's file
     PATH = "eval/prompts/v6_thread.py"
 
@@ -228,6 +228,9 @@ class ThreadPrompt(unittest.TestCase):
 
     def test_rendering_without_the_additions_is_round_fours(self):
         r4 = self.round4_module()
+        # Round 4 cut a chunk's own comments at MAX_COMMENT_CHARS; production
+        # cuts them at MEMBER_CHARS, and that is the only rendering difference.
+        r4.MAX_COMMENT_CHARS = prompt_v6.thread.MEMBER_CHARS
         rows = [{"comment_id": "t1_a", "parent_comment_id": None, "author": "ann", "body": "Golden Lotus " * 200},
                 {"comment_id": "t1_c", "parent_comment_id": "t1_b", "author": "cal", "body": "meh"},
                 {"comment_id": "t1_b", "parent_comment_id": "t1_a", "author": "bob", "body": "pepper house"},
@@ -237,6 +240,26 @@ class ThreadPrompt(unittest.TestCase):
         for title, body in (("Best noodles?", "In Queens " * 200), ("Title", None)):
             self.assertEqual(prompt_v6.thread.render_chunk(title, body, rows, outside),
                              r4.render_chunk(title, body, rows, outside))
+
+    def test_member_cap_leaves_the_prompt_hash_alone(self):
+        """Members are cut at 6,000 and quoted context at 1,500, and none of it
+        is in the system prompt: a new hash would send every item of the
+        thread backlog out again (extract_v6.py --redo-cut-before relies on it)."""
+        T = prompt_v6.thread
+        self.assertEqual((T.MEMBER_CHARS, T.CONTEXT_CHARS, T.MAX_COMMENT_CHARS), (6000, 1500, 1500))
+        self.assertEqual(prompt_v6.PROMPT_HASH_THREAD, "d92ec8610d8c")
+        for n in ("1500", "1,500", "6000", "6,000"):
+            self.assertNotIn(n, prompt_v6.SYSTEM_PROMPT_THREAD)
+        long = " ".join(f"Place{i:04d}" for i in range(600))          # 5,999 characters
+        rows = [{"comment_id": "t1_a", "parent_comment_id": "t1_q", "author": "ann", "body": long},
+                {"comment_id": "t1_b", "parent_comment_id": None, "author": "bob", "body": long + " PlaceTail"}]
+        user, _ = T.render_chunk("t", None, rows, {"t1_q": {"author": "zed", "body": long, "quoted": True}},
+                                 above=[(0, "zed", long, None)])
+        self.assertIn("[1] u/ann (reply to u/zed, quoted above): " + long + "\n", user)   # whole
+        self.assertIn("[2] u/bob: " + long[:6000].rstrip() + " ...", user)                 # cut at 6,000
+        self.assertNotIn("PlaceTail", user)
+        quoted = user.split(T.CONTEXT_HEADER + "\n")[1].split("\n")[0]
+        self.assertEqual(quoted, 'u/zed: "' + long[:1500].rstrip() + ' ..."')               # context at 1,500
 
     def test_settings(self):
         self.assertEqual((prompt_v6.THREAD_MAX_TOKENS, prompt_v6.THREAD_EFFORT, prompt_v6.THREAD_EFFORTS),

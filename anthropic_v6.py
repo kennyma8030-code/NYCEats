@@ -37,7 +37,10 @@ Failures are sorted three ways, and the callers act on the sort:
 
 Cost is computed from the usage block at Haiku 5.5's prices: $0.10/MTok in,
 $0.50 out (thinking included), $0.01 cache reads, $0.125 cache writes, all
-halved in a batch.
+halved in a batch. A prompt over 100k input tokens is billed at five times
+that, and both the cost and the worst case use that rate when a request is
+(or may be) that long. A model with no prices here, or a zero price, stops a
+paid run before it starts (check_prices), so nothing is ever counted as free.
 """
 
 import copy
@@ -49,8 +52,20 @@ import time
 import prompt_v6
 
 KEY_VAR = "EXTRACT_ANTHROPIC_API_KEY"
-# USD per token, Claude Haiku 5.5, prompts of 100k tokens or fewer.
-PRICES = {"in": 0.10e-6, "out": 0.50e-6, "cache_read": 0.01e-6, "cache_write": 0.125e-6}
+# USD per token by model. Haiku 5.5's "base" rates are for prompts of 100k
+# input tokens or fewer (cache reads and writes included); a longer prompt is
+# billed at the "long" rates, five times as much, on every token of that
+# request. The long cache rates are assumed to scale with the rest.
+PRICE_KEYS = ("in", "out", "cache_read", "cache_write")
+PRICE_TABLE = {
+    "claude-haiku-5-5": {
+        "base": {"in": 0.10e-6, "out": 0.50e-6, "cache_read": 0.01e-6, "cache_write": 0.125e-6},
+        "long_above": 100_000,
+        "long": {"in": 0.50e-6, "out": 2.50e-6, "cache_read": 0.05e-6, "cache_write": 0.625e-6},
+    },
+}
+# The model's base rates, or {} for a model with no entry (check_prices refuses those).
+PRICES = PRICE_TABLE.get(prompt_v6.MODEL, {}).get("base", {})
 BATCH_DISCOUNT = 0.5
 # The benchmark's probe billed 8,724 characters of v6 input as 4,746 tokens,
 # 1.84 chars/token with the strict schema's own overhead included. The worst
@@ -173,19 +188,59 @@ def params(system, user, effort=None, max_tokens=None, schema=None):
                               "format": {"type": "json_schema", "schema": schema or OUTPUT_SCHEMA}}}
 
 
+class PriceMissing(SystemExit):
+    """The model has no complete, non-zero price list: its spend could not be counted."""
+
+
+def check_prices(model=None):
+    """Refuse a model whose spend would be counted wrong: no entry in
+    PRICE_TABLE, a tier missing a rate, or a rate that is zero or negative.
+    Every paid run calls this before it starts, because a missing price
+    would make every cap and ceiling count real spend as $0."""
+    model = model or prompt_v6.MODEL
+    entry = PRICE_TABLE.get(model)
+    if not entry:
+        raise PriceMissing(f"no prices for {model} in anthropic_v6.PRICE_TABLE: its spend cannot be counted")
+    above = entry.get("long_above")
+    if isinstance(above, bool) or not isinstance(above, (int, float)) or not above > 0:
+        raise PriceMissing(f"{model}: long_above must be a positive number of input tokens")
+    for tier in ("base", "long"):
+        rates = entry.get(tier) or {}
+        bad = [k for k in PRICE_KEYS
+               if isinstance(rates.get(k), bool) or not isinstance(rates.get(k), (int, float)) or not rates[k] > 0]
+        if bad:
+            raise PriceMissing(f"{model}: {tier} price(s) {', '.join(bad)} missing or not above zero")
+
+
+def _rates(input_tokens, model=None):
+    """The rates a request with this many input tokens is billed at. Checks
+    the table first, so a missing or zero price raises here too rather than
+    pricing anything at $0."""
+    model = model or prompt_v6.MODEL
+    check_prices(model)
+    entry = PRICE_TABLE[model]
+    return entry["long"] if input_tokens > entry["long_above"] else entry["base"]
+
+
 def cost(usage, batch):
     u = usage or {}
-    c = ((u.get("input_tokens") or 0) * PRICES["in"]
-         + (u.get("cache_creation_input_tokens") or 0) * PRICES["cache_write"]
-         + (u.get("cache_read_input_tokens") or 0) * PRICES["cache_read"]
-         + (u.get("output_tokens") or 0) * PRICES["out"])
+    tin = ((u.get("input_tokens") or 0) + (u.get("cache_creation_input_tokens") or 0)
+           + (u.get("cache_read_input_tokens") or 0))
+    p = _rates(tin)
+    c = ((u.get("input_tokens") or 0) * p["in"]
+         + (u.get("cache_creation_input_tokens") or 0) * p["cache_write"]
+         + (u.get("cache_read_input_tokens") or 0) * p["cache_read"]
+         + (u.get("output_tokens") or 0) * p["out"])
     return c * (BATCH_DISCOUNT if batch else 1.0)
 
 
 def worst_case(system, user, batch, max_tokens=None):
-    """The most one request can cost: all input billed as a cache write, all of max_tokens out."""
+    """The most one request can cost: all input billed as a cache write, all of
+    max_tokens out, at the long-prompt rates when the input could be over
+    their threshold."""
     tin = (len(system) + len(user)) / CHARS_PER_TOKEN_UPPER + SCHEMA_OVERHEAD_TOKENS
-    return (tin * PRICES["cache_write"] + (max_tokens or prompt_v6.MAX_TOKENS) * PRICES["out"]) \
+    p = _rates(tin)
+    return (tin * p["cache_write"] + (max_tokens or prompt_v6.MAX_TOKENS) * p["out"]) \
         * (BATCH_DISCOUNT if batch else 1.0)
 
 
@@ -195,8 +250,9 @@ def estimate(system, user, batch, cached, output_tokens=None):
     either all cache reads or all fresh input."""
     t_sys = len(system) / CHARS_PER_TOKEN + SCHEMA_OVERHEAD_TOKENS
     t_user = len(user) / CHARS_PER_TOKEN
-    c = (t_sys * (PRICES["cache_read"] if cached else PRICES["in"]) + t_user * PRICES["in"]
-         + (ASSUMED_OUTPUT_TOKENS if output_tokens is None else output_tokens) * PRICES["out"])
+    p = _rates(t_sys + t_user)
+    c = (t_sys * (p["cache_read"] if cached else p["in"]) + t_user * p["in"]
+         + (ASSUMED_OUTPUT_TOKENS if output_tokens is None else output_tokens) * p["out"])
     return c * (BATCH_DISCOUNT if batch else 1.0)
 
 

@@ -9,6 +9,8 @@
     python extract_v6.py --reset-hash 979dcd6b9267 --yes   redo what that prompt extracted (after a fix)
     python extract_v6.py --mode thread --dry-run --newest-first --limit 500   chunk and price threads
     python extract_v6.py --mode thread --batch --max-usd 20 --newest-first    a post and its comments per chunk
+    python extract_v6.py --mode thread --batch --max-usd 20 --ceiling-usd 26 --redo-cut-before 2026-10-27T12:00
+                                                           redo the cut comments, then the backlog, under a ceiling
 
 Thread mode (--mode thread) sends a thread's post and up to about 25 of its
 comments as one request (thread_chunks.py says what goes together), with the
@@ -48,6 +50,25 @@ plus what is in flight. An attempt that may have been billed without an
 answer (a timeout) is charged its worst case, and its retry must reserve
 again or is not sent. Batches re-attached from an earlier run count against
 this run's cap until collected.
+
+That cap starts from nothing in every process, so three more checks stand
+beside it, for runs nobody watches (extract_runner.py, on Railway):
+  * --ceiling-usd / EXTRACT_CEILING_USD (the stricter wins) caps all v6
+    spend ever: before every batch submission and every direct call, spend
+    recorded in the database, plus the worst case of every batch still in
+    flight there, plus this request's worst case, must fit under it. It is
+    read from the database each time, so a restarted process sees what the
+    last one left in flight. When nothing more fits, the run stops and
+    exits 0, so a restart policy does not loop on it;
+  * a tripwire after every collection: a batch (or a direct call) that cost
+    more than was held for it, or recorded spend over the ceiling, stops all
+    submission at once and exits TRIPPED (5);
+  * a paid run refuses to start when the model has no price list, or any
+    price in it is missing or zero (anthropic_v6.check_prices).
+
+--redo-cut-before T (thread mode) first extracts again the comments thread
+mode read with the old 1,500-character cut before T, replacing their
+mentions, then goes on with the backlog under the same cap and ceiling.
 
 One v6 run at a time: every run that writes takes a Postgres advisory lock
 (try_lock), and the poller's pass skips while a manual run holds it.
@@ -141,6 +162,10 @@ def try_lock(conn):
 
 
 def unlock(conn):
+    # A dropped connection has already let go of the lock (it is session-level),
+    # and rollback() on it would raise InterfaceError over whatever stopped the run.
+    if conn.closed:
+        return
     conn.rollback()           # a failed statement may have left the transaction aborted
     with conn.cursor() as cur:
         cur.execute("select pg_advisory_unlock(%s)", (LOCK_KEY,))
@@ -154,31 +179,92 @@ def require_schema(conn):
 
 
 # ---------------------------------------------------------------- spend
+class Tripped(Exception):
+    """A spend tripwire fired: a batch or a call cost more than was held for
+    it, or recorded spend passed the ceiling. The run stops submitting at
+    once; main() exits TRIPPED, which the Railway runner does not restart."""
+
+
+# main()'s exit status when a tripwire fired. extract_runner.py exits 0 on it,
+# so a restart-on-failure policy does not start the run again.
+TRIPPED = 5
+# Rounding slack when an actual cost is compared with what was held for it:
+# hold_usd is stored to six decimal places.
+TRIP_EPS = 1e-6
+
+
 class Budget:
-    """A hard cap on one run's spend. Thread-safe.
+    """A hard cap on one run's spend, and the gate every submission passes. Thread-safe.
 
     reserve() holds a direct request's worst case before it is sent; settle()
     swaps it for the real cost. hold() does the same for a whole batch, keyed
-    by its id, so a re-attached batch is counted until it is collected.
+    by its id, so a re-attached batch is counted until it is collected;
+    admit() is what a new batch asks first.
+
+    With a Ceiling, every reserve(), admit() and remaining() also asks it
+    for the room left under the cumulative ceiling, which counts what is
+    recorded in the database and every batch still in flight there, so a
+    restarted process cannot spend past it. ceiling_hit says the ceiling,
+    not this run's cap, is what refused something. trip() stops everything:
+    nothing is reserved, held or admitted after it.
     """
 
-    def __init__(self, max_usd):
+    def __init__(self, max_usd, ceiling=None):
         self.max = float(max_usd)
         self.spent = 0.0
         self.reserved = 0.0
         self.held = {}
+        self.ceiling = ceiling
+        self.ceiling_hit = False
+        self.tripped = None
+        self._ceiling_binds = False     # the ceiling set the room remaining() last offered
         self._lock = threading.Lock()
+
+    def _room(self):
+        """(room left, the ceiling's room or None); the caller holds the lock."""
+        room = self.max - self.spent - self.reserved - sum(self.held.values())
+        if self.ceiling is None:
+            return room, None
+        top = self.ceiling.room(self.spent + sum(self.held.values()), self.reserved)
+        return min(room, top), top
+
+    def _fits(self, amount):
+        """Whether amount fits under the cap and the ceiling; the caller holds the lock."""
+        if self.tripped:
+            return False
+        room, top = self._room()
+        if amount <= room:
+            return True
+        if top is not None and amount > top:
+            self.ceiling_hit = True
+        return False
 
     def remaining(self):
         with self._lock:
-            return self.max - self.spent - self.reserved - sum(self.held.values())
+            if self.tripped:
+                return 0.0
+            room, top = self._room()
+            self._ceiling_binds = top is not None and top <= room
+            return room
+
+    def nothing_fitted(self):
+        """The batch loop found nothing that fits what remaining() last
+        offered: if the ceiling set that room, it is the ceiling that stopped it."""
+        with self._lock:
+            if self._ceiling_binds:
+                self.ceiling_hit = True
 
     def reserve(self, amount):
         with self._lock:
-            if self.spent + self.reserved + sum(self.held.values()) + amount > self.max:
+            if not self._fits(amount):
                 return False
             self.reserved += amount
             return True
+
+    def admit(self, amount):
+        """Whether a new batch whose worst case is amount may be submitted now."""
+        with self._lock:
+            return self._fits(amount)
 
     def settle(self, reserved, actual):
         with self._lock:
@@ -190,9 +276,13 @@ class Budget:
         with self._lock:
             self.spent += amount
 
+    def trip(self, why):
+        with self._lock:
+            self.tripped = self.tripped or why
+
     def hold(self, key, amount, force=False):
         with self._lock:
-            if not force and self.spent + self.reserved + sum(self.held.values()) + amount > self.max:
+            if not force and not self._fits(amount):
                 return False
             self.held[key] = self.held.get(key, 0.0) + amount
             return True
@@ -205,6 +295,107 @@ class Budget:
         with self._lock:
             self.held.pop(key, None)
             self.spent += actual
+
+
+CEILING_ENV = "EXTRACT_CEILING_USD"
+
+
+def spend_on_record(cur):
+    """(v6 spend recorded in the database, worst case of the v6 batches still in flight).
+
+    Recorded is every item's cost_usd in extraction_state, every prompt hash,
+    plus the cost of thread-mode chunks that failed, which is kept on the
+    chunk only (its items' rows are not touched). In flight is the hold of
+    every batch not yet collected: submitted, or pending with an unknown
+    outcome. Not seen: an attempt that timed out and may have been billed
+    (the run's own Budget charges those), and answers a batch returned for
+    items no longer attached to it (counted in extract_batches.cost_usd only)."""
+    cur.execute("""select (select coalesce(sum(cost_usd), 0) from extraction_state where version = %(v)s)
+                        + (select coalesce(sum(cost_usd), 0) from extract_chunks
+                           where version = %(v)s and status = 'failed'),
+                          (select coalesce(sum(hold_usd), 0) from extract_batches
+                           where version = %(v)s and status in ('pending', 'submitted'))""", {"v": VERSION})
+    recorded, inflight = cur.fetchone()
+    return float(recorded), float(inflight)
+
+
+class Ceiling:
+    """A cap on all v6 spend ever, which survives restarts: --ceiling-usd or
+    EXTRACT_CEILING_USD (the stricter when both are set).
+
+    The per-run Budget starts from nothing in every process, and Railway
+    restarts a failed one, so on its own it caps a run, not a deploy. This
+    reads the database on its own read-only connection each time it is
+    asked (so a worker thread can ask, and the run's own transactions are
+    never touched), and counts what a restarted process inherits: every cost
+    recorded and every batch an earlier process left in flight.
+
+    room() takes the larger of two views of what is used, plus this run's
+    direct requests on the wire: the database's (recorded now, plus holds in
+    flight), and this run's (recorded when it began, plus what its Budget
+    has spent or holds). The second covers what the database cannot see yet:
+    an answer settled on a worker thread but not stored, or a timeout charged
+    its worst case."""
+
+    def __init__(self, limit, connect):
+        self.limit = float(limit)
+        self._connect = connect
+        self._conn = None
+        self._lock = threading.Lock()
+        self.start = self.read()[0]
+
+    def read(self):
+        """(recorded, in flight), from the database now."""
+        with self._lock:
+            if self._conn is None or self._conn.closed:
+                self._conn = self._connect()
+                self._conn.set_session(readonly=True, autocommit=True)
+            with self._conn.cursor() as cur:
+                return spend_on_record(cur)
+
+    def room(self, run_spent_held=0.0, run_reserved=0.0):
+        recorded, inflight = self.read()
+        return self.limit - max(recorded + inflight, self.start + run_spent_held) - run_reserved
+
+    def close(self):
+        if self._conn is not None and not self._conn.closed:
+            self._conn.close()
+
+
+def ceiling_limit(flag, env=None):
+    """The ceiling in force: --ceiling-usd, EXTRACT_CEILING_USD, or the
+    stricter of the two when both are set; None when neither is. A value
+    that is not a positive number refuses the run rather than being ignored."""
+    env = os.environ.get(CEILING_ENV) if env is None else env
+    vals = []
+    for name, v in (("--ceiling-usd", flag), (CEILING_ENV, env)):
+        if v is None or (isinstance(v, str) and not v.strip()):
+            continue
+        try:
+            x = float(v)
+        except ValueError:
+            raise SystemExit(f"{name} must be a number of dollars, not {v!r}")
+        if not x > 0 or x != x or x == float("inf"):
+            raise SystemExit(f"{name} must be above zero, not {v!r}")
+        vals.append(x)
+    return min(vals) if vals else None
+
+
+def _trip(budget, why, log):
+    budget.trip(why)
+    log(f"\n!!!!!!!! SPEND TRIPWIRE: {why}. Nothing more is submitted; this run stops and must not be "
+        "restarted until a person has looked. !!!!!!!!\n")
+    raise Tripped(why)
+
+
+def _check_ceiling(budget, log):
+    """The tripwire's second half: recorded spend over the ceiling means
+    something spent that the gates did not count, so the run stops."""
+    if budget.ceiling is None:
+        return
+    recorded, _ = budget.ceiling.read()
+    if recorded > budget.ceiling.limit + TRIP_EPS:
+        _trip(budget, f"recorded v6 spend ${recorded:.4f} is over the ceiling ${budget.ceiling.limit:.2f}", log)
 
 
 class Stats:
@@ -472,11 +663,13 @@ _STATE_FAILED = """
 
 
 class Done:
-    """An answer to store: the item, the parsed output, what it cost."""
-    __slots__ = ("item", "output", "usage", "cost")
+    """An answer to store: the item, the parsed output, what it cost. replace
+    is set for an item extracted again under the same prompt (a redo): its
+    earlier mention rows of that prompt are deleted as the new ones go in."""
+    __slots__ = ("item", "output", "usage", "cost", "replace")
 
-    def __init__(self, item, output, usage, cost):
-        self.item, self.output, self.usage, self.cost = item, output, usage, cost
+    def __init__(self, item, output, usage, cost, replace=False):
+        self.item, self.output, self.usage, self.cost, self.replace = item, output, usage, cost, replace
 
 
 class Failed:
@@ -520,9 +713,22 @@ def write(conn, entries, before=None):
                 if r:
                     rows.setdefault((r["comment_id"] or r["thread_id"], r["entity_key"]), r)
     n, parked = 0, set()
+    redone = [e.item for e in entries if isinstance(e, Done) and e.replace]
     with conn.cursor() as cur:
         if before is not None:
             before(cur)
+        # A redo replaces the item's rows of its prompt: the places the new
+        # answer names again are inserted afresh below, and the ones it no
+        # longer names are gone, in the same transaction as its new state row.
+        for ph in sorted({it.prompt_hash for it in redone}):
+            cids = [it.id for it in redone if it.prompt_hash == ph and it.kind == "comment"]
+            tids = [it.id for it in redone if it.prompt_hash == ph and it.kind == "post"]
+            if cids:
+                cur.execute("delete from mentions where schema_version = %s and prompt_hash = %s "
+                            "and comment_id = any(%s)", (prompt_v6.SCHEMA_VERSION, ph, cids))
+            if tids:
+                cur.execute("delete from mentions where schema_version = %s and prompt_hash = %s "
+                            "and comment_id is null and thread_id = any(%s)", (prompt_v6.SCHEMA_VERSION, ph, tids))
         cur.execute("select item_id, attempts, coalesce(cost_usd, 0) from extraction_state "
                     "where version = %s and item_id = any(%s)", (VERSION, [e.item.id for e in entries]))
         prev = {r[0]: (r[1], float(r[2])) for r in cur.fetchall()}
@@ -702,6 +908,11 @@ def _send_direct(cl, budget, requests, workers, stop, capped, log, answered, uns
             return req, e, 0.0
         c = AV.cost(AV.usage_of(msg), batch=False)
         budget.settle(w, c)
+        if c > w + TRIP_EPS:
+            # The worst case is meant to be an upper bound; an answer past it
+            # means the bound (or the price table) is wrong, so nothing more goes.
+            budget.trip(f"{req.id} cost ${c:.6f}, over the ${w:.6f} held for it")
+            stop.set()
         return req, msg, c
 
     halt = None
@@ -723,6 +934,9 @@ def _send_direct(cl, budget, requests, workers, stop, capped, log, answered, uns
         pool.shutdown(wait=True, cancel_futures=True)
         raise
     pool.shutdown(wait=True)
+    if budget.tripped:
+        _trip(budget, budget.tripped, log)
+    _check_ceiling(budget, log)
     if halt is not None:
         raise halt
 
@@ -764,8 +978,16 @@ def _submit(conn, cl, budget, batch, log):
     all chunks (thread mode, custom_id the chunk id). A chunk's members all
     get the batch id on their state rows, and its extract_chunks row is
     'batched'; its count of sends goes up only once the API has taken the
-    batch, so a refused submission leaves it as it was."""
+    batch, so a refused submission leaves it as it was.
+
+    Returns None, having written nothing, when the batch's worst case does
+    not fit under the cap and the ceiling as they stand now (Budget.admit,
+    which reads the database when there is a ceiling)."""
     held = sum(r.worst(batch=True) for r in batch)
+    if not budget.admit(held):
+        log(f"  a batch of {len(batch)} request(s), worst case ${held:.4f}, does not fit under the "
+            + ("ceiling" if budget.ceiling_hit else "cap") + ": not submitted")
+        return None
     pid = f"pending-{int(time.time() * 1000)}-{os.getpid()}"
     rows = [m for r in batch for m in r.state_rows()]
     chunks = [r for r in batch if isinstance(r, ChunkJob)]
@@ -846,15 +1068,27 @@ def _batch_collected(conn, budget, bid, total, summary, invalid, log, before=Non
     an invalid_request_error left unanswered, the batch is marked collected
     in the same transaction, its hold becomes its cost, and FatalAPIError is
     raised if any request was rejected as invalid (the batch-shaped version
-    of a direct 4xx: the run stops once everything else is stored)."""
+    of a direct 4xx: the run stops once everything else is stored). Tripped
+    is raised first, once all of it is stored, if the batch cost more than
+    its hold or recorded spend is over the ceiling."""
     with conn.cursor() as cur:
         if before is not None:
             before(cur)
         cur.execute("""update extract_batches set status = 'collected', cost_usd = %s, collected_at = now()
-                       where id = %s""", (total, bid))
+                       where id = %s returning hold_usd""", (total, bid))
+        row = cur.fetchone()
     conn.commit()
+    held = budget.held.get(bid)
     budget.release(bid, total)
     log(f"  batch {bid} collected: ${total:.4f}, {summary}" + (f", {len(invalid)} invalid" if invalid else ""))
+    # The tripwire, after every collection: a batch that cost more than its
+    # hold (as this run held it, or as the ledger recorded it) means the
+    # worst case is not a bound, and recorded spend over the ceiling means
+    # something was not counted. Either way nothing more is sent.
+    for h in (held, float(row[0]) if row else None):
+        if h is not None and total > h + TRIP_EPS:
+            _trip(budget, f"batch {bid} cost ${total:.6f}, over the ${h:.6f} held for it", log)
+    _check_ceiling(budget, log)
     if invalid:
         log("  invalid_request_error in batch " + bid + ":\n    " + "\n    ".join(invalid[:10]))
         raise AV.FatalAPIError(f"batch {bid}: {len(invalid)} request(s) rejected as invalid; first: {invalid[0]}")
@@ -949,6 +1183,7 @@ def _run_batches(conn, cl, budget, queue, inflight, max_inflight, poll_seconds, 
             if batch is None:
                 break
             if not batch:
+                budget.nothing_fitted()
                 capped = True
                 break
             try:
@@ -956,6 +1191,9 @@ def _run_batches(conn, cl, budget, queue, inflight, max_inflight, poll_seconds, 
             except AV.AmbiguousSubmit:
                 queue.sent(batch)        # pending now: the next run settles it, so it is not unsent
                 raise
+            if bid is None:
+                capped = True            # admit() refused it; it stays in the queue, counted as not sent
+                break
             queue.sent(batch)
             inflight.append(bid)
         if not inflight:
@@ -1090,8 +1328,10 @@ def drop_batch(conn, bid):
         if cur.rowcount != 1:
             conn.rollback()
             raise SystemExit(f"no lost or submitted batch {bid}")
+        # Done items too: only a redo (--redo-cut-before) sends a done item in
+        # a batch, and detached it is one the next redo selects again.
         cur.execute("""update extraction_state set batch_id = null, updated_at = now()
-                       where batch_id = %s and extracted_at is null""", (bid,))
+                       where batch_id = %s""", (bid,))
         n = cur.rowcount
         _chunks_requeue(cur, bid)
     conn.commit()
@@ -1277,6 +1517,12 @@ class ChunkJob:
     def members(self):
         return [self.ids[n] for n in sorted(self.ids)]
 
+    @property
+    def redo(self):
+        """A chunk sent by --redo-cut-before to extract done items again. Told
+        by its id, so a batch collected by a later process knows it too."""
+        return self.id.startswith(REDO_PREFIX)
+
     def items(self):
         return [Item("post" if i == self.chunk.thread_id else "comment", i, None, None, self.prompt_hash)
                 for i in self.members]
@@ -1293,9 +1539,12 @@ class ChunkJob:
                          schema=AV.OUTPUT_SCHEMA_THREAD)
 
 
-def new_chunk_id():
+REDO_PREFIX = "rd-"
+
+
+def new_chunk_id(redo=False):
     # A batch custom_id must match ^[a-zA-Z0-9_-]{1,64}$.
-    return "ch-" + uuid.uuid4().hex
+    return (REDO_PREFIX if redo else "ch-") + uuid.uuid4().hex
 
 
 def thread_candidates(conn, limit=None, since=None, ids=None, newest_first=False, posts=True):
@@ -1549,8 +1798,10 @@ def _read_chunk(job, message, cost, stats, log):
         log(f"  chunk {job.id} ({job.chunk.thread_id}): {len(bad)} mention(s) dropped, id(s) "
             f"{sorted({repr(b) for b in bad})[:5]} name no item of this chunk")
     share = cost / len(job.members)
-    entries = [Done(it, {"mentions": per[it.id], "chunk_id": job.id}, {"chunk_id": job.id, "items": len(per)},
-                    share) for it in job.items()]
+    # member_chars records the cut the item was read with, so a later redo
+    # of cut comments (redo_candidates) never takes it for an old one.
+    entries = [Done(it, {"mentions": per[it.id], "chunk_id": job.id, "member_chars": prompt_v6.thread.MEMBER_CHARS},
+                    {"chunk_id": job.id, "items": len(per)}, share, replace=job.redo) for it in job.items()]
     return "done", entries, (out, usage, len(bad))
 
 
@@ -1631,9 +1882,13 @@ def _chunk_failed(conn, job, code, usage, cost, log, batch_id=None, attempts=0):
     routes the items while they are due; their cursor rows are not touched,
     so each keeps the hash of the prompt that last tried it. In a batch the
     items are detached from it, so they are due again. Returns the thread id."""
-    halves = T.split_half(job.chunk) if job.generation == 0 and len(job.chunk) > 1 else []
-    rec = _chunk_record(job, "failed", batch_id, None, usage, cost, error=str(code)[:500], fallback=not halves,
-                        attempts=attempts)
+    # A redo chunk's items are done already: it is neither split nor sent on
+    # alone (that would be comment mode, under another prompt). They keep the
+    # extraction they had, and the next run's redo tries them once more
+    # (redo_candidates counts the failed redo chunks that held each one).
+    halves = T.split_half(job.chunk) if job.generation == 0 and len(job.chunk) > 1 and not job.redo else []
+    rec = _chunk_record(job, "failed", batch_id, None, usage, cost, error=str(code)[:500],
+                        fallback=not halves and not job.redo, attempts=attempts)
     with conn.cursor() as cur:
         _upsert_chunks(cur, [rec])
         for h in halves:
@@ -1646,7 +1901,8 @@ def _chunk_failed(conn, job, code, usage, cost, log, batch_id=None, attempts=0):
                         (VERSION, batch_id, job.members))
     conn.commit()
     log(f"  chunk {job.id} ({job.chunk.thread_id}, {len(job.chunk)} items) failed ({str(code)[:80]}): "
-        + (f"split into {len(halves)} halves" if halves else "its items go out one at a time"))
+        + (f"split into {len(halves)} halves" if halves else
+           "a redo: its items keep their earlier extraction" if job.redo else "its items go out one at a time"))
     return job.chunk.thread_id
 
 
@@ -1975,6 +2231,118 @@ def run_batch_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, 
     return stats
 
 
+# ---------------------------------------------------------------- redo of cut members
+# Until MEMBER_CHARS, thread mode cut a chunk's own comments at 1,500
+# characters, so a long list of places lost its tail. --redo-cut-before T
+# extracts those comments again, with the same prompt (the hash is
+# unchanged) and under the same cap and ceiling, and replaces their mentions.
+OLD_MEMBER_CHARS = 1500
+
+
+def redo_candidates(conn, before):
+    """{thread_id: [comment ids]} of the thread-mode comments read with the old cut.
+
+    Done under the thread prompt before `before`, longer than OLD_MEMBER_CHARS
+    as the renderer flattens them, with no record of a longer cut in their
+    output, not in a batch now, and not already failed in MAX_ATTEMPTS redo
+    chunks. A redo stores a new extracted_at (after `before`) and member_chars
+    in the output, so each of the last three keeps a finished, in-flight or
+    hopeless redo from being bought again after a restart."""
+    with conn.cursor() as cur:
+        cur.execute("""
+            select s.item_id, c.thread_id, c.body from extraction_state s
+            join comments c on c.id = s.item_id
+            where s.version = %(v)s and s.kind = 'comment' and s.prompt_hash = %(ph)s
+              and s.extracted_at is not null and s.extracted_at < %(before)s
+              and s.batch_id is null
+              and c.subreddit = %(home)s
+              and length(c.body) > %(old)s
+              and coalesce((s.output->>'member_chars')::int, %(old)s) < %(new)s
+              and (select count(*) from extract_chunks k
+                   where k.version = %(v)s and k.status = 'failed' and k.id like %(prefix)s
+                     and s.item_id = any(k.members)) < %(tries)s
+            order by c.thread_id, c.created_utc, c.id""",
+                    {"v": VERSION, "ph": prompt_v6.PROMPT_HASH_THREAD, "before": before, "home": subreddits.HOME,
+                     "old": OLD_MEMBER_CHARS, "new": prompt_v6.thread.MEMBER_CHARS,
+                     "prefix": REDO_PREFIX + "%", "tries": MAX_ATTEMPTS})
+        rows = cur.fetchall()
+    conn.commit()
+    out = {}
+    for cid, tid, body in rows:
+        if len(prompt_v6.thread._flat(body)) > OLD_MEMBER_CHARS:
+            out.setdefault(tid, []).append(cid)
+    return out
+
+
+def build_redo_jobs(conn, todo, opts):
+    """Chunk jobs for redo_candidates' comments: each thread's ones packed as
+    any due comments are, everything else in the thread drawn as context
+    (the post too), each chunk with a redo id."""
+    rows = prompt_v6.fetch_thread_rows(conn, list(todo))
+    conn.commit()
+    jobs = []
+    for tid, members in todo.items():
+        th = rows.get(tid)
+        if th is None:
+            continue
+        tree = T.Tree(th["comments"])
+        for ch in T.chunk_thread(tid, th["comments"], set(members), False, 0.0, opts.soft_comments,
+                                 opts.soft_tokens, opts.max_comments, tree=tree):
+            jobs.append(_job(ch, th, tree, opts.effort, new_chunk_id(redo=True)))
+    return jobs
+
+
+class _RedoQueue:
+    """The redo's batch queue for _run_batches. What a collected batch hands
+    back is left to the next run: its redo selection picks up again any item
+    still not redone, and _run_batches' other answers are already stored."""
+
+    def __init__(self, jobs, batch_size):
+        self.jobs, self.batch_size = jobs, batch_size
+
+    def take(self, room):
+        return _fit(self.jobs[:self.batch_size], room) if self.jobs else None
+
+    def sent(self, batch):
+        self.jobs = self.jobs[len(batch):]
+
+    def returned(self, bid, shape, retry):
+        pass
+
+
+def run_redo(conn, cl, budget, opts, before, batch=False, batch_size=BATCH_SIZE, max_inflight=MAX_INFLIGHT,
+             poll_seconds=POLL_SECONDS, workers=WORKERS, log=print, sleep=time.sleep, stats=None):
+    """Extract again, under the run's cap and ceiling, the comments thread
+    mode read with the old cut before `before` (redo_candidates). Through
+    batches it first settles pending submissions and collects every batch
+    in flight, as a batch run does, so the run that follows starts clean.
+    Each answer replaces the item's mentions of the thread prompt in the
+    transaction that records it (Done.replace). Returns Stats."""
+    stats = stats or Stats()
+    now = dt.datetime.now(dt.timezone.utc)
+    if before > now:
+        raise SystemExit(f"--redo-cut-before {before.isoformat()} is in the future: it must be a time after the "
+                         "last extraction with the old cut and no later than now")
+    inflight = []
+    if batch:
+        _settle_pending(conn, cl, log)
+        inflight = _reattach(conn, budget, log)
+    todo = redo_candidates(conn, before)
+    jobs = build_redo_jobs(conn, todo, opts)
+    log(f"redo of comments cut at {OLD_MEMBER_CHARS:,} characters before {before:%Y-%m-%d %H:%M}Z: "
+        f"{sum(len(v) for v in todo.values()):,} comment(s) in {len(todo):,} thread(s), {len(jobs):,} chunk(s)")
+    if batch:
+        queue = _RedoQueue(jobs, batch_size)
+        try:
+            _run_batches(conn, cl, budget, queue, inflight, max_inflight, poll_seconds, log, sleep, stats)
+        finally:
+            stats.refused += sum(len(j.chunk) for j in queue.jobs)
+            stats.threads_open |= {j.chunk.thread_id for j in queue.jobs}
+    elif jobs:
+        _direct_chunks(conn, cl, budget, jobs, workers, stats, threading.Event(), threading.Event(), log)
+    return stats
+
+
 def dry_run_threads(conn, opts, limit=None, since=None, ids=None, newest_first=False, show=2, log=print):
     """Chunk, render and price what a thread-mode run would send. Reads only.
 
@@ -2242,7 +2610,9 @@ def reset_hash(conn, prompt_hash, kinds=KINDS, yes=False, chunk=5000, log=print)
     for twice. Without yes=True it only counts. Returns (items, mentions)."""
     kinds = list(kinds)
     with conn.cursor() as cur:
-        cur.execute("""select count(*) filter (where batch_id is not null and extracted_at is null),
+        # Any item attached to a batch, done ones included: a redo's batch
+        # carries items that are done, and would write them back on collection.
+        cur.execute("""select count(*) filter (where batch_id is not null),
                               count(*)
                        from extraction_state where version = %s and prompt_hash = %s and kind = any(%s)""",
                     (VERSION, prompt_hash, kinds))
@@ -2395,14 +2765,26 @@ def main(argv=None):
     th.add_argument("--chunk-max", type=int,
                     help=f"hard max: comments in one chunk; only bigger reply groups are split "
                          f"(default {T.MAX_COMMENTS})")
+    th.add_argument("--redo-cut-before", metavar="TIME",
+                    help=f"first extract again the thread-mode comments that were cut at {OLD_MEMBER_CHARS:,} "
+                         "characters and finished before TIME (ISO, UTC unless it says), replacing their "
+                         "mentions; then the run goes on as usual. Safe to repeat: a redone item is not redone")
+    sp = ap.add_argument_group("spend")
+    sp.add_argument("--ceiling-usd", type=float,
+                    help=f"cumulative ceiling on all v6 spend, recorded plus in flight, checked before every "
+                         f"submission; {CEILING_ENV} sets it too, and the stricter of the two wins")
+    sp.add_argument("--lock-wait", type=float, default=0.0,
+                    help="seconds to wait for another v6 run (the poller's pass) to let go of the lock")
     args = ap.parse_args(argv)
     kinds = {"comments": ("comment",), "posts": ("post",), "both": KINDS}[args.scope]
     since, ids = _parse_since(args.since), _parse_ids(args.ids)
     thread = args.mode == "thread"
     opts = None
     given = [f for f, v in (("--effort", args.effort), ("--chunk-comments", args.chunk_comments),
-                            ("--chunk-tokens", args.chunk_tokens), ("--chunk-max", args.chunk_max))
+                            ("--chunk-tokens", args.chunk_tokens), ("--chunk-max", args.chunk_max),
+                            ("--redo-cut-before", args.redo_cut_before))
              if v is not None] + (["--newest-first"] if args.newest_first else [])
+    args.redo_before = _parse_since(args.redo_cut_before)
     if thread:
         # Posts stay with post mode only if asked: --scope comments. A
         # thread-mode run never takes posts alone; post mode does that.
@@ -2432,8 +2814,15 @@ def main(argv=None):
         else:
             dry_run(conn, kinds, args.limit, since, ids, args.max_chars)
         return 0
-    # Everything below changes v6 state, so it waits for no other v6 run.
-    if not try_lock(conn):
+    # Everything below changes v6 state, so it waits for no other v6 run, or
+    # for --lock-wait seconds at most (an unattended run started while the
+    # poller's pass holds the lock would otherwise just fail).
+    give_up = time.monotonic() + max(args.lock_wait, 0.0)
+    locked = try_lock(conn)
+    while not locked and time.monotonic() < give_up:
+        time.sleep(min(15.0, max(give_up - time.monotonic(), 0.0)))
+        locked = try_lock(conn)
+    if not locked:
         raise SystemExit("another v6 extraction is running (the poller's pass or a manual run); "
                          "try again when it is done")
     try:
@@ -2481,6 +2870,12 @@ def _main_locked(conn, args, kinds, since, ids, opts=None):
         raise SystemExit("--max-usd is required: every run that calls the API has a hard cap")
     if not key:
         raise SystemExit(f"{AV.KEY_VAR} is not set (extraction uses its own key and no other)")
+    if not args.max_usd > 0:
+        raise SystemExit("--max-usd must be above zero")
+    # No silent $0 accounting: a model without a full, non-zero price list
+    # would make every cap and the ceiling count nothing.
+    AV.check_prices()
+    limit = ceiling_limit(args.ceiling_usd)
     if args.retry_errors:
         with conn.cursor() as cur:
             cur.execute("""update extraction_state set extract_error = null, attempts = 0, updated_at = now()
@@ -2490,12 +2885,22 @@ def _main_locked(conn, args, kinds, since, ids, opts=None):
         conn.commit()
 
     cl = AV.client(key)
-    budget = Budget(args.max_usd)
+    ceiling = Ceiling(limit, db.connect) if limit is not None else None
+    budget = Budget(args.max_usd, ceiling)
+    if ceiling is not None:
+        recorded, inflight = ceiling.read()
+        print(f"ceiling ${limit:.2f}: ${recorded:.4f} recorded, ${inflight:.4f} held for batches in flight, "
+              f"${ceiling.room():.4f} of room")
     stats = Stats()
     began = time.time()
     code = 0
     try:
-        if opts is not None and args.batch:
+        if args.redo_before is not None:
+            run_redo(conn, cl, budget, opts, args.redo_before, args.batch, args.batch_size, args.max_inflight,
+                     args.poll_seconds, args.workers, stats=stats)
+        if budget.ceiling_hit:
+            pass                 # the ceiling stopped the redo: the backlog would not fit either
+        elif opts is not None and args.batch:
             run_batch_threads(conn, cl, budget, opts, args.limit, since, ids, args.newest_first,
                               args.batch_size, args.max_inflight, args.poll_seconds, stats=stats)
         elif opts is not None:
@@ -2507,6 +2912,8 @@ def _main_locked(conn, args, kinds, since, ids, opts=None):
         else:
             run_direct(conn, cl, budget, kinds, args.limit, since, ids, args.max_chars, args.workers,
                        stats=stats)
+    except Tripped:
+        code = TRIPPED           # _trip has said why, loudly
     except AV.AmbiguousSubmit as e:
         print(f"\nSTOPPED: a batch submission's outcome is unknown ({e}). It is kept as pending; the "
               "next run matches it against the API's batch list, or use --resolve-pending")
@@ -2531,6 +2938,19 @@ def _main_locked(conn, args, kinds, since, ids, opts=None):
         print(f"{stats.held_scope:,} comment(s) in {len(stats.held_scope_threads):,} thread(s) wait in queued "
               "chunks that number the post: a thread-mode run with --scope both sends them.")
         code = code or 3
+    if ceiling is not None:
+        recorded, inflight = ceiling.read()
+        print(f"ceiling ${limit:.2f}: ${recorded:.4f} recorded, ${inflight:.4f} still held for batches in flight")
+        ceiling.close()
+    if budget.tripped:
+        print(f"\nTRIPWIRE: {budget.tripped}. Exit {TRIPPED}: do not restart until the cause is understood.")
+        code = TRIPPED
+    elif budget.ceiling_hit and code in (0, 3):
+        # A restart cannot do more than this run did, so the exit is clean:
+        # a restart policy must not loop on it.
+        print(f"\nCEILING REACHED: nothing more fits under ${limit:.2f} of v6 spend; stopping cleanly. "
+              "Raise the ceiling to go on.")
+        code = 0
     if stats.done and read_version(conn) == VERSION:
         import refresh
         print("refreshing scoring views")

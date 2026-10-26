@@ -137,7 +137,15 @@ once, then parked with a coded `extract_error`. A 4xx other than 429 stops
 the pass and marks nothing. 429/5xx back off, then stop the pass if they
 persist. Spend is capped by reserving each request's worst case (16k tokens
 out, all input as cache writes) before it is sent, and again before any
-retry after a timeout that may have been billed. A batch submission whose
+retry after a timeout that may have been billed. That cap is per process;
+`--ceiling-usd` / `EXTRACT_CEILING_USD` caps all v6 spend ever: before every
+submission, spend recorded in the database plus every batch still in flight
+there plus the request's worst case must fit, so a restarted process cannot
+spend past it, and reaching it exits 0. A batch or call that costs more than
+was held for it, or recorded spend over the ceiling, trips a wire that stops
+the run (exit 5). A model without a full, non-zero price list never starts.
+Unattended runs go through `extract_runner.py` in a Railway service of their
+own (`railway.extract.json`), which requires both caps. A batch submission whose
 outcome is unknown is never resubmitted; it stays pending until matched to
 the API's batch list. One v6 run at a time, by advisory lock.
 
@@ -150,7 +158,10 @@ its own prompt hash (`d92ec8610d8c`: round 4's thread prompt plus a
 Whole reply groups (a top-level comment and its
 replies) are packed to a soft budget of 15 items or 3,000 tokens; only a
 group over 25 comments is split, between branches. A chunk whose comments
-hang under comments outside it quotes their whole ancestor chain. The post is
+hang under comments outside it quotes their whole ancestor chain. A chunk's
+own comments are cut at 6,000 characters, quoted ones at 1,500 (rendering
+only: the hash is unchanged); `--redo-cut-before T` re-extracts the comments
+read with the old 1,500 cut before T and replaces their mentions. The post is
 item `[0]` of a thread's first chunk while it is due, else context. Comments
 already done, and deleted ones, are context only. A chunk whose answer is no
 use (cut off, refused, not JSON, not storable) is split in half once; a half

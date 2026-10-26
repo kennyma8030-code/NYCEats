@@ -19,7 +19,11 @@ reviewable diff against what the benchmark ran:
      stub of a comment drawn in full a few lines up;
   8. the <input> sentence on replies to comments outside the chunk, and
   9. the thread example, both saying the same: the outside comment is quoted
-     above, and the reply points to it. They change the prompt hash too.
+     above, and the reply points to it. They change the prompt hash too;
+ 10. MEMBER_CHARS and its use for the chunk's own comments, two entries
+     placed in file order among the first five: members are cut at 6,000
+     characters, quoted context still at 1,500. Rendering only, so the
+     prompt hash stays d92ec8610d8c.
 """
 
 ADDITIONS = [
@@ -27,7 +31,7 @@ ADDITIONS = [
 """
 ''', '''module defines it.
 
-Production (prompts_v6/v6_thread.py) is this file plus two additions, each
+Production (prompts_v6/v6_thread.py) is this file plus three additions, each
 marked "production addition" below and listed in tests/v6_thread_additions.py:
   * the post can be an item, "[0] POST: ...", extracted under post mode's
     rules (<post_item> in the prompt, which therefore has its own hash);
@@ -35,8 +39,17 @@ marked "production addition" below and listed in tests/v6_thread_additions.py:
     ancestor chains above its comments, as context lines with no number. A
     reply to a quoted comment then points to it, "(reply to u/zed, quoted
     above)", rather than repeating its first 140 characters, and the prompt's
-    <input> and thread example say so.
+    <input> and thread example say so;
+  * the chunk's own comments are cut at 6,000 characters instead of 1,500
+    (MEMBER_CHARS). Only the rendering changes, not the prompt or its hash.
 """
+'''),
+    ('''MAX_COMMENT_CHARS = 1500   # 0.4% of comments are longer; 700 cut 1.7%
+''', '''MAX_COMMENT_CHARS = 1500   # 0.4% of comments are longer; 700 cut 1.7%
+# production addition: a comment the chunk extracts from is cut at 6,000, not
+# 1,500, because the tail of a long list of places was being lost (a 4,321-
+# character list lost about 25 of them). Quoted context keeps the 1,500 cut.
+MEMBER_CHARS = 6000
 '''),
     ('''MAX_INDENT = 6             # indentation is a reading aid now; the marker carries the parent
 ''', '''MAX_INDENT = 6             # indentation is a reading aid now; the marker carries the parent
@@ -87,6 +100,9 @@ CONTEXT_HEADER = "Earlier comments in this thread, quoted as context (not in thi
                     else f"(a deleted comment{', reply to ' + parent if parent else ''})")
             parts.append(f"{'  ' * min(depth, MAX_INDENT)}{line}")
         parts.append("")
+'''),
+    ('''                     f"u/{r.get('author') or '?'}{head}: {_cut(_flat(r.get('body')), MAX_COMMENT_CHARS)}")
+''', '''                     f"u/{r.get('author') or '?'}{head}: {_cut(_flat(r.get('body')), MEMBER_CHARS)}")
 '''),
     ('''    return "\\n".join(parts), {n: cid for cid, n in num.items()}
 ''', '''    ids = {n: cid for cid, n in num.items()}

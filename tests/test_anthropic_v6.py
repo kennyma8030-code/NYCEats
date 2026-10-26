@@ -68,10 +68,42 @@ class Request(unittest.TestCase):
             self.assertAlmostEqual(AV.worst_case(prompt_v6.SYSTEM_PROMPT, USER, batch),
                                    ob.worst_case(prompt_v6.SYSTEM_PROMPT, USER, 16000, batch))
         # $0.10 in, $0.50 out, $0.01 cache read, $0.125 cache write, per MTok; batch halves it.
-        self.assertAlmostEqual(AV.cost({"input_tokens": 1e6}, False), 0.10)
+        self.assertAlmostEqual(AV.cost({"input_tokens": 1e5}, False), 0.010)
         self.assertAlmostEqual(AV.cost({"output_tokens": 1e6}, False), 0.50)
-        self.assertAlmostEqual(AV.cost({"cache_read_input_tokens": 1e6}, False), 0.01)
-        self.assertAlmostEqual(AV.cost({"cache_creation_input_tokens": 1e6}, True), 0.0625)
+        self.assertAlmostEqual(AV.cost({"cache_read_input_tokens": 1e5}, False), 0.001)
+        self.assertAlmostEqual(AV.cost({"cache_creation_input_tokens": 1e5}, True), 0.00625)
+
+    def test_a_prompt_over_100k_tokens_costs_five_times_as_much(self):
+        # Every token of the request at the long rate, once its input (cache reads and writes included) is over 100k.
+        self.assertAlmostEqual(AV.cost({"input_tokens": 1e6, "output_tokens": 1e6}, False), 0.50 + 2.50)
+        self.assertAlmostEqual(AV.cost({"cache_read_input_tokens": 50_001, "cache_creation_input_tokens": 50_000,
+                                        "output_tokens": 1000}, False),
+                               50_001 * 0.05e-6 + 50_000 * 0.625e-6 + 1000 * 2.50e-6)
+        # The worst case of a request that may be that long is priced at the long rate too, so it still bounds it.
+        long_user = "x" * 200_000                               # up to 133k tokens at 1.5 chars a token
+        w = AV.worst_case(prompt_v6.SYSTEM_PROMPT_THREAD, long_user, False, 32000)
+        tin = (len(prompt_v6.SYSTEM_PROMPT_THREAD) + len(long_user)) / AV.CHARS_PER_TOKEN_UPPER + 2500
+        self.assertAlmostEqual(w, tin * 0.625e-6 + 32000 * 2.50e-6)
+        self.assertGreaterEqual(w, AV.cost({"cache_creation_input_tokens": int(tin), "output_tokens": 32000}, False))
+
+    def test_check_prices_refuses_a_missing_or_zero_price(self):
+        AV.check_prices()                                       # the model in use is priced
+        with self.assertRaises(SystemExit) as cm:
+            AV.check_prices("claude-unknown-9")
+        self.assertIn("no prices for claude-unknown-9", str(cm.exception))
+        good = AV.PRICE_TABLE[prompt_v6.MODEL]
+        for bad in ({**good, "base": {**good["base"], "out": 0.0}},
+                    {**good, "long": {k: v for k, v in good["long"].items() if k != "cache_write"}},
+                    {**good, "base": {**good["base"], "in": None}},
+                    {**good, "long_above": 0}):
+            with mock.patch.dict(AV.PRICE_TABLE, {prompt_v6.MODEL: bad}):
+                with self.assertRaises(AV.PriceMissing):
+                    AV.check_prices()
+                # Nothing is ever priced at $0 by a broken table: pricing refuses too.
+                with self.assertRaises(AV.PriceMissing):
+                    AV.cost({"output_tokens": 10}, False)
+        with mock.patch.object(prompt_v6, "MODEL", "claude-unknown-9"), self.assertRaises(AV.PriceMissing):
+            AV.worst_case("s", "u", True)
 
 
 class Key(unittest.TestCase):

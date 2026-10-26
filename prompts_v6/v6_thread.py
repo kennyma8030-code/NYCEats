@@ -33,7 +33,7 @@ eval/build_thread_rows.py fetches the raw rows this needs (read-only), and
 eval/run.py re-renders every thread chunk with render_chunk when the prompt
 module defines it.
 
-Production (prompts_v6/v6_thread.py) is this file plus two additions, each
+Production (prompts_v6/v6_thread.py) is this file plus three additions, each
 marked "production addition" below and listed in tests/v6_thread_additions.py:
   * the post can be an item, "[0] POST: ...", extracted under post mode's
     rules (<post_item> in the prompt, which therefore has its own hash);
@@ -41,7 +41,9 @@ marked "production addition" below and listed in tests/v6_thread_additions.py:
     ancestor chains above its comments, as context lines with no number. A
     reply to a quoted comment then points to it, "(reply to u/zed, quoted
     above)", rather than repeating its first 140 characters, and the prompt's
-    <input> and thread example say so.
+    <input> and thread example say so;
+  * the chunk's own comments are cut at 6,000 characters instead of 1,500
+    (MEMBER_CHARS). Only the rendering changes, not the prompt or its hash.
 """
 import collections
 import importlib.util
@@ -54,6 +56,10 @@ _spec.loader.exec_module(_c)
 
 SELFTEXT_LIMIT = 800       # once per chunk, so cheap; the ask is often past 400
 MAX_COMMENT_CHARS = 1500   # 0.4% of comments are longer; 700 cut 1.7%
+# production addition: a comment the chunk extracts from is cut at 6,000, not
+# 1,500, because the tail of a long list of places was being lost (a 4,321-
+# character list lost about 25 of them). Quoted context keeps the 1,500 cut.
+MEMBER_CHARS = 6000
 STUB_CHARS = 140           # enough to carry the name a reply is about
 MAX_INDENT = 6             # indentation is a reading aid now; the marker carries the parent
 # production addition: the post as item [0] gets post mode's body cut, and a
@@ -148,7 +154,7 @@ def render_chunk(title, selftext, rows, outside=None, above=None, post_item=None
                 head = (f" (reply to u/{o.get('author') or '?'}, not in this chunk: "
                         f"\"{_cut(text, STUB_CHARS)}\")")
         parts.append(f"{'  ' * min(depth, MAX_INDENT)}[{num[r['comment_id']]}] "
-                     f"u/{r.get('author') or '?'}{head}: {_cut(_flat(r.get('body')), MAX_COMMENT_CHARS)}")
+                     f"u/{r.get('author') or '?'}{head}: {_cut(_flat(r.get('body')), MEMBER_CHARS)}")
     ids = {n: cid for cid, n in num.items()}
     if post_item:
         ids[0] = post_item

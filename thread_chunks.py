@@ -23,6 +23,8 @@ The rules, as decided with the owner:
   * Only due items are counted and numbered. A comment already extracted
     under v6, or [deleted]/[removed]/blank, is never an item; it is drawn
     only as context, when a due reply hangs under it.
+  * A chunk's own comments are drawn up to 6,000 characters each
+    (MEMBER_CHARS), so a long list of places keeps its tail.
   * Every chunk starts with the post. In a thread's first chunk the post is
     item [0] when it is still due (its body then cut at post mode's 4,000
     characters); everywhere else it is context (cut at 800).
@@ -34,7 +36,8 @@ The rules, as decided with the owner:
     chains go 20 deep.
 
 Drawing is prompts_v6/v6_thread.render_chunk, the benchmark's renderer with
-the two production additions (the post as [0], the quoted chains).
+the production additions (the post as [0], the quoted chains, the 6,000-
+character cut for members).
 
 Token counts here are estimates for packing only, at TEXT_CHARS_PER_TOKEN
 characters a token for English comment text.
@@ -56,8 +59,8 @@ def is_gone(body):
 
 
 def text_tokens(body, limit=None):
-    """Estimated tokens of a comment as the renderer draws it (flattened, cut)."""
-    return len(R._cut(R._flat(body), limit or R.MAX_COMMENT_CHARS)) / TEXT_CHARS_PER_TOKEN
+    """Estimated tokens of a comment as the renderer draws it as a member (flattened, cut)."""
+    return len(R._cut(R._flat(body), limit or R.MEMBER_CHARS)) / TEXT_CHARS_PER_TOKEN
 
 
 class Chunk:

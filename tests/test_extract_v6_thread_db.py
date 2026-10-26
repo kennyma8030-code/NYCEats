@@ -567,8 +567,12 @@ class Modes(ThreadCase):
         jobs, _ = X.build_thread_jobs(self.conn, ["t3_a", "t3_b", "t3_c", "t3_old"], self.opts(), write=False,
                                       log=QUIET)
         w = max(j.worst(batch=False) for j in jobs)
-        out = int(w / AV.PRICES["out"]) + 1                  # each answer costs a whole worst case
-        big = lambda p: (200, F.message('{"mentions": []}', usage={"output_tokens": out, "input_tokens": 0}))  # noqa
+
+        def big(p):
+            # Each answer costs nearly its whole worst case (all of it would trip the tripwire).
+            mine = AV.worst_case(p["system"][0]["text"], F.user_text(p), False, p["max_tokens"])
+            out = int(0.99 * mine / AV.PRICES["out"])
+            return 200, F.message('{"mentions": []}', usage={"output_tokens": out, "input_tokens": 0})
         with F.FakeAnthropic(big) as api:
             s = self.direct(api, budget=w * 1.5, workers=1)
         self.assertEqual(len(api.requests), 1)
