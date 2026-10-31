@@ -25,6 +25,11 @@ The rules, as decided with the owner:
     only as context, when a due reply hangs under it.
   * A chunk's own comments are drawn up to 6,000 characters each
     (MEMBER_CHARS), so a long list of places keeps its tail.
+  * A due comment longer than LONE_CHARS (3,000 characters, flattened) is a
+    chunk of its own. Dense lists inside busy chunks came back empty or
+    short in production (a 35-shop tier list got 0 mentions, a 14-place list
+    4); alone, the whole answer is about them. Their replies quote them as
+    context like any comment outside their chunk.
   * Every chunk starts with the post. In a thread's first chunk the post is
     item [0] when it is still due (its body then cut at post mode's 4,000
     characters); everywhere else it is context (cut at 800).
@@ -48,6 +53,7 @@ import prompt_v6
 SOFT_COMMENTS = 15
 SOFT_TOKENS = 3000
 MAX_COMMENTS = 25
+LONE_CHARS = 3000
 TEXT_CHARS_PER_TOKEN = 4.0
 GONE = ("", "[deleted]", "[removed]")
 
@@ -143,8 +149,13 @@ class _Atom:
         self.ids, self.tokens, self.sticky = ids, tokens, sticky
 
 
+def is_lone(body, lone_chars=LONE_CHARS):
+    """Whether a due comment this long goes out as a chunk of its own."""
+    return lone_chars is not None and len(R._flat(body)) > lone_chars
+
+
 def chunk_thread(thread_id, comments, due, post_due=False, post_tokens=0.0, soft_comments=SOFT_COMMENTS,
-                 soft_tokens=SOFT_TOKENS, max_comments=MAX_COMMENTS, tree=None):
+                 soft_tokens=SOFT_TOKENS, max_comments=MAX_COMMENTS, tree=None, lone_chars=LONE_CHARS):
     """The thread's chunks, in thread order. Every due comment is in exactly one.
 
     comments: every comment row of the thread (dicts with comment_id,
@@ -155,9 +166,15 @@ def chunk_thread(thread_id, comments, due, post_due=False, post_tokens=0.0, soft
       estimated size, which counts against the first chunk's soft budget.
     tree: the thread's Tree when the caller has built it already (it renders
       the chunks with the same one), so it is not built twice.
+    lone_chars: a due comment longer than this is a chunk by itself, after
+      the others (None packs every comment).
     """
     tree = tree or Tree(comments)
     due = set(due) & set(tree.rows)
+    # Long comments leave the packing altogether: to the groups below they
+    # are context, like a comment already done, and each gets its own chunk.
+    lone = sorted((c for c in due if is_lone(tree.rows[c].get("body"), lone_chars)), key=lambda c: tree.pos[c])
+    due -= set(lone)
     size, toks = {}, {}
 
     def measure(cid):
@@ -258,7 +275,7 @@ def chunk_thread(thread_id, comments, due, post_due=False, post_tokens=0.0, soft
         post = post_due and n == 0
         if members or post:
             out.append(Chunk(thread_id, post, members))
-    return out
+    return out + [Chunk(thread_id, False, [c]) for c in lone]
 
 
 def split_half(chunk):

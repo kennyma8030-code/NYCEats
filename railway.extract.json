@@ -6,6 +6,7 @@
   },
   "deploy": {
     "startCommand": "python extract_runner.py",
+    "cronSchedule": "0 9 * * *",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 2
   }

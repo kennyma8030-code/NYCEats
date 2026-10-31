@@ -55,11 +55,28 @@ the official API, captures ~20s after posting, and re-captures at 36h.
 - Dedup on the `t1_`/`t3_` fullname. All inserts idempotent.
 - History available back to 2014-08-24 (~747k comments, ~47k posts).
 
-**Score settles once, at 36h.** Arctic Shift's second pass is the only update;
-re-fetching later returns the same number. Track with `score_settled`.
+**Score settles once, at 40h** (`db.SETTLE_HOURS`). Arctic Shift's second
+pass, at 36h, is the only update; re-fetching later returns the same number.
+Asking a few hours after it leaves room for that pass to land late. Comments
+and posts alike (posts' score, `upvote_ratio` and `num_comments`), each
+tracked with `score_settled`. An item already past 40h when it arrives came
+with its final numbers and is stored settled.
 
-**`_meta.was_deleted_later`** flags comments gone from Reddit. Required for the
-permalink click-through rule — never link evidence that 404s.
+**`was_deleted_later`** flags comments and posts gone from Reddit. Required
+for the permalink click-through rule — never link evidence that 404s. Arctic
+Shift keeps a deleted item and returns it with its text replaced by
+`[deleted]`/`[removed]` (a post may say so in `removed_by_category`), so the
+settle re-read flags that, and an item it no longer returns at all; the text
+we stored is kept. An author of `[deleted]` alone is not a deletion: a
+deleted account leaves its comments up.
+
+**Edits.** The same re-read finds edits: text that differs from what we hold
+once whitespace is evened out. The item takes the new text (what Reddit
+shows, and what its permalink opens on), the text first stored is kept in
+`original_body` / `original_selftext`, and an item v6 had extracted is due
+again, so the next extraction run replaces its mentions of that prompt in
+one transaction. An item in a batch in flight waits to settle until the
+batch is collected. Only this one re-read looks, so a later edit is not seen.
 
 ---
 
@@ -165,7 +182,10 @@ group over 25 comments is split, between branches. A chunk whose comments
 hang under comments outside it quotes their whole ancestor chain. A chunk's
 own comments are cut at 6,000 characters, quoted ones at 1,500 (rendering
 only: the hash is unchanged); `--redo-cut-before T` re-extracts the comments
-read with the old 1,500 cut before T and replaces their mentions. The post is
+read with the old 1,500 cut before T and replaces their mentions; a redo
+chunk of several that fails has each of its comments retried in a chunk of
+its own. A comment over 3,000 characters is always a chunk of its own: dense
+lists in busy chunks came back empty or short. The post is
 item `[0]` of a thread's first chunk while it is due, else context. Comments
 already done, and deleted ones, are context only. A chunk whose answer is no
 use (cut off, refused, not JSON, not storable) is split in half once; a half
@@ -173,12 +193,41 @@ that fails sends its items one at a time in comment and post mode. A chunk a
 batch lost for other reasons (expired, an API error) is resent as it was.
 Effort medium by default, `max_tokens` 32,000.
 
+**Live extraction: one batch run a day.** `extract_runner.py`, a Railway
+cron job (`0 9 * * *` UTC), runs thread mode through Message Batches over
+every thread with anything not yet extracted, chosen by state rather than a
+time window: posted at least 48 hours ago (`EXTRACT_MIN_POST_AGE_HOURS`;
+a younger thread is not touched at all, so it is read once, whole, with its
+first two days of comments), on or after its subreddit's floor
+(`EXTRACT_SINCE`, required: r/FoodNYC from mid-2025, the older backlog left
+on purpose), in `EXTRACT_SUBREDDITS` (r/FoodNYC by default), newest first.
+No upper bound on age: what a missed day, a cap or a failure leaves is the
+next run's, and a late comment on a thread done before goes out with only
+itself numbered, under the post and its quoted ancestors. A run caps itself
+at `EXTRACT_RUN_USD` under the `EXTRACT_CEILING_USD` total, re-attaches any
+batch an earlier run left in flight before sending anything, and refuses to
+start after a spend tripwire until a person names the batch as seen. The
+prompt is written for New York ("a New York City food subreddit", places
+outside the five boroughs are not mentions, "best in NYC"), so another
+city needs a prompt of its own before it is extracted; its mentions would be
+stored but not scored (scoring reads `scoring_params.subreddit`).
+
+**Names in other scripts.** `normalize_entity` keeps the letters of a name
+with no Latin letter or digit (불짬뽕, Генатсвале), which used to make an
+empty key and store no mention. Every key the Latin rules make is unchanged.
+`extract_v6.py --restore-unkeyed --yes` stores, from the answers on record,
+the mentions dropped that way.
+
 ---
 
 ## Decided — storage
 
 Two raw tables (`schema.sql`): `threads`, `comments`.
 
+- Rows are appended, never deleted. What changes in place is what the settle
+  re-read learns (scores, `was_deleted_later`) and, for an edited item, its
+  text, with the first text kept beside it (`original_body`,
+  `original_selftext`), so nothing collected is lost.
 - `comments.thread_id` is a real FK; the poller guarantees the post exists first.
 - `comments.parent_comment_id` is **not** a FK — 56% of replies arrive before
   their parent. `fill_tree` resolves `root_comment_id` and `depth` after insert
@@ -377,10 +426,11 @@ stored (`mentions.created_at`, indexed by `mentions_created_idx`), not when
 the comment was written: a comment can get its first mention long after it
 was posted (a v6 backfill, an extraction retry), and a window on
 `comments.created_utc` never embedded those. Inside the window only rows
-with no vector yet are taken. Nothing the poller does rewrites a comment's
-or a thread's text, and without that filter a backfill that touched every
-mentioned comment would have each pass walk all of them for three days.
-Changed text is found by a run without `--since-days`. Threads are
+with no vector yet are taken: without that filter a backfill that touched
+every mentioned comment would have each pass walk all of them for three
+days. The only text the poller rewrites is an edit found at the settle
+re-read (ingestion, above); its old vector stays until a run without
+`--since-days`, which finds changed text by its hash. Threads are
 windowed on when they were posted.
 **After every extraction backfill, run `python embed.py --max-usd <N>`.**
 The poller would get there, but at 2,000 rows a pass, and only for mentions

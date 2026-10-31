@@ -60,8 +60,15 @@ def normalize_entity(raw):
     collapse to one key; every other punctuation mark becomes a space. This is
     deliberately NOT trying to merge "L'Industrie" with "L'Industrie Pizzeria" --
     that is the resolution problem, and guessing at it here would destroy
-    evidence.
+    evidence. A name with no Latin letter or digit at all keeps its own
+    script (unicode_key).
     """
+    return latin_key(raw) or unicode_key(raw)
+
+
+def latin_key(raw):
+    """normalize_entity's rules for Latin names, which made every key stored
+    before non-Latin names were kept; empty for a name with nothing in a-z0-9."""
     s = (raw or "").lower().replace("'", "").replace("’", "")
     # Accents become their base letter, not a space. _PUNCT treats anything
     # outside a-z0-9 as punctuation, so "Ba Xuyen" was arriving as "b xuy n"
@@ -79,6 +86,22 @@ def normalize_entity(raw):
         if s.endswith(suffix):
             s = s[:-len(suffix)]
     return s.strip()
+
+
+def unicode_key(raw):
+    """The key of a name with no Latin letter or digit in it: 鱼你在一起,
+    불짬뽕, Генатсвале, मैनहट्टा. latin_key leaves nothing of those, and an
+    empty key stores no mention, so the model's answer was being dropped.
+
+    Used only where latin_key gives nothing, so every key it ever made is
+    unchanged and no stored row needs re-keying (migrate_keys.py). Letters,
+    marks and digits of any script are kept, composed (NFKC: Hangul stays
+    syllables, Devanagari keeps its vowel signs), and everything else
+    separates words, as punctuation does above.
+    """
+    s = unicodedata.normalize("NFKC", (raw or "").lower().replace("'", "").replace("’", ""))
+    words = "".join(c if unicodedata.category(c)[0] in "LMN" else " " for c in s).split()
+    return " ".join(w for w in words if w != "and")
 
 
 def _load_chains():

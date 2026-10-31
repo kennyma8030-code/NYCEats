@@ -244,23 +244,29 @@ def interval_for(conn, subreddit):
 
 
 def settle_once(conn, batches=5):
-    """Finalise scores for comments past 36h, every city at once.
+    """Finalise scores for comments and posts past db.SETTLE_HOURS (40), every city at once.
 
     ~3,000 comments a day across the seven cities is ~30 requests; five
-    batches per chores pass is room for 240.
+    batches per chores pass is room for 240. Posts are ~100 a day, a request
+    or two, with the same room. The re-read is also where deletions and edits
+    show (db.settle_items): a deleted item is flagged, an edited one gets
+    its new text and, if v6 had extracted it, is due again for the daily run.
     """
-    total = 0
-    for _ in range(batches):
-        ids = db.unsettled_comment_ids(conn, limit=100)
-        if not ids:
-            break
-        fetched = arctic.comments_by_id([i[3:] for i in ids])
-        returned = {"t1_" + c["id"] for c in fetched}
-        db.settle_scores(conn, fetched, missing_ids=set(ids) - returned)
-        total += len(fetched)
-        time.sleep(1)
-    if total:
-        print(f"  settled scores for {total} comment(s)")
+    for kind, pick, fetch, store, prefix in (
+            ("comment", db.unsettled_comment_ids, arctic.comments_by_id, db.settle_scores, "t1_"),
+            ("post", db.unsettled_thread_ids, arctic.posts_by_id, db.settle_threads, "t3_")):
+        total = gone = edited = 0
+        for _ in range(batches):
+            ids = pick(conn, limit=100)
+            if not ids:
+                break
+            fetched = fetch([i[3:] for i in ids])
+            returned = {prefix + x["id"] for x in fetched}
+            g, e = store(conn, fetched, missing_ids=set(ids) - returned)
+            total, gone, edited = total + len(ids), gone + g, edited + e
+            time.sleep(1)
+        if total:
+            print(f"  settled scores for {total} {kind}(s): {gone} deleted, {edited} edited")
 
 
 def resweep_once(conn, subreddit, hours=None, pending=None):

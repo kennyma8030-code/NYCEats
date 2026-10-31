@@ -1,4 +1,4 @@
-"""An unattended thread-mode extraction run, for a Railway service of its own.
+"""The daily thread-mode extraction run, for a Railway cron service of its own.
 
     python extract_runner.py
 
@@ -7,36 +7,83 @@ service (its railway.json starts the poller, and a second poller must never
 run). Railway's API no longer lets a service point at another config file,
 so the service is deployed with `railway up` from a staging copy of the repo
 whose railway.json has been replaced by railway.extract.json. Like every
-pipeline script it writes to DATABASE_URL, so it is started on purpose, one
-run at a time; nothing redeploys it on a push to main (watchPatterns name
-only its own config, should the service ever be linked to the repo).
+pipeline script it writes to DATABASE_URL, so it is started on purpose;
+nothing redeploys it on a push to main (watchPatterns name only its own
+config, should the service ever be linked to the repo).
 
 What it runs, in one extract_v6.py invocation sharing one cap and ceiling:
 the redo of comments cut at 1,500 characters first when
-EXTRACT_REDO_CUT_BEFORE is set, then the backlog:
+EXTRACT_REDO_CUT_BEFORE is set, then every thread with anything not yet
+extracted whose post is old enough and on or after its subreddit's floor:
 
     extract_v6.py --mode thread --effort medium --newest-first --batch
                   --max-usd $EXTRACT_RUN_USD --ceiling-usd $EXTRACT_CEILING_USD
+                  --subreddit $EXTRACT_SUBREDDITS --since $EXTRACT_SINCE
+                  --min-post-age ${EXTRACT_MIN_POST_AGE_HOURS}h
                   [--redo-cut-before $EXTRACT_REDO_CUT_BEFORE] --lock-wait $EXTRACT_LOCK_WAIT
 
-Environment:
+The selection is by state, not by a window (extract_v6.thread_candidates):
+a day Railway was down, a run the cap stopped, or one that failed leaves its
+threads due, and the next run takes them, newest first. A thread younger than
+the minimum age is not touched at all, so a new thread is read once, whole,
+after its first two days of comments; comments that come later go out on
+their own (numbered, under the post and their quoted ancestors) in a later
+run.
+
+Daily, as a Railway cron job: the service's Settings > Cron Schedule, or
+"cronSchedule" under "deploy" in railway.extract.json, which has it at
+"0 9 * * *" (09:00 UTC, early morning in New York, after the night's
+threads cross 48 hours). Railway starts the command on the schedule and
+expects it to exit; if the previous run is still going when the next is due,
+Railway skips the new one rather than start a second. The run waits for its
+own batches to end (usually minutes, at most the API's 24 hours) and exits.
+If it dies with batches in flight, the next run re-attaches and collects
+them before it builds anything (extract_v6 settles 'pending-' submissions,
+then re-attaches every submitted batch; their items carry the batch id, so
+they are not due and cannot be sent twice). The v6 advisory lock keeps it
+and the poller's v6 pass (if on) from running at once; it waits
+EXTRACT_LOCK_WAIT for the lock.
+
+Environment (recommended values for the daily job in brackets):
   DATABASE_URL               the database (production)
   EXTRACT_ANTHROPIC_API_KEY  extraction's own key, and no other
   EXTRACT_RUN_USD            required: the cap on one attempt, in dollars. A
-                             restart is a new attempt with a new cap
+                             restart is a new attempt with a new cap [1]. A
+                             chunk's worst case is held until its batch is
+                             collected (about $0.01 a chunk), so the cap also
+                             bounds how much is in flight at once; a day's
+                             r/FoodNYC is well under it
   EXTRACT_CEILING_USD        required: the binding total across restarts, on
                              all v6 spend ever, recorded plus in flight;
                              extract_v6.py reads it too. For "spend $N more",
-                             set it to the spend on record plus N
+                             set it to the spend on record plus N [the
+                             overall budget: spend on record plus what the
+                             daily job may spend in all]
+  EXTRACT_SINCE              required: the floor on a post's date, one ISO
+                             date for every subreddit or SUB=DATE pairs, or
+                             "all" for none [FoodNYC=2025-06-01]. Required so
+                             an unattended run never wanders into the years
+                             of r/FoodNYC history left unextracted on purpose
+  EXTRACT_SUBREDDITS         optional: comma-separated subreddits (default
+                             FoodNYC, subreddits.HOME) [FoodNYC]. The prompt
+                             is written for New York; see SPEC.md before
+                             adding another city
+  EXTRACT_MIN_POST_AGE_HOURS optional: how old a post must be before its
+                             thread is touched (default 48) [48]
   EXTRACT_REDO_CUT_BEFORE    optional: an ISO time after the last extraction
                              with the old cut (the deploy of MEMBER_CHARS)
+                             [set until the redo is done, then unset]
   EXTRACT_LOCK_WAIT          optional: seconds to wait for the poller's v6
                              pass to let go of the lock (default 900)
+  EXTRACT_TRIPWIRE_SEEN      optional: ids of batches whose overrun a person
+                             has looked at (comma-separated); until then a
+                             run refuses to start (room_left)
 
-It refuses to start unless both caps are set and the run's cap is no more
-than the ceiling. When the run's cap is more than what the ceiling leaves
-above recorded spend, the cap is cut to that and both numbers are logged,
-so a restart after a crash resumes with what is left and the ceiling stays
+It refuses to start unless both caps and EXTRACT_SINCE are set, the run's
+cap is no more than the ceiling, and the subreddits, floors and age parse.
+When the run's cap is more than what the ceiling leaves above recorded
+spend, the cap is cut to that and both numbers are logged, so a restart
+after a crash resumes with what is left and the ceiling stays
 the binding total. Batches still in flight are not taken off the cap here:
 the run re-attaches them and holds them against its cap itself, and the
 ceiling check inside extract_v6 counts them once. With less than MIN_ROOM
@@ -50,10 +97,12 @@ lower the ceiling to match after a reset.
 
 Exit status, for restartPolicyType ON_FAILURE: 0 when the run finished,
 stopped at its cap or at the ceiling, or a spend tripwire fired (a restart
-would do no good; the log says which, the tripwire loudly). Anything else
-(the API stopping the run, a dropped database, a refused start) is a
+would do no good; the log says which, the tripwire loudly). On a daily
+cron a cap stop is a normal end: what is left is the next day's. Anything
+else (the API stopping the run, a dropped database, a refused start) is a
 failure, and Railway may restart it a few times; the ceiling bounds what
-any number of restarts can spend.
+any number of restarts can spend. After a tripwire, the next day's run
+finds the overrun on record and refuses to start (room_left).
 """
 
 import os
@@ -67,13 +116,20 @@ RUN_ENV = "EXTRACT_RUN_USD"
 REDO_ENV = "EXTRACT_REDO_CUT_BEFORE"
 WAIT_ENV = "EXTRACT_LOCK_WAIT"
 LOCK_WAIT = 900
+SINCE_ENV = "EXTRACT_SINCE"
+SUBS_ENV = "EXTRACT_SUBREDDITS"
+AGE_ENV = "EXTRACT_MIN_POST_AGE_HOURS"
+SEEN_ENV = "EXTRACT_TRIPWIRE_SEEN"
+# A thread is first read once its post is two days old: by then nearly all
+# of its comments are in, so it goes out whole, in few chunks.
+MIN_POST_AGE_HOURS = 48
 # Below this much room under the ceiling a run is not started: no chunk's
 # worst case would fit, and a start would only read the database and stop.
 MIN_ROOM = 0.05
 # extract_v6.main's statuses that end the job for good: done (0), work left
 # for another run because the cap or the scope stopped it (3), and a
 # tripwire (TRIPPED). A restart repeats none of them usefully.
-FINAL = {0: "finished", 3: "stopped at its cap (or by --scope) with work left for another run",
+FINAL = {0: "finished", 3: "stopped at its cap (or by --scope) with work left for the next run",
          X.TRIPPED: "STOPPED BY A SPEND TRIPWIRE"}
 
 
@@ -98,26 +154,65 @@ def plan(env):
     return run, ceiling
 
 
+def selection(env):
+    """The extract_v6 arguments that choose the threads, from the
+    environment, checked here (with extract_v6's own parsers) so a typo
+    refuses the start instead of failing after the lock wait, or SystemExit."""
+    raw = env.get(SINCE_ENV)
+    if raw is None or not raw.strip():
+        raise SystemExit(f"{SINCE_ENV} is not set: an unattended run needs a floor on a post's date "
+                         "(an ISO date, SUB=DATE pairs, or 'all' for none)")
+    subs = X.parse_subreddits(env.get(SUBS_ENV))
+    X.parse_floors(raw, subs)
+    age = (env.get(AGE_ENV) or "").strip() or str(MIN_POST_AGE_HOURS)
+    try:
+        hours = float(age)
+    except ValueError:
+        raise SystemExit(f"{AGE_ENV} must be a number of hours, not {age!r}")
+    X.parse_age(f"{hours!r}h")
+    return ["--subreddit", ",".join(subs), "--since", raw.strip(), "--min-post-age", f"{hours:g}h"]
+
+
 def command(env, cap, ceiling):
     """The extract_v6 argv for a run capped at `cap`."""
     argv = ["--mode", "thread", "--effort", "medium", "--newest-first", "--batch",
-            "--max-usd", repr(cap), "--ceiling-usd", repr(ceiling), "--lock-wait", env.get(WAIT_ENV) or str(LOCK_WAIT)]
+            "--max-usd", repr(cap), "--ceiling-usd", repr(ceiling)] + selection(env) \
+        + ["--lock-wait", env.get(WAIT_ENV) or str(LOCK_WAIT)]
     redo = (env.get(REDO_ENV) or "").strip()
     if redo:
         argv += ["--redo-cut-before", redo]
     return argv
 
 
-def room_left(ceiling, connect=None):
+def overruns(cur, seen=()):
+    """Collected v6 batches that cost more than was held for them, other than
+    the ids in `seen`: what the tripwire stopped an earlier run for."""
+    cur.execute("""select id from extract_batches
+                   where version = %s and status = 'collected' and cost_usd > hold_usd + %s
+                     and not id = any(%s) order by collected_at""", (X.VERSION, X.TRIP_EPS, list(seen)))
+    return [r[0] for r in cur.fetchall()]
+
+
+def room_left(ceiling, connect=None, seen=()):
     """(what the ceiling leaves above recorded spend, worst case of batches
-    in flight), from the database now, as extract_v6's Ceiling counts them. Logged."""
+    in flight), from the database now, as extract_v6's Ceiling counts them. Logged.
+
+    Refuses the start (SystemExit) while a batch's overrun is on record and
+    not acknowledged in EXTRACT_TRIPWIRE_SEEN (`seen`). A tripped run exits 0
+    so the restart policy leaves it alone, but the cron starts a new one the
+    next day; this is what keeps it stopped until a person has looked."""
     conn = (connect or db.connect)()
     try:
         conn.set_session(readonly=True, autocommit=True)
         with conn.cursor() as cur:
             recorded, inflight = X.spend_on_record(cur)
+            over = overruns(cur, seen)
     finally:
         conn.close()
+    if over:
+        raise SystemExit(f"!!!!!!!! batch(es) {', '.join(over)} cost more than was held for them, and a spend "
+                         f"tripwire stopped that run. Not starting until a person has looked: add the id(s) to "
+                         f"{SEEN_ENV} to go on. !!!!!!!!")
     print(f"ceiling ${ceiling:.2f}: ${recorded:.4f} recorded, ${inflight:.4f} held for batches in flight, "
           f"${ceiling - recorded - inflight:.4f} of room for new work")
     return ceiling - recorded, inflight
@@ -126,11 +221,13 @@ def room_left(ceiling, connect=None):
 def main(env=None, connect=None, run_extract=None):
     env = os.environ if env is None else env
     run, ceiling = plan(env)
+    selection(env)
     try:
         AV.check_prices()
     except AV.PriceMissing as e:
         raise SystemExit(str(e))
-    free, inflight = room_left(ceiling, connect)
+    seen = [s.strip() for s in (env.get(SEEN_ENV) or "").split(",") if s.strip()]
+    free, inflight = room_left(ceiling, connect, seen)
     if free < MIN_ROOM and not inflight:
         print(f"\nCEILING REACHED: ${free:.4f} left under {X.CEILING_ENV} ${ceiling:.2f}; nothing to run. "
               "Raise the ceiling to go on.", flush=True)

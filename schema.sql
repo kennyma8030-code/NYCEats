@@ -83,6 +83,50 @@ begin
   end if;
 end $$;
 
+-- Posts settle like comments (poller.settle_once): re-read once at
+-- db.SETTLE_HOURS for their final score, upvote_ratio and num_comments, which
+-- were stuck at whatever the first capture said. The same re-read flags a
+-- deleted post (was_deleted_later, so no permalink to it is shown) and takes
+-- an edited body, keeping the first one in original_selftext.
+--
+-- Added as settled (a constant default, so the ALTER only touches the
+-- catalog), then the default turns to false for new rows. Of the posts
+-- already stored, only those first seen before they could have settled
+-- (the poller's live ones; not the backfill's history, which arrived with
+-- final numbers) are left to settle: a few thousand, re-read a few hundred a
+-- pass. That update runs once, with the ALTER; a current database takes no
+-- lock here at all.
+do $$
+begin
+  if not exists (select 1 from pg_attribute
+                 where attrelid = 'threads'::regclass and attname = 'score_settled'
+                   and not attisdropped) then
+    alter table threads
+      add column if not exists score_settled     boolean not null default true,
+      add column if not exists was_deleted_later boolean not null default false,
+      add column if not exists original_selftext text;
+    alter table threads alter column score_settled set default false;
+    update threads set score_settled = false
+    where first_seen_at < created_utc + interval '40 hours';
+  end if;
+  if to_regclass('threads_unsettled_idx') is null then
+    create index threads_unsettled_idx on threads(created_utc) where not score_settled;
+  end if;
+end $$;
+
+-- A comment's settle re-read can find it edited. The comment then gets the
+-- new text (it is what Reddit shows, and what the permalink opens on) and is
+-- extracted again; the text first stored is kept here, so nothing collected
+-- is lost. Null for a comment never edited. Catalog-only, checked first.
+do $$
+begin
+  if not exists (select 1 from pg_attribute
+                 where attrelid = 'comments'::regclass and attname = 'original_body'
+                   and not attisdropped) then
+    alter table comments add column if not exists original_body text;
+  end if;
+end $$;
+
 -- Several cities share these tables (see subreddits.py), so every reader
 -- filters on subreddit first. threads always had it; comments gets a copy
 -- because the corpus-wide counts in scoring.sql read comments with no join,

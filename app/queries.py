@@ -471,7 +471,7 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
           union all
           (select 'post', t.id, t.id, t.author, t.score, t.created_utc,
                   case when t.selftext in ('[deleted]', '[removed]') then '' else coalesce(t.selftext, '') end,
-                  '/r/' || t.subreddit || '/comments/' || substr(t.id, 4) || '/', false
+                  '/r/' || t.subreddit || '/comments/' || substr(t.id, 4) || '/', t.was_deleted_later
            from threads t
            where {" and ".join(t_where)}
            order by t.created_utc {d}, t.id {d}

@@ -11,6 +11,9 @@
     python extract_v6.py --mode thread --batch --max-usd 20 --newest-first    a post and its comments per chunk
     python extract_v6.py --mode thread --batch --max-usd 20 --ceiling-usd 26 --redo-cut-before 2026-10-27T12:00
                                                            redo the cut comments, then the backlog, under a ceiling
+    python extract_v6.py --mode thread --batch --newest-first --max-usd 1 --ceiling-usd 40 \\
+        --subreddit FoodNYC --since FoodNYC=2025-06-01 --min-post-age 48h      the daily run (extract_runner.py)
+    python extract_v6.py --restore-unkeyed --yes           store mentions dropped for a non-Latin name
 
 Thread mode (--mode thread) sends a thread's post and up to about 25 of its
 comments as one request (thread_chunks.py says what goes together), with the
@@ -18,6 +21,16 @@ thread prompt (its own hash), effort medium unless --effort low, and 32k
 max_tokens. Each item still gets its own extraction_state row, so the two
 modes share one cursor and never extract an item twice. See the thread mode
 section below and docs/handoffs/extraction-v6-thread.md.
+
+Which threads a thread-mode run takes is decided by state, not by a time
+window: every thread of --subreddit (r/FoodNYC unless given) with anything
+not yet extracted, posted on or after its --since floor and, with
+--min-post-age, at least that long ago. A new thread goes out whole, the
+post as item [0]; late comments on a thread done before go out with only
+themselves numbered, under the post, their ancestors quoted as context.
+Nothing bounds the age from above, so whatever a missed day, a cap or a
+failure left is the next run's. A comment longer than 3,000 characters is
+a chunk of its own (thread_chunks.LONE_CHARS).
 
 `extract.py --v6 ...` runs this too. Like every pipeline script it reads
 DATABASE_URL and writes to production, so it is run on purpose, one run at a
@@ -700,7 +713,9 @@ _STATE_FAILED = """
 class Done:
     """An answer to store: the item, the parsed output, what it cost. replace
     is set for an item extracted again under the same prompt (a redo): its
-    earlier mention rows of that prompt are deleted as the new ones go in."""
+    earlier mention rows of that prompt are deleted as the new ones go in.
+    write() does the same for any item whose cursor row holds an earlier
+    answer (one queued again after an edit), replace or not."""
     __slots__ = ("item", "output", "usage", "cost", "replace")
 
     def __init__(self, item, output, usage, cost, replace=False):
@@ -748,13 +763,23 @@ def write(conn, entries, before=None):
                 if r:
                     rows.setdefault((r["comment_id"] or r["thread_id"], r["entity_key"]), r)
     n, parked = 0, set()
-    redone = [e.item for e in entries if isinstance(e, Done) and e.replace]
     with conn.cursor() as cur:
         if before is not None:
             before(cur)
-        # A redo replaces the item's rows of its prompt: the places the new
-        # answer names again are inserted afresh below, and the ones it no
-        # longer names are gone, in the same transaction as its new state row.
+        cur.execute("select item_id, attempts, coalesce(cost_usd, 0), output is not null from extraction_state "
+                    "where version = %s and item_id = any(%s)", (VERSION, [e.item.id for e in entries]))
+        prev, extracted = {}, set()
+        for item_id, attempts, cost, had_output in cur.fetchall():
+            prev[item_id] = (attempts, float(cost))
+            if had_output:
+                extracted.add(item_id)
+        # An item extracted before is replaced, not added to: a redo, or one
+        # queued again because its text was edited (poller.settle_once). Its
+        # rows of this prompt go, the places the new answer names are
+        # inserted afresh below, and the ones it no longer names stay gone,
+        # all in the same transaction as its new state row. Rows of another
+        # prompt are left; live_mentions stops counting them by the hash.
+        redone = [e.item for e in entries if isinstance(e, Done) and (e.replace or e.item.id in extracted)]
         for ph in sorted({it.prompt_hash for it in redone}):
             cids = [it.id for it in redone if it.prompt_hash == ph and it.kind == "comment"]
             tids = [it.id for it in redone if it.prompt_hash == ph and it.kind == "post"]
@@ -764,9 +789,6 @@ def write(conn, entries, before=None):
             if tids:
                 cur.execute("delete from mentions where schema_version = %s and prompt_hash = %s "
                             "and comment_id is null and thread_id = any(%s)", (prompt_v6.SCHEMA_VERSION, ph, tids))
-        cur.execute("select item_id, attempts, coalesce(cost_usd, 0) from extraction_state "
-                    "where version = %s and item_id = any(%s)", (VERSION, [e.item.id for e in entries]))
-        prev = {r[0]: (r[1], float(r[2])) for r in cur.fetchall()}
         for kind, rows in by_kind.items():
             if rows:
                 got = execute_values(cur, _INSERT.format(target=_TARGET[kind]),
@@ -1542,14 +1564,20 @@ CHUNK_SENDS_PER_RUN = 2
 
 
 class ThreadOpts:
-    """Thread mode's settings: effort, chunk sizes, and whether posts are items."""
+    """Thread mode's settings: effort, chunk sizes, whether posts are items,
+    and the length past which a comment is a chunk of its own."""
 
     def __init__(self, effort=prompt_v6.THREAD_EFFORT, soft_comments=T.SOFT_COMMENTS, soft_tokens=T.SOFT_TOKENS,
-                 max_comments=T.MAX_COMMENTS, posts=True):
+                 max_comments=T.MAX_COMMENTS, posts=True, lone_chars=T.LONE_CHARS, subs=None, min_age=None):
         if effort not in prompt_v6.THREAD_EFFORTS:
             raise ValueError(f"effort must be one of {prompt_v6.THREAD_EFFORTS}")
         self.effort, self.posts = effort, posts
         self.soft_comments, self.soft_tokens, self.max_comments = soft_comments, soft_tokens, max_comments
+        self.lone_chars = lone_chars
+        # Which threads a run takes (thread_candidates): the subreddits, and
+        # how old a post must be before anything of its thread is sent.
+        self.subs = list(subs) if subs else [subreddits.HOME]
+        self.min_age = min_age
 
 
 class ChunkJob:
@@ -1612,8 +1640,9 @@ def new_chunk_id(redo=False):
     return (REDO_PREFIX if redo else "ch-") + uuid.uuid4().hex
 
 
-def thread_candidates(conn, limit=None, since=None, ids=None, newest_first=False, posts=True):
-    """r/FoodNYC threads with anything due, in processing order.
+def thread_candidates(conn, limit=None, since=None, ids=None, newest_first=False, posts=True, subs=None,
+                      min_age=None):
+    """Threads of these subreddits (default r/FoodNYC) with anything due, in processing order.
 
     Due means a comment due under v6 (the same QUEUED rule as comment mode),
     or, when posts are items, the post itself. Threads with a queued chunk
@@ -1623,20 +1652,31 @@ def thread_candidates(conn, limit=None, since=None, ids=None, newest_first=False
     numbers a post still due is not one this run can send (build_thread_jobs
     holds it), so it does not move its thread ahead; otherwise such threads
     would fill the head of every --limit run and leave it nothing to do.
-    `since` is on the post's created_utc."""
-    p = {"home": subreddits.HOME, "v": VERSION, "since": since, "ids": list(ids) if ids else None,
-         "limit": limit, "posts": posts}
+
+    `since` is a floor on the post's created_utc: one time for every
+    subreddit, or {subreddit: time or None} for a floor each (a subreddit
+    not in it has none). `min_age` (a timedelta) leaves out every thread
+    whose post is younger, whole: the daily run waits until a thread has had
+    its first two days of comments, so it is read in one go, and sends
+    nothing of it before. There is no upper bound on age, so threads a
+    missed day or a capped run left are taken by the next run, and a late
+    comment on an old thread is due like any other."""
+    subs = list(subs) if subs else [subreddits.HOME]
+    floors = [since.get(s) if isinstance(since, dict) else since for s in subs]
+    p = {"subs": subs, "floors": floors, "v": VERSION, "ids": list(ids) if ids else None,
+         "limit": limit, "posts": posts, "min_age": min_age}
     order = "desc" if newest_first else "asc"
     sql = f"""
         select t.id from threads t
+        join unnest(%(subs)s::text[], %(floors)s::timestamptz[]) as f(sub, since) on f.sub = t.subreddit
         left join extraction_state ps on ps.item_id = t.id and ps.version = %(v)s
-        where t.subreddit = %(home)s
-          and (%(since)s::timestamptz is null or t.created_utc >= %(since)s::timestamptz)
+        where (f.since is null or t.created_utc >= f.since)
+          and (%(min_age)s::interval is null or t.created_utc <= now() - %(min_age)s::interval)
           and (%(ids)s::text[] is null or t.id = any(%(ids)s::text[]))
           and ((%(posts)s and {queued('ps')})
                or exists (select 1 from comments c
                           left join extraction_state s on s.item_id = c.id and s.version = %(v)s
-                          where c.thread_id = t.id and c.subreddit = %(home)s
+                          where c.thread_id = t.id and c.subreddit = t.subreddit
                             and btrim(c.body) not in ('', '[deleted]', '[removed]') and {queued('s')}))
         order by exists (select 1 from extract_chunks k where k.thread_id = t.id and k.version = %(v)s
                            and k.status = 'queued'
@@ -1682,18 +1722,20 @@ def _due_in(conn, tids):
                        where version = %s and thread_id = any(%s) and status = 'failed' and fallback""",
                     (VERSION, list(tids)))
         alone = {m for (ms,) in cur.fetchall() for m in ms}
+        # No subreddit test: thread_candidates chose these threads by their
+        # subreddit, and a comment is always in its thread's.
         cur.execute(f"""select c.thread_id, c.id from comments c
                         left join extraction_state s on s.item_id = c.id and s.version = %(v)s
-                        where c.thread_id = any(%(t)s) and c.subreddit = %(home)s
+                        where c.thread_id = any(%(t)s)
                           and btrim(c.body) not in ('', '[deleted]', '[removed]') and {queued('s')}""",
-                    {"v": VERSION, "t": list(tids), "home": subreddits.HOME})
+                    {"v": VERSION, "t": list(tids)})
         comments = {}
         for tid, cid in cur.fetchall():
             comments.setdefault(tid, set()).add(cid)
         cur.execute(f"""select t.id from threads t
                         left join extraction_state ps on ps.item_id = t.id and ps.version = %(v)s
-                        where t.id = any(%(t)s) and t.subreddit = %(home)s and {queued('ps')}""",
-                    {"v": VERSION, "t": list(tids), "home": subreddits.HOME})
+                        where t.id = any(%(t)s) and {queued('ps')}""",
+                    {"v": VERSION, "t": list(tids)})
         posts = {r[0] for r in cur.fetchall()}
         cur.execute("""select id, thread_id, post_item, members, generation, split_from, attempts
                        from extract_chunks where version = %s and thread_id = any(%s) and status = 'queued'
@@ -1781,7 +1823,7 @@ def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=pri
             tree = tree or T.Tree(th["comments"])
             ptoks = T.text_tokens(f"{th['title'] or ''} {th['selftext'] or ''}", R_POST_CHARS) if post else 0.0
             for ch in T.chunk_thread(tid, th["comments"], rest - {tid}, post, ptoks, opts.soft_comments,
-                                     opts.soft_tokens, opts.max_comments, tree=tree):
+                                     opts.soft_tokens, opts.max_comments, tree=tree, lone_chars=opts.lone_chars):
                 jobs.append(_job(ch, th, tree, opts.effort))
     if dropped and write:
         with conn.cursor() as cur:
@@ -2036,7 +2078,7 @@ def _direct_alone(conn, cl, budget, pairs, workers, stats, stop, capped, log):
 def _run_direct_threads(conn, cl, budget, opts, limit, since, ids, newest_first, workers, log, stats, held_out):
     stop, capped = threading.Event(), threading.Event()
     retire_chunks(conn, log)
-    tids = thread_candidates(conn, limit, since, ids, newest_first, opts.posts)
+    tids = thread_candidates(conn, limit, since, ids, newest_first, opts.posts, opts.subs, opts.min_age)
     log(f"{len(tids):,} thread(s) with items due, cap ${budget.max:.2f}")
     for start in range(0, len(tids), THREAD_PAGE):
         todo = tids[start:start + THREAD_PAGE]
@@ -2283,7 +2325,7 @@ def run_batch_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, 
     _settle_pending(conn, cl, log)
     inflight = _reattach(conn, budget, log)
     retire_chunks(conn, log)
-    tids = thread_candidates(conn, limit, since, ids, newest_first, opts.posts)
+    tids = thread_candidates(conn, limit, since, ids, newest_first, opts.posts, opts.subs, opts.min_age)
     log(f"{len(tids):,} thread(s) with items due, {len(inflight)} batch(es) in flight, cap ${budget.max:.2f}")
     queue = _ChunkQueue(conn, opts, tids, batch_size, log)
     # However the loop ends (done, the cap, a fatal or lasting transient error,
@@ -2306,15 +2348,19 @@ def run_batch_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, 
 OLD_MEMBER_CHARS = 1500
 
 
-def redo_candidates(conn, before):
+def redo_candidates(conn, before, tids=None):
     """{thread_id: [comment ids]} of the thread-mode comments read with the old cut.
 
     Done under the thread prompt before `before`, longer than OLD_MEMBER_CHARS
     as the renderer flattens them, with no record of a longer cut in their
-    output, not in a batch now, and not already failed in MAX_ATTEMPTS redo
-    chunks. A redo stores a new extracted_at (after `before`) and member_chars
-    in the output, so each of the last three keeps a finished, in-flight or
-    hopeless redo from being bought again after a restart."""
+    output, not in a batch now, and not already failed MAX_ATTEMPTS times in
+    a redo chunk of their own. A redo stores a new extracted_at (after
+    `before`) and member_chars in the output, so each of the last three keeps
+    a finished, in-flight or hopeless redo from being bought again after a
+    restart. A failed redo chunk of several comments does not count against
+    them: dense lists together can run a chunk out of its 32k tokens (2- to
+    5-comment redo chunks did), so each of its comments is tried alone next
+    (build_redo_jobs). `tids`, when given, limits it to those threads."""
     with conn.cursor() as cur:
         cur.execute("""
             select s.item_id, c.thread_id, c.body from extraction_state s
@@ -2323,13 +2369,15 @@ def redo_candidates(conn, before):
               and s.extracted_at is not null and s.extracted_at < %(before)s
               and s.batch_id is null
               and c.subreddit = %(home)s
+              and (%(tids)s::text[] is null or c.thread_id = any(%(tids)s::text[]))
               and length(c.body) > %(old)s
               and coalesce((s.output->>'member_chars')::int, %(old)s) < %(new)s
               and (select count(*) from extract_chunks k
                    where k.version = %(v)s and k.status = 'failed' and k.id like %(prefix)s
-                     and s.item_id = any(k.members)) < %(tries)s
+                     and cardinality(k.members) = 1 and s.item_id = any(k.members)) < %(tries)s
             order by c.thread_id, c.created_utc, c.id""",
                     {"v": VERSION, "ph": prompt_v6.PROMPT_HASH_THREAD, "before": before, "home": subreddits.HOME,
+                     "tids": list(tids) if tids is not None else None,
                      "old": OLD_MEMBER_CHARS, "new": prompt_v6.thread.MEMBER_CHARS,
                      "prefix": REDO_PREFIX + "%", "tries": MAX_ATTEMPTS})
         rows = cur.fetchall()
@@ -2341,31 +2389,61 @@ def redo_candidates(conn, before):
     return out
 
 
+def _redo_split(conn, ids):
+    """Which of these comments were in a redo chunk of several that failed:
+    they go out one to a chunk from then on."""
+    with conn.cursor() as cur:
+        cur.execute("""select distinct m from extract_chunks k, unnest(k.members) as m
+                       where k.version = %s and k.status = 'failed' and k.id like %s
+                         and cardinality(k.members) > 1 and m = any(%s)""",
+                    (VERSION, REDO_PREFIX + "%", list(ids)))
+        out = {r[0] for r in cur.fetchall()}
+    conn.commit()
+    return out
+
+
 def build_redo_jobs(conn, todo, opts):
     """Chunk jobs for redo_candidates' comments: each thread's ones packed as
     any due comments are, everything else in the thread drawn as context
-    (the post too), each chunk with a redo id."""
+    (the post too), each chunk with a redo id. A comment whose redo chunk of
+    several failed before goes in a chunk by itself."""
     rows = prompt_v6.fetch_thread_rows(conn, list(todo))
     conn.commit()
+    split = _redo_split(conn, [c for cs in todo.values() for c in cs])
     jobs = []
     for tid, members in todo.items():
         th = rows.get(tid)
         if th is None:
             continue
         tree = T.Tree(th["comments"])
-        for ch in T.chunk_thread(tid, th["comments"], set(members), False, 0.0, opts.soft_comments,
-                                 opts.soft_tokens, opts.max_comments, tree=tree):
+        chunks = T.chunk_thread(tid, th["comments"], set(members) - split, False, 0.0, opts.soft_comments,
+                                opts.soft_tokens, opts.max_comments, tree=tree, lone_chars=opts.lone_chars)
+        chunks += [T.Chunk(tid, False, [c]) for c in sorted(set(members) & split, key=lambda c: tree.pos.get(c, 0))]
+        for ch in chunks:
             jobs.append(_job(ch, th, tree, opts.effort, new_chunk_id(redo=True)))
     return jobs
 
 
-class _RedoQueue:
-    """The redo's batch queue for _run_batches. What a collected batch hands
-    back is left to the next run: its redo selection picks up again any item
-    still not redone, and _run_batches' other answers are already stored."""
+def _redo_again(conn, before, tids, opts, waiting=()):
+    """Jobs for the comments of these threads whose redo chunk of several just
+    failed (and that are not waiting to be sent already), one to a chunk, so
+    the run retries them at once instead of leaving them for the next."""
+    todo = redo_candidates(conn, before, tids) if tids else {}
+    ids = [c for cs in todo.values() for c in cs if c not in waiting]
+    split = _redo_split(conn, ids) if ids else set()
+    todo = {t: [c for c in cs if c in split] for t, cs in todo.items()}
+    return build_redo_jobs(conn, {t: cs for t, cs in todo.items() if cs}, opts)
 
-    def __init__(self, jobs, batch_size):
-        self.jobs, self.batch_size = jobs, batch_size
+
+class _RedoQueue:
+    """The redo's batch queue for _run_batches. A redo chunk of several that
+    comes back failed has its comments queued again at once, one to a chunk
+    (_redo_again); anything else a collected batch hands back is left to the
+    next run, whose redo selection picks up again any item still not redone.
+    _run_batches' other answers are already stored."""
+
+    def __init__(self, conn, jobs, batch_size, before, opts):
+        self.conn, self.jobs, self.batch_size, self.before, self.opts = conn, jobs, batch_size, before, opts
 
     def take(self, room):
         return _fit(self.jobs[:self.batch_size], room) if self.jobs else None
@@ -2374,7 +2452,15 @@ class _RedoQueue:
         self.jobs = self.jobs[len(batch):]
 
     def returned(self, bid, shape, retry):
-        pass
+        if shape != "chunks" or not retry[0]:
+            return
+        waiting = {i for j in self.jobs for i in j.chunk.members}
+        self.jobs = _redo_again(self.conn, self.before, retry[0], self.opts, waiting) + self.jobs
+
+
+# A direct redo sends its chunks, then the comments of failed chunks of
+# several one to a chunk, then those once more if they fail alone.
+REDO_PASSES = 3
 
 
 def run_redo(conn, cl, budget, opts, before, batch=False, batch_size=BATCH_SIZE, max_inflight=MAX_INFLIGHT,
@@ -2384,7 +2470,8 @@ def run_redo(conn, cl, budget, opts, before, batch=False, batch_size=BATCH_SIZE,
     batches it first settles pending submissions and collects every batch
     in flight, as a batch run does, so the run that follows starts clean.
     Each answer replaces the item's mentions of the thread prompt in the
-    transaction that records it (Done.replace). Returns Stats."""
+    transaction that records it (Done.replace). A failed chunk of several
+    is retried in the same run, one comment to a chunk. Returns Stats."""
     stats = stats or Stats()
     now = dt.datetime.now(dt.timezone.utc)
     if before > now:
@@ -2399,14 +2486,19 @@ def run_redo(conn, cl, budget, opts, before, batch=False, batch_size=BATCH_SIZE,
     log(f"redo of comments cut at {OLD_MEMBER_CHARS:,} characters before {before:%Y-%m-%d %H:%M}Z: "
         f"{sum(len(v) for v in todo.values()):,} comment(s) in {len(todo):,} thread(s), {len(jobs):,} chunk(s)")
     if batch:
-        queue = _RedoQueue(jobs, batch_size)
+        queue = _RedoQueue(conn, jobs, batch_size, before, opts)
         try:
             _run_batches(conn, cl, budget, queue, inflight, max_inflight, poll_seconds, log, sleep, stats)
         finally:
             stats.refused += sum(len(j.chunk) for j in queue.jobs)
             stats.threads_open |= {j.chunk.thread_id for j in queue.jobs}
-    elif jobs:
-        _direct_chunks(conn, cl, budget, jobs, workers, stats, threading.Event(), threading.Event(), log)
+        return stats
+    stop = threading.Event()
+    for _ in range(REDO_PASSES):
+        if not jobs or stop.is_set():
+            break
+        retry = _direct_chunks(conn, cl, budget, jobs, workers, stats, stop, threading.Event(), log)
+        jobs = _redo_again(conn, before, sorted(retry), opts)
     return stats
 
 
@@ -2427,7 +2519,7 @@ def dry_run_threads(conn, opts, limit=None, since=None, ids=None, newest_first=F
 
 
 def _dry_run_threads(conn, opts, limit, since, ids, newest_first, show, log):
-    tids = thread_candidates(conn, limit, since, ids, newest_first, opts.posts)
+    tids = thread_candidates(conn, limit, since, ids, newest_first, opts.posts, opts.subs, opts.min_age)
     chunks, alone, shown = [], 0, 0
     t = {"user_chars": 0, "context_chars": 0, "context_lines": 0, "worst": 0.0,
          "medium": [0.0, 0.0], "low": [0.0, 0.0]}
@@ -2753,6 +2845,53 @@ def reset_hash(conn, prompt_hash, kinds=KINDS, yes=False, chunk=5000, log=print)
     return gone_items, gone_mentions
 
 
+def restore_unkeyed(conn, yes=False, log=print):
+    """Store the mentions that were dropped for a name in no Latin letter.
+
+    Until normalize_entity kept other scripts, a name such as 불짬뽕 made an
+    empty entity_key and no mentions row, though the item was marked done
+    and the model's answer kept in extraction_state.output. This writes
+    those mentions from the stored answers, under the item's own prompt
+    hash, with no API call; nothing else of the item changes. Rows already
+    there are left alone (the insert's conflict target), so it can be run
+    again. Counts only, unless yes. Returns (items, mention rows)."""
+    with conn.cursor() as cur:
+        # A cheap first cut in SQL: a name with no ASCII letter or digit.
+        # latin_key below is the real test (Ñ alone keys as "n").
+        cur.execute("""select item_id, kind, prompt_hash, output from extraction_state s
+                       where version = %s and extracted_at is not null
+                         and jsonb_typeof(output->'mentions') = 'array'
+                         and exists (select 1 from jsonb_array_elements(output->'mentions') m
+                                     where coalesce(m->>'name', '') !~ '[A-Za-z0-9]')""", (VERSION,))
+        rows = cur.fetchall()
+    conn.commit()
+    by_kind, items = {}, set()
+    for item_id, kind, ph, output in rows:
+        it = Item(kind, item_id, None, None, ph)
+        for m in output["mentions"]:
+            name = m.get("name") if isinstance(m, dict) else None
+            if not isinstance(name, str) or extract.latin_key(name.strip()):
+                continue
+            r = mention_row(it, m)
+            if r:
+                by_kind.setdefault(kind, {}).setdefault((item_id, r["entity_key"]), r)
+                items.add(item_id)
+    n = sum(len(v) for v in by_kind.values())
+    if not yes:
+        log(f"{len(items):,} done item(s) have {n:,} mention(s) named in another script and not stored; "
+            "--yes stores them")
+        return len(items), 0
+    written = 0
+    with conn.cursor() as cur:
+        for kind, rs in by_kind.items():
+            got = execute_values(cur, _INSERT.format(target=_TARGET[kind]),
+                                 [[r[c] for c in COLUMNS] for r in rs.values()], page_size=len(rs), fetch=True)
+            written += len(got)
+    conn.commit()
+    log(f"{len(items):,} item(s): {written:,} mention row(s) stored ({n - written:,} were there already)")
+    return len(items), written
+
+
 def read_version(conn):
     with conn.cursor() as cur:
         cur.execute("select read_version from extraction_settings")
@@ -2769,6 +2908,62 @@ def _parse_since(s):
         return dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=int(s[:-1]))
     t = dt.datetime.fromisoformat(s)
     return t if t.tzinfo else t.replace(tzinfo=dt.timezone.utc)
+
+
+def parse_subreddits(value):
+    """--subreddit / EXTRACT_SUBREDDITS: names as subreddits.parse reads them
+    (a typo refuses the run), r/FoodNYC when unset."""
+    return subreddits.parse(value, [subreddits.HOME])
+
+
+def parse_floors(value, subs=None):
+    """--since / EXTRACT_SINCE: None for no floor ("all" too), one time for
+    every subreddit, or, in thread mode (`subs` given), SUB=TIME pairs for a
+    floor each: {subreddit: time or None}. A subreddit the run does not
+    take is refused, as a typo would otherwise drop a floor without a word."""
+    if value is None or not value.strip() or value.strip().lower() == "all":
+        return None
+    if "=" not in value:
+        return _floor(value.strip())
+    if subs is None:
+        raise SystemExit("--since SUB=TIME is for thread mode, which takes subreddits")
+    out = {}
+    for part in value.split(","):
+        if not part.strip():
+            continue
+        name, sep, when = part.partition("=")
+        if not sep:
+            raise SystemExit(f"--since: {part.strip()!r} is not SUB=TIME (give every subreddit its own pair)")
+        sub = subreddits.parse(name, [])
+        if len(sub) != 1 or sub[0] not in subs:
+            raise SystemExit(f"--since: {name.strip()!r} is not one of the subreddits this run takes "
+                             f"({', '.join(subs)})")
+        w = when.strip()
+        out[sub[0]] = None if w.lower() == "all" else _floor(w)
+    return out
+
+
+def _floor(text):
+    try:
+        return _parse_since(text)
+    except ValueError:
+        raise SystemExit(f"--since: {text!r} is not a date (YYYY-MM-DD, an ISO time, or Nd)")
+
+
+def parse_age(value):
+    """--min-post-age / EXTRACT_MIN_POST_AGE_HOURS: '48h', '2d' or a number
+    of hours, as a timedelta; None when unset."""
+    if value is None or not str(value).strip():
+        return None
+    v = str(value).strip().lower()
+    unit = {"h": 1, "d": 24}.get(v[-1])
+    try:
+        hours = float(v[:-1] if unit else v) * (unit or 1)
+    except ValueError:
+        raise SystemExit(f"--min-post-age must be hours, like 48h or 2d, not {value!r}")
+    if not hours >= 0 or hours == float("inf"):
+        raise SystemExit(f"--min-post-age must be zero or more hours, not {value!r}")
+    return dt.timedelta(hours=hours)
 
 
 def _parse_ids(s):
@@ -2788,7 +2983,8 @@ def main(argv=None):
     ap.add_argument("--dry-run", action="store_true", help="render and price; no API call, no write")
     ap.add_argument("--scope", choices=("comments", "posts", "both"), default="both")
     ap.add_argument("--limit", type=int, help="at most N items this run")
-    ap.add_argument("--since", help="only items created on or after this date (YYYY-MM-DD) or in the last Nd")
+    ap.add_argument("--since", help="only items created on or after this date (YYYY-MM-DD) or in the last Nd; "
+                                    "in thread mode also SUB=DATE,SUB=DATE for a floor per subreddit")
     ap.add_argument("--ids", help="only these ids: t1_x,t3_y or @file with one per line")
     ap.add_argument("--max-chars", type=int, help="only comments at most N characters long (the short-comment pilot)")
     ap.add_argument("--workers", type=int, default=WORKERS, help="concurrent direct calls")
@@ -2806,7 +3002,10 @@ def main(argv=None):
     ap.add_argument("--reset-hash", metavar="PROMPT_HASH",
                     help="delete the v6 mentions and cursor rows of this prompt hash (by --scope), so those "
                          "items are extracted again; counts only, unless --yes")
-    ap.add_argument("--yes", action="store_true", help="with --reset-hash: really delete")
+    ap.add_argument("--restore-unkeyed", action="store_true",
+                    help="store, from the answers on record, the mentions dropped for a name in no Latin letter "
+                         "(불짬뽕, Генатсвале); no API call. Counts only, unless --yes")
+    ap.add_argument("--yes", action="store_true", help="with --reset-hash or --restore-unkeyed: really write")
     ap.add_argument("--flip-grace-hours", type=float, default=FLIP_GRACE.total_seconds() / 3600,
                     help="with --read v6: forgive comments the old extractor read this recently "
                          "(default 2; it keeps running until the poller is switched)")
@@ -2832,6 +3031,12 @@ def main(argv=None):
     th.add_argument("--chunk-max", type=int,
                     help=f"hard max: comments in one chunk; only bigger reply groups are split "
                          f"(default {T.MAX_COMMENTS})")
+    th.add_argument("--subreddit", metavar="NAMES",
+                    help=f"the subreddits whose threads are taken, comma-separated (default {subreddits.HOME}; "
+                         "'all' is every collected one). The prompt is written for r/FoodNYC: see SPEC.md")
+    th.add_argument("--min-post-age", metavar="AGE",
+                    help="leave out, whole, every thread whose post is younger than this: 48h, 2d, or hours "
+                         "(the daily run's 48h). No upper bound: older threads with anything due are all taken")
     th.add_argument("--redo-cut-before", metavar="TIME",
                     help=f"first extract again the thread-mode comments that were cut at {OLD_MEMBER_CHARS:,} "
                          "characters and finished before TIME (ISO, UTC unless it says), replacing their "
@@ -2844,12 +3049,14 @@ def main(argv=None):
                     help="seconds to wait for another v6 run (the poller's pass) to let go of the lock")
     args = ap.parse_args(argv)
     kinds = {"comments": ("comment",), "posts": ("post",), "both": KINDS}[args.scope]
-    since, ids = _parse_since(args.since), _parse_ids(args.ids)
     thread = args.mode == "thread"
+    subs = parse_subreddits(args.subreddit)
+    since, ids = parse_floors(args.since, subs if thread else None), _parse_ids(args.ids)
     opts = None
     given = [f for f, v in (("--effort", args.effort), ("--chunk-comments", args.chunk_comments),
                             ("--chunk-tokens", args.chunk_tokens), ("--chunk-max", args.chunk_max),
-                            ("--redo-cut-before", args.redo_cut_before))
+                            ("--redo-cut-before", args.redo_cut_before), ("--subreddit", args.subreddit),
+                            ("--min-post-age", args.min_post_age))
              if v is not None] + (["--newest-first"] if args.newest_first else [])
     args.redo_before = _parse_since(args.redo_cut_before)
     if thread:
@@ -2865,7 +3072,8 @@ def main(argv=None):
                  T.MAX_COMMENTS if args.chunk_max is None else args.chunk_max]
         if min(sizes) < 1:
             raise SystemExit("chunk sizes must be positive")
-        opts = ThreadOpts(args.effort or prompt_v6.THREAD_EFFORT, *sizes, posts=args.scope == "both")
+        opts = ThreadOpts(args.effort or prompt_v6.THREAD_EFFORT, *sizes, posts=args.scope == "both", subs=subs,
+                          min_age=parse_age(args.min_post_age))
     elif given:
         raise SystemExit(f"{', '.join(given)}: thread-mode settings (comment mode runs as benchmarked)")
 
@@ -2921,6 +3129,13 @@ def _main_locked(conn, args, kinds, since, ids, opts=None):
         return 0
     if args.drop_batch:
         print(f"{drop_batch(conn, args.drop_batch):,} item(s) of {args.drop_batch} returned to the queue")
+        return 0
+    if args.restore_unkeyed:
+        _, written = restore_unkeyed(conn, yes=args.yes)
+        if written and read_version(conn) == VERSION:
+            import refresh
+            print("refreshing scoring views")
+            refresh.refresh_views(conn)
         return 0
     if args.resolve_pending and args.resolve_pending[1] != "auto":
         resolve_pending(conn, *args.resolve_pending)

@@ -88,7 +88,7 @@ class CeilingLimit(unittest.TestCase):
 
 
 class Runner(unittest.TestCase):
-    ENV = {"EXTRACT_RUN_USD": "20", "EXTRACT_CEILING_USD": "25.48"}
+    ENV = {"EXTRACT_RUN_USD": "20", "EXTRACT_CEILING_USD": "25.48", "EXTRACT_SINCE": "FoodNYC=2025-06-01"}
 
     def test_both_caps_are_required(self):
         for env in ({}, {"EXTRACT_RUN_USD": "20"}, {"EXTRACT_CEILING_USD": "25"},
@@ -103,10 +103,34 @@ class Runner(unittest.TestCase):
         self.assertEqual(R.plan(self.ENV), (20.0, 25.48))
         self.assertEqual(R.command(self.ENV, 20.0, 25.48),
                          ["--mode", "thread", "--effort", "medium", "--newest-first", "--batch",
-                          "--max-usd", "20.0", "--ceiling-usd", "25.48", "--lock-wait", "900"])
+                          "--max-usd", "20.0", "--ceiling-usd", "25.48",
+                          "--subreddit", "FoodNYC", "--since", "FoodNYC=2025-06-01", "--min-post-age", "48h",
+                          "--lock-wait", "900"])
         argv = R.command(dict(self.ENV, EXTRACT_REDO_CUT_BEFORE="2026-10-27T12:00", EXTRACT_LOCK_WAIT="60"),
                          20.0, 25.48)
         self.assertEqual(argv[-4:], ["--lock-wait", "60", "--redo-cut-before", "2026-10-27T12:00"])
+        argv = R.command(dict(self.ENV, EXTRACT_SUBREDDITS="foodnyc, r/FoodLosAngeles", EXTRACT_SINCE="2025-06-01",
+                              EXTRACT_MIN_POST_AGE_HOURS="36.5"), 20.0, 25.48)
+        self.assertEqual(argv[argv.index("--subreddit"):argv.index("--lock-wait")],
+                         ["--subreddit", "FoodNYC,FoodLosAngeles", "--since", "2025-06-01", "--min-post-age", "36.5h"])
+        # The argv the runner builds is one extract_v6 accepts as it stands.
+        self.assertEqual(X.parse_floors("FoodNYC=2025-06-01", ["FoodNYC"])["FoodNYC"].isoformat(),
+                         "2025-06-01T00:00:00+00:00")
+
+    def test_the_selection_is_required_and_checked_before_anything(self):
+        for bad in ({"EXTRACT_SINCE": ""}, {"EXTRACT_SINCE": "yesterday"}, {"EXTRACT_SUBREDDITS": "FoodNY"},
+                    {"EXTRACT_SINCE": "FoodLosAngeles=2025-06-01"},        # a floor for a subreddit not taken
+                    {"EXTRACT_SINCE": "FoodNYC=2025-06-01,2025-01-01"},
+                    {"EXTRACT_MIN_POST_AGE_HOURS": "two days"}, {"EXTRACT_MIN_POST_AGE_HOURS": "-1"}):
+            called = []
+            with mock.patch.object(R, "room_left", lambda *a: called.append(a)), self.assertRaises(SystemExit):
+                R.main(dict(self.ENV, **bad), run_extract=lambda argv: called.append(argv))
+            self.assertEqual(called, [], bad)
+        env = dict(self.ENV)
+        del env["EXTRACT_SINCE"]
+        with self.assertRaises(SystemExit):
+            R.selection(env)
+        self.assertEqual(R.selection(dict(self.ENV, EXTRACT_SINCE="all"))[3], "all")
 
     def run_with_room(self, room, inflight=0.0):
         """R.main with this much room above recorded spend and this much in
@@ -332,7 +356,8 @@ class Guards(TT.ThreadCase):
         real = AV.client
         with F.FakeAnthropic(self.big) as api, mock.patch.object(db, "DATABASE_URL", base.URL), \
                 mock.patch.dict(os.environ, {AV.KEY_VAR: "k", "EXTRACT_RUN_USD": "5", X.CEILING_ENV: "30",
-                                             "EXTRACT_LOCK_WAIT": "0"}), \
+                                             "EXTRACT_LOCK_WAIT": "0", "EXTRACT_SINCE": "all",
+                                             "EXTRACT_MIN_POST_AGE_HOURS": "0"}), \
                 mock.patch.object(AV, "client", lambda key, base_url=None: real(key, api.base_url)), \
                 redirect_stdout(io.StringIO()) as out:
             codes = []
@@ -341,7 +366,15 @@ class Guards(TT.ThreadCase):
                 codes.append(X.main(argv + ["--poll-seconds", "0", "--batch-size", "1", "--max-inflight", "1"]))
                 return codes[-1]
             self.assertEqual(R.main(run_extract=run), 0)
-        self.assertEqual(codes, [X.TRIPPED])
+            # The next day's cron run finds the overrun on record and refuses
+            # to start, until a person names the batch as seen.
+            bid = self.q("select id from extract_batches where status = 'collected'")[0][0]
+            with self.assertRaises(SystemExit) as e:
+                R.main(run_extract=run)
+            self.assertIn(bid, str(e.exception))
+            with mock.patch.dict(os.environ, {"EXTRACT_TRIPWIRE_SEEN": f"other, {bid}"}):
+                R.main(run_extract=lambda argv: codes.append("ran") or 0)
+        self.assertEqual(codes, [X.TRIPPED, "ran"])
         self.assertIn("SPEND TRIPWIRE", out.getvalue())
         self.assertEqual(len(api.batches), 1)
 
@@ -391,18 +424,16 @@ class Guards(TT.ThreadCase):
             free, inflight = R.room_left(25.48, pgtest.connect)
             self.assertAlmostEqual(free, 19.48)
             self.assertEqual(inflight, 0.5)
-            self.assertEqual(R.main({"EXTRACT_RUN_USD": "20", "EXTRACT_CEILING_USD": "25.48"}, pgtest.connect,
-                                    run_extract=run), 0)
+            self.assertEqual(R.main(dict(Runner.ENV), pgtest.connect, run_extract=run), 0)
             self.assertAlmostEqual(float(seen[0][seen[0].index("--max-usd") + 1]), 19.48)
             seen.clear()
             # $0.03 above recorded spend, but a batch to collect: it runs at the minimum cap.
-            self.assertEqual(R.main({"EXTRACT_RUN_USD": "5", "EXTRACT_CEILING_USD": "6.03"}, pgtest.connect,
-                                    run_extract=run), 0)
+            small = dict(Runner.ENV, EXTRACT_RUN_USD="5", EXTRACT_CEILING_USD="6.03")
+            self.assertEqual(R.main(small, pgtest.connect, run_extract=run), 0)
             self.assertEqual(seen[0][seen[0].index("--max-usd") + 1], "0.05")
             seen.clear()
             self.q("delete from extract_batches returning 1")
-            self.assertEqual(R.main({"EXTRACT_RUN_USD": "5", "EXTRACT_CEILING_USD": "6.03"}, pgtest.connect,
-                                    run_extract=run), 0)
+            self.assertEqual(R.main(small, pgtest.connect, run_extract=run), 0)
         self.assertEqual(seen, [])                                   # $0.03 left, nothing in flight: not started
         self.assertIn("$6.0000 recorded, $0.5000 held for batches in flight", out.getvalue())
         self.assertIn("CEILING REACHED", out.getvalue())
@@ -662,7 +693,9 @@ class LongMembers(TT.ThreadCase):
         self.conn.commit()
 
     def opts(self, **kw):
-        return X.ThreadOpts(soft_tokens=10000, **kw)      # one chunk, though each member is ~1,500 tokens now
+        # One chunk, though each member is ~1,500 tokens now, and longer than
+        # LONE_CHARS: this is about a chunk of long members running out.
+        return X.ThreadOpts(soft_tokens=10000, lone_chars=None, **kw)
 
     def test_a_cut_off_chunk_of_long_members_is_split_and_both_halves_land(self):
         jobs, _ = X.build_thread_jobs(self.conn, ["t3_b"], self.opts(), write=False, log=QUIET)
