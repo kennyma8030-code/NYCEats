@@ -251,7 +251,7 @@ def settle_once(conn, batches=5):
     or two, with the same room. The re-read also flags what was deleted
     since (db.settle_items); edits are ignored on purpose. An item the
     archive does not return is asked for again on later passes (once a pass)
-    until it is db.SETTLE_GIVE_UP_DAYS old.
+    for db.SETTLE_MISSING_HOURS, then settled flagged deleted.
     """
     for kind, pick, fetch, store, prefix in (
             ("comment", db.unsettled_comment_ids, arctic.comments_by_id, db.settle_scores, "t1_"),

@@ -5,8 +5,8 @@
 Thread selection by state (age, subreddit, floor), late comments on a
 thread done before, long comments alone, the redo's retry of a failed
 chunk of several one comment at a time, keys for names in other scripts,
-the settle pass (40 hours, posts, deletions; edits ignored), the prompted
-flag for keys in other scripts, and the by-hand migration. The API is
+the settle pass (40 hours, posts, deletions; edits ignored), and the
+by-hand migration. The API is
 tests/fake_anthropic.py and Arctic Shift is mocked; the first classes need
 no database.
 """
@@ -495,31 +495,27 @@ class Settle(TT.ThreadCase):
         self.assertEqual(db.unsettled_comment_ids(self.conn), ["t1_r2"])
         self.assertEqual(db.unsettled_thread_ids(self.conn), ["t3_c"])
 
-    def test_an_item_not_returned_is_asked_again_then_given_up_unflagged(self):
+    def test_an_item_not_returned_is_asked_again_then_flagged(self):
         self.settle(missing={"t1_r2"})
         self.assertEqual(self.q("select score_settled, was_deleted_later from comments where id = 't1_r2'"),
                          [(False, False)])
         self.settle()                                         # returned now: settled as usual
         self.assertEqual(self.q("select score_settled, was_deleted_later from comments where id = 't1_r2'"),
                          [(True, False)])
-        # Never returned: settled as it is once SETTLE_GIVE_UP_DAYS old, still unflagged.
-        self.q("update comments set score_settled = false, created_utc = now() - interval '8 days' "
+        # Never returned: asked for until SETTLE_MISSING_HOURS past SETTLE_HOURS
+        # (88 in all), then settled and flagged, the protective rule.
+        self.assertEqual(db.SETTLE_MISSING_HOURS, 48)
+        self.q("update comments set score_settled = false, created_utc = now() - interval '89 hours' "
                "where id = 't1_r1' returning 1")
-        self.q("update threads set score_settled = false, created_utc = now() - interval '6 days' "
+        self.q("update threads set score_settled = false, created_utc = now() - interval '87 hours' "
                "where id = 't3_c' returning 1")
         self.settle(missing={"t1_r1", "t3_c"})
         self.assertEqual(self.q("select score_settled, was_deleted_later from comments where id = 't1_r1'"),
-                         [(True, False)])
+                         [(True, True)])
         self.assertEqual(self.q("select score_settled, was_deleted_later from threads where id = 't3_c'"),
-                         [(False, False)])                    # six days: still asked
+                         [(False, False)])                    # 87 hours: still asked
 
-    def test_items_not_returned_cannot_starve_newer_ones(self):
-        """An old item the archive keeps not returning is read once a pass, and
-        after the items that crossed SETTLE_HOURS within the last day."""
-        self.q("update comments set created_utc = now() - interval '3 days' where id in ('t1_top', 't1_r1') "
-               "returning 1")
-        due = db.unsettled_comment_ids(self.conn, limit=1000)
-        self.assertEqual(set(due[-2:]), {"t1_top", "t1_r1"})               # the older ones go last
+    def test_an_item_not_returned_is_asked_once_a_pass(self):
         self.assertNotIn("t1_r1", db.unsettled_comment_ids(self.conn, limit=1000, skip={"t1_r1"}))
         asked = []
         with mock.patch.object(poller.arctic, "comments_by_id", lambda bare: asked.extend(bare) or []), \
@@ -536,7 +532,8 @@ class Settle(TT.ThreadCase):
         t = int(dt.datetime.now(dt.timezone.utc).timestamp())
         old, new = t - 41 * 3600, t - 39 * 3600
         posts = [dict(arctic("t3_p1", subreddit="FoodNYC", title="a", selftext="[removed]"), created_utc=old),
-                 dict(arctic("t3_p2", subreddit="FoodNYC", title="b", selftext="x", removed_by_category="deleted"),
+                 # Removed by a moderator, its thread page still up: not a deletion.
+                 dict(arctic("t3_p2", subreddit="FoodNYC", title="b", selftext="x", removed_by_category="moderator"),
                       created_utc=old),
                  dict(arctic("t3_p3", subreddit="FoodNYC", title="c", selftext="x", author="[deleted]"),
                       created_utc=old),
@@ -545,7 +542,7 @@ class Settle(TT.ThreadCase):
         db.insert_threads(self.conn, posts)
         self.assertEqual(self.q("select id, score_settled, was_deleted_later from threads where id like 't3_p%%' "
                                 "order by id"),
-                         [("t3_p1", True, True), ("t3_p2", True, True), ("t3_p3", True, False),
+                         [("t3_p1", True, True), ("t3_p2", True, False), ("t3_p3", True, False),
                           ("t3_p4", False, False)])
         comments = [{"id": f"q{i}", "subreddit": "FoodNYC", "link_id": "t3_p1", "parent_id": "t3_p1",
                      "body": body, "author": author, "created_utc": created}
@@ -584,22 +581,6 @@ class Settle(TT.ThreadCase):
         self.assertIsNone(items["t3_c"]["permalink"])
         self.assertTrue(items["t3_a"]["permalink"])
         self.conn.rollback()
-
-
-class Prompted(base.DbCase):
-    """scoring.sql's prompted flag for keys in other scripts."""
-
-    def test_a_key_in_another_script_matches_the_thread_that_names_it(self):
-        import refresh
-        self.q("update threads set title = 'Best 불짬뽕 or PlaceAlpha? (鹿鸣春, Генатсвале)' where id = 't3_a' "
-               "returning 1")
-        for key in ("불짬뽕", "鹿鸣春", "генатсвале", "placealpha", "placebeta", "鱼你在一起"):
-            self.q("""insert into mentions (comment_id, restaurant_raw, entity_key, model_version, prompt_hash)
-                      values ('t1_top', %s, %s, 'm', 'legacy') returning 1""", (key, key))
-        refresh.apply_sql(self.conn, verbose=False)
-        got = dict(self.q("select typed_key, prompted from mention_weights where comment_id = 't1_top'"))
-        self.assertEqual(got, {"불짬뽕": True, "鹿鸣春": True, "генатсвале": True, "placealpha": True,
-                               "placebeta": False, "鱼你在一起": False})
 
 
 def main_schema(case):

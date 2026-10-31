@@ -66,13 +66,13 @@ its record says so (below).
 **`was_deleted_later`** flags comments and posts gone from Reddit. Required
 for the permalink click-through rule — never link evidence that 404s. Arctic
 Shift keeps a deleted item and returns it with its text replaced by
-`[deleted]`/`[removed]` (a post may say so in `removed_by_category`), so
-that, and only that, is a deletion; the text we stored is kept. An author of
-`[deleted]` alone is not one: a deleted account leaves its comments up. An
-item the re-read does not return is not taken for deleted: it stays
-unsettled and is asked for again, once a pass and behind the items that
-reached 40h in the last day, until it is 7 days old
-(`db.SETTLE_GIVE_UP_DAYS`), and is then settled as it is, unflagged.
+`[deleted]`/`[removed]` in place of its body or selftext, so that is a
+deletion; the text we stored is kept. An author of `[deleted]` alone is not
+one (a deleted account leaves its comments up), nor is a post's
+`removed_by_category` (a post a moderator removed keeps its thread page).
+An item the re-read does not return stays unsettled and is asked for again,
+once a pass, for 48h (`db.SETTLE_MISSING_HOURS`); then it is settled and
+flagged, the protective rule: never link evidence that may 404.
 
 **Edits are ignored, on purpose.** The settle re-read takes scores and
 deletions only; a comment's body and a post's selftext stay as first stored,
@@ -226,12 +226,13 @@ with a word of its own is kept, so bilingual names ("Xi'an Famous Foods
 西安名吃", "游子老鸭粉丝馆 Yozi") still match the city's list, and no purely
 Latin name changes key. Stored rows are not re-keyed.
 `extract_v6.py --restore-unkeyed --yes` stores, from the answers on record,
-the mentions dropped for an empty key. scoring.sql's prompted test (did the
-thread name the place?) flattens title and selftext to a-z0-9; for a key
-with characters outside ASCII alone it keeps those characters, so such keys
-can match. Matching other scripts also needs `lower()` to know them, which
-follows the database's ctype (en_US.UTF-8 does). ASCII keys are tested
-exactly as before.
+the mentions dropped for an empty key.
+
+Known limit: a key in another script is never `prompted` (scoring.sql's
+"did the thread name the place?" flattens title and selftext to a-z0-9).
+Accepted, and rare. Teaching it other scripts would mean a SQL copy of the
+key rules, which would drift from extract.py, and CJK text has no spaces
+between words to match a key against.
 
 ---
 
