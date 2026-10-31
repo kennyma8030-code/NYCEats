@@ -84,9 +84,28 @@ class Keys(unittest.TestCase):
             names = [line.strip() for line in f if line.strip()] + LATIN
         for name in names:
             old = old_normalize(name)
-            if old:
-                self.assertEqual(extract.normalize_entity(name), old, name)
             self.assertEqual(extract.latin_key(name), old, name)
+            # Every key with a letter in it is kept; chains.txt and the Latin
+            # samples include bilingual names (Joe's Shanghai 鹿鸣春).
+            if re.search("[a-z]", old):
+                self.assertFalse(extract.latin_is_fragment(name), name)
+                self.assertEqual(extract.normalize_entity(name), old, name)
+        with open(os.path.join(ROOT, "chains.txt"), encoding="utf-8") as f:
+            chains = [line.strip() for line in f if line.strip()]
+        self.assertEqual([n for n in chains if extract.normalize_entity(n) != old_normalize(n)], [])
+
+    def test_only_a_fragment_key_gives_way(self):
+        # A key with no letter, for a name with letters of another script.
+        self.assertEqual(old_normalize("산수갚산 2"), "2")
+        self.assertEqual(extract.normalize_entity("산수갚산 2"), "산수갚산 2")
+        self.assertEqual(extract.normalize_entity("Генатсвале 2"), "генатсвале 2")
+        # Bilingual names whose Latin part has letters keep the key they have
+        # (the city's list has YOZI; "불짬뽕 NYC" keeping "nyc" is accepted).
+        for name, key in (("游子老鸭粉丝馆 Yozi", "yozi"), ("Din Soup Dumplings 鼎泰轩", "din soup dumplings"),
+                          ("Xi'an Famous Foods 西安名吃", "xian famous foods"), ("The Best Sichuan 一", "best sichuan"),
+                          ("불짬뽕 NYC", "nyc"), ("#2", "2"), ("7 11", "7 11")):
+            self.assertEqual(old_normalize(name), key, name)
+            self.assertEqual(extract.normalize_entity(name), key, name)
 
     def test_names_in_other_scripts_keep_their_letters(self):
         for name, key in OTHER.items():
@@ -346,7 +365,10 @@ class RedoSplit(TT.ThreadCase):
 # ---------------------------------------------------------------- non-Latin names on record
 class RestoreUnkeyed(TT.ThreadCase):
     def test_mentions_dropped_for_a_name_in_another_script_are_stored_once(self):
-        out = {"mentions": [dict(F.mention("불짬뽕"), id=1), dict(F.mention("PlaceAlpha"), id=1)],
+        # 산수갚산 2 was stored under the fragment "2": it keeps that row, and
+        # gets no second one under its new key.
+        out = {"mentions": [dict(F.mention("불짬뽕"), id=1), dict(F.mention("PlaceAlpha"), id=1),
+                             dict(F.mention("산수갚산 2"), id=1)],
                "chunk_id": "ch-x"}
         self.q("""insert into extraction_state (item_id, version, kind, prompt_hash, model, attempts, extracted_at,
                     output, cost_usd)
@@ -354,14 +376,15 @@ class RestoreUnkeyed(TT.ThreadCase):
                (TH, prompt_v6.MODEL, X.Json(out)))
         self.q("""insert into mentions (comment_id, restaurant_raw, entity_key, model_version, prompt_hash,
                     schema_version)
-                  values ('t1_top', 'PlaceAlpha', 'placealpha', 'm', %s, 6) returning 1""", (TH,))
+                  values ('t1_top', 'PlaceAlpha', 'placealpha', 'm', %s, 6),
+                         ('t1_top', '산수갚산 2', '2', 'm', %s, 6) returning 1""", (TH, TH))
         state = self.q("select * from extraction_state")
         self.assertEqual(X.restore_unkeyed(self.conn, log=QUIET), (1, 0))
-        self.assertEqual(self.q("select count(*) from mentions"), [(1,)])
+        self.assertEqual(self.q("select count(*) from mentions"), [(2,)])
         self.assertEqual(X.restore_unkeyed(self.conn, yes=True, log=QUIET), (1, 1))
         self.assertEqual(X.restore_unkeyed(self.conn, yes=True, log=QUIET), (1, 0))
         self.assertEqual(sorted(self.q("select entity_key, prompt_hash, schema_version from mentions")),
-                         [("placealpha", TH, 6), ("불짬뽕", TH, 6)])
+                         [("2", TH, 6), ("placealpha", TH, 6), ("불짬뽕", TH, 6)])
         self.assertEqual(self.q("select * from extraction_state"), state)          # nothing else changes
         self.q("update extraction_settings set read_version = 'v6' returning 1")
         self.assertIn(("불짬뽕",), self.q("select entity_key from live_mentions"))

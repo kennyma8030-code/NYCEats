@@ -221,11 +221,14 @@ outside the five boroughs are not mentions, "best in NYC"), so another
 city needs a prompt of its own before it is extracted; its mentions would be
 stored but not scored (scoring reads `scoring_params.subreddit`).
 
-**Names in other scripts.** `normalize_entity` keeps the letters of a name
-with no Latin letter or digit (불짬뽕, Генатсвале), which used to make an
-empty key and store no mention. Every key the Latin rules make is unchanged.
-`extract_v6.py --restore-unkeyed --yes` stores, from the answers on record,
-the mentions dropped that way.
+**Names in other scripts.** `normalize_entity` keeps the letters of other
+scripts when the Latin rules leave only a fragment: no key at all (불짬뽕,
+which used to store no mention), or, for a name with letters of another
+script, a key with no letter ("산수갚산 2" was "2"). A key with a letter in
+it is kept, so bilingual names ("Xi'an Famous Foods 西安名吃", "游子老鸭粉丝馆
+Yozi") still match the city's list, and no purely Latin name changes key.
+Stored rows are not re-keyed. `extract_v6.py --restore-unkeyed --yes`
+stores, from the answers on record, the mentions dropped for an empty key.
 
 ---
 

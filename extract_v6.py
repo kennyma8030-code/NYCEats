@@ -2846,23 +2846,29 @@ def reset_hash(conn, prompt_hash, kinds=KINDS, yes=False, chunk=5000, log=print)
 
 
 def restore_unkeyed(conn, yes=False, log=print):
-    """Store the mentions that were dropped for a name in no Latin letter.
+    """Store the mentions that were dropped for a name with no Latin key.
 
     Until normalize_entity kept other scripts, a name such as 불짬뽕 made an
     empty entity_key and no mentions row, though the item was marked done
     and the model's answer kept in extraction_state.output. This writes
-    those mentions from the stored answers, under the item's own prompt
-    hash, with no API call; nothing else of the item changes. Rows already
-    there are left alone (the insert's conflict target), so it can be run
-    again. Counts only, unless yes. Returns (items, mention rows)."""
+    those mentions from the stored answers, under the key normalize_entity
+    gives them now and the item's own prompt hash, with no API call; nothing
+    else of the item changes. Only names whose Latin key is empty: a name
+    keyed by a fragment before ("산수갚산 2" as "2") has its row already,
+    and a second under the new key would count it twice, so stored rows are
+    never re-keyed. Rows already there are left alone (the insert's conflict
+    target), so it can be run again. Counts only, unless yes. Returns
+    (items, mention rows)."""
     with conn.cursor() as cur:
-        # A cheap first cut in SQL: a name with no ASCII letter or digit.
-        # latin_key below is the real test (Ñ alone keys as "n").
+        # A cheap first cut in SQL: a name with no ASCII letter or digit, or
+        # with anything outside ASCII. latin_key below is the real test (Ñ
+        # alone keys as "n"; "and 鹿" as nothing).
         cur.execute("""select item_id, kind, prompt_hash, output from extraction_state s
                        where version = %s and extracted_at is not null
                          and jsonb_typeof(output->'mentions') = 'array'
                          and exists (select 1 from jsonb_array_elements(output->'mentions') m
-                                     where coalesce(m->>'name', '') !~ '[A-Za-z0-9]')""", (VERSION,))
+                                     where coalesce(m->>'name', '') !~ '[A-Za-z0-9]'
+                                        or m->>'name' ~ '[^[:ascii:]]')""", (VERSION,))
         rows = cur.fetchall()
     conn.commit()
     by_kind, items = {}, set()

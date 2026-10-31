@@ -60,15 +60,16 @@ def normalize_entity(raw):
     collapse to one key; every other punctuation mark becomes a space. This is
     deliberately NOT trying to merge "L'Industrie" with "L'Industrie Pizzeria" --
     that is the resolution problem, and guessing at it here would destroy
-    evidence. A name with no Latin letter or digit at all keeps its own
-    script (unicode_key).
+    evidence. A name the Latin rules reduce to a fragment keeps its own
+    script (unicode_key, when latin_is_fragment).
     """
-    return latin_key(raw) or unicode_key(raw)
+    return unicode_key(raw) if latin_is_fragment(raw) else latin_key(raw)
 
 
 def latin_key(raw):
     """normalize_entity's rules for Latin names, which made every key stored
-    before non-Latin names were kept; empty for a name with nothing in a-z0-9."""
+    before other scripts were kept: anything outside a-z0-9 after accents
+    are folded separates words, so a name in another script keys to nothing."""
     s = (raw or "").lower().replace("'", "").replace("’", "")
     # Accents become their base letter, not a space. _PUNCT treats anything
     # outside a-z0-9 as punctuation, so "Ba Xuyen" was arriving as "b xuy n"
@@ -76,10 +77,14 @@ def latin_key(raw):
     # match anything at all.
     s = unicodedata.normalize("NFKD", s)
     s = "".join(c for c in s if not unicodedata.combining(c))
+    return _tidy(_PUNCT.sub(" ", s))
+
+
+def _tidy(s):
     # Drop "and" rather than mapping & to it. People type "joe and pats", the
     # licence says "JOE & PAT'S", and dropping both sides collapses them --
     # while mapping to "and" would break "s p" against "S & P LUNCH".
-    s = " ".join(w for w in _PUNCT.sub(" ", s).split() if w != "and")
+    s = " ".join(w for w in s.split() if w != "and")
     if s.startswith("the "):
         s = s[4:]
     for suffix in (" restaurant", " nyc"):
@@ -88,20 +93,49 @@ def latin_key(raw):
     return s.strip()
 
 
-def unicode_key(raw):
-    """The key of a name with no Latin letter or digit in it: 鱼你在一起,
-    불짬뽕, Генатсвале, मैनहट्टा. latin_key leaves nothing of those, and an
-    empty key stores no mention, so the model's answer was being dropped.
+def _is_latin(c):
+    return c.isascii() or unicodedata.name(c, "").startswith("LATIN")
 
-    Used only where latin_key gives nothing, so every key it ever made is
-    unchanged and no stored row needs re-keying (migrate_keys.py). Letters,
-    marks and digits of any script are kept, composed (NFKC: Hangul stays
-    syllables, Devanagari keeps its vowel signs), and everything else
-    separates words, as punctuation does above.
-    """
+
+def has_other_script(raw):
+    """Whether a name has a letter that is not Latin once compatibility forms
+    are folded (fullwidth Ｆ is F, ª is a). Modifier letters (Lm, such as the
+    ʻokina) do not count."""
+    return any(unicodedata.category(c) in ("Lu", "Ll", "Lt", "Lo") and not _is_latin(c)
+               for c in unicodedata.normalize("NFKC", raw or ""))
+
+
+def latin_is_fragment(raw):
+    """Whether latin_key would key a name by a fragment of it: its Latin key
+    is empty ("鱼你在一起"), or the name has letters of another script and
+    its Latin key has no letter ("산수갚산 2" keys as "2", which "#2" shares).
+
+    A bilingual name keeps its Latin key whenever that key has a letter, so
+    "Xi'an Famous Foods 西安名吃", "Din Soup Dumplings 鼎泰轩" and
+    "游子老鸭粉丝馆 Yozi" keep the keys the city's restaurant list matches and
+    their stored mentions carry, and "불짬뽕 NYC" keeps "nyc". A name with no
+    other script and a non-empty key is never a fragment, so no key a purely
+    Latin name was given changes."""
+    key = latin_key(raw)
+    return not key or (not re.search(r"[a-z]", key) and has_other_script(raw))
+
+
+def unicode_key(raw):
+    """The key of a name latin_key reduces to a fragment (latin_is_fragment):
+    鱼你在一起, 불짬뽕, Генатсвале 2, 산수갚산 2. Its Latin part is folded as latin_key folds it (case,
+    accents, apostrophes, "and", "the", a trailing "nyc"); letters, marks and
+    digits of other scripts are kept, composed (NFKC: Hangul stays
+    syllables, Devanagari keeps its vowel signs); anything else separates
+    words."""
     s = unicodedata.normalize("NFKC", (raw or "").lower().replace("'", "").replace("’", ""))
-    words = "".join(c if unicodedata.category(c)[0] in "LMN" else " " for c in s).split()
-    return " ".join(w for w in words if w != "and")
+    out = []
+    for c in s:
+        if _is_latin(c):
+            base = "".join(x for x in unicodedata.normalize("NFKD", c) if not unicodedata.combining(x))
+            out.append(base if base and _PUNCT.fullmatch(base) is None else " ")
+        else:
+            out.append(c if unicodedata.category(c)[0] in "LMN" else " ")
+    return _tidy("".join(out))
 
 
 def _load_chains():
