@@ -362,27 +362,13 @@ def permalink_sql(alias):
     return f"case when {alias}.was_deleted_later then null else {alias}.permalink end"
 
 
-def newer_column(alias, column, cast):
-    """`alias`.`column` for a column a schema change adds (the poller applies
-    schema.sql on boot), or NULL while the database does not have it yet.
-
-    The web app and the poller deploy separately, and the app can come up
-    first; naming the column outright would fail every such query until
-    the poller's boot had run. A row's to_jsonb has whatever columns exist.
-    Once every database has the column this can become a plain reference.
-    """
-    return f"(to_jsonb({alias}) ->> '{column}')::{cast}"
-
-
 def evidence_body_sql(m, c):
     """The text a mention was read from: the comment's first text when it was
     stored before the comment was edited (edited_at, set by the settle
     re-read), else its text now. An edit replaces comments.body, and a
     mention extracted earlier (a legacy one, or a v6 one not yet extracted
     again) must still click through to the words that produced it."""
-    edited = newer_column(c, "edited_at", "timestamptz")
-    return (f"case when {edited} > {m}.created_at "
-            f"then coalesce({newer_column(c, 'original_body', 'text')}, {c}.body) else {c}.body end")
+    return f"case when {c}.edited_at > {m}.created_at then coalesce({c}.original_body, {c}.body) else {c}.body end"
 
 
 # What every mention-returning query selects, in the shape models.Mention
@@ -494,8 +480,7 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
           union all
           (select 'post', t.id, t.id, t.author, t.score, t.created_utc,
                   case when t.selftext in ('[deleted]', '[removed]') then '' else coalesce(t.selftext, '') end,
-                  '/r/' || t.subreddit || '/comments/' || substr(t.id, 4) || '/',
-                  coalesce({newer_column('t', 'was_deleted_later', 'boolean')}, false)
+                  '/r/' || t.subreddit || '/comments/' || substr(t.id, 4) || '/', t.was_deleted_later
            from threads t
            where {" and ".join(t_where)}
            order by t.created_utc {d}, t.id {d}

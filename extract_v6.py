@@ -104,6 +104,7 @@ outlast the backoff.
 import argparse
 import concurrent.futures
 import datetime as dt
+import hashlib
 import os
 import sys
 import threading
@@ -153,6 +154,9 @@ def schema_ready(conn):
                                         and table_schema = current_schema())
                           and exists (select 1 from information_schema.columns
                                       where table_name = 'extract_chunks' and column_name = 'alone'
+                                        and table_schema = current_schema())
+                          and exists (select 1 from information_schema.columns
+                                      where table_name = 'extraction_state' and column_name = 'text_md5'
                                         and table_schema = current_schema())""")
         ok = cur.fetchone()[0]
     conn.commit()
@@ -163,7 +167,7 @@ def schema_ready(conn):
 # backfill would otherwise both pick the same due items and pay for them
 # twice. A session-level advisory lock, so it survives the commits a run
 # makes and goes away by itself if the process or its connection dies.
-LOCK_KEY = db.V6_LOCK_KEY             # "nyc6" "v6"; db.settle_items takes it too
+LOCK_KEY = 0x6E796336_7636            # "nyc6" "v6"
 
 
 def try_lock(conn):
@@ -449,6 +453,8 @@ def _check_ceiling(budget, log):
 class Stats:
     def __init__(self):
         self.done = self.mentions = self.failed = self.parked = self.refused = 0
+        # Answers read from a text edited since (text_md5): not stored, the item due again.
+        self.stale = 0
         # Thread mode: chunks answered, chunks that failed (split or sent on
         # alone), mentions dropped for an id naming no item, threads not reached.
         self.chunks = self.chunk_failures = self.bad_ids = self.threads_left = 0
@@ -472,6 +478,7 @@ class Stats:
         chunks = (f"{self.chunks:,} chunk(s) answered, {self.chunk_failures:,} failed and retried smaller, "
                   f"{self.bad_ids:,} mention(s) dropped for a bad id | ") if self.chunks or self.chunk_failures else ""
         held = f", {self.held_scope:,} held for a run that takes posts" if self.held_scope else ""
+        held += f", {self.stale:,} edited since sent, due again" if self.stale else ""
         return (f"{chunks}{self.done:,} extracted, {self.mentions:,} mentions, {self.failed:,} failed "
                 f"({self.parked:,} parked), {self.refused:,} not sent (cap){held} | tokens in {t['input_tokens']:,} "
                 f"+ cache write {t['cache_creation_input_tokens']:,} + cache read "
@@ -559,17 +566,26 @@ def late_backlog(conn, seen_since, written_before):
     return n
 
 
+def text_md5(text):
+    """The hash write() compares to tell an answer read from a text since
+    edited: a comment's body, a post's selftext (its title cannot change).
+    The same as Postgres's md5(coalesce(text, '')) on a UTF-8 database."""
+    return hashlib.md5((text or "").encode("utf-8")).hexdigest()
+
+
 class Item:
     """One comment- or post-mode request. Thread mode's ChunkJob has the same
     shape (id, worst, params, stream, state_rows), so the direct and batch
-    machinery below sends either."""
-    __slots__ = ("kind", "id", "system", "user", "prompt_hash", "attempts", "thread_id")
+    machinery below sends either. text_md5 is the hash of the item's own
+    text as it was rendered (None when not known)."""
+    __slots__ = ("kind", "id", "system", "user", "prompt_hash", "attempts", "thread_id", "text_md5")
     stream = False            # a 16k answer fits in a plain request's timeout
 
-    def __init__(self, kind, item_id, system, user, prompt_hash, thread_id=None):
+    def __init__(self, kind, item_id, system, user, prompt_hash, thread_id=None, text_md5=None):
         self.kind, self.id, self.system, self.user, self.prompt_hash = kind, item_id, system, user, prompt_hash
         self.attempts = 0
         self.thread_id = thread_id      # from the rows render_items read; thread mode counts by it
+        self.text_md5 = text_md5
 
     def worst(self, batch):
         return AV.worst_case(self.system, self.user, batch)
@@ -578,8 +594,8 @@ class Item:
         return AV.params(self.system, self.user)
 
     def state_rows(self):
-        """(item id, kind, prompt hash) of every extraction_state row a batch carrying this request holds."""
-        return [(self.id, self.kind, self.prompt_hash)]
+        """(item id, kind, prompt hash, text_md5) of every extraction_state row a batch carrying this request holds."""
+        return [(self.id, self.kind, self.prompt_hash, self.text_md5)]
 
 
 def render_items(conn, kind, ids):
@@ -590,7 +606,8 @@ def render_items(conn, kind, ids):
     for i in ids:
         if i in rows:
             system, user, ph = prompt_v6.render(kind, rows[i])
-            out.append(Item(kind, i, system, user, ph, rows[i]["thread_id"] if kind == "comment" else i))
+            md5 = text_md5(rows[i]["body"] if kind == "comment" else rows[i][1])
+            out.append(Item(kind, i, system, user, ph, rows[i]["thread_id"] if kind == "comment" else i, md5))
     return out
 
 
@@ -710,16 +727,29 @@ _STATE_FAILED = """
       usage = excluded.usage, cost_usd = excluded.cost_usd, updated_at = now()"""
 
 
+# An answer read from a text since edited: the item is due again, as it was
+# before it was sent; attempts are not counted (the answer was not wrong),
+# its output and prompt hash stay as they were, and its cost is added.
+_STATE_AGAIN = """
+    insert into extraction_state (item_id, version, kind, prompt_hash, model, batch_id, attempts,
+                                  extracted_at, extract_error, usage, cost_usd)
+    values %s
+    on conflict (item_id, version) do update set
+      batch_id = null, extracted_at = null, extract_error = null,
+      usage = excluded.usage, cost_usd = excluded.cost_usd, updated_at = now()"""
+
+
 class Done:
     """An answer to store: the item, the parsed output, what it cost. replace
     is set for an item extracted again under the same prompt (a redo): its
     earlier mention rows of that prompt are deleted as the new ones go in.
     write() does the same for any item whose cursor row holds an earlier
     answer (one queued again after an edit), replace or not."""
-    __slots__ = ("item", "output", "usage", "cost", "replace")
+    __slots__ = ("item", "output", "usage", "cost", "replace", "stale")
 
     def __init__(self, item, output, usage, cost, replace=False):
         self.item, self.output, self.usage, self.cost, self.replace = item, output, usage, cost, replace
+        self.stale = False        # set by write(): read from a text edited since; not stored
 
 
 class Failed:
@@ -753,19 +783,20 @@ def write(conn, entries, before=None):
     if not entries and before is None:
         return 0, set()
     now = dt.datetime.now(dt.timezone.utc)
-    by_kind = {}
-    for e in entries:
-        if isinstance(e, Done):
-            # Unique on the conflict target within one statement: Postgres
-            # refuses an INSERT ... ON CONFLICT that would touch a row twice.
-            rows = by_kind.setdefault(e.item.kind, {})
-            for r in (mention_row(e.item, m) for m in e.output["mentions"]):
-                if r:
-                    rows.setdefault((r["comment_id"] or r["thread_id"], r["entity_key"]), r)
     n, parked = 0, set()
     with conn.cursor() as cur:
         if before is not None:
             before(cur)
+        _mark_stale(cur, entries)
+        by_kind = {}
+        for e in entries:
+            if isinstance(e, Done) and not e.stale:
+                # Unique on the conflict target within one statement: Postgres
+                # refuses an INSERT ... ON CONFLICT that would touch a row twice.
+                rows = by_kind.setdefault(e.item.kind, {})
+                for r in (mention_row(e.item, m) for m in e.output["mentions"]):
+                    if r:
+                        rows.setdefault((r["comment_id"] or r["thread_id"], r["entity_key"]), r)
         cur.execute("select item_id, attempts, coalesce(cost_usd, 0), output is not null from extraction_state "
                     "where version = %s and item_id = any(%s)", (VERSION, [e.item.id for e in entries]))
         prev, extracted = {}, set()
@@ -779,7 +810,8 @@ def write(conn, entries, before=None):
         # inserted afresh below, and the ones it no longer names stay gone,
         # all in the same transaction as its new state row. Rows of another
         # prompt are left; live_mentions stops counting them by the hash.
-        redone = [e.item for e in entries if isinstance(e, Done) and (e.replace or e.item.id in extracted)]
+        redone = [e.item for e in entries
+                  if isinstance(e, Done) and not e.stale and (e.replace or e.item.id in extracted)]
         for ph in sorted({it.prompt_hash for it in redone}):
             cids = [it.id for it in redone if it.prompt_hash == ph and it.kind == "comment"]
             tids = [it.id for it in redone if it.prompt_hash == ph and it.kind == "post"]
@@ -795,10 +827,14 @@ def write(conn, entries, before=None):
                                      [[r[c] for c in COLUMNS] for r in rows.values()],
                                      page_size=len(rows), fetch=True)
                 n += len(got)
-        done, failed = [], []
+        done, failed, again = [], [], []
         for e in entries:
             it = e.item
             attempts, cost = prev.get(it.id, (0, 0.0))
+            if isinstance(e, Done) and e.stale:
+                again.append((it.id, VERSION, it.kind, it.prompt_hash, prompt_v6.MODEL, None, attempts, None, None,
+                              Json(e.usage) if e.usage else None, cost + e.cost))
+                continue
             attempts += 1
             if isinstance(e, Done):
                 done.append((it.id, VERSION, it.kind, it.prompt_hash, prompt_v6.MODEL, None, attempts, now,
@@ -810,11 +846,33 @@ def write(conn, entries, before=None):
                 failed.append((it.id, VERSION, it.kind, it.prompt_hash, prompt_v6.MODEL, None, attempts, None,
                                str(e.code)[:500] if park else None, Json(e.usage) if e.usage else None,
                                cost + e.cost))
-        for sql, vals in ((_STATE_DONE, done), (_STATE_FAILED, failed)):
+        for sql, vals in ((_STATE_DONE, done), (_STATE_FAILED, failed), (_STATE_AGAIN, again)):
             if vals:
                 execute_values(cur, sql, vals, page_size=len(vals))
     conn.commit()
     return n, parked
+
+
+def _mark_stale(cur, entries):
+    """Set Done.stale on each answer whose item's text no longer hashes to
+    what was rendered (Item.text_md5): edited by the settle re-read since the
+    request was built, so the answer describes words no longer there. The
+    rows are read FOR SHARE, so a settle that edits one of them now waits
+    for this transaction, and then, finding the item done and out of any
+    batch, queues it again itself."""
+    want = {}
+    for e in entries:
+        if isinstance(e, Done) and e.item.text_md5:
+            want.setdefault(e.item.kind, {})[e.item.id] = e.item.text_md5
+    now = {}
+    for kind, table, field in (("comment", "comments", "body"), ("post", "threads", "selftext")):
+        if want.get(kind):
+            cur.execute(f"select id, md5(coalesce({field}, '')) from {table} where id = any(%s) "
+                        "order by id for share", (sorted(want[kind]),))
+            now.update(cur.fetchall())
+    for e in entries:
+        if isinstance(e, Done) and e.item.text_md5:
+            e.stale = now.get(e.item.id, e.item.text_md5) != e.item.text_md5
 
 
 def store(conn, item, output, usage, cost, batch_id=None):
@@ -865,7 +923,9 @@ def _counted(stats, entries, n, parked):
     """Count stored entries: mention rows written, items done or failed, parked."""
     stats.mentions += n
     for e in entries:
-        if isinstance(e, Done):
+        if isinstance(e, Done) and e.stale:
+            stats.stale += 1
+        elif isinstance(e, Done):
             stats.done += 1
         else:
             stats.failed += 1
@@ -1086,14 +1146,16 @@ def _submit(conn, cl, budget, batch, log):
         cur.execute("""
             with b as (insert into extract_batches (id, version, requests, hold_usd)
                        values (%(pid)s, %(v)s, %(n)s, %(held)s))
-            insert into extraction_state (item_id, version, kind, prompt_hash, model, batch_id)
-            select u.item_id, %(v)s, u.kind, u.prompt_hash, %(model)s, %(pid)s
-            from unnest(%(ids)s::text[], %(kinds)s::text[], %(hashes)s::text[]) as u(item_id, kind, prompt_hash)
+            insert into extraction_state (item_id, version, kind, prompt_hash, model, batch_id, text_md5)
+            select u.item_id, %(v)s, u.kind, u.prompt_hash, %(model)s, %(pid)s, u.text_md5
+            from unnest(%(ids)s::text[], %(kinds)s::text[], %(hashes)s::text[], %(md5)s::text[])
+                 as u(item_id, kind, prompt_hash, text_md5)
             on conflict (item_id, version) do update set
               prompt_hash = excluded.prompt_hash, model = excluded.model, batch_id = excluded.batch_id,
-              updated_at = now()""",
+              text_md5 = excluded.text_md5, updated_at = now()""",
                     {"pid": pid, "v": VERSION, "n": len(batch), "held": held, "model": prompt_v6.MODEL,
-                     "ids": [m[0] for m in rows], "kinds": [m[1] for m in rows], "hashes": [m[2] for m in rows]})
+                     "ids": [m[0] for m in rows], "kinds": [m[1] for m in rows], "hashes": [m[2] for m in rows],
+                     "md5": [m[3] for m in rows]})
         if chunks:
             _upsert_chunks(cur, [_chunk_record(j, "batched", pid) for j in chunks])
     conn.commit()
@@ -1190,7 +1252,8 @@ def _collect(conn, cl, budget, bid, stats, log, sleep=None):
     FatalAPIError is raised once the batch is settled."""
     res = AV.results(cl, bid, sleep=sleep, log=log)
     with conn.cursor() as cur:
-        cur.execute("select item_id, kind, prompt_hash from extraction_state where batch_id = %s", (bid,))
+        cur.execute("select item_id, kind, prompt_hash, text_md5 from extraction_state where batch_id = %s",
+                    (bid,))
         members = cur.fetchall()
     conn.commit()
     costs, total = _batch_costs(res, bid, [m[0] for m in members], "items", log)
@@ -1199,8 +1262,8 @@ def _collect(conn, cl, budget, bid, stats, log, sleep=None):
     # committed done and detached from the batch; the next run re-attaches,
     # stores the rest, and counts the stored ones' cost as stray answers.
     entries, rebatch, invalid, invalid_ids = [], set(), [], []
-    for item_id, kind, ph in members:
-        item = Item(kind, item_id, None, None, ph)
+    for item_id, kind, ph, md5 in members:
+        item = Item(kind, item_id, None, None, ph, text_md5=md5)
         r = res.get(item_id, ("missing",))
         if r[0] == "succeeded":
             entries.append(_outcome(item, r[1], costs[item_id], stats))
@@ -1583,14 +1646,16 @@ class ThreadOpts:
 class ChunkJob:
     """One thread-mode request: a chunk, rendered, with the bracket map its answer is read against."""
     __slots__ = ("id", "chunk", "user", "ids", "context", "effort", "generation", "split_from", "system",
-                 "prompt_hash", "attempts")
+                 "prompt_hash", "attempts", "md5")
     # Streamed when sent direct: a chunk may write up to 32k tokens, longer
     # than a plain request may take (anthropic_v6.TIMEOUT).
     stream = True
 
-    def __init__(self, cid, chunk, user, ids, context, effort, generation=0, split_from=None, attempts=0):
+    def __init__(self, cid, chunk, user, ids, context, effort, generation=0, split_from=None, attempts=0,
+                 md5=None):
         self.id, self.chunk, self.user, self.ids, self.context = cid, chunk, user, ids, context
         self.effort, self.generation, self.split_from, self.attempts = effort, generation, split_from, attempts
+        self.md5 = md5 or {}      # {item id: text_md5 as rendered}; filled from the state rows at collection
         self.system = prompt_v6.SYSTEM_PROMPT_THREAD
         self.prompt_hash = prompt_v6.PROMPT_HASH_THREAD
 
@@ -1617,12 +1682,12 @@ class ChunkJob:
         return self.id.startswith(REDO_PREFIX)
 
     def items(self):
-        return [Item("post" if i == self.chunk.thread_id else "comment", i, None, None, self.prompt_hash)
-                for i in self.members]
+        return [Item("post" if i == self.chunk.thread_id else "comment", i, None, None, self.prompt_hash,
+                     text_md5=self.md5.get(i)) for i in self.members]
 
     def state_rows(self):
-        """(item id, kind, prompt hash) of every member: a batch holds each one's cursor row."""
-        return [(it.id, it.kind, it.prompt_hash) for it in self.items()]
+        """(item id, kind, prompt hash, text_md5) of every member: a batch holds each one's cursor row."""
+        return [(it.id, it.kind, it.prompt_hash, it.text_md5) for it in self.items()]
 
     def worst(self, batch):
         return AV.worst_case(self.system, self.user, batch, prompt_v6.THREAD_MAX_TOKENS)
@@ -1747,7 +1812,8 @@ def _due_in(conn, tids):
 
 def _job(chunk, th, tree, effort, cid=None, generation=0, split_from=None, attempts=0):
     user, ids, ctx = T.render(chunk, th["title"], th["selftext"], th["comments"], tree)
-    return ChunkJob(cid or new_chunk_id(), chunk, user, ids, ctx, effort, generation, split_from, attempts)
+    md5 = {i: text_md5(th["selftext"] if i == chunk.thread_id else tree.rows[i].get("body")) for i in chunk.items}
+    return ChunkJob(cid or new_chunk_id(), chunk, user, ids, ctx, effort, generation, split_from, attempts, md5)
 
 
 def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=print, held_out=None,
@@ -2187,9 +2253,15 @@ def _collect_chunks(conn, cl, budget, bid, rows, stats, log, sleep=None):
     stored and the batch is marked collected (_batch_collected)."""
     res = AV.results(cl, bid, sleep=sleep, log=log)
     costs, total = _batch_costs(res, bid, [r[0] for r in rows], "chunks", log)
+    with conn.cursor() as cur:
+        cur.execute("select item_id, text_md5 from extraction_state where batch_id = %s and text_md5 is not null",
+                    (bid,))
+        md5 = dict(cur.fetchall())
+    conn.commit()
     answers, failures, again, invalid = [], [], [], []
     for row in rows:
         job = ChunkJob.from_row(row)
+        job.md5 = {i: md5[i] for i in job.members if i in md5}
         r = res.get(job.id, ("missing",))
         if r[0] == "succeeded":
             got = _read_chunk(job, r[1], costs[job.id], stats, log)
@@ -2945,6 +3017,8 @@ def parse_floors(value, subs=None):
         if len(sub) != 1 or sub[0] not in subs:
             raise SystemExit(f"--since: {name.strip()!r} is not one of the subreddits this run takes "
                              f"({', '.join(subs)})")
+        if sub[0] in out:
+            raise SystemExit(f"--since: {sub[0]} is given twice; give each subreddit one floor")
         w = when.strip()
         out[sub[0]] = None if w.lower() == "all" else _floor(w)
     # A subreddit left out would get no floor and its whole history taken;

@@ -78,7 +78,8 @@ Environment (recommended values for the daily job in brackets):
                              pass to let go of the lock (default 900)
   EXTRACT_TRIPWIRE_SEEN      optional: ids of batches whose overrun a person
                              has looked at (comma-separated); until then a
-                             run refuses to start (room_left)
+                             run logs NOT STARTING and exits 0, so it is not
+                             restarted (room_left)
 
 It refuses to start unless both caps and EXTRACT_SINCE are set, the run's
 cap is no more than the ceiling, and the subreddits, floors and age parse.

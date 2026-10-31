@@ -195,10 +195,6 @@ GONE = ("[deleted]", "[removed]")
 # the thousand. A change of form would show on nearly every item of either.
 MAX_EDIT_SHARE = {"comment": 0.2, "post": 0.5}
 MIN_EDITS_CHECKED = 5
-# extract_v6's advisory lock, held by every v6 run that writes. Settling
-# takes it for its transaction before it changes any text, so no run can
-# render an item from the old text and store that answer over the edit.
-V6_LOCK_KEY = 0x6E796336_7636            # "nyc6" "v6"
 
 
 def existing_thread_ids(conn, thread_ids):
@@ -394,32 +390,25 @@ _SETTLE = {
 }
 
 
-def _unsettled(conn, kind, limit, skip=()):
+def _unsettled(conn, kind, limit):
     t = _SETTLE[kind]["table"]
-    # Not while its v6 extraction is in a batch: an edit found now would be
-    # undone when the batch's answer, read from the old text, is stored. It
-    # waits for a later pass, after the batch is collected. `skip` is what
-    # this pass already put off (settle_items), so it is not read again.
     return [r[0] for r in _read(conn, f"""
         select x.id from {t} x
         where not x.score_settled
           and x.created_utc < now() - {_SETTLE_INTERVAL}
-          and not exists (select 1 from extraction_state s
-                          where s.item_id = x.id and s.version = 'v6' and s.batch_id is not null)
-          and not x.id = any(%s)
         order by x.created_utc
         limit %s
-    """, (list(skip), limit))]
+    """, (limit,))]
 
 
-def unsettled_comment_ids(conn, limit=100, skip=()):
+def unsettled_comment_ids(conn, limit=100):
     """Comments past SETTLE_HOURS whose score we haven't finalised yet."""
-    return _unsettled(conn, "comment", limit, skip)
+    return _unsettled(conn, "comment", limit)
 
 
-def unsettled_thread_ids(conn, limit=100, skip=()):
+def unsettled_thread_ids(conn, limit=100):
     """Posts past SETTLE_HOURS whose score we haven't finalised yet."""
-    return _unsettled(conn, "post", limit, skip)
+    return _unsettled(conn, "post", limit)
 
 
 def _flat(text):
@@ -453,7 +442,7 @@ def _compare(kind, fetched, stored):
     return gone, edited
 
 
-def settle_items(conn, kind, fetched, missing_ids=(), log=print):
+def settle_items(conn, kind, fetched, missing_ids=()):
     """Store what a re-read at SETTLE_HOURS found, and mark the items settled.
 
     fetched: {full id: Arctic Shift record} for the items returned. Scores
@@ -465,23 +454,21 @@ def settle_items(conn, kind, fetched, missing_ids=(), log=print):
     first) with the time of the edit in edited_at (comments; the evidence
     view shows the first text for mentions older than that), and, if v6 had
     extracted it, it is queued for extraction again: the next run replaces
-    its mentions of that prompt (extract_v6.write). Asked for but not
+    its mentions of that prompt (extract_v6.write). One in a batch in flight
+    is left as it is: the batch's answer was read from the old text, so
+    extract_v6 queues it again when it collects the batch instead of storing
+    that answer (its text no longer matches text_md5). Asked for but not
     returned means gone from the archive: settled and flagged, so no
     permalink to it is ever shown. One transaction.
 
-    An edit that cannot be taken now is put off, the item left unsettled,
-    whole, for a later pass to read again:
-      * while a v6 run holds its lock (V6_LOCK_KEY), or the item's v6
-        extraction is in a batch, both checked inside this transaction, so
-        no run can read the old text and store its answer over the edit;
-      * when more of the re-read than MAX_EDIT_SHARE looks edited, loudly:
-        real edits are a few in a hundred, and that many means the archive's
-        text changed form (escaping, say), which would rewrite and
-        re-extract everything it touched.
-    Returns (deleted, edited, ids put off)."""
+    A re-read in which more than MAX_EDIT_SHARE of the items look edited
+    takes none of the edits: real edits are a few in a hundred, and that
+    many means the archive's text changed form (escaping, say), which would
+    rewrite and re-extract everything it touched. Scores and deletions still
+    settle; the caller logs it. Returns (deleted, edited, edits dropped)."""
     s = _SETTLE[kind]
     t, field, original = s["table"], s["text"], s["original"]
-    deferred = set()
+    dropped = 0
     with conn.cursor() as cur:
         stored = {}
         if fetched:
@@ -489,26 +476,10 @@ def settle_items(conn, kind, fetched, missing_ids=(), log=print):
             stored = dict(cur.fetchall())
         gone, edited = _compare(kind, fetched, stored)
         if len(edited) > max(MIN_EDITS_CHECKED, MAX_EDIT_SHARE[kind] * len(fetched)):
-            log(f"  !!!! settle: {len(edited)} of {len(fetched)} {kind}(s) re-read differ from the text stored, "
-                f"too many to be edits; none taken, left unsettled (first: {sorted(edited)[:3]}) !!!!")
-            deferred |= set(edited)
-            edited = {}
-        if edited:
-            cur.execute("select pg_try_advisory_xact_lock(%s)", (V6_LOCK_KEY,))
-            if not cur.fetchone()[0]:
-                deferred |= set(edited)
-                edited = {}
-            else:
-                cur.execute("""select item_id from extraction_state
-                               where version = 'v6' and item_id = any(%s) and batch_id is not null""",
-                            (list(edited),))
-                busy = {r[0] for r in cur.fetchall()}
-                deferred |= busy
-                edited = {i: v for i, v in edited.items() if i not in busy}
-        settle = {i: x for i, x in fetched.items() if i not in deferred}
-        if settle:
+            dropped, edited = len(edited), {}
+        if fetched:
             if kind == "comment":
-                vals = [(i, x.get("score"), x.get("controversiality")) for i, x in settle.items()]
+                vals = [(i, x.get("score"), x.get("controversiality")) for i, x in fetched.items()]
                 execute_values(cur, """
                     update comments c
                     set score = v.score::int, controversiality = v.controversiality::int, score_settled = true
@@ -517,7 +488,7 @@ def settle_items(conn, kind, fetched, missing_ids=(), log=print):
                 """, vals)
             else:
                 vals = [(i, x.get("score"), x.get("upvote_ratio"), x.get("num_comments"))
-                        for i, x in settle.items()]
+                        for i, x in fetched.items()]
                 execute_values(cur, """
                     update threads t
                     set score = v.score::int, upvote_ratio = v.upvote_ratio::real,
@@ -537,27 +508,25 @@ def settle_items(conn, kind, fetched, missing_ids=(), log=print):
                 from (values %s) as v(id, text)
                 where x.id = v.id
             """, list(edited.items()))
-            # Done items only; none is in a batch (checked above, under the
-            # lock). attempts starts again, so a failure on the new text gets
-            # its own retry before it is parked. extraction_state is made by
-            # extract_v6_schema.sql, which schema.sql applies on every boot.
+            # Done items out of any batch; attempts starts again, so a failure
+            # on the new text gets its own retry before it is parked.
+            # extraction_state is made by extract_v6_schema.sql, which
+            # schema.sql applies on every boot.
             cur.execute("""update extraction_state set extracted_at = null, attempts = 0, updated_at = now()
-                           where version = 'v6' and item_id = any(%s) and extracted_at is not null""",
-                        (list(edited),))
+                           where version = 'v6' and item_id = any(%s)
+                             and extracted_at is not null and batch_id is null""", (list(edited),))
     conn.commit()
-    if deferred:
-        log(f"  settle: {len(deferred)} edited {kind}(s) put off to a later pass")
-    return len(gone) + len(missing_ids), len(edited), deferred
+    return len(gone) + len(missing_ids), len(edited), dropped
 
 
-def settle_scores(conn, comments, missing_ids=(), log=print):
+def settle_scores(conn, comments, missing_ids=()):
     """settle_items for comments, as Arctic Shift returns them (bare ids)."""
-    return settle_items(conn, "comment", {"t1_" + c["id"]: c for c in comments}, missing_ids, log)
+    return settle_items(conn, "comment", {"t1_" + c["id"]: c for c in comments}, missing_ids)
 
 
-def settle_threads(conn, posts, missing_ids=(), log=print):
+def settle_threads(conn, posts, missing_ids=()):
     """settle_items for posts, as Arctic Shift returns them (bare ids)."""
-    return settle_items(conn, "post", {"t3_" + p["id"]: p for p in posts}, missing_ids, log)
+    return settle_items(conn, "post", {"t3_" + p["id"]: p for p in posts}, missing_ids)
 
 
 def get_cursor(conn, subreddit, kind, default):

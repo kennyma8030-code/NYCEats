@@ -78,12 +78,15 @@ again, so the next extraction run replaces its mentions of that prompt in
 one transaction. A comment also records `edited_at`, and its mentions stored
 before then click through to `original_body`, the words they were read
 from, under either reader (`legacy` mentions are never extracted again). An
-edit that cannot be taken now leaves the item unsettled for a later pass:
-while a v6 run holds its lock or the item is in a batch (both checked in the
-settle's own transaction, so no run can read the old text and store its
-answer over the edit), or when more of one re-read looks edited than real
-edits would (20% of comments, 50% of posts: that many means the archive's
-text changed form). Text missing from a re-read is not an edit. Only this
+item whose v6 extraction is in a batch keeps its state: its batch rendered
+the old text, so when the batch is collected v6 finds the text no longer
+hashes to what it sent (`extraction_state.text_md5`) and queues the item
+again instead of storing that answer; a request built before the edit and
+answered after it is caught the same way. When more of one re-read looks
+edited than real edits would (20% of comments, 50% of posts: that many means
+the archive's text changed form), none of its edits is taken and the pass
+says so once, loudly; scores and deletions settle all the same. Text missing
+from a re-read is not an edit. Only this
 one re-read looks, so a later edit is not seen.
 
 ---
@@ -224,10 +227,13 @@ stored but not scored (scoring reads `scoring_params.subreddit`).
 **Names in other scripts.** `normalize_entity` keeps the letters of other
 scripts when the Latin rules leave only a fragment: no key at all (불짬뽕,
 which used to store no mention), or, for a name with letters of another
-script, a key with no letter ("산수갚산 2" was "2"). A key with a letter in
-it is kept, so bilingual names ("Xi'an Famous Foods 西安名吃", "游子老鸭粉丝馆
-Yozi") still match the city's list, and no purely Latin name changes key.
-Stored rows are not re-keyed. `extract_v6.py --restore-unkeyed --yes`
+script, a key with no letter ("산수갚산 2" was "2") or only generic words
+(`extract.GENERIC_WORDS`: "불짬뽕 NYC" was "nyc"). Latin letters with no
+decomposition are kept there, folded the usual way (ß is ss, ø is o). A key
+with a word of its own is kept, so bilingual names ("Xi'an Famous Foods
+西安名吃", "游子老鸭粉丝馆 Yozi") still match the city's list, and no purely
+Latin name changes key. Stored rows are not re-keyed.
+`extract_v6.py --restore-unkeyed --yes`
 stores, from the answers on record, the mentions dropped for an empty key.
 
 ---
@@ -239,7 +245,11 @@ Two raw tables (`schema.sql`): `threads`, `comments`.
 - Rows are appended, never deleted. What changes in place is what the settle
   re-read learns (scores, `was_deleted_later`) and, for an edited item, its
   text, with the first text kept beside it (`original_body`,
-  `original_selftext`), so nothing collected is lost.
+  `original_selftext`), so nothing collected is lost. The columns for this
+  (and `extraction_state.text_md5`) are in `migrations/live_extract.sql`,
+  applied by hand (`psql -1 -f`) before the web app or the poller is
+  deployed with them: the web app names them outright. schema.sql adds the
+  same on the poller's boot, guarded, so either order of applying is safe.
 - `comments.thread_id` is a real FK; the poller guarantees the post exists first.
 - `comments.parent_comment_id` is **not** a FK — 56% of replies arrive before
   their parent. `fill_tree` resolves `root_comment_id` and `depth` after insert

@@ -255,21 +255,23 @@ def settle_once(conn, batches=5):
     for kind, pick, fetch, store, prefix in (
             ("comment", db.unsettled_comment_ids, arctic.comments_by_id, db.settle_scores, "t1_"),
             ("post", db.unsettled_thread_ids, arctic.posts_by_id, db.settle_threads, "t3_")):
-        total = gone = edited = 0
-        put_off = set()          # edits settle_items could not take now: not read again this pass
+        total = gone = edited = dropped = 0
         for _ in range(batches):
-            ids = pick(conn, limit=100, skip=put_off)
+            ids = pick(conn, limit=100)
             if not ids:
                 break
             fetched = fetch([i[3:] for i in ids])
             returned = {prefix + x["id"] for x in fetched}
-            g, e, later = store(conn, fetched, missing_ids=set(ids) - returned)
-            total, gone, edited = total + len(ids) - len(later), gone + g, edited + e
-            put_off |= later
+            g, e, d = store(conn, fetched, missing_ids=set(ids) - returned)
+            total, gone, edited, dropped = total + len(ids), gone + g, edited + e, dropped + d
             time.sleep(1)
-        if total or put_off:
-            print(f"  settled scores for {total} {kind}(s): {gone} deleted, {edited} edited"
-                  + (f", {len(put_off)} edited put off" if put_off else ""))
+        if total:
+            print(f"  settled scores for {total} {kind}(s): {gone} deleted, {edited} edited")
+        if dropped:
+            # Once a pass, however many batches tripped it (db.MAX_EDIT_SHARE).
+            print(f"  !!!! settle: {dropped} {kind} edit(s) not taken: too many of a re-read differed from "
+                  "the text stored to be edits (has Arctic Shift changed how it returns text?). Scores and "
+                  "deletions were settled. !!!!")
 
 
 def resweep_once(conn, subreddit, hours=None, pending=None):

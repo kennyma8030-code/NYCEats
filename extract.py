@@ -105,34 +105,59 @@ def has_other_script(raw):
                for c in unicodedata.normalize("NFKC", raw or ""))
 
 
+#: Words that name no place on their own. A bilingual name whose Latin key
+#: is only these ("불짬뽕 NYC", "鼎泰 Kitchen") is keyed by its other script.
+#: latin_key has folded accents (café is cafe) and dropped "the" and "and".
+GENERIC_WORDS = frozenset({"nyc", "ny", "the", "restaurant", "cafe", "co", "bar", "kitchen", "house", "shop",
+                           "food", "noodle", "noodles", "bbq"})
+
+
 def latin_is_fragment(raw):
     """Whether latin_key would key a name by a fragment of it: its Latin key
     is empty ("鱼你在一起"), or the name has letters of another script and
-    its Latin key has no letter ("산수갚산 2" keys as "2", which "#2" shares).
+    its Latin key has no letter ("산수갚산 2" keys as "2", which "#2" shares)
+    or only GENERIC_WORDS ("불짬뽕 NYC" keys as "nyc").
 
-    A bilingual name keeps its Latin key whenever that key has a letter, so
-    "Xi'an Famous Foods 西安名吃", "Din Soup Dumplings 鼎泰轩" and
+    A bilingual name keeps its Latin key whenever that key has a word of its
+    own, so "Xi'an Famous Foods 西安名吃", "Din Soup Dumplings 鼎泰轩" and
     "游子老鸭粉丝馆 Yozi" keep the keys the city's restaurant list matches and
-    their stored mentions carry, and "불짬뽕 NYC" keeps "nyc". A name with no
-    other script and a non-empty key is never a fragment, so no key a purely
-    Latin name was given changes."""
+    their stored mentions carry. A name with no other script and a non-empty
+    key is never a fragment, so no key a purely Latin name was given changes."""
     key = latin_key(raw)
-    return not key or (not re.search(r"[a-z]", key) and has_other_script(raw))
+    if not key:
+        return True
+    if not has_other_script(raw):
+        return False
+    return not re.search(r"[a-z]", key) or all(w in GENERIC_WORDS or w.isdigit() for w in key.split())
+
+
+#: Latin letters with no decomposition to a-z, folded the usual way rather
+#: than dropped; any other such letter is kept as it is.
+LATIN_FOLD = {"ß": "ss", "æ": "ae", "ø": "o", "œ": "oe", "ł": "l", "đ": "d", "ð": "d", "þ": "th", "ı": "i",
+              "ħ": "h", "ŧ": "t", "ŋ": "n"}
 
 
 def unicode_key(raw):
     """The key of a name latin_key reduces to a fragment (latin_is_fragment):
-    鱼你在一起, 불짬뽕, Генатсвале 2, 산수갚산 2. Its Latin part is folded as latin_key folds it (case,
-    accents, apostrophes, "and", "the", a trailing "nyc"); letters, marks and
-    digits of other scripts are kept, composed (NFKC: Hangul stays
-    syllables, Devanagari keeps its vowel signs); anything else separates
-    words."""
+    鱼你在一起, 불짬뽕 NYC, Генатсвале 2, 산수갚산 2, Øø.
+
+    Latin letters are folded as latin_key folds them (case, accents,
+    apostrophes, "and", "the", a trailing "nyc"), and the ones latin_key
+    turns into spaces are kept, through LATIN_FOLD where a folding is usual
+    (ß is ss, ø is o). Letters, marks and digits of other scripts are kept,
+    composed (NFKC: Hangul stays syllables, Devanagari keeps its vowel
+    signs). Anything else separates words."""
     s = unicodedata.normalize("NFKC", (raw or "").lower().replace("'", "").replace("’", ""))
     out = []
     for c in s:
         if _is_latin(c):
             base = "".join(x for x in unicodedata.normalize("NFKD", c) if not unicodedata.combining(x))
-            out.append(base if base and _PUNCT.fullmatch(base) is None else " ")
+            if base and _PUNCT.fullmatch(base) is None:
+                out.append(base)
+            elif unicodedata.category(c)[0] == "L":
+                out.append(LATIN_FOLD.get(c, c))
+            else:
+                out.append(" ")
         else:
             out.append(c if unicodedata.category(c)[0] in "LMN" else " ")
     return _tidy("".join(out))
