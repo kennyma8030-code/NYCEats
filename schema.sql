@@ -69,17 +69,22 @@ end $$;
 
 -- Backfilled comments were inserted unsettled, so scoring ignored their real
 -- archive scores (avg 5.2) and weighed all 604k at 1.0. Anything first seen
--- 36h+ after posting arrived with a final score. Idempotent. Looked for
--- first, through the unsettled index, so a boot with nothing to fix only
--- reads comments and never takes the row-exclusive lock an UPDATE does.
+-- db.SETTLE_HOURS after posting arrived with a final score (the threshold
+-- db.init sets as nyceats.settle_hours; 40 when this file is applied by
+-- hand). Idempotent. Looked for first, through the unsettled index, so a
+-- boot with nothing to fix only reads comments and never takes the
+-- row-exclusive lock an UPDATE does.
 do $$
+declare
+  settled_after interval := make_interval(
+    secs => coalesce(nullif(current_setting('nyceats.settle_hours', true), '')::float8, 40) * 3600);
 begin
   if exists (select 1 from comments
              where not score_settled
-               and first_seen_at > created_utc + interval '36 hours') then
+               and first_seen_at > created_utc + settled_after) then
     update comments set score_settled = true
     where not score_settled
-      and first_seen_at > created_utc + interval '36 hours';
+      and first_seen_at > created_utc + settled_after;
   end if;
 end $$;
 
@@ -89,16 +94,18 @@ end $$;
 -- deleted post (was_deleted_later, so no permalink to it is shown).
 --
 -- score_settled defaults to true and stays so: db.insert_threads always says
--- which a new post is, and code older than this, still running while the
--- columns go in (migrations/live_extract.sql is applied before the deploy),
--- inserts the backfill's history, which arrived with its final numbers.
--- Constant defaults, so the ALTER only touches the catalog.
+-- which a new post is. Constant defaults, so the ALTER only touches the
+-- catalog. migrations/live_extract.sql is the same ALTER, applied by hand
+-- before the deploy, so the web app's feed finds was_deleted_later; code
+-- older than this goes on inserting posts until the deploy, all settled by
+-- the default.
 --
--- Of the posts stored before, those first seen less than SETTLE_HOURS after
--- they were posted (the poller's live ones) are marked to settle, once: the
--- column's comment records that it was done, so this boot and the hand-run
--- migration never both do it, and a current database only reads the
--- catalog here. Its threshold is db.SETTLE_HOURS, which db.init sets as
+-- Here, and only here (the new code's boot), the posts stored before are
+-- marked to settle, once: those first seen less than SETTLE_HOURS after they
+-- were posted, the poller's live ones, up to this boot's deploy (the
+-- backfill's history arrived with its final numbers). The column's comment
+-- records that it was done, so a later boot only reads the catalog here.
+-- Its threshold is db.SETTLE_HOURS, which db.init sets as
 -- nyceats.settle_hours for this transaction; applied by hand, it is 40.
 do $$
 begin

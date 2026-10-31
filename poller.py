@@ -249,23 +249,28 @@ def settle_once(conn, batches=5):
     ~3,000 comments a day across the seven cities is ~30 requests; five
     batches per chores pass is room for 240. Posts are ~100 a day, a request
     or two, with the same room. The re-read also flags what was deleted
-    since (db.settle_items); edits are ignored on purpose.
+    since (db.settle_items); edits are ignored on purpose. An item the
+    archive does not return is asked for again on later passes (once a pass)
+    until it is db.SETTLE_GIVE_UP_DAYS old.
     """
     for kind, pick, fetch, store, prefix in (
             ("comment", db.unsettled_comment_ids, arctic.comments_by_id, db.settle_scores, "t1_"),
             ("post", db.unsettled_thread_ids, arctic.posts_by_id, db.settle_threads, "t3_")):
-        total = gone = 0
+        total = gone = missing = 0
+        read = set()           # asked for this pass: one Arctic Shift did not return stays unsettled
         for _ in range(batches):
-            ids = pick(conn, limit=100)
+            ids = pick(conn, limit=100, skip=read)
             if not ids:
                 break
+            read |= set(ids)
             fetched = fetch([i[3:] for i in ids])
             returned = {prefix + x["id"] for x in fetched}
             gone += store(conn, fetched, missing_ids=set(ids) - returned)
-            total += len(ids)
+            total, missing = total + len(returned & set(ids)), missing + len(set(ids) - returned)
             time.sleep(1)
-        if total:
-            print(f"  settled scores for {total} {kind}(s), {gone} deleted")
+        if total or missing:
+            print(f"  settled scores for {total} {kind}(s), {gone} deleted"
+                  + (f"; {missing} not returned by the archive" if missing else ""))
 
 
 def resweep_once(conn, subreddit, hours=None, pending=None):

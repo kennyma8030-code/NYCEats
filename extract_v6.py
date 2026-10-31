@@ -494,9 +494,10 @@ QUEUED = queued("s")
 def candidate_ids(conn, kind, limit=None, since=None, ids=None, max_chars=None, seen_since=None):
     """Item ids still due under v6, in processing order.
 
-    r/FoodNYC only (subreddits.HOME): the other cities are collected, never
-    extracted. A comment is due unless it is [deleted]/[removed]/blank,
-    however short. Comments come thread by thread, so an interrupted run
+    r/FoodNYC only (subreddits.HOME): comment and post mode stay as
+    benchmarked, for the board's city; --subreddit is thread mode's. A
+    comment is due unless it is [deleted]/[removed]/blank, however short.
+    Comments come thread by thread, so an interrupted run
     leaves whole threads finished; posts oldest first.
 
     `since` is on created_utc (when it was written), `seen_since` on
@@ -1983,9 +1984,12 @@ def _chunk_failed(conn, job, code, usage, cost, log, batch_id=None, attempts=0):
     so each keeps the hash of the prompt that last tried it. In a batch the
     items are detached from it, so they are due again. Returns the thread id."""
     # A redo chunk's items are done already: it is neither split nor sent on
-    # alone (that would be comment mode, under another prompt). They keep the
-    # extraction they had, and the next run's redo tries them once more
-    # (redo_candidates counts the failed redo chunks that held each one).
+    # alone (that would be comment mode, under another prompt), and they keep
+    # the extraction they had. The redo itself tries them again: the comments
+    # of a failed redo chunk of several go out one to a chunk, in the same run
+    # (_redo_again) and in every later one (build_redo_jobs), and a comment
+    # is given up once MAX_ATTEMPTS redo chunks of its own have failed
+    # (redo_candidates counts only those).
     halves = T.split_half(job.chunk) if job.generation == 0 and len(job.chunk) > 1 and not job.redo else []
     rec = _chunk_record(job, "failed", batch_id, None, usage, cost, error=str(code)[:500],
                         fallback=not halves and not job.redo, attempts=attempts)
@@ -2339,7 +2343,7 @@ def run_batch_threads(conn, cl, budget, opts, limit=None, since=None, ids=None, 
 OLD_MEMBER_CHARS = 1500
 
 
-def redo_candidates(conn, before, tids=None):
+def redo_candidates(conn, before, tids=None, subs=None):
     """{thread_id: [comment ids]} of the thread-mode comments read with the old cut.
 
     Done under the thread prompt before `before`, longer than OLD_MEMBER_CHARS
@@ -2351,7 +2355,9 @@ def redo_candidates(conn, before, tids=None):
     restart. A failed redo chunk of several comments does not count against
     them: dense lists together can run a chunk out of its 32k tokens (2- to
     5-comment redo chunks did), so each of its comments is tried alone next
-    (build_redo_jobs). `tids`, when given, limits it to those threads."""
+    (build_redo_jobs). `tids`, when given, limits it to those threads, and
+    `subs` to those subreddits (the run's, r/FoodNYC by default), so a run
+    that does not take r/FoodNYC redoes none of it."""
     with conn.cursor() as cur:
         cur.execute("""
             select s.item_id, c.thread_id, c.body from extraction_state s
@@ -2359,7 +2365,7 @@ def redo_candidates(conn, before, tids=None):
             where s.version = %(v)s and s.kind = 'comment' and s.prompt_hash = %(ph)s
               and s.extracted_at is not null and s.extracted_at < %(before)s
               and s.batch_id is null
-              and c.subreddit = %(home)s
+              and c.subreddit = any(%(subs)s)
               and (%(tids)s::text[] is null or c.thread_id = any(%(tids)s::text[]))
               and length(c.body) > %(old)s
               and coalesce((s.output->>'member_chars')::int, %(old)s) < %(new)s
@@ -2367,7 +2373,8 @@ def redo_candidates(conn, before, tids=None):
                    where k.version = %(v)s and k.status = 'failed' and k.id like %(prefix)s
                      and cardinality(k.members) = 1 and s.item_id = any(k.members)) < %(tries)s
             order by c.thread_id, c.created_utc, c.id""",
-                    {"v": VERSION, "ph": prompt_v6.PROMPT_HASH_THREAD, "before": before, "home": subreddits.HOME,
+                    {"v": VERSION, "ph": prompt_v6.PROMPT_HASH_THREAD, "before": before,
+                     "subs": list(subs) if subs else [subreddits.HOME],
                      "tids": list(tids) if tids is not None else None,
                      "old": OLD_MEMBER_CHARS, "new": prompt_v6.thread.MEMBER_CHARS,
                      "prefix": REDO_PREFIX + "%", "tries": MAX_ATTEMPTS})
@@ -2419,7 +2426,7 @@ def _redo_again(conn, before, tids, opts, waiting=()):
     """Jobs for the comments of these threads whose redo chunk of several just
     failed (and that are not waiting to be sent already), one to a chunk, so
     the run retries them at once instead of leaving them for the next."""
-    todo = redo_candidates(conn, before, tids) if tids else {}
+    todo = redo_candidates(conn, before, tids, opts.subs) if tids else {}
     ids = [c for cs in todo.values() for c in cs if c not in waiting]
     split = _redo_split(conn, ids) if ids else set()
     todo = {t: [c for c in cs if c in split] for t, cs in todo.items()}
@@ -2472,7 +2479,7 @@ def run_redo(conn, cl, budget, opts, before, batch=False, batch_size=BATCH_SIZE,
     if batch:
         _settle_pending(conn, cl, log)
         inflight = _reattach(conn, budget, log)
-    todo = redo_candidates(conn, before)
+    todo = redo_candidates(conn, before, subs=opts.subs)
     jobs = build_redo_jobs(conn, todo, opts)
     log(f"redo of comments cut at {OLD_MEMBER_CHARS:,} characters before {before:%Y-%m-%d %H:%M}Z: "
         f"{sum(len(v) for v in todo.values()):,} comment(s) in {len(todo):,} thread(s), {len(jobs):,} chunk(s)")
@@ -3038,8 +3045,9 @@ def main(argv=None):
                     help=f"hard max: comments in one chunk; only bigger reply groups are split "
                          f"(default {T.MAX_COMMENTS})")
     th.add_argument("--subreddit", metavar="NAMES",
-                    help=f"the subreddits whose threads are taken, comma-separated (default {subreddits.HOME}; "
-                         "'all' is every collected one). The prompt is written for r/FoodNYC: see SPEC.md")
+                    help=f"the subreddits whose threads are taken (and redone), comma-separated (default "
+                         f"{subreddits.HOME}; 'all' is every collected one). The prompt is written for r/FoodNYC: "
+                         "see SPEC.md. Comment mode takes r/FoodNYC only")
     th.add_argument("--min-post-age", metavar="AGE",
                     help="leave out, whole, every thread whose post is younger than this: 48h, 2d, or hours "
                          "(the daily run's 48h). No upper bound: older threads with anything due are all taken")

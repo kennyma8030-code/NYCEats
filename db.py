@@ -187,6 +187,32 @@ def _read(conn, sql, params):
 SETTLE_HOURS = float(os.environ.get("SETTLE_HOURS", "40"))
 _SETTLE_INTERVAL = f"make_interval(secs => {SETTLE_HOURS * 3600:.0f})"
 GONE = ("[deleted]", "[removed]")
+# The settle pass gives up re-reading an item Arctic Shift does not return
+# once it is this old, and settles it as it is (settle_items).
+SETTLE_GIVE_UP_DAYS = 7
+
+
+def is_gone(text):
+    return (text or "").strip() in GONE
+
+
+def is_deleted(kind, record):
+    """Whether an Arctic Shift record says the item was deleted. Arctic Shift
+    keeps a deleted item and returns it with its text replaced by [deleted]
+    or [removed], so that, not absence, is how deletion shows. The author
+    alone is not enough: a deleted account leaves its comments up, text and
+    permalink intact, under author [deleted]. A post also says so in
+    removed_by_category. kind is "comment" or "post"."""
+    if kind == "post":
+        return is_gone(record.get("selftext")) or bool(record.get("removed_by_category"))
+    return is_gone(record.get("body"))
+
+
+# An item that arrives already past SETTLE_HOURS is stored settled, and the
+# settle pass never reads it again, so whether it was deleted by then is
+# taken from the record it arrives in, by the settle pass's own test.
+_SETTLED_AT_INSERT = (f"to_timestamp(%s) < now() - {_SETTLE_INTERVAL}, "
+                      f"to_timestamp(%s) < now() - {_SETTLE_INTERVAL} and %s")
 
 
 def existing_thread_ids(conn, thread_ids):
@@ -213,6 +239,8 @@ def insert_threads(conn, posts):
         # Settled already when it arrives past SETTLE_HOURS, as comments are.
         # Always said: the column defaults to true (schema.sql).
         p["created_utc"],
+        p["created_utc"],
+        is_deleted("post", p),
     # Sorted so two writers inserting overlapping batches take row locks in the
     # same order. The poller and its background backfill both insert threads,
     # and unsorted batches can deadlock each other.
@@ -221,12 +249,12 @@ def insert_threads(conn, posts):
         inserted = execute_values(cur, """
             insert into threads
               (id, subreddit, title, selftext, author, created_utc,
-               score, upvote_ratio, num_comments, retrieved_on, score_settled)
+               score, upvote_ratio, num_comments, retrieved_on, score_settled, was_deleted_later)
             values %s
             on conflict (id) do nothing
             returning id
         """, rows, template="(%s,%s,%s,%s,%s,to_timestamp(%s),%s,%s,%s,to_timestamp(%s),"
-                            f"to_timestamp(%s) < now() - {_SETTLE_INTERVAL})",
+                            f"{_SETTLED_AT_INSERT})",
             fetch=True)
         # execute_values pages internally, so cur.rowcount would only report the
         # last page. RETURNING + fetch gives the true total.
@@ -256,13 +284,15 @@ def insert_comments(conn, comments):
             c.get("score"),
             c.get("controversiality"),
             c["created_utc"],
+            c["created_utc"],
+            is_deleted("comment", c),
         ))
     with conn.cursor() as cur:
         inserted = execute_values(cur, """
             insert into comments
               (id, subreddit, thread_id, parent_id, parent_comment_id, author, body,
                permalink, created_utc, retrieved_on, score, controversiality,
-               score_settled)
+               score_settled, was_deleted_later)
             values %s
             on conflict (id) do nothing
             returning id
@@ -270,7 +300,7 @@ def insert_comments(conn, comments):
             # A comment already past SETTLE_HOURS when it arrives came from the
             # archive, whose score has had its 36h -- nothing is left to settle.
             template="(%s,%s,%s,%s,%s,%s,%s,%s,to_timestamp(%s),to_timestamp(%s),%s,%s,"
-                     f"to_timestamp(%s) < now() - {_SETTLE_INTERVAL})",
+                     f"{_SETTLED_AT_INSERT})",
             fetch=True)
         n = len(inserted)
     conn.commit()
@@ -384,42 +414,31 @@ _SETTLE = {
 }
 
 
-def _unsettled(conn, kind, limit):
+def _unsettled(conn, kind, limit, skip=()):
+    """Unsettled items past SETTLE_HOURS: those that crossed it within the
+    last day first, then older ones, each oldest first. The older ones are
+    mostly items Arctic Shift did not return, re-read on every pass until
+    SETTLE_GIVE_UP_DAYS; behind the fresh ones they cannot starve them.
+    `skip` is what this pass has read already."""
     t = _SETTLE[kind]["table"]
     return [r[0] for r in _read(conn, f"""
         select x.id from {t} x
         where not x.score_settled
           and x.created_utc < now() - {_SETTLE_INTERVAL}
-        order by x.created_utc
+          and not x.id = any(%s)
+        order by x.created_utc < now() - {_SETTLE_INTERVAL} - interval '1 day', x.created_utc
         limit %s
-    """, (limit,))]
+    """, (list(skip), limit))]
 
 
-def unsettled_comment_ids(conn, limit=100):
+def unsettled_comment_ids(conn, limit=100, skip=()):
     """Comments past SETTLE_HOURS whose score we haven't finalised yet."""
-    return _unsettled(conn, "comment", limit)
+    return _unsettled(conn, "comment", limit, skip)
 
 
-def unsettled_thread_ids(conn, limit=100):
+def unsettled_thread_ids(conn, limit=100, skip=()):
     """Posts past SETTLE_HOURS whose score we haven't finalised yet."""
-    return _unsettled(conn, "post", limit)
-
-
-def is_gone(text):
-    return (text or "").strip() in GONE
-
-
-def _deleted(kind, fetched):
-    """The re-read items that were deleted since we stored them.
-
-    Arctic Shift keeps a deleted item and returns it with its text replaced
-    by [deleted] or [removed], so that, not absence, is how deletion shows.
-    The author alone is not enough: a deleted account leaves its comments up,
-    text and permalink intact, under author [deleted]. A post also says so in
-    removed_by_category."""
-    field = _SETTLE[kind]["text"]
-    return [i for i, x in fetched.items()
-            if is_gone(x.get(field)) or (kind == "post" and x.get("removed_by_category"))]
+    return _unsettled(conn, "post", limit, skip)
 
 
 def settle_items(conn, kind, fetched, missing_ids=()):
@@ -428,13 +447,18 @@ def settle_items(conn, kind, fetched, missing_ids=()):
     fetched: {full id: Arctic Shift record} for the items returned. Scores
     (score and controversiality for comments; score, upvote_ratio and
     num_comments for posts) are updated, as they were at insert. A deleted
-    item is flagged was_deleted_later, and asked for but not returned means
-    gone from the archive and is flagged too, so no permalink to it is ever
-    shown. The text is never touched: a deleted one keeps what we stored, and
-    an edit is ignored on purpose, so every mention stays tied to the words
-    it was read from (SPEC.md). One transaction. Returns how many were flagged."""
+    item (is_deleted) is flagged was_deleted_later, so no permalink to it is
+    ever shown. The text is never touched: a deleted one keeps what we
+    stored, and an edit is ignored on purpose, so every mention stays tied to
+    the words it was read from (SPEC.md).
+
+    An item asked for and not returned is not taken for deleted (the archive
+    keeps deleted items; a gap is more likely): it stays unsettled, for a
+    later pass to read again, until it is SETTLE_GIVE_UP_DAYS old, and is
+    then settled as it is, unflagged. One transaction. Returns how many
+    were flagged deleted."""
     t = _SETTLE[kind]["table"]
-    gone = _deleted(kind, fetched)
+    gone = [i for i, x in fetched.items() if is_deleted(kind, x)]
     with conn.cursor() as cur:
         if fetched:
             if kind == "comment":
@@ -455,12 +479,14 @@ def settle_items(conn, kind, fetched, missing_ids=()):
                     from (values %s) as v(id, score, upvote_ratio, num_comments)
                     where t.id = v.id
                 """, vals)
-        flagged = list(gone) + [i for i in missing_ids]
-        if flagged:
-            cur.execute(f"update {t} set score_settled = true, was_deleted_later = true where id = any(%s)",
-                        (flagged,))
+        if gone:
+            cur.execute(f"update {t} set was_deleted_later = true where id = any(%s)", (gone,))
+        if missing_ids:
+            cur.execute(f"update {t} set score_settled = true where id = any(%s) "
+                        "and created_utc < now() - make_interval(days => %s)",
+                        (list(missing_ids), SETTLE_GIVE_UP_DAYS))
     conn.commit()
-    return len(flagged)
+    return len(gone)
 
 
 def settle_scores(conn, comments, missing_ids=()):

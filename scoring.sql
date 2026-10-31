@@ -164,11 +164,24 @@ with base as (
     -- Did the thread itself name the place? Both sides are flattened to
     -- lowercase alphanumerics because entity_key is normalized and the title is
     -- not -- and because entity_key is data, so it must never reach a regex.
-    strpos(
-      ' ' || regexp_replace(lower(t.title || ' ' || coalesce(t.selftext, '')),
-                            '[^a-z0-9]+', ' ', 'g') || ' ',
-      ' ' || m.entity_key || ' '
-    ) > 0 as prompted
+    -- A key with characters outside ASCII (a name in another script,
+    -- extract.unicode_key) would never match text flattened to a-z0-9, so for
+    -- those alone the text keeps every character outside ASCII and still
+    -- turns ASCII punctuation into spaces. An ASCII key (byte length equal to
+    -- length) takes the first branch, exactly as before.
+    case when octet_length(m.entity_key) = length(m.entity_key) then
+      strpos(
+        ' ' || regexp_replace(lower(t.title || ' ' || coalesce(t.selftext, '')),
+                              '[^a-z0-9]+', ' ', 'g') || ' ',
+        ' ' || m.entity_key || ' '
+      ) > 0
+    else
+      strpos(
+        ' ' || regexp_replace(lower(t.title || ' ' || coalesce(t.selftext, '')),
+                              '[^a-z0-9\u0080-\U0010ffff]+', ' ', 'g') || ' ',
+        ' ' || m.entity_key || ' '
+      ) > 0
+    end as prompted
 
   from live_mentions m
   join comments c on c.id = m.comment_id

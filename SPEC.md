@@ -60,15 +60,19 @@ pass, at 36h, is the only update; re-fetching later returns the same number.
 Asking a few hours after it leaves room for that pass to land late. Comments
 and posts alike (posts' score, `upvote_ratio` and `num_comments`), each
 tracked with `score_settled`. An item already past 40h when it arrives came
-with its final numbers and is stored settled.
+with its final numbers and is stored settled, flagged deleted already if
+its record says so (below).
 
 **`was_deleted_later`** flags comments and posts gone from Reddit. Required
 for the permalink click-through rule — never link evidence that 404s. Arctic
 Shift keeps a deleted item and returns it with its text replaced by
-`[deleted]`/`[removed]` (a post may say so in `removed_by_category`), so the
-settle re-read flags that, and an item it no longer returns at all; the text
-we stored is kept. An author of `[deleted]` alone is not a deletion: a
-deleted account leaves its comments up.
+`[deleted]`/`[removed]` (a post may say so in `removed_by_category`), so
+that, and only that, is a deletion; the text we stored is kept. An author of
+`[deleted]` alone is not one: a deleted account leaves its comments up. An
+item the re-read does not return is not taken for deleted: it stays
+unsettled and is asked for again, once a pass and behind the items that
+reached 40h in the last day, until it is 7 days old
+(`db.SETTLE_GIVE_UP_DAYS`), and is then settled as it is, unflagged.
 
 **Edits are ignored, on purpose.** The settle re-read takes scores and
 deletions only; a comment's body and a post's selftext stay as first stored,
@@ -205,10 +209,12 @@ under the post and its quoted ancestors. A run caps itself at
 `EXTRACT_RUN_USD` under the `EXTRACT_CEILING_USD` total, re-attaches any
 batch an earlier run left in flight before sending anything, and after a
 spend tripwire does nothing (exit 0, loudly) until a person names the batch
-as seen. The prompt is written for New York ("a New York City food subreddit", places
-outside the five boroughs are not mentions, "best in NYC"), so another
-city needs a prompt of its own before it is extracted; its mentions would be
-stored but not scored (scoring reads `scoring_params.subreddit`).
+as seen. The redo of cut comments takes the run's subreddits too; comment
+and post mode stay r/FoodNYC only. The prompt is written for New York ("a
+New York City food subreddit", places outside the five boroughs are not
+mentions, "best in NYC"), so another city needs a prompt of its own before
+it is extracted; its mentions would be stored but not scored (scoring reads
+`scoring_params.subreddit`).
 
 **Names in other scripts.** `normalize_entity` keeps the letters of other
 scripts when the Latin rules leave only a fragment: no key at all (불짬뽕,
@@ -219,8 +225,13 @@ decomposition are kept there, folded the usual way (ß is ss, ø is o). A key
 with a word of its own is kept, so bilingual names ("Xi'an Famous Foods
 西安名吃", "游子老鸭粉丝馆 Yozi") still match the city's list, and no purely
 Latin name changes key. Stored rows are not re-keyed.
-`extract_v6.py --restore-unkeyed --yes`
-stores, from the answers on record, the mentions dropped for an empty key.
+`extract_v6.py --restore-unkeyed --yes` stores, from the answers on record,
+the mentions dropped for an empty key. scoring.sql's prompted test (did the
+thread name the place?) flattens title and selftext to a-z0-9; for a key
+with characters outside ASCII alone it keeps those characters, so such keys
+can match. Matching other scripts also needs `lower()` to know them, which
+follows the database's ctype (en_US.UTF-8 does). ASCII keys are tested
+exactly as before.
 
 ---
 
@@ -231,11 +242,12 @@ Two raw tables (`schema.sql`): `threads`, `comments`.
 - Rows are appended, never deleted, and their text never changes. What
   changes in place is what the settle re-read learns: scores and
   `was_deleted_later`. The posts' columns for it (`threads.score_settled`,
-  `threads.was_deleted_later`) are in `migrations/live_extract.sql`, applied
-  by hand (`psql -f`, each statement committed on its own, not under -1)
-  before the web app or the poller is deployed: the feed names
-  `was_deleted_later` outright. schema.sql adds the same on the poller's
-  boot, guarded, so either order is safe.
+  default true, and `threads.was_deleted_later`) are added by
+  `migrations/live_extract.sql`, applied by hand (`psql -f`) before the web
+  app or the poller is deployed: the feed names `was_deleted_later`
+  outright. That file is only the ALTER; schema.sql has the same, and on the
+  new poller's first boot also marks, once, the posts collected live up to
+  the deploy to settle (first seen less than 40h after they were posted).
 - `comments.thread_id` is a real FK; the poller guarantees the post exists first.
 - `comments.parent_comment_id` is **not** a FK — 56% of replies arrive before
   their parent. `fill_tree` resolves `root_comment_id` and `depth` after insert
