@@ -248,30 +248,24 @@ def settle_once(conn, batches=5):
 
     ~3,000 comments a day across the seven cities is ~30 requests; five
     batches per chores pass is room for 240. Posts are ~100 a day, a request
-    or two, with the same room. The re-read is also where deletions and edits
-    show (db.settle_items): a deleted item is flagged, an edited one gets
-    its new text and, if v6 had extracted it, is due again for the daily run.
+    or two, with the same room. The re-read also flags what was deleted
+    since (db.settle_items); edits are ignored on purpose.
     """
     for kind, pick, fetch, store, prefix in (
             ("comment", db.unsettled_comment_ids, arctic.comments_by_id, db.settle_scores, "t1_"),
             ("post", db.unsettled_thread_ids, arctic.posts_by_id, db.settle_threads, "t3_")):
-        total = gone = edited = dropped = 0
+        total = gone = 0
         for _ in range(batches):
             ids = pick(conn, limit=100)
             if not ids:
                 break
             fetched = fetch([i[3:] for i in ids])
             returned = {prefix + x["id"] for x in fetched}
-            g, e, d = store(conn, fetched, missing_ids=set(ids) - returned)
-            total, gone, edited, dropped = total + len(ids), gone + g, edited + e, dropped + d
+            gone += store(conn, fetched, missing_ids=set(ids) - returned)
+            total += len(ids)
             time.sleep(1)
         if total:
-            print(f"  settled scores for {total} {kind}(s): {gone} deleted, {edited} edited")
-        if dropped:
-            # Once a pass, however many batches tripped it (db.MAX_EDIT_SHARE).
-            print(f"  !!!! settle: {dropped} {kind} edit(s) not taken: too many of a re-read differed from "
-                  "the text stored to be edits (has Arctic Shift changed how it returns text?). Scores and "
-                  "deletions were settled. !!!!")
+            print(f"  settled scores for {total} {kind}(s), {gone} deleted")
 
 
 def resweep_once(conn, subreddit, hours=None, pending=None):

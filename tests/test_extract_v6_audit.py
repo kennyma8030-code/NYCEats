@@ -99,10 +99,9 @@ class RoundTrips(DbCase):
             self.conn.zero()
             retry = X._collect(self.conn, cl, X.Budget(10), bid, stats, QUIET)
         chunks = -(-len(items) // 5)
-        # members; per chunk at most: the texts' hashes (text_md5), previous
-        # attempts, mention rows, done rows, failed rows; the ledger update.
-        # However many mentions.
-        self.assertLessEqual(self.conn.statements, 1 + 5 * chunks + 1)
+        # members; per chunk at most: previous attempts, mention rows, done
+        # rows, failed rows; the ledger update. However many mentions.
+        self.assertLessEqual(self.conn.statements, 1 + 4 * chunks + 1)
         self.assertEqual(self.conn.commits, 1 + chunks + 1)
         self.assertEqual(retry, [("comment", "t1_r2")])
         self.assertEqual(stats.done, len(items) - 1)

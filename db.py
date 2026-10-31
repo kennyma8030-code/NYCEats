@@ -181,20 +181,12 @@ def _read(conn, sql, params):
 
 # Scores settle this long after posting. Arctic Shift captures an item ~20 s
 # after it is posted and again at 36 h, and that second capture is the only
-# update; re-fetching later returns the same numbers. The few hours past 36
-# are for the archive to finish its second pass before we ask, so a refetch
-# never reads the first capture again and freezes it.
+# update; re-fetching later returns the same numbers. Asking a few hours
+# after 36 leaves room for that second capture to land late, so a refetch
+# does not read the first capture again and settle on it.
 SETTLE_HOURS = float(os.environ.get("SETTLE_HOURS", "40"))
 _SETTLE_INTERVAL = f"make_interval(secs => {SETTLE_HOURS * 3600:.0f})"
 GONE = ("[deleted]", "[removed]")
-# More of one re-read than this looking edited is taken for a change in the
-# archive's text, not edits (settle_items); below MIN_EDITS_CHECKED it is
-# never questioned, as a small batch can be half edits by chance. Posts get
-# more room: "EDIT: went to X, thanks all" is common on a post, rare on a
-# comment, and the first settle after the migration re-reads old posts by
-# the thousand. A change of form would show on nearly every item of either.
-MAX_EDIT_SHARE = {"comment": 0.2, "post": 0.5}
-MIN_EDITS_CHECKED = 5
 
 
 def existing_thread_ids(conn, thread_ids):
@@ -218,7 +210,9 @@ def insert_threads(conn, posts):
         p.get("upvote_ratio"),
         p.get("num_comments"),
         p.get("retrieved_on"),
-        p["created_utc"],         # settled already when it arrives past SETTLE_HOURS, as comments are
+        # Settled already when it arrives past SETTLE_HOURS, as comments are.
+        # Always said: the column defaults to true (schema.sql).
+        p["created_utc"],
     # Sorted so two writers inserting overlapping batches take row locks in the
     # same order. The poller and its background backfill both insert threads,
     # and unsorted batches can deadlock each other.
@@ -382,11 +376,11 @@ def fill_tree(conn, thread_ids):
 
 
 # Settling re-reads an item once, at SETTLE_HOURS, and that one re-read is
-# also when we learn whether it was deleted or edited. Comments and posts go
-# through the same steps; these name their differences.
+# also when we learn whether it was deleted. Comments and posts go through
+# the same steps; these name their differences.
 _SETTLE = {
-    "comment": {"table": "comments", "text": "body", "original": "original_body"},
-    "post": {"table": "threads", "text": "selftext", "original": "original_selftext"},
+    "comment": {"table": "comments", "text": "body"},
+    "post": {"table": "threads", "text": "selftext"},
 }
 
 
@@ -411,35 +405,21 @@ def unsettled_thread_ids(conn, limit=100):
     return _unsettled(conn, "post", limit)
 
 
-def _flat(text):
-    return " ".join((text or "").split())
-
-
 def is_gone(text):
     return (text or "").strip() in GONE
 
 
-def _compare(kind, fetched, stored):
-    """Sort re-read items into (deleted ids, {id: new text} for edits).
+def _deleted(kind, fetched):
+    """The re-read items that were deleted since we stored them.
 
     Arctic Shift keeps a deleted item and returns it with its text replaced
     by [deleted] or [removed], so that, not absence, is how deletion shows.
     The author alone is not enough: a deleted account leaves its comments up,
     text and permalink intact, under author [deleted]. A post also says so in
-    removed_by_category. An edit is a text the re-read states (a string; a
-    record without one says nothing about the text) that differs from what
-    we hold once whitespace is evened out, and is neither a deletion nor a
-    change to an item that was already gone when we first stored it."""
+    removed_by_category."""
     field = _SETTLE[kind]["text"]
-    gone, edited = [], {}
-    for item_id, x in fetched.items():
-        new = x.get(field)
-        old = stored.get(item_id)
-        if is_gone(new) or (kind == "post" and x.get("removed_by_category")):
-            gone.append(item_id)
-        elif isinstance(new, str) and not is_gone(old) and _flat(new) != _flat(old):
-            edited[item_id] = new
-    return gone, edited
+    return [i for i, x in fetched.items()
+            if is_gone(x.get(field)) or (kind == "post" and x.get("removed_by_category"))]
 
 
 def settle_items(conn, kind, fetched, missing_ids=()):
@@ -448,35 +428,14 @@ def settle_items(conn, kind, fetched, missing_ids=()):
     fetched: {full id: Arctic Shift record} for the items returned. Scores
     (score and controversiality for comments; score, upvote_ratio and
     num_comments for posts) are updated, as they were at insert. A deleted
-    item is flagged was_deleted_later and keeps the text we stored. An
-    edited one gets its new text, the first text we stored is kept in
-    original_body / original_selftext (set once, so a second edit keeps the
-    first) with the time of the edit in edited_at (comments; the evidence
-    view shows the first text for mentions older than that), and, if v6 had
-    extracted it, it is queued for extraction again: the next run replaces
-    its mentions of that prompt (extract_v6.write). One in a batch in flight
-    is left as it is: the batch's answer was read from the old text, so
-    extract_v6 queues it again when it collects the batch instead of storing
-    that answer (its text no longer matches text_md5). Asked for but not
-    returned means gone from the archive: settled and flagged, so no
-    permalink to it is ever shown. One transaction.
-
-    A re-read in which more than MAX_EDIT_SHARE of the items look edited
-    takes none of the edits: real edits are a few in a hundred, and that
-    many means the archive's text changed form (escaping, say), which would
-    rewrite and re-extract everything it touched. Scores and deletions still
-    settle; the caller logs it. Returns (deleted, edited, edits dropped)."""
-    s = _SETTLE[kind]
-    t, field, original = s["table"], s["text"], s["original"]
-    dropped = 0
+    item is flagged was_deleted_later, and asked for but not returned means
+    gone from the archive and is flagged too, so no permalink to it is ever
+    shown. The text is never touched: a deleted one keeps what we stored, and
+    an edit is ignored on purpose, so every mention stays tied to the words
+    it was read from (SPEC.md). One transaction. Returns how many were flagged."""
+    t = _SETTLE[kind]["table"]
+    gone = _deleted(kind, fetched)
     with conn.cursor() as cur:
-        stored = {}
-        if fetched:
-            cur.execute(f"select id, {field} from {t} where id = any(%s)", (list(fetched),))
-            stored = dict(cur.fetchall())
-        gone, edited = _compare(kind, fetched, stored)
-        if len(edited) > max(MIN_EDITS_CHECKED, MAX_EDIT_SHARE[kind] * len(fetched)):
-            dropped, edited = len(edited), {}
         if fetched:
             if kind == "comment":
                 vals = [(i, x.get("score"), x.get("controversiality")) for i, x in fetched.items()]
@@ -500,23 +459,8 @@ def settle_items(conn, kind, fetched, missing_ids=()):
         if flagged:
             cur.execute(f"update {t} set score_settled = true, was_deleted_later = true where id = any(%s)",
                         (flagged,))
-        if edited:
-            stamp = ", edited_at = now()" if kind == "comment" else ""
-            execute_values(cur, f"""
-                update {t} x
-                set {original} = coalesce(x.{original}, x.{field}), {field} = v.text{stamp}
-                from (values %s) as v(id, text)
-                where x.id = v.id
-            """, list(edited.items()))
-            # Done items out of any batch; attempts starts again, so a failure
-            # on the new text gets its own retry before it is parked.
-            # extraction_state is made by extract_v6_schema.sql, which
-            # schema.sql applies on every boot.
-            cur.execute("""update extraction_state set extracted_at = null, attempts = 0, updated_at = now()
-                           where version = 'v6' and item_id = any(%s)
-                             and extracted_at is not null and batch_id is null""", (list(edited),))
     conn.commit()
-    return len(gone) + len(missing_ids), len(edited), dropped
+    return len(flagged)
 
 
 def settle_scores(conn, comments, missing_ids=()):

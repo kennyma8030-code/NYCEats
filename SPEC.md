@@ -70,24 +70,10 @@ settle re-read flags that, and an item it no longer returns at all; the text
 we stored is kept. An author of `[deleted]` alone is not a deletion: a
 deleted account leaves its comments up.
 
-**Edits.** The same re-read finds edits: text that differs from what we hold
-once whitespace is evened out. The item takes the new text (what Reddit
-shows, and what its permalink opens on), the text first stored is kept in
-`original_body` / `original_selftext`, and an item v6 had extracted is due
-again, so the next extraction run replaces its mentions of that prompt in
-one transaction. A comment also records `edited_at`, and its mentions stored
-before then click through to `original_body`, the words they were read
-from, under either reader (`legacy` mentions are never extracted again). An
-item whose v6 extraction is in a batch keeps its state: its batch rendered
-the old text, so when the batch is collected v6 finds the text no longer
-hashes to what it sent (`extraction_state.text_md5`) and queues the item
-again instead of storing that answer; a request built before the edit and
-answered after it is caught the same way. When more of one re-read looks
-edited than real edits would (20% of comments, 50% of posts: that many means
-the archive's text changed form), none of its edits is taken and the pass
-says so once, loudly; scores and deletions settle all the same. Text missing
-from a re-read is not an edit. Only this
-one re-read looks, so a later edit is not seen.
+**Edits are ignored, on purpose.** The settle re-read takes scores and
+deletions only; a comment's body and a post's selftext stay as first stored,
+and nothing is extracted again for an edit. A mention stays tied to the text
+it was read from, which is what its click-through shows.
 
 ---
 
@@ -211,15 +197,15 @@ time window: posted at least 48 hours ago (`EXTRACT_MIN_POST_AGE_HOURS`;
 a younger thread is not touched at all, so it is read once, whole, with its
 first two days of comments), on or after its subreddit's floor
 (`EXTRACT_SINCE`, required, one floor per subreddit taken or `all` said
-outright: r/FoodNYC from mid-2025, the older backlog left on purpose), in `EXTRACT_SUBREDDITS` (r/FoodNYC by default), newest first.
-No upper bound on age: what a missed day, a cap or a failure leaves is the
-next run's, and a late comment on a thread done before goes out with only
-itself numbered, under the post and its quoted ancestors. A run caps itself
-at `EXTRACT_RUN_USD` under the `EXTRACT_CEILING_USD` total, re-attaches any
+outright: r/FoodNYC from mid-2025, the older backlog left on purpose), in
+`EXTRACT_SUBREDDITS` (r/FoodNYC by default), newest first. No upper bound
+on age: what a missed day, a cap or a failure leaves is the next run's, and
+a late comment on a thread done before goes out with only itself numbered,
+under the post and its quoted ancestors. A run caps itself at
+`EXTRACT_RUN_USD` under the `EXTRACT_CEILING_USD` total, re-attaches any
 batch an earlier run left in flight before sending anything, and after a
 spend tripwire does nothing (exit 0, loudly) until a person names the batch
-as seen. The
-prompt is written for New York ("a New York City food subreddit", places
+as seen. The prompt is written for New York ("a New York City food subreddit", places
 outside the five boroughs are not mentions, "best in NYC"), so another
 city needs a prompt of its own before it is extracted; its mentions would be
 stored but not scored (scoring reads `scoring_params.subreddit`).
@@ -242,14 +228,14 @@ stores, from the answers on record, the mentions dropped for an empty key.
 
 Two raw tables (`schema.sql`): `threads`, `comments`.
 
-- Rows are appended, never deleted. What changes in place is what the settle
-  re-read learns (scores, `was_deleted_later`) and, for an edited item, its
-  text, with the first text kept beside it (`original_body`,
-  `original_selftext`), so nothing collected is lost. The columns for this
-  (and `extraction_state.text_md5`) are in `migrations/live_extract.sql`,
-  applied by hand (`psql -1 -f`) before the web app or the poller is
-  deployed with them: the web app names them outright. schema.sql adds the
-  same on the poller's boot, guarded, so either order of applying is safe.
+- Rows are appended, never deleted, and their text never changes. What
+  changes in place is what the settle re-read learns: scores and
+  `was_deleted_later`. The posts' columns for it (`threads.score_settled`,
+  `threads.was_deleted_later`) are in `migrations/live_extract.sql`, applied
+  by hand (`psql -f`, each statement committed on its own, not under -1)
+  before the web app or the poller is deployed: the feed names
+  `was_deleted_later` outright. schema.sql adds the same on the poller's
+  boot, guarded, so either order is safe.
 - `comments.thread_id` is a real FK; the poller guarantees the post exists first.
 - `comments.parent_comment_id` is **not** a FK — 56% of replies arrive before
   their parent. `fill_tree` resolves `root_comment_id` and `depth` after insert
@@ -448,11 +434,10 @@ stored (`mentions.created_at`, indexed by `mentions_created_idx`), not when
 the comment was written: a comment can get its first mention long after it
 was posted (a v6 backfill, an extraction retry), and a window on
 `comments.created_utc` never embedded those. Inside the window only rows
-with no vector yet are taken: without that filter a backfill that touched
-every mentioned comment would have each pass walk all of them for three
-days. The only text the poller rewrites is an edit found at the settle
-re-read (ingestion, above); its old vector stays until a run without
-`--since-days`, which finds changed text by its hash. Threads are
+with no vector yet are taken. Nothing the poller does rewrites a comment's
+or a thread's text, and without that filter a backfill that touched every
+mentioned comment would have each pass walk all of them for three days.
+Changed text is found by a run without `--since-days`. Threads are
 windowed on when they were posted.
 **After every extraction backfill, run `python embed.py --max-usd <N>`.**
 The poller would get there, but at 2,000 rows a pass, and only for mentions

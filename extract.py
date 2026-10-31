@@ -132,7 +132,8 @@ def latin_is_fragment(raw):
 
 
 #: Latin letters with no decomposition to a-z, folded the usual way rather
-#: than dropped; any other such letter is kept as it is.
+#: than dropped (an accented one through its base); any other such letter
+#: is kept as it is, without its accents.
 LATIN_FOLD = {"ß": "ss", "æ": "ae", "ø": "o", "œ": "oe", "ł": "l", "đ": "d", "ð": "d", "þ": "th", "ı": "i",
               "ħ": "h", "ŧ": "t", "ŋ": "n"}
 
@@ -155,7 +156,8 @@ def unicode_key(raw):
             if base and _PUNCT.fullmatch(base) is None:
                 out.append(base)
             elif unicodedata.category(c)[0] == "L":
-                out.append(LATIN_FOLD.get(c, c))
+                # By the letter, or by its base once accents are off (ǿ is ø, ǽ is æ).
+                out.append(LATIN_FOLD.get(c) or LATIN_FOLD.get(base) or base or c)
             else:
                 out.append(" ")
         else:

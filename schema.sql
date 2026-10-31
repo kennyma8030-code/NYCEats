@@ -86,50 +86,40 @@ end $$;
 -- Posts settle like comments (poller.settle_once): re-read once at
 -- db.SETTLE_HOURS for their final score, upvote_ratio and num_comments, which
 -- were stuck at whatever the first capture said. The same re-read flags a
--- deleted post (was_deleted_later, so no permalink to it is shown) and takes
--- an edited body, keeping the first one in original_selftext.
+-- deleted post (was_deleted_later, so no permalink to it is shown).
 --
--- Added as settled (a constant default, so the ALTER only touches the
--- catalog), then the default turns to false for new rows. Of the posts
--- already stored, only those first seen before they could have settled
--- (the poller's live ones; not the backfill's history, which arrived with
--- final numbers) are left to settle: a few thousand, re-read a few hundred a
--- pass. That update runs once, with the ALTER; a current database takes no
--- lock here at all. Its threshold is db.SETTLE_HOURS, which db.init sets as
+-- score_settled defaults to true and stays so: db.insert_threads always says
+-- which a new post is, and code older than this, still running while the
+-- columns go in (migrations/live_extract.sql is applied before the deploy),
+-- inserts the backfill's history, which arrived with its final numbers.
+-- Constant defaults, so the ALTER only touches the catalog.
+--
+-- Of the posts stored before, those first seen less than SETTLE_HOURS after
+-- they were posted (the poller's live ones) are marked to settle, once: the
+-- column's comment records that it was done, so this boot and the hand-run
+-- migration never both do it, and a current database only reads the
+-- catalog here. Its threshold is db.SETTLE_HOURS, which db.init sets as
 -- nyceats.settle_hours for this transaction; applied by hand, it is 40.
 do $$
 begin
-  if not exists (select 1 from pg_attribute
-                 where attrelid = 'threads'::regclass and attname = 'score_settled'
-                   and not attisdropped) then
+  if (select count(*) from pg_attribute
+      where attrelid = 'threads'::regclass and not attisdropped
+        and attname in ('score_settled', 'was_deleted_later')) < 2 then
     alter table threads
       add column if not exists score_settled     boolean not null default true,
-      add column if not exists was_deleted_later boolean not null default false,
-      add column if not exists original_selftext text;
-    alter table threads alter column score_settled set default false;
+      add column if not exists was_deleted_later boolean not null default false;
+  end if;
+  if position('(live-extract)' in coalesce(col_description('threads'::regclass,
+       (select attnum from pg_attribute where attrelid = 'threads'::regclass and attname = 'score_settled')), ''))
+     = 0 then
     update threads set score_settled = false
-    where first_seen_at < created_utc + make_interval(
+    where score_settled and first_seen_at < created_utc + make_interval(
       secs => coalesce(nullif(current_setting('nyceats.settle_hours', true), '')::float8, 40) * 3600);
+    comment on column threads.score_settled is
+      'Final score read by the settle re-read. Posts stored before it existed were marked once (live-extract).';
   end if;
   if to_regclass('threads_unsettled_idx') is null then
     create index threads_unsettled_idx on threads(created_utc) where not score_settled;
-  end if;
-end $$;
-
--- A comment's settle re-read can find it edited. The comment then gets the
--- new text (it is what Reddit shows, and what the permalink opens on) and is
--- extracted again; the text first stored is kept here, so nothing collected
--- is lost, and edited_at says when it changed: a mention stored before then
--- was read from original_body, and the evidence view shows that text for it.
--- Both null for a comment never edited. Catalog-only, checked first.
-do $$
-begin
-  if (select count(*) from pg_attribute
-      where attrelid = 'comments'::regclass and not attisdropped
-        and attname in ('original_body', 'edited_at')) < 2 then
-    alter table comments
-      add column if not exists original_body text,
-      add column if not exists edited_at     timestamptz;
   end if;
 end $$;
 
@@ -712,21 +702,6 @@ begin
                  where table_schema = current_schema() and table_name = 'extract_chunks'
                    and column_name = 'alone') then
     alter table extract_chunks add column if not exists alone text[] not null default '{}';
-  end if;
-end $$;
--- text_md5: the hash of an item's own text (a comment's body, a post's
--- selftext) as the request carrying it was rendered, set when a batch takes
--- the item. A settle re-read can edit the text while the batch is out; when
--- the answer comes back for a text that no longer hashes the same, the item
--- is queued again instead of stored (extract_v6._mark_stale). Nullable, so
--- the ALTER only touches the catalog; checked there first.
-do $$
-begin
-  perform set_config('lock_timeout', '5s', true);
-  if not exists (select 1 from information_schema.columns
-                 where table_schema = current_schema() and table_name = 'extraction_state'
-                   and column_name = 'text_md5') then
-    alter table extraction_state add column if not exists text_md5 text;
   end if;
 end $$;
 -- Checked in the catalog first, like every index in this file: CREATE INDEX

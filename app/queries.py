@@ -362,15 +362,6 @@ def permalink_sql(alias):
     return f"case when {alias}.was_deleted_later then null else {alias}.permalink end"
 
 
-def evidence_body_sql(m, c):
-    """The text a mention was read from: the comment's first text when it was
-    stored before the comment was edited (edited_at, set by the settle
-    re-read), else its text now. An edit replaces comments.body, and a
-    mention extracted earlier (a legacy one, or a v6 one not yet extracted
-    again) must still click through to the words that produced it."""
-    return f"case when {c}.edited_at > {m}.created_at then coalesce({c}.original_body, {c}.body) else {c}.body end"
-
-
 # What every mention-returning query selects, in the shape models.Mention
 # reads. Needs `m` (mentions), `c` (comments) and `t` (threads) in scope.
 #
@@ -385,7 +376,7 @@ MENTION_COLUMNS = f"""
     case when jsonb_typeof(m.descriptors) = 'array' then m.descriptors end as descriptors,
     m.expensiveness, m.is_firsthand, m.is_negated,
     m.neighborhood_hint,
-    c.author, c.score, c.controversiality, c.created_utc, {evidence_body_sql("m", "c")} as body,
+    c.author, c.score, c.controversiality, c.created_utc, c.body,
     {permalink_sql("c")} as permalink,
     c.was_deleted_later,
     t.id as thread_id, t.title as thread_title

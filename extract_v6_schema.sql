@@ -308,21 +308,6 @@ begin
     alter table extract_chunks add column if not exists alone text[] not null default '{}';
   end if;
 end $$;
--- text_md5: the hash of an item's own text (a comment's body, a post's
--- selftext) as the request carrying it was rendered, set when a batch takes
--- the item. A settle re-read can edit the text while the batch is out; when
--- the answer comes back for a text that no longer hashes the same, the item
--- is queued again instead of stored (extract_v6._mark_stale). Nullable, so
--- the ALTER only touches the catalog; checked there first.
-do $$
-begin
-  perform set_config('lock_timeout', '5s', true);
-  if not exists (select 1 from information_schema.columns
-                 where table_schema = current_schema() and table_name = 'extraction_state'
-                   and column_name = 'text_md5') then
-    alter table extraction_state add column if not exists text_md5 text;
-  end if;
-end $$;
 -- Checked in the catalog first, like every index in this file: CREATE INDEX
 -- IF NOT EXISTS takes its SHARE lock before it notices the index is there.
 do $$
