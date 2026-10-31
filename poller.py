@@ -256,17 +256,20 @@ def settle_once(conn, batches=5):
             ("comment", db.unsettled_comment_ids, arctic.comments_by_id, db.settle_scores, "t1_"),
             ("post", db.unsettled_thread_ids, arctic.posts_by_id, db.settle_threads, "t3_")):
         total = gone = edited = 0
+        put_off = set()          # edits settle_items could not take now: not read again this pass
         for _ in range(batches):
-            ids = pick(conn, limit=100)
+            ids = pick(conn, limit=100, skip=put_off)
             if not ids:
                 break
             fetched = fetch([i[3:] for i in ids])
             returned = {prefix + x["id"] for x in fetched}
-            g, e = store(conn, fetched, missing_ids=set(ids) - returned)
-            total, gone, edited = total + len(ids), gone + g, edited + e
+            g, e, later = store(conn, fetched, missing_ids=set(ids) - returned)
+            total, gone, edited = total + len(ids) - len(later), gone + g, edited + e
+            put_off |= later
             time.sleep(1)
-        if total:
-            print(f"  settled scores for {total} {kind}(s): {gone} deleted, {edited} edited")
+        if total or put_off:
+            print(f"  settled scores for {total} {kind}(s): {gone} deleted, {edited} edited"
+                  + (f", {len(put_off)} edited put off" if put_off else ""))
 
 
 def resweep_once(conn, subreddit, hours=None, pending=None):

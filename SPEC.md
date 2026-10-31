@@ -75,8 +75,16 @@ once whitespace is evened out. The item takes the new text (what Reddit
 shows, and what its permalink opens on), the text first stored is kept in
 `original_body` / `original_selftext`, and an item v6 had extracted is due
 again, so the next extraction run replaces its mentions of that prompt in
-one transaction. An item in a batch in flight waits to settle until the
-batch is collected. Only this one re-read looks, so a later edit is not seen.
+one transaction. A comment also records `edited_at`, and its mentions stored
+before then click through to `original_body`, the words they were read
+from, under either reader (`legacy` mentions are never extracted again). An
+edit that cannot be taken now leaves the item unsettled for a later pass:
+while a v6 run holds its lock or the item is in a batch (both checked in the
+settle's own transaction, so no run can read the old text and store its
+answer over the edit), or when more of one re-read looks edited than real
+edits would (20% of comments, 50% of posts: that many means the archive's
+text changed form). Text missing from a re-read is not an edit. Only this
+one re-read looks, so a later edit is not seen.
 
 ---
 
@@ -199,14 +207,15 @@ every thread with anything not yet extracted, chosen by state rather than a
 time window: posted at least 48 hours ago (`EXTRACT_MIN_POST_AGE_HOURS`;
 a younger thread is not touched at all, so it is read once, whole, with its
 first two days of comments), on or after its subreddit's floor
-(`EXTRACT_SINCE`, required: r/FoodNYC from mid-2025, the older backlog left
-on purpose), in `EXTRACT_SUBREDDITS` (r/FoodNYC by default), newest first.
+(`EXTRACT_SINCE`, required, one floor per subreddit taken or `all` said
+outright: r/FoodNYC from mid-2025, the older backlog left on purpose), in `EXTRACT_SUBREDDITS` (r/FoodNYC by default), newest first.
 No upper bound on age: what a missed day, a cap or a failure leaves is the
 next run's, and a late comment on a thread done before goes out with only
 itself numbered, under the post and its quoted ancestors. A run caps itself
 at `EXTRACT_RUN_USD` under the `EXTRACT_CEILING_USD` total, re-attaches any
-batch an earlier run left in flight before sending anything, and refuses to
-start after a spend tripwire until a person names the batch as seen. The
+batch an earlier run left in flight before sending anything, and after a
+spend tripwire does nothing (exit 0, loudly) until a person names the batch
+as seen. The
 prompt is written for New York ("a New York City food subreddit", places
 outside the five boroughs are not mentions, "best in NYC"), so another
 city needs a prompt of its own before it is extracted; its mentions would be

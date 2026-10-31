@@ -121,7 +121,9 @@ class Runner(unittest.TestCase):
         for bad in ({"EXTRACT_SINCE": ""}, {"EXTRACT_SINCE": "yesterday"}, {"EXTRACT_SUBREDDITS": "FoodNY"},
                     {"EXTRACT_SINCE": "FoodLosAngeles=2025-06-01"},        # a floor for a subreddit not taken
                     {"EXTRACT_SINCE": "FoodNYC=2025-06-01,2025-01-01"},
-                    {"EXTRACT_MIN_POST_AGE_HOURS": "two days"}, {"EXTRACT_MIN_POST_AGE_HOURS": "-1"}):
+                    {"EXTRACT_MIN_POST_AGE_HOURS": "two days"}, {"EXTRACT_MIN_POST_AGE_HOURS": "-1"},
+                    # A subreddit added without a floor of its own would be taken whole.
+                    {"EXTRACT_SUBREDDITS": "FoodNYC,FoodLosAngeles"}):
             called = []
             with mock.patch.object(R, "room_left", lambda *a: called.append(a)), self.assertRaises(SystemExit):
                 R.main(dict(self.ENV, **bad), run_extract=lambda argv: called.append(argv))
@@ -366,12 +368,13 @@ class Guards(TT.ThreadCase):
                 codes.append(X.main(argv + ["--poll-seconds", "0", "--batch-size", "1", "--max-inflight", "1"]))
                 return codes[-1]
             self.assertEqual(R.main(run_extract=run), 0)
-            # The next day's cron run finds the overrun on record and refuses
-            # to start, until a person names the batch as seen.
+            # The next day's cron run finds the overrun on record and does
+            # nothing, with a final exit (0, not a restart), until a person
+            # names the batch as seen.
             bid = self.q("select id from extract_batches where status = 'collected'")[0][0]
-            with self.assertRaises(SystemExit) as e:
-                R.main(run_extract=run)
-            self.assertIn(bid, str(e.exception))
+            mark = len(out.getvalue())
+            self.assertEqual(R.main(run_extract=run), 0)
+            self.assertIn(f"!!!!!!!! NOT STARTING: batch(es) {bid} cost more", out.getvalue()[mark:])
             with mock.patch.dict(os.environ, {"EXTRACT_TRIPWIRE_SEEN": f"other, {bid}"}):
                 R.main(run_extract=lambda argv: codes.append("ran") or 0)
         self.assertEqual(codes, [X.TRIPPED, "ran"])

@@ -24,6 +24,7 @@ import db
 import extract
 import extract_v6 as X
 import fake_anthropic as F
+import pgtest
 import poller
 import prompt_v6
 import test_extract_budget_guards as G
@@ -132,9 +133,14 @@ class Parsing(unittest.TestCase):
         self.assertIsNone(X.parse_floors("all", subs))
         self.assertEqual(X.parse_floors("2025-06-01"), dt.datetime(2025, 6, 1, tzinfo=dt.timezone.utc))
         for bad, s in (("FoodLosAngeles=2025-06-01", subs), ("FoodNYC=2025-06-01", None), ("FoodNYC", subs),
-                       ("FoodNYC=soon", subs), ("all=2025-01-01", subs)):
+                       ("FoodNYC=soon", subs), ("all=2025-01-01", subs),
+                       # A subreddit added to the run without a pair would get its whole history.
+                       ("FoodNYC=2025-06-01", subs)):
             with self.assertRaises(SystemExit):
                 X.parse_floors(bad, s)
+        with self.assertRaises(SystemExit) as e:
+            X.parse_floors("FoodNYC=2025-06-01", ["FoodNYC", "FoodLosAngeles"])
+        self.assertIn("FoodLosAngeles", str(e.exception))
         self.assertEqual(X.parse_age("48h"), 48 * H)
         self.assertEqual(X.parse_age("2d"), 48 * H)
         self.assertEqual(X.parse_age("36.5"), 36.5 * H)
@@ -193,7 +199,7 @@ class Selection(TT.ThreadCase):
         self.q("delete from extraction_state returning 1")
         self.q("delete from mentions returning 1")
         self.q("delete from extract_chunks returning 1")
-        floors = X.parse_floors("FoodNYC=30d", ["FoodNYC", "chicagofood"])
+        floors = X.parse_floors("FoodNYC=30d,chicagofood=all", ["FoodNYC", "chicagofood"])
         with fake() as api:
             self.direct(api, opts=opts(subs=["FoodNYC", "chicagofood"]), since=floors)
         st = self.state()
@@ -487,17 +493,53 @@ class Settle(TT.ThreadCase):
             self.batch(api)
         self.assertEqual(self.q("select entity_key from mentions where comment_id = 't1_top'"), [("placezeta",)])
 
-    def test_too_many_edits_at_once_are_taken_for_a_change_in_the_archive(self):
-        ids = [r[0] for r in self.q("select id from comments where body not in ('[deleted]', '[removed]') "
-                                    "and btrim(body) <> '' order by id")]
+    def live_ids(self):
+        return [r[0] for r in self.q("select id from comments where body not in ('[deleted]', '[removed]') "
+                                     "and btrim(body) <> '' order by id")]
+
+    def test_too_many_edits_at_once_are_left_for_a_later_pass(self):
+        ids = self.live_ids()
         logs = []
         fetched = {i: arctic(i, body="&gt; changed " + i, author="x") for i in ids}
         self.assertGreater(len(ids), 5)
-        self.assertEqual(db.settle_items(self.conn, "comment", fetched, log=logs.append), (0, 0))
+        gone, edited, later = db.settle_items(self.conn, "comment", fetched, log=logs.append)
+        self.assertEqual((gone, edited, later), (0, 0, set(ids)))
         self.assertTrue(any("too many to be edits" in line for line in logs))
         self.assertEqual(self.q("select count(*) from comments where original_body is not null"), [(0,)])
+        # Not settled: a later pass reads them again, and this one does not.
         self.assertEqual(self.q("select count(*) from comments where id = any(%s) and score_settled", (ids,)),
-                         [(len(ids),)])
+                         [(0,)])
+        self.assertTrue(set(ids) <= set(db.unsettled_comment_ids(self.conn, limit=1000)))
+        self.assertFalse(set(ids) & set(db.unsettled_comment_ids(self.conn, limit=1000, skip=ids)))
+
+    def test_posts_have_more_room_for_edits_than_comments(self):
+        # Three of six posts edited ("EDIT: thanks all"): half, within the posts' 50%.
+        self.q("""insert into threads (id, subreddit, title, selftext, created_utc, score_settled)
+                  values ('t3_e', 'FoodNYC', 'e', 'body', now() - interval '41 hours', false) returning 1""")
+        edits = ["t3_a", "t3_c", "t3_chi"]                 # half of them (t3_b was removed when stored)
+        some = {p: arctic(p, selftext=f"EDIT: thanks all ({p})") for p in edits}
+        rest = {p: arctic(p, selftext=s) for p, s in self.q("select id, selftext from threads where not id = any(%s)",
+                                                             (edits,))}
+        with mock.patch.object(db, "MIN_EDITS_CHECKED", 1):
+            self.assertEqual(db.settle_items(self.conn, "post", dict(some, **rest), log=QUIET)[1:], (3, set()))
+            # The same share of comments is over theirs.
+            ids = self.live_ids()[:6]
+            fetched = {i: arctic(i, body=f"edit {i}" if n < 3 else b, author="a")
+                       for n, (i, b) in enumerate(self.q("select id, body from comments where id = any(%s) "
+                                                         "order by id", (ids,)))}
+            self.assertEqual(db.settle_items(self.conn, "comment", fetched, log=QUIET)[1:], (0, set(ids[:3])))
+
+    def test_a_record_without_text_is_not_an_edit(self):
+        fetched = {"t1_top": {"id": "top", "score": 9}, "t1_r1": dict(arctic("t1_r1"), body=None),
+                   "t3_c": {"id": "c", "score": 4}}
+        self.assertEqual(db.settle_items(self.conn, "comment", {k: v for k, v in fetched.items() if k[:2] == "t1"},
+                                         log=QUIET), (0, 0, set()))
+        self.assertEqual(db.settle_items(self.conn, "post", {"t3_c": fetched["t3_c"]}, log=QUIET), (0, 0, set()))
+        self.assertEqual(self.q("select id, body, score, score_settled from comments where id in ('t1_top', 't1_r1') "
+                                "order by id"),
+                         [("t1_r1", "> PlaceAlpha is great\n\nagree, PlaceBeta too", 7, True),
+                          ("t1_top", "PlaceAlpha is great", 9, True)])
+        self.assertEqual(self.q("select selftext, score from threads where id = 't3_c'"), [(None, 4)])
 
     def test_an_item_in_a_batch_waits(self):
         self.q("""insert into extraction_state (item_id, version, kind, prompt_hash, model, batch_id)
@@ -510,17 +552,118 @@ class Settle(TT.ThreadCase):
         self.assertEqual(self.q("select body, score_settled from comments where id = 't1_top'"),
                          [("PlaceAlpha is great", False)])
 
+    def test_an_edit_is_put_off_while_a_v6_run_could_read_the_old_text(self):
+        """The race: the pick saw no batch, then a run rendered the old text
+        and marked the item in a batch before the update. Checked again in
+        the update's transaction, under the v6 lock, the edit waits."""
+        fetched = {"t1_top": arctic("t1_top", body="PlaceOmega now", author="alice")}
+        self.assertIn("t1_top", db.unsettled_comment_ids(self.conn, limit=1000))
+        # 1. A run holds the v6 lock (it may be rendering this very comment).
+        other = pgtest.connect()
+        try:
+            self.assertTrue(X.try_lock(other))
+            self.assertEqual(db.settle_items(self.conn, "comment", fetched, log=QUIET), (0, 0, {"t1_top"}))
+            self.assertEqual(self.q("select body, score_settled, edited_at from comments where id = 't1_top'"),
+                             [("PlaceAlpha is great", False, None)])
+            X.unlock(other)
+        finally:
+            other.close()
+        # 2. No run now, but one left the item in a batch after the pick.
+        self.q("""insert into extraction_state (item_id, version, kind, prompt_hash, model, batch_id)
+                  values ('t1_top', 'v6', 'comment', %s, %s, 'msgbatch_y') returning 1""", (TH, prompt_v6.MODEL))
+        self.assertEqual(db.settle_items(self.conn, "comment", fetched, log=QUIET), (0, 0, {"t1_top"}))
+        self.assertEqual(self.q("select body, score_settled from comments where id = 't1_top'"),
+                         [("PlaceAlpha is great", False)])
+        # 3. Collected: the next pass takes it.
+        self.q("update extraction_state set batch_id = null, extracted_at = now() returning 1")
+        self.assertEqual(db.settle_items(self.conn, "comment", fetched, log=QUIET), (0, 1, set()))
+        self.assertEqual(self.q("select body, score_settled, edited_at is not null from comments "
+                                "where id = 't1_top'"), [("PlaceOmega now", True, True)])
+        # And settle_once does not read a put-off item twice in one pass.
+        reads = []
+        self.q("update comments set score_settled = false, body = 'PlaceAlpha is great', original_body = null "
+               "where id = 't1_top' returning 1")
+        other = pgtest.connect()
+        try:
+            X.try_lock(other)
+            with mock.patch.object(poller.arctic, "comments_by_id",
+                                   lambda bare: reads.append(list(bare)) or [fetched["t1_top"]] if "top" in bare
+                                   else []), \
+                    mock.patch.object(poller.arctic, "posts_by_id", lambda bare: []), \
+                    mock.patch.object(poller.time, "sleep", lambda s: None), mock.patch("builtins.print"):
+                poller.settle_once(self.conn)
+        finally:
+            other.close()
+        self.assertEqual(sum("top" in r for r in reads), 1)
+        self.assertEqual(self.q("select score_settled from comments where id = 't1_top'"), [(False,)])
+
+
+class Evidence(TT.ThreadCase):
+    """What a mention clicks through to once its comment was edited, and the
+    app's reads before the poller has added the new columns."""
+
+    def body_of(self, mention_id):
+        from app import queries
+        return self.q(f"""select {queries.evidence_body_sql('m', 'c')} from mentions m
+                          join comments c on c.id = m.comment_id where m.id = %s""", (mention_id,))[0][0]
+
+    def test_a_mention_older_than_the_edit_shows_the_text_it_was_read_from(self):
+        (old,) = self.q("""insert into mentions (comment_id, restaurant_raw, entity_key, model_version, prompt_hash,
+                             created_at)
+                           values ('t1_top', 'PlaceAlpha', 'placealpha', 'm', 'legacy', now() - interval '1 hour')
+                           returning id""")[0]
+        self.q("update comments set created_utc = now() - interval '41 hours' returning 1")
+        db.settle_items(self.conn, "comment", {"t1_top": arctic("t1_top", body="PlaceOmega now")}, log=QUIET)
+        (new,) = self.q("""insert into mentions (comment_id, restaurant_raw, entity_key, model_version, prompt_hash,
+                             created_at)
+                           values ('t1_top', 'PlaceOmega', 'placeomega', 'm', 'legacy', now() + interval '1 second')
+                           returning id""")[0]
+        self.assertEqual(self.body_of(old), "PlaceAlpha is great")
+        self.assertEqual(self.body_of(new), "PlaceOmega now")
+        self.assertEqual(self.q("select count(*) from mentions"), [(2,)])            # nothing deleted
+
+    def test_reads_work_before_the_schema_has_the_new_columns(self):
+        from app import db as appdb
+        from app import queries
+        (mid,) = self.q("""insert into mentions (comment_id, restaurant_raw, entity_key, model_version, prompt_hash)
+                           values ('t1_top', 'PlaceAlpha', 'placealpha', 'm', 'legacy') returning id""")[0]
+        with self.conn.cursor() as cur:
+            cur.execute("alter table comments drop column original_body, drop column edited_at")
+            cur.execute("alter table threads drop column was_deleted_later")
+        self.conn.commit()
+        self.assertEqual(self.body_of(mid), "PlaceAlpha is great")
+        import refresh
+        refresh.apply_sql(self.conn, verbose=False)
+        items = queries.feed_items(self.conn, None, False, None, None, 100, appdb.fetch_all)
+        posts = [i for i in items if i["kind"] == "post"]
+        self.assertTrue(posts and all(i["permalink"] for i in posts))
+        self.conn.rollback()
+
+    def test_the_feed_hides_a_deleted_posts_link(self):
+        from app import db as appdb
+        from app import queries
+        import refresh
+        self.q("update threads set was_deleted_later = true where id = 't3_c' returning 1")
+        refresh.apply_sql(self.conn, verbose=False)
+        items = {i["id"]: i for i in queries.feed_items(self.conn, None, False, None, None, 100, appdb.fetch_all)}
+        self.assertIsNone(items["t3_c"]["permalink"])
+        self.assertTrue(items["t3_a"]["permalink"])
+        self.conn.rollback()
+
 
 class ThreadsMigration(base.DbCase):
-    def test_existing_posts_settled_but_the_live_ones_and_new_ones_not(self):
+    def strip(self):
         with self.conn.cursor() as cur:
             cur.execute("drop index threads_unsettled_idx")
             cur.execute("alter table threads drop column score_settled, drop column was_deleted_later, "
                         "drop column original_selftext")
-            cur.execute("alter table comments drop column original_body")
+            cur.execute("alter table comments drop column original_body, drop column edited_at")
             # t3_a was polled live (first seen as it was posted); t3_old came from the backfill.
             cur.execute("update threads set first_seen_at = created_utc + interval '400 days' where id = 't3_old'")
         self.conn.commit()
+
+    def test_existing_posts_settled_but_the_live_ones_and_new_ones_not(self):
+        self.strip()
         for _ in range(2):
             db.init(self.conn, os.path.join(ROOT, "schema.sql"))
         self.assertEqual(self.q("select id, score_settled, was_deleted_later, original_selftext from threads "
@@ -529,7 +672,27 @@ class ThreadsMigration(base.DbCase):
         self.q("""insert into threads (id, subreddit, title, created_utc) values ('t3_new', 'FoodNYC', 't', now())
                   returning 1""")
         self.assertEqual(self.q("select score_settled from threads where id = 't3_new'"), [(False,)])
-        self.assertEqual(self.q("select count(*) from comments where original_body is not null"), [(0,)])
+        self.assertEqual(self.q("select count(*) from comments where original_body is not null "
+                                "or edited_at is not null"), [(0,)])
+
+    def test_the_one_off_update_uses_settle_hours(self):
+        # t3_b first seen 20 hours after it was posted: unsettled under 40
+        # hours, settled under the 12 db.init passes on here.
+        self.q("update threads set first_seen_at = created_utc + interval '20 hours' where id = 't3_b' returning 1")
+        self.strip()
+        with mock.patch.object(db, "SETTLE_HOURS", 12.0):
+            db.init(self.conn, os.path.join(ROOT, "schema.sql"))
+        self.assertEqual(self.q("select id, score_settled from threads where id in ('t3_a', 't3_b') order by id"),
+                         [("t3_a", False), ("t3_b", True)])
+        # Applied by hand (no setting), it is 40.
+        self.strip()
+        with open(os.path.join(ROOT, "schema.sql"), encoding="utf-8") as f:
+            sql = f.read()
+        with self.conn.cursor() as cur:
+            cur.execute(sql)
+        self.conn.commit()
+        self.assertEqual(self.q("select id, score_settled from threads where id in ('t3_a', 't3_b') order by id"),
+                         [("t3_a", False), ("t3_b", False)])
 
 
 if __name__ == "__main__":

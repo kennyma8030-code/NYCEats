@@ -95,7 +95,8 @@ end $$;
 -- (the poller's live ones; not the backfill's history, which arrived with
 -- final numbers) are left to settle: a few thousand, re-read a few hundred a
 -- pass. That update runs once, with the ALTER; a current database takes no
--- lock here at all.
+-- lock here at all. Its threshold is db.SETTLE_HOURS, which db.init sets as
+-- nyceats.settle_hours for this transaction; applied by hand, it is 40.
 do $$
 begin
   if not exists (select 1 from pg_attribute
@@ -107,7 +108,8 @@ begin
       add column if not exists original_selftext text;
     alter table threads alter column score_settled set default false;
     update threads set score_settled = false
-    where first_seen_at < created_utc + interval '40 hours';
+    where first_seen_at < created_utc + make_interval(
+      secs => coalesce(nullif(current_setting('nyceats.settle_hours', true), '')::float8, 40) * 3600);
   end if;
   if to_regclass('threads_unsettled_idx') is null then
     create index threads_unsettled_idx on threads(created_utc) where not score_settled;
@@ -117,13 +119,17 @@ end $$;
 -- A comment's settle re-read can find it edited. The comment then gets the
 -- new text (it is what Reddit shows, and what the permalink opens on) and is
 -- extracted again; the text first stored is kept here, so nothing collected
--- is lost. Null for a comment never edited. Catalog-only, checked first.
+-- is lost, and edited_at says when it changed: a mention stored before then
+-- was read from original_body, and the evidence view shows that text for it.
+-- Both null for a comment never edited. Catalog-only, checked first.
 do $$
 begin
-  if not exists (select 1 from pg_attribute
-                 where attrelid = 'comments'::regclass and attname = 'original_body'
-                   and not attisdropped) then
-    alter table comments add column if not exists original_body text;
+  if (select count(*) from pg_attribute
+      where attrelid = 'comments'::regclass and not attisdropped
+        and attname in ('original_body', 'edited_at')) < 2 then
+    alter table comments
+      add column if not exists original_body text,
+      add column if not exists edited_at     timestamptz;
   end if;
 end $$;
 

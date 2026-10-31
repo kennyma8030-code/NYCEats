@@ -60,7 +60,8 @@ Environment (recommended values for the daily job in brackets):
                              overall budget: spend on record plus what the
                              daily job may spend in all]
   EXTRACT_SINCE              required: the floor on a post's date, one ISO
-                             date for every subreddit or SUB=DATE pairs, or
+                             date for every subreddit, SUB=DATE pairs (one for
+                             each subreddit taken, SUB=all for no floor), or
                              "all" for none [FoodNYC=2025-06-01]. Required so
                              an unattended run never wanders into the years
                              of r/FoodNYC history left unextracted on purpose
@@ -102,7 +103,7 @@ cron a cap stop is a normal end: what is left is the next day's. Anything
 else (the API stopping the run, a dropped database, a refused start) is a
 failure, and Railway may restart it a few times; the ceiling bounds what
 any number of restarts can spend. After a tripwire, the next day's run
-finds the overrun on record and refuses to start (room_left).
+finds the overrun on record, does nothing and exits 0, loudly (room_left).
 """
 
 import os
@@ -173,15 +174,21 @@ def selection(env):
     return ["--subreddit", ",".join(subs), "--since", raw.strip(), "--min-post-age", f"{hours:g}h"]
 
 
-def command(env, cap, ceiling):
-    """The extract_v6 argv for a run capped at `cap`."""
+def command(env, cap, ceiling, chosen=None):
+    """The extract_v6 argv for a run capped at `cap`; `chosen` is selection(env), when already made."""
     argv = ["--mode", "thread", "--effort", "medium", "--newest-first", "--batch",
-            "--max-usd", repr(cap), "--ceiling-usd", repr(ceiling)] + selection(env) \
+            "--max-usd", repr(cap), "--ceiling-usd", repr(ceiling)] + (chosen or selection(env)) \
         + ["--lock-wait", env.get(WAIT_ENV) or str(LOCK_WAIT)]
     redo = (env.get(REDO_ENV) or "").strip()
     if redo:
         argv += ["--redo-cut-before", redo]
     return argv
+
+
+class Overrun(Exception):
+    """A batch cost more than was held for it and nobody has said they looked
+    (room_left). Final, like the tripwire that stopped that run: a restart
+    would refuse again, so main() exits 0 and says so loudly."""
 
 
 def overruns(cur, seen=()):
@@ -197,8 +204,8 @@ def room_left(ceiling, connect=None, seen=()):
     """(what the ceiling leaves above recorded spend, worst case of batches
     in flight), from the database now, as extract_v6's Ceiling counts them. Logged.
 
-    Refuses the start (SystemExit) while a batch's overrun is on record and
-    not acknowledged in EXTRACT_TRIPWIRE_SEEN (`seen`). A tripped run exits 0
+    Raises Overrun while a batch's overrun is on record and not
+    acknowledged in EXTRACT_TRIPWIRE_SEEN (`seen`). A tripped run exits 0
     so the restart policy leaves it alone, but the cron starts a new one the
     next day; this is what keeps it stopped until a person has looked."""
     conn = (connect or db.connect)()
@@ -210,9 +217,7 @@ def room_left(ceiling, connect=None, seen=()):
     finally:
         conn.close()
     if over:
-        raise SystemExit(f"!!!!!!!! batch(es) {', '.join(over)} cost more than was held for them, and a spend "
-                         f"tripwire stopped that run. Not starting until a person has looked: add the id(s) to "
-                         f"{SEEN_ENV} to go on. !!!!!!!!")
+        raise Overrun(over)
     print(f"ceiling ${ceiling:.2f}: ${recorded:.4f} recorded, ${inflight:.4f} held for batches in flight, "
           f"${ceiling - recorded - inflight:.4f} of room for new work")
     return ceiling - recorded, inflight
@@ -221,13 +226,20 @@ def room_left(ceiling, connect=None, seen=()):
 def main(env=None, connect=None, run_extract=None):
     env = os.environ if env is None else env
     run, ceiling = plan(env)
-    selection(env)
+    chosen = selection(env)
     try:
         AV.check_prices()
     except AV.PriceMissing as e:
         raise SystemExit(str(e))
     seen = [s.strip() for s in (env.get(SEEN_ENV) or "").split(",") if s.strip()]
-    free, inflight = room_left(ceiling, connect, seen)
+    try:
+        free, inflight = room_left(ceiling, connect, seen)
+    except Overrun as e:
+        ids = ", ".join(e.args[0])
+        print(f"\n!!!!!!!! NOT STARTING: batch(es) {ids} cost more than was held for them, and a spend tripwire "
+              f"stopped that run. A person must look first, then add the id(s) to {SEEN_ENV}. Exiting 0 so "
+              "it is not restarted. !!!!!!!!\n", flush=True)
+        return 0
     if free < MIN_ROOM and not inflight:
         print(f"\nCEILING REACHED: ${free:.4f} left under {X.CEILING_ENV} ${ceiling:.2f}; nothing to run. "
               "Raise the ceiling to go on.", flush=True)
@@ -240,7 +252,7 @@ def main(env=None, connect=None, run_extract=None):
         # record: it gets what is left, and the ceiling stays the total.
         print(f"\n!!!!!!!! {RUN_ENV} ${run:.2f} is more than the ${free:.4f} {X.CEILING_ENV} ${ceiling:.2f} "
               f"leaves above recorded spend: this run's cap is cut to ${cap:.4f} !!!!!!!!\n", flush=True)
-    argv = command(env, cap, ceiling)
+    argv = command(env, cap, ceiling, chosen)
     print("extract_v6.py " + " ".join(argv), flush=True)
     code = (run_extract or X.main)(argv) or 0
     if code in FINAL:

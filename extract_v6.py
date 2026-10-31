@@ -163,7 +163,7 @@ def schema_ready(conn):
 # backfill would otherwise both pick the same due items and pay for them
 # twice. A session-level advisory lock, so it survives the commits a run
 # makes and goes away by itself if the process or its connection dies.
-LOCK_KEY = 0x6E796336_7636            # "nyc6" "v6"
+LOCK_KEY = db.V6_LOCK_KEY             # "nyc6" "v6"; db.settle_items takes it too
 
 
 def try_lock(conn):
@@ -2919,8 +2919,9 @@ def parse_subreddits(value):
 def parse_floors(value, subs=None):
     """--since / EXTRACT_SINCE: None for no floor ("all" too), one time for
     every subreddit, or, in thread mode (`subs` given), SUB=TIME pairs for a
-    floor each: {subreddit: time or None}. A subreddit the run does not
-    take is refused, as a typo would otherwise drop a floor without a word."""
+    floor each: {subreddit: time or None}. Pairs must name every subreddit
+    the run takes (SUB=all for no floor) and no other, as a typo or an
+    addition to the list would otherwise drop a floor without a word."""
     if value is None or not value.strip() or value.strip().lower() == "all":
         return None
     if "=" not in value:
@@ -2940,6 +2941,12 @@ def parse_floors(value, subs=None):
                              f"({', '.join(subs)})")
         w = when.strip()
         out[sub[0]] = None if w.lower() == "all" else _floor(w)
+    # A subreddit left out would get no floor and its whole history taken;
+    # that has to be asked for in so many words (SUB=all).
+    missing = [s for s in subs if s not in out]
+    if missing:
+        raise SystemExit(f"--since: no floor for {', '.join(missing)}; give each subreddit the run takes its "
+                         "own SUB=DATE, or SUB=all for its whole history")
     return out
 
 
