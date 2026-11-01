@@ -1,5 +1,5 @@
 import type {
-  Algo, CommentSort, Facets, Feed, LedgerItem, LedgerResponse, Mention, NameRow, Page, RestaurantDetail, WindowDays,
+  Algo, CommentSort, Extraction, Facets, Feed, LedgerItem, LedgerResponse, Mention, NameRow, Page, RestaurantDetail, WindowDays,
 } from "./types";
 import type { Filters } from "../state/filters";
 
@@ -84,6 +84,9 @@ export const api = {
   standoutNegatives: (entityKey: string) =>
     cached(`neg|${entityKey}`, () =>
       get<Mention[]>(`/api/restaurants/${key(entityKey)}/standout-negatives?limit=5`)),
+  /** What the extractor took from one comment (t1_) or post (t3_). Memoized per item. */
+  extraction: (itemId: string) =>
+    cached(`x|${itemId}`, () => get<Extraction>(`/api/extractions/${key(itemId)}`)),
   mentions: (entityKey: string, sort: CommentSort, offset: number, limit = 50, signal?: AbortSignal) =>
     get<Page<Mention>>(
       `/api/restaurants/${key(entityKey)}/mentions?sort=${sort}&limit=${limit}&offset=${offset}`,

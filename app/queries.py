@@ -981,3 +981,42 @@ def top_neighborhoods(conn, keys, fetch_all):
         group by al.resolved_key, m.neighborhood_hint
         order by al.resolved_key, count(*) desc, m.neighborhood_hint
     """, (list(keys),))
+
+
+def item_mentions(conn, item_id, fetch_all):
+    """Every mention row of one comment (t1_) or post (t3_), whichever
+    extraction wrote it. A post's mentions carry thread_id and a null
+    comment_id. Read from `mentions`, not `live_mentions`: this is for
+    inspecting what each extraction said, live or not."""
+    return fetch_all(conn, """
+        select m.id as mention_id, m.restaurant_raw, m.entity_key,
+               r.resolved_key, r.official_name,
+               m.schema_version, m.prompt_hash, m.model_version, m.created_at,
+               m.kind, m.named_in, m.experience, m.opinion, m.avoid,
+               m.overall_level, m.taste_level, m.value_level, m.service_level,
+               m.atmosphere_level, m.wait_level,
+               m.dish_opinions, m.notes, m.tags, m.price_level, m.timeframe,
+               m.trend, m.status, m.is_chain,
+               m.dishes, m.descriptors, m.aspects, m.expensiveness,
+               m.is_firsthand, m.is_negated
+        from mentions m
+        left join lateral (
+          select al.resolved_key, l.official_name
+          from entity_alias al
+          left join entity_leaderboard l on l.entity_key = al.resolved_key
+          where al.entity_key = m.entity_key
+          limit 1
+        ) r on true
+        where m.comment_id = %(id)s or m.thread_id = %(id)s
+        order by m.id
+    """, {"id": item_id})
+
+
+def extraction_state(conn, item_id, fetch_one):
+    """The v6 bookkeeping row, so "read, found nothing" differs from "never read"."""
+    return fetch_one(conn, """
+        select kind, prompt_hash, model, extracted_at, extract_error as error,
+               cost_usd::float8 as cost_usd, attempts
+        from extraction_state
+        where item_id = %s and version = 'v6'
+    """, (item_id,))

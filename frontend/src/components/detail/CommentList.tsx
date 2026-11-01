@@ -38,7 +38,7 @@ export function CommentList({ entityKey }: Props) {
       </div>
       <ol className="cm-list" ref={listRef}>
         {items.map((m) => (
-          <RedditComment key={m.mention_id} mention={m} />
+          <RedditComment key={m.mention_id} mention={m} itemId={m.comment_id} />
         ))}
         {loading && items.length === 0 && [0, 1, 2].map((i) => <li key={i} className="rc skel" aria-hidden="true" />)}
         {error && <li className="cm-err">{error}</li>}

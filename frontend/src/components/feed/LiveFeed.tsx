@@ -93,6 +93,7 @@ export function LiveFeed({ onOpen }: Props) {
             key={c.id}
             mention={c.kind === "comment" ? { ...c, thread_title: c.title } : { ...c, thread_title: null }}
             post={c.kind === "post" ? { title: c.title, comments: c.num_comments } : undefined}
+            itemId={c.id}
             places={c.places}
             onPlace={onOpen}
             className={justIn.has(c.id) ? "rc-new" : undefined}
