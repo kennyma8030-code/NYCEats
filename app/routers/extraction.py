@@ -1,9 +1,10 @@
 """What the extractor took from one comment or post, for inspection.
 
 A debugging aid for the scoring work: the UI swaps a comment's text for this.
-It reads `mentions` directly, not `live_mentions`, on purpose: the point is to
-see every extraction that ever ran on the item, including the ones the board
-is not counting right now.
+Only the v6 thread-mode prompt is shown, the extraction the scoring work is
+built on; comment-mode and legacy rows are left out so they don't clutter the
+view. It reads `mentions` directly, not `live_mentions`, so the rows show
+whether or not the board counts them right now.
 """
 
 from typing import Annotated, Any
@@ -21,6 +22,9 @@ router = APIRouter()
 # id can be; the query binds it as a parameter either way.
 ItemId = Annotated[str, Path(pattern=r"^t[13]_[0-9a-z]{1,20}$",
                              description="A comment (t1_...) or post (t3_...) id")]
+
+# The prompt whose rows the view shows: v6 thread mode.
+THREAD_HASH = "d92ec8610d8c"
 
 # The two v6 prompts. Anything else is the legacy extractor, whose label is
 # the model_version it wrote.
@@ -61,13 +65,13 @@ def group_rows(rows):
 @router.get("/api/extractions/{item_id}", response_model=ExtractionView,
             summary="What the extractor took from one comment or post")
 def extraction(item_id: ItemId, conn=Depends(get_conn)):
-    """Every mention row for the item, grouped by the prompt that wrote it.
+    """The item's v6 thread-mode mention rows, as one group.
 
-    v6 groups come first. `state` is the v6 extraction_state row: null means
+    `state` is the v6 extraction_state row: null means
     the item was never queued, a row with `extracted_at` and no mentions means
     it was read and nothing was found, and `error` means it failed.
     """
-    rows = queries.item_mentions(conn, item_id, fetch_all)
+    rows = queries.item_mentions(conn, item_id, fetch_all, THREAD_HASH)
     state = queries.extraction_state(conn, item_id, fetch_one)
     return ExtractionView(item_id=item_id, groups=[ExtractionGroup(**g) for g in group_rows(rows)],
                           state=state)

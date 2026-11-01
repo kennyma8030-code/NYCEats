@@ -983,11 +983,11 @@ def top_neighborhoods(conn, keys, fetch_all):
     """, (list(keys),))
 
 
-def item_mentions(conn, item_id, fetch_all):
-    """Every mention row of one comment (t1_) or post (t3_), whichever
-    extraction wrote it. A post's mentions carry thread_id and a null
-    comment_id. Read from `mentions`, not `live_mentions`: this is for
-    inspecting what each extraction said, live or not."""
+def item_mentions(conn, item_id, fetch_all, prompt_hash):
+    """The mention rows one prompt wrote for a comment (t1_) or post (t3_).
+    A post's mentions carry thread_id and a null comment_id. Read
+    from `mentions`, not `live_mentions`: this is for inspecting what the
+    extraction said, live or not."""
     return fetch_all(conn, """
         select m.id as mention_id, m.restaurant_raw, m.entity_key,
                r.resolved_key, r.official_name,
@@ -1007,9 +1007,10 @@ def item_mentions(conn, item_id, fetch_all):
           where al.entity_key = m.entity_key
           limit 1
         ) r on true
-        where m.comment_id = %(id)s or m.thread_id = %(id)s
+        where (m.comment_id = %(id)s or m.thread_id = %(id)s)
+          and m.prompt_hash = %(hash)s
         order by m.id
-    """, {"id": item_id})
+    """, {"id": item_id, "hash": prompt_hash})
 
 
 def extraction_state(conn, item_id, fetch_one):

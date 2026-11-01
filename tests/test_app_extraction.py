@@ -1,4 +1,4 @@
-"""/api/extractions/{id}: every extraction of one comment or post, v6 first."""
+"""/api/extractions/{id}: what v6 thread mode took from one comment or post."""
 
 from psycopg2.extras import Json
 
@@ -14,13 +14,16 @@ class Extraction(AppCase):
         super().setUpClass()
         with cls.conn.cursor() as cur:
             # t1_c1 already has a legacy Cellos row from the seed. Add a v6
-            # row to it, a post mention, and a v6 state row for an item with
-            # no mentions.
+            # thread-mode row and a comment-mode row to it, a post mention,
+            # and a v6 state row for an item with no mentions.
             cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key, model_version,
                                prompt_hash, schema_version, overall_level, taste_level, value_level,
                                dish_opinions, price_level, timeframe)
                            values ('t1_c1', 'Cello''s', 'cellos', 'v6', %s, 6, 2, 2, -1, %s, 1, 'current')""",
-                        (COMMENT, Json([{"dish": "slice", "level": 2, "avoid": False}])))
+                        (THREAD, Json([{"dish": "slice", "level": 2, "avoid": False}])))
+            cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key, model_version,
+                               prompt_hash, schema_version, overall_level)
+                           values ('t1_c1', 'Joe''s', 'joes', 'v6', %s, 6, -2)""", (COMMENT,))
             cur.execute("""insert into mentions (thread_id, restaurant_raw, entity_key, model_version,
                                prompt_hash, schema_version, overall_level)
                            values ('t3_a', 'Cellos', 'cellos', 'v6', %s, 6, 1)""", (THREAD,))
@@ -33,25 +36,24 @@ class Extraction(AppCase):
         self.assertEqual(r.status_code, 200, r.text)
         return r.json()
 
-    def test_v6_group_comes_before_legacy(self):
+    def test_only_thread_mode_is_shown(self):
         body = self.get("t1_c1")
-        self.assertEqual([g["label"] for g in body["groups"]][0], "v6 comment mode")
-        self.assertEqual(body["groups"][1]["prompt_hash"], "p")
+        self.assertEqual([g["label"] for g in body["groups"]], ["v6 thread mode"])
+        self.assertEqual([m["entity_key"] for m in body["groups"][0]["mentions"]], ["cellos"])
         v6 = body["groups"][0]["mentions"][0]
         self.assertEqual((v6["overall_level"], v6["taste_level"], v6["value_level"]), (2, 2, -1))
         self.assertIsNone(v6["service_level"])
         self.assertEqual(v6["dish_opinions"][0]["dish"], "slice")
         self.assertEqual(v6["resolved_key"], "cellos")
-        self.assertEqual(body["groups"][1]["mentions"][0]["aspects"]["food"], -0.9)
 
     def test_a_post_is_found_by_thread_id(self):
         body = self.get("t3_a")
         self.assertEqual(body["groups"][0]["label"], "v6 thread mode")
-        self.assertEqual(len(body["groups"][0]["mentions"]), 1)
+        self.assertEqual([m["entity_key"] for m in body["groups"][0]["mentions"]], ["cellos"])
 
     def test_extracted_nothing_differs_from_never_extracted(self):
         read = self.get("t1_c4")
-        self.assertEqual(read["groups"][0]["mentions"][0]["entity_key"], "abc")  # legacy only
+        self.assertEqual(read["groups"], [])  # its only row is legacy
         self.assertIsNotNone(read["state"]["extracted_at"])
         never = self.get("t1_c7")
         self.assertEqual(never["groups"], [])
