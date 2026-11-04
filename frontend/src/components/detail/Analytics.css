@@ -60,3 +60,35 @@
 .negs li p { margin: 0; font-size: 14px; line-height: 1.45 }
 .negs li span { font-size: 12px; color: var(--faint) }
 .negs a { color: var(--accent) }
+
+/* Rating: two colors only, positive and negative. */
+.rt { display: grid; gap: 10px }
+.rt .lab, .rt p { margin: 0 }
+.rt-head { font-size: 17px; line-height: 1.35 }
+.rt-head b { font-family: var(--display); font-size: 24px; font-weight: 500; letter-spacing: -.02em }
+.rt-link {
+  all: unset; cursor: pointer; text-decoration: underline; text-decoration-thickness: 1px;
+  text-decoration-color: var(--faint); text-underline-offset: 3px;
+}
+.rt-link:hover { text-decoration-color: var(--ink) }
+.rt-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px }
+.rt-notes { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 14px; color: var(--mute) }
+.rt-quiet { font-size: 14px; color: var(--mute) }
+.rt-counts { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; color: var(--mute) }
+.rt-badge { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 999px; color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
+.rt-badge.consensus { background: var(--accent); color: var(--bg); box-shadow: none }
+.rt-badge.overhyped_mixed { color: var(--down); box-shadow: inset 0 0 0 1px var(--down) }
+
+.rt-cats { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 2px }
+.rt-cat {
+  all: unset; box-sizing: border-box; width: 100%; cursor: pointer; border-radius: 6px; padding: 6px 4px;
+  display: grid; grid-template-columns: 84px minmax(0, 1fr) 76px; gap: 12px; align-items: center; font-size: 14.5px;
+}
+.rt-cat:hover { background: var(--cell) }
+.rt-cat:focus-visible { outline: 2px solid var(--accent) }
+.rt-name { color: var(--mute) }
+/* The bar is the share positive; what is left over is negative. */
+.rt-bar { height: 8px; border-radius: 4px; background: var(--down); overflow: hidden }
+.rt-bar i { display: block; height: 100%; background: var(--accent) }
+.rt-num { text-align: right; font-variant-numeric: tabular-nums }
+.rt-num small { color: var(--faint); font-size: 12px }

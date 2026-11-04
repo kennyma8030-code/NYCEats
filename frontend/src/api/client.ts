@@ -1,5 +1,5 @@
 import type {
-  Algo, CommentSort, Facets, Feed, LedgerItem, LedgerResponse, Mention, NameRow, Page, RestaurantDetail, WindowDays,
+  Algo, BoardId, BoardResponse, CommentSort, Facets, Feed, LedgerItem, LedgerResponse, Mention, NameRow, Page, RatingCategory, RestaurantDetail, Voice, WindowDays,
 } from "./types";
 import type { Filters } from "../state/filters";
 
@@ -65,6 +65,23 @@ function cached<T>(id: string, load: () => Promise<T>): Promise<T> {
 export const api = {
   ledger: (f: Filters, signal?: AbortSignal) =>
     get<LedgerResponse>(`/api/ledger?${ledgerParams(f)}`, signal),
+  /** Restaurants ranked by the rating. The window only sets the counts beside each row. */
+  boards: (board: BoardId, window: WindowDays, cuisine: string, borough: string, signal?: AbortSignal) => {
+    const p = new URLSearchParams({ board, window: String(window), limit: "50" });
+    if (cuisine) p.set("cuisine", cuisine);
+    if (borough) p.set("borough", borough);
+    return get<BoardResponse>(`/api/boards?${p}`, signal);
+  },
+  /** The comments behind one count of a rating. */
+  voices: (
+    entityKey: string, voice: Voice, category: RatingCategory | null, sort: CommentSort, offset: number, limit = 50,
+    signal?: AbortSignal,
+  ) =>
+    get<Page<Mention>>(
+      `/api/restaurants/${key(entityKey)}/voices?voice=${voice}&sort=${sort}&limit=${limit}&offset=${offset}` +
+        (category ? `&category=${category}` : ""),
+      signal,
+    ),
   /** One restaurant as a ledger row for this window, ranked or not. */
   ledgerEntity: (entityKey: string, window: WindowDays, algo: Algo, topic = "") =>
     cached(`le|${entityKey}|${window}|${algo}|${topic}`, () =>

@@ -37,6 +37,9 @@ export interface LedgerItem {
   flagged: boolean | null;
   strong_neg_people: number | null;
   strong_neg_share: number | null;
+  // Over the rating's own fixed window, whatever the ledger window is. null
+  // when nobody voiced an opinion or recommendation in it.
+  rating?: Rating | null;
 }
 
 export interface LedgerResponse {
@@ -113,6 +116,9 @@ export interface Mention {
   is_negated: boolean;
   is_firsthand: boolean | null;
   aspects: Partial<Aspects> | null;
+  // Only from /voices: what this mention counted as, and the level it carried.
+  voice?: string | null;
+  level?: number | null;
 }
 
 export interface Page<T> {
@@ -150,4 +156,70 @@ export interface FeedItem {
 
 export interface Feed {
   items: FeedItem[];
+}
+
+/** The rating's categories; "taste" is the food, so it is not an AspectKey. */
+export type RatingCategory = "taste" | "value" | "service" | "atmosphere" | "wait";
+export type Badge = "consensus" | "overhyped_mixed" | "hidden_gem";
+/** Each board ranks by one value and filters on the rest: no composite score. */
+export type BoardId = "top" | "popular" | "gems" | "taste" | "value" | "wait" | "atmosphere" | "service";
+/** The comments to list behind a count (/voices). */
+export type Voice = "pos" | "neg" | "neutral" | "endorse" | "recommenders" | "superlative" | "all";
+
+export interface CategoryRating {
+  pos: number;
+  neg: number;
+  neutral: number;
+  // A fraction in [0, 1]; null when nobody was positive or negative.
+  pct_pos: number | null;
+  lb: number | null;
+  rankable: boolean;
+}
+
+/** People, one voice each (their latest in the window). pos, neg and neutral
+ *  are stated opinions; endorse is a bare recommendation. */
+export interface Rating {
+  window_days: number;
+  pos: number;
+  neg: number;
+  neutral: number;
+  endorse: number;
+  superlative: number;
+  recommenders: number;
+  pct_pos: number | null;
+  lb: number | null;
+  neg_share: number | null;
+  rankable: boolean;
+  busy: boolean;
+  badge: Badge | null;
+  last_voice: string | null;
+  categories: Partial<Record<RatingCategory, CategoryRating>>;
+}
+
+/** The settings and cut-offs the badges were made with. */
+export interface RatingLines {
+  window_days: number;
+  z: number;
+  min_rated: number;
+  min_category_rated: number;
+  busy_pct: number;
+  share_pct: number;
+  gem_pct: number;
+  busy_line: number | null;
+  share_line: number | null;
+  gem_line: number | null;
+}
+
+export interface BoardResponse {
+  board: BoardId;
+  // Only the window the counts and series cover, never what was ranked on.
+  window_days: WindowDays;
+  bucket_days: 1 | 7;
+  cuisine: string | null;
+  borough: string | null;
+  lines: RatingLines;
+  total: number;
+  limit: number;
+  offset: number;
+  items: LedgerItem[];
 }

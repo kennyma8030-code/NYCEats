@@ -73,7 +73,7 @@
 @media (max-width: 860px) { .wins.algo { grid-template-columns: repeat(2, 1fr) } }
 
 /* Restaurants | Live comments: the two halves of the site. */
-.views { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border-radius: 10px; background: var(--cell) }
+.views { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; padding: 4px; border-radius: 10px; background: var(--cell) }
 .views button {
   all: unset; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px;
   font-size: 13.5px; font-weight: 500; padding: 7px 4px; border-radius: 7px; color: var(--mute); white-space: nowrap;

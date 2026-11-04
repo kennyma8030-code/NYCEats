@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import type { Algo, AspectKey, Aspects, LedgerItem, WindowDays } from "../../api/types";
 import { useRestaurant } from "../../hooks/useRestaurant";
 import { ASPECTS } from "../../lib/format";
+import { RatingCard } from "./RatingCard";
+import type { VoiceView } from "./VoiceList";
 import { Figures } from "./Figures";
 import { TrendChart } from "./TrendChart";
 import { AspectBubbles } from "./AspectBubbles";
@@ -15,9 +17,10 @@ interface Props {
   open: boolean;
   algo: Algo;
   onBack: () => void;
+  onVoices: (view: VoiceView) => void;
 }
 
-export function Analytics({ item, window, open, algo, onBack }: Props) {
+export function Analytics({ item, window, open, algo, onBack, onVoices }: Props) {
   const { data } = useRestaurant(item.entity_key, algo);
   const nameRef = useRef<HTMLHeadingElement>(null);
 
@@ -50,6 +53,7 @@ export function Analytics({ item, window, open, algo, onBack }: Props) {
         </h2>
         {item.neighborhood && <p className="sh-sub">{item.neighborhood}</p>}
       </div>
+      <RatingCard rating={item.rating} onVoices={onVoices} />
       <Figures item={item} window={window} />
       <TrendChart current={item.series} previous={item.previous_series} window={window} />
       <AspectBubbles aspects={aspects} />

@@ -1,5 +1,5 @@
 import type { Facets, Flaw, Need } from "../../api/types";
-import { activeFilterCount, FLAWS, NEEDS, type Filters } from "../../state/filters";
+import { activeFilterCount, boardFilterCount, FLAWS, NEEDS, type Filters } from "../../state/filters";
 
 interface Props {
   filters: Filters;
@@ -8,6 +8,8 @@ interface Props {
   onToggleNeed: (n: Need) => void;
   onToggleFlaw: (n: Flaw) => void;
   onClear: () => void;
+  /** The boards view: cuisine and borough only. */
+  boards?: boolean;
 }
 
 // Keep a selected value listed even before facets arrive (or if it has
@@ -16,7 +18,7 @@ function options(values: string[], selected: string) {
   return selected && !values.includes(selected) ? [selected, ...values] : values;
 }
 
-export function FilterControls({ filters, facets, onChange, onToggleNeed, onToggleFlaw, onClear }: Props) {
+export function FilterControls({ filters, facets, onChange, onToggleNeed, onToggleFlaw, onClear, boards }: Props) {
   const cuisines = options((facets?.cuisines ?? []).map((f) => f.name).sort(), filters.cuisine);
   const boroughs = options((facets?.boroughs ?? []).map((f) => f.name), filters.borough);
 
@@ -50,6 +52,7 @@ export function FilterControls({ filters, facets, onChange, onToggleNeed, onTogg
           ))}
         </select>
       </div>
+      {!boards && (<>
       <div className="fs">
         <p className="lab">Known for</p>
         <div className="needs" role="group" aria-label="Known for">
@@ -81,7 +84,8 @@ export function FilterControls({ filters, facets, onChange, onToggleNeed, onTogg
           ))}
         </div>
       </div>
-      {activeFilterCount(filters) > 0 && (
+      </>)}
+      {(boards ? boardFilterCount(filters) : activeFilterCount(filters)) > 0 && (
         <button type="button" className="clear" onClick={onClear}>
           Clear filters
         </button>

@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "./api/client";
-import type { Algo, LedgerItem, WindowDays } from "./api/types";
-import { restaurantFromUrl, setRestaurantInUrl, setViewInUrl, useFilters, viewFromUrl, type View } from "./state/filters";
+import type { Algo, BoardId, LedgerItem, WindowDays } from "./api/types";
+import { boardFromUrl, restaurantFromUrl, setBoardInUrl, setRestaurantInUrl, setViewInUrl, useFilters, viewFromUrl, type View } from "./state/filters";
 import { useLedger } from "./hooks/useLedger";
 import { useFacets } from "./hooks/useFacets";
 import { ledgerMatches } from "./lib/fresh";
 import type { NameHit } from "./lib/search";
 import { Rail } from "./components/rail/Rail";
+import { BoardList } from "./components/ledger/BoardList";
 import { LedgerList } from "./components/ledger/LedgerList";
 import { DetailPanel } from "./components/detail/DetailPanel";
 import { LiveFeed } from "./components/feed/LiveFeed";
@@ -17,6 +18,8 @@ export default function App() {
   const ledger = useLedger(filters);
   const facets = useFacets();
   const [view, setView] = useState<View>(viewFromUrl);
+  const [board, setBoard] = useState<BoardId>(boardFromUrl);
+  useEffect(() => setBoardInUrl(board), [board]);
   useEffect(() => {
     setViewInUrl(view);
     window.scrollTo(0, 0);
@@ -169,6 +172,15 @@ export default function App() {
         />
         {view === "comments" ? (
           <LiveFeed onOpen={openKey} />
+        ) : view === "boards" ? (
+          <BoardList
+            filters={filters}
+            board={board}
+            onBoard={setBoard}
+            selectedKey={open ? selected?.entity_key ?? null : null}
+            onSelect={selectRow}
+            onClear={() => update({ cuisine: "", borough: "" })}
+          />
         ) : (
           <LedgerList
             filters={filters}

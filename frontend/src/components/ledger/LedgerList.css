@@ -52,3 +52,12 @@
 
 /* New ranking: a big share of recent opinion is a bad experience. */
 .flag { color: var(--down); font-weight: 500; margin-right: 8px }
+
+/* Boards: the tab strip, and a badge in a row meta line. */
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 18px }
+.tabs button { all: unset; cursor: pointer; font-size: 13.5px; font-weight: 500; padding: 6px 12px; border-radius: 999px; color: var(--mute); background: var(--cell) }
+.tabs button:hover { color: var(--ink) }
+.tabs button[aria-pressed="true"] { background: var(--ink); color: var(--bg) }
+.tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.bdg { color: var(--accent); font-weight: 500; margin-right: 8px }
+.bdg.overhyped_mixed { color: var(--down) }

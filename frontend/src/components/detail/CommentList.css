@@ -26,3 +26,14 @@
 @media (max-width: 760px) {
   .cm-list { overflow: visible }
 }
+
+/* Comments behind a rating number. */
+.cm-back { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--mute) }
+.cm-back:hover { color: var(--ink) }
+.cm-back:focus-visible { outline: 2px solid var(--accent); border-radius: 4px }
+.cm-back svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6 }
+.cm-sub {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 12px;
+  padding: 10px 24px; border-bottom: 1px solid var(--line); background: var(--surface);
+}
+.cm-sub .sh-eye { margin: 0 }
