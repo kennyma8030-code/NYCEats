@@ -1,5 +1,5 @@
 import type {
-  Algo, BoardId, BoardResponse, CommentSort, Facets, Feed, LedgerItem, LedgerResponse, Mention, NameRow, Page, RatingCategory, RestaurantDetail, Voice, WindowDays,
+  Algo, BoardId, CategoryVoice, BoardResponse, CommentSort, Facets, Feed, LedgerItem, LedgerResponse, Mention, NameRow, Page, RatingCategory, RestaurantDetail, Voice, WindowDays,
 } from "./types";
 import type { Filters } from "../state/filters";
 
@@ -43,6 +43,13 @@ export function ledgerParams(f: Filters, limit = 50): string {
   return p.toString();
 }
 
+// The rating views are built by the worker; until they exist the API says 503.
+const REBUILDING = "Ratings are being rebuilt. Try again in a minute.";
+const calmly = <T,>(p: Promise<T>) =>
+  p.catch((e: unknown) => {
+    throw e instanceof ApiError && e.status === 503 ? new ApiError(REBUILDING, 503) : e;
+  });
+
 const key = (k: string) => encodeURIComponent(k);
 
 // Short-lived memo for per-restaurant reads. The scoring views only change
@@ -70,18 +77,18 @@ export const api = {
     const p = new URLSearchParams({ board, window: String(window), limit: "50" });
     if (cuisine) p.set("cuisine", cuisine);
     if (borough) p.set("borough", borough);
-    return get<BoardResponse>(`/api/boards?${p}`, signal);
+    return calmly(get<BoardResponse>(`/api/boards?${p}`, signal));
   },
   /** The comments behind one count of a rating. */
   voices: (
-    entityKey: string, voice: Voice, category: RatingCategory | null, sort: CommentSort, offset: number, limit = 50,
-    signal?: AbortSignal,
+    entityKey: string, voice: Voice | CategoryVoice, category: RatingCategory | null, sort: CommentSort, offset: number,
+    limit = 50, signal?: AbortSignal,
   ) =>
-    get<Page<Mention>>(
+    calmly(get<Page<Mention>>(
       `/api/restaurants/${key(entityKey)}/voices?voice=${voice}&sort=${sort}&limit=${limit}&offset=${offset}` +
         (category ? `&category=${category}` : ""),
       signal,
-    ),
+    )),
   /** One restaurant as a ledger row for this window, ranked or not. */
   ledgerEntity: (entityKey: string, window: WindowDays, algo: Algo, topic = "") =>
     cached(`le|${entityKey}|${window}|${algo}|${topic}`, () =>

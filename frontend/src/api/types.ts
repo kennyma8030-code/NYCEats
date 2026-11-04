@@ -162,8 +162,11 @@ export interface Feed {
 export type RatingCategory = "taste" | "value" | "service" | "atmosphere" | "wait";
 export type Badge = "consensus" | "overhyped_mixed" | "hidden_gem";
 /** Each board ranks by one value and filters on the rest: no composite score. */
-export type BoardId = "top" | "popular" | "gems" | "taste" | "value" | "wait" | "atmosphere" | "service";
+export type BoardId = OverallBoard | RatingCategory;
 /** The comments to list behind a count (/voices). */
+/** With a category, a voice list has no bare endorsements, recommenders or superlatives. */
+export type CategoryVoice = "pos" | "neg" | "neutral" | "opinions" | "all";
+export type OverallBoard = "top" | "popular" | "gems";
 export type Voice = "pos" | "neg" | "neutral" | "endorse" | "recommenders" | "superlative" | "opinions" | "all";
 
 export interface CategoryRating {

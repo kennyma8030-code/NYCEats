@@ -1,16 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { api } from "../../api/client";
-import type { CommentSort, RatingCategory, Voice } from "../../api/types";
+import type { CategoryVoice, CommentSort, RatingCategory, Voice } from "../../api/types";
 import { usePaged } from "../../hooks/usePaged";
 import { RedditComment } from "./RedditComment";
 import "./CommentList.css";
 
 /** Which comments a number in the rating opens. */
-export interface VoiceView {
-  title: string;
-  voice: Voice;
-  category: RatingCategory | null;
-}
+export type VoiceView = { title: string } & (
+  | { voice: Voice; category: null }
+  | { voice: CategoryVoice; category: RatingCategory }
+);
 
 interface Props {
   entityKey: string;
