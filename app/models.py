@@ -8,7 +8,7 @@ you let it, so the annotations are load-bearing.
 """
 
 from datetime import datetime
-from typing import Any, Generic, Literal, Optional, TypeVar
+from typing import Any, Generic, Literal, Optional, TypeVar, get_args
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -214,17 +214,28 @@ class Spelling(BaseModel):
 
 # The rating (scoring.sql, section 8). v6's categories, which are not the
 # legacy aspects: "taste" is the food.
+# The tuples are read off the Literals (get_args flattens nested ones), so a
+# value added to a Literal reaches the whitelists without a second list.
 RatingCategory = Literal["taste", "value", "service", "atmosphere", "wait"]
-RATING_CATEGORIES = ("taste", "value", "service", "atmosphere", "wait")
+RATING_CATEGORIES = get_args(RatingCategory)
 # Each board ranks by one value and filters on the rest; no composite score.
-RatingBoard = Literal["top", "popular", "gems",
-                      "taste", "value", "service", "atmosphere", "wait"]
+# top, popular and gems rank on the overall rating; the rest on a category's.
+OverallBoard = Literal["top", "popular", "gems"]
+OVERALL_BOARDS = get_args(OverallBoard)
+RatingBoard = Literal[OverallBoard, RatingCategory]
 Badge = Literal["consensus", "overhyped_mixed", "hidden_gem"]
-# Which voices to list behind a rating. recommenders = pos + endorse, the
-# volume axis; superlative = pos at level 2. With a category, only pos, neg,
-# neutral and all apply: a category has no bare endorsements.
-VoiceFilter = Literal["pos", "neg", "neutral", "endorse", "recommenders",
-                      "superlative", "all"]
+# Which voices to list behind a rating (/voices).
+#   pos, neg, neutral   latest stated opinions; opinions = pos and neg together
+#   superlative         pos at level 2
+#   endorse             people whose latest word is a bare endorse
+#   recommenders        people whose latest word is an endorse or a stated pos
+#   all                 every person, by their latest word
+# With a category only the stated ones and all apply: a category has no bare
+# endorsements.
+CategoryVoiceFilter = Literal["pos", "neg", "neutral", "opinions", "all"]
+CATEGORY_VOICE_FILTERS = get_args(CategoryVoiceFilter)
+VoiceFilter = Literal[CategoryVoiceFilter, Literal["superlative", "endorse", "recommenders"]]
+VOICE_FILTERS = get_args(VoiceFilter)
 
 
 class CategoryRating(BaseModel):
@@ -240,17 +251,20 @@ class CategoryRating(BaseModel):
 class Rating(BaseModel):
     """How much the sub likes a place, apart from how many bring it up.
 
-    Counts are people, one voice each (their latest in the window). pos, neg
-    and neutral are stated opinions and make the rating; endorse is a bare
-    recommendation and only counts toward recommenders, the volume axis.
+    Counts are people over the window. pos, neg, neutral and superlative
+    count each person's latest STATED opinion and make the rating; a bare
+    endorse never changes it. endorse and recommenders count each person's
+    latest word, stated or endorse: the volume axis. So recommenders is not
+    pos + endorse -- someone who praised a place and later only named it is
+    one pos and one recommender.
     """
     window_days: int
     pos: int
     neg: int
     neutral: int
-    endorse: int
-    superlative: int                  # stated level 2: called it the best
-    recommenders: int                 # pos + endorse
+    endorse: int                      # latest word a bare endorse
+    superlative: int                  # latest stated level 2: called it the best
+    recommenders: int                 # latest word an endorse or a stated pos
     pct_pos: Optional[float] = None   # pos / (pos + neg)
     lb: Optional[float] = None        # Wilson lower bound of pct_pos
     neg_share: Optional[float] = None  # neg / (pos + neg + neutral)

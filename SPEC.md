@@ -297,42 +297,59 @@ than the restaurant's.
 
 ### Rating and recommenders (new, v6)
 
-Built in `scoring.sql` section 8 (`rating_params`, `place_voices`,
-`place_category_voices`, `entity_rating`, `entity_category_rating`), served by
-`/api/boards`, `/api/restaurants/{key}/voices` and a `rating` object on ledger
-rows and the detail page. Reads v6's columns, so it needs `live_mentions` in
-v6 mode.
+Built in `scoring.sql` section 8 (`rating_params`, `rating_mentions`,
+`place_voices`, `place_recommenders`, `place_category_voices`,
+`entity_rating`, `entity_category_rating`), served by `/api/boards`,
+`/api/restaurants/{key}/voices` and a `rating` object on ledger rows and the
+detail page. Reads v6's columns, so it needs `live_mentions` in v6 mode.
 
 **Why.** 44.5% of v6's positive mentions are bare recommendations, a name
 dropped with no judgment (`opinion = 'endorse'`). Counted as praise they put
 the median place at 90% positive and 361 places at 100%; over stated opinions
 only the board is about 74.5% positive. So the rating and the volume come from
 different signals: stated opinions make the rating, and a bare endorse is
-volume only.
+volume only. It can never change the rating, not even by being someone's
+latest word.
 
-**Window and exclusions.** The last 365 days (`window_days`), r/FoodNYC,
-everything `live_mentions` already leaves out, `excluded_entities`, and
-mentions the model marked `status = 'closed'` ("RIP Florent" nostalgia was
-ranking shut places). AutoModerator is dropped.
+**Window and exclusions** (`rating_mentions`, shared by everything below).
+The last 365 days (`window_days`), r/FoodNYC, everything `live_mentions`
+already leaves out, `excluded_entities`, mentions the model marked
+`status = 'closed'` ("RIP Florent" nostalgia was ranking shut places) and
+mentions marked `timeframe = 'past'` ("it used to be great"; a mention with
+no timeframe stays). AutoModerator is dropped; `[deleted]` counts once per
+comment.
 
-**One voice per person per place:** their latest mention in the window that
-is a voice. `[deleted]` counts once per comment. Voices:
+**What a mention says**, tested in this order:
 
 | voice | rule |
 |---|---|
+| neg | `avoid` ("skip it"), whatever else it says, so a warning is never a recommendation |
 | endorse | `opinion = 'endorse'`, whatever level it carries |
-| pos | stated overall level 1 or 2 |
-| neg | overall level -1 or -2, or `avoid` with no level |
-| neutral | overall level 0 |
+| pos | `opinion = 'stated'`, overall level 1 or 2 |
+| neg | `opinion = 'stated'`, overall level -1 or -2 |
+| neutral | `opinion = 'stated'`, overall level 0 |
 
 A mention with none of these (a fact, a question, a remark on the wait alone)
 is not a voice and never hides an earlier one.
 
-**Per place** (`entity_rating`): `pct_pos = pos / (pos + neg)`; `lb` = its
-Wilson lower bound at z = 1.28; `neg_share = neg / (pos + neg + neutral)`, the
-complaint share of stated opinions; `superlative` = people at level 2;
-`recommenders` = pos + endorse, the volume axis. **Rankable** at 10 or more
-stated non-neutral people (`min_rated`).
+**One voice per person per place, picked twice**, because the two axes ask
+different things:
+
+- **Rating** (`place_voices`): each person's latest *stated* voice (pos, neg,
+  neutral). A later bare endorse does not replace it.
+- **Volume** (`place_recommenders`): each person's latest voice of any kind.
+  A **recommender** is a person whose latest voice is an endorse or a stated
+  pos. Two mentions of one place in the same comment (two spellings that
+  resolve together) tie on time; the stated one wins.
+
+**Per place** (`entity_rating`): pos, neg, neutral and `superlative` (latest
+stated level 2) from the rating pass; `pct_pos = pos / (pos + neg)`; `lb` =
+its Wilson lower bound at z = 1.28; `neg_share = neg / (pos + neg + neutral)`,
+the complaint share of stated opinions. `endorse` (latest voice a bare
+endorse) and `recommenders` from the volume pass. recommenders is not
+pos + endorse: someone who praised a place and later only named it is one pos
+and one recommender. **Rankable** at 10 or more stated non-neutral people
+(`min_rated`).
 
 **Categories** (`entity_category_rating`): taste, value, service, atmosphere,
 wait. Each person's latest *stated* level for that category, by sign (a level
@@ -350,8 +367,8 @@ rankable place is badged against them:
 - `consensus` = busy and lb ≥ share_line; `overhyped_mixed` = busy and lb <
   share_line; `hidden_gem` = not busy and lb ≥ gem_line; otherwise none.
 
-Measured Nov 3, 2026: 1,286 rankable places; busy at 78 recommenders,
-share_line 0.649, gem_line 0.813; 77 consensus, 52 overhyped / mixed, 174
+Measured Nov 3, 2026: 1,316 rankable places; busy at 76 recommenders,
+share_line 0.661, gem_line 0.823; 82 consensus, 52 overhyped / mixed, 179
 hidden gems.
 
 **Boards.** Each ranks by one value; the rest are filters. Top: busy places by
@@ -359,9 +376,18 @@ lb. Popular: by recommenders, among places with lb ≥ share_line. Hidden gems:
 by lb. Category boards: by the category's lb, among places rankable in it.
 Overhyped / mixed is a badge, not a board. There is no Divisive badge.
 
-**Click-through.** `place_voices` and `place_category_voices` keep the one
-mention each person was counted by, so every count lists exactly its comments,
+**Click-through.** `place_voices`, `place_recommenders` and
+`place_category_voices` keep the one mention each person was counted by, so
+every count lists exactly its comments (`/voices?voice=pos` totals the card's
+pos, `voice=opinions` its pos + neg, `voice=recommenders` its recommenders),
 with permalinks suppressed where `was_deleted_later` is set.
+
+**Rollout order.** The web app reads these views and never builds them.
+Apply `scoring.sql` first (`refresh.py --apply`, or the poller's boot), then
+deploy the web app. A web app that finds them missing (deployed first, or
+after a rollback dropped them) checks once every 30 seconds and meanwhile
+serves `rating: null` on the ledger and the detail page and 503 on
+`/api/boards` and `/voices`, rather than failing.
 
 Known limits: v6 codes lukewarm words (fine, meh, mid) as knocks and almost
 nothing as neutral (0.6%), so `neg_share` sits close to `1 - pct_pos` until
