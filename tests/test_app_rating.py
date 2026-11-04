@@ -13,7 +13,7 @@ from typing import get_args
 from unittest import mock
 
 from fastapi import HTTPException
-from psycopg2.errors import UndefinedTable
+from psycopg2.errors import UndefinedColumn, UndefinedTable
 
 import apptest
 from apptest import NOW, AppCase
@@ -82,6 +82,17 @@ class Wiring(unittest.TestCase):
         self.assertEqual(cm.exception.status_code, 503)
         self.assertIsNone(queries._rating_ready["at"])
 
+        # An older build's views, missing a column: the same.
+        queries._rating_ready.update(at=queries.time.monotonic(), ready=True)
+        stale = mock.Mock(side_effect=UndefinedColumn())
+        self.assertEqual(queries.ratings_for(conn, ["k"], stale, stale), {})
+        queries._rating_ready.update(at=queries.time.monotonic(), ready=True)
+        with self.assertRaises(UndefinedColumn):
+            queries.ratings_for(conn, ["k"], stale, stale, strict=True)
+        with self.assertRaises(HTTPException) as cm:
+            rating_only(conn, lambda: queries.ratings_for(conn, ["k"], stale, stale, strict=True))
+        self.assertEqual(cm.exception.status_code, 503)
+
 
 def seed(conn):
     """One thread, place "alpha" and place "beta", all v6 rows read live.
@@ -102,9 +113,10 @@ def seed(conn):
                 alpha) and then "alpha" endorse        pos; pos -- the stated one wins the tie
       pd        stated -1, past, trend declined        neg ("better before, now mid"); neg
       pa        stated +1 and taste +1, past, no trend nothing
+      sp        avoid, past, no trend                  neg -- an avoid is a neg whatever its time; neg
       AutoModerator endorse, c1 stated +1 'closed', old1 stated -1 400 days ago: nothing
-    rating: pos 15, neg 5, neutral 1, superlative 1
-    volume: recommenders 14 latest pos + e1..e3 + pe = 18, endorse 4; 24 people
+    rating: pos 15, neg 6, neutral 1, superlative 1
+    volume: recommenders 14 latest pos + e1..e3 + pe = 18, endorse 4; 25 people
     beta: three stated +1, not rankable.
     """
     # (author, minutes ago, key, opinion, overall, avoid, taste, wait, status,
@@ -134,6 +146,7 @@ def seed(conn):
         ("dup", 40, "alpha", "endorse", 1, False, None, None, None, None, None, "t1_dup"),
         ("pd", 44, "alpha", "stated", -1, False, None, None, None, "past", "declined", None),
         ("pa", 45, "alpha", "stated", 1, False, 1, None, None, "past", None, None),
+        ("sp", 46, "alpha", "stated", None, True, None, None, None, "past", None, None),
         ("AutoModerator", 90, "alpha", "endorse", 1, False, None, None, None, None, None, None),
         ("c1", 91, "alpha", "stated", 1, False, None, None, "closed", None, None, None),
         ("old1", 400 * 24 * 60, "alpha", "stated", -1, False, None, None, None, None, None, None),
@@ -186,9 +199,9 @@ class Rating(AppCase):
     def test_counts(self):
         r = self.client.get("/api/restaurants/alpha").json()["rating"]
         self.assertEqual((r["pos"], r["neg"], r["neutral"], r["superlative"],
-                          r["endorse"], r["recommenders"]), (15, 5, 1, 1, 4, 18))
-        self.assertAlmostEqual(r["pct_pos"], 15 / 20)
-        self.assertAlmostEqual(r["neg_share"], 5 / 20)
+                          r["endorse"], r["recommenders"]), (15, 6, 1, 1, 4, 18))
+        self.assertAlmostEqual(r["pct_pos"], 15 / 21)
+        self.assertAlmostEqual(r["neg_share"], 6 / 21)
         self.assertTrue(r["rankable"] and r["busy"])
         self.assertEqual(r["badge"], "consensus")      # the only rankable place
         self.assertLess(r["lb"], r["pct_pos"])
@@ -215,8 +228,8 @@ class Rating(AppCase):
         self.assertEqual({v: total(f"voice={v}") for v in
                           ("pos", "neg", "neutral", "opinions", "superlative",
                            "endorse", "recommenders", "all")},
-                         dict(pos=15, neg=5, neutral=1, opinions=20, superlative=1,
-                              endorse=4, recommenders=18, all=24))
+                         dict(pos=15, neg=6, neutral=1, opinions=21, superlative=1,
+                              endorse=4, recommenders=18, all=25))
         self.assertEqual(total("voice=pos&category=taste"), 10)
         self.assertEqual(total("voice=opinions&category=taste"), 11)
         self.assertEqual(self.client.get(
@@ -224,7 +237,7 @@ class Rating(AppCase):
         neg = self.client.get("/api/restaurants/alpha/voices?voice=neg").json()["items"]
         # Every neg carries a negative level, avoids included.
         self.assertTrue(all(m["level"] is not None and m["level"] < 0 for m in neg))
-        self.assertEqual({m["author"] for m in neg}, {"n1", "n2", "sk", "pd", "dt"})
+        self.assertEqual({m["author"] for m in neg}, {"n1", "n2", "sk", "pd", "dt", "sp"})
         # n1's comment was deleted from Reddit: still counted, never linked.
         self.assertIsNone(next(m for m in neg if m["author"] == "n1")["permalink"])
         recs = self.client.get("/api/restaurants/alpha/voices?voice=recommenders&limit=200").json()

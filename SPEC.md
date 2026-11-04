@@ -336,11 +336,14 @@ place used to be. A read of 60 production mentions with a level (Nov 3) found
 52 historical ("I used to love it", "it was great back in the day") and 8 the
 commenter's view now. Rule 9 of the prompt says levels are what the commenter
 thinks now, and where the text says the place changed, `trend` says which
-way. So a past mention is a voice only when its level points the way the
-place moved: `trend = 'declined'` with a neg ("it was better before, now it's
-mid"), or `'improved'` with a pos or endorse. In the sample that kept 3, all
-current, and dropped 57, of which 5 were current. Categories apply the same
-test to their own level. Known limit, with the prompt (GitHub issue #3): a
+way. So `rating_mentions.past_sign` is -1 for `trend = 'declined'` ("it was
+better before, now it's mid"), +1 for `'improved'`, 0 for a past mention with
+no trend and null for one that is not past, and a level (the overall voice,
+an endorse reading as +1, or any category's) counts only when its sign times
+`past_sign` is 1, or `past_sign` is null. In the sample that kept 3, all
+current, and dropped 57, of which 5 were current. An avoid is a neg whatever
+its timeframe: "used to be my spot, skip it now" warns readers off today.
+Known limit, with the prompt (GitHub issue #3): a
 present-day view the model tagged past without a trend is lost, about 1 in 12
 past mentions.
 
@@ -360,8 +363,8 @@ different things:
 **Per place** (`entity_rating`, a full join of the two passes so a place keeps
 its row whichever holds it): pos, neg, neutral and `superlative` (latest
 stated level 2) from the rating pass; `pct_pos = pos / (pos + neg)`; `lb` =
-its Wilson lower bound at z = 1.28; `neg_share = neg / (pos + neg)`, the
-complaint share of the same people, the ones `voice=opinions` lists.
+its Wilson lower bound at z = 1.28. The API's `neg_share` is `1 - pct_pos`,
+kept for compatibility and not stored.
 `recommenders` and `endorse` (the recommenders whose latest voice is a bare
 endorse) from the volume pass. recommenders is not pos + endorse: someone who
 praised a place and later only named it is one pos and one recommender.

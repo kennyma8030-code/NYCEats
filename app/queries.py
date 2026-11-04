@@ -22,7 +22,7 @@ live ones.
 
 import time
 
-from psycopg2.errors import UndefinedTable
+from psycopg2.errors import UndefinedColumn, UndefinedTable
 
 import refresh
 import subreddits
@@ -979,12 +979,13 @@ def ledger_series(conn, keys, window, bucket, fetch_all, topic=None):
 # recommendations only the volume, one voice per person over a fixed window.
 # ---------------------------------------------------------------------------
 
-# entity_rating's per-place columns, in the order Rating takes them, grouped
-# by what a place with no overall voice reports for them, and
-# entity_category_rating's. app/routers/ledger.build_rating reads these.
+# entity_rating's per-place columns, grouped by what a place with no overall
+# voice reports for them (0, false, null), and entity_category_rating's.
+# app/routers/ledger.build_rating reads these and passes them to Rating by
+# name, so their order does not matter.
 RATING_COUNTS = ("pos", "neg", "neutral", "endorse", "superlative", "recommenders")
 RATING_FLAGS = ("rankable", "busy")
-RATING_VALUES = ("pct_pos", "lb", "neg_share", "badge", "last_voice")
+RATING_VALUES = ("pct_pos", "lb", "badge", "last_voice")
 RATING_COLUMNS = RATING_COUNTS + RATING_VALUES + RATING_FLAGS
 CATEGORY_RATING_COLUMNS = ("pos", "neg", "neutral", "pct_pos", "lb", "rankable")
 
@@ -1001,6 +1002,9 @@ CATEGORY_RATING_COLUMNS = ("pos", "neg", "neutral", "pct_pos", "lb", "rankable")
 RATING_VIEWS = ("rating_params", "rating_mentions", "place_voices", "place_recommenders",
                 "place_category_voices", "entity_rating", "entity_category_rating")
 RATING_READY_TTL = {True: 30.0, False: 5.0}
+# What a rating query raises when its views are missing, or are an older
+# build's without a column this code reads (place_recommenders.recommends).
+RATING_MISSING = (UndefinedTable, UndefinedColumn)
 _rating_ready = {"at": None, "ready": False}
 
 
@@ -1021,37 +1025,44 @@ def forget_rating_ready():
     _rating_ready.update(at=None)
 
 
-def ratings_for(conn, keys, fetch_all, fetch_value):
+def ratings_for(conn, keys, fetch_all, fetch_value, strict=False):
     """{entity_key: {"overall": entity_rating row or None, "categories": [...],
     "window_days": n}} for the places among `keys` that have any rating, read
     for a whole page at once. Every rating the API shows comes through here,
     so this is the one place that degrades: {} when the rating views are not
-    built, or vanish under the query, and the callers show rating: null."""
+    built, are an older build's (a column missing), or vanish under the
+    query, and the callers show rating: null. `strict` raises instead, for a
+    route that turns it into a 503 (app/routers/ledger.rating_only)."""
     if not keys or not rating_ready(conn, fetch_value):
         return {}
     keys = list(keys)
     try:
-        window = fetch_value(conn, "select window_days from rating_params")
+        # From rating_params, so the window comes back even when no key has
+        # an overall row (a place with category voices only).
         overall = fetch_all(conn, f"""
-            select entity_key, {", ".join(RATING_COLUMNS)}
-            from entity_rating
-            where entity_key = any(%s)
+            select p.window_days, er.entity_key, {", ".join(f"er.{c}" for c in RATING_COLUMNS)}
+            from rating_params p
+            left join entity_rating er on er.entity_key = any(%s)
         """, (keys,))
         categories = fetch_all(conn, f"""
             select entity_key, category, {", ".join(CATEGORY_RATING_COLUMNS)}
             from entity_category_rating
             where entity_key = any(%s)
         """, (keys,))
-    except UndefinedTable:
+    except RATING_MISSING:
+        if strict:
+            raise
         conn.rollback()
         forget_rating_ready()
         return {}
+    window = overall[0]["window_days"]
     out = {}
 
     def entry(key):
         return out.setdefault(key, {"overall": None, "categories": [], "window_days": window})
     for r in overall:
-        entry(r["entity_key"])["overall"] = r
+        if r["entity_key"] is not None:
+            entry(r["entity_key"])["overall"] = r
     for c in categories:
         entry(c["entity_key"])["categories"].append(c)
     return out
@@ -1100,9 +1111,9 @@ def board_items(conn, board, window, cuisine, borough, limit, offset, fetch_all,
     over rating_params.window_days whatever `window` is; `window` only sets
     the mention counts (current, previous) shown beside it. They are counted
     for the page alone, after ranking, so a board costs one pass over a few
-    thousand cached rows and one over the page's mentions. Raises
-    UndefinedTable when the rating views are missing; the route turns that
-    into a 503.
+    thousand cached rows and one over the page's mentions. Raises one of
+    RATING_MISSING when the rating views are missing or stale; the route
+    turns that into a 503.
     """
     params = {"window": window, "limit": limit, "offset": offset}
     if board in OVERALL_BOARDS:
@@ -1112,8 +1123,7 @@ def board_items(conn, board, window, cuisine, borough, limit, offset, fetch_all,
     elif board in RATING_CATEGORIES:
         where_sql, order_sql = CATEGORY_BOARD
         source = """from entity_category_rating cr
-          join entity_leaderboard l on l.entity_key = cr.entity_key
-          left join entity_rating er on er.entity_key = cr.entity_key"""
+          join entity_leaderboard l on l.entity_key = cr.entity_key"""
         where_sql += " and cr.category = %(category)s"
         params["category"] = board
     else:
@@ -1179,7 +1189,7 @@ def voices_page(conn, entity_key, voice, category, sort, limit, offset,
     """The comments behind a rating: exactly the one mention per person that
     the count was made from, so a list's total is the number on the card.
     Permalinks of comments deleted from Reddit come back NULL (permalink_sql).
-    Raises UndefinedTable when the rating views are missing."""
+    Raises one of RATING_MISSING when the rating views are missing or stale."""
     if category is None:
         table, voice_sql = VOICE_SOURCES[voice]
     elif voice in CATEGORY_VOICE_SOURCES:
