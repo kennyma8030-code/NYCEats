@@ -54,7 +54,9 @@ create table if not exists place_summaries (
 );
 -- Columns that came after the table's first version. Nullable with no
 -- default, so the ALTER only touches the catalog; checked there first, so a
--- table that has them takes no lock.
+-- table that has them takes no lock. A row from a first-version table has
+-- no seen set, so every qualifying comment reads as new to it and it is
+-- written once more, which is all it needs.
 do $$
 begin
   perform set_config('lock_timeout', '5s', true);

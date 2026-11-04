@@ -145,7 +145,7 @@ class Render(unittest.TestCase):
 
 
 def place(**kw):
-    base = dict(key="alpha", n=20, newest=NOW, ids=[], opinions=10, negative=2, closed=0, fresh=0,
+    base = dict(key="alpha", n=20, newest=NOW, opinions=10, negative=2, closed=0, fresh=0,
                 has_summary=True, model=S.MODEL, prompt_hash="h", attempts=0, written_at=NOW)
     base.update(kw)
     return S.Place(**base)
@@ -298,7 +298,7 @@ class Work(unittest.TestCase):
             self.assertFalse(S.account_wide(e), e)
             self.assertFalse(S.place_error(e), e)
 
-    def test_no_retry_and_no_wait_past_the_deadline(self):
+    def test_a_timeout_is_charged_once_and_not_sent_again_this_run(self):
         import anthropic
         import httpx2
         cl = mock.Mock()
@@ -306,17 +306,45 @@ class Work(unittest.TestCase):
             request=httpx2.Request("POST", "http://x/v1/messages"))
         budget = EV.Budget(1.0)
         req = self.req()
+        streak = S.Streak()
+        res = S._work(cl, budget, req, "low", threading.Event(), 3, lambda s: None, print, None, streak)
+        self.assertEqual(res.status, "error")
+        self.assertIsInstance(res.error, S.TimedOut)
+        self.assertEqual(cl.messages.create.call_count, 1)
+        self.assertEqual(req.unseen, [0.01])                 # the timed-out attempt, at its worst case, once
+        self.assertAlmostEqual(budget.spent, 0.01)
+        self.assertAlmostEqual(budget.reserved, 0.0)
+        self.assertEqual(streak.n, 1)                         # a failure of the run
+
+    def test_no_wait_and_no_retry_past_the_deadline(self):
+        import anthropic
+        import httpx2
+        resp = httpx2.Response(429, request=httpx2.Request("POST", "http://x/v1/messages"))
+        cl = mock.Mock()
+        cl.messages.create.side_effect = anthropic.RateLimitError("slow down", response=resp, body=None)
+        budget = EV.Budget(1.0)
         slept = []
-        # The first attempt times out; its retry would wait ~5s, past a
-        # deadline 1s away, so it is never sent.
-        res = S._work(cl, budget, req, "low", threading.Event(), 3, slept.append, print,
+        # The 429's retry would wait ~5s, past a deadline 1s away, so neither
+        # the wait nor the retry happens.
+        res = S._work(cl, budget, self.req(), "low", threading.Event(), 3, slept.append, print,
                       deadline=time.monotonic() + 1)
         self.assertEqual(res.status, "late")
-        self.assertEqual(cl.messages.create.call_count, 1)
-        self.assertEqual(slept, [])
-        self.assertEqual(req.unseen, [0.01])                 # the timed-out attempt, at its worst case
-        self.assertAlmostEqual(budget.spent, 0.01)
-        self.assertAlmostEqual(budget.reserved, 0.0)          # the retry's hold was let go
+        self.assertEqual((cl.messages.create.call_count, slept), (1, []))
+        self.assertEqual((budget.spent, budget.reserved), (0.0, 0.0))   # a 429 is not billed
+
+    def test_a_place_s_own_refusal_is_not_a_failure_of_the_run(self):
+        import anthropic
+        import httpx2
+        resp = httpx2.Response(400, request=httpx2.Request("POST", "http://x/v1/messages"))
+        body = {"type": "error", "error": {"type": "invalid_request_error",
+                                           "message": "prompt is too long: 1200000 tokens > 1000000 maximum"}}
+        cl = mock.Mock()
+        cl.messages.create.side_effect = anthropic.BadRequestError("too long", response=resp, body=body)
+        streak = S.Streak()
+        res = S._work(cl, EV.Budget(1.0), self.req(), "low", threading.Event(), 1, None, lambda *a: None, None,
+                      streak)
+        self.assertTrue(S.place_error(res.error))
+        self.assertEqual(streak.n, 0)
 
 
 class Sample(unittest.TestCase):

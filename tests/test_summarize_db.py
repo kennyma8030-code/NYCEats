@@ -418,31 +418,106 @@ class Writes(SummaryCase):
         self.assertEqual(sorted(o for _, o, _ in self.ledger()), ["unstored", "unstored"])
 
     def test_a_worker_that_raises_still_has_its_charges_recorded(self):
-        # The first attempt times out (charged its worst case), then holding
-        # the retry fails on the database: the worker raises, and the charge
-        # it already made must still reach the ledger.
+        # The only attempt times out (charged its worst case), then the
+        # worker fails on something else before it returns: the charge it
+        # already made must still reach the ledger.
         class TimesOut:
             class messages:
                 @staticmethod
                 def create(**p):
                     raise anthropic.APITimeoutError(request=httpx2.Request("POST", "http://x/v1/messages"))
         b = self.budget()
-        calls = []
-        real = b.reserve
-
-        def reserve(amount):
-            calls.append(amount)
-            if len(calls) > 1:
-                raise RuntimeError("could not read the ceiling")
-            return real(amount)
-        b.reserve = reserve
         todo = S.due(list(self.places().values()), S.MODEL, PH, 5)
-        with self.assertRaises(RuntimeError):
-            S.run(self.conn, TimesOut(), b, todo, workers=1, attempts=2, sleep=lambda s: None, log=QUIET,
+        with mock.patch.object(S.Streak, "failed", side_effect=RuntimeError("a bug after the charge")), \
+                self.assertRaises(RuntimeError):
+            S.run(self.conn, TimesOut(), b, todo, workers=1, attempts=1, sleep=lambda s: None, log=QUIET,
                   connect=pgtest.connect)
         [(key, outcome, cost)] = self.ledger()
         self.assertEqual((key, outcome), ("alpha", "unseen"))
-        self.assertAlmostEqual(float(cost), calls[0], places=6)
+        self.assertAlmostEqual(float(cost), b.spent, places=6)
+        self.assertGreater(b.spent, 0)
+
+
+class Mixed:
+    """A client whose calls for the named places fail with `error`, and the
+    rest are answered. Dicts stand in for the SDK's messages."""
+
+    def __init__(self, failing, error):
+        self.calls = []
+        outer = self
+
+        class Messages:
+            @staticmethod
+            def create(**p):
+                user = p["messages"][0]["content"]
+                outer.calls.append(user)
+                if any(f"<place>{k}</place>" in user for k in failing):
+                    raise error()
+                return F.message(json.dumps({"summary": "Commenters say it is fine."}))
+        self.messages = Messages
+
+
+def timeout():
+    return anthropic.APITimeoutError(request=httpx2.Request("POST", "http://x/v1/messages"))
+
+
+def server_error():
+    return anthropic.InternalServerError("boom", response=httpx2.Response(
+        500, request=httpx2.Request("POST", "http://x/v1/messages")), body=None)
+
+
+class WhoseFailure(SummaryCase):
+    """A failure that is not the place's own is charged to it only when other
+    calls in the same run were answered."""
+
+    def setUp(self):
+        super().setUp()
+        self.many("alpha", 12)                          # busiest: always first
+        for k in ("beta", "gamma"):
+            self.many(k, 10)
+        self.build()
+
+    def run_once(self, cl, keys=None):
+        todo = S.due(list(self.places().values()), S.MODEL, PH, 5, force=keys is not None)
+        if keys is not None:
+            todo = [(p, r) for p, r in todo if p.key in keys]
+        return S.run(self.conn, cl, self.budget(), todo, workers=1, attempts=2, sleep=lambda s: None, log=QUIET)
+
+    def test_a_place_that_times_out_while_others_are_answered_is_parked(self):
+        cl = Mixed(["alpha"], timeout)
+        stats = self.run_once(cl)
+        self.assertEqual((stats.written, stats.failed), (2, 1))
+        self.assertEqual(self.row("alpha")[0][3], 1)
+        self.assertEqual(sum(1 for u in cl.calls if "<place>alpha</place>" in u), 1)   # not sent twice
+        self.assertEqual([o for k, o, _ in self.ledger() if k == "alpha"], ["unseen"])  # charged once
+        for attempt in (2, 3):
+            # alpha now goes last, after the places due again with it
+            stats = self.run_once(cl, keys=["alpha", "beta"])
+            self.assertEqual(self.row("alpha")[0][3], attempt)
+        self.assertEqual(self.reason("alpha"), "parked")
+        self.assertEqual(stats.parked, 1)
+
+    def test_a_5xx_that_outlasts_its_retries_is_charged_the_same_way(self):
+        stats = self.run_once(Mixed(["alpha"], server_error))
+        self.assertEqual((stats.written, stats.failed), (2, 1))
+        self.assertTrue(self.row("alpha")[0][4].startswith("api: TransientAPIError"))
+        self.assertEqual([o for k, o, _ in self.ledger() if k == "alpha"], [])     # a 5xx is not billed
+
+    def test_when_nothing_is_answered_nobody_is_charged(self):
+        stats = self.run_once(Mixed(["alpha", "beta", "gamma"], timeout))
+        self.assertEqual((stats.written, stats.failed, stats.api_failures), (0, 0, 3))
+        self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 0)
+
+    def test_a_place_s_own_refusals_do_not_stop_the_run(self):
+        for k in ("delta", "eps"):
+            self.many(k, 10)
+        self.build()
+        stats, api, _ = self.write(lambda p: F.error(400, "invalid_request_error",
+                                                     "prompt is too long: 1200000 tokens > 1000000 maximum"),
+                                   workers=1)
+        self.assertIsNone(stats.stop)                                    # five in a row, no streak
+        self.assertEqual((stats.failed, len(api.requests)), (5, 5))
+        self.assertEqual(self.q("select count(*) from place_summaries where attempts = 1")[0][0], 5)
 
 
 class Empty(SummaryCase):
@@ -541,7 +616,7 @@ class Spend(SummaryCase):
         with F.FakeAnthropic(lambda p: ok()) as api, self.assertRaises(EV.Tripped):
             S.run(self.conn, AV.client("k", api.base_url), b, todo, workers=1, attempts=1, log=QUIET)
 
-    def test_a_timeout_is_charged_its_worst_case_and_not_held_against_the_place(self):
+    def test_a_lone_timeout_is_charged_its_worst_case_once_and_nobody_is_blamed(self):
         class TimesOut:
             class messages:
                 @staticmethod
@@ -553,9 +628,10 @@ class Spend(SummaryCase):
         self.assertIsNone(stats.stop)                                    # one call; the pass goes on
         self.assertEqual((stats.failed, stats.api_failures), (0, 1))
         rows = self.ledger()
-        self.assertEqual([o for _, o, _ in rows], ["unseen", "unseen"])      # both attempts
+        self.assertEqual([o for _, o, _ in rows], ["unseen"])            # not sent again this run
         self.assertAlmostEqual(sum(float(c) for _, _, c in rows), b.spent, places=6)
-        self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 0)   # not marked, still due
+        # nothing in the run was answered, so it may be an outage: not marked, still due
+        self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 0)
 
     def test_an_outage_stops_after_a_few_calls_and_parks_nobody(self):
         class Down:
@@ -639,6 +715,21 @@ class Review(SummaryCase):
         lines.clear()
         S.dry_run(self.conn, S.Settings(), keys=["beta"], print_input=True, log=lines.append)
         self.assertTrue(any("BETA TEXT" in l and "<place>beta</place>" in l for l in lines))
+
+    def test_dry_run_limit_counts_only_places_with_something_to_send(self):
+        # quiet heads the queue with nothing to send; --limit 1 must still
+        # price one real call, as run() would make.
+        self.conn.set_session(readonly=False)
+        self.many("quiet", 15, opinion="none", level=None)
+        self.build()
+        self.conn.set_session(readonly=True)
+        lines = []
+        todo, _ = S.dry_run(self.conn, S.Settings(), limit=1, print_input=True, log=lines.append)
+        self.assertEqual([p.key for p, _ in todo], ["quiet", "alpha"])
+        self.assertIn("due now: 2, of which 1 have nothing to send", lines)
+        self.assertTrue(any("estimated cost $" in l for l in lines))
+        self.assertTrue(any("ALPHA TEXT" in l for l in lines))
+        self.assertFalse(any("BETA TEXT" in l for l in lines))
 
 
 class PollerStep(SummaryCase):

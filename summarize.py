@@ -96,18 +96,24 @@ than was held for it, or recorded spend past the ceiling, trips a wire
 (extract_v6's): the pass stops, and the poller turns summaries off until it
 restarts.
 
-Failures. Three kinds, so an outage or an account problem never parks a
-healthy place:
+Failures. Sorted so an outage or an account problem never parks a healthy
+place, while a place that fails when others do not is parked all the same:
   * the place's: an answer that cannot be used (cut off, refused, not
     JSON, empty, naming a user), or a 400/413 that is about this request
     itself (too long, content it could not take). It counts an attempt on
-    the place, which keeps its last good summary and goes to the back of
-    the queue; after MAX_ATTEMPTS (3) it is parked until --retry-errors;
+    the place at once, which keeps its last good summary and goes to the
+    back of the queue; after MAX_ATTEMPTS (3) it is parked until
+    --retry-errors;
   * the account's: 401, 403, 404, or anything about credit, balance or
-    billing. The pass stops at once and nothing is marked;
-  * the pass's: everything else (timeouts, 429, 5xx, a 4xx about the
-    request's shape). The place stays due and is not marked; the pass goes
-    on, and stops after API_FAILURES_IN_A_ROW (3) API failures in a row.
+    billing. The run stops at once and nothing is marked;
+  * the run's, so far: everything else (a timeout, 429, 5xx, a 4xx about
+    the request's shape). The run goes on, and stops after
+    API_FAILURES_IN_A_ROW (3) of these in a row (a place's own refusal is
+    not one of them). When the run ends, each such place is charged an
+    attempt if any call in the run was answered (the API was working, the
+    trouble is the place's), and none is if nothing was (an outage).
+A call that times out is not sent again in the same run: its worst case is
+charged once, not once per try, and the next run is hours away anyway.
 
 In the poller (POLL_SUMMARIZE=1) it is the last step of the chores pass,
 run at most once every SUMMARY_EVERY_HOURS (6), the time kept in
@@ -162,8 +168,9 @@ EST_OUTPUT_TOKENS = 600
 COMMENT_OVERHEAD_CHARS = 110      # the tags, date, names and label around each comment
 
 # Inside the poller's pass a call may take TIMEOUT seconds and is tried
-# ATTEMPTS times, and nothing starts, retries or waits past DEADLINE: an
-# outage costs the polls a few minutes of freshness, never comments.
+# ATTEMPTS times on a 429 or 5xx (a timeout is not retried in the run), and
+# nothing starts, retries or waits past DEADLINE: an outage costs the polls
+# a few minutes of freshness, never comments.
 TIMEOUT = 90
 ATTEMPTS = 2
 DEADLINE = 5 * 60
@@ -358,7 +365,6 @@ class Place:
     key: str
     n: int                    # qualifying comments in the window
     newest: dt.datetime       # when the newest of them was written
-    ids: list                 # their ids: stored with a summary as the comments it has seen
     opinions: int             # of them, ones with an opinion that would be sent
     negative: int             # of those, criticism or warnings
     closed: int               # comments in the window saying it closed or moved
@@ -371,6 +377,24 @@ class Place:
     written_at: dt.datetime = None    # set once the place has been dealt with (summary or nothing to send)
 
 
+# Which mentions qualify a comment for a place: the board's (live_mentions),
+# r/FoodNYC, in the window, not deleted later, not AutoModerator. One text,
+# so the count, the seen set stored with a summary and "new" never disagree.
+_QUALIFIES = """
+  from live_mentions m
+  join comments c on c.id = m.comment_id
+  left join entity_alias a on a.entity_key = m.entity_key
+  where c.subreddit = %(sub)s
+    and c.created_utc > %(since)s
+    and not coalesce(c.was_deleted_later, false)
+    and c.author is distinct from 'AutoModerator'"""
+# For named places: every typed key that resolves to one of them (or is one,
+# before entity_alias has caught up), so the index on entity_key is used
+# instead of a scan of the year.
+_TYPED_KEYS = """
+    and m.entity_key in (select entity_key from entity_alias where resolved_key = any(%(keys)s)
+                         union all select unnest(%(keys)s::text[]))"""
+
 _QUALIFYING = """
 with base as (
   select coalesce(a.resolved_key, m.entity_key) as rkey, m.comment_id, c.created_utc,
@@ -378,18 +402,13 @@ with base as (
          m.opinion in ('endorse', 'stated') and m.timeframe is distinct from 'past'
            and (coalesce(m.avoid, false) or (m.opinion = 'stated' and m.overall_level < 0)) as neg,
          m.status in ('closed', 'moved') as moved
-  from live_mentions m
-  join comments c on c.id = m.comment_id
-  left join entity_alias a on a.entity_key = m.entity_key
-  where c.subreddit = %(sub)s
-    and c.created_utc > %(since)s
-    and not coalesce(c.was_deleted_later, false)
-    and c.author is distinct from 'AutoModerator'
+  """ + _QUALIFIES + """
+  {base_keys}
 ),
 seen as (
-  select s.resolved_key, unnest(s.seen_comment_ids) as comment_id from {summaries} s
+  select s.resolved_key, unnest(s.seen_comment_ids) as comment_id from {summaries} s {seen_keys}
 )
-select b.rkey, count(distinct b.comment_id), max(b.created_utc), array_agg(distinct b.comment_id),
+select b.rkey, count(distinct b.comment_id), max(b.created_utc),
        count(distinct b.comment_id) filter (where b.op),
        count(distinct b.comment_id) filter (where b.neg),
        count(distinct b.comment_id) filter (where b.moved),
@@ -419,13 +438,34 @@ def qualifying(conn, n, keys=None, since=None, have_tables=None):
         _, since = _since(conn)
     if have_tables is None:
         have_tables = tables_exist(conn)
-    sql = _QUALIFYING.format(keys="and b.rkey = any(%(keys)s)" if keys is not None else "",
+    named = keys is not None
+    sql = _QUALIFYING.format(keys="and b.rkey = any(%(keys)s)" if named else "",
+                             base_keys=_TYPED_KEYS if named else "",
+                             seen_keys="where s.resolved_key = any(%(keys)s)" if named else "",
                              summaries="place_summaries" if have_tables else _NO_SUMMARIES)
     with conn.cursor() as cur:
         cur.execute(sql, {"sub": subreddits.HOME, "since": since, "n": n, "keys": list(keys or [])})
         rows = cur.fetchall()
     conn.commit()
     return [Place(*r) for r in rows]
+
+
+def qualifying_ids(conn, keys, since):
+    """{key: sorted ids of the comments that qualify it now}, for the places
+    about to be written or recorded empty: the seen set their row stores.
+    Read only for those, not with every place's qualifying count, and read
+    with their inputs, before anything is sent, so a comment that lands
+    while a call is out is new to the summary rather than marked seen."""
+    keys = list(keys)
+    if not keys:
+        return {}
+    with conn.cursor() as cur:
+        cur.execute("select coalesce(a.resolved_key, m.entity_key), array_agg(distinct m.comment_id)"
+                    + _QUALIFIES + _TYPED_KEYS + " group by 1",
+                    {"sub": subreddits.HOME, "since": since, "keys": keys})
+        found = dict(cur.fetchall())
+    conn.commit()
+    return {k: sorted(found.get(k) or []) for k in keys}
 
 
 def due_reason(p, model, phash, x, force=False, share=0.0):
@@ -676,21 +716,22 @@ on conflict (resolved_key) do update set
   attempts = 0, error = null, failed_at = null, updated_at = now()"""
 
 
-def store(conn, place, inp, summary, usage, cost, phash):
-    """Write a summary (its call is already in the ledger), with every comment
-    that qualified for the place when it was read as the ones it has seen."""
+def store(conn, place, inp, summary, usage, cost, phash, seen):
+    """Write a summary (its call is already in the ledger), with seen, every
+    comment that qualified for the place when it was read, as the ones it
+    has seen."""
     with conn.cursor() as cur:
-        cur.execute(_WRITE, (place.key, summary, MODEL, phash, place.n, place.newest, list(place.ids),
+        cur.execute(_WRITE, (place.key, summary, MODEL, phash, place.n, place.newest, list(seen),
                              len(inp.comments) + len(inp.reports), inp.chars, round(cost, 8), json.dumps(usage)))
     conn.commit()
 
 
-def record_empty(conn, place, phash):
+def record_empty(conn, place, phash, seen):
     """A place that qualifies but has nothing to send: no summary (any old one
     has lost its evidence), its comments marked seen, so it waits for new
     discussion like any other place instead of heading every pass."""
     with conn.cursor() as cur:
-        cur.execute(_WRITE, (place.key, None, MODEL, phash, place.n, place.newest, list(place.ids),
+        cur.execute(_WRITE, (place.key, None, MODEL, phash, place.n, place.newest, list(seen),
                              0, 0, None, None))
     conn.commit()
 
@@ -746,6 +787,7 @@ class Request:
     # the request, not the result, so they reach the ledger even when the
     # worker raises after charging them.
     unseen: list = dataclasses.field(default_factory=list)
+    seen: list = dataclasses.field(default_factory=list)    # the comment ids its row will store
 
 
 @dataclasses.dataclass
@@ -758,6 +800,13 @@ class Result:
 
 class DeadlineReached(Exception):
     """A retry, or the wait before one, would run past the pass's deadline."""
+
+
+class TimedOut(Exception):
+    """A call timed out (or its connection dropped) and is not tried again in
+    this run. Its worst case is already charged; the place is due again next
+    run, and an attempt is counted against it only if other calls in the run
+    were answered (see run)."""
 
 
 _ACCOUNT_TYPES = ("authentication_error", "permission_error", "billing_error", "not_found_error")
@@ -778,7 +827,8 @@ def account_wide(e):
 
 def place_error(e):
     """A refusal about this place's request itself (too long, content it
-    could not take): the only API failure that counts against the place."""
+    could not take): it counts against the place whatever else the run did,
+    and never toward the run's failures in a row."""
     return (isinstance(e, AV.FatalAPIError) and not account_wide(e)
             and getattr(e, "status", None) in (400, 413) and bool(_PLACE_WORDS.search(str(e))))
 
@@ -822,16 +872,16 @@ def _work(cl, budget, req, effort, stop, attempts, sleep, log, deadline, streak=
     held = [True]
 
     def again():
-        # The attempt that timed out may have been billed: charge it its
-        # worst case, and hold a fresh one for the retry, unless the retry
-        # would start past the deadline.
+        # The attempt that timed out (or lost its connection) may have been
+        # billed: charge it its worst case, and do not send it again this
+        # run. The same request is the likeliest to time out the same way,
+        # at the same worst case (about $0.19 for Katz's), and the next run
+        # is hours away, not seconds; a place that keeps doing it is parked
+        # (run). 429 and 5xx answers are not billed and are still retried.
         budget.settle(w, w)
         req.unseen.append(w)
         held[0] = False
-        if past():
-            raise DeadlineReached("no time left for a retry")
-        held[0] = budget.reserve(w)
-        return held[0]
+        raise TimedOut("timed out or lost its connection; not sent again this run")
 
     def wait(seconds):
         if past(seconds):
@@ -846,6 +896,10 @@ def _work(cl, budget, req, effort, stop, attempts, sleep, log, deadline, streak=
     except AV.CapReached:
         stop.set()
         return Result("capped")
+    except TimedOut as e:
+        if streak is not None:
+            streak.failed(stop)
+        return Result("error", error=e)
     except (AV.FatalAPIError, AV.TransientAPIError) as e:
         if held[0]:
             billed = w if getattr(e, "maybe_billed", False) else 0.0
@@ -854,7 +908,9 @@ def _work(cl, budget, req, effort, stop, attempts, sleep, log, deadline, streak=
                 req.unseen.append(billed)
         if account_wide(e):
             stop.set()
-        elif streak is not None:
+        elif not place_error(e) and streak is not None:
+            # Only failures of the run count toward the streak: a request
+            # refused for its own content says nothing about the API.
             streak.failed(stop)
         return Result("error", error=e)
     if streak is not None:
@@ -912,7 +968,15 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
     or the deadline (time.monotonic()) passes. Places are read and sent a
     page at a time. Every write happens here, on the caller's connection, as
     answers arrive: a call's ledger row first, then its outcome. keep=True
-    keeps each request and answer in stats.results."""
+    keeps each request and answer in stats.results.
+
+    Whose a failure is. An unusable answer, or a request refused for its
+    own content (place_error), is the place's at once. Any other failure
+    that is not the account's (a timeout, 429, 5xx, another 4xx) is decided
+    when the run ends: if any call in the run was answered, the API was
+    working and the place is charged an attempt, so a place that times out
+    every time is parked after MAX_ATTEMPTS like any other; if none was, it
+    was an outage, and nobody is. An account-wide refusal charges nobody."""
     settings = settings or Settings()
     stats = Stats()
     phash = settings.prompt_hash
@@ -921,6 +985,7 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
     stop = threading.Event()
     page = max(1, workers * 2)
     halt, streak, sent = None, Streak(), 0
+    answered, undecided = False, []       # [(key, error)] failures decided at the end
     pending = {}
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=max(1, workers))
     try:
@@ -932,17 +997,18 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
                 break
             chunk = [p for p, _ in todo[start:start + page]]
             inputs = read_inputs(conn, [p.key for p in chunk], since, budget_tokens=settings.max_input_tokens)
+            seen = qualifying_ids(conn, [p.key for p in chunk], since)
             reqs = []
             for p in chunk:
                 inp = inputs[p.key]
                 if not inp.comments and not inp.reports:
-                    record_empty(conn, p, phash)
+                    record_empty(conn, p, phash, seen[p.key])
                     stats.empty += 1
                     continue
                 if limit is not None and sent + len(reqs) >= limit:
                     continue
                 user = render(inp, now)
-                reqs.append(Request(p, inp, user, worst(user)))
+                reqs.append(Request(p, inp, user, worst(user), seen=seen[p.key]))
             sent += len(reqs)
             futures = {pool.submit(_work, cl, budget, r, settings.effort, stop, attempts, sleep, log, deadline,
                                    streak): r
@@ -977,10 +1043,12 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
                         log(f"  {key}: {type(e).__name__}: {e}" + (" -- parked" if n >= MAX_ATTEMPTS else ""))
                     else:
                         stats.api_failures += 1
-                        log(f"  {key}: not counted against it: {type(e).__name__}: {e}")
+                        undecided.append((key, f"api: {type(e).__name__}: {e}"))
+                        log(f"  {key}: {type(e).__name__}: {e}")
                     if streak.hit and halt is None:
                         halt = e
                 elif res.status == "answered":
+                    answered = True
                     usage = AV.usage_of(res.message)
                     if err is not None:
                         n = record_attempt(conn, key, err)
@@ -990,7 +1058,7 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
                         if keep:
                             stats.results.append((req, None, res.cost, str(err)))
                     else:
-                        store(conn, req.place, req.inp, summary, usage, res.cost, phash)
+                        store(conn, req.place, req.inp, summary, usage, res.cost, phash, req.seen)
                         stats.written += 1
                         if keep:
                             stats.results.append((req, summary, res.cost, None))
@@ -1019,6 +1087,16 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
         _flush(pending, connect or db.connect, phash, log)
         raise
     pool.shutdown(wait=True)
+    if undecided and answered and not (halt is not None and account_wide(halt)):
+        for key, error in undecided:
+            n = record_attempt(conn, key, error)
+            stats.failed += 1
+            stats.parked += n >= MAX_ATTEMPTS
+            log(f"  {key}: counted against it, as other calls this run were answered"
+                + (" -- parked" if n >= MAX_ATTEMPTS else ""))
+    elif undecided:
+        log(f"  summaries: {len(undecided)} call(s) failed and none was answered: "
+            "taken for an outage, no place is charged")
     if halt is not None and account_wide(halt):
         log(f"  SUMMARIES STOPPED -- the API refuses every request: {halt}")
     elif halt is not None:
@@ -1139,9 +1217,20 @@ def dry_run(conn, settings, keys=None, limit=None, force=False, print_input=Fals
             log(f"  not qualifying: {', '.join(missing)}")
     log("  " + ", ".join(f"{k} {v:,}" for k, v in reasons.most_common()))
     todo = due(places, MODEL, phash, settings.x, force, settings.share)
-    todo = todo[:limit] if limit else todo
-    inputs = read_inputs(conn, [p.key for p, _ in todo], since, text=print_input,
+    inputs = read_inputs(conn, [p.key for p, _ in todo], since, text=print_input and not limit,
                          budget_tokens=settings.max_input_tokens)
+    if limit:
+        # As run() takes --limit: places with nothing to send are passed (and
+        # recorded) on the way and do not count; the limit is on places sent.
+        kept, n_sent = [], 0
+        for p, r in todo:
+            if n_sent >= limit:
+                break
+            kept.append((p, r))
+            n_sent += bool(inputs[p.key].comments or inputs[p.key].reports)
+        todo = kept
+        if print_input:       # the text, only for the places the limit keeps
+            inputs = read_inputs(conn, [p.key for p, _ in todo], since, budget_tokens=settings.max_input_tokens)
     sizes = [(p, inputs[p.key]) for p, _ in todo]
     sendable = [(p, i) for p, i in sizes if i.comments or i.reports]
     comments = [len(i.comments) for _, i in sendable]
