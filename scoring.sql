@@ -20,8 +20,10 @@
 --   entity_confidence     distinct authors
 --   entity_leaderboard    one row per entity, every axis above
 --   rating_params         the rating's window, floors and badge percentiles
---   place_voices          each person's one voice per place (rating + volume)
---   place_category_voices each person's one stated level per place and category
+--   rating_mentions       what each in-window mention says, after the exclusions
+--   place_voices          each person's latest stated opinion per place (rating)
+--   place_recommenders    each person's latest stated-or-endorse word (volume)
+--   place_category_voices each person's latest stated level per place and category
 --   entity_rating         % positive, Wilson bound, recommenders, badge
 --   entity_category_rating the same rating per category
 --   <final select>        the leaderboard, incl. the chain-filter hook
@@ -613,19 +615,23 @@ create index if not exists entity_leaderboard_mentions_idx
 -- 8. The rating: how much of the sub likes a place, kept apart from how many
 --    people bring it up.
 --
---    Read off v6's columns (opinion, overall_level, avoid, the category
---    levels), so it needs live_mentions in v6 mode; under 'legacy' those are
---    null and nothing is rankable.
+--    Read off v6's columns (opinion, overall_level, avoid, timeframe, status,
+--    the category levels), so it needs live_mentions in v6 mode; under
+--    'legacy' those are null and nothing is rankable.
 --
 --    The audit behind it: 44.5% of v6's positive mentions are bare
 --    recommendations, a name dropped in answer to a question with no judgment
 --    (opinion = 'endorse'). Counted as praise they put the median place at
 --    90% positive and 361 places at 100%. Over stated opinions only the board
 --    is about 74.5% positive. So a bare endorse is volume, never rating: it
---    counts toward recommenders and nothing else.
+--    counts toward recommenders and cannot touch the rating, not even by
+--    being someone's latest word.
 --
 --    One voice per person per place, their latest in the window, so a regular
---    who posts about a place weekly is still one person. A rating is a share,
+--    who posts about a place weekly is still one person. Two passes pick it,
+--    because the two axes ask different things: the rating takes each
+--    person's latest STATED opinion (place_voices), the volume each person's
+--    latest stated-or-endorse word (place_recommenders). A rating is a share,
 --    and a share needs a floor (min_rated) and a lower bound (Wilson) before
 --    it can be ranked: 3 for 3 is not better than 290 of 300.
 --
@@ -633,6 +639,10 @@ create index if not exists entity_leaderboard_mentions_idx
 --    numbers, so they keep meaning "the busiest tenth" and "the better half"
 --    as the corpus grows. There is no composite score: each board ranks by
 --    one of these and filters on the rest (queries.RATING_BOARDS).
+--
+--    The web app reads these views but does not build them. Apply this file
+--    (refresh.py --apply, or the poller's boot) before deploying a web app
+--    that serves /api/boards; until then the app reports rating: null.
 -- ---------------------------------------------------------------------------
 create or replace view rating_params as
 select
@@ -657,23 +667,60 @@ returns float8 language sql immutable as $$
 $$;
 
 
--- One row per (place, person): the voice the rating and the volume count.
+-- Every mention the rating may count, with what it says. One place for the
+-- exclusions, so the overall rating, the volume and the categories cannot
+-- drift apart:
 --
+--   * the window, and AutoModerator, who is not a person. '[deleted]' is a
+--     shared tombstone, so each deleted comment is its own person, as in
+--     mention_weights.
+--   * status 'closed': "RIP Florent" is nostalgia for a shut place, and those
+--     comments were ranking it.
+--   * timeframe 'past': "it used to be great" is about a place that is no
+--     longer there to visit. IS DISTINCT FROM, so a mention that names no
+--     timeframe (most of them) stays.
+--
+-- voice, tested in this order:
+--   neg       avoid ("skip it"), whatever else the mention says. First, so a
+--             warning never counts as a recommendation.
 --   endorse   a bare recommendation (opinion = 'endorse'), whatever level
 --             the model attached to it. Volume only.
---   pos       a stated overall level of 1 or 2
---   neg       a stated overall level of -1 or -2, or an avoid with no level
---   neutral   a stated overall level of 0
---
--- A mention with none of these (a fact, a question, a remark about the wait
--- alone) is not a voice, so it never hides an earlier one that was.
--- Mentions the model marked status 'closed' are left out: "RIP Florent" is
--- nostalgia for a shut place, and those comments were ranking it.
--- AutoModerator is not a person; '[deleted]' is a shared tombstone, so each
--- deleted comment is its own person, as in mention_weights.
---
--- mention_id is kept so every count clicks through to exactly the comments
--- it counted (/api/restaurants/{key}/voices).
+--   pos       stated, overall level 1 or 2
+--   neg       stated, overall level -1 or -2
+--   neutral   stated, overall level 0
+--   NULL      anything else: a fact, a question, a remark about the wait
+--             alone. Not a voice, so it never hides an earlier one that was.
+-- A plain view: both passes and the categories read it once each, at refresh.
+create or replace view rating_mentions as
+select w.entity_key,
+       coalesce(nullif(w.author, '[deleted]'), w.comment_id) as person,
+       w.mention_id,
+       w.comment_id,
+       w.created_utc,
+       m.opinion,
+       case when m.avoid                                    then 'neg'
+            when m.opinion = 'endorse'                      then 'endorse'
+            when m.opinion = 'stated' and m.overall_level > 0 then 'pos'
+            when m.opinion = 'stated' and m.overall_level < 0 then 'neg'
+            when m.opinion = 'stated' and m.overall_level = 0 then 'neutral'
+       end                                                  as voice,
+       m.overall_level                                      as level,
+       m.taste_level, m.value_level, m.service_level, m.atmosphere_level, m.wait_level
+from mention_weights w
+join mentions m on m.id = w.mention_id      -- a live id: see queries.py
+cross join rating_params p
+where w.created_utc > now() - make_interval(days => p.window_days)
+  and w.author is distinct from 'AutoModerator'
+  and m.status    is distinct from 'closed'
+  and m.timeframe is distinct from 'past'
+  and not exists (select 1 from excluded_entities x where x.entity_key = w.entity_key);
+
+
+-- The rating's voices: one row per (place, person), their latest STATED
+-- opinion (pos, neg, neutral). A bare endorse is not a candidate, so a
+-- person who praised a place and later only named it still counts as
+-- praise. mention_id is kept so every count clicks through to exactly the
+-- comments it counted (/api/restaurants/{key}/voices).
 --   refresh materialized view concurrently place_voices;
 do $$
 begin
@@ -684,31 +731,34 @@ end $$;
 create materialized view place_voices as
 select distinct on (entity_key, person)
        entity_key, person, mention_id, comment_id, created_utc, voice, level
-from (
-  select w.entity_key,
-         coalesce(nullif(w.author, '[deleted]'), w.comment_id) as person,
-         w.mention_id,
-         w.comment_id,
-         w.created_utc,
-         case when m.opinion = 'endorse' then 'endorse'
-              when m.overall_level > 0   then 'pos'
-              when m.overall_level < 0   then 'neg'
-              when m.overall_level = 0   then 'neutral'
-              when m.avoid               then 'neg' end as voice,
-         m.overall_level as level
-  from mention_weights w
-  join mentions m on m.id = w.mention_id      -- a live id: see queries.py
-  cross join rating_params p
-  where w.created_utc > now() - make_interval(days => p.window_days)
-    and w.author is distinct from 'AutoModerator'
-    and m.status is distinct from 'closed'
-    and not exists (select 1 from excluded_entities x where x.entity_key = w.entity_key)
-) v
-where voice is not null
+from rating_mentions
+where voice in ('pos', 'neg', 'neutral')
 order by entity_key, person, created_utc desc, mention_id desc;
 
 create unique index if not exists place_voices_pk on place_voices(entity_key, person);
-create index if not exists place_voices_mention_idx on place_voices(mention_id);
+
+
+-- The volume's voices: one row per (place, person), their latest word that
+-- is any voice at all, stated or endorse. A recommender is a person whose
+-- latest word is an endorse or a stated pos. Two mentions of one place in the
+-- same comment (two spellings that resolve together) share created_utc; the
+-- stated one wins there, because it says more than the name-drop beside it.
+--   refresh materialized view concurrently place_recommenders;
+do $$
+begin
+  if exists (select 1 from pg_matviews where matviewname = 'place_recommenders') then
+    drop materialized view place_recommenders cascade;
+  end if;
+end $$;
+create materialized view place_recommenders as
+select distinct on (entity_key, person)
+       entity_key, person, mention_id, comment_id, created_utc, voice, level
+from rating_mentions
+where voice is not null
+order by entity_key, person, created_utc desc, (voice = 'endorse'), mention_id desc;
+
+create unique index if not exists place_recommenders_pk
+  on place_recommenders(entity_key, person);
 
 
 -- One row per (place, category, person): their latest STATED level for that
@@ -724,31 +774,20 @@ begin
   end if;
 end $$;
 create materialized view place_category_voices as
-select distinct on (entity_key, category, person)
-       entity_key, category, person, mention_id, comment_id, created_utc, level,
-       case when level > 0 then 'pos' when level < 0 then 'neg' else 'neutral' end as voice
-from (
-  select w.entity_key,
-         x.category,
-         coalesce(nullif(w.author, '[deleted]'), w.comment_id) as person,
-         w.mention_id, w.comment_id, w.created_utc,
-         x.level
-  from mention_weights w
-  join mentions m on m.id = w.mention_id
-  cross join rating_params p
-  cross join lateral (values ('taste',      m.taste_level),
-                             ('value',      m.value_level),
-                             ('service',    m.service_level),
-                             ('atmosphere', m.atmosphere_level),
-                             ('wait',       m.wait_level)) as x(category, level)
-  where w.created_utc > now() - make_interval(days => p.window_days)
-    and w.author is distinct from 'AutoModerator'
-    and m.status is distinct from 'closed'
-    and m.opinion = 'stated'
-    and x.level is not null
-    and not exists (select 1 from excluded_entities x2 where x2.entity_key = w.entity_key)
-) v
-order by entity_key, category, person, created_utc desc, mention_id desc;
+-- Qualified throughout: rating_mentions has a `level` of its own (overall).
+select distinct on (r.entity_key, x.category, r.person)
+       r.entity_key, x.category, r.person, r.mention_id, r.comment_id, r.created_utc,
+       x.level,
+       case when x.level > 0 then 'pos' when x.level < 0 then 'neg' else 'neutral' end as voice
+from rating_mentions r
+cross join lateral (values ('taste',      r.taste_level),
+                           ('value',      r.value_level),
+                           ('service',    r.service_level),
+                           ('atmosphere', r.atmosphere_level),
+                           ('wait',       r.wait_level)) as x(category, level)
+where r.opinion = 'stated'
+  and x.level is not null
+order by r.entity_key, x.category, r.person, r.created_utc desc, r.mention_id desc;
 
 create unique index if not exists place_category_voices_pk
   on place_category_voices(entity_key, category, person);
@@ -756,15 +795,18 @@ create unique index if not exists place_category_voices_pk
 
 -- One row per place with any voice in the window.
 --
---   pct_pos       pos / (pos + neg), stated opinions only
+--   pos, neg, neutral, superlative    from place_voices (latest stated)
+--   pct_pos       pos / (pos + neg)
 --   lb            Wilson lower bound of pct_pos at rating_params.z
 --   neg_share     neg / (pos + neg + neutral): the complaint share of stated
 --                 opinions. Close to 1 - pct_pos while v6 codes almost nothing
 --                 as neutral (0.6%); it parts from it once lukewarm words are
 --                 coded as mixed instead of as knocks.
---   superlative   people whose stated level was 2, who called it the best
---   recommenders  people whose voice is a bare endorse or a stated positive:
---                 the volume axis
+--   superlative   people whose latest stated level was 2: called it the best
+--   endorse       people whose latest word is a bare endorse (place_recommenders)
+--   recommenders  people whose latest word is an endorse or a stated pos: the
+--                 volume axis. Not pos + endorse: someone who praised it and
+--                 later only named it is one recommender, and one pos.
 --   rankable      pos + neg >= min_rated
 --
 -- The lines are worked out over rankable places the boards can show (not on
@@ -786,20 +828,36 @@ begin
   end if;
 end $$;
 create materialized view entity_rating as
-with counts as (
+with rated as (
   select entity_key,
          count(*) filter (where voice = 'pos')                as pos,
          count(*) filter (where voice = 'neg')                as neg,
          count(*) filter (where voice = 'neutral')            as neutral,
-         count(*) filter (where voice = 'endorse')            as endorse,
-         count(*) filter (where voice = 'pos' and level = 2)  as superlative,
-         max(created_utc)                                     as last_voice
+         count(*) filter (where voice = 'pos' and level = 2)  as superlative
   from place_voices
   group by entity_key
 ),
+volume as (
+  select entity_key,
+         count(*) filter (where voice = 'endorse')            as endorse,
+         count(*) filter (where voice in ('endorse', 'pos'))  as recommenders,
+         max(created_utc)                                     as last_voice
+  from place_recommenders
+  group by entity_key
+),
+counts as (
+  -- Every rated person is in place_recommenders too (a stated voice is a
+  -- candidate there), so volume holds every place and the left join is the
+  -- whole set.
+  select v.entity_key,
+         coalesce(r.pos, 0) as pos, coalesce(r.neg, 0) as neg,
+         coalesce(r.neutral, 0) as neutral, coalesce(r.superlative, 0) as superlative,
+         v.endorse, v.recommenders, v.last_voice
+  from volume v
+  left join rated r on r.entity_key = v.entity_key
+),
 scored as (
   select c.*,
-         c.pos + c.endorse                                    as recommenders,
          c.pos::float8 / nullif(c.pos + c.neg, 0)             as pct_pos,
          wilson_lower(c.pos, c.pos + c.neg, p.z)              as lb,
          c.neg::float8 / nullif(c.pos + c.neg + c.neutral, 0) as neg_share,
