@@ -227,8 +227,9 @@ Badge = Literal["consensus", "overhyped_mixed", "hidden_gem"]
 # Which voices to list behind a rating (/voices).
 #   pos, neg, neutral   latest stated opinions; opinions = pos and neg together
 #   superlative         pos at level 2
-#   endorse             people whose latest word is a bare endorse
-#   recommenders        people whose latest word is an endorse or a stated pos
+#   endorse             recommenders whose latest word is a bare endorse
+#   recommenders        people whose latest word is a stated pos, or a bare
+#                       endorse when their latest stated opinion is not a knock
 #   all                 every person, by their latest word
 # With a category only the stated ones and all apply: a category has no bare
 # endorsements.
@@ -253,21 +254,25 @@ class Rating(BaseModel):
 
     Counts are people over the window. pos, neg, neutral and superlative
     count each person's latest STATED opinion and make the rating; a bare
-    endorse never changes it. endorse and recommenders count each person's
-    latest word, stated or endorse: the volume axis. So recommenders is not
-    pos + endorse -- someone who praised a place and later only named it is
-    one pos and one recommender.
+    endorse never changes it. recommenders, the volume axis, counts people
+    whose latest word (stated or endorse) is a stated pos, or a bare endorse
+    from someone whose latest stated opinion is not a knock: a detractor who
+    later only names the place has not changed their mind. So recommenders
+    is not pos + endorse -- someone who praised a place and later only named
+    it is one pos and one recommender.
     """
     window_days: int
     pos: int
     neg: int
     neutral: int
-    endorse: int                      # latest word a bare endorse
+    endorse: int                      # recommenders whose latest word is a bare endorse
     superlative: int                  # latest stated level 2: called it the best
-    recommenders: int                 # latest word an endorse or a stated pos
+    recommenders: int                 # see above
     pct_pos: Optional[float] = None   # pos / (pos + neg)
     lb: Optional[float] = None        # Wilson lower bound of pct_pos
-    neg_share: Optional[float] = None  # neg / (pos + neg + neutral)
+    # neg / (pos + neg): the complaint share of the same people pct_pos
+    # counts, the ones /voices?voice=opinions lists.
+    neg_share: Optional[float] = None
     rankable: bool                    # pos + neg >= min_rated
     busy: bool
     badge: Optional[Badge] = None
