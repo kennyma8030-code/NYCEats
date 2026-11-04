@@ -168,6 +168,16 @@ class Due(unittest.TestCase):
         self.assertIsNone(self.reason(has_summary=False, fresh=4))
         self.assertEqual(self.reason(has_summary=False, fresh=5), "fresh")
 
+    def test_parked_for_a_while_then_one_more_try(self):
+        week = 168
+        recent = place(attempts=3, written_at=None, failed_at=NOW - dt.timedelta(hours=10))
+        old = place(attempts=3, written_at=None, failed_at=NOW - dt.timedelta(hours=week + 1))
+        self.assertEqual(S.due_reason(recent, S.MODEL, "h", 5, now=NOW, park_hours=week), "parked")
+        self.assertEqual(S.due_reason(old, S.MODEL, "h", 5, now=NOW, park_hours=week), "new")
+        self.assertEqual(S.due_reason(old, S.MODEL, "h", 5), "parked")     # no clock given: parked
+        failed_again = place(attempts=4, written_at=None, failed_at=NOW)
+        self.assertEqual(S.due_reason(failed_again, S.MODEL, "h", 5, now=NOW, park_hours=week), "parked")
+
     def test_share_raises_the_bar_for_busy_places_only(self):
         # max(x, ceil(share * n)): 10% of 200 is 20 new; 10% of 30 is 3, so x = 5 rules.
         self.assertIsNone(S.due_reason(place(n=200, fresh=19), S.MODEL, "h", 5, share=0.1))
@@ -214,8 +224,8 @@ class Settings(unittest.TestCase):
     def test_defaults_and_overrides(self):
         s = S.load_settings({})
         self.assertEqual(s, S.Settings())
-        self.assertEqual((s.n, s.x, s.share, s.run_usd, s.ceiling_usd, s.max_input_tokens, s.every_hours,
-                          s.effort), (10, 5, 0.0, 1.0, 10.0, 500_000, 6.0, "low"))
+        self.assertEqual((s.n, s.x, s.share, s.run_usd, s.ceiling_usd, s.max_input_tokens, s.every_hours, s.park_hours,
+                          s.effort), (10, 5, 0.0, 1.0, 10.0, 500_000, 6.0, 168.0, "low"))
         s = S.load_settings({"SUMMARY_MIN_MENTIONS": "15", "SUMMARY_NEW_SHARE": "0.1",
                              "SUMMARY_MAX_INPUT_TOKENS": "90000", "SUMMARY_EFFORT": "Medium",
                              "SUMMARY_EVERY_HOURS": "0.5"})
@@ -227,7 +237,7 @@ class Settings(unittest.TestCase):
                "SUMMARY_NEW_SHARE": ("-0.1", "1.5", "nan", "lots"),
                "SUMMARY_RUN_USD": ("0", "-1", "inf", "lots"), "SUMMARY_CEILING_USD": ("0", "x"),
                "SUMMARY_MAX_INPUT_TOKENS": ("12", "abc"), "SUMMARY_EFFORT": ("max", "huge"),
-               "SUMMARY_EVERY_HOURS": ("-1", "inf", "daily")}
+               "SUMMARY_EVERY_HOURS": ("-1", "inf", "daily"), "SUMMARY_PARK_HOURS": ("-1", "week")}
         for var, values in bad.items():
             for v in values:
                 with self.assertRaises(S.SettingError, msg=f"{var}={v}") as cm:

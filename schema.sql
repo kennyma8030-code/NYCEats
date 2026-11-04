@@ -454,8 +454,9 @@ end $$;
 -- discussion or the prompt or model changed. A place that qualifies with
 -- nothing to send gets a row with no summary, so it waits for new comments
 -- like any other. A failed attempt keeps the last good summary and counts
--- attempts; a place that keeps failing is parked (summarize.MAX_ATTEMPTS)
--- until `summarize.py --retry-errors`.
+-- attempts; a place that keeps failing (summarize.MAX_ATTEMPTS) is parked
+-- for SUMMARY_PARK_HOURS after its last failure (failed_at), or until
+-- `summarize.py --retry-errors`.
 --   mention_count    qualifying comments in the window when it was written
 --   last_mention_at  when the newest of those comments was written
 --   seen_comment_ids the ids of all of them (not only the ones sent): a

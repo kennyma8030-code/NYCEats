@@ -19,6 +19,7 @@ import datetime as dt
 import json
 import os
 import tempfile
+import threading
 import time
 import unittest
 from unittest import mock
@@ -381,17 +382,40 @@ class Writes(SummaryCase):
             self.assertEqual(self.ledger(), [])
             self.assertEqual(b.spent, 0.0)
 
-    def test_failures_that_are_not_the_place_s_mark_nothing_and_stop_after_a_few(self):
+    def test_other_failures_are_charged_once_each_and_stop_the_run_after_a_few(self):
         for k in ("beta", "gamma", "delta"):
             self.many(k, 10)
         self.build()
         for answer in (lambda p: F.error(400, "invalid_request_error", "output_config.effort: bad"),
                        lambda p: F.error(500, "api_error", "internal")):
+            with self.conn.cursor() as cur:
+                cur.execute("delete from place_summaries")
+            self.conn.commit()
             stats, api, _ = self.write(answer, workers=1)
             self.assertIn(f"{S.API_FAILURES_IN_A_ROW} calls in a row", stats.stop)
-            self.assertEqual((stats.failed, stats.api_failures), (0, S.API_FAILURES_IN_A_ROW))
-            self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 0)    # nobody parked
+            self.assertEqual(stats.failed, S.API_FAILURES_IN_A_ROW)        # each failure counted once
+            self.assertEqual(self.q("select count(*), sum(attempts) from place_summaries")[0],
+                             (S.API_FAILURES_IN_A_ROW, S.API_FAILURES_IN_A_ROW))
             self.assertEqual(len({r["messages"][0]["content"] for r in api.requests}), S.API_FAILURES_IN_A_ROW)
+
+    def test_a_comment_landing_while_a_page_is_read_is_never_marked_seen_unsent(self):
+        # The seen ids are read before the inputs, so a comment committed in
+        # between is sent (and seen); none is marked seen without being sent.
+        real = S.qualifying_ids
+        landed = []
+
+        def ids_then_land(conn, keys, since):
+            out = real(conn, keys, since)
+            if not landed:
+                landed.append(self.mention("alpha", 0, body="LANDED MID-READ"))
+            return out
+        with mock.patch.object(S, "qualifying_ids", side_effect=ids_then_land):
+            _, api, _ = self.write()
+        self.assertIn("LANDED MID-READ", api.requests[0]["messages"][0]["content"])   # it was sent
+        seen = self.q("select seen_comment_ids from place_summaries")[0][0]
+        self.assertNotIn(landed[0], seen)                               # and reads as new next time
+        self.build()
+        self.assertEqual(self.places()["alpha"].fresh, 1)
 
     def test_paid_answers_reach_the_ledger_even_when_storing_fails(self):
         self.many("beta", 10)
@@ -466,9 +490,10 @@ def server_error():
         500, request=httpx2.Request("POST", "http://x/v1/messages")), body=None)
 
 
-class WhoseFailure(SummaryCase):
-    """A failure that is not the place's own is charged to it only when other
-    calls in the same run were answered."""
+class Failures(SummaryCase):
+    """Every failure but an account-wide refusal charges its place one attempt
+    when it happens; three park it for SUMMARY_PARK_HOURS, then it gets one
+    more try."""
 
     def setUp(self):
         super().setUp()
@@ -477,13 +502,14 @@ class WhoseFailure(SummaryCase):
             self.many(k, 10)
         self.build()
 
-    def run_once(self, cl, keys=None):
-        todo = S.due(list(self.places().values()), S.MODEL, PH, 5, force=keys is not None)
+    def run_once(self, cl, keys=None, now=None, park_hours=None):
+        todo = S.due(list(self.places().values()), S.MODEL, PH, 5, force=keys is not None, now=now,
+                     park_hours=park_hours)
         if keys is not None:
             todo = [(p, r) for p, r in todo if p.key in keys]
         return S.run(self.conn, cl, self.budget(), todo, workers=1, attempts=2, sleep=lambda s: None, log=QUIET)
 
-    def test_a_place_that_times_out_while_others_are_answered_is_parked(self):
+    def test_a_place_that_times_out_is_charged_at_once_parked_and_comes_back(self):
         cl = Mixed(["alpha"], timeout)
         stats = self.run_once(cl)
         self.assertEqual((stats.written, stats.failed), (2, 1))
@@ -491,11 +517,20 @@ class WhoseFailure(SummaryCase):
         self.assertEqual(sum(1 for u in cl.calls if "<place>alpha</place>" in u), 1)   # not sent twice
         self.assertEqual([o for k, o, _ in self.ledger() if k == "alpha"], ["unseen"])  # charged once
         for attempt in (2, 3):
-            # alpha now goes last, after the places due again with it
-            stats = self.run_once(cl, keys=["alpha", "beta"])
+            stats = self.run_once(cl, keys=["alpha"])
             self.assertEqual(self.row("alpha")[0][3], attempt)
-        self.assertEqual(self.reason("alpha"), "parked")
         self.assertEqual(stats.parked, 1)
+        now = self.q("select now()")[0][0]
+        self.assertEqual(S.due_reason(self.places()["alpha"], S.MODEL, PH, 5, now=now, park_hours=168), "parked")
+        with self.conn.cursor() as cur:
+            cur.execute("update place_summaries set failed_at = now() - interval '8 days' where resolved_key = 'alpha'")
+        self.conn.commit()
+        self.assertEqual(S.due_reason(self.places()["alpha"], S.MODEL, PH, 5, now=now, park_hours=168), "new")
+        # one more try; a failure parks it for another week
+        self.run_once(cl, keys=["alpha"], now=now, park_hours=168)
+        self.assertEqual(self.row("alpha")[0][3], 4)
+        now = self.q("select now()")[0][0]
+        self.assertEqual(S.due_reason(self.places()["alpha"], S.MODEL, PH, 5, now=now, park_hours=168), "parked")
 
     def test_a_5xx_that_outlasts_its_retries_is_charged_the_same_way(self):
         stats = self.run_once(Mixed(["alpha"], server_error))
@@ -503,10 +538,15 @@ class WhoseFailure(SummaryCase):
         self.assertTrue(self.row("alpha")[0][4].startswith("api: TransientAPIError"))
         self.assertEqual([o for k, o, _ in self.ledger() if k == "alpha"], [])     # a 5xx is not billed
 
-    def test_when_nothing_is_answered_nobody_is_charged(self):
-        stats = self.run_once(Mixed(["alpha", "beta", "gamma"], timeout))
-        self.assertEqual((stats.written, stats.failed, stats.api_failures), (0, 0, 3))
-        self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 0)
+    def test_an_outage_charges_the_places_it_reached_and_stops(self):
+        for k in ("delta", "eps"):
+            self.many(k, 10)
+        self.build()
+        cl = Mixed(["alpha", "beta", "gamma", "delta", "eps"], timeout)
+        stats = self.run_once(cl)
+        self.assertIn(f"{S.API_FAILURES_IN_A_ROW} calls in a row", stats.stop)
+        self.assertEqual((stats.written, stats.failed, len(cl.calls)), (0, 3, 3))
+        self.assertEqual(self.q("select count(*) from place_summaries where attempts = 1")[0][0], 3)
 
     def test_a_place_s_own_refusals_do_not_stop_the_run(self):
         for k in ("delta", "eps"):
@@ -518,6 +558,34 @@ class WhoseFailure(SummaryCase):
         self.assertIsNone(stats.stop)                                    # five in a row, no streak
         self.assertEqual((stats.failed, len(api.requests)), (5, 5))
         self.assertEqual(self.q("select count(*) from place_summaries where attempts = 1")[0][0], 5)
+
+    def test_an_account_refusal_outranks_a_streak_in_the_same_page(self):
+        # Four calls at once: three time out (a streak) and one is refused
+        # for a bad key. The run must report the account, whichever came
+        # back first, and the refused place is not charged.
+        self.many("delta", 10)
+        self.build()
+        lock, arrived = threading.Lock(), []
+        barrier = threading.Barrier(4, timeout=10)
+
+        class Client:
+            class messages:
+                @staticmethod
+                def create(**p):
+                    with lock:
+                        arrived.append(p["messages"][0]["content"])
+                        n = len(arrived)
+                    barrier.wait()
+                    if n == 4:
+                        raise anthropic.AuthenticationError("bad key", response=httpx2.Response(
+                            401, request=httpx2.Request("POST", "http://x")), body=None)
+                    raise timeout()
+        todo = S.due(list(self.places().values()), S.MODEL, PH, 5)
+        stats = S.run(self.conn, Client(), self.budget(), todo, workers=4, attempts=1, log=QUIET)
+        self.assertIn("FatalAPIError", stats.stop)
+        self.assertIn("401", stats.stop)
+        self.assertEqual(stats.failed, 3)                                # the timeouts; the 401 charges nobody
+        self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 3)
 
 
 class Empty(SummaryCase):
@@ -616,7 +684,7 @@ class Spend(SummaryCase):
         with F.FakeAnthropic(lambda p: ok()) as api, self.assertRaises(EV.Tripped):
             S.run(self.conn, AV.client("k", api.base_url), b, todo, workers=1, attempts=1, log=QUIET)
 
-    def test_a_lone_timeout_is_charged_its_worst_case_once_and_nobody_is_blamed(self):
+    def test_a_lone_timeout_is_charged_its_worst_case_once_and_an_attempt(self):
         class TimesOut:
             class messages:
                 @staticmethod
@@ -626,14 +694,15 @@ class Spend(SummaryCase):
         b = self.budget()
         stats = S.run(self.conn, TimesOut(), b, todo, workers=1, attempts=2, sleep=lambda s: None, log=QUIET)
         self.assertIsNone(stats.stop)                                    # one call; the pass goes on
-        self.assertEqual((stats.failed, stats.api_failures), (0, 1))
+        self.assertEqual(stats.failed, 1)
         rows = self.ledger()
         self.assertEqual([o for _, o, _ in rows], ["unseen"])            # not sent again this run
         self.assertAlmostEqual(sum(float(c) for _, _, c in rows), b.spent, places=6)
-        # nothing in the run was answered, so it may be an outage: not marked, still due
-        self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 0)
+        [(summary, attempts, err)] = self.q("select summary, attempts, error from place_summaries")
+        self.assertEqual((summary, attempts), (None, 1))
+        self.assertIn("TimedOut", err)
 
-    def test_an_outage_stops_after_a_few_calls_and_parks_nobody(self):
+    def test_an_outage_stops_after_a_few_calls(self):
         class Down:
             calls = 0
 
@@ -650,7 +719,9 @@ class Spend(SummaryCase):
                       log=QUIET)
         self.assertIn("in a row", stats.stop)
         self.assertEqual(Down.calls, S.API_FAILURES_IN_A_ROW)
-        self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 0)
+        # the places it reached are charged; they come back after SUMMARY_PARK_HOURS at worst
+        self.assertEqual(self.q("select count(*) from place_summaries where attempts = 1")[0][0],
+                         S.API_FAILURES_IN_A_ROW)
 
     def test_no_call_starts_after_the_deadline(self):
         stats, api, _ = self.write(deadline=0.0)                       # long past
@@ -730,6 +801,26 @@ class Review(SummaryCase):
         self.assertTrue(any("estimated cost $" in l for l in lines))
         self.assertTrue(any("ALPHA TEXT" in l for l in lines))
         self.assertFalse(any("BETA TEXT" in l for l in lines))
+
+    def test_dry_run_limit_reads_only_as_far_as_it_needs(self):
+        self.many("quiet", 15, opinion="none", level=None)
+        self.build()
+        self.conn.set_session(readonly=True)
+        read = []
+        real = S.read_inputs
+
+        def counted(conn, keys, *a, **k):
+            read.extend(keys)
+            return real(conn, keys, *a, **k)
+        with mock.patch.object(S, "DRY_PAGE", 1), mock.patch.object(S, "read_inputs", side_effect=counted):
+            todo, _ = S.dry_run(self.conn, S.Settings(), limit=1, log=QUIET)
+        self.assertEqual(read, ["quiet", "alpha"])                       # beta never read
+        # and the real run takes the same places: quiet recorded, alpha sent
+        self.conn.set_session(readonly=False)
+        stats, api, _ = self.write(workers=4, limit=1)
+        self.assertEqual((stats.empty, stats.written, len(api.requests)), (1, 1, 1))
+        self.assertEqual(sorted(r[0] for r in self.q("select resolved_key from place_summaries")),
+                         sorted(p.key for p, _ in todo))
 
 
 class PollerStep(SummaryCase):

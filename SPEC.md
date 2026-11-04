@@ -671,16 +671,15 @@ is in `summary_calls`, which the caps are checked against.
   `Ceiling`). Each call is in the ledger before its summary is stored, and a
   pass that fails part way records what it paid for on a fresh connection.
   Key `SUMMARY_ANTHROPIC_API_KEY` only.
-- **Failures.** An answer that cannot be used, or a 400/413 about the
-  request's own content (too long, content it could not take), is an
-  attempt on the place at once. A refusal every call would get (401, 403,
-  404, anything about credit, balance or billing) stops the run and marks
-  nothing. Anything else (a timeout, 429, 5xx, another 4xx) counts toward
-  stopping the run after 3 in a row, and when the run ends is charged to
-  the place only if some other call in the run was answered: an outage
-  parks nobody, a place that fails while others succeed is parked after 3
-  attempts like any other (`--retry-errors` unparks). A timed-out call is
-  not sent again in the same run, so its worst case is charged once.
+- **Failures.** A refusal every call would get (401, 403, 404, anything
+  about credit, balance or billing) stops the run and charges no place.
+  Every other failure charges its place one attempt when it happens. After
+  3 a place is parked for `SUMMARY_PARK_HOURS` (168) from its last failure,
+  then gets one more try (`--retry-errors` unparks at once), so an outage
+  delays healthy places a week at most and a place that always fails costs
+  at most three worst cases a week (about $0.60 for Katz's). A run stops
+  after 3 failures in a row, not counting a place's own content refusals.
+  A timed-out call is not sent again in the run; calls may take 300 s.
 - **Where.** The poller's chores pass, last, with `POLL_SUMMARIZE=1`, at most
   once every `SUMMARY_EVERY_HOURS` (6), the last run's time kept in
   `summary_state` so restarts keep the rhythm; each run takes the full scan
