@@ -45,8 +45,14 @@ SQL_FILES = ("scoring.sql", "scoring_v2.sql", "resolve.sql")
 # entity_leaderboard comes after everything it reads, so refreshing it first
 # would serve the API a board built from the previous run's identities and
 # weights. entity_leaderboard_v2 reads it, so it is the one that is last.
+# The rating's voices read mention_weights, and entity_rating and
+# entity_category_rating read the voices, so they follow it in that order.
 VIEWS = (("entity_alias", True),
          ("mention_weights", True),
+         ("place_voices", True),
+         ("place_category_voices", True),
+         ("entity_rating", True),
+         ("entity_category_rating", True),
          ("mention_v2", True),
          ("momentum_windows", False),
          ("mention_resolution", True),

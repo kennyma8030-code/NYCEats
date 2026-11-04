@@ -14,8 +14,9 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import JSONResponse
 
 from .. import queries
-from ..db import fetch_all, get_conn
-from ..models import ASPECTS, Algo, Ledger, LedgerCategory, LedgerFlaw, LedgerItem, LedgerNeed
+from ..db import fetch_all, fetch_one, get_conn
+from ..models import (ASPECTS, Algo, Board, CategoryRating, Ledger, LedgerCategory, LedgerFlaw,
+                      LedgerItem, LedgerNeed, Rating, RatingBoard, RatingLines)
 
 router = APIRouter()
 
@@ -155,8 +156,70 @@ def names(
     return JSONResponse(rows, headers={"Cache-Control": "public, max-age=300"})
 
 
+@router.get("/api/boards", response_model=Board, summary="Ranked by the rating")
+def boards(
+    board: Annotated[RatingBoard, Query(description=(
+        "top: busy places by lb. popular: by recommenders, among places with "
+        "lb at or above the median. gems: hidden gems by lb. taste, value, "
+        "service, atmosphere, wait: by that category's lb"))] = "top",
+    window: Annotated[int, Query(description=(
+        "Days the mention counts and series cover: 7, 14, 30, 90, 180 or 365. "
+        "The ranking itself is over the rating's own window"))] = 30,
+    cuisine: Annotated[Optional[str], Query(max_length=100)] = None,
+    borough: Annotated[Optional[str], Query(max_length=40)] = None,
+    limit: Annotated[int, Query(ge=1, le=100)] = 50,
+    offset: Annotated[int, Query(ge=0, le=10_000)] = 0,
+    conn=Depends(get_conn),
+):
+    """Restaurants ranked by one value of the rating (scoring.sql, section 8).
+
+    The rating counts each person once, by their latest word in the window:
+    stated opinions make % positive and its Wilson lower bound (`lb`), and
+    bare recommendations only add to `recommenders`, the volume. Every item
+    carries `rating`; `lines` says what busy, the median and the gem line
+    were at this rebuild. Overhyped / mixed is a badge, not a board. Chains
+    and closed places are left out, as on the ledger.
+    """
+    if window not in WINDOWS:
+        raise HTTPException(status_code=422,
+                            detail=f"window must be one of {', '.join(map(str, WINDOWS))}")
+    bucket = bucket_days(window)
+    rows = queries.board_items(conn, board, window, cuisine, borough, limit, offset, fetch_all)
+    lines = queries.rating_lines(conn, fetch_one)
+    return Board(board=board, window_days=window, bucket_days=bucket,
+                 cuisine=cuisine, borough=borough, lines=RatingLines(**lines),
+                 total=rows[0]["total"] if rows else 0, limit=limit, offset=offset,
+                 items=_build_items(conn, rows, window, bucket))
+
+
+def build_rating(row, categories):
+    """A Rating from a row carrying rating_select's columns and the place's
+    category_ratings rows, or None when it has neither. A place can have
+    category voices and no overall one (someone remarked only on the wait),
+    and a category board still has to show the number it ranked on, so then
+    the overall counts are zeros."""
+    if row.get("rating_pos") is None:
+        if not categories:
+            return None
+        overall = dict(pos=0, neg=0, neutral=0, endorse=0, superlative=0, recommenders=0,
+                       pct_pos=None, lb=None, neg_share=None, rankable=False, busy=False,
+                       badge=None, last_voice=None)
+    else:
+        overall = {k: row[f"rating_{k}"] for k in (
+            "pos", "neg", "neutral", "endorse", "superlative", "recommenders",
+            "pct_pos", "lb", "neg_share", "rankable", "busy", "badge", "last_voice")}
+    return Rating(
+        window_days=row["rating_window_days"],
+        **overall,
+        categories={c["category"]: CategoryRating(
+            **{k: c[k] for k in ("pos", "neg", "neutral", "pct_pos", "lb", "rankable")})
+            for c in categories},
+    )
+
+
 def _build_items(conn, rows, window, bucket, topic=None):
-    """Ledger rows -> LedgerItems: windowed series and top neighborhood added."""
+    """Ledger rows -> LedgerItems: windowed series, top neighborhood and the
+    rating added."""
     keys = [r["entity_key"] for r in rows]
 
     n = math.ceil(window / bucket)
@@ -171,6 +234,9 @@ def _build_items(conn, rows, window, bucket, topic=None):
         (cur if s["is_current"] else prev)[n - 1 - idx] += s["n"]
     hoods = {h["entity_key"]: h["name"]
              for h in queries.top_neighborhoods(conn, keys, fetch_all)}
+    cats = {}
+    for c in queries.category_ratings(conn, keys, fetch_all):
+        cats.setdefault(c["entity_key"], []).append(c)
 
     items = []
     for r in rows:
@@ -195,5 +261,6 @@ def _build_items(conn, rows, window, bucket, topic=None):
             flagged=r.get("flagged"),
             strong_neg_people=r.get("strong_neg_people"),
             strong_neg_share=r.get("strong_neg_share"),
+            rating=build_rating(r, cats.get(r["entity_key"], [])),
         ))
     return items

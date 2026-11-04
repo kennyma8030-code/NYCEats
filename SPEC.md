@@ -295,6 +295,79 @@ thread divisor already fights.
 deferred polarization work, though it describes the comment's reception rather
 than the restaurant's.
 
+### Rating and recommenders (new, v6)
+
+Built in `scoring.sql` section 8 (`rating_params`, `place_voices`,
+`place_category_voices`, `entity_rating`, `entity_category_rating`), served by
+`/api/boards`, `/api/restaurants/{key}/voices` and a `rating` object on ledger
+rows and the detail page. Reads v6's columns, so it needs `live_mentions` in
+v6 mode.
+
+**Why.** 44.5% of v6's positive mentions are bare recommendations, a name
+dropped with no judgment (`opinion = 'endorse'`). Counted as praise they put
+the median place at 90% positive and 361 places at 100%; over stated opinions
+only the board is about 74.5% positive. So the rating and the volume come from
+different signals: stated opinions make the rating, and a bare endorse is
+volume only.
+
+**Window and exclusions.** The last 365 days (`window_days`), r/FoodNYC,
+everything `live_mentions` already leaves out, `excluded_entities`, and
+mentions the model marked `status = 'closed'` ("RIP Florent" nostalgia was
+ranking shut places). AutoModerator is dropped.
+
+**One voice per person per place:** their latest mention in the window that
+is a voice. `[deleted]` counts once per comment. Voices:
+
+| voice | rule |
+|---|---|
+| endorse | `opinion = 'endorse'`, whatever level it carries |
+| pos | stated overall level 1 or 2 |
+| neg | overall level -1 or -2, or `avoid` with no level |
+| neutral | overall level 0 |
+
+A mention with none of these (a fact, a question, a remark on the wait alone)
+is not a voice and never hides an earlier one.
+
+**Per place** (`entity_rating`): `pct_pos = pos / (pos + neg)`; `lb` = its
+Wilson lower bound at z = 1.28; `neg_share = neg / (pos + neg + neutral)`, the
+complaint share of stated opinions; `superlative` = people at level 2;
+`recommenders` = pos + endorse, the volume axis. **Rankable** at 10 or more
+stated non-neutral people (`min_rated`).
+
+**Categories** (`entity_category_rating`): taste, value, service, atmosphere,
+wait. Each person's latest *stated* level for that category, by sign (a level
+on a bare endorse is left out, as overall). pos, neg, pct_pos and lb as above;
+rankable at 8 non-neutral people (`min_category_rated`).
+
+**Badges**, one column, cut at percentiles at every rebuild so they keep their
+meaning as the corpus grows. The lines are taken over rankable places the
+boards can show (not on the city's chain list, not closed), then every
+rankable place is badged against them:
+
+- busy: recommenders at or above the top 10% (`busy_pct = 0.10`)
+- share_line: median `lb` (`share_pct = 0.50`)
+- gem_line: 85th percentile of `lb` among rankable places that are not busy (`gem_pct = 0.85`)
+- `consensus` = busy and lb ≥ share_line; `overhyped_mixed` = busy and lb <
+  share_line; `hidden_gem` = not busy and lb ≥ gem_line; otherwise none.
+
+Measured Nov 3, 2026: 1,286 rankable places; busy at 78 recommenders,
+share_line 0.649, gem_line 0.813; 77 consensus, 52 overhyped / mixed, 174
+hidden gems.
+
+**Boards.** Each ranks by one value; the rest are filters. Top: busy places by
+lb. Popular: by recommenders, among places with lb ≥ share_line. Hidden gems:
+by lb. Category boards: by the category's lb, among places rankable in it.
+Overhyped / mixed is a badge, not a board. There is no Divisive badge.
+
+**Click-through.** `place_voices` and `place_category_voices` keep the one
+mention each person was counted by, so every count lists exactly its comments,
+with permalinks suppressed where `was_deleted_later` is set.
+
+Known limits: v6 codes lukewarm words (fine, meh, mid) as knocks and almost
+nothing as neutral (0.6%), so `neg_share` sits close to `1 - pct_pos` until
+the prompt fix lands. Generic keys ("grill", "modern", "joes") still merge
+several places; that is identity's problem (resolve.sql), not the rating's.
+
 ---
 
 ## Decided — semantic search embeddings

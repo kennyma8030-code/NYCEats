@@ -212,9 +212,75 @@ class Spelling(BaseModel):
     mentions: Optional[int] = None
 
 
+# The rating (scoring.sql, section 8). v6's categories, which are not the
+# legacy aspects: "taste" is the food.
+RatingCategory = Literal["taste", "value", "service", "atmosphere", "wait"]
+RATING_CATEGORIES = ("taste", "value", "service", "atmosphere", "wait")
+# Each board ranks by one value and filters on the rest; no composite score.
+RatingBoard = Literal["top", "popular", "gems",
+                      "taste", "value", "service", "atmosphere", "wait"]
+Badge = Literal["consensus", "overhyped_mixed", "hidden_gem"]
+# Which voices to list behind a rating. recommenders = pos + endorse, the
+# volume axis; superlative = pos at level 2. With a category, only pos, neg,
+# neutral and all apply: a category has no bare endorsements.
+VoiceFilter = Literal["pos", "neg", "neutral", "endorse", "recommenders",
+                      "superlative", "all"]
+
+
+class CategoryRating(BaseModel):
+    """One category's rating: each person's latest stated level, by sign."""
+    pos: int
+    neg: int
+    neutral: int
+    pct_pos: Optional[float] = None   # None when nobody was positive or negative
+    lb: Optional[float] = None        # Wilson lower bound of pct_pos
+    rankable: bool                    # pos + neg >= min_category_rated
+
+
+class Rating(BaseModel):
+    """How much the sub likes a place, apart from how many bring it up.
+
+    Counts are people, one voice each (their latest in the window). pos, neg
+    and neutral are stated opinions and make the rating; endorse is a bare
+    recommendation and only counts toward recommenders, the volume axis.
+    """
+    window_days: int
+    pos: int
+    neg: int
+    neutral: int
+    endorse: int
+    superlative: int                  # stated level 2: called it the best
+    recommenders: int                 # pos + endorse
+    pct_pos: Optional[float] = None   # pos / (pos + neg)
+    lb: Optional[float] = None        # Wilson lower bound of pct_pos
+    neg_share: Optional[float] = None  # neg / (pos + neg + neutral)
+    rankable: bool                    # pos + neg >= min_rated
+    busy: bool
+    badge: Optional[Badge] = None
+    last_voice: Optional[datetime] = None
+    categories: dict[str, CategoryRating] = Field(default_factory=dict)
+
+
+class RatingLines(BaseModel):
+    """The settings and the percentile cut-offs the badges were made with,
+    so a client can say what "busy" or "hidden gem" meant at this rebuild."""
+    window_days: int
+    z: float
+    min_rated: int
+    min_category_rated: int
+    busy_pct: float
+    share_pct: float
+    gem_pct: float
+    busy_line: Optional[int] = None    # recommenders at or above this are busy
+    share_line: Optional[float] = None  # median lb
+    gem_line: Optional[float] = None   # lb a non-busy place needs to be a gem
+
+
 class RestaurantDetail(BaseModel):
     entity_key: str
     summary: LeaderboardRow
+    # None when nobody voiced an opinion or recommendation in the window.
+    rating: Optional[Rating] = None
     aspects: list[AspectDetail]
     momentum: list[MomentumWindow]
     spellings: list[Spelling]
@@ -248,6 +314,10 @@ class Mention(BaseModel):
     was_deleted_later: bool = False
     thread_id: Optional[str] = None
     thread_title: Optional[str] = None
+    # Set only by /voices: what this mention counted as (pos, neg, neutral,
+    # endorse) and the level it carried (overall, or the category's).
+    voice: Optional[str] = None
+    level: Optional[int] = None
 
     # The SQL already nulls a jsonb column of the wrong shape
     # (queries.MENTION_COLUMNS). These hold the same line for any query that
@@ -392,6 +462,10 @@ class LedgerItem(BaseModel):
     flagged: Optional[bool] = None
     strong_neg_people: Optional[int] = None   # last two years
     strong_neg_share: Optional[float] = None  # of recent, upvote-weighted opinion
+    # The rating over its own fixed window (rating_params.window_days), the
+    # same under every algo and ledger window. None when nobody voiced an
+    # opinion or recommendation in that window.
+    rating: Optional[Rating] = None
 
 
 class FeedPlace(BaseModel):
@@ -435,4 +509,20 @@ class Ledger(BaseModel):
     needs: list[str] = Field(default_factory=list)
     flaws: list[str] = Field(default_factory=list)
     total: int
+    items: list[LedgerItem]
+
+
+class Board(BaseModel):
+    """A board ranked by the rating (/api/boards). Items are ledger rows with
+    `rating` always set; `window_days` is only the window their counts and
+    series cover, never what they were ranked on (that is lines.window_days)."""
+    board: RatingBoard
+    window_days: int
+    bucket_days: int
+    cuisine: Optional[str] = None
+    borough: Optional[str] = None
+    lines: RatingLines
+    total: int
+    limit: int
+    offset: int
     items: list[LedgerItem]

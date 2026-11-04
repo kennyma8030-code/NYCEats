@@ -23,7 +23,7 @@ live ones.
 import refresh
 import subreddits
 
-from .models import ASPECTS, DEFAULT_SORT, SORTS, V2_SORTS
+from .models import ASPECTS, DEFAULT_SORT, RATING_CATEGORIES, SORTS, V2_SORTS
 
 # The columns the leaderboard exposes. Listed rather than `l.*` so a change to
 # the materialized view cannot quietly alter the API's response shape.
@@ -863,9 +863,11 @@ def ledger_items(conn, category, window, cuisine, borough, needs, flaws, limit, 
                  l.official_name, l.cuisine, l.boroughs,
                  l.raw_mentions, l.distinct_authors,
                  l.food, l.value, l.service, l.atmosphere, l.wait,
-                 {_ledger_select(algo)}
+                 {_ledger_select(algo)},
+                 {rating_select("er")}
           from counts c
           join {board} l on l.entity_key = c.entity_key
+          left join entity_rating er on er.entity_key = c.entity_key
           {cuts_join}
           where coalesce(l.is_chain, false) = false
             and coalesce(l.closed, false) = false
@@ -899,8 +901,10 @@ def ledger_one(conn, entity_key, window, fetch_all, algo="v1", topic=None):
                l.official_name, l.cuisine, l.boroughs,
                l.raw_mentions, l.distinct_authors,
                l.food, l.value, l.service, l.atmosphere, l.wait,
-               {_ledger_select(algo)}
+               {_ledger_select(algo)},
+               {rating_select("er")}
         from {BOARDS[algo]} l
+        left join entity_rating er on er.entity_key = l.entity_key
         left join lateral (
           select count(*) filter (where v.created_utc >  now() - make_interval(days => %(window)s)) as current,
                  count(*) filter (where v.created_utc <= now() - make_interval(days => %(window)s)) as previous,
@@ -966,6 +970,184 @@ def ledger_series(conn, keys, window, bucket, fetch_all, topic=None):
         ) s
         group by 1, 2, 3
     """, params)
+
+
+# ---------------------------------------------------------------------------
+# The rating (scoring.sql, section 8): stated opinions make the rating, bare
+# recommendations only the volume, one voice per person over a fixed window.
+# ---------------------------------------------------------------------------
+
+def rating_select(alias):
+    """entity_rating's per-place columns under `alias`, prefixed rating_ so
+    they can ride along in any row without clashing. All NULL when the place
+    has no row there (nobody spoke in the window)."""
+    cols = ("pos", "neg", "neutral", "endorse", "superlative", "recommenders",
+            "pct_pos", "lb", "neg_share", "rankable", "busy", "badge", "last_voice")
+    return (", ".join(f"{alias}.{c} as rating_{c}" for c in cols)
+            + ", (select window_days from rating_params) as rating_window_days")
+
+
+def category_ratings(conn, keys, fetch_all):
+    """Every category's rating for these places, one row per (place, category)."""
+    if not keys:
+        return []
+    return fetch_all(conn, """
+        select entity_key, category, pos, neg, neutral, pct_pos, lb, rankable
+        from entity_category_rating
+        where entity_key = any(%s)
+    """, (list(keys),))
+
+
+def rating_row(conn, entity_key, fetch_one):
+    """rating_select's columns for one place: always a row, all NULL but the
+    window when the place has no rating, as a ledger row would be."""
+    return fetch_one(conn, f"""
+        select {rating_select("er")}
+        from (select %s::text as entity_key) k
+        left join entity_rating er on er.entity_key = k.entity_key
+    """, (entity_key,))
+
+
+def rating_lines(conn, fetch_one):
+    """The settings and this rebuild's cut-offs. Every entity_rating row holds
+    the same lines, so any one will do; none at all means no rebuild yet."""
+    return fetch_one(conn, """
+        select p.window_days, p.z, p.min_rated, p.min_category_rated,
+               p.busy_pct, p.share_pct, p.gem_pct,
+               er.busy_line, er.share_line, er.gem_line
+        from rating_params p
+        left join lateral (select busy_line, share_line, gem_line
+                           from entity_rating limit 1) er on true
+    """)
+
+
+# Each board as (where_sql, order_sql) over `er` (entity_rating) and, for the
+# category boards, `cr` (entity_category_rating). Module literals, never
+# caller input: ORDER BY cannot take a parameter. One value ranks each board;
+# everything else is a filter.
+RATING_BOARDS = {
+    # The busy tenth, best liked first.
+    "top":     ("er.busy",
+                "er.lb desc nulls last, er.recommenders desc"),
+    # Most recommended, among places liked at least as well as the median.
+    "popular": ("er.rankable and er.lb >= er.share_line",
+                "er.recommenders desc, er.lb desc nulls last"),
+    "gems":    ("er.badge = 'hidden_gem'",
+                "er.lb desc nulls last, er.recommenders desc"),
+}
+CATEGORY_BOARD = ("cr.rankable",
+                  "cr.lb desc nulls last, cr.pos + cr.neg desc")
+
+
+def board_items(conn, board, window, cuisine, borough, limit, offset, fetch_all):
+    """One page of a rating board, in the row shape ledger_items returns plus
+    the rating, with the match count on every row as `total`.
+
+    Chains and closed places are left out, as on the ledger. The rating is
+    over rating_params.window_days whatever `window` is; `window` only sets
+    the mention counts (current, previous) shown beside it. They are counted
+    for the page alone, after ranking, so a board costs one pass over a few
+    thousand cached rows and one over the page's mentions.
+    """
+    params = {"window": window, "limit": limit, "offset": offset}
+    if board in RATING_BOARDS:
+        where_sql, order_sql = RATING_BOARDS[board]
+        source = """from entity_rating er
+          join entity_leaderboard l on l.entity_key = er.entity_key"""
+    else:
+        # The whitelist again: the category name is bound, but which board
+        # this is decides the SQL.
+        if board not in RATING_CATEGORIES:
+            raise ValueError(f"unknown board {board!r}")
+        where_sql, order_sql = CATEGORY_BOARD
+        source = """from entity_category_rating cr
+          join entity_leaderboard l on l.entity_key = cr.entity_key
+          left join entity_rating er on er.entity_key = cr.entity_key"""
+        where_sql += " and cr.category = %(category)s"
+        params["category"] = board
+    filters = ["coalesce(l.is_chain, false) = false", "coalesce(l.closed, false) = false"]
+    if cuisine:
+        filters.append("l.cuisine = %(cuisine)s")
+        params["cuisine"] = cuisine
+    if borough:
+        filters.append("%(borough)s = any(l.boroughs)")
+        params["borough"] = borough
+    return fetch_all(conn, f"""
+        with ranked as (
+          select l.entity_key, l.official_name, l.cuisine, l.boroughs,
+                 l.raw_mentions, l.distinct_authors,
+                 l.food, l.value, l.service, l.atmosphere, l.wait,
+                 {_ledger_select("v1")},
+                 {rating_select("er")},
+                 row_number() over (order by {order_sql}, l.entity_key) as position,
+                 count(*) over () as total
+          {source}
+          where {where_sql} and {" and ".join(filters)}
+        ),
+        page as (
+          select * from ranked
+          where position > %(offset)s and position <= %(offset)s + %(limit)s
+        )
+        select page.*,
+               coalesce(c.current, 0)::int  as current,
+               coalesce(c.previous, 0)::int as previous,
+               null::int                    as people
+        from page
+        left join lateral (
+          select count(*) filter (where v.created_utc >  now() - make_interval(days => %(window)s)) as current,
+                 count(*) filter (where v.created_utc <= now() - make_interval(days => %(window)s)) as previous
+          from mention_v2 v
+          where v.entity_key = page.entity_key
+            and v.created_utc > now() - make_interval(days => 2 * %(window)s)
+        ) c on true
+        order by page.position
+    """, params)
+
+
+# Which voices /voices lists, as SQL over `pv`. Module literals: the caller
+# picks a key, never the text. A category's voices are stated levels only,
+# so the endorse-based filters do not apply to it.
+VOICE_FILTERS = {
+    "pos":          "pv.voice = 'pos'",
+    "neg":          "pv.voice = 'neg'",
+    "neutral":      "pv.voice = 'neutral'",
+    "endorse":      "pv.voice = 'endorse'",
+    "recommenders": "pv.voice in ('pos', 'endorse')",
+    "superlative":  "pv.voice = 'pos' and pv.level = 2",
+    "all":          "true",
+}
+CATEGORY_VOICE_FILTERS = ("pos", "neg", "neutral", "all")
+
+
+def voices_page(conn, entity_key, voice, category, sort, limit, offset,
+                fetch_all, fetch_value):
+    """The comments behind a rating: exactly the one mention per person that
+    place_voices (or place_category_voices) counted, so a list's length is
+    the number on the card. Permalinks of comments deleted from Reddit come
+    back NULL (permalink_sql)."""
+    if category is not None and voice not in CATEGORY_VOICE_FILTERS:
+        raise ValueError(f"voice {voice!r} does not apply to a category")
+    table = "place_category_voices" if category else "place_voices"
+    where = ["pv.entity_key = %s", VOICE_FILTERS[voice]]
+    params = [entity_key]
+    if category:
+        where.append("pv.category = %s")
+        params.append(category)
+    base = f"""
+        from {table} pv
+        join mentions m on m.id = pv.mention_id
+        join comments c on c.id = pv.comment_id
+        join threads  t on t.id = c.thread_id
+        where {" and ".join(where)}
+    """
+    total = fetch_value(conn, f"select count(*) {base}", params, default=0)
+    rows = fetch_all(conn, f"""
+        select {MENTION_COLUMNS}, pv.voice, pv.level
+        {base}
+        order by {MENTION_SORTS[sort]}, m.id
+        limit %s offset %s
+    """, params + [limit, offset])
+    return rows, total
 
 
 def top_neighborhoods(conn, keys, fetch_all):

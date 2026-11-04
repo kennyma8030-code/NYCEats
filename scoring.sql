@@ -18,6 +18,12 @@
 --   entity_longevity      undecayed presence (no weights at all)
 --   aspect_scores         per (entity, aspect), shrunk toward the city mean
 --   entity_confidence     distinct authors
+--   entity_leaderboard    one row per entity, every axis above
+--   rating_params         the rating's window, floors and badge percentiles
+--   place_voices          each person's one voice per place (rating + volume)
+--   place_category_voices each person's one stated level per place and category
+--   entity_rating         % positive, Wilson bound, recommenders, badge
+--   entity_category_rating the same rating per category
 --   <final select>        the leaderboard, incl. the chain-filter hook
 --
 -- Every constant worth arguing about is marked -- TUNE.
@@ -601,6 +607,277 @@ create index if not exists entity_leaderboard_momentum_idx
   on entity_leaderboard(momentum_sigma desc nulls last);
 create index if not exists entity_leaderboard_mentions_idx
   on entity_leaderboard(raw_mentions desc nulls last);
+
+
+-- ---------------------------------------------------------------------------
+-- 8. The rating: how much of the sub likes a place, kept apart from how many
+--    people bring it up.
+--
+--    Read off v6's columns (opinion, overall_level, avoid, the category
+--    levels), so it needs live_mentions in v6 mode; under 'legacy' those are
+--    null and nothing is rankable.
+--
+--    The audit behind it: 44.5% of v6's positive mentions are bare
+--    recommendations, a name dropped in answer to a question with no judgment
+--    (opinion = 'endorse'). Counted as praise they put the median place at
+--    90% positive and 361 places at 100%. Over stated opinions only the board
+--    is about 74.5% positive. So a bare endorse is volume, never rating: it
+--    counts toward recommenders and nothing else.
+--
+--    One voice per person per place, their latest in the window, so a regular
+--    who posts about a place weekly is still one person. A rating is a share,
+--    and a share needs a floor (min_rated) and a lower bound (Wilson) before
+--    it can be ranked: 3 for 3 is not better than 290 of 300.
+--
+--    Badges are cut at percentiles of the rankable places rather than fixed
+--    numbers, so they keep meaning "the busiest tenth" and "the better half"
+--    as the corpus grows. There is no composite score: each board ranks by
+--    one of these and filters on the rest (queries.RATING_BOARDS).
+-- ---------------------------------------------------------------------------
+create or replace view rating_params as
+select
+  365            as window_days,         -- TUNE  voices this recent count
+  1.28::float8   as z,                   -- TUNE  Wilson z (one-sided ~90%)
+  10             as min_rated,           -- TUNE  rankable: stated non-neutral people
+  8              as min_category_rated,  -- TUNE  the same, per category
+  0.10::float8   as busy_pct,            -- TUNE  busy = recommenders in this top share
+  0.50::float8   as share_pct,           -- TUNE  share_line = this percentile of lb
+  0.85::float8   as gem_pct;             -- TUNE  gem_line = this percentile of lb, non-busy
+
+
+-- The lower bound of the Wilson score interval for pos successes in n. NULL
+-- for n = 0: no opinion is not a 0% rating.
+create or replace function wilson_lower(pos float8, n float8, z float8)
+returns float8 language sql immutable as $$
+  select case when n > 0 then
+    (pos / n + z * z / (2 * n)
+     - z * sqrt((pos / n) * (1 - pos / n) / n + z * z / (4 * n * n)))
+    / (1 + z * z / n)
+  end
+$$;
+
+
+-- One row per (place, person): the voice the rating and the volume count.
+--
+--   endorse   a bare recommendation (opinion = 'endorse'), whatever level
+--             the model attached to it. Volume only.
+--   pos       a stated overall level of 1 or 2
+--   neg       a stated overall level of -1 or -2, or an avoid with no level
+--   neutral   a stated overall level of 0
+--
+-- A mention with none of these (a fact, a question, a remark about the wait
+-- alone) is not a voice, so it never hides an earlier one that was.
+-- Mentions the model marked status 'closed' are left out: "RIP Florent" is
+-- nostalgia for a shut place, and those comments were ranking it.
+-- AutoModerator is not a person; '[deleted]' is a shared tombstone, so each
+-- deleted comment is its own person, as in mention_weights.
+--
+-- mention_id is kept so every count clicks through to exactly the comments
+-- it counted (/api/restaurants/{key}/voices).
+--   refresh materialized view concurrently place_voices;
+do $$
+begin
+  if exists (select 1 from pg_matviews where matviewname = 'place_voices') then
+    drop materialized view place_voices cascade;
+  end if;
+end $$;
+create materialized view place_voices as
+select distinct on (entity_key, person)
+       entity_key, person, mention_id, comment_id, created_utc, voice, level
+from (
+  select w.entity_key,
+         coalesce(nullif(w.author, '[deleted]'), w.comment_id) as person,
+         w.mention_id,
+         w.comment_id,
+         w.created_utc,
+         case when m.opinion = 'endorse' then 'endorse'
+              when m.overall_level > 0   then 'pos'
+              when m.overall_level < 0   then 'neg'
+              when m.overall_level = 0   then 'neutral'
+              when m.avoid               then 'neg' end as voice,
+         m.overall_level as level
+  from mention_weights w
+  join mentions m on m.id = w.mention_id      -- a live id: see queries.py
+  cross join rating_params p
+  where w.created_utc > now() - make_interval(days => p.window_days)
+    and w.author is distinct from 'AutoModerator'
+    and m.status is distinct from 'closed'
+    and not exists (select 1 from excluded_entities x where x.entity_key = w.entity_key)
+) v
+where voice is not null
+order by entity_key, person, created_utc desc, mention_id desc;
+
+create unique index if not exists place_voices_pk on place_voices(entity_key, person);
+create index if not exists place_voices_mention_idx on place_voices(mention_id);
+
+
+-- One row per (place, category, person): their latest STATED level for that
+-- category, by sign. A level on a bare endorse ("go for the dumplings") is
+-- the same name-drop the overall rating leaves out, so it is left out here.
+-- The categories are v6's: taste (the food), value, service, atmosphere,
+-- wait. A high wait rating means people found the wait fine or worth it.
+--   refresh materialized view concurrently place_category_voices;
+do $$
+begin
+  if exists (select 1 from pg_matviews where matviewname = 'place_category_voices') then
+    drop materialized view place_category_voices cascade;
+  end if;
+end $$;
+create materialized view place_category_voices as
+select distinct on (entity_key, category, person)
+       entity_key, category, person, mention_id, comment_id, created_utc, level,
+       case when level > 0 then 'pos' when level < 0 then 'neg' else 'neutral' end as voice
+from (
+  select w.entity_key,
+         x.category,
+         coalesce(nullif(w.author, '[deleted]'), w.comment_id) as person,
+         w.mention_id, w.comment_id, w.created_utc,
+         x.level
+  from mention_weights w
+  join mentions m on m.id = w.mention_id
+  cross join rating_params p
+  cross join lateral (values ('taste',      m.taste_level),
+                             ('value',      m.value_level),
+                             ('service',    m.service_level),
+                             ('atmosphere', m.atmosphere_level),
+                             ('wait',       m.wait_level)) as x(category, level)
+  where w.created_utc > now() - make_interval(days => p.window_days)
+    and w.author is distinct from 'AutoModerator'
+    and m.status is distinct from 'closed'
+    and m.opinion = 'stated'
+    and x.level is not null
+    and not exists (select 1 from excluded_entities x2 where x2.entity_key = w.entity_key)
+) v
+order by entity_key, category, person, created_utc desc, mention_id desc;
+
+create unique index if not exists place_category_voices_pk
+  on place_category_voices(entity_key, category, person);
+
+
+-- One row per place with any voice in the window.
+--
+--   pct_pos       pos / (pos + neg), stated opinions only
+--   lb            Wilson lower bound of pct_pos at rating_params.z
+--   neg_share     neg / (pos + neg + neutral): the complaint share of stated
+--                 opinions. Close to 1 - pct_pos while v6 codes almost nothing
+--                 as neutral (0.6%); it parts from it once lukewarm words are
+--                 coded as mixed instead of as knocks.
+--   superlative   people whose stated level was 2, who called it the best
+--   recommenders  people whose voice is a bare endorse or a stated positive:
+--                 the volume axis
+--   rankable      pos + neg >= min_rated
+--
+-- The lines are worked out over rankable places the boards can show (not on
+-- the city's chain list, not closed), and every rankable place is then badged
+-- against them, so a chain opened by name still says where it stands.
+--   busy_line     recommenders at the top busy_pct; busy = at or above it
+--   share_line    lb at share_pct (the median)
+--   gem_line      lb at gem_pct among rankable places that are not busy
+--   badge         consensus        busy, lb >= share_line
+--                 overhyped_mixed  busy, lb <  share_line
+--                 hidden_gem       not busy, lb >= gem_line
+--                 NULL             otherwise, and for every unrankable place
+-- The lines repeat on every row so a card can say what its badge was cut at.
+--   refresh materialized view concurrently entity_rating;
+do $$
+begin
+  if exists (select 1 from pg_matviews where matviewname = 'entity_rating') then
+    drop materialized view entity_rating cascade;
+  end if;
+end $$;
+create materialized view entity_rating as
+with counts as (
+  select entity_key,
+         count(*) filter (where voice = 'pos')                as pos,
+         count(*) filter (where voice = 'neg')                as neg,
+         count(*) filter (where voice = 'neutral')            as neutral,
+         count(*) filter (where voice = 'endorse')            as endorse,
+         count(*) filter (where voice = 'pos' and level = 2)  as superlative,
+         max(created_utc)                                     as last_voice
+  from place_voices
+  group by entity_key
+),
+scored as (
+  select c.*,
+         c.pos + c.endorse                                    as recommenders,
+         c.pos::float8 / nullif(c.pos + c.neg, 0)             as pct_pos,
+         wilson_lower(c.pos, c.pos + c.neg, p.z)              as lb,
+         c.neg::float8 / nullif(c.pos + c.neg + c.neutral, 0) as neg_share,
+         c.pos + c.neg >= p.min_rated                         as rankable,
+         coalesce(r.is_chain, false) or coalesce(r.closed, false) as off_board
+  from counts c
+  cross join rating_params p
+  left join restaurants r on r.name_key = c.entity_key
+),
+lines as (
+  -- percentile_disc, so busy_line is a count some place really has.
+  select percentile_disc(1 - (select busy_pct from rating_params))
+           within group (order by recommenders)               as busy_line,
+         percentile_cont((select share_pct from rating_params))
+           within group (order by lb)                         as share_line
+  from scored
+  where rankable and not off_board
+),
+gem as (
+  select percentile_cont((select gem_pct from rating_params))
+           within group (order by s.lb)                       as gem_line
+  from scored s cross join lines l
+  where s.rankable and not s.off_board and s.recommenders < l.busy_line
+)
+select s.entity_key,
+       s.pos, s.neg, s.neutral, s.endorse, s.superlative,
+       s.recommenders, s.pct_pos, s.lb, s.neg_share,
+       s.rankable,
+       -- coalesce: with no rankable place at all the lines are NULL.
+       coalesce(s.rankable and s.recommenders >= l.busy_line, false) as busy,
+       case when not s.rankable                                then null
+            when s.recommenders >= l.busy_line
+                 and s.lb >= l.share_line                      then 'consensus'
+            when s.recommenders >= l.busy_line                 then 'overhyped_mixed'
+            when s.lb >= g.gem_line                            then 'hidden_gem'
+       end                                                    as badge,
+       s.last_voice,
+       l.busy_line, l.share_line, g.gem_line
+from scored s
+cross join lines l
+cross join gem g;
+
+create unique index if not exists entity_rating_pk on entity_rating(entity_key);
+create index if not exists entity_rating_lb_idx on entity_rating(lb desc nulls last);
+create index if not exists entity_rating_recommenders_idx
+  on entity_rating(recommenders desc);
+
+
+-- The same rating per (place, category), from place_category_voices. Ranked
+-- only once min_category_rated people said something non-neutral about that
+-- category: the categories are sparser than the overall verdict.
+--   refresh materialized view concurrently entity_category_rating;
+do $$
+begin
+  if exists (select 1 from pg_matviews where matviewname = 'entity_category_rating') then
+    drop materialized view entity_category_rating cascade;
+  end if;
+end $$;
+create materialized view entity_category_rating as
+with counts as (
+  select entity_key, category,
+         count(*) filter (where voice = 'pos')     as pos,
+         count(*) filter (where voice = 'neg')     as neg,
+         count(*) filter (where voice = 'neutral') as neutral
+  from place_category_voices
+  group by entity_key, category
+)
+select c.entity_key, c.category, c.pos, c.neg, c.neutral,
+       c.pos::float8 / nullif(c.pos + c.neg, 0)  as pct_pos,
+       wilson_lower(c.pos, c.pos + c.neg, p.z)   as lb,
+       c.pos + c.neg >= p.min_category_rated     as rankable
+from counts c
+cross join rating_params p;
+
+create unique index if not exists entity_category_rating_pk
+  on entity_category_rating(entity_key, category);
+create index if not exists entity_category_rating_lb_idx
+  on entity_category_rating(category, lb desc nulls last) where rankable;
 
 
 -- ===========================================================================
