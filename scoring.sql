@@ -698,12 +698,15 @@ $$;
 -- to love it", "it was great back in the day") and 8 were the commenter's
 -- view now. The prompt's rule 9 says levels are what the commenter thinks
 -- now, and where the text says the place changed, trend says which way. So
--- a past mention stays only when its level points the way the place moved:
--- trend 'declined' with a neg ("it was better before, now it's mid"), or
--- 'improved' with a pos or endorse. Every other past mention is not a voice
--- (`past_ok` false). The categories apply the same test to their own level.
--- The 8 in 60 present-day views tagged past without a trend are lost: a
--- known limit, with the prompt (GitHub issue #3).
+-- a past mention's level counts only when it points the way the place moved:
+-- `past_sign` is -1 for trend 'declined' ("it was better before, now it's
+-- mid"), +1 for 'improved', 0 for a past mention with no trend (nothing it
+-- says counts), and NULL for a mention that is not past. The overall voice
+-- and every category level are kept only when sign * past_sign is 1, or
+-- past_sign is NULL: the one rule, applied to each level in turn. An avoid
+-- is a neg whatever its timeframe: "used to be my spot, skip it now" warns
+-- readers off today. The 8 in 60 present-day views tagged past without a
+-- trend are lost: a known limit, with the prompt (GitHub issue #3).
 --   refresh materialized view concurrently rating_mentions;
 do $$
 begin
@@ -715,12 +718,11 @@ begin
 end $$;
 create materialized view rating_mentions as
 select v.*,
-       -- A voice, after the past test (see above). Written as the cases that
-       -- keep it: with trend NULL every comparison is NULL, which a CASE
-       -- reads as not taken.
-       case when not v.past
-                 or (v.trend = 'declined' and v.said = 'neg')
-                 or (v.trend = 'improved' and v.said in ('pos', 'endorse'))
+       -- A voice, after the past test (see above). An endorse reads as +1.
+       case when v.avoid then v.said
+            when coalesce(v.past_sign * case v.said when 'neg'     then -1
+                                                    when 'neutral' then  0
+                                                    else                 1 end, 1) = 1
             then v.said end                                 as voice
 from (
   select w.entity_key,
@@ -729,8 +731,11 @@ from (
          w.comment_id,
          w.created_utc,
          m.opinion,
-         m.timeframe is not distinct from 'past'              as past,
-         m.trend,
+         coalesce(m.avoid, false)                             as avoid,
+         case when m.timeframe is distinct from 'past' then null
+              when m.trend = 'declined'                then -1
+              when m.trend = 'improved'                then  1
+              else                                            0 end as past_sign,
          case when m.avoid                                      then 'neg'
               when m.opinion = 'endorse'                        then 'endorse'
               when m.opinion = 'stated' and m.overall_level > 0 then 'pos'
@@ -784,9 +789,8 @@ create unique index if not exists place_voices_pk on place_voices(entity_key, pe
 -- recommends: the latest word is a stated pos, or a bare endorse from
 -- someone whose latest stated opinion is not a knock. A detractor who later
 -- only names the place has not changed their mind, so is not a recommender;
--- a latest word that is an avoid is a neg, so never is. Worked out here
--- from rating_mentions, the same rule as place_voices, rather than read from
--- place_voices, so it cannot see a different refresh of it.
+-- a latest word that is an avoid is a neg, so never is. The latest stated
+-- opinion is read from place_voices, which refresh.VIEWS refreshes first.
 --   refresh materialized view concurrently place_recommenders;
 do $$
 begin
@@ -801,18 +805,12 @@ with latest as (
   from rating_mentions
   where voice is not null
   order by entity_key, person, created_utc desc, (voice = 'endorse'), mention_id desc
-),
-stated as (
-  select distinct on (entity_key, person) entity_key, person, voice
-  from rating_mentions
-  where voice in ('pos', 'neg', 'neutral')
-  order by entity_key, person, created_utc desc, mention_id desc
 )
 select l.entity_key, l.person, l.mention_id, l.comment_id, l.created_utc, l.voice, l.level,
        l.voice = 'pos'
          or (l.voice = 'endorse' and s.voice is distinct from 'neg') as recommends
 from latest l
-left join stated s on s.entity_key = l.entity_key and s.person = l.person;
+left join place_voices s on s.entity_key = l.entity_key and s.person = l.person;
 
 create unique index if not exists place_recommenders_pk
   on place_recommenders(entity_key, person);
@@ -846,9 +844,7 @@ cross join lateral (values ('taste',      r.taste_level),
                            ('wait',       r.wait_level)) as x(category, level)
 where r.opinion = 'stated'
   and x.level is not null
-  and (not r.past
-       or (r.trend = 'declined' and x.level < 0)
-       or (r.trend = 'improved' and x.level > 0))
+  and coalesce(r.past_sign * sign(x.level), 1) = 1   -- the past test (rating_mentions)
 order by r.entity_key, x.category, r.person, r.created_utc desc, r.mention_id desc;
 
 create unique index if not exists place_category_voices_pk
@@ -860,8 +856,7 @@ create unique index if not exists place_category_voices_pk
 --   pos, neg, neutral, superlative    from place_voices (latest stated)
 --   pct_pos       pos / (pos + neg)
 --   lb            Wilson lower bound of pct_pos at rating_params.z
---   neg_share     neg / (pos + neg): the complaint share of the same people
---                 pct_pos counts, the ones /voices?voice=opinions lists
+--   (neg_share, 1 - pct_pos, is worked out by the API, not stored)
 --   superlative   people whose latest stated level was 2: called it the best
 --   recommenders  place_recommenders.recommends: the volume axis. Not
 --                 pos + endorse: someone who praised it and later only named
@@ -869,8 +864,9 @@ create unique index if not exists place_category_voices_pk
 --   endorse       the recommenders whose latest word is a bare endorse
 --   rankable      pos + neg >= min_rated
 --
--- Built from a full join of the two passes, so a place keeps its row
--- whichever of them holds it (they refresh one after the other).
+-- last_voice is the latest word from the volume pass, which every voice is a
+-- candidate for. Built from a full join of the two passes all the same: a
+-- refresh that stops between them must not cost a rated place its row.
 --
 -- The lines are worked out over rankable places the boards can show (not on
 -- the city's chain list, not closed), and every rankable place is then badged
@@ -896,8 +892,7 @@ with rated as (
          count(*) filter (where voice = 'pos')                as pos,
          count(*) filter (where voice = 'neg')                as neg,
          count(*) filter (where voice = 'neutral')            as neutral,
-         count(*) filter (where voice = 'pos' and level = 2)  as superlative,
-         max(created_utc)                                     as last_stated
+         count(*) filter (where voice = 'pos' and level = 2)  as superlative
   from place_voices
   group by entity_key
 ),
@@ -917,7 +912,7 @@ counts as (
          coalesce(r.superlative, 0)  as superlative,
          coalesce(v.endorse, 0)      as endorse,
          coalesce(v.recommenders, 0) as recommenders,
-         greatest(r.last_stated, v.last_word)     as last_voice
+         v.last_word                 as last_voice
   from rated r
   full join volume v on v.entity_key = r.entity_key
 ),
@@ -925,7 +920,6 @@ scored as (
   select c.*,
          c.pos::float8 / nullif(c.pos + c.neg, 0)             as pct_pos,
          wilson_lower(c.pos, c.pos + c.neg, p.z)              as lb,
-         c.neg::float8 / nullif(c.pos + c.neg, 0)             as neg_share,
          c.pos + c.neg >= p.min_rated                         as rankable,
          coalesce(r.is_chain, false) or coalesce(r.closed, false) as off_board
   from counts c
@@ -949,7 +943,7 @@ gem as (
 )
 select s.entity_key,
        s.pos, s.neg, s.neutral, s.endorse, s.superlative,
-       s.recommenders, s.pct_pos, s.lb, s.neg_share,
+       s.recommenders, s.pct_pos, s.lb,
        s.rankable,
        -- coalesce: with no rankable place at all the lines are NULL.
        coalesce(s.rankable and s.recommenders >= l.busy_line, false) as busy,

@@ -270,8 +270,8 @@ class Rating(BaseModel):
     recommenders: int                 # see above
     pct_pos: Optional[float] = None   # pos / (pos + neg)
     lb: Optional[float] = None        # Wilson lower bound of pct_pos
-    # neg / (pos + neg): the complaint share of the same people pct_pos
-    # counts, the ones /voices?voice=opinions lists.
+    # 1 - pct_pos, kept for compatibility: the complaint share of the same
+    # people, the ones /voices?voice=opinions lists. Not stored.
     neg_share: Optional[float] = None
     rankable: bool                    # pos + neg >= min_rated
     busy: bool

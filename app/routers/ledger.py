@@ -12,7 +12,6 @@ from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import JSONResponse
-from psycopg2.errors import UndefinedTable
 
 from .. import queries
 from ..db import fetch_all, fetch_one, fetch_value, get_conn
@@ -46,13 +45,13 @@ _NOT_BUILT = HTTPException(status_code=503,
 def rating_only(conn, run):
     """run() for a route that exists only to serve the rating, so cannot
     degrade to null: a 503 when the rating views are not built
-    (queries.rating_ready), or when a query finds them gone anyway, which
-    also makes the next request look again."""
+    (queries.rating_ready), or when a query finds them gone or an older
+    build's anyway, which also makes the next request look again."""
     if not queries.rating_ready(conn, fetch_value):
         raise _NOT_BUILT
     try:
         return run()
-    except UndefinedTable:
+    except queries.RATING_MISSING:
         conn.rollback()
         queries.forget_rating_ready()
         raise _NOT_BUILT
@@ -210,14 +209,18 @@ def boards(
     bucket = checked_bucket(window)
 
     def run():
+        # Every rating read inside the guard, the page's ratings included, so
+        # a view that vanishes mid-request is a 503, never a board of nulls.
         rows, total = queries.board_items(conn, board, window, cuisine, borough, limit, offset,
                                           fetch_all, fetch_value)
-        return rows, total, queries.rating_lines(conn, fetch_one)
-    rows, total, lines = rating_only(conn, run)
+        ratings = queries.ratings_for(conn, [r["entity_key"] for r in rows],
+                                      fetch_all, fetch_value, strict=True)
+        return rows, total, queries.rating_lines(conn, fetch_one), ratings
+    rows, total, lines, ratings = rating_only(conn, run)
     return Board(board=board, window_days=window, bucket_days=bucket,
                  cuisine=cuisine, borough=borough, lines=RatingLines(**lines),
                  total=total, limit=limit, offset=offset,
-                 items=_build_items(conn, rows, window, bucket))
+                 items=_build_items(conn, rows, window, bucket, ratings=ratings))
 
 
 # What a place with category voices and no overall one reports overall.
@@ -239,15 +242,18 @@ def build_rating(entry):
     return Rating(
         window_days=entry["window_days"],
         **overall,
+        # Kept for compatibility: the same people as pct_pos, so 1 - pct_pos.
+        neg_share=None if overall["pct_pos"] is None else 1 - overall["pct_pos"],
         categories={c["category"]: CategoryRating(
             **{k: c[k] for k in queries.CATEGORY_RATING_COLUMNS})
             for c in entry["categories"]},
     )
 
 
-def _build_items(conn, rows, window, bucket, topic=None):
+def _build_items(conn, rows, window, bucket, topic=None, ratings=None):
     """Ledger rows -> LedgerItems: windowed series, top neighborhood and the
-    rating added (null when the rating views are not built)."""
+    rating added (null when the rating views are not built). `ratings` is a
+    ratings_for result the caller already read under its own guard."""
     keys = [r["entity_key"] for r in rows]
 
     n = math.ceil(window / bucket)
@@ -262,7 +268,8 @@ def _build_items(conn, rows, window, bucket, topic=None):
         (cur if s["is_current"] else prev)[n - 1 - idx] += s["n"]
     hoods = {h["entity_key"]: h["name"]
              for h in queries.top_neighborhoods(conn, keys, fetch_all)}
-    ratings = queries.ratings_for(conn, keys, fetch_all, fetch_value)
+    if ratings is None:
+        ratings = queries.ratings_for(conn, keys, fetch_all, fetch_value)
 
     items = []
     for r in rows:
