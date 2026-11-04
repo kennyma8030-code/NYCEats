@@ -245,6 +245,16 @@ class Settings(unittest.TestCase):
                 self.assertIn(var, str(cm.exception))
                 self.assertIsInstance(cm.exception, Exception)     # what the poller's _step catches
 
+    def test_a_park_no_longer_than_the_run_interval_is_refused(self):
+        # It would hold nothing back: a failing place would be charged every run.
+        for env in ({"SUMMARY_PARK_HOURS": "0"}, {"SUMMARY_PARK_HOURS": "6"},
+                    {"SUMMARY_PARK_HOURS": "12", "SUMMARY_EVERY_HOURS": "24"}):
+            with self.assertRaises(S.SettingError, msg=env) as cm:
+                S.load_settings(env)
+            self.assertIn("SUMMARY_PARK_HOURS", str(cm.exception))
+            self.assertIn("SUMMARY_EVERY_HOURS", str(cm.exception))
+        self.assertEqual(S.load_settings({"SUMMARY_PARK_HOURS": "6.5"}).park_hours, 6.5)
+
     def test_prompt_hash_moves_with_what_shapes_the_answer(self):
         self.assertEqual(S.prompt_hash("low"), S.prompt_hash("low"))
         self.assertNotEqual(S.prompt_hash("low"), S.prompt_hash("medium"))
@@ -288,15 +298,19 @@ class Work(unittest.TestCase):
             e.status, e.kind = status, kind
             return e
         account = [fatal(401, "authentication_error"), fatal(403, "permission_error"),
-                   fatal(404, "not_found_error"), fatal(400, "billing_error"), fatal(None, "permission_error"),
+                   fatal(404, "not_found_error", "model: claude-haiku-5-5"), fatal(400, "billing_error"),
+                   fatal(None, "permission_error"),
                    fatal(400, "invalid_request_error",
-                         "Your credit balance is too low to access the Anthropic API"),
-                   fatal(400, "invalid_request_error", "billing: payment required")]
+                         "Your credit balance is too low to access the Anthropic API")]
         place = [fatal(400, "invalid_request_error", "prompt is too long: 1200000 tokens > 1000000 maximum"),
                  fatal(413, "request_too_large", "Request exceeds the maximum allowed number of bytes"),
                  fatal(400, "invalid_request_error", "messages.0.content: invalid utf-8")]
         neither = [fatal(400, "invalid_request_error", "output_config.effort: Input should be 'low'"),
                    fatal(422, "invalid_request_error", "unprocessable"),
+                   # a lone word is not the account's: these are charged to their place
+                   fatal(400, "invalid_request_error", "system: the balance of the prompt is off"),
+                   fatal(400, "invalid_request_error", "a credit card number may not be sent"),
+                   fatal(404, "not_found_error", "no such endpoint"),
                    AV.TransientAPIError("gave up after 2 attempts: http 529"), AV.FatalAPIError("no status on it")]
         for e in account:
             self.assertTrue(S.account_wide(e), e)
@@ -425,7 +439,7 @@ class Poller(unittest.TestCase):
     def test_boot_checks_every_setting_and_turns_off_rather_than_fail(self):
         for var, value in (("SUMMARY_RUN_USD", "lots"), ("SUMMARY_MAX_INPUT_TOKENS", "big"),
                            ("SUMMARY_NEW_SHARE", "2"), ("SUMMARY_EFFORT", "max"),
-                           ("SUMMARY_MIN_MENTIONS", "0")):
+                           ("SUMMARY_MIN_MENTIONS", "0"), ("SUMMARY_PARK_HOURS", "0")):
             ok, _, lines = self.boot({S.KEY_VAR: "k", var: value})
             self.assertFalse(ok, var)
             self.assertIn("summaries OFF", lines[0])

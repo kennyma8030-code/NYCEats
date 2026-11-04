@@ -559,6 +559,28 @@ class Failures(SummaryCase):
         self.assertEqual((stats.failed, len(api.requests)), (5, 5))
         self.assertEqual(self.q("select count(*) from place_summaries where attempts = 1")[0][0], 5)
 
+    def test_a_400_that_mentions_a_balance_in_passing_is_the_place_s(self):
+        # Not the account's "credit balance": charged to its place, the run
+        # goes on, and the place cannot stop every run from the queue's head.
+        def answer(p):
+            if "<place>alpha</place>" in p["messages"][0]["content"]:
+                return F.error(400, "invalid_request_error", "system: the balance of this request is invalid")
+            return ok()
+        stats, api, _ = self.write(answer, workers=1)
+        self.assertIsNone(stats.stop)
+        self.assertEqual((stats.written, stats.failed, len(api.requests)), (2, 1, 3))
+        self.assertEqual(self.row("alpha")[0][3], 1)
+        # and the real no-credit refusal still stops the run, charging nobody
+        with self.conn.cursor() as cur:
+            cur.execute("delete from place_summaries")
+        self.conn.commit()
+        stats, api, _ = self.write(lambda p: F.error(400, "invalid_request_error",
+                                                     "Your credit balance is too low to access the Anthropic API."),
+                                   workers=1)
+        self.assertIn("FatalAPIError", stats.stop)
+        self.assertEqual((stats.failed, len(api.requests)), (0, 1))
+        self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 0)
+
     def test_an_account_refusal_outranks_a_streak_in_the_same_page(self):
         # Four calls at once: three time out (a streak) and one is refused
         # for a bad key. The run must report the account, whichever came

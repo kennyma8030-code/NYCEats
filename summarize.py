@@ -96,8 +96,8 @@ than was held for it, or recorded spend past the ceiling, trips a wire
 (extract_v6's): the pass stops, and the poller turns summaries off until it
 restarts.
 
-Failures. A refusal every call would get (401, 403, 404, anything about
-credit, balance or billing) stops the run and charges no place. Any other
+Failures. A refusal every call would get (401, 403, a billing error, "credit
+balance", a 404 about the model) stops the run and charges no place. Any other
 failure (an unusable answer, a refused request, a timeout, a dropped
 connection, 429 or 5xx past their retries) charges its place one attempt
 when it happens; the place keeps its last good summary and goes to the back
@@ -279,6 +279,11 @@ def load_settings(env=None):
     effort = (env.get(EFFORT_VAR) or "low").strip().lower()
     if effort not in EFFORTS:
         raise SettingError(f"{EFFORT_VAR} must be one of {', '.join(EFFORTS)}, not {effort!r}")
+    # A park no longer than the interval between runs holds nothing back: a
+    # failing place would be tried, and charged, every run.
+    if out["park_hours"] <= out["every_hours"]:
+        raise SettingError(f"SUMMARY_PARK_HOURS ({out['park_hours']:g}) must be more than "
+                           f"SUMMARY_EVERY_HOURS ({out['every_hours']:g})")
     return Settings(effort=effort, **out)
 
 
@@ -824,8 +829,12 @@ class TimedOut(Exception):
     the place an attempt."""
 
 
-_ACCOUNT_TYPES = ("authentication_error", "permission_error", "billing_error", "not_found_error")
-_ACCOUNT_WORDS = re.compile(r"credit|balance|billing", re.I)
+_ACCOUNT_TYPES = ("authentication_error", "permission_error", "billing_error")
+# The API's no-credit refusal is a 400 saying "Your credit balance is too
+# low"; the phrase, not a lone word, so a request that mentions a balance in
+# passing is not taken for the account's.
+_NO_CREDIT = re.compile(r"credit balance", re.I)
+_MODEL = re.compile(r"\bmodel\b", re.I)
 # A 400/413 that is about this request's own content: it would come back for
 # this place and no other.
 _PLACE_WORDS = re.compile(r"too (long|large)|exceed|maximum|messages\.\d+\.content|invalid (utf|unicode|character)"
@@ -833,11 +842,16 @@ _PLACE_WORDS = re.compile(r"too (long|large)|exceed|maximum|messages\.\d+\.conte
 
 
 def account_wide(e):
-    """A refusal every request would get: no key or a revoked one, no
-    permission, a model the API does not have, or no credit."""
-    return isinstance(e, AV.FatalAPIError) and (getattr(e, "status", None) in (401, 403, 404)
-                                                or getattr(e, "kind", None) in _ACCOUNT_TYPES
-                                                or bool(_ACCOUNT_WORDS.search(str(e))))
+    """A refusal every request would get: no key or a revoked one (401), no
+    permission (403), a billing error, no credit, or a model the API does
+    not have (a not_found_error about the model). Anything else, another
+    404 included, is charged to its place, so no refusal can hold the head
+    of the queue forever."""
+    if not isinstance(e, AV.FatalAPIError):
+        return False
+    status, kind, text = getattr(e, "status", None), getattr(e, "kind", None), str(e)
+    return (status in (401, 403) or kind in _ACCOUNT_TYPES or bool(_NO_CREDIT.search(text))
+            or (kind == "not_found_error" and status in (404, None) and bool(_MODEL.search(text))))
 
 
 def place_error(e):

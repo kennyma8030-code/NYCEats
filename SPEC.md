@@ -671,8 +671,8 @@ is in `summary_calls`, which the caps are checked against.
   `Ceiling`). Each call is in the ledger before its summary is stored, and a
   pass that fails part way records what it paid for on a fresh connection.
   Key `SUMMARY_ANTHROPIC_API_KEY` only.
-- **Failures.** A refusal every call would get (401, 403, 404, anything
-  about credit, balance or billing) stops the run and charges no place.
+- **Failures.** A refusal every call would get (401, 403, a billing error,
+  "credit balance", a 404 about the model) stops the run and charges no place.
   Every other failure charges its place one attempt when it happens. After
   3 a place is parked for `SUMMARY_PARK_HOURS` (168) from its last failure,
   then gets one more try (`--retry-errors` unparks at once), so an outage
