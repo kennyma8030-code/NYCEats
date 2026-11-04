@@ -23,9 +23,11 @@ set lock_timeout = '5s';
 -- good summary and counts attempts; a place that keeps failing is parked
 -- (summarize.MAX_ATTEMPTS) until `summarize.py --retry-errors`.
 --   mention_count    qualifying comments in the window when it was written
---   last_mention_at  the newest qualifying comment then: the watermark that
---                    "x new mentions" counts from (summarize.py says why it
---                    is a date and not the count)
+--   last_mention_at  when the newest of those comments was written
+--   seen_through     when the newest of their mentions was stored
+--                    (mentions.created_at): the watermark "x new mentions"
+--                    counts from, so a mention extracted late still counts
+--                    as new (summarize.py says why)
 --   input_comments   comments the model was given, and their characters
 create table if not exists place_summaries (
   resolved_key    text primary key,
@@ -34,6 +36,7 @@ create table if not exists place_summaries (
   prompt_hash     text,
   mention_count   int,
   last_mention_at timestamptz,
+  seen_through    timestamptz,
   input_comments  int,
   input_chars     int,
   written_at      timestamptz,
@@ -50,7 +53,8 @@ create table if not exists place_summaries (
 -- against the sum of this table. outcome is 'written', the code of an
 -- answer that could not be used (charged all the same), or 'unseen' for an
 -- attempt that may have been billed with no answer (a timeout), charged its
--- worst case.
+-- worst case, or 'unstored' for an answer paid for that a pass which failed
+-- part way could not store. A call's row is committed before its summary is.
 create table if not exists summary_calls (
   id           bigserial primary key,
   resolved_key text not null,

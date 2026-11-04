@@ -413,11 +413,18 @@ def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=Fals
                     log(f"  anthropic stream {kind}: {_body(e)}")
                     err = FatalAPIError(f"stream {kind}: {_body(e)[:500]}")
                     err.maybe_billed = bool(seen.get("started"))
+                    err.status, err.kind = None, kind
                     raise err from e
                 last, wait, billed = f"stream {kind}", None, bool(seen.get("started"))
             elif status != 429 and status < 500:
                 log(f"  anthropic {status}: {_body(e)}")
-                raise FatalAPIError(f"http {status}: {_body(e)[:500]}") from e
+                # status and kind let a caller tell a refusal of this request
+                # (400, 413) from one every request would get (401, 403,
+                # billing): summarize.py goes on past the first kind.
+                err = FatalAPIError(f"http {status}: {_body(e)[:500]}")
+                err.status = status
+                err.kind = ((e.body if isinstance(e.body, dict) else {}).get("error") or {}).get("type")
+                raise err from e
             else:
                 last = f"http {status}"
                 wait = _retry_after(e)

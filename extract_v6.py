@@ -435,18 +435,19 @@ def _trip(budget, why, log):
     raise Tripped(why)
 
 
-def _check_ceiling(budget, log):
+def _check_ceiling(budget, log, what="v6"):
     """The tripwire's second half: recorded spend past what the ceiling
     allows (Ceiling.allowance) means something spent that the gates did not
     count, so the run stops. A run that began over the ceiling with batches
     to collect is not that: collecting them records what was already held,
-    and the run ends as the ceiling reached, not tripped."""
+    and the run ends as the ceiling reached, not tripped. what names the
+    ledger in the message (summarize.py passes "summary")."""
     if budget.ceiling is None:
         return
     recorded, _ = budget.ceiling.read()
     allowed = budget.ceiling.allowance()
     if recorded > allowed + TRIP_EPS:
-        _trip(budget, f"recorded v6 spend ${recorded:.4f} is over the ${allowed:.2f} the ceiling "
+        _trip(budget, f"recorded {what} spend ${recorded:.4f} is over the ${allowed:.2f} the ceiling "
                       f"${budget.ceiling.limit:.2f} allows", log)
 
 

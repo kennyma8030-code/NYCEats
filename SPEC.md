@@ -635,14 +635,19 @@ A summary is a **cache**: `place_summaries`, one row per
 is in `summary_calls`, which the caps are checked against.
 
 - **Who.** At least `n` = 10 comments in the last 365 days mention the place
-  (`SUMMARY_MIN_MENTIONS`), thread-mode v6 (`prompt_v6.PROMPT_HASH_THREAD`)
-  through `live_mentions`, r/FoodNYC, not deleted later, not AutoModerator,
-  not in `excluded_entities`. Every mention counts, opinion or not; a
-  comment counts once. About 2,750 places on Nov 3, 2026.
-- **When again.** Only after `x` = 5 qualifying comments newer than the
-  newest one the summary saw (`SUMMARY_NEW_MENTIONS`), or a model or prompt
-  change. The watermark is that date, not the count: the count is over a
-  rolling year and can stand still while new comments come in.
+  (`SUMMARY_MIN_MENTIONS`), counted on the mentions the board counts:
+  whatever `live_mentions` holds in v6 mode, comment-mode fallbacks for a
+  failed thread chunk included. r/FoodNYC, not deleted later, not
+  AutoModerator, not in `excluded_entities`. Every mention counts, opinion
+  or not; a comment counts once. About 2,750 places on Nov 3, 2026. Nothing
+  is written while the board reads legacy mentions.
+- **When again.** Only after the larger of `x` = 5 (`SUMMARY_NEW_MENTIONS`)
+  and `SUMMARY_NEW_SHARE` (default 0) times the place's count of qualifying
+  comments have a mention stored since the summary, or a model or prompt
+  change. The watermark is the newest `mentions.created_at` the summary saw
+  (`seen_through`), not a comment date, because extraction runs days behind
+  (and the backlog newest first), and not the count, which is over a rolling
+  year and can stand still while new comments come in.
 - **Input.** Every opinionated comment of the year (`opinion` endorse or
   stated, not `timeframe = 'past'`), topped up with older ones, newest
   first, to 60. Each with its date, thread title, the names used, and v6's
@@ -651,17 +656,28 @@ is in `summary_calls`, which the caps are checked against.
   their opinion or timeframe: 95% of closure mentions are tagged past, so
   without this no summary could say a place closed. A token budget keeps the
   newest only past an estimated 500k (`SUMMARY_MAX_INPUT_TOKENS`); Haiku 5.5
-  reads 1M.
+  reads 1M. Everything users wrote is escaped, so a comment cannot forge
+  the tags around it.
 - **Output.** Two or three attributed sentences, no users, dishes listed,
   scores or citations; closures first; complaints kept as plainly as
   commenters put them. Haiku 5.5, adaptive thinking at `SUMMARY_EFFORT`
   (low), strict JSON, direct calls.
 - **Spend.** `SUMMARY_RUN_USD` ($1) a pass and `SUMMARY_CEILING_USD` ($10)
   in all, each call's worst case held first (extract_v6's `Budget` and
-  `Ceiling`). Key `SUMMARY_ANTHROPIC_API_KEY` only.
+  `Ceiling`). Each call is in the ledger before its summary is stored, and a
+  pass that fails part way records what it paid for on a fresh connection.
+  Key `SUMMARY_ANTHROPIC_API_KEY` only.
+- **Failures.** A bad answer, a refused request or a call lost to timeouts
+  or 429/5xx is an attempt on that place; the pass goes on, the place goes
+  to the back, and after 3 it is parked until `--retry-errors`. Only a
+  refusal every call would get (401, 403, 404, billing) stops the pass, and
+  so do 3 API failures in a row.
 - **Where.** The poller's chores pass, last, with `POLL_SUMMARIZE=1`, at most
-  `POLL_SUMMARIZE_LIMIT` (200) places, 90 s a call, two tries, no new call
-  after 5 minutes. A failing place is parked after 3 tries.
+  `POLL_SUMMARIZE_LIMIT` (200) places, 90 s a call, two tries, no call
+  started after 5 minutes. Every setting is checked at boot; a bad one turns
+  summaries off. A pass is skipped when nothing it reads has changed since
+  a pass that left nothing to do (no new mention id, same read mode,
+  aliases, exclusions, settings and summaries).
 
 ---
 

@@ -485,15 +485,25 @@ def summarize_once(conn, args):
 
     A spend tripwire (a call that cost more than was held for it, or
     recorded spend past the ceiling) turns summaries off until the poller
-    restarts, so nothing more is spent before a person has looked."""
+    restarts, so nothing more is spent before a person has looked.
+
+    Nothing in the step may end the poller: _step catches Exception, and a
+    SystemExit from anywhere below (there should be none: settings were
+    checked at boot and raise SettingError, a ValueError) is caught here and
+    turns summaries off instead."""
     import extract_v6
     import summarize
 
     try:
-        stats = summarize.poll_once(conn, args.summarize_limit, workers=args.summarize_workers)
+        stats = summarize.poll_once(conn, args.summarize_limit, settings=args.summarize_settings,
+                                    workers=args.summarize_workers, gate=args.summarize_gate)
     except extract_v6.Tripped as e:
         args.summarize = False
         print(f"  SUMMARIES OFF until restart: spend tripwire: {e}")
+        return 0
+    except SystemExit as e:
+        args.summarize = False
+        print(f"  SUMMARIES OFF until restart: {e}")
         return 0
     # An API refusal or an outage ends the step inside poll_once, which says
     # so; the next pass tries again.
@@ -624,26 +634,39 @@ def run_chores(conn, args):
     return conn
 
 
-def summarize_boot(log=print):
-    """Whether the summary step can run: like embedding, a missing key or a
-    bad setting turns it off with a line in the log instead of failing the
-    deploy. Summaries are optional; the board is not."""
+def _positive_int(name, raw):
+    try:
+        v = int(str(raw).strip())
+    except ValueError:
+        raise ValueError(f"{name} must be a whole number, not {raw!r}")
+    if v < 1:
+        raise ValueError(f"{name} must be at least 1, not {raw!r}")
+    return v
+
+
+def summarize_boot(args, log=print):
+    """Whether the summary step can run, with every setting it will use
+    checked now: like embedding, a missing key or a bad value turns it off
+    with a line in the log instead of failing the deploy or a later pass.
+    Summaries are optional; the board is not. On success args carries the
+    parsed limit and workers, the checked settings and the pass gate."""
     import summarize
     if not summarize.api_key():
         log(f"summaries OFF: --summarize needs {summarize.KEY_VAR}")
         return False
     try:
-        n = summarize.setting(summarize.MIN_MENTIONS_ENV, int)
-        x = summarize.setting(summarize.NEW_MENTIONS_ENV, int)
-        run_usd = summarize.setting(summarize.RUN_ENV)
-        ceiling = summarize.setting(summarize.CEILING_ENV)
-        eff = summarize.effort()
+        args.summarize_limit = _positive_int("POLL_SUMMARIZE_LIMIT", args.summarize_limit)
+        args.summarize_workers = _positive_int("POLL_SUMMARIZE_WORKERS", args.summarize_workers)
+        s = summarize.load_settings()
         summarize.AV.check_prices(summarize.MODEL)
-    except (SystemExit, summarize.AV.PriceMissing) as e:
+    except (ValueError, summarize.AV.PriceMissing) as e:     # SettingError is a ValueError
         log(f"summaries OFF: {e}")
         return False
-    log(f"summaries on: {summarize.MODEL} at effort {eff}, prompt {summarize.prompt_hash()}, "
-        f"n={n} x={x}, <= ${run_usd:.2f}/cycle, ${ceiling:.2f} ceiling")
+    args.summarize_settings = s
+    args.summarize_gate = summarize.Gate()
+    log(f"summaries on: {summarize.MODEL} at effort {s.effort}, prompt {s.prompt_hash}, n={s.n}, "
+        f"rewrite after max({s.x}, {s.share:g} x count) new, <= {args.summarize_limit} places and "
+        f"${s.run_usd:.2f}/cycle, ${s.ceiling_usd:.2f} ceiling")
     return True
 
 
@@ -705,16 +728,17 @@ def main():
     ap.add_argument("--summarize", action="store_true", default=_env_flag("POLL_SUMMARIZE"),
                     help="also write place summaries every 30 min ($POLL_SUMMARIZE); caps are "
                          "$SUMMARY_RUN_USD per pass and $SUMMARY_CEILING_USD in all")
-    ap.add_argument("--summarize-limit", type=int,
-                    default=int(os.environ.get("POLL_SUMMARIZE_LIMIT", "200")),
+    # Kept as text here and parsed by summarize_boot, only when summaries are
+    # on: argparse would convert (and exit on) a bad value from the
+    # environment even with summaries off, failing the whole boot.
+    ap.add_argument("--summarize-limit", default=os.environ.get("POLL_SUMMARIZE_LIMIT") or "200",
                     help="at most N places summarized per 30-min pass ($POLL_SUMMARIZE_LIMIT, default 200)")
-    ap.add_argument("--summarize-workers", type=int,
-                    default=int(os.environ.get("POLL_SUMMARIZE_WORKERS", "4")),
+    ap.add_argument("--summarize-workers", default=os.environ.get("POLL_SUMMARIZE_WORKERS") or "4",
                     help="concurrent summary calls ($POLL_SUMMARIZE_WORKERS, default 4)")
     args = ap.parse_args()
 
     if args.summarize:
-        args.summarize = summarize_boot()
+        args.summarize = summarize_boot(args)
 
     if args.embed:
         import embedding

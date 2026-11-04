@@ -18,22 +18,34 @@ production: only --status and --dry-run (and --review-only) are read-only,
 everything else calls the API and writes summaries and their cost.
 
 Who gets a summary. A place qualifies with at least SUMMARY_MIN_MENTIONS
-(n, 10) comments in the last WINDOW_DAYS (365) that mention it, counted on
-thread-mode v6 mentions only (prompt_v6.PROMPT_HASH_THREAD, read through
-live_mentions so every exclusion the board makes applies), r/FoodNYC,
-leaving out comments deleted later, AutoModerator, and names in
-excluded_entities. Every mention counts toward n, opinion or not. Mentions
-are counted by comment: two spellings of one place in one comment are one.
-A place with a summary is written again only when SUMMARY_NEW_MENTIONS (x,
-5) qualifying comments have come in since, or the model or the prompt
-changed (prompt_hash). Nothing is rewritten for age alone.
+(n, 10) comments in the last WINDOW_DAYS (365) that mention it. The mentions
+are the ones the board counts: whatever live_mentions holds in v6 mode
+(thread-mode rows, and the comment-mode rows that stand in for a chunk that
+failed), so n, the new-mention count and the input agree with the board.
+r/FoodNYC only, leaving out comments deleted later, AutoModerator, and names
+in excluded_entities. Every mention counts toward n, opinion or not, and
+mentions are counted by comment: two spellings of one place in one comment
+are one. While the board reads legacy mentions nothing is written: those
+rows carry none of the v6 fields the input is chosen by.
 
-The watermark for "x new" is the newest qualifying comment the summary saw
-(last_mention_at), not the count it saw (mention_count, kept for the
-record). The count is over a rolling year, so for a place mentioned once a
-week it stays near 52 forever as old comments fall out while new ones come
-in, and a count difference would never reach x. Comments newer than the
-watermark do.
+When it is written again. A place with a summary is written again only when
+enough qualifying comments are new since it (the larger of
+SUMMARY_NEW_MENTIONS, x = 5, and SUMMARY_NEW_SHARE, default 0, times the
+place's qualifying count), or the model or the prompt changed (prompt_hash).
+Nothing is rewritten for age alone. "New" is by when a mention was stored
+(mentions.created_at), not when its comment was written: extraction runs a
+day or more behind (a thread waits 48 hours, the batch runs daily, the
+backlog goes newest first, a late comment on an old thread is extracted
+whenever it turns up), so a mention can arrive long after its comment, and
+a watermark on comment dates would never see it. created_at is the mention
+row's own insert time, which is exactly when the board could first count it;
+comments.first_seen_at would miss a comment collected long ago and extracted
+now, and extraction_state.extracted_at is the same moment one join further
+away. A summary keeps the newest created_at it saw (seen_through) and counts
+qualifying comments with a mention stored after it. mention_count, the count
+it saw, is kept for the record; a count difference cannot be the watermark,
+because the count is over a rolling year and stands still while new comments
+come in and old ones leave.
 
 What the model reads. Every comment from the last year whose mention of the
 place gives an opinion (v6 opinion 'endorse' or 'stated'), leaving out
@@ -67,23 +79,41 @@ it points the model at the part about this one, and a header counts the
 labels so "most" and "some" come out right. The prompt says the text, not
 the label, is the evidence. v6's notes and dish fields are not sent: they
 are another model's paraphrase, and the summary should rest on what people
-wrote.
+wrote. Everything users wrote (bodies, titles, names) is escaped (&, <, >,
+and " in attributes), so a comment that contains "</comment>" or a fake
+<status_reports> tag stays text and cannot add structure of its own.
 
 Spend. Every call holds its worst case (extract_v6.Budget) under the pass's
 cap (SUMMARY_RUN_USD, default $1, or --max-usd) and the lifetime ceiling
 (SUMMARY_CEILING_USD, default $10), which is read from summary_calls every
-time, so no restart can spend past it. Every call is recorded there, a
-failed answer too (it was billed), and an attempt that may have been billed
-with no answer (a timeout) at its worst case. When the cap or the ceiling
-refuses a call the pass stops and says which loudly. A call that costs more
-than was held for it, or recorded spend past the ceiling, trips a wire: the
-pass stops, and the poller turns summaries off until it restarts.
+time, so no restart can spend past it. Every call is recorded there as soon
+as its answer is back, in a transaction of its own, before its summary is
+stored: a failed answer too (it was billed), an attempt that may have been
+billed with no answer (a timeout) at its worst case, and, if the pass fails
+part way, whatever answers were paid for but not yet stored ('unstored',
+written on a fresh connection as the pass unwinds). When the cap or the
+ceiling refuses a call the pass stops and says which loudly. A call that
+costs more than was held for it, or recorded spend past the ceiling, trips
+a wire (extract_v6's): the pass stops, and the poller turns summaries off
+until it restarts.
 
-Failures. An answer that cannot be used (cut off, refused, not JSON, empty,
-naming a user) is the place's: its row keeps the last good summary, counts
-the attempt, and after MAX_ATTEMPTS (3) the place is parked until
---retry-errors. A 4xx other than 429 is the request's or the account's and
-stops the pass; so do rate limits or outages that outlast the retries.
+Failures are the place's unless they are the account's. An answer that
+cannot be used (cut off, refused, not JSON, empty, naming a user), a request
+the API refuses (400, 413), or a call that times out or meets 429/5xx past
+its retries counts an attempt on that place, keeps its last good summary,
+and the pass goes on with the next place; after MAX_ATTEMPTS (3) the place
+is parked until --retry-errors, and places with failed attempts go after the
+rest. Only a refusal every call would get (401, 403, 404, a billing error)
+stops the pass at once, and so do API_FAILURES_IN_A_ROW (3) API failures in
+a row, which look like an outage or a bad parameter rather than a place.
+
+In the poller (POLL_SUMMARIZE=1) it is the last step of the chores pass:
+at most POLL_SUMMARIZE_LIMIT places, TIMEOUT seconds a call, ATTEMPTS tries,
+no call started after DEADLINE. A pass is skipped outright when nothing it
+reads has changed since a pass that left nothing to do: no new mention, the
+same read mode, aliases, exclusions, settings and prompt, and no change to
+place_summaries from elsewhere. That costs one indexed max(id) and a few
+small counts instead of a year of mentions.
 
 Key: SUMMARY_ANTHROPIC_API_KEY and nothing else (anthropic_v6.client drops
 every other Anthropic credential from the environment). Model claude-haiku-5-5,
@@ -101,6 +131,7 @@ import dataclasses
 import datetime as dt
 import hashlib
 import json
+import math
 import os
 import random
 import re
@@ -111,55 +142,41 @@ import time
 import anthropic_v6 as AV
 import db
 import extract_v6 as EV
-import prompt_v6
 import subreddits
 
 KEY_VAR = "SUMMARY_ANTHROPIC_API_KEY"
 MODEL = "claude-haiku-5-5"
 MAX_TOKENS = 4000                 # thinking included; an answer is ~100 words
-EFFORT_ENV = "SUMMARY_EFFORT"
 EFFORTS = ("low", "medium", "high")
 WINDOW_DAYS = 365
 TARGET_COMMENTS = 60
 STATUS_REPORTS = 5
 MAX_ATTEMPTS = 3
-# Haiku 5.5 reads 1M tokens. The default budget leaves room for the prompt
-# and the answer, and is estimated at a pessimistic 2.5 characters a token
-# (prose runs nearer 4), so it never lets a request reach the limit.
-# SUMMARY_MAX_INPUT_TOKENS sets it; it is left out of prompt_hash, because
-# it changes only the largest places' input, so after changing it rewrite
-# those with --keys ... --force.
-MAX_INPUT_TOKENS_ENV = "SUMMARY_MAX_INPUT_TOKENS"
-CHARS_PER_TOKEN_BUDGET = 2.5
+API_FAILURES_IN_A_ROW = 3
+CHARS_PER_TOKEN_BUDGET = 2.5      # the token budget's estimate: pessimistic, prose runs nearer 4
 # For dry-run estimates only: English prose with light markup, and an answer
 # of a short thinking pass plus ~100 words at effort low.
 CHARS_PER_TOKEN_EST = 3.5
 EST_OUTPUT_TOKENS = 600
 COMMENT_OVERHEAD_CHARS = 110      # the tags, date, names and label around each comment
 
-MIN_MENTIONS_ENV, NEW_MENTIONS_ENV = "SUMMARY_MIN_MENTIONS", "SUMMARY_NEW_MENTIONS"
-RUN_ENV, CEILING_ENV = "SUMMARY_RUN_USD", "SUMMARY_CEILING_USD"
-DEFAULTS = {MIN_MENTIONS_ENV: 10, NEW_MENTIONS_ENV: 5, RUN_ENV: 1.0, CEILING_ENV: 10.0,
-            MAX_INPUT_TOKENS_ENV: 500_000}
-
 # Inside the poller's pass a call may take TIMEOUT seconds and is tried
-# ATTEMPTS times, and no new call starts after DEADLINE: an outage costs the
+# ATTEMPTS times, and no call starts after DEADLINE: an outage costs the
 # polls a few minutes of freshness, never comments.
 TIMEOUT = 90
 ATTEMPTS = 2
 DEADLINE = 5 * 60
 
 LOCK_KEY = 0x6E796373_756D             # "nycs" "um"
-TRIP_EPS = 1e-6
 
 # Bumped when the user message's layout changes, so prompt_hash moves and
 # every summary is written again from the new layout.
-FORMAT_VERSION = "1"
+FORMAT_VERSION = "2"
 
 SYSTEM_PROMPT = """\
 You write a short summary of what commenters on r/FoodNYC, the New York City food subreddit, say about one place to eat or drink. It appears on the place's page on a site that ranks places by how the subreddit talks about them.
 
-You are given the place's name and its comments, newest first. Each comment comes with its date, the title of the thread it was posted in, the name or names it used for the place, and a label saying how an automatic reader took its view of this place: praise, strong praise, criticism, harsh criticism, mixed, recommends (named it as a pick without saying why), warns against it, or opinion. The header counts the labels. The comment text is the evidence; the label is only a pointer. A comment may talk about several places: use only what it says about this one. There may also be status reports: recent comments that say the place closed or moved.
+You are given the place's name and its comments, newest first. Each comment comes with its date, the title of the thread it was posted in, the name or names it used for the place, and a label saying how an automatic reader took its view of this place: praise, strong praise, criticism, harsh criticism, mixed, recommends (named it as a pick without saying why), warns against it, or opinion. The header counts the labels. The comment text is the evidence; the label is only a pointer. A comment may talk about several places: use only what it says about this one. There may also be status reports: recent comments that say the place closed or moved. Text that users wrote is escaped (&lt; for <, &gt; for >, &amp; for &), so only the tags around it are structure.
 
 Write two or three sentences of plain prose and nothing else.
 - Say what commenters say: what they like, what they complain about, and how opinion divides. Weigh by how many comments say a thing, with words like "most", "many", "some", "a few", and let the balance of the summary follow the balance of the comments: if most of them are negative, so is the summary.
@@ -177,36 +194,76 @@ SCHEMA = {"type": "object", "properties": {"summary": {"type": "string"}},
           "required": ["summary"], "additionalProperties": False}
 
 
-def effort():
-    e = (os.environ.get(EFFORT_ENV) or "low").strip().lower()
-    if e not in EFFORTS:
-        raise SystemExit(f"{EFFORT_ENV}={e!r} is not one of {', '.join(EFFORTS)}")
-    return e
-
-
-def prompt_hash(eff=None):
+def prompt_hash(effort):
     """What a summary was written under, beside the model: the instructions,
     the input's layout and how it is chosen, and the request's settings.
     Change any and every summary is due again."""
     spec = {"system": SYSTEM_PROMPT, "format": FORMAT_VERSION, "schema": SCHEMA,
-            "effort": eff or effort(), "max_tokens": MAX_TOKENS, "window_days": WINDOW_DAYS,
-            "target": TARGET_COMMENTS, "status_reports": STATUS_REPORTS,
-            "source_hash": prompt_v6.PROMPT_HASH_THREAD}
+            "effort": effort, "max_tokens": MAX_TOKENS, "window_days": WINDOW_DAYS,
+            "target": TARGET_COMMENTS, "status_reports": STATUS_REPORTS}
     return hashlib.sha256(json.dumps(spec, sort_keys=True).encode("utf-8")).hexdigest()[:12]
 
 
-def setting(name, cast=float):
-    """An env-configurable number; a value that is not a positive number refuses to run."""
-    raw = os.environ.get(name)
-    if raw is None or not raw.strip():
-        return cast(DEFAULTS[name])
-    try:
-        v = cast(raw)
-    except ValueError:
-        raise SystemExit(f"{name} must be a number, not {raw!r}")
-    if not v > 0:
-        raise SystemExit(f"{name} must be above zero, not {raw!r}")
-    return v
+# ---------------------------------------------------------------- settings
+class SettingError(ValueError):
+    """A summary setting that cannot be used. A ValueError, never SystemExit:
+    the poller's step catches it like any other failure (and its boot turns
+    summaries off), and the CLI turns it into an exit of its own."""
+
+
+# name: (variable, type, default, lowest, highest)
+SETTINGS = {
+    "n": ("SUMMARY_MIN_MENTIONS", int, 10, 1, None),
+    "x": ("SUMMARY_NEW_MENTIONS", int, 5, 1, None),
+    "share": ("SUMMARY_NEW_SHARE", float, 0.0, 0.0, 1.0),
+    "run_usd": ("SUMMARY_RUN_USD", float, 1.0, 1e-9, None),
+    "ceiling_usd": ("SUMMARY_CEILING_USD", float, 10.0, 1e-9, None),
+    "max_input_tokens": ("SUMMARY_MAX_INPUT_TOKENS", int, 500_000, 1000, None),
+}
+EFFORT_VAR = "SUMMARY_EFFORT"
+
+
+@dataclasses.dataclass(frozen=True)
+class Settings:
+    n: int = 10
+    x: int = 5
+    share: float = 0.0
+    run_usd: float = 1.0
+    ceiling_usd: float = 10.0
+    max_input_tokens: int = 500_000
+    effort: str = "low"
+
+    @property
+    def prompt_hash(self):
+        return prompt_hash(self.effort)
+
+    def threshold(self, n):
+        """New qualifying comments that make a place with n of them due again."""
+        return max(self.x, math.ceil(self.share * n))
+
+
+def load_settings(env=None):
+    """Every summary setting from the environment, checked: SettingError
+    names the first that is not usable."""
+    env = os.environ if env is None else env
+    out = {}
+    for name, (var, cast, default, low, high) in SETTINGS.items():
+        raw = env.get(var)
+        if raw is None or not raw.strip():
+            out[name] = default
+            continue
+        try:
+            v = cast(raw.strip())
+        except ValueError:
+            raise SettingError(f"{var} must be {'a whole number' if cast is int else 'a number'}, not {raw!r}")
+        if v != v or v in (float("inf"), float("-inf")) or v < low or (high is not None and v > high):
+            span = f"from {low} to {high}" if high is not None else f"at least {low:g}"
+            raise SettingError(f"{var} must be {span}, not {raw!r}")
+        out[name] = v
+    effort = (env.get(EFFORT_VAR) or "low").strip().lower()
+    if effort not in EFFORTS:
+        raise SettingError(f"{EFFORT_VAR} must be one of {', '.join(EFFORTS)}, not {effort!r}")
+    return Settings(effort=effort, **out)
 
 
 def api_key():
@@ -270,11 +327,12 @@ def _since(conn, days=WINDOW_DAYS):
 class Place:
     key: str
     n: int                    # qualifying comments in the window
-    newest: dt.datetime       # the newest of them: the next watermark
+    newest: dt.datetime       # when the newest of them was written
+    seen: dt.datetime         # when the newest of their mentions was stored: the next watermark
     opinions: int             # of them, ones with an opinion that would be sent
     negative: int             # of those, criticism or warnings
     closed: int               # comments in the window saying it closed or moved
-    fresh: int                # qualifying comments newer than the stored watermark
+    fresh: int                # qualifying comments with a mention stored after the watermark
     has_summary: bool
     model: str = None
     prompt_hash: str = None
@@ -286,6 +344,7 @@ class Place:
 _QUALIFYING = """
 with base as (
   select coalesce(a.resolved_key, m.entity_key) as rkey, m.comment_id, c.created_utc,
+         m.created_at as stored,
          m.opinion in ('endorse', 'stated') and m.timeframe is distinct from 'past' as op,
          m.opinion in ('endorse', 'stated') and m.timeframe is distinct from 'past'
            and (coalesce(m.avoid, false) or (m.opinion = 'stated' and m.overall_level < 0)) as neg,
@@ -293,17 +352,16 @@ with base as (
   from live_mentions m
   join comments c on c.id = m.comment_id
   left join entity_alias a on a.entity_key = m.entity_key
-  where m.prompt_hash = %(hash)s
-    and c.subreddit = %(sub)s
+  where c.subreddit = %(sub)s
     and c.created_utc > %(since)s
     and not coalesce(c.was_deleted_later, false)
     and c.author is distinct from 'AutoModerator'
 )
-select b.rkey, count(distinct b.comment_id), max(b.created_utc),
+select b.rkey, count(distinct b.comment_id), max(b.created_utc), max(b.stored),
        count(distinct b.comment_id) filter (where b.op),
        count(distinct b.comment_id) filter (where b.neg),
        count(distinct b.comment_id) filter (where b.moved),
-       count(distinct b.comment_id) filter (where b.created_utc > s.last_mention_at),
+       count(distinct b.comment_id) filter (where b.stored > s.seen_through),
        s.summary is not null, s.model, s.prompt_hash, coalesce(s.attempts, 0), s.error, s.written_at
 from base b
 left join {summaries} s on s.resolved_key = b.rkey
@@ -316,49 +374,51 @@ having count(distinct b.comment_id) >= %(n)s
 # applied: every place reads as never summarized.
 _NO_SUMMARIES = """(select null::text as resolved_key, null::text as summary, null::text as model,
                      null::text as prompt_hash, 0 as attempts, null::text as error,
-                     null::timestamptz as written_at, null::timestamptz as last_mention_at limit 0)"""
+                     null::timestamptz as written_at, null::timestamptz as seen_through limit 0)"""
 
 
-def qualifying(conn, n, keys=None, since=None):
-    """Every place that qualifies now, with where its summary stands."""
+def qualifying(conn, n, keys=None, since=None, have_tables=None):
+    """Every place that qualifies now, with where its summary stands.
+    have_tables says whether place_summaries exists, when the caller knows."""
     if keys is not None and not keys:
         return []
     if since is None:
         _, since = _since(conn)
+    if have_tables is None:
+        have_tables = tables_exist(conn)
     sql = _QUALIFYING.format(keys="and b.rkey = any(%(keys)s)" if keys is not None else "",
-                             summaries="place_summaries" if tables_exist(conn) else _NO_SUMMARIES)
+                             summaries="place_summaries" if have_tables else _NO_SUMMARIES)
     with conn.cursor() as cur:
-        cur.execute(sql, {"hash": prompt_v6.PROMPT_HASH_THREAD, "sub": subreddits.HOME, "since": since,
-                          "n": n, "keys": list(keys or [])})
+        cur.execute(sql, {"sub": subreddits.HOME, "since": since, "n": n, "keys": list(keys or [])})
         rows = cur.fetchall()
     conn.commit()
     return [Place(*r) for r in rows]
 
 
-REASONS = ("new", "fresh", "prompt")
-
-
-def due_reason(p, model, phash, x, force=False):
-    """Why a qualifying place is due ('new', 'fresh', 'prompt'), 'parked' for
-    one that failed MAX_ATTEMPTS times, or None when its summary is current."""
+def due_reason(p, model, phash, x, force=False, share=0.0):
+    """Why a qualifying place is due ('new', 'fresh', 'prompt', 'forced'),
+    'parked' for one that failed MAX_ATTEMPTS times, or None when its summary
+    is current. 'fresh' needs the larger of x and share of its count."""
     if p.attempts >= MAX_ATTEMPTS:
         return "parked"
     if not p.has_summary:
         return "new"
     if p.model != model or p.prompt_hash != phash:
         return "prompt"
-    if p.fresh >= x:
+    if p.fresh >= max(x, math.ceil(share * p.n)):
         return "fresh"
     return "forced" if force else None
 
 
-def due(places, model, phash, x, force=False):
-    """[(place, reason)] for the places to write, first places with no
-    summary, then the ones with most new discussion, then prompt changes,
-    the busiest first within each."""
+def due(places, model, phash, x, force=False, share=0.0):
+    """[(place, reason)] for the places to write: places with no failed
+    attempt first, so one that keeps failing cannot hold the head of every
+    pass; then places with no summary, then the ones with most new
+    discussion, then prompt changes, the busiest first within each."""
     order = {"new": 0, "fresh": 1, "forced": 1, "prompt": 2}
-    out = [(p, r) for p in places for r in [due_reason(p, model, phash, x, force)] if r in order]
-    return sorted(out, key=lambda pr: (order[pr[1]], -pr[0].fresh if pr[1] == "fresh" else 0, -pr[0].n, pr[0].key))
+    out = [(p, r) for p in places for r in [due_reason(p, model, phash, x, force, share)] if r in order]
+    return sorted(out, key=lambda pr: (pr[0].attempts, order[pr[1]], -pr[0].fresh if pr[1] == "fresh" else 0,
+                                       -pr[0].n, pr[0].key))
 
 
 # ---------------------------------------------------------------- input
@@ -425,7 +485,6 @@ join threads t on t.id = c.thread_id
 left join entity_alias a on a.entity_key = m.entity_key
 where m.entity_key in (select entity_key from entity_alias where resolved_key = any(%(keys)s)
                        union all select unnest(%(keys)s::text[]))
-  and m.prompt_hash = %(hash)s
   and c.subreddit = %(sub)s
   and not coalesce(c.was_deleted_later, false)
   and c.author is distinct from 'AutoModerator'
@@ -434,19 +493,15 @@ where m.entity_key in (select entity_key from entity_alias where resolved_key = 
 """
 
 
-def read_inputs(conn, keys, since, text=True, budget_tokens=None):
+def read_inputs(conn, keys, since, text=True, budget_tokens=Settings.max_input_tokens):
     """{key: Input} for these places, chosen as the module docstring says.
     text=False reads only sizes, for dry runs over every place."""
     keys = list(keys)
     if not keys:
         return {}
-    if budget_tokens is None:
-        budget_tokens = setting(MAX_INPUT_TOKENS_ENV, int)
     cols = "t.title, c.body" if text else "null::text, null::text"
     with conn.cursor() as cur:
-        cur.execute(_INPUT_ROWS.format(text=cols),
-                    {"keys": keys, "hash": prompt_v6.PROMPT_HASH_THREAD, "sub": subreddits.HOME,
-                     "since": since})
+        cur.execute(_INPUT_ROWS.format(text=cols), {"keys": keys, "sub": subreddits.HOME, "since": since})
         rows = cur.fetchall()
     conn.commit()
     want = set(keys)
@@ -467,7 +522,7 @@ def read_inputs(conn, keys, since, text=True, budget_tokens=None):
 
 
 def select(key, comments, since, target=TARGET_COMMENTS, reports=STATUS_REPORTS,
-           budget_tokens=DEFAULTS[MAX_INPUT_TOKENS_ENV]):
+           budget_tokens=Settings.max_input_tokens):
     """The comments a place's summary is written from (see the module docstring)."""
     newest_first = sorted(comments, key=lambda c: (c.created, c.id), reverse=True)
     ops = [c for c in newest_first if c.opinionated]
@@ -487,16 +542,21 @@ def select(key, comments, since, target=TARGET_COMMENTS, reports=STATUS_REPORTS,
     return Input(key, name, kept, status, len(recent), len(ops), len(picked) - len(kept))
 
 
-def _attr(v):
-    """An attribute value: only the double quote would break it, and an
-    entity in a name ("Ferrara&#x27;s") is noise to the model."""
-    return str(v).replace('"', "'")
+def _esc(text):
+    """Text a user wrote, made inert inside the tags: & first, so an entity
+    someone typed ("&lt;") reaches the model as they typed it."""
+    return (text or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def _attr(text):
+    return _esc(text).replace('"', "&quot;")
 
 
 def render(inp, today):
-    """The user message: today's date, the place, the comments and the status reports."""
+    """The user message: today's date, the place, the comments and the status
+    reports. Every string a user wrote goes through _esc or _attr."""
     tally = collections.Counter(TALLY[c.label()] for c in inp.comments)
-    out = [f"<today>{today:%Y-%m-%d}</today>", f"<place>{inp.name}</place>",
+    out = [f"<today>{today:%Y-%m-%d}</today>", f"<place>{_esc(inp.name)}</place>",
            f'<comments count="{len(inp.comments)}" praise="{tally["praise"]}" '
            f'criticism="{tally["criticism"]}" mixed="{tally["mixed"]}" '
            f'recommends="{tally["recommends"]}" other="{tally["other"]}">']
@@ -504,24 +564,24 @@ def render(inp, today):
         status = f' reports="{c.status}"' if c.status else ""
         out += [f'<comment date="{c.created:%Y-%m-%d}" names="{_attr("; ".join(c.names))}" '
                 f'read_as="{c.label()}"{status}>',
-                f"<thread_title>{c.title or ''}</thread_title>", (c.body or "").strip(), "</comment>"]
+                f"<thread_title>{_esc(c.title)}</thread_title>", _esc(c.body).strip(), "</comment>"]
     out.append("</comments>")
     if inp.reports:
         out.append(f'<status_reports count="{len(inp.reports)}">')
         for c in inp.reports:
             out += [f'<comment date="{c.created:%Y-%m-%d}" names="{_attr("; ".join(c.names))}" '
                     f'reports="{c.status}">',
-                    f"<thread_title>{c.title or ''}</thread_title>", (c.body or "").strip(), "</comment>"]
+                    f"<thread_title>{_esc(c.title)}</thread_title>", _esc(c.body).strip(), "</comment>"]
         out.append("</status_reports>")
     return "\n".join(out)
 
 
-def params(user, eff=None):
+def params(user, effort):
     return {"model": MODEL, "max_tokens": MAX_TOKENS,
             "system": [{"type": "text", "text": SYSTEM_PROMPT}],
             "messages": [{"role": "user", "content": user}],
             "thinking": {"type": "adaptive"},
-            "output_config": {"effort": eff or effort(),
+            "output_config": {"effort": effort,
                               "format": {"type": "json_schema", "schema": SCHEMA}}}
 
 
@@ -554,59 +614,55 @@ def read_summary(message):
 
 
 # ---------------------------------------------------------------- writes
-def _ledger(cur, key, phash, outcome, cost, usage=None):
-    cur.execute("""insert into summary_calls (resolved_key, model, prompt_hash, outcome, cost_usd, usage)
-                   values (%s, %s, %s, %s, %s, %s)""",
-                (key, MODEL, phash, outcome, round(cost, 8), json.dumps(usage) if usage is not None else None))
+def record_calls(conn, key, phash, rows):
+    """Paid calls into the ledger, [(outcome, cost, usage)], in a transaction
+    of their own, so nothing that fails afterwards can lose them."""
+    if not rows:
+        return
+    with conn.cursor() as cur:
+        for outcome, cost, usage in rows:
+            cur.execute("""insert into summary_calls (resolved_key, model, prompt_hash, outcome, cost_usd, usage)
+                           values (%s, %s, %s, %s, %s, %s)""",
+                        (key, MODEL, phash, outcome, round(cost, 8),
+                         json.dumps(usage) if usage is not None else None))
+    conn.commit()
 
 
 def store(conn, place, inp, summary, usage, cost, phash):
-    """Write a summary and its call in one transaction. The watermark is the
-    newest qualifying comment when the place was read."""
+    """Write a summary (its call is already in the ledger). The watermark is
+    the newest mention stored when the place was read."""
     with conn.cursor() as cur:
-        _ledger(cur, place.key, phash, "written", cost, usage)
         cur.execute("""
             insert into place_summaries (resolved_key, summary, model, prompt_hash, mention_count,
-                                         last_mention_at, input_comments, input_chars, written_at,
-                                         cost_usd, usage, attempts, error, failed_at, updated_at)
-            values (%s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s, 0, null, null, now())
+                                         last_mention_at, seen_through, input_comments, input_chars,
+                                         written_at, cost_usd, usage, attempts, error, failed_at, updated_at)
+            values (%s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s, 0, null, null, now())
             on conflict (resolved_key) do update set
               summary = excluded.summary, model = excluded.model, prompt_hash = excluded.prompt_hash,
               mention_count = excluded.mention_count, last_mention_at = excluded.last_mention_at,
+              seen_through = excluded.seen_through,
               input_comments = excluded.input_comments, input_chars = excluded.input_chars,
               written_at = now(), cost_usd = excluded.cost_usd, usage = excluded.usage,
               attempts = 0, error = null, failed_at = null, updated_at = now()""",
-                    (place.key, summary, MODEL, phash, place.n, place.newest,
+                    (place.key, summary, MODEL, phash, place.n, place.newest, place.seen,
                      len(inp.comments) + len(inp.reports), inp.chars, round(cost, 8), json.dumps(usage)))
     conn.commit()
 
 
-def record_failure(conn, key, err, usage, cost, phash):
-    """An answer that could not be used (err, an AV.ItemError): its cost goes
-    in the ledger under its code, the attempt on the place, whose last good
-    summary, if any, stays."""
+def record_attempt(conn, key, error):
+    """A failed attempt on a place, whose last good summary, if any, stays.
+    Returns its attempts so far."""
     with conn.cursor() as cur:
-        _ledger(cur, key, phash, err.code, cost, usage)
         cur.execute("""
             insert into place_summaries (resolved_key, attempts, error, failed_at, updated_at)
             values (%s, 1, %s, now(), now())
             on conflict (resolved_key) do update set
               attempts = place_summaries.attempts + 1, error = excluded.error,
               failed_at = now(), updated_at = now()
-            returning attempts""", (key, str(err)[:500]))
+            returning attempts""", (key, str(error)[:500]))
         attempts = cur.fetchone()[0]
     conn.commit()
     return attempts
-
-
-def record_unseen(conn, key, amounts, phash):
-    """Attempts that may have been billed with no answer, at their worst case."""
-    if not amounts:
-        return
-    with conn.cursor() as cur:
-        for a in amounts:
-            _ledger(cur, key, phash, "unseen", a)
-    conn.commit()
 
 
 def retry_errors(conn):
@@ -620,9 +676,10 @@ def retry_errors(conn):
 # ---------------------------------------------------------------- run
 class Stats:
     def __init__(self):
-        self.written = self.failed = self.parked = self.empty = self.refused = 0
+        self.written = self.failed = self.parked = self.empty = self.refused = self.late = 0
+        self.skipped = False      # the gate found nothing changed since a clean pass
         self.stop = None          # why the pass ended early, if it did
-        self.results = []         # (place, input, user, summary or None, cost, error) for --review
+        self.results = []         # (request, summary or None, cost, error) for --review
 
     def line(self, budget=None):
         out = f"{self.written} written, {self.failed} failed ({self.parked} parked), {self.empty} with nothing to send"
@@ -639,15 +696,57 @@ class Request:
     worst: float
 
 
-def _work(cl, budget, req, stop, attempts, sleep, log):
+@dataclasses.dataclass
+class Result:
+    status: str                       # answered | error | capped | late | skipped
+    message: object = None
+    cost: float = 0.0
+    unseen: list = dataclasses.field(default_factory=list)   # worst cases of attempts that may have billed
+    error: Exception = None
+
+
+# Refusals every request would get, so the pass stops at once: no key or a
+# revoked one, no permission, no credit, or a model the API does not have.
+_EVERY_CALL = ("authentication_error", "permission_error", "billing_error", "not_found_error")
+
+
+def account_wide(e):
+    return isinstance(e, AV.FatalAPIError) and (getattr(e, "status", None) in (401, 403, 404)
+                                                or getattr(e, "kind", None) in _EVERY_CALL)
+
+
+class Streak:
+    """API failures in a row, across the pass's workers. Counted where the
+    calls are made, so the call that would be one too many sees the stop
+    before it starts, rather than after the main thread has caught up."""
+
+    def __init__(self, limit=API_FAILURES_IN_A_ROW):
+        self.limit, self.n, self.hit = limit, 0, False
+        self._lock = threading.Lock()
+
+    def failed(self, stop):
+        with self._lock:
+            self.n += 1
+            if self.n >= self.limit:
+                self.hit = True
+                stop.set()
+
+    def answered(self):
+        with self._lock:
+            self.n = 0
+
+
+def _work(cl, budget, req, effort, stop, attempts, sleep, log, deadline, streak=None):
     """The network half, on a worker thread: reserve, call, settle. Touches no
-    database. Returns (status, message or error, cost, unseen charges)."""
+    database. No call starts after the deadline or once the pass is stopping."""
     if stop.is_set():
-        return "skipped", None, 0.0, []
+        return Result("skipped")
+    if deadline is not None and time.monotonic() >= deadline:
+        return Result("late")
     w = req.worst
     if not budget.reserve(w):
         stop.set()
-        return "capped", None, 0.0, []
+        return Result("capped")
     held, unseen = [True], []
 
     def again():
@@ -658,55 +757,90 @@ def _work(cl, budget, req, stop, attempts, sleep, log):
         held[0] = budget.reserve(w)
         return held[0]
     try:
-        msg = AV.call(cl, params(req.user), attempts=attempts, sleep=sleep, log=log, retry_ok=again)
+        msg = AV.call(cl, params(req.user, effort), attempts=attempts, sleep=sleep, log=log, retry_ok=again)
     except AV.CapReached:
         stop.set()
-        return "capped", None, 0.0, unseen
+        return Result("capped", unseen=unseen)
     except (AV.FatalAPIError, AV.TransientAPIError) as e:
         if held[0]:
             billed = w if getattr(e, "maybe_billed", False) else 0.0
             budget.settle(w, billed)
             if billed:
                 unseen.append(billed)
-        stop.set()
-        return "error", e, 0.0, unseen
+        if account_wide(e):
+            stop.set()
+        elif streak is not None:
+            streak.failed(stop)
+        return Result("error", unseen=unseen, error=e)
+    if streak is not None:
+        streak.answered()
     c = AV.cost(AV.usage_of(msg), batch=False, model=MODEL)
     budget.settle(w, c)
-    if c > w + TRIP_EPS:
+    if c > w + EV.TRIP_EPS:
         budget.trip(f"{req.place.key} cost ${c:.6f}, over the ${w:.6f} held for it")
         stop.set()
-    return "answered", msg, c, unseen
+    return Result("answered", msg, c, unseen)
 
 
-def _trip(budget, why, log):
-    budget.trip(why)
-    log(f"\n!!!!!!!! SUMMARY SPEND TRIPWIRE: {why}. Nothing more is sent; summaries stay off until "
-        "a person has looked. !!!!!!!!\n")
-    raise EV.Tripped(why)
+def _ledger_rows(res, outcome):
+    rows = [("unseen", a, None) for a in res.unseen]
+    if res.status == "answered":
+        rows.append((outcome, res.cost, AV.usage_of(res.message)))
+    return rows
 
 
-def run(conn, cl, budget, todo, workers=4, attempts=ATTEMPTS, deadline=None, sleep=None, log=print,
-        keep=False, now=None, since=None):
+def _flush(pending, connect, phash, log):
+    """As a failed pass unwinds: every answer paid for but not yet in the
+    ledger goes in now, on a fresh connection (the pass's own may be what
+    failed), so the ceiling never under-counts."""
+    rows = []
+    for fut, req in pending.items():
+        if fut.cancelled() or not fut.done() or fut.exception() is not None:
+            continue
+        r = _ledger_rows(fut.result(), "unstored")
+        if r:
+            rows.append((req.place.key, r))
+    if not rows:
+        return
+    total = sum(c for _, r in rows for _, c, _ in r)
+    try:
+        c = connect()
+        try:
+            for key, r in rows:
+                record_calls(c, key, phash, r)
+        finally:
+            c.close()
+        log(f"  summaries: recorded ${total:.6f} of calls the failed pass had not stored")
+    except Exception as e:
+        log(f"\n!!!!!!!! SUMMARY LEDGER: could not record ${total:.6f} of paid calls ({e}); "
+            "summary_calls under-counts by that much !!!!!!!!\n")
+
+
+def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, deadline=None, sleep=None,
+        log=print, keep=False, now=None, since=None, connect=None):
     """Write summaries for todo, [(place, reason)] in order, until it is done,
-    the cap or the ceiling refuses a call, the API stops the pass, or the
-    deadline (time.monotonic()) passes. Places are read and sent a page at a
-    time; every write happens here, on the caller's connection, as answers
-    arrive. keep=True keeps each request and answer in stats.results."""
+    the cap or the ceiling refuses a call, the API refuses every call, or
+    the deadline (time.monotonic()) passes. Places are read and sent a page
+    at a time. Every write happens here, on the caller's connection, as
+    answers arrive: a call's ledger row first, then its outcome. keep=True
+    keeps each request and answer in stats.results."""
+    settings = settings or Settings()
     stats = Stats()
-    phash = prompt_hash()
+    phash = settings.prompt_hash
     if now is None or since is None:
         now, since = _since(conn)
     stop = threading.Event()
     page = max(1, workers * 2)
-    halt = None
+    halt, streak = None, Streak()
+    pending = {}
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=max(1, workers))
     try:
         for start in range(0, len(todo), page):
             if deadline is not None and time.monotonic() >= deadline:
-                stats.stop = stats.stop or "out of time for this pass"
+                stats.stop = "out of time for this pass"
                 break
             chunk = [p for p, _ in todo[start:start + page]]
-            inputs = read_inputs(conn, [p.key for p in chunk], since)
+            inputs = read_inputs(conn, [p.key for p in chunk], since, budget_tokens=settings.max_input_tokens)
             reqs = []
             for p in chunk:
                 inp = inputs[p.key]
@@ -715,41 +849,62 @@ def run(conn, cl, budget, todo, workers=4, attempts=ATTEMPTS, deadline=None, sle
                     continue
                 user = render(inp, now)
                 reqs.append(Request(p, inp, user, worst(user)))
-            futures = {pool.submit(_work, cl, budget, r, stop, attempts, sleep, log): r for r in reqs}
+            futures = {pool.submit(_work, cl, budget, r, settings.effort, stop, attempts, sleep, log, deadline,
+                                   streak): r
+                       for r in reqs}
+            pending.update(futures)
             for fut in concurrent.futures.as_completed(futures):
                 req = futures[fut]
-                status, res, c, unseen = fut.result()
-                record_unseen(conn, req.place.key, unseen, phash)
-                if status == "capped":
-                    stats.refused += 1
-                elif status == "error":
-                    halt = halt or res
-                    if keep:
-                        stats.results.append((req, None, 0.0, f"{type(res).__name__}: {res}"))
-                elif status == "answered":
-                    usage = AV.usage_of(res)
+                res = fut.result()
+                summary = err = None
+                if res.status == "answered":
                     try:
-                        summary = read_summary(res)
+                        summary = read_summary(res.message)
                     except AV.ItemError as e:
-                        n = record_failure(conn, req.place.key, e, usage, c, phash)
+                        err = e
+                record_calls(conn, req.place.key, phash, _ledger_rows(res, err.code if err else "written"))
+                del pending[fut]
+                key = req.place.key
+                if res.status == "capped":
+                    stats.refused += 1
+                elif res.status == "late":
+                    stats.late += 1
+                elif res.status == "error":
+                    if keep:
+                        stats.results.append((req, None, 0.0, f"{type(res.error).__name__}: {res.error}"))
+                    if account_wide(res.error):
+                        halt = halt or res.error
+                        continue
+                    n = record_attempt(conn, key, f"api: {type(res.error).__name__}: {res.error}")
+                    stats.failed += 1
+                    stats.parked += n >= MAX_ATTEMPTS
+                    log(f"  {key}: {type(res.error).__name__}: {res.error}"
+                        + (" -- parked" if n >= MAX_ATTEMPTS else ""))
+                    if streak.hit and halt is None:
+                        halt = res.error
+                elif res.status == "answered":
+                    usage = AV.usage_of(res.message)
+                    if err is not None:
+                        n = record_attempt(conn, key, err)
                         stats.failed += 1
                         stats.parked += n >= MAX_ATTEMPTS
-                        log(f"  {req.place.key}: {e}" + (" -- parked" if n >= MAX_ATTEMPTS else ""))
+                        log(f"  {key}: {err}" + (" -- parked" if n >= MAX_ATTEMPTS else ""))
                         if keep:
-                            stats.results.append((req, None, c, str(e)))
+                            stats.results.append((req, None, res.cost, str(err)))
                     else:
-                        store(conn, req.place, req.inp, summary, usage, c, phash)
+                        store(conn, req.place, req.inp, summary, usage, res.cost, phash)
                         stats.written += 1
                         if keep:
-                            stats.results.append((req, summary, c, None))
+                            stats.results.append((req, summary, res.cost, None))
             if budget.tripped:
-                _trip(budget, budget.tripped, log)
-            recorded, _ = budget.ceiling.read()
-            if recorded > budget.ceiling.allowance() + TRIP_EPS:
-                _trip(budget, f"recorded summary spend ${recorded:.4f} is over the "
-                              f"${budget.ceiling.limit:.2f} ceiling", log)
+                EV._trip(budget, budget.tripped, log)
+            EV._check_ceiling(budget, log, what="summary")
             if halt is not None:
-                stats.stop = f"{type(halt).__name__}: {halt}"
+                stats.stop = (f"{type(halt).__name__}: {halt}" if account_wide(halt) else
+                              f"{API_FAILURES_IN_A_ROW} places in a row failed at the API, last {halt}")
+                break
+            if stats.late:
+                stats.stop = "out of time for this pass"
                 break
             if stats.refused:
                 which = budget.refused_by or "cap"
@@ -763,22 +918,60 @@ def run(conn, cl, budget, todo, workers=4, attempts=ATTEMPTS, deadline=None, sle
     except BaseException:
         stop.set()
         pool.shutdown(wait=True, cancel_futures=True)
+        _flush(pending, connect or db.connect, phash, log)
         raise
     pool.shutdown(wait=True)
-    if isinstance(halt, AV.FatalAPIError):
-        log(f"  SUMMARIES STOPPED -- the API rejected the request itself: {halt}")
+    if halt is not None and account_wide(halt):
+        log(f"  SUMMARIES STOPPED -- the API refuses every request: {halt}")
     elif halt is not None:
-        log(f"  summaries stopped early, will retry next pass: {halt}")
+        log(f"  summaries stopped early, will retry next pass: {stats.stop}")
     return stats
 
 
 # ---------------------------------------------------------------- the poller's step
-def poll_once(conn, limit, max_usd=None, ceiling_usd=None, workers=4, connect=None, cl=None, log=print,
-              deadline=None, sleep=None):
+class Gate:
+    """Lets the poller skip a pass in which nothing could be due.
+
+    A place only becomes due when a mention arrives (new or fresh), when
+    the read mode, aliases or exclusions change who a mention belongs to,
+    when the settings or prompt change, or when place_summaries is changed
+    from elsewhere (--retry-errors). Time alone never makes one due: the
+    rolling year only takes comments away. So after a pass that left
+    nothing to do, the next one is skipped until one of those moves. Every
+    part is cheap: max(id) on mentions' primary key and counts of small
+    tables, never the year of live_mentions."""
+
+    def __init__(self):
+        self.clean = None
+
+    @staticmethod
+    def inputs(conn):
+        with conn.cursor() as cur:
+            cur.execute("""select (select max(id) from mentions),
+                                  (select read_version from extraction_settings),
+                                  (select count(*) from alias_overrides),
+                                  (select count(*) from excluded_entities)""")
+            row = cur.fetchone()
+        conn.commit()
+        return row
+
+    @staticmethod
+    def summaries(conn):
+        with conn.cursor() as cur:
+            cur.execute("select count(*), max(updated_at) from place_summaries")
+            row = cur.fetchone()
+        conn.commit()
+        return row
+
+
+def poll_once(conn, limit, settings=None, workers=4, connect=None, cl=None, log=print,
+              deadline=None, sleep=None, gate=None, max_usd=None, ceiling_usd=None):
     """One chores-pass step: write what is due, up to `limit` places, under
-    the pass's cap and the lifetime ceiling. Never raises for a missing key
-    or missing tables; a spend tripwire is raised (EV.Tripped) so the
-    poller can switch summaries off."""
+    the pass's cap and the lifetime ceiling. Never raises for a missing key,
+    missing tables or the legacy read mode, and raises nothing that is not
+    an Exception; a spend tripwire is raised (EV.Tripped) so the poller can
+    switch summaries off. settings are the ones checked at boot."""
+    settings = settings or load_settings()
     if not api_key() and cl is None:
         log(f"  summaries: no {KEY_VAR}; skipping")
         return None
@@ -789,22 +982,39 @@ def poll_once(conn, limit, max_usd=None, ceiling_usd=None, workers=4, connect=No
         log("  summaries: another summary run holds the lock; skipping this pass")
         return None
     try:
-        n, x = setting(MIN_MENTIONS_ENV, int), setting(NEW_MENTIONS_ENV, int)
+        before = Gate.inputs(conn)
+        if before[1] != "v6":
+            log("  summaries: the board reads legacy mentions, which carry no v6 fields; skipping")
+            return None
+        mark = (before, settings, MODEL)
+        if gate is not None and gate.clean == (mark, Gate.summaries(conn)):
+            stats = Stats()
+            stats.skipped = True
+            return stats
+        if gate is not None:
+            gate.clean = None          # until this pass ends clean
         now, since = _since(conn)
-        todo = due(qualifying(conn, n, since=since), MODEL, prompt_hash(), x)[:limit]
-        if not todo:
-            return Stats()
-        budget = make_budget(max_usd if max_usd is not None else setting(RUN_ENV),
-                             ceiling_usd if ceiling_usd is not None else setting(CEILING_ENV), connect)
-        try:
-            cl = cl or client(api_key(), timeout=TIMEOUT)
-            stats = run(conn, cl, budget, todo, workers=workers, attempts=ATTEMPTS,
-                        deadline=deadline if deadline is not None else time.monotonic() + DEADLINE,
-                        sleep=sleep, log=log, now=now, since=since)
-        finally:
-            budget.ceiling.close()
-        if stats.written or stats.failed or stats.stop:
-            log(f"  summaries: {stats.line(budget)} ({len(todo)} due this pass)")
+        due_now = due(qualifying(conn, settings.n, since=since, have_tables=True), MODEL, settings.prompt_hash,
+                      settings.x, share=settings.share)
+        todo = due_now[:limit]
+        stats = Stats()
+        if todo:
+            budget = make_budget(max_usd if max_usd is not None else settings.run_usd,
+                                 ceiling_usd if ceiling_usd is not None else settings.ceiling_usd, connect)
+            try:
+                cl = cl or client(api_key(), timeout=TIMEOUT)
+                stats = run(conn, cl, budget, todo, settings, workers=workers, attempts=ATTEMPTS,
+                            deadline=deadline if deadline is not None else time.monotonic() + DEADLINE,
+                            sleep=sleep, log=log, now=now, since=since, connect=connect)
+            finally:
+                budget.ceiling.close()
+            if stats.written or stats.failed or stats.stop:
+                log(f"  summaries: {stats.line(budget)} ({len(due_now)} due)")
+        if gate is not None:
+            # Clean: everything due was tried and nothing is owed a retry. Places
+            # with nothing to send stay due on paper; a new mention reopens them.
+            clean = stats.stop is None and len(due_now) <= limit and not stats.failed
+            gate.clean = (mark, Gate.summaries(conn)) if clean else None
         return stats
     finally:
         try:
@@ -814,14 +1024,15 @@ def poll_once(conn, limit, max_usd=None, ceiling_usd=None, workers=4, connect=No
 
 
 # ---------------------------------------------------------------- read-only reports
-def status(conn, log=print):
+def status(conn, settings, log=print):
+    phash = settings.prompt_hash
     with conn.cursor() as cur:
         cur.execute("""select count(*) filter (where summary is not null),
                               count(*) filter (where summary is not null and prompt_hash = %s and model = %s),
                               count(*) filter (where attempts > 0 and attempts < %s),
                               count(*) filter (where attempts >= %s),
                               max(written_at)
-                       from place_summaries""", (prompt_hash(), MODEL, MAX_ATTEMPTS, MAX_ATTEMPTS))
+                       from place_summaries""", (phash, MODEL, MAX_ATTEMPTS, MAX_ATTEMPTS))
         written, current, failing, parked, last = cur.fetchone()
         cur.execute("""select coalesce(sum(cost_usd), 0), count(*),
                               coalesce(sum(cost_usd) filter (where called_at > now() - interval '1 day'), 0),
@@ -835,11 +1046,11 @@ def status(conn, log=print):
                        order by attempts desc, failed_at desc limit 10""")
         errors = cur.fetchall()
     conn.commit()
-    log(f"model {MODEL}, prompt {prompt_hash()}, effort {effort()}")
+    log(f"model {MODEL}, prompt {phash}, effort {settings.effort}")
     log(f"summaries: {written:,} written ({current:,} current), {failing} failing, {parked} parked; "
         f"last written {last}")
     log(f"spend: ${float(total):.4f} over {calls:,} calls (${float(day):.4f} in 24h, ${float(month):.4f} in 30d); "
-        f"ceiling ${setting(CEILING_ENV):.2f}")
+        f"ceiling ${settings.ceiling_usd:.2f}")
     for o, k in outcomes:
         log(f"  {k:6,}  {o}")
     for key, a, err in errors:
@@ -851,22 +1062,27 @@ def _pct(xs, p):
     return xs[min(len(xs) - 1, int(p * len(xs)))] if xs else 0
 
 
-def dry_run(conn, n, x, keys=None, limit=None, force=False, print_input=False, log=print):
+def dry_run(conn, settings, keys=None, limit=None, force=False, print_input=False, log=print):
     """What qualifies and is due, the inputs' sizes, and what writing them
     would cost. Reads only."""
     now, since = _since(conn)
-    phash = prompt_hash()
-    places = qualifying(conn, n, keys=keys, since=since)
-    reasons = collections.Counter(due_reason(p, MODEL, phash, x, force) or "current" for p in places)
-    log(f"{len(places):,} places qualify (n={n} comments in {WINDOW_DAYS}d, thread-mode v6 "
-        f"{prompt_v6.PROMPT_HASH_THREAD}); prompt {phash}, x={x}")
+    phash = settings.prompt_hash
+    if EV.read_version(conn) != "v6":
+        log("WARNING: the board reads legacy mentions; nothing is written until it reads v6")
+    places = qualifying(conn, settings.n, keys=keys, since=since)
+    reasons = collections.Counter(due_reason(p, MODEL, phash, settings.x, force, settings.share) or "current"
+                                  for p in places)
+    log(f"{len(places):,} places qualify (n={settings.n} comments in {WINDOW_DAYS}d, the v6 mentions the board "
+        f"counts); prompt {phash}, rewrite after max({settings.x}, {settings.share:g} x count) new")
     if keys is not None:
         missing = sorted(set(keys) - {p.key for p in places})
         if missing:
             log(f"  not qualifying: {', '.join(missing)}")
     log("  " + ", ".join(f"{k} {v:,}" for k, v in reasons.most_common()))
-    todo = due(places, MODEL, phash, x, force)[:limit] if limit else due(places, MODEL, phash, x, force)
-    inputs = read_inputs(conn, [p.key for p, _ in todo], since, text=print_input)
+    todo = due(places, MODEL, phash, settings.x, force, settings.share)
+    todo = todo[:limit] if limit else todo
+    inputs = read_inputs(conn, [p.key for p, _ in todo], since, text=print_input,
+                         budget_tokens=settings.max_input_tokens)
     sizes = [(p, inputs[p.key]) for p, _ in todo]
     sendable = [(p, i) for p, i in sizes if i.comments or i.reports]
     comments = [len(i.comments) for _, i in sendable]
@@ -923,8 +1139,8 @@ def pick_sample(places, size=50, seed=20261103):
     take(sorted(pool, key=lambda p: -p.n), k["busiest"], "busiest")
     # Most complained about by share, among places with enough criticism
     # that leaving it out would be a real miss.
-    worst = [p for p in pool if p.negative >= 8]
-    take(sorted(worst, key=lambda p: (-p.negative / p.opinions, -p.negative)), k["complaints"], "complaints")
+    worst_ = [p for p in pool if p.negative >= 8]
+    take(sorted(worst_, key=lambda p: (-p.negative / p.opinions, -p.negative)), k["complaints"], "complaints")
     take(sorted((p for p in pool if p.closed), key=lambda p: -p.closed), k["closed"], "closed or moved")
     low = min((p.n for p in pool), default=0)
     small = [p for p in pool if p.n <= low + 2]
@@ -963,9 +1179,9 @@ def write_review(path, results, header, log=print):
     log(f"wrote {path} ({len(results)} places)")
 
 
-def _sample_or_keys(conn, args, n, since):
+def _sample_or_keys(conn, args, settings, since):
     keys = args.keys
-    places = qualifying(conn, n, keys=keys, since=since)
+    places = qualifying(conn, settings.n, keys=keys, since=since)
     if args.sample:
         chosen = pick_sample(places, args.sample)
     else:
@@ -977,13 +1193,13 @@ def _sample_or_keys(conn, args, n, since):
     return chosen
 
 
-def review_only(conn, args, n, log=print):
+def review_only(conn, args, settings, log=print):
     """The review file from stored summaries and the inputs as they would be
     chosen now (which may differ from what a summary was written from if
     comments have come in since). Reads only."""
     now, since = _since(conn)
-    chosen = _sample_or_keys(conn, args, n, since)
-    inputs = read_inputs(conn, [p.key for p, _ in chosen], since)
+    chosen = _sample_or_keys(conn, args, settings, since)
+    inputs = read_inputs(conn, [p.key for p, _ in chosen], since, budget_tokens=settings.max_input_tokens)
     stored = {}
     if tables_exist(conn):
         with conn.cursor() as cur:
@@ -998,7 +1214,7 @@ def review_only(conn, args, n, log=print):
         results.append((Request(p, inp, render(inp, now), 0.0), why, s, float(c or 0), err))
     write_review(args.review, results,
                  [f"From stored summaries, inputs as chosen at {now:%Y-%m-%d %H:%M} UTC; "
-                  f"model {MODEL}, prompt {prompt_hash()}."], log)
+                  f"model {MODEL}, prompt {settings.prompt_hash}."], log)
 
 
 # ---------------------------------------------------------------- main
@@ -1020,15 +1236,17 @@ def main(argv=None):
                     help="with --review: from stored summaries, no API calls; read-only")
     ap.add_argument("--force", action="store_true", help="with --keys: rewrite even a current summary")
     ap.add_argument("--limit", type=int, help="at most this many places")
-    ap.add_argument("--max-usd", type=float, help=f"cap on this run (default ${RUN_ENV} or $1)")
+    ap.add_argument("--max-usd", type=float, help="cap on this run (default $SUMMARY_RUN_USD or $1)")
     ap.add_argument("--ceiling-usd", type=float,
-                    help=f"lifetime ceiling on all summary spend (default ${CEILING_ENV} or $10)")
+                    help="lifetime ceiling on all summary spend (default $SUMMARY_CEILING_USD or $10)")
     ap.add_argument("--workers", type=int, default=4, help="calls at once (default 4)")
     ap.add_argument("--retry-errors", action="store_true", help="unpark places that failed too often, then run")
     args = ap.parse_args(argv)
 
-    n, x = setting(MIN_MENTIONS_ENV, int), setting(NEW_MENTIONS_ENV, int)
-    effort()
+    try:
+        settings = load_settings()
+    except SettingError as e:
+        raise SystemExit(str(e))
     if args.review_only and not args.review:
         raise SystemExit("--review-only needs --review FILE")
     if (args.review or args.review_only) and not (args.sample or args.keys):
@@ -1045,27 +1263,30 @@ def main(argv=None):
     if not (args.dry_run or args.review_only) and not tables_exist(conn):
         raise SystemExit("place_summaries is missing: apply summary_schema.sql first")
     if args.status:
-        return status(conn)
+        return status(conn, settings)
     if args.review_only:
-        return review_only(conn, args, n)
+        return review_only(conn, args, settings)
     if args.dry_run:
         if args.sample:
             _, since = _since(conn)
-            chosen = _sample_or_keys(conn, args, n, since)
+            chosen = _sample_or_keys(conn, args, settings, since)
             for p, why in chosen:
                 print(f"  {why:16} {p.key} ({p.n} comments, {p.opinions} opinions, {p.negative} critical, "
                       f"{p.closed} closed/moved)")
             args.keys = [p.key for p, _ in chosen]
             args.force = True
-        dry_run(conn, n, x, keys=args.keys, limit=args.limit, force=args.force, print_input=args.print_input)
+        dry_run(conn, settings, keys=args.keys, limit=args.limit, force=args.force, print_input=args.print_input)
         return
 
     key = api_key()
     if not key:
         raise SystemExit(f"{KEY_VAR} is not set")
     AV.check_prices(MODEL)
-    max_usd = args.max_usd if args.max_usd is not None else setting(RUN_ENV)
-    ceiling = args.ceiling_usd if args.ceiling_usd is not None else setting(CEILING_ENV)
+    if EV.read_version(conn) != "v6":
+        raise SystemExit("the board reads legacy mentions, which carry no v6 fields: nothing to summarize")
+    max_usd = args.max_usd if args.max_usd is not None else settings.run_usd
+    ceiling = args.ceiling_usd if args.ceiling_usd is not None else settings.ceiling_usd
+    phash = settings.prompt_hash
     if not try_lock(conn):
         raise SystemExit("another summary run (or the poller's step) holds the lock; try again shortly")
     try:
@@ -1073,20 +1294,21 @@ def main(argv=None):
             print(f"unparked {retry_errors(conn)} place(s)")
         now, since = _since(conn)
         if args.sample or args.keys:
-            chosen = _sample_or_keys(conn, args, n, since)
+            chosen = _sample_or_keys(conn, args, settings, since)
             why = {p.key: w for p, w in chosen}
             force = args.force or bool(args.sample)
-            todo = due([p for p, _ in chosen], MODEL, prompt_hash(), x, force)
+            todo = due([p for p, _ in chosen], MODEL, phash, settings.x, force, settings.share)
         else:
             why = {}
-            todo = due(qualifying(conn, n, since=since), MODEL, prompt_hash(), x)
+            todo = due(qualifying(conn, settings.n, since=since, have_tables=True), MODEL, phash,
+                       settings.x, share=settings.share)
         todo = todo[:args.limit] if args.limit else todo
         print(f"{len(todo):,} place(s) to write, ${max_usd:.2f} cap, ${ceiling:.2f} ceiling, "
-              f"{MODEL} at effort {effort()}, prompt {prompt_hash()}")
+              f"{MODEL} at effort {settings.effort}, prompt {phash}")
         budget = make_budget(max_usd, ceiling)
         print(f"  recorded summary spend so far: ${budget.ceiling.start:.4f}")
         try:
-            stats = run(conn, client(key), budget, todo, workers=args.workers, attempts=AV.ATTEMPTS,
+            stats = run(conn, client(key), budget, todo, settings, workers=args.workers, attempts=AV.ATTEMPTS,
                         keep=bool(args.review), now=now, since=since)
         except EV.Tripped:
             return EV.TRIPPED
@@ -1096,8 +1318,8 @@ def main(argv=None):
         if args.review:
             done = [(req, why.get(req.place.key, "due"), s, c, e) for req, s, c, e in stats.results]
             write_review(args.review, done,
-                         [f"Written {now:%Y-%m-%d %H:%M} UTC with {MODEL} at effort {effort()}, prompt "
-                          f"{prompt_hash()}; ${budget.spent:.4f} spent."])
+                         [f"Written {now:%Y-%m-%d %H:%M} UTC with {MODEL} at effort {settings.effort}, prompt "
+                          f"{phash}; ${budget.spent:.4f} spent."])
     finally:
         unlock(conn)
 
