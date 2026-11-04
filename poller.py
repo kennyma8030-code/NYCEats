@@ -26,6 +26,12 @@ With --embed (or POLL_EMBED=1) the chores pass also embeds the newly
 extracted r/FoodNYC rows for semantic search, last, after the refresh. That
 step is optional by design: without a key it is switched off at boot, and
 any failure in it is logged and skipped, never allowed to hold up the board.
+
+With --summarize (or POLL_SUMMARIZE=1) the chores pass then writes place
+summaries (summarize.py) for whatever qualifies and is due, under a per-pass
+cap and a lifetime ceiling. Optional in the same way: without
+SUMMARY_ANTHROPIC_API_KEY it is off at boot, a failure is logged and skipped,
+and a spend tripwire turns it off until the poller restarts.
 """
 
 import argparse
@@ -470,6 +476,30 @@ def embed_once(conn, days, limit, max_usd, scope, workers):
     return n
 
 
+def summarize_once(conn, args):
+    """Write the place summaries that are due (summarize.py), at most
+    args.summarize_limit places, under SUMMARY_RUN_USD for the pass and
+    SUMMARY_CEILING_USD in all. Last in the pass, after the refresh and
+    embedding, so it can never delay the board; bounded by a short per-call
+    timeout, two attempts and a deadline after which no new call starts.
+
+    A spend tripwire (a call that cost more than was held for it, or
+    recorded spend past the ceiling) turns summaries off until the poller
+    restarts, so nothing more is spent before a person has looked."""
+    import extract_v6
+    import summarize
+
+    try:
+        stats = summarize.poll_once(conn, args.summarize_limit, workers=args.summarize_workers)
+    except extract_v6.Tripped as e:
+        args.summarize = False
+        print(f"  SUMMARIES OFF until restart: spend tripwire: {e}")
+        return 0
+    # An API refusal or an outage ends the step inside poll_once, which says
+    # so; the next pass tries again.
+    return stats.written if stats else 0
+
+
 def refresh_once(conn):
     """Rebuild the board after new mentions landed."""
     import refresh
@@ -589,7 +619,32 @@ def run_chores(conn, args):
     if args.embed:
         _, conn = _step("embed", embed_once, conn, args.embed_days, args.embed_limit,
                         args.embed_max_usd, args.embed_scope, args.embed_workers)
+    if getattr(args, "summarize", False):
+        _, conn = _step("summarize", summarize_once, conn, args)
     return conn
+
+
+def summarize_boot(log=print):
+    """Whether the summary step can run: like embedding, a missing key or a
+    bad setting turns it off with a line in the log instead of failing the
+    deploy. Summaries are optional; the board is not."""
+    import summarize
+    if not summarize.api_key():
+        log(f"summaries OFF: --summarize needs {summarize.KEY_VAR}")
+        return False
+    try:
+        n = summarize.setting(summarize.MIN_MENTIONS_ENV, int)
+        x = summarize.setting(summarize.NEW_MENTIONS_ENV, int)
+        run_usd = summarize.setting(summarize.RUN_ENV)
+        ceiling = summarize.setting(summarize.CEILING_ENV)
+        eff = summarize.effort()
+        summarize.AV.check_prices(summarize.MODEL)
+    except (SystemExit, summarize.AV.PriceMissing) as e:
+        log(f"summaries OFF: {e}")
+        return False
+    log(f"summaries on: {summarize.MODEL} at effort {eff}, prompt {summarize.prompt_hash()}, "
+        f"n={n} x={x}, <= ${run_usd:.2f}/cycle, ${ceiling:.2f} ceiling")
+    return True
 
 
 def _env_flag(name):
@@ -647,7 +702,19 @@ def main():
     ap.add_argument("--embed-workers", type=int,
                     default=int(os.environ.get("POLL_EMBED_WORKERS", "2")),
                     help="concurrent embedding requests ($POLL_EMBED_WORKERS, default 2)")
+    ap.add_argument("--summarize", action="store_true", default=_env_flag("POLL_SUMMARIZE"),
+                    help="also write place summaries every 30 min ($POLL_SUMMARIZE); caps are "
+                         "$SUMMARY_RUN_USD per pass and $SUMMARY_CEILING_USD in all")
+    ap.add_argument("--summarize-limit", type=int,
+                    default=int(os.environ.get("POLL_SUMMARIZE_LIMIT", "200")),
+                    help="at most N places summarized per 30-min pass ($POLL_SUMMARIZE_LIMIT, default 200)")
+    ap.add_argument("--summarize-workers", type=int,
+                    default=int(os.environ.get("POLL_SUMMARIZE_WORKERS", "4")),
+                    help="concurrent summary calls ($POLL_SUMMARIZE_WORKERS, default 4)")
     args = ap.parse_args()
+
+    if args.summarize:
+        args.summarize = summarize_boot()
 
     if args.embed:
         import embedding

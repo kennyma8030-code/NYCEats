@@ -375,11 +375,15 @@ class Ceiling:
     allowance() is what recorded spend may reach before the tripwire fires:
     the ceiling, or, when a run starts with recorded spend plus batches in
     flight already past it (a restart that only collects), that sum, since
-    collecting those batches can record up to their holds and no more."""
+    collecting those batches can record up to their holds and no more.
 
-    def __init__(self, limit, connect):
+    spend is the ledger it reads, spend_on_record unless given: summarize.py
+    caps the summaries' own spend with this same class and its own ledger."""
+
+    def __init__(self, limit, connect, spend=None):
         self.limit = float(limit)
         self._connect = connect
+        self._spend = spend or spend_on_record
         self._conn = None
         self._lock = threading.Lock()
         self.start, self.start_inflight = self.read()
@@ -391,7 +395,7 @@ class Ceiling:
                 self._conn = self._connect()
                 self._conn.set_session(readonly=True, autocommit=True)
             with self._conn.cursor() as cur:
-                return spend_on_record(cur)
+                return self._spend(cur)
 
     def room(self, run_spent_held=0.0, run_reserved=0.0):
         recorded, inflight = self.read()

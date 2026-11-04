@@ -131,13 +131,15 @@ def api_key():
     return os.environ.get(KEY_VAR) or None
 
 
-def client(key, base_url=None):
+def client(key, base_url=None, timeout=None):
     """The SDK client, with its own retries off: call() retries, so it can
-    count what each attempt may have cost."""
+    count what each attempt may have cost. timeout is per request, TIMEOUT
+    unless given: summarize.py runs inside the poller's pass, so its calls
+    get less."""
     import anthropic
     for var in _ENV_OVERRIDES:
         os.environ.pop(var, None)
-    kw = {"api_key": key, "max_retries": 0, "timeout": TIMEOUT}
+    kw = {"api_key": key, "max_retries": 0, "timeout": timeout or TIMEOUT}
     if base_url:
         kw["base_url"] = base_url
     return anthropic.Anthropic(**kw)
@@ -226,11 +228,11 @@ def _rates(input_tokens, model=None):
     return entry["long"] if input_tokens > entry["long_above"] else entry["base"]
 
 
-def cost(usage, batch):
+def cost(usage, batch, model=None):
     u = usage or {}
     tin = ((u.get("input_tokens") or 0) + (u.get("cache_creation_input_tokens") or 0)
            + (u.get("cache_read_input_tokens") or 0))
-    p = _rates(tin)
+    p = _rates(tin, model)
     c = ((u.get("input_tokens") or 0) * p["in"]
          + (u.get("cache_creation_input_tokens") or 0) * p["cache_write"]
          + (u.get("cache_read_input_tokens") or 0) * p["cache_read"]
@@ -238,12 +240,12 @@ def cost(usage, batch):
     return c * (BATCH_DISCOUNT if batch else 1.0)
 
 
-def worst_case(system, user, batch, max_tokens=None):
+def worst_case(system, user, batch, max_tokens=None, model=None):
     """The most one request can cost: all input billed as a cache write, all of
     max_tokens out, at the long-prompt rates when the input could be over
     their threshold."""
     tin = (len(system) + len(user)) / CHARS_PER_TOKEN_UPPER + SCHEMA_OVERHEAD_TOKENS
-    p = _rates(tin)
+    p = _rates(tin, model)
     return (tin * p["cache_write"] + (max_tokens or prompt_v6.MAX_TOKENS) * p["out"]) \
         * (BATCH_DISCOUNT if batch else 1.0)
 
@@ -293,6 +295,17 @@ def parse(message, max_tokens=None):
     finished answer always says why it stopped, so a missing stop_reason (an
     answer assembled from a stream that never finished) is refused too.
     """
+    obj = answer_json(message, max_tokens)
+    if not isinstance(obj, dict) or not isinstance(obj.get("mentions"), list) \
+            or not all(isinstance(x, dict) for x in obj["mentions"]):
+        raise ItemError("invalid_json", "no mentions list")
+    return obj
+
+
+def answer_json(message, max_tokens=None):
+    """The JSON a finished answer's text holds, or ItemError: parse()'s checks
+    of how the answer stopped, shared with summarize.py, whose answer is a
+    different object."""
     m = _dump(message) or {}
     stop = m.get("stop_reason")
     if stop == "max_tokens":
@@ -307,9 +320,6 @@ def parse(message, max_tokens=None):
         obj = json.loads(text)
     except (TypeError, ValueError) as e:
         raise ItemError("invalid_json", f"{type(e).__name__}: {e}"[:200])
-    if not isinstance(obj, dict) or not isinstance(obj.get("mentions"), list) \
-            or not all(isinstance(x, dict) for x in obj["mentions"]):
-        raise ItemError("invalid_json", "no mentions list")
     return obj
 
 
