@@ -510,6 +510,17 @@ A dims change past 1,024 also needs a new column type, since the columns are
 - **Entity resolution.** Still the hardest part and most likely to sink it.
   pgvector is available in Postgres, so embedding + gazetteer blocking can live
   in the same database.
+- **Short, generic keys** ("joes", "rays", "blue ribbon"). Decided by hand for
+  now, in `migrations/generic_keys.sql`: a fragment that in context means one
+  place is merged into it, one that means several is pinned to itself and put
+  in `excluded_entities` as ambiguous, and one that is a real restaurant ("The
+  Modern", "The Grill", "Craft") is left alone. No general rule yet, because
+  the evidence is against the obvious ones. Being contained in several longer
+  keys flagged 29 keys in Nov 2026, and 12 of them were single real places.
+  Choosing the longer key that the same thread names sent "The Grill" to Rudy's
+  and Bobby Van's, and "Ramirez" to Carnitas when most meant Taqueria. A rule
+  that splits one typed key across places would also need identity per mention,
+  where `entity_alias` is per typed key and every reader joins it that way.
 - Unresolved names: pending-cluster, drop, or manual queue.
 - Chains, closed restaurants.
 - Exact half-lives, pseudo-count, momentum floor. All still placeholders.
