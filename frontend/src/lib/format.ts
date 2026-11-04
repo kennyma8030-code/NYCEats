@@ -6,7 +6,7 @@ export const ASPECT_LABEL: Record<AspectKey, string> = {
   food: "Taste",
   value: "Value",
   service: "Service",
-  atmosphere: "Room",
+  atmosphere: "Atmosphere",
   wait: "Wait",
 };
 

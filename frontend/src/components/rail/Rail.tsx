@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { Facets, Flaw, Need } from "../../api/types";
-import { activeFilterCount, type Filters, type View } from "../../state/filters";
+import { activeFilterCount, boardFilterCount, type Filters, type View } from "../../state/filters";
 import { CategoryPicker } from "./CategoryPicker";
 import { PeriodPicker } from "./PeriodPicker";
 import { FilterControls } from "./FilterControls";
@@ -26,7 +26,7 @@ interface Props {
 
 export function Rail({ view, onView, filters, facets, onChange, onToggleNeed, onToggleFlaw, onClear, onPick, onPreview, opening }: Props) {
   const more = useRef<HTMLDetailsElement>(null);
-  const count = activeFilterCount(filters);
+  const count = view === "boards" ? boardFilterCount(filters) : activeFilterCount(filters);
 
   // On wide screens the filters sit open in the rail; on phones they fold
   // into a disclosure. Re-run on coming back from the feed, which unmounts
@@ -50,20 +50,27 @@ export function Rail({ view, onView, filters, facets, onChange, onToggleNeed, on
         <button type="button" aria-pressed={view === "restaurants"} onClick={() => onView("restaurants")}>
           Restaurants
         </button>
+        <button type="button" aria-pressed={view === "boards"} onClick={() => onView("boards")}>
+          Boards
+        </button>
         <button type="button" aria-pressed={view === "comments"} onClick={() => onView("comments")}>
           <i className="live" aria-hidden="true" />
           Live feed
         </button>
       </nav>
-      {view === "restaurants" && (
+      {view !== "comments" && (
         <>
           <SearchBox onPick={onPick} onPreview={onPreview} opening={opening} />
-          <div>
-            <p className="lab">Ranking</p>
-            <AlgoPicker value={filters.algo} onChange={(algo) => onChange({ algo })} />
-          </div>
-          <TopicBox value={filters.topic} onChange={(topic) => onChange({ topic })} />
-          <CategoryPicker value={filters.category} onChange={(category) => onChange({ category })} />
+          {view === "restaurants" && (
+            <>
+              <div>
+                <p className="lab">Ranking</p>
+                <AlgoPicker value={filters.algo} onChange={(algo) => onChange({ algo })} />
+              </div>
+              <TopicBox value={filters.topic} onChange={(topic) => onChange({ topic })} />
+              <CategoryPicker value={filters.category} onChange={(category) => onChange({ category })} />
+            </>
+          )}
           <div>
             <p className="lab">Period</p>
             <PeriodPicker value={filters.window} onChange={(window) => onChange({ window })} />
@@ -80,6 +87,7 @@ export function Rail({ view, onView, filters, facets, onChange, onToggleNeed, on
                 onToggleNeed={onToggleNeed}
                 onToggleFlaw={onToggleFlaw}
                 onClear={onClear}
+                boards={view === "boards"}
               />
             </div>
           </details>

@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "./api/client";
-import type { Algo, LedgerItem, WindowDays } from "./api/types";
-import { restaurantFromUrl, setRestaurantInUrl, setViewInUrl, useFilters, viewFromUrl, type View } from "./state/filters";
+import type { Algo, BoardId, LedgerItem, WindowDays } from "./api/types";
+import { DEFAULT_FILTERS, boardFromUrl, restaurantFromUrl, setBoardInUrl, setRestaurantInUrl, setViewInUrl, useFilters, viewFromUrl, type View } from "./state/filters";
 import { useLedger } from "./hooks/useLedger";
 import { useFacets } from "./hooks/useFacets";
 import { ledgerMatches } from "./lib/fresh";
 import type { NameHit } from "./lib/search";
 import { Rail } from "./components/rail/Rail";
+import { BoardList } from "./components/ledger/BoardList";
 import { LedgerList } from "./components/ledger/LedgerList";
 import { DetailPanel } from "./components/detail/DetailPanel";
 import { LiveFeed } from "./components/feed/LiveFeed";
@@ -14,9 +15,13 @@ import "./App.css";
 
 export default function App() {
   const { filters, update, toggleNeed, toggleFlaw, clear } = useFilters();
-  const ledger = useLedger(filters);
-  const facets = useFacets();
   const [view, setView] = useState<View>(viewFromUrl);
+  const ledger = useLedger(filters, view !== "boards");
+  const facets = useFacets();
+  // The boards use only cuisine and borough: leave the ledger's own filters alone.
+  const clearBoard = useCallback(() => update({ cuisine: "", borough: "" }), [update]);
+  const [board, setBoard] = useState<BoardId>(boardFromUrl);
+  useEffect(() => setBoardInUrl(board), [board]);
   useEffect(() => {
     setViewInUrl(view);
     window.scrollTo(0, 0);
@@ -36,7 +41,11 @@ export default function App() {
   // Only the most recent pick may open; a slow earlier one must not win.
   const latestPick = useRef<string | null>(null);
 
-  const topic = filters.topic.trim();
+  // The boards do not use the ledger's ranking or topic, so a place opened
+  // from them is read with the defaults, and never swapped for a row ranked
+  // under a topic the person cannot see.
+  const topic = view === "boards" ? "" : filters.topic.trim();
+  const rankAlgo: Algo = view === "boards" ? DEFAULT_FILTERS.algo : filters.algo;
   const select = useCallback((item: LedgerItem, window: WindowDays, algo: Algo, topic: string) => {
     setSelected(item);
     setSelectedWindow(window);
@@ -45,8 +54,8 @@ export default function App() {
     setOpen(true);
   }, []);
   const selectRow = useCallback(
-    (item: LedgerItem) => select(item, filters.window, filters.algo, topic),
-    [select, filters.window, filters.algo, topic],
+    (item: LedgerItem) => select(item, filters.window, rankAlgo, topic),
+    [select, filters.window, rankAlgo, topic],
   );
 
   // The current list, only when it was ranked under the filters on screen:
@@ -63,12 +72,12 @@ export default function App() {
       const inList = listed?.find((i) => i.entity_key === key);
       if (inList) {
         setOpening(null);
-        select(inList, filters.window, filters.algo, topic);
+        select(inList, filters.window, rankAlgo, topic);
         return;
       }
       setOpening(key);
       const window = filters.window;
-      const algo = filters.algo;
+      const algo = rankAlgo;
       const t = topic;
       api.ledgerEntity(key, window, algo, t).then(
         (item) => {
@@ -81,17 +90,17 @@ export default function App() {
         },
       );
     },
-    [listed, filters.window, filters.algo, topic, select],
+    [listed, filters.window, rankAlgo, topic, select],
   );
   const pick = useCallback((hit: NameHit) => openKey(hit.key), [openKey]);
 
   // Warm what search has highlighted, so opening it is immediate.
   const preview = useCallback(
     (key: string) => {
-      api.ledgerEntity(key, filters.window, filters.algo, topic).catch(() => {});
-      api.restaurant(key, filters.algo).catch(() => {});
+      api.ledgerEntity(key, filters.window, rankAlgo, topic).catch(() => {});
+      api.restaurant(key, rankAlgo).catch(() => {});
     },
-    [filters.window, filters.algo, topic],
+    [filters.window, rankAlgo, topic],
   );
 
   // Keep the open restaurant's numbers on the period shown: from the list
@@ -102,14 +111,14 @@ export default function App() {
     if (fresh) {
       if (fresh !== selected) setSelected(fresh);
       if (selectedWindow !== filters.window) setSelectedWindow(filters.window);
-      if (selectedAlgo !== filters.algo) setSelectedAlgo(filters.algo);
+      if (selectedAlgo !== rankAlgo) setSelectedAlgo(rankAlgo);
       if (selectedTopic !== topic) setSelectedTopic(topic);
       return;
     }
-    if (selectedWindow === filters.window && selectedAlgo === filters.algo && selectedTopic === topic) return;
+    if (selectedWindow === filters.window && selectedAlgo === rankAlgo && selectedTopic === topic) return;
     const key = selected.entity_key;
     const window = filters.window;
-    const algo = filters.algo;
+    const algo = rankAlgo;
     const t = topic;
     api.ledgerEntity(key, window, algo, t).then(
       (item) => {
@@ -120,7 +129,7 @@ export default function App() {
       },
       () => {},
     );
-  }, [listed, selected, selectedWindow, selectedAlgo, selectedTopic, filters.window, filters.algo, topic]);
+  }, [listed, selected, selectedWindow, selectedAlgo, selectedTopic, filters.window, rankAlgo, topic]);
 
   // A shared link opens straight onto its restaurant.
   const initial = useRef(restaurantFromUrl());
@@ -162,13 +171,22 @@ export default function App() {
           onChange={update}
           onToggleNeed={toggleNeed}
           onToggleFlaw={toggleFlaw}
-          onClear={clear}
+          onClear={view === "boards" ? clearBoard : clear}
           onPick={pick}
           onPreview={preview}
           opening={opening}
         />
         {view === "comments" ? (
           <LiveFeed onOpen={openKey} />
+        ) : view === "boards" ? (
+          <BoardList
+            filters={filters}
+            board={board}
+            onBoard={setBoard}
+            selectedKey={open ? selected?.entity_key ?? null : null}
+            onSelect={selectRow}
+            onClear={clearBoard}
+          />
         ) : (
           <LedgerList
             filters={filters}

@@ -14,10 +14,11 @@ from fastapi import APIRouter, Depends, Header, HTTPException, Path, Query, Resp
 
 from .. import images, queries
 from ..db import connection, fetch_all, fetch_one, fetch_value, get_conn
-from ..models import (Algo, AspectDetail, ImageOut, Mention, MentionQuery,
-                      MentionSort, MomentumWindow, Page, RestaurantDetail,
-                      LeaderboardRow, Spelling)
+from ..models import (CATEGORY_VOICE_FILTERS, Algo, AspectDetail, ImageOut, Mention,
+                      MentionQuery, MentionSort, MomentumWindow, Page, RatingCategory,
+                      RestaurantDetail, LeaderboardRow, Spelling, VoiceFilter)
 from .admin import require_token
+from .ledger import build_rating, rating_only
 
 router = APIRouter(prefix="/api/restaurants")
 
@@ -48,9 +49,12 @@ def detail(entity_key: EntityKey, algo: Algo = "v1", conn=Depends(get_conn)):
     """
     summary = _require_entity(conn, entity_key, algo)
     official = queries.official_record(conn, entity_key, fetch_one) or {}
+    # Null rather than a 500 when the rating views are not built (ratings_for).
+    ratings = queries.ratings_for(conn, [entity_key], fetch_all, fetch_value)
     return RestaurantDetail(
         entity_key=entity_key,
         summary=LeaderboardRow(**summary),
+        rating=build_rating(ratings.get(entity_key)),
         aspects=[AspectDetail(**a) for a in
                  queries.aspect_detail(conn, entity_key, fetch_all, algo)],
         momentum=[MomentumWindow(**m) for m in
@@ -98,6 +102,40 @@ def mentions(
                      include_deleted=include_deleted, sort=sort,
                      limit=limit, offset=offset)
     rows, total = queries.mentions_page(conn, entity_key, q, fetch_all, fetch_value)
+    return Page(items=rows, total=total, limit=limit, offset=offset)
+
+
+@router.get("/{entity_key}/voices", response_model=Page[Mention],
+            summary="The comments behind the rating")
+def voices(
+    entity_key: EntityKey,
+    voice: Annotated[VoiceFilter, Query(description=(
+        "pos, neg, neutral: latest stated opinions. opinions: pos and neg "
+        "together. superlative: pos at the top level. recommenders: latest "
+        "word a stated pos, or a bare recommendation from someone whose latest "
+        "stated opinion is not a knock, the volume. endorse: those "
+        "recommenders whose latest word is a bare recommendation. all: every "
+        "person, by their latest word"))] = "all",
+    category: Annotated[Optional[RatingCategory], Query(description=(
+        "A category's voices instead of the overall ones; voice must then be "
+        "pos, neg, neutral, opinions or all"))] = None,
+    sort: MentionSort = "recent",
+    limit: Annotated[int, Query(ge=1, le=200)] = 50,
+    offset: Annotated[int, Query(ge=0)] = 0,
+    conn=Depends(get_conn),
+):
+    """Exactly the mentions the rating counted, one per person, so `total` is
+    the number on the card: voice=pos is the card's pos, voice=opinions its
+    pos + neg. Each carries `voice` and `level`. `permalink` is null wherever
+    the comment has been deleted from Reddit. 503 until scoring.sql has built
+    the rating.
+    """
+    if category is not None and voice not in CATEGORY_VOICE_FILTERS:
+        raise HTTPException(status_code=422,
+                            detail=f"voice {voice!r} does not apply to a category")
+    _require_entity(conn, entity_key)
+    rows, total = rating_only(conn, lambda: queries.voices_page(
+        conn, entity_key, voice, category, sort, limit, offset, fetch_all, fetch_value))
     return Page(items=rows, total=total, limit=limit, offset=offset)
 
 

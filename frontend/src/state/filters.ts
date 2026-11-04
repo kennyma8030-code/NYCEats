@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import type { Algo, Category, Flaw, Need, WindowDays } from "../api/types";
+import type { Algo, BoardId, Category, Flaw, Need, WindowDays } from "../api/types";
 
 export interface Filters {
   algo: Algo;
@@ -111,6 +111,8 @@ function toUrl(f: Filters) {
   const cur = new URLSearchParams(window.location.search);
   const view = cur.get("view");
   if (view) p.set("view", view);
+  const board = cur.get("board");
+  if (board) p.set("board", board);
   const r = cur.get("r");
   if (r) p.set("r", r);
   const qs = p.toString();
@@ -130,19 +132,52 @@ export function setRestaurantInUrl(key: string | null) {
   window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
 }
 
-export type View = "restaurants" | "comments";
+export type View = "restaurants" | "boards" | "comments";
 
 export function viewFromUrl(): View {
-  return new URLSearchParams(window.location.search).get("view") === "comments" ? "comments" : "restaurants";
+  const v = new URLSearchParams(window.location.search).get("view");
+  return v === "comments" || v === "boards" ? v : "restaurants";
 }
 
 export function setViewInUrl(view: View) {
   const p = new URLSearchParams(window.location.search);
-  if (view === "comments") p.set("view", "comments");
+  if (view !== "restaurants") p.set("view", view);
   else p.delete("view");
   const qs = p.toString();
   window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
 }
+
+export const BOARDS: { id: BoardId; label: string }[] = [
+  { id: "top", label: "Top" },
+  { id: "popular", label: "Popular" },
+  { id: "gems", label: "Hidden gems" },
+  { id: "taste", label: "Taste" },
+  { id: "value", label: "Value" },
+  { id: "wait", label: "Wait" },
+  { id: "atmosphere", label: "Atmosphere" },
+  { id: "service", label: "Service" },
+];
+
+export const isBoard = (v: string | null): v is BoardId => BOARDS.some((b) => b.id === v);
+
+export const DEFAULT_BOARD: BoardId = "top";
+
+/** The board tab open on the boards view, as ?board=, so it can be shared. */
+export function boardFromUrl(): BoardId {
+  const b = new URLSearchParams(window.location.search).get("board");
+  return isBoard(b) ? b : DEFAULT_BOARD;
+}
+
+export function setBoardInUrl(board: BoardId) {
+  const p = new URLSearchParams(window.location.search);
+  if (board === DEFAULT_BOARD) p.delete("board");
+  else p.set("board", board);
+  const qs = p.toString();
+  window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
+}
+
+/** The boards only use cuisine and borough; needs, flaws and topic belong to the ledger. */
+export const boardFilterCount = (f: Filters) => (f.cuisine ? 1 : 0) + (f.borough ? 1 : 0);
 
 export function activeFilterCount(f: Filters) {
   return (f.topic ? 1 : 0) + (f.cuisine ? 1 : 0) + (f.borough ? 1 : 0) + f.needs.length + f.flaws.length;
