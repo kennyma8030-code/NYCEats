@@ -12,6 +12,7 @@ from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import JSONResponse
+from psycopg2.errors import UndefinedTable
 
 from .. import queries
 from ..db import fetch_all, fetch_one, fetch_value, get_conn
@@ -37,13 +38,24 @@ def checked_bucket(window):
     return bucket_days(window)
 
 
-def require_rating(conn):
-    """A 503 when the rating views are not built yet (queries.rating_ready):
-    the routes that exist only to serve the rating cannot degrade to null."""
+_NOT_BUILT = HTTPException(status_code=503,
+                           detail="the rating is not built yet: apply scoring.sql "
+                                  "(refresh.py --apply) and try again")
+
+
+def rating_only(conn, run):
+    """run() for a route that exists only to serve the rating, so cannot
+    degrade to null: a 503 when the rating views are not built
+    (queries.rating_ready), or when a query finds them gone anyway, which
+    also makes the next request look again."""
     if not queries.rating_ready(conn, fetch_value):
-        raise HTTPException(status_code=503,
-                            detail="the rating is not built yet: apply scoring.sql "
-                                   "(refresh.py --apply) and try again")
+        raise _NOT_BUILT
+    try:
+        return run()
+    except UndefinedTable:
+        conn.rollback()
+        queries.forget_rating_ready()
+        raise _NOT_BUILT
 
 
 def display_name(official, entity_key):
@@ -99,14 +111,13 @@ def ledger(
                             detail="an aspect cannot be both a need and a flaw")
 
     topic = (topic or "").strip() or None
-    ready = queries.rating_ready(conn, fetch_value)
     rows = queries.ledger_items(conn, category, window, cuisine, borough,
                                 needs, flaws, limit, fetch_all,
-                                algo=algo, topic=topic, rating=ready)
+                                algo=algo, topic=topic)
     return Ledger(category=category, window_days=window, bucket_days=bucket, algo=algo, topic=topic,
                   cuisine=cuisine, borough=borough, needs=needs, flaws=flaws,
                   total=rows[0]["total"] if rows else 0,
-                  items=_build_items(conn, rows, window, bucket, topic, ready))
+                  items=_build_items(conn, rows, window, bucket, topic))
 
 
 @router.get("/api/ledger/entity", response_model=LedgerItem,
@@ -129,11 +140,10 @@ def ledger_entity(
     """
     bucket = checked_bucket(window)
     topic = (topic or "").strip() or None
-    ready = queries.rating_ready(conn, fetch_value)
-    rows = queries.ledger_one(conn, key, window, fetch_all, algo, topic, rating=ready)
+    rows = queries.ledger_one(conn, key, window, fetch_all, algo, topic)
     if not rows:
         raise HTTPException(status_code=404, detail=f"no entity {key!r} on the leaderboard")
-    return _build_items(conn, rows, window, bucket, topic, ready)[0]
+    return _build_items(conn, rows, window, bucket, topic)[0]
 
 
 @router.get("/api/names", summary="Every searchable name")
@@ -198,10 +208,12 @@ def boards(
     the rating.
     """
     bucket = checked_bucket(window)
-    require_rating(conn)
-    rows, total = queries.board_items(conn, board, window, cuisine, borough, limit, offset,
-                                      fetch_all, fetch_value)
-    lines = queries.rating_lines(conn, fetch_one)
+
+    def run():
+        rows, total = queries.board_items(conn, board, window, cuisine, borough, limit, offset,
+                                          fetch_all, fetch_value)
+        return rows, total, queries.rating_lines(conn, fetch_one)
+    rows, total, lines = rating_only(conn, run)
     return Board(board=board, window_days=window, bucket_days=bucket,
                  cuisine=cuisine, borough=borough, lines=RatingLines(**lines),
                  total=total, limit=limit, offset=offset,
@@ -209,38 +221,33 @@ def boards(
 
 
 # What a place with category voices and no overall one reports overall.
-_NO_OVERALL = dict(pos=0, neg=0, neutral=0, endorse=0, superlative=0, recommenders=0,
-                   pct_pos=None, lb=None, neg_share=None, rankable=False, busy=False,
-                   badge=None, last_voice=None)
+_NO_OVERALL = {**dict.fromkeys(queries.RATING_COUNTS, 0),
+               **dict.fromkeys(queries.RATING_FLAGS, False),
+               **dict.fromkeys(queries.RATING_VALUES)}
 
 
-def build_rating(row, categories):
-    """A Rating from a row carrying rating_select's columns and the place's
-    category_ratings rows, or None when it has neither, or when `row` is None
-    (the rating views are not built). A place can have category voices and no
-    overall one (someone remarked only on the wait), and a category board
-    still has to show the number it ranked on, so then the overall counts are
-    zeros."""
-    if row is None:
+def build_rating(entry):
+    """A Rating from one queries.ratings_for entry, or None for no entry (no
+    rating, or the rating views not built). A place can have category voices
+    and no overall one (someone remarked only on the wait), and a category
+    board still has to show the number it ranked on, so then the overall
+    counts are zeros."""
+    if entry is None:
         return None
-    if row.get("rating_pos") is None:
-        if not categories:
-            return None
-        overall = _NO_OVERALL
-    else:
-        overall = {k: row[f"rating_{k}"] for k in queries.RATING_COLUMNS}
+    row = entry["overall"]
+    overall = _NO_OVERALL if row is None else {k: row[k] for k in queries.RATING_COLUMNS}
     return Rating(
-        window_days=row["rating_window_days"],
+        window_days=entry["window_days"],
         **overall,
         categories={c["category"]: CategoryRating(
             **{k: c[k] for k in queries.CATEGORY_RATING_COLUMNS})
-            for c in categories},
+            for c in entry["categories"]},
     )
 
 
-def _build_items(conn, rows, window, bucket, topic=None, ready=True):
+def _build_items(conn, rows, window, bucket, topic=None):
     """Ledger rows -> LedgerItems: windowed series, top neighborhood and the
-    rating added (null throughout when the rating views are not built)."""
+    rating added (null when the rating views are not built)."""
     keys = [r["entity_key"] for r in rows]
 
     n = math.ceil(window / bucket)
@@ -255,9 +262,7 @@ def _build_items(conn, rows, window, bucket, topic=None, ready=True):
         (cur if s["is_current"] else prev)[n - 1 - idx] += s["n"]
     hoods = {h["entity_key"]: h["name"]
              for h in queries.top_neighborhoods(conn, keys, fetch_all)}
-    cats = {}
-    for c in queries.category_ratings(conn, keys, fetch_all, ready):
-        cats.setdefault(c["entity_key"], []).append(c)
+    ratings = queries.ratings_for(conn, keys, fetch_all, fetch_value)
 
     items = []
     for r in rows:
@@ -282,6 +287,6 @@ def _build_items(conn, rows, window, bucket, topic=None, ready=True):
             flagged=r.get("flagged"),
             strong_neg_people=r.get("strong_neg_people"),
             strong_neg_share=r.get("strong_neg_share"),
-            rating=build_rating(r, cats.get(r["entity_key"], [])),
+            rating=build_rating(ratings.get(r["entity_key"])),
         ))
     return items

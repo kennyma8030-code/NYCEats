@@ -311,19 +311,18 @@ different signals: stated opinions make the rating, and a bare endorse is
 volume only. It can never change the rating, not even by being someone's
 latest word.
 
-**Window and exclusions** (`rating_mentions`, shared by everything below).
-The last 365 days (`window_days`), r/FoodNYC, everything `live_mentions`
-already leaves out, `excluded_entities`, mentions the model marked
-`status = 'closed'` ("RIP Florent" nostalgia was ranking shut places) and
-mentions marked `timeframe = 'past'` ("it used to be great"; a mention with
-no timeframe stays). AutoModerator is dropped; `[deleted]` counts once per
-comment.
+**Window and exclusions** (`rating_mentions`, one materialized row per
+mention, shared by everything below). The last 365 days (`window_days`),
+r/FoodNYC, everything `live_mentions` already leaves out,
+`excluded_entities`, and mentions the model marked `status = 'closed'`
+("RIP Florent" nostalgia was ranking shut places). AutoModerator is dropped;
+`[deleted]` counts once per comment.
 
 **What a mention says**, tested in this order:
 
 | voice | rule |
 |---|---|
-| neg | `avoid` ("skip it"), whatever else it says, so a warning is never a recommendation |
+| neg | `avoid` ("skip it"), whatever else it says, so a warning is never a recommendation. Its level is made negative: `least(coalesce(level, -1), -1)` |
 | endorse | `opinion = 'endorse'`, whatever level it carries |
 | pos | `opinion = 'stated'`, overall level 1 or 2 |
 | neg | `opinion = 'stated'`, overall level -1 or -2 |
@@ -332,24 +331,41 @@ comment.
 A mention with none of these (a fact, a question, a remark on the wait alone)
 is not a voice and never hides an earlier one.
 
+**Past mentions.** v6's `timeframe = 'past'` mostly marks a verdict on how a
+place used to be. A read of 60 production mentions with a level (Nov 3) found
+52 historical ("I used to love it", "it was great back in the day") and 8 the
+commenter's view now. Rule 9 of the prompt says levels are what the commenter
+thinks now, and where the text says the place changed, `trend` says which
+way. So a past mention is a voice only when its level points the way the
+place moved: `trend = 'declined'` with a neg ("it was better before, now it's
+mid"), or `'improved'` with a pos or endorse. In the sample that kept 3, all
+current, and dropped 57, of which 5 were current. Categories apply the same
+test to their own level. Known limit, with the prompt (GitHub issue #3): a
+present-day view the model tagged past without a trend is lost, about 1 in 12
+past mentions.
+
 **One voice per person per place, picked twice**, because the two axes ask
 different things:
 
 - **Rating** (`place_voices`): each person's latest *stated* voice (pos, neg,
   neutral). A later bare endorse does not replace it.
 - **Volume** (`place_recommenders`): each person's latest voice of any kind.
-  A **recommender** is a person whose latest voice is an endorse or a stated
-  pos. Two mentions of one place in the same comment (two spellings that
-  resolve together) tie on time; the stated one wins.
+  Two mentions of one place in the same comment (two spellings that resolve
+  together) tie on time; the stated one wins. A **recommender** is a person
+  whose latest voice is a stated pos, or a bare endorse from someone whose
+  latest stated voice is not a neg: a detractor who later only names the
+  place has not changed their mind, and a latest voice that is an avoid is a
+  neg, so never recommends.
 
-**Per place** (`entity_rating`): pos, neg, neutral and `superlative` (latest
+**Per place** (`entity_rating`, a full join of the two passes so a place keeps
+its row whichever holds it): pos, neg, neutral and `superlative` (latest
 stated level 2) from the rating pass; `pct_pos = pos / (pos + neg)`; `lb` =
-its Wilson lower bound at z = 1.28; `neg_share = neg / (pos + neg + neutral)`,
-the complaint share of stated opinions. `endorse` (latest voice a bare
-endorse) and `recommenders` from the volume pass. recommenders is not
-pos + endorse: someone who praised a place and later only named it is one pos
-and one recommender. **Rankable** at 10 or more stated non-neutral people
-(`min_rated`).
+its Wilson lower bound at z = 1.28; `neg_share = neg / (pos + neg)`, the
+complaint share of the same people, the ones `voice=opinions` lists.
+`recommenders` and `endorse` (the recommenders whose latest voice is a bare
+endorse) from the volume pass. recommenders is not pos + endorse: someone who
+praised a place and later only named it is one pos and one recommender.
+**Rankable** at 10 or more stated non-neutral people (`min_rated`).
 
 **Categories** (`entity_category_rating`): taste, value, service, atmosphere,
 wait. Each person's latest *stated* level for that category, by sign (a level
@@ -367,8 +383,8 @@ rankable place is badged against them:
 - `consensus` = busy and lb ≥ share_line; `overhyped_mixed` = busy and lb <
   share_line; `hidden_gem` = not busy and lb ≥ gem_line; otherwise none.
 
-Measured Nov 3, 2026: 1,316 rankable places; busy at 76 recommenders,
-share_line 0.661, gem_line 0.823; 82 consensus, 52 overhyped / mixed, 179
+Measured Nov 4, 2026: 1,319 rankable places; busy at 76 recommenders,
+share_line 0.661, gem_line 0.823; 80 consensus, 52 overhyped / mixed, 177
 hidden gems.
 
 **Boards.** Each ranks by one value; the rest are filters. Top: busy places by
@@ -379,20 +395,22 @@ Overhyped / mixed is a badge, not a board. There is no Divisive badge.
 **Click-through.** `place_voices`, `place_recommenders` and
 `place_category_voices` keep the one mention each person was counted by, so
 every count lists exactly its comments (`/voices?voice=pos` totals the card's
-pos, `voice=opinions` its pos + neg, `voice=recommenders` its recommenders),
-with permalinks suppressed where `was_deleted_later` is set.
+pos, `voice=opinions` its pos + neg, the people `pct_pos` and `neg_share` are
+shares of, `voice=recommenders` its recommenders), with permalinks suppressed
+where `was_deleted_later` is set.
 
 **Rollout order.** The web app reads these views and never builds them.
 Apply `scoring.sql` first (`refresh.py --apply`, or the poller's boot), then
 deploy the web app. A web app that finds them missing (deployed first, or
-after a rollback dropped them) checks once every 30 seconds and meanwhile
-serves `rating: null` on the ledger and the detail page and 503 on
-`/api/boards` and `/voices`, rather than failing.
+after a rollback dropped them) serves `rating: null` on the ledger and the
+detail page and 503 on `/api/boards` and `/voices`, rather than failing. It
+looks again every 5 seconds while they are missing (every 30 while they are
+there), and at once after a query finds them gone.
 
 Known limits: v6 codes lukewarm words (fine, meh, mid) as knocks and almost
-nothing as neutral (0.6%), so `neg_share` sits close to `1 - pct_pos` until
-the prompt fix lands. Generic keys ("grill", "modern", "joes") still merge
-several places; that is identity's problem (resolve.sql), not the rating's.
+nothing as neutral (0.6%) (the prompt fix is tracked separately). Generic keys
+("grill", "modern", "joes") still merge several places; that is identity's
+problem (resolve.sql), not the rating's.
 
 ---
 

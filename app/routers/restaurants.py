@@ -18,7 +18,7 @@ from ..models import (CATEGORY_VOICE_FILTERS, Algo, AspectDetail, ImageOut, Ment
                       MentionQuery, MentionSort, MomentumWindow, Page, RatingCategory,
                       RestaurantDetail, LeaderboardRow, Spelling, VoiceFilter)
 from .admin import require_token
-from .ledger import build_rating, require_rating
+from .ledger import build_rating, rating_only
 
 router = APIRouter(prefix="/api/restaurants")
 
@@ -49,14 +49,12 @@ def detail(entity_key: EntityKey, algo: Algo = "v1", conn=Depends(get_conn)):
     """
     summary = _require_entity(conn, entity_key, algo)
     official = queries.official_record(conn, entity_key, fetch_one) or {}
-    # Null rather than a 500 when the rating views are not built yet.
-    ready = queries.rating_ready(conn, fetch_value)
-    rating = build_rating(queries.rating_row(conn, entity_key, fetch_one, ready),
-                          queries.category_ratings(conn, [entity_key], fetch_all, ready))
+    # Null rather than a 500 when the rating views are not built (ratings_for).
+    ratings = queries.ratings_for(conn, [entity_key], fetch_all, fetch_value)
     return RestaurantDetail(
         entity_key=entity_key,
         summary=LeaderboardRow(**summary),
-        rating=rating,
+        rating=build_rating(ratings.get(entity_key)),
         aspects=[AspectDetail(**a) for a in
                  queries.aspect_detail(conn, entity_key, fetch_all, algo)],
         momentum=[MomentumWindow(**m) for m in
@@ -113,10 +111,11 @@ def voices(
     entity_key: EntityKey,
     voice: Annotated[VoiceFilter, Query(description=(
         "pos, neg, neutral: latest stated opinions. opinions: pos and neg "
-        "together. superlative: pos at the top level. endorse: people whose "
-        "latest word is a bare recommendation. recommenders: latest word an "
-        "endorse or a stated pos, the volume. all: every person, by their "
-        "latest word"))] = "all",
+        "together. superlative: pos at the top level. recommenders: latest "
+        "word a stated pos, or a bare recommendation from someone whose latest "
+        "stated opinion is not a knock, the volume. endorse: those "
+        "recommenders whose latest word is a bare recommendation. all: every "
+        "person, by their latest word"))] = "all",
     category: Annotated[Optional[RatingCategory], Query(description=(
         "A category's voices instead of the overall ones; voice must then be "
         "pos, neg, neutral, opinions or all"))] = None,
@@ -134,10 +133,9 @@ def voices(
     if category is not None and voice not in CATEGORY_VOICE_FILTERS:
         raise HTTPException(status_code=422,
                             detail=f"voice {voice!r} does not apply to a category")
-    require_rating(conn)
     _require_entity(conn, entity_key)
-    rows, total = queries.voices_page(conn, entity_key, voice, category, sort,
-                                      limit, offset, fetch_all, fetch_value)
+    rows, total = rating_only(conn, lambda: queries.voices_page(
+        conn, entity_key, voice, category, sort, limit, offset, fetch_all, fetch_value))
     return Page(items=rows, total=total, limit=limit, offset=offset)
 
 
