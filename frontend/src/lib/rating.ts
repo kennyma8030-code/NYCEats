@@ -38,13 +38,17 @@ export function headline(r: Rating): string {
   return bits.join(" · ");
 }
 
-/** The complaint share in plain words: 0.25 -> "1 in 4 complain". Null when
- *  there is no share to speak of. */
-export function complaintPhrase(share: number | null): string | null {
-  if (share == null || share <= 0) return null;
+/** The complaint share in plain words, over the same people the headline
+ *  counts (pos + neg): "1 in 4 complain" while that reads naturally, a percent
+ *  from 40% up. Null when nobody complains or nobody has an opinion. */
+export function complaintPhrase(r: { pos: number; neg: number }): string | null {
+  const total = people(r);
+  if (total === 0 || r.neg === 0) return null;
+  const share = r.neg / total;
   if (share < 0.05) return "Almost no one complains";
-  if (share >= 0.5) return "Most of them complain";
-  return `1 in ${Math.round(1 / share)} complain`;
+  if (share < 0.4) return `1 in ${Math.round(1 / share)} complain`;
+  if (share >= 0.45 && share <= 0.55) return "About half complain";
+  return `${pct(share)}% complain`;
 }
 
 /** The categories worth showing: rankable ones, most people first. */

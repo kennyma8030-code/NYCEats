@@ -1,17 +1,15 @@
 import { useEffect, useRef, useState } from "react";
+import { api } from "../../api/client";
 import type { CommentSort, RatingCategory, Voice } from "../../api/types";
-import { useVoices } from "../../hooks/useVoices";
+import { usePaged } from "../../hooks/usePaged";
 import { RedditComment } from "./RedditComment";
 import "./CommentList.css";
 
-/** Which comments a number in the rating opens: one or more voices, so the
- *  headline can offer positive and negative side by side. */
+/** Which comments a number in the rating opens. */
 export interface VoiceView {
   title: string;
+  voice: Voice;
   category: RatingCategory | null;
-  tabs: { voice: Voice; label: string; count: number }[];
-  /** The tab shown first. */
-  start: Voice;
 }
 
 interface Props {
@@ -26,20 +24,25 @@ const SORTS: { value: CommentSort; label: string; title: string }[] = [
 ];
 
 /** The exact comments behind a count, one per person. Replaces the comment
- *  list until closed; a comment deleted from Reddit has no link. */
+ *  list until closed; a comment deleted from Reddit has no link. Mount it
+ *  with a key per place and view, so state from one never reaches another. */
 export function VoiceList({ entityKey, view, onBack }: Props) {
-  const [voice, setVoice] = useState<Voice>(view.start);
   const [sort, setSort] = useState<CommentSort>("score");
-  const { items, total, loading, error, hasMore, loadMore } = useVoices(entityKey, voice, view.category, sort);
+  const { items, total, loading, error, hasMore, loadMore } = usePaged(
+    `${entityKey}|${view.voice}|${view.category ?? ""}|${sort}`,
+    (offset, limit, signal) => api.voices(entityKey, view.voice, view.category, sort, offset, limit, signal),
+  );
   const listRef = useRef<HTMLOListElement>(null);
   const backRef = useRef<HTMLButtonElement>(null);
 
-  // A different number was clicked: start on its own tab.
-  useEffect(() => setVoice(view.start), [view]);
-  useEffect(() => backRef.current?.focus({ preventScroll: true }), [view]);
+  // On a phone the list sits below the analytics: let focus scroll it into view.
+  useEffect(() => {
+    const phone = window.matchMedia("(max-width: 760px)").matches;
+    backRef.current?.focus({ preventScroll: !phone });
+  }, []);
   useEffect(() => {
     if (listRef.current) listRef.current.scrollTop = 0;
-  }, [voice, sort, view]);
+  }, [sort]);
 
   return (
     <section className="cm" aria-label={view.title}>
@@ -60,15 +63,6 @@ export function VoiceList({ entityKey, view, onBack }: Props) {
       </div>
       <div className="cm-sub">
         <p className="sh-eye">{view.title}</p>
-        {view.tabs.length > 1 && (
-          <div className="cm-sort" role="group" aria-label="Kind of comment">
-            {view.tabs.map((t) => (
-              <button key={t.voice} type="button" aria-pressed={t.voice === voice} onClick={() => setVoice(t.voice)}>
-                {t.label} {t.count.toLocaleString()}
-              </button>
-            ))}
-          </div>
-        )}
       </div>
       <ol className="cm-list" ref={listRef}>
         {items.map((m) => (

@@ -18,8 +18,10 @@ export function DetailPanel({ item, open, window, algo, onClose }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   // The comments behind a clicked number, shown in place of the comment list.
   // They belong to one place: another one, or closing, drops them.
-  const [voices, setVoices] = useState<VoiceView | null>(null);
+  // Stored with the place it was opened on, so another place never shows it.
+  const [voices, setVoices] = useState<{ key: string; view: VoiceView } | null>(null);
   useEffect(() => setVoices(null), [item?.entity_key, open]);
+  const shown = item && voices?.key === item.entity_key ? voices.view : null;
 
   // React 18 does not know `inert`, so set it directly. A closed panel is
   // still in the DOM (for the slide-out) and must not take focus.
@@ -41,9 +43,9 @@ export function DetailPanel({ item, open, window, algo, onClose }: Props) {
     >
       {item && (
         <>
-          <Analytics item={item} window={window} open={open} algo={algo} onBack={onClose} onVoices={setVoices} />
-          {voices ? (
-            <VoiceList entityKey={item.entity_key} view={voices} onBack={() => setVoices(null)} />
+          <Analytics item={item} window={window} open={open} algo={algo} onBack={onClose} onVoices={(view) => setVoices({ key: item.entity_key, view })} />
+          {shown ? (
+            <VoiceList key={`${item.entity_key}|${shown.voice}|${shown.category}`} entityKey={item.entity_key} view={shown} onBack={() => setVoices(null)} />
           ) : (
             <CommentList entityKey={item.entity_key} />
           )}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { CommentSort } from "../../api/types";
-import { useComments } from "../../hooks/useComments";
+import { api } from "../../api/client";
+import { usePaged } from "../../hooks/usePaged";
 import { RedditComment } from "./RedditComment";
 import "./CommentList.css";
 
@@ -17,7 +18,9 @@ const SORTS: { value: CommentSort; label: string; title: string }[] = [
 export function CommentList({ entityKey }: Props) {
   // Kept across restaurants: someone reading "Newest" wants it on the next one too.
   const [sort, setSort] = useState<CommentSort>("score");
-  const { items, total, loading, error, hasMore, loadMore } = useComments(entityKey, sort);
+  const { items, total, loading, error, hasMore, loadMore } = usePaged(`${entityKey}|${sort}`, (offset, limit, signal) =>
+    api.mentions(entityKey, sort, offset, limit, signal),
+  );
   const listRef = useRef<HTMLOListElement>(null);
 
   useEffect(() => {

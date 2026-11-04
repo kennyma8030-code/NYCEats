@@ -19,11 +19,14 @@ test("headline reads as one line", () => {
   assert.equal(headline(rating), "84% positive · 212 people · recommended by 340");
 });
 
-test("complaint share is plain language", () => {
-  assert.equal(complaintPhrase(0.25), "1 in 4 complain");
-  assert.equal(complaintPhrase(0.02), "Almost no one complains");
-  assert.equal(complaintPhrase(0.6), "Most of them complain");
-  assert.equal(complaintPhrase(null), null);
+test("complaint share is plain language, over the people the headline counts", () => {
+  assert.equal(complaintPhrase({ pos: 75, neg: 25 }), "1 in 4 complain");
+  assert.equal(complaintPhrase({ pos: 99, neg: 1 }), "Almost no one complains");
+  assert.equal(complaintPhrase({ pos: 50, neg: 50 }), "About half complain");
+  assert.equal(complaintPhrase({ pos: 40, neg: 60 }), "60% complain");
+  assert.equal(complaintPhrase({ pos: 60, neg: 40 }), "40% complain");
+  assert.equal(complaintPhrase({ pos: 10, neg: 0 }), null);
+  assert.equal(complaintPhrase({ pos: 0, neg: 0 }), null);
 });
 
 test("only rankable categories, most people first", () => {

@@ -164,7 +164,7 @@ export type Badge = "consensus" | "overhyped_mixed" | "hidden_gem";
 /** Each board ranks by one value and filters on the rest: no composite score. */
 export type BoardId = "top" | "popular" | "gems" | "taste" | "value" | "wait" | "atmosphere" | "service";
 /** The comments to list behind a count (/voices). */
-export type Voice = "pos" | "neg" | "neutral" | "endorse" | "recommenders" | "superlative" | "all";
+export type Voice = "pos" | "neg" | "neutral" | "endorse" | "recommenders" | "superlative" | "opinions" | "all";
 
 export interface CategoryRating {
   pos: number;

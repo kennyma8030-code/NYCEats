@@ -24,7 +24,8 @@ export function BoardList({ filters, board, onBoard, selectedKey, onSelect, onCl
   // The previous tab's rows only while this one loads, drawn dimmed; never
   // after a failure.
   const items = !error && data && (current || loading) ? data.items : [];
-  const lines = data?.board === board ? data.lines : null;
+  // The cut-offs do not depend on the board, so they stay put between tabs.
+  const lines = data?.lines ?? null;
 
   return (
     <main className="ledger">
