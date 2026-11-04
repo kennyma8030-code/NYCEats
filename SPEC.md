@@ -643,11 +643,15 @@ is in `summary_calls`, which the caps are checked against.
   is written while the board reads legacy mentions.
 - **When again.** Only after the larger of `x` = 5 (`SUMMARY_NEW_MENTIONS`)
   and `SUMMARY_NEW_SHARE` (default 0) times the place's count of qualifying
-  comments have a mention stored since the summary, or a model or prompt
-  change. The watermark is the newest `mentions.created_at` the summary saw
-  (`seen_through`), not a comment date, because extraction runs days behind
-  (and the backlog newest first), and not the count, which is over a rolling
-  year and can stand still while new comments come in.
+  comments are new to the summary, or a model or prompt change. A summary
+  keeps the ids of every comment that qualified when it was written
+  (`seen_comment_ids`), and new means a qualifying comment not among them:
+  by comment, so a comment extracted late is new and the same comment
+  extracted again (a new hash, a failed chunk that later succeeds) is not;
+  not by time, so the order mentions are committed in does not matter; and
+  not by count, which is over a rolling year and can stand still while new
+  comments come in. A place that qualifies with nothing to send is recorded
+  with no summary and its seen comments, and waits the same way.
 - **Input.** Every opinionated comment of the year (`opinion` endorse or
   stated, not `timeframe = 'past'`), topped up with older ones, newest
   first, to 60. Each with its date, thread title, the names used, and v6's
@@ -667,17 +671,21 @@ is in `summary_calls`, which the caps are checked against.
   `Ceiling`). Each call is in the ledger before its summary is stored, and a
   pass that fails part way records what it paid for on a fresh connection.
   Key `SUMMARY_ANTHROPIC_API_KEY` only.
-- **Failures.** A bad answer, a refused request or a call lost to timeouts
-  or 429/5xx is an attempt on that place; the pass goes on, the place goes
-  to the back, and after 3 it is parked until `--retry-errors`. Only a
-  refusal every call would get (401, 403, 404, billing) stops the pass, and
-  so do 3 API failures in a row.
+- **Failures.** Only what is clearly the place's counts against it: an
+  answer that cannot be used, or a 400/413 about the request's own content
+  (too long, content it could not take). It is an attempt; the place goes to
+  the back, and after 3 it is parked until `--retry-errors`. A refusal every
+  call would get (401, 403, 404, anything about credit, balance or billing)
+  stops the run and marks nothing. Everything else (timeouts, 429, 5xx,
+  other 4xx) is the run's: nothing is marked, the run goes on, and stops
+  after 3 API failures in a row. An outage never parks a healthy place.
 - **Where.** The poller's chores pass, last, with `POLL_SUMMARIZE=1`, at most
-  `POLL_SUMMARIZE_LIMIT` (200) places, 90 s a call, two tries, no call
-  started after 5 minutes. Every setting is checked at boot; a bad one turns
-  summaries off. A pass is skipped when nothing it reads has changed since
-  a pass that left nothing to do (no new mention id, same read mode,
-  aliases, exclusions, settings and summaries).
+  once every `SUMMARY_EVERY_HOURS` (6), the last run's time kept in
+  `summary_state` so restarts keep the rhythm; each run takes the full scan
+  of qualifying places. At most `POLL_SUMMARIZE_LIMIT` (200) places with
+  something to send a run, 90 s a call, two tries, and nothing started,
+  retried or waited for after 5 minutes. Every setting is checked at boot; a
+  bad one turns summaries off.
 
 ---
 

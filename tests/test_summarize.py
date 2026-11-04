@@ -145,8 +145,8 @@ class Render(unittest.TestCase):
 
 
 def place(**kw):
-    base = dict(key="alpha", n=20, newest=NOW, seen=NOW, opinions=10, negative=2, closed=0, fresh=0,
-                has_summary=True, model=S.MODEL, prompt_hash="h", attempts=0)
+    base = dict(key="alpha", n=20, newest=NOW, ids=[], opinions=10, negative=2, closed=0, fresh=0,
+                has_summary=True, model=S.MODEL, prompt_hash="h", attempts=0, written_at=NOW)
     base.update(kw)
     return S.Place(**base)
 
@@ -156,14 +156,17 @@ class Due(unittest.TestCase):
         return S.due_reason(place(**kw), S.MODEL, "h", 5)
 
     def test_reasons(self):
-        self.assertEqual(self.reason(has_summary=False, model=None, prompt_hash=None), "new")
+        self.assertEqual(self.reason(has_summary=False, written_at=None, model=None, prompt_hash=None), "new")
         self.assertIsNone(self.reason(fresh=4))
         self.assertEqual(self.reason(fresh=5), "fresh")
         self.assertEqual(self.reason(prompt_hash="old"), "prompt")
         self.assertEqual(self.reason(model="claude-haiku-4-5"), "prompt")
-        self.assertEqual(self.reason(attempts=S.MAX_ATTEMPTS, has_summary=False), "parked")
-        self.assertEqual(self.reason(attempts=S.MAX_ATTEMPTS - 1, has_summary=False), "new")
+        self.assertEqual(self.reason(attempts=S.MAX_ATTEMPTS, has_summary=False, written_at=None), "parked")
+        self.assertEqual(self.reason(attempts=S.MAX_ATTEMPTS - 1, has_summary=False, written_at=None), "new")
         self.assertEqual(S.due_reason(place(), S.MODEL, "h", 5, force=True), "forced")
+        # dealt with but nothing to send: no summary, yet waits for new comments like any other
+        self.assertIsNone(self.reason(has_summary=False, fresh=4))
+        self.assertEqual(self.reason(has_summary=False, fresh=5), "fresh")
 
     def test_share_raises_the_bar_for_busy_places_only(self):
         # max(x, ceil(share * n)): 10% of 200 is 20 new; 10% of 30 is 3, so x = 5 rules.
@@ -172,14 +175,14 @@ class Due(unittest.TestCase):
         self.assertEqual(S.due_reason(place(n=30, fresh=5), S.MODEL, "h", 5, share=0.1), "fresh")
         self.assertEqual(S.due_reason(place(n=201, fresh=20), S.MODEL, "h", 5, share=0.1), None)  # ceil
         self.assertEqual(S.due_reason(place(n=200, fresh=5), S.MODEL, "h", 5), "fresh")           # share 0
-        self.assertEqual(S.Settings(x=5, share=0.1).threshold(201), 21)
+        self.assertEqual(S.threshold(5, 0.1, 201), 21)
 
     def test_order(self):
         ps = [place(key="old", prompt_hash="x", n=500), place(key="busy", fresh=9, n=50),
-              place(key="quiet", fresh=5, n=900), place(key="small", has_summary=False, n=10),
-              place(key="big", has_summary=False, n=99), place(key="done", fresh=1),
-              place(key="stuck", has_summary=False, attempts=3),
-              place(key="failing", has_summary=False, attempts=1, n=5000)]
+              place(key="quiet", fresh=5, n=900), place(key="small", has_summary=False, written_at=None, n=10),
+              place(key="big", has_summary=False, written_at=None, n=99), place(key="done", fresh=1),
+              place(key="stuck", has_summary=False, written_at=None, attempts=3),
+              place(key="failing", has_summary=False, written_at=None, attempts=1, n=5000)]
         # A place with a failed attempt goes after every other, however busy.
         self.assertEqual([p.key for p, _ in S.due(ps, S.MODEL, "h", 5)],
                          ["big", "small", "busy", "quiet", "old", "failing"])
@@ -211,17 +214,20 @@ class Settings(unittest.TestCase):
     def test_defaults_and_overrides(self):
         s = S.load_settings({})
         self.assertEqual(s, S.Settings())
-        self.assertEqual((s.n, s.x, s.share, s.run_usd, s.ceiling_usd, s.max_input_tokens, s.effort),
-                         (10, 5, 0.0, 1.0, 10.0, 500_000, "low"))
+        self.assertEqual((s.n, s.x, s.share, s.run_usd, s.ceiling_usd, s.max_input_tokens, s.every_hours,
+                          s.effort), (10, 5, 0.0, 1.0, 10.0, 500_000, 6.0, "low"))
         s = S.load_settings({"SUMMARY_MIN_MENTIONS": "15", "SUMMARY_NEW_SHARE": "0.1",
-                             "SUMMARY_MAX_INPUT_TOKENS": "90000", "SUMMARY_EFFORT": "Medium"})
-        self.assertEqual((s.n, s.share, s.max_input_tokens, s.effort), (15, 0.1, 90000, "medium"))
+                             "SUMMARY_MAX_INPUT_TOKENS": "90000", "SUMMARY_EFFORT": "Medium",
+                             "SUMMARY_EVERY_HOURS": "0.5"})
+        self.assertEqual((s.n, s.share, s.max_input_tokens, s.effort, s.every_hours),
+                         (15, 0.1, 90000, "medium", 0.5))
 
     def test_every_bad_value_is_a_setting_error_not_an_exit(self):
         bad = {"SUMMARY_MIN_MENTIONS": ("0", "ten", "2.5"), "SUMMARY_NEW_MENTIONS": ("0",),
                "SUMMARY_NEW_SHARE": ("-0.1", "1.5", "nan", "lots"),
                "SUMMARY_RUN_USD": ("0", "-1", "inf", "lots"), "SUMMARY_CEILING_USD": ("0", "x"),
-               "SUMMARY_MAX_INPUT_TOKENS": ("12", "abc"), "SUMMARY_EFFORT": ("max", "huge")}
+               "SUMMARY_MAX_INPUT_TOKENS": ("12", "abc"), "SUMMARY_EFFORT": ("max", "huge"),
+               "SUMMARY_EVERY_HOURS": ("-1", "inf", "daily")}
         for var, values in bad.items():
             for v in values:
                 with self.assertRaises(S.SettingError, msg=f"{var}={v}") as cm:
@@ -266,18 +272,51 @@ class Work(unittest.TestCase):
                          "skipped")
         cl.messages.create.assert_not_called()
 
-    def test_which_refusals_stop_the_pass(self):
-        def fatal(status, kind):
-            e = AV.FatalAPIError("x")
+    def test_which_refusals_are_whose(self):
+        def fatal(status, kind, msg="x"):
+            e = AV.FatalAPIError(f"http {status}: {msg}")
             e.status, e.kind = status, kind
             return e
-        for status, kind in ((401, "authentication_error"), (403, "permission_error"),
-                             (404, "not_found_error"), (400, "billing_error"), (None, "permission_error")):
-            self.assertTrue(S.account_wide(fatal(status, kind)), (status, kind))
-        for status, kind in ((400, "invalid_request_error"), (413, "request_too_large")):
-            self.assertFalse(S.account_wide(fatal(status, kind)), (status, kind))
-        self.assertFalse(S.account_wide(AV.TransientAPIError("gave up")))
-        self.assertFalse(S.account_wide(AV.FatalAPIError("no status on it")))
+        account = [fatal(401, "authentication_error"), fatal(403, "permission_error"),
+                   fatal(404, "not_found_error"), fatal(400, "billing_error"), fatal(None, "permission_error"),
+                   fatal(400, "invalid_request_error",
+                         "Your credit balance is too low to access the Anthropic API"),
+                   fatal(400, "invalid_request_error", "billing: payment required")]
+        place = [fatal(400, "invalid_request_error", "prompt is too long: 1200000 tokens > 1000000 maximum"),
+                 fatal(413, "request_too_large", "Request exceeds the maximum allowed number of bytes"),
+                 fatal(400, "invalid_request_error", "messages.0.content: invalid utf-8")]
+        neither = [fatal(400, "invalid_request_error", "output_config.effort: Input should be 'low'"),
+                   fatal(422, "invalid_request_error", "unprocessable"),
+                   AV.TransientAPIError("gave up after 2 attempts: http 529"), AV.FatalAPIError("no status on it")]
+        for e in account:
+            self.assertTrue(S.account_wide(e), e)
+            self.assertFalse(S.place_error(e), e)
+        for e in place:
+            self.assertFalse(S.account_wide(e), e)
+            self.assertTrue(S.place_error(e), e)
+        for e in neither:
+            self.assertFalse(S.account_wide(e), e)
+            self.assertFalse(S.place_error(e), e)
+
+    def test_no_retry_and_no_wait_past_the_deadline(self):
+        import anthropic
+        import httpx2
+        cl = mock.Mock()
+        cl.messages.create.side_effect = anthropic.APITimeoutError(
+            request=httpx2.Request("POST", "http://x/v1/messages"))
+        budget = EV.Budget(1.0)
+        req = self.req()
+        slept = []
+        # The first attempt times out; its retry would wait ~5s, past a
+        # deadline 1s away, so it is never sent.
+        res = S._work(cl, budget, req, "low", threading.Event(), 3, slept.append, print,
+                      deadline=time.monotonic() + 1)
+        self.assertEqual(res.status, "late")
+        self.assertEqual(cl.messages.create.call_count, 1)
+        self.assertEqual(slept, [])
+        self.assertEqual(req.unseen, [0.01])                 # the timed-out attempt, at its worst case
+        self.assertAlmostEqual(budget.spent, 0.01)
+        self.assertAlmostEqual(budget.reserved, 0.0)          # the retry's hold was let go
 
 
 class Sample(unittest.TestCase):
@@ -297,7 +336,7 @@ class Sample(unittest.TestCase):
 
 def chores_args(**kw):
     base = dict(extract=False, embed=False, summarize=True, summarize_limit=10, summarize_workers=1,
-                summarize_settings=S.Settings(), summarize_gate=S.Gate())
+                summarize_settings=S.Settings())
     base.update(kw)
     return types.SimpleNamespace(**base)
 
@@ -363,9 +402,8 @@ class Poller(unittest.TestCase):
         self.assertTrue(ok)
         self.assertEqual((a.summarize_limit, a.summarize_workers), (50, 2))
         self.assertEqual(a.summarize_settings.share, 0.1)
-        self.assertIsInstance(a.summarize_gate, S.Gate)
         self.assertIn("summaries on", lines[0])
-        self.assertIn("$1.00/cycle, $10.00 ceiling", lines[0])
+        self.assertIn("every 6h, <= 50 places and $1.00 a run, $10.00 ceiling", lines[0])
 
     def test_bad_limits_in_the_environment_do_not_stop_a_boot_with_summaries_off(self):
         # The flags stay text until summarize_boot reads them, so argparse

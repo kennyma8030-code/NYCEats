@@ -166,6 +166,23 @@ class Errors(unittest.TestCase):
         self.assertIn("output_config.effort: bad", str(out))
         self.assertEqual((waits, n), ([], 1))
 
+    def test_a_fatal_error_carries_its_status_and_type(self):
+        out, _, _ = self.run_call([F.error(400, "invalid_request_error", "too long")])
+        self.assertEqual((out.status, out.kind), (400, "invalid_request_error"))
+
+    def test_an_error_body_of_another_shape_is_still_fatal_not_a_crash(self):
+        # A proxy or an outage page can put a string where the error object
+        # goes, or send no "error" at all; reading its type must not raise
+        # AttributeError out of call().
+        for body in ({"type": "error", "error": "upstream said no"}, {"message": "no error key"},
+                     {"error": None}, {"error": ["a", "list"]}):
+            out, waits, n = self.run_call([(400, body)])
+            self.assertIsInstance(out, AV.FatalAPIError, body)
+            self.assertEqual((out.status, out.kind, n), (400, None, 1), body)
+        self.assertIsNone(AV._error_type("not a dict"))
+        self.assertIsNone(AV._error_type(None))
+        self.assertEqual(AV._error_type({"error": {"type": "overloaded_error"}}), "overloaded_error")
+
     def test_auth_and_credit_errors_are_fatal(self):
         for st, kind in ((401, "authentication_error"), (403, "permission_error"), (404, "not_found_error"),
                          (413, "request_too_large")):

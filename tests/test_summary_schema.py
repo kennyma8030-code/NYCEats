@@ -24,14 +24,35 @@ class SchemaCopies(unittest.TestCase):
         self.assertEqual(block("schema.sql"), block("summary_schema.sql"))
 
     def test_only_new_tables_and_no_lock_on_anything_else(self):
-        # It runs on every boot of the poller, against production: two
-        # CREATE TABLE IF NOT EXISTS (checked in the catalog before any
-        # lock) and nothing that alters, indexes or rewrites a table.
+        # It runs on every boot of the poller, against production: CREATE
+        # TABLE IF NOT EXISTS (checked in the catalog before any lock), and
+        # nothing that indexes, rewrites or alters a table but its own,
+        # behind a catalog check.
         sql = re.sub(r"--[^\n]*", "", block("summary_schema.sql")).lower()
         tables = re.findall(r"create table if not exists (\w+)", sql)
-        self.assertEqual(tables, ["place_summaries", "summary_calls"])
-        self.assertNotRegex(sql, r"\balter\b|\bindex\b|\bdrop\b|\bupdate\b|\bdelete\b|\binsert\b|references")
-        self.assertEqual(len(re.findall(r"\bcreate\b", sql)), 2)
+        self.assertEqual(tables, ["place_summaries", "summary_calls", "summary_state"])
+        self.assertEqual(len(re.findall(r"\bcreate\b", sql)), 3)
+        self.assertNotRegex(sql, r"\bindex\b|\bdrop\b|\bupdate\b|\bdelete\b|\binsert\b|references")
+        alters = re.findall(r"alter table (\w+) add column if not exists (\w+)", sql)
+        self.assertEqual(alters, [("place_summaries", "seen_comment_ids")])
+        self.assertEqual(len(re.findall(r"\balter\b", sql)), 1)
+        # each ALTER sits behind a catalog check for the very column it adds
+        for _, col in alters:
+            self.assertRegex(sql, rf"if not exists \(select 1 from information_schema\.columns[^;]*"
+                                  rf"column_name = '{col}'\) then\s*alter table")
+        self.assertIn("set_config('lock_timeout', '5s', true)", sql)
+
+    def test_every_later_column_is_in_the_upgrade(self):
+        # A column added after the first version (423c941) must also be in a
+        # guarded ALTER, or re-applying the file would not upgrade an old table.
+        first = {"resolved_key", "summary", "model", "prompt_hash", "mention_count", "last_mention_at",
+                 "input_comments", "input_chars", "written_at", "cost_usd", "usage", "attempts", "error",
+                 "failed_at", "updated_at"}
+        sql = re.sub(r"--[^\n]*", "", block("summary_schema.sql"))
+        body = re.search(r"create table if not exists place_summaries \((.*?)\n\);", sql, re.S).group(1)
+        cols = {line.split()[0] for line in body.strip().splitlines()}
+        added = {c for _, c in re.findall(r"alter table (\w+) add column if not exists (\w+)", sql)}
+        self.assertEqual(cols - first, added)
 
     def test_standalone_file_caps_lock_waits(self):
         with open(os.path.join(ROOT, "summary_schema.sql"), encoding="utf-8") as f:

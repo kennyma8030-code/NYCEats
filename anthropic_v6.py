@@ -341,6 +341,14 @@ def _retry_after(e):
         return None
 
 
+def _error_type(body):
+    """The error's type in an error body ({"error": {"type": ...}}), or None
+    for any other shape: a proxy or an outage can answer with "error" as a
+    string, or with no JSON at all, and reading the type must not raise."""
+    err = body.get("error") if isinstance(body, dict) else None
+    return err.get("type") if isinstance(err, dict) else None
+
+
 # An error event in the middle of a stream that is about the request or the
 # account, not the API's load: as fatal as the same error before the stream.
 _FATAL_STREAM_ERRORS = ("invalid_request_error", "authentication_error", "permission_error", "billing_error",
@@ -408,7 +416,7 @@ def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=Fals
             status = e.status_code
             if status < 400:
                 # An error event inside a stream that had already answered 200.
-                kind = ((e.body if isinstance(e.body, dict) else {}).get("error") or {}).get("type") or "error"
+                kind = _error_type(e.body) or "error"
                 if kind in _FATAL_STREAM_ERRORS:
                     log(f"  anthropic stream {kind}: {_body(e)}")
                     err = FatalAPIError(f"stream {kind}: {_body(e)[:500]}")
@@ -423,7 +431,7 @@ def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=Fals
                 # billing): summarize.py goes on past the first kind.
                 err = FatalAPIError(f"http {status}: {_body(e)[:500]}")
                 err.status = status
-                err.kind = ((e.body if isinstance(e.body, dict) else {}).get("error") or {}).get("type")
+                err.kind = _error_type(e.body)
                 raise err from e
             else:
                 last = f"http {status}"

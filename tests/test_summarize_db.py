@@ -5,12 +5,14 @@ as the API, so nothing is billed.
 
 Covers who qualifies (n, the window, the v6 mentions live_mentions counts,
 deleted comments, excluded names, aliases, one comment counted once), what
-is sent, the write and its watermark on when mentions were stored, the
-x-new rewrite and the share, failure parking, API refusals per place and
-for the account, the per-pass cap, the lifetime ceiling, the tripwire, a
-timeout's charge, the ledger surviving a failed store, the legacy read mode,
-the pass gate, and the poller's step end to end. Skipped without
-TEST_DATABASE_URL.
+is sent, the write and the comments it has seen (late extraction new,
+re-extraction not, counted by comment), the x-new rewrite and the share,
+places with nothing to send, failure parking, whose an API failure is (the
+place's, the account's or the pass's), the per-pass cap, the lifetime
+ceiling, the tripwire, the deadline, a timeout's charge, the ledger
+surviving a failed store or a failed worker, the legacy read mode, the
+every-so-many-hours gate, the schema upgrade, and the poller's step end to
+end. Skipped without TEST_DATABASE_URL.
 """
 
 import datetime as dt
@@ -25,6 +27,7 @@ import anthropic
 import httpx2
 
 import anthropic_v6 as AV
+import db
 import extract_v6 as EV
 import fake_anthropic as F
 import pgtest
@@ -226,20 +229,29 @@ class Writes(SummaryCase):
         self.many("alpha", 10)
         self.build()
 
-    def test_write_and_watermark(self):
+    def test_write_and_what_it_has_seen(self):
         stats, api, b = self.write()
         self.assertEqual(stats.written, 1)
         summary, count, last, attempts, err, sent = self.row("alpha")[0]
         self.assertEqual((count, attempts, err, sent), (10, 0, None, 10))
         self.assertTrue(summary.startswith("Commenters say"))
-        newest = self.q("select max(created_utc) from comments")[0][0]
-        self.assertEqual(last, newest)
+        self.assertEqual(last, self.q("select max(created_utc) from comments")[0][0])
+        seen = self.q("select seen_comment_ids from place_summaries")[0][0]
+        self.assertEqual(sorted(seen), sorted(r[0] for r in self.q("select id from comments")))
         [(key, outcome, cost)] = self.ledger()
         self.assertEqual((key, outcome), ("alpha", "written"))
         self.assertAlmostEqual(float(cost), b.spent, places=8)
         sent_req = api.requests[0]
         self.assertEqual(sent_req["model"], "claude-haiku-5-5")
         self.assertIn("<place>alpha</place>", sent_req["messages"][0]["content"])
+
+    def test_the_seen_set_holds_every_qualifying_comment_not_only_the_ones_sent(self):
+        self.many("alpha", 3, start=30, opinion="none", level=None)     # counted, never sent
+        self.build()
+        self.write()
+        seen = self.q("select seen_comment_ids, input_comments from place_summaries")[0]
+        self.assertEqual((len(seen[0]), seen[1]), (13, 10))
+        self.assertEqual(self.places()["alpha"].fresh, 0)
 
     def test_rewritten_only_after_x_new(self):
         self.write()
@@ -256,18 +268,48 @@ class Writes(SummaryCase):
         self.assertEqual(self.row("alpha")[0][1], 15)
         self.assertEqual(self.places()["alpha"].fresh, 0)
 
-    def test_a_mention_extracted_late_is_new(self):
+    def test_a_comment_extracted_late_is_new(self):
         # Comments written months ago and only extracted now (the backlog, a
-        # late comment on an old thread): their mentions are stored after the
-        # summary, so they count, though every comment is older than the
-        # newest one the summary saw.
+        # late comment on an old thread) were not there to be seen.
         self.write()
-        seen = self.q("select seen_through from place_summaries")[0][0]
-        self.assertEqual(seen, self.q("select max(created_at) from mentions")[0][0])
         for i in range(5):
             self.mention("alpha", 200 + i)
         self.build()
         self.assertEqual((self.places()["alpha"].fresh, self.reason("alpha")), (5, "fresh"))
+
+    def test_the_same_comments_extracted_again_are_not_new(self):
+        # A new prompt hash (or a failed chunk that later succeeds) puts new
+        # mention rows on comments the summary has already seen.
+        self.write()
+        with self.conn.cursor() as cur:
+            cur.execute("select id from comments")
+            ids = [r[0] for r in cur.fetchall()]
+            cur.execute("update extraction_state set prompt_hash = 'newhash'")
+            for cid in ids:
+                cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key, model_version,
+                                                     prompt_hash, schema_version, kind, opinion, overall_level,
+                                                     timeframe)
+                               values (%s, 'alpha', 'alpha', 'm', 'newhash', 6, 'restaurant', 'stated', 1,
+                                       'current')""", (cid,))
+        self.conn.commit()
+        self.build()
+        self.assertEqual(self.q("select count(*) from live_mentions where prompt_hash = 'newhash'")[0][0], 10)
+        p = self.places()["alpha"]
+        self.assertEqual((p.n, p.fresh), (10, 0))
+        self.assertIsNone(self.reason("alpha"))
+
+    def test_new_is_counted_by_comment_not_by_mention(self):
+        self.write()
+        cid = self.mention("alpha", 0)
+        self.mention("alpha x", 0, cid=cid)                             # a second spelling, same comment
+        with self.conn.cursor() as cur:
+            cur.execute("insert into alias_overrides (entity_key, resolved_key, note) values ('alpha x', 'alpha', 't')")
+        self.conn.commit()
+        for i in range(3):
+            self.mention("alpha", 0)
+        self.build()
+        self.assertEqual(self.places()["alpha"].fresh, 4)
+        self.assertIsNone(self.reason("alpha"))
 
     def test_share_raises_the_bar(self):
         self.write()
@@ -276,25 +318,6 @@ class Writes(SummaryCase):
         self.build()
         self.assertEqual(self.reason("alpha", share=0.1), "fresh")       # ceil(0.1 x 15) = 2 < 5
         self.assertIsNone(self.reason("alpha", share=0.5))               # ceil(0.5 x 15) = 8
-
-    def test_old_comments_falling_out_do_not_hide_new_ones(self):
-        # The count stays at 10 while 5 new comments arrive, because 5 old ones
-        # leave the window; the date watermark still sees the 5 new ones.
-        with self.conn.cursor() as cur:
-            cur.execute("update comments set created_utc = now() - interval '360 days' where id in "
-                        "(select id from comments order by created_utc limit 5)")
-        self.conn.commit()
-        self.build()
-        self.write()
-        with self.conn.cursor() as cur:
-            cur.execute("update comments set created_utc = now() - interval '370 days' where "
-                        "created_utc < now() - interval '300 days'")
-        self.conn.commit()
-        for i in range(5):
-            self.mention("alpha", 0)
-        self.build()
-        p = self.places()["alpha"]
-        self.assertEqual((p.n, p.fresh), (10, 5))
 
     def test_a_prompt_change_rewrites(self):
         self.write()
@@ -326,13 +349,13 @@ class Writes(SummaryCase):
         self.assertTrue(err.startswith("invalid_json"))
         self.assertEqual(self.reason("alpha"), "new")
 
-    def test_a_place_the_api_refuses_counts_an_attempt_and_the_pass_goes_on(self):
+    def test_a_request_too_long_for_one_place_is_that_place_s(self):
         self.many("beta", 10)
         self.build()
 
         def answer(p):
             if "<place>alpha</place>" in p["messages"][0]["content"]:
-                return F.error(400, "invalid_request_error", "this one is too odd")
+                return F.error(400, "invalid_request_error", "prompt is too long: 1200000 tokens > 1000000 maximum")
             return ok()
         for attempt in range(1, S.MAX_ATTEMPTS + 1):
             stats, api, b = self.write(answer, workers=1, keys=["alpha", "beta"] if attempt == 1 else ["alpha"])
@@ -345,24 +368,30 @@ class Writes(SummaryCase):
         self.assertEqual(self.reason("alpha"), "parked")
         self.assertEqual([o for _, o, _ in self.ledger()], ["written"])   # a refusal is not billed
 
-    def test_a_refusal_every_call_would_get_stops_the_pass_and_marks_nothing(self):
+    def test_no_credit_stops_the_pass_and_marks_nothing(self):
         self.many("beta", 10)
         self.build()
-        stats, api, b = self.write(lambda p: F.error(401, "authentication_error", "bad key"), workers=1)
-        self.assertIn("FatalAPIError", stats.stop)
-        self.assertEqual(len(api.requests), 1)
-        self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 0)
-        self.assertEqual(self.ledger(), [])
-        self.assertEqual(b.spent, 0.0)
+        for status, kind, msg in ((400, "invalid_request_error",
+                                   "Your credit balance is too low to access the Anthropic API."),
+                                  (401, "authentication_error", "invalid x-api-key")):
+            stats, api, b = self.write(lambda p: F.error(status, kind, msg), workers=1)
+            self.assertIn("FatalAPIError", stats.stop)
+            self.assertEqual(len(api.requests), 1)
+            self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 0)
+            self.assertEqual(self.ledger(), [])
+            self.assertEqual(b.spent, 0.0)
 
-    def test_failures_in_a_row_stop_the_pass(self):
+    def test_failures_that_are_not_the_place_s_mark_nothing_and_stop_after_a_few(self):
         for k in ("beta", "gamma", "delta"):
             self.many(k, 10)
         self.build()
-        stats, api, _ = self.write(lambda p: F.error(400, "invalid_request_error", "bad param"), workers=1)
-        self.assertIn(f"{S.API_FAILURES_IN_A_ROW} places in a row", stats.stop)
-        self.assertEqual(len(api.requests), S.API_FAILURES_IN_A_ROW)
-        self.assertEqual(stats.failed, S.API_FAILURES_IN_A_ROW)
+        for answer in (lambda p: F.error(400, "invalid_request_error", "output_config.effort: bad"),
+                       lambda p: F.error(500, "api_error", "internal")):
+            stats, api, _ = self.write(answer, workers=1)
+            self.assertIn(f"{S.API_FAILURES_IN_A_ROW} calls in a row", stats.stop)
+            self.assertEqual((stats.failed, stats.api_failures), (0, S.API_FAILURES_IN_A_ROW))
+            self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 0)    # nobody parked
+            self.assertEqual(len({r["messages"][0]["content"] for r in api.requests}), S.API_FAILURES_IN_A_ROW)
 
     def test_paid_answers_reach_the_ledger_even_when_storing_fails(self):
         self.many("beta", 10)
@@ -379,6 +408,7 @@ class Writes(SummaryCase):
         self.many("beta", 10)
         self.build()
         real = S.record_calls
+
         def flaky(conn, *a, **k):
             if conn is self.conn:
                 raise RuntimeError("connection lost")
@@ -386,6 +416,72 @@ class Writes(SummaryCase):
         with mock.patch.object(S, "record_calls", side_effect=flaky), self.assertRaises(RuntimeError):
             self.write(workers=2)
         self.assertEqual(sorted(o for _, o, _ in self.ledger()), ["unstored", "unstored"])
+
+    def test_a_worker_that_raises_still_has_its_charges_recorded(self):
+        # The first attempt times out (charged its worst case), then holding
+        # the retry fails on the database: the worker raises, and the charge
+        # it already made must still reach the ledger.
+        class TimesOut:
+            class messages:
+                @staticmethod
+                def create(**p):
+                    raise anthropic.APITimeoutError(request=httpx2.Request("POST", "http://x/v1/messages"))
+        b = self.budget()
+        calls = []
+        real = b.reserve
+
+        def reserve(amount):
+            calls.append(amount)
+            if len(calls) > 1:
+                raise RuntimeError("could not read the ceiling")
+            return real(amount)
+        b.reserve = reserve
+        todo = S.due(list(self.places().values()), S.MODEL, PH, 5)
+        with self.assertRaises(RuntimeError):
+            S.run(self.conn, TimesOut(), b, todo, workers=1, attempts=2, sleep=lambda s: None, log=QUIET,
+                  connect=pgtest.connect)
+        [(key, outcome, cost)] = self.ledger()
+        self.assertEqual((key, outcome), ("alpha", "unseen"))
+        self.assertAlmostEqual(float(cost), calls[0], places=6)
+
+
+class Empty(SummaryCase):
+    def test_nothing_to_send_is_recorded_and_waits_for_new_comments(self):
+        self.many("quiet", 10, opinion="none", level=None)              # qualifies, nothing to send
+        self.many("quiet2", 11, opinion="none", level=None)
+        self.many("alpha", 10)
+        self.many("beta", 10)
+        self.build()
+        # Busiest first would put the empty ones at the head; they must not
+        # use up the limit of one.
+        with self.conn.cursor() as cur:
+            for i in range(5):
+                cur.execute("""insert into comments (id, thread_id, parent_id, author, body, permalink,
+                                                     created_utc, score, score_settled)
+                               values (%s, 't3_s', 't3_s', 'q', 'x', '/r/x', now() - interval '3 days', 1, true)""",
+                            (f"t1_q{i}",))
+                cur.execute("""insert into extraction_state (item_id, version, kind, prompt_hash, extracted_at)
+                               values (%s, 'v6', 'comment', %s, now())""", (f"t1_q{i}", TH))
+                cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key, model_version,
+                                                     prompt_hash, schema_version, kind, opinion)
+                               values (%s, 'quiet', 'quiet', 'm', %s, 6, 'restaurant', 'none')""", (f"t1_q{i}", TH))
+        self.conn.commit()
+        self.build()
+        todo = S.due(list(self.places().values()), S.MODEL, PH, 5)
+        self.assertEqual(todo[0][0].key, "quiet")
+        b = self.budget()
+        with F.FakeAnthropic(lambda p: ok()) as api:
+            stats = S.run(self.conn, AV.client("k", api.base_url), b, todo, workers=1, attempts=1, log=QUIET,
+                          limit=1)
+        self.assertEqual((stats.written, stats.empty, len(api.requests)), (1, 2, 1))
+        rows = dict(self.q("select resolved_key, summary is null and written_at is not null "
+                           "and cardinality(seen_comment_ids) >= 10 from place_summaries"))
+        self.assertTrue(rows["quiet"] and rows["quiet2"])
+        self.assertIsNone(self.reason("quiet"))                          # not due again
+        for i in range(5):
+            self.mention("quiet", 0)
+        self.build()
+        self.assertEqual(self.reason("quiet"), "fresh")                 # new discussion brings it back
 
 
 class Spend(SummaryCase):
@@ -445,7 +541,7 @@ class Spend(SummaryCase):
         with F.FakeAnthropic(lambda p: ok()) as api, self.assertRaises(EV.Tripped):
             S.run(self.conn, AV.client("k", api.base_url), b, todo, workers=1, attempts=1, log=QUIET)
 
-    def test_a_timeout_is_charged_its_worst_case_and_counts_an_attempt(self):
+    def test_a_timeout_is_charged_its_worst_case_and_not_held_against_the_place(self):
         class TimesOut:
             class messages:
                 @staticmethod
@@ -454,16 +550,14 @@ class Spend(SummaryCase):
         todo = S.due(list(self.places().values()), S.MODEL, PH, 5)[:1]
         b = self.budget()
         stats = S.run(self.conn, TimesOut(), b, todo, workers=1, attempts=2, sleep=lambda s: None, log=QUIET)
-        self.assertIsNone(stats.stop)                                    # one place; the pass goes on
-        self.assertEqual(stats.failed, 1)
+        self.assertIsNone(stats.stop)                                    # one call; the pass goes on
+        self.assertEqual((stats.failed, stats.api_failures), (0, 1))
         rows = self.ledger()
         self.assertEqual([o for _, o, _ in rows], ["unseen", "unseen"])      # both attempts
         self.assertAlmostEqual(sum(float(c) for _, _, c in rows), b.spent, places=6)
-        [(summary, attempts, err)] = self.q("select summary, attempts, error from place_summaries")
-        self.assertEqual((summary, attempts), (None, 1))
-        self.assertIn("TransientAPIError", err)
+        self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 0)   # not marked, still due
 
-    def test_an_outage_stops_after_a_few_places_not_all_of_them(self):
+    def test_an_outage_stops_after_a_few_calls_and_parks_nobody(self):
         class Down:
             calls = 0
 
@@ -480,6 +574,7 @@ class Spend(SummaryCase):
                       log=QUIET)
         self.assertIn("in a row", stats.stop)
         self.assertEqual(Down.calls, S.API_FAILURES_IN_A_ROW)
+        self.assertEqual(self.q("select count(*) from place_summaries")[0][0], 0)
 
     def test_no_call_starts_after_the_deadline(self):
         stats, api, _ = self.write(deadline=0.0)                       # long past
@@ -547,6 +642,10 @@ class Review(SummaryCase):
 
 
 class PollerStep(SummaryCase):
+    def poll(self, cl, limit=10, settings=None, log=QUIET):
+        return S.poll_once(self.conn, limit, settings=settings or S.Settings(every_hours=0), connect=pgtest.connect,
+                           cl=cl, log=log, sleep=lambda s: None)
+
     def test_end_to_end_and_the_lock(self):
         self.many("alpha", 10)
         self.many("beta", 10)
@@ -557,66 +656,47 @@ class PollerStep(SummaryCase):
             self.addCleanup(other.close)
             self.assertTrue(S.try_lock(other))                           # a manual run holds it
             lines = []
-            self.assertIsNone(S.poll_once(self.conn, 10, connect=pgtest.connect, cl=cl, log=lines.append))
+            self.assertIsNone(self.poll(cl, log=lines.append))
             self.assertIn("holds the lock", lines[-1])
             S.unlock(other)
-            stats = S.poll_once(self.conn, 1, connect=pgtest.connect, cl=cl, log=QUIET, sleep=lambda s: None)
-            self.assertEqual(stats.written, 1)                           # the limit
-            stats = S.poll_once(self.conn, 10, connect=pgtest.connect, cl=cl, log=QUIET)
-            self.assertEqual(stats.written, 1)
-            self.assertEqual(S.poll_once(self.conn, 10, connect=pgtest.connect, cl=cl, log=QUIET).written, 0)
+            self.assertEqual(self.poll(cl, limit=1).written, 1)          # the limit
+            self.assertEqual(self.poll(cl).written, 1)
+            self.assertEqual(self.poll(cl).written, 0)
         self.assertEqual(len(api.requests), 2)
         self.assertTrue(S.try_lock(self.conn))                           # released
         S.unlock(self.conn)
 
-    def test_the_gate_skips_a_pass_with_nothing_new(self):
+    def test_at_most_once_every_so_many_hours_across_restarts(self):
         self.many("alpha", 10)
         self.build()
-        gate = S.Gate()
-        reads = []
-        real = S.qualifying
-
-        def counted(*a, **k):
-            reads.append(1)
-            return real(*a, **k)
-        with F.FakeAnthropic(lambda p: ok()) as api, mock.patch.object(S, "qualifying", side_effect=counted):
-            cl = AV.client("k", api.base_url)
-
-            def poll():
-                return S.poll_once(self.conn, 10, settings=S.Settings(), connect=pgtest.connect, cl=cl,
-                                   log=QUIET, gate=gate)
-            self.assertEqual(poll().written, 1)
-            self.assertEqual(len(reads), 1)
-            self.assertTrue(poll().skipped)                              # nothing new: no year-wide read
-            self.assertEqual(len(reads), 1)
-            for i in range(5):                                           # new mentions open it again
-                self.mention("alpha", 0)
-            self.build()
-            self.assertEqual(poll().written, 1)
-            self.assertEqual(len(reads), 2)
-            self.assertTrue(poll().skipped)
-            with self.conn.cursor() as cur:                              # so does a change from elsewhere
-                cur.execute("update place_summaries set attempts = 0, updated_at = now()")
-            self.conn.commit()
-            self.assertFalse(poll().skipped)
-            self.assertEqual(len(reads), 3)
-            # and other settings are another pass
-            self.assertFalse(S.poll_once(self.conn, 10, settings=S.Settings(x=6), connect=pgtest.connect, cl=cl,
-                                         log=QUIET, gate=gate).skipped)
-        self.assertEqual(len(api.requests), 2)
-
-    def test_the_gate_stays_open_while_work_is_left(self):
-        for k in ("alpha", "beta"):
-            self.many(k, 10)
-        self.build()
-        gate = S.Gate()
+        six = S.Settings(every_hours=6)
         with F.FakeAnthropic(lambda p: ok()) as api:
             cl = AV.client("k", api.base_url)
-            run = lambda: S.poll_once(self.conn, 1, settings=S.Settings(), connect=pgtest.connect,  # noqa: E731
-                                      cl=cl, log=QUIET, gate=gate)
-            self.assertEqual(run().written, 1)                           # the limit left one behind
-            self.assertEqual(run().written, 1)
-            self.assertTrue(run().skipped)
+            self.assertEqual(self.poll(cl, settings=six).written, 1)
+            ran = self.q("select last_pass_at from summary_state")[0][0]
+            self.assertIsNotNone(ran)
+            for i in range(5):                                           # due again, but not yet time
+                self.mention("alpha", 0)
+            self.build()
+            self.assertTrue(self.poll(cl, settings=six).skipped)
+            self.assertTrue(self.poll(cl, settings=six).skipped)         # a new process reads the same row
+            with self.conn.cursor() as cur:
+                cur.execute("update summary_state set last_pass_at = now() - interval '7 hours'")
+            self.conn.commit()
+            self.assertEqual(self.poll(cl, settings=six).written, 1)
+        self.assertEqual(len(api.requests), 2)
+
+    def test_retry_errors_is_seen_at_the_next_run(self):
+        self.many("alpha", 10)
+        self.build()
+        with self.conn.cursor() as cur:
+            cur.execute("insert into place_summaries (resolved_key, attempts, error) values ('alpha', 3, 'x')")
+        self.conn.commit()
+        with F.FakeAnthropic(lambda p: ok()) as api:
+            cl = AV.client("k", api.base_url)
+            self.assertEqual(self.poll(cl).written, 0)                   # parked
+            S.retry_errors(self.conn)
+            self.assertEqual(self.poll(cl).written, 1)
 
     def test_missing_tables_skip(self):
         with self.conn.cursor() as cur:
@@ -626,6 +706,25 @@ class PollerStep(SummaryCase):
         with mock.patch.dict(os.environ, {S.KEY_VAR: "k"}):
             self.assertIsNone(S.poll_once(self.conn, 10, log=lines.append))
         self.assertIn("tables missing", lines[0])
+
+
+class SchemaUpgrade(SummaryCase):
+    def test_reapplying_the_file_upgrades_a_first_version_table(self):
+        with self.conn.cursor() as cur:
+            cur.execute("drop table place_summaries; drop table summary_state")
+            cur.execute("""create table place_summaries (
+                             resolved_key text primary key, summary text, model text, prompt_hash text,
+                             mention_count int, last_mention_at timestamptz, input_comments int,
+                             input_chars int, written_at timestamptz, cost_usd numeric(12, 8), usage jsonb,
+                             attempts int not null default 0, error text, failed_at timestamptz,
+                             updated_at timestamptz not null default now())""")
+            cur.execute("insert into place_summaries (resolved_key, summary) values ('kept', 'old summary')")
+        self.conn.commit()
+        self.assertFalse(S.tables_exist(self.conn))
+        for _ in range(2):                                               # and again: a no-op
+            db.init(self.conn, os.path.join(pgtest.ROOT, "summary_schema.sql"))
+        self.assertTrue(S.tables_exist(self.conn))
+        self.assertEqual(self.q("select summary, seen_comment_ids from place_summaries"), [("old summary", None)])
 
 
 if __name__ == "__main__":

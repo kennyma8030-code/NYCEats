@@ -477,11 +477,12 @@ def embed_once(conn, days, limit, max_usd, scope, workers):
 
 
 def summarize_once(conn, args):
-    """Write the place summaries that are due (summarize.py), at most
-    args.summarize_limit places, under SUMMARY_RUN_USD for the pass and
-    SUMMARY_CEILING_USD in all. Last in the pass, after the refresh and
-    embedding, so it can never delay the board; bounded by a short per-call
-    timeout, two attempts and a deadline after which no new call starts.
+    """Write the place summaries that are due (summarize.py), at most once
+    every SUMMARY_EVERY_HOURS, at most args.summarize_limit places, under
+    SUMMARY_RUN_USD a run and SUMMARY_CEILING_USD in all. Last in the pass,
+    after the refresh and embedding, so it can never delay the board;
+    bounded by a short per-call timeout, two attempts and a deadline past
+    which nothing starts, retries or waits.
 
     A spend tripwire (a call that cost more than was held for it, or
     recorded spend past the ceiling) turns summaries off until the poller
@@ -496,7 +497,7 @@ def summarize_once(conn, args):
 
     try:
         stats = summarize.poll_once(conn, args.summarize_limit, settings=args.summarize_settings,
-                                    workers=args.summarize_workers, gate=args.summarize_gate)
+                                    workers=args.summarize_workers)
     except extract_v6.Tripped as e:
         args.summarize = False
         print(f"  SUMMARIES OFF until restart: spend tripwire: {e}")
@@ -649,7 +650,7 @@ def summarize_boot(args, log=print):
     checked now: like embedding, a missing key or a bad value turns it off
     with a line in the log instead of failing the deploy or a later pass.
     Summaries are optional; the board is not. On success args carries the
-    parsed limit and workers, the checked settings and the pass gate."""
+    parsed limit and workers and the checked settings."""
     import summarize
     if not summarize.api_key():
         log(f"summaries OFF: --summarize needs {summarize.KEY_VAR}")
@@ -663,10 +664,9 @@ def summarize_boot(args, log=print):
         log(f"summaries OFF: {e}")
         return False
     args.summarize_settings = s
-    args.summarize_gate = summarize.Gate()
     log(f"summaries on: {summarize.MODEL} at effort {s.effort}, prompt {s.prompt_hash}, n={s.n}, "
-        f"rewrite after max({s.x}, {s.share:g} x count) new, <= {args.summarize_limit} places and "
-        f"${s.run_usd:.2f}/cycle, ${s.ceiling_usd:.2f} ceiling")
+        f"rewrite after max({s.x}, {s.share:g} x count) new comments, every {s.every_hours:g}h, "
+        f"<= {args.summarize_limit} places and ${s.run_usd:.2f} a run, ${s.ceiling_usd:.2f} ceiling")
     return True
 
 

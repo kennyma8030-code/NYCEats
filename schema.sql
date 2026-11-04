@@ -441,43 +441,59 @@ end $$;
 --
 -- Same block as summary_schema.sql, which explains it; that file is the
 -- migration to apply by hand. Repeated here so a fresh database, or the
--- next poller boot, gets the tables too. Two new tables and nothing else:
--- CREATE TABLE IF NOT EXISTS checks the catalog before it takes a lock, so
--- no boot waits on anything for them. tests/test_summary_schema.py keeps
+-- next poller boot, gets the tables too. Three new tables and nothing else:
+-- CREATE TABLE IF NOT EXISTS checks the catalog before it takes a lock, and
+-- the one later column is added behind a catalog check, so no boot after
+-- the first waits on anything for them. tests/test_summary_schema.py keeps
 -- the two copies identical.
 -- ---------------------------------------------------------------------------
 -- place-summaries-schema:begin
 -- One row per place, keyed by the RESOLVED name (entity_alias.resolved_key),
 -- so every spelling of a place shares one summary. A row is written when a
 -- place first qualifies, and again when it has collected enough new
--- discussion or the prompt or model changed. A failed attempt keeps the last
--- good summary and counts attempts; a place that keeps failing is parked
--- (summarize.MAX_ATTEMPTS) until `summarize.py --retry-errors`.
+-- discussion or the prompt or model changed. A place that qualifies with
+-- nothing to send gets a row with no summary, so it waits for new comments
+-- like any other. A failed attempt keeps the last good summary and counts
+-- attempts; a place that keeps failing is parked (summarize.MAX_ATTEMPTS)
+-- until `summarize.py --retry-errors`.
 --   mention_count    qualifying comments in the window when it was written
 --   last_mention_at  when the newest of those comments was written
---   seen_through     when the newest of their mentions was stored
---                    (mentions.created_at): the watermark "x new mentions"
---                    counts from, so a mention extracted late still counts
---                    as new (summarize.py says why)
+--   seen_comment_ids the ids of all of them (not only the ones sent): a
+--                    qualifying comment not in it is new to the summary
+--                    (summarize.py says why ids and not a time)
 --   input_comments   comments the model was given, and their characters
+--   written_at       when it was last written, with a summary or with
+--                    nothing to send; null until then
 create table if not exists place_summaries (
-  resolved_key    text primary key,
-  summary         text,
-  model           text,
-  prompt_hash     text,
-  mention_count   int,
-  last_mention_at timestamptz,
-  seen_through    timestamptz,
-  input_comments  int,
-  input_chars     int,
-  written_at      timestamptz,
-  cost_usd        numeric(12, 8),
-  usage           jsonb,
-  attempts        int not null default 0,   -- failures since the last summary was written
-  error           text,
-  failed_at       timestamptz,
-  updated_at      timestamptz not null default now()
+  resolved_key     text primary key,
+  summary          text,
+  model            text,
+  prompt_hash      text,
+  mention_count    int,
+  last_mention_at  timestamptz,
+  seen_comment_ids text[],
+  input_comments   int,
+  input_chars      int,
+  written_at       timestamptz,
+  cost_usd         numeric(12, 8),
+  usage            jsonb,
+  attempts         int not null default 0,   -- failures since the last summary was written
+  error            text,
+  failed_at        timestamptz,
+  updated_at       timestamptz not null default now()
 );
+-- Columns that came after the table's first version. Nullable with no
+-- default, so the ALTER only touches the catalog; checked there first, so a
+-- table that has them takes no lock.
+do $$
+begin
+  perform set_config('lock_timeout', '5s', true);
+  if not exists (select 1 from information_schema.columns
+                 where table_schema = current_schema() and table_name = 'place_summaries'
+                   and column_name = 'seen_comment_ids') then
+    alter table place_summaries add column if not exists seen_comment_ids text[];
+  end if;
+end $$;
 -- Every paid call, kept apart from the summaries so that rewriting or
 -- dropping a summary never forgets what it cost: the per-pass cap and the
 -- lifetime ceiling (SUMMARY_RUN_USD, SUMMARY_CEILING_USD) are checked
@@ -495,6 +511,12 @@ create table if not exists summary_calls (
   cost_usd     numeric(12, 8) not null,
   usage        jsonb,
   called_at    timestamptz not null default now()
+);
+-- When the poller's summary step last ran, so it runs at most once every
+-- SUMMARY_EVERY_HOURS across restarts. One row, written by the step.
+create table if not exists summary_state (
+  only_row     boolean primary key default true check (only_row),
+  last_pass_at timestamptz
 );
 -- place-summaries-schema:end
 
