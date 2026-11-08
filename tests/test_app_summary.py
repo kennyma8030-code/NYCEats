@@ -15,6 +15,10 @@ from app import queries
 
 
 class Wiring(unittest.TestCase):
+    # Cleared before too: any earlier card load in the run leaves the answer cached.
+    def setUp(self):
+        queries.forget_summary_ready()
+
     def tearDown(self):
         queries.forget_summary_ready()
 
