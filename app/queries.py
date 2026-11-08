@@ -308,20 +308,44 @@ def spellings(conn, entity_key, fetch_all):
     """, (entity_key,))
 
 
-def place_summary(conn, entity_key, fetch_one):
+_summary_ready = {"at": None, "ready": False}
+
+
+def forget_summary_ready():
+    _summary_ready.update(at=None)
+
+
+def summary_ready(conn, fetch_value):
+    """Whether place_summaries exists, cached with the rating views' TTLs so a
+    database without it does not run a failing statement on every card load."""
+    now = time.monotonic()
+    at, ready = _summary_ready["at"], _summary_ready["ready"]
+    if at is not None and now - at < RATING_READY_TTL[ready]:
+        return ready
+    ready = bool(fetch_value(conn, "select to_regclass('place_summaries') is not null",
+                             default=False))
+    _summary_ready.update(at=now, ready=ready)
+    return ready
+
+
+def place_summary(conn, entity_key, fetch_one, fetch_value):
     """The AI-written summary of what the sub says about a place, or None.
-    Only about a hundred busy places have one, so None is the normal answer.
-    It is also the answer when place_summaries does not exist (an old or
-    local database): rolled back so the connection is usable for the rest of
-    the request. The table's bookkeeping columns are left unread on purpose."""
+    Only about a hundred busy places have one, so None is the normal answer;
+    it is also the answer when place_summaries does not exist (an old or local
+    database). comment_count is input_comments, the comments the model was
+    actually sent. The table's bookkeeping columns are left unread on purpose."""
+    if not summary_ready(conn, fetch_value):
+        return None
     try:
         return fetch_one(conn, """
-            select summary as text, mention_count as comment_count, written_at, model
+            select summary as text, input_comments as comment_count, written_at
             from place_summaries
             where resolved_key = %s and summary is not null
         """, (entity_key,))
     except (UndefinedTable, UndefinedColumn):
+        # Dropped since the check: roll back so the connection stays usable.
         conn.rollback()
+        forget_summary_ready()
         return None
 
 

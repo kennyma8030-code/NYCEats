@@ -1,9 +1,10 @@
 import type { PlaceSummary } from "../../api/types";
 
-/** What the sub says about a place, in a model's words. Labelled as a
- *  summary so it is never mistaken for a quote; most places have none, and
- *  then nothing renders. The count is plain text: it is the number of
- *  comments the summary was written from, not a list the API can open. */
+/** What the sub says about a place, in a model's words. The label says so in
+ *  plain sight, and it is a paragraph rather than a quote, because it is a
+ *  paraphrase. Most places have none, and then nothing renders. The count is
+ *  plain text: it is the number of comments the model was sent, not a list the
+ *  API can open. */
 export function PlaceSummaryCard({ summary }: { summary: PlaceSummary | null | undefined }) {
   if (!summary?.text) return null;
   const when = summary.written_at
@@ -11,14 +12,14 @@ export function PlaceSummaryCard({ summary }: { summary: PlaceSummary | null | u
     : null;
   const n = summary.comment_count;
   const label = [
-    "What r/FoodNYC says",
-    n ? `summarized from ${n.toLocaleString()} ${n === 1 ? "comment" : "comments"}` : "AI summary",
+    "AI summary of r/FoodNYC",
+    n ? `from ${n.toLocaleString()} ${n === 1 ? "comment" : "comments"}` : null,
     when,
   ].filter(Boolean).join(" · ");
   return (
     <section className="ps" aria-label="AI summary of the comments">
       <p className="lab">{label}</p>
-      <blockquote>{summary.text}</blockquote>
+      <p className="ps-text">{summary.text}</p>
     </section>
   );
 }

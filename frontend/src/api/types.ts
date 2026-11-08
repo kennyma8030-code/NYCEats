@@ -96,7 +96,6 @@ export interface PlaceSummary {
   text: string;
   comment_count: number | null;
   written_at: string | null;
-  model: string | null;
 }
 
 export interface RestaurantDetail {

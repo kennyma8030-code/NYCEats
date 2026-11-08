@@ -15,14 +15,29 @@ from app import queries
 
 
 class Wiring(unittest.TestCase):
+    def tearDown(self):
+        queries.forget_summary_ready()
+
     def test_missing_table_is_none_and_rolled_back(self):
         conn = mock.Mock()
+        never = mock.Mock(side_effect=AssertionError("queried"))
+        absent = mock.Mock(return_value=False)
+        self.assertIsNone(queries.place_summary(conn, "k", never, absent))
+        # The answer is cached: a second card load does not look again.
+        self.assertIsNone(queries.place_summary(conn, "k", never, absent))
+        absent.assert_called_once()
+        # Dropped after the check: rolled back, and the next call looks again.
         gone = mock.Mock(side_effect=UndefinedTable())
-        self.assertIsNone(queries.place_summary(conn, "k", gone))
+        queries._summary_ready.update(at=queries.time.monotonic(), ready=True)
+        self.assertIsNone(queries.place_summary(conn, "k", gone, absent))
         conn.rollback.assert_called_once()
+        self.assertIsNone(queries._summary_ready["at"])
 
 
 class Summary(AppCase):
+    def setUp(self):
+        queries.forget_summary_ready()
+
     def detail(self, key="cellos"):
         r = self.client.get(f"/api/restaurants/{key}")
         self.assertEqual(r.status_code, 200)
@@ -38,11 +53,11 @@ class Summary(AppCase):
     def test_a_place_with_a_summary(self):
         self.put("cellos", "Regulars love the slice.")
         s = self.detail()["place_summary"]
-        self.assertEqual((s["text"], s["comment_count"], s["model"]),
-                         ("Regulars love the slice.", 7, "m1"))
+        # input_comments (5), not mention_count (7).
+        self.assertEqual((s["text"], s["comment_count"]), ("Regulars love the slice.", 5))
         self.assertTrue(s["written_at"].startswith("2026-10-03"))
         # Bookkeeping stays server side.
-        self.assertEqual(set(s), {"text", "comment_count", "written_at", "model"})
+        self.assertEqual(set(s), {"text", "comment_count", "written_at"})
 
     def test_a_place_without_a_row(self):
         self.assertIsNone(self.detail("katzs")["place_summary"])

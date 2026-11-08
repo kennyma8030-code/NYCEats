@@ -297,11 +297,11 @@ class RatingLines(BaseModel):
 
 class PlaceSummary(BaseModel):
     """Two or three sentences by a model on what the sub says about a place,
-    written from `comment_count` of its comments. Labelled as AI-written."""
+    written from the `comment_count` comments actually sent to the model (the
+    busiest places have more qualifying comments than that). Show it as AI-written."""
     text: str
     comment_count: Optional[int] = None
     written_at: Optional[datetime] = None
-    model: Optional[str] = None
 
 
 class RestaurantDetail(BaseModel):
