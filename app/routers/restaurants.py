@@ -16,7 +16,7 @@ from .. import images, queries
 from ..db import connection, fetch_all, fetch_one, fetch_value, get_conn
 from ..models import (CATEGORY_VOICE_FILTERS, Algo, AspectDetail, ImageOut, Mention,
                       MentionQuery, MentionSort, MomentumWindow, Page, RatingCategory,
-                      RestaurantDetail, LeaderboardRow, Spelling, VoiceFilter)
+                      PlaceSummary, RestaurantDetail, LeaderboardRow, Spelling, VoiceFilter)
 from .admin import require_token
 from .ledger import build_rating, rating_only
 
@@ -51,8 +51,10 @@ def detail(entity_key: EntityKey, algo: Algo = "v1", conn=Depends(get_conn)):
     official = queries.official_record(conn, entity_key, fetch_one) or {}
     # Null rather than a 500 when the rating views are not built (ratings_for).
     ratings = queries.ratings_for(conn, [entity_key], fetch_all, fetch_value)
+    found = queries.place_summary(conn, entity_key, fetch_one)
     return RestaurantDetail(
         entity_key=entity_key,
+        place_summary=PlaceSummary(**found) if found else None,
         summary=LeaderboardRow(**summary),
         rating=build_rating(ratings.get(entity_key)),
         aspects=[AspectDetail(**a) for a in

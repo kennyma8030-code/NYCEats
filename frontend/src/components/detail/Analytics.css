@@ -92,3 +92,8 @@
 .rt-bar i { display: block; height: 100%; background: var(--accent) }
 .rt-num { text-align: right; font-variant-numeric: tabular-nums }
 .rt-num small { color: var(--faint); font-size: 12px }
+
+/* AI summary: a quiet quoted paragraph under the label. */
+.ps { display: grid; gap: 8px }
+.ps .lab { margin: 0 }
+.ps blockquote { margin: 0; padding-left: 14px; border-left: 2px solid var(--faint); font-size: 15px; line-height: 1.5 }

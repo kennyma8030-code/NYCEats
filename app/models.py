@@ -295,11 +295,22 @@ class RatingLines(BaseModel):
     gem_line: Optional[float] = None   # lb a non-busy place needs to be a gem
 
 
+class PlaceSummary(BaseModel):
+    """Two or three sentences by a model on what the sub says about a place,
+    written from `comment_count` of its comments. Labelled as AI-written."""
+    text: str
+    comment_count: Optional[int] = None
+    written_at: Optional[datetime] = None
+    model: Optional[str] = None
+
+
 class RestaurantDetail(BaseModel):
     entity_key: str
     summary: LeaderboardRow
     # None when nobody voiced an opinion or recommendation in the window.
     rating: Optional[Rating] = None
+    # None for the many places without a summary (and where the table is absent).
+    place_summary: Optional[PlaceSummary] = None
     aspects: list[AspectDetail]
     momentum: list[MomentumWindow]
     spellings: list[Spelling]

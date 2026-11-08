@@ -308,6 +308,23 @@ def spellings(conn, entity_key, fetch_all):
     """, (entity_key,))
 
 
+def place_summary(conn, entity_key, fetch_one):
+    """The AI-written summary of what the sub says about a place, or None.
+    Only about a hundred busy places have one, so None is the normal answer.
+    It is also the answer when place_summaries does not exist (an old or
+    local database): rolled back so the connection is usable for the rest of
+    the request. The table's bookkeeping columns are left unread on purpose."""
+    try:
+        return fetch_one(conn, """
+            select summary as text, mention_count as comment_count, written_at, model
+            from place_summaries
+            where resolved_key = %s and summary is not null
+        """, (entity_key,))
+    except (UndefinedTable, UndefinedColumn):
+        conn.rollback()
+        return None
+
+
 def official_record(conn, entity_key, fetch_one):
     return fetch_one(conn, """
         select name, name_key, cuisine, boroughs, location_count,
