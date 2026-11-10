@@ -229,9 +229,11 @@ def connect(base_url=None, log=print, start=None, on_switch=None):
     key, backup = api_key(), backup_key()
     if not key:
         return None
+    def one(k):
+        return client(k, base_url) if base_url else client(k)
     if not backup or backup == key:
-        return client(key, base_url)
-    return Keys([("main", client(key, base_url)), ("backup", client(backup, base_url))], log, start, on_switch)
+        return one(key)
+    return Keys([("main", one(key)), ("backup", one(backup))], log, start, on_switch)
 
 
 def _active(cl):
