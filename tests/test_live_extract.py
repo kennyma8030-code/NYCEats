@@ -187,7 +187,8 @@ class Parsing(unittest.TestCase):
                 X.parse_age(bad)
 
     def test_thread_flags_are_refused_in_comment_mode(self):
-        for flags in (["--subreddit", "FoodNYC"], ["--min-post-age", "48h"]):
+        # --subreddit is not one of them any more: every mode takes the subreddits it is given.
+        for flags in (["--min-post-age", "48h"], ["--chunk-max", "9"]):
             with self.assertRaises(SystemExit):
                 X.main(["--dry-run"] + flags)
 
@@ -245,6 +246,14 @@ class Selection(TT.ThreadCase):
         self.assertIn("t3_c", st)
         self.assertEqual(self.q("select comment_id, thread_id from mentions where entity_key = 'placechicago' "
                                 "order by 1"), [("t1_chi", None), (None, "t3_chi")])
+        # Each thread went out under its own city's prompt, and its items carry that prompt's hash.
+        chicago, ph = prompt_v6.thread_prompt("chicagofood")
+        sent = {r["system"][0]["text"] for r in api.requests}
+        self.assertEqual(sent, {chicago, prompt_v6.SYSTEM_PROMPT_THREAD})
+        self.assertEqual(self.q("select distinct prompt_hash from extraction_state "
+                                "where item_id in ('t1_chi', 't3_chi')"), [(ph,)])
+        self.assertEqual(self.q("select distinct prompt_hash from extraction_state where item_id = 't3_c'"),
+                         [(TH,)])
 
     def test_a_late_comment_goes_out_alone_under_its_ancestors_and_the_post(self):
         with fake() as api:

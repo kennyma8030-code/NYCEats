@@ -28,8 +28,11 @@ quoted ancestor chains), so it has its own hash. fetch_thread_rows reads the
 whole comment tree it needs; thread_chunks.py cuts it into chunks.
 """
 
+import functools
 import importlib.util
 import os
+
+import subreddits
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 VENDOR = os.path.join(HERE, "prompts_v6")
@@ -59,6 +62,79 @@ build_post_message = _comment.build_post_message   # (title, selftext) -> str
 SYSTEM_PROMPT_THREAD = thread.SYSTEM_PROMPT
 SCHEMA_THREAD = thread.SCHEMA                      # the comment schema with an integer "id" first
 PROMPT_HASH_THREAD = thread.PROMPT_HASH            # d92ec8610d8c (the eval ran ac9b063da8e6; see the handoff)
+
+# The prompts were written and graded for r/FoodNYC, and say so in these
+# places. For another subreddit each is rewritten from that subreddit's city
+# (subreddits.CITIES), and nothing else in the prompt changes. (text as the
+# New York prompt has it, the same text for a city.) The vendored files are
+# not touched, and New York's own prompts are the vendored text itself, so
+# their hashes, which every stored r/FoodNYC mention is counted by, cannot
+# move.
+CITY_TEXT = (
+    ("in a New York City food subreddit", "in a {name} food subreddit"),
+    ("Every food or drink place in New York City the text", "Every food or drink place in {name} the text"),
+    ("places outside the five boroughs and foreign branches", "places outside {area} and foreign branches"),
+    ("the NYC one gets only what is said about it", "the {short} one gets only what is said about it"),
+    ('"my favorite in NYC"', '"my favorite in {short}"'),
+    ('"nothing in NYC comes close"', '"nothing in {short} comes close"'),
+    ("it is in NYC, and kind says what it is", "it is in {short}, and kind says what it is"),
+    ("POST: Best noodles in Queens?", "POST: Best noodles in {district}?"),       # thread mode's example
+)
+# What must not survive the rewrite. A prompt edit that says "NYC" somewhere
+# CITY_TEXT does not know would otherwise leave it in every other city's prompt.
+NEW_YORK_WORDS = ("NYC", "New York", "five boroughs", "Queens", "Brooklyn", "Manhattan", "Bronx", "Staten Island")
+
+
+def _for_city(text, city):
+    """`text`, one of New York's prompts, rewritten for `city`."""
+    for old, new in CITY_TEXT:
+        text = text.replace(old, new.format(**city._asdict()))
+    left = [w for w in NEW_YORK_WORDS if w in text]
+    if left:
+        raise ValueError(f"the prompt still says {', '.join(left)} after it was rewritten for {city.name}: "
+                         f"add the sentence to prompt_v6.CITY_TEXT")
+    return text
+
+
+# mode -> (New York's prompt, its hash)
+_HOME_PROMPTS = {"comment": (SYSTEM_PROMPT, PROMPT_HASH), "post": (SYSTEM_PROMPT_POST, PROMPT_HASH_POST),
+                 "thread": (SYSTEM_PROMPT_THREAD, PROMPT_HASH_THREAD)}
+MODES = tuple(_HOME_PROMPTS)
+
+
+@functools.lru_cache(maxsize=None)
+def prompt_for(mode, subreddit=subreddits.HOME):
+    """(system prompt, prompt hash) of a mode ("comment", "post", "thread")
+    for an item of this subreddit.
+
+    The subreddit of the comment or post decides the city the prompt is
+    about. Each city's prompt has its own hash, so its mentions are never
+    counted beside another prompt's, and a change to one city's wording
+    resets only that city."""
+    text, ph = _HOME_PROMPTS[mode]
+    if subreddit == subreddits.HOME:
+        return text, ph
+    text = _for_city(text, subreddits.city(subreddit))
+    return text, thread._c.prompt_hash(text)
+
+
+def thread_prompt(subreddit=subreddits.HOME):
+    return prompt_for("thread", subreddit)
+
+
+def hashes(mode, subs=None):
+    """{prompt hash: subreddit} for one mode's prompts in these subreddits (default: every collected one)."""
+    return {prompt_for(mode, s)[1]: s for s in (subs or subreddits.SUBREDDITS)}
+
+
+def thread_hashes(subs=None):
+    return hashes("thread", subs)
+
+
+def all_hashes():
+    """{prompt hash: (mode, subreddit)} for every v6 prompt in use."""
+    return {ph: (mode, sub) for mode in MODES for ph, sub in hashes(mode).items()}
+
 
 GONE = ("[deleted]", "[removed]")
 # One more ancestor than the renderer shows, so it knows when it cut and says
@@ -156,7 +232,7 @@ def fetch_post_rows(conn, tids):
 
 
 def fetch_thread_rows(conn, tids):
-    """{thread_id: {"title", "selftext", "author", "comments": [row]}} for the given posts that exist.
+    """{thread_id: {"title", "selftext", "author", "subreddit", "comments": [row]}} for the given posts that exist.
 
     Every comment of each thread, due or not and deleted or not, because the
     chunker needs the whole tree to group replies and to quote ancestors. A
@@ -166,8 +242,9 @@ def fetch_thread_rows(conn, tids):
     if not tids:
         return {}
     with conn.cursor() as cur:
-        cur.execute("select id, title, selftext, author from threads where id = any(%s)", (tids,))
-        out = {r[0]: {"title": r[1], "selftext": r[2], "author": r[3], "comments": []} for r in cur.fetchall()}
+        cur.execute("select id, title, selftext, author, subreddit from threads where id = any(%s)", (tids,))
+        out = {r[0]: {"title": r[1], "selftext": r[2], "author": r[3], "subreddit": r[4], "comments": []}
+               for r in cur.fetchall()}
         cur.execute("""select id, thread_id, parent_comment_id, author, body, created_utc from comments
                        where thread_id = any(%s) order by thread_id, created_utc, id""", (tids,))
         for cid, tid, parent, author, body, created in cur.fetchall():
@@ -177,13 +254,26 @@ def fetch_thread_rows(conn, tids):
     return out
 
 
-def render(kind, row):
+def render(kind, row, subreddit=subreddits.HOME):
     """(system prompt, user message, prompt hash) for one item.
 
     kind "comment" takes a fetch_comment_rows record, kind "post" a
-    fetch_post_rows tuple.
+    fetch_post_rows tuple. `subreddit` is the item's, and picks its city's
+    prompt; the user message is drawn the same for every city.
     """
+    system, ph = prompt_for(kind, subreddit)
     if kind == "comment":
-        return SYSTEM_PROMPT, build_user_message(row), PROMPT_HASH
+        return system, build_user_message(row), ph
     title, selftext, _author = row
-    return SYSTEM_PROMPT_POST, build_post_message(title, selftext), PROMPT_HASH_POST
+    return system, build_post_message(title, selftext), ph
+
+
+def subreddits_of(conn, kind, ids):
+    """{item id: subreddit} for these comments (kind "comment") or posts."""
+    ids = sorted(set(ids))
+    if not ids:
+        return {}
+    with conn.cursor() as cur:
+        cur.execute(f"select id, subreddit from {'comments' if kind == 'comment' else 'threads'} "
+                    f"where id = any(%s)", (ids,))
+        return dict(cur.fetchall())

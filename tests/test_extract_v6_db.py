@@ -625,6 +625,26 @@ class DryRunAndCli(DbCase):
         self.assertIn("t1_r2", self.done_ids())
         self.assertIn("cleared 1 error(s)", out.getvalue())
 
+    def test_comment_and_post_mode_take_the_subreddits_given_and_each_items_own_prompt(self):
+        self.assertNotIn("t1_chi", X.candidate_ids(self.conn, "comment"))            # r/FoodNYC unless told
+        self.assertEqual(X.candidate_ids(self.conn, "comment", subs=["chicagofood"]), ["t1_chi"])
+        self.assertEqual(X.candidate_ids(self.conn, "post", subs=["chicagofood"]), ["t3_chi"])
+        both = X.candidate_ids(self.conn, "post", subs=["FoodNYC", "chicagofood"])
+        self.assertEqual(set(both), {"t3_chi"} | set(X.candidate_ids(self.conn, "post")))
+        items = X.render_items(self.conn, "comment", ["t1_chi", "t1_r1"]) + X.render_items(self.conn, "post", ["t3_chi"])
+        self.assertEqual([(i.id, i.system, i.prompt_hash) for i in items],
+                         [("t1_chi", *prompt_v6.prompt_for("comment", "chicagofood")),
+                          ("t1_r1", *prompt_v6.prompt_for("comment")),
+                          ("t3_chi", *prompt_v6.prompt_for("post", "chicagofood"))])
+        with F.FakeAnthropic() as api:
+            X.run_direct(self.conn, AV.client("k", api.base_url), X.Budget(10), log=QUIET, subs=["chicagofood"])
+        self.assertEqual(self.done_ids(), {"t1_chi", "t3_chi"})
+        self.assertEqual({r["system"][0]["text"] for r in api.requests},
+                         {prompt_v6.prompt_for("comment", "chicagofood")[0], prompt_v6.prompt_for("post", "chicagofood")[0]})
+        self.assertEqual(sorted(self.q("select item_id, prompt_hash from extraction_state")),
+                         [("t1_chi", prompt_v6.prompt_for("comment", "chicagofood")[1]),
+                          ("t3_chi", prompt_v6.prompt_for("post", "chicagofood")[1])])
+
     def test_extract_py_forwards_v6(self):
         import extract
         with mock.patch.object(db, "DATABASE_URL", URL), mock.patch("sys.argv", ["extract.py", "--v6", "--status"]), \

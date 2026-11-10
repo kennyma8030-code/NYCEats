@@ -401,7 +401,7 @@ def main():
         # (extraction_state), and deleting them here would leave every v6
         # item marked done with no mentions: refuse rather than half-undo.
         import prompt_v6
-        if args.reset in (prompt_v6.PROMPT_HASH, prompt_v6.PROMPT_HASH_POST, prompt_v6.PROMPT_HASH_THREAD):
+        if args.reset in prompt_v6.all_hashes():
             raise SystemExit(f"{args.reset} is a v6 prompt; --reset only undoes the old extractor's runs")
         conn = db.connect()
         with conn.cursor() as cur:

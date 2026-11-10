@@ -18,6 +18,7 @@ import unittest
 from fakes import ROOT
 
 import prompt_v6
+import subreddits
 
 BRANCH = "extraction-v6"
 # sha256 of each vendored file as committed on extraction-v6 (round 4).
@@ -265,6 +266,78 @@ class ThreadPrompt(unittest.TestCase):
         self.assertEqual((prompt_v6.THREAD_MAX_TOKENS, prompt_v6.THREAD_EFFORT, prompt_v6.THREAD_EFFORTS),
                          (32000, "medium", ("low", "medium")))
 
+
+class CityPrompts(unittest.TestCase):
+    """The subreddit of a comment or post decides the city its prompt is
+    about, in every mode, and r/FoodNYC's prompts are still the benchmarked
+    ones, byte for byte."""
+
+    HOME = {"comment": "979dcd6b9267", "post": "436d834d7edd", "thread": "d92ec8610d8c"}
+
+    def test_new_york_is_the_vendored_prompt_under_its_pinned_hash(self):
+        vendored = {"comment": prompt_v6.SYSTEM_PROMPT, "post": prompt_v6.SYSTEM_PROMPT_POST,
+                    "thread": prompt_v6.SYSTEM_PROMPT_THREAD}
+        self.assertEqual(set(prompt_v6.MODES), set(vendored))
+        for mode, text in vendored.items():
+            self.assertEqual(prompt_v6.prompt_for(mode), (text, self.HOME[mode]))
+            self.assertEqual(prompt_v6.prompt_for(mode, subreddits.HOME), (text, self.HOME[mode]))
+        self.assertEqual(prompt_v6.thread_prompt(), prompt_v6.prompt_for("thread"))
+
+    def test_every_other_city_gets_its_own_prompt_with_no_new_york_left_in_it(self):
+        every = prompt_v6.all_hashes()
+        self.assertEqual(len(every), len(prompt_v6.MODES) * len(subreddits.SUBREDDITS))     # no two share a hash
+        for mode in prompt_v6.MODES:
+            home = prompt_v6.prompt_for(mode)[0]
+            self.assertEqual(sorted(prompt_v6.hashes(mode).values()), sorted(subreddits.SUBREDDITS))
+            for sub in subreddits.SUBREDDITS:
+                if sub == subreddits.HOME:
+                    continue
+                with self.subTest(mode=mode, subreddit=sub):
+                    text, ph = prompt_v6.prompt_for(mode, sub)
+                    city = subreddits.city(sub)
+                    self.assertEqual(ph, hashlib.sha256(text.encode()).hexdigest()[:12])
+                    self.assertEqual(every[ph], (mode, sub))
+                    for word in prompt_v6.NEW_YORK_WORDS:
+                        self.assertNotIn(word, text)
+                    self.assertIn(f"in a {city.name} food subreddit", text)
+                    self.assertIn(f"places outside {city.area} and foreign branches", text)
+                    self.assertIn(f"it is in {city.short}, and kind", text)
+                    self.assertEqual(f"POST: Best noodles in {city.district}?" in text, mode == "thread")
+                    # Nothing but the city changed: put New York's words back and it is New York's prompt.
+                    back = text
+                    for old, new in prompt_v6.CITY_TEXT:
+                        back = back.replace(new.format(**city._asdict()), old)
+                    self.assertEqual(back, home)
+
+    def test_a_reworded_prompt_or_an_unknown_subreddit_fails_loudly(self):
+        with self.assertRaises(ValueError) as cm:
+            prompt_v6._for_city(prompt_v6.SYSTEM_PROMPT_THREAD.replace("it is in NYC", "it is in New York"),
+                                subreddits.city("chicagofood"))
+        self.assertIn("CITY_TEXT", str(cm.exception))
+        with self.assertRaises(ValueError):
+            prompt_v6.prompt_for("comment", "FoodBoston")
+
+    def test_render_takes_the_items_subreddit_and_draws_the_same_message(self):
+        row = ("Best tacos?", "Looking for PlaceAlpha", "op")
+        home = prompt_v6.render("post", row)
+        self.assertEqual((home[0], home[2]), prompt_v6.prompt_for("post"))
+        austin = prompt_v6.render("post", row, "austinfood")
+        self.assertEqual((austin[0], austin[2]), prompt_v6.prompt_for("post", "austinfood"))
+        self.assertEqual(austin[1], home[1])
+
+    def test_a_chunk_job_takes_its_threads_subreddit(self):
+        import extract_v6
+        import thread_chunks as T
+        th = {"title": "t", "selftext": "", "comments": [
+            {"comment_id": "t1_a", "parent_comment_id": None, "author": "a", "body": "PlaceAlpha", "created_utc": ""}]}
+        chunk = T.Chunk("t3_x", False, ["t1_a"])
+        tree = T.Tree(th["comments"])
+        home = extract_v6._job(chunk, th, tree, "medium")                      # no subreddit: r/FoodNYC
+        self.assertEqual((home.system, home.prompt_hash), prompt_v6.thread_prompt())
+        la = extract_v6._job(chunk, dict(th, subreddit="FoodLosAngeles"), tree, "medium")
+        self.assertEqual((la.system, la.prompt_hash), prompt_v6.thread_prompt("FoodLosAngeles"))
+        self.assertEqual(la.user, home.user)                                   # the rendering does not depend on the city
+        self.assertEqual({it.prompt_hash for it in la.items()}, {la.prompt_hash})
 
 if __name__ == "__main__":
     unittest.main()

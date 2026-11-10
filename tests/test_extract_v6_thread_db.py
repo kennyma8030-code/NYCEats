@@ -22,6 +22,7 @@ import db
 import extract_v6 as X
 import fake_anthropic as F
 import prompt_v6
+import subreddits
 import test_extract_v6_db as base
 
 QUIET = base.QUIET
@@ -62,7 +63,8 @@ def thread_answer(p, extra=()):
 
 
 def is_thread(p):
-    return p["system"][0]["text"] == prompt_v6.SYSTEM_PROMPT_THREAD
+    # Any city's thread prompt: a thread of another subreddit is sent its own.
+    return p["system"][0]["text"] in {prompt_v6.thread_prompt(s)[0] for s in subreddits.SUBREDDITS}
 
 
 def answer(p):
@@ -637,7 +639,7 @@ class Modes(ThreadCase):
             self.assertTrue(all(r["output_config"]["effort"] == "low" for r in api.requests))
             self.assertGreater(len(api.requests), 4)
             self.assertIn("thread chunks answered, effort low", out.getvalue())
-            self.assertIn("(thread mode)", out.getvalue())
+            self.assertIn("(thread mode, r/FoodNYC)", out.getvalue())
         self.assertEqual(set(self.state()), HOME_LIVE | HOME_POSTS)
 
     def test_newest_first_orders_threads(self):

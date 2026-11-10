@@ -72,9 +72,9 @@ Environment (recommended values for the daily job in brackets):
                              an unattended run never wanders into the years
                              of r/FoodNYC history left unextracted on purpose
   EXTRACT_SUBREDDITS         optional: comma-separated subreddits (default
-                             FoodNYC, subreddits.HOME) [FoodNYC]. The prompt
-                             is written for New York; see SPEC.md before
-                             adding another city
+                             FoodNYC, subreddits.HOME) [FoodNYC]. Each
+                             thread gets its own city's prompt; only
+                             r/FoodNYC's has been graded (SPEC.md)
   EXTRACT_MIN_POST_AGE_HOURS optional: how old a post must be before its
                              thread is touched (default 48) [48]
   EXTRACT_REDO_CUT_BEFORE    optional: an ISO time after the last extraction

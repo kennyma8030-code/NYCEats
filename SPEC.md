@@ -213,11 +213,14 @@ under the post and its quoted ancestors. A run caps itself at
 batch an earlier run left in flight before sending anything, and after a
 spend tripwire does nothing (exit 0, loudly) until a person names the batch
 as seen. The redo of cut comments takes the run's subreddits too; comment
-and post mode stay r/FoodNYC only. The prompt is written for New York ("a
-New York City food subreddit", places outside the five boroughs are not
-mentions, "best in NYC"), so another city needs a prompt of its own before
-it is extracted; its mentions would be stored but not scored (scoring reads
-`scoring_params.subreddit`).
+and post mode stay r/FoodNYC only. The thread prompt is written for New
+York ("a New York City food subreddit", places outside the five boroughs
+are not mentions, "best in NYC"); a thread of another subreddit gets the
+same prompt with those places rewritten for its city
+(`subreddits.CITIES`, `prompt_v6.thread_prompt`), under a hash of its own.
+r/FoodNYC's prompt and hash are unchanged. The other cities' prompts have
+not been graded, and their mentions are stored but not scored (scoring
+reads `scoring_params.subreddit`).
 
 **Names in other scripts.** `normalize_entity` keeps the letters of other
 scripts when the Latin rules leave only a fragment: no key at all (불짬뽕,

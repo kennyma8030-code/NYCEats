@@ -405,15 +405,19 @@ def extract_v6_once(conn, days, limit, workers, max_usd, max_age_days=None):
     budget = extract_v6.Budget(max_usd)
     stats = extract_v6.Stats()
     cl = extract_v6.connect_api(conn)
+    # Which cities this pass buys: EXTRACT_SUBREDDITS, as the daily job reads
+    # it, and r/FoodNYC alone unless it says otherwise. Polling a city does
+    # not opt it into being extracted at the direct price.
+    subs = extract_v6.parse_subreddits(os.environ.get("EXTRACT_SUBREDDITS"))
     seen = _since(conn, days)
     written = _since(conn, max_age_days)
     # Posts first, with a tenth of the limit: a busy hour of comments would
     # otherwise take the whole limit every pass and posts would never run.
     post_limit = max(1, limit // 10)
     try:
-        extract_v6.run_direct(conn, cl, budget, kinds=("post",), limit=post_limit, since=written,
+        extract_v6.run_direct(conn, cl, budget, kinds=("post",), limit=post_limit, since=written, subs=subs,
                               seen_since=seen, workers=workers, stats=stats)
-        extract_v6.run_direct(conn, cl, budget, kinds=("comment",), limit=max(limit - stats.done, 0),
+        extract_v6.run_direct(conn, cl, budget, kinds=("comment",), limit=max(limit - stats.done, 0), subs=subs,
                               since=written, seen_since=seen, workers=workers, stats=stats)
     except anthropic_v6.FatalAPIError as e:
         print(f"  EXTRACTION STOPPED -- the API rejected the request itself, nothing was marked: {e}")
@@ -423,7 +427,7 @@ def extract_v6_once(conn, days, limit, workers, max_usd, max_age_days=None):
         extract_v6.unlock(conn)
     if stats.done or stats.failed or stats.refused:
         print(f"  extract v6: {stats.line()}")
-    left = extract_v6.late_backlog(conn, seen, written)
+    left = extract_v6.late_backlog(conn, seen, written, subs)
     if left:
         print(f"  extract v6: left {left:,} item(s) first seen in the last {days}d but written over "
               f"{max_age_days}d ago, for a batch catch-up (extract_v6.py --batch, no --since)")

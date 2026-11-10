@@ -497,12 +497,13 @@ def queued(alias):
 QUEUED = queued("s")
 
 
-def candidate_ids(conn, kind, limit=None, since=None, ids=None, max_chars=None, seen_since=None):
+def candidate_ids(conn, kind, limit=None, since=None, ids=None, max_chars=None, seen_since=None,
+                  subs=None):
     """Item ids still due under v6, in processing order.
 
-    r/FoodNYC only (subreddits.HOME): comment and post mode stay as
-    benchmarked, for the board's city; --subreddit is thread mode's. A
-    comment is due unless it is [deleted]/[removed]/blank, however short.
+    Items of `subs` (r/FoodNYC, subreddits.HOME, unless given): each is
+    sent its own subreddit's prompt (render_items), and only r/FoodNYC's is
+    the benchmarked one. A comment is due unless it is [deleted]/[removed]/blank, however short.
     Comments come thread by thread, so an interrupted run
     leaves whole threads finished; posts oldest first.
 
@@ -511,13 +512,13 @@ def candidate_ids(conn, kind, limit=None, since=None, ids=None, max_chars=None, 
     a comment can arrive days after it was written (a backfill, a thread
     re-read, ~280 a week), and a window on created_utc never sees it.
     """
-    p = {"home": subreddits.HOME, "v": VERSION, "since": since, "ids": list(ids) if ids else None,
-         "max_chars": max_chars, "limit": limit, "seen": seen_since}
+    p = {"subs": list(subs) if subs else [subreddits.HOME], "v": VERSION, "since": since,
+         "ids": list(ids) if ids else None, "max_chars": max_chars, "limit": limit, "seen": seen_since}
     if kind == "comment":
         sql = f"""
             select c.id from comments c
             left join extraction_state s on s.item_id = c.id and s.version = %(v)s
-            where c.subreddit = %(home)s
+            where c.subreddit = any(%(subs)s)
               and btrim(c.body) not in ('', '[deleted]', '[removed]')
               and {QUEUED}
               and (%(since)s::timestamptz is null or c.created_utc >= %(since)s::timestamptz)
@@ -532,7 +533,7 @@ def candidate_ids(conn, kind, limit=None, since=None, ids=None, max_chars=None, 
         sql = f"""
             select t.id from threads t
             left join extraction_state s on s.item_id = t.id and s.version = %(v)s
-            where t.subreddit = %(home)s
+            where t.subreddit = any(%(subs)s)
               and {QUEUED}
               and (%(since)s::timestamptz is null or t.created_utc >= %(since)s::timestamptz)
               and (%(seen)s::timestamptz is null or t.first_seen_at >= %(seen)s::timestamptz)
@@ -546,21 +547,22 @@ def candidate_ids(conn, kind, limit=None, since=None, ids=None, max_chars=None, 
     return out
 
 
-def late_backlog(conn, seen_since, written_before):
-    """How many due r/FoodNYC items reached the database since seen_since but
+def late_backlog(conn, seen_since, written_before, subs=None):
+    """How many due items of `subs` (r/FoodNYC unless given) reached the database since seen_since but
     were written before written_before: the late arrivals the poller leaves
     for a batch catch-up rather than buy at the direct price."""
     with conn.cursor() as cur:
         cur.execute(f"""
             select (select count(*) from comments c
                     left join extraction_state s on s.item_id = c.id and s.version = %(v)s
-                    where c.subreddit = %(home)s and btrim(c.body) not in ('', '[deleted]', '[removed]')
+                    where c.subreddit = any(%(subs)s) and btrim(c.body) not in ('', '[deleted]', '[removed]')
                       and {QUEUED} and c.first_seen_at >= %(seen)s and c.created_utc < %(before)s)
                  + (select count(*) from threads t
                     left join extraction_state s on s.item_id = t.id and s.version = %(v)s
-                    where t.subreddit = %(home)s
+                    where t.subreddit = any(%(subs)s)
                       and {QUEUED} and t.first_seen_at >= %(seen)s and t.created_utc < %(before)s)""",
-                    {"v": VERSION, "home": subreddits.HOME, "seen": seen_since, "before": written_before})
+                    {"v": VERSION, "subs": list(subs) if subs else [subreddits.HOME], "seen": seen_since,
+                     "before": written_before})
         n = cur.fetchone()[0]
     conn.commit()
     return n
@@ -590,13 +592,15 @@ class Item:
 
 
 def render_items(conn, kind, ids):
-    """Items for these ids, in the given order, rendered exactly as benchmarked."""
+    """Items for these ids, in the given order, drawn exactly as benchmarked,
+    each under the prompt of its own subreddit's city."""
     rows = (prompt_v6.fetch_comment_rows if kind == "comment" else prompt_v6.fetch_post_rows)(conn, ids)
+    subs = prompt_v6.subreddits_of(conn, kind, rows)
     conn.commit()
     out = []
     for i in ids:
         if i in rows:
-            system, user, ph = prompt_v6.render(kind, rows[i])
+            system, user, ph = prompt_v6.render(kind, rows[i], subs.get(i) or subreddits.HOME)
             out.append(Item(kind, i, system, user, ph, rows[i]["thread_id"] if kind == "comment" else i))
     return out
 
@@ -914,7 +918,7 @@ def _handle(conn, item, message, cost, stats, batch_id=None, log=print):
 
 # ---------------------------------------------------------------- direct
 def run_direct(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, max_chars=None,
-               workers=WORKERS, log=print, stats=None, seen_since=None):
+               workers=WORKERS, log=print, stats=None, seen_since=None, subs=None):
     """Extract due items with direct calls, `workers` at a time. Returns Stats.
 
     The network half runs on threads and touches no database; every write is
@@ -930,7 +934,7 @@ def run_direct(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, 
         if left is not None and left <= 0:
             break
         todo = candidate_ids(conn, kind, left, since, ids, max_chars if kind == "comment" else None,
-                             seen_since)
+                             seen_since, subs)
         lists.append((kind, todo))
         if left is not None:
             left -= len(todo)
@@ -1363,7 +1367,7 @@ class _ItemQueue:
 
 def run_batch(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, max_chars=None,
               batch_size=BATCH_SIZE, max_inflight=MAX_INFLIGHT, poll_seconds=POLL_SECONDS,
-              log=print, sleep=time.sleep, stats=None):
+              log=print, sleep=time.sleep, stats=None, subs=None):
     """Extract due items through Message Batches under the cap. Returns Stats.
 
     1. Pending submissions are matched or the run stops (_settle_pending).
@@ -1381,7 +1385,7 @@ def run_batch(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, m
         if n == 0:
             break
         pairs += [(kind, i) for i in candidate_ids(conn, kind, n, since, ids,
-                                                   max_chars if kind == "comment" else None)]
+                                                   max_chars if kind == "comment" else None, subs=subs)]
     log(f"{len(pairs):,} item(s) due, {len(inflight)} batch(es) in flight, cap ${budget.max:.2f}")
     queue = _ItemQueue(conn, pairs, batch_size, log)
     _run_batches(conn, cl, budget, queue, inflight, max_inflight, poll_seconds, log, sleep, stats)
@@ -1586,11 +1590,12 @@ class ChunkJob:
     # than a plain request may take (anthropic_v6.TIMEOUT).
     stream = True
 
-    def __init__(self, cid, chunk, user, ids, context, effort, generation=0, split_from=None, attempts=0):
+    def __init__(self, cid, chunk, user, ids, context, effort, generation=0, split_from=None, attempts=0,
+                 subreddit=subreddits.HOME):
         self.id, self.chunk, self.user, self.ids, self.context = cid, chunk, user, ids, context
         self.effort, self.generation, self.split_from, self.attempts = effort, generation, split_from, attempts
-        self.system = prompt_v6.SYSTEM_PROMPT_THREAD
-        self.prompt_hash = prompt_v6.PROMPT_HASH_THREAD
+        # The thread's subreddit decides the prompt: its city's, under its own hash.
+        self.system, self.prompt_hash = prompt_v6.thread_prompt(subreddit)
 
     @classmethod
     def from_row(cls, row):
@@ -1745,7 +1750,8 @@ def _due_in(conn, tids):
 
 def _job(chunk, th, tree, effort, cid=None, generation=0, split_from=None, attempts=0):
     user, ids, ctx = T.render(chunk, th["title"], th["selftext"], th["comments"], tree)
-    return ChunkJob(cid or new_chunk_id(), chunk, user, ids, ctx, effort, generation, split_from, attempts)
+    return ChunkJob(cid or new_chunk_id(), chunk, user, ids, ctx, effort, generation, split_from, attempts,
+                    th.get("subreddit") or subreddits.HOME)
 
 
 def build_thread_jobs(conn, tids, opts, exclude=(), hold=(), write=True, log=print, held_out=None,
@@ -2004,6 +2010,8 @@ def _chunk_failed(conn, job, code, usage, cost, log, batch_id=None, attempts=0):
         for h in halves:
             half = ChunkJob(new_chunk_id(), h, None, {n: i for n, i in enumerate(h.items, 0 if h.post_item else 1)},
                             [], job.effort, generation=job.generation + 1, split_from=job.id)
+            # A half is the same thread's, so the same city's prompt.
+            half.system, half.prompt_hash = job.system, job.prompt_hash
             _upsert_chunks(cur, [_chunk_record(half, "queued")])
         if batch_id:
             cur.execute("""update extraction_state set batch_id = null, updated_at = now()
@@ -2368,7 +2376,7 @@ def redo_candidates(conn, before, tids=None, subs=None):
         cur.execute("""
             select s.item_id, c.thread_id, c.body from extraction_state s
             join comments c on c.id = s.item_id
-            where s.version = %(v)s and s.kind = 'comment' and s.prompt_hash = %(ph)s
+            where s.version = %(v)s and s.kind = 'comment' and s.prompt_hash = any(%(ph)s)
               and s.extracted_at is not null and s.extracted_at < %(before)s
               and s.batch_id is null
               and c.subreddit = any(%(subs)s)
@@ -2379,8 +2387,8 @@ def redo_candidates(conn, before, tids=None, subs=None):
                    where k.version = %(v)s and k.status = 'failed' and k.id like %(prefix)s
                      and cardinality(k.members) = 1 and s.item_id = any(k.members)) < %(tries)s
             order by c.thread_id, c.created_utc, c.id""",
-                    {"v": VERSION, "ph": prompt_v6.PROMPT_HASH_THREAD, "before": before,
-                     "subs": list(subs) if subs else [subreddits.HOME],
+                    {"v": VERSION, "ph": list(prompt_v6.thread_hashes(subs or [subreddits.HOME])),
+                     "before": before, "subs": list(subs) if subs else [subreddits.HOME],
                      "tids": list(tids) if tids is not None else None,
                      "old": OLD_MEMBER_CHARS, "new": prompt_v6.thread.MEMBER_CHARS,
                      "prefix": REDO_PREFIX + "%", "tries": MAX_ATTEMPTS})
@@ -2567,7 +2575,8 @@ def _dry_run_threads(conn, opts, limit, since, ids, newest_first, show, log):
 
 
 # ---------------------------------------------------------------- dry run
-def dry_run(conn, kinds=KINDS, limit=None, since=None, ids=None, max_chars=None, show=2, log=print):
+def dry_run(conn, kinds=KINDS, limit=None, since=None, ids=None, max_chars=None, show=2, log=print,
+            subs=None):
     """Render and price what a run would send. Reads only; no API call.
 
     Three prices per kind: the worst case the cap reserves, and a typical
@@ -2578,19 +2587,19 @@ def dry_run(conn, kinds=KINDS, limit=None, since=None, ids=None, max_chars=None,
     conn.rollback()
     conn.set_session(readonly=True)
     try:
-        return _dry_run(conn, kinds, limit, since, ids, max_chars, show, log)
+        return _dry_run(conn, kinds, limit, since, ids, max_chars, show, log, subs)
     finally:
         conn.rollback()
         conn.set_session(readonly=False)
 
 
-def _dry_run(conn, kinds, limit, since, ids, max_chars, show, log):
+def _dry_run(conn, kinds, limit, since, ids, max_chars, show, log, subs=None):
     totals = {}
     left = limit
     for kind in kinds:
         if left is not None and left <= 0:
             break
-        todo = candidate_ids(conn, kind, left, since, ids, max_chars if kind == "comment" else None)
+        todo = candidate_ids(conn, kind, left, since, ids, max_chars if kind == "comment" else None, subs=subs)
         if left is not None:
             left -= len(todo)
         t = totals.setdefault(kind, {"n": 0, "chars": 0, "worst": 0.0, "cached": 0.0, "fresh": 0.0})
@@ -2657,8 +2666,7 @@ def status(conn, log=print):
                               count(*) filter (where batch_id is not null and extracted_at is null),
                               coalesce(sum(cost_usd), 0)
                        from extraction_state where version = %s group by 1, 2 order by 1, 2""", (VERSION,))
-        names = {prompt_v6.PROMPT_HASH: "comment mode", prompt_v6.PROMPT_HASH_POST: "post mode",
-                 prompt_v6.PROMPT_HASH_THREAD: "thread mode"}
+        names = {ph: f"{mode} mode, r/{sub}" for ph, (mode, sub) in prompt_v6.all_hashes().items()}
         for kind, ph, done, err, inb, cost in cur.fetchall():
             log(f"  {kind}s under {ph} ({names.get(ph, 'an earlier prompt')}): {done:,} done, {err:,} parked, "
                 f"{inb:,} in a batch, ${float(cost):.2f}")
@@ -3096,8 +3104,8 @@ def main(argv=None):
                          f"(default {T.MAX_COMMENTS})")
     th.add_argument("--subreddit", metavar="NAMES",
                     help=f"the subreddits whose threads are taken (and redone), comma-separated (default "
-                         f"{subreddits.HOME}; 'all' is every collected one). The prompt is written for r/FoodNYC: "
-                         "see SPEC.md. Comment mode takes r/FoodNYC only")
+                         f"{subreddits.HOME}; 'all' is every collected one), in every mode. Each item gets its own "
+                         "city's prompt (subreddits.CITIES); only r/FoodNYC's have been graded")
     th.add_argument("--min-post-age", metavar="AGE",
                     help="leave out, whole, every thread whose post is younger than this: 48h, 2d, or hours "
                          "(the daily run's 48h). No upper bound: older threads with anything due are all taken")
@@ -3119,8 +3127,7 @@ def main(argv=None):
     opts = None
     given = [f for f, v in (("--effort", args.effort), ("--chunk-comments", args.chunk_comments),
                             ("--chunk-tokens", args.chunk_tokens), ("--chunk-max", args.chunk_max),
-                            ("--redo-cut-before", args.redo_cut_before), ("--subreddit", args.subreddit),
-                            ("--min-post-age", args.min_post_age))
+                            ("--redo-cut-before", args.redo_cut_before), ("--min-post-age", args.min_post_age))
              if v is not None] + (["--newest-first"] if args.newest_first else [])
     args.redo_before = _parse_since(args.redo_cut_before)
     if thread:
@@ -3151,7 +3158,7 @@ def main(argv=None):
         if thread:
             dry_run_threads(conn, opts, args.limit, since, ids, args.newest_first)
         else:
-            dry_run(conn, kinds, args.limit, since, ids, args.max_chars)
+            dry_run(conn, kinds, args.limit, since, ids, args.max_chars, subs=subs)
         return 0
     # Everything below changes v6 state, so it waits for no other v6 run, or
     # for --lock-wait seconds at most (an unattended run started while the
@@ -3165,12 +3172,12 @@ def main(argv=None):
         raise SystemExit("another v6 extraction is running (the poller's pass or a manual run); "
                          "try again when it is done")
     try:
-        return _main_locked(conn, args, kinds, since, ids, opts)
+        return _main_locked(conn, args, kinds, since, ids, opts, subs)
     finally:
         unlock(conn)
 
 
-def _main_locked(conn, args, kinds, since, ids, opts=None):
+def _main_locked(conn, args, kinds, since, ids, opts=None, subs=None):
     if args.read:
         if args.read == VERSION:
             counts, reasons = flip_check(conn, dt.timedelta(hours=args.flip_grace_hours))
@@ -3255,10 +3262,10 @@ def _main_locked(conn, args, kinds, since, ids, opts=None):
                                stats=stats)
         elif args.batch:
             run_batch(conn, cl, budget, kinds, args.limit, since, ids, args.max_chars,
-                      args.batch_size, args.max_inflight, args.poll_seconds, stats=stats)
+                      args.batch_size, args.max_inflight, args.poll_seconds, stats=stats, subs=subs)
         else:
             run_direct(conn, cl, budget, kinds, args.limit, since, ids, args.max_chars, args.workers,
-                       stats=stats)
+                       stats=stats, subs=subs)
     except Tripped:
         code = TRIPPED           # _trip has said why, loudly
     except AV.AmbiguousSubmit as e:
