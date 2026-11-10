@@ -291,6 +291,28 @@ create table if not exists restaurants (
 create index if not exists restaurants_key_idx  on restaurants(name_key);
 create index if not exists restaurants_trgm_idx on restaurants using gin (name_key gin_trgm_ops);
 
+-- The same list for every other city, from its own health department
+-- (city_restaurants.py). A table of its own because everything above joins
+-- `restaurants` by name alone: another city's "Joe's Pizza" in there would
+-- answer for New York's. Nothing reads this yet; it is keyed by subreddit
+-- and name, which is what a place's identity becomes when a second city is
+-- scored, and New York's list moves in then.
+create table if not exists city_restaurants (
+  subreddit      text not null,
+  name           text not null,          -- display form, as the source lists it
+  name_key       text not null,          -- normalized, matches mentions.entity_key
+  category       text,                   -- the source's facility type, where it has one
+  areas          text[],                 -- cities or districts its locations are in
+  location_count int not null default 1,
+  addresses      jsonb,
+  is_chain       boolean not null default false,
+  last_seen      date,                   -- most recent inspection on record
+  source         text not null,
+  loaded_at      timestamptz not null default now(),
+  primary key (subreddit, name_key)
+);
+create index if not exists city_restaurants_trgm_idx on city_restaurants using gin (name_key gin_trgm_ops);
+
 
 -- ---------------------------------------------------------------------------
 -- Manual identity decisions. entity_alias PROPOSES a merge; this DECIDES it.
