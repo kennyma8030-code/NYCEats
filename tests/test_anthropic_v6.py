@@ -472,5 +472,150 @@ class Streaming(unittest.TestCase):
         self.assertIs(cm.exception.maybe_billed, False)
 
 
+
+NO_CREDIT = F.error(400, "invalid_request_error",
+                    "Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing "
+                    "to upgrade or purchase credits.")
+
+
+class BackupKey(unittest.TestCase):
+    """With EXTRACT_ANTHROPIC_BACKUP set, the key in use is a stored switch:
+    whichever key is refused as out of spend hands over to the other, in
+    either direction, and nothing else flips it. A batch is always read with
+    the key that submitted it."""
+
+    def setUp(self):
+        self.main = F.FakeAnthropic().__enter__()
+        self.backup = F.FakeAnthropic().__enter__()
+        self.backup._n = 100                  # two accounts never share a batch id
+        self.addCleanup(self.main.__exit__, None, None, None)
+        self.addCleanup(self.backup.__exit__, None, None, None)
+        self.said, self.stored = [], []
+        self.keys = self.ring()
+
+    def ring(self, start=None, on_switch=None):
+        return AV.Keys([("main", AV.client("m", self.main.base_url)),
+                        ("backup", AV.client("b", self.backup.base_url))],
+                       log=self.said.append, start=start, on_switch=on_switch or self.stored.append)
+
+    def call(self, keys=None, **kw):
+        return AV.call(keys or self.keys, AV.params(prompt_v6.SYSTEM_PROMPT, USER), attempts=2,
+                       sleep=lambda s: None, log=QUIET, **kw)
+
+    def asked(self):
+        return len(self.main.requests), len(self.backup.requests)
+
+    def test_connect_is_one_client_without_a_backup(self):
+        def env(**kw):
+            # Not clear=True: the SDK needs the home directory's variables to build a client.
+            stack = mock.patch.dict(os.environ, kw)
+            stack.start()
+            self.addCleanup(stack.stop)
+            for var in (AV.KEY_VAR, AV.BACKUP_KEY_VAR):
+                if var not in kw:
+                    os.environ.pop(var, None)
+        env(EXTRACT_ANTHROPIC_API_KEY="m")
+        self.assertNotIsInstance(AV.connect(), AV.Keys)
+        env(EXTRACT_ANTHROPIC_API_KEY="m", EXTRACT_ANTHROPIC_BACKUP="m")
+        self.assertNotIsInstance(AV.connect(), AV.Keys)              # the same key twice is one key
+        env(EXTRACT_ANTHROPIC_API_KEY="m", EXTRACT_ANTHROPIC_BACKUP="b")
+        keys = AV.connect()
+        self.assertEqual([(n, c.api_key) for n, c in keys.clients], [("main", "m"), ("backup", "b")])
+        self.assertEqual(keys.name(), "main")
+        self.assertEqual(AV.connect(start="backup").name(), "backup")
+        self.assertEqual(AV.connect(start="nonsense").name(), "main")
+        env(EXTRACT_ANTHROPIC_BACKUP="b")
+        self.assertIsNone(AV.connect())                              # no main key is still an error
+
+    def test_the_key_in_use_is_kept_while_it_has_spend(self):
+        self.call()
+        AV.submit(self.keys, [("t1_a", AV.params("s", "u"))])
+        self.assertEqual((self.asked(), len(self.main.batches), len(self.backup.batches)), ((1, 0), 1, 0))
+        on_backup = self.ring(start="backup")
+        self.call(on_backup)
+        AV.submit(on_backup, [("t1_b", AV.params("s", "u"))])
+        self.assertEqual((self.asked(), len(self.main.batches), len(self.backup.batches)), ((1, 1), 1, 1))
+        self.assertEqual((self.said, self.stored), ([], []))
+
+    def test_a_call_refused_for_spend_goes_out_again_on_the_other_key(self):
+        for refusal in (NO_CREDIT, F.error(402, "billing_error"),
+                        F.error(400, "invalid_request_error", "You have reached your specified API usage limits.")):
+            with self.subTest(refusal=refusal):
+                self.setUp()
+                self.main.answer = lambda p: refusal
+                for stream in (False, True):
+                    self.assertEqual(AV.parse(self.call(stream=stream))["mentions"][0]["name"], "PlaceAlpha")
+                # Refused once; after that the main key is not asked again.
+                self.assertEqual(self.asked(), (1, 2))
+                self.assertEqual(self.stored, ["backup"])
+                self.assertIn("out of spend", self.said[0])
+
+    def test_it_switches_back_when_the_backup_runs_out(self):
+        self.main.answer = lambda p: NO_CREDIT
+        self.call()
+        self.main.answer, self.backup.answer = F.default_answer, lambda p: NO_CREDIT       # topped up; backup dry
+        self.call()
+        self.assertEqual((self.stored, self.keys.name()), (["backup", "main"], "main"))
+        self.main.submit_status = NO_CREDIT
+        bid = AV.submit(self.keys, [("t1_a", AV.params("s", "u"))])
+        self.assertEqual((self.stored, list(self.backup.batches)), (["backup", "main", "backup"], [bid]))
+
+    def test_other_refusals_do_not_switch(self):
+        for refusal in (F.error(400, "invalid_request_error", "max_tokens: too large"),
+                        F.error(401, "authentication_error", "invalid x-api-key"),
+                        F.error(403, "permission_error")):
+            with self.subTest(refusal=refusal):
+                self.setUp()
+                self.main.answer = lambda p: refusal
+                with self.assertRaises(AV.FatalAPIError):
+                    self.call()
+                self.assertEqual((self.asked(), self.stored), ((1, 0), []))
+
+    def test_both_keys_out_of_spend_ends_the_run_after_one_try_each(self):
+        self.main.answer = self.backup.answer = lambda p: NO_CREDIT
+        with self.assertRaises(AV.FatalAPIError):
+            self.call()
+        self.assertEqual(self.asked(), (1, 1))
+        self.main.submit_status = self.backup.submit_status = NO_CREDIT
+        with self.assertRaises(AV.FatalAPIError):
+            AV.submit(self.keys, [("t1_a", AV.params("s", "u"))])
+        self.assertEqual((len(self.main.batches), len(self.backup.batches)), (0, 0))
+
+    def test_a_switch_that_cannot_be_stored_still_switches(self):
+        def broken(name):
+            raise OSError("database is away")
+        keys = self.ring(on_switch=broken)
+        self.main.answer = lambda p: NO_CREDIT
+        self.assertEqual(AV.parse(self.call(keys))["mentions"][0]["name"], "PlaceAlpha")
+        self.assertEqual(keys.name(), "backup")
+        self.assertIn("could not store", self.said[-1])
+
+    def test_a_refused_batch_goes_to_the_other_key_and_each_batch_is_read_with_its_own(self):
+        first = AV.submit(self.keys, [("t1_a", AV.params("s", USER))])
+        self.main.submit_status = NO_CREDIT
+        second = AV.submit(self.keys, [("t1_b", AV.params("s", USER))])
+        self.assertEqual((list(self.main.batches), list(self.backup.batches)), ([first], [second]))
+        # The backup is in use now, and the main key's batch is still collected.
+        for bid, item in ((first, "t1_a"), (second, "t1_b")):
+            self.assertEqual(AV.retrieve(self.keys, bid, log=QUIET).id, bid)
+            self.assertEqual(AV.results(self.keys, bid, log=QUIET)[item][0], "succeeded")
+        # Three reads each (the batch, then results, which reads the batch again for its file):
+        # neither key was asked about the other's batch.
+        self.assertEqual((self.main.gets, self.backup.gets), (3, 3))
+
+    def test_a_new_run_finds_which_key_owns_a_batch(self):
+        first = AV.submit(self.keys, [("t1_a", AV.params("s", USER))])
+        self.main.submit_status = NO_CREDIT
+        second = AV.submit(self.keys, [("t1_b", AV.params("s", USER))])
+        for start in ("main", "backup"):                             # a new process, no memory of owners
+            fresh = self.ring(start=start)
+            self.assertEqual(AV.retrieve(fresh, second, log=QUIET).id, second)
+            self.assertEqual(AV.results(fresh, first, log=QUIET)["t1_a"][0], "succeeded")
+            with self.assertRaises(AV.NotFound):
+                AV.retrieve(fresh, "msgbatch_nope", log=QUIET)
+            listed, covered = AV.recent_batches(fresh, log=QUIET)
+            self.assertEqual(({b.id for b in listed}, covered), ({first, second}, True))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -47,11 +47,16 @@ import copy
 import json
 import os
 import random
+import threading
 import time
 
 import prompt_v6
 
 KEY_VAR = "EXTRACT_ANTHROPIC_API_KEY"
+# A second key, on its own balance. Whichever of the two is in use, the other
+# takes over when it runs out of spend (class Keys). Optional: unset,
+# extraction has the one key.
+BACKUP_KEY_VAR = "EXTRACT_ANTHROPIC_BACKUP"
 # USD per token by model. Haiku 5.5's "base" rates are for prompts of 100k
 # input tokens or fewer (cache reads and writes included); a longer prompt is
 # billed at the "long" rates, five times as much, on every token of that
@@ -143,6 +148,119 @@ def client(key, base_url=None, timeout=None):
     if base_url:
         kw["base_url"] = base_url
     return anthropic.Anthropic(**kw)
+
+
+def backup_key():
+    return os.environ.get(BACKUP_KEY_VAR) or None
+
+
+class Keys:
+    """The main key's client and the backup's, one of them in use.
+
+    Everything that spends (a direct call, a batch submission) goes to the
+    key in use. When the API refuses that key because it is out of spend
+    (out_of_spend), the other key takes over and the refused request is sent
+    again on it: a refusal created and billed nothing, so sending it twice
+    cannot pay twice. It goes both ways: when the backup runs out in its
+    turn, the main key (topped up by then, or not) is tried again. One
+    request tries each key at most once, so two empty keys end the run as
+    one empty key always did, instead of passing it back and forth.
+
+    Which key is in use is a switch the caller stores (extract_v6 keeps it
+    in the database, extraction_key): `start` is the stored name and
+    on_switch(name) stores a new one, so the next run, and the poller's
+    pass, begin on the key that last worked.
+
+    A batch belongs to the key that submitted it, and another key gets a 404
+    for it. So reads do not follow the switch: they ask every key (_owner),
+    and a batch the main key submitted before it ran dry is still collected
+    with the main key. Reading costs nothing, whatever the balance.
+
+    The spend cap and the ceiling count what was spent, not which key paid:
+    one total across both keys.
+    """
+
+    def __init__(self, clients, log=print, start=None, on_switch=None):
+        self.clients = list(clients)          # [(name, SDK client)], the main key first
+        names = [n for n, _ in self.clients]
+        self.at = names.index(start) if start in names else 0
+        self.owner = {}                       # batch id -> the client that can read it
+        self.log = log
+        self.on_switch = on_switch
+        self._lock = threading.Lock()         # direct runs call from worker threads
+
+    def name(self):
+        return self.clients[self.at][0]
+
+    def active(self):
+        return self.clients[self.at][1]
+
+    def next_after(self, used):
+        """`used` was refused as out of spend: put the other key in use,
+        unless another thread already has, and store the switch."""
+        with self._lock:
+            if used is not self.active() or len(self.clients) < 2:
+                return
+            old = self.name()
+            self.at = (self.at + 1) % len(self.clients)
+            self.log(f"!!!! the {old} key is out of spend: switching to the {self.name()} key")
+            if self.on_switch is not None:
+                try:
+                    self.on_switch(self.name())
+                except Exception as e:
+                    # The run goes on with the key that works; only the next
+                    # run starts on the old one and pays one refused request.
+                    self.log(f"  could not store the switch to the {self.name()} key: {type(e).__name__}: {e}")
+
+    def readers(self, batch_id=None):
+        """The clients to ask about a batch: its known owner, else the key in
+        use first and then the others."""
+        if batch_id in self.owner:
+            return [self.owner[batch_id]]
+        active = self.active()
+        return [active] + [c for _, c in self.clients if c is not active]
+
+
+def connect(base_url=None, log=print, start=None, on_switch=None):
+    """What extraction talks to the API with: the main key's client, or, when
+    EXTRACT_ANTHROPIC_BACKUP is set to a different key, both (Keys), starting
+    on the one named `start`. None without a main key: a missing main key
+    stays the loud configuration error it was."""
+    key, backup = api_key(), backup_key()
+    if not key:
+        return None
+    if not backup or backup == key:
+        return client(key, base_url)
+    return Keys([("main", client(key, base_url)), ("backup", client(backup, base_url))], log, start, on_switch)
+
+
+def _active(cl):
+    return cl.active() if isinstance(cl, Keys) else cl
+
+
+def out_of_spend(e):
+    """Whether an API refusal says the key has no money left to spend: a
+    billing_error (402), or the 400s the API answers when the credit balance
+    is too low or the workspace has reached its spend limit. Nothing else
+    moves extraction to the backup key: a revoked key or a bad request would
+    fail the same way on it, and should stop the run where someone sees it."""
+    body = getattr(e, "body", None)
+    kind = ((body if isinstance(body, dict) else {}).get("error") or {}).get("type")
+    if getattr(e, "status_code", None) == 402 or kind == "billing_error":
+        return True
+    text = _body(e).lower()
+    return "credit balance is too low" in text or "usage limits" in text
+
+
+def _next_key(cl, used, e, tried):
+    """After a refusal `e` on `used`: True when the request should go out
+    again on another key. `tried` is the keys this one request has been
+    refused on; a key is never asked twice for it."""
+    if not isinstance(cl, Keys) or not out_of_spend(e):
+        return False
+    tried.add(id(used))
+    cl.next_after(used)
+    return id(cl.active()) not in tried
 
 
 def strict_schema(schema):
@@ -382,7 +500,7 @@ def _streamed(cl, p, seen):
         return s.get_final_message()
 
 
-def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=False):
+def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=False, _tried=None):
     """One direct request. Returns the Message (SDK object); raises FatalAPIError,
     TransientAPIError or CapReached. ItemError is the caller's: parse() the result.
 
@@ -410,10 +528,16 @@ def call(cl, p, attempts=None, sleep=None, log=print, retry_ok=None, stream=Fals
     for attempt in range(attempts):
         billed = False
         seen = {}
+        one = _active(cl)
         try:
-            return _streamed(cl, p, seen) if stream else cl.messages.create(**p)
+            return _streamed(one, p, seen) if stream else one.messages.create(**p)
         except anthropic.APIStatusError as e:
             status = e.status_code
+            # Out of spend, and another key to go to: the refusal billed
+            # nothing, so the same request starts over on that key.
+            _tried = set() if _tried is None else _tried
+            if 400 <= status < 500 and status != 429 and _next_key(cl, one, e, _tried):
+                return call(cl, p, attempts, sleep, log, retry_ok, stream, _tried)
             if status < 400:
                 # An error event inside a stream that had already answered 200.
                 kind = _error_type(e.body) or "error"
@@ -471,7 +595,7 @@ def _batch_errors(what, e):
     return TransientAPIError(f"{what}: {type(e).__name__}: {e}")
 
 
-def submit(cl, requests):
+def submit(cl, requests, _tried=None):
     """requests: [(custom_id, params)]. Returns the batch id.
 
     Three outcomes the caller must keep apart:
@@ -483,16 +607,24 @@ def submit(cl, requests):
         caller keeps its pending row and stops; resubmitting could pay twice.
     """
     import anthropic
+    one = _active(cl)
     try:
-        b = cl.messages.batches.create(requests=[{"custom_id": cid, "params": p} for cid, p in requests])
+        b = one.messages.batches.create(requests=[{"custom_id": cid, "params": p} for cid, p in requests])
     except anthropic.APIStatusError as e:
         if e.status_code == 429:
             raise TransientAPIError("batch submit http 429") from e
         if e.status_code < 500:
+            # Out of spend: nothing was created, so the other key (if there
+            # is one) takes the same batch, and owns it from here on.
+            _tried = set() if _tried is None else _tried
+            if _next_key(cl, one, e, _tried):
+                return submit(cl, requests, _tried)
             raise FatalAPIError(f"batch submit http {e.status_code}: {_body(e)[:500]}") from e
         raise AmbiguousSubmit(f"batch submit http {e.status_code}: {_body(e)[:300]}") from e
     except anthropic.APIConnectionError as e:
         raise AmbiguousSubmit(f"batch submit: {type(e).__name__}: {e}") from e
+    if isinstance(cl, Keys):
+        cl.owner[b.id] = one
     return b.id
 
 
@@ -551,8 +683,28 @@ def _get(what, fn, sleep=None, log=print):
     raise TransientAPIError(f"gave up after {len(waits) + 1} attempts: {last}") from cause
 
 
+def _owner(cl, batch_id, what, read, sleep, log):
+    """read(client) for a batch, on the key that owns it. With one key that is
+    the key. With two, each is asked until one knows the batch (another key's
+    batch is a 404), and the answer is remembered, so a backfill's polling
+    does not ask the wrong key every time. NotFound only when no key has it."""
+    if not isinstance(cl, Keys):
+        return _get(what, lambda: read(cl), sleep, log)
+    missing = None
+    for one in cl.readers(batch_id):
+        try:
+            out = _get(what, lambda: read(one), sleep, log)
+        except NotFound as e:
+            missing = e
+            continue
+        cl.owner[batch_id] = one
+        return out
+    cl.owner.pop(batch_id, None)
+    raise missing
+
+
 def retrieve(cl, batch_id, sleep=None, log=print):
-    return _get(f"batch {batch_id}", lambda: cl.messages.batches.retrieve(batch_id), sleep, log)
+    return _owner(cl, batch_id, f"batch {batch_id}", lambda c: c.messages.batches.retrieve(batch_id), sleep, log)
 
 
 def recent_batches(cl, until=None, limit=100, max_pages=50, sleep=None, log=print):
@@ -562,7 +714,17 @@ def recent_batches(cl, until=None, limit=100, max_pages=50, sleep=None, log=prin
     Returns (batches, covered). covered says the listing reached a batch older
     than `until`, or the end of the list, so a batch created after `until`
     that is not in it does not exist. A pending row may only be settled as
-    "none" on a covered listing."""
+    "none" on a covered listing.
+
+    With a backup key the listing is both keys', newest first: a submission
+    whose outcome is unknown may have gone out on either, and it is covered
+    only when each key's list is."""
+    if isinstance(cl, Keys):
+        lists = [recent_batches(c, until, limit, max_pages, sleep, log) for _, c in cl.clients]
+        for (_, c), (batches, _) in zip(cl.clients, lists):
+            cl.owner.update({b.id: c for b in batches})
+        merged = sorted((b for batches, _ in lists for b in batches), key=lambda b: b.created_at, reverse=True)
+        return merged, all(covered for _, covered in lists)
     out, after = [], None
     for _ in range(max_pages):
         kw = {"limit": limit} if after is None else {"limit": limit, "after_id": after}
@@ -584,9 +746,9 @@ def results(cl, batch_id, sleep=None, log=print):
     item id itself. The whole file is read inside the retry, so a stream cut
     halfway is read again from the start, never half-used.
     """
-    def read():
+    def read(c):
         out = {}
-        for r in cl.messages.batches.results(batch_id):
+        for r in c.messages.batches.results(batch_id):
             res = r.result
             if res.type == "succeeded":
                 out[r.custom_id] = ("succeeded", res.message)
@@ -598,4 +760,4 @@ def results(cl, batch_id, sleep=None, log=print):
             else:
                 out[r.custom_id] = (res.type,)
         return out
-    return _get(f"batch {batch_id} results", read, sleep, log)
+    return _owner(cl, batch_id, f"batch {batch_id} results", read, sleep, log)

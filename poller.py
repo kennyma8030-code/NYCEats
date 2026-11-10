@@ -404,7 +404,7 @@ def extract_v6_once(conn, days, limit, workers, max_usd, max_age_days=None):
     max_age_days = max(max_age_days, days)
     budget = extract_v6.Budget(max_usd)
     stats = extract_v6.Stats()
-    cl = anthropic_v6.client(anthropic_v6.api_key())
+    cl = extract_v6.connect_api(conn)
     seen = _since(conn, days)
     written = _since(conn, max_age_days)
     # Posts first, with a tenth of the limit: a busy hour of comments would

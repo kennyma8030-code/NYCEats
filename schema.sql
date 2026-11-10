@@ -710,6 +710,19 @@ create table if not exists extraction_settings (
 );
 insert into extraction_settings default values on conflict do nothing;
 
+-- The other switch: which API key extraction spends on, 'main'
+-- (EXTRACT_ANTHROPIC_API_KEY) or 'backup' (EXTRACT_ANTHROPIC_BACKUP). One
+-- row. Extraction flips it itself when the key in use is refused as out of
+-- spend (anthropic_v6.Keys), in either direction, and every run starts on
+-- the key it names. A table of its own, not a column on extraction_settings:
+-- creating it takes no lock on a table the board reads.
+create table if not exists extraction_key (
+  only_row   boolean primary key default true check (only_row),
+  active     text not null default 'main' check (active in ('main', 'backup')),
+  updated_at timestamptz not null default now()
+);
+insert into extraction_key default values on conflict do nothing;
+
 -- What scoring.sql, resolve.sql and the API read instead of mentions. In v6
 -- mode it leaves out what the old board never had: kinds the counts exclude
 -- (groceries, brands, venues, companies, other), chains.txt names, and post

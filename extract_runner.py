@@ -47,6 +47,12 @@ EXTRACT_LOCK_WAIT for the lock.
 Environment (recommended values for the daily job in brackets):
   DATABASE_URL               the database (production)
   EXTRACT_ANTHROPIC_API_KEY  extraction's own key, and no other
+  EXTRACT_ANTHROPIC_BACKUP   optional: a second key on its own balance. When
+                             the key in use is refused as out of spend the
+                             other takes over, either way round; which one
+                             is in use is kept in the database
+                             (extraction_key). Both count against the same
+                             caps below
   EXTRACT_RUN_USD            required: the cap on one attempt, in dollars. A
                              restart is a new attempt with a new cap [1]. A
                              chunk's worst case is held until its batch is

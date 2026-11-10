@@ -110,6 +110,7 @@ import threading
 import time
 import uuid
 
+import psycopg2
 from psycopg2.extras import Json, execute_values
 
 import anthropic_v6 as AV
@@ -2901,6 +2902,50 @@ def restore_unkeyed(conn, yes=False, log=print):
     return len(items), written
 
 
+def active_key(conn, log=print):
+    """The key the stored switch names, 'main' or 'backup' (extraction_key).
+    'main' when the table is not there yet (a database from before the
+    backup key): the switch then works for the run and is not remembered."""
+    try:
+        with conn.cursor() as cur:
+            cur.execute("select active from extraction_key")
+            row = cur.fetchone()
+        conn.commit()
+    except psycopg2.errors.UndefinedTable:
+        conn.rollback()
+        log("  extraction_key is missing (apply extract_v6_schema.sql): starting on the main key, and a "
+            "switch to the backup will not be remembered")
+        return "main"
+    return row[0] if row else "main"
+
+
+def store_active_key(name):
+    """Flip the stored switch. On a connection of its own: the switch
+    happens inside a request, on a worker thread in direct runs, while the
+    run's connection may be in the middle of a transaction."""
+    conn = db.connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""insert into extraction_key (active) values (%s)
+                           on conflict (only_row) do update set active = excluded.active, updated_at = now()""",
+                        (name,))
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def connect_api(conn, log=print):
+    """The API client for a run (anthropic_v6.connect): with a backup key
+    set, both keys, starting on the one the stored switch names and storing
+    every switch."""
+    if not AV.backup_key():
+        return AV.connect(log=log)
+    cl = AV.connect(log=log, start=active_key(conn, log), on_switch=store_active_key)
+    if isinstance(cl, AV.Keys):
+        log(f"two API keys: on the {cl.name()} key; the other takes over when it runs out of spend")
+    return cl
+
+
 def read_version(conn):
     with conn.cursor() as cur:
         cur.execute("select read_version from extraction_settings")
@@ -3164,7 +3209,7 @@ def _main_locked(conn, args, kinds, since, ids, opts=None):
     if args.resolve_pending:
         if not key:
             raise SystemExit(f"{AV.KEY_VAR} is not set")
-        found = resolve_pending_auto(conn, AV.client(key), args.resolve_pending[0])
+        found = resolve_pending_auto(conn, connect_api(conn), args.resolve_pending[0])
         return 0 if found else 4
 
     if args.max_usd is None:
@@ -3188,7 +3233,7 @@ def _main_locked(conn, args, kinds, since, ids, opts=None):
             print(f"cleared {cur.rowcount:,} error(s)")
         conn.commit()
 
-    cl = AV.client(key)
+    cl = connect_api(conn)
     ceiling = Ceiling(limit, db.connect) if limit is not None else None
     budget = Budget(args.max_usd, ceiling)
     if ceiling is not None:

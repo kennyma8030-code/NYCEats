@@ -119,7 +119,10 @@ Model `claude-haiku-5-5`, adaptive thinking, effort `medium`, strict
 `json_schema` output (nullable unions as `anyOf`), `cache_control` on the
 system prompt, `max_tokens` 16,000, no sampling parameters. The benchmark's
 code validators are not used at medium. Key: `EXTRACT_ANTHROPIC_API_KEY`,
-nothing else.
+and optionally `EXTRACT_ANTHROPIC_BACKUP`, a second key on its own balance:
+when the key in use is refused as out of spend the other takes over, in
+either direction, and `extraction_key` stores which one is in use. A batch
+is always read with the key that submitted it. Nothing else.
 
 **Input.** `<post_title>`, `<post_body>` (cut at 1,200; `author="you"` when
 the commenter wrote the post), `<thread_above>` (up to five ancestors, oldest
