@@ -390,10 +390,13 @@ class Place:
 # Which mentions qualify a comment for a place: the board's (live_mentions),
 # r/FoodNYC, in the window, not deleted later, not AutoModerator. One text,
 # so the count, the seen set stored with a summary and "new" never disagree.
+# A typed name is a place only within its subreddit (scoring.sql), so the
+# alias and the exclusions are read for the comment's own: another city's
+# place of the same name is not this one.
 _QUALIFIES = """
   from live_mentions m
   join comments c on c.id = m.comment_id
-  left join entity_alias a on a.entity_key = m.entity_key
+  left join entity_alias a on a.subreddit = c.subreddit and a.entity_key = m.entity_key
   where c.subreddit = %(sub)s
     and c.created_utc > %(since)s
     and not coalesce(c.was_deleted_later, false)
@@ -402,7 +405,8 @@ _QUALIFIES = """
 # before entity_alias has caught up), so the index on entity_key is used
 # instead of a scan of the year.
 _TYPED_KEYS = """
-    and m.entity_key in (select entity_key from entity_alias where resolved_key = any(%(keys)s)
+    and m.entity_key in (select entity_key from entity_alias
+                          where subreddit = %(sub)s and resolved_key = any(%(keys)s)
                          union all select unnest(%(keys)s::text[]))"""
 
 _QUALIFYING = """
@@ -427,7 +431,8 @@ select b.rkey, count(distinct b.comment_id), max(b.created_utc),
 from base b
 left join {summaries} s on s.resolved_key = b.rkey
 left join seen sn on sn.resolved_key = b.rkey and sn.comment_id = b.comment_id
-where not exists (select 1 from excluded_entities x where x.entity_key = b.rkey)
+where not exists (select 1 from excluded_entities x
+                  where x.subreddit = %(sub)s and x.entity_key = b.rkey)
   {keys}
 group by b.rkey, s.resolved_key, s.summary, s.model, s.prompt_hash, s.attempts, s.error, s.written_at, s.failed_at
 having count(distinct b.comment_id) >= %(n)s
@@ -578,8 +583,9 @@ select coalesce(a.resolved_key, m.entity_key), m.comment_id, c.created_utc,
 from live_mentions m
 join comments c on c.id = m.comment_id
 join threads t on t.id = c.thread_id
-left join entity_alias a on a.entity_key = m.entity_key
-where m.entity_key in (select entity_key from entity_alias where resolved_key = any(%(keys)s)
+left join entity_alias a on a.subreddit = c.subreddit and a.entity_key = m.entity_key
+where m.entity_key in (select entity_key from entity_alias
+                          where subreddit = %(sub)s and resolved_key = any(%(keys)s)
                        union all select unnest(%(keys)s::text[]))
   and c.subreddit = %(sub)s
   and not coalesce(c.was_deleted_later, false)
