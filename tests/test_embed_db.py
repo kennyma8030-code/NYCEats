@@ -131,7 +131,7 @@ class SqlMirrorsFormatter(DbCase):
         for kind in (embed.COMMENTS, embed.THREADS):
             with self.conn.cursor() as cur:
                 cur.execute(kind.candidates, {"after": "", "since": None, "limit": 10_000,
-                                              "sub": subreddits.HOME})
+                                              "subs": [subreddits.HOME]})
                 ids = [r[0] for r in cur.fetchall()]
                 cur.execute(f"select src.id, src.a, src.b, src.txt from ({kind.source}) src",
                             {"ids": ids})
@@ -230,8 +230,8 @@ class OnlyHome(DbCase):
             cur.execute("""insert into threads (id, subreddit, title, selftext, created_utc)
                            values ('t3_chi', 'chicagofood', 'Best Italian beef?', 'go', %s)""",
                         (NOW,))
-            # A mention on another city's comment cannot happen today (extraction
-            # reads HOME only); this checks embedding does not lean on that alone.
+            # Another city's comment, with a mention: a candidate only when its
+            # subreddit is among the ones being embedded.
             cur.execute("""insert into comments (id, subreddit, thread_id, parent_id, body,
                                                  permalink, created_utc)
                            values ('t1_chi', 'chicagofood', 't3_chi', 't3_chi',
@@ -244,6 +244,20 @@ class OnlyHome(DbCase):
     def test_other_cities_are_not_candidates(self):
         self.assertEqual({r[0] for r in todo(self.conn, embed.COMMENTS)}, self.eligible_comments())
         self.assertEqual({r[0] for r in todo(self.conn, embed.THREADS)}, {t[0] for t in THREADS})
+
+    def test_a_named_city_is_a_candidate_and_the_setting_names_it(self):
+        both = [subreddits.HOME, "chicagofood"]
+        rows, _ = embed.select_todo(self.conn, embed.COMMENTS, "", 10_000, subs=both)
+        self.assertEqual({r[0] for r in rows}, self.eligible_comments() | {"t1_chi"})
+        rows, _ = embed.select_todo(self.conn, embed.THREADS, "", 10_000, subs=["chicagofood"])
+        self.assertEqual({r[0] for r in rows}, {"t3_chi"})
+        self.assertEqual(embed.embed_subreddits(), [subreddits.HOME])
+        self.assertEqual(embed.embed_subreddits("chicagofood,foodnyc"), both)
+        with mock.patch.dict(os.environ, {embed.SUBS_ENV: "ChicagoFood"}):
+            self.assertEqual(embed.embed_subreddits(), ["chicagofood"])
+            self.assertEqual({r[0] for r in todo(self.conn, embed.COMMENTS)}, {"t1_chi"})
+        with self.assertRaises(SystemExit):
+            embed.embed_subreddits("FoodBoston")
 
     def test_full_run_never_embeds_them(self):
         with FakeOpenRouter():
