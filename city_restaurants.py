@@ -74,7 +74,15 @@ TABLE_SQL = """create table if not exists city_restaurants (
   loaded_at      timestamptz not null default now(),
   primary key (subreddit, name_key)
 );
-create index if not exists city_restaurants_trgm_idx on city_restaurants using gin (name_key gin_trgm_ops);"""
+-- Subreddit and name in one index: a name is matched within its own city, and
+-- with the name alone every probe read all four cities' candidates before
+-- throwing three away -- 24 times slower on a list this size. btree_gin is
+-- what lets a plain text column sit in a GIN index beside the trigrams. The
+-- name-only index this replaces is dropped where it was built.
+create extension if not exists btree_gin;
+drop index if exists city_restaurants_trgm_idx;
+create index if not exists city_restaurants_sub_trgm_idx
+  on city_restaurants using gin (subreddit, name_key gin_trgm_ops);"""
 
 
 def _get(url, attempts=4):

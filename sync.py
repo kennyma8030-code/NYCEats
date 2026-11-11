@@ -141,13 +141,14 @@ def push_flags(loc, rem, dry_run):
 
 def push_overrides(loc, rem, dry_run):
     lc, rc = loc.cursor(), rem.cursor()
-    lc.execute("select entity_key, resolved_key, note from alias_overrides")
+    # An override belongs to one city (schema.sql), so its subreddit goes with it.
+    lc.execute("select subreddit, entity_key, resolved_key, note from alias_overrides")
     rows = lc.fetchall()
     if rows and not dry_run:
         execute_values(rc, """
-            insert into alias_overrides (entity_key, resolved_key, note)
+            insert into alias_overrides (subreddit, entity_key, resolved_key, note)
             values %s
-            on conflict (entity_key) do update
+            on conflict (subreddit, entity_key) do update
               set resolved_key = excluded.resolved_key, note = excluded.note
         """, rows)
         rem.commit()

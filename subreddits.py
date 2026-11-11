@@ -1,15 +1,20 @@
-"""Which subreddits we collect, and which one the board is about.
+"""Which subreddits we collect, and which one is the default.
 
 Every city lands in the same threads/comments tables, told apart by their
-`subreddit` column. Collecting a city is cheap and safe; scoring one is not.
-Only HOME has a restaurant list to resolve names against (the health
-department's), so only HOME is extracted, counted and ranked. Every reader
-that treats `comments` as "the subreddit" filters on it first -- without
-that, Chicago's chatter would inflate NYC's activity denominator and LA's
-"joes pizza" would be scored as NYC's.
+`subreddit` column, and every reader that treats `comments` as "the
+subreddit" filters on it first -- without that, Chicago's chatter would
+inflate NYC's activity denominator and LA's "joes pizza" would be scored as
+NYC's. Collecting a city is cheap; extracting one is paid for, so a city is
+extracted only when a run names it (EXTRACT_SUBREDDITS). Scoring follows
+the mentions: every subreddit that has them gets its own board, with a place
+keyed by (subreddit, name) (scoring.sql).
 
-scoring.sql cannot import this, so it carries its own copy of HOME in
-scoring_params. Change both or neither.
+HOME is the city everything began with and still the default: what the API
+answers for when no subreddit is named, the only one embedded, and the one
+whose restaurant list is the `restaurants` table. SQL cannot import this,
+so the places view (scoring.sql) and the column defaults in schema.sql
+carry their own copy of the name. Change all or none
+(tests/test_home_literal.py).
 
 Names are spelled exactly as Arctic Shift returns them in `subreddit`, which
 is what ends up in the column -- "austinfood", not "AustinFood".

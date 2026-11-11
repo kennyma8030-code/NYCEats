@@ -128,10 +128,10 @@ class Kind:
 
 
 # Candidates are r/FoodNYC's only (subreddits.HOME). The tables hold every
-# city the poller collects, and search serves the NYC board: embedding the
-# other cities' millions of backfilled rows would be paid for and never read.
-# A mentioned comment is HOME's already, because extraction reads nothing
-# else; the filter says so anyway.
+# city the poller collects, and nothing reads another city's vectors yet:
+# embedding their millions of backfilled rows would be paid for and never
+# read. Extraction can read other cities now, so a mentioned comment is no
+# longer HOME's by construction, and this filter is what keeps it to HOME.
 #
 # The window (`recent`, for the poller and --since-days) is on when a
 # comment's mention was stored, mentions.created_at, not when the comment was

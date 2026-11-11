@@ -269,6 +269,7 @@ class Longevity(pgtest.PgCase):
         self.assertEqual(len(new), 5)
         self.assertEqual(self.q("select count(*) from entity_longevity where longest_gap_months > 0"),
                          [(3,)])
+        # The old one has no subreddit: it predates a second city, and here there is one.
         types = "select atttypid::regtype::text from pg_attribute where attrelid = %s::regclass " \
-                "and attnum > 0 order by attnum"
+                "and attnum > 0 and attname <> 'subreddit' order by attnum"
         self.assertEqual(self.q(types, "entity_longevity"), self.q(types, "entity_longevity_old"))

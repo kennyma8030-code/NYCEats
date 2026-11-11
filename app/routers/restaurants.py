@@ -4,6 +4,9 @@
 "joe s pizza"), so callers URL-encode it. It is deliberately not slugified:
 a slug would be a second name-to-identity mapping to keep in sync, which is
 the exact problem entity_alias exists to solve.
+
+A key names a place only within a city, so every route here takes
+`?subreddit=` (app/city.py); without it the key is r/FoodNYC's.
 """
 
 import os
@@ -13,6 +16,7 @@ from typing import Annotated, Optional
 from fastapi import APIRouter, Depends, Header, HTTPException, Path, Query, Response
 
 from .. import images, queries
+from ..city import Sub
 from ..db import connection, fetch_all, fetch_one, fetch_value, get_conn
 from ..models import (CATEGORY_VOICE_FILTERS, Algo, AspectDetail, ImageOut, Mention,
                       MentionQuery, MentionSort, MomentumWindow, Page, RatingCategory,
@@ -26,20 +30,20 @@ EntityKey = Annotated[str, Path(min_length=1, max_length=200,
                                 description="Resolved entity key, URL-encoded")]
 
 
-def _require_entity(conn, entity_key, algo="v1"):
-    row = queries.board_row(conn, entity_key, fetch_one, algo)
+def _require_entity(conn, sub, entity_key, algo="v1"):
+    row = queries.board_row(conn, sub, entity_key, fetch_one, algo)
     if row is None:
         # Distinguish "no such entity" from "an entity with no mentions": the
         # board only holds entities that have at least one weighted mention,
         # so a miss here really is unknown.
         raise HTTPException(status_code=404,
-                            detail=f"no entity {entity_key!r} on the leaderboard")
+                            detail=f"no entity {entity_key!r} on r/{sub}'s leaderboard")
     return row
 
 
 @router.get("/{entity_key}", response_model=RestaurantDetail,
             summary="Everything about one restaurant")
-def detail(entity_key: EntityKey, algo: Algo = "v1", conn=Depends(get_conn)):
+def detail(entity_key: EntityKey, sub: Sub, algo: Algo = "v1", conn=Depends(get_conn)):
     """One round trip for a detail page.
 
     Includes the workings, not just the numbers: per-aspect raw_mean against
@@ -47,24 +51,24 @@ def detail(entity_key: EntityKey, algo: Algo = "v1", conn=Depends(get_conn)):
     the one that fired, and which typed spellings merged into this identity
     and by what method. A score that cannot be interrogated is an assertion.
     """
-    summary = _require_entity(conn, entity_key, algo)
-    official = queries.official_record(conn, entity_key, fetch_one) or {}
+    summary = _require_entity(conn, sub, entity_key, algo)
+    official = queries.official_record(conn, sub, entity_key, fetch_one) or {}
     # Null rather than a 500 when the rating views are not built (ratings_for).
-    ratings = queries.ratings_for(conn, [entity_key], fetch_all, fetch_value)
+    ratings = queries.ratings_for(conn, sub, [entity_key], fetch_all, fetch_value)
     return RestaurantDetail(
         entity_key=entity_key,
         summary=LeaderboardRow(**summary),
         rating=build_rating(ratings.get(entity_key)),
         aspects=[AspectDetail(**a) for a in
-                 queries.aspect_detail(conn, entity_key, fetch_all, algo)],
+                 queries.aspect_detail(conn, sub, entity_key, fetch_all, algo)],
         momentum=[MomentumWindow(**m) for m in
-                  queries.momentum_windows(conn, entity_key, fetch_all)],
+                  queries.momentum_windows(conn, sub, entity_key, fetch_all)],
         spellings=[Spelling(**s) for s in
-                   queries.spellings(conn, entity_key, fetch_all)],
+                   queries.spellings(conn, sub, entity_key, fetch_all)],
         addresses=official.get("addresses"),
-        top_dishes=queries.top_dishes(conn, entity_key, fetch_all),
-        top_descriptors=queries.top_descriptors(conn, entity_key, fetch_all),
-        neighborhoods=queries.neighborhoods(conn, entity_key, fetch_all),
+        top_dishes=queries.top_dishes(conn, sub, entity_key, fetch_all),
+        top_descriptors=queries.top_descriptors(conn, sub, entity_key, fetch_all),
+        neighborhoods=queries.neighborhoods(conn, sub, entity_key, fetch_all),
     )
 
 
@@ -72,6 +76,7 @@ def detail(entity_key: EntityKey, algo: Algo = "v1", conn=Depends(get_conn)):
             summary="The comments behind the score")
 def mentions(
     entity_key: EntityKey,
+    sub: Sub,
     aspect: Annotated[Optional[str], Query(
         description="Only mentions that scored this aspect")] = None,
     negated: Annotated[Optional[bool], Query(
@@ -97,11 +102,11 @@ def mentions(
                                              "atmosphere", "wait"):
         raise HTTPException(status_code=422, detail=f"unknown aspect {aspect!r}")
 
-    _require_entity(conn, entity_key)
+    _require_entity(conn, sub, entity_key)
     q = MentionQuery(aspect=aspect, negated=negated, firsthand=firsthand,
                      include_deleted=include_deleted, sort=sort,
                      limit=limit, offset=offset)
-    rows, total = queries.mentions_page(conn, entity_key, q, fetch_all, fetch_value)
+    rows, total = queries.mentions_page(conn, sub, entity_key, q, fetch_all, fetch_value)
     return Page(items=rows, total=total, limit=limit, offset=offset)
 
 
@@ -109,6 +114,7 @@ def mentions(
             summary="The comments behind the rating")
 def voices(
     entity_key: EntityKey,
+    sub: Sub,
     voice: Annotated[VoiceFilter, Query(description=(
         "pos, neg, neutral: latest stated opinions. opinions: pos and neg "
         "together. superlative: pos at the top level. recommenders: latest "
@@ -133,9 +139,9 @@ def voices(
     if category is not None and voice not in CATEGORY_VOICE_FILTERS:
         raise HTTPException(status_code=422,
                             detail=f"voice {voice!r} does not apply to a category")
-    _require_entity(conn, entity_key)
+    _require_entity(conn, sub, entity_key)
     rows, total = rating_only(conn, lambda: queries.voices_page(
-        conn, entity_key, voice, category, sort, limit, offset, fetch_all, fetch_value))
+        conn, sub, entity_key, voice, category, sort, limit, offset, fetch_all, fetch_value))
     return Page(items=rows, total=total, limit=limit, offset=offset)
 
 
@@ -143,6 +149,7 @@ def voices(
             summary="The comments behind a v2 flag")
 def standout_negatives(
     entity_key: EntityKey,
+    sub: Sub,
     limit: Annotated[int, Query(ge=1, le=50)] = 10,
     conn=Depends(get_conn),
 ):
@@ -152,8 +159,8 @@ def standout_negatives(
     shown without the evidence for it. Returned whatever the flag says: a
     place with one bad night is not flagged, but you may still want to read it.
     """
-    _require_entity(conn, entity_key)
-    return queries.standout_negatives(conn, entity_key, limit, fetch_all)
+    _require_entity(conn, sub, entity_key)
+    return queries.standout_negatives(conn, sub, entity_key, limit, fetch_all)
 
 
 # Resolution is up to a minute of outbound HTTP to Wikidata and Commons. Each
@@ -173,6 +180,7 @@ def _image_out(row):
             summary="A picture of the place, if one exists")
 def image(
     entity_key: EntityKey,
+    sub: Sub,
     refresh: Annotated[bool, Query(
         description="Re-run the provider chain, ignoring the cached result. "
                     "Needs X-Admin-Token: it writes, and costs upstream calls")] = False,
@@ -201,16 +209,16 @@ def image(
         require_token(x_admin_token)
 
     with connection() as conn:
-        cached = images.get_cached(conn, entity_key, fetch_one)
+        cached = images.get_cached(conn, sub, entity_key, fetch_one)
         if cached and (cached["locked"] or not refresh):
             return _image_out(cached)
-        row = _require_entity(conn, entity_key)
+        row = _require_entity(conn, sub, entity_key)
 
     if not _resolving.acquire(timeout=RESOLVE_WAIT):
         return ImageOut(entity_key=entity_key, **dict(images.MISS, status="error"))
     try:
         resolved, cacheable = images.resolve(
-            entity_key, row.get("official_name") or entity_key)
+            entity_key, row.get("official_name") or entity_key, sub)
     finally:
         _resolving.release()
     if not cacheable:
@@ -220,18 +228,18 @@ def image(
                                                   if k != "entity_key"})
 
     with connection() as conn:
-        stored = images.store(conn, entity_key, resolved, fetch_one)
+        stored = images.store(conn, sub, entity_key, resolved, fetch_one)
         if stored is None:
             # store() skips locked rows, which returns nothing. Read back the
             # row that stands: it may have been locked since the first read.
-            stored = images.get_cached(conn, entity_key, fetch_one)
+            stored = images.get_cached(conn, sub, entity_key, fetch_one)
     final = stored or dict(resolved, entity_key=entity_key, fetched_at=None, locked=False)
     return _image_out(final)
 
 
 @router.get("/{entity_key}/monogram.svg", response_class=Response,
             summary="Deterministic initials tile")
-def monogram(entity_key: EntityKey, conn=Depends(get_conn)):
+def monogram(entity_key: EntityKey, sub: Sub, conn=Depends(get_conn)):
     """The fallback when no photo exists.
 
     Not a stock food photo: a stranger's bowl of ramen under a real
@@ -239,7 +247,7 @@ def monogram(entity_key: EntityKey, conn=Depends(get_conn)):
     picture" honestly, costs no network call, and is stable -- the same place
     gets the same colour on every worker and every load.
     """
-    row = queries.board_row(conn, entity_key, fetch_one) or {}
+    row = queries.board_row(conn, sub, entity_key, fetch_one) or {}
     svg = images.monogram_svg(entity_key, row.get("official_name"))
     return Response(content=svg, media_type="image/svg+xml",
                     headers={"Cache-Control": "public, max-age=86400"})

@@ -6,6 +6,9 @@
 -- or be a nickname nobody licenses under ("Luger"). So the join reports, it
 -- does not filter.
 --
+-- Per city: a typed name is one row per subreddit it was typed in, checked
+-- against that city's own list (`places`, scoring.sql).
+--
 -- What separates a hallucination from an unlisted real place is corroboration:
 -- an invented name appears once, from one person. A real one gets repeated.
 -- ===========================================================================
@@ -28,6 +31,7 @@ begin
 end $$;
 create materialized view mention_resolution as
 select
+  c.subreddit,
   m.entity_key,
   count(*)                          as mentions,
   count(distinct c.author)
@@ -53,7 +57,8 @@ select
 
 from live_mentions m
 join comments c on c.id = m.comment_id
-left join restaurants r_exact on r_exact.name_key = m.entity_key
+left join places r_exact on r_exact.subreddit = c.subreddit
+                       and r_exact.name_key = m.entity_key
 left join lateral (
   -- word_similarity, not similarity. Plain trigram penalises length
   -- differences, so "katz" scored 0.20 against "katzs delicatessen" and 0.16
@@ -62,8 +67,9 @@ left join lateral (
   -- official name, which is exactly how people shorten restaurant names.
   -- Measured: correct matches land 0.80-1.00, wrong ones 0.45-0.60.
   select r.name, word_similarity(m.entity_key, r.name_key) as score
-  from restaurants r
-  where m.entity_key <% r.name_key         -- uses the trgm GIN index
+  from places r
+  where r.subreddit = c.subreddit
+    and m.entity_key <% r.name_key         -- uses the trgm GIN index
   -- Shortest name wins ties. Food halls are licensed under one combined name
   -- ("WOK TO WALK, LOS TACOS HERMANOS, POKE BOWL, ..."), which scores a
   -- perfect 1.00 for any tenant it contains and would otherwise beat the
@@ -72,12 +78,12 @@ left join lateral (
   limit 1
 ) fuzzy on r_exact.name is null
 
-group by m.entity_key, r_exact.name, r_exact.cuisine, r_exact.is_chain,
+group by c.subreddit, m.entity_key, r_exact.name, r_exact.cuisine, r_exact.is_chain,
          fuzzy.name, fuzzy.score;
 
 -- Unique index is required for REFRESH ... CONCURRENTLY, and is what turns
 -- the leaderboard's per-row lateral into an index lookup.
 create unique index if not exists mention_resolution_pk
-  on mention_resolution(entity_key);
+  on mention_resolution(subreddit, entity_key);
 create index if not exists mention_resolution_status_idx
-  on mention_resolution(status);
+  on mention_resolution(subreddit, status);

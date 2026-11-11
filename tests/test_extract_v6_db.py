@@ -353,10 +353,10 @@ class Switch(DbCase):
             refresh.apply_sql(self.conn)
             refresh.refresh_views(self.conn)
         from psycopg2.extras import RealDictCursor  # noqa: F401  (fetch_one uses it)
-        self.assertEqual(Q.stats(self.conn, fetch_one)["mentions"], 1)
+        self.assertEqual(Q.stats(self.conn, HOME, fetch_one)["mentions"], 1)
         with redirect_stdout(io.StringIO()):
             X.set_read_version(self.conn, "v6")
-        s = Q.stats(self.conn, fetch_one)
+        s = Q.stats(self.conn, HOME, fetch_one)
         self.assertEqual((s["mentions"], s["models"], s["extracted"]), (3, "claude-haiku-5-5", 1))
 
 

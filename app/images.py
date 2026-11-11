@@ -41,13 +41,27 @@ FILEPATH = "https://commons.wikimedia.org/wiki/Special:FilePath/"
 # rule that reads those strings rejects the second one, which is a real
 # restaurant with a real photo. P131 (located in the administrative territorial
 # entity) says the same thing structurally and says it the same way every time.
-NYC_QIDS = {
-    "Q60",      # New York City
-    "Q11299",   # Manhattan
-    "Q18419",   # Brooklyn
-    "Q18424",   # Queens
-    "Q18426",   # The Bronx
-    "Q18432",   # Staten Island
+#
+# By subreddit, because a name is a place only within its city: "Joe's Pizza"
+# in r/FoodLosAngeles must not be shown New York's photo. Each subreddit
+# covers its metro area, so the county is there beside the city where the
+# suburbs sit in it. A subreddit missing here gets no photo, never another
+# city's.
+CITY_QIDS = {
+    "FoodNYC": {
+        "Q60",      # New York City
+        "Q11299",   # Manhattan
+        "Q18419",   # Brooklyn
+        "Q18424",   # Queens
+        "Q18426",   # The Bronx
+        "Q18432",   # Staten Island
+    },
+    "FoodLosAngeles": {"Q65", "Q104994"},      # Los Angeles, Los Angeles County
+    "FoodSanDiego":   {"Q16552", "Q108143"},   # San Diego, San Diego County
+    "austinfood":     {"Q16559", "Q110426"},   # Austin, Travis County
+    "chicagofood":    {"Q1297", "Q108418"},    # Chicago, Cook County
+    "denverfood":     {"Q16554"},              # Denver (a consolidated city-county)
+    "FoodToronto":    {"Q172"},                # Toronto
 }
 HUMAN_QID = "Q5"      # "Peter Luger" the restaurateur is not "Peter Luger" the steakhouse
 
@@ -98,13 +112,15 @@ def _get_claims(qids):
     return {q: (e.get("claims") or {}) for q, e in entities.items()}
 
 
-def _wikidata_match(name):
-    """First candidate that is a photographed place in New York City.
+def _wikidata_match(name, city_qids):
+    """First candidate that is a photographed place in the city `city_qids`
+    names (one of CITY_QIDS).
 
     Returns (qid, commons_filename) or None. Two conditions, both required:
-    it has a P18 image, and P131 puts it in one of the five boroughs. A
-    candidate whose P131 points at a neighbourhood rather than a borough gets
-    one level of indirection -- "Lower East Side" resolves to Manhattan.
+    it has a P18 image, and P131 puts it in the city: one of the five
+    boroughs, for New York. A candidate whose P131 points at a neighbourhood
+    rather than a borough gets one level of indirection -- "Lower East Side"
+    resolves to Manhattan.
 
     Strict on purpose. A wrong photo is worse than no photo: it makes a false
     claim about a real business, and nobody looking at it can tell.
@@ -121,7 +137,7 @@ def _wikidata_match(name):
         if not images_:
             continue
         located = _claim_values(c, "P131")
-        if NYC_QIDS.intersection(located):
+        if city_qids.intersection(located):
             return qid, images_[0]
         photographed.append((qid, images_[0]))
         indirect[qid] = located
@@ -132,7 +148,7 @@ def _wikidata_match(name):
     parent_claims = _get_claims(list(dict.fromkeys(parents)))
     for qid, filename in photographed:
         for parent in indirect.get(qid, []):
-            if NYC_QIDS.intersection(
+            if city_qids.intersection(
                     _claim_values(parent_claims.get(parent) or {}, "P131")):
                 return qid, filename
     return None
@@ -160,8 +176,9 @@ def _commons_credit(filename):
     return None, None
 
 
-def resolve_wikimedia(entity_key, display_name):
-    """Provider: Wikidata -> Commons. Returns a row dict, or None to pass.
+def resolve_wikimedia(entity_key, display_name, sub):
+    """Provider: Wikidata -> Commons, for a place of r/`sub`'s city. Returns
+    a row dict, or None to pass.
 
     Tries the city's official name first and the typed key second. They differ
     more often than you would think: the licence says "PETER LUGER STEAK HOUSE"
@@ -170,9 +187,12 @@ def resolve_wikimedia(entity_key, display_name):
     returns a medieval magistrate, a chemist and a restaurateur before it
     returns the steakhouse.
     """
+    city_qids = CITY_QIDS.get(sub)
+    if not city_qids:
+        return None             # no way to check where a match is: no photo
     names = [n for n in (display_name, entity_key) if n and n.strip()]
     for name in dict.fromkeys(names):          # dedupe, keep order
-        match = _wikidata_match(name)
+        match = _wikidata_match(name, city_qids)
         if not match:
             continue
         qid, filename = match
@@ -198,8 +218,9 @@ MISS = {"status": "none", "source": None, "source_ref": None, "url": None,
         "attribution": None, "license": None, "source_url": None}
 
 
-def resolve(entity_key, display_name):
-    """Run the provider chain. Returns (row, cacheable). Never raises.
+def resolve(entity_key, display_name, sub):
+    """Run the provider chain for one city's place. Returns (row, cacheable).
+    Never raises.
 
     The two kinds of failure are NOT the same and must not be stored the same
     way:
@@ -219,7 +240,7 @@ def resolve(entity_key, display_name):
     errored = False
     for provider in PROVIDERS:
         try:
-            found = provider(entity_key, display_name)
+            found = provider(entity_key, display_name, sub)
         except Exception:
             errored = True    # network, rate limit, shape change -- try the next
             continue
@@ -281,19 +302,21 @@ COLUMNS = ("entity_key, status, source, source_ref, url, attribution, "
            "license, source_url, locked, fetched_at")
 
 
-def get_cached(conn, entity_key, fetch_one):
+def get_cached(conn, sub, entity_key, fetch_one):
+    """The cached picture of one city's place. A key alone is not a place:
+    two cities' restaurants of one name are different rooms."""
     return fetch_one(conn, f"select {COLUMNS} from restaurant_images "
-                           f"where entity_key = %s", (entity_key,))
+                           f"where subreddit = %s and entity_key = %s", (sub, entity_key))
 
 
-def store(conn, entity_key, row, fetch_one):
+def store(conn, sub, entity_key, row, fetch_one):
     """Write a resolution result. `locked` rows are never overwritten."""
     return fetch_one(conn, f"""
         insert into restaurant_images
-          (entity_key, status, source, source_ref, url, attribution,
+          (subreddit, entity_key, status, source, source_ref, url, attribution,
            license, source_url, fetched_at)
-        values (%s, %s, %s, %s, %s, %s, %s, %s, now())
-        on conflict (entity_key) do update set
+        values (%s, %s, %s, %s, %s, %s, %s, %s, %s, now())
+        on conflict (subreddit, entity_key) do update set
           status      = excluded.status,
           source      = excluded.source,
           source_ref  = excluded.source_ref,
@@ -304,5 +327,5 @@ def store(conn, entity_key, row, fetch_one):
           fetched_at  = now()
         where not restaurant_images.locked
         returning {COLUMNS}
-    """, (entity_key, row["status"], row["source"], row["source_ref"],
+    """, (sub, entity_key, row["status"], row["source"], row["source_ref"],
           row["url"], row["attribution"], row["license"], row["source_url"]))

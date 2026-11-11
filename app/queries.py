@@ -3,7 +3,7 @@
 Kept apart from the routers so the shape of a query is reviewable next to the
 views it reads, and so nothing that builds SQL is mixed in with HTTP handling.
 
-Two rules hold throughout:
+Three rules hold throughout:
 
   * Values are ALWAYS bound parameters. The only strings interpolated into SQL
     are looked up in a whitelist dict first (ORDER BY cannot take a parameter),
@@ -11,6 +11,13 @@ Two rules hold throughout:
   * Anything keyed on an entity reaches its evidence through `entity_alias`.
     l.entity_key is a RESOLVED key; mentions are keyed on what people actually
     typed. Joining them directly silently drops every merged spelling.
+  * A place is (subreddit, entity_key): every city collected is scored in the
+    same views (scoring.sql), so every function here takes `sub`, the
+    subreddit whose board the request is about, right after the connection,
+    and every read of a scoring view filters on it. A name alone would
+    answer with another city's place of the same name. A mention has no
+    subreddit of its own; it is its comment's, which is why PLACE_MENTIONS
+    joins comments.
 
 Evidence is read from `live_mentions`, not `mentions`. Two extractions write
 into mentions side by side (the old prompts and v6), and live_mentions is the
@@ -25,7 +32,6 @@ import time
 from psycopg2.errors import UndefinedColumn, UndefinedTable
 
 import refresh
-import subreddits
 
 from .models import (ASPECTS, CATEGORY_VOICE_FILTERS, DEFAULT_SORT, OVERALL_BOARDS,
                      RATING_CATEGORIES, SORTS, V2_SORTS, VOICE_FILTERS)
@@ -76,6 +82,15 @@ TOPIC_TEXT_MATCH = """(t.title ilike %(topic)s
              or m.descriptors::text ilike %(topic)s
              or m.dishes::text ilike %(topic)s)"""
 
+# The live mentions of the places of one city, each with its comment and the
+# alias row that says which place it is. A typed name is only a place within
+# its subreddit, so the alias is joined on the comment's.
+PLACE_MENTIONS = """
+        from live_mentions m
+        join comments c on c.id = m.comment_id
+        join entity_alias al on al.subreddit = c.subreddit and al.entity_key = m.entity_key
+"""
+
 TOPIC_HITS = """
     topic_hits as (
       select w.entity_key, v.person, max(v.w_recency) as w
@@ -83,7 +98,8 @@ TOPIC_HITS = """
       join mention_v2 v on v.mention_id = w.mention_id
       join threads    t on t.id = w.thread_id
       join mentions   m on m.id = w.mention_id
-      where {text_match}
+      where w.subreddit = %(sub)s
+        and {text_match}
         and (%(algo)s = 'v1' or v.w_recency > 0)
       group by 1, 2
     ),
@@ -99,7 +115,8 @@ TOPIC_HITS = """
       from {board} l
       left join (select entity_key, count(*) as people, sum(w) as reach
                  from topic_hits group by 1) h on h.entity_key = l.entity_key
-      where h.entity_key is not null or l.cuisine ilike %(topic)s
+      where l.subreddit = %(sub)s
+        and (h.entity_key is not null or l.cuisine ilike %(topic)s)
     )
 """
 
@@ -110,8 +127,9 @@ RESOLUTION_LATERAL = """
     left join lateral (
       select res.status, res.fuzzy_match, res.fuzzy_score
       from entity_alias al
-      join mention_resolution res on res.entity_key = al.entity_key
-      where al.resolved_key = l.entity_key
+      join mention_resolution res on res.subreddit = al.subreddit
+                                 and res.entity_key = al.entity_key
+      where al.subreddit = l.subreddit and al.resolved_key = l.entity_key
       order by case res.status when 'exact'    then 1
                                when 'fuzzy'    then 2
                                when 'unlisted' then 3
@@ -121,13 +139,14 @@ RESOLUTION_LATERAL = """
 """
 
 
-def _board_filters(f):
+def _board_filters(sub, f):
     """Translate validated query params into (where_sql, params).
 
     `f` is a LeaderboardQuery; every field has already been range-checked by
-    Pydantic, so this only has to decide which predicates apply.
+    Pydantic, so this only has to decide which predicates apply. The city is
+    always one of them.
     """
-    where, params = [], []
+    where, params = ["l.subreddit = %s"], [sub]
 
     if f.search:
         # Both the typed key and the city's display name, so searching
@@ -169,16 +188,15 @@ def _board_filters(f):
         # `?` is jsonb key-exists, and rides mentions_desc_idx (schema.sql).
         # Reached through entity_alias because descriptors hang off the typed
         # spelling, not the resolved one.
-        where.append("""exists (
-            select 1 from live_mentions m
-            join entity_alias al on al.entity_key = m.entity_key
-            where al.resolved_key = l.entity_key
+        where.append(f"""exists (
+            select 1 {PLACE_MENTIONS}
+            where al.subreddit = l.subreddit and al.resolved_key = l.entity_key
               and jsonb_typeof(m.descriptors) = 'array'
               and m.descriptors ? %s
         )""")
         params.append(f.descriptor)
 
-    return (" where " + " and ".join(where) if where else ""), params
+    return " where " + " and ".join(where), params
 
 
 def _named(where, params):
@@ -191,7 +209,7 @@ def _named(where, params):
     return where, named
 
 
-def leaderboard_page(conn, f, fetch_all, fetch_value):
+def leaderboard_page(conn, sub, f, fetch_all, fetch_value):
     """One page of the board, plus the unpaginated total.
 
     The count runs against the same predicates so a client can page without
@@ -210,10 +228,10 @@ def leaderboard_page(conn, f, fetch_all, fetch_value):
         sort = DEFAULT_SORT["v1"]
     order = SORTS[sort]
 
-    where, params = _named(*_board_filters(f))
+    where, params = _named(*_board_filters(sub, f))
     cte, join, extra = "", "", ""
     if f.topic:
-        params.update(topic=like_pattern(f.topic), algo=algo)
+        params.update(topic=like_pattern(f.topic), algo=algo, sub=sub)
         cuisine_reach = "l.recent_reach" if algo == "v2" else "1"
         cte = "with " + TOPIC_HITS.format(board=board, cuisine_reach=cuisine_reach,
                                           text_match=TOPIC_TEXT_MATCH)
@@ -255,28 +273,28 @@ def leaderboard_page(conn, f, fetch_all, fetch_value):
     return rows, total
 
 
-def board_row(conn, entity_key, fetch_one, algo="v1"):
+def board_row(conn, sub, entity_key, fetch_one, algo="v1"):
     return fetch_one(conn, f"""
         select {_columns(algo)}, res.status, res.fuzzy_match, res.fuzzy_score
         from {BOARDS[algo]} l
         {RESOLUTION_LATERAL}
-        where l.entity_key = %s
-    """, (entity_key,))
+        where l.subreddit = %s and l.entity_key = %s
+    """, (sub, entity_key))
 
 
-def aspect_detail(conn, entity_key, fetch_all, algo="v1"):
+def aspect_detail(conn, sub, entity_key, fetch_all, algo="v1"):
     """Per-aspect workings: what the mentions said, and what it was shrunk to."""
     table = "aspect_scores_v2" if algo == "v2" else "aspect_scores"
     return fetch_all(conn, f"""
         select aspect, n_obs, aspect_weight, raw_mean, city_mean, aspect_score
         from {table}
-        where entity_key = %s
+        where subreddit = %s and entity_key = %s
         order by array_position(
             array['food','value','service','atmosphere','wait'], aspect)
-    """, (entity_key,))
+    """, (sub, entity_key))
 
 
-def momentum_windows(conn, entity_key, fetch_all):
+def momentum_windows(conn, sub, entity_key, fetch_all):
     """All four windows, not just the one that fired.
 
     entity_momentum reports the shortest window clearing the threshold; this
@@ -291,33 +309,38 @@ def momentum_windows(conn, entity_key, fetch_all):
                ma.sigma >= p.momentum_sigma as fired
         from entity_momentum_all ma
         cross join scoring_params p
-        where ma.entity_key = %s
+        where ma.subreddit = %s and ma.entity_key = %s
         order by ma.window_days
-    """, (entity_key,))
+    """, (sub, entity_key))
 
 
-def spellings(conn, entity_key, fetch_all):
+def spellings(conn, sub, entity_key, fetch_all):
     """Which typed names merged into this entity, and by what method."""
     return fetch_all(conn, """
         select a.entity_key, a.method, a.score,
-               (select count(*) from live_mentions m where m.entity_key = a.entity_key)
+               (select count(*) from live_mentions m
+                  join comments c on c.id = m.comment_id
+                 where m.entity_key = a.entity_key and c.subreddit = a.subreddit)
                  as mentions
         from entity_alias a
-        where a.resolved_key = %s
+        where a.subreddit = %s and a.resolved_key = %s
         order by mentions desc, a.entity_key
-    """, (entity_key,))
+    """, (sub, entity_key))
 
 
-def official_record(conn, entity_key, fetch_one):
+def official_record(conn, sub, entity_key, fetch_one):
+    """The city's own record of the place, from its city's list (`places`,
+    scoring.sql). `boroughs` is the list's areas, under the name the board
+    reads them by."""
     return fetch_one(conn, """
-        select name, name_key, cuisine, boroughs, location_count,
+        select name, name_key, cuisine, areas as boroughs, location_count,
                addresses, is_chain, closed, last_seen
-        from restaurants
-        where name_key = %s
-    """, (entity_key,))
+        from places
+        where subreddit = %s and name_key = %s
+    """, (sub, entity_key))
 
 
-def _jsonb_top(conn, entity_key, column, fetch_all, limit=15):
+def _jsonb_top(conn, sub, entity_key, column, fetch_all, limit=15):
     """Top values from a jsonb array column on mentions.
 
     column is a module-level literal, never caller input. The array-type guard
@@ -326,35 +349,34 @@ def _jsonb_top(conn, entity_key, column, fetch_all, limit=15):
     """
     return fetch_all(conn, f"""
         select v as name, count(*) as n
-        from live_mentions m
-        join entity_alias al on al.entity_key = m.entity_key
+        {PLACE_MENTIONS}
         cross join lateral jsonb_array_elements_text(m.{column}) v
-        where al.resolved_key = %s
+        where al.subreddit = %s and al.resolved_key = %s
           and jsonb_typeof(m.{column}) = 'array'
         group by 1
         order by 2 desc, 1
         limit %s
-    """, (entity_key, limit))
+    """, (sub, entity_key, limit))
 
 
-def top_dishes(conn, entity_key, fetch_all):
-    return _jsonb_top(conn, entity_key, "dishes", fetch_all)
+def top_dishes(conn, sub, entity_key, fetch_all):
+    return _jsonb_top(conn, sub, entity_key, "dishes", fetch_all)
 
 
-def top_descriptors(conn, entity_key, fetch_all):
-    return _jsonb_top(conn, entity_key, "descriptors", fetch_all)
+def top_descriptors(conn, sub, entity_key, fetch_all):
+    return _jsonb_top(conn, sub, entity_key, "descriptors", fetch_all)
 
 
-def neighborhoods(conn, entity_key, fetch_all):
-    return fetch_all(conn, """
+def neighborhoods(conn, sub, entity_key, fetch_all):
+    return fetch_all(conn, f"""
         select m.neighborhood_hint as name, count(*) as n
-        from live_mentions m
-        join entity_alias al on al.entity_key = m.entity_key
-        where al.resolved_key = %s and m.neighborhood_hint is not null
+        {PLACE_MENTIONS}
+        where al.subreddit = %s and al.resolved_key = %s
+          and m.neighborhood_hint is not null
         group by 1
         order by 2 desc
         limit 10
-    """, (entity_key,))
+    """, (sub, entity_key))
 
 
 def permalink_sql(alias):
@@ -395,7 +417,7 @@ MENTION_SORTS = {
 }
 
 
-def mentions_page(conn, entity_key, q, fetch_all, fetch_value):
+def mentions_page(conn, sub, entity_key, q, fetch_all, fetch_value):
     """The evidence behind a score.
 
     permalink is returned as NULL when the comment is gone from Reddit rather
@@ -403,8 +425,8 @@ def mentions_page(conn, entity_key, q, fetch_all, fetch_value):
     non-negotiable, and the other half of that promise is never linking
     something that 404s -- which is only kept if the API keeps it.
     """
-    where = ["al.resolved_key = %s"]
-    params = [entity_key]
+    where = ["al.subreddit = %s", "al.resolved_key = %s"]
+    params = [sub, entity_key]
 
     if q.negated is not None:
         where.append("m.is_negated = %s")
@@ -422,10 +444,8 @@ def mentions_page(conn, entity_key, q, fetch_all, fetch_value):
         where.append("c.was_deleted_later = false")
 
     base = f"""
-        from live_mentions m
-        join comments c on c.id = m.comment_id
+        {PLACE_MENTIONS}
         join threads  t on t.id = c.thread_id
-        join entity_alias al on al.entity_key = m.entity_key
         where {" and ".join(where)}
     """
 
@@ -439,8 +459,8 @@ def mentions_page(conn, entity_key, q, fetch_all, fetch_value):
     return rows, total
 
 
-def feed_items(conn, q, places_only, before, after, limit, fetch_all):
-    """Posts and comments together, newest first, optionally only those
+def feed_items(conn, sub, q, places_only, before, after, limit, fetch_all):
+    """One subreddit's posts and comments together, newest first, optionally only those
     containing `q`. Comments carry the places they mention, in the order they
     mention them; posts carry none (extraction reads comments only), so
     `places_only` leaves posts out.
@@ -454,11 +474,11 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
     is ~0.1s for a common word and ~1s for one that is in nothing. Posts are
     few enough (~43k) to scan.
     """
-    # The feed is r/FoodNYC's, and the tables hold every city. Filtered first,
+    # The feed is one city's, and the tables hold every city. Filtered first,
     # where comments_sub_created_idx can walk one city's comments in order.
     c_where = ["c.subreddit = %(sub)s", "c.body not in ('[deleted]', '[removed]')"]
     t_where = ["t.subreddit = %(sub)s"]
-    params = {"limit": limit, "sub": subreddits.HOME}
+    params = {"limit": limit, "sub": sub}
     if q:
         c_where.append("c.body ilike %(q)s")
         t_where.append("(t.title ilike %(q)s or t.selftext ilike %(q)s)")
@@ -509,8 +529,9 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
           from (
             select al.resolved_key as key, min(m.id) as first, max(l.official_name) as official_name
             from live_mentions m
-            join entity_alias al on al.entity_key = m.entity_key
-            join entity_leaderboard l on l.entity_key = al.resolved_key
+            join entity_alias al on al.subreddit = %(sub)s and al.entity_key = m.entity_key
+            join entity_leaderboard l on l.subreddit = al.subreddit
+                                     and l.entity_key = al.resolved_key
             where m.comment_id = p.id
             group by al.resolved_key
           ) x
@@ -519,7 +540,7 @@ def feed_items(conn, q, places_only, before, after, limit, fetch_all):
     """, params)
 
 
-def standout_negatives(conn, entity_key, limit, fetch_all):
+def standout_negatives(conn, sub, entity_key, limit, fetch_all):
     """The comments behind a v2 flag: recent, firsthand, strongly negative,
     harshest and most upvoted first. Same shape as mentions_page so the UI renders both alike."""
     return fetch_all(conn, f"""
@@ -529,7 +550,7 @@ def standout_negatives(conn, entity_key, limit, fetch_all):
         join comments c on c.id = v.comment_id
         join threads  t on t.id = v.thread_id
         cross join scoring_v2_params p
-        where v.entity_key = %s
+        where v.subreddit = %s and v.entity_key = %s
           and v.age_days <= p.recent_days
           and v.is_firsthand
           and v.worst <= p.strong_neg
@@ -537,10 +558,10 @@ def standout_negatives(conn, entity_key, limit, fetch_all):
         -- product is most negative for a severe complaint the sub upvoted.
         order by v.worst * v.w_agree asc, c.created_utc desc
         limit %s
-    """, (entity_key, limit))
+    """, (sub, entity_key, limit))
 
 
-def search(conn, q, limit, fetch_all):
+def search(conn, sub, q, limit, fetch_all):
     """Typeahead. Deliberately does not touch the scoring views.
 
     Prefix match first, then trigram similarity, so typing "katz" ranks katzs
@@ -550,12 +571,13 @@ def search(conn, q, limit, fetch_all):
         select l.entity_key, coalesce(l.official_name, l.entity_key) as display_name,
                l.raw_mentions, l.cuisine
         from entity_leaderboard l
-        where l.entity_key ilike %s or l.official_name ilike %s
+        where l.subreddit = %s
+          and (l.entity_key ilike %s or l.official_name ilike %s)
         order by (l.entity_key ilike %s) desc,
                  similarity(l.entity_key, %s) desc,
                  l.raw_mentions desc nulls last
         limit %s
-    """, (like_pattern(q), like_pattern(q), like_escape(q) + "%", q, limit))
+    """, (sub, like_pattern(q), like_pattern(q), like_escape(q) + "%", q, limit))
 
 
 def facets_version(conn, fetch_value):
@@ -565,47 +587,61 @@ def facets_version(conn, fetch_value):
     The newest mention the scoring layer has weighed moves on every refresh
     that brought in new evidence, and is an index lookup (mention_weights_pk)
     rather than the full scan of mentions that the descriptor counts cost.
+    One number for every city: a refresh rebuilds them all together.
     """
     return fetch_value(conn, "select max(mention_id) from mention_weights")
 
 
-def facets(conn, fetch_all):
+def facets(conn, sub, fetch_all):
     cuisines = fetch_all(conn, """
         select cuisine as name, count(*) as n
         from entity_leaderboard
-        where cuisine is not null
+        where subreddit = %s and cuisine is not null
         group by 1 order by 2 desc, 1 limit 40
-    """)
+    """, (sub,))
+    # The parts of the city its places are in: the five boroughs in New York,
+    # and as many as 80 cities and districts elsewhere, so the most common.
     boroughs = fetch_all(conn, """
         select b as name, count(*) as n
         from entity_leaderboard l, unnest(l.boroughs) b
-        group by 1 order by 2 desc, 1
-    """)
+        where l.subreddit = %s
+        group by 1 order by 2 desc, 1 limit 40
+    """, (sub,))
     statuses = fetch_all(conn, """
         select status as name, count(*) as n
-        from mention_resolution group by 1 order by 2 desc, 1
-    """)
+        from mention_resolution
+        where subreddit = %s
+        group by 1 order by 2 desc, 1
+    """, (sub,))
     # The vocabulary is open by design (the prompt says so), so this reports
     # what the model actually produced rather than a fixed list. A full scan of
-    # mentions, so the router keeps the result until facets_version moves.
+    # the city's mentions, so the router keeps the result until facets_version
+    # moves.
     descriptors = fetch_all(conn, """
         select v as name, count(*) as n
-        from live_mentions m
+        from mention_weights w
+        join mentions m on m.id = w.mention_id
         cross join lateral jsonb_array_elements_text(m.descriptors) v
-        where jsonb_typeof(m.descriptors) = 'array' and v is not null
+        where w.subreddit = %s
+          and jsonb_typeof(m.descriptors) = 'array' and v is not null
         group by 1 having count(*) >= 3
         order by 2 desc, 1 limit 60
-    """)
+    """, (sub,))
     return {"cuisines": cuisines, "boroughs": boroughs,
             "statuses": statuses, "descriptors": descriptors}
 
 
-def stats(conn, fetch_one):
-    """Corpus counts for the board's own city; the other cities collected
-    beside it are not what these numbers describe."""
+def stats(conn, sub, fetch_one):
+    """Corpus counts for one city; the other cities collected beside it are
+    not what these numbers describe. Mentions and models are read live, not
+    from the scoring layer, so a switch of extraction shows at once; a
+    mention's city is its comment's."""
     return fetch_one(conn, """
-        select (select count(*) from live_mentions)                   as mentions,
-               (select count(distinct resolved_key) from entity_alias) as entities,
+        select (select count(*) from live_mentions m
+                  join comments c on c.id = m.comment_id
+                 where c.subreddit = %(sub)s)                         as mentions,
+               (select count(distinct resolved_key) from entity_alias
+                 where subreddit = %(sub)s)                           as entities,
                (select count(*) from comments
                  where subreddit = %(sub)s)                           as comments,
                -- Each extraction keeps its own cursor (extract_v6_schema.sql),
@@ -623,11 +659,13 @@ def stats(conn, fetch_one):
                        end)                                           as extracted,
                (select count(*) from threads
                  where subreddit = %(sub)s)                           as threads,
-               (select string_agg(distinct model_version, ', ')
-                  from live_mentions)                                 as models,
+               (select string_agg(distinct m.model_version, ', ')
+                  from live_mentions m
+                  join comments c on c.id = m.comment_id
+                 where c.subreddit = %(sub)s)                         as models,
                (select max(created_utc) from comments
                  where subreddit = %(sub)s)                           as newest_comment
-    """, {"sub": subreddits.HOME})
+    """, {"sub": sub})
 
 
 def view_health(conn, fetch_all):
@@ -649,7 +687,7 @@ def view_health(conn, fetch_all):
     return {name: populated.get(name, False) for name in names}
 
 
-def unresolved(conn, limit, offset, fetch_all, fetch_value):
+def unresolved(conn, sub, limit, offset, fetch_all, fetch_value):
     """The identity correction queue, worst-first.
 
     Ordered by mention count because a wrong merge on a place with 200
@@ -659,54 +697,68 @@ def unresolved(conn, limit, offset, fetch_all, fetch_value):
     """
     base = """
         from mention_resolution res
-        left join alias_overrides o on o.entity_key = res.entity_key
-        where o.entity_key is null
+        left join alias_overrides o on o.subreddit = res.subreddit
+                                   and o.entity_key = res.entity_key
+        where res.subreddit = %s
+          and o.entity_key is null
           and res.status in ('unverified', 'unlisted', 'fuzzy')
     """
-    total = fetch_value(conn, f"select count(*) {base}", (), default=0)
+    total = fetch_value(conn, f"select count(*) {base}", (sub,), default=0)
     rows = fetch_all(conn, f"""
         select res.entity_key, res.mentions, res.distinct_authors, res.threads,
                res.status, res.fuzzy_match, res.fuzzy_score
         {base}
         order by res.mentions desc, res.entity_key
         limit %s offset %s
-    """, (limit, offset))
+    """, (sub, limit, offset))
     return rows, total
 
 
-def upsert_alias(conn, entity_key, resolved_key, note, fetch_one):
+def upsert_alias(conn, sub, entity_key, resolved_key, note, fetch_one):
     return fetch_one(conn, """
-        insert into alias_overrides (entity_key, resolved_key, note)
-        values (%s, %s, %s)
-        on conflict (entity_key) do update
+        insert into alias_overrides (subreddit, entity_key, resolved_key, note)
+        values (%s, %s, %s, %s)
+        on conflict (subreddit, entity_key) do update
           set resolved_key = excluded.resolved_key,
               note         = excluded.note,
               created_at   = now()
-        returning entity_key, resolved_key, note, created_at
-    """, (entity_key, resolved_key, note))
+        returning subreddit, entity_key, resolved_key, note, created_at
+    """, (sub, entity_key, resolved_key, note))
 
 
-def delete_alias(conn, entity_key, fetch_value):
+def delete_alias(conn, sub, entity_key, fetch_value):
     return fetch_value(conn, """
-        delete from alias_overrides where entity_key = %s returning entity_key
-    """, (entity_key,))
+        delete from alias_overrides where subreddit = %s and entity_key = %s
+        returning entity_key
+    """, (sub, entity_key))
 
 
-def list_aliases(conn, limit, offset, fetch_all, fetch_value):
-    total = fetch_value(conn, "select count(*) from alias_overrides", (), default=0)
+def list_aliases(conn, sub, limit, offset, fetch_all, fetch_value):
+    total = fetch_value(conn, "select count(*) from alias_overrides where subreddit = %s",
+                        (sub,), default=0)
     rows = fetch_all(conn, """
-        select entity_key, resolved_key, note, created_at
+        select subreddit, entity_key, resolved_key, note, created_at
         from alias_overrides
+        where subreddit = %s
         order by created_at desc
         limit %s offset %s
-    """, (limit, offset))
+    """, (sub, limit, offset))
     return rows, total
 
 
-def entity_exists(conn, entity_key, fetch_value):
+def entity_exists(conn, sub, entity_key, fetch_value):
     return fetch_value(conn,
-                       "select 1 from entity_leaderboard where entity_key = %s",
-                       (entity_key,)) is not None
+                       "select 1 from entity_leaderboard where subreddit = %s and entity_key = %s",
+                       (sub, entity_key)) is not None
+
+
+def cities(conn, fetch_all):
+    """The subreddits that have a board, with how many places each holds."""
+    return fetch_all(conn, """
+        select subreddit, count(*) as places
+        from entity_leaderboard
+        group by subreddit
+    """)
 
 
 # ---------------------------------------------------------------------------
@@ -775,7 +827,7 @@ def _ledger_select(algo):
 TOPIC_JOIN = """
     join threads t on t.id = v.thread_id
     join mentions m on m.id = v.mention_id
-    left join restaurants rt on rt.name_key = v.entity_key
+    left join places rt on rt.subreddit = v.subreddit and rt.name_key = v.entity_key
 """
 TOPIC_WHERE = f"""
     and ({TOPIC_TEXT_MATCH}
@@ -797,9 +849,9 @@ def window_counts_sql(where, algo="v1", topic=None, group=False):
     (`previous`) and, under v2, distinct people in the window -- the counts
     every ledger-shaped row carries. One statement for all three callers, so
     a list, a single place and a rating board count alike: `group` for
-    every place at once (ledger_items), else one place picked by `where`, as
-    a lateral (ledger_one, board_items). Needs %(window)s, and %(topic)s when
-    `topic` is set."""
+    every place of the city at once (ledger_items), else one place picked by
+    `where`, as a lateral (ledger_one, board_items). Needs %(sub)s and
+    %(window)s, and %(topic)s when `topic` is set."""
     return f"""
           select {"v.entity_key," if group else ""}
                  count(*) filter (where v.created_utc >  now() - make_interval(days => %(window)s)) as current,
@@ -807,13 +859,14 @@ def window_counts_sql(where, algo="v1", topic=None, group=False):
                  {_people_sql(algo)}
           from mention_v2 v
           {TOPIC_JOIN if topic else ""}
-          where {where}
+          where v.subreddit = %(sub)s
+            and {where}
             and v.created_utc > now() - make_interval(days => 2 * %(window)s)
             {TOPIC_WHERE if topic else ""}
           {"group by v.entity_key" if group else ""}"""
 
 
-def ledger_items(conn, category, window, cuisine, borough, needs, flaws, limit, fetch_all,
+def ledger_items(conn, sub, category, window, cuisine, borough, needs, flaws, limit, fetch_all,
                  algo="v1", topic=None):
     """One ranked page for (category, window, filters), with the match count
     on every row as `total`.
@@ -823,7 +876,7 @@ def ledger_items(conn, category, window, cuisine, borough, needs, flaws, limit, 
     """
     where_sql, rank_sql = (LEDGER_CATEGORIES_V2 if algo == "v2" else LEDGER_CATEGORIES)[category]
     board = BOARDS[algo]
-    filters, params = [], {"window": window, "limit": limit}
+    filters, params = [], {"sub": sub, "window": window, "limit": limit}
     if topic:
         params["topic"] = like_pattern(topic)
     if cuisine:
@@ -854,7 +907,8 @@ def ledger_items(conn, category, window, cuisine, borough, needs, flaws, limit, 
               f"percentile_cont(%(flaw_share)s) within group (order by {a}) as {a}"
               for a in ASPECTS) + """
           from """ + board + """
-          where coalesce(is_chain, false) = false and coalesce(closed, false) = false
+          where subreddit = %(sub)s
+            and coalesce(is_chain, false) = false and coalesce(closed, false) = false
             and raw_mentions >= 3
         ),""" if flaws else ""
     cuts_join = "cross join cuts" if flaws else ""
@@ -879,7 +933,7 @@ def ledger_items(conn, category, window, cuisine, borough, needs, flaws, limit, 
                  l.food, l.value, l.service, l.atmosphere, l.wait,
                  {_ledger_select(algo)}
           from counts c
-          join {board} l on l.entity_key = c.entity_key
+          join {board} l on l.subreddit = %(sub)s and l.entity_key = c.entity_key
           {cuts_join}
           where coalesce(l.is_chain, false) = false
             and coalesce(l.closed, false) = false
@@ -893,7 +947,7 @@ def ledger_items(conn, category, window, cuisine, borough, needs, flaws, limit, 
     """, params)
 
 
-def ledger_one(conn, entity_key, window, fetch_all, algo="v1", topic=None):
+def ledger_one(conn, sub, entity_key, window, fetch_all, algo="v1", topic=None):
     """ledger_items' row shape for a single entity, ranked or not.
 
     Zero counts are real answers here -- a place searched for by name may not
@@ -902,7 +956,7 @@ def ledger_one(conn, entity_key, window, fetch_all, algo="v1", topic=None):
     `topic` it counts the same mentions ledger_items does, so a place opened
     from search shows the numbers it has in the list.
     """
-    params = {"key": entity_key, "window": window}
+    params = {"sub": sub, "key": entity_key, "window": window}
     if topic:
         params["topic"] = like_pattern(topic)
     return fetch_all(conn, f"""
@@ -917,11 +971,11 @@ def ledger_one(conn, entity_key, window, fetch_all, algo="v1", topic=None):
         from {BOARDS[algo]} l
         left join lateral ({window_counts_sql("v.entity_key = l.entity_key", algo, topic)}
         ) c on true
-        where l.entity_key = %(key)s
+        where l.subreddit = %(sub)s and l.entity_key = %(key)s
     """, params)
 
 
-def all_names(conn, min_mentions, fetch_all):
+def all_names(conn, sub, min_mentions, fetch_all):
     """Every leaderboard entity with the typed spellings that resolve to it.
 
     Only spellings that differ from the key itself are listed; the key is
@@ -934,15 +988,15 @@ def all_names(conn, min_mentions, fetch_all):
                coalesce(array_agg(a.entity_key order by a.entity_key)
                           filter (where a.entity_key <> l.entity_key), '{}') as aliases
         from entity_leaderboard l
-        left join entity_alias a on a.resolved_key = l.entity_key
-        where l.raw_mentions >= %s
+        left join entity_alias a on a.subreddit = l.subreddit and a.resolved_key = l.entity_key
+        where l.subreddit = %s and l.raw_mentions >= %s
         group by l.entity_key, l.official_name, l.cuisine, l.boroughs,
                  l.raw_mentions, l.is_chain, l.closed
         order by l.raw_mentions desc nulls last, l.entity_key
-    """, (min_mentions,))
+    """, (sub, min_mentions))
 
 
-def ledger_series(conn, keys, window, bucket, fetch_all, topic=None):
+def ledger_series(conn, sub, keys, window, bucket, fetch_all, topic=None):
     """Mention counts per bucket, for the current and the previous window.
 
     Buckets count back from now inside each window separately, so the two
@@ -952,7 +1006,7 @@ def ledger_series(conn, keys, window, bucket, fetch_all, topic=None):
     """
     if not keys:
         return []
-    params = {"keys": list(keys), "window": window, "bucket": bucket}
+    params = {"sub": sub, "keys": list(keys), "window": window, "bucket": bucket}
     if topic:
         params["topic"] = like_pattern(topic)
     return fetch_all(conn, f"""
@@ -966,7 +1020,8 @@ def ledger_series(conn, keys, window, bucket, fetch_all, topic=None):
                  extract(epoch from (now() - v.created_utc)) / 86400.0 as age
           from mention_v2 v
           {TOPIC_JOIN if topic else ""}
-          where v.entity_key = any(%(keys)s)
+          where v.subreddit = %(sub)s
+            and v.entity_key = any(%(keys)s)
             and v.created_utc > now() - make_interval(days => 2 * %(window)s)
             {TOPIC_WHERE if topic else ""}
         ) s
@@ -1025,9 +1080,9 @@ def forget_rating_ready():
     _rating_ready.update(at=None)
 
 
-def ratings_for(conn, keys, fetch_all, fetch_value, strict=False):
+def ratings_for(conn, sub, keys, fetch_all, fetch_value, strict=False):
     """{entity_key: {"overall": entity_rating row or None, "categories": [...],
-    "window_days": n}} for the places among `keys` that have any rating, read
+    "window_days": n}} for the places of `sub` among `keys` that have any rating, read
     for a whole page at once. Every rating the API shows comes through here,
     so this is the one place that degrades: {} when the rating views are not
     built, are an older build's (a column missing), or vanish under the
@@ -1042,13 +1097,13 @@ def ratings_for(conn, keys, fetch_all, fetch_value, strict=False):
         overall = fetch_all(conn, f"""
             select p.window_days, er.entity_key, {", ".join(f"er.{c}" for c in RATING_COLUMNS)}
             from rating_params p
-            left join entity_rating er on er.entity_key = any(%s)
-        """, (keys,))
+            left join entity_rating er on er.subreddit = %s and er.entity_key = any(%s)
+        """, (sub, keys))
         categories = fetch_all(conn, f"""
             select entity_key, category, {", ".join(CATEGORY_RATING_COLUMNS)}
             from entity_category_rating
-            where entity_key = any(%s)
-        """, (keys,))
+            where subreddit = %s and entity_key = any(%s)
+        """, (sub, keys))
     except RATING_MISSING:
         if strict:
             raise
@@ -1068,17 +1123,18 @@ def ratings_for(conn, keys, fetch_all, fetch_value, strict=False):
     return out
 
 
-def rating_lines(conn, fetch_one):
-    """The settings and this rebuild's cut-offs. Every entity_rating row holds
-    the same lines, so any one will do; none at all means no rebuild yet."""
+def rating_lines(conn, sub, fetch_one):
+    """The settings and this rebuild's cut-offs for one city. Every
+    entity_rating row of a city holds the same lines, so any one will do;
+    none at all means no rebuild yet, or no voice in that city."""
     return fetch_one(conn, """
         select p.window_days, p.z, p.min_rated, p.min_category_rated,
                p.busy_pct, p.share_pct, p.gem_pct,
                er.busy_line, er.share_line, er.gem_line
         from rating_params p
         left join lateral (select busy_line, share_line, gem_line
-                           from entity_rating limit 1) er on true
-    """)
+                           from entity_rating where subreddit = %s limit 1) er on true
+    """, (sub,))
 
 
 # Each overall board as (where_sql, order_sql) over `er` (entity_rating), and
@@ -1101,7 +1157,7 @@ CATEGORY_BOARD = ("cr.rankable",
 assert set(RATING_BOARDS) == set(OVERALL_BOARDS), "RATING_BOARDS out of step with OverallBoard"
 
 
-def board_items(conn, board, window, cuisine, borough, limit, offset, fetch_all, fetch_value):
+def board_items(conn, sub, board, window, cuisine, borough, limit, offset, fetch_all, fetch_value):
     """One page of a rating board in the row shape ledger_items returns, and
     the number of places the board holds (right even for a page past the
     end). The rating itself is added per page by ratings_for, like any
@@ -1115,20 +1171,22 @@ def board_items(conn, board, window, cuisine, borough, limit, offset, fetch_all,
     RATING_MISSING when the rating views are missing or stale; the route
     turns that into a 503.
     """
-    params = {"window": window, "limit": limit, "offset": offset}
+    params = {"sub": sub, "window": window, "limit": limit, "offset": offset}
     if board in OVERALL_BOARDS:
         where_sql, order_sql = RATING_BOARDS[board]
         source = """from entity_rating er
-          join entity_leaderboard l on l.entity_key = er.entity_key"""
+          join entity_leaderboard l on l.subreddit = er.subreddit
+                                   and l.entity_key = er.entity_key"""
     elif board in RATING_CATEGORIES:
         where_sql, order_sql = CATEGORY_BOARD
         source = """from entity_category_rating cr
-          join entity_leaderboard l on l.entity_key = cr.entity_key"""
+          join entity_leaderboard l on l.subreddit = cr.subreddit
+                                   and l.entity_key = cr.entity_key"""
         where_sql += " and cr.category = %(category)s"
         params["category"] = board
     else:
         raise ValueError(f"unknown board {board!r}")
-    filters = [where_sql, "coalesce(l.is_chain, false) = false",
+    filters = ["l.subreddit = %(sub)s", where_sql, "coalesce(l.is_chain, false) = false",
                "coalesce(l.closed, false) = false"]
     if cuisine:
         filters.append("l.cuisine = %(cuisine)s")
@@ -1184,7 +1242,7 @@ CATEGORY_VOICE_SOURCES = {v: VOICE_SOURCES[v][1] for v in CATEGORY_VOICE_FILTERS
 assert set(VOICE_SOURCES) == set(VOICE_FILTERS), "VOICE_SOURCES out of step with VoiceFilter"
 
 
-def voices_page(conn, entity_key, voice, category, sort, limit, offset,
+def voices_page(conn, sub, entity_key, voice, category, sort, limit, offset,
                 fetch_all, fetch_value):
     """The comments behind a rating: exactly the one mention per person that
     the count was made from, so a list's total is the number on the card.
@@ -1196,8 +1254,8 @@ def voices_page(conn, entity_key, voice, category, sort, limit, offset,
         table, voice_sql = "place_category_voices", CATEGORY_VOICE_SOURCES[voice]
     else:
         raise ValueError(f"voice {voice!r} does not apply to a category")
-    where = ["pv.entity_key = %s", voice_sql]
-    params = [entity_key]
+    where = ["pv.subreddit = %s", "pv.entity_key = %s", voice_sql]
+    params = [sub, entity_key]
     if category:
         where.append("pv.category = %s")
         params.append(category)
@@ -1218,16 +1276,16 @@ def voices_page(conn, entity_key, voice, category, sort, limit, offset,
     return rows, total
 
 
-def top_neighborhoods(conn, keys, fetch_all):
+def top_neighborhoods(conn, sub, keys, fetch_all):
     """The neighborhood commenters most often place each entity in."""
     if not keys:
         return []
-    return fetch_all(conn, """
+    return fetch_all(conn, f"""
         select distinct on (al.resolved_key)
                al.resolved_key as entity_key, m.neighborhood_hint as name
-        from live_mentions m
-        join entity_alias al on al.entity_key = m.entity_key
-        where al.resolved_key = any(%s) and m.neighborhood_hint is not null
+        {PLACE_MENTIONS}
+        where al.subreddit = %s and al.resolved_key = any(%s)
+          and m.neighborhood_hint is not null
         group by al.resolved_key, m.neighborhood_hint
         order by al.resolved_key, count(*) desc, m.neighborhood_hint
-    """, (list(keys),))
+    """, (sub, list(keys)))

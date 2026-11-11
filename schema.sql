@@ -200,11 +200,12 @@ begin
       add column if not exists extract_error  text;
   end if;
 end $$;
--- Partial on HOME as well, because only HOME is ever extracted: the other
--- cities' millions of comments are never-extracted forever and would
--- otherwise fill an index meant to hold only the backlog. The literal must
--- match subreddits.HOME (tests/test_home_literal.py checks it), and stays a
--- literal because a partial index cannot read scoring_params. A database
+-- Partial on HOME as well, because these columns are the old extraction's
+-- cursor (extract.py), which only ever reads HOME; v6 keeps its own in
+-- extraction_state, for every city. The other cities' millions of comments
+-- are never-extracted here forever and would otherwise fill an index meant
+-- to hold only the backlog. The literal must match subreddits.HOME
+-- (tests/test_home_literal.py checks it): a partial index needs one. A database
 -- built before this has the old predicate under the same name, and "if not
 -- exists" would keep it, so that one is dropped first -- once; after that the
 -- check finds the new definition and does nothing.
@@ -292,11 +293,12 @@ create index if not exists restaurants_key_idx  on restaurants(name_key);
 create index if not exists restaurants_trgm_idx on restaurants using gin (name_key gin_trgm_ops);
 
 -- The same list for every other city, from its own health department
--- (city_restaurants.py). A table of its own because everything above joins
--- `restaurants` by name alone: another city's "Joe's Pizza" in there would
--- answer for New York's. Nothing reads this yet; it is keyed by subreddit
--- and name, which is what a place's identity becomes when a second city is
--- scored, and New York's list moves in then.
+-- (city_restaurants.py), keyed by subreddit and name: another city's "Joe's
+-- Pizza" must not answer for New York's. Scoring reads both tables as one
+-- list through the `places` view (scoring.sql), where `restaurants` is
+-- r/FoodNYC's rows. New York's stays a table of its own because it carries
+-- what the other sources do not (cuisine, closed) and its loader replaces it
+-- whole.
 create table if not exists city_restaurants (
   subreddit      text not null,
   name           text not null,          -- display form, as the source lists it
@@ -311,7 +313,15 @@ create table if not exists city_restaurants (
   loaded_at      timestamptz not null default now(),
   primary key (subreddit, name_key)
 );
-create index if not exists city_restaurants_trgm_idx on city_restaurants using gin (name_key gin_trgm_ops);
+-- Subreddit and name in one index: a name is matched within its own city, and
+-- with the name alone every probe read all four cities' candidates before
+-- throwing three away -- 24 times slower on a list this size. btree_gin is
+-- what lets a plain text column sit in a GIN index beside the trigrams. The
+-- name-only index this replaces is dropped where it was built.
+create extension if not exists btree_gin;
+drop index if exists city_restaurants_trgm_idx;
+create index if not exists city_restaurants_sub_trgm_idx
+  on city_restaurants using gin (subreddit, name_key gin_trgm_ops);
 
 
 -- ---------------------------------------------------------------------------
@@ -324,11 +334,28 @@ create index if not exists city_restaurants_trgm_idx on city_restaurants using g
 -- against "katzs delicatessen", which is right for the same reason.
 -- ---------------------------------------------------------------------------
 create table if not exists alias_overrides (
-  entity_key   text primary key,
+  entity_key   text not null,
   resolved_key text not null,
   note         text,
-  created_at   timestamptz not null default now()
+  created_at   timestamptz not null default now(),
+  subreddit    text not null default 'FoodNYC',
+  primary key (subreddit, entity_key)
 );
+
+-- A merge belongs to one city's board: "emp" is Empire in New York and nothing in Chicago. Rows from before
+-- the column are New York's, which is what the default says, and what a
+-- writer that does not know about cities yet still means. The literal must
+-- match subreddits.HOME (tests/test_home_literal.py).
+do $$
+begin
+  if not exists (select 1 from information_schema.columns
+                 where table_schema = current_schema() and table_name = 'alias_overrides'
+                   and column_name = 'subreddit') then
+    alter table alias_overrides add column subreddit text not null default 'FoodNYC';
+    alter table alias_overrides drop constraint alias_overrides_pkey;
+    alter table alias_overrides add primary key (subreddit, entity_key);
+  end if;
+end $$;
 
 
 -- ---------------------------------------------------------------------------
@@ -338,10 +365,27 @@ create table if not exists alias_overrides (
 -- also has an alias_overrides row pinning it to itself.
 -- ---------------------------------------------------------------------------
 create table if not exists excluded_entities (
-  entity_key   text primary key,
+  entity_key   text not null,
   note         text,
-  created_at   timestamptz not null default now()
+  created_at   timestamptz not null default now(),
+  subreddit    text not null default 'FoodNYC',
+  primary key (subreddit, entity_key)
 );
+
+-- A exclusion belongs to one city's board: a market in one city can share its name with a restaurant in another. Rows from before
+-- the column are New York's, which is what the default says, and what a
+-- writer that does not know about cities yet still means. The literal must
+-- match subreddits.HOME (tests/test_home_literal.py).
+do $$
+begin
+  if not exists (select 1 from information_schema.columns
+                 where table_schema = current_schema() and table_name = 'excluded_entities'
+                   and column_name = 'subreddit') then
+    alter table excluded_entities add column subreddit text not null default 'FoodNYC';
+    alter table excluded_entities drop constraint excluded_entities_pkey;
+    alter table excluded_entities add primary key (subreddit, entity_key);
+  end if;
+end $$;
 
 
 -- ---------------------------------------------------------------------------
@@ -361,7 +405,7 @@ create table if not exists excluded_entities (
 -- miss is not re-fetched on every page load).
 -- ---------------------------------------------------------------------------
 create table if not exists restaurant_images (
-  entity_key   text primary key,
+  entity_key   text not null,
   status       text not null default 'none',
   source       text,
   source_ref   text,
@@ -370,8 +414,25 @@ create table if not exists restaurant_images (
   license      text,
   source_url   text,
   locked       boolean not null default false,
-  fetched_at   timestamptz not null default now()
+  fetched_at   timestamptz not null default now(),
+  subreddit    text not null default 'FoodNYC',
+  primary key (subreddit, entity_key)
 );
+
+-- A picture belongs to one city's board: two cities' places of one name are different rooms. Rows from before
+-- the column are New York's, which is what the default says, and what a
+-- writer that does not know about cities yet still means. The literal must
+-- match subreddits.HOME (tests/test_home_literal.py).
+do $$
+begin
+  if not exists (select 1 from information_schema.columns
+                 where table_schema = current_schema() and table_name = 'restaurant_images'
+                   and column_name = 'subreddit') then
+    alter table restaurant_images add column subreddit text not null default 'FoodNYC';
+    alter table restaurant_images drop constraint restaurant_images_pkey;
+    alter table restaurant_images add primary key (subreddit, entity_key);
+  end if;
+end $$;
 
 create index if not exists restaurant_images_stale_idx
   on restaurant_images(fetched_at) where not locked;

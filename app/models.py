@@ -370,6 +370,16 @@ class Facets(BaseModel):
     descriptors: list[FacetValue]
 
 
+class City(BaseModel):
+    """A city with a board: its subreddit is what every other route takes as
+    `?subreddit=`, and the names are for a picker to show."""
+    subreddit: str
+    name: str                 # "Los Angeles"
+    short: str                # as a commenter writes it: "LA"
+    home: bool                # the one a request without ?subreddit= means
+    places: int               # rows on its leaderboard
+
+
 class Stats(BaseModel):
     mentions: int
     entities: int
@@ -415,6 +425,7 @@ class AliasIn(BaseModel):
 
 
 class AliasOut(BaseModel):
+    subreddit: str
     entity_key: str
     resolved_key: str
     note: Optional[str] = None

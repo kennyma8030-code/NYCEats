@@ -1,4 +1,4 @@
-"""The ledger: what r/FoodNYC is talking about over a rolling window.
+"""The ledger: what a city's subreddit is talking about over a rolling window.
 
 This is what the React frontend's list is built on. It is a different
 question from /api/leaderboard, which ranks on decayed, all-time axes: here
@@ -14,6 +14,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import JSONResponse
 
 from .. import queries
+from ..city import Sub
 from ..db import fetch_all, fetch_one, fetch_value, get_conn
 from ..models import (ASPECTS, Algo, Board, CategoryRating, Ledger, LedgerCategory, LedgerFlaw,
                       LedgerItem, LedgerNeed, Rating, RatingBoard, RatingLines)
@@ -67,6 +68,7 @@ def display_name(official, entity_key):
 
 @router.get("/api/ledger", response_model=Ledger, summary="Ranked over a window")
 def ledger(
+    sub: Sub,
     category: LedgerCategory = "trending",
     window: Annotated[int, Query(description="Days: 7, 14, 30, 90, 180 or 365")] = 7,
     cuisine: Annotated[Optional[str], Query(max_length=100)] = None,
@@ -110,18 +112,19 @@ def ledger(
                             detail="an aspect cannot be both a need and a flaw")
 
     topic = (topic or "").strip() or None
-    rows = queries.ledger_items(conn, category, window, cuisine, borough,
+    rows = queries.ledger_items(conn, sub, category, window, cuisine, borough,
                                 needs, flaws, limit, fetch_all,
                                 algo=algo, topic=topic)
     return Ledger(category=category, window_days=window, bucket_days=bucket, algo=algo, topic=topic,
                   cuisine=cuisine, borough=borough, needs=needs, flaws=flaws,
                   total=rows[0]["total"] if rows else 0,
-                  items=_build_items(conn, rows, window, bucket, topic))
+                  items=_build_items(conn, sub, rows, window, bucket, topic))
 
 
 @router.get("/api/ledger/entity", response_model=LedgerItem,
             summary="One restaurant as a ledger row")
 def ledger_entity(
+    sub: Sub,
     key: Annotated[str, Query(min_length=1, max_length=200, description="Resolved entity key")],
     window: Annotated[int, Query(description="Days: 7, 14, 30, 90, 180 or 365")] = 7,
     algo: Algo = "v1",
@@ -139,18 +142,20 @@ def ledger_entity(
     """
     bucket = checked_bucket(window)
     topic = (topic or "").strip() or None
-    rows = queries.ledger_one(conn, key, window, fetch_all, algo, topic)
+    rows = queries.ledger_one(conn, sub, key, window, fetch_all, algo, topic)
     if not rows:
-        raise HTTPException(status_code=404, detail=f"no entity {key!r} on the leaderboard")
-    return _build_items(conn, rows, window, bucket, topic)[0]
+        raise HTTPException(status_code=404,
+                            detail=f"no entity {key!r} on r/{sub}'s leaderboard")
+    return _build_items(conn, sub, rows, window, bucket, topic)[0]
 
 
 @router.get("/api/names", summary="Every searchable name")
 def names(
+    sub: Sub,
     min_mentions: Annotated[int, Query(ge=1, le=1000)] = 2,
     conn=Depends(get_conn),
 ):
-    """Every restaurant with at least `min_mentions`, for matching in the browser.
+    """Every restaurant of one city with at least `min_mentions`, for matching in the browser.
 
     Sent whole rather than queried per keystroke: at this size one download
     beats a round trip per letter, and the client ranks without waiting on the
@@ -170,7 +175,7 @@ def names(
     and bump that, or a cached copy of the old shape gets parsed as the new.
     """
     rows = []
-    for r in queries.all_names(conn, min_mentions, fetch_all):
+    for r in queries.all_names(conn, sub, min_mentions, fetch_all):
         name = display_name(r["official_name"], r["entity_key"])
         rows.append([r["entity_key"],
                      None if name == string.capwords(r["entity_key"]) else name,
@@ -182,6 +187,7 @@ def names(
 
 @router.get("/api/boards", response_model=Board, summary="Ranked by the rating")
 def boards(
+    sub: Sub,
     board: Annotated[RatingBoard, Query(description=(
         "top: busy places by lb. popular: by recommenders, among places with "
         "lb at or above the median. gems: hidden gems by lb. taste, value, "
@@ -211,16 +217,16 @@ def boards(
     def run():
         # Every rating read inside the guard, the page's ratings included, so
         # a view that vanishes mid-request is a 503, never a board of nulls.
-        rows, total = queries.board_items(conn, board, window, cuisine, borough, limit, offset,
-                                          fetch_all, fetch_value)
-        ratings = queries.ratings_for(conn, [r["entity_key"] for r in rows],
+        rows, total = queries.board_items(conn, sub, board, window, cuisine, borough,
+                                          limit, offset, fetch_all, fetch_value)
+        ratings = queries.ratings_for(conn, sub, [r["entity_key"] for r in rows],
                                       fetch_all, fetch_value, strict=True)
-        return rows, total, queries.rating_lines(conn, fetch_one), ratings
+        return rows, total, queries.rating_lines(conn, sub, fetch_one), ratings
     rows, total, lines, ratings = rating_only(conn, run)
     return Board(board=board, window_days=window, bucket_days=bucket,
                  cuisine=cuisine, borough=borough, lines=RatingLines(**lines),
                  total=total, limit=limit, offset=offset,
-                 items=_build_items(conn, rows, window, bucket, ratings=ratings))
+                 items=_build_items(conn, sub, rows, window, bucket, ratings=ratings))
 
 
 # What a place with category voices and no overall one reports overall.
@@ -250,7 +256,7 @@ def build_rating(entry):
     )
 
 
-def _build_items(conn, rows, window, bucket, topic=None, ratings=None):
+def _build_items(conn, sub, rows, window, bucket, topic=None, ratings=None):
     """Ledger rows -> LedgerItems: windowed series, top neighborhood and the
     rating added (null when the rating views are not built). `ratings` is a
     ratings_for result the caller already read under its own guard."""
@@ -258,7 +264,7 @@ def _build_items(conn, rows, window, bucket, topic=None, ratings=None):
 
     n = math.ceil(window / bucket)
     series = {k: ([0] * n, [0] * n) for k in keys}
-    for s in queries.ledger_series(conn, keys, window, bucket, fetch_all, topic):
+    for s in queries.ledger_series(conn, sub, keys, window, bucket, fetch_all, topic):
         # Clamped because the oldest bucket of a window that is not a whole
         # number of weeks is short, floating-point age can land on n, and a
         # mention stamped slightly in the future has a negative age.
@@ -267,9 +273,9 @@ def _build_items(conn, rows, window, bucket, topic=None, ratings=None):
         # Buckets count back from now; the series runs oldest first.
         (cur if s["is_current"] else prev)[n - 1 - idx] += s["n"]
     hoods = {h["entity_key"]: h["name"]
-             for h in queries.top_neighborhoods(conn, keys, fetch_all)}
+             for h in queries.top_neighborhoods(conn, sub, keys, fetch_all)}
     if ratings is None:
-        ratings = queries.ratings_for(conn, keys, fetch_all, fetch_value)
+        ratings = queries.ratings_for(conn, sub, keys, fetch_all, fetch_value)
 
     items = []
     for r in rows:

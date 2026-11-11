@@ -7,9 +7,12 @@ from typing import Annotated, Literal, Optional
 
 from fastapi import APIRouter, Depends, Query
 
+import subreddits
+
 from .. import queries
+from ..city import Sub
 from ..db import connection, fetch_all, fetch_one, fetch_value, get_conn
-from ..models import (Algo, Facets, Health, LeaderboardQuery, LeaderboardRow,
+from ..models import (Algo, City, Facets, Health, LeaderboardQuery, LeaderboardRow,
                       Page, SearchHit, SortKey, Stats)
 
 router = APIRouter()
@@ -63,36 +66,38 @@ def leaderboard_query(
 
 @router.get("/api/leaderboard", response_model=Page[LeaderboardRow],
             summary="Ranked entities")
-def leaderboard(f: Annotated[LeaderboardQuery, Depends(leaderboard_query)],
+def leaderboard(sub: Sub, f: Annotated[LeaderboardQuery, Depends(leaderboard_query)],
                 conn=Depends(get_conn)):
-    """Restaurants ranked by one axis, filtered by the rest.
+    """One city's restaurants ranked by one axis, filtered by the rest.
 
-    Note what this measures: how r/FoodNYC *talks about* a place, not how good
+    Note what this measures: how the subreddit *talks about* a place, not how good
     it is. Only the aspect columns carry an opinion; the others measure
     attention. There is no composite score and no stored rank -- position
     exists only relative to the filters you sent.
 
     The filters select rows; they do not recompute the scores. volume_share is
     normalised against the whole subreddit and aspect scores are shrunk toward
-    a citywide mean, so a food score of 0.42 means 0.42 against all of NYC,
-    not 0.42 among the rows you filtered to.
+    a citywide mean, so a food score of 0.42 means 0.42 against all of its
+    city, not 0.42 among the rows you filtered to.
     """
-    rows, total = queries.leaderboard_page(conn, f, fetch_all, fetch_value)
+    rows, total = queries.leaderboard_page(conn, sub, f, fetch_all, fetch_value)
     return Page(items=rows, total=total, limit=f.limit, offset=f.offset)
 
 
 @router.get("/api/search", response_model=list[SearchHit], summary="Typeahead")
-def search(q: Annotated[str, Query(min_length=1, max_length=100)],
+def search(sub: Sub,
+           q: Annotated[str, Query(min_length=1, max_length=100)],
            limit: Annotated[int, Query(ge=1, le=25)] = 10,
            conn=Depends(get_conn)):
     """Name lookup only. Deliberately touches no scoring view, so it stays
     fast enough to run on every keystroke."""
-    return queries.search(conn, q, limit, fetch_all)
+    return queries.search(conn, sub, q, limit, fetch_all)
 
 
-# The last facets answer and the facets_version it was computed at. Per
-# process, which is fine: each worker pays the scan once per refresh.
-_facets_cache = {"version": None, "at": 0.0, "value": None}
+# Each city's last facets answer and the facets_version it was computed at,
+# by subreddit. Per process, which is fine: each worker pays the scan once
+# per refresh and city.
+_facets_cache = {}
 _facets_lock = threading.Lock()
 # A refresh that only re-resolved identities (an alias edit) can move the
 # cuisine counts without moving facets_version, so nothing is kept longer
@@ -100,17 +105,17 @@ _facets_lock = threading.Lock()
 FACETS_MAX_AGE = 1800
 
 
-def _cached_facets(version):
-    c = _facets_cache
-    if (c["value"] is not None and c["version"] == version
+def _cached_facets(sub, version):
+    c = _facets_cache.get(sub)
+    if (c is not None and c["version"] == version
             and time.monotonic() - c["at"] <= FACETS_MAX_AGE):
         return c["value"]
     return None
 
 
 @router.get("/api/facets", response_model=Facets, summary="Filter values")
-def facets():
-    """Values for the filter controls, drawn from what is actually present.
+def facets(sub: Sub):
+    """Values for one city's filter controls, drawn from what is actually present.
 
     `descriptors` is the commenters' own open vocabulary -- the prompt asks
     for their words, not a fixed list -- so this reports what the model
@@ -126,7 +131,7 @@ def facets():
     drain the pool for every other page.
     """
     with connection() as conn:
-        hit = _cached_facets(queries.facets_version(conn, fetch_value))
+        hit = _cached_facets(sub, queries.facets_version(conn, fetch_value))
     if hit is not None:
         return hit
     with _facets_lock:
@@ -134,16 +139,32 @@ def facets():
             # Read again under the lock: the request ahead may have just
             # computed it, or a refresh may have moved the version since.
             version = queries.facets_version(conn, fetch_value)
-            hit = _cached_facets(version)
+            hit = _cached_facets(sub, version)
             if hit is None:
-                hit = Facets(**queries.facets(conn, fetch_all))
-                _facets_cache.update(version=version, at=time.monotonic(), value=hit)
+                hit = Facets(**queries.facets(conn, sub, fetch_all))
+                _facets_cache[sub] = {"version": version, "at": time.monotonic(), "value": hit}
         return hit
 
 
 @router.get("/api/stats", response_model=Stats, summary="Corpus counters")
-def stats(conn=Depends(get_conn)):
-    return Stats(**queries.stats(conn, fetch_one))
+def stats(sub: Sub, conn=Depends(get_conn)):
+    return Stats(**queries.stats(conn, sub, fetch_one))
+
+
+@router.get("/api/cities", response_model=list[City], summary="The cities with a board")
+def cities(conn=Depends(get_conn)):
+    """Every subreddit that has a board, r/FoodNYC first, then by size.
+
+    A city is collected long before it is scored, and has a board only once
+    its comments have been extracted, so this is read from the board itself
+    and not from the list of subreddits collected. Pass `subreddit` to any
+    other route as `?subreddit=`.
+    """
+    rows = {r["subreddit"]: r["places"] for r in queries.cities(conn, fetch_all)}
+    known = [s for s in subreddits.SUBREDDITS if s in rows]
+    known.sort(key=lambda s: (s != subreddits.HOME, -rows[s]))
+    return [City(subreddit=s, name=subreddits.city(s).name, short=subreddits.city(s).short,
+                 home=s == subreddits.HOME, places=rows[s]) for s in known]
 
 
 @router.get("/healthz", response_model=Health, summary="Liveness and readiness")

@@ -61,8 +61,7 @@ class Seeded(pgtest.PgCase):
         rows = [arctic_comment(i, "chicagofood", "t3_chi1", NOW_S - 60 * i) for i in range(1, n + 1)]
         db.insert_comments(self.conn, rows)
         if mention:
-            # Cannot happen today (extraction reads HOME only); the scoring
-            # filters must hold even if it does.
+            # The same name as New York's place: another city's is another place.
             with self.conn.cursor() as cur:
                 cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key,
                                                      model_version, prompt_hash)
@@ -125,6 +124,52 @@ class Cursors(pgtest.PgCase):
         self.assertEqual(db.get_cursor(self.conn, "chicagofood", "comments", 42), 42)
 
 
+class SideTablesGetACity(pgtest.PgCase):
+    """A database from before the name-keyed side tables had a subreddit:
+    its rows are r/FoodNYC's, and the key becomes (subreddit, entity_key)."""
+
+    OLD = """
+        drop table alias_overrides, excluded_entities, restaurant_images cascade;
+        create table alias_overrides (entity_key text primary key, resolved_key text not null,
+                                      note text, created_at timestamptz not null default now());
+        create table excluded_entities (entity_key text primary key, note text,
+                                        created_at timestamptz not null default now());
+        create table restaurant_images (entity_key text primary key, status text not null default 'none',
+                                        source text, source_ref text, url text, attribution text,
+                                        license text, source_url text,
+                                        locked boolean not null default false,
+                                        fetched_at timestamptz not null default now());
+        insert into alias_overrides (entity_key, resolved_key) values ('katzs', 'katz');
+        insert into excluded_entities (entity_key) values ('market');
+        insert into restaurant_images (entity_key, status) values ('katz', 'found');
+        select 1"""
+    TABLES = ("alias_overrides", "excluded_entities", "restaurant_images")
+
+    def primary_key(self, table):
+        return self.q("""select array_agg(a.attname::text order by k.ord)
+                         from pg_index i, unnest(i.indkey) with ordinality k(att, ord), pg_attribute a
+                         where i.indrelid = %s::regclass and i.indisprimary
+                           and a.attrelid = i.indrelid and a.attnum = k.att""", table)[0][0]
+
+    def test_old_rows_are_homes_and_another_city_can_hold_the_same_key(self):
+        self.q(self.OLD)
+        db.init(self.conn, os.path.join(ROOT, "schema.sql"))
+        db.init(self.conn, os.path.join(ROOT, "schema.sql"))        # every boot re-runs it
+        for table in self.TABLES:
+            self.assertEqual(self.q(f"select subreddit from {table}"), [(HOME,)], table)
+            self.assertEqual(self.primary_key(table), ["subreddit", "entity_key"], table)
+        # A writer that does not name a city yet still means New York.
+        self.q("insert into excluded_entities (entity_key) values ('it') returning subreddit")
+        self.q("""insert into alias_overrides (subreddit, entity_key, resolved_key)
+                  values ('chicagofood', 'katzs', 'katzs chicago') returning 1""")
+        self.assertEqual(sorted(self.q("select subreddit, resolved_key from alias_overrides")),
+                         [(HOME, "katz"), ("chicagofood", "katzs chicago")])
+
+    def test_a_fresh_database_has_the_same_keys(self):
+        for table in self.TABLES:
+            self.assertEqual(self.primary_key(table), ["subreddit", "entity_key"], table)
+
+
 class UnextractedIndex(pgtest.PgCase):
     def indexdef(self):
         return self.q("""select indexdef, (select oid from pg_class
@@ -155,19 +200,26 @@ class UnextractedIndex(pgtest.PgCase):
 
 
 class Scoring(Seeded):
-    """scoring.sql reads one city: mention_weights, entity_volume, momentum."""
+    """scoring.sql scores each city on its own: a place is (subreddit, name),
+    measured against its own subreddit, and a second city changes nothing
+    about the first's rows."""
 
-    def snapshot(self):
+    def snapshot(self, sub=HOME):
         refresh.refresh_views(self.conn, verbose=False)
-        return (self.q("select comment_id from mention_weights order by 1"),
-                self.q("select entity_key, volume_share from entity_volume order by 1"),
+        return (self.q("select comment_id from mention_weights where subreddit = %s order by 1", sub),
+                self.q("select entity_key, volume_share from entity_volume "
+                       "where subreddit = %s order by 1", sub),
                 self.q("select window_days, recent_comments, baseline_comments "
-                       "from momentum_windows order by 1"))
+                       "from momentum_windows where subreddit = %s order by 1", sub))
 
     def setUp(self):
         super().setUp()
         refresh.apply_sql(self.conn, verbose=False)
         self.seed_home()
+
+    def rows(self, sql):
+        """Sorted here: the database's collation need not put capitals first."""
+        return sorted(self.q(sql))
 
     def test_other_cities_change_nothing(self):
         before = self.snapshot()
@@ -184,19 +236,98 @@ class Scoring(Seeded):
         self.assertEqual(key, key2)
         self.assertAlmostEqual(share_after, share_before, places=9)
 
-    def test_feed_and_stats_are_home_only(self):
-        from app import db as appdb
-        from app import queries
+    def test_a_city_collected_but_not_extracted_is_not_scored(self):
         self.seed_chicago(mention=False)
         refresh.refresh_views(self.conn, verbose=False)
-        stats = queries.stats(self.conn, appdb.fetch_one)
-        self.assertEqual((stats["comments"], stats["threads"]), (3, 1))
-        items = queries.feed_items(self.conn, None, False, None, None, 100, appdb.fetch_all)
+        for view in ("mention_weights", "momentum_windows", "entity_volume", "entity_alias",
+                     "entity_leaderboard", "entity_leaderboard_v2", "mention_resolution"):
+            self.assertEqual(self.q(f"select distinct subreddit from {view}"), [(HOME,)], view)
+
+    def test_the_same_name_in_two_cities_is_two_places(self):
+        self.seed_chicago()
+        comments, volume, windows = self.snapshot("chicagofood")
+        self.assertEqual(comments, [("t1_chi00001",)])
+        # Chicago's one mention is a share of Chicago's 200 comments, not of New York's 3.
+        [(key, chicago_share)] = volume
+        [(_, home_share)] = self.snapshot()[1]
+        self.assertEqual(key, "lucali")
+        self.assertLess(chicago_share, home_share / 50)
+        self.assertEqual(windows[0], (14, 200, 200))
+        for view in ("entity_leaderboard", "entity_leaderboard_v2"):
+            self.assertEqual(
+                self.rows(f"select subreddit, entity_key, raw_mentions, distinct_authors, months_active "
+                       f"from {view} order by 1"),
+                [(HOME, "lucali", 3, 3, 1), ("chicagofood", "lucali", 1, 1, 1)], view)
+        self.assertEqual(self.rows("select subreddit, entity_key, mentions, distinct_authors "
+                                "from mention_resolution order by 1"),
+                         [(HOME, "lucali", 3, 3), ("chicagofood", "lucali", 1, 1)])
+        self.assertEqual(self.rows("select subreddit, count(*) from momentum_windows group by 1 order by 1"),
+                         [(HOME, 4), ("chicagofood", 4)])
+        self.assertEqual(self.rows("select subreddit, entity_key from entity_momentum order by 1"),
+                         [(HOME, "lucali"), ("chicagofood", "lucali")])
+
+    def test_each_city_resolves_against_its_own_list_merges_and_exclusions(self):
+        self.seed_chicago()
+        with self.conn.cursor() as cur:
+            # New York's list knows Lucali; Chicago's knows a different place of that name.
+            cur.execute("""insert into restaurants (name, name_key, cuisine, boroughs)
+                           values ('LUCALI', 'lucali', 'Pizza', '{Brooklyn}')""")
+            cur.execute("""insert into city_restaurants (subreddit, name, name_key, areas, source)
+                           values ('chicagofood', 'Lucali Chicago', 'lucali', '{Chicago}', 'test'),
+                                  ('chicagofood', 'Lucalis Pizzeria', 'lucalis pizzeria', '{Evanston}', 'test'),
+                                  ('austinfood', 'Lucali Austin', 'lucali', '{Austin}', 'test')""")
+            # A second spelling in each city, a merge decided for Chicago only,
+            # and an exclusion in New York only.
+            for comment, sub_key in (("t1_foo00001", "lucalis"), ("t1_chi00002", "lucalis"),
+                                     ("t1_foo00002", "market"), ("t1_chi00003", "market")):
+                cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key,
+                                                     model_version, prompt_hash)
+                               values (%s, %s, %s, 'm', 'p')""", (comment, sub_key, sub_key))
+            cur.execute("""insert into alias_overrides (subreddit, entity_key, resolved_key)
+                           values ('chicagofood', 'lucalis', 'lucalis pizzeria')""")
+            cur.execute("insert into excluded_entities (entity_key) values ('market')")   # default: HOME
+        self.conn.commit()
+        refresh.refresh_views(self.conn, verbose=False)
+        self.assertEqual(
+            self.rows("select subreddit, entity_key, resolved_key, method from entity_alias order by 1, 2"),
+            [(HOME, "lucali", "lucali", "exact"), (HOME, "lucalis", "lucalis", "self"),
+             (HOME, "market", "market", "self"),
+             ("chicagofood", "lucali", "lucali", "exact"),
+             ("chicagofood", "lucalis", "lucalis pizzeria", "manual"),
+             ("chicagofood", "market", "market", "self")])
+        self.assertEqual(
+            self.rows("select subreddit, entity_key, official_name, cuisine, boroughs, raw_mentions "
+                   "from entity_leaderboard order by 1, 2"),
+            [(HOME, "lucali", "LUCALI", "Pizza", ["Brooklyn"], 3),
+             (HOME, "lucalis", None, None, None, 1),
+             ("chicagofood", "lucali", "Lucali Chicago", None, ["Chicago"], 1),
+             ("chicagofood", "lucalis pizzeria", "Lucalis Pizzeria", None, ["Evanston"], 1),
+             ("chicagofood", "market", None, None, None, 1)])
+        self.assertEqual(
+            self.rows("select subreddit, entity_key, exact_match, status from mention_resolution "
+                   "where entity_key = 'lucali' order by 1"),
+            [(HOME, "lucali", "LUCALI", "exact"), ("chicagofood", "lucali", "Lucali Chicago", "exact")])
+
+    def test_feed_and_stats_are_one_citys(self):
+        from app import db as appdb
+        from app import queries
+        self.seed_chicago()
+        refresh.refresh_views(self.conn, verbose=False)
+        stats = queries.stats(self.conn, HOME, appdb.fetch_one)
+        self.assertEqual((stats["comments"], stats["threads"], stats["mentions"], stats["entities"]),
+                         (3, 1, 3, 1))
+        stats = queries.stats(self.conn, "chicagofood", appdb.fetch_one)
+        self.assertEqual((stats["comments"], stats["threads"], stats["mentions"], stats["entities"]),
+                         (200, 1, 1, 1))
+        items = queries.feed_items(self.conn, HOME, None, False, None, None, 100, appdb.fetch_all)
         self.assertEqual({i["id"] for i in items},
                          {"t3_nyc1"} | {f"t1_foo{i:05d}" for i in range(1, 4)})
-        hits = queries.feed_items(self.conn, "comment", False, None, None, 100, appdb.fetch_all)
+        hits = queries.feed_items(self.conn, HOME, "comment", False, None, None, 100, appdb.fetch_all)
         self.assertTrue(hits)
         self.assertTrue(all(i["id"].startswith(("t1_foo", "t3_nyc")) for i in hits))
+        chicago = queries.feed_items(self.conn, "chicagofood", None, True, None, None, 100, appdb.fetch_all)
+        self.assertEqual([(i["id"], i["places"]) for i in chicago],
+                         [("t1_chi00001", [{"key": "lucali", "official_name": None}])])
 
 
 class ExtractHomeOnly(Seeded):

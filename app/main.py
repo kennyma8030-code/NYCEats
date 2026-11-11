@@ -35,7 +35,9 @@ from .routers import admin, feed, ledger, public, restaurants
 log = logging.getLogger("uvicorn.error")
 
 DESCRIPTION = """
-A read API over r/FoodNYC.
+A read API over city food subreddits: r/FoodNYC, and every other city
+that has a board (`/api/cities`). Every route takes `?subreddit=` and
+answers for r/FoodNYC without it. A restaurant is a name within a city.
 
 Every number here measures **how the subreddit talks about a restaurant**, not
 how good it is. Only the aspect scores carry an opinion; volume, momentum and

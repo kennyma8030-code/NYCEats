@@ -25,13 +25,20 @@ class HomeLiteral(unittest.TestCase):
     def test_home_is_one_of_the_polled(self):
         self.assertEqual(subreddits.SUBREDDITS[0], subreddits.HOME)
 
-    def test_scoring_params(self):
+    def test_restaurants_is_homes_list(self):
+        # `restaurants` has no subreddit column; the places view says whose it is.
         self.assertRegex(code(read("scoring.sql")),
-                         rf"'{subreddits.HOME}'::text\s+as\s+subreddit\s*;")
+                         rf"create view places as\s+select '{subreddits.HOME}'::text as subreddit,"
+                         rf"[^;]*?\bfrom restaurants\s+union all")
 
     def test_schema_default_seed_and_index(self):
         sql = code(read("schema.sql"))
         self.assertIn(f"subreddit text not null default '{subreddits.HOME}'", sql)
+        # The name-keyed side tables: rows from before they had a city are HOME's.
+        for table in ("alias_overrides", "excluded_entities", "restaurant_images"):
+            self.assertIn(f"alter table {table} add column subreddit text not null "
+                          f"default '{subreddits.HOME}'", sql)
+        self.assertEqual(len(re.findall(rf"subreddit\s+text not null default '{subreddits.HOME}',", sql)), 3)
         self.assertIn(f"select '{subreddits.HOME}', kind, cursor_utc", sql)
         self.assertIn(f"where subreddit = '{subreddits.HOME}' and extracted_at is null", sql)
 

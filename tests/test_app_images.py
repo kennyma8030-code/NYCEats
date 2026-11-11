@@ -21,7 +21,7 @@ class Images(AppCase):
     def test_resolution_holds_no_pooled_connection(self):
         seen = []
 
-        def fake(entity_key, display_name):
+        def fake(entity_key, display_name, sub):
             seen.append(in_use())
             return dict(FOUND), True
 
@@ -38,7 +38,7 @@ class Images(AppCase):
                   values ('katzs', 'none', now())""")
         calls = []
 
-        def fake(entity_key, display_name):
+        def fake(entity_key, display_name, sub):
             calls.append(entity_key)
             return dict(FOUND), True
 
@@ -60,7 +60,7 @@ class Images(AppCase):
     def test_resolutions_are_capped_per_process(self):
         gate, started = threading.Event(), threading.Event()
 
-        def slow(entity_key, display_name):
+        def slow(entity_key, display_name, sub):
             started.set()
             gate.wait(5)
             return dict(FOUND), True

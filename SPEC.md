@@ -24,8 +24,10 @@ registration requires manual approval since late 2025. Arctic Shift retrieves vi
 the official API, captures ~20s after posting, and re-captures at 36h.
 
 - Collect the seven largest city food subreddits (`subreddits.py`) into the
-  same tables, told apart by `subreddit`. Only r/FoodNYC is extracted and
-  scored; every reader of the corpus filters on `subreddit` first.
+  same tables, told apart by `subreddit`. Every reader of the corpus
+  filters on `subreddit` first. Extraction reads the subreddits it is told
+  to (`EXTRACT_SUBREDDITS`, r/FoodNYC by default), and scoring scores every
+  subreddit that has mentions, each on its own (see scoring).
 - Poll `/comments/search?subreddit=X&limit=100&sort=desc` per city, paging
   back until the page is 8 hours (`POLL_LAG_HOURS`) behind the newest
   comment the previous poll of that city saw (kept in memory, seeded from
@@ -131,7 +133,8 @@ another user, deleted and missing ones marked), `<comment_to_extract>` with
 `>` quotes marked. Rows are read from the database the way the benchmark's
 builder read them, and `tests/test_extract_v6_db.py` checks the bytes match.
 
-**What is extracted.** r/FoodNYC only. Every comment that is not
+**What is extracted.** The run's subreddits (`EXTRACT_SUBREDDITS` or
+`--subreddit`; r/FoodNYC by default). Every comment that is not
 `[deleted]`/`[removed]`/blank, however short ("keens" and "+1" are evidence;
 the old `length > 15` cut is gone). Every post, in post mode (title plus body
 cut at 4,000), whose mentions name the thread instead of a comment.
@@ -212,15 +215,15 @@ under the post and its quoted ancestors. A run caps itself at
 `EXTRACT_RUN_USD` under the `EXTRACT_CEILING_USD` total, re-attaches any
 batch an earlier run left in flight before sending anything, and after a
 spend tripwire does nothing (exit 0, loudly) until a person names the batch
-as seen. The redo of cut comments takes the run's subreddits too; comment
-and post mode stay r/FoodNYC only. The thread prompt is written for New
-York ("a New York City food subreddit", places outside the five boroughs
-are not mentions, "best in NYC"); a thread of another subreddit gets the
-same prompt with those places rewritten for its city
-(`subreddits.CITIES`, `prompt_v6.thread_prompt`), under a hash of its own.
-r/FoodNYC's prompt and hash are unchanged. The other cities' prompts have
-not been graded, and their mentions are stored but not scored (scoring
-reads `scoring_params.subreddit`).
+as seen. The redo of cut comments takes the run's subreddits too, as do
+comment and post mode. The prompts are written for New York ("a New York
+City food subreddit", places outside the five boroughs are not mentions,
+"best in NYC"); an item of another subreddit gets the same prompt with
+those places rewritten for its city (`subreddits.CITIES`,
+`prompt_v6.prompt_for`), under a hash of its own, in every mode.
+r/FoodNYC's prompts and hashes are unchanged. The other cities' prompts
+have not been graded. Their mentions are scored like New York's, on their
+own city's board (see scoring).
 
 **Names in other scripts.** `normalize_entity` keeps the letters of other
 scripts when the Latin rules leave only a fragment: no key at all (불짬뽕,
@@ -265,6 +268,20 @@ Two raw tables (`schema.sql`): `threads`, `comments`.
 ---
 
 ## Decided — scoring
+
+**One board per city.** Every subreddit with live mentions is scored, in
+the same views, and a place is `(subreddit, entity_key)`: r/FoodNYC's
+"joes pizza" and r/FoodLosAngeles's are two places. Everything a place is
+measured against is its own subreddit's: the activity its volume and
+momentum are a share of, the city mean its aspects are shrunk toward, the
+percentiles its badge is cut at. Names resolve against the city's own
+restaurant list (`places`: `restaurants` for New York, `city_restaurants`
+for the rest) and its own `alias_overrides` and `excluded_entities` rows,
+which carry a `subreddit` (rows from before are New York's). The API takes
+`?subreddit=` on every route, r/FoodNYC when it is left out, and
+`/api/cities` lists the subreddits that have a board. The constants below
+were tuned on r/FoodNYC's volume and are shared by every city until one
+shows it needs its own.
 
 Unchanged from the working notes:
 
@@ -319,7 +336,7 @@ latest word.
 
 **Window and exclusions** (`rating_mentions`, one materialized row per
 mention, shared by everything below). The last 365 days (`window_days`),
-r/FoodNYC, everything `live_mentions` already leaves out,
+everything `live_mentions` already leaves out,
 `excluded_entities`, and mentions the model marked `status = 'closed'`
 ("RIP Florent" nostalgia was ranking shut places). AutoModerator is dropped;
 `[deleted]` counts once per comment.

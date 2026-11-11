@@ -67,11 +67,11 @@ class Wiring(unittest.TestCase):
         conn = mock.Mock()
         never = mock.Mock(side_effect=AssertionError("queried"))
         with mock.patch.object(queries, "rating_ready", return_value=False):
-            self.assertEqual(queries.ratings_for(conn, ["k"], never, never), {})
+            self.assertEqual(queries.ratings_for(conn, "FoodNYC", ["k"], never, never), {})
 
         gone = mock.Mock(side_effect=UndefinedTable())
         queries._rating_ready.update(at=queries.time.monotonic(), ready=True)
-        self.assertEqual(queries.ratings_for(conn, ["k"], gone, gone), {})
+        self.assertEqual(queries.ratings_for(conn, "FoodNYC", ["k"], gone, gone), {})
         conn.rollback.assert_called()
         self.assertIsNone(queries._rating_ready["at"])
 
@@ -85,12 +85,12 @@ class Wiring(unittest.TestCase):
         # An older build's views, missing a column: the same.
         queries._rating_ready.update(at=queries.time.monotonic(), ready=True)
         stale = mock.Mock(side_effect=UndefinedColumn())
-        self.assertEqual(queries.ratings_for(conn, ["k"], stale, stale), {})
+        self.assertEqual(queries.ratings_for(conn, "FoodNYC", ["k"], stale, stale), {})
         queries._rating_ready.update(at=queries.time.monotonic(), ready=True)
         with self.assertRaises(UndefinedColumn):
-            queries.ratings_for(conn, ["k"], stale, stale, strict=True)
+            queries.ratings_for(conn, "FoodNYC", ["k"], stale, stale, strict=True)
         with self.assertRaises(HTTPException) as cm:
-            rating_only(conn, lambda: queries.ratings_for(conn, ["k"], stale, stale, strict=True))
+            rating_only(conn, lambda: queries.ratings_for(conn, "FoodNYC", ["k"], stale, stale, strict=True))
         self.assertEqual(cm.exception.status_code, 503)
 
 

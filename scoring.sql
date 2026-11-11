@@ -8,8 +8,17 @@
 -- There is no stored score, no decay job, no window maintenance: a score is a
 -- cache, and this file is how the cache is rebuilt.
 --
+-- Every city collected (subreddits.py) is scored here, each on its own: a
+-- place is (subreddit, entity_key), never a name alone, so r/FoodNYC's "joes
+-- pizza" and r/FoodLosAngeles's are two places, and everything a place is
+-- measured against (the subreddit's activity, the city mean, the badge
+-- lines) is its own subreddit's. A city appears once it has live mentions;
+-- until then it costs nothing here. Every view carries `subreddit`, and every
+-- reader filters on it.
+--
 -- Layout:
 --   scoring_params        tunable constants, in one place
+--   places                every city's restaurant list, as one
 --   mention_weights       per-mention volume + sentiment weights
 --   entity_volume         decayed, share-normalised attention
 --   momentum_windows      subreddit activity per momentum window
@@ -35,7 +44,12 @@
 -- ---------------------------------------------------------------------------
 -- 0. Tunables. One view so a change lands in one place instead of six.
 -- ---------------------------------------------------------------------------
-create or replace view scoring_params as
+-- Dropped first, with every view that reads it: this file may change its
+-- columns, and create or replace view can only add them at the end. All of
+-- those views are rebuilt below and by the files after this one, which
+-- refresh.apply_sql re-runs in the same transaction, so no reader sees a gap.
+drop view if exists scoring_params cascade;
+create view scoring_params as
 select
   180.0::float8 as half_life_days,       -- TUNE  volume + aspect decay half-life
   365           as baseline_days,        -- TUNE  momentum baseline window
@@ -47,13 +61,34 @@ select
   -- fuzzy merges wrong ("emp" -> EMPIRE, "angel" -> BLUE ANGEL), and no
   -- threshold separates them. Every merge worth having is now an
   -- alias_overrides row; word_similarity tops out at 1.0, so this never fires.
-  1.01::float8  as alias_min_score,       -- TUNE  word_similarity to merge
-  -- Not a tunable: the one city this board ranks. Other cities share the
-  -- comments table (subreddits.py), and every read of "the subreddit" below
-  -- filters on this first. Must match subreddits.HOME, which this file
-  -- cannot import. Last on purpose -- create or replace view may only add
-  -- columns at the end.
-  'FoodNYC'::text as subreddit;
+  1.01::float8  as alias_min_score;       -- TUNE  word_similarity to merge
+
+
+-- ---------------------------------------------------------------------------
+-- 0.4 The cities' restaurant lists, as one list keyed by subreddit and name.
+--
+--    New York's is `restaurants` (restaurants.py), which has no subreddit
+--    column because it was the only one; every other city's is in
+--    city_restaurants (city_restaurants.py). The literal must match
+--    subreddits.HOME, which this file cannot import
+--    (tests/test_home_literal.py checks it).
+--
+--    The other cities' sources say what kind of premises a row is, not what
+--    it serves, and list only what is open, so cuisine is NULL and closed is
+--    false there. `areas` is the boroughs in New York and the cities or
+--    districts a place has locations in elsewhere.
+-- ---------------------------------------------------------------------------
+drop view if exists places cascade;
+create view places as
+select 'FoodNYC'::text as subreddit,
+       name, name_key, cuisine, boroughs as areas, location_count, addresses,
+       is_chain, closed, last_seen
+from restaurants
+union all
+select subreddit,
+       name, name_key, null::text, areas, location_count, addresses,
+       is_chain, false, last_seen
+from city_restaurants;
 
 
 -- ---------------------------------------------------------------------------
@@ -69,8 +104,12 @@ select
 --    word_similarity recomputed inside every query is none of those things.
 --
 --    resolved_key is a name_key, the same shape as entity_key, so downstream
---    joins against restaurants(name_key) keep working untouched. A name that
+--    joins against places(name_key) keep working untouched. A name that
 --    matches nothing resolves to itself: this only ever merges, never drops.
+--
+--    Decided per city: a name is matched against its own city's list and its
+--    own city's overrides, so one spelling can resolve differently in two
+--    subreddits, and the key here is (subreddit, entity_key).
 --      refresh materialized view entity_alias;
 -- ---------------------------------------------------------------------------
 do $$
@@ -82,21 +121,27 @@ begin
   end if;
 end $$;
 create materialized view entity_alias as
-with keys as (select distinct entity_key from live_mentions),
+with keys as (
+  select distinct c.subreddit, m.entity_key
+  from live_mentions m
+  join comments c on c.id = m.comment_id
+),
 matched as (
-  select k.entity_key,
+  select k.subreddit,
+         k.entity_key,
          x.name_key  as exact_key,
          fz.name_key as fuzzy_key,
          fz.score    as fuzzy_score
   from keys k
-  left join restaurants x on x.name_key = k.entity_key
+  left join places x on x.subreddit = k.subreddit and x.name_key = k.entity_key
   left join lateral (
     -- word_similarity, not similarity: people shorten names, and plain trigram
     -- punishes the length difference. "katz" scores 0.20 against "katzs
     -- delicatessen" and 0.80 under word_similarity.
     select r.name_key, word_similarity(k.entity_key, r.name_key) as score
-    from restaurants r
-    where k.entity_key <% r.name_key
+    from places r
+    where r.subreddit = k.subreddit
+      and k.entity_key <% r.name_key
     -- Shortest wins ties: food halls are licensed under one combined name that
     -- contains -- and so perfectly matches -- every tenant inside it.
     order by score desc, length(r.name_key) asc
@@ -104,6 +149,7 @@ matched as (
   ) fz on x.name_key is null
 )
 select
+  m.subreddit,
   m.entity_key,
   -- The override wins outright. It is the only judgement here a person made.
   coalesce(o.resolved_key,
@@ -117,10 +163,10 @@ select
   round(m.fuzzy_score::numeric, 2)         as score
 from matched m
 cross join scoring_params p
-left join alias_overrides o on o.entity_key = m.entity_key;
+left join alias_overrides o on o.subreddit = m.subreddit and o.entity_key = m.entity_key;
 
-create unique index if not exists entity_alias_pk on entity_alias(entity_key);
-create index if not exists entity_alias_resolved_idx on entity_alias(resolved_key);
+create unique index if not exists entity_alias_pk on entity_alias(subreddit, entity_key);
+create index if not exists entity_alias_resolved_idx on entity_alias(subreddit, resolved_key);
 
 
 -- ---------------------------------------------------------------------------
@@ -149,6 +195,9 @@ with base as (
   select
     m.id            as mention_id,
     m.comment_id,
+    -- The city the mention belongs to: its comment's subreddit. Half of every
+    -- place's identity from here down, beside entity_key.
+    c.subreddit,
     -- The resolved key IS entity_key from here down, so every window
     -- function, group by and downstream view merges with no further
     -- edit. in_chain and author_nth especially must see "katz" and
@@ -181,12 +230,13 @@ with base as (
   from live_mentions m
   join comments c on c.id = m.comment_id
   join threads  t on t.id = c.thread_id
-  left join entity_alias a on a.entity_key = m.entity_key
-  -- Extraction only reads HOME, so today this removes nothing. It is here so
-  -- that extracting a second city cannot quietly fold it into this board.
-  where c.subreddit = (select subreddit from scoring_params)
+  left join entity_alias a on a.subreddit = c.subreddit and a.entity_key = m.entity_key
 ),
 counted as (
+  -- A chain and a thread belong to one subreddit, so partitioning on them
+  -- already keeps cities apart. An author does not: one person praising a
+  -- same-named place in two cities is two first words, so that ladder names
+  -- the subreddit.
   select
     b.*,
     count(*) over (partition by b.entity_key, b.chain_id)  as in_chain,
@@ -194,7 +244,7 @@ counted as (
     -- '[deleted]' is a tombstone shared by ~9,700 comments, not a person.
     -- Partitioning on it literally would zero the weight of all but two
     -- deleted mentions across the whole corpus, so each gets its own bucket.
-    row_number() over (partition by b.entity_key,
+    row_number() over (partition by b.subreddit, b.entity_key,
                                     coalesce(nullif(b.author, '[deleted]'), b.comment_id)
                        order by b.created_utc, b.mention_id) as author_nth
   from base b
@@ -202,6 +252,7 @@ counted as (
 select
   mention_id,
   comment_id,
+  subreddit,
   entity_key,
   typed_key,
   thread_id,
@@ -248,7 +299,7 @@ select
 from counted;
 
 create unique index if not exists mention_weights_pk  on mention_weights(mention_id);
-create index if not exists mention_weights_entity_idx on mention_weights(entity_key);
+create index if not exists mention_weights_entity_idx on mention_weights(subreddit, entity_key);
 create index if not exists mention_weights_time_idx   on mention_weights(created_utc);
 
 
@@ -259,31 +310,40 @@ create index if not exists mention_weights_time_idx   on mention_weights(created
 --    every restaurant on earth "is rising". The denominator carries the same
 --    decay as the numerator so the ratio is a share of attention, not a mix of
 --    two different time windows.
+--
+--    Each city against its own subreddit: Chicago's chatter must not thin
+--    New York's shares. Only subreddits with a weighted mention are summed,
+--    so a city that is collected but not extracted costs no scan here.
 -- ---------------------------------------------------------------------------
 create or replace view entity_volume as
 with decayed_corpus as (
-  select sum(power(2.0,
+  select c.subreddit,
+         sum(power(2.0,
                -extract(epoch from (now() - c.created_utc)) / 86400.0 / p.half_life_days))
          as total
   from comments c cross join scoring_params p
-  where c.subreddit = p.subreddit
+  where c.subreddit in (select subreddit from mention_weights)
+  group by c.subreddit
 ),
 per_entity as (
-  select w.entity_key,
+  select w.subreddit,
+         w.entity_key,
          sum(w.w_volume
              * power(2.0,
                  -extract(epoch from (now() - w.created_utc)) / 86400.0 / p.half_life_days))
          as decayed_volume,
          count(*) as raw_mentions
   from mention_weights w cross join scoring_params p
-  group by w.entity_key
+  group by w.subreddit, w.entity_key
 )
-select e.entity_key,
+select e.subreddit,
+       e.entity_key,
        e.decayed_volume,
        e.raw_mentions,
        -- share of all decayed subreddit attention; tiny by construction
        e.decayed_volume / nullif(d.total, 0) as volume_share
-from per_entity e cross join decayed_corpus d;
+from per_entity e
+left join decayed_corpus d on d.subreddit = e.subreddit;
 
 
 -- ---------------------------------------------------------------------------
@@ -302,7 +362,7 @@ from per_entity e cross join decayed_corpus d;
 --    The baseline window contains the recent window, which drags the estimate
 --    toward "no change" -- conservative in the direction we want.
 -- ---------------------------------------------------------------------------
--- Materialised: four rows, but each is a count over 750k comments, and
+-- Materialised: four rows a subreddit, but each is a count over 750k comments, and
 -- entity_momentum_all cross-joins this -- so as a plain view the corpus counts
 -- were being re-evaluated per entity. That alone took the leaderboard from
 -- seconds to minutes.
@@ -316,37 +376,43 @@ begin
   end if;
 end $$;
 create materialized view momentum_windows as
-select w.window_days,
-       (select count(*) from comments c cross join scoring_params p
-         where c.subreddit = p.subreddit
+select s.subreddit,
+       w.window_days,
+       (select count(*) from comments c
+         where c.subreddit = s.subreddit
            and c.created_utc > now() - make_interval(days => w.window_days))
          as recent_comments,
        (select count(*) from comments c cross join scoring_params p
-         where c.subreddit = p.subreddit
+         where c.subreddit = s.subreddit
            and c.created_utc > now() - make_interval(days => p.baseline_days))
          as baseline_comments
-from (values (14), (30), (90), (180)) as w(window_days);   -- TUNE window ladder
+-- The subreddits being scored: those with a weighted mention.
+from (select distinct subreddit from mention_weights) s
+cross join (values (14), (30), (90), (180)) as w(window_days);   -- TUNE window ladder
 
 
 create or replace view entity_momentum_all as
 with baseline as (
-  select w.entity_key,
+  select w.subreddit,
+         w.entity_key,
          sum(w.w_volume) as baseline_volume
   from mention_weights w cross join scoring_params p
   where w.created_utc > now() - make_interval(days => p.baseline_days)
-  group by w.entity_key
+  group by w.subreddit, w.entity_key
 ),
 recent as (
-  select w.entity_key,
+  select w.subreddit,
+         w.entity_key,
          mw.window_days,
          sum(w.w_volume) filter (
            where w.created_utc > now() - make_interval(days => mw.window_days)
          ) as recent_volume
   from mention_weights w
-  cross join momentum_windows mw
-  group by w.entity_key, mw.window_days
+  join momentum_windows mw on mw.subreddit = w.subreddit
+  group by w.subreddit, w.entity_key, mw.window_days
 )
-select r.entity_key,
+select r.subreddit,
+       r.entity_key,
        r.window_days,
        coalesce(r.recent_volume, 0)   as recent_volume,
        coalesce(b.baseline_volume, 0) as baseline_volume,
@@ -360,8 +426,8 @@ select r.entity_key,
        / sqrt((coalesce(b.baseline_volume, 0) / nullif(mw.baseline_comments, 0))
               * mw.recent_comments + p.momentum_pseudo) as sigma
 from recent r
-join momentum_windows mw on mw.window_days = r.window_days
-left join baseline b on b.entity_key = r.entity_key
+join momentum_windows mw on mw.subreddit = r.subreddit and mw.window_days = r.window_days
+left join baseline b on b.subreddit = r.subreddit and b.entity_key = r.entity_key
 cross join scoring_params p
 -- A window with no subreddit activity at all has nothing to say; saying nothing
 -- beats fabricating a sigma out of an empty denominator.
@@ -372,7 +438,8 @@ where mw.recent_comments > 0;
 -- clears, fall back to the widest window -- the most data, the least noise --
 -- and let momentum_fired say it did not fire.
 create or replace view entity_momentum as
-select distinct on (entity_key)
+select distinct on (subreddit, entity_key)
+       subreddit,
        entity_key,
        window_days as momentum_window_days,
        sigma       as momentum_sigma,
@@ -380,7 +447,7 @@ select distinct on (entity_key)
        expected,
        sigma >= (select momentum_sigma from scoring_params) as momentum_fired
 from entity_momentum_all
-order by entity_key,
+order by subreddit, entity_key,
          (sigma >= (select momentum_sigma from scoring_params)) desc,
          case when sigma >= (select momentum_sigma from scoring_params)
               then window_days else -window_days end;
@@ -397,17 +464,19 @@ order by entity_key,
 -- ---------------------------------------------------------------------------
 create or replace view entity_longevity as
 with active_months as (
-  select coalesce(a.resolved_key, m.entity_key) as entity_key,
+  select c.subreddit,
+         coalesce(a.resolved_key, m.entity_key) as entity_key,
          extract(year from c.created_utc)::int * 12
            + extract(month from c.created_utc)::int as month_idx
   from live_mentions m
   join comments c on c.id = m.comment_id
-  left join entity_alias a on a.entity_key = m.entity_key
-  group by 1, 2
+  left join entity_alias a on a.subreddit = c.subreddit and a.entity_key = m.entity_key
+  group by 1, 2, 3
 ),
 gaps as (
-  select entity_key,
-         month_idx - lag(month_idx) over (partition by entity_key
+  select subreddit,
+         entity_key,
+         month_idx - lag(month_idx) over (partition by subreddit, entity_key
                                           order by month_idx) as step
   from active_months
 ),
@@ -415,37 +484,40 @@ months as (
   -- One row per active month, so count(*) is months active. step counts
   -- consecutive months as 1, so silence = step - 1; max() skips the first
   -- month's null step, and an entity seen in one month has no gap at all.
-  select entity_key,
+  select subreddit,
+         entity_key,
          count(*)          as months_active,
          max(step) - 1     as longest_gap
   from gaps
-  group by entity_key
+  group by subreddit, entity_key
 ),
 totals as (
   -- Resolved here too. active_months is keyed on the resolved name, so a
   -- totals row keyed on the typed one joins to nothing and every merged
   -- entity reports NULL months_active.
-  select coalesce(a.resolved_key, m.entity_key) as entity_key,
+  select c.subreddit,
+         coalesce(a.resolved_key, m.entity_key) as entity_key,
          min(c.created_utc) as first_seen,
          max(c.created_utc) as last_seen,
          count(*)           as total_mentions
   from live_mentions m
   join comments c on c.id = m.comment_id
-  left join entity_alias a on a.entity_key = m.entity_key
-  group by 1
+  left join entity_alias a on a.subreddit = c.subreddit and a.entity_key = m.entity_key
+  group by 1, 2
 )
-select t.entity_key,
+select t.subreddit,
+       t.entity_key,
        t.first_seen,
        t.last_seen,
        t.total_mentions,
        coalesce(mo.months_active, 0) as months_active,
        coalesce(mo.longest_gap, 0)   as longest_gap_months
 from totals t
-left join months mo on mo.entity_key = t.entity_key;
+left join months mo on mo.subreddit = t.subreddit and mo.entity_key = t.entity_key;
 
 
 -- ---------------------------------------------------------------------------
--- 5. Aspect scores, per (entity_key, aspect).
+-- 5. Aspect scores, per (subreddit, entity_key, aspect).
 --
 --    jsonb_each + a numeric type check, not aspects->>'food': a missing aspect
 --    and a JSON null must both stay ABSENT. Coercing them to 0 would make
@@ -453,7 +525,8 @@ left join months mo on mo.entity_key = t.entity_key;
 --    mixed", which is the one thing the spec says must never happen.
 -- ---------------------------------------------------------------------------
 create or replace view aspect_observations as
-select w.entity_key,
+select w.subreddit,
+       w.entity_key,
        a.key as aspect,
        -- A negated mention is negative regardless of the sign the model wrote;
        -- -abs() is idempotent, so a model that already encoded the negation is
@@ -473,22 +546,26 @@ where a.key in ('food', 'value', 'service', 'atmosphere', 'wait')  -- TUNE aspec
 
 create or replace view aspect_scores as
 with per_entity as (
-  select entity_key,
+  select subreddit,
+         entity_key,
          aspect,
          sum(w_decayed * val) as s,
          sum(w_decayed)       as w,
          count(*)             as n_obs
   from aspect_observations
-  group by 1, 2
+  group by 1, 2, 3
 ),
 city as (
-  -- One prior per aspect: NYC rates food higher than it rates wait times.
-  select aspect,
+  -- One prior per city and aspect: NYC rates food higher than it rates wait
+  -- times, and another city's commenters may be harder to please than NYC's.
+  select subreddit,
+         aspect,
          sum(s) / nullif(sum(w), 0) as city_mean
   from per_entity
-  group by 1
+  group by 1, 2
 )
-select e.entity_key,
+select e.subreddit,
+       e.entity_key,
        e.aspect,
        e.n_obs,
        e.w as aspect_weight,
@@ -499,7 +576,7 @@ select e.entity_key,
        (e.s + p.aspect_pseudo * c.city_mean) / (e.w + p.aspect_pseudo)
          as aspect_score
 from per_entity e
-join city c on c.aspect = e.aspect
+join city c on c.subreddit = e.subreddit and c.aspect = e.aspect
 cross join scoring_params p;
 
 
@@ -508,7 +585,8 @@ cross join scoring_params p;
 --    so it is surfaced on the leaderboard rather than folded into a score.
 -- ---------------------------------------------------------------------------
 create or replace view entity_confidence as
-select coalesce(a.resolved_key, m.entity_key) as entity_key,
+select c.subreddit,
+       coalesce(a.resolved_key, m.entity_key) as entity_key,
        count(distinct c.author) filter (where c.author is not null
                                           and c.author <> '[deleted]')
          as distinct_authors,
@@ -516,8 +594,8 @@ select coalesce(a.resolved_key, m.entity_key) as entity_key,
        count(*) filter (where m.is_negated)   as negated_mentions
 from live_mentions m
 join comments c on c.id = m.comment_id
-left join entity_alias a on a.entity_key = m.entity_key
-group by 1;
+left join entity_alias a on a.subreddit = c.subreddit and a.entity_key = m.entity_key
+group by 1, 2;
 
 
 -- ---------------------------------------------------------------------------
@@ -535,8 +613,8 @@ group by 1;
 --    It cannot be response-cached instead: a leaderboard is (sort x filters),
 --    and search x cuisine x borough x status x five aspect thresholds x
 --    thirteen sorts has no meaningful hit rate. So the SUBSTRATE is cached --
---    one row per entity, a few thousand rows -- and any filter and sort over
---    it is then a scan of something tiny.
+--    one row per place, a few thousand rows a city -- and any filter and sort
+--    over it is then a scan of something tiny.
 --      refresh materialized view concurrently entity_leaderboard;
 do $$
 begin
@@ -551,16 +629,18 @@ with aspects as (
   -- Pivoted here rather than joined per request. max() over a filter is a
   -- pivot, not an aggregate over duplicates: aspect_scores holds at most one
   -- row per (entity, aspect).
-  select entity_key,
+  select subreddit,
+         entity_key,
          max(aspect_score) filter (where aspect = 'food')       as food,
          max(aspect_score) filter (where aspect = 'value')      as value,
          max(aspect_score) filter (where aspect = 'service')    as service,
          max(aspect_score) filter (where aspect = 'atmosphere') as atmosphere,
          max(aspect_score) filter (where aspect = 'wait')       as wait
   from aspect_scores
-  group by entity_key
+  group by subreddit, entity_key
 )
-select v.entity_key,
+select v.subreddit,
+       v.entity_key,
        v.raw_mentions,
        v.decayed_volume,
        v.volume_share,
@@ -582,33 +662,35 @@ select v.entity_key,
        -- The official record, folded in so filtering by cuisine or borough is
        -- a column test rather than a join per request. NULL when the typed
        -- name never matched the city's list, which is not evidence the place
-       -- is fake -- see resolve.sql.
+       -- is fake -- see resolve.sql. `boroughs` is the parts of its city a
+       -- place has locations in (places.areas): boroughs in New York, cities
+       -- or districts elsewhere. It keeps the name the API reads it by.
        r.name           as official_name,
        r.cuisine,
-       r.boroughs,
+       r.areas          as boroughs,
        r.is_chain,
        r.closed,
        r.location_count
 from entity_volume v
-left join entity_confidence cf on cf.entity_key = v.entity_key
-left join entity_momentum  mo on mo.entity_key = v.entity_key
-left join entity_longevity lg on lg.entity_key = v.entity_key
-left join aspects           a on  a.entity_key = v.entity_key
-left join restaurants       r on  r.name_key   = v.entity_key
+left join entity_confidence cf on cf.subreddit = v.subreddit and cf.entity_key = v.entity_key
+left join entity_momentum  mo on mo.subreddit = v.subreddit and mo.entity_key = v.entity_key
+left join entity_longevity lg on lg.subreddit = v.subreddit and lg.entity_key = v.entity_key
+left join aspects           a on  a.subreddit = v.subreddit and  a.entity_key = v.entity_key
+left join places            r on  r.subreddit = v.subreddit and  r.name_key   = v.entity_key
 -- Grocery stores, markets and pronouns the model extracted as places.
 where not exists (select 1 from excluded_entities x
-                  where x.entity_key = v.entity_key);
+                  where x.subreddit = v.subreddit and x.entity_key = v.entity_key);
 
 -- Unique index is not optional: REFRESH ... CONCURRENTLY requires one, and
 -- without it the refresh takes an AccessExclusiveLock and the API blocks.
 create unique index if not exists entity_leaderboard_pk
-  on entity_leaderboard(entity_key);
+  on entity_leaderboard(subreddit, entity_key);
 create index if not exists entity_leaderboard_volume_idx
-  on entity_leaderboard(decayed_volume desc nulls last);
+  on entity_leaderboard(subreddit, decayed_volume desc nulls last);
 create index if not exists entity_leaderboard_momentum_idx
-  on entity_leaderboard(momentum_sigma desc nulls last);
+  on entity_leaderboard(subreddit, momentum_sigma desc nulls last);
 create index if not exists entity_leaderboard_mentions_idx
-  on entity_leaderboard(raw_mentions desc nulls last);
+  on entity_leaderboard(subreddit, raw_mentions desc nulls last);
 
 
 -- ---------------------------------------------------------------------------
@@ -637,7 +719,8 @@ create index if not exists entity_leaderboard_mentions_idx
 --
 --    Badges are cut at percentiles of the rankable places rather than fixed
 --    numbers, so they keep meaning "the busiest tenth" and "the better half"
---    as the corpus grows. There is no composite score: each board ranks by
+--    as the corpus grows. Of the place's own city: the busiest tenth of
+--    r/FoodSanDiego is far quieter than New York's, and is still its tenth. There is no composite score: each board ranks by
 --    one of these and filters on the rest (queries.RATING_BOARDS).
 --
 --    The web app reads these views but does not build them. Apply this file
@@ -725,7 +808,8 @@ select v.*,
                                                     else                 1 end, 1) = 1
             then v.said end                                 as voice
 from (
-  select w.entity_key,
+  select w.subreddit,
+         w.entity_key,
          coalesce(nullif(w.author, '[deleted]'), w.comment_id) as person,
          w.mention_id,
          w.comment_id,
@@ -751,12 +835,13 @@ from (
   where w.created_utc > now() - make_interval(days => p.window_days)
     and w.author is distinct from 'AutoModerator'
     and m.status is distinct from 'closed'
-    and not exists (select 1 from excluded_entities x where x.entity_key = w.entity_key)
+    and not exists (select 1 from excluded_entities x
+                    where x.subreddit = w.subreddit and x.entity_key = w.entity_key)
 ) v;
 
 create unique index if not exists rating_mentions_pk on rating_mentions(mention_id);
 create index if not exists rating_mentions_person_idx
-  on rating_mentions(entity_key, person, created_utc desc);
+  on rating_mentions(subreddit, entity_key, person, created_utc desc);
 
 
 -- The rating's voices: one row per (place, person), their latest STATED
@@ -772,13 +857,13 @@ begin
   end if;
 end $$;
 create materialized view place_voices as
-select distinct on (entity_key, person)
-       entity_key, person, mention_id, comment_id, created_utc, voice, level
+select distinct on (subreddit, entity_key, person)
+       subreddit, entity_key, person, mention_id, comment_id, created_utc, voice, level
 from rating_mentions
 where voice in ('pos', 'neg', 'neutral')
-order by entity_key, person, created_utc desc, mention_id desc;
+order by subreddit, entity_key, person, created_utc desc, mention_id desc;
 
-create unique index if not exists place_voices_pk on place_voices(entity_key, person);
+create unique index if not exists place_voices_pk on place_voices(subreddit, entity_key, person);
 
 
 -- The volume's voices: one row per (place, person), their latest word that
@@ -800,20 +885,22 @@ begin
 end $$;
 create materialized view place_recommenders as
 with latest as (
-  select distinct on (entity_key, person)
-         entity_key, person, mention_id, comment_id, created_utc, voice, level
+  select distinct on (subreddit, entity_key, person)
+         subreddit, entity_key, person, mention_id, comment_id, created_utc, voice, level
   from rating_mentions
   where voice is not null
-  order by entity_key, person, created_utc desc, (voice = 'endorse'), mention_id desc
+  order by subreddit, entity_key, person, created_utc desc, (voice = 'endorse'), mention_id desc
 )
-select l.entity_key, l.person, l.mention_id, l.comment_id, l.created_utc, l.voice, l.level,
+select l.subreddit, l.entity_key, l.person, l.mention_id, l.comment_id, l.created_utc,
+       l.voice, l.level,
        l.voice = 'pos'
          or (l.voice = 'endorse' and s.voice is distinct from 'neg') as recommends
 from latest l
-left join place_voices s on s.entity_key = l.entity_key and s.person = l.person;
+left join place_voices s on s.subreddit = l.subreddit and s.entity_key = l.entity_key
+                        and s.person = l.person;
 
 create unique index if not exists place_recommenders_pk
-  on place_recommenders(entity_key, person);
+  on place_recommenders(subreddit, entity_key, person);
 
 
 -- One row per (place, category, person): their latest STATED level for that
@@ -832,8 +919,8 @@ begin
 end $$;
 create materialized view place_category_voices as
 -- Qualified throughout: rating_mentions has a `level` of its own (overall).
-select distinct on (r.entity_key, x.category, r.person)
-       r.entity_key, x.category, r.person, r.mention_id, r.comment_id, r.created_utc,
+select distinct on (r.subreddit, r.entity_key, x.category, r.person)
+       r.subreddit, r.entity_key, x.category, r.person, r.mention_id, r.comment_id, r.created_utc,
        x.level,
        case when x.level > 0 then 'pos' when x.level < 0 then 'neg' else 'neutral' end as voice
 from rating_mentions r
@@ -845,10 +932,10 @@ cross join lateral (values ('taste',      r.taste_level),
 where r.opinion = 'stated'
   and x.level is not null
   and coalesce(r.past_sign * sign(x.level), 1) = 1   -- the past test (rating_mentions)
-order by r.entity_key, x.category, r.person, r.created_utc desc, r.mention_id desc;
+order by r.subreddit, r.entity_key, x.category, r.person, r.created_utc desc, r.mention_id desc;
 
 create unique index if not exists place_category_voices_pk
-  on place_category_voices(entity_key, category, person);
+  on place_category_voices(subreddit, entity_key, category, person);
 
 
 -- One row per place with any voice in the window.
@@ -868,9 +955,10 @@ create unique index if not exists place_category_voices_pk
 -- candidate for. Built from a full join of the two passes all the same: a
 -- refresh that stops between them must not cost a rated place its row.
 --
--- The lines are worked out over rankable places the boards can show (not on
--- the city's chain list, not closed), and every rankable place is then badged
--- against them, so a chain opened by name still says where it stands.
+-- The lines are worked out per city, over rankable places the boards can
+-- show (not on the city's chain list, not closed), and every rankable place
+-- is then badged against its own city's, so a chain opened by name still
+-- says where it stands. A city with no rankable place yet has no lines.
 --   busy_line     recommenders at the top busy_pct; busy = at or above it
 --   share_line    lb at share_pct (the median)
 --   gem_line      lb at gem_pct among rankable places that are not busy
@@ -888,24 +976,27 @@ begin
 end $$;
 create materialized view entity_rating as
 with rated as (
-  select entity_key,
+  select subreddit,
+         entity_key,
          count(*) filter (where voice = 'pos')                as pos,
          count(*) filter (where voice = 'neg')                as neg,
          count(*) filter (where voice = 'neutral')            as neutral,
          count(*) filter (where voice = 'pos' and level = 2)  as superlative
   from place_voices
-  group by entity_key
+  group by subreddit, entity_key
 ),
 volume as (
-  select entity_key,
+  select subreddit,
+         entity_key,
          count(*) filter (where recommends and voice = 'endorse') as endorse,
          count(*) filter (where recommends)                   as recommenders,
          max(created_utc)                                     as last_word
   from place_recommenders
-  group by entity_key
+  group by subreddit, entity_key
 ),
 counts as (
-  select coalesce(r.entity_key, v.entity_key)     as entity_key,
+  select coalesce(r.subreddit, v.subreddit)       as subreddit,
+         coalesce(r.entity_key, v.entity_key)     as entity_key,
          coalesce(r.pos, 0)          as pos,
          coalesce(r.neg, 0)          as neg,
          coalesce(r.neutral, 0)      as neutral,
@@ -914,7 +1005,7 @@ counts as (
          coalesce(v.recommenders, 0) as recommenders,
          v.last_word                 as last_voice
   from rated r
-  full join volume v on v.entity_key = r.entity_key
+  full join volume v on v.subreddit = r.subreddit and v.entity_key = r.entity_key
 ),
 scored as (
   select c.*,
@@ -924,24 +1015,30 @@ scored as (
          coalesce(r.is_chain, false) or coalesce(r.closed, false) as off_board
   from counts c
   cross join rating_params p
-  left join restaurants r on r.name_key = c.entity_key
+  left join places r on r.subreddit = c.subreddit and r.name_key = c.entity_key
 ),
 lines as (
   -- percentile_disc, so busy_line is a count some place really has.
-  select percentile_disc(1 - (select busy_pct from rating_params))
+  select subreddit,
+         percentile_disc(1 - (select busy_pct from rating_params))
            within group (order by recommenders)               as busy_line,
          percentile_cont((select share_pct from rating_params))
            within group (order by lb)                         as share_line
   from scored
   where rankable and not off_board
+  group by subreddit
 ),
 gem as (
-  select percentile_cont((select gem_pct from rating_params))
+  select s.subreddit,
+         percentile_cont((select gem_pct from rating_params))
            within group (order by s.lb)                       as gem_line
-  from scored s cross join lines l
+  from scored s
+  join lines l on l.subreddit = s.subreddit
   where s.rankable and not s.off_board and s.recommenders < l.busy_line
+  group by s.subreddit
 )
-select s.entity_key,
+select s.subreddit,
+       s.entity_key,
        s.pos, s.neg, s.neutral, s.endorse, s.superlative,
        s.recommenders, s.pct_pos, s.lb,
        s.rankable,
@@ -956,13 +1053,14 @@ select s.entity_key,
        s.last_voice,
        l.busy_line, l.share_line, g.gem_line
 from scored s
-cross join lines l
-cross join gem g;
+left join lines l on l.subreddit = s.subreddit
+left join gem   g on g.subreddit = s.subreddit;
 
-create unique index if not exists entity_rating_pk on entity_rating(entity_key);
-create index if not exists entity_rating_lb_idx on entity_rating(lb desc nulls last);
+create unique index if not exists entity_rating_pk on entity_rating(subreddit, entity_key);
+create index if not exists entity_rating_lb_idx
+  on entity_rating(subreddit, lb desc nulls last);
 create index if not exists entity_rating_recommenders_idx
-  on entity_rating(recommenders desc);
+  on entity_rating(subreddit, recommenders desc);
 
 
 -- The same rating per (place, category), from place_category_voices. Ranked
@@ -977,14 +1075,14 @@ begin
 end $$;
 create materialized view entity_category_rating as
 with counts as (
-  select entity_key, category,
+  select subreddit, entity_key, category,
          count(*) filter (where voice = 'pos')     as pos,
          count(*) filter (where voice = 'neg')     as neg,
          count(*) filter (where voice = 'neutral') as neutral
   from place_category_voices
-  group by entity_key, category
+  group by subreddit, entity_key, category
 )
-select c.entity_key, c.category, c.pos, c.neg, c.neutral,
+select c.subreddit, c.entity_key, c.category, c.pos, c.neg, c.neutral,
        c.pos::float8 / nullif(c.pos + c.neg, 0)  as pct_pos,
        wilson_lower(c.pos, c.pos + c.neg, p.z)   as lb,
        c.pos + c.neg >= p.min_category_rated     as rankable
@@ -992,9 +1090,9 @@ from counts c
 cross join rating_params p;
 
 create unique index if not exists entity_category_rating_pk
-  on entity_category_rating(entity_key, category);
+  on entity_category_rating(subreddit, entity_key, category);
 create index if not exists entity_category_rating_lb_idx
-  on entity_category_rating(category, lb desc nulls last) where rankable;
+  on entity_category_rating(subreddit, category, lb desc nulls last) where rankable;
 
 
 -- ===========================================================================
@@ -1018,5 +1116,7 @@ select *
 from entity_leaderboard
 where entity_key <> all(array[]::text[])        -- <-- application substitutes %s
   and raw_mentions >= (select min_mentions from scoring_params)
+-- Every city's rows: volume_share is a share of a place's own subreddit, so
+-- add `and subreddit = ...` to read one board.
 order by volume_share desc nulls last
 limit 50;

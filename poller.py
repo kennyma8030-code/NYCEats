@@ -600,10 +600,11 @@ def run_chores(conn, args):
     is refreshed before it starts, and an embedding error or a slow
     OpenRouter can never delay extraction or the refresh.
 
-    Every step here is r/FoodNYC's except settling and the re-sweep, which
-    are every polled city's:
-    extraction reads HOME only, and embedding reads what extraction wrote
-    plus HOME's threads, so the other cities' history is never billed.
+    Settling and the re-sweep are every polled city's, and the refresh
+    rebuilds every city that has mentions. What is paid for stays narrow:
+    extraction reads EXTRACT_SUBREDDITS (r/FoodNYC unless it says otherwise),
+    and embedding reads HOME's mentioned comments and threads, so another
+    city's history is never billed by being polled.
     Returns the connection to carry on with.
     """
     _, conn = _step("disk", disk_once, conn)

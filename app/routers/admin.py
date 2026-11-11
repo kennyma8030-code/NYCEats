@@ -19,6 +19,7 @@ from typing import Annotated, Optional
 import db as pipeline_db
 
 from .. import locks, queries
+from ..city import Sub
 from ..db import fetch_all, fetch_one, fetch_value, get_conn
 from ..models import AliasIn, AliasOut, JobAccepted, Page, UnresolvedRow
 
@@ -39,7 +40,7 @@ def require_token(x_admin_token: Annotated[Optional[str], Header()] = None):
 @router.get("/unresolved", response_model=Page[UnresolvedRow],
             dependencies=[Depends(require_token)],
             summary="Identity decisions waiting on a person")
-def unresolved(limit: int = 50, offset: int = 0, conn=Depends(get_conn)):
+def unresolved(sub: Sub, limit: int = 50, offset: int = 0, conn=Depends(get_conn)):
     """Names a threshold guessed at, worst-first.
 
     Ordered by mention count because a wrong merge on a place with 200
@@ -47,23 +48,24 @@ def unresolved(limit: int = 50, offset: int = 0, conn=Depends(get_conn)):
     misfiles 3. Fuzzy matches are included on purpose -- those are precisely
     the ones word_similarity decided without a human.
     """
-    rows, total = queries.unresolved(conn, limit, offset, fetch_all, fetch_value)
+    rows, total = queries.unresolved(conn, sub, limit, offset, fetch_all, fetch_value)
     return Page(items=rows, total=total, limit=limit, offset=offset)
 
 
 @router.get("/aliases", response_model=Page[AliasOut],
             dependencies=[Depends(require_token)],
             summary="Decisions already made")
-def list_aliases(limit: int = 100, offset: int = 0, conn=Depends(get_conn)):
-    rows, total = queries.list_aliases(conn, limit, offset, fetch_all, fetch_value)
+def list_aliases(sub: Sub, limit: int = 100, offset: int = 0, conn=Depends(get_conn)):
+    rows, total = queries.list_aliases(conn, sub, limit, offset, fetch_all, fetch_value)
     return Page(items=rows, total=total, limit=limit, offset=offset)
 
 
 @router.post("/aliases", response_model=AliasOut, status_code=201,
              dependencies=[Depends(require_token)],
              summary="Merge two spellings, or pin one apart")
-def upsert_alias(body: AliasIn, conn=Depends(get_conn)):
-    """Record a human decision about identity.
+def upsert_alias(body: AliasIn, sub: Sub, conn=Depends(get_conn)):
+    """Record a human decision about identity, for one city: the same two
+    spellings may be one place in New York and two in Chicago.
 
     Set resolved_key equal to entity_key to mean "never merge this one".
     That is not a no-op: word_similarity scores "cote" against "cote wine bar"
@@ -75,7 +77,7 @@ def upsert_alias(body: AliasIn, conn=Depends(get_conn)):
     (scoring.sql, entity_alias). It takes effect on the next refresh, not
     immediately -- entity_alias is materialized.
     """
-    row = queries.upsert_alias(conn, body.entity_key.strip(),
+    row = queries.upsert_alias(conn, sub, body.entity_key.strip(),
                                body.resolved_key.strip(), body.note, fetch_one)
     return AliasOut(**row)
 
@@ -83,9 +85,10 @@ def upsert_alias(body: AliasIn, conn=Depends(get_conn)):
 @router.delete("/aliases/{entity_key}", status_code=204,
                dependencies=[Depends(require_token)],
                summary="Undo a decision")
-def delete_alias(entity_key: str, conn=Depends(get_conn)):
-    if queries.delete_alias(conn, entity_key, fetch_value) is None:
-        raise HTTPException(status_code=404, detail=f"no override for {entity_key!r}")
+def delete_alias(entity_key: str, sub: Sub, conn=Depends(get_conn)):
+    if queries.delete_alias(conn, sub, entity_key, fetch_value) is None:
+        raise HTTPException(status_code=404,
+                            detail=f"no override for {entity_key!r} in r/{sub}")
     return None
 
 

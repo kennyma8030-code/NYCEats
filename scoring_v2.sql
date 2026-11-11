@@ -19,6 +19,10 @@
 --              few, and flagging on a count flagged 36% of them.
 --   rank       recent reach x sentiment, halved when flagged.
 --
+-- Per city, like scoring.sql: every view here carries `subreddit`, a place is
+-- (subreddit, entity_key), and the city mean a score is shrunk toward is the
+-- place's own city's.
+--
 -- Reads mention_weights, entity_alias and entity_leaderboard from scoring.sql,
 -- so it is applied after it (refresh.SQL_FILES) and refreshed after it
 -- (refresh.VIEWS). scoring.sql drops those with CASCADE, which takes these
@@ -57,6 +61,7 @@ create materialized view mention_v2 as
 select
   w.mention_id,
   w.comment_id,
+  w.subreddit,
   w.entity_key,
   w.thread_id,
   w.created_utc,
@@ -104,7 +109,7 @@ cross join lateral (
 ) o;
 
 create unique index if not exists mention_v2_pk         on mention_v2(mention_id);
-create index if not exists mention_v2_entity_idx        on mention_v2(entity_key);
+create index if not exists mention_v2_entity_idx        on mention_v2(subreddit, entity_key);
 create index if not exists mention_v2_thread_idx        on mention_v2(thread_id);
 
 
@@ -114,7 +119,8 @@ create index if not exists mention_v2_thread_idx        on mention_v2(thread_id)
 -- ---------------------------------------------------------------------------
 create or replace view aspect_scores_v2 as
 with obs as (
-  select m.entity_key,
+  select m.subreddit,
+         m.entity_key,
          a.key as aspect,
          case when m.is_negated then -abs((a.value #>> '{}')::float8)
               else                    (a.value #>> '{}')::float8 end as val,
@@ -128,26 +134,26 @@ with obs as (
     and jsonb_typeof(a.value) = 'number'
 ),
 weighted as (
-  select o.entity_key, o.aspect, o.val,
+  select o.subreddit, o.entity_key, o.aspect, o.val,
          o.w * (case when o.val < 0 then p.neg_weight else 1.0 end) as w
   from obs o cross join scoring_v2_params p
 ),
 per_entity as (
-  select entity_key, aspect,
+  select subreddit, entity_key, aspect,
          sum(w * val) as s, sum(w) as w, count(*) as n_obs
-  from weighted group by 1, 2
+  from weighted group by 1, 2, 3
 ),
 city as (
-  select aspect, sum(s) / nullif(sum(w), 0) as city_mean
-  from per_entity group by 1
+  select subreddit, aspect, sum(s) / nullif(sum(w), 0) as city_mean
+  from per_entity group by 1, 2
 )
-select e.entity_key, e.aspect, e.n_obs,
+select e.subreddit, e.entity_key, e.aspect, e.n_obs,
        e.w as aspect_weight,
        e.s / nullif(e.w, 0) as raw_mean,
        c.city_mean,
        (e.s + p.aspect_pseudo * c.city_mean) / (e.w + p.aspect_pseudo) as aspect_score
 from per_entity e
-join city c on c.aspect = e.aspect
+join city c on c.subreddit = e.subreddit and c.aspect = e.aspect
 cross join scoring_v2_params p;
 
 
@@ -167,7 +173,7 @@ create materialized view entity_leaderboard_v2 as
 with people as (
   -- One row per (place, person): their most recent mention decides how
   -- recent their voice is, and any strong negative of theirs counts once.
-  select m.entity_key, m.person,
+  select m.subreddit, m.entity_key, m.person,
          max(m.w_recency)                                    as w_recency,
          min(m.age_days)                                     as newest_age,
          bool_or(not m.bare and m.opinion is not null)        as has_opinion,
@@ -181,10 +187,10 @@ with people as (
                                                              as neg_w
   from mention_v2 m cross join scoring_v2_params p
   where m.age_days <= p.recent_days
-  group by m.entity_key, m.person
+  group by m.subreddit, m.entity_key, m.person
 ),
 reach as (
-  select pe.entity_key,
+  select pe.subreddit, pe.entity_key,
          count(*)                                             as recent_people,
          sum(pe.w_recency)                                    as recent_reach,
          count(*) filter (where pe.has_opinion)               as opinion_people,
@@ -195,30 +201,31 @@ reach as (
          count(*) filter (where pe.newest_age >  p.trend_days
                             and pe.newest_age <= 2 * p.trend_days) as trend_before
   from people pe cross join scoring_v2_params p
-  group by pe.entity_key
+  group by pe.subreddit, pe.entity_key
 ),
 opinion as (
-  select m.entity_key,
+  select m.subreddit, m.entity_key,
          sum(m.opinion * m.w_agree * m.w_recency
              * (case when m.opinion < 0 then p.neg_weight else 1.0 end)) as s,
          sum(m.w_agree * m.w_recency
              * (case when m.opinion < 0 then p.neg_weight else 1.0 end)) as w
   from mention_v2 m cross join scoring_v2_params p
   where not m.bare and m.opinion is not null and m.w_recency > 0
-  group by m.entity_key
+  group by m.subreddit, m.entity_key
 ),
-city as (select sum(s) / nullif(sum(w), 0) as mean from opinion),
+-- A city with no opinion at all has no row, and its places a NULL sentiment.
+city as (select subreddit, sum(s) / nullif(sum(w), 0) as mean from opinion group by subreddit),
 aspects as (
-  select entity_key,
+  select subreddit, entity_key,
          max(aspect_score) filter (where aspect = 'food')       as food,
          max(aspect_score) filter (where aspect = 'value')      as value,
          max(aspect_score) filter (where aspect = 'service')    as service,
          max(aspect_score) filter (where aspect = 'atmosphere') as atmosphere,
          max(aspect_score) filter (where aspect = 'wait')       as wait
-  from aspect_scores_v2 group by entity_key
+  from aspect_scores_v2 group by subreddit, entity_key
 ),
 scored as (
-  select l.entity_key,
+  select l.subreddit, l.entity_key,
          coalesce(r.recent_people, 0)     as recent_people,
          coalesce(r.recent_reach, 0)      as recent_reach,
          coalesce(r.opinion_people, 0)    as opinion_people,
@@ -232,12 +239,12 @@ scored as (
          coalesce(r.strong_neg_people, 0) >= p.flag_min_people
            and coalesce(r.strong_neg_share, 0) >= p.flag_min_share as flagged
   from entity_leaderboard l
-  left join reach   r on r.entity_key = l.entity_key
-  left join opinion o on o.entity_key = l.entity_key
-  cross join city c
+  left join reach   r on r.subreddit = l.subreddit and r.entity_key = l.entity_key
+  left join opinion o on o.subreddit = l.subreddit and o.entity_key = l.entity_key
+  left join city    c on c.subreddit = l.subreddit
   cross join scoring_v2_params p
 )
-select l.entity_key, l.raw_mentions, l.decayed_volume, l.volume_share,
+select l.subreddit, l.entity_key, l.raw_mentions, l.decayed_volume, l.volume_share,
        l.distinct_authors, l.firsthand_mentions, l.negated_mentions,
        l.momentum_sigma, l.momentum_window_days, l.momentum_fired,
        l.first_seen, l.last_seen, l.months_active, l.longest_gap_months,
@@ -256,11 +263,11 @@ select l.entity_key, l.raw_mentions, l.decayed_volume, l.volume_share,
        s.recent_reach * (1.0 + s.sentiment) / 2.0
          * (case when s.flagged then p.flag_penalty else 1.0 end) as rank_score
 from scored s
-join entity_leaderboard l on l.entity_key = s.entity_key
-left join aspects a on a.entity_key = s.entity_key
+join entity_leaderboard l on l.subreddit = s.subreddit and l.entity_key = s.entity_key
+left join aspects a on a.subreddit = s.subreddit and a.entity_key = s.entity_key
 cross join scoring_v2_params p;
 
 create unique index if not exists entity_leaderboard_v2_pk
-  on entity_leaderboard_v2(entity_key);
+  on entity_leaderboard_v2(subreddit, entity_key);
 create index if not exists entity_leaderboard_v2_rank_idx
-  on entity_leaderboard_v2(rank_score desc nulls last);
+  on entity_leaderboard_v2(subreddit, rank_score desc nulls last);

@@ -32,7 +32,7 @@ class Reads(AppCase):
 
 class FacetsCache(AppCase):
     def setUp(self):
-        public._facets_cache.update(version=None, at=0.0, value=None)
+        public._facets_cache.clear()
 
     def descriptors(self):
         return {d["name"]: d["n"] for d in self.client.get("/api/facets").json()["descriptors"]}

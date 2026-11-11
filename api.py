@@ -30,8 +30,12 @@ def jsonable(o):
 
 
 def leaderboard(conn, q):
-    """Ranked entities. Every filter is optional and composes with the rest."""
-    where, params = [], []
+    """Ranked entities. Every filter is optional and composes with the rest.
+
+    This server is r/FoodNYC's only (the app under app/ takes ?subreddit=),
+    and the scoring views hold every city, so each read here names HOME.
+    """
+    where, params = ["l.subreddit = %s"], [subreddits.HOME]
 
     if q.get("search"):
         where.append("l.entity_key ilike %s")
@@ -85,13 +89,14 @@ def leaderboard(conn, q):
         left join lateral (
           select res.status, res.fuzzy_match, res.fuzzy_score
           from entity_alias al
-          join mention_resolution res on res.entity_key = al.entity_key
-          where al.resolved_key = l.entity_key
+          join mention_resolution res on res.subreddit = al.subreddit
+                                     and res.entity_key = al.entity_key
+          where al.subreddit = l.subreddit and al.resolved_key = l.entity_key
           order by case res.status when 'exact' then 1 when 'fuzzy' then 2
                                    when 'unlisted' then 3 else 4 end
           limit 1
         ) res on true
-        {"where " + " and ".join(where) if where else ""}
+        where {" and ".join(where)}
         order by {order}
         limit %s
     """
@@ -114,11 +119,11 @@ def mentions(conn, q):
             from mentions m
             join comments c on c.id = m.comment_id
             join threads t on t.id = c.thread_id
-            join entity_alias al on al.entity_key = m.entity_key
-            where al.resolved_key = %s
+            join entity_alias al on al.subreddit = c.subreddit and al.entity_key = m.entity_key
+            where al.subreddit = %s and al.resolved_key = %s
             order by c.created_utc desc
             limit 200
-        """, (q["entity"][0],))
+        """, (subreddits.HOME, q["entity"][0]))
         return rows_to_dicts(cur)
 
 
@@ -129,17 +134,20 @@ def facets(conn, _q):
         cur.execute("""
             select r.cuisine, count(*) from entity_leaderboard l
             join restaurants r on r.name_key = l.entity_key
-            where r.cuisine is not null group by 1 order by 2 desc limit 40
-        """)
+            where l.subreddit = %s and r.cuisine is not null
+            group by 1 order by 2 desc limit 40
+        """, (subreddits.HOME,))
         out["cuisines"] = [{"name": a, "n": b} for a, b in cur.fetchall()]
         cur.execute("""
             select b, count(*) from entity_leaderboard l
             join restaurants r on r.name_key = l.entity_key,
                  unnest(r.boroughs) b
+            where l.subreddit = %s
             group by 1 order by 2 desc
-        """)
+        """, (subreddits.HOME,))
         out["boroughs"] = [{"name": a, "n": b} for a, b in cur.fetchall()]
-        cur.execute("select status, count(*) from mention_resolution group by 1")
+        cur.execute("select status, count(*) from mention_resolution "
+                    "where subreddit = %s group by 1", (subreddits.HOME,))
         out["statuses"] = [{"name": a, "n": b} for a, b in cur.fetchall()]
         cur.execute("""
             select (select count(*) from mentions),
@@ -213,11 +221,12 @@ def latest(conn, q):
             join threads  t on t.id = c.thread_id
             -- left join: a name extracted since the last refresh has no alias
             -- row yet, and should still show under what the person typed.
-            left join entity_alias a on a.entity_key = m.entity_key
-            where (%s is null or m.id > %s::bigint)
+            left join entity_alias a on a.subreddit = c.subreddit and a.entity_key = m.entity_key
+            where c.subreddit = %s
+              and (%s is null or m.id > %s::bigint)
             order by m.id desc
             limit 60
-        """, (after, after))
+        """, (subreddits.HOME, after, after))
         return rows_to_dicts(cur)
 
 

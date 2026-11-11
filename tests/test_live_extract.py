@@ -28,6 +28,7 @@ import fake_anthropic as F
 import pgtest
 import poller
 import prompt_v6
+import subreddits
 import test_extract_budget_guards as G
 import test_extract_v6_db as base
 import test_extract_v6_thread_db as TT
@@ -586,7 +587,7 @@ class Settle(TT.ThreadCase):
         import refresh
         self.settle(posts=[arctic("t3_c", selftext="[deleted]", author="[deleted]")])
         refresh.apply_sql(self.conn, verbose=False)
-        items = {i["id"]: i for i in queries.feed_items(self.conn, None, False, None, None, 100, appdb.fetch_all)}
+        items = {i["id"]: i for i in queries.feed_items(self.conn, subreddits.HOME, None, False, None, None, 100, appdb.fetch_all)}
         self.assertIsNone(items["t3_c"]["permalink"])
         self.assertTrue(items["t3_a"]["permalink"])
         self.conn.rollback()
