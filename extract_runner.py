@@ -11,13 +11,14 @@ pipeline script it writes to DATABASE_URL, so it is started on purpose;
 nothing redeploys it on a push to main (watchPatterns name only its own
 config, should the service ever be linked to the repo).
 
-What it runs, in one extract_v6.py invocation sharing one cap and ceiling:
+What it runs, in one extract_v6.py invocation sharing one cap (and one
+ceiling, when EXTRACT_CEILING_USD is set):
 the redo of comments cut at 1,500 characters first when
 EXTRACT_REDO_CUT_BEFORE is set, then every thread with anything not yet
 extracted whose post is old enough and on or after its subreddit's floor:
 
     extract_v6.py --mode thread --effort medium --newest-first --batch
-                  --max-usd $EXTRACT_RUN_USD --ceiling-usd $EXTRACT_CEILING_USD
+                  --max-usd $EXTRACT_RUN_USD [--ceiling-usd $EXTRACT_CEILING_USD]
                   --subreddit $EXTRACT_SUBREDDITS --since $EXTRACT_SINCE
                   --min-post-age ${EXTRACT_MIN_POST_AGE_HOURS}h
                   [--redo-cut-before $EXTRACT_REDO_CUT_BEFORE] --lock-wait $EXTRACT_LOCK_WAIT
@@ -59,12 +60,14 @@ Environment (recommended values for the daily job in brackets):
                              collected (about $0.01 a chunk), so the cap also
                              bounds how much is in flight at once; a day's
                              r/FoodNYC is well under it
-  EXTRACT_CEILING_USD        required: the binding total across restarts, on
+  EXTRACT_CEILING_USD        optional: a binding total across restarts, on
                              all v6 spend ever, recorded plus in flight;
                              extract_v6.py reads it too. For "spend $N more",
-                             set it to the spend on record plus N [the
-                             overall budget: spend on record plus what the
-                             daily job may spend in all]
+                             set it to the spend on record plus N. Unset,
+                             nothing bounds the total: each attempt spends
+                             up to EXTRACT_RUN_USD, a failed attempt may be
+                             restarted a few times (restartPolicyMaxRetries),
+                             and the cron starts one a day [unset]
   EXTRACT_SINCE              required: the floor on a post's date, one ISO
                              date for every subreddit, SUB=DATE pairs (one for
                              each subreddit taken, SUB=all for no floor), or
@@ -87,8 +90,10 @@ Environment (recommended values for the daily job in brackets):
                              run logs NOT STARTING and exits 0, so it is not
                              restarted (room_left)
 
-It refuses to start unless both caps and EXTRACT_SINCE are set, the run's
-cap is no more than the ceiling, and the subreddits, floors and age parse.
+It refuses to start unless the run's cap and EXTRACT_SINCE are set, the
+run's cap is no more than the ceiling when there is one, and the
+subreddits, floors and age parse. Everything below about the ceiling
+applies only when one is set.
 When the run's cap is more than what the ceiling leaves above recorded
 spend, the cap is cut to that and both numbers are logged, so a restart
 after a crash resumes with what is left and the ceiling stays
@@ -143,7 +148,7 @@ FINAL = {0: "finished", 3: "stopped at its cap (or by --scope) with work left fo
 
 def _dollars(name, raw):
     if raw is None or not raw.strip():
-        raise SystemExit(f"{name} is not set: an unattended run needs both {RUN_ENV} and {X.CEILING_ENV}")
+        raise SystemExit(f"{name} is not set: an unattended run needs {RUN_ENV}, the cap on one attempt")
     try:
         v = float(raw)
     except ValueError:
@@ -154,9 +159,15 @@ def _dollars(name, raw):
 
 
 def plan(env):
-    """(run cap, ceiling) from the environment, or SystemExit."""
+    """(run cap, ceiling) from the environment, or SystemExit. The ceiling is
+    None when EXTRACT_CEILING_USD is unset or blank: no total is enforced.
+    One that is set and is not a positive number still refuses the start,
+    so a typo cannot quietly remove it."""
     run = _dollars(RUN_ENV, env.get(RUN_ENV))
-    ceiling = _dollars(X.CEILING_ENV, env.get(X.CEILING_ENV))
+    raw = env.get(X.CEILING_ENV)
+    if raw is None or not raw.strip():
+        return run, None
+    ceiling = _dollars(X.CEILING_ENV, raw)
     if run > ceiling:
         raise SystemExit(f"{RUN_ENV} ${run:.2f} is more than {X.CEILING_ENV} ${ceiling:.2f}")
     return run, ceiling
@@ -184,8 +195,8 @@ def selection(env):
 def command(env, cap, ceiling, chosen=None):
     """The extract_v6 argv for a run capped at `cap`; `chosen` is selection(env), when already made."""
     argv = ["--mode", "thread", "--effort", "medium", "--newest-first", "--batch",
-            "--max-usd", repr(cap), "--ceiling-usd", repr(ceiling)] + (chosen or selection(env)) \
-        + ["--lock-wait", env.get(WAIT_ENV) or str(LOCK_WAIT)]
+            "--max-usd", repr(cap)] + ([] if ceiling is None else ["--ceiling-usd", repr(ceiling)]) \
+        + (chosen or selection(env)) + ["--lock-wait", env.get(WAIT_ENV) or str(LOCK_WAIT)]
     redo = (env.get(REDO_ENV) or "").strip()
     if redo:
         argv += ["--redo-cut-before", redo]
@@ -210,6 +221,7 @@ def overruns(cur, seen=()):
 def room_left(ceiling, connect=None, seen=()):
     """(what the ceiling leaves above recorded spend, worst case of batches
     in flight), from the database now, as extract_v6's Ceiling counts them. Logged.
+    Without a ceiling the room is unbounded (inf), and only the spend is logged.
 
     Raises Overrun while a batch's overrun is on record and not
     acknowledged in EXTRACT_TRIPWIRE_SEEN (`seen`). A tripped run exits 0
@@ -225,6 +237,9 @@ def room_left(ceiling, connect=None, seen=()):
         conn.close()
     if over:
         raise Overrun(over)
+    if ceiling is None:
+        print(f"no ceiling: ${recorded:.4f} recorded, ${inflight:.4f} held for batches in flight")
+        return float("inf"), inflight
     print(f"ceiling ${ceiling:.2f}: ${recorded:.4f} recorded, ${inflight:.4f} held for batches in flight, "
           f"${ceiling - recorded - inflight:.4f} of room for new work")
     return ceiling - recorded, inflight

@@ -90,8 +90,29 @@ class CeilingLimit(unittest.TestCase):
 class Runner(unittest.TestCase):
     ENV = {"EXTRACT_RUN_USD": "20", "EXTRACT_CEILING_USD": "25.48", "EXTRACT_SINCE": "FoodNYC=2025-06-01"}
 
-    def test_both_caps_are_required(self):
-        for env in ({}, {"EXTRACT_RUN_USD": "20"}, {"EXTRACT_CEILING_USD": "25"},
+    def test_the_ceiling_is_optional_and_a_bad_one_still_refuses(self):
+        self.assertEqual(R.plan({"EXTRACT_RUN_USD": "20"}), (20.0, None))
+        self.assertEqual(R.plan({"EXTRACT_RUN_USD": "20", "EXTRACT_CEILING_USD": " "}), (20.0, None))
+        argv = R.command(self.ENV, 20.0, None)
+        self.assertNotIn("--ceiling-usd", argv)
+        self.assertEqual(argv[argv.index("--max-usd") + 1], "20.0")
+        for bad in ("lots", "0", "-5", "inf"):
+            with self.subTest(ceiling=bad), self.assertRaises(SystemExit):
+                R.plan({"EXTRACT_RUN_USD": "20", "EXTRACT_CEILING_USD": bad})
+
+    def test_without_a_ceiling_the_run_gets_its_whole_cap(self):
+        env = {k: v for k, v in self.ENV.items() if k != "EXTRACT_CEILING_USD"}
+        ran = []
+        with mock.patch.object(R, "room_left", lambda ceiling, *a: (float("inf"), 0.0)), \
+                mock.patch.object(R.AV, "check_prices"), redirect_stdout(io.StringIO()) as out:
+            code = R.main(env, run_extract=lambda argv: ran.append(argv) or 3)
+        self.assertEqual(code, 0)
+        self.assertNotIn("--ceiling-usd", ran[0])
+        self.assertEqual(ran[0][ran[0].index("--max-usd") + 1], "20.0")
+        self.assertNotIn("is more than", out.getvalue())
+
+    def test_the_run_cap_is_required(self):
+        for env in ({}, {"EXTRACT_CEILING_USD": "25"},
                     {"EXTRACT_RUN_USD": "", "EXTRACT_CEILING_USD": "25"},
                     {"EXTRACT_RUN_USD": "lots", "EXTRACT_CEILING_USD": "25"},
                     {"EXTRACT_RUN_USD": "0", "EXTRACT_CEILING_USD": "25"},
