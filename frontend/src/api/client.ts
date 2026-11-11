@@ -1,7 +1,8 @@
 import type {
-  Algo, BoardId, CategoryVoice, BoardResponse, CommentSort, Facets, Feed, LedgerItem, LedgerResponse, Mention, NameRow, Page, RatingCategory, RestaurantDetail, Voice, WindowDays,
+  Algo, BoardId, CategoryVoice, BoardResponse, City, CommentSort, Facets, Feed, LedgerItem, LedgerResponse, Mention, NameRow, Page, RatingCategory, RestaurantDetail, Voice, WindowDays,
 } from "./types";
 import type { Filters } from "../state/filters";
+import { withCity } from "../state/city";
 
 const BASE: string = import.meta.env.VITE_API_BASE ?? "";
 
@@ -25,8 +26,10 @@ async function readDetail(res: Response): Promise<string> {
   return `${res.status} ${res.statusText}`.trim();
 }
 
+// Every read is one city's, so the city goes on here, once, and no caller
+// can forget it (state/city.ts).
 async function get<T>(path: string, signal?: AbortSignal): Promise<T> {
-  const res = await fetch(BASE + path, { signal, headers: { Accept: "application/json" } });
+  const res = await fetch(BASE + withCity(path), { signal, headers: { Accept: "application/json" } });
   if (!res.ok) throw new ApiError(await readDetail(res), res.status);
   return (await res.json()) as T;
 }
@@ -101,6 +104,8 @@ export const api = {
    *  change must change the URL or a stale copy is parsed as the new shape. */
   names: () => cached("names", () => get<NameRow[]>("/api/names?v=2")),
   facets: (signal?: AbortSignal) => get<Facets>("/api/facets", signal),
+  /** The cities that have a board, New York first. */
+  cities: (signal?: AbortSignal) => get<City[]>("/api/cities", signal),
   restaurant: (entityKey: string, algo: Algo = "v1", _signal?: AbortSignal) =>
     cached(`r|${entityKey}|${algo}`, () =>
       get<RestaurantDetail>(`/api/restaurants/${key(entityKey)}?algo=${algo}`)),

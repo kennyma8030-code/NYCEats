@@ -1,5 +1,6 @@
 import type { Facets, Flaw, Need } from "../../api/types";
 import { activeFilterCount, boardFilterCount, FLAWS, NEEDS, type Filters } from "../../state/filters";
+import { areaWords } from "../../state/city";
 
 interface Props {
   filters: Filters;
@@ -21,6 +22,7 @@ function options(values: string[], selected: string) {
 export function FilterControls({ filters, facets, onChange, onToggleNeed, onToggleFlaw, onClear, boards }: Props) {
   const cuisines = options((facets?.cuisines ?? []).map((f) => f.name).sort(), filters.cuisine);
   const boroughs = options((facets?.boroughs ?? []).map((f) => f.name), filters.borough);
+  const area = areaWords();
 
   return (
     <>
@@ -39,14 +41,14 @@ export function FilterControls({ filters, facets, onChange, onToggleNeed, onTogg
         </select>
       </div>
       <div className="fs">
-        <label className="lab" htmlFor="f-borough">Borough</label>
+        <label className="lab" htmlFor="f-borough">{area.one}</label>
         <select
           id="f-borough"
           className="sel"
           value={filters.borough}
           onChange={(e) => onChange({ borough: e.target.value })}
         >
-          <option value="">All boroughs</option>
+          <option value="">{area.all}</option>
           {boroughs.map((b) => (
             <option key={b} value={b}>{b}</option>
           ))}

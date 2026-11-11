@@ -4,6 +4,7 @@ import { RedditComment } from "../detail/RedditComment";
 import "../detail/CommentList.css";
 import "../ledger/LedgerList.css";
 import "../rail/SearchBox.css";
+import { SUBREDDIT } from "../../state/city";
 import "./LiveFeed.css";
 
 interface Props {
@@ -44,7 +45,7 @@ export function LiveFeed({ onOpen }: Props) {
     <main className="ledger stream">
       <div ref={top}>
         <h1>
-          <em>Live</em> on r/FoodNYC
+          <em>Live</em> on r/{SUBREDDIT}
         </h1>
         <p className="sum">Every post and comment, newest first. New ones arrive about every 30 minutes.</p>
       </div>

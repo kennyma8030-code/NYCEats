@@ -8,6 +8,8 @@ import { SearchBox } from "./SearchBox";
 import { AlgoPicker } from "./AlgoPicker";
 import { TopicBox } from "./TopicBox";
 import type { NameHit } from "../../lib/search";
+import { useCities } from "../../hooks/useCities";
+import { cityUrl, HOME, SUBREDDIT } from "../../state/city";
 import "./Rail.css";
 
 interface Props {
@@ -26,6 +28,10 @@ interface Props {
 
 export function Rail({ view, onView, filters, facets, onChange, onToggleNeed, onToggleFlaw, onClear, onPick, onPreview, opening }: Props) {
   const more = useRef<HTMLDetailsElement>(null);
+  // A city appears here once it has a board. With only New York's there is
+  // nothing to pick, and the brand reads as it always has.
+  const cities = useCities().data ?? [];
+  const city = cities.find((c) => c.subreddit === SUBREDDIT);
   const count = view === "boards" ? boardFilterCount(filters) : activeFilterCount(filters);
 
   // On wide screens the filters sit open in the rail; on phones they fold
@@ -44,7 +50,23 @@ export function Rail({ view, onView, filters, facets, onChange, onToggleNeed, on
   return (
     <aside className="rail">
       <p className="brand">
-        NYCEats<span>New York</span>
+        NYCEats
+        {cities.length > 1 ? (
+          <select
+            className="city"
+            aria-label="City"
+            value={SUBREDDIT}
+            // A new page, not a state change: see state/city.ts.
+            onChange={(e) => window.location.assign(cityUrl(e.target.value, window.location.pathname))}
+          >
+            {!city && <option value={SUBREDDIT}>r/{SUBREDDIT}</option>}
+            {cities.map((c) => (
+              <option key={c.subreddit} value={c.subreddit}>{c.name}</option>
+            ))}
+          </select>
+        ) : (
+          <span>{city?.name ?? (SUBREDDIT === HOME ? "New York" : `r/${SUBREDDIT}`)}</span>
+        )}
       </p>
       <nav className="views" aria-label="View">
         <button type="button" aria-pressed={view === "restaurants"} onClick={() => onView("restaurants")}>

@@ -1,6 +1,7 @@
 import { memo } from "react";
 import type { FeedPlace, Mention } from "../../api/types";
 import { ago, avatarColor, redditUrl } from "../../lib/format";
+import { SUBREDDIT } from "../../state/city";
 import "./RedditComment.css";
 
 /** What a card shows: a restaurant's mention, or a comment from the live stream. */
@@ -72,7 +73,7 @@ export const RedditComment = memo(function RedditComment({ mention: m, post, pla
           <span className="rc-gone">deleted</span>
         )}
       </div>
-      {!post && m.thread_title && <p className="rc-sub">r/FoodNYC · {m.thread_title}</p>}
+      {!post && m.thread_title && <p className="rc-sub">r/{SUBREDDIT} · {m.thread_title}</p>}
     </li>
   );
 });

@@ -107,8 +107,10 @@ function toUrl(f: Filters) {
   if (f.borough) p.set("borough", f.borough);
   f.needs.forEach((n) => p.append("need", n));
   f.flaws.forEach((n) => p.append("flaw", n));
-  // The open restaurant and the view are not filters, but share the query string.
+  // The city, the open restaurant and the view are not filters, but share the query string.
   const cur = new URLSearchParams(window.location.search);
+  const city = cur.get("subreddit");                  // state/city.ts
+  if (city) p.set("subreddit", city);
   const view = cur.get("view");
   if (view) p.set("view", view);
   const board = cur.get("board");

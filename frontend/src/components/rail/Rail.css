@@ -1,6 +1,8 @@
 .rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); display: grid; gap: 26px }
 .brand { margin: 0; font-weight: 600; font-size: 15px; letter-spacing: -.01em }
 .brand span { color: var(--faint); font-weight: 400; margin-left: 6px }
+.brand .city { margin-left: 6px; border: 0; padding: 0; background: none; color: var(--faint); font: inherit; font-weight: 400; cursor: pointer }
+.brand .city:hover, .brand .city:focus-visible { color: inherit }
 
 .cats { display: grid; gap: 2px }
 .cats button {

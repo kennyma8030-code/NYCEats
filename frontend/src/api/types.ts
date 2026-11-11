@@ -58,6 +58,15 @@ export interface LedgerResponse {
   items: LedgerItem[];
 }
 
+/** A city with a board. `subreddit` is what the page's ?subreddit= takes. */
+export interface City {
+  subreddit: string;
+  name: string;
+  short: string;
+  home: boolean;
+  places: number;
+}
+
 export interface FacetValue {
   name: string;
   n: number;
