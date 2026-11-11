@@ -1,4 +1,10 @@
-"""Place summaries: two or three sentences on what r/FoodNYC says about each busy place.
+"""Place summaries: two or three sentences on what a city's subreddit says about each busy place.
+
+One city at a time: a place is a name within a subreddit (scoring.sql), so a
+run reads, writes and prompts for one subreddit (--subreddit, r/FoodNYC by
+default; the poller's step takes each of SUMMARY_SUBREDDITS in turn). The
+prompt names the city, so each city's summaries carry a prompt hash of their
+own, and r/FoodNYC's is what it was before there was a second city.
 
     python summarize.py --status                       what is written, failing, parked; spend so far
     python summarize.py --dry-run                      what qualifies, what is due, input sizes, cost; no API, no writes
@@ -22,7 +28,7 @@ Who gets a summary. A place qualifies with at least SUMMARY_MIN_MENTIONS
 are the ones the board counts: whatever live_mentions holds in v6 mode
 (thread-mode rows, and the comment-mode rows that stand in for a chunk that
 failed), so n, the new-mention count and the input agree with the board.
-r/FoodNYC only, leaving out comments deleted later, AutoModerator, and names
+The run's subreddit only, leaving out comments deleted later, AutoModerator, and names
 in excluded_entities. Every mention counts toward n, opinion or not, and
 mentions are counted by comment: two spellings of one place in one comment
 are one. While the board reads legacy mentions nothing is written: those
@@ -113,7 +119,9 @@ its worst case is charged once.
 
 In the poller (POLL_SUMMARIZE=1) it is the last step of the chores pass,
 run at most once every SUMMARY_EVERY_HOURS (6), the time kept in
-summary_state so a restart does not reset it. Each run takes at most
+summary_state so a restart does not reset it. A run takes the cities in
+SUMMARY_SUBREDDITS in turn (comma-separated, or 'all'; r/FoodNYC alone when
+unset), under the one cap, ceiling and limit: at most
 POLL_SUMMARIZE_LIMIT places that have something to send, TIMEOUT seconds a
 call, ATTEMPTS tries, and nothing is started, retried or waited for past
 DEADLINE.
@@ -203,12 +211,26 @@ Answer with JSON: {"summary": "<the two or three sentences>"}."""
 SCHEMA = {"type": "object", "properties": {"summary": {"type": "string"}},
           "required": ["summary"], "additionalProperties": False}
 
+# The one place the instructions say whose comments these are.
+_WHOSE = "r/FoodNYC, the New York City food subreddit"
 
-def prompt_hash(effort):
-    """What a summary was written under, beside the model: the instructions,
-    the input's layout and how it is chosen, and the request's settings.
-    Change any and every summary is due again."""
-    spec = {"system": SYSTEM_PROMPT, "format": FORMAT_VERSION, "schema": SCHEMA,
+
+def system_prompt(sub=subreddits.HOME):
+    """The instructions for one city's summaries: r/FoodNYC's as written,
+    another city's with the subreddit and the city named in its place. An
+    unknown subreddit is an error (subreddits.city), never New York's."""
+    if sub == subreddits.HOME:
+        return SYSTEM_PROMPT
+    if SYSTEM_PROMPT.count(_WHOSE) != 1:
+        raise ValueError("SYSTEM_PROMPT no longer names r/FoodNYC the way system_prompt rewrites it")
+    return SYSTEM_PROMPT.replace(_WHOSE, f"r/{sub}, the {subreddits.city(sub).name} food subreddit")
+
+
+def prompt_hash(effort, sub=subreddits.HOME):
+    """What a summary was written under, beside the model: the instructions
+    (its city's), the input's layout and how it is chosen, and the request's
+    settings. Change any and every summary is due again."""
+    spec = {"system": system_prompt(sub), "format": FORMAT_VERSION, "schema": SCHEMA,
             "effort": effort, "max_tokens": MAX_TOKENS, "window_days": WINDOW_DAYS,
             "target": TARGET_COMMENTS, "status_reports": STATUS_REPORTS}
     return hashlib.sha256(json.dumps(spec, sort_keys=True).encode("utf-8")).hexdigest()[:12]
@@ -252,10 +274,17 @@ class Settings:
     every_hours: float = 6.0
     park_hours: float = 168.0
     effort: str = "low"
+    # The city this run is for, and the cities the poller's step takes in
+    # turn (SUMMARY_SUBREDDITS); for_city gives the settings for one of them.
+    subreddit: str = subreddits.HOME
+    cities: tuple = (subreddits.HOME,)
 
     @property
     def prompt_hash(self):
-        return prompt_hash(self.effort)
+        return prompt_hash(self.effort, self.subreddit)
+
+    def for_city(self, sub):
+        return dataclasses.replace(self, subreddit=sub)
 
 
 def load_settings(env=None):
@@ -284,7 +313,22 @@ def load_settings(env=None):
     if out["park_hours"] <= out["every_hours"]:
         raise SettingError(f"SUMMARY_PARK_HOURS ({out['park_hours']:g}) must be more than "
                            f"SUMMARY_EVERY_HOURS ({out['every_hours']:g})")
-    return Settings(effort=effort, **out)
+    return Settings(effort=effort, cities=parse_subreddits(env.get(SUBS_VAR)), **out)
+
+
+SUBS_VAR = "SUMMARY_SUBREDDITS"
+
+
+def parse_subreddits(raw):
+    """The cities to summarize from a comma-separated setting, in
+    subreddits.SUBREDDITS order: unset is r/FoodNYC alone, 'all' every
+    collected one. A name that is not collected is a SettingError: a typo
+    must not quietly leave a city out, or end the poller (subreddits.parse
+    exits)."""
+    try:
+        return tuple(subreddits.parse(raw, [subreddits.HOME]))
+    except SystemExit as e:
+        raise SettingError(f"{SUBS_VAR}: {e}") from None
 
 
 def api_key():
@@ -300,9 +344,11 @@ def tables_exist(conn):
     with conn.cursor() as cur:
         cur.execute("""select to_regclass('place_summaries') is not null and to_regclass('summary_calls') is not null
                               and to_regclass('summary_state') is not null
-                              and exists (select 1 from information_schema.columns
-                                          where table_schema = current_schema() and table_name = 'place_summaries'
-                                            and column_name = 'seen_comment_ids')""")
+                              and (select count(*) from information_schema.columns
+                                   where table_schema = current_schema()
+                                     and (table_name, column_name) in (('place_summaries', 'seen_comment_ids'),
+                                                                       ('place_summaries', 'subreddit'),
+                                                                       ('summary_calls', 'subreddit'))) = 3""")
         ok = cur.fetchone()[0]
     conn.commit()
     return ok
@@ -420,7 +466,8 @@ with base as (
   {base_keys}
 ),
 seen as (
-  select s.resolved_key, unnest(s.seen_comment_ids) as comment_id from {summaries} s {seen_keys}
+  select s.resolved_key, unnest(s.seen_comment_ids) as comment_id from {summaries} s
+  where s.subreddit = %(sub)s {seen_keys}
 )
 select b.rkey, count(distinct b.comment_id), max(b.created_utc),
        count(distinct b.comment_id) filter (where b.op),
@@ -429,7 +476,7 @@ select b.rkey, count(distinct b.comment_id), max(b.created_utc),
        count(distinct b.comment_id) filter (where sn.comment_id is null),
        s.summary is not null, s.model, s.prompt_hash, coalesce(s.attempts, 0), s.error, s.written_at, s.failed_at
 from base b
-left join {summaries} s on s.resolved_key = b.rkey
+left join {summaries} s on s.subreddit = %(sub)s and s.resolved_key = b.rkey
 left join seen sn on sn.resolved_key = b.rkey and sn.comment_id = b.comment_id
 where not exists (select 1 from excluded_entities x
                   where x.subreddit = %(sub)s and x.entity_key = b.rkey)
@@ -439,14 +486,15 @@ having count(distinct b.comment_id) >= %(n)s
 """
 # Stands in for place_summaries in a dry run before summary_schema.sql is
 # applied: every place reads as never summarized.
-_NO_SUMMARIES = """(select null::text as resolved_key, null::text as summary, null::text as model,
+_NO_SUMMARIES = """(select null::text as subreddit, null::text as resolved_key,
+                            null::text as summary, null::text as model,
                      null::text as prompt_hash, 0 as attempts, null::text as error,
                      null::timestamptz as written_at, null::timestamptz as failed_at,
                      null::text[] as seen_comment_ids limit 0)"""
 
 
-def qualifying(conn, n, keys=None, since=None, have_tables=None):
-    """Every place that qualifies now, with where its summary stands.
+def qualifying(conn, n, keys=None, since=None, have_tables=None, sub=subreddits.HOME):
+    """Every place of r/`sub` that qualifies now, with where its summary stands.
     have_tables says whether the summary tables exist, when the caller knows."""
     if keys is not None and not keys:
         return []
@@ -457,16 +505,16 @@ def qualifying(conn, n, keys=None, since=None, have_tables=None):
     named = keys is not None
     sql = _QUALIFYING.format(keys="and b.rkey = any(%(keys)s)" if named else "",
                              base_keys=_TYPED_KEYS if named else "",
-                             seen_keys="where s.resolved_key = any(%(keys)s)" if named else "",
+                             seen_keys="and s.resolved_key = any(%(keys)s)" if named else "",
                              summaries="place_summaries" if have_tables else _NO_SUMMARIES)
     with conn.cursor() as cur:
-        cur.execute(sql, {"sub": subreddits.HOME, "since": since, "n": n, "keys": list(keys or [])})
+        cur.execute(sql, {"sub": sub, "since": since, "n": n, "keys": list(keys or [])})
         rows = cur.fetchall()
     conn.commit()
     return [Place(*r) for r in rows]
 
 
-def qualifying_ids(conn, keys, since):
+def qualifying_ids(conn, keys, since, sub=subreddits.HOME):
     """{key: sorted ids of the comments that qualify it now}, for the places
     about to be written or recorded empty: the seen set their row stores.
     Read only for those, not with every place's qualifying count, and read
@@ -478,7 +526,7 @@ def qualifying_ids(conn, keys, since):
     with conn.cursor() as cur:
         cur.execute("select coalesce(a.resolved_key, m.entity_key), array_agg(distinct m.comment_id)"
                     + _QUALIFIES + _TYPED_KEYS + " group by 1",
-                    {"sub": subreddits.HOME, "since": since, "keys": keys})
+                    {"sub": sub, "since": since, "keys": keys})
         found = dict(cur.fetchall())
     conn.commit()
     return {k: sorted(found.get(k) or []) for k in keys}
@@ -595,7 +643,8 @@ where m.entity_key in (select entity_key from entity_alias
 """
 
 
-def read_inputs(conn, keys, since, text=True, budget_tokens=Settings.max_input_tokens):
+def read_inputs(conn, keys, since, text=True, budget_tokens=Settings.max_input_tokens,
+                sub=subreddits.HOME):
     """{key: Input} for these places, chosen as the module docstring says.
     text=False reads only sizes, for dry runs over every place."""
     keys = list(keys)
@@ -603,7 +652,7 @@ def read_inputs(conn, keys, since, text=True, budget_tokens=Settings.max_input_t
         return {}
     cols = "t.title, c.body" if text else "null::text, null::text"
     with conn.cursor() as cur:
-        cur.execute(_INPUT_ROWS.format(text=cols), {"keys": keys, "sub": subreddits.HOME, "since": since})
+        cur.execute(_INPUT_ROWS.format(text=cols), {"keys": keys, "sub": sub, "since": since})
         rows = cur.fetchall()
     conn.commit()
     want = set(keys)
@@ -678,22 +727,22 @@ def render(inp, today):
     return "\n".join(out)
 
 
-def params(user, effort):
+def params(user, effort, sub=subreddits.HOME):
     return {"model": MODEL, "max_tokens": MAX_TOKENS,
-            "system": [{"type": "text", "text": SYSTEM_PROMPT}],
+            "system": [{"type": "text", "text": system_prompt(sub)}],
             "messages": [{"role": "user", "content": user}],
             "thinking": {"type": "adaptive"},
             "output_config": {"effort": effort,
                               "format": {"type": "json_schema", "schema": SCHEMA}}}
 
 
-def worst(user):
-    return AV.worst_case(SYSTEM_PROMPT, user, batch=False, max_tokens=MAX_TOKENS, model=MODEL)
+def worst(user, sub=subreddits.HOME):
+    return AV.worst_case(system_prompt(sub), user, batch=False, max_tokens=MAX_TOKENS, model=MODEL)
 
 
-def estimate_chars(chars, comments):
+def estimate_chars(chars, comments, sub=subreddits.HOME):
     """A typical call's cost for a dry run, from the input's size alone."""
-    tin = (len(SYSTEM_PROMPT) + chars + comments * COMMENT_OVERHEAD_CHARS) / CHARS_PER_TOKEN_EST
+    tin = (len(system_prompt(sub)) + chars + comments * COMMENT_OVERHEAD_CHARS) / CHARS_PER_TOKEN_EST
     p = AV._rates(tin, MODEL)
     return tin * p["in"] + EST_OUTPUT_TOKENS * p["out"]
 
@@ -716,26 +765,27 @@ def read_summary(message):
 
 
 # ---------------------------------------------------------------- writes
-def record_calls(conn, key, phash, rows):
-    """Paid calls into the ledger, [(outcome, cost, usage)], in a transaction
-    of their own, so nothing that fails afterwards can lose them."""
+def record_calls(conn, key, phash, rows, sub=subreddits.HOME):
+    """Paid calls for r/`sub`'s place into the ledger, [(outcome, cost, usage)],
+    in a transaction of their own, so nothing that fails afterwards can lose them."""
     if not rows:
         return
     with conn.cursor() as cur:
         for outcome, cost, usage in rows:
-            cur.execute("""insert into summary_calls (resolved_key, model, prompt_hash, outcome, cost_usd, usage)
-                           values (%s, %s, %s, %s, %s, %s)""",
-                        (key, MODEL, phash, outcome, round(cost, 8),
+            cur.execute("""insert into summary_calls (subreddit, resolved_key, model, prompt_hash, outcome,
+                                                      cost_usd, usage)
+                           values (%s, %s, %s, %s, %s, %s, %s)""",
+                        (sub, key, MODEL, phash, outcome, round(cost, 8),
                          json.dumps(usage) if usage is not None else None))
     conn.commit()
 
 
 _WRITE = """
-insert into place_summaries (resolved_key, summary, model, prompt_hash, mention_count, last_mention_at,
-                             seen_comment_ids, input_comments, input_chars, written_at, cost_usd, usage,
-                             attempts, error, failed_at, updated_at)
-values (%s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s, 0, null, null, now())
-on conflict (resolved_key) do update set
+insert into place_summaries (subreddit, resolved_key, summary, model, prompt_hash, mention_count,
+                             last_mention_at, seen_comment_ids, input_comments, input_chars, written_at,
+                             cost_usd, usage, attempts, error, failed_at, updated_at)
+values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s, 0, null, null, now())
+on conflict (subreddit, resolved_key) do update set
   summary = excluded.summary, model = excluded.model, prompt_hash = excluded.prompt_hash,
   mention_count = excluded.mention_count, last_mention_at = excluded.last_mention_at,
   seen_comment_ids = excluded.seen_comment_ids,
@@ -744,45 +794,46 @@ on conflict (resolved_key) do update set
   attempts = 0, error = null, failed_at = null, updated_at = now()"""
 
 
-def store(conn, place, inp, summary, usage, cost, phash, seen):
+def store(conn, place, inp, summary, usage, cost, phash, seen, sub=subreddits.HOME):
     """Write a summary (its call is already in the ledger), with seen, every
     comment that qualified for the place when it was read, as the ones it
     has seen."""
     with conn.cursor() as cur:
-        cur.execute(_WRITE, (place.key, summary, MODEL, phash, place.n, place.newest, list(seen),
+        cur.execute(_WRITE, (sub, place.key, summary, MODEL, phash, place.n, place.newest, list(seen),
                              len(inp.comments) + len(inp.reports), inp.chars, round(cost, 8), json.dumps(usage)))
     conn.commit()
 
 
-def record_empty(conn, place, phash, seen):
+def record_empty(conn, place, phash, seen, sub=subreddits.HOME):
     """A place that qualifies but has nothing to send: no summary (any old one
     has lost its evidence), its comments marked seen, so it waits for new
     discussion like any other place instead of heading every pass."""
     with conn.cursor() as cur:
-        cur.execute(_WRITE, (place.key, None, MODEL, phash, place.n, place.newest, list(seen),
+        cur.execute(_WRITE, (sub, place.key, None, MODEL, phash, place.n, place.newest, list(seen),
                              0, 0, None, None))
     conn.commit()
 
 
-def record_attempt(conn, key, error):
+def record_attempt(conn, key, error, sub=subreddits.HOME):
     """A failed attempt on a place, whose last good summary, if any, stays.
     Returns its attempts so far."""
     with conn.cursor() as cur:
         cur.execute("""
-            insert into place_summaries (resolved_key, attempts, error, failed_at, updated_at)
-            values (%s, 1, %s, now(), now())
-            on conflict (resolved_key) do update set
+            insert into place_summaries (subreddit, resolved_key, attempts, error, failed_at, updated_at)
+            values (%s, %s, 1, %s, now(), now())
+            on conflict (subreddit, resolved_key) do update set
               attempts = place_summaries.attempts + 1, error = excluded.error,
               failed_at = now(), updated_at = now()
-            returning attempts""", (key, str(error)[:500]))
+            returning attempts""", (sub, key, str(error)[:500]))
         attempts = cur.fetchone()[0]
     conn.commit()
     return attempts
 
 
-def retry_errors(conn):
+def retry_errors(conn, sub=subreddits.HOME):
     with conn.cursor() as cur:
-        cur.execute("update place_summaries set attempts = 0 where attempts >= %s", (MAX_ATTEMPTS,))
+        cur.execute("update place_summaries set attempts = 0 where subreddit = %s and attempts >= %s",
+                    (sub, MAX_ATTEMPTS))
         n = cur.rowcount
     conn.commit()
     return n
@@ -792,6 +843,7 @@ def retry_errors(conn):
 class Stats:
     def __init__(self):
         self.written = self.failed = self.parked = self.empty = self.refused = self.late = 0
+        self.sent = 0             # places with something to send that were sent (run's limit counts these)
         self.skipped = False      # the step was not due yet (SUMMARY_EVERY_HOURS)
         self.stop = None          # why the pass ended early, if it did
         self.results = []         # (request, summary or None, cost, error) for --review
@@ -815,6 +867,7 @@ class Request:
     # worker raises after charging them.
     unseen: list = dataclasses.field(default_factory=list)
     seen: list = dataclasses.field(default_factory=list)    # the comment ids its row will store
+    sub: str = subreddits.HOME                               # the place's city: its prompt's
 
 
 @dataclasses.dataclass
@@ -923,7 +976,7 @@ def _work(cl, budget, req, effort, stop, attempts, sleep, log, deadline, streak=
             raise DeadlineReached(f"a {seconds:.0f}s wait would run past the deadline")
         (sleep or time.sleep)(seconds)
     try:
-        msg = AV.call(cl, params(req.user, effort), attempts=attempts, sleep=wait, log=log, retry_ok=again)
+        msg = AV.call(cl, params(req.user, effort, req.sub), attempts=attempts, sleep=wait, log=log, retry_ok=again)
     except DeadlineReached:
         if held[0]:
             budget.settle(w, 0.0)       # held for a retry that was never sent
@@ -965,7 +1018,7 @@ def _ledger_rows(req, res, outcome):
     return rows
 
 
-def _flush(pending, connect, phash, log):
+def _flush(pending, connect, phash, log, sub=subreddits.HOME):
     """As a failed pass unwinds: everything paid for and not yet in the
     ledger goes in now, on a fresh connection (the pass's own may be what
     failed), so the ceiling never under-counts: the 'unseen' worst cases a
@@ -985,7 +1038,7 @@ def _flush(pending, connect, phash, log):
         c = connect()
         try:
             for key, r in rows:
-                record_calls(c, key, phash, r)
+                record_calls(c, key, phash, r, sub)
         finally:
             c.close()
         log(f"  summaries: recorded ${total:.6f} of calls the failed pass had not recorded")
@@ -1011,7 +1064,7 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
     every other failure charges its place one attempt when it happens."""
     settings = settings or Settings()
     stats = Stats()
-    phash = settings.prompt_hash
+    phash, sub = settings.prompt_hash, settings.subreddit
     if now is None or since is None:
         now, since = _since(conn)
     stop = threading.Event()
@@ -1021,7 +1074,7 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=max(1, workers))
 
     def failed(req, error, cost=0.0):
-        n = record_attempt(conn, req.place.key, error)
+        n = record_attempt(conn, req.place.key, error, sub)
         stats.failed += 1
         stats.parked += n >= MAX_ATTEMPTS
         log(f"  {req.place.key}: {error}" + (" -- parked" if n >= MAX_ATTEMPTS else ""))
@@ -1038,20 +1091,22 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
             # The seen ids before the inputs: a comment that lands between
             # the two reads is then sent but not marked seen (it reads as new
             # next time), never marked seen without having been sent.
-            seen = qualifying_ids(conn, [p.key for p in chunk], since)
-            inputs = read_inputs(conn, [p.key for p in chunk], since, budget_tokens=settings.max_input_tokens)
+            seen = qualifying_ids(conn, [p.key for p in chunk], since, sub)
+            inputs = read_inputs(conn, [p.key for p in chunk], since, budget_tokens=settings.max_input_tokens,
+                                 sub=sub)
             reqs = []
             for p in chunk:
                 if limit is not None and sent + len(reqs) >= limit:
                     break
                 inp = inputs[p.key]
                 if not inp.comments and not inp.reports:
-                    record_empty(conn, p, phash, seen[p.key])
+                    record_empty(conn, p, phash, seen[p.key], sub)
                     stats.empty += 1
                     continue
                 user = render(inp, now)
-                reqs.append(Request(p, inp, user, worst(user), seen=seen[p.key]))
+                reqs.append(Request(p, inp, user, worst(user, sub), seen=seen[p.key], sub=sub))
             sent += len(reqs)
+            stats.sent = sent
             futures = {pool.submit(_work, cl, budget, r, settings.effort, stop, attempts, sleep, log, deadline,
                                    streak): r
                        for r in reqs}
@@ -1065,7 +1120,8 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
                         summary = read_summary(res.message)
                     except AV.ItemError as e:
                         err = e
-                record_calls(conn, req.place.key, phash, _ledger_rows(req, res, err.code if err else "written"))
+                record_calls(conn, req.place.key, phash, _ledger_rows(req, res, err.code if err else "written"),
+                             sub)
                 del pending[fut]
                 if res.status == "capped":
                     stats.refused += 1
@@ -1082,7 +1138,8 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
                 elif res.status == "answered" and err is not None:
                     failed(req, err, res.cost)
                 elif res.status == "answered":
-                    store(conn, req.place, req.inp, summary, AV.usage_of(res.message), res.cost, phash, req.seen)
+                    store(conn, req.place, req.inp, summary, AV.usage_of(res.message), res.cost, phash, req.seen,
+                          sub)
                     stats.written += 1
                     if keep:
                         stats.results.append((req, summary, res.cost, None))
@@ -1108,7 +1165,7 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
     except BaseException:
         stop.set()
         pool.shutdown(wait=True, cancel_futures=True)
-        _flush(pending, connect or db.connect, phash, log)
+        _flush(pending, connect or db.connect, phash, log, sub)
         raise
     pool.shutdown(wait=True)
     if halt is not None and account_wide(halt):
@@ -1122,8 +1179,11 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
 def poll_once(conn, limit, settings=None, workers=4, connect=None, cl=None, log=print,
               deadline=None, sleep=None, max_usd=None, ceiling_usd=None):
     """One chores-pass step: if SUMMARY_EVERY_HOURS have passed since the last
-    run, write what is due, up to `limit` places with something to send,
-    under the run's cap and the lifetime ceiling. Never raises for a missing
+    run, write what is due in each of settings.cities in turn, up to
+    `limit` places with something to send in all, under the one run's cap
+    and the lifetime ceiling. A city that ends the run early (the cap, the
+    ceiling, the API refusing, the deadline) ends it for the cities after it
+    too; they come first next time only if the earlier ones have nothing due. Never raises for a missing
     key, missing tables or the legacy read mode, and raises nothing that is
     not an Exception; a spend tripwire is raised (EV.Tripped) so the poller
     can switch summaries off. settings are the ones checked at boot."""
@@ -1147,22 +1207,36 @@ def poll_once(conn, limit, settings=None, workers=4, connect=None, cl=None, log=
             return stats
         mark_run(conn)
         now, since = _since(conn)
-        due_now = due(qualifying(conn, settings.n, since=since, have_tables=True), MODEL, settings.prompt_hash,
-                      settings.x, share=settings.share, now=now, park_hours=settings.park_hours)
-        stats = Stats()
-        if due_now:
-            budget = make_budget(max_usd if max_usd is not None else settings.run_usd,
-                                 ceiling_usd if ceiling_usd is not None else settings.ceiling_usd, connect)
-            try:
-                cl = cl or client(api_key(), timeout=TIMEOUT)
-                stats = run(conn, cl, budget, due_now, settings, workers=workers, attempts=ATTEMPTS,
-                            deadline=deadline if deadline is not None else time.monotonic() + DEADLINE,
-                            sleep=sleep, log=log, now=now, since=since, connect=connect, limit=limit)
-            finally:
+        if deadline is None:
+            deadline = time.monotonic() + DEADLINE
+        total, budget = Stats(), None
+        try:
+            for sub in settings.cities:
+                city = settings.for_city(sub)
+                due_now = due(qualifying(conn, city.n, since=since, have_tables=True, sub=sub), MODEL,
+                              city.prompt_hash, city.x, share=city.share, now=now, park_hours=city.park_hours)
+                if not due_now:
+                    continue
+                if budget is None:
+                    budget = make_budget(max_usd if max_usd is not None else settings.run_usd,
+                                         ceiling_usd if ceiling_usd is not None else settings.ceiling_usd,
+                                         connect)
+                    cl = cl or client(api_key(), timeout=TIMEOUT)
+                before = budget.spent
+                stats = run(conn, cl, budget, due_now, city, workers=workers, attempts=ATTEMPTS,
+                            deadline=deadline, sleep=sleep, log=log, now=now, since=since, connect=connect,
+                            limit=None if limit is None else limit - total.sent)
+                for name in ("written", "failed", "parked", "empty", "refused", "late", "sent"):
+                    setattr(total, name, getattr(total, name) + getattr(stats, name))
+                total.stop = stats.stop
+                if stats.written or stats.failed or stats.empty or stats.stop:
+                    log(f"  summaries r/{sub}: {stats.line()}, ${budget.spent - before:.4f} ({len(due_now)} due)")
+                if stats.stop or (limit is not None and total.sent >= limit):
+                    break
+        finally:
+            if budget is not None:
                 budget.ceiling.close()
-            if stats.written or stats.failed or stats.empty or stats.stop:
-                log(f"  summaries: {stats.line(budget)} ({len(due_now)} due)")
-        return stats
+        return total
     finally:
         try:
             unlock(conn)
@@ -1180,7 +1254,8 @@ def status(conn, settings, log=print):
                               count(*) filter (where attempts > 0 and attempts < %s),
                               count(*) filter (where attempts >= %s),
                               max(written_at)
-                       from place_summaries""", (phash, MODEL, MAX_ATTEMPTS, MAX_ATTEMPTS))
+                       from place_summaries where subreddit = %s""",
+                    (phash, MODEL, MAX_ATTEMPTS, MAX_ATTEMPTS, settings.subreddit))
         written, current, empty, failing, parked, last = cur.fetchone()
         cur.execute("""select coalesce(sum(cost_usd), 0), count(*),
                               coalesce(sum(cost_usd) filter (where called_at > now() - interval '1 day'), 0),
@@ -1190,13 +1265,15 @@ def status(conn, settings, log=print):
         cur.execute("""select outcome, count(*) from summary_calls where outcome <> 'written'
                        group by 1 order by 2 desc""")
         outcomes = cur.fetchall()
-        cur.execute("""select resolved_key, attempts, error from place_summaries where attempts > 0
-                       order by attempts desc, failed_at desc limit 10""")
+        cur.execute("""select resolved_key, attempts, error from place_summaries
+                       where subreddit = %s and attempts > 0
+                       order by attempts desc, failed_at desc limit 10""", (settings.subreddit,))
         errors = cur.fetchall()
         cur.execute("select max(last_pass_at) from summary_state")
         last_pass = cur.fetchone()[0]
     conn.commit()
-    log(f"model {MODEL}, prompt {phash}, effort {settings.effort}")
+    log(f"r/{settings.subreddit}: model {MODEL}, prompt {phash}, effort {settings.effort} "
+        "(spend below is every city's)")
     log(f"summaries: {written:,} written ({current:,} current), {empty:,} with nothing to send, "
         f"{failing} failing, {parked} parked; last written {last}")
     log(f"poller step: last ran {last_pass}, every {settings.every_hours:g}h")
@@ -1220,7 +1297,7 @@ def dry_run(conn, settings, keys=None, limit=None, force=False, print_input=Fals
     phash = settings.prompt_hash
     if EV.read_version(conn) != "v6":
         log("WARNING: the board reads legacy mentions; nothing is written until it reads v6")
-    places = qualifying(conn, settings.n, keys=keys, since=since)
+    places = qualifying(conn, settings.n, keys=keys, since=since, sub=settings.subreddit)
     reasons = collections.Counter(due_reason(p, MODEL, phash, settings.x, force, settings.share, now,
                                              settings.park_hours) or "current"
                                   for p in places)
@@ -1241,7 +1318,7 @@ def dry_run(conn, settings, keys=None, limit=None, force=False, print_input=Fals
             if n_sent >= limit:
                 break
             chunk = todo[start:start + DRY_PAGE]
-            got = read_inputs(conn, [p.key for p, _ in chunk], since, text=print_input,
+            got = read_inputs(conn, [p.key for p, _ in chunk], since, text=print_input, sub=settings.subreddit,
                               budget_tokens=settings.max_input_tokens)
             for p, r in chunk:
                 if n_sent >= limit:
@@ -1251,7 +1328,7 @@ def dry_run(conn, settings, keys=None, limit=None, force=False, print_input=Fals
                 n_sent += bool(got[p.key].comments or got[p.key].reports)
         todo = kept
     else:
-        inputs = read_inputs(conn, [p.key for p, _ in todo], since, text=print_input,
+        inputs = read_inputs(conn, [p.key for p, _ in todo], since, text=print_input, sub=settings.subreddit,
                              budget_tokens=settings.max_input_tokens)
     sizes = [(p, inputs[p.key]) for p, _ in todo]
     sendable = [(p, i) for p, i in sizes if i.comments or i.reports]
@@ -1269,12 +1346,13 @@ def dry_run(conn, settings, keys=None, limit=None, force=False, print_input=Fals
             f"{sum(1 for _, i in sendable if i.dropped):,}")
         line = AV.PRICE_TABLE[MODEL]["long_above"]
         over = [p.key for p, i in sendable
-                if (len(SYSTEM_PROMPT) + i.chars + (len(i.comments) + len(i.reports)) * COMMENT_OVERHEAD_CHARS)
+                if (len(system_prompt(settings.subreddit)) + i.chars + (len(i.comments) + len(i.reports)) * COMMENT_OVERHEAD_CHARS)
                 / CHARS_PER_TOKEN_EST > line]
         if over:
             log(f"  over the {line:,}-token line, billed at the long-prompt rate (estimated): "
                 f"{len(over)} ({', '.join(over[:5])}{', ...' if len(over) > 5 else ''})")
-        est = sum(estimate_chars(i.chars, len(i.comments) + len(i.reports)) for _, i in sendable)
+        est = sum(estimate_chars(i.chars, len(i.comments) + len(i.reports), settings.subreddit)
+                  for _, i in sendable)
         log(f"  estimated cost ${est:.2f} (at {CHARS_PER_TOKEN_EST} chars/token in, "
             f"~{EST_OUTPUT_TOKENS} tokens out a call; Haiku 5.5 ${AV.PRICE_TABLE[MODEL]['base']['in'] * 1e6:.2f}"
             f"/${AV.PRICE_TABLE[MODEL]['base']['out'] * 1e6:.2f} per MTok)")
@@ -1351,7 +1429,7 @@ def write_review(path, results, header, log=print):
 
 def _sample_or_keys(conn, args, settings, since):
     keys = args.keys
-    places = qualifying(conn, settings.n, keys=keys, since=since)
+    places = qualifying(conn, settings.n, keys=keys, since=since, sub=settings.subreddit)
     if args.sample:
         chosen = pick_sample(places, args.sample)
     else:
@@ -1369,19 +1447,22 @@ def review_only(conn, args, settings, log=print):
     comments have come in since). Reads only."""
     now, since = _since(conn)
     chosen = _sample_or_keys(conn, args, settings, since)
-    inputs = read_inputs(conn, [p.key for p, _ in chosen], since, budget_tokens=settings.max_input_tokens)
+    inputs = read_inputs(conn, [p.key for p, _ in chosen], since, budget_tokens=settings.max_input_tokens,
+                         sub=settings.subreddit)
     stored = {}
     if tables_exist(conn):
         with conn.cursor() as cur:
             cur.execute("""select resolved_key, summary, cost_usd, error from place_summaries
-                           where resolved_key = any(%s)""", ([p.key for p, _ in chosen],))
+                           where subreddit = %s and resolved_key = any(%s)""",
+                        (settings.subreddit, [p.key for p, _ in chosen]))
             stored = {r[0]: r[1:] for r in cur.fetchall()}
         conn.commit()
     results = []
     for p, why in chosen:
         inp = inputs[p.key]
         s, c, err = stored.get(p.key, (None, None, None))
-        results.append((Request(p, inp, render(inp, now), 0.0), why, s, float(c or 0), err))
+        results.append((Request(p, inp, render(inp, now), 0.0, sub=settings.subreddit), why, s,
+                        float(c or 0), err))
     write_review(args.review, results,
                  [f"From stored summaries, inputs as chosen at {now:%Y-%m-%d %H:%M} UTC; "
                   f"model {MODEL}, prompt {settings.prompt_hash}."], log)
@@ -1399,6 +1480,9 @@ def main(argv=None):
     ap.add_argument("--dry-run", action="store_true",
                     help="what qualifies and is due, input sizes and estimated cost; read-only")
     ap.add_argument("--print-input", action="store_true", help="with --dry-run: print each due place's message")
+    ap.add_argument("--subreddit", default=subreddits.HOME,
+                    help="the city to summarize, one subreddit (default r/FoodNYC); a key names a "
+                         "place only within it")
     ap.add_argument("--keys", type=_parse_keys, help="only these resolved keys, comma-separated")
     ap.add_argument("--sample", type=int, help="the quality check: a mixed sample of this many places")
     ap.add_argument("--review", help="write each summary beside its input to this Markdown file")
@@ -1415,8 +1499,12 @@ def main(argv=None):
 
     try:
         settings = load_settings()
+        named = parse_subreddits(args.subreddit)
     except SettingError as e:
         raise SystemExit(str(e))
+    if len(named) != 1:
+        raise SystemExit("--subreddit takes one subreddit: a run reads and writes one city")
+    settings = settings.for_city(named[0])
     if args.review_only and not args.review:
         raise SystemExit("--review-only needs --review FILE")
     if (args.review or args.review_only) and not (args.sample or args.keys):
@@ -1461,7 +1549,7 @@ def main(argv=None):
         raise SystemExit("another summary run (or the poller's step) holds the lock; try again shortly")
     try:
         if args.retry_errors:
-            print(f"unparked {retry_errors(conn)} place(s)")
+            print(f"unparked {retry_errors(conn, settings.subreddit)} place(s)")
         now, since = _since(conn)
         if args.sample or args.keys:
             chosen = _sample_or_keys(conn, args, settings, since)
@@ -1471,9 +1559,9 @@ def main(argv=None):
                        settings.park_hours)
         else:
             why = {}
-            todo = due(qualifying(conn, settings.n, since=since, have_tables=True), MODEL, phash,
-                       settings.x, share=settings.share, now=now, park_hours=settings.park_hours)
-        print(f"{len(todo):,} place(s) due, {args.limit or 'no'} limit, ${max_usd:.2f} cap, ${ceiling:.2f} ceiling, "
+            todo = due(qualifying(conn, settings.n, since=since, have_tables=True, sub=settings.subreddit),
+                       MODEL, phash, settings.x, share=settings.share, now=now, park_hours=settings.park_hours)
+        print(f"r/{settings.subreddit}: {len(todo):,} place(s) due, {args.limit or 'no'} limit, ${max_usd:.2f} cap, ${ceiling:.2f} ceiling, "
               f"{MODEL} at effort {settings.effort}, prompt {phash}")
         budget = make_budget(max_usd, ceiling)
         print(f"  recorded summary spend so far: ${budget.ceiling.start:.4f}")

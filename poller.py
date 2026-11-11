@@ -669,7 +669,8 @@ def summarize_boot(args, log=print):
         log(f"summaries OFF: {e}")
         return False
     args.summarize_settings = s
-    log(f"summaries on: {summarize.MODEL} at effort {s.effort}, prompt {s.prompt_hash}, n={s.n}, "
+    log(f"summaries on for {', '.join('r/' + c for c in s.cities)}: {summarize.MODEL} at effort {s.effort}, "
+        f"prompt {', '.join(s.for_city(c).prompt_hash for c in s.cities)}, n={s.n}, "
         f"rewrite after max({s.x}, {s.share:g} x count) new comments, every {s.every_hours:g}h, "
         f"<= {args.summarize_limit} places and ${s.run_usd:.2f} a run, ${s.ceiling_usd:.2f} ceiling")
     return True

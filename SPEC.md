@@ -653,14 +653,21 @@ A dims change past 1,024 also needs a new column type, since the columns are
 GitHub issue #2 and its Decisions (2026-11-03) comment. Built in
 `summarize.py` and `summary_schema.sql`; not shown anywhere yet.
 
-A summary is a **cache**: `place_summaries`, one row per
-`entity_alias.resolved_key`, rebuildable from the comments; every paid call
-is in `summary_calls`, which the caps are checked against.
+A summary is a **cache**: `place_summaries`, one row per place
+(`subreddit`, `entity_alias.resolved_key`), rebuildable from the comments;
+every paid call is in `summary_calls`, which the caps are checked against.
+
+- **One city at a time.** A run reads, writes and prompts for one
+  subreddit: `--subreddit` by hand (r/FoodNYC by default), and in the poller
+  each of `SUMMARY_SUBREDDITS` in turn (r/FoodNYC alone when unset) under
+  the one cap, ceiling and limit. The instructions name the subreddit and
+  its city, so each city's summaries have a prompt hash of their own;
+  r/FoodNYC's is unchanged. Only New York's summaries have been reviewed.
 
 - **Who.** At least `n` = 10 comments in the last 365 days mention the place
   (`SUMMARY_MIN_MENTIONS`), counted on the mentions the board counts:
   whatever `live_mentions` holds in v6 mode, comment-mode fallbacks for a
-  failed thread chunk included. r/FoodNYC, not deleted later, not
+  failed thread chunk included. The run's subreddit, not deleted later, not
   AutoModerator, not in `excluded_entities`. Every mention counts, opinion
   or not; a comment counts once. About 2,750 places on Nov 3, 2026. Nothing
   is written while the board reads legacy mentions.
