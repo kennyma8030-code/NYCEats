@@ -40,6 +40,7 @@ import time
 import traceback
 
 import arctic
+import city_restaurants
 import db
 import ingest
 import restaurants
@@ -833,6 +834,11 @@ def main():
     names = args.subreddit or subreddits.parse(os.environ.get("POLL_SUBREDDITS"),
                                                subreddits.SUBREDDITS)
     print(f"polling {', '.join('r/' + n for n in names)}")
+
+    # The same for every other polled city that has a source and no list
+    # yet (city_restaurants.py). A no-op once each is loaded.
+    for sub, rows in city_restaurants.ensure_loaded(conn, names).items():
+        print(f"loaded {rows:,} restaurants for r/{sub}")
 
     # Its own thread, like the backfill below: the fallback should keep
     # collecting whatever the main path is busy with. Every polled city's

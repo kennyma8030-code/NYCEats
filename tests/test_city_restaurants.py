@@ -1,9 +1,12 @@
-"""The other cities' restaurant lists: parsing and grouping. No database, no network."""
+"""The other cities' restaurant lists: parsing, grouping, and the load at
+boot (which needs the throwaway database, tests/pgtest.py). No network."""
 
 import os
 import unittest
+from unittest import mock
 
 from fakes import ROOT
+import pgtest
 
 import city_restaurants as C
 import restaurants
@@ -49,6 +52,38 @@ class Rows(unittest.TestCase):
                          ("chicagofood", "Joe's Pizza", "Restaurant", ["Chicago"], C.CHAIN_LOCATIONS, True, "2026-01-09", "test"))
         self.assertEqual(rows["solo cafe"][3:9], (None, ["Chicago"], 1, rows["solo cafe"][6], False, "2025-05-05"))
         self.assertIsNone(rows["joes pizza 2"][8])                    # no inspection date is no date, not ""
+
+
+class EnsureLoaded(pgtest.PgCase):
+    """The poller's boot loads a city's list once, and never fetches for a
+    city that has one. The sources are always faked."""
+
+    def test_only_cities_with_a_source_and_no_rows_are_loaded(self):
+        calls = []
+
+        def source(sub, fail=False):
+            def fetch():
+                calls.append(sub)
+                if fail:
+                    raise OSError("source is down")
+                return [C._row(f"{sub} Diner", "Somewhere", "1 Main St", "00000", "Restaurant", "2026-01-01")]
+            return ("test source", fetch)
+
+        fake = {"chicagofood": source("chicagofood"), "austinfood": source("austinfood", fail=True),
+                "FoodLosAngeles": source("FoodLosAngeles")}
+        self.q("""insert into city_restaurants (subreddit, name, name_key, source)
+                  values ('FoodLosAngeles', 'Already Here', 'already here', 'earlier') returning 1""")
+        lines = []
+        names = ["FoodNYC", "FoodLosAngeles", "FoodSanDiego", "austinfood", "chicagofood"]
+        with mock.patch.object(C, "SOURCES", fake):
+            self.assertEqual(C.ensure_loaded(self.conn, names, log=lines.append), {"chicagofood": 1})
+            # Los Angeles has rows, San Diego and New York have no source here, Austin's is down.
+            self.assertEqual(calls, ["austinfood", "chicagofood"])
+            self.assertTrue(any("r/austinfood: could not load" in line for line in lines))
+            self.assertEqual(C.ensure_loaded(self.conn, ["chicagofood", "FoodLosAngeles"], log=lines.append), {})
+            self.assertEqual(calls, ["austinfood", "chicagofood"])       # nothing fetched again
+        self.assertEqual(sorted(self.q("select subreddit, name from city_restaurants")),
+                         [("FoodLosAngeles", "Already Here"), ("chicagofood", "chicagofood Diner")])
 
 
 if __name__ == "__main__":
