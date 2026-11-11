@@ -825,14 +825,6 @@ def main():
     args.refresh_every = REFRESH_EVERY
     args.refreshed_at = time.time() if rebuilt == list(refresh.SQL_FILES) else 0.0
 
-    # Its own thread, like the backfill below: the fallback should keep
-    # collecting whatever the main path is busy with. r/FoodNYC only -- it is
-    # insurance for the board, and seven feeds every five minutes is the kind
-    # of traffic Reddit answers with a 429.
-    if not args.no_rss:
-        rss.start_background()
-        print(f"rss fallback polling every {rss.INTERVAL // 60} min")
-
     # Which cities are polled, and which are swept. Polling a city stores
     # what it says from now on, ~2,500 comments a day for the six beyond
     # r/FoodNYC (about 2.3 MB a day, under 1 GB a year). Sweeping its history
@@ -841,6 +833,13 @@ def main():
     names = args.subreddit or subreddits.parse(os.environ.get("POLL_SUBREDDITS"),
                                                subreddits.SUBREDDITS)
     print(f"polling {', '.join('r/' + n for n in names)}")
+
+    # Its own thread, like the backfill below: the fallback should keep
+    # collecting whatever the main path is busy with. Every polled city's
+    # feed, one request at a time spread across the interval (rss.run_forever).
+    if not args.no_rss:
+        rss.start_background(names=names)
+        print(f"rss fallback reading {len(names)} feed(s), each every {rss.INTERVAL // 60} min")
     orphans = {}
 
     if not args.no_backfill:

@@ -14,7 +14,8 @@ create table if not exists rss_threads (
   id         text primary key,         -- t3_1wkw8ju
   title      text,
   permalink  text,
-  first_seen timestamptz not null default now()
+  first_seen timestamptz not null default now(),
+  subreddit  text not null default 'FoodNYC'
 );
 
 create table if not exists rss_comments (
@@ -24,8 +25,27 @@ create table if not exists rss_comments (
   body        text not null,
   created_utc timestamptz not null,
   permalink   text,
-  first_seen  timestamptz not null default now()
+  first_seen  timestamptz not null default now(),
+  subreddit   text not null default 'FoodNYC'
 );
+
+-- Whose feed a row came from. Tables from when only r/FoodNYC's was read
+-- hold only its rows, which is what the default says (it must match
+-- subreddits.HOME). A constant default only touches the catalog, and the
+-- catalog is checked first, so a boot after the first takes no lock.
+do $$
+begin
+  if not exists (select 1 from information_schema.columns
+                 where table_schema = current_schema() and table_name = 'rss_threads'
+                   and column_name = 'subreddit') then
+    alter table rss_threads add column subreddit text not null default 'FoodNYC';
+  end if;
+  if not exists (select 1 from information_schema.columns
+                 where table_schema = current_schema() and table_name = 'rss_comments'
+                   and column_name = 'subreddit') then
+    alter table rss_comments add column subreddit text not null default 'FoodNYC';
+  end if;
+end $$;
 
 -- "what did the feed see, newest first" is the only query this is for.
 create index if not exists rss_comments_created_idx

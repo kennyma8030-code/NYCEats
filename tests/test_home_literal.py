@@ -55,7 +55,7 @@ class HomeLiteral(unittest.TestCase):
 
     def test_rss_feed_is_home(self):
         import rss
-        self.assertIs(rss.SUBREDDIT, subreddits.HOME)
+        self.assertEqual(rss.DEFAULT, (subreddits.HOME,))       # unless told which cities
         src = read("rss.py")
         self.assertNotIn("'FoodNYC'", src)
         self.assertNotIn('"FoodNYC"', src)

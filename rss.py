@@ -1,4 +1,4 @@
-"""A second, independent record of r/FoodNYC comments, from Reddit's own feed.
+"""A second, independent record of each polled city's comments, from Reddit's own feed.
 
 The whole pipeline rests on Arctic Shift. If it goes down, or rate-limits us,
 or changes its API, comments stop arriving and there is no way to recover the
@@ -10,8 +10,9 @@ newest 25 comments and nothing else: no score, no parent, no depth. That is
 too thin to score or extract from, and this does not try. It writes to
 rss_threads / rss_comments, and nothing reads those tables. It is insurance.
 
-    python rss.py            -> poll every 5 minutes
-    python rss.py --once     -> one cycle
+    python rss.py                          -> r/FoodNYC's feed every 5 minutes
+    python rss.py --subreddit all          -> every collected city's, each every 5 minutes
+    python rss.py --once                   -> each chosen feed once
 
 Inside poller.py it runs as a daemon thread, so the fallback keeps collecting
 through a long backfill -- which is exactly when the main path is not polling.
@@ -32,9 +33,12 @@ from datetime import datetime
 import db
 import subreddits
 
-# The board's city only: seven feeds every five minutes is the kind of
-# traffic Reddit answers with a 429.
-SUBREDDIT = subreddits.HOME
+# Which feeds are read when nobody says: r/FoodNYC's alone. The poller
+# passes the cities it polls. Each feed is still read once every INTERVAL,
+# and the feeds are spread evenly across it (run_forever), so six cities are
+# one request every 50 seconds, never six at once: a burst is what Reddit
+# answers with a 429.
+DEFAULT = (subreddits.HOME,)
 INTERVAL = 5 * 60
 LIMIT = 25              # the feed's own page size; asking for more changes nothing
 UA = {"User-Agent": "foodnyc-tracker/0.1 (personal project)"}
@@ -48,11 +52,11 @@ _TAG = re.compile(r"<[^>]+>")
 _COMMENT = re.compile(r"<!--.*?-->", re.S)
 
 
-def feed_url(subreddit=SUBREDDIT, limit=LIMIT):
+def feed_url(subreddit, limit=LIMIT):
     return f"https://www.reddit.com/r/{subreddit}/comments/.rss?limit={limit}"
 
 
-def fetch(subreddit=SUBREDDIT, limit=LIMIT, attempt=0):
+def fetch(subreddit, limit=LIMIT, attempt=0):
     req = urllib.request.Request(feed_url(subreddit, limit), headers=UA)
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
@@ -86,8 +90,9 @@ def html_to_text(raw):
     return "\n".join(line.strip() for line in s.split("\n")).strip()
 
 
-def parse(xml_text):
-    """Atom entries -> comment dicts. Anything malformed is skipped, not guessed."""
+def parse(xml_text, subreddit):
+    """One subreddit's Atom entries -> comment dicts. Anything malformed is
+    skipped, not guessed."""
     root = ET.fromstring(xml_text)
     out, seen = [], set()
     for e in root.findall("a:entry", NS):
@@ -125,7 +130,8 @@ def parse(xml_text):
             "id": cid,
             "thread_id": "t3_" + post_id,
             "thread_title": thread_title,
-            "thread_permalink": f"https://www.reddit.com/r/{SUBREDDIT}/comments/{post_id}/{slug}/",
+            "subreddit": subreddit,
+            "thread_permalink": f"https://www.reddit.com/r/{subreddit}/comments/{post_id}/{slug}/",
             "author": author or None,
             "body": body,
             "created_utc": datetime.fromisoformat(stamp),
@@ -134,22 +140,27 @@ def parse(xml_text):
     return out
 
 
-def poll_once(conn):
-    """One fetch, deduped on the way in. Returns (new threads, new comments)."""
-    entries = parse(fetch())
+def poll_once(conn, subreddit=subreddits.HOME):
+    """One fetch of one subreddit's feed, deduped on the way in. Returns
+    (new threads, new comments)."""
+    entries = parse(fetch(subreddit), subreddit)
     if not entries:
         return 0, 0
     # Threads first: rss_comments.thread_id has a foreign key. A dict keyed on
     # id collapses the 25 comments down to the handful of posts they sit under.
-    threads = {e["thread_id"]: (e["thread_id"], e["thread_title"], e["thread_permalink"])
+    threads = {e["thread_id"]: (e["thread_id"], e["thread_title"], e["thread_permalink"], subreddit)
                for e in entries}
     t = db.insert_rss_threads(conn, list(threads.values()))
     c = db.insert_rss_comments(conn, entries)
     return t, c
 
 
-def run_forever(interval=INTERVAL, verbose=False):
+def run_forever(interval=INTERVAL, verbose=False, names=DEFAULT):
     """Own connection, own clock, own failures. Never raises to the caller.
+
+    One feed a turn, round the subreddits in `names`, a turn every
+    interval / len(names): each feed is read once an interval, and no two
+    requests go out together. A feed that fails costs its own turn only.
 
     psycopg2 connections are not thread-safe, so this opens its own rather than
     sharing the poller's. A cycle that fails is logged and forgotten; the feed
@@ -159,27 +170,30 @@ def run_forever(interval=INTERVAL, verbose=False):
     the cycle's try, through db.recover, which never raises -- a reconnect
     attempt that raised out of the except is what used to end this thread.
     """
-    conn, ready = None, False
+    names = list(names) or list(DEFAULT)
+    conn, ready, turn = None, False, 0
     while True:
         started = time.time()
+        subreddit = names[turn % len(names)]
+        turn += 1
         try:
             if conn is None or conn.closed:
                 conn = db.connect()
             if not ready:
                 db.init(conn, SCHEMA)
                 ready = True
-            t, c = poll_once(conn)
+            t, c = poll_once(conn, subreddit)
             if c or verbose:
-                print(f"[rss] +{c} comment(s), +{t} thread(s)", flush=True)
+                print(f"[rss] r/{subreddit} +{c} comment(s), +{t} thread(s)", flush=True)
         except Exception as e:
-            print(f"[rss] {type(e).__name__}: {e}", flush=True)
+            print(f"[rss] r/{subreddit} {type(e).__name__}: {e}", flush=True)
             conn = db.recover(conn, log=lambda msg: print(f"[rss] {msg.strip()}", flush=True))
-        time.sleep(max(0, interval - (time.time() - started)))
+        time.sleep(max(0, interval / len(names) - (time.time() - started)))
 
 
-def start_background(interval=INTERVAL):
+def start_background(interval=INTERVAL, names=DEFAULT):
     """Start the fallback alongside something else. Daemon: it dies with its host."""
-    thread = threading.Thread(target=run_forever, args=(interval,),
+    thread = threading.Thread(target=run_forever, args=(interval, False, tuple(names)),
                               name="rss", daemon=True)
     thread.start()
     return thread
@@ -187,22 +201,28 @@ def start_background(interval=INTERVAL):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--once", action="store_true", help="one cycle and exit")
+    ap.add_argument("--once", action="store_true", help="each feed once and exit")
     ap.add_argument("--interval", type=int, default=INTERVAL, metavar="SECONDS")
+    ap.add_argument("--subreddit", metavar="NAMES", default=None,
+                    help="the subreddits whose feeds are read, comma-separated or 'all' "
+                         "(default r/FoodNYC)")
     args = ap.parse_args()
+    names = subreddits.parse(args.subreddit, DEFAULT)
 
     conn = db.connect()
     db.init(conn, SCHEMA)
     if args.once:
-        t, c = poll_once(conn)
+        for subreddit in names:
+            t, c = poll_once(conn, subreddit)
+            print(f"r/{subreddit} +{c} comment(s), +{t} thread(s)")
         with conn.cursor() as cur:
             cur.execute("select count(*) from rss_comments")
             total = cur.fetchone()[0]
-        print(f"+{c} comment(s), +{t} thread(s)   {total:,} in rss_comments")
+        print(f"{total:,} in rss_comments")
         return
 
-    print(f"polling {feed_url()} every {args.interval // 60} min")
-    run_forever(args.interval, verbose=True)
+    print(f"polling {', '.join(feed_url(n) for n in names)}, each every {args.interval // 60} min")
+    run_forever(args.interval, verbose=True, names=names)
 
 
 if __name__ == "__main__":
