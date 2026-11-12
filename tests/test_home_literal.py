@@ -38,7 +38,11 @@ class HomeLiteral(unittest.TestCase):
         for table in ("alias_overrides", "excluded_entities", "restaurant_images"):
             self.assertIn(f"alter table {table} add column subreddit text not null "
                           f"default '{subreddits.HOME}'", sql)
-        self.assertEqual(len(re.findall(rf"subreddit\s+text not null default '{subreddits.HOME}',", sql)), 3)
+        # The summary tables too (the block summary_schema.sql also carries).
+        for table in ("place_summaries", "summary_calls"):
+            self.assertIn(f"alter table {table} add column if not exists subreddit text not null "
+                          f"default '{subreddits.HOME}'", sql)
+        self.assertEqual(len(re.findall(rf"subreddit\s+text not null default '{subreddits.HOME}',", sql)), 5)
         self.assertIn(f"select '{subreddits.HOME}', kind, cursor_utc", sql)
         self.assertIn(f"where subreddit = '{subreddits.HOME}' and extracted_at is null", sql)
 

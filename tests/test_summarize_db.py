@@ -11,8 +11,9 @@ places with nothing to send, failure parking, whose an API failure is (the
 place's, the account's or the pass's), the per-pass cap, the lifetime
 ceiling, the tripwire, the deadline, a timeout's charge, the ledger
 surviving a failed store or a failed worker, the legacy read mode, the
-every-so-many-hours gate, the schema upgrade, and the poller's step end to
-end. Skipped without TEST_DATABASE_URL.
+every-so-many-hours gate, the schema upgrade, the poller's step end to end,
+and other cities: a place of the same name in two subreddits is two places
+with a summary each. Skipped without TEST_DATABASE_URL.
 """
 
 import datetime as dt
@@ -26,6 +27,7 @@ from unittest import mock
 
 import anthropic
 import httpx2
+import psycopg2.errors
 
 import anthropic_v6 as AV
 import db
@@ -58,19 +60,27 @@ class SummaryCase(pgtest.PgCase):
         self.conn.commit()
 
     def mention(self, key, days, opinion="stated", level=1, avoid=False, timeframe="current", status=None,
-                deleted=False, author=None, prompt_hash=TH, cid=None, raw=None, body=None, state_hash=None):
+                deleted=False, author=None, prompt_hash=TH, cid=None, raw=None, body=None, state_hash=None,
+                sub=None):
         """One mention, on a new comment unless cid names one. state_hash is
         the hash on the comment's cursor row, the mention's own unless given
-        (a different one makes the mention stale, so live_mentions drops it)."""
+        (a different one makes the mention stale, so live_mentions drops it).
+        sub puts the comment in another city's subreddit, in a thread of its own."""
         self.n += 1
         cid = cid or f"t1_s{self.n}"
+        sub = sub or subreddits.HOME
+        tid = "t3_s" if sub == subreddits.HOME else f"t3_{sub.lower()}"
         with self.conn.cursor() as cur:
-            cur.execute("""insert into comments (id, thread_id, parent_id, author, body, permalink,
+            cur.execute("""insert into threads (id, subreddit, title, created_utc)
+                           values (%s, %s, 'Where to eat?', now() - interval '900 days')
+                           on conflict (id) do nothing""", (tid, sub))
+            cur.execute("""insert into comments (id, subreddit, thread_id, parent_id, author, body, permalink,
                                                  created_utc, score, score_settled, was_deleted_later)
-                           values (%s, 't3_s', 't3_s', %s, %s, '/r/x', now() - make_interval(days => %s),
+                           values (%s, %s, %s, %s, %s, %s, '/r/x', now() - make_interval(days => %s),
                                    1, true, %s)
                            on conflict (id) do nothing""",
-                        (cid, author or f"u{self.n}", body or f"about {key} #{self.n}", days, deleted))
+                        (cid, sub, tid, tid, author or f"u{self.n}", body or f"about {key} #{self.n}", days,
+                         deleted))
             cur.execute("""insert into extraction_state (item_id, version, kind, prompt_hash, extracted_at)
                            values (%s, 'v6', 'comment', %s, now()) on conflict do nothing""",
                         (cid, state_hash or prompt_hash))
@@ -404,8 +414,8 @@ class Writes(SummaryCase):
         real = S.qualifying_ids
         landed = []
 
-        def ids_then_land(conn, keys, since):
-            out = real(conn, keys, since)
+        def ids_then_land(conn, keys, since, sub=None):
+            out = real(conn, keys, since, sub)
             if not landed:
                 landed.append(self.mention("alpha", 0, body="LANDED MID-READ"))
             return out
@@ -912,7 +922,205 @@ class PollerStep(SummaryCase):
         self.assertIn("tables missing", lines[0])
 
 
+LA, CHI = "FoodLosAngeles", "chicagofood"
+
+
+class Cities(SummaryCase):
+    """A place is (subreddit, name): the same design in every city, each on
+    its own comments, with nothing of one city's reaching another's."""
+
+    def places_in(self, sub, n=10):
+        return {p.key: p for p in S.qualifying(self.conn, n, sub=sub)}
+
+    def run_city(self, sub, answer=lambda p: ok(), **kw):
+        settings = S.Settings()
+        todo = S.due(list(self.places_in(sub).values()), S.MODEL, settings.hash_for(sub), 5)
+        b = self.budget()
+        with F.FakeAnthropic(answer) as api:
+            stats = S.run(self.conn, AV.client("k", api.base_url), b, todo, settings, workers=2, attempts=2,
+                          sleep=lambda s: None, log=QUIET, connect=pgtest.connect, **kw)
+        return stats, api
+
+    def rows(self):
+        return sorted(self.q("""select subreddit, resolved_key, summary, prompt_hash, mention_count,
+                                       cardinality(seen_comment_ids)
+                                from place_summaries"""))
+
+    def test_the_same_name_in_two_cities_is_two_places(self):
+        self.many("alpha", 12)                                           # New York's alpha
+        la = self.many("alpha", 10, sub=LA, body="the LA alpha is great")
+        self.many("beta", 9, sub=LA)                                     # 9 in LA and
+        self.many("beta", 9)                                             # 9 in New York: neither has 10
+        self.build()
+        self.assertEqual({k: p.n for k, p in self.places().items()}, {"alpha": 12})
+        self.assertEqual({k: (p.n, p.sub) for k, p in self.places_in(LA).items()}, {"alpha": (10, LA)})
+        self.assertEqual(self.places_in(CHI), {})                        # a city nobody extracted
+        _, since = S._since(self.conn)
+        sent = S.read_inputs(self.conn, ["alpha"], since, sub=LA)["alpha"].comments
+        self.assertEqual(sorted(c.id for c in sent), sorted(la))         # LA's comments and no others
+        self.assertEqual(len(S.read_inputs(self.conn, ["alpha"], since)["alpha"].comments), 12)
+        self.assertEqual(S.qualifying_ids(self.conn, ["alpha"], since, LA), {"alpha": sorted(la)})
+
+    def test_each_city_is_written_under_its_own_prompt_and_key(self):
+        self.many("alpha", 12)
+        self.many("alpha", 10, sub=LA)
+        self.build()
+        stats, api = self.run_city(LA, lambda p: ok("Angelenos like it."))
+        self.assertEqual((stats.written, stats.sent), (1, 1))
+        system = api.requests[0]["system"][0]["text"]
+        self.assertIn("r/FoodLosAngeles, the Los Angeles food subreddit", system)
+        self.assertNotIn("New York", system)
+        ph_la = S.Settings().hash_for(LA)
+        self.assertEqual(self.rows(), [(LA, "alpha", "Angelenos like it.", ph_la, 10, 10)])
+        # New York's alpha is still new, and writing it leaves LA's alone.
+        self.assertEqual(self.reason("alpha"), "new")
+        stats, api, _ = self.write(lambda p: ok("New Yorkers like it."))
+        self.assertEqual(stats.written, 1)
+        self.assertEqual(api.requests[0]["system"][0]["text"], S.SYSTEM_PROMPT)
+        self.assertEqual(self.rows(), sorted([(LA, "alpha", "Angelenos like it.", ph_la, 10, 10),
+                                              (subreddits.HOME, "alpha", "New Yorkers like it.", PH, 12, 12)]))
+        self.assertEqual(self.q("select subreddit, resolved_key, prompt_hash, outcome from summary_calls order by id"),
+                         [(LA, "alpha", ph_la, "written"), (subreddits.HOME, "alpha", PH, "written")])
+        # Each is current under its own hash, and neither under the other's.
+        self.assertIsNone(self.reason("alpha"))
+        la = self.places_in(LA)["alpha"]
+        self.assertIsNone(S.due_reason(la, S.MODEL, ph_la, 5))
+        self.assertEqual(S.due_reason(la, S.MODEL, PH, 5), "prompt")
+
+    def test_new_comments_in_one_city_are_not_new_to_the_other(self):
+        self.many("alpha", 12)
+        self.many("alpha", 10, sub=LA)
+        self.build()
+        self.run_city(LA)
+        self.write()
+        self.many("alpha", 5, start=0, sub=LA)
+        self.build()
+        self.assertEqual(self.places_in(LA)["alpha"].fresh, 5)
+        self.assertEqual(self.places()["alpha"].fresh, 0)
+        self.assertIsNone(self.reason("alpha"))
+
+    def test_exclusions_and_failures_are_a_city_s_own(self):
+        self.many("alpha", 12)
+        self.many("alpha", 10, sub=LA)
+        self.build()
+        with self.conn.cursor() as cur:
+            cur.execute("insert into excluded_entities (subreddit, entity_key) values (%s, 'alpha')", (LA,))
+        self.conn.commit()
+        self.assertEqual(self.places_in(LA), {})                         # excluded in LA,
+        self.assertEqual(list(self.places()), ["alpha"])                 # not in New York
+        with self.conn.cursor() as cur:
+            cur.execute("delete from excluded_entities")
+        self.conn.commit()
+        stats, _ = self.run_city(LA, lambda p: (200, F.message("not json")))
+        self.assertEqual(stats.failed, 1)
+        self.assertEqual(self.places_in(LA)["alpha"].attempts, 1)
+        self.assertEqual(self.places()["alpha"].attempts, 0)             # New York's was not charged
+        with self.conn.cursor() as cur:
+            cur.execute("update place_summaries set attempts = 3")
+        self.conn.commit()
+        self.assertEqual(S.retry_errors(self.conn, [subreddits.HOME]), 0)    # only the cities named
+        self.assertEqual(S.retry_errors(self.conn, [LA]), 1)
+
+    def test_the_step_walks_every_city_home_first_under_one_limit_and_cap(self):
+        self.many("alpha", 12)
+        self.many("beta", 10)
+        self.many("alpha", 10, sub=LA)
+        self.many("gamma", 10, sub="austinfood")
+        self.build()
+        settings = S.Settings(every_hours=0)
+
+        def poll(cl, limit=10, settings=settings, log=QUIET, **kw):
+            return S.poll_once(self.conn, limit, settings=settings, connect=pgtest.connect, cl=cl, log=log,
+                               sleep=lambda s: None, **kw)
+        with F.FakeAnthropic(lambda p: ok()) as api:
+            cl = AV.client("k", api.base_url)
+            self.assertEqual(poll(cl, limit=3).written, 3)               # one limit across the cities
+            self.assertEqual([r[:2] for r in self.rows()],
+                             sorted([(LA, "alpha"), (subreddits.HOME, "alpha"), (subreddits.HOME, "beta")]))
+            lines = []
+            self.assertEqual(poll(cl, log=lines.append).written, 1)      # the rest: Austin's
+            self.assertIn("(1 due: r/austinfood 1)", lines[-1])
+            self.assertEqual(poll(cl).written, 0)
+        self.assertEqual(len(api.requests), 4)
+        self.assertEqual(sorted(self.q("select subreddit, count(*) from summary_calls group by 1")),
+                         sorted([(LA, 1), (subreddits.HOME, 2), ("austinfood", 1)]))
+        # One ceiling for every city: what New York spent counts against LA.
+        self.many("delta", 10, sub=LA)
+        self.build()
+        spent = float(self.q("select sum(cost_usd) from summary_calls")[0][0])
+        with F.FakeAnthropic(lambda p: ok()) as api:
+            stats = poll(AV.client("k", api.base_url), ceiling_usd=spent + 1e-9)
+        self.assertEqual((stats.written, len(api.requests)), (0, 0))
+        self.assertIn("lifetime ceiling", stats.stop)
+
+    def test_only_the_cities_the_setting_names(self):
+        self.many("alpha", 12)
+        self.many("alpha", 10, sub=LA)
+        self.build()
+        with F.FakeAnthropic(lambda p: ok()) as api:
+            stats = S.poll_once(self.conn, 10, settings=S.Settings(every_hours=0, subs=(LA,)),
+                                connect=pgtest.connect, cl=AV.client("k", api.base_url), log=QUIET)
+        self.assertEqual(stats.written, 1)
+        self.assertEqual([r[:2] for r in self.rows()], [(LA, "alpha")])
+
+    def test_dry_run_and_status_are_per_city(self):
+        self.many("alpha", 12)
+        self.many("alpha", 10, sub=LA)
+        self.build()
+        self.run_city(LA)
+        lines = []
+        todo, _ = S.dry_run(self.conn, S.Settings(), log=lines.append, sub=LA)
+        self.assertEqual(todo, [])                                       # LA's is written
+        self.assertTrue(lines[0].startswith("r/FoodLosAngeles: 1 places qualify"))
+        todo, _ = S.dry_run(self.conn, S.Settings(), log=QUIET)
+        self.assertEqual([(p.key, p.sub) for p, _ in todo], [("alpha", subreddits.HOME)])
+        lines = []
+        S.status(self.conn, S.Settings(), log=lines.append)
+        text = " | ".join(lines)
+        self.assertIn(f"r/FoodNYC (prompt {PH}): 0 written", text)
+        self.assertIn(f"r/FoodLosAngeles (prompt {S.Settings().hash_for(LA)}): 1 written (1 current)", text)
+        self.assertNotIn("r/chicagofood", text)                          # nothing on record: no line
+
+
 class SchemaUpgrade(SummaryCase):
+    def test_reapplying_the_file_gives_a_table_from_before_cities_its_city(self):
+        # As production has it: summaries and calls keyed by name alone.
+        with self.conn.cursor() as cur:
+            cur.execute("drop table place_summaries; drop table summary_calls")
+            cur.execute("""create table place_summaries (
+                             resolved_key text primary key, summary text, model text, prompt_hash text,
+                             mention_count int, last_mention_at timestamptz, seen_comment_ids text[],
+                             input_comments int, input_chars int, written_at timestamptz,
+                             cost_usd numeric(12, 8), usage jsonb, attempts int not null default 0, error text,
+                             failed_at timestamptz, updated_at timestamptz not null default now())""")
+            cur.execute("""create table summary_calls (
+                             id bigserial primary key, resolved_key text not null, model text not null,
+                             prompt_hash text not null, outcome text not null, cost_usd numeric(12, 8) not null,
+                             usage jsonb, called_at timestamptz not null default now())""")
+            cur.execute("""insert into place_summaries (resolved_key, summary, prompt_hash, seen_comment_ids)
+                           values ('alpha', 'old summary', %s, '{t1_a}')""", (PH,))
+            cur.execute("""insert into summary_calls (resolved_key, model, prompt_hash, outcome, cost_usd)
+                           values ('alpha', 'm', %s, 'written', 0.5)""", (PH,))
+        self.conn.commit()
+        self.assertFalse(S.tables_exist(self.conn))
+        for _ in range(2):                                               # and again: a no-op
+            db.init(self.conn, os.path.join(pgtest.ROOT, "summary_schema.sql"))
+        self.assertTrue(S.tables_exist(self.conn))
+        # What was there is New York's, untouched, and its spend still counts.
+        self.assertEqual(self.q("select subreddit, resolved_key, summary, prompt_hash from place_summaries"),
+                         [(subreddits.HOME, "alpha", "old summary", PH)])
+        self.assertEqual(self.q("select subreddit, cost_usd from summary_calls"), [(subreddits.HOME, 0.5)])
+        # The key now takes the same name once per city, and only once.
+        with self.conn.cursor() as cur:
+            cur.execute("insert into place_summaries (subreddit, resolved_key) values (%s, 'alpha')", (LA,))
+            with self.assertRaises(psycopg2.errors.UniqueViolation):
+                cur.execute("insert into place_summaries (subreddit, resolved_key) values (%s, 'alpha')", (LA,))
+        self.conn.rollback()
+        # schema.sql, which every boot applies, carries the same upgrade.
+        db.init(self.conn, os.path.join(pgtest.ROOT, "schema.sql"))
+        self.assertTrue(S.tables_exist(self.conn))
+
+
     def test_reapplying_the_file_upgrades_a_first_version_table(self):
         with self.conn.cursor() as cur:
             cur.execute("drop table place_summaries; drop table summary_state")

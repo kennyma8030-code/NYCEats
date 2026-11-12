@@ -32,14 +32,23 @@ class SchemaCopies(unittest.TestCase):
         tables = re.findall(r"create table if not exists (\w+)", sql)
         self.assertEqual(tables, ["place_summaries", "summary_calls", "summary_state"])
         self.assertEqual(len(re.findall(r"\bcreate\b", sql)), 3)
-        self.assertNotRegex(sql, r"\bindex\b|\bdrop\b|\bupdate\b|\bdelete\b|\binsert\b|references")
+        self.assertNotRegex(sql, r"\bindex\b|\bupdate\b|\bdelete\b|\binsert\b|references")
         alters = re.findall(r"alter table (\w+) add column if not exists (\w+)", sql)
-        self.assertEqual(alters, [("place_summaries", "seen_comment_ids")])
-        self.assertEqual(len(re.findall(r"\balter\b", sql)), 1)
+        self.assertEqual(alters, [("place_summaries", "seen_comment_ids"), ("place_summaries", "subreddit"),
+                                  ("summary_calls", "subreddit")])
         # each ALTER sits behind a catalog check for the very column it adds
-        for _, col in alters:
+        for table, col in alters:
             self.assertRegex(sql, rf"if not exists \(select 1 from information_schema\.columns[^;]*"
-                                  rf"column_name = '{col}'\) then\s*alter table")
+                                  rf"table_name = '{table}'[^;]*column_name = '{col}'\) then\s*alter table {table}")
+        # The one change that is not a new column: the key grows a city, once,
+        # in the same guarded block as the column it is keyed by, so a table
+        # that has the column never reaches it.
+        rekey = (r"alter table place_summaries add column if not exists subreddit [^;]*;\s*"
+                 r"alter table place_summaries drop constraint place_summaries_pkey;\s*"
+                 r"alter table place_summaries add primary key \(subreddit, resolved_key\);\s*end if;")
+        self.assertRegex(sql, rekey)
+        self.assertEqual(len(re.findall(r"\bdrop\b", sql)), 1)
+        self.assertEqual(len(re.findall(r"\balter\b", sql)), 5)
         self.assertIn("set_config('lock_timeout', '5s', true)", sql)
 
     def test_every_later_column_is_in_the_upgrade(self):
@@ -50,7 +59,7 @@ class SchemaCopies(unittest.TestCase):
                  "failed_at", "updated_at"}
         sql = re.sub(r"--[^\n]*", "", block("summary_schema.sql"))
         body = re.search(r"create table if not exists place_summaries \((.*?)\n\);", sql, re.S).group(1)
-        cols = {line.split()[0] for line in body.strip().splitlines()}
+        cols = {line.split()[0] for line in body.strip().splitlines()} - {"primary"}    # the key's own line
         added = {c for _, c in re.findall(r"alter table (\w+) add column if not exists (\w+)", sql)}
         self.assertEqual(cols - first, added)
 

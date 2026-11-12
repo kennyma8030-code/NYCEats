@@ -28,8 +28,9 @@ step is optional by design: without a key it is switched off at boot, and
 any failure in it is logged and skipped, never allowed to hold up the board.
 
 With --summarize (or POLL_SUMMARIZE=1) the chores pass then writes place
-summaries (summarize.py) for whatever qualifies and is due, under a per-pass
-cap and a lifetime ceiling. Optional in the same way: without
+summaries (summarize.py) for whatever qualifies and is due, in every city
+that has extracted mentions (SUMMARY_SUBREDDITS narrows it), under one
+per-pass cap and one lifetime ceiling. Optional in the same way: without
 SUMMARY_ANTHROPIC_API_KEY it is off at boot, a failure is logged and skipped,
 and a spend tripwire turns it off until the poller restarts.
 """
@@ -669,7 +670,8 @@ def summarize_boot(args, log=print):
         log(f"summaries OFF: {e}")
         return False
     args.summarize_settings = s
-    log(f"summaries on: {summarize.MODEL} at effort {s.effort}, prompt {s.prompt_hash}, n={s.n}, "
+    log(f"summaries on: {', '.join('r/' + sub for sub in s.subs)}; "
+        f"{summarize.MODEL} at effort {s.effort}, prompt {s.prompt_hash} (r/{subreddits.HOME}'s), n={s.n}, "
         f"rewrite after max({s.x}, {s.share:g} x count) new comments, every {s.every_hours:g}h, "
         f"<= {args.summarize_limit} places and ${s.run_usd:.2f} a run, ${s.ceiling_usd:.2f} ceiling")
     return True

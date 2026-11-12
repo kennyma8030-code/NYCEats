@@ -23,6 +23,7 @@ import anthropic_v6 as AV
 import extract_v6 as EV
 import fake_anthropic as F
 import poller
+import subreddits
 import summarize as S
 
 NOW = dt.datetime(2026, 11, 3, 12, tzinfo=dt.timezone.utc)
@@ -264,6 +265,54 @@ class Settings(unittest.TestCase):
             with mock.patch.object(S, name, value):
                 self.assertNotEqual(S.prompt_hash("low"), before, name)
 
+    def test_home_s_prompt_and_hash_are_the_ones_its_summaries_were_written_under(self):
+        # Every stored r/FoodNYC summary carries this hash (production,
+        # Nov 2026): if it moves, all of them are written again.
+        self.assertIs(S.system_prompt(), S.SYSTEM_PROMPT)
+        self.assertIs(S.system_prompt(subreddits.HOME), S.SYSTEM_PROMPT)
+        self.assertEqual(S.prompt_hash("low"), "fa6946daf019")
+        self.assertEqual(S.Settings().hash_for(subreddits.HOME), S.Settings().prompt_hash)
+
+    def test_every_other_city_has_its_own_prompt_and_hash(self):
+        hashes = {S.prompt_hash("low", sub) for sub in subreddits.SUBREDDITS}
+        self.assertEqual(len(hashes), len(subreddits.SUBREDDITS))
+        for sub in subreddits.SUBREDDITS[1:]:
+            text = S.system_prompt(sub)
+            self.assertIn(f"commenters on r/{sub}, the {subreddits.city(sub).name} food subreddit", text)
+            for word in ("FoodNYC", "New York", "NYC"):
+                self.assertNotIn(word, text, sub)
+            # Only the sentence that names the city differs.
+            self.assertEqual(text.split(" food subreddit", 1)[1], S.SYSTEM_PROMPT.split(" food subreddit", 1)[1])
+            self.assertEqual(S.params("hi", "low", sub)["system"][0]["text"], text)
+        self.assertEqual(S.params("hi", "low")["system"][0]["text"], S.SYSTEM_PROMPT)
+
+    def test_a_new_york_word_the_rewrite_does_not_know_is_refused(self):
+        with mock.patch.object(S, "SYSTEM_PROMPT", S.SYSTEM_PROMPT + " Mind the Manhattan prices."):
+            self.assertTrue(S.system_prompt())                            # New York's own is untouched
+            with self.assertRaises(ValueError) as cm:
+                S.system_prompt("chicagofood")
+            self.assertIn("Manhattan", str(cm.exception))
+        with mock.patch.object(S, "SYSTEM_PROMPT", "A prompt that names no subreddit."):
+            with self.assertRaises(ValueError):
+                S.system_prompt("chicagofood")
+        with self.assertRaises(ValueError):
+            S.system_prompt("FoodBoston")                                 # no city defined: never read as NYC
+
+    def test_which_cities(self):
+        self.assertEqual(S.load_settings({}).subs, subreddits.SUBREDDITS)
+        self.assertEqual(S.load_settings({"SUMMARY_SUBREDDITS": "all"}).subs, subreddits.SUBREDDITS)
+        self.assertEqual(S.load_settings({"SUMMARY_SUBREDDITS": "r/austinfood, foodnyc"}).subs,
+                         (subreddits.HOME, "austinfood"))                # in SUBREDDITS order, HOME first
+        for bad in ("FoodBoston", ","):
+            with self.assertRaises(S.SettingError, msg=bad) as cm:      # never subreddits.parse's SystemExit
+                S.load_settings({"SUMMARY_SUBREDDITS": bad})
+            self.assertIn("SUMMARY_SUBREDDITS", str(cm.exception))
+
+    def test_a_run_takes_one_city_at_a_time(self):
+        mixed = [(place(key="a"), "new"), (place(key="b", sub="chicagofood"), "new")]
+        with self.assertRaises(ValueError):
+            S.run(None, None, None, mixed, now=NOW, since=NOW)
+
     def test_the_cli_turns_a_bad_setting_into_an_exit(self):
         with mock.patch.dict(os.environ, {"SUMMARY_RUN_USD": "lots"}), self.assertRaises(SystemExit):
             S.main(["--status"])
@@ -273,7 +322,7 @@ class Work(unittest.TestCase):
     """The network half, with no network: what it does before it would call."""
 
     def req(self):
-        return S.Request(None, None, "hi", 0.01)
+        return S.Request(place(), None, "hi", 0.01)       # the place says whose city's prompt is sent
 
     def test_no_call_starts_after_the_deadline(self):
         budget = EV.Budget(1.0)

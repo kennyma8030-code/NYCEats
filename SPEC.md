@@ -653,16 +653,32 @@ A dims change past 1,024 also needs a new column type, since the columns are
 GitHub issue #2 and its Decisions (2026-11-03) comment. Built in
 `summarize.py` and `summary_schema.sql`; not shown anywhere yet.
 
-A summary is a **cache**: `place_summaries`, one row per
+A summary is a **cache**: `place_summaries`, one row per subreddit and
 `entity_alias.resolved_key`, rebuildable from the comments; every paid call
 is in `summary_calls`, which the caps are checked against.
+
+- **Cities.** The same design for every collected subreddit, a city at a
+  time. A place is (subreddit, name) as on the boards, so a summary reads
+  its own city's comments, aliases and exclusions and is stored under
+  (`subreddit`, `resolved_key`). The prompt differs only in the sentence
+  naming the subreddit and its city (`summarize.system_prompt`), so each
+  city has its own `prompt_hash` and r/FoodNYC's is unchanged. Nothing else
+  is per city: one `n`, `x` and window, one lock, one clock, one per-pass
+  cap, one per-run limit and one lifetime ceiling for all of them, each
+  call's subreddit kept in `summary_calls`. A run walks
+  `SUMMARY_SUBREDDITS` (default all) in `subreddits.SUBREDDITS` order,
+  r/FoodNYC first; a city with no extracted mentions qualifies nothing and
+  costs nothing. On Nov 12, 2026: r/FoodLosAngeles 1,117 places (about
+  $0.65 to write), r/austinfood 417 and rising as it is extracted ($0.24),
+  the rest none yet.
 
 - **Who.** At least `n` = 10 comments in the last 365 days mention the place
   (`SUMMARY_MIN_MENTIONS`), counted on the mentions the board counts:
   whatever `live_mentions` holds in v6 mode, comment-mode fallbacks for a
-  failed thread chunk included. r/FoodNYC, not deleted later, not
-  AutoModerator, not in `excluded_entities`. Every mention counts, opinion
-  or not; a comment counts once. About 2,750 places on Nov 3, 2026. Nothing
+  failed thread chunk included. The place's own subreddit, not deleted
+  later, not AutoModerator, not in `excluded_entities`. Every mention
+  counts, opinion or not; a comment counts once. About 2,750 places in
+  r/FoodNYC on Nov 3, 2026. Nothing
   is written while the board reads legacy mentions.
 - **When again.** Only after the larger of `x` = 5 (`SUMMARY_NEW_MENTIONS`)
   and `SUMMARY_NEW_SHARE` (default 0) times the place's count of qualifying
