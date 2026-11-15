@@ -15,20 +15,12 @@ const LEVELS: [keyof ExtractedMention, string][] = [
   ["wait_level", "Wait"],
 ];
 
-// A legacy row has aspects (-1..1) instead of levels.
-const LEGACY: [string, string][] = [
-  ["food", "Food"], ["value", "Value"], ["service", "Service"], ["atmosphere", "Atmosphere"], ["wait", "Wait"],
-];
-
 function tone(n: number) {
   return n > 0 ? "ex-up" : n < 0 ? "ex-down" : "";
 }
 
 function Mention({ m }: { m: ExtractedMention }) {
   const levels = LEVELS.flatMap(([k, label]) => (typeof m[k] === "number" ? [[label, m[k] as number] as const] : []));
-  const legacy = levels.length
-    ? []
-    : LEGACY.flatMap(([k, label]) => (typeof m.aspects?.[k] === "number" ? [[label, m.aspects[k] as number] as const] : []));
   const dishes = m.dish_opinions ?? [];
   const facts = [
     m.price_level != null && `Price ${signed(m.price_level)}`,
@@ -43,9 +35,9 @@ function Mention({ m }: { m: ExtractedMention }) {
     <div className="ex-m">
       <b>{m.resolved_name ?? m.restaurant_raw}</b>
       {typed && <span className="ex-raw"> typed “{typed}”</span>}
-      {(levels.length > 0 || legacy.length > 0) && (
+      {levels.length > 0 && (
         <div className="ex-chips">
-          {[...levels, ...legacy].map(([label, n]) => (
+          {levels.map(([label, n]) => (
             <span key={label} className={`ex-chip ${tone(n)}`}>
               {label} {signed(n)}
             </span>
@@ -69,7 +61,8 @@ function Mention({ m }: { m: ExtractedMention }) {
 }
 
 /** What the extractor took from one comment or post, in place of its text.
- *  A debugging aid: it shows every extraction that ever ran, v6 first. */
+ *  A debugging aid: it shows the rows of the city's v6 thread-mode prompt,
+ *  and whether the item's latest read was that prompt's. */
 export function ExtractionView({ itemId }: { itemId: string }) {
   const { data, current, error } = useFetch(itemId, () => api.extraction(itemId));
   if (error) return <p className="ex ex-err">{error}</p>;
@@ -80,11 +73,15 @@ export function ExtractionView({ itemId }: { itemId: string }) {
     <div className="ex">
       {data.groups.length === 0 && (
         <p className="ex-note">
-          {s?.error
-            ? `Extraction failed: ${s.error}`
-            : s?.extracted_at
-              ? `No mentions extracted (read ${ago(s.extracted_at)})`
-              : "Not extracted yet"}
+          {!s
+            ? "Not extracted yet"
+            : !s.this_prompt
+              ? "Not read with this prompt; its last read was with a different one"
+              : s.failed
+                ? "Extraction failed"
+                : s.extracted_at
+                  ? `No mentions extracted (read ${ago(s.extracted_at)})`
+                  : "Not extracted yet"}
         </p>
       )}
       {data.groups.map((g) => (
@@ -95,7 +92,9 @@ export function ExtractionView({ itemId }: { itemId: string }) {
           ))}
         </section>
       ))}
-      {data.groups.length > 0 && !s && <p className="ex-note">No v6 extraction yet; legacy only.</p>}
+      {data.groups.length > 0 && s && !s.this_prompt && (
+        <p className="ex-note">Read again since with a different prompt.</p>
+      )}
     </div>
   );
 }

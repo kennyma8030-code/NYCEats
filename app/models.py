@@ -574,15 +574,24 @@ class ExtractionGroup(BaseModel):
     dict of the mentions columns: this is an inspection view, and a column
     added later should show up without a model change."""
     prompt_hash: str
-    schema_version: Optional[int] = None
-    model_version: str
     label: str
     created_at: datetime
     mentions: list[dict[str, Any]]
 
 
+class ExtractionState(BaseModel):
+    """The item's latest v6 read, as far as a public page is told: when,
+    whether it failed, and whether it was under the prompt being shown.
+    Typed, unlike the mentions, so the cursor's other columns (the error
+    text, cost, model, attempts) cannot reach the response by being added
+    to a query."""
+    extracted_at: Optional[datetime] = None
+    failed: bool = False
+    this_prompt: bool = True
+
+
 class ExtractionView(BaseModel):
     item_id: str
     groups: list[ExtractionGroup]
-    # The v6 extraction_state row; null when v6 never queued the item.
-    state: Optional[dict[str, Any]] = None
+    # Null when v6 never queued the item.
+    state: Optional[ExtractionState] = None

@@ -268,22 +268,18 @@ export interface ExtractedMention {
   opinion: string | null;
   tags: string[] | null;
   is_chain: boolean | null;
-  /** Legacy extractor fields, present on old rows only. */
-  aspects: Record<string, number | null> | null;
-  dishes: unknown;
-  is_negated: boolean;
 }
 
 export interface ExtractionGroup {
   prompt_hash: string;
-  schema_version: number | null;
   label: string;
   mentions: ExtractedMention[];
 }
 
-/** What the extractor took from one comment or post. `state` is the v6 bookkeeping row, null if never queued. */
+/** What the extractor took from one comment or post. `state` is the item's latest v6 read, null if never
+ *  queued; `this_prompt` is false when that read was under another prompt than the one whose rows are shown. */
 export interface Extraction {
   item_id: string;
   groups: ExtractionGroup[];
-  state: { extracted_at: string | null; error: string | null; cost_usd: number | null } | null;
+  state: { extracted_at: string | null; failed: boolean; this_prompt: boolean } | null;
 }

@@ -1340,54 +1340,94 @@ def top_neighborhoods(conn, sub, keys, fetch_all):
     """, (sub, list(keys)))
 
 
-# An item id is Reddit's and names one comment or post in any city, so the
-# extraction view checks the item is the page's city's own before showing
-# anything about it, like every other read.
-ITEM_IN_CITY = """exists (
-            select 1 from comments c where c.id = %(id)s and c.subreddit = %(sub)s
-            union all
-            select 1 from threads t where t.id = %(id)s and t.subreddit = %(sub)s)"""
+_v6_ready = {"at": None, "ready": False}
 
 
-def item_mentions(conn, sub, item_id, fetch_all, prompt_hash):
-    """The mention rows one prompt wrote for a comment (t1_) or post (t3_)
-    of this city. A post's mentions carry thread_id and a null comment_id.
-    Read from `mentions`, not `live_mentions`: this is for inspecting what the
-    extraction said, live or not. The typed name is resolved within the
-    city, where it is a place."""
-    return fetch_all(conn, f"""
-        select m.id as mention_id, m.restaurant_raw, m.entity_key,
-               r.resolved_key, r.official_name,
-               m.schema_version, m.prompt_hash, m.model_version, m.created_at,
-               m.kind, m.named_in, m.experience, m.opinion, m.avoid,
-               m.overall_level, m.taste_level, m.value_level, m.service_level,
-               m.atmosphere_level, m.wait_level,
-               m.dish_opinions, m.notes, m.tags, m.price_level, m.timeframe,
-               m.trend, m.status, m.is_chain,
-               m.dishes, m.descriptors, m.aspects, m.expensiveness,
-               m.is_firsthand, m.is_negated
-        from mentions m
-        left join lateral (
-          select al.resolved_key, l.official_name
-          from entity_alias al
-          left join entity_leaderboard l
-            on l.subreddit = al.subreddit and l.entity_key = al.resolved_key
-          where al.subreddit = %(sub)s and al.entity_key = m.entity_key
-          limit 1
-        ) r on true
-        where (m.comment_id = %(id)s or m.thread_id = %(id)s)
-          and m.prompt_hash = %(hash)s
-          and {ITEM_IN_CITY}
-        order by m.id
-    """, {"id": item_id, "sub": sub, "hash": prompt_hash})
+def forget_v6_ready():
+    _v6_ready.update(at=None)
 
 
-def extraction_state(conn, sub, item_id, fetch_one):
-    """The v6 bookkeeping row, so "read, found nothing" differs from "never read"."""
-    return fetch_one(conn, f"""
-        select kind, prompt_hash, model, extracted_at, extract_error as error,
-               cost_usd::float8 as cost_usd, attempts
-        from extraction_state
-        where item_id = %(id)s and version = 'v6'
-          and {ITEM_IN_CITY}
-    """, {"id": item_id, "sub": sub})
+def v6_ready(conn, fetch_value):
+    """Whether the v6 extraction storage is here (extract_v6_schema.sql):
+    extraction_state, and the v6 columns on mentions. Cached like
+    summary_ready, so an old or local database without it does not run a
+    failing statement each time someone opens an extraction."""
+    now = time.monotonic()
+    at, ready = _v6_ready["at"], _v6_ready["ready"]
+    if at is not None and now - at < RATING_READY_TTL[ready]:
+        return ready
+    ready = bool(fetch_value(conn, """
+        select to_regclass('extraction_state') is not null
+           and exists (select 1 from pg_attribute
+                       where attrelid = to_regclass('mentions')
+                         and attname = 'overall_level' and not attisdropped)
+    """, default=False))
+    _v6_ready.update(at=now, ready=ready)
+    return ready
+
+
+def item_extraction(conn, sub, item_id, prompt_hash, fetch_all, fetch_one, fetch_value):
+    """(the mention rows `prompt_hash` wrote for a comment (t1_) or post
+    (t3_) of this city, what the extractor's cursor says of the item), or
+    None when this database has no v6 extraction storage.
+
+    An item id is Reddit's and names one comment or post in any city, so the
+    item is checked to be the page's city's own before anything about it is
+    shown, like every other read. A post's mentions carry thread_id and a
+    null comment_id; the two kinds are read by separate statements, each on
+    its own index, because one statement with an OR over both columns can
+    use neither. Read from `mentions`, not `live_mentions`: this is for
+    inspecting what the extraction said, live or not. The typed name is
+    resolved within the city, where it is a place.
+
+    The cursor row is the item's latest v6 read, under whichever prompt
+    that was, so `this_prompt` says whether it is the read the rows are
+    from: without it "read, found nothing" would be said of an item whose
+    last read was another prompt's. Only that, when, and whether it failed
+    are returned; the error text, cost, model and attempts are the
+    pipeline's bookkeeping and stay out of a public response."""
+    if not v6_ready(conn, fetch_value):
+        return None
+    if item_id.startswith("t3_"):
+        table, mine = "threads", "m.thread_id = %(id)s and m.comment_id is null"
+    else:
+        table, mine = "comments", "m.comment_id = %(id)s"
+    in_city = f"exists (select 1 from {table} i where i.id = %(id)s and i.subreddit = %(sub)s)"
+    args = {"id": item_id, "sub": sub, "hash": prompt_hash}
+    try:
+        rows = fetch_all(conn, f"""
+            select m.id as mention_id, m.restaurant_raw, m.entity_key,
+                   r.resolved_key, r.official_name,
+                   m.prompt_hash, m.created_at,
+                   m.kind, m.named_in, m.experience, m.opinion, m.avoid,
+                   m.overall_level, m.taste_level, m.value_level, m.service_level,
+                   m.atmosphere_level, m.wait_level,
+                   m.dish_opinions, m.notes, m.tags, m.price_level, m.timeframe,
+                   m.trend, m.status, m.is_chain
+            from mentions m
+            left join lateral (
+              select al.resolved_key, l.official_name
+              from entity_alias al
+              left join entity_leaderboard l
+                on l.subreddit = al.subreddit and l.entity_key = al.resolved_key
+              where al.subreddit = %(sub)s and al.entity_key = m.entity_key
+              limit 1
+            ) r on true
+            where {mine}
+              and m.prompt_hash = %(hash)s
+              and {in_city}
+            order by m.id
+        """, args)
+        state = fetch_one(conn, f"""
+            select extracted_at, extract_error is not null as failed,
+                   prompt_hash = %(hash)s as this_prompt
+            from extraction_state
+            where item_id = %(id)s and version = 'v6'
+              and {in_city}
+        """, args)
+    except RATING_MISSING:
+        # Dropped since the check: roll back so the connection stays usable.
+        conn.rollback()
+        forget_v6_ready()
+        return None
+    return rows, state
