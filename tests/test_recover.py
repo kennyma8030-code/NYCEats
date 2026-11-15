@@ -4,6 +4,7 @@ No network, no database."""
 
 import io
 import unittest
+import urllib.error
 from contextlib import redirect_stderr, redirect_stdout
 from unittest import mock
 
@@ -35,6 +36,20 @@ class Recover(unittest.TestCase):
         got = self.recover(conn, mock.Mock(side_effect=Exception("db is restarting")))
         self.assertIs(got, conn)
         self.assertIsNone(self.recover(None, mock.Mock(side_effect=Exception("down"))))
+
+
+def http(code):
+    return urllib.error.HTTPError("https://www.reddit.com/r/x/comments/.rss", code, "refused", {}, None)
+
+
+class Clock:
+    """A clock that only the loop's own sleeps move."""
+
+    def __init__(self):
+        self.now = 1000.0
+
+    def __call__(self):
+        return self.now
 
 
 class RssThread(unittest.TestCase):
@@ -82,6 +97,8 @@ class RssThread(unittest.TestCase):
 
         def sleep(s):
             sleeps.append(s)
+            if isinstance(clock, Clock):
+                clock.now += s
             if len(sleeps) == turns:
                 raise Stop
 
@@ -102,27 +119,68 @@ class RssThread(unittest.TestCase):
         self.assertEqual(polled, ["FoodNYC", "chicagofood", "austinfood"] * 2 + ["FoodNYC"])
         self.assertEqual(sleeps, [100.0] * 7)       # one request every 100 s: each feed every 300
 
-    def test_a_failed_feed_costs_its_turn_and_one_slower_read_of_the_first(self):
+    def test_a_broken_feed_costs_its_own_turn_and_the_others_keep_their_times(self):
         def poll(sub, n):
             if sub == "chicagofood":
-                raise Exception("404")
+                raise http(404)
             return 0, 1
-        polled, sleeps = self.loop(poll, 6)
-        # chicagofood fails, the loop waits a turn longer and reads
-        # r/FoodNYC; that works, so the rotation carries on past chicagofood.
-        self.assertEqual(polled, ["FoodNYC", "chicagofood", "FoodNYC", "austinfood", "FoodNYC", "chicagofood"])
-        self.assertEqual(sleeps, [100.0, 200.0, 100.0, 100.0, 100.0, 200.0])
+        polled, sleeps = self.loop(poll, 7)
+        # A private or missing subreddit: no second try, no slower loop, no
+        # extra read of anything else.
+        self.assertEqual(polled, ["FoodNYC", "chicagofood", "austinfood"] * 2 + ["FoodNYC"])
+        self.assertEqual(sleeps, [100.0] * 7)
 
-    def test_refused_requests_back_the_whole_loop_off_and_only_the_first_feed_is_tried(self):
+    def test_the_home_feed_failing_alone_does_not_starve_the_others(self):
+        # Its own rows will not go in, every time. The loop used to read
+        # only this feed until it worked, which was never.
         def poll(sub, n):
-            if n <= 6:
-                raise Exception("429")
+            if sub == "FoodNYC":
+                raise ValueError("null value in column violates not-null constraint")
             return 0, 1
         polled, sleeps = self.loop(poll, 8)
-        self.assertEqual(polled, ["FoodNYC"] * 7 + ["chicagofood"])
-        # A turn longer, then doubling, never more than an interval on top
+        self.assertEqual(polled, ["FoodNYC", "FoodNYC", "chicagofood", "austinfood"] * 2)
+        # One more try 10 s later, and the next feed still goes out on time.
+        self.assertEqual(sleeps, [10, 100.0, 100.0, 100.0] * 2)
+
+    def test_one_feed_that_fails_once_is_read_again_at_once_not_an_interval_later(self):
+        clock = Clock()
+
+        def poll(sub, n):
+            if n == 2:
+                raise http(503)
+            return 0, 1
+        polled, sleeps = self.loop(poll, 4, names=("FoodNYC",), clock=clock)
+        self.assertEqual(polled, ["FoodNYC"] * 4)
+        # Read at 0, failed at 300, read at 310, and the turn after is still
+        # the one due at 600: 310 s between good reads, not 600.
+        self.assertEqual(sleeps, [300.0, 10, 290.0, 300.0])
+
+    def test_a_database_error_is_tried_again_and_does_not_slow_the_loop(self):
+        def poll(sub, n):
+            if n in (2, 3):
+                raise Exception("server closed the connection unexpectedly")
+            return 0, 1
+        polled, sleeps = self.loop(poll, 5)
+        self.assertEqual(polled, ["FoodNYC", "chicagofood", "chicagofood", "austinfood", "FoodNYC"])
+        self.assertEqual(sleeps, [100.0, 10, 100.0, 100.0, 100.0])      # Reddit refused nothing
+
+    def test_a_429_spaces_the_requests_out_and_the_rotation_carries_on(self):
+        def poll(sub, n):
+            if n <= 5:
+                raise http(429)
+            return 0, 1
+        polled, sleeps = self.loop(poll, 7)
+        # No feed is read twice running and none is skipped for good.
+        self.assertEqual(polled, ["FoodNYC", "chicagofood", "austinfood"] * 2 + ["FoodNYC"])
+        # A minute more, then doubling, never more than an interval on top
         # of the turn; the first read that works puts the pace back.
-        self.assertEqual(sleeps, [200.0, 300.0, 400.0, 400.0, 400.0, 400.0, 100.0, 100.0])
+        self.assertEqual(sleeps, [160.0, 220.0, 340.0, 400.0, 400.0, 100.0, 100.0])
+        self.assertGreaterEqual(min(sleeps), rss.MIN_GAP)
+
+    def test_a_429_on_one_feed_does_not_double_its_wait(self):
+        polled, sleeps = self.loop(lambda sub, n: (_ for _ in ()).throw(http(429)) if n == 1 else (0, 1), 2,
+                                   names=("FoodNYC",))
+        self.assertEqual(sleeps, [360.0, 300.0])
 
     def test_a_slow_turn_still_leaves_a_gap_before_the_next_request(self):
         # Seven feeds are a turn of about 43 s. A request that took longer

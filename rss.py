@@ -44,6 +44,7 @@ INTERVAL = 5 * 60
 # took and however many feeds share the interval.
 MIN_GAP = 10
 RETRIES = 4             # for a single read (--once); the loop does its own backing off
+BACKOFF = 60            # the first wait a 429 adds to the loop; it doubles from there
 LIMIT = 25              # the feed's own page size; asking for more changes nothing
 UA = {"User-Agent": "foodnyc-tracker/0.1 (personal project)"}
 NS = {"a": "http://www.w3.org/2005/Atom"}
@@ -163,22 +164,41 @@ def poll_once(conn, subreddit=subreddits.HOME, retries=RETRIES):
     return t, c
 
 
+def _refused(e):
+    """Reddit said to slow down. The one failure that is about the address
+    and not the feed, so the only one that slows the whole loop."""
+    return isinstance(e, urllib.error.HTTPError) and e.code == 429
+
+
+def _own(e):
+    """The feed's own answer, which asking again would not change: a private,
+    banned or misspelt subreddit (403, 404 and the like)."""
+    return isinstance(e, urllib.error.HTTPError) and e.code < 500 and e.code != 429
+
+
 def run_forever(interval=INTERVAL, verbose=False, names=DEFAULT):
     """Own connection, own clock, own failures. Never raises to the caller.
 
     One feed a turn, round the subreddits in `names`, a turn every
     interval / len(names): each feed is read once an interval, and no two
-    requests go out together. A feed that fails costs its own turn only.
+    requests go out together. The rotation moves on every turn, whatever the
+    turn before did, so a feed that fails costs its own turn only. A turn's
+    request is made once, with no retries inside fetch, and the gap between
+    two requests is never under MIN_GAP.
 
-    A turn's request is made once, with no retries inside it, and the gap
-    to the next is never under MIN_GAP. After a failure the whole loop backs
-    off: the wait before the next request grows by a turn, then doubles, up
-    to one interval, until a request succeeds. While it is backing off the
-    one request it makes is r/FoodNYC's (the first feed's, if that is not
-    polled), not the next in line: Reddit refuses the address, not the feed,
-    so the rotation would fail the same way, and r/FoodNYC's 25 comments
-    are the window that closes soonest. Once that read succeeds the
-    rotation carries on from where it stopped.
+    What a failure costs depends on what it was:
+
+    - A 429 slows the whole loop, because Reddit refuses the address and
+      not the feed. Each one adds to the wait before the next turn: BACKOFF
+      (a turn, if that is shorter), then double, up to one interval. The
+      first read that works puts the pace back. Nothing else backs off.
+    - Anything else that might pass (a 5xx, the network, a page that does
+      not parse, the database) gets the same feed read once more, MIN_GAP
+      later, and the turn after still goes out when it was due. One feed
+      read every five minutes holds 25 comments; waiting a whole interval
+      for the second try is the hole this fallback exists to cover.
+    - A feed's own refusal (403, 404) is logged and left to its next turn.
+      The other feeds keep their times.
 
     psycopg2 connections are not thread-safe, so this opens its own rather than
     sharing the poller's. A cycle that fails is logged and forgotten; the feed
@@ -189,16 +209,16 @@ def run_forever(interval=INTERVAL, verbose=False, names=DEFAULT):
     attempt that raised out of the except is what used to end this thread.
     """
     names = list(names) or list(DEFAULT)
-    first = subreddits.HOME if subreddits.HOME in names else names[0]
     gap = max(MIN_GAP, interval / len(names))
-    conn, ready, turn, backoff = None, False, 0, 0
+    conn, ready, turn, backoff, again, due = None, False, 0, 0, None, 0
     while True:
-        started = time.time()
-        if backoff:
-            subreddit = first
+        second = again is not None
+        if second:
+            subreddit, again = again, None
         else:
             subreddit = names[turn % len(names)]
             turn += 1
+            due = time.time() + gap             # when the turn after this one goes out
         try:
             if conn is None or conn.closed:
                 conn = db.connect()
@@ -210,11 +230,17 @@ def run_forever(interval=INTERVAL, verbose=False, names=DEFAULT):
             if c or verbose:
                 print(f"[rss] r/{subreddit} +{c} comment(s), +{t} thread(s)", flush=True)
         except Exception as e:
-            backoff = min(max(interval, MIN_GAP), backoff * 2 or gap)
-            print(f"[rss] r/{subreddit} {type(e).__name__}: {e}; backing off, next request in "
-                  f"{backoff + MIN_GAP:.0f}s or more", flush=True)
+            if _refused(e):
+                backoff = min(max(interval, MIN_GAP), backoff * 2 or min(gap, BACKOFF))
+                what = f"; slowing down, {backoff:.0f}s more before the next request"
+            elif not second and not _own(e):
+                again = subreddit
+                what = f"; once more in {MIN_GAP}s"
+            else:
+                what = ""
+            print(f"[rss] r/{subreddit} {type(e).__name__}: {e}{what}", flush=True)
             conn = db.recover(conn, log=lambda msg: print(f"[rss] {msg.strip()}", flush=True))
-        time.sleep(max(MIN_GAP, gap - (time.time() - started)) + backoff)
+        time.sleep(MIN_GAP if again is not None else max(MIN_GAP, due - time.time()) + backoff)
 
 
 def start_background(interval=INTERVAL, names=DEFAULT):
