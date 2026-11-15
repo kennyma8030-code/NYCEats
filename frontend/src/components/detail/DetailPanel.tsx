@@ -23,6 +23,16 @@ export function DetailPanel({ item, open, window, algo, onClose }: Props) {
   useEffect(() => setVoices(null), [item?.entity_key, open]);
   const shown = item && voices?.key === item.entity_key ? voices.view : null;
 
+  // The summary's "from N comments": back to the place's comment list if a
+  // number's voices are standing in for it, and into view where the list
+  // sits below the analytics rather than beside them.
+  const showComments = () => {
+    setVoices(null);
+    requestAnimationFrame(() => {
+      ref.current?.querySelector("#sh-comments")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
   // React 18 does not know `inert`, so set it directly. A closed panel is
   // still in the DOM (for the slide-out) and must not take focus.
   useEffect(() => {
@@ -43,7 +53,7 @@ export function DetailPanel({ item, open, window, algo, onClose }: Props) {
     >
       {item && (
         <>
-          <Analytics item={item} window={window} open={open} algo={algo} onBack={onClose} onVoices={(view) => setVoices({ key: item.entity_key, view })} />
+          <Analytics item={item} window={window} open={open} algo={algo} onBack={onClose} onVoices={(view) => setVoices({ key: item.entity_key, view })} onComments={showComments} />
           {shown ? (
             <VoiceList key={`${item.entity_key}|${shown.voice}|${shown.category}`} entityKey={item.entity_key} view={shown} onBack={() => setVoices(null)} />
           ) : (

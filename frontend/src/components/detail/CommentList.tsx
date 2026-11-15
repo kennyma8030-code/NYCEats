@@ -28,7 +28,7 @@ export function CommentList({ entityKey }: Props) {
   }, [entityKey, sort]);
 
   return (
-    <section className="cm" aria-label="Comments">
+    <section className="cm" id="sh-comments" aria-label="Comments">
       <div className="cm-head">
         <p className="sh-eye">{total ? `${total.toLocaleString()} ${total === 1 ? "comment" : "comments"}` : "Comments"}</p>
         <div className="cm-sort" role="group" aria-label="Sort comments">

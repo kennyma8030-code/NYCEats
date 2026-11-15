@@ -19,9 +19,10 @@ interface Props {
   algo: Algo;
   onBack: () => void;
   onVoices: (view: VoiceView) => void;
+  onComments: () => void;
 }
 
-export function Analytics({ item, window, open, algo, onBack, onVoices }: Props) {
+export function Analytics({ item, window, open, algo, onBack, onVoices, onComments }: Props) {
   const { data } = useRestaurant(item.entity_key, algo);
   const nameRef = useRef<HTMLHeadingElement>(null);
 
@@ -55,7 +56,7 @@ export function Analytics({ item, window, open, algo, onBack, onVoices }: Props)
         {item.neighborhood && <p className="sh-sub">{item.neighborhood}</p>}
       </div>
       <RatingCard rating={item.rating} onVoices={onVoices} />
-      <PlaceSummaryCard summary={data?.place_summary} />
+      <PlaceSummaryCard summary={data?.place_summary} onComments={onComments} />
       <Figures item={item} window={window} />
       <TrendChart current={item.series} previous={item.previous_series} window={window} />
       <AspectBubbles aspects={aspects} />
