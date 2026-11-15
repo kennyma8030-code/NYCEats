@@ -1,15 +1,4 @@
 {
-  // The web service's Railpack config, and only the web service's: it is read
-  // because that service sets RAILPACK_CONFIG_FILE=railpack.web.json. The
-  // poller and the extract runner build from the same repo without it, so
-  // their images stay Python-only and never wait on Node.
-  //
-  // Railpack sees requirements.txt and plans a Python image. This adds Node to
-  // the build and appends the React build to the Python provider's own build
-  // step, whose /app is what ships, so frontend/dist is in the image for
-  // app/main.py to serve at /. node_modules is removed afterwards because
-  // nothing at runtime reads it. A failed npm step fails the deploy, which
-  // leaves the previous deployment serving.
   "$schema": "https://schema.railpack.com",
   "packages": {
     "node": "22"

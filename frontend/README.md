@@ -26,15 +26,22 @@ whole site runs from `uvicorn` alone.
 deploy. Three Railway services build from this repo and only the web one needs
 Node, so the build step lives in files only that service reads:
 
-- `railpack.web.json` adds Node and runs `npm ci && npm run build` after the
-  Python build. The web service reads it because it has the variable
-  `RAILPACK_CONFIG_FILE=railpack.web.json`.
-- `railway.web.json` puts the web service on the Railpack builder. It is only
-  needed while Railway still reads `railway.json`, which otherwise builds
-  every service with Nixpacks; the web service's config file path is set to
-  `/railway.web.json`. Railway stops reading these files on 2026-12-01 and
-  uses the service's own settings, which say the same thing, so it can be
-  deleted after that.
+- `railpack.web.json` is the web service's Railpack config. Railpack sees
+  `requirements.txt` and plans a Python image; this file adds Node to the
+  build and appends the React build to the Python provider's own `build`
+  step (the `"..."` keeps that step's commands), whose `/app` is what ships,
+  so `frontend/dist` is in the image. `node_modules` is removed afterwards
+  because nothing at runtime reads it. The web service reads the file because
+  it has the variable `RAILPACK_CONFIG_FILE=railpack.web.json`. It is plain
+  JSON with no comments, which is why the explanation is here.
+- `railway.web.json` puts the web service on the Railpack builder, with the
+  start command, a health check on `/healthz` and the restart policy it has
+  today. It is only needed while Railway still reads `railway.json`, which
+  otherwise builds every service with Nixpacks; the web service's config file
+  path is set to `/railway.web.json`. Railway stops reading these files on
+  2026-12-01 and uses the service's own settings from then on, so anything
+  here that should outlive that date, the health check in particular, has to
+  be set on the service as well. The file can be deleted after that.
 
 The poller and the extract runner set neither, so their builds stay
 Python-only.
