@@ -243,3 +243,47 @@ export interface BoardResponse {
   offset: number;
   items: LedgerItem[];
 }
+
+/** One mention row as stored. Levels run -2..2; null means the model said nothing. */
+export interface ExtractedMention {
+  mention_id: number;
+  restaurant_raw: string;
+  entity_key: string;
+  resolved_key: string | null;
+  resolved_name: string | null;
+  overall_level: number | null;
+  taste_level: number | null;
+  value_level: number | null;
+  service_level: number | null;
+  atmosphere_level: number | null;
+  wait_level: number | null;
+  dish_opinions: { dish: string; level: number | null; avoid: boolean | null }[] | null;
+  price_level: number | null;
+  timeframe: string | null;
+  trend: string | null;
+  status: string | null;
+  avoid: boolean | null;
+  kind: string | null;
+  experience: string | null;
+  opinion: string | null;
+  tags: string[] | null;
+  is_chain: boolean | null;
+  /** Legacy extractor fields, present on old rows only. */
+  aspects: Record<string, number | null> | null;
+  dishes: unknown;
+  is_negated: boolean;
+}
+
+export interface ExtractionGroup {
+  prompt_hash: string;
+  schema_version: number | null;
+  label: string;
+  mentions: ExtractedMention[];
+}
+
+/** What the extractor took from one comment or post. `state` is the v6 bookkeeping row, null if never queued. */
+export interface Extraction {
+  item_id: string;
+  groups: ExtractionGroup[];
+  state: { extracted_at: string | null; error: string | null; cost_usd: number | null } | null;
+}

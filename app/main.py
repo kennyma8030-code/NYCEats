@@ -29,7 +29,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from .db import PoolTimeout, close_pool, open_pool
-from .routers import admin, feed, ledger, public, restaurants
+from .routers import admin, extraction, feed, ledger, public, restaurants
 
 # uvicorn configures this logger, so a line here lands in the Railway log.
 log = logging.getLogger("uvicorn.error")
@@ -122,6 +122,7 @@ def database_error(request: Request, exc: psycopg2.Error):
 app.include_router(public.router)
 app.include_router(ledger.router)
 app.include_router(feed.router)
+app.include_router(extraction.router)
 app.include_router(restaurants.router)
 app.include_router(admin.router)
 

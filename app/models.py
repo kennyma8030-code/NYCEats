@@ -567,3 +567,22 @@ class Board(BaseModel):
     limit: int
     offset: int
     items: list[LedgerItem]
+
+
+class ExtractionGroup(BaseModel):
+    """The mentions one prompt wrote for one item. Each mention is a plain
+    dict of the mentions columns: this is an inspection view, and a column
+    added later should show up without a model change."""
+    prompt_hash: str
+    schema_version: Optional[int] = None
+    model_version: str
+    label: str
+    created_at: datetime
+    mentions: list[dict[str, Any]]
+
+
+class ExtractionView(BaseModel):
+    item_id: str
+    groups: list[ExtractionGroup]
+    # The v6 extraction_state row; null when v6 never queued the item.
+    state: Optional[dict[str, Any]] = None

@@ -1,7 +1,8 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import type { FeedPlace, Mention } from "../../api/types";
 import { ago, avatarColor, redditUrl } from "../../lib/format";
 import { SUBREDDIT } from "../../state/city";
+import { ExtractionView } from "./ExtractionView";
 import "./RedditComment.css";
 
 /** What a card shows: a restaurant's mention, or a comment from the live stream. */
@@ -16,10 +17,13 @@ interface Props {
   /** The restaurants it mentions, as links to open them (stream only). */
   places?: FeedPlace[];
   onPlace?: (key: string) => void;
+  /** The comment (t1_) or post (t3_) id; with it the card can show what the extractor took from it. */
+  itemId?: string;
   className?: string;
 }
 
-export const RedditComment = memo(function RedditComment({ mention: m, post, places, onPlace, className }: Props) {
+export const RedditComment = memo(function RedditComment({ mention: m, post, places, onPlace, itemId, className }: Props) {
+  const [showEx, setShowEx] = useState(false);
   const author = m.author && m.author !== "[deleted]" ? m.author : null;
   const url = m.was_deleted_later ? null : redditUrl(m.permalink);
 
@@ -40,7 +44,11 @@ export const RedditComment = memo(function RedditComment({ mention: m, post, pla
         {post && <span className="rc-kind">Post</span>}
       </div>
       {post?.title && <p className="rc-title">{post.title}</p>}
-      {m.body && <p className={post ? "rc-body rc-clamp" : "rc-body"}>{m.body}</p>}
+      {itemId && showEx ? (
+        <ExtractionView itemId={itemId} />
+      ) : (
+        m.body && <p className={post ? "rc-body rc-clamp" : "rc-body"}>{m.body}</p>
+      )}
       {places && places.length > 0 && (
         <div className="rc-places">
           {places.map((p) => (
@@ -71,6 +79,17 @@ export const RedditComment = memo(function RedditComment({ mention: m, post, pla
           </a>
         ) : (
           <span className="rc-gone">deleted</span>
+        )}
+        {itemId && (
+          <button
+            type="button"
+            className="rc-ex"
+            aria-pressed={showEx}
+            title={showEx ? "Show the comment text" : "Show what the extractor took from this"}
+            onClick={() => setShowEx((v) => !v)}
+          >
+            {showEx ? "Text" : "Extraction"}
+          </button>
         )}
       </div>
       {!post && m.thread_title && <p className="rc-sub">r/{SUBREDDIT} · {m.thread_title}</p>}

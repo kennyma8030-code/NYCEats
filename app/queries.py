@@ -1338,3 +1338,56 @@ def top_neighborhoods(conn, sub, keys, fetch_all):
         group by al.resolved_key, m.neighborhood_hint
         order by al.resolved_key, count(*) desc, m.neighborhood_hint
     """, (sub, list(keys)))
+
+
+# An item id is Reddit's and names one comment or post in any city, so the
+# extraction view checks the item is the page's city's own before showing
+# anything about it, like every other read.
+ITEM_IN_CITY = """exists (
+            select 1 from comments c where c.id = %(id)s and c.subreddit = %(sub)s
+            union all
+            select 1 from threads t where t.id = %(id)s and t.subreddit = %(sub)s)"""
+
+
+def item_mentions(conn, sub, item_id, fetch_all, prompt_hash):
+    """The mention rows one prompt wrote for a comment (t1_) or post (t3_)
+    of this city. A post's mentions carry thread_id and a null comment_id.
+    Read from `mentions`, not `live_mentions`: this is for inspecting what the
+    extraction said, live or not. The typed name is resolved within the
+    city, where it is a place."""
+    return fetch_all(conn, f"""
+        select m.id as mention_id, m.restaurant_raw, m.entity_key,
+               r.resolved_key, r.official_name,
+               m.schema_version, m.prompt_hash, m.model_version, m.created_at,
+               m.kind, m.named_in, m.experience, m.opinion, m.avoid,
+               m.overall_level, m.taste_level, m.value_level, m.service_level,
+               m.atmosphere_level, m.wait_level,
+               m.dish_opinions, m.notes, m.tags, m.price_level, m.timeframe,
+               m.trend, m.status, m.is_chain,
+               m.dishes, m.descriptors, m.aspects, m.expensiveness,
+               m.is_firsthand, m.is_negated
+        from mentions m
+        left join lateral (
+          select al.resolved_key, l.official_name
+          from entity_alias al
+          left join entity_leaderboard l
+            on l.subreddit = al.subreddit and l.entity_key = al.resolved_key
+          where al.subreddit = %(sub)s and al.entity_key = m.entity_key
+          limit 1
+        ) r on true
+        where (m.comment_id = %(id)s or m.thread_id = %(id)s)
+          and m.prompt_hash = %(hash)s
+          and {ITEM_IN_CITY}
+        order by m.id
+    """, {"id": item_id, "sub": sub, "hash": prompt_hash})
+
+
+def extraction_state(conn, sub, item_id, fetch_one):
+    """The v6 bookkeeping row, so "read, found nothing" differs from "never read"."""
+    return fetch_one(conn, f"""
+        select kind, prompt_hash, model, extracted_at, extract_error as error,
+               cost_usd::float8 as cost_usd, attempts
+        from extraction_state
+        where item_id = %(id)s and version = 'v6'
+          and {ITEM_IN_CITY}
+    """, {"id": item_id, "sub": sub})
