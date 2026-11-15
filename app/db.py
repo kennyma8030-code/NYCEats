@@ -1,6 +1,6 @@
 """Connection pooling and row helpers for the API.
 
-The old api.py opened a fresh Postgres connection on every request and closed
+The standard-library server this app replaced opened a fresh Postgres connection on every request and closed
 it again -- a TCP handshake, a TLS negotiation and a backend fork per
 leaderboard load, which over a network link is most of the response time.
 

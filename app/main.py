@@ -25,7 +25,7 @@ import psycopg2.errors
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 
 from .db import PoolTimeout, close_pool, open_pool
@@ -127,9 +127,34 @@ app.include_router(restaurants.router)
 app.include_router(admin.router)
 
 # Mounted LAST and at the root, so it only catches paths no API route claimed.
-# html=True serves index.html at /. The React build wins when it exists
-# (cd frontend && npm run build); static/ is the old single-file page, kept
-# as the fallback so a deploy without a Node build step still has a UI.
-FRONTEND_DIR = next((d for d in ("frontend/dist", "static") if os.path.isdir(d)), None)
-if FRONTEND_DIR:
-    app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
+# html=True serves index.html at /. The React build (cd frontend && npm run
+# build) is the only UI, and it is not committed, so a deploy has to build it
+# (frontend/README.md, "Deploy").
+FRONTEND_DIR = "frontend/dist"
+FRONTEND_MISSING = ("The frontend is not built: frontend/dist does not exist. "
+                    "Run `npm run build` in frontend/, or check that the deploy's "
+                    "build step ran. The API is unaffected; see /docs.")
+
+
+def serve_frontend(app: FastAPI, directory: str) -> bool:
+    """Serve the built React app at /, or say plainly that there is none.
+
+    A missing build is reported twice, in the boot log and at / itself,
+    rather than left as a bare 404: a deploy whose Node step did not run
+    would otherwise look like a site that lost its page for no reason. It
+    does not stop the boot, because the API is useful without the page and
+    local work against the Vite dev server never builds one.
+    """
+    if os.path.isdir(directory):
+        app.mount("/", StaticFiles(directory=directory, html=True), name="frontend")
+        return True
+    log.error(FRONTEND_MISSING)
+
+    @app.get("/", include_in_schema=False)
+    def frontend_missing():
+        return PlainTextResponse(FRONTEND_MISSING, status_code=503)
+
+    return False
+
+
+serve_frontend(app, FRONTEND_DIR)

@@ -1,7 +1,7 @@
 """Print each extracted fact as JSON, as it lands.
 
 Reads the database directly rather than the API, so it works whether or not
-api.py is running.
+the web app is running.
 
     python watch.py             one JSON object per line, newest as they arrive
     python watch.py --pretty    indented

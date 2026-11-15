@@ -17,8 +17,10 @@ uvicorn app.main:app --reload
 npm run build      # type-checks, then writes frontend/dist
 ```
 
-FastAPI serves `frontend/dist` at `/` when it exists, so after a build the
-whole site runs from `uvicorn` alone.
+FastAPI serves `frontend/dist` at `/`, so after a build the whole site runs
+from `uvicorn` alone. There is no other page: without a build the API still
+works, and `/` answers 503 with a line saying the frontend is not built, which
+the boot log repeats.
 
 ## Deploy
 
@@ -44,7 +46,8 @@ Node, so the build step lives in files only that service reads:
   be set on the service as well. The file can be deleted after that.
 
 The poller and the extract runner set neither, so their builds stay
-Python-only.
+Python-only. If the build step does not run, the deploy still comes up and the
+API works, but `/` answers the 503 above instead of the site.
 
 ## Layout
 
