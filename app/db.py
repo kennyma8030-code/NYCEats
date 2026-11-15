@@ -1,8 +1,9 @@
 """Connection pooling and row helpers for the API.
 
-The standard-library server this app replaced opened a fresh Postgres connection on every request and closed
-it again -- a TCP handshake, a TLS negotiation and a backend fork per
-leaderboard load, which over a network link is most of the response time.
+The standard-library server this app replaced opened a fresh Postgres
+connection on every request and closed it again -- a TCP handshake, a TLS
+negotiation and a backend fork per leaderboard load, which over a network
+link is most of the response time.
 
 Pools are PER PROCESS. `uvicorn --workers N` forks N separate processes, each
 with its own pool, so the real connection count against Postgres is

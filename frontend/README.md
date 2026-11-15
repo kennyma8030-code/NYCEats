@@ -19,8 +19,8 @@ npm run build      # type-checks, then writes frontend/dist
 
 FastAPI serves `frontend/dist` at `/`, so after a build the whole site runs
 from `uvicorn` alone. There is no other page: without a build the API still
-works, and `/` answers 503 with a line saying the frontend is not built, which
-the boot log repeats.
+works, and `/` and every other page path answer 503 with a line saying the
+frontend is not built, which the boot log repeats as a warning.
 
 ## Deploy
 
@@ -46,8 +46,13 @@ Node, so the build step lives in files only that service reads:
   be set on the service as well. The file can be deleted after that.
 
 The poller and the extract runner set neither, so their builds stay
-Python-only. If the build step does not run, the deploy still comes up and the
-API works, but `/` answers the 503 above instead of the site.
+Python-only.
+
+A failed npm step fails the build, and Railway marks a deploy failed when the
+health check does not answer 2xx in time; a failed deploy is not made the
+active one. A build step that is skipped rather than failed is different:
+`/healthz` reads the database and never looks at the page, so the deploy comes
+up with a working API and the 503 above at every page path.
 
 ## Layout
 

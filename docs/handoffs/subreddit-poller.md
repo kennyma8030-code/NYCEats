@@ -161,7 +161,7 @@ opt into history: `BACKFILL_SUBREDDITS=all` and `BACKFILL_YEARS_OTHER=all`
 | `backfill.py` | takes a subreddit throughout; `run_all`, `start_background`; stale-tree scan scoped per sub |
 | `extract.py`, `extract_threads.py`, `seed_mentions.py` | candidate queries filter `subreddit = HOME` |
 | `scoring.sql` | `scoring_params.subreddit = 'FoodNYC'`; `mention_weights`, the volume denominator and `momentum_windows` filter on it |
-| `app/queries.py`, `api.py` | live feed, stats and extraction progress filter on `HOME` |
+| `app/queries.py`, `api.py` | live feed, stats and extraction progress filter on `HOME` (`api.py` has since been removed with the old pages it served) |
 | `SPEC.md` | ingestion section updated |
 
 SQL cannot import Python, so `'FoodNYC'` is spelled out beside

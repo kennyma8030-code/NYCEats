@@ -22,7 +22,7 @@ from contextlib import asynccontextmanager
 
 import psycopg2
 import psycopg2.errors
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse
@@ -126,35 +126,48 @@ app.include_router(extraction.router)
 app.include_router(restaurants.router)
 app.include_router(admin.router)
 
-# Mounted LAST and at the root, so it only catches paths no API route claimed.
-# html=True serves index.html at /. The React build (cd frontend && npm run
-# build) is the only UI, and it is not committed, so a deploy has to build it
-# (frontend/README.md, "Deploy").
-FRONTEND_DIR = "frontend/dist"
+# Registered LAST and at the root, so it only catches paths no API route
+# claimed. html=True serves index.html at /. The React build (cd frontend &&
+# npm run build) is the only UI, and it is not committed, so a deploy has to
+# build it (frontend/README.md, "Deploy").
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_MISSING = ("The frontend is not built: frontend/dist does not exist. "
                     "Run `npm run build` in frontend/, or check that the deploy's "
                     "build step ran. The API is unaffected; see /docs.")
 
 
+def frontend_dir(root: str = REPO_ROOT) -> str:
+    """Where the build lands, found from this file rather than from the
+    working directory, so uvicorn started from anywhere sees the same one."""
+    return os.path.join(root, "frontend", "dist")
+
+
 def serve_frontend(app: FastAPI, directory: str) -> bool:
     """Serve the built React app at /, or say plainly that there is none.
 
-    A missing build is reported twice, in the boot log and at / itself,
+    A missing build is reported in the boot log and at every page path,
     rather than left as a bare 404: a deploy whose Node step did not run
     would otherwise look like a site that lost its page for no reason. It
-    does not stop the boot, because the API is useful without the page and
-    local work against the Vite dev server never builds one.
+    does not stop the boot, because the API is useful without the page. It
+    is a warning rather than an error because it is also the ordinary state
+    of local work behind the Vite dev server, which never builds one.
     """
     if os.path.isdir(directory):
         app.mount("/", StaticFiles(directory=directory, html=True), name="frontend")
         return True
-    log.error(FRONTEND_MISSING)
+    log.warning(FRONTEND_MISSING)
 
-    @app.get("/", include_in_schema=False)
-    def frontend_missing():
+    # A catch-all, so /index.html, /assets/... and /favicon.ico say the same
+    # thing as /. Routes match in the order they were added and this is added
+    # last, so the API and the docs pages are never shadowed. An unknown /api
+    # path stays a 404, as it is when the build is mounted here instead.
+    @app.api_route("/{path:path}", methods=["GET", "HEAD"], include_in_schema=False)
+    def frontend_missing(path: str):
+        if path == "api" or path.startswith("api/"):
+            raise HTTPException(status_code=404)
         return PlainTextResponse(FRONTEND_MISSING, status_code=503)
 
     return False
 
 
-serve_frontend(app, FRONTEND_DIR)
+serve_frontend(app, frontend_dir())
