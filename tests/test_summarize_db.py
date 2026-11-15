@@ -34,6 +34,7 @@ import db
 import extract_v6 as EV
 import fake_anthropic as F
 import pgtest
+import poller
 import prompt_v6
 import refresh
 import subreddits
@@ -1037,8 +1038,8 @@ class Cities(SummaryCase):
             cl = AV.client("k", api.base_url)
             self.assertEqual(S.city_order(self.conn, self.both.cities), [subreddits.HOME, LA])
             self.assertEqual(self.poll(cl, limit=1, log=lines.append).written, 1)
-            self.assertTrue(any(f"r/{LA}: 2 due, NOT REACHED this run (the run's limit of 1 places was used)" in line
-                                for line in lines), lines)
+            self.assertTrue(any(f"summaries: r/{LA} NOT REACHED this run (the run's limit of 1 places was used)"
+                                in line for line in lines), lines)
             self.assertEqual(S.city_order(self.conn, self.both.cities), [LA, subreddits.HOME])
             # New York has more due again, and it is still Los Angeles's turn.
             self.city_mentions(subreddits.HOME, "alpha", 5, 1)
@@ -1047,7 +1048,7 @@ class Cities(SummaryCase):
             self.assertEqual(self.poll(cl, limit=1, log=lines.append).written, 1)
             self.assertEqual(sorted(self.q("select subreddit, count(*) from place_summaries group by 1")),
                              [(LA, 1), (subreddits.HOME, 1)])
-            self.assertTrue(any(f"r/{subreddits.HOME}: 1 due, NOT REACHED" in line for line in lines), lines)
+            self.assertTrue(any(f"summaries: r/{subreddits.HOME} NOT REACHED" in line for line in lines), lines)
             # The city served longest ago is first, whatever the settings' order.
             self.assertEqual(S.city_order(self.conn, self.both.cities), [subreddits.HOME, LA])
 
@@ -1059,7 +1060,31 @@ class Cities(SummaryCase):
         with F.FakeAnthropic(self.answer) as api:
             self.assertEqual(self.poll(AV.client("k", api.base_url), log=lines.append).written, 1)
         self.assertEqual(self.q("select subreddit from place_summaries"), [(subreddits.HOME,)])
-        self.assertTrue(any(f"r/{LA}: NOT WRITTEN" in line and "drop index" in line for line in lines), lines)
+        # Said once at boot, and not again on every run.
+        self.assertFalse(any("NOT WRITTEN" in line or LA in line for line in lines), lines)
+        note = S.held_back(self.conn, self.both.cities)
+        self.assertTrue(note.startswith(f"r/{LA} NOT WRITTEN") and "drop index" in note, note)
+        self.assertIsNone(S.held_back(self.conn, [subreddits.HOME]))
+        boot = []
+        poller.summarize_held_back(self.conn, mock.Mock(summarize_settings=self.both), log=boot.append)
+        self.assertEqual(boot, [f"summaries: {note}"])
+        with self.conn.cursor() as cur:
+            cur.execute(f"drop index {S.OLD_KEY_INDEX}")
+        self.conn.commit()
+        self.assertIsNone(S.held_back(self.conn, self.both.cities))
+
+    def test_a_run_that_has_stopped_reads_nothing_more(self):
+        # The cities left used to be read in full, each for a count to log;
+        # after a stop the connection caused, the first of those raised.
+        real, calls, lines = S.qualifying, [], []
+
+        def qualifying(conn, *a, **kw):
+            calls.append(kw["sub"])
+            return real(conn, *a, **kw)
+        with F.FakeAnthropic(self.answer) as api, mock.patch.object(S, "qualifying", qualifying):
+            self.assertEqual(self.poll(AV.client("k", api.base_url), limit=1, log=lines.append).written, 1)
+        self.assertEqual(calls, [subreddits.HOME])
+        self.assertEqual(len([line for line in lines if "NOT REACHED" in line]), 1, lines)
 
     def test_a_failure_and_a_retry_are_one_citys(self):
         S.record_attempt(self.conn, "alpha", "x", LA)

@@ -689,6 +689,22 @@ def summarize_boot(args, log=print):
     return True
 
 
+def summarize_held_back(conn, args, log=print):
+    """The one thing about summaries that only the database can say, so it
+    is said after the schema is applied and not in summarize_boot: cities
+    the settings name that will not be written yet. Once, here; each pass
+    then leaves them out quietly. Never fails the boot."""
+    import summarize
+    try:
+        note = summarize.held_back(conn, args.summarize_settings.cities)
+    except Exception as e:
+        conn.rollback()
+        log(f"summaries: could not check for {summarize.OLD_KEY_INDEX}: {type(e).__name__}: {e}")
+        return
+    if note:
+        log(f"summaries: {note}")
+
+
 def _env_flag(name):
     return os.environ.get(name, "0").strip().lower() not in ("", "0", "false", "no")
 
@@ -822,6 +838,8 @@ def main():
     # schema.sql is all "create ... if not exists", so this is safe every boot
     # and means a fresh Railway deploy needs no manual setup step.
     db.init(conn)
+    if args.summarize:
+        summarize_held_back(conn, args)
 
     if args.extract and args.extract_version == "v6":
         import extract_v6

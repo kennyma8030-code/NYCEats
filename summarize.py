@@ -385,6 +385,17 @@ _ONE_CITY = (f"place_summaries still has {OLD_KEY_INDEX}, which lets only r/{sub
              f"once no code from before the upgrade is running, `drop index {OLD_KEY_INDEX}`")
 
 
+def held_back(conn, cities):
+    """What to say once, at boot, of the cities in `cities` that will not be
+    written while the old key's index is there; None when all of them will.
+    poll_once leaves those cities out without a word, so this line is the
+    only place it is said."""
+    waiting = [c for c in cities if c != subreddits.HOME]
+    if not waiting or not one_city_only(conn):
+        return None
+    return f"{', '.join('r/' + c for c in waiting)} NOT WRITTEN: {_ONE_CITY}"
+
+
 def try_lock(conn):
     with conn.cursor() as cur:
         cur.execute("select pg_try_advisory_lock(%s)", (LOCK_KEY,))
@@ -1232,8 +1243,11 @@ def poll_once(conn, limit, settings=None, workers=4, connect=None, cl=None, log=
     and the lifetime ceiling. The cities are taken least recently served
     first (city_order). A city that ends the run early (the cap, the
     ceiling, the API refusing, the deadline, the limit) ends it for the
-    cities after it too; each of those with places due is named in the log,
-    and comes ahead of the ones served next time. Never raises for a missing
+    cities after it too: they are named in one line of the log, without
+    being looked at (what is due in a city is a heavy read, and a run that
+    has stopped has no use for it), and come ahead of the ones served next
+    time. While the old key's index is there only r/FoodNYC is taken, and
+    that is said at boot, not here (held_back). Never raises for a missing
     key, missing tables or the legacy read mode, and raises nothing that is
     not an Exception; a spend tripwire is raised (EV.Tripped) so the poller
     can switch summaries off. settings are the ones checked at boot."""
@@ -1260,21 +1274,15 @@ def poll_once(conn, limit, settings=None, workers=4, connect=None, cl=None, log=
         if deadline is None:
             deadline = time.monotonic() + DEADLINE
         total, budget = Stats(), None
-        home_only = one_city_only(conn)
-        ended = None            # why the run ended before every city had its turn
+        cities = city_order(conn, settings.cities)
+        if one_city_only(conn):
+            cities = [c for c in cities if c == subreddits.HOME]
         try:
-            for sub in city_order(conn, settings.cities):
-                if home_only and sub != subreddits.HOME:
-                    log(f"  summaries r/{sub}: NOT WRITTEN: {_ONE_CITY}")
-                    continue
+            for i, sub in enumerate(cities):
                 city = settings.for_city(sub)
                 due_now = due(qualifying(conn, city.n, since=since, have_tables=True, sub=sub), MODEL,
                               city.prompt_hash, city.x, share=city.share, now=now, park_hours=city.park_hours)
                 if not due_now:
-                    continue
-                if ended:
-                    log(f"  summaries r/{sub}: {len(due_now)} due, NOT REACHED this run ({ended}); "
-                        "it comes before the cities served this run next time")
                     continue
                 if budget is None:
                     budget = make_budget(max_usd if max_usd is not None else settings.run_usd,
@@ -1290,10 +1298,15 @@ def poll_once(conn, limit, settings=None, workers=4, connect=None, cl=None, log=
                 total.stop = stats.stop
                 if stats.written or stats.failed or stats.empty or stats.stop:
                     log(f"  summaries r/{sub}: {stats.line()}, ${budget.spent - before:.4f} ({len(due_now)} due)")
-                if stats.stop:
-                    ended = stats.stop
-                elif limit is not None and total.sent >= limit:
-                    ended = f"the run's limit of {limit} places was used"
+                ended = stats.stop or (f"the run's limit of {limit} places was used"
+                                       if limit is not None and total.sent >= limit else None)
+                if ended:
+                    # Nothing more is read once the run has stopped, whatever
+                    # stopped it: the cities left are named and that is all.
+                    if cities[i + 1:]:
+                        log(f"  summaries: {', '.join('r/' + c for c in cities[i + 1:])} NOT REACHED this run "
+                            f"({ended}); next time they come before the cities served this run")
+                    break
         finally:
             if budget is not None:
                 budget.ceiling.close()
