@@ -1383,8 +1383,13 @@ def item_extraction(conn, sub, item_id, prompt_hash, fetch_all, fetch_one, fetch
     The cursor row is the item's latest v6 read, under whichever prompt
     that was, so `this_prompt` says whether it is the read the rows are
     from: without it "read, found nothing" would be said of an item whose
-    last read was another prompt's. Only that, when, and whether it failed
-    are returned; the error text, cost, model and attempts are the
+    last read was another prompt's. A row with no prompt recorded is not
+    this prompt's. `pending` is the row being in a submitted batch: putting
+    an item in one sets the row's prompt to the batch's and leaves
+    extracted_at as the earlier read left it (extract_v6._submit), so until
+    the answer is stored that time belongs to a read this prompt may not
+    have made, and it is not returned. Only these, when, and whether it
+    failed are returned; the error text, cost, model and attempts are the
     pipeline's bookkeeping and stay out of a public response."""
     if not v6_ready(conn, fetch_value):
         return None
@@ -1419,8 +1424,10 @@ def item_extraction(conn, sub, item_id, prompt_hash, fetch_all, fetch_one, fetch
             order by m.id
         """, args)
         state = fetch_one(conn, f"""
-            select extracted_at, extract_error is not null as failed,
-                   prompt_hash = %(hash)s as this_prompt
+            select case when batch_id is null then extracted_at end as extracted_at,
+                   extract_error is not null as failed,
+                   coalesce(prompt_hash = %(hash)s, false) as this_prompt,
+                   batch_id is not null as pending
             from extraction_state
             where item_id = %(id)s and version = 'v6'
               and {in_city}

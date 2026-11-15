@@ -46,6 +46,15 @@ class Extraction(AppCase):
                                                          model, attempts, cost_usd)
                            values ('t1_c6', 'v6', 'comment', %s, 'schema: secret detail', 'some-model', 3, 0.5)""",
                         (THREAD,))
+            # t1_c2's row names no prompt (the column is nullable). t1_c3
+            # was read under an older prompt, found nothing, and is now in a
+            # batch under this one: the batch set the row's prompt and left
+            # the old read's time.
+            cur.execute("""insert into extraction_state (item_id, version, kind, extracted_at)
+                           values ('t1_c2', 'v6', 'comment', now())""")
+            cur.execute("""insert into extraction_state (item_id, version, kind, prompt_hash, batch_id, extracted_at)
+                           values ('t1_c3', 'v6', 'comment', %s, 'msgbatch_1', now() - interval '21 days')""",
+                        (THREAD,))
             # A Los Angeles comment, read by Los Angeles's thread prompt.
             cur.execute("""insert into threads (id, subreddit, title, created_utc)
                            values ('t3_la', %s, 'Best tacos?', %s)""", (LA, NOW))
@@ -101,9 +110,20 @@ class Extraction(AppCase):
         # t1_c1 has thread-mode rows and no cursor row at all.
         self.assertIsNone(self.get("t1_c1")["state"])
 
+    def test_a_row_with_no_prompt_is_not_this_prompts_and_does_not_break_the_route(self):
+        # `null = hash` is null, which the response's bool refused: a 500.
+        state = self.get("t1_c2")["state"]
+        self.assertIs(state["this_prompt"], False)
+
+    def test_an_item_only_queued_under_this_prompt_is_not_said_to_have_been_read(self):
+        state = self.get("t1_c3")["state"]
+        self.assertEqual(state, {"extracted_at": None, "failed": False, "this_prompt": True, "pending": True})
+        self.assertFalse(self.get("t1_c5")["state"]["pending"])
+
     def test_the_pipelines_bookkeeping_is_not_in_a_public_response(self):
         failed = self.get("t1_c6")
-        self.assertEqual(failed["state"], {"extracted_at": None, "failed": True, "this_prompt": True})
+        self.assertEqual(failed["state"],
+                         {"extracted_at": None, "failed": True, "this_prompt": True, "pending": False})
         body = self.get("t1_c1")
         self.assertEqual(sorted(body["groups"][0]), ["created_at", "label", "mentions", "prompt_hash"])
         for word in ("secret detail", "some-model", "cost_usd", "attempts", "extract_error", "model_version"):
@@ -133,7 +153,12 @@ class Extraction(AppCase):
             with mock.patch.object(prompt_v6, "thread_prompt", side_effect=ValueError("the prompt still says NYC")):
                 r = self.client.get("/api/extractions/t1_c1")
             self.assertEqual(r.status_code, 503)
-            self.assertIn("the prompt still says NYC", r.json()["detail"])
+            # The reason is the log's; the public answer is a fixed line.
+            self.assertEqual(r.json()["detail"], "the extraction prompt for this city could not be built")
+            # A bug is not a bad prompt: it is not turned into a 503 to retry.
+            with mock.patch.object(prompt_v6, "thread_prompt", side_effect=TypeError("a bug")):
+                with self.assertRaises(TypeError):
+                    self.client.get("/api/extractions/t1_c1")
             self.assertEqual(self.client.get("/api/cities").status_code, 200)
         finally:
             extraction.thread_hash.cache_clear()

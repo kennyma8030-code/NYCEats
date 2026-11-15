@@ -16,6 +16,7 @@ call (queries.item_extraction).
 """
 
 import functools
+import logging
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Path
@@ -27,6 +28,7 @@ from ..models import ExtractionGroup, ExtractionState, ExtractionView
 from .ledger import display_name
 
 router = APIRouter()
+log = logging.getLogger("uvicorn.error")
 
 # Reddit ids are lowercase base36. The pattern keeps the path to what an item
 # id can be; the query binds it as a parameter either way.
@@ -42,7 +44,8 @@ def thread_hash(sub):
     Built here and not when this module is imported: a prompt that cannot be
     built (prompt_v6 raises when a city's rewrite is incomplete) must fail
     this one debugging route, not stop the whole app from starting. A
-    failure is not cached, so the next request tries again."""
+    failure is not cached, so the next request tries again once the prompt
+    is fixed."""
     import prompt_v6
     return prompt_v6.thread_prompt(sub)[1]
 
@@ -72,13 +75,17 @@ def extraction(item_id: ItemId, sub: Sub, conn=Depends(get_conn)):
     mentions means it was read and nothing was found, and `failed` means
     the read failed. `this_prompt` is false when that read was under
     another prompt than the one shown, so it says nothing about these rows.
+    `pending` means the item is in a batch whose answer is not stored yet.
     An item of another city than the one asked for has neither.
     """
     try:
         phash = thread_hash(sub)
-    except Exception as e:
-        raise HTTPException(status_code=503,
-                            detail=f"the extraction prompt for r/{sub} could not be built: {e}")
+    except ValueError:
+        # What prompt_v6 raises for a city whose rewrite is incomplete. The
+        # reason names the prompt's own text, so it goes to the log and not
+        # to a public response. Anything else is a bug and is left to be one.
+        log.exception("the extraction prompt for r/%s could not be built", sub)
+        raise HTTPException(status_code=503, detail="the extraction prompt for this city could not be built")
     got = queries.item_extraction(conn, sub, item_id, phash, fetch_all, fetch_one, fetch_value)
     rows, state = got or ([], None)
     return ExtractionView(item_id=item_id, groups=group_rows(rows),

@@ -581,13 +581,15 @@ class ExtractionGroup(BaseModel):
 
 class ExtractionState(BaseModel):
     """The item's latest v6 read, as far as a public page is told: when,
-    whether it failed, and whether it was under the prompt being shown.
+    whether it failed, whether it was under the prompt being shown, and
+    whether the item is in a batch now with its answer still to come.
     Typed, unlike the mentions, so the cursor's other columns (the error
     text, cost, model, attempts) cannot reach the response by being added
     to a query."""
     extracted_at: Optional[datetime] = None
     failed: bool = False
     this_prompt: bool = True
+    pending: bool = False
 
 
 class ExtractionView(BaseModel):

@@ -277,9 +277,10 @@ export interface ExtractionGroup {
 }
 
 /** What the extractor took from one comment or post. `state` is the item's latest v6 read, null if never
- *  queued; `this_prompt` is false when that read was under another prompt than the one whose rows are shown. */
+ *  queued; `this_prompt` is false when that read was under another prompt than the one whose rows are shown,
+ *  and `pending` is true while the item sits in a batch whose answer is not stored yet. */
 export interface Extraction {
   item_id: string;
   groups: ExtractionGroup[];
-  state: { extracted_at: string | null; failed: boolean; this_prompt: boolean } | null;
+  state: { extracted_at: string | null; failed: boolean; this_prompt: boolean; pending: boolean } | null;
 }

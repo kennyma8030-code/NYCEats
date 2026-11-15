@@ -77,11 +77,13 @@ export function ExtractionView({ itemId }: { itemId: string }) {
             ? "Not extracted yet"
             : !s.this_prompt
               ? "Not read with this prompt; its last read was with a different one"
-              : s.failed
-                ? "Extraction failed"
-                : s.extracted_at
-                  ? `No mentions extracted (read ${ago(s.extracted_at)})`
-                  : "Not extracted yet"}
+              : s.pending
+                ? "In a batch under this prompt; no result yet"
+                : s.failed
+                  ? "Extraction failed"
+                  : s.extracted_at
+                    ? `No mentions extracted (read ${ago(s.extracted_at)})`
+                    : "Not extracted yet"}
         </p>
       )}
       {data.groups.map((g) => (
@@ -94,6 +96,9 @@ export function ExtractionView({ itemId }: { itemId: string }) {
       ))}
       {data.groups.length > 0 && s && !s.this_prompt && (
         <p className="ex-note">Read again since with a different prompt.</p>
+      )}
+      {data.groups.length > 0 && s && s.this_prompt && s.pending && (
+        <p className="ex-note">In a batch to be read again; these rows are from the read before.</p>
       )}
     </div>
   );
