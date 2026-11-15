@@ -18,8 +18,9 @@ set lock_timeout = '5s';
 -- comments. That is why they live in a table of their own, not as a column
 -- on anything that holds evidence.
 -- place-summaries-schema:begin
--- One row per place, keyed by the RESOLVED name (entity_alias.resolved_key),
--- so every spelling of a place shares one summary. A row is written when a
+-- One row per place, keyed by its subreddit and its RESOLVED name
+-- (entity_alias.resolved_key), so every spelling of a place shares one
+-- summary and two cities' places of one name do not. A row is written when a
 -- place first qualifies, and again when it has collected enough new
 -- discussion or the prompt or model changed. A place that qualifies with
 -- nothing to send gets a row with no summary, so it waits for new comments
@@ -36,7 +37,7 @@ set lock_timeout = '5s';
 --   written_at       when it was last written, with a summary or with
 --                    nothing to send; null until then
 create table if not exists place_summaries (
-  resolved_key     text primary key,
+  resolved_key     text not null,
   summary          text,
   model            text,
   prompt_hash      text,
@@ -51,7 +52,9 @@ create table if not exists place_summaries (
   attempts         int not null default 0,   -- failures since the last summary was written
   error            text,
   failed_at        timestamptz,
-  updated_at       timestamptz not null default now()
+  updated_at       timestamptz not null default now(),
+  subreddit        text not null default 'FoodNYC',
+  primary key (subreddit, resolved_key)
 );
 -- Columns that came after the table's first version. Nullable with no
 -- default, so the ALTER only touches the catalog; checked there first, so a
@@ -65,6 +68,18 @@ begin
                  where table_schema = current_schema() and table_name = 'place_summaries'
                    and column_name = 'seen_comment_ids') then
     alter table place_summaries add column if not exists seen_comment_ids text[];
+  end if;
+  -- The city, for a table from before summaries were written for more than
+  -- r/FoodNYC: its rows are New York's, which is what the default says (it
+  -- must match subreddits.HOME), and the key takes the subreddit in. A
+  -- constant default only touches the catalog; the key is rebuilt once,
+  -- over a few thousand rows at most.
+  if not exists (select 1 from information_schema.columns
+                 where table_schema = current_schema() and table_name = 'place_summaries'
+                   and column_name = 'subreddit') then
+    alter table place_summaries add column if not exists subreddit text not null default 'FoodNYC';
+    alter table place_summaries drop constraint place_summaries_pkey;
+    alter table place_summaries add primary key (subreddit, resolved_key);
   end if;
 end $$;
 -- Every paid call, kept apart from the summaries so that rewriting or
@@ -83,10 +98,21 @@ create table if not exists summary_calls (
   outcome      text not null,
   cost_usd     numeric(12, 8) not null,
   usage        jsonb,
-  called_at    timestamptz not null default now()
+  called_at    timestamptz not null default now(),
+  subreddit    text not null default 'FoodNYC'    -- whose place the call was for
 );
+do $$
+begin
+  perform set_config('lock_timeout', '5s', true);
+  if not exists (select 1 from information_schema.columns
+                 where table_schema = current_schema() and table_name = 'summary_calls'
+                   and column_name = 'subreddit') then
+    alter table summary_calls add column if not exists subreddit text not null default 'FoodNYC';
+  end if;
+end $$;
 -- When the poller's summary step last ran, so it runs at most once every
--- SUMMARY_EVERY_HOURS across restarts. One row, written by the step.
+-- SUMMARY_EVERY_HOURS across restarts. One row, written by the step, which
+-- takes every city it summarizes in the one run.
 create table if not exists summary_state (
   only_row     boolean primary key default true check (only_row),
   last_pass_at timestamptz

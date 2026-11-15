@@ -17,6 +17,7 @@ end. Skipped without TEST_DATABASE_URL.
 
 import datetime as dt
 import json
+from decimal import Decimal
 import os
 import tempfile
 import threading
@@ -404,8 +405,8 @@ class Writes(SummaryCase):
         real = S.qualifying_ids
         landed = []
 
-        def ids_then_land(conn, keys, since):
-            out = real(conn, keys, since)
+        def ids_then_land(conn, keys, since, sub=subreddits.HOME):
+            out = real(conn, keys, since, sub)
             if not landed:
                 landed.append(self.mention("alpha", 0, body="LANDED MID-READ"))
             return out
@@ -912,6 +913,129 @@ class PollerStep(SummaryCase):
         self.assertIn("tables missing", lines[0])
 
 
+LA = "FoodLosAngeles"
+
+
+class Cities(SummaryCase):
+    """A summary is one city's: its comments, its prompt, its row. Both
+    cities here have a place keyed "alpha"; New York likes its one."""
+
+    def city_mentions(self, sub, key, count, level):
+        with self.conn.cursor() as cur:
+            cur.execute("""insert into threads (id, subreddit, title, created_utc)
+                           values (%s, %s, 'Where to eat?', now() - interval '30 days')
+                           on conflict (id) do nothing""", (f"t3_{sub}", sub))
+            for i in range(count):
+                self.n += 1
+                cid = f"t1_{sub[:3]}{self.n}"
+                cur.execute("""insert into comments (id, subreddit, thread_id, parent_id, author, body, permalink,
+                                                     created_utc, score, score_settled)
+                               values (%s, %s, %s, %s, %s, %s, '/r/x', now() - make_interval(days => %s), 1, true)""",
+                            (cid, sub, f"t3_{sub}", f"t3_{sub}", f"u{self.n}", f"{key} as r/{sub} sees it", i + 1))
+                cur.execute("""insert into extraction_state (item_id, version, kind, prompt_hash, extracted_at)
+                               values (%s, 'v6', 'comment', %s, now())""", (cid, TH))
+                cur.execute("""insert into mentions (comment_id, restaurant_raw, entity_key, model_version,
+                                                     prompt_hash, schema_version, kind, opinion, overall_level)
+                               values (%s, %s, %s, 'm', %s, 6, 'restaurant', 'stated', %s)""",
+                            (cid, key, key, TH, level))
+        self.conn.commit()
+
+    def setUp(self):
+        super().setUp()
+        self.city_mentions(subreddits.HOME, "alpha", 10, 1)
+        self.city_mentions(LA, "alpha", 12, -1)
+        self.city_mentions(LA, "gamma", 10, 1)
+        self.build()
+        self.both = S.Settings(every_hours=0, cities=(subreddits.HOME, LA))
+
+    @staticmethod
+    def answer(params):
+        system = params["system"][0]["text"]
+        return ok("New Yorkers like it." if "r/FoodNYC" in system else "Angelenos do not.")
+
+    def poll(self, cl, limit=10, settings=None):
+        return S.poll_once(self.conn, limit, settings=settings or self.both, connect=pgtest.connect, cl=cl,
+                           log=QUIET, sleep=lambda s: None)
+
+    def test_each_city_has_its_own_prompt_and_new_yorks_is_unchanged(self):
+        self.assertEqual(S.system_prompt(), S.SYSTEM_PROMPT)
+        self.assertEqual(S.system_prompt(subreddits.HOME), S.SYSTEM_PROMPT)
+        self.assertEqual(S.Settings().for_city(subreddits.HOME).prompt_hash, PH)
+        hashes = {PH}
+        for sub in subreddits.SUBREDDITS:
+            if sub == subreddits.HOME:
+                continue
+            text = S.system_prompt(sub)
+            self.assertIn(f"r/{sub}, the {subreddits.city(sub).name} food subreddit", text)
+            self.assertNotIn("FoodNYC", text)
+            self.assertNotIn("New York", text)
+            self.assertEqual(text.replace(f"r/{sub}, the {subreddits.city(sub).name} food subreddit", S._WHOSE),
+                             S.SYSTEM_PROMPT)                            # nothing but the city changed
+            hashes.add(S.Settings().for_city(sub).prompt_hash)
+        self.assertEqual(len(hashes), len(subreddits.SUBREDDITS))
+        with self.assertRaises(ValueError):
+            S.system_prompt("FoodBoston")
+
+    def test_the_cities_setting(self):
+        self.assertEqual(S.load_settings({}).cities, (subreddits.HOME,))
+        self.assertEqual(S.load_settings({S.SUBS_VAR: "foodlosangeles, FoodNYC"}).cities, (subreddits.HOME, LA))
+        self.assertEqual(S.load_settings({S.SUBS_VAR: "all"}).cities, tuple(subreddits.SUBREDDITS))
+        with self.assertRaises(S.SettingError):                          # a ValueError: never ends the poller
+            S.load_settings({S.SUBS_VAR: "FoodBoston"})
+
+    def test_what_qualifies_is_per_city(self):
+        self.assertEqual({k: p.n for k, p in self.places().items()}, {"alpha": 10})
+        la = {p.key: p for p in S.qualifying(self.conn, 10, sub=LA)}
+        self.assertEqual({k: (p.n, p.negative) for k, p in la.items()}, {"alpha": (12, 12), "gamma": (10, 0)})
+        ids = S.qualifying_ids(self.conn, ["alpha"], S._since(self.conn)[1], LA)["alpha"]
+        self.assertEqual(len(ids), 12)
+        self.assertTrue(all(i.startswith("t1_Foo") and "NYC" not in i for i in ids))
+
+    def test_a_pass_writes_each_citys_places_from_its_own_comments(self):
+        with F.FakeAnthropic(self.answer) as api:
+            cl = AV.client("k", api.base_url)
+            stats = self.poll(cl)
+            self.assertEqual((stats.written, stats.sent), (3, 3))
+            self.assertEqual(self.poll(cl).written, 0)                   # nothing new in either city
+        rows = sorted(self.q("""select subreddit, resolved_key, summary, prompt_hash, mention_count
+                                from place_summaries"""))
+        home, la = self.both.for_city(subreddits.HOME).prompt_hash, self.both.for_city(LA).prompt_hash
+        self.assertEqual(rows, [(LA, "alpha", "Angelenos do not.", la, 12),
+                                (LA, "gamma", "Angelenos do not.", la, 10),
+                                (subreddits.HOME, "alpha", "New Yorkers like it.", home, 10)])
+        self.assertEqual(sorted(self.q("select subreddit, resolved_key, prompt_hash from summary_calls")),
+                         [(LA, "alpha", la), (LA, "gamma", la), (subreddits.HOME, "alpha", home)])
+        # Each request carried its own city's instructions and only its own city's comments.
+        for r in api.requests:
+            system, user = r["system"][0]["text"], r["messages"][0]["content"]
+            mine, other = (subreddits.HOME, LA) if "r/FoodNYC" in system else (LA, subreddits.HOME)
+            self.assertIn(f"as r/{mine} sees it", user)
+            self.assertNotIn(f"as r/{other} sees it", user)
+
+    def test_the_limit_and_the_default_cities(self):
+        with F.FakeAnthropic(self.answer) as api:
+            cl = AV.client("k", api.base_url)
+            self.assertEqual(self.poll(cl, limit=1).written, 1)          # New York first
+            self.assertEqual(self.q("select subreddit from place_summaries"), [(subreddits.HOME,)])
+            self.assertEqual(self.poll(cl, limit=1).written, 1)          # then the next city's
+            # Without the setting only r/FoodNYC is summarized, however much another city has due.
+            self.assertEqual(self.poll(cl, settings=S.Settings(every_hours=0)).written, 0)
+            self.assertEqual(self.poll(cl).written, 1)
+        self.assertEqual(sorted(self.q("select subreddit, count(*) from place_summaries group by 1")),
+                         [(LA, 2), (subreddits.HOME, 1)])
+
+    def test_a_failure_and_a_retry_are_one_citys(self):
+        S.record_attempt(self.conn, "alpha", "x", LA)
+        self.assertEqual(self.q("select subreddit, attempts from place_summaries"), [(LA, 1)])
+        with self.conn.cursor() as cur:
+            cur.execute("update place_summaries set attempts = 3")
+            cur.execute("insert into place_summaries (resolved_key, attempts, error) values ('alpha', 3, 'x')")
+        self.conn.commit()
+        self.assertEqual(S.retry_errors(self.conn, LA), 1)
+        self.assertEqual(sorted(self.q("select subreddit, attempts from place_summaries")),
+                         [(LA, 0), (subreddits.HOME, 3)])
+
+
 class SchemaUpgrade(SummaryCase):
     def test_reapplying_the_file_upgrades_a_first_version_table(self):
         with self.conn.cursor() as cur:
@@ -929,6 +1053,29 @@ class SchemaUpgrade(SummaryCase):
             db.init(self.conn, os.path.join(pgtest.ROOT, "summary_schema.sql"))
         self.assertTrue(S.tables_exist(self.conn))
         self.assertEqual(self.q("select summary, seen_comment_ids from place_summaries"), [("old summary", None)])
+        # A summary from before there was a second city is New York's, and
+        # another city can now hold a place of the same name.
+        self.assertEqual(self.q("select subreddit from place_summaries"), [(subreddits.HOME,)])
+        self.q("insert into place_summaries (subreddit, resolved_key) values ('chicagofood', 'kept') returning 1")
+        self.assertEqual(self.q("select count(*) from place_summaries where resolved_key = 'kept'"), [(2,)])
+
+    def test_a_ledger_from_before_cities_is_new_yorks(self):
+        with self.conn.cursor() as cur:
+            cur.execute("drop table summary_calls")
+            cur.execute("""create table summary_calls (
+                             id bigserial primary key, resolved_key text not null, model text not null,
+                             prompt_hash text not null, outcome text not null,
+                             cost_usd numeric(12, 8) not null, usage jsonb,
+                             called_at timestamptz not null default now())""")
+            cur.execute("""insert into summary_calls (resolved_key, model, prompt_hash, outcome, cost_usd)
+                           values ('kept', 'm', 'h', 'written', 0.01)""")
+        self.conn.commit()
+        self.assertFalse(S.tables_exist(self.conn))
+        for _ in range(2):
+            db.init(self.conn, os.path.join(pgtest.ROOT, "summary_schema.sql"))
+        self.assertTrue(S.tables_exist(self.conn))
+        self.assertEqual(self.q("select subreddit, cost_usd from summary_calls"),
+                         [(subreddits.HOME, Decimal("0.01000000"))])
 
 
 if __name__ == "__main__":

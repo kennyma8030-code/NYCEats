@@ -307,6 +307,33 @@ def load(conn, subreddit, source, groups):
     return len(rows)
 
 
+def ensure_loaded(conn, names, log=print):
+    """Load the list of each subreddit in `names` that has a source and no
+    rows yet, as restaurants.ensure_loaded does for New York: once, on the
+    first boot that collects the city, and never again by itself (run this
+    file by hand to refresh one). Returns {subreddit: rows loaded}.
+
+    A source that cannot be reached is logged and left for the next boot. A
+    city without its list is still collected and scored, its names just
+    unmatched, and that must not stop the poller from starting."""
+    with conn.cursor() as cur:
+        cur.execute("select distinct subreddit from city_restaurants")
+        have = {r[0] for r in cur.fetchall()}
+    conn.commit()
+    loaded = {}
+    for sub in names:
+        if sub in have or sub not in SOURCES:
+            continue
+        source, fetch = SOURCES[sub]
+        log(f"city_restaurants has no rows for r/{sub}, loading {source}")
+        try:
+            loaded[sub] = load(conn, sub, source, restaurants.group_by_name(fetch()))
+        except Exception as e:
+            conn.rollback()
+            log(f"  r/{sub}: could not load its list ({type(e).__name__}: {e}); the next boot tries again")
+    return loaded
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--subreddit", action="append", choices=sorted(SOURCES),

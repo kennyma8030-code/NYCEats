@@ -412,7 +412,7 @@ class NoIdleTransaction(Seeded):
                 mock.patch.object(poller.db, "connect", return_value=conn), \
                 mock.patch.object(poller.db, "init",
                                   lambda c: init(c, os.path.join(ROOT, "schema.sql"))), \
-                mock.patch.object(poller.restaurants, "ensure_loaded", return_value=0), \
+                mock.patch.object(poller.restaurants, "ensure_loaded", return_value=0),                 mock.patch.object(poller.city_restaurants, "ensure_loaded", return_value={}), \
                 mock.patch.object(poller.time, "sleep", sleep), \
                 redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
             with self.assertRaises(Stop):

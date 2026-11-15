@@ -12,8 +12,9 @@ What gets a vector (see the "Semantic search" section of SPEC.md):
   whose body is not [deleted] or [removed] -- embedded as thread title +
   comment body;
 - every thread -- title + selftext cut to 1,500 characters.
-Both only from r/FoodNYC (subreddits.HOME); the other cities the poller
-collects are stored, not searched.
+Both only from the subreddits in EMBED_SUBREDDITS (comma-separated, or
+'all'; r/FoodNYC alone when unset) or --subreddit: every vector is paid for,
+so a city the poller collects is embedded only when it is named.
 Nothing is filtered for excluded_entities, unresolved names, is_negated or
 reference_only. Those lists move with identity decisions and prompt versions,
 and a vector is expensive to recompute only in comparison with a WHERE
@@ -50,6 +51,7 @@ stay to-do.
 import argparse
 import concurrent.futures
 import hashlib
+import os
 import re
 import threading
 import time
@@ -127,11 +129,12 @@ class Kind:
     fmt: object          # embedding.format_comment / format_thread
 
 
-# Candidates are r/FoodNYC's only (subreddits.HOME). The tables hold every
-# city the poller collects, and nothing reads another city's vectors yet:
-# embedding their millions of backfilled rows would be paid for and never
-# read. Extraction can read other cities now, so a mentioned comment is no
-# longer HOME's by construction, and this filter is what keeps it to HOME.
+# Candidates are the chosen subreddits' only (embed_subreddits: r/FoodNYC
+# unless EMBED_SUBREDDITS or --subreddit says otherwise). The tables hold
+# every city the poller collects, and a vector costs money: a city's
+# millions of backfilled rows are embedded only when someone names it.
+# Extraction can read other cities, so a mentioned comment is not one
+# city's by construction, and this filter is what keeps the rest out.
 #
 # The window (`recent`, for the poller and --since-days) is on when a
 # comment's mention was stored, mentions.created_at, not when the comment was
@@ -157,7 +160,7 @@ COMMENTS = Kind(
     select c.id
     from comments c
     where c.id > %(after)s
-      and c.subreddit = %(sub)s
+      and c.subreddit = any(%(subs)s)
       and c.body not in ('[deleted]', '[removed]')
       -- Any extraction's rows, v6 included, and not live_mentions: which
       -- extraction the board reads can flip, and a vector must not have to
@@ -176,7 +179,7 @@ COMMENTS = Kind(
     select c.id
     from comments c
     where c.id > %(after)s
-      and c.subreddit = %(sub)s
+      and c.subreddit = any(%(subs)s)
       and c.body not in ('[deleted]', '[removed]')
       and c.id in (select w.id
                    from (select comment_id as id, created_at from mentions) w
@@ -203,7 +206,7 @@ THREADS = Kind(
     select t.id
     from threads t
     where t.id > %(after)s
-      and t.subreddit = %(sub)s
+      and t.subreddit = any(%(subs)s)
     order by t.id
     limit %(limit)s
     """,
@@ -212,9 +215,9 @@ THREADS = Kind(
     select t.id
     from threads t
     where t.id > %(after)s
-      and t.subreddit = %(sub)s
+      and t.subreddit = any(%(subs)s)
       and t.id in (select w.id from threads w
-                   where w.subreddit = %(sub)s
+                   where w.subreddit = any(%(subs)s)
                      and w.created_utc >= %(since)s::timestamptz
                      and w.id > %(after)s
                      {missing}
@@ -243,7 +246,17 @@ def tables_exist(conn):
         return cur.fetchone()[0]
 
 
-def select_todo(conn, kind, after, limit, since=None, have_tables=True):
+SUBS_ENV = "EMBED_SUBREDDITS"
+
+
+def embed_subreddits(value=None):
+    """The subreddits whose rows get vectors: `value` (--subreddit) when
+    given, else EMBED_SUBREDDITS, else r/FoodNYC alone. An unknown name
+    exits (subreddits.parse): a typo must not quietly skip a city."""
+    return subreddits.parse(value if value is not None else os.environ.get(SUBS_ENV), [subreddits.HOME])
+
+
+def select_todo(conn, kind, after, limit, since=None, have_tables=True, subs=None):
     """The next page of rows still to embed. Returns (rows, next_after).
 
     Two steps, so each page costs the same however far into the table it is.
@@ -266,7 +279,8 @@ def select_todo(conn, kind, after, limit, since=None, have_tables=True):
     run before the migration: every candidate is to do. Rows are
     (id, field a, field b, sql_hash).
     """
-    params = {"after": after, "since": since, "limit": limit, "sub": subreddits.HOME,
+    params = {"after": after, "since": since, "limit": limit,
+              "subs": list(subs) if subs is not None else embed_subreddits(),
               "model": E.MODEL_KEY, "kind": kind.name,
               "max_failures": RETRY_FAILURES, "cooldown": RETRY_AFTER}
     if since is None:
@@ -487,8 +501,9 @@ class Stats:
 
 def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
         batch=E.DOC_BATCH, attempts=E.ATTEMPTS, timeout=E.TIMEOUT,
-        deadline=None, log=print, stats=None):
-    """Embed what is still to do. Returns Stats; Stats.stop says why it ended early.
+        deadline=None, log=print, stats=None, subs=None):
+    """Embed what is still to do in `subs` (embed_subreddits() when not
+    given). Returns Stats; Stats.stop says why it ended early.
 
     Requests fan out across threads; every database write stays on this
     thread, because psycopg2 connections are not thread-safe. Vectors that
@@ -570,7 +585,7 @@ def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
                     stop.set()
                     break
                 take = page if limit is None else min(page, limit - stats.attempted)
-                rows, after = select_todo(conn, kind, after, take, since)
+                rows, after = select_todo(conn, kind, after, take, since, subs=subs)
                 if after is None:
                     break
                 items, drift = prepare(kind, rows)
@@ -602,7 +617,7 @@ def run(conn, kinds, budget, *, limit=None, since=None, workers=WORKERS,
 
 
 def dry_run(conn, kinds, since=None, limit=None, log=print,
-            page=page_size(E.DOC_BATCH, WORKERS)):
+            page=page_size(E.DOC_BATCH, WORKERS), subs=None):
     """Walk exactly the rows a real run would, through the same query and
     formatters, and price them. No API call and no write: safe on a
     read-only connection, and before the migration (then everything is to do).
@@ -617,7 +632,7 @@ def dry_run(conn, kinds, since=None, limit=None, log=print,
         after = ""
         while limit is None or n < limit:
             take = page if limit is None else min(page, limit - n)
-            rows, after = select_todo(conn, kind, after, take, since, have_tables=have)
+            rows, after = select_todo(conn, kind, after, take, since, have_tables=have, subs=subs)
             if after is None:
                 break
             items, bad = prepare(kind, rows)
@@ -714,6 +729,9 @@ def main():
     ap.add_argument("--dry-run", action="store_true",
                     help="report rows, tokens and projected cost; no API call, no write")
     ap.add_argument("--scope", choices=tuple(KINDS), default="both")
+    ap.add_argument("--subreddit", metavar="NAMES", default=None,
+                    help="the subreddits to embed, comma-separated or 'all' "
+                         "(default: $EMBED_SUBREDDITS, else r/FoodNYC)")
     ap.add_argument("--limit", type=int, default=None, help="stop after N rows per run")
     ap.add_argument("--max-usd", type=float, default=1.0,
                     help="spend cap for this run, checked before every request (default 1.00)")
@@ -747,6 +765,7 @@ def main():
             since = cur.fetchone()[0]
         conn.commit()
     kinds = KINDS[args.scope]
+    subs = embed_subreddits(args.subreddit)
 
     if args.dry_run:
         if args.retry_errors and tables_exist(conn):
@@ -760,7 +779,7 @@ def main():
                 print(f"--retry-errors would clear {n:,} error(s); the counts below "
                       f"include only the {due:,} already due for an automatic retry")
             conn.commit()
-        dry_run(conn, kinds, since, args.limit)
+        dry_run(conn, kinds, since, args.limit, subs=subs)
         return
 
     # Fail here rather than per row, like extract.py: a missing key would
@@ -787,7 +806,7 @@ def main():
         print(f"embedding {args.scope} with {E.MODEL_KEY} (key from {E.api_key_var()}), "
               f"cap ${args.max_usd:.2f}, {args.workers} workers")
         run(conn, kinds, budget, limit=args.limit, since=since, workers=args.workers,
-            stats=stats)
+            stats=stats, subs=subs)
     except KeyboardInterrupt:
         interrupted = True
     finally:
