@@ -103,6 +103,7 @@ outlast the backoff.
 
 import argparse
 import concurrent.futures
+import contextlib
 import datetime as dt
 import os
 import sys
@@ -194,6 +195,11 @@ def unlock(conn):
 # a query at least this often while it waits.
 KEEPALIVE_SECONDS = 60
 
+# One ping at a time. A ping reads the transaction's status, queries, and
+# rolls back if it began the transaction, and those three must not be mixed
+# with another thread's (_kept_alive pings from a second one).
+_PING = threading.Lock()
+
 
 def keep_alive(conn):
     """Send `select 1` so a connection waiting on the API is not idle.
@@ -204,13 +210,72 @@ def keep_alive(conn):
     one it does nothing, as the query would only fail. No reconnect when the
     connection is dead: a new one would not hold the lock, so the error ends
     the run, and the next run picks up where it stopped."""
-    status = conn.get_transaction_status()
-    if status == psycopg2.extensions.TRANSACTION_STATUS_INERROR:
-        return
-    with conn.cursor() as cur:
-        cur.execute("select 1")
-    if status == psycopg2.extensions.TRANSACTION_STATUS_IDLE:
-        conn.rollback()
+    with _PING:
+        status = conn.get_transaction_status()
+        if status == psycopg2.extensions.TRANSACTION_STATUS_INERROR:
+            return
+        with conn.cursor() as cur:
+            cur.execute("select 1")
+        if status == psycopg2.extensions.TRANSACTION_STATUS_IDLE:
+            conn.rollback()
+
+
+class Pulse:
+    """beat() pings conn once KEEPALIVE_SECONDS have passed since the last
+    ping, however the time went by. A direct run calls it every time its
+    wait for answers returns. Pinging only when a whole wait returned no
+    answer was not enough: answers that write nothing (a request the cap or
+    a stop left unsent, one that failed) can keep arriving inside each wait
+    for longer than the proxy allows, and no query went out.
+
+    It counts from its own last ping, not from the connection's last query,
+    which it cannot see: at worst that is one `select 1` a minute beside a
+    run that is also writing."""
+
+    def __init__(self, conn):
+        self.conn = conn
+        self.at = time.monotonic()
+
+    def beat(self):
+        if time.monotonic() - self.at >= KEEPALIVE_SECONDS:
+            keep_alive(self.conn)
+            self.at = time.monotonic()
+
+
+@contextlib.contextmanager
+def _kept_alive(conn):
+    """Ping conn every KEEPALIVE_SECONDS from a second thread while this one
+    is inside a single long API call: a batch's upload, or the download of
+    its results, either of which can outlast the proxy's patience and has no
+    wait in it to hang a ping on.
+
+    A second thread is safe only because of what the calling thread does
+    meanwhile, which is nothing on the connection but pings of its own (the
+    backoff sleeps of a retried read), and keep_alive takes them one at a
+    time. psycopg2 lets threads share a connection but not a transaction, so
+    a ping here beside a statement of the caller's could roll that
+    statement's transaction back: nothing that writes may go inside the
+    block. The thread is joined on the way out, so no ping is in flight when
+    the caller's next statement runs.
+
+    A ping that fails ends the thread quietly. The connection is gone, and
+    the caller's next statement says so on the caller's thread, where the
+    error ends the run as it always did."""
+    done = threading.Event()
+
+    def beat():
+        while not done.wait(KEEPALIVE_SECONDS):
+            try:
+                keep_alive(conn)
+            except Exception:
+                return
+    thread = threading.Thread(target=beat, name="extract-keepalive", daemon=True)
+    thread.start()
+    try:
+        yield
+    finally:
+        done.set()
+        thread.join()
 
 
 def _keeping_alive(conn, sleep):
@@ -993,7 +1058,7 @@ def run_direct(conn, cl, budget, kinds=KINDS, limit=None, since=None, ids=None, 
 PAGE = 200
 
 
-def _send_direct(cl, budget, requests, workers, stop, capped, log, answered, unsent, idle):
+def _send_direct(cl, budget, requests, workers, stop, capped, log, answered, unsent, beat):
     """Send requests (items or chunks) `workers` at a time under the cap.
 
     The network half runs on threads and touches no database; answered(req,
@@ -1001,9 +1066,10 @@ def _send_direct(cl, budget, requests, workers, stop, capped, log, answered, uns
     order answers arrive, so every write stays on the caller's connection.
     why is "skipped" (the cap, or a stop) or the FatalAPIError or
     TransientAPIError that stopped the pass, which is raised once every
-    answer already received has been handed over. idle() is called on this
-    thread whenever KEEPALIVE_SECONDS pass with no answer, so the caller can
-    keep its connection open while long streamed chunks or retries are out."""
+    answer already received has been handed over. beat() is called on this
+    thread every time the wait for answers returns, with one or without, at
+    least every KEEPALIVE_SECONDS, so the caller can keep its connection
+    open while long streamed chunks or retries are out (Pulse.beat)."""
     def work(req):
         if stop.is_set():
             return req, "skipped", 0.0
@@ -1054,8 +1120,7 @@ def _send_direct(cl, budget, requests, workers, stop, capped, log, answered, uns
         while waiting:
             done, waiting = concurrent.futures.wait(waiting, timeout=KEEPALIVE_SECONDS,
                                                     return_when=concurrent.futures.FIRST_COMPLETED)
-            if not done:
-                idle()
+            beat()
             for fut in done:
                 req, res, c = fut.result()
                 if isinstance(res, (str, Exception)):
@@ -1087,7 +1152,7 @@ def _direct_page(conn, cl, budget, items, workers, stats, stop, capped, log):
             stats.refused += capped.is_set()
     _send_direct(cl, budget, items, workers, stop, capped, log,
                  lambda item, msg, c: _handle(conn, item, msg, c, stats, log=log), unsent,
-                 lambda: keep_alive(conn))
+                 Pulse(conn).beat)
 
 
 # ---------------------------------------------------------------- batches
@@ -1151,7 +1216,10 @@ def _submit(conn, cl, budget, batch, log):
     conn.commit()
     budget.hold(pid, held, force=True)
     try:
-        bid = AV.submit(cl, [(r.id, r.params()) for r in batch])
+        # The upload of a full batch can take minutes, with the lock's
+        # connection silent behind it.
+        with _kept_alive(conn):
+            bid = AV.submit(cl, [(r.id, r.params()) for r in batch])
     except (AV.TransientAPIError, AV.FatalAPIError):
         # A refusal (4xx, 429): the API created nothing, so undo the bookkeeping.
         with conn.cursor() as cur:
@@ -1240,7 +1308,8 @@ def _collect(conn, cl, budget, bid, stats, log, sleep=None):
     An invalid_request_error inside a batch is the batch-shaped version of a
     direct 4xx: those items are left due and unmarked, the rest is stored, and
     FatalAPIError is raised once the batch is settled."""
-    res = AV.results(cl, bid, sleep=sleep, log=log)
+    with _kept_alive(conn):         # a large batch's results are a long download
+        res = AV.results(cl, bid, sleep=sleep, log=log)
     with conn.cursor() as cur:
         cur.execute("select item_id, kind, prompt_hash from extraction_state where batch_id = %s", (bid,))
         members = cur.fetchall()
@@ -2133,7 +2202,7 @@ def _direct_alone(conn, cl, budget, pairs, workers, stats, stop, capped, log):
         stats.threads_open.add(item.thread_id)
     _send_direct(cl, budget, render_pairs(conn, pairs), workers, stop, capped, log,
                  lambda item, msg, c: _handle(conn, item, msg, c, stats, log=log), unsent,
-                 lambda: keep_alive(conn))
+                 Pulse(conn).beat)
 
 
 def _run_direct_threads(conn, cl, budget, opts, limit, since, ids, newest_first, workers, log, stats, held_out):
@@ -2207,7 +2276,7 @@ def _direct_chunks(conn, cl, budget, jobs, workers, stats, stop, capped, log):
     def unsent(job, why):
         stats.refused += len(job.chunk)
         stats.threads_open.add(job.chunk.thread_id)
-    _send_direct(cl, budget, jobs, workers, stop, capped, log, answered, unsent, lambda: keep_alive(conn))
+    _send_direct(cl, budget, jobs, workers, stop, capped, log, answered, unsent, Pulse(conn).beat)
     return retry
 
 
@@ -2246,7 +2315,8 @@ def _collect_chunks(conn, cl, budget, bid, rows, stats, log, sleep=None):
     invalid_request_error is fatal as in comment mode: that chunk is queued
     again unchanged, its items left due, and the run stops once the rest is
     stored and the batch is marked collected (_batch_collected)."""
-    res = AV.results(cl, bid, sleep=sleep, log=log)
+    with _kept_alive(conn):         # a large batch's results are a long download
+        res = AV.results(cl, bid, sleep=sleep, log=log)
     costs, total = _batch_costs(res, bid, [r[0] for r in rows], "chunks", log)
     answers, failures, again, invalid = [], [], [], []
     for row in rows:

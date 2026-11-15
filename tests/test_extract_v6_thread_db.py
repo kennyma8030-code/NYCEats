@@ -1219,6 +1219,30 @@ class KeepAlive(ThreadCase):
         self.assertIn(("ping",), self.events)
         self.assertTrue(all(v[2] for v in self.state().values()))
 
+    def test_a_batch_upload_and_its_download_are_pinged_through(self):
+        # Neither call has a wait in it, so the waits' pings never came: a
+        # slow upload or download left the lock's connection silent.
+        import time
+        self.events = []
+
+        def slow(name, real):
+            def call(*a, **kw):
+                self.events.append((name, "start"))
+                time.sleep(0.15)
+                self.events.append((name, "end"))
+                return real(*a, **kw)
+            return call
+        with F.FakeAnthropic(answer) as api, self.spied(), mock.patch.object(X, "KEEPALIVE_SECONDS", 0.03), \
+                mock.patch.object(AV, "submit", slow("submit", AV.submit)), \
+                mock.patch.object(AV, "results", slow("results", AV.results)):
+            X.run_batch_threads(self.conn, AV.client("k", api.base_url), X.Budget(10), self.opts(), log=QUIET,
+                                sleep=lambda s: None, poll_seconds=0, stats=X.Stats())
+        for name in ("submit", "results"):
+            a, b = self.events.index((name, "start")), self.events.index((name, "end"))
+            self.assertIn(("ping",), self.events[a:b], name)
+        self.assertEqual(set(self.state()), HOME_LIVE | HOME_POSTS)
+        self.assertEqual(self.conn.get_transaction_status(), psycopg2.extensions.TRANSACTION_STATUS_IDLE)
+
     def test_a_dropped_connection_ends_the_run_on_its_own_error(self):
         self.assertTrue(X.try_lock(self.conn))
         other = pgtest.connect()
