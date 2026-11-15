@@ -44,6 +44,7 @@ import csv
 import io
 import json
 import re
+import threading
 import time
 import urllib.parse
 import urllib.request
@@ -307,31 +308,99 @@ def load(conn, subreddit, source, groups):
     return len(rows)
 
 
-def ensure_loaded(conn, names, log=print):
+# The fewest distinct names a city's list can honestly have. Each source
+# above lists several thousand (Chicago's about 11,000 places), so a fetch
+# that comes back with less than this is an outage or a changed dataset that
+# answered 200 with nothing in it, not a city with no restaurants. Loading it
+# would mark the city as loaded with a list that matches nothing.
+MIN_NAMES = 1000
+
+
+class TooFew(Exception):
+    """A source answered with too few names to be the city's list."""
+
+
+def checked(groups):
+    """`groups` if it can be a city's list, else TooFew."""
+    if len(groups) < MIN_NAMES:
+        raise TooFew(f"its source returned {len(groups):,} distinct names, and a real list has "
+                     f"at least {MIN_NAMES:,}; nothing was loaded")
+    return groups
+
+
+def missing(conn, names):
+    """The subreddits of `names` that have a source and no rows yet."""
+    with conn.cursor() as cur:
+        cur.execute("select distinct subreddit from city_restaurants")
+        have = {r[0] for r in cur.fetchall()}
+    conn.commit()
+    return [sub for sub in names if sub in SOURCES and sub not in have]
+
+
+def _close(conn):
+    try:
+        if conn is not None:
+            conn.close()
+    except Exception:
+        pass
+
+
+def ensure_loaded(names, connect=None, log=print):
     """Load the list of each subreddit in `names` that has a source and no
     rows yet, as restaurants.ensure_loaded does for New York: once, on the
     first boot that collects the city, and never again by itself (run this
     file by hand to refresh one). Returns {subreddit: rows loaded}.
 
-    A source that cannot be reached is logged and left for the next boot. A
-    city without its list is still collected and scored, its names just
-    unmatched, and that must not stop the poller from starting."""
-    with conn.cursor() as cur:
-        cur.execute("select distinct subreddit from city_restaurants")
-        have = {r[0] for r in cur.fetchall()}
-    conn.commit()
+    Never raises, and never touches the caller's connection. It opens its
+    own, one for the look at what is missing and one for each city's load,
+    and holds none while a source is being downloaded: a download can take
+    many minutes, long enough for the proxy to drop an idle connection, and
+    a dead connection handed back to the poller is what this must not do.
+
+    A source that cannot be reached, or that answers with too few names to
+    be the city's list (MIN_NAMES), is logged and left for the next boot,
+    which tries once more. A city without its list is still collected and
+    scored, its names just unmatched. The sources raise SystemExit as well
+    as Exception (los_angeles), so both are caught.
+    """
+    connect = connect or db.connect
     loaded = {}
-    for sub in names:
-        if sub in have or sub not in SOURCES:
-            continue
+    conn = None
+    try:
+        conn = connect()
+        todo = missing(conn, names)
+    except Exception as e:
+        log(f"city_restaurants: could not see which lists are missing ({type(e).__name__}: {e}); "
+            f"the next boot tries again")
+        return loaded
+    finally:
+        _close(conn)
+    for sub in todo:
         source, fetch = SOURCES[sub]
         log(f"city_restaurants has no rows for r/{sub}, loading {source}")
+        conn = None
         try:
-            loaded[sub] = load(conn, sub, source, restaurants.group_by_name(fetch()))
-        except Exception as e:
-            conn.rollback()
-            log(f"  r/{sub}: could not load its list ({type(e).__name__}: {e}); the next boot tries again")
+            groups = checked(restaurants.group_by_name(fetch()))
+            conn = connect()
+            loaded[sub] = load(conn, sub, source, groups)
+            log(f"loaded {loaded[sub]:,} restaurants for r/{sub}")
+        except (Exception, SystemExit) as e:
+            log(f"  r/{sub}: LIST NOT LOADED ({type(e).__name__}: {e}); the next boot tries again")
+        finally:
+            _close(conn)
     return loaded
+
+
+def start_background(names, log=print):
+    """ensure_loaded beside the poller rather than before it, like the
+    backfill and the RSS fallback: four full downloads from public servers,
+    each allowed minutes of retries, must not hold the first poll back.
+    Daemon: it dies with its host, and a list that did not load is tried
+    again on the next boot."""
+    thread = threading.Thread(target=ensure_loaded, args=(tuple(names),), kwargs={"log": log},
+                              name="city-restaurants", daemon=True)
+    thread.start()
+    return thread
 
 
 def main():
@@ -359,6 +428,12 @@ def main():
         for g in chains[:5]:
             print(f"   {len(g['addresses']):>5}  {g['display']}")
         if conn is not None:
+            try:
+                checked(groups)
+            except TooFew as e:
+                # The old list is better than a truncated one: load() replaces it whole.
+                print(f"  NOT LOADED: {e}")
+                continue
             print(f"  loaded {load(conn, sub, source, groups):,} rows into city_restaurants")
 
 

@@ -35,11 +35,15 @@ import subreddits
 
 # Which feeds are read when nobody says: r/FoodNYC's alone. The poller
 # passes the cities it polls. Each feed is still read once every INTERVAL,
-# and the feeds are spread evenly across it (run_forever), so six cities are
-# one request every 50 seconds, never six at once: a burst is what Reddit
-# answers with a 429.
+# and the feeds are spread evenly across it (run_forever), so the seven
+# cities polled are one request about every 43 seconds, never seven at once:
+# a burst is what Reddit answers with a 429.
 DEFAULT = (subreddits.HOME,)
 INTERVAL = 5 * 60
+# The least time between two requests in the loop, whatever the turn before
+# took and however many feeds share the interval.
+MIN_GAP = 10
+RETRIES = 4             # for a single read (--once); the loop does its own backing off
 LIMIT = 25              # the feed's own page size; asking for more changes nothing
 UA = {"User-Agent": "foodnyc-tracker/0.1 (personal project)"}
 NS = {"a": "http://www.w3.org/2005/Atom"}
@@ -56,7 +60,11 @@ def feed_url(subreddit, limit=LIMIT):
     return f"https://www.reddit.com/r/{subreddit}/comments/.rss?limit={limit}"
 
 
-def fetch(subreddit, limit=LIMIT, attempt=0):
+def fetch(subreddit, limit=LIMIT, attempt=0, retries=RETRIES):
+    """The feed's XML. `retries` is how many more times a refused or failed
+    request is tried here, each after a longer sleep; run_forever passes 0
+    and spaces its own requests, because a retry that sleeps inside one
+    feed's turn sends the next feeds out back to back when it returns."""
     req = urllib.request.Request(feed_url(subreddit, limit), headers=UA)
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
@@ -64,14 +72,14 @@ def fetch(subreddit, limit=LIMIT, attempt=0):
     except urllib.error.HTTPError as e:
         # Reddit answers 429 under load and 5xx when it feels like it. A
         # fallback that dies on the first bad minute is not a fallback.
-        if (e.code == 429 or e.code >= 500) and attempt < 4:
+        if (e.code == 429 or e.code >= 500) and attempt < retries:
             time.sleep(min(10 * (2 ** attempt), 120))
-            return fetch(subreddit, limit, attempt + 1)
+            return fetch(subreddit, limit, attempt + 1, retries)
         raise
     except (OSError, http.client.HTTPException):
-        if attempt < 4:
+        if attempt < retries:
             time.sleep(min(10 * (2 ** attempt), 120))
-            return fetch(subreddit, limit, attempt + 1)
+            return fetch(subreddit, limit, attempt + 1, retries)
         raise
 
 
@@ -140,10 +148,10 @@ def parse(xml_text, subreddit):
     return out
 
 
-def poll_once(conn, subreddit=subreddits.HOME):
+def poll_once(conn, subreddit=subreddits.HOME, retries=RETRIES):
     """One fetch of one subreddit's feed, deduped on the way in. Returns
     (new threads, new comments)."""
-    entries = parse(fetch(subreddit), subreddit)
+    entries = parse(fetch(subreddit, retries=retries), subreddit)
     if not entries:
         return 0, 0
     # Threads first: rss_comments.thread_id has a foreign key. A dict keyed on
@@ -162,6 +170,16 @@ def run_forever(interval=INTERVAL, verbose=False, names=DEFAULT):
     interval / len(names): each feed is read once an interval, and no two
     requests go out together. A feed that fails costs its own turn only.
 
+    A turn's request is made once, with no retries inside it, and the gap
+    to the next is never under MIN_GAP. After a failure the whole loop backs
+    off: the wait before the next request grows by a turn, then doubles, up
+    to one interval, until a request succeeds. While it is backing off the
+    one request it makes is r/FoodNYC's (the first feed's, if that is not
+    polled), not the next in line: Reddit refuses the address, not the feed,
+    so the rotation would fail the same way, and r/FoodNYC's 25 comments
+    are the window that closes soonest. Once that read succeeds the
+    rotation carries on from where it stopped.
+
     psycopg2 connections are not thread-safe, so this opens its own rather than
     sharing the poller's. A cycle that fails is logged and forgotten; the feed
     only holds 25 comments, so a missed cycle costs only what arrived in five
@@ -171,24 +189,32 @@ def run_forever(interval=INTERVAL, verbose=False, names=DEFAULT):
     attempt that raised out of the except is what used to end this thread.
     """
     names = list(names) or list(DEFAULT)
-    conn, ready, turn = None, False, 0
+    first = subreddits.HOME if subreddits.HOME in names else names[0]
+    gap = max(MIN_GAP, interval / len(names))
+    conn, ready, turn, backoff = None, False, 0, 0
     while True:
         started = time.time()
-        subreddit = names[turn % len(names)]
-        turn += 1
+        if backoff:
+            subreddit = first
+        else:
+            subreddit = names[turn % len(names)]
+            turn += 1
         try:
             if conn is None or conn.closed:
                 conn = db.connect()
             if not ready:
                 db.init(conn, SCHEMA)
                 ready = True
-            t, c = poll_once(conn, subreddit)
+            t, c = poll_once(conn, subreddit, retries=0)
+            backoff = 0
             if c or verbose:
                 print(f"[rss] r/{subreddit} +{c} comment(s), +{t} thread(s)", flush=True)
         except Exception as e:
-            print(f"[rss] r/{subreddit} {type(e).__name__}: {e}", flush=True)
+            backoff = min(max(interval, MIN_GAP), backoff * 2 or gap)
+            print(f"[rss] r/{subreddit} {type(e).__name__}: {e}; backing off, next request in "
+                  f"{backoff + MIN_GAP:.0f}s or more", flush=True)
             conn = db.recover(conn, log=lambda msg: print(f"[rss] {msg.strip()}", flush=True))
-        time.sleep(max(0, interval / len(names) - (time.time() - started)))
+        time.sleep(max(MIN_GAP, gap - (time.time() - started)) + backoff)
 
 
 def start_background(interval=INTERVAL, names=DEFAULT):

@@ -256,6 +256,23 @@ def embed_subreddits(value=None):
     return subreddits.parse(value if value is not None else os.environ.get(SUBS_ENV), [subreddits.HOME])
 
 
+class SubredditError(ValueError):
+    """EMBED_SUBREDDITS names a subreddit that is not collected. A
+    ValueError, never SystemExit: the poller's boot turns embedding off on
+    it, and its step catches it like any other failure."""
+
+
+def checked_subreddits(value=None):
+    """embed_subreddits for the poller, which must not exit: the same list,
+    with an unknown name raised as a SubredditError. _step only catches
+    Exception, so the SystemExit would otherwise end the poller from inside
+    a chores pass."""
+    try:
+        return embed_subreddits(value)
+    except SystemExit as e:
+        raise SubredditError(f"{SUBS_ENV}: {e}") from None
+
+
 def select_todo(conn, kind, after, limit, since=None, have_tables=True, subs=None):
     """The next page of rows still to embed. Returns (rows, next_after).
 

@@ -27,6 +27,7 @@ from unittest import mock
 
 import anthropic
 import httpx2
+import psycopg2
 
 import anthropic_v6 as AV
 import db
@@ -40,7 +41,10 @@ import summarize as S
 
 TH = prompt_v6.PROMPT_HASH_THREAD
 QUIET = lambda *a, **k: None  # noqa: E731
-PH = S.Settings().prompt_hash
+# Every call names its city: New York here, unless a test is about another.
+HOME = subreddits.HOME
+NYC = S.Settings().for_city(HOME)
+PH = NYC.prompt_hash
 
 
 def ok(text="Commenters say it is good, though some find it pricey."):
@@ -92,7 +96,7 @@ class SummaryCase(pgtest.PgCase):
         self.conn.commit()
 
     def places(self, n=10):
-        return {p.key: p for p in S.qualifying(self.conn, n)}
+        return {p.key: p for p in S.qualifying(self.conn, n, sub=HOME)}
 
     def budget(self, max_usd=1.0, ceiling=10.0):
         b = S.make_budget(max_usd, ceiling, pgtest.connect)
@@ -106,7 +110,7 @@ class SummaryCase(pgtest.PgCase):
             todo = [(p, r) for p, r in todo if p.key in keys]
         b = self.budget(max_usd, ceiling)
         with F.FakeAnthropic(answer) as api:
-            stats = S.run(self.conn, AV.client("k", api.base_url), b, todo, workers=workers, attempts=2,
+            stats = S.run(self.conn, AV.client("k", api.base_url), b, todo, NYC, workers=workers, attempts=2,
                           sleep=lambda s: None, log=QUIET, keep=True, connect=pgtest.connect, **kw)
         return stats, api, b
 
@@ -155,7 +159,7 @@ class Qualifies(SummaryCase):
         live = self.q("""select count(distinct comment_id) from live_mentions where entity_key = 'delta'""")[0][0]
         self.assertEqual(live, 10)
         _, since = S._since(self.conn)
-        sent = [c.id for c in S.read_inputs(self.conn, ["delta"], since)["delta"].comments]
+        sent = [c.id for c in S.read_inputs(self.conn, ["delta"], since, sub=HOME)["delta"].comments]
         self.assertTrue(set(cids) <= set(sent))
 
     def test_nothing_while_the_board_reads_legacy(self):
@@ -188,10 +192,10 @@ class Qualifies(SummaryCase):
     def test_settings_move_the_line(self):
         self.many("alpha", 12)
         self.build()
-        self.assertEqual(len(S.qualifying(self.conn, 12)), 1)
-        self.assertEqual(len(S.qualifying(self.conn, 13)), 0)
-        self.assertEqual([p.key for p in S.qualifying(self.conn, 10, keys=["alpha", "zzz"])], ["alpha"])
-        self.assertEqual(S.qualifying(self.conn, 10, keys=[]), [])
+        self.assertEqual(len(S.qualifying(self.conn, 12, sub=HOME)), 1)
+        self.assertEqual(len(S.qualifying(self.conn, 13, sub=HOME)), 0)
+        self.assertEqual([p.key for p in S.qualifying(self.conn, 10, keys=["alpha", "zzz"], sub=HOME)], ["alpha"])
+        self.assertEqual(S.qualifying(self.conn, 10, keys=[], sub=HOME), [])
 
 
 class Inputs(SummaryCase):
@@ -205,7 +209,7 @@ class Inputs(SummaryCase):
         older = self.many("alpha", 3, start=500, body="older")          # the top-up
         self.build()
         _, since = S._since(self.conn)
-        inp = S.read_inputs(self.conn, ["alpha"], since)["alpha"]
+        inp = S.read_inputs(self.conn, ["alpha"], since, sub=HOME)["alpha"]
         self.assertEqual([c.id for c in inp.comments], keep + older)
         self.assertEqual([c.id for c in inp.reports], [closed])
         text = S.render(inp, dt.date(2026, 11, 3))
@@ -217,7 +221,7 @@ class Inputs(SummaryCase):
         self.mention("beta cafe", 1, cid=cid, level=-1, raw="Beta Cafe")
         self.build()
         _, since = S._since(self.conn)
-        got = S.read_inputs(self.conn, ["alpha", "beta cafe"], since)
+        got = S.read_inputs(self.conn, ["alpha", "beta cafe"], since, sub=HOME)
         a, b = S.render(got["alpha"], dt.date.today()), S.render(got["beta cafe"], dt.date.today())
         self.assertIn('<place>Alpha Bar</place>', a)
         self.assertIn('names="Alpha Bar" read_as="praise"', a)
@@ -324,7 +328,7 @@ class Writes(SummaryCase):
     def test_a_prompt_change_rewrites(self):
         self.write()
         with mock.patch.object(S, "FORMAT_VERSION", "next"):
-            self.assertEqual(S.due_reason(self.places()["alpha"], S.MODEL, S.Settings().prompt_hash, 5),
+            self.assertEqual(S.due_reason(self.places()["alpha"], S.MODEL, NYC.prompt_hash, 5),
                              "prompt")
 
     def test_failure_keeps_the_summary_counts_and_parks(self):
@@ -341,7 +345,7 @@ class Writes(SummaryCase):
         self.assertEqual(stats.parked, 1)
         self.assertEqual(self.reason("alpha", force=True), "parked")
         self.assertEqual([o for _, o, _ in self.ledger()], ["written"] + ["empty_summary"] * S.MAX_ATTEMPTS)
-        self.assertEqual(S.retry_errors(self.conn), 1)
+        self.assertEqual(S.retry_errors(self.conn, HOME), 1)
         self.assertEqual(self.row("alpha")[0][3], 0)
 
     def test_a_new_place_that_fails_has_no_summary_and_is_retried(self):
@@ -455,7 +459,7 @@ class Writes(SummaryCase):
         todo = S.due(list(self.places().values()), S.MODEL, PH, 5)
         with mock.patch.object(S.Streak, "failed", side_effect=RuntimeError("a bug after the charge")), \
                 self.assertRaises(RuntimeError):
-            S.run(self.conn, TimesOut(), b, todo, workers=1, attempts=1, sleep=lambda s: None, log=QUIET,
+            S.run(self.conn, TimesOut(), b, todo, NYC, workers=1, attempts=1, sleep=lambda s: None, log=QUIET,
                   connect=pgtest.connect)
         [(key, outcome, cost)] = self.ledger()
         self.assertEqual((key, outcome), ("alpha", "unseen"))
@@ -508,7 +512,7 @@ class Failures(SummaryCase):
                      park_hours=park_hours)
         if keys is not None:
             todo = [(p, r) for p, r in todo if p.key in keys]
-        return S.run(self.conn, cl, self.budget(), todo, workers=1, attempts=2, sleep=lambda s: None, log=QUIET)
+        return S.run(self.conn, cl, self.budget(), todo, NYC, workers=1, attempts=2, sleep=lambda s: None, log=QUIET)
 
     def test_a_place_that_times_out_is_charged_at_once_parked_and_comes_back(self):
         cl = Mixed(["alpha"], timeout)
@@ -604,7 +608,7 @@ class Failures(SummaryCase):
                             401, request=httpx2.Request("POST", "http://x")), body=None)
                     raise timeout()
         todo = S.due(list(self.places().values()), S.MODEL, PH, 5)
-        stats = S.run(self.conn, Client(), self.budget(), todo, workers=4, attempts=1, log=QUIET)
+        stats = S.run(self.conn, Client(), self.budget(), todo, NYC, workers=4, attempts=1, log=QUIET)
         self.assertIn("FatalAPIError", stats.stop)
         self.assertIn("401", stats.stop)
         self.assertEqual(stats.failed, 3)                                # the timeouts; the 401 charges nobody
@@ -637,7 +641,7 @@ class Empty(SummaryCase):
         self.assertEqual(todo[0][0].key, "quiet")
         b = self.budget()
         with F.FakeAnthropic(lambda p: ok()) as api:
-            stats = S.run(self.conn, AV.client("k", api.base_url), b, todo, workers=1, attempts=1, log=QUIET,
+            stats = S.run(self.conn, AV.client("k", api.base_url), b, todo, NYC, workers=1, attempts=1, log=QUIET,
                           limit=1)
         self.assertEqual((stats.written, stats.empty, len(api.requests)), (1, 2, 1))
         rows = dict(self.q("select resolved_key, summary is null and written_at is not null "
@@ -676,9 +680,9 @@ class Spend(SummaryCase):
 
     def one_worst(self):
         _, since = S._since(self.conn)
-        inp = S.read_inputs(self.conn, ["alpha"], since)["alpha"]
+        inp = S.read_inputs(self.conn, ["alpha"], since, sub=HOME)["alpha"]
         user = S.render(inp, dt.date.today())
-        return user, S.worst(user)
+        return user, S.worst(user, HOME)
 
     def test_the_ceiling_counts_spend_on_record(self):
         _, worst = self.one_worst()
@@ -705,7 +709,7 @@ class Spend(SummaryCase):
         self.conn.commit()
         todo = S.due(list(self.places().values()), S.MODEL, PH, 5)
         with F.FakeAnthropic(lambda p: ok()) as api, self.assertRaises(EV.Tripped):
-            S.run(self.conn, AV.client("k", api.base_url), b, todo, workers=1, attempts=1, log=QUIET)
+            S.run(self.conn, AV.client("k", api.base_url), b, todo, NYC, workers=1, attempts=1, log=QUIET)
 
     def test_a_lone_timeout_is_charged_its_worst_case_once_and_an_attempt(self):
         class TimesOut:
@@ -715,7 +719,7 @@ class Spend(SummaryCase):
                     raise anthropic.APITimeoutError(request=httpx2.Request("POST", "http://x/v1/messages"))
         todo = S.due(list(self.places().values()), S.MODEL, PH, 5)[:1]
         b = self.budget()
-        stats = S.run(self.conn, TimesOut(), b, todo, workers=1, attempts=2, sleep=lambda s: None, log=QUIET)
+        stats = S.run(self.conn, TimesOut(), b, todo, NYC, workers=1, attempts=2, sleep=lambda s: None, log=QUIET)
         self.assertIsNone(stats.stop)                                    # one call; the pass goes on
         self.assertEqual(stats.failed, 1)
         rows = self.ledger()
@@ -738,7 +742,7 @@ class Spend(SummaryCase):
             self.many(k, 10)
         self.build()
         todo = S.due(list(self.places().values()), S.MODEL, PH, 5)
-        stats = S.run(self.conn, Down(), self.budget(), todo, workers=1, attempts=1, sleep=lambda s: None,
+        stats = S.run(self.conn, Down(), self.budget(), todo, NYC, workers=1, attempts=1, sleep=lambda s: None,
                       log=QUIET)
         self.assertIn("in a row", stats.stop)
         self.assertEqual(Down.calls, S.API_FAILURES_IN_A_ROW)
@@ -793,7 +797,7 @@ class Review(SummaryCase):
     def test_review_only_reads_stored_summaries_and_calls_nothing(self):
         self.write()
         args = mock.Mock(sample=None, keys=["alpha", "beta", "nope"], review=self.path)
-        S.review_only(self.conn, args, S.Settings(), log=QUIET)
+        S.review_only(self.conn, args, NYC, log=QUIET)
         text = self.read()
         self.assertEqual(text.count("> Commenters say it is good"), 2)
         self.assertIn("ALPHA TEXT", text)
@@ -802,12 +806,12 @@ class Review(SummaryCase):
     def test_dry_run_reads_only(self):
         lines = []
         self.conn.set_session(readonly=True)
-        todo, inputs = S.dry_run(self.conn, S.Settings(), log=lines.append)
+        todo, inputs = S.dry_run(self.conn, NYC, log=lines.append)
         self.assertEqual({p.key for p, _ in todo}, {"alpha", "beta"})
         self.assertIn("2 places qualify", lines[0])
         self.assertTrue(any("estimated cost $" in l for l in lines))
         lines.clear()
-        S.dry_run(self.conn, S.Settings(), keys=["beta"], print_input=True, log=lines.append)
+        S.dry_run(self.conn, NYC, keys=["beta"], print_input=True, log=lines.append)
         self.assertTrue(any("BETA TEXT" in l and "<place>beta</place>" in l for l in lines))
 
     def test_dry_run_limit_counts_only_places_with_something_to_send(self):
@@ -818,7 +822,7 @@ class Review(SummaryCase):
         self.build()
         self.conn.set_session(readonly=True)
         lines = []
-        todo, _ = S.dry_run(self.conn, S.Settings(), limit=1, print_input=True, log=lines.append)
+        todo, _ = S.dry_run(self.conn, NYC, limit=1, print_input=True, log=lines.append)
         self.assertEqual([p.key for p, _ in todo], ["quiet", "alpha"])
         self.assertIn("due now: 2, of which 1 have nothing to send", lines)
         self.assertTrue(any("estimated cost $" in l for l in lines))
@@ -836,7 +840,7 @@ class Review(SummaryCase):
             read.extend(keys)
             return real(conn, keys, *a, **k)
         with mock.patch.object(S, "DRY_PAGE", 1), mock.patch.object(S, "read_inputs", side_effect=counted):
-            todo, _ = S.dry_run(self.conn, S.Settings(), limit=1, log=QUIET)
+            todo, _ = S.dry_run(self.conn, NYC, limit=1, log=QUIET)
         self.assertEqual(read, ["quiet", "alpha"])                       # beta never read
         # and the real run takes the same places: quiet recorded, alpha sent
         self.conn.set_session(readonly=False)
@@ -900,7 +904,7 @@ class PollerStep(SummaryCase):
         with F.FakeAnthropic(lambda p: ok()) as api:
             cl = AV.client("k", api.base_url)
             self.assertEqual(self.poll(cl).written, 0)                   # parked
-            S.retry_errors(self.conn)
+            S.retry_errors(self.conn, HOME)
             self.assertEqual(self.poll(cl).written, 1)
 
     def test_missing_tables_skip(self):
@@ -953,12 +957,13 @@ class Cities(SummaryCase):
         system = params["system"][0]["text"]
         return ok("New Yorkers like it." if "r/FoodNYC" in system else "Angelenos do not.")
 
-    def poll(self, cl, limit=10, settings=None):
+    def poll(self, cl, limit=10, settings=None, log=QUIET):
         return S.poll_once(self.conn, limit, settings=settings or self.both, connect=pgtest.connect, cl=cl,
-                           log=QUIET, sleep=lambda s: None)
+                           log=log, sleep=lambda s: None)
 
     def test_each_city_has_its_own_prompt_and_new_yorks_is_unchanged(self):
-        self.assertEqual(S.system_prompt(), S.SYSTEM_PROMPT)
+        with self.assertRaises(TypeError):
+            S.system_prompt()               # no default city: leaving it out is an error
         self.assertEqual(S.system_prompt(subreddits.HOME), S.SYSTEM_PROMPT)
         self.assertEqual(S.Settings().for_city(subreddits.HOME).prompt_hash, PH)
         hashes = {PH}
@@ -1024,6 +1029,38 @@ class Cities(SummaryCase):
         self.assertEqual(sorted(self.q("select subreddit, count(*) from place_summaries group by 1")),
                          [(LA, 2), (subreddits.HOME, 1)])
 
+    def test_a_city_the_run_did_not_reach_is_named_and_goes_first_next_time(self):
+        # One limit for every city: in a fixed order New York's backlog used
+        # it up each run and the cities after it were never written.
+        lines = []
+        with F.FakeAnthropic(self.answer) as api:
+            cl = AV.client("k", api.base_url)
+            self.assertEqual(S.city_order(self.conn, self.both.cities), [subreddits.HOME, LA])
+            self.assertEqual(self.poll(cl, limit=1, log=lines.append).written, 1)
+            self.assertTrue(any(f"r/{LA}: 2 due, NOT REACHED this run (the run's limit of 1 places was used)" in line
+                                for line in lines), lines)
+            self.assertEqual(S.city_order(self.conn, self.both.cities), [LA, subreddits.HOME])
+            # New York has more due again, and it is still Los Angeles's turn.
+            self.city_mentions(subreddits.HOME, "alpha", 5, 1)
+            self.build()
+            del lines[:]
+            self.assertEqual(self.poll(cl, limit=1, log=lines.append).written, 1)
+            self.assertEqual(sorted(self.q("select subreddit, count(*) from place_summaries group by 1")),
+                             [(LA, 1), (subreddits.HOME, 1)])
+            self.assertTrue(any(f"r/{subreddits.HOME}: 1 due, NOT REACHED" in line for line in lines), lines)
+            # The city served longest ago is first, whatever the settings' order.
+            self.assertEqual(S.city_order(self.conn, self.both.cities), [subreddits.HOME, LA])
+
+    def test_only_new_york_is_written_while_the_old_keys_index_is_there(self):
+        with self.conn.cursor() as cur:
+            cur.execute(f"create unique index {S.OLD_KEY_INDEX} on place_summaries (resolved_key)")
+        self.conn.commit()
+        lines = []
+        with F.FakeAnthropic(self.answer) as api:
+            self.assertEqual(self.poll(AV.client("k", api.base_url), log=lines.append).written, 1)
+        self.assertEqual(self.q("select subreddit from place_summaries"), [(subreddits.HOME,)])
+        self.assertTrue(any(f"r/{LA}: NOT WRITTEN" in line and "drop index" in line for line in lines), lines)
+
     def test_a_failure_and_a_retry_are_one_citys(self):
         S.record_attempt(self.conn, "alpha", "x", LA)
         self.assertEqual(self.q("select subreddit, attempts from place_summaries"), [(LA, 1)])
@@ -1053,11 +1090,33 @@ class SchemaUpgrade(SummaryCase):
             db.init(self.conn, os.path.join(pgtest.ROOT, "summary_schema.sql"))
         self.assertTrue(S.tables_exist(self.conn))
         self.assertEqual(self.q("select summary, seen_comment_ids from place_summaries"), [("old summary", None)])
-        # A summary from before there was a second city is New York's, and
-        # another city can now hold a place of the same name.
+        # A summary from before there was a second city is New York's.
         self.assertEqual(self.q("select subreddit from place_summaries"), [(subreddits.HOME,)])
+        # Code still running from before the upgrade writes by the name
+        # alone; the index the upgrade leaves keeps that write working, and
+        # what it writes is New York's.
+        self.q("""insert into place_summaries (resolved_key, summary) values ('kept', 'newer'), ('other', 'new')
+                  on conflict (resolved_key) do update set summary = excluded.summary returning 1""")
+        self.assertEqual(sorted(self.q("select subreddit, resolved_key, summary from place_summaries")),
+                         [(subreddits.HOME, "kept", "newer"), (subreddits.HOME, "other", "new")])
+        # While that index is there only New York is written...
+        self.assertTrue(S.one_city_only(self.conn))
+        with self.assertRaises(psycopg2.errors.UniqueViolation):
+            self.q("insert into place_summaries (subreddit, resolved_key) values ('chicagofood', 'kept') returning 1")
+        self.conn.rollback()
+        # ...and once it is dropped another city can hold a place of the same name.
+        with self.conn.cursor() as cur:
+            cur.execute(f"drop index {S.OLD_KEY_INDEX}")
+        self.conn.commit()
+        self.assertFalse(S.one_city_only(self.conn))
         self.q("insert into place_summaries (subreddit, resolved_key) values ('chicagofood', 'kept') returning 1")
         self.assertEqual(self.q("select count(*) from place_summaries where resolved_key = 'kept'"), [(2,)])
+        # Applying the file again does not bring the index back.
+        db.init(self.conn, os.path.join(pgtest.ROOT, "summary_schema.sql"))
+        self.assertFalse(S.one_city_only(self.conn))
+
+    def test_a_table_created_with_the_city_in_its_key_has_no_old_index(self):
+        self.assertFalse(S.one_city_only(self.conn))
 
     def test_a_ledger_from_before_cities_is_new_yorks(self):
         with self.conn.cursor() as cur:

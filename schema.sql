@@ -587,10 +587,22 @@ begin
   -- must match subreddits.HOME), and the key takes the subreddit in. A
   -- constant default only touches the catalog; the key is rebuilt once,
   -- over a few thousand rows at most.
+  --
+  -- place_summaries_old_key_idx is for the code this upgrade overtakes: a
+  -- poller or a summarize.py run still going from before it writes with
+  -- ON CONFLICT (resolved_key), which needs a unique index on that column
+  -- alone and would otherwise fail after its paid call. With the index its
+  -- writes land as r/FoodNYC's, as they always were. While it exists two
+  -- cities cannot both have a place of one name, so summarize.py writes
+  -- only r/FoodNYC (summarize.one_city_only) and says so. Drop it by hand
+  -- once nothing from before the upgrade is running:
+  --   drop index place_summaries_old_key_idx;
+  -- A table created with the city in its key never gets it.
   if not exists (select 1 from information_schema.columns
                  where table_schema = current_schema() and table_name = 'place_summaries'
                    and column_name = 'subreddit') then
     alter table place_summaries add column if not exists subreddit text not null default 'FoodNYC';
+    create unique index if not exists place_summaries_old_key_idx on place_summaries (resolved_key);
     alter table place_summaries drop constraint place_summaries_pkey;
     alter table place_summaries add primary key (subreddit, resolved_key);
   end if;

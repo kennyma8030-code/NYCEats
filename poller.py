@@ -435,8 +435,13 @@ def extract_v6_once(conn, days, limit, workers, max_usd, max_age_days=None):
     return stats.done
 
 
-def embed_once(conn, days, limit, max_usd, scope, workers):
-    """Embed r/FoodNYC's recent rows: comments with mentions, and threads by scope.
+def embed_once(conn, days, limit, max_usd, scope, workers, subs=None):
+    """Embed the recent rows of `subs`: comments with mentions, and threads by scope.
+
+    `subs` is what EMBED_SUBREDDITS names (r/FoodNYC alone when it is unset),
+    parsed and checked once at boot. Without it the variable is read here,
+    through the check that raises instead of exiting, so a bad name fails
+    this step and never the poller.
 
     Same window idea as extract_once: the backlog is embedded by hand with
     embed.py, and this only keeps up with what arrives. For comments the
@@ -465,10 +470,13 @@ def embed_once(conn, days, limit, max_usd, scope, workers):
         return 0
     budget = embedding.Budget(max_usd)
     try:
+        if subs is None:
+            subs = embed.checked_subreddits()
         stats = embed.run(conn, embed.KINDS[scope], budget, limit=limit,
                           since=_since(conn, days), workers=workers,
                           attempts=EMBED_ATTEMPTS, timeout=EMBED_TIMEOUT,
-                          deadline=time.monotonic() + EMBED_DEADLINE, log=lambda *_: None)
+                          deadline=time.monotonic() + EMBED_DEADLINE, log=lambda *_: None,
+                          subs=subs)
     finally:
         try:
             embed.unlock(conn)
@@ -603,9 +611,9 @@ def run_chores(conn, args):
 
     Settling and the re-sweep are every polled city's, and the refresh
     rebuilds every city that has mentions. What is paid for stays narrow:
-    extraction reads EXTRACT_SUBREDDITS (r/FoodNYC unless it says otherwise),
-    and embedding reads HOME's mentioned comments and threads, so another
-    city's history is never billed by being polled.
+    extraction reads EXTRACT_SUBREDDITS and embedding EMBED_SUBREDDITS
+    (r/FoodNYC unless they say otherwise), so another city's history is never
+    billed by being polled.
     Returns the connection to carry on with.
     """
     _, conn = _step("disk", disk_once, conn)
@@ -635,7 +643,8 @@ def run_chores(conn, args):
             args.refreshed_at = time.time()
     if args.embed:
         _, conn = _step("embed", embed_once, conn, args.embed_days, args.embed_limit,
-                        args.embed_max_usd, args.embed_scope, args.embed_workers)
+                        args.embed_max_usd, args.embed_scope, args.embed_workers,
+                        getattr(args, "embed_subs", None))
     if getattr(args, "summarize", False):
         _, conn = _step("summarize", summarize_once, conn, args)
     return conn
@@ -666,12 +675,15 @@ def summarize_boot(args, log=print):
         args.summarize_workers = _positive_int("POLL_SUMMARIZE_WORKERS", args.summarize_workers)
         s = summarize.load_settings()
         summarize.AV.check_prices(summarize.MODEL)
+        # Inside the try: a city's prompt is built to hash it, and a city
+        # whose prompt cannot be built raises a ValueError like a bad setting.
+        hashes = ", ".join(s.for_city(c).prompt_hash for c in s.cities)
     except (ValueError, summarize.AV.PriceMissing) as e:     # SettingError is a ValueError
         log(f"summaries OFF: {e}")
         return False
     args.summarize_settings = s
     log(f"summaries on for {', '.join('r/' + c for c in s.cities)}: {summarize.MODEL} at effort {s.effort}, "
-        f"prompt {', '.join(s.for_city(c).prompt_hash for c in s.cities)}, n={s.n}, "
+        f"prompt {hashes}, n={s.n}, "
         f"rewrite after max({s.x}, {s.share:g} x count) new comments, every {s.every_hours:g}h, "
         f"<= {args.summarize_limit} places and ${s.run_usd:.2f} a run, ${s.ceiling_usd:.2f} ceiling")
     return True
@@ -715,7 +727,8 @@ def main():
                     default=float(os.environ.get("POLL_EXTRACT_MAX_USD", "1.00")),
                     help="v6 only: spend cap per 30-min pass ($POLL_EXTRACT_MAX_USD, default 1.00)")
     ap.add_argument("--embed", action="store_true", default=_env_flag("POLL_EMBED"),
-                    help="also embed new r/FoodNYC rows for semantic search every 30 min ($POLL_EMBED)")
+                    help="also embed new rows for semantic search every 30 min ($POLL_EMBED; "
+                         "$EMBED_SUBREDDITS says whose, default r/FoodNYC)")
     ap.add_argument("--embed-days", type=int,
                     default=int(os.environ.get("POLL_EMBED_DAYS", "3")),
                     help="embed comments whose mentions were stored in the last N days, and "
@@ -762,7 +775,17 @@ def main():
                   f"comments, threads or both")
             args.embed = False
         else:
+            import embed
+            try:
+                # Checked here, once, like the scope: read in the step, a
+                # typo in EMBED_SUBREDDITS would fail every chores pass.
+                args.embed_subs = embed.checked_subreddits()
+            except embed.SubredditError as e:
+                print(f"embedding OFF: {e}")
+                args.embed = False
+        if args.embed:
             print(f"embedding on: {embedding.MODEL_KEY} (key from {embedding.api_key_var()}), "
+                  f"{', '.join('r/' + n for n in args.embed_subs)} "
                   f"{args.embed_scope} from the last {args.embed_days}d, "
                   f"<= {args.embed_limit}/cycle, <= ${args.embed_max_usd:.2f}/cycle")
 
@@ -835,11 +858,6 @@ def main():
                                                subreddits.SUBREDDITS)
     print(f"polling {', '.join('r/' + n for n in names)}")
 
-    # The same for every other polled city that has a source and no list
-    # yet (city_restaurants.py). A no-op once each is loaded.
-    for sub, rows in city_restaurants.ensure_loaded(conn, names).items():
-        print(f"loaded {rows:,} restaurants for r/{sub}")
-
     # Its own thread, like the backfill below: the fallback should keep
     # collecting whatever the main path is busy with. Every polled city's
     # feed, one request at a time spread across the interval (rss.run_forever).
@@ -872,6 +890,17 @@ def main():
         else:
             backfill.start_background(sweep, years)
             print(f"backfill sweeping {len(sweep)} subreddit(s) in the background")
+
+    # The list of every other polled city that has a source and none yet
+    # (city_restaurants.py), a no-op once each is loaded. Started after the
+    # collectors and on connections of its own, never before the first poll:
+    # it is up to four full open-data downloads, and a city is collected and
+    # scored without its list. --once exits after one pass and a daemon dies
+    # with it, so there it runs first, like the sweep.
+    if args.once:
+        city_restaurants.ensure_loaded(names)
+    else:
+        city_restaurants.start_background(names)
 
     # Everything is due at boot.
     due = dict.fromkeys(names, 0.0)

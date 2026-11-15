@@ -69,28 +69,68 @@ class RssThread(unittest.TestCase):
         self.assertEqual(polls.call_count, 3)
         init.assert_called_once()           # the schema once, on the first good connection
 
-    def test_feeds_take_turns_spread_across_the_interval(self):
+    def loop(self, poll, turns, names=("FoodNYC", "chicagofood", "austinfood"), interval=300, clock=None):
+        """run_forever for `turns` sleeps: (the feeds read, the sleeps)."""
         class Stop(BaseException):
             pass
         polled, sleeps = [], []
 
-        def poll(conn, subreddit):
+        def poll_once(conn, subreddit, retries=None):
+            self.assertEqual(retries, 0)            # the loop spaces its own requests
             polled.append(subreddit)
-            if subreddit == "chicagofood":
-                raise Exception("429")              # costs its own turn only
-            return 0, 1
+            return poll(subreddit, len(polled))
 
         def sleep(s):
             sleeps.append(s)
-            if len(sleeps) == 7:
+            if len(sleeps) == turns:
                 raise Stop
 
         conn = mock.Mock(closed=0)
-        with mock.patch.object(rss.db, "connect", return_value=conn),                 mock.patch.object(rss.db, "init"),                 mock.patch.object(rss.db, "recover", return_value=conn),                 mock.patch.object(rss, "poll_once", poll),                 mock.patch.object(rss.time, "sleep", sleep),                 mock.patch.object(rss.time, "time", return_value=1000.0),                 redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+        with mock.patch.object(rss.db, "connect", return_value=conn), \
+                mock.patch.object(rss.db, "init"), \
+                mock.patch.object(rss.db, "recover", return_value=conn), \
+                mock.patch.object(rss, "poll_once", poll_once), \
+                mock.patch.object(rss.time, "sleep", sleep), \
+                mock.patch.object(rss.time, "time", clock or mock.Mock(return_value=1000.0)), \
+                redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
             with self.assertRaises(Stop):
-                rss.run_forever(interval=300, names=("FoodNYC", "chicagofood", "austinfood"))
+                rss.run_forever(interval=interval, names=names)
+        return polled, sleeps
+
+    def test_feeds_take_turns_spread_across_the_interval(self):
+        polled, sleeps = self.loop(lambda sub, n: (0, 1), 7)
         self.assertEqual(polled, ["FoodNYC", "chicagofood", "austinfood"] * 2 + ["FoodNYC"])
         self.assertEqual(sleeps, [100.0] * 7)       # one request every 100 s: each feed every 300
+
+    def test_a_failed_feed_costs_its_turn_and_one_slower_read_of_the_first(self):
+        def poll(sub, n):
+            if sub == "chicagofood":
+                raise Exception("404")
+            return 0, 1
+        polled, sleeps = self.loop(poll, 6)
+        # chicagofood fails, the loop waits a turn longer and reads
+        # r/FoodNYC; that works, so the rotation carries on past chicagofood.
+        self.assertEqual(polled, ["FoodNYC", "chicagofood", "FoodNYC", "austinfood", "FoodNYC", "chicagofood"])
+        self.assertEqual(sleeps, [100.0, 200.0, 100.0, 100.0, 100.0, 200.0])
+
+    def test_refused_requests_back_the_whole_loop_off_and_only_the_first_feed_is_tried(self):
+        def poll(sub, n):
+            if n <= 6:
+                raise Exception("429")
+            return 0, 1
+        polled, sleeps = self.loop(poll, 8)
+        self.assertEqual(polled, ["FoodNYC"] * 7 + ["chicagofood"])
+        # A turn longer, then doubling, never more than an interval on top
+        # of the turn; the first read that works puts the pace back.
+        self.assertEqual(sleeps, [200.0, 300.0, 400.0, 400.0, 400.0, 400.0, 100.0, 100.0])
+
+    def test_a_slow_turn_still_leaves_a_gap_before_the_next_request(self):
+        # Seven feeds are a turn of about 43 s. A request that took longer
+        # than its turn used to be followed at once by the next feed's.
+        ticks = iter(range(0, 10_000, 60))          # every look at the clock is a minute later
+        polled, sleeps = self.loop(lambda sub, n: (0, 1), 3, names=tuple("abcdefg"),
+                                   clock=lambda: next(ticks))
+        self.assertEqual(sleeps, [rss.MIN_GAP] * 3)
 
     def test_a_feeds_rows_carry_its_subreddit(self):
         xml = """<feed xmlns="http://www.w3.org/2005/Atom"><entry>

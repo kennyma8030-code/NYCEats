@@ -215,7 +215,7 @@ SCHEMA = {"type": "object", "properties": {"summary": {"type": "string"}},
 _WHOSE = "r/FoodNYC, the New York City food subreddit"
 
 
-def system_prompt(sub=subreddits.HOME):
+def system_prompt(sub):
     """The instructions for one city's summaries: r/FoodNYC's as written,
     another city's with the subreddit and the city named in its place. An
     unknown subreddit is an error (subreddits.city), never New York's."""
@@ -226,7 +226,7 @@ def system_prompt(sub=subreddits.HOME):
     return SYSTEM_PROMPT.replace(_WHOSE, f"r/{sub}, the {subreddits.city(sub).name} food subreddit")
 
 
-def prompt_hash(effort, sub=subreddits.HOME):
+def prompt_hash(effort, sub):
     """What a summary was written under, beside the model: the instructions
     (its city's), the input's layout and how it is chosen, and the request's
     settings. Change any and every summary is due again."""
@@ -276,12 +276,22 @@ class Settings:
     effort: str = "low"
     # The city this run is for, and the cities the poller's step takes in
     # turn (SUMMARY_SUBREDDITS); for_city gives the settings for one of them.
-    subreddit: str = subreddits.HOME
+    # No city by default, and nothing below has a default city either: code
+    # that forgets to say whose places it means must fail, not read and
+    # write New York's.
+    subreddit: str = None
     cities: tuple = (subreddits.HOME,)
 
     @property
     def prompt_hash(self):
-        return prompt_hash(self.effort, self.subreddit)
+        return prompt_hash(self.effort, self.city)
+
+    @property
+    def city(self):
+        """The subreddit these settings are for; an error when they are for none yet."""
+        if self.subreddit is None:
+            raise ValueError("these summary settings name no city: take for_city(subreddit) first")
+        return self.subreddit
 
     def for_city(self, sub):
         return dataclasses.replace(self, subreddit=sub)
@@ -352,6 +362,27 @@ def tables_exist(conn):
         ok = cur.fetchone()[0]
     conn.commit()
     return ok
+
+
+# The unique index on the name alone that summary_schema.sql leaves on a table
+# it upgraded from the one-city key. While it is there, code from before the
+# upgrade can still write (its ON CONFLICT (resolved_key) needs it), and two
+# cities' places of one name cannot both have a row: so only r/FoodNYC is
+# written until someone drops it (summary_schema.sql says when).
+OLD_KEY_INDEX = "place_summaries_old_key_idx"
+
+
+def one_city_only(conn):
+    """Whether the old key's index is still there (OLD_KEY_INDEX)."""
+    with conn.cursor() as cur:
+        cur.execute("select to_regclass(%s) is not null", (OLD_KEY_INDEX,))
+        ok = cur.fetchone()[0]
+    conn.commit()
+    return ok
+
+
+_ONE_CITY = (f"place_summaries still has {OLD_KEY_INDEX}, which lets only r/{subreddits.HOME} be written: "
+             f"once no code from before the upgrade is running, `drop index {OLD_KEY_INDEX}`")
 
 
 def try_lock(conn):
@@ -493,7 +524,7 @@ _NO_SUMMARIES = """(select null::text as subreddit, null::text as resolved_key,
                      null::text[] as seen_comment_ids limit 0)"""
 
 
-def qualifying(conn, n, keys=None, since=None, have_tables=None, sub=subreddits.HOME):
+def qualifying(conn, n, keys=None, since=None, have_tables=None, *, sub):
     """Every place of r/`sub` that qualifies now, with where its summary stands.
     have_tables says whether the summary tables exist, when the caller knows."""
     if keys is not None and not keys:
@@ -514,7 +545,7 @@ def qualifying(conn, n, keys=None, since=None, have_tables=None, sub=subreddits.
     return [Place(*r) for r in rows]
 
 
-def qualifying_ids(conn, keys, since, sub=subreddits.HOME):
+def qualifying_ids(conn, keys, since, sub):
     """{key: sorted ids of the comments that qualify it now}, for the places
     about to be written or recorded empty: the seen set their row stores.
     Read only for those, not with every place's qualifying count, and read
@@ -643,8 +674,7 @@ where m.entity_key in (select entity_key from entity_alias
 """
 
 
-def read_inputs(conn, keys, since, text=True, budget_tokens=Settings.max_input_tokens,
-                sub=subreddits.HOME):
+def read_inputs(conn, keys, since, text=True, budget_tokens=Settings.max_input_tokens, *, sub):
     """{key: Input} for these places, chosen as the module docstring says.
     text=False reads only sizes, for dry runs over every place."""
     keys = list(keys)
@@ -727,7 +757,7 @@ def render(inp, today):
     return "\n".join(out)
 
 
-def params(user, effort, sub=subreddits.HOME):
+def params(user, effort, sub):
     return {"model": MODEL, "max_tokens": MAX_TOKENS,
             "system": [{"type": "text", "text": system_prompt(sub)}],
             "messages": [{"role": "user", "content": user}],
@@ -736,11 +766,11 @@ def params(user, effort, sub=subreddits.HOME):
                               "format": {"type": "json_schema", "schema": SCHEMA}}}
 
 
-def worst(user, sub=subreddits.HOME):
+def worst(user, sub):
     return AV.worst_case(system_prompt(sub), user, batch=False, max_tokens=MAX_TOKENS, model=MODEL)
 
 
-def estimate_chars(chars, comments, sub=subreddits.HOME):
+def estimate_chars(chars, comments, sub):
     """A typical call's cost for a dry run, from the input's size alone."""
     tin = (len(system_prompt(sub)) + chars + comments * COMMENT_OVERHEAD_CHARS) / CHARS_PER_TOKEN_EST
     p = AV._rates(tin, MODEL)
@@ -765,7 +795,7 @@ def read_summary(message):
 
 
 # ---------------------------------------------------------------- writes
-def record_calls(conn, key, phash, rows, sub=subreddits.HOME):
+def record_calls(conn, key, phash, rows, sub):
     """Paid calls for r/`sub`'s place into the ledger, [(outcome, cost, usage)],
     in a transaction of their own, so nothing that fails afterwards can lose them."""
     if not rows:
@@ -794,7 +824,7 @@ on conflict (subreddit, resolved_key) do update set
   attempts = 0, error = null, failed_at = null, updated_at = now()"""
 
 
-def store(conn, place, inp, summary, usage, cost, phash, seen, sub=subreddits.HOME):
+def store(conn, place, inp, summary, usage, cost, phash, seen, sub):
     """Write a summary (its call is already in the ledger), with seen, every
     comment that qualified for the place when it was read, as the ones it
     has seen."""
@@ -804,7 +834,7 @@ def store(conn, place, inp, summary, usage, cost, phash, seen, sub=subreddits.HO
     conn.commit()
 
 
-def record_empty(conn, place, phash, seen, sub=subreddits.HOME):
+def record_empty(conn, place, phash, seen, sub):
     """A place that qualifies but has nothing to send: no summary (any old one
     has lost its evidence), its comments marked seen, so it waits for new
     discussion like any other place instead of heading every pass."""
@@ -814,7 +844,7 @@ def record_empty(conn, place, phash, seen, sub=subreddits.HOME):
     conn.commit()
 
 
-def record_attempt(conn, key, error, sub=subreddits.HOME):
+def record_attempt(conn, key, error, sub):
     """A failed attempt on a place, whose last good summary, if any, stays.
     Returns its attempts so far."""
     with conn.cursor() as cur:
@@ -830,7 +860,7 @@ def record_attempt(conn, key, error, sub=subreddits.HOME):
     return attempts
 
 
-def retry_errors(conn, sub=subreddits.HOME):
+def retry_errors(conn, sub):
     with conn.cursor() as cur:
         cur.execute("update place_summaries set attempts = 0 where subreddit = %s and attempts >= %s",
                     (sub, MAX_ATTEMPTS))
@@ -862,12 +892,12 @@ class Request:
     inp: Input
     user: str
     worst: float
+    sub: str                  # the place's city: its prompt's
     # Worst cases of attempts that may have been billed with no answer. On
     # the request, not the result, so they reach the ledger even when the
     # worker raises after charging them.
     unseen: list = dataclasses.field(default_factory=list)
     seen: list = dataclasses.field(default_factory=list)    # the comment ids its row will store
-    sub: str = subreddits.HOME                               # the place's city: its prompt's
 
 
 @dataclasses.dataclass
@@ -1018,7 +1048,7 @@ def _ledger_rows(req, res, outcome):
     return rows
 
 
-def _flush(pending, connect, phash, log, sub=subreddits.HOME):
+def _flush(pending, connect, phash, log, sub):
     """As a failed pass unwinds: everything paid for and not yet in the
     ledger goes in now, on a fresh connection (the pass's own may be what
     failed), so the ceiling never under-counts: the 'unseen' worst cases a
@@ -1047,9 +1077,10 @@ def _flush(pending, connect, phash, log, sub=subreddits.HOME):
             "summary_calls under-counts by that much !!!!!!!!\n")
 
 
-def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, deadline=None, sleep=None,
+def run(conn, cl, budget, todo, settings, workers=4, attempts=ATTEMPTS, deadline=None, sleep=None,
         log=print, keep=False, now=None, since=None, connect=None, limit=None):
-    """Write summaries for todo, [(place, reason)] in order, until it is done,
+    """Write summaries for todo, [(place, reason)] in order, the places of
+    settings' one city (settings.for_city), until it is done,
     `limit` places with something to send have been sent, the cap or the
     ceiling refuses a call, the API refuses every call or fails too often in
     a row, or the deadline (time.monotonic()) passes. Places are taken in
@@ -1062,9 +1093,8 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
 
     Failures: an account-wide refusal stops the run and charges no place;
     every other failure charges its place one attempt when it happens."""
-    settings = settings or Settings()
     stats = Stats()
-    phash, sub = settings.prompt_hash, settings.subreddit
+    phash, sub = settings.prompt_hash, settings.city
     if now is None or since is None:
         now, since = _since(conn)
     stop = threading.Event()
@@ -1104,7 +1134,7 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
                     stats.empty += 1
                     continue
                 user = render(inp, now)
-                reqs.append(Request(p, inp, user, worst(user, sub), seen=seen[p.key], sub=sub))
+                reqs.append(Request(p, inp, user, worst(user, sub), sub, seen=seen[p.key]))
             sent += len(reqs)
             stats.sent = sent
             futures = {pool.submit(_work, cl, budget, r, settings.effort, stop, attempts, sleep, log, deadline,
@@ -1176,14 +1206,34 @@ def run(conn, cl, budget, todo, settings=None, workers=4, attempts=ATTEMPTS, dea
 
 
 # ---------------------------------------------------------------- the poller's step
+def city_order(conn, cities):
+    """`cities` in the order a run takes them: the one whose places were
+    last touched longest ago first, a city never touched before any. A run
+    has one limit, one cap and one deadline for all of them, so in a fixed
+    order the first city with a backlog would use them up every time. A city
+    a run did not reach has an older stamp than every city it did, so it
+    comes before them next time. The stamp is place_summaries.updated_at,
+    which every outcome moves (a summary, nothing to send, a failed attempt),
+    so a city whose calls all fail does not stay first."""
+    with conn.cursor() as cur:
+        cur.execute("select subreddit, max(updated_at) from place_summaries where subreddit = any(%s) group by 1",
+                    (list(cities),))
+        last = dict(cur.fetchall())
+    conn.commit()
+    never = dt.datetime.min.replace(tzinfo=dt.timezone.utc)
+    return sorted(cities, key=lambda sub: last.get(sub) or never)       # stable: ties stay in the settings' order
+
+
 def poll_once(conn, limit, settings=None, workers=4, connect=None, cl=None, log=print,
               deadline=None, sleep=None, max_usd=None, ceiling_usd=None):
     """One chores-pass step: if SUMMARY_EVERY_HOURS have passed since the last
     run, write what is due in each of settings.cities in turn, up to
     `limit` places with something to send in all, under the one run's cap
-    and the lifetime ceiling. A city that ends the run early (the cap, the
-    ceiling, the API refusing, the deadline) ends it for the cities after it
-    too; they come first next time only if the earlier ones have nothing due. Never raises for a missing
+    and the lifetime ceiling. The cities are taken least recently served
+    first (city_order). A city that ends the run early (the cap, the
+    ceiling, the API refusing, the deadline, the limit) ends it for the
+    cities after it too; each of those with places due is named in the log,
+    and comes ahead of the ones served next time. Never raises for a missing
     key, missing tables or the legacy read mode, and raises nothing that is
     not an Exception; a spend tripwire is raised (EV.Tripped) so the poller
     can switch summaries off. settings are the ones checked at boot."""
@@ -1210,12 +1260,21 @@ def poll_once(conn, limit, settings=None, workers=4, connect=None, cl=None, log=
         if deadline is None:
             deadline = time.monotonic() + DEADLINE
         total, budget = Stats(), None
+        home_only = one_city_only(conn)
+        ended = None            # why the run ended before every city had its turn
         try:
-            for sub in settings.cities:
+            for sub in city_order(conn, settings.cities):
+                if home_only and sub != subreddits.HOME:
+                    log(f"  summaries r/{sub}: NOT WRITTEN: {_ONE_CITY}")
+                    continue
                 city = settings.for_city(sub)
                 due_now = due(qualifying(conn, city.n, since=since, have_tables=True, sub=sub), MODEL,
                               city.prompt_hash, city.x, share=city.share, now=now, park_hours=city.park_hours)
                 if not due_now:
+                    continue
+                if ended:
+                    log(f"  summaries r/{sub}: {len(due_now)} due, NOT REACHED this run ({ended}); "
+                        "it comes before the cities served this run next time")
                     continue
                 if budget is None:
                     budget = make_budget(max_usd if max_usd is not None else settings.run_usd,
@@ -1231,8 +1290,10 @@ def poll_once(conn, limit, settings=None, workers=4, connect=None, cl=None, log=
                 total.stop = stats.stop
                 if stats.written or stats.failed or stats.empty or stats.stop:
                     log(f"  summaries r/{sub}: {stats.line()}, ${budget.spent - before:.4f} ({len(due_now)} due)")
-                if stats.stop or (limit is not None and total.sent >= limit):
-                    break
+                if stats.stop:
+                    ended = stats.stop
+                elif limit is not None and total.sent >= limit:
+                    ended = f"the run's limit of {limit} places was used"
         finally:
             if budget is not None:
                 budget.ceiling.close()
@@ -1255,7 +1316,7 @@ def status(conn, settings, log=print):
                               count(*) filter (where attempts >= %s),
                               max(written_at)
                        from place_summaries where subreddit = %s""",
-                    (phash, MODEL, MAX_ATTEMPTS, MAX_ATTEMPTS, settings.subreddit))
+                    (phash, MODEL, MAX_ATTEMPTS, MAX_ATTEMPTS, settings.city))
         written, current, empty, failing, parked, last = cur.fetchone()
         cur.execute("""select coalesce(sum(cost_usd), 0), count(*),
                               coalesce(sum(cost_usd) filter (where called_at > now() - interval '1 day'), 0),
@@ -1267,12 +1328,12 @@ def status(conn, settings, log=print):
         outcomes = cur.fetchall()
         cur.execute("""select resolved_key, attempts, error from place_summaries
                        where subreddit = %s and attempts > 0
-                       order by attempts desc, failed_at desc limit 10""", (settings.subreddit,))
+                       order by attempts desc, failed_at desc limit 10""", (settings.city,))
         errors = cur.fetchall()
         cur.execute("select max(last_pass_at) from summary_state")
         last_pass = cur.fetchone()[0]
     conn.commit()
-    log(f"r/{settings.subreddit}: model {MODEL}, prompt {phash}, effort {settings.effort} "
+    log(f"r/{settings.city}: model {MODEL}, prompt {phash}, effort {settings.effort} "
         "(spend below is every city's)")
     log(f"summaries: {written:,} written ({current:,} current), {empty:,} with nothing to send, "
         f"{failing} failing, {parked} parked; last written {last}")
@@ -1297,7 +1358,7 @@ def dry_run(conn, settings, keys=None, limit=None, force=False, print_input=Fals
     phash = settings.prompt_hash
     if EV.read_version(conn) != "v6":
         log("WARNING: the board reads legacy mentions; nothing is written until it reads v6")
-    places = qualifying(conn, settings.n, keys=keys, since=since, sub=settings.subreddit)
+    places = qualifying(conn, settings.n, keys=keys, since=since, sub=settings.city)
     reasons = collections.Counter(due_reason(p, MODEL, phash, settings.x, force, settings.share, now,
                                              settings.park_hours) or "current"
                                   for p in places)
@@ -1318,7 +1379,7 @@ def dry_run(conn, settings, keys=None, limit=None, force=False, print_input=Fals
             if n_sent >= limit:
                 break
             chunk = todo[start:start + DRY_PAGE]
-            got = read_inputs(conn, [p.key for p, _ in chunk], since, text=print_input, sub=settings.subreddit,
+            got = read_inputs(conn, [p.key for p, _ in chunk], since, text=print_input, sub=settings.city,
                               budget_tokens=settings.max_input_tokens)
             for p, r in chunk:
                 if n_sent >= limit:
@@ -1328,7 +1389,7 @@ def dry_run(conn, settings, keys=None, limit=None, force=False, print_input=Fals
                 n_sent += bool(got[p.key].comments or got[p.key].reports)
         todo = kept
     else:
-        inputs = read_inputs(conn, [p.key for p, _ in todo], since, text=print_input, sub=settings.subreddit,
+        inputs = read_inputs(conn, [p.key for p, _ in todo], since, text=print_input, sub=settings.city,
                              budget_tokens=settings.max_input_tokens)
     sizes = [(p, inputs[p.key]) for p, _ in todo]
     sendable = [(p, i) for p, i in sizes if i.comments or i.reports]
@@ -1346,12 +1407,12 @@ def dry_run(conn, settings, keys=None, limit=None, force=False, print_input=Fals
             f"{sum(1 for _, i in sendable if i.dropped):,}")
         line = AV.PRICE_TABLE[MODEL]["long_above"]
         over = [p.key for p, i in sendable
-                if (len(system_prompt(settings.subreddit)) + i.chars + (len(i.comments) + len(i.reports)) * COMMENT_OVERHEAD_CHARS)
+                if (len(system_prompt(settings.city)) + i.chars + (len(i.comments) + len(i.reports)) * COMMENT_OVERHEAD_CHARS)
                 / CHARS_PER_TOKEN_EST > line]
         if over:
             log(f"  over the {line:,}-token line, billed at the long-prompt rate (estimated): "
                 f"{len(over)} ({', '.join(over[:5])}{', ...' if len(over) > 5 else ''})")
-        est = sum(estimate_chars(i.chars, len(i.comments) + len(i.reports), settings.subreddit)
+        est = sum(estimate_chars(i.chars, len(i.comments) + len(i.reports), settings.city)
                   for _, i in sendable)
         log(f"  estimated cost ${est:.2f} (at {CHARS_PER_TOKEN_EST} chars/token in, "
             f"~{EST_OUTPUT_TOKENS} tokens out a call; Haiku 5.5 ${AV.PRICE_TABLE[MODEL]['base']['in'] * 1e6:.2f}"
@@ -1429,7 +1490,7 @@ def write_review(path, results, header, log=print):
 
 def _sample_or_keys(conn, args, settings, since):
     keys = args.keys
-    places = qualifying(conn, settings.n, keys=keys, since=since, sub=settings.subreddit)
+    places = qualifying(conn, settings.n, keys=keys, since=since, sub=settings.city)
     if args.sample:
         chosen = pick_sample(places, args.sample)
     else:
@@ -1448,20 +1509,20 @@ def review_only(conn, args, settings, log=print):
     now, since = _since(conn)
     chosen = _sample_or_keys(conn, args, settings, since)
     inputs = read_inputs(conn, [p.key for p, _ in chosen], since, budget_tokens=settings.max_input_tokens,
-                         sub=settings.subreddit)
+                         sub=settings.city)
     stored = {}
     if tables_exist(conn):
         with conn.cursor() as cur:
             cur.execute("""select resolved_key, summary, cost_usd, error from place_summaries
                            where subreddit = %s and resolved_key = any(%s)""",
-                        (settings.subreddit, [p.key for p, _ in chosen]))
+                        (settings.city, [p.key for p, _ in chosen]))
             stored = {r[0]: r[1:] for r in cur.fetchall()}
         conn.commit()
     results = []
     for p, why in chosen:
         inp = inputs[p.key]
         s, c, err = stored.get(p.key, (None, None, None))
-        results.append((Request(p, inp, render(inp, now), 0.0, sub=settings.subreddit), why, s,
+        results.append((Request(p, inp, render(inp, now), 0.0, settings.city), why, s,
                         float(c or 0), err))
     write_review(args.review, results,
                  [f"From stored summaries, inputs as chosen at {now:%Y-%m-%d %H:%M} UTC; "
@@ -1520,6 +1581,8 @@ def main(argv=None):
     # never summarized), so the first run can be priced first.
     if not (args.dry_run or args.review_only) and not tables_exist(conn):
         raise SystemExit("the summary tables are missing or out of date: apply summary_schema.sql first")
+    if not read_only and settings.city != subreddits.HOME and one_city_only(conn):
+        raise SystemExit(_ONE_CITY)
     if args.status:
         return status(conn, settings)
     if args.review_only:
@@ -1549,7 +1612,7 @@ def main(argv=None):
         raise SystemExit("another summary run (or the poller's step) holds the lock; try again shortly")
     try:
         if args.retry_errors:
-            print(f"unparked {retry_errors(conn, settings.subreddit)} place(s)")
+            print(f"unparked {retry_errors(conn, settings.city)} place(s)")
         now, since = _since(conn)
         if args.sample or args.keys:
             chosen = _sample_or_keys(conn, args, settings, since)
@@ -1559,9 +1622,9 @@ def main(argv=None):
                        settings.park_hours)
         else:
             why = {}
-            todo = due(qualifying(conn, settings.n, since=since, have_tables=True, sub=settings.subreddit),
+            todo = due(qualifying(conn, settings.n, since=since, have_tables=True, sub=settings.city),
                        MODEL, phash, settings.x, share=settings.share, now=now, park_hours=settings.park_hours)
-        print(f"r/{settings.subreddit}: {len(todo):,} place(s) due, {args.limit or 'no'} limit, ${max_usd:.2f} cap, ${ceiling:.2f} ceiling, "
+        print(f"r/{settings.city}: {len(todo):,} place(s) due, {args.limit or 'no'} limit, ${max_usd:.2f} cap, ${ceiling:.2f} ceiling, "
               f"{MODEL} at effort {settings.effort}, prompt {phash}")
         budget = make_budget(max_usd, ceiling)
         print(f"  recorded summary spend so far: ${budget.ceiling.start:.4f}")

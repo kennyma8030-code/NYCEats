@@ -24,6 +24,7 @@ import extract_v6 as EV
 import fake_anthropic as F
 import poller
 import summarize as S
+from subreddits import HOME
 
 NOW = dt.datetime(2026, 11, 3, 12, tzinfo=dt.timezone.utc)
 SINCE = NOW - dt.timedelta(days=S.WINDOW_DAYS)
@@ -135,7 +136,7 @@ class Render(unittest.TestCase):
         self.assertNotIn("status_reports", S.render(S.select("a", [comment(1, 1)], SINCE), NOW))
 
     def test_params(self):
-        p = S.params("hi", "low")
+        p = S.params("hi", "low", HOME)
         self.assertEqual(p["model"], "claude-haiku-5-5")
         self.assertEqual(p["thinking"], {"type": "adaptive"})
         self.assertEqual(p["output_config"]["effort"], "low")
@@ -224,6 +225,12 @@ class Settings(unittest.TestCase):
     def test_defaults_and_overrides(self):
         s = S.load_settings({})
         self.assertEqual(s, S.Settings())
+        # Settings are for no city until one is named: nothing reads or
+        # writes New York's places because a caller forgot to say which.
+        self.assertIsNone(s.subreddit)
+        with self.assertRaises(ValueError):
+            s.prompt_hash
+        self.assertEqual(s.for_city(HOME).prompt_hash, S.prompt_hash("low", HOME))
         self.assertEqual((s.n, s.x, s.share, s.run_usd, s.ceiling_usd, s.max_input_tokens, s.every_hours, s.park_hours,
                           s.effort), (10, 5, 0.0, 1.0, 10.0, 500_000, 6.0, 168.0, "low"))
         s = S.load_settings({"SUMMARY_MIN_MENTIONS": "15", "SUMMARY_NEW_SHARE": "0.1",
@@ -256,13 +263,13 @@ class Settings(unittest.TestCase):
         self.assertEqual(S.load_settings({"SUMMARY_PARK_HOURS": "6.5"}).park_hours, 6.5)
 
     def test_prompt_hash_moves_with_what_shapes_the_answer(self):
-        self.assertEqual(S.prompt_hash("low"), S.prompt_hash("low"))
-        self.assertNotEqual(S.prompt_hash("low"), S.prompt_hash("medium"))
-        before = S.prompt_hash("low")
+        self.assertEqual(S.prompt_hash("low", HOME), S.prompt_hash("low", HOME))
+        self.assertNotEqual(S.prompt_hash("low", HOME), S.prompt_hash("medium", HOME))
+        before = S.prompt_hash("low", HOME)
         for name, value in (("SYSTEM_PROMPT", S.SYSTEM_PROMPT + " "), ("FORMAT_VERSION", "x"),
                             ("TARGET_COMMENTS", 61), ("MAX_TOKENS", 4001)):
             with mock.patch.object(S, name, value):
-                self.assertNotEqual(S.prompt_hash("low"), before, name)
+                self.assertNotEqual(S.prompt_hash("low", HOME), before, name)
 
     def test_the_cli_turns_a_bad_setting_into_an_exit(self):
         with mock.patch.dict(os.environ, {"SUMMARY_RUN_USD": "lots"}), self.assertRaises(SystemExit):
@@ -273,7 +280,7 @@ class Work(unittest.TestCase):
     """The network half, with no network: what it does before it would call."""
 
     def req(self):
-        return S.Request(None, None, "hi", 0.01)
+        return S.Request(None, None, "hi", 0.01, HOME)
 
     def test_no_call_starts_after_the_deadline(self):
         budget = EV.Budget(1.0)
@@ -448,6 +455,15 @@ class Poller(unittest.TestCase):
             ok, _, lines = self.boot({S.KEY_VAR: "k"}, limit, workers)
             self.assertFalse(ok)
             self.assertIn(var, lines[0])
+
+    def test_boot_survives_a_prompt_that_cannot_be_hashed(self):
+        # The hashes are in the line boot logs; computed outside the check,
+        # a city whose prompt cannot be built stopped the poller at boot.
+        with mock.patch.object(S, "prompt_hash", side_effect=ValueError("no prompt for r/nowhere")):
+            ok, _, lines = self.boot({S.KEY_VAR: "k"})
+        self.assertFalse(ok)
+        self.assertIn("summaries OFF", lines[0])
+        self.assertIn("no prompt for r/nowhere", lines[0])
 
     def test_boot_with_a_key(self):
         ok, a, lines = self.boot({S.KEY_VAR: "k", "SUMMARY_NEW_SHARE": "0.1"}, "50", "2")

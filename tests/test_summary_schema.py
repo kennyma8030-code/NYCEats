@@ -31,8 +31,14 @@ class SchemaCopies(unittest.TestCase):
         sql = re.sub(r"--[^\n]*", "", block("summary_schema.sql")).lower()
         tables = re.findall(r"create table if not exists (\w+)", sql)
         self.assertEqual(tables, ["place_summaries", "summary_calls", "summary_state"])
-        self.assertEqual(len(re.findall(r"\bcreate\b", sql)), 3)
-        self.assertNotRegex(sql, r"\bindex\b|\bupdate\b|\bdelete\b|\binsert\b|references")
+        # The one index is the old key's, on its own table and only in the
+        # guarded block that swaps the key: code still running from before
+        # the swap writes with ON CONFLICT (resolved_key), which needs it.
+        self.assertEqual(re.findall(r"\bcreate\b(?! table if not exists)[^;]*;", sql),
+                         ["create unique index if not exists place_summaries_old_key_idx "
+                          "on place_summaries (resolved_key);"])
+        self.assertEqual(len(re.findall(r"\bindex\b", sql)), 1)
+        self.assertNotRegex(sql, r"\bupdate\b|\bdelete\b|\binsert\b|references")
         alters = re.findall(r"alter table (\w+) add column if not exists (\w+)", sql)
         self.assertEqual(alters, [("place_summaries", "seen_comment_ids"), ("place_summaries", "subreddit"),
                                   ("summary_calls", "subreddit")])
@@ -40,6 +46,7 @@ class SchemaCopies(unittest.TestCase):
         # guarded block that adds the subreddit it is rebuilt with.
         self.assertEqual(re.findall(r"\bdrop\b[^;]*;", sql), ["drop constraint place_summaries_pkey;"])
         self.assertRegex(sql, r"add column if not exists subreddit text not null default 'foodnyc';\s*"
+                              r"create unique index if not exists place_summaries_old_key_idx[^;]*;\s*"
                               r"alter table place_summaries drop constraint place_summaries_pkey;\s*"
                               r"alter table place_summaries add primary key \(subreddit, resolved_key\);")
         self.assertEqual(len(re.findall(r"\balter\b", sql)), 5)

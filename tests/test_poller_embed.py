@@ -170,6 +170,23 @@ class Boot(unittest.TestCase):
         self.assertIn("embedding OFF: POLL_EMBED_SCOPE='comment'", out)
         self.assertNotIn("embedding on", out)
 
+    def test_a_misspelt_subreddit_turns_embedding_off_at_boot(self):
+        # Read in the step, the typo was a SystemExit on every chores pass,
+        # which _step does not catch: it took the poller down.
+        out = self.boot({"POLL_EMBED": "1", "EMBED_OPENROUTER_API_KEY": "k",
+                         "EMBED_SUBREDDITS": "FoodNYC, chicagofod"}, [])
+        self.assertIn("embedding OFF: EMBED_SUBREDDITS", out)
+        self.assertIn("chicagofod", out)
+        self.assertNotIn("embedding on", out)
+
+    def test_the_step_itself_never_exits_on_one(self):
+        import embed
+        with mock.patch.dict(os.environ, {"EMBED_SUBREDDITS": "chicagofod", "EMBED_OPENROUTER_API_KEY": "k"}), \
+                mock.patch.object(embed, "tables_exist", return_value=True), \
+                mock.patch.object(embed, "try_lock", return_value=True):
+            with self.assertRaises(ValueError):     # an Exception, which _step contains
+                poller.embed_once(mock.MagicMock(), 3, 1, 0.01, "comments", 1)
+
     def test_off_by_default(self):
         out = self.boot({"EMBED_OPENROUTER_API_KEY": "k"}, [])
         self.assertNotIn("embedding", out)
