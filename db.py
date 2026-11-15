@@ -37,8 +37,11 @@ def connect():
     # TCP keepalives, because the poller's one connection sits idle for
     # minutes at a time -- between polls, and while extraction or embedding
     # waits on an API -- and a proxy in front of Railway's Postgres can drop
-    # an idle connection silently. Probing every 30s keeps it open, and a
-    # dead one is noticed within a minute instead of hanging the next query.
+    # an idle connection silently. Probing every 30s means a dead one is
+    # noticed within a minute instead of hanging the next query. It does not
+    # keep one open through Railway's TCP proxy, which evidently answers the
+    # probes itself; a run that must keep its connection through long waits
+    # sends queries instead (extract_v6.keep_alive).
     return psycopg2.connect(DATABASE_URL, keepalives=1, keepalives_idle=30,
                             keepalives_interval=10, keepalives_count=3)
 

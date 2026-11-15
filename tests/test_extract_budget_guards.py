@@ -568,6 +568,27 @@ class Redo(TT.ThreadCase):
         self.assertEqual(self.places(), {f"placel{i:03d}" for i in range(300)})
         self.assertEqual(X.redo_candidates(self.conn, dt.datetime.now(dt.timezone.utc)), {})
 
+    def test_a_batch_redo_queries_before_every_wait(self):
+        # A redo through batches waits on the API like any batch run, with the
+        # run's lock on its connection, so it sends a query before each wait
+        # (extract_v6.keep_alive).
+        self.old_run()
+        before = dt.datetime.now(dt.timezone.utc)
+        events, real = [], X.keep_alive
+
+        def spy(conn):
+            events.append("ping")
+            real(conn)
+        with F.FakeAnthropic(TT.answer, polls_until_ended=3) as api, mock.patch.object(X, "keep_alive", spy):
+            s = X.Stats()
+            X.run_redo(self.conn, AV.client("k", api.base_url), X.Budget(10.0, ceiling(50.0)), self.opts(),
+                       before, batch=True, poll_seconds=60, log=QUIET, sleep=lambda n: events.append("sleep"),
+                       stats=s)
+        self.assertEqual(s.done, 1)
+        sleeps = [i for i, e in enumerate(events) if e == "sleep"]
+        self.assertGreater(len(sleeps), 0)
+        self.assertTrue(all(events[i - 1] == "ping" for i in sleeps))
+
     def test_a_failed_redo_keeps_the_old_extraction_and_is_tried_once_more(self):
         self.old_run()
         old = self.places()
