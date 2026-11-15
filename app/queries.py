@@ -328,6 +328,55 @@ def spellings(conn, sub, entity_key, fetch_all):
     """, (sub, entity_key))
 
 
+_summary_ready = {"at": None, "ready": False}
+
+
+def forget_summary_ready():
+    _summary_ready.update(at=None)
+
+
+def summary_ready(conn, fetch_value):
+    """Whether place_summaries exists with its per-city key, cached with the
+    rating views' TTLs so a database without it does not run a failing
+    statement on every card load. A table from before summaries were keyed by
+    subreddit counts as absent: its rows cannot be read for one city, and the
+    poller's next boot upgrades it (summary_schema.sql)."""
+    now = time.monotonic()
+    at, ready = _summary_ready["at"], _summary_ready["ready"]
+    if at is not None and now - at < RATING_READY_TTL[ready]:
+        return ready
+    ready = bool(fetch_value(conn, """
+        select exists (select 1 from pg_attribute
+                       where attrelid = to_regclass('place_summaries')
+                         and attname = 'subreddit' and not attisdropped)
+    """, default=False))
+    _summary_ready.update(at=now, ready=ready)
+    return ready
+
+
+def place_summary(conn, sub, entity_key, fetch_one, fetch_value):
+    """The AI-written summary of what the sub says about a place, or None.
+    A summary is keyed by subreddit and resolved name, so another city's place
+    of the same name is never shown here. Only about a hundred busy places
+    have one, so None is the normal answer; it is also the answer when
+    place_summaries does not exist (an old or local database). comment_count
+    is input_comments, the comments the model was actually sent. The table's
+    bookkeeping columns are left unread on purpose."""
+    if not summary_ready(conn, fetch_value):
+        return None
+    try:
+        return fetch_one(conn, """
+            select summary as text, input_comments as comment_count, written_at
+            from place_summaries
+            where subreddit = %s and resolved_key = %s and summary is not null
+        """, (sub, entity_key))
+    except (UndefinedTable, UndefinedColumn):
+        # Dropped since the check: roll back so the connection stays usable.
+        conn.rollback()
+        forget_summary_ready()
+        return None
+
+
 def official_record(conn, sub, entity_key, fetch_one):
     """The city's own record of the place, from its city's list (`places`,
     scoring.sql). `boroughs` is the list's areas, under the name the board

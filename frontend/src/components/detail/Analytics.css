@@ -92,3 +92,8 @@
 .rt-bar i { display: block; height: 100%; background: var(--accent) }
 .rt-num { text-align: right; font-variant-numeric: tabular-nums }
 .rt-num small { color: var(--faint); font-size: 12px }
+
+/* AI summary: a tinted callout paragraph, not a quote. */
+.ps { display: grid; gap: 8px }
+.ps .lab { margin: 0 }
+.ps-text { margin: 0; padding: 10px 12px; border-radius: 8px; background: var(--cell); font-size: 15px; line-height: 1.5 }

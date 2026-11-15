@@ -101,9 +101,17 @@ export interface RestaurantSummary {
   wait: number | null;
 }
 
+export interface PlaceSummary {
+  text: string;
+  comment_count: number | null;
+  written_at: string | null;
+}
+
 export interface RestaurantDetail {
   entity_key: string;
   summary: RestaurantSummary;
+  // An AI-written paragraph; null for the many places without one.
+  place_summary?: PlaceSummary | null;
   aspects: AspectDetail[];
   top_dishes: FacetValue[];
   top_descriptors: FacetValue[];

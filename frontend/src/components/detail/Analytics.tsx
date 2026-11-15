@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import type { Algo, AspectKey, Aspects, LedgerItem, WindowDays } from "../../api/types";
 import { useRestaurant } from "../../hooks/useRestaurant";
 import { ASPECTS } from "../../lib/format";
+import { PlaceSummaryCard } from "./PlaceSummaryCard";
 import { RatingCard } from "./RatingCard";
 import type { VoiceView } from "./VoiceList";
 import { Figures } from "./Figures";
@@ -54,6 +55,7 @@ export function Analytics({ item, window, open, algo, onBack, onVoices }: Props)
         {item.neighborhood && <p className="sh-sub">{item.neighborhood}</p>}
       </div>
       <RatingCard rating={item.rating} onVoices={onVoices} />
+      <PlaceSummaryCard summary={data?.place_summary} />
       <Figures item={item} window={window} />
       <TrendChart current={item.series} previous={item.previous_series} window={window} />
       <AspectBubbles aspects={aspects} />
