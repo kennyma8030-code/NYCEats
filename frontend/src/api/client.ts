@@ -1,8 +1,8 @@
 import type {
-  Algo, BoardId, CategoryVoice, BoardResponse, City, CommentSort, Extraction, Facets, Feed, LedgerItem, LedgerResponse, Mention, NameRow, Page, RatingCategory, RestaurantDetail, Voice, WindowDays,
+  BoardId, CategoryVoice, BoardResponse, City, CommentSort, Extraction, Facets, Feed, LedgerItem, LedgerResponse, Mention, NameRow, Page, RatingCategory, RestaurantDetail, Voice, WindowDays,
 } from "./types";
 import type { Filters } from "../state/filters";
-import { withCity } from "../state/city";
+import { currentCity, withCity } from "../state/city";
 
 const BASE: string = import.meta.env.VITE_API_BASE ?? "";
 
@@ -27,9 +27,10 @@ async function readDetail(res: Response): Promise<string> {
 }
 
 // Every read is one city's, so the city goes on here, once, and no caller
-// can forget it (state/city.ts).
-async function get<T>(path: string, signal?: AbortSignal): Promise<T> {
-  const res = await fetch(BASE + withCity(path), { signal, headers: { Accept: "application/json" } });
+// can forget it (state/city.ts). The landing page reads several cities at
+// once and names each one.
+async function get<T>(path: string, signal?: AbortSignal, city: string = currentCity()): Promise<T> {
+  const res = await fetch(BASE + withCity(path, city), { signal, headers: { Accept: "application/json" } });
   if (!res.ok) throw new ApiError(await readDetail(res), res.status);
   return (await res.json()) as T;
 }
@@ -63,7 +64,9 @@ const key = (k: string) => encodeURIComponent(k);
 const TTL = 5 * 60_000;
 const memo = new Map<string, { at: number; value: Promise<unknown> }>();
 
-function cached<T>(id: string, load: () => Promise<T>): Promise<T> {
+function cached<T>(what: string, load: () => Promise<T>, city: string = currentCity()): Promise<T> {
+  // A key names a place only within its city.
+  const id = `${city}|${what}`;
   const hit = memo.get(id);
   if (hit && Date.now() - hit.at < TTL) return hit.value as Promise<T>;
   const value = load();
@@ -73,15 +76,20 @@ function cached<T>(id: string, load: () => Promise<T>): Promise<T> {
 }
 
 export const api = {
-  ledger: (f: Filters, signal?: AbortSignal) =>
-    get<LedgerResponse>(`/api/ledger?${ledgerParams(f)}`, signal),
+  ledger: (f: Filters, signal?: AbortSignal, limit = 50, city?: string) =>
+    get<LedgerResponse>(`/api/ledger?${ledgerParams(f, limit)}`, signal, city),
   /** Restaurants ranked by the rating. The window only sets the counts beside each row. */
-  boards: (board: BoardId, window: WindowDays, cuisine: string, borough: string, signal?: AbortSignal) => {
-    const p = new URLSearchParams({ board, window: String(window), limit: "50" });
+  boards: (
+    board: BoardId, window: WindowDays, cuisine: string, borough: string, signal?: AbortSignal, limit = 50, city?: string,
+  ) => {
+    const p = new URLSearchParams({ board, window: String(window), limit: String(limit) });
     if (cuisine) p.set("cuisine", cuisine);
     if (borough) p.set("borough", borough);
-    return calmly(get<BoardResponse>(`/api/boards?${p}`, signal));
+    return calmly(get<BoardResponse>(`/api/boards?${p}`, signal, city));
   },
+  /** A city's best-liked few, for the card beside its name on the landing page. */
+  cityTop: (city: string) =>
+    cached("top3", () => calmly(get<BoardResponse>("/api/boards?board=top&window=30&limit=3", undefined, city)), city),
   /** The comments behind one count of a rating. */
   voices: (
     entityKey: string, voice: Voice | CategoryVoice, category: RatingCategory | null, sort: CommentSort, offset: number,
@@ -93,23 +101,22 @@ export const api = {
       signal,
     )),
   /** One restaurant as a ledger row for this window, ranked or not. */
-  ledgerEntity: (entityKey: string, window: WindowDays, algo: Algo, topic = "") =>
-    cached(`le|${entityKey}|${window}|${algo}|${topic}`, () =>
+  ledgerEntity: (entityKey: string, window: WindowDays, topic = "") =>
+    cached(`le|${entityKey}|${window}|${topic}`, () =>
       get<LedgerItem>(
-        `/api/ledger/entity?key=${key(entityKey)}&window=${window}&algo=${algo}` +
+        `/api/ledger/entity?key=${key(entityKey)}&window=${window}` +
           (topic ? `&topic=${encodeURIComponent(topic)}` : ""),
       )),
-  /** Every searchable name, as compact rows; see lib/search.ts. `v` is the
-   *  row format: /api/names is browser-cached for 5 minutes, so a format
-   *  change must change the URL or a stale copy is parsed as the new shape. */
-  names: () => cached("names", () => get<NameRow[]>("/api/names?v=2")),
+  /** Every searchable name of one city, as compact rows; see lib/search.ts.
+   *  `v` is the row format: /api/names is browser-cached for 5 minutes, so a
+   *  format change must change the URL or a stale copy is parsed as the new shape. */
+  names: (city: string) => cached("names", () => get<NameRow[]>("/api/names?v=2", undefined, city), city),
   facets: (signal?: AbortSignal) => get<Facets>("/api/facets", signal),
   /** The cities that have a board, New York first. */
   cities: (signal?: AbortSignal) => get<City[]>("/api/cities", signal),
-  restaurant: (entityKey: string, algo: Algo = "v1", _signal?: AbortSignal) =>
-    cached(`r|${entityKey}|${algo}`, () =>
-      get<RestaurantDetail>(`/api/restaurants/${key(entityKey)}?algo=${algo}`)),
-  /** The complaints behind a flag under the new ranking. */
+  restaurant: (entityKey: string) =>
+    cached(`r|${entityKey}`, () => get<RestaurantDetail>(`/api/restaurants/${key(entityKey)}`)),
+  /** Recent, firsthand, strongly negative comments, most upvoted first. */
   standoutNegatives: (entityKey: string) =>
     cached(`neg|${entityKey}`, () =>
       get<Mention[]>(`/api/restaurants/${key(entityKey)}/standout-negatives?limit=5`)),
@@ -122,16 +129,11 @@ export const api = {
       `/api/restaurants/${key(entityKey)}/mentions?sort=${sort}&limit=${limit}&offset=${offset}`,
       signal,
     ),
-  /** The whole subreddit's posts and comments, newest first. Not memoized: it is live. */
-  feed: (
-    o: { q?: string; placesOnly?: boolean; before?: string; after?: string; limit?: number },
-    signal?: AbortSignal,
-  ) => {
+  /** One city's posts and comments, newest first. Not memoized: it is live. */
+  feed: (o: { q?: string; placesOnly?: boolean; limit?: number }, signal?: AbortSignal, city?: string) => {
     const p = new URLSearchParams({ limit: String(o.limit ?? 30) });
     if (o.q) p.set("q", o.q);
     if (o.placesOnly) p.set("places_only", "true");
-    if (o.before) p.set("before", o.before);
-    if (o.after) p.set("after", o.after);
-    return get<Feed>(`/api/feed?${p}`, signal);
+    return get<Feed>(`/api/feed?${p}`, signal, city);
   },
 };

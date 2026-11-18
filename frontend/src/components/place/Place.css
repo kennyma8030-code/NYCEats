@@ -1,0 +1,123 @@
+/* One restaurant, in the same panel the list was in. */
+.place { padding: 14px 20px 24px; display: flex; flex-direction: column; gap: 20px }
+.place > .back { align-self: flex-start; margin-bottom: -12px }
+.place-loading { display: flex; flex-direction: column; gap: 14px }
+.place-loading .skel { display: block }
+
+.place-name {
+  margin-top: 6px; font-family: var(--display); font-weight: 800; font-size: 40px; line-height: 1.02; letter-spacing: -.03em;
+  overflow-wrap: anywhere;
+}
+.place-name:focus { outline: none }
+.place-where { margin-top: 8px; font-size: 13px; color: var(--muted) }
+
+.place-rating { display: flex; flex-direction: column; gap: 10px }
+.place-rate { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; font-size: 16px; line-height: 1.3; color: var(--ink-2) }
+.place-rate.small { font-size: 15px }
+.place-big {
+  padding: 0; border: 0; background: none; font-family: var(--display); font-weight: 800; font-size: 34px;
+  letter-spacing: -.02em; line-height: 1; color: var(--accent);
+}
+.place-big:hover { color: var(--accent-deep) }
+.place-notes { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 14px; color: var(--ink-2) }
+.place-notes:empty { display: none }
+.badge { padding: 5px 12px; border-radius: var(--r-pill); background: var(--ink); color: var(--surface); font-size: 12px; font-weight: 600 }
+.place-ctx { font-size: 13px; color: var(--muted) }
+.place-quiet { font-size: 13px; color: var(--muted) }
+
+.place-sec { display: flex; flex-direction: column; gap: 10px; scroll-margin-top: 12px }
+.place-sec-head { display: flex; align-items: center; justify-content: space-between; gap: 12px }
+.place-summary { font-size: 16px; line-height: 1.55 }
+.place-all { align-self: flex-start; min-height: 32px; font-size: 14px }
+
+.tags { display: flex; flex-wrap: wrap; gap: 8px }
+.tag { padding: 7px 14px; border-radius: var(--r-pill); background: rgba(21, 23, 26, .07); font-size: 13px; font-weight: 500 }
+
+/* A bar is a button: it opens the comments that made its percentage. */
+.bars { display: flex; flex-direction: column; gap: 2px }
+.bar {
+  width: calc(100% + 16px); min-height: 44px; padding: 0 8px; margin: 0 -8px; border: 0; border-radius: 10px;
+  background: none; display: flex; align-items: center; gap: 12px; font-size: 14px; text-align: left;
+}
+.bar:hover { background: var(--wash) }
+.bar-name { width: 92px; flex-shrink: 0 }
+.bar-track { flex-grow: 1; height: 8px; border-radius: 4px; background: var(--line); overflow: hidden }
+.bar-track i { display: block; height: 100%; border-radius: 4px; background: var(--accent) }
+.bar-num { width: 74px; flex-shrink: 0; text-align: right }
+.bar-num small { margin-left: 4px; font-size: 12px; color: var(--muted) }
+
+.negs { display: flex; flex-direction: column; gap: 10px }
+.negs li {
+  padding: 14px 16px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.45;
+}
+
+/* ---- Comments ---- */
+
+.minitabs { display: inline-flex; gap: 2px; padding: 3px; border-radius: var(--r-pill); background: var(--wash); align-self: flex-start }
+.minitabs button {
+  min-height: 38px; padding: 0 14px; border: 0; border-radius: var(--r-pill); background: none; font-size: 13px; font-weight: 600;
+}
+.minitabs button[aria-pressed="true"] { background: var(--surface); box-shadow: 0 1px 4px rgba(21, 23, 26, .14) }
+
+.cmts { display: flex; flex-direction: column; gap: 10px }
+.cmt {
+  padding: 16px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.cmt-body { font-size: 16px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere }
+.cmt-thread { font-size: 13px; color: var(--muted) }
+.cmt-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-size: 13px; color: var(--muted) }
+.cmt-meta a { font-weight: 500 }
+.cmt-score { display: inline-flex; align-items: center; gap: 3px }
+.cmt-avoid { padding: 2px 8px; border-radius: var(--r-pill); background: var(--ink); color: var(--surface); font-size: 12px; font-weight: 600 }
+.cmt-skel { height: 110px; border-radius: 16px }
+.cmts-more { align-self: center }
+
+.voices-title { margin: 6px 0 6px; font-family: var(--display); font-weight: 800; font-size: 28px; line-height: 1.1; letter-spacing: -.02em }
+
+/* ---- By the numbers ---- */
+
+.numbers { border-top: 1px solid var(--line); padding-top: 4px }
+.numbers summary {
+  display: flex; align-items: center; justify-content: space-between; min-height: 48px; cursor: pointer; list-style: none;
+  font-size: 12px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted);
+}
+.numbers summary::-webkit-details-marker { display: none }
+.numbers-chev {
+  width: 9px; height: 9px; margin-right: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg); transition: transform .2s ease;
+}
+.numbers[open] .numbers-chev { transform: rotate(-135deg) }
+.numbers[open] { display: flex; flex-direction: column; gap: 14px }
+.figs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 }
+.figs div { padding: 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line) }
+.figs dt { font-size: 12px; color: var(--muted) }
+.figs dd { margin: 4px 0 0; font-family: var(--display); font-weight: 700; font-size: 24px; line-height: 1.1 }
+
+.trend { margin: 0 }
+.trend svg { display: block; width: 100%; height: 64px }
+.trend-line { fill: none; stroke: var(--accent); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-linejoin: round }
+.trend-area { fill: var(--accent); opacity: .1 }
+.trend-prev { fill: none; stroke: var(--inactive); stroke-width: 1.5; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke }
+.trend figcaption { display: flex; gap: 16px; margin-top: 8px; font-size: 12px; color: var(--muted) }
+.trend-key { display: inline-block; width: 14px; height: 0; margin-right: 6px; border-top: 2px solid var(--accent); vertical-align: middle }
+.trend-key.prev { border-top: 2px dashed var(--inactive) }
+
+/* ---- What the extractor read, behind ?dev=1 ---- */
+
+.ex { font-size: 14px; line-height: 1.45 }
+.ex-note { color: var(--muted) }
+.ex-label { margin: 8px 0 4px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted) }
+.ex section:first-child .ex-label { margin-top: 0 }
+.ex-m { padding: 6px 0; border-top: 1px solid var(--line) }
+.ex-raw { color: var(--muted); font-size: 12px }
+.ex-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px }
+.ex-chip { font-size: 12px; font-weight: 500; padding: 1px 8px; border-radius: var(--r-pill); background: var(--wash); color: var(--ink-2) }
+.ex-chip.ex-up { background: var(--ink); color: var(--surface) }
+.ex-chip.ex-down { background: var(--accent); color: var(--on-accent) }
+.ex-facts { margin-top: 4px; font-size: 12px; color: var(--muted) }
+
+@media (prefers-reduced-motion: reduce) {
+  .numbers-chev { transition: none }
+}

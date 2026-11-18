@@ -21,9 +21,13 @@ export interface NameHit {
   /** The alias that matched, when the match was on a spelling people typed
    *  rather than the name itself ("katz" for Katz's Delicatessen). */
   via: string | null;
+  /** How well it matched, popularity included, so hits from several cities can be put in one order. */
+  score: number;
+  /** The query is this place's name or one of its spellings, whole. */
+  exact: boolean;
 }
 
-interface Entry extends Omit<NameHit, "via"> {
+export interface Entry extends Omit<NameHit, "via" | "score" | "exact"> {
   own: string[];      // normalized key and display name
   aliases: string[];  // normalized typed spellings that resolve here
   weight: number;     // popularity bonus, precomputed
@@ -47,11 +51,13 @@ export function normalize(raw: string): string {
 
 const capwords = (k: string) => k.split(" ").map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w)).join(" ");
 
-let index: Promise<Entry[]> | null = null;
+const indexes = new Map<string, Promise<Entry[]>>();
 
-/** Download and index the names once; later calls share the same promise. */
-export function loadNames(): Promise<Entry[]> {
-  index ??= api.names().then((rows: NameRow[]) =>
+/** Download and index one city's names once; later calls share the same promise. */
+export function loadNames(city: string): Promise<Entry[]> {
+  const had = indexes.get(city);
+  if (had) return had;
+  const index = api.names(city).then((rows: NameRow[]) =>
       rows.map(([key, name, cuisine, borough, mentions, aliases, flags]) => {
         const display = name ?? capwords(key);
         const own = [...new Set([key, normalize(display)])];
@@ -68,9 +74,10 @@ export function loadNames(): Promise<Entry[]> {
   ).catch((e: unknown) => {
     // .catch, not then's second argument: it must also cover a failure while
     // indexing the rows, or one bad load stays cached until a page reload.
-    index = null;
+    indexes.delete(city);
     throw e;
   });
+  indexes.set(city, index);
   return index;
 }
 
@@ -89,29 +96,31 @@ export function search(entries: Entry[], raw: string, limit = 7): NameHit[] {
   const q = normalize(raw);
   if (!q) return [];
   const words = q.split(" ");
-  const scored: { e: Entry; score: number; via: string | null }[] = [];
+  const scored: { e: Entry; score: number; via: string | null; exact: boolean }[] = [];
   for (const e of entries) {
     let best = 0;
     let via: string | null = null;
     for (const s of e.own) best = Math.max(best, matchScore(s, q, words));
+    let exact = best === 100;
     // A typed spelling counts a little less than the name itself, so a
     // restaurant actually called "Grill" beats one people abbreviate that way.
     for (const a of e.aliases) {
       const m = matchScore(a, q, words) - 8;
+      if (m === 92) exact = true;
       if (m > best) {
         best = m;
         via = a;
       }
     }
-    if (best > 0) scored.push({ e, score: best + e.weight, via });
+    if (best > 0) scored.push({ e, score: best + e.weight, via, exact });
   }
   scored.sort((a, b) => b.score - a.score || b.e.mentions - a.e.mentions);
-  return scored.slice(0, limit).map(({ e, via }) => toHit(e, via));
+  return scored.slice(0, limit).map(({ e, via, score, exact }) => toHit(e, via, score, exact));
 }
 
-function toHit(e: Entry, via: string | null): NameHit {
+function toHit(e: Entry, via: string | null, score: number, exact: boolean): NameHit {
   const { own: _o, aliases: _a, weight: _w, ...rest } = e;
-  return { ...rest, via };
+  return { ...rest, via, score, exact };
 }
 
 /** Character bigrams, for "did you mean" when nothing matches. */
@@ -140,5 +149,5 @@ export function suggest(entries: Entry[], raw: string, limit = 3): NameHit[] {
     if (best >= 0.5) scored.push({ e, score: best + e.weight / 400 });
   }
   scored.sort((a, b) => b.score - a.score);
-  return scored.slice(0, limit).map(({ e }) => toHit(e, null));
+  return scored.slice(0, limit).map(({ e, score }) => toHit(e, null, score, false));
 }

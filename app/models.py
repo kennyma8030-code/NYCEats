@@ -304,6 +304,15 @@ class PlaceSummary(BaseModel):
     written_at: Optional[datetime] = None
 
 
+class Location(BaseModel):
+    """One location of a place (app/geo.py). `address` is the licence's
+    street address as the city writes it."""
+    lat: float
+    lng: float
+    address: Optional[str] = None
+    borough: Optional[str] = None
+
+
 class RestaurantDetail(BaseModel):
     entity_key: str
     summary: LeaderboardRow
@@ -315,6 +324,8 @@ class RestaurantDetail(BaseModel):
     momentum: list[MomentumWindow]
     spellings: list[Spelling]
     addresses: Optional[list[dict[str, Any]]] = None
+    # Where the map can put it, the pinned location first; empty when unknown.
+    locations: list[Location] = Field(default_factory=list)
     top_dishes: list[dict[str, Any]] = Field(default_factory=list)
     top_descriptors: list[dict[str, Any]] = Field(default_factory=list)
     neighborhoods: list[dict[str, Any]] = Field(default_factory=list)
@@ -507,6 +518,10 @@ class LedgerItem(BaseModel):
     # same under every algo and ledger window. None when nobody voiced an
     # opinion or recommendation in that window.
     rating: Optional[Rating] = None
+    # Where the map pins it, and how many locations the name has. None and 0
+    # for a place with no known coordinates, which stays in the list unpinned.
+    location: Optional[Location] = None
+    location_count: int = 0
 
 
 class FeedPlace(BaseModel):

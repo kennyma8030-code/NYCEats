@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Page } from "../api/types";
 
-const PAGE = 50;
-
 interface State<T> {
   // What the items belong to. A page fetched for another key must never
   // render under this one.
@@ -14,23 +12,26 @@ interface State<T> {
 }
 
 /** A list the server pages, with "Load more". `id` names everything the list
- *  depends on (place, sort, filter): any change restarts from the first page,
- *  because offsets from one ordering mean nothing in another. */
+ *  depends on (city, place, sort, filter): any change restarts from the first
+ *  page, because offsets from one ordering mean nothing in another. */
 export function usePaged<T>(
   id: string,
   load: (offset: number, limit: number, signal: AbortSignal) => Promise<Page<T>>,
+  pageSize = 50,
 ) {
   const [state, setState] = useState<State<T>>({ id: null, items: [], total: 0, loading: false, error: null });
   const ctl = useRef<AbortController | null>(null);
   const loadRef = useRef(load);
   loadRef.current = load;
+  const sizeRef = useRef(pageSize);
+  sizeRef.current = pageSize;
 
   const fetchPage = useCallback((key: string, offset: number) => {
     ctl.current?.abort();
     const c = new AbortController();
     ctl.current = c;
     setState((s) => ({ ...s, id: key, loading: true, error: null, ...(offset === 0 ? { items: [], total: 0 } : {}) }));
-    loadRef.current(offset, PAGE, c.signal).then(
+    loadRef.current(offset, sizeRef.current, c.signal).then(
       (page) => {
         if (c.signal.aborted) return;
         setState((s) => ({

@@ -1,0 +1,123 @@
+/* A city: the map is the page, and one translucent panel floats on its left.
+   The layer itself lets clicks through to the map; only the panel takes them. */
+.city { position: fixed; inset: 0; z-index: 2; pointer-events: none }
+
+@keyframes panel-in { from { opacity: 0; transform: translateX(-16px) } to { opacity: 1; transform: none } }
+.panel {
+  position: absolute; left: 24px; top: 24px; bottom: 24px; width: 408px; pointer-events: auto;
+  display: flex; flex-direction: column; overflow: hidden;
+  background: rgba(255, 255, 255, .84); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  border: 1px solid var(--line); border-radius: var(--r-panel); box-shadow: var(--shadow-panel);
+  animation: panel-in .6s var(--ease);
+}
+.panel-scroll { flex-grow: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain }
+.panel-grab { display: none }
+
+.city .map-credit { position: fixed; right: 14px; bottom: 8px; pointer-events: auto }
+
+/* ---- The list ---- */
+
+.board { display: flex; flex-direction: column; min-height: 0; flex-grow: 1 }
+.board-head {
+  position: relative; z-index: 2; padding: 14px 20px 14px; display: flex; flex-direction: column; gap: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.board-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: -8px }
+.board-top .wordmark { font-size: 16px }
+.board-city { font-family: var(--display); font-weight: 800; font-size: 38px; line-height: 1.05; letter-spacing: -.03em }
+.board-src { margin-top: 6px; font-size: 13px; color: var(--muted) }
+
+/* The period is part of the sentence it changes, not a control of its own. */
+.period {
+  display: inline-flex; align-items: center; gap: 4px; min-height: 32px; padding: 0 2px; border: 0; background: none;
+  color: var(--ink-2); font-weight: 500; text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 3px;
+}
+.period:hover { color: var(--ink) }
+
+.seg { display: flex; gap: 2px; padding: 4px; border-radius: 26px; background: var(--wash) }
+.seg button {
+  flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0 4px; border: 0; border-radius: 22px; background: none;
+  font-size: 13px; font-weight: 600; white-space: nowrap;
+}
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface) }
+
+.chips { position: relative; display: flex; flex-wrap: wrap; gap: 8px }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; max-width: 100%; padding: 0 16px;
+  border: 1px solid var(--line-2); border-radius: var(--r-pill); background: none; font-size: 13px; font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.chip:hover { background: var(--wash) }
+.chip.on { background: var(--ink); border-color: var(--ink); color: var(--surface) }
+.chip.clear { border-color: transparent; padding: 0 10px; color: var(--ink-2); text-decoration: underline; text-underline-offset: 3px }
+
+.menu {
+  position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 20; padding: 8px; max-height: min(46vh, 340px);
+  overflow-y: auto; border-radius: var(--r-card); background: var(--surface); border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+.menu-note { padding: 6px 12px 8px; font-size: 13px; color: var(--muted) }
+.choice {
+  width: 100%; min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--r-item); background: none;
+  display: flex; align-items: center; gap: 10px; text-align: left; font-size: 15px;
+}
+.choice:hover { background: var(--wash) }
+.choice-tick { width: 16px; flex-shrink: 0; display: flex; color: var(--accent) }
+.choice-label { flex-grow: 1 }
+.choice[aria-checked="true"] .choice-label { font-weight: 600 }
+.choice-n { font-size: 13px; color: var(--muted) }
+
+.board-note { padding: 12px 20px 4px; font-size: 13px; color: var(--muted) }
+
+.rows { flex-grow: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 4px 8px 12px; transition: opacity .2s ease }
+.rows.busy { opacity: .5 }
+.row {
+  width: 100%; display: flex; align-items: center; gap: 14px; padding: 12px; border: 0; border-radius: var(--r-item);
+  background: none; text-align: left; transition: background .15s ease;
+}
+.row:hover, .row.on { background: var(--wash) }
+.row-n {
+  flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--accent); background: var(--surface);
+  display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--accent);
+}
+/* No coordinates, so no pin: the number is still its rank, drawn without the map's colour. */
+.row-n.off { border-color: var(--line-2); color: var(--muted) }
+.row-main { flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px }
+.row-name { font-family: var(--display); font-weight: 700; font-size: 19px; line-height: 1.2; letter-spacing: -.01em }
+.row-meta { font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.row-num { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 2px }
+.row-num b { font-family: var(--display); font-weight: 700; font-size: 21px; line-height: 1.1; color: var(--accent) }
+.row-num small { font-size: 12px; color: var(--muted) }
+.row-skel { height: 62px; margin: 6px 4px }
+.rows-foot { padding: 12px 12px 4px; font-size: 13px; color: var(--muted) }
+.rows-foot:empty { display: none }
+
+.board-msg { padding: 28px 20px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; font-size: 16px }
+.board-msg-sub { font-size: 13px; color: var(--muted) }
+
+@media (max-width: 720px) {
+  /* The panel becomes a sheet over the bottom of the map. Its handle folds
+     it down to a strip, for a look at the map, and back. */
+  .panel { left: 8px; right: 8px; top: auto; bottom: 8px; width: auto; height: 62vh; transition: height .35s var(--ease) }
+  .panel.peek { height: 132px }
+  .panel-grab {
+    display: block; flex-shrink: 0; width: 100%; height: 28px; margin-bottom: -10px; padding: 0; border: 0; background: none;
+    position: relative; z-index: 3;
+  }
+  .panel-grab::before {
+    content: ""; position: absolute; left: 50%; top: 10px; width: 44px; height: 5px; margin-left: -22px;
+    border-radius: 3px; background: var(--line-2);
+  }
+  /* On a phone the head scrolls away with the rows: a fixed one would leave no room for them. */
+  .board { overflow-y: auto; overscroll-behavior: contain }
+  .board-head, .rows { flex-shrink: 0 }
+  .rows { overflow: visible }
+  .board-city { font-size: 32px }
+  /* The sheet covers the bottom of the map, so the credit moves to the top. */
+  .city .map-credit { top: 8px; bottom: auto; right: 8px }
+  .seg button { font-size: 12px }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel { animation: none; transition: none }
+}

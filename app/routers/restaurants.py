@@ -15,7 +15,7 @@ from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends, Header, HTTPException, Path, Query, Response
 
-from .. import images, queries
+from .. import geo, images, queries
 from ..city import Sub
 from ..db import connection, fetch_all, fetch_one, fetch_value, get_conn
 from ..models import (CATEGORY_VOICE_FILTERS, Algo, AspectDetail, ImageOut, Mention,
@@ -68,6 +68,7 @@ def detail(entity_key: EntityKey, sub: Sub, algo: Algo = "v1", conn=Depends(get_
         spellings=[Spelling(**s) for s in
                    queries.spellings(conn, sub, entity_key, fetch_all)],
         addresses=official.get("addresses"),
+        locations=geo.locations(sub, entity_key),
         top_dishes=queries.top_dishes(conn, sub, entity_key, fetch_all),
         top_descriptors=queries.top_descriptors(conn, sub, entity_key, fetch_all),
         neighborhoods=queries.neighborhoods(conn, sub, entity_key, fetch_all),

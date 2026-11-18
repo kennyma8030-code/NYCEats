@@ -29,15 +29,6 @@ export const CATEGORY_LABEL: Record<RatingCategory, string> = {
   wait: "Wait",
 };
 
-/** "84% positive · 212 people · recommended by 340". */
-export function headline(r: Rating): string {
-  const bits: string[] = [];
-  if (r.pct_pos != null) bits.push(`${pct(r.pct_pos)}% positive`);
-  bits.push(`${n(people(r))} ${people(r) === 1 ? "person" : "people"}`);
-  bits.push(`recommended by ${n(r.recommenders)}`);
-  return bits.join(" · ");
-}
-
 /** The complaint share in plain words, over the same people the headline
  *  counts (pos + neg): "1 in 4 complain" while that reads naturally, a percent
  *  from 40% up. Null when nobody complains or nobody has an opinion. */
@@ -79,21 +70,4 @@ export function boardExplainer(board: BoardId, lines: RatingLines | null): strin
       }.`;
     }
   }
-}
-
-/** What a board row shows on the right: one big number and its caption.
- *  Popular leads with the volume it ranks by, the others with % positive,
- *  and a category board with that category's. */
-export function boardMetric(board: BoardId, r: Rating): { big: string; small: string } {
-  if (board === "popular") {
-    return { big: n(r.recommenders), small: r.pct_pos != null ? `recommend · ${pct(r.pct_pos)}% positive` : "recommend" };
-  }
-  const cat = board === "top" || board === "gems" ? null : r.categories[board];
-  if (board !== "top" && board !== "gems" && cat && cat.pct_pos != null) {
-    return { big: `${pct(cat.pct_pos)}%`, small: `${n(people(cat))} people · ${CATEGORY_LABEL[board].toLowerCase()}` };
-  }
-  return {
-    big: r.pct_pos != null ? `${pct(r.pct_pos)}%` : "–",
-    small: `${n(people(r))} people · ${n(r.recommenders)} recommend`,
-  };
 }

@@ -1,205 +1,206 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "./api/client";
-import type { Algo, BoardId, LedgerItem, WindowDays } from "./api/types";
-import { DEFAULT_FILTERS, boardFromUrl, restaurantFromUrl, setBoardInUrl, setRestaurantInUrl, setViewInUrl, useFilters, viewFromUrl, type View } from "./state/filters";
-import { useLedger } from "./hooks/useLedger";
+import type { LedgerItem } from "./api/types";
+import { BRAND_NAME } from "./brand";
+import { Leaderboard } from "./components/city/Leaderboard";
+import { Home } from "./components/home/Home";
+import { MapCredit } from "./components/MapCredit";
+import { Place } from "./components/place/Place";
+import type { Scope } from "./components/Search";
+import { useCities } from "./hooks/useCities";
 import { useFacets } from "./hooks/useFacets";
-import { ledgerMatches } from "./lib/fresh";
-import type { NameHit } from "./lib/search";
-import { Rail } from "./components/rail/Rail";
-import { BoardList } from "./components/ledger/BoardList";
-import { LedgerList } from "./components/ledger/LedgerList";
-import { DetailPanel } from "./components/detail/DetailPanel";
-import { LiveFeed } from "./components/feed/LiveFeed";
-import "./App.css";
+import { useFetch } from "./hooks/useFetch";
+import { useRanking } from "./hooks/useRanking";
+import { useRestaurant } from "./hooks/useRestaurant";
+import { useRoute } from "./hooks/useRoute";
+import { useViewport } from "./hooks/useViewport";
+import { cityView, pinBounds } from "./lib/cities";
+import { isRankable } from "./lib/rating";
+import { rowMetric } from "./lib/sorts";
+import type { MapPadding, MapPin, MapTarget } from "./map/MapView";
+import { HOME, setCurrentCity } from "./state/city";
+import "./components/city/City.css";
 
+// MapLibre is most of the bundle and nothing on the first screen needs it,
+// so it arrives after the title and search have been drawn.
+const MapView = lazy(() => import("./map/MapView"));
+
+// The panel's place on a wide screen (City.css): its margin, its width, and
+// a little air, so a pin is never centred underneath it.
+const PANEL = 24 + 408 + 32;
+const SHEET = 0.62;       // of the height, on a phone
+const SHEET_PEEK = 132;   // px, when the sheet is folded down to see the map
+const PLACE_ZOOM = 15.2;
+
+const NO_PINS: MapPin[] = [];
+const NO_DOTS: { lat: number; lng: number }[] = [];
+
+/**
+ * One map for the whole app, fixed behind everything, and two things drawn
+ * over it: the landing page (which scrolls, and covers the map with its
+ * first screen) and a city's panel. Moving between them, and onto a
+ * restaurant, moves the map's camera rather than swapping one map for
+ * another.
+ */
 export default function App() {
-  const { filters, update, toggleNeed, toggleFlaw, clear } = useFilters();
-  const [view, setView] = useState<View>(viewFromUrl);
-  const ledger = useLedger(filters, view !== "boards");
-  const facets = useFacets();
-  // The boards use only cuisine and borough: leave the ledger's own filters alone.
-  const clearBoard = useCallback(() => update({ cuisine: "", borough: "" }), [update]);
-  const [board, setBoard] = useState<BoardId>(boardFromUrl);
-  useEffect(() => setBoardInUrl(board), [board]);
-  useEffect(() => {
-    setViewInUrl(view);
-    window.scrollTo(0, 0);
-  }, [view]);
+  const { route, go } = useRoute();
+  // Set while rendering, before any child asks the API for anything: every
+  // request made below is this city's (state/city.ts).
+  setCurrentCity(route.city);
+  const inCity = route.screen === "city";
+  const view = useViewport();
 
-  // The selected row is kept after close so the panel can slide out with its
-  // content intact; `open` is what actually shows it. `selectedWindow` is the
-  // period its numbers were computed for.
-  const [selected, setSelected] = useState<LedgerItem | null>(null);
-  const [selectedWindow, setSelectedWindow] = useState<WindowDays>(filters.window);
-  // ...and the ranking it was computed under: a flag only exists under v2.
-  const [selectedAlgo, setSelectedAlgo] = useState<Algo>(filters.algo);
-  // ...and the topic, which changes what is counted.
-  const [selectedTopic, setSelectedTopic] = useState(filters.topic.trim());
-  const [open, setOpen] = useState(false);
-  const [opening, setOpening] = useState<string | null>(null);
-  // Only the most recent pick may open; a slow earlier one must not win.
-  const latestPick = useRef<string | null>(null);
+  const cities = useCities();
+  // The city highlighted on the landing page, which the map behind it shows.
+  const [preview, setPreview] = useState(HOME);
+  const previewTop = useFetch(inCity ? null : `top|${preview}`, () => api.cityTop(preview));
 
-  // The boards do not use the ledger's ranking or topic, so a place opened
-  // from them is read with the defaults, and never swapped for a row ranked
-  // under a topic the person cannot see.
-  const topic = view === "boards" ? "" : filters.topic.trim();
-  const rankAlgo: Algo = view === "boards" ? DEFAULT_FILTERS.algo : filters.algo;
-  const select = useCallback((item: LedgerItem, window: WindowDays, algo: Algo, topic: string) => {
-    setSelected(item);
-    setSelectedWindow(window);
-    setSelectedAlgo(algo);
-    setSelectedTopic(topic);
-    setOpen(true);
-  }, []);
-  const selectRow = useCallback(
-    (item: LedgerItem) => select(item, filters.window, rankAlgo, topic),
-    [select, filters.window, rankAlgo, topic],
+  const facets = useFacets(inCity ? route.city : null);
+  const ranking = useRanking(route, inCity);
+  const [hot, setHot] = useState<string | null>(null);
+  const [peek, setPeek] = useState(false);
+
+  // ---- The open restaurant, as a list row: the list's own when it is on
+  // the list, otherwise fetched alone (a searched place, a shared link). ----
+  const key = inCity ? route.place : null;
+  const index = key ? ranking.items.findIndex((i) => i.entity_key === key) : -1;
+  const listed = index >= 0 ? ranking.items[index] : null;
+  const lone = useFetch(
+    key && !listed ? `${route.city}|${key}|${ranking.window}|${route.topic}` : null,
+    () => api.ledgerEntity(key as string, ranking.window, route.topic),
   );
+  const loneItem = lone.current && lone.data?.entity_key === key ? lone.data : null;
+  // Kept while the same place is open, so a list reloading under it does not blank the panel.
+  const kept = useRef<LedgerItem | null>(null);
+  const found = listed ?? loneItem;
+  if (found) kept.current = found;
+  else if (kept.current?.entity_key !== key) kept.current = null;
+  const item = key ? kept.current : null;
+  const detail = useRestaurant(key);
 
-  // The current list, only when it was ranked under the filters on screen:
-  // useFetch keeps the previous result while the next one loads, and a row
-  // opened from it must carry the numbers the list now shows.
-  const d = ledger.data;
-  const listed = d && ledgerMatches(d, filters) ? d.items : null;
+  const scope: Scope = useMemo(() => {
+    const c = cities.data?.find((x) => x.subreddit === route.city);
+    return { subreddit: route.city, name: c?.name ?? `r/${route.city}`, short: c?.short ?? route.city };
+  }, [cities.data, route.city]);
 
-  /** Open any restaurant by key: its row from the list if it is there,
-   *  otherwise the same row built for it alone. */
-  const openKey = useCallback(
-    (key: string) => {
-      latestPick.current = key;
-      const inList = listed?.find((i) => i.entity_key === key);
-      if (inList) {
-        setOpening(null);
-        select(inList, filters.window, rankAlgo, topic);
-        return;
-      }
-      setOpening(key);
-      const window = filters.window;
-      const algo = rankAlgo;
-      const t = topic;
-      api.ledgerEntity(key, window, algo, t).then(
-        (item) => {
-          if (latestPick.current !== key) return;
-          setOpening(null);
-          select(item, window, algo, t);
-        },
-        () => {
-          if (latestPick.current === key) setOpening(null);
-        },
-      );
-    },
-    [listed, filters.window, rankAlgo, topic, select],
-  );
-  const pick = useCallback((hit: NameHit) => openKey(hit.key), [openKey]);
-
-  // Warm what search has highlighted, so opening it is immediate.
-  const preview = useCallback(
-    (key: string) => {
-      api.ledgerEntity(key, filters.window, rankAlgo, topic).catch(() => {});
-      api.restaurant(key, rankAlgo).catch(() => {});
-    },
-    [filters.window, rankAlgo, topic],
-  );
-
-  // Keep the open restaurant's numbers on the period shown: from the list
-  // when it is on it, otherwise fetched for it alone (a searched place).
-  useEffect(() => {
-    if (!selected) return;
-    const fresh = listed?.find((i) => i.entity_key === selected.entity_key);
-    if (fresh) {
-      if (fresh !== selected) setSelected(fresh);
-      if (selectedWindow !== filters.window) setSelectedWindow(filters.window);
-      if (selectedAlgo !== rankAlgo) setSelectedAlgo(rankAlgo);
-      if (selectedTopic !== topic) setSelectedTopic(topic);
-      return;
+  // ---- What the map shows ----
+  const pins: MapPin[] = useMemo(() => {
+    if (!inCity) {
+      if (!previewTop.current || !previewTop.data) return NO_PINS;
+      return previewTop.data.items.filter((i) => isRankable(i.rating)).flatMap((i, n) =>
+        i.location ? [{ key: i.entity_key, rank: n + 1, name: i.name, lat: i.location.lat, lng: i.location.lng, label: `${n + 1}. ${i.name}` }] : []);
     }
-    if (selectedWindow === filters.window && selectedAlgo === rankAlgo && selectedTopic === topic) return;
-    const key = selected.entity_key;
-    const window = filters.window;
-    const algo = rankAlgo;
-    const t = topic;
-    api.ledgerEntity(key, window, algo, t).then(
-      (item) => {
-        setSelected((s) => (s?.entity_key === key ? item : s));
-        setSelectedWindow(window);
-        setSelectedAlgo(algo);
-        setSelectedTopic(t);
-      },
-      () => {},
-    );
-  }, [listed, selected, selectedWindow, selectedAlgo, selectedTopic, filters.window, rankAlgo, topic]);
+    const out: MapPin[] = ranking.items.flatMap((i, n) => {
+      if (!i.location) return [];
+      const m = rowMetric(route.sort, i);
+      return [{ key: i.entity_key, rank: n + 1, name: i.name, lat: i.location.lat, lng: i.location.lng, label: `${n + 1}. ${i.name}, ${m.big} ${m.small}` }];
+    });
+    // A place opened from search is not on the list, but is still somewhere.
+    if (item?.location && !listed) {
+      out.push({ key: item.entity_key, rank: null, name: item.name, lat: item.location.lat, lng: item.location.lng, label: item.name });
+    }
+    return out;
+  }, [inCity, previewTop.current, previewTop.data, ranking.items, route.sort, item, listed]);
 
-  // A shared link opens straight onto its restaurant.
-  const initial = useRef(restaurantFromUrl());
+  const dots = useMemo(
+    () => (key && detail.data?.locations && detail.data.locations.length > 1 ? detail.data.locations.slice(1) : NO_DOTS),
+    [key, detail.data],
+  );
+
+  const target: MapTarget = useMemo(() => {
+    if (!inCity) {
+      const v = cityView(preview);
+      return { id: `home|${preview}`, center: v.center, zoom: v.zoom - (view.phone ? 0.8 : 0.3) };
+    }
+    if (key) {
+      const at = item?.location;
+      // No coordinates (or not known yet): hold the map where it is.
+      return at ? { id: `place|${route.city}|${key}`, center: [at.lng, at.lat], zoom: PLACE_ZOOM } : { id: `place|${route.city}|${key}|` };
+    }
+    const placed = ranking.items.flatMap((i) => (i.location ? [i.location] : []));
+    const bounds = pinBounds(placed);
+    // Named by the rows it frames, so the map refits when the list changes and not before.
+    if (bounds) return { id: `list|${route.city}|${ranking.items.map((i) => i.entity_key).join("\n")}`, bounds, maxZoom: 13.5 };
+    return { id: `city|${route.city}`, ...cityView(route.city) };
+  }, [inCity, preview, view.phone, key, item, route.city, ranking.items]);
+
+  const padding: MapPadding = useMemo(() => {
+    if (!inCity) {
+      return view.phone
+        ? { top: 80, right: 20, bottom: 40, left: 20 }
+        : { top: 140, right: 40, bottom: 60, left: Math.round(view.width * 0.38) };
+    }
+    return view.phone
+      ? { top: 56, right: 28, bottom: (peek ? SHEET_PEEK : Math.round(view.height * SHEET)) + 16, left: 28 }
+      : { top: 48, right: 64, bottom: 48, left: PANEL };
+  }, [inCity, view.phone, view.width, view.height, peek]);
+
+  // ---- Moving about ----
+  const openPlace = useCallback((place: string) => {
+    setHot(null);
+    setPeek(false);
+    go({ place });
+  }, [go]);
+  const closePlace = useCallback(() => {
+    const was = route.place;
+    go({ place: null });
+    // Back to the row it was opened from, for whoever is using the keyboard.
+    if (was) requestAnimationFrame(() => document.querySelector<HTMLElement>(`.row[data-key="${CSS.escape(was)}"]`)?.focus({ preventScroll: true }));
+  }, [go, route.place]);
+  const openCity = useCallback((city: string) => go({ city }), [go]);
+  const pickPin = useCallback((place: string) => {
+    if (inCity) openPlace(place);
+    else go({ city: preview, place });
+  }, [inCity, openPlace, go, preview]);
+
+  useEffect(() => setHot(null), [route.city, route.sort, route.screen]);
+
   useEffect(() => {
-    if (initial.current) openKey(initial.current);
-    initial.current = null;
-    // Once, on load.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    // While a shared link is still opening, leave its ?r= alone.
-    if (!open && opening) return;
-    setRestaurantInUrl(open && selected ? selected.entity_key : null);
-  }, [open, selected, opening]);
-
-  const close = useCallback(() => setOpen(false), []);
-
-  useEffect(() => {
-    document.body.classList.toggle("split", open);
-  }, [open]);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, []);
+    document.title = [inCity && item && key ? item.name : null, inCity ? scope.name : null, BRAND_NAME].filter(Boolean).join(" · ");
+  }, [inCity, item, key, scope.name]);
 
   return (
     <>
-      <div className="page">
-        <Rail
-          view={view}
-          onView={setView}
-          filters={filters}
-          facets={facets.data}
-          onChange={update}
-          onToggleNeed={toggleNeed}
-          onToggleFlaw={toggleFlaw}
-          onClear={view === "boards" ? clearBoard : clear}
-          onPick={pick}
-          onPreview={preview}
-          opening={opening}
-        />
-        {view === "comments" ? (
-          <LiveFeed onOpen={openKey} />
-        ) : view === "boards" ? (
-          <BoardList
-            filters={filters}
-            board={board}
-            onBoard={setBoard}
-            selectedKey={open ? selected?.entity_key ?? null : null}
-            onSelect={selectRow}
-            onClear={clearBoard}
+      <div className="map-stage">
+        <Suspense fallback={null}>
+          <MapView
+            target={target} padding={padding} pins={pins} dots={dots} hot={hot} selected={key} live={inCity}
+            onHot={setHot} onPick={pickPin}
           />
-        ) : (
-          <LedgerList
-            filters={filters}
-            data={ledger.data}
-            loading={ledger.loading}
-            error={ledger.error}
-            selectedKey={open ? selected?.entity_key ?? null : null}
-            onSelect={selectRow}
-            onClear={clear}
-          />
-        )}
+        </Suspense>
       </div>
-      <DetailPanel item={selected} open={open} window={selectedWindow} algo={selectedAlgo} onClose={close} />
+
+      <Home
+        cities={cities.data} citiesError={cities.error} active={preview} top={previewTop} onActive={setPreview}
+        onOpen={openCity} onPlace={(city, place) => go({ city, place })} onTopic={(city, topic) => go({ city, topic })}
+        hidden={inCity}
+      />
+
+      {inCity && (
+        <div className="city">
+          <aside className={peek ? "panel peek" : "panel"} aria-label={scope.name}>
+            {view.phone && (
+              <button
+                type="button" className="panel-grab" aria-expanded={!peek}
+                aria-label={peek ? "Show the list" : "Show more of the map"} onClick={() => setPeek((p) => !p)}
+              />
+            )}
+            {key ? (
+              <Place
+                key={`${route.city}|${key}`} entityKey={key} item={item} error={!item ? lone.error : null}
+                rank={ranking.current && index >= 0 ? index + 1 : null} sort={route.sort} window={ranking.window}
+                dev={route.dev} onBack={closePlace}
+              />
+            ) : (
+              <Leaderboard
+                route={route} go={go} scope={scope} facets={facets.current ? facets.data : null} ranking={ranking}
+                hot={hot} onHot={setHot} onOpen={openPlace}
+              />
+            )}
+          </aside>
+          <MapCredit />
+        </div>
+      )}
     </>
   );
 }

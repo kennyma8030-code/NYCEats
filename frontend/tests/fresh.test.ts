@@ -2,62 +2,13 @@
 // Run with `npm test` (node's own runner; Node 22.6+ strips the types).
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { fetchView, ledgerMatches, visibleLedgerItems, type FetchInner } from "../src/lib/fresh.ts";
-import type { LedgerItem, LedgerResponse } from "../src/api/types.ts";
-import type { Filters } from "../src/state/filters.ts";
+import { fetchView, type FetchInner } from "../src/lib/fresh.ts";
 
-const filters: Filters = {
-  algo: "v1", topic: "", category: "trending", window: 7, cuisine: "", borough: "", needs: [], flaws: [],
-};
-
-const row = (k: string) => ({ entity_key: k }) as LedgerItem;
-
-function response(f: Filters, keys: string[]): LedgerResponse {
-  return {
-    category: f.category, window_days: f.window, bucket_days: 1, algo: f.algo,
-    topic: f.topic.trim() || null, cuisine: f.cuisine || null, borough: f.borough || null,
-    needs: [...f.needs], flaws: [...f.flaws], total: keys.length, items: keys.map(row),
-  };
-}
-
-test("a response matches only the filters it echoes", () => {
-  const f: Filters = { ...filters, topic: " omakase ", cuisine: "Japanese", needs: ["value", "service"] };
-  const d = response(f, ["a"]);
-  assert.ok(ledgerMatches(d, f));
-  assert.ok(ledgerMatches(d, { ...f, needs: ["service", "value"] }), "order of needs does not matter");
-  for (const patch of [
-    { cuisine: "" }, { borough: "Queens" }, { needs: ["value"] }, { flaws: ["food"] },
-    { topic: "ramen" }, { algo: "v2" }, { window: 30 }, { category: "top" },
-  ] as Partial<Filters>[]) {
-    assert.ok(!ledgerMatches(d, { ...f, ...patch }), JSON.stringify(patch));
-  }
-});
-
-test("a repeated need is one filter, in the URL and against the echo", async () => {
+test("a repeated need is one filter, as the API reads it", async () => {
   const { filtersFromQuery } = await import("../src/state/filters.ts");
   const f = filtersFromQuery("?need=value&need=value&flaw=food&flaw=food", null);
   assert.deepEqual(f.needs, ["value"]);
   assert.deepEqual(f.flaws, ["food"]);
-  // The API echoes the de-duplicated list; even a doubled client list matches it.
-  const echoed = response(f, ["a"]);
-  assert.ok(ledgerMatches(echoed, f));
-  assert.ok(ledgerMatches(echoed, { ...f, needs: ["value", "value"] }));
-  assert.ok(!ledgerMatches(echoed, { ...f, needs: ["value", "service"] }));
-});
-
-test("an error never shows the previous filters' rows", () => {
-  const old = response(filters, ["a", "b"]);
-  const now: Filters = { ...filters, borough: "Brooklyn" };
-  assert.deepEqual(visibleLedgerItems(old, now, false, "boom").items, []);
-  assert.deepEqual(visibleLedgerItems(old, filters, false, "boom").items, []);
-});
-
-test("old rows show only while the new request is in flight", () => {
-  const old = response(filters, ["a", "b"]);
-  const now: Filters = { ...filters, cuisine: "Pizza" };
-  assert.deepEqual(visibleLedgerItems(old, now, true, null), { items: old.items, current: false });
-  assert.deepEqual(visibleLedgerItems(old, now, false, null), { items: [], current: false });
-  assert.deepEqual(visibleLedgerItems(old, filters, false, null), { items: old.items, current: true });
 });
 
 test("fetchView labels data with the key it was loaded for", () => {

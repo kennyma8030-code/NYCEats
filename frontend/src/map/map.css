@@ -1,0 +1,54 @@
+/* Loaded with MapLibre itself; what must be there before it arrives (the
+   stage, the credit) is in styles/global.css. */
+.map { position: absolute; inset: 0; font-family: var(--body) }
+.map:not(.live) { pointer-events: none }
+.map:not(.live) .maplibregl-ctrl { display: none }
+
+/* A pin is a 44px target with a 26px dot in it, as a row's number is. */
+.pin {
+  width: 44px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.pin-dot {
+  width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  background: var(--surface); color: var(--ink); font-size: 12px; font-weight: 600; line-height: 1;
+  box-shadow: 0 3px 10px rgba(21, 23, 26, .25);
+  transition: transform .2s ease, background .2s ease, color .2s ease;
+}
+.pin.plain .pin-dot { width: 18px; height: 18px; background: var(--accent) }
+.pin.on { z-index: 500 !important }
+.pin.on .pin-dot { background: var(--accent); color: var(--on-accent); transform: scale(1.3) }
+.pin-tag {
+  display: none; position: absolute; left: 42px; top: 50%; transform: translateY(-50%); white-space: nowrap;
+  padding: 5px 12px; border-radius: 10px; background: var(--ink); color: var(--surface);
+  font-family: var(--display); font-weight: 700; font-size: 15px; box-shadow: 0 6px 18px rgba(21, 23, 26, .3);
+  pointer-events: none;
+}
+.pin.on .pin-tag { display: block }
+.pin:focus-visible { outline: none }
+.pin:focus-visible .pin-dot { outline: 3px solid var(--accent); outline-offset: 2px }
+
+.pin-minor {
+  width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent);
+  box-shadow: 0 2px 6px rgba(21, 23, 26, .25);
+}
+
+/* The zoom buttons, in the page's own shapes. */
+.map .maplibregl-ctrl-bottom-right { right: 14px; bottom: 34px }
+.map .maplibregl-ctrl-group {
+  border-radius: 14px; overflow: hidden; background: var(--surface);
+  box-shadow: 0 6px 18px rgba(21, 23, 26, .16); border: 1px solid var(--line);
+}
+.map .maplibregl-ctrl-group button { width: 44px; height: 44px }
+.map .maplibregl-ctrl-group button + button { border-top: 1px solid var(--line) }
+
+@media (max-width: 720px) {
+  /* The sheet covers the bottom of the map, so the zoom buttons go: two
+     fingers do their job. */
+  .map .maplibregl-ctrl-bottom-right { display: none }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pin-dot { transition: none }
+}

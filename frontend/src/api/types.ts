@@ -40,6 +40,18 @@ export interface LedgerItem {
   // Over the rating's own fixed window, whatever the ledger window is. null
   // when nobody voiced an opinion or recommendation in it.
   rating?: Rating | null;
+  // Where the map pins it (app/geo.py): null when no coordinates are known,
+  // and then the place is listed without a pin.
+  location?: Location | null;
+  location_count?: number;
+}
+
+/** One location of a place. `address` is as the city's licence writes it, in capitals. */
+export interface Location {
+  lat: number;
+  lng: number;
+  address: string | null;
+  borough: string | null;
 }
 
 export interface LedgerResponse {
@@ -117,6 +129,8 @@ export interface RestaurantDetail {
   top_descriptors: FacetValue[];
   neighborhoods: FacetValue[];
   addresses: unknown[] | null;
+  // Every known location, the pinned one first; empty when none is known.
+  locations?: Location[];
 }
 
 export interface Mention {

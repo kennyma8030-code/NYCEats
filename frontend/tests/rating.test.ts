@@ -1,7 +1,7 @@
 // The wording of a rating, without a browser. Run with `npm test`.
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { boardExplainer, boardMetric, complaintPhrase, headline, isRankable, rankableCategories } from "../src/lib/rating.ts";
+import { boardExplainer, complaintPhrase, isRankable, rankableCategories } from "../src/lib/rating.ts";
 import type { Rating, RatingLines } from "../src/api/types.ts";
 
 const rating: Rating = {
@@ -14,10 +14,6 @@ const rating: Rating = {
   },
 };
 const lines = { busy_line: 78, min_category_rated: 8 } as RatingLines;
-
-test("headline reads as one line", () => {
-  assert.equal(headline(rating), "84% positive · 212 people · recommended by 340");
-});
 
 test("complaint share is plain language, over the people the headline counts", () => {
   assert.equal(complaintPhrase({ pos: 75, neg: 25 }), "1 in 4 complain");
@@ -43,10 +39,4 @@ test("board explainers use the cut-offs", () => {
   assert.match(boardExplainer("top", lines), /at least 78 people/);
   assert.match(boardExplainer("gems", lines), /Under 78 recommenders/);
   assert.match(boardExplainer("popular", null), /above the median/);
-});
-
-test("board rows lead with what the board ranks by", () => {
-  assert.equal(boardMetric("popular", rating).big, "340");
-  assert.equal(boardMetric("top", rating).big, "84%");
-  assert.equal(boardMetric("taste", rating).big, "90%");
 });

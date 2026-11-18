@@ -1,6 +1,6 @@
 # NYCEats frontend
 
-React + Vite + TypeScript.
+React + Vite + TypeScript, with MapLibre GL for the map.
 
 ```sh
 npm install
@@ -11,6 +11,17 @@ Run the API alongside it from the repo root:
 
 ```sh
 uvicorn app.main:app --reload
+```
+
+When :8000 or :5173 is taken, name another API and another port:
+
+```sh
+API_PROXY=http://localhost:8010 npm run dev -- --port 5180
+```
+
+```sh
+npm run typecheck
+npm test           # node's own runner over tests/*.test.ts, no browser
 ```
 
 ```sh
@@ -54,17 +65,40 @@ active one. A build step that is skipped rather than failed is different:
 `/healthz` reads the database and never looks at the page, so the deploy comes
 up with a working API and the 503 above at every page path.
 
+## The map
+
+One MapLibre map sits fixed behind the whole app. Its style is written by
+hand in `src/map/style.ts` over OpenFreeMap's public vector tiles, which need
+no key; labels are drawn in Inter from the font files `@fontsource/inter`
+ships. Its colours are the `--map-*` tokens in `src/styles/tokens.css`.
+
+Coordinates come from the API (`location` on every list row, `locations` on a
+restaurant), which serves them from `app/data/nyc_locations.json`. That file
+is written by `locations.py` at the repo root from the city's public
+inspection dataset; re-run it to refresh. Only New York has one. Every other
+city opens centred on the table in `src/lib/cities.ts`, with a list and no
+pins.
+
+## URLs
+
+A bare URL is the landing page. A city is `?subreddit=FoodNYC`, plus `sort`
+(`loved`, `talked`, `trending`, `gems`), `window`, `topic`, `cuisine`,
+`borough`, `need`, `flaw` and `r` for an open restaurant
+(`src/state/route.ts`). `dev=1` adds the per-comment "Extraction" link.
+
 ## Layout
 
 ```
 src/
+  brand.ts      the product name, in one place
   api/          fetch wrappers and response types
-  hooks/        data hooks (ledger, facets, restaurant, comments)
-  state/        filter state, synced to the URL query string
-  lib/          formatting and labels
-  styles/       tokens (light/dark) and global rules
+  hooks/        data hooks (ranking, wall, facets, restaurant, paging, route)
+  state/        the route in the URL, the current city, the ledger's filters
+  lib/          sorts, wall, search, rating wording, city centres, formatting
+  map/          the MapLibre view, its pins and its style
+  styles/       tokens (one light theme) and global rules
   components/
-    rail/       brand, category, period, filters
-    ledger/     ranked list, rows, sparklines
-    detail/     right-hand panel: analytics column + comment column
+    home/       landing page: hero over the wall, then the cities
+    city/       a city's panel: search, sort, filters, the numbered list
+    place/      one restaurant: rating, summary, comments, the numbers
 ```

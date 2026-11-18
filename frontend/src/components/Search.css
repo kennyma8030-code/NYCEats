@@ -1,0 +1,80 @@
+.search { position: relative }
+.search input {
+  width: 100%; border: 1px solid var(--line-2); border-radius: var(--r-pill);
+  background: var(--surface); color: var(--ink); appearance: none;
+}
+.search input::-webkit-search-cancel-button { appearance: none }
+.search input::placeholder { color: var(--muted); opacity: 1 }
+.search-glass { position: absolute; pointer-events: none; color: var(--muted) }
+
+/* In a city: a quiet field at the top of the panel. */
+.search.in-panel input { height: 46px; padding: 0 16px 0 42px }
+.search.in-panel .search-glass { left: 16px; top: 15px }
+
+/* On the landing page: the one solid thing under the title. */
+.search.in-hero input {
+  height: 68px; padding: 0 76px 0 60px; border: 2px solid var(--ink); font-size: 19px;
+  box-shadow: 0 18px 50px rgba(21, 23, 26, .16);
+}
+.search.in-hero .search-glass { left: 24px; top: 23px; color: var(--ink) }
+.search-go {
+  position: absolute; right: 10px; top: 10px; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%;
+  background: var(--accent); color: var(--on-accent); display: flex; align-items: center; justify-content: center;
+}
+.search-go:hover { background: var(--accent-deep) }
+
+/* Example searches, one line at a time, until something is typed. */
+.search-hints {
+  position: absolute; left: 60px; right: 76px; top: 20px; height: 28px; overflow: hidden; pointer-events: none;
+  text-align: left; font-size: 19px; line-height: 28px; color: var(--muted);
+}
+.search-hints div div { height: 28px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+@keyframes search-rot {
+  0%, 16% { transform: translateY(0) }
+  20%, 36% { transform: translateY(-28px) }
+  40%, 56% { transform: translateY(-56px) }
+  60%, 76% { transform: translateY(-84px) }
+  80%, 96% { transform: translateY(-112px) }
+  100% { transform: translateY(-140px) }
+}
+.search-rot { animation: search-rot 15s cubic-bezier(.6, 0, .2, 1) infinite }
+
+.search-list {
+  position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 30; padding: 8px; text-align: left;
+  border-radius: var(--r-card); background: var(--surface); border: 1px solid var(--line);
+  box-shadow: var(--shadow-card); max-height: min(60vh, 460px); overflow-y: auto;
+}
+.search-opt {
+  width: 100%; min-height: 52px; padding: 8px 12px; border: 0; border-radius: var(--r-item); background: none;
+  display: grid; grid-template-columns: 1fr auto; column-gap: 12px; align-items: center; text-align: left;
+}
+.search-opt[aria-selected="true"] { background: var(--wash) }
+.search-name {
+  grid-column: 1; font-family: var(--display); font-weight: 700; font-size: 17px; line-height: 1.2;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.search-sub { grid-column: 1; font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.search-n { grid-column: 2; grid-row: 1 / span 2; font-size: 13px; color: var(--muted); white-space: nowrap }
+.search-opt.topic { border-top: 1px solid var(--line); border-radius: 0 0 var(--r-item) var(--r-item); margin-top: 4px }
+.search-opt.topic:first-child { border-top: 0; margin-top: 0; border-radius: var(--r-item) }
+.search-opt.topic .search-name { font-family: var(--body); font-weight: 600; font-size: 15px }
+.search-note { padding: 8px 12px 6px; font-size: 13px; color: var(--muted) }
+.search-topics { margin-top: 4px; padding-bottom: 6px; border-top: 1px solid var(--line) }
+.search-topics:first-child { border-top: 0; margin-top: 0 }
+.search-cities { display: flex; flex-wrap: wrap; gap: 8px; padding: 2px 12px 4px }
+.search-city {
+  min-height: 44px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: var(--r-pill);
+  background: var(--surface); font-size: 14px; font-weight: 600;
+}
+.search-city[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface) }
+
+@media (max-width: 720px) {
+  .search.in-hero input { height: 60px; padding: 0 68px 0 52px; font-size: 17px }
+  .search.in-hero .search-glass { left: 20px; top: 19px }
+  .search-go { top: 8px; right: 8px; width: 44px; height: 44px }
+  .search-hints { left: 52px; right: 68px; top: 16px; font-size: 17px }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-rot { animation: none }
+}

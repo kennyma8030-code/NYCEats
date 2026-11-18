@@ -1,15 +1,3 @@
-import type { AspectKey, Category, LedgerItem } from "../api/types";
-
-export const ASPECTS: AspectKey[] = ["food", "value", "service", "atmosphere", "wait"];
-
-export const ASPECT_LABEL: Record<AspectKey, string> = {
-  food: "Taste",
-  value: "Value",
-  service: "Service",
-  atmosphere: "Atmosphere",
-  wait: "Wait",
-};
-
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const HOUR = 36e5;
 const DAY = 24 * HOUR;
@@ -30,38 +18,7 @@ export function ago(iso: string | null, now = Date.now()): string {
 /** Change in mention count, signed: "+47", "-3", "0". */
 export const signedCount = (n: number) => `${n > 0 ? "+" : ""}${n.toLocaleString()}`;
 
-export function sentimentWord(v: number | null): string {
-  if (v == null) return "Mixed";
-  return v >= 0.5 ? "Loved" : v >= 0.25 ? "Liked" : "Mixed";
-}
-
-const plural = (n: number, one: string, many: string) => `${n.toLocaleString()} ${n === 1 ? one : many}`;
-
-/** The big number and its caption on the right of a ledger row. */
-export function rowMetric(item: LedgerItem, category: Category): { big: string; small: string; good: boolean } {
-  switch (category) {
-    case "trending":
-      return {
-        big: signedCount(item.current - item.previous),
-        small: `${item.current.toLocaleString()} vs ${plural(item.previous, "mention", "mentions")}`,
-        good: true,
-      };
-    case "top":
-      return { big: item.current.toLocaleString(), small: item.current === 1 ? "mention" : "mentions", good: false };
-    case "gems":
-      return { big: sentimentWord(item.sentiment), small: plural(item.current, "mention", "mentions"), good: true };
-  }
-}
-
-/** Score in [-1, 1] -> filled bubbles out of 5: -1 = 0, -0.5 = 1.25, 0 = 2.5, 1 = 5. */
-export const bubblesFilled = (score: number) => ((Math.max(-1, Math.min(1, score)) + 1) / 2) * 5;
-
-const AVATAR = ["#0A7C66", "#C2410C", "#2B5FA8", "#8A5A12", "#7A3E9D", "#3E6B2F", "#A1344F"];
-export function avatarColor(name: string): string {
-  let h = 0;
-  for (let i = 0; i < name.length; i++) h = (Math.imul(h, 31) + name.charCodeAt(i)) >>> 0;
-  return AVATAR[h % AVATAR.length];
-}
+export const plural = (n: number, one: string, many: string) => `${n.toLocaleString()} ${n === 1 ? one : many}`;
 
 export function redditUrl(permalink: string | null): string | null {
   if (!permalink) return null;
@@ -69,3 +26,11 @@ export function redditUrl(permalink: string | null): string | null {
 }
 
 export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+/** The city's licences write addresses in capitals: "205 EAST HOUSTON STREET". */
+export const titleCase = (s: string) => s.toLowerCase().replace(/(^|[\s-])([a-z])/g, (_, a: string, b: string) => a + b.toUpperCase());
+
+const WORDS = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
+
+/** A small count as a word, for a heading: "Seven cities". */
+export const countWord = (n: number) => WORDS[n] ?? n.toLocaleString();

@@ -13,7 +13,7 @@ from typing import Annotated, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import JSONResponse
 
-from .. import queries
+from .. import geo, queries
 from ..city import Sub
 from ..db import fetch_all, fetch_one, fetch_value, get_conn
 from ..models import (ASPECTS, Algo, Board, CategoryRating, Ledger, LedgerCategory, LedgerFlaw,
@@ -280,6 +280,7 @@ def _build_items(conn, sub, rows, window, bucket, topic=None, ratings=None):
     items = []
     for r in rows:
         cur, prev = r["current"], r["previous"]
+        places = geo.locations(sub, r["entity_key"])
         items.append(LedgerItem(
             entity_key=r["entity_key"],
             name=display_name(r["official_name"], r["entity_key"]),
@@ -301,5 +302,7 @@ def _build_items(conn, sub, rows, window, bucket, topic=None, ratings=None):
             strong_neg_people=r.get("strong_neg_people"),
             strong_neg_share=r.get("strong_neg_share"),
             rating=build_rating(ratings.get(r["entity_key"])),
+            location=places[0] if places else None,
+            location_count=len(places),
         ))
     return items

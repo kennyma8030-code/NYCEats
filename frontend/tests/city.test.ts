@@ -1,7 +1,7 @@
 // Which city a page shows, and how that reaches the API. Run with `npm test`.
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { areaWords, cityFromQuery, cityUrl, HOME, withCity } from "../src/state/city.ts";
+import { areaWords, cityFromQuery, currentCity, HOME, setCurrentCity, withCity } from "../src/state/city.ts";
 
 test("no subreddit in the URL is New York", () => {
   assert.equal(cityFromQuery(""), HOME);
@@ -18,9 +18,12 @@ test("every request carries the city, and New York's stay as they were", () => {
     "/api/restaurants/joes%20pizza/mentions?sort=recent&subreddit=chicagofood");
 });
 
-test("switching city drops the filters and the open restaurant", () => {
-  assert.equal(cityUrl("FoodLosAngeles", "/"), "/?subreddit=FoodLosAngeles");
-  assert.equal(cityUrl(HOME, "/"), "/");
+test("a request with no city named is the current city's", () => {
+  assert.equal(currentCity(), HOME);
+  setCurrentCity("austinfood");
+  assert.equal(withCity("/api/facets"), "/api/facets?subreddit=austinfood");
+  setCurrentCity(HOME);
+  assert.equal(withCity("/api/facets"), "/api/facets");
 });
 
 test("only New York has boroughs", () => {

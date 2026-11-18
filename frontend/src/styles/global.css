@@ -1,34 +1,85 @@
 *, *::before, *::after { box-sizing: border-box }
 
-html { scroll-padding-top: env(safe-area-inset-top, 0px) }
+html { -webkit-text-size-adjust: 100% }
+
+/* Lists scroll inside the panel; their scrollbars stay as quiet as its hairlines. */
+* { scrollbar-width: thin; scrollbar-color: var(--line-2) transparent }
 
 body {
   margin: 0;
-  padding-inline: 16px;
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-  background: var(--bg);
+  background: var(--ground);
   color: var(--ink);
-  font: 15px/1.5 var(--sans);
+  font: 15px/1.45 var(--body);
   -webkit-font-smoothing: antialiased;
 }
 
-img { max-width: 100% }
-button, select { font: inherit; color: inherit }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px }
+h1, h2, h3, p, ol, ul, blockquote { margin: 0 }
+ol, ul { padding: 0; list-style: none }
+button, input { font: inherit; color: inherit }
+button { cursor: pointer }
+button:disabled { cursor: default }
+a { color: var(--accent) }
+a:hover { color: var(--accent-deep) }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px }
 [hidden] { display: none !important }
 
-.lab {
-  font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--faint); margin: 0 0 8px;
+/* Read by screen readers, not drawn. */
+.sr {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
 }
 
-.pill-button {
-  font: inherit; font-size: 14px; border: 1px solid var(--line); background: var(--surface);
-  color: var(--ink); border-radius: 999px; padding: 6px 16px; cursor: pointer;
+/* Small capitals over a section: the one label style. */
+.eyebrow {
+  font-size: 12px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted);
 }
-.pill-button:hover { background: var(--cell) }
+
+.wordmark { font-family: var(--display); font-weight: 800; letter-spacing: -.02em }
+.wordmark span { color: var(--accent) }
+
+/* A row of text and a chevron that goes somewhere else in the panel. */
+.back {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 10px 0 4px; margin-left: -4px;
+  border: 0; border-radius: var(--r-pill); background: none; color: var(--ink-2); font-size: 13px; font-weight: 500;
+}
+.back:hover { color: var(--ink) }
+
+.pill {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px;
+  border: 1px solid var(--line-2); border-radius: var(--r-pill); background: var(--surface);
+  font-size: 13px; font-weight: 600;
+}
+.pill:hover { background: var(--ground) }
+.pill.solid { border-color: transparent; background: var(--accent); color: var(--on-accent) }
+.pill.solid:hover { background: var(--accent-deep) }
+
+/* A link that is a button: numbers that open the comments behind them. */
+.textlink {
+  padding: 0; border: 0; background: none; text-align: left; color: inherit;
+  text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 3px;
+}
+.textlink:hover { text-decoration-color: var(--accent) }
+
+/* The map sits behind everything, fixed to the window: the landing page's
+   second screen and the city view are both drawn over this one map. Water
+   shows until the tiles do. */
+.map-stage { position: fixed; inset: 0; z-index: 0; background: var(--map-water) }
+
+/* Required credit for the tiles and the data, kept quiet. Each screen places
+   it where nothing covers it (Home.css, City.css). */
+.map-credit {
+  margin: 0; font-size: 12px; color: var(--muted);
+  padding: 2px 8px; border-radius: var(--r-pill); background: rgba(255, 255, 255, .7);
+}
+.map-credit a { color: inherit; text-decoration: none }
+.map-credit a:hover { text-decoration: underline }
+
+@keyframes shimmer { from { opacity: .55 } 50% { opacity: 1 } to { opacity: .55 } }
+.skel { border-radius: var(--r-item); background: var(--wash); animation: shimmer 1.4s ease-in-out infinite }
+
+@keyframes pop { from { opacity: 0; transform: scale(.97) } to { opacity: 1; transform: none } }
+.pop { animation: pop .35s var(--ease) }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition: none !important; animation: none !important }
+  .skel, .pop { animation: none }
+  * { scroll-behavior: auto !important }
 }
