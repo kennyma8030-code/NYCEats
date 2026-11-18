@@ -1,20 +1,22 @@
-import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { api } from "./api/client";
 import type { LedgerItem } from "./api/types";
 import { BRAND_NAME } from "./brand";
 import { Leaderboard } from "./components/city/Leaderboard";
 import { Home } from "./components/home/Home";
 import { MapCredit } from "./components/MapCredit";
-import { Place } from "./components/place/Place";
+import { PlacePanels } from "./components/place/Place";
 import type { Scope } from "./components/Search";
 import { useCities } from "./hooks/useCities";
 import { useFacets } from "./hooks/useFacets";
 import { useFetch } from "./hooks/useFetch";
+import { useHoverPreview } from "./hooks/useHoverPreview";
 import { useRanking } from "./hooks/useRanking";
 import { useRestaurant } from "./hooks/useRestaurant";
 import { useRoute } from "./hooks/useRoute";
 import { useViewport } from "./hooks/useViewport";
 import { cityView, pinBounds } from "./lib/cities";
+import { cityLayout, mapSides } from "./lib/layout";
 import { isRankable } from "./lib/rating";
 import { rowMetric } from "./lib/sorts";
 import type { MapPadding, MapPin, MapTarget } from "./map/MapView";
@@ -25,9 +27,6 @@ import "./components/city/City.css";
 // so it arrives after the title and search have been drawn.
 const MapView = lazy(() => import("./map/MapView"));
 
-// The panel's place on a wide screen (City.css): its margin, its width, and
-// a little air, so a pin is never centred underneath it.
-const PANEL = 24 + 408 + 32;
 const SHEET = 0.62;       // of the height, on a phone
 const SHEET_PEEK = 132;   // px, when the sheet is folded down to see the map
 const PLACE_ZOOM = 15.2;
@@ -38,7 +37,8 @@ const NO_DOTS: { lat: number; lng: number }[] = [];
 /**
  * One map for the whole app, fixed behind everything, and two things drawn
  * over it: the landing page (which scrolls, and covers the map with its
- * first screen) and a city's panel. Moving between them, and onto a
+ * first screen) and a city's panels: the list, the restaurant beside it,
+ * and that restaurant's comments. Moving between them, and onto a
  * restaurant, moves the map's camera rather than swapping one map for
  * another.
  */
@@ -77,6 +77,18 @@ export default function App() {
   else if (kept.current?.entity_key !== key) kept.current = null;
   const item = key ? kept.current : null;
   const detail = useRestaurant(key);
+
+  // ---- The row the pointer is resting on, previewed beside the list. It
+  // only ever highlights that row's pin: the map does not move for a hover. ----
+  const { shown, hover } = useHoverPreview(inCity && !key && !view.phone);
+  const previewed = shown ? ranking.items.find((i) => i.entity_key === shown.key) ?? null : null;
+  // The panels' widths (lib/layout.ts). The map is padded for the panels
+  // that stay put, so a preview coming and going does not shift it.
+  const layout = useMemo(
+    () => cityLayout(view.width, key ? "open" : previewed ? "preview" : "list"),
+    [view.width, key, previewed],
+  );
+  const sides = useMemo(() => mapSides(view.width, cityLayout(view.width, key ? "open" : "list")), [view.width, key]);
 
   const scope: Scope = useMemo(() => {
     const c = cities.data?.find((x) => x.subreddit === route.city);
@@ -132,15 +144,18 @@ export default function App() {
     }
     return view.phone
       ? { top: 56, right: 28, bottom: (peek ? SHEET_PEEK : Math.round(view.height * SHEET)) + 16, left: 28 }
-      : { top: 48, right: 64, bottom: 48, left: PANEL };
-  }, [inCity, view.phone, view.width, view.height, peek]);
+      : { top: 48, right: sides.right, bottom: 48, left: sides.left };
+  }, [inCity, view.phone, view.width, view.height, peek, sides]);
 
   // ---- Moving about ----
   const openPlace = useCallback((place: string) => {
     setHot(null);
     setPeek(false);
+    // In the same update as the route, so the preview's panel is the one
+    // that grows into the restaurant rather than a new one replacing it.
+    hover.cancel();
     go({ place });
-  }, [go]);
+  }, [go, hover]);
   const closePlace = useCallback(() => {
     const was = route.place;
     go({ place: null });
@@ -153,18 +168,31 @@ export default function App() {
     else go({ city: preview, place });
   }, [inCity, openPlace, go, preview]);
 
-  useEffect(() => setHot(null), [route.city, route.sort, route.screen]);
+  useEffect(() => {
+    setHot(null);
+    hover.cancel();
+  }, [route.city, route.sort, route.screen, hover]);
 
   useEffect(() => {
-    document.title = [inCity && item && key ? item.name : null, inCity ? scope.name : null, BRAND_NAME].filter(Boolean).join(" · ");
+    const here = [inCity && item && key ? item.name : null, inCity ? scope.name : null].filter(Boolean).join(", ");
+    document.title = here ? `${here} | ${BRAND_NAME}` : BRAND_NAME;
   }, [inCity, item, key, scope.name]);
+
+  const grab = view.phone && (
+    <button
+      type="button" className="panel-grab" aria-expanded={!peek}
+      aria-label={peek ? "Show the list" : "Show more of the map"} onClick={() => setPeek((p) => !p)}
+    />
+  );
+  const lit = hot ?? previewed?.entity_key ?? null;
+  const widths = { "--board": `${layout.board}px`, "--place": `${layout.place}px`, "--comments": `${layout.comments}px` } as CSSProperties;
 
   return (
     <>
       <div className="map-stage">
         <Suspense fallback={null}>
           <MapView
-            target={target} padding={padding} pins={pins} dots={dots} hot={hot} selected={key} live={inCity}
+            target={target} padding={padding} pins={pins} dots={dots} hot={lit} selected={key} live={inCity}
             onHot={setHot} onPick={pickPin}
           />
         </Suspense>
@@ -177,27 +205,30 @@ export default function App() {
       />
 
       {inCity && (
-        <div className="city">
-          <aside className={peek ? "panel peek" : "panel"} aria-label={scope.name}>
-            {view.phone && (
-              <button
-                type="button" className="panel-grab" aria-expanded={!peek}
-                aria-label={peek ? "Show the list" : "Show more of the map"} onClick={() => setPeek((p) => !p)}
-              />
-            )}
-            {key ? (
-              <Place
-                key={`${route.city}|${key}`} entityKey={key} item={item} error={!item ? lone.error : null}
-                rank={ranking.current && index >= 0 ? index + 1 : null} sort={route.sort} window={ranking.window}
-                dev={route.dev} onBack={closePlace}
-              />
-            ) : (
+        <div className="city" style={widths}>
+          {/* A phone has room for one panel: the restaurant takes the list's place. */}
+          {!(view.phone && key) && (
+            <aside className={`panel board-panel${key ? " strip" : ""}${peek ? " peek" : ""}`} aria-label={scope.name}>
+              {grab}
               <Leaderboard
                 route={route} go={go} scope={scope} facets={facets.current ? facets.data : null} ranking={ranking}
-                hot={hot} onHot={setHot} onOpen={openPlace}
+                hot={lit} onHot={setHot} onOpen={openPlace} selected={key} hover={hover}
               />
-            )}
-          </aside>
+            </aside>
+          )}
+          {key ? (
+            <PlacePanels
+              mode="open" entityKey={key} item={item} error={!item ? lone.error : null} columns={layout.columns}
+              rowTop={0} viewportHeight={view.height} grab={grab} peek={peek} dev={route.dev}
+              onOpen={() => openPlace(key)} onClose={closePlace} onHold={hover.hold} onRelease={hover.leave}
+            />
+          ) : previewed && shown && (
+            <PlacePanels
+              mode="preview" entityKey={previewed.entity_key} item={previewed} error={null} columns={false}
+              rowTop={shown.top} viewportHeight={view.height} dev={route.dev}
+              onOpen={() => openPlace(previewed.entity_key)} onClose={hover.cancel} onHold={hover.hold} onRelease={hover.leave}
+            />
+          )}
           <MapCredit />
         </div>
       )}

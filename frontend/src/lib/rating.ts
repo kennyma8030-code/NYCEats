@@ -52,6 +52,39 @@ export function rankableCategories(r: Rating): { key: RatingCategory; pos: numbe
     .sort((a, b) => b.people - a.people);
 }
 
+// What each category is called when it is praised and when it is complained of.
+const LIKED_AS: Record<RatingCategory, string> = {
+  taste: "The food", value: "Value", service: "Service", atmosphere: "The room", wait: "A short wait",
+};
+const FAULTED_AS: Record<RatingCategory, string> = {
+  taste: "The food", value: "Prices", service: "Service", atmosphere: "The room", wait: "The wait",
+};
+
+// A category most people are happy with is something the place is liked
+// for; one that splits opinion, or worse, is a complaint worth knowing about.
+const LIKED_FROM = 60;
+
+export interface Verdict {
+  key: RatingCategory;
+  label: string;
+  /** The share, as a whole percent, of the side this verdict is on. */
+  pct: number;
+}
+
+/** A place's rated categories as two short lists: what it is liked for and
+ *  what people complain about, each strongest first. One number a row: the
+ *  share who were positive in the first list, negative in the second. */
+export function goodToKnow(r: Rating): { liked: Verdict[]; complaints: Verdict[] } {
+  const liked: Verdict[] = [];
+  const complaints: Verdict[] = [];
+  for (const c of rankableCategories(r)) {
+    if (c.pct >= LIKED_FROM) liked.push({ key: c.key, label: LIKED_AS[c.key], pct: c.pct });
+    else complaints.push({ key: c.key, label: FAULTED_AS[c.key], pct: 100 - c.pct });
+  }
+  const strongest = (a: Verdict, b: Verdict) => b.pct - a.pct;
+  return { liked: liked.sort(strongest), complaints: complaints.sort(strongest) };
+}
+
 /** One line under the tabs saying what the ranking is. The cut-offs come from
  *  the API (`lines`) so they say what was true at the last rebuild. */
 export function boardExplainer(board: BoardId, lines: RatingLines | null): string {

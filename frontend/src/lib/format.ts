@@ -25,7 +25,19 @@ export function redditUrl(permalink: string | null): string | null {
   return permalink.startsWith("/") ? `https://www.reddit.com${permalink}` : permalink;
 }
 
-export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+/** What a place is and where, on one line: "Pizza, Greenwich Village", or
+ *  whichever half is known. A comma, because the area is whatever commenters
+ *  called it ("near Bryant Park") and has to read after any cuisine. */
+export const whereLine = (cuisine: string | null | undefined, area: string | null | undefined): string =>
+  [cuisine, area].filter(Boolean).join(", ");
+
+/** "November 2026", for a caption that says how fresh something is. */
+export function monthYear(iso: string | null): string {
+  const t = iso ? Date.parse(iso) : NaN;
+  return Number.isNaN(t) ? "" : new Date(t).toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
+}
+
+export const capitalize =(s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 /** The city's licences write addresses in capitals: "205 EAST HOUSTON STREET". */
 export const titleCase = (s: string) => s.toLowerCase().replace(/(^|[\s-])([a-z])/g, (_, a: string, b: string) => a + b.toUpperCase());

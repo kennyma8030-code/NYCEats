@@ -92,13 +92,14 @@ A bare URL is the landing page. A city is `?subreddit=FoodNYC`, plus `sort`
 src/
   brand.ts      the product name, in one place
   api/          fetch wrappers and response types
-  hooks/        data hooks (ranking, wall, facets, restaurant, paging, route)
+  hooks/        data hooks (ranking, wall, facets, restaurant, paging, route, hover preview)
   state/        the route in the URL, the current city, the ledger's filters
-  lib/          sorts, wall, search, rating wording, city centres, formatting
+  lib/          sorts, wall, search, rating wording, city centres, formatting,
+                the panels' widths (layout) and hover timing (hover)
   map/          the MapLibre view, its pins and its style
   styles/       tokens (one light theme) and global rules
   components/
     home/       landing page: hero over the wall, then the cities
     city/       a city's panel: search, sort, filters, the numbered list
-    place/      one restaurant: rating, summary, comments, the numbers
+    place/      one restaurant: its hover preview, the open panel, its comments
 ```

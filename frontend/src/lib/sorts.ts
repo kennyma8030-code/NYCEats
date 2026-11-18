@@ -64,10 +64,10 @@ export function rowMetric(id: SortId, item: LedgerItem): { big: string; small: s
 }
 
 /** The same number as a sentence fragment, for a card on the landing page:
- *  "98% positive · 56 people", "1,516 mentions", "+11 mentions this week". */
+ *  "98% positive, 56 people", "1,516 mentions", "+11 mentions this week". */
 export function cardStat(id: SortId, item: LedgerItem, window: WindowDays): string {
   const m = rowMetric(id, item);
   if (id === "talked") return `${m.big} ${m.small}`;
   if (id === "trending") return `${m.big} mentions ${span(window)}`;
-  return m.small ? `${m.big} positive · ${m.small}` : "";
+  return m.small ? `${m.big} positive, ${m.small}` : "";
 }

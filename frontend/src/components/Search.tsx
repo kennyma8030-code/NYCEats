@@ -1,4 +1,5 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { whereLine } from "../lib/format";
 import { loadNames, search, suggest, type Entry, type NameHit } from "../lib/search";
 import { Icon } from "./Icon";
 import "./Search.css";
@@ -130,7 +131,7 @@ export function Search({ scopes, variant, label, placeholder, hints, onPlace, on
   const showList = open && text !== "";
   const optionId = (i: number) => `${id}-o${i}`;
   const sub = (o: Extract<Option, { kind: "place" }>) =>
-    [o.hit.cuisine, many ? o.scope.name : o.hit.borough, o.hit.closed ? "closed" : null].filter(Boolean).join(" · ");
+    [whereLine(o.hit.cuisine, many ? o.scope.name : o.hit.borough), o.hit.closed ? "closed" : null].filter(Boolean).join(", ");
 
   return (
     <div

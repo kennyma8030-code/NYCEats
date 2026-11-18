@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import type { Facets, Flaw, Need, WindowDays } from "../../api/types";
 import { BRAND } from "../../brand";
+import type { RowHover } from "../../hooks/useHoverPreview";
 import type { Ranking } from "../../hooks/useRanking";
+import { whereLine } from "../../lib/format";
 import { SORTS, rowMetric, sortNote, sortOf } from "../../lib/sorts";
 import { areaWords } from "../../state/city";
 import { FLAWS, NEEDS, WINDOWS, windowOf } from "../../state/filters";
@@ -18,6 +20,11 @@ interface Props {
   hot: string | null;
   onHot: (key: string | null) => void;
   onOpen: (key: string) => void;
+  /** The open restaurant. While there is one the list is a narrow strip of
+   *  ranks and names beside it, still clickable to change restaurant. */
+  selected: string | null;
+  /** Opens a preview beside a row the pointer rests on. */
+  hover: RowHover;
 }
 
 type MenuId = "cuisine" | "area" | "needs" | "flaws" | "period";
@@ -26,11 +33,13 @@ type MenuId = "cuisine" | "area" | "needs" | "flaws" | "period";
 const daysPhrase = (days: number) => (days === 365 ? "12 months" : days % 30 === 0 ? `${days / 30} months` : `${days} days`);
 
 /**
- * A city's panel while no restaurant is open: where you are, the search, the
- * sort, the filters and the numbered list. The list's numbers are the map's
- * pins: both are drawn from the same rows, in the same order.
+ * A city's list: where you are, the search, the sort, the filters and the
+ * numbered rows. The rows' numbers are the map's pins: both are drawn from
+ * the same rows, in the same order. Beside an open restaurant only the rows
+ * are left, as rank and name.
  */
-export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onOpen }: Props) {
+export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onOpen, selected, hover }: Props) {
+  const compact = selected !== null;
   const [menu, setMenu] = useState<MenuId | null>(null);
   const filters = useRef<HTMLDivElement>(null);
   const area = areaWords(route.city);
@@ -55,7 +64,7 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
       document.removeEventListener("keydown", onKey, true);
     };
   }, [menu]);
-  useEffect(() => setMenu(null), [route.city, route.sort]);
+  useEffect(() => setMenu(null), [route.city, route.sort, compact]);
 
   const flip = (id: MenuId) => setMenu((m) => (m === id ? null : id));
   const { items, total, loading, error, current } = ranking;
@@ -71,10 +80,16 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
     </button>
   );
   const several = <T,>(picked: T[], label: string, name: (k: T) => string) =>
-    picked.length === 0 ? null : picked.length === 1 ? name(picked[0]) : `${label} · ${picked.length}`;
+    picked.length === 0 ? null : picked.length === 1 ? name(picked[0]) : `${label} (${picked.length})`;
 
   return (
-    <div className="board">
+    <div className={compact ? "board compact" : "board"}>
+      {compact ? (
+        <div className="board-head">
+          <p className="eyebrow">{sortOf(route.sort).label}</p>
+          <h1 className="board-city">{scope.name}</h1>
+        </div>
+      ) : (
       <div className="board-head">
         <div className="board-top">
           <button type="button" className="back" onClick={() => go({ screen: "home" })}>
@@ -86,10 +101,10 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
         <div>
           <h1 className="board-city">{scope.name}</h1>
           <p className="board-src" data-menu>
-            From r/{scope.subreddit} ·{" "}
+            From r/{scope.subreddit},{" "}
             {ledger ? (
               <button type="button" className="period" aria-haspopup="true" aria-expanded={menu === "period"} onClick={() => flip("period")}>
-                last {windowOf(ranking.window).long}
+                the last {windowOf(ranking.window).long}
                 <Icon name="down" size={12} stroke={2.4} />
               </button>
             ) : (
@@ -179,11 +194,14 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
           )}
         </div>
       </div>
+      )}
 
-      <p className="board-note">
-        {sortNote(route.sort, ranking.window, ranking.lines)}
-        {route.topic ? ` Only mentions under “${route.topic}” are counted.` : ""}
-      </p>
+      {!compact && (
+        <p className="board-note">
+          {sortNote(route.sort, ranking.window, ranking.lines)}
+          {route.topic ? ` Only mentions under “${route.topic}” are counted.` : ""}
+        </p>
+      )}
 
       {error ? (
         <div className="board-msg" role="alert">
@@ -203,17 +221,37 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
           )}
         </div>
       ) : (
-        <ol className={!current && items.length ? "rows busy" : "rows"} aria-busy={loading}>
+        <ol className={!current && items.length ? "rows busy" : "rows"} aria-busy={loading} onScroll={hover.follow}>
           {items.map((item, i) => {
             const m = rowMetric(route.sort, item);
-            const meta = [item.cuisine, item.neighborhood ?? item.borough].filter(Boolean).join(" · ");
+            const meta = whereLine(item.cuisine, item.neighborhood ?? item.borough);
+            const key = item.entity_key;
             return (
               <li key={item.entity_key}>
                 <button
-                  type="button" className={hot === item.entity_key ? "row on" : "row"} data-key={item.entity_key}
-                  onClick={() => onOpen(item.entity_key)}
-                  onMouseEnter={() => onHot(item.entity_key)} onMouseLeave={() => onHot(null)}
-                  onFocus={() => onHot(item.entity_key)} onBlur={() => onHot(null)}
+                  type="button" className={hot === key || selected === key ? "row on" : "row"} data-key={key}
+                  aria-current={selected === key ? "true" : undefined} title={compact ? item.name : undefined}
+                  onClick={() => onOpen(key)}
+                  // A finger has no hover: only a mouse opens the preview, and
+                  // only focus that came from the keyboard does.
+                  onPointerEnter={(e) => {
+                    if (e.pointerType !== "mouse") return;
+                    onHot(key);
+                    hover.enter(key);
+                  }}
+                  onPointerLeave={(e) => {
+                    if (e.pointerType !== "mouse") return;
+                    onHot(null);
+                    hover.leave();
+                  }}
+                  onFocus={(e) => {
+                    onHot(key);
+                    if (e.currentTarget.matches(":focus-visible")) hover.focus(key);
+                  }}
+                  onBlur={() => {
+                    onHot(null);
+                    hover.leave();
+                  }}
                 >
                   <span className={item.location ? "row-n" : "row-n off"} title={item.location ? undefined : "No known address, so no pin"}>
                     {i + 1}
@@ -231,7 +269,7 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
             );
           })}
           {items.length === 0 && Array.from({ length: 8 }, (_, i) => <li key={i} className="row-skel skel" aria-hidden="true" />)}
-          {current && items.length > 0 && (
+          {current && items.length > 0 && !compact && (
             <li className="rows-foot">
               {total > items.length ? `The top ${items.length} of ${total.toLocaleString()}. ` : ""}
               {pinned === 0

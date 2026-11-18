@@ -24,7 +24,7 @@ test("a row shows the one number its list is ranked by", () => {
 });
 
 test("a card says the same number as a phrase", () => {
-  assert.equal(cardStat("loved", item({}), 365), "100% positive · 53 people");
+  assert.equal(cardStat("loved", item({}), 365), "100% positive, 53 people");
   assert.equal(cardStat("talked", item({ current: 1516 }), 365), "1,516 mentions");
   assert.equal(cardStat("trending", item({}), 7), "+11 mentions this week");
   assert.equal(cardStat("loved", item({ rating: null }), 365), "");
@@ -56,7 +56,7 @@ test("the wall leaves out deleted comments, posts and comments about no place", 
   assert.deepEqual(cards.map((c) => c.text), [
     "Honestly overhyped, the bread falls apart.", "Best pastrami I have ever had, worth the line.",
   ]);
-  assert.equal(cards[0].kind === "quote" && cards[0].sub, "r/FoodNYC · on Katz's");
+  assert.equal(cards[0].kind === "quote" && cards[0].sub, "r/FoodNYC on Katz's");
 });
 
 test("comments and places alternate, and the rankings take turns", () => {

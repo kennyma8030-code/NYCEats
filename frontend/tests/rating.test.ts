@@ -1,7 +1,7 @@
 // The wording of a rating, without a browser. Run with `npm test`.
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { boardExplainer, complaintPhrase, isRankable, rankableCategories } from "../src/lib/rating.ts";
+import { boardExplainer, complaintPhrase, goodToKnow, isRankable, rankableCategories } from "../src/lib/rating.ts";
 import type { Rating, RatingLines } from "../src/api/types.ts";
 
 const rating: Rating = {
@@ -27,6 +27,14 @@ test("complaint share is plain language, over the people the headline counts", (
 
 test("only rankable categories, most people first", () => {
   assert.deepEqual(rankableCategories(rating).map((c) => c.key), ["taste", "wait"]);
+});
+
+test("a rated category is either liked or complained of, with its own share", () => {
+  assert.deepEqual(goodToKnow(rating), {
+    liked: [{ key: "taste", label: "The food", pct: 90 }],
+    complaints: [{ key: "wait", label: "The wait", pct: 67 }],
+  });
+  assert.deepEqual(goodToKnow({ ...rating, categories: {} }), { liked: [], complaints: [] });
 });
 
 test("not rankable means no percentage", () => {

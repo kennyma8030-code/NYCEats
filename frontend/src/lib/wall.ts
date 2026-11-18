@@ -48,7 +48,7 @@ export function wallQuotes(feed: FeedItem[], subreddit: string, limit = 24): Wal
     const text = quoteLine(item.body);
     if (!text || seen.has(text)) continue;
     seen.add(text);
-    out.push({ card: { kind: "quote", text, sub: `r/${subreddit} · on ${item.places[0].name}` }, score: item.score ?? 0 });
+    out.push({ card: { kind: "quote", text, sub: `r/${subreddit} on ${item.places[0].name}` }, score: item.score ?? 0 });
   }
   // A stable sort: among equals the newer comment, which came first, stays first.
   return out.sort((a, b) => b.score - a.score).slice(0, limit).map((x) => x.card);

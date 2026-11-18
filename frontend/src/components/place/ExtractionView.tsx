@@ -55,7 +55,7 @@ function Mention({ m }: { m: ExtractedMention }) {
           ))}
         </div>
       )}
-      {facts.length > 0 && <div className="ex-facts">{facts.join(" · ")}</div>}
+      {facts.length > 0 && <div className="ex-facts">{facts.join(", ")}</div>}
     </div>
   );
 }
