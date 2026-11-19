@@ -3,7 +3,7 @@ import { api } from "../../api/client";
 import type { LedgerItem, RatingCategory, RestaurantDetail } from "../../api/types";
 import { useFetch } from "../../hooks/useFetch";
 import { useRestaurant } from "../../hooks/useRestaurant";
-import { capitalize, monthYear, plural, redditUrl, titleCase, whereLine } from "../../lib/format";
+import { capitalize, plural, redditUrl, titleCase, whereLine } from "../../lib/format";
 import { previewTop } from "../../lib/layout";
 import { CATEGORY_LABEL, isRankable, pct, people } from "../../lib/rating";
 import { currentCity } from "../../state/city";
@@ -18,8 +18,11 @@ interface Props {
   /** The place as a list row; null while it is still being fetched. */
   item: LedgerItem | null;
   error: string | null;
-  /** Whether the comments have a panel of their own; otherwise they are a tab in this one. */
+  /** Whether the comments, once open, have a panel of their own; otherwise they take this one. */
   columns: boolean;
+  /** Whether the comments are open. They are not until a number or "All comments" asks for them. */
+  comments: boolean;
+  onComments: (open: boolean) => void;
   /** In preview, where the hovered row is, so the preview can sit level with it. */
   rowTop: number;
   viewportHeight: number;
@@ -35,12 +38,9 @@ interface Props {
   onRelease: () => void;
 }
 
-type Tab = "about" | "comments";
-
 interface Ui {
   key: string;
   voices: VoiceView | null;
-  tab: Tab;
   /** Counts the times a number sent the reader to the comments. */
   jumps: number;
 }
@@ -48,18 +48,20 @@ interface Ui {
 /**
  * One restaurant, beside the list. It is one panel throughout: small while
  * it previews a hovered row, and the same element grown wider once the row
- * is clicked, with the comments in a second panel to its right (or, where
- * there is no room for one, in a tab). Every number here is a button that
- * shows the comments it counts. Escape steps out one level: from one
- * number's comments to all of them, then from the restaurant to the list.
+ * is clicked, wide enough to show everything without scrolling. Its comments
+ * stay shut until they are asked for: every number here is a button that
+ * opens the comments it counts, in a second panel to the right (or, where
+ * there is no room for one, in place of the overview). Escape steps out one
+ * level: from one number's comments to all of them, then out of the
+ * comments, then from the restaurant to the list.
  */
 export function PlacePanels({
-  mode, entityKey, item, error, columns, rowTop, viewportHeight, grab, peek, dev, onOpen, onClose, onHold, onRelease,
+  mode, entityKey, item, error, columns, comments: talking, onComments, rowTop, viewportHeight, grab, peek, dev, onOpen, onClose, onHold, onRelease,
 }: Props) {
   const { data, error: detailError } = useRestaurant(entityKey);
   // What is showing belongs to one restaurant: another starts from the top.
-  const [stored, setUi] = useState<Ui>({ key: entityKey, voices: null, tab: "about", jumps: 0 });
-  const ui = stored.key === entityKey ? stored : { key: entityKey, voices: null, tab: "about" as Tab, jumps: 0 };
+  const [stored, setUi] = useState<Ui>({ key: entityKey, voices: null, jumps: 0 });
+  const ui = stored.key === entityKey ? stored : { key: entityKey, voices: null, jumps: 0 };
   const open = mode === "open";
   const ready = item !== null;
 
@@ -81,12 +83,13 @@ export function PlacePanels({
     const onKey = (e: KeyboardEvent) => {
       // A menu or the search box that used the key has already said so.
       if (e.key !== "Escape" || e.defaultPrevented) return;
-      if (open && ui.voices) setUi({ ...ui, voices: null });
+      if (open && talking && ui.voices) setUi({ ...ui, voices: null });
+      else if (open && talking) onComments(false);
       else onClose();
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [open, ui, onClose]);
+  }, [open, talking, ui, onClose, onComments]);
 
   // Move focus to the name once there is one, so a keyboard or a screen
   // reader starts at the restaurant rather than back at the list.
@@ -105,8 +108,16 @@ export function PlacePanels({
     commentsTitle.current?.focus({ preventScroll: true });
   }, [ui.jumps]);
 
-  const ask = (view: VoiceView) => () => setUi({ key: entityKey, voices: view, tab: "comments", jumps: ui.jumps + 1 });
-  const allComments = () => setUi({ key: entityKey, voices: null, tab: "comments", jumps: ui.jumps + 1 });
+  const show = (voices: VoiceView | null) => {
+    setUi({ key: entityKey, voices, jumps: ui.jumps + 1 });
+    onComments(true);
+  };
+  const ask = (view: VoiceView) => () => show(view);
+  const allComments = () => show(null);
+  const closeComments = () => {
+    onComments(false);
+    heading.current?.focus({ preventScroll: true });
+  };
 
   const comments = (
     <CommentsPane
@@ -152,27 +163,17 @@ export function PlacePanels({
             ) : (
               <>
                 <Head item={item} data={data} heading={heading} head={head} ask={ask} />
-                {columns ? (
+                {/* The overview stays mounted under the comments, so going back finds it as it was left. */}
+                <div hidden={talking && !columns}>
                   <About item={item} data={data} failed={!!detailError} ask={ask} allComments={allComments} />
-                ) : (
+                </div>
+                {talking && !columns && (
                   <>
-                    <div className="place-tabs" role="tablist" aria-label={name}>
-                      {(["about", "comments"] as Tab[]).map((t) => (
-                        <button
-                          key={t} type="button" role="tab" id={`place-tab-${t}`} aria-selected={ui.tab === t}
-                          aria-controls={`place-pane-${t}`} onClick={() => setUi({ ...ui, tab: t })}
-                        >
-                          {t === "about" ? "Overview" : "Comments"}
-                        </button>
-                      ))}
-                    </div>
-                    {/* Both stay mounted, so going back to a tab finds it as it was left. */}
-                    <div role="tabpanel" id="place-pane-about" aria-labelledby="place-tab-about" hidden={ui.tab !== "about"}>
-                      <About item={item} data={data} failed={!!detailError} ask={ask} allComments={allComments} />
-                    </div>
-                    <div role="tabpanel" id="place-pane-comments" aria-labelledby="place-tab-comments" hidden={ui.tab !== "comments"}>
-                      {comments}
-                    </div>
+                    <button type="button" className="back place-overview" onClick={closeComments}>
+                      <Icon name="left" />
+                      Overview
+                    </button>
+                    {comments}
                   </>
                 )}
               </>
@@ -181,8 +182,11 @@ export function PlacePanels({
         </div>
         )}
       </aside>
-      {open && columns && item && (
+      {open && talking && columns && item && (
         <aside className="panel comments-panel" aria-label={`Comments on ${name}`}>
+          <button type="button" className="comments-close" aria-label="Close the comments" onClick={closeComments}>
+            <Icon name="close" />
+          </button>
           <div className="panel-scroll" ref={commentScroller}>{comments}</div>
         </aside>
       )}
@@ -248,14 +252,13 @@ interface HeadProps {
   ask: Ask;
 }
 
-/** What and where in a line of small capitals, the name beside the one
- *  score, then that score drawn as a bar with the people behind it. */
+/** What and where in a line of small capitals, then the name beside the
+ *  one score, with the people behind that score in small type under it. */
 function Head({ item, data, heading, head, ask }: HeadProps) {
   const r = item.rating ?? null;
   const ranked = isRankable(r);
   const area = item.neighborhood ?? item.borough;
   const at = data?.locations?.[0] ?? item.location ?? null;
-  const more = (data?.locations?.length ?? item.location_count ?? 0) - 1;
   const address = at?.address ? `${titleCase(at.address)}${at.borough ? `, ${at.borough}` : ""}` : null;
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
     [item.name, address ?? area].filter(Boolean).join(", "),
@@ -285,35 +288,21 @@ function Head({ item, data, heading, head, ask }: HeadProps) {
             aria-label={`${pct(r.pct_pos!)}% positive, ${plural(people(r), "person", "people")}. Show their comments`}
           >
             {pct(r.pct_pos!)}%
+            <small>{r.pos.toLocaleString()} of {people(r).toLocaleString()} recommend</small>
           </button>
         )}
       </div>
-      {ranked && r && (
-        <div className="meter" aria-hidden="true"><i style={{ width: `${pct(r.pct_pos!)}%` }} /></div>
+      {!ranked && (
+        <p className="place-quiet">
+          Not enough opinions yet to rate it.
+          {r && people(r) > 0 && (
+            <>
+              {" "}
+              <button type="button" className="textlink" onClick={opinions}>Read what people said</button>
+            </>
+          )}
+        </p>
       )}
-      <div className="place-under">
-        {address && (
-          <p className="place-where">
-            {address}
-            {more > 0 ? `, and ${plural(more, "more location", "more locations")}` : ""}
-          </p>
-        )}
-        {ranked && r ? (
-          <button type="button" className="place-liked" onClick={opinions}>
-            {r.pos.toLocaleString()} of {plural(people(r), "person", "people")} recommend it
-          </button>
-        ) : (
-          <p className="place-liked">
-            Not enough opinions yet to rate it.
-            {r && people(r) > 0 && (
-              <>
-                {" "}
-                <button type="button" className="textlink" onClick={opinions}>Read what people said</button>
-              </>
-            )}
-          </p>
-        )}
-      </div>
     </header>
   );
 }
@@ -385,7 +374,6 @@ function About({ item, data, failed, ask, allComments }: AboutProps) {
   const summary = data?.place_summary?.text ? data.place_summary : null;
   const dishes = dishNames(data, 6);
   const hasComplaints = !!r && r.neg > 0;
-  const written = summary ? monthYear(summary.written_at) : "";
 
   if (!data && !failed) {
     return (
@@ -402,13 +390,6 @@ function About({ item, data, failed, ask, allComments }: AboutProps) {
         <section className="box" aria-label="Summary of the comments">
           <h3 className="box-label">Summary</h3>
           <p className="place-summary">{summary.text}</p>
-          <p className="place-quiet">
-            Summary of{" "}
-            <button type="button" className="textlink" onClick={allComments}>
-              {summary.comment_count ? plural(summary.comment_count, "comment", "comments") : "the comments"}
-            </button>
-            {written ? `, updated ${written}` : ""}
-          </p>
         </section>
       )}
 
@@ -466,7 +447,7 @@ function About({ item, data, failed, ask, allComments }: AboutProps) {
       )}
 
       {!summary && !r && dishes.length === 0 && (
-        <p className="place-quiet">
+        <p className="place-quiet place-empty">
           Nothing has been summarised for this place yet.{" "}
           <button type="button" className="textlink" onClick={allComments}>Read the comments</button>
         </p>

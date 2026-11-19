@@ -25,15 +25,16 @@
 
 /* ---- The open restaurant ---- */
 
-.place { padding: 10px 0 20px; display: flex; flex-direction: column }
+.place { padding: 8px 0 18px; display: flex; flex-direction: column; container-type: inline-size }
 .place > .back { align-self: flex-start; margin-left: 20px }
+.place > .place-overview { margin-top: -14px }
 .place-loading { display: flex; flex-direction: column; gap: 14px; padding: 12px 28px }
 .place-loading .skel, .place-body > .skel { display: block }
-.place-body > .skel { border-radius: 16px }
+.place-body > .skel { border-radius: 16px; align-self: start }
 
-/* What and where in small capitals, the name beside the one score, then the
-   score again as a bar with the people behind it under its right end. */
-.place-head { padding: 10px 28px 26px; display: flex; flex-direction: column; gap: 12px }
+/* What and where in small capitals, then the name beside the one score,
+   which carries the people behind it in small type. */
+.place-head { padding: 4px 28px 24px; display: flex; flex-direction: column; gap: 10px }
 .place-kicker {
   display: flex; justify-content: space-between; gap: 16px;
   font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
@@ -53,25 +54,21 @@
 .place-pin svg { fill: var(--accent-tint); stroke: var(--accent); transition: transform .2s var(--ease) }
 .place-pin:hover svg { transform: translateY(-2px) }
 .place-score {
-  flex-shrink: 0; padding: 0; border: 0; background: none;
+  flex-shrink: 0; padding: 0; border: 0; background: none; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
   font-family: var(--display); font-weight: 800; font-size: 46px; line-height: 1; letter-spacing: -.02em; color: var(--accent);
 }
+.place-score small { font-family: var(--warm); font-size: 13px; font-weight: 600; letter-spacing: 0; color: var(--muted); white-space: nowrap }
 .place-score:hover { color: var(--accent-deep) }
-.place-under { display: flex; align-items: baseline; justify-content: space-between; gap: 6px 20px; flex-wrap: wrap }
-.place-where { font-size: 14px; font-weight: 500; color: var(--muted) }
-.place-liked {
-  margin-left: auto; padding: 0; border: 0; background: none; text-align: right; font-size: 17px; font-weight: 600;
-}
-button.place-liked:hover { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px }
+.place-score:hover small { color: var(--ink) }
 .place-quiet { font-size: 14px; font-weight: 500; color: var(--muted) }
 
-/* A share drawn as a bar: the header's, and one for each thing rated. */
-.meter { display: block; height: 10px; border-radius: 5px; background: var(--track); overflow: hidden }
+/* A share drawn as a bar, one for each thing rated. */
+.meter { display: block; height: 8px; border-radius: 4px; background: var(--track); overflow: hidden }
 .meter i { display: block; height: 100%; border-radius: inherit; background: var(--accent) }
 
 /* The boxes: white, lifted off the panel, each with its label sitting on
    its top edge. The gap between them leaves room for that label. */
-.place-body { padding: 0 16px; display: flex; flex-direction: column; gap: 30px }
+.place-body { padding: 0 16px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px 14px }
 .box {
   position: relative; padding: 24px 12px 16px; display: flex; flex-direction: column; gap: 10px;
   background: var(--surface); border: 2px solid var(--surface); border-radius: 16px; box-shadow: var(--lift);
@@ -92,7 +89,6 @@ button.place-liked:hover { text-decoration: underline; text-decoration-color: va
   display: grid; grid-template-columns: 104px minmax(0, 1fr) 48px; column-gap: 14px; align-items: center;
   font-size: 17px; font-weight: 700;
 }
-.rated-row .meter { height: 8px; border-radius: 4px }
 .rated-num { text-align: right; font-variant-numeric: tabular-nums }
 button.rated-row:hover > :first-child { color: var(--accent-ink) }
 .rated-row.off { color: var(--muted) }
@@ -133,21 +129,32 @@ button.rated-row:hover > :first-child { color: var(--accent-ink) }
 .dishes li { padding: 8px 16px; border-radius: var(--r-pill); background: var(--ground); font-size: 17px; font-weight: 700 }
 .dishes li:first-child { background: var(--accent); color: var(--on-accent) }
 
-/* Where the comments have no panel of their own they are a tab here. The
-   two tabs stay in view while their pane scrolls under them. */
-.place-tabs {
-  position: sticky; top: 0; z-index: 2; padding: 8px 16px 22px; display: flex; gap: 8px;
-  background: linear-gradient(var(--panel) 74%, transparent);
+/* On its own the panel is wide enough for the boxes to sit two abreast, the
+   summary beside the ratings and the comment beside what to order, which is
+   what lets the whole restaurant show without scrolling. */
+@container (min-width: 640px) {
+  .place-body { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); row-gap: 26px }
+  .place-empty { grid-column: 1 / -1 }
+  .place-summary { font-size: 16px }
+  .rated-row { padding: 4px 0 }
+  .quote-text { -webkit-line-clamp: 3; line-clamp: 3; font-size: 21px }
+  /* Beside a taller box the card is stretched: its foot keeps to the bottom. */
+  .quote { justify-content: space-between }
+  .dishes li { padding: 6px 14px; font-size: 16px }
 }
-.place-tabs button {
-  min-height: 44px; padding: 0 18px; border: 0; border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--lift-pill);
-  font-size: 15px; font-weight: 700;
-}
-.place-tabs button:hover { color: var(--accent-ink) }
-.place-tabs button[aria-selected="true"] { background: var(--accent); color: var(--on-accent); box-shadow: var(--lift-accent) }
-.place [role="tabpanel"] > .cpane { padding-top: 0 }
 
-/* ---- Comments: a panel of their own, or a tab of the restaurant's ---- */
+/* Where the comments have no panel of their own they take the overview's
+   place here, under a way back to it. */
+.place > .cpane { padding-top: 6px }
+
+/* ---- Comments: a panel of their own, or in the restaurant's ---- */
+
+.comments-close {
+  position: absolute; top: 10px; right: 10px; z-index: 2; width: 36px; height: 36px; border: 0; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; background: var(--surface); box-shadow: var(--lift-pill);
+}
+.comments-close:hover { color: var(--accent-ink) }
+.comments-panel .cpane { padding-top: 54px }
 
 .cpane { padding: 22px 16px 24px; display: flex; flex-direction: column; gap: 16px }
 .cpane-back { align-self: flex-start; margin: -10px 0 -8px 4px }
@@ -212,7 +219,6 @@ button.rated-row:hover > :first-child { color: var(--accent-ink) }
   .place > .back { margin-left: 12px }
   .place-name, .place-score { font-size: 36px }
   .place-body { padding: 0 10px }
-  .place-tabs { padding: 8px 10px 22px }
   .cpane { padding: 18px 10px 20px }
   .rated-row { grid-template-columns: 96px minmax(0, 1fr) 44px; column-gap: 10px }
   .quote-text { font-size: 20px }

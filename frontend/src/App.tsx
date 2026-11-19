@@ -77,6 +77,11 @@ export default function App() {
   else if (kept.current?.entity_key !== key) kept.current = null;
   const item = key ? kept.current : null;
   const detail = useRestaurant(key);
+  // The restaurant whose comments are open. They stay shut until asked for,
+  // and another restaurant starts with them shut again.
+  const [talk, setTalk] = useState<string | null>(null);
+  const talking = key !== null && talk === key;
+  const setComments = useCallback((on: boolean) => setTalk(on ? key : null), [key]);
 
   // ---- The row the pointer is resting on, previewed beside the list. It
   // only ever highlights that row's pin: the map does not move for a hover. ----
@@ -85,10 +90,17 @@ export default function App() {
   // The panels' widths (lib/layout.ts). The map is padded for the panels
   // that stay put, so a preview coming and going does not shift it.
   const layout = useMemo(
-    () => cityLayout(view.width, key ? "open" : previewed ? "preview" : "list"),
-    [view.width, key, previewed],
+    () => cityLayout(view.width, key ? (talking ? "comments" : "open") : previewed ? "preview" : "list"),
+    [view.width, key, talking, previewed],
   );
-  const sides = useMemo(() => mapSides(view.width, cityLayout(view.width, key ? "open" : "list")), [view.width, key]);
+  // An open restaurant pads the map for whichever of its two arrangements
+  // reaches further, so the comments opening and closing do not shift it either.
+  const sides = useMemo(() => {
+    if (!key) return mapSides(view.width, cityLayout(view.width, "list"));
+    const alone = cityLayout(view.width, "open");
+    const both = cityLayout(view.width, "comments");
+    return mapSides(view.width, both.covered > alone.covered ? both : alone);
+  }, [view.width, key]);
 
   const scope: Scope = useMemo(() => {
     const c = cities.data?.find((x) => x.subreddit === route.city);
@@ -219,13 +231,13 @@ export default function App() {
           {key ? (
             <PlacePanels
               mode="open" entityKey={key} item={item} error={!item ? lone.error : null} columns={layout.columns}
-              rowTop={0} viewportHeight={view.height} grab={grab} peek={peek} dev={route.dev}
+              comments={talking} onComments={setComments} rowTop={0} viewportHeight={view.height} grab={grab} peek={peek} dev={route.dev}
               onOpen={() => openPlace(key)} onClose={closePlace} onHold={hover.hold} onRelease={hover.leave}
             />
           ) : previewed && shown && (
             <PlacePanels
               mode="preview" entityKey={previewed.entity_key} item={previewed} error={null} columns={false}
-              rowTop={shown.top} viewportHeight={view.height} dev={route.dev}
+              comments={false} onComments={setComments} rowTop={shown.top} viewportHeight={view.height} dev={route.dev}
               onOpen={() => openPlace(previewed.entity_key)} onClose={hover.cancel} onHold={hover.hold} onRelease={hover.leave}
             />
           )}

@@ -5,8 +5,8 @@
 
 /** At or below this the panel is a sheet over the bottom of the map. */
 export const PHONE = 720;
-/** From this width the comments get a column of their own; under it they are
- *  a tab inside the restaurant's panel. */
+/** From this width the comments, once asked for, get a column of their own;
+ *  under it they take the restaurant's panel. */
 export const COLUMNS_MIN = 1300;
 
 /** The panels' distance from the window's edge, and from each other. */
@@ -17,15 +17,17 @@ const BOARD = 408;        // the list, with its search, sorts and filters
 const STRIP = 204;        // the list beside an open restaurant: rank and name
 const PREVIEW = 300;      // a hovered row's preview
 const PLACE = 480;        // an open restaurant, beside its comments
-const PLACE_TABBED = 520; // an open restaurant holding its comments as a tab
+const PLACE_TABBED = 520; // an open restaurant showing its comments in its own panel
+const PLACE_WIDE = 860;   // an open restaurant on its own: its boxes sit two abreast
 const COMMENTS = 380;
 const COMMENTS_MAX = 460;
 const MAP_ROOM = 360;     // what a wide window keeps for the map before the comments widen
+const MAP_MIN = 200;      // what the wide restaurant leaves the map before it narrows
 const AIR = 32;           // between the last panel and anything the map centres
 
 /** list: only the list. preview: a hovered row's preview beside it.
- *  open: a restaurant is open. */
-export type CityState = "list" | "preview" | "open";
+ *  open: a restaurant is open, on its own. comments: its comments are open too. */
+export type CityState = "list" | "preview" | "open" | "comments";
 
 export interface CityLayout {
   phone: boolean;
@@ -41,11 +43,15 @@ export interface CityLayout {
 
 export function cityLayout(width: number, state: CityState): CityLayout {
   const phone = width <= PHONE;
-  const columns = state === "open" && width >= COLUMNS_MIN;
-  const board = state === "open" ? STRIP : BOARD;
+  const columns = state === "comments" && width >= COLUMNS_MIN;
+  const board = state === "open" || state === "comments" ? STRIP : BOARD;
   // What is left beside the list, between the margins.
   const room = Math.max(0, width - 2 * MARGIN - board - GAP);
-  const place = state === "list" ? 0 : Math.min(room, state === "preview" ? PREVIEW : columns ? PLACE : PLACE_TABBED);
+  // On its own the restaurant takes the width the comments would have had,
+  // so that all of it fits without scrolling.
+  const wide = Math.max(PLACE_TABBED, Math.min(PLACE_WIDE, room - MAP_MIN));
+  const want = { list: 0, preview: PREVIEW, open: wide, comments: columns ? PLACE : PLACE_TABBED }[state];
+  const place = Math.min(room, want);
   const spare = width - MARGIN - STRIP - GAP - PLACE - GAP - MARGIN - MAP_ROOM;
   const comments = columns ? Math.max(COMMENTS, Math.min(COMMENTS_MAX, spare)) : 0;
   const covered = MARGIN + board + (place ? GAP + place : 0) + (comments ? GAP + comments : 0);

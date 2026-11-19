@@ -5,7 +5,7 @@ import { test } from "node:test";
 import { monthYear, whereLine } from "../src/lib/format.ts";
 import { COLUMNS_MIN, MARGIN, cityLayout, mapSides, previewTop, type CityState } from "../src/lib/layout.ts";
 
-const STATES: CityState[] = ["list", "preview", "open"];
+const STATES: CityState[] = ["list", "preview", "open", "comments"];
 
 test("nothing reaches past the window's margin at any width above a phone", () => {
   for (const width of [721, 800, 1024, 1280, 1299, 1300, 1440, 1920, 2560]) {
@@ -17,20 +17,30 @@ test("nothing reaches past the window's margin at any width above a phone", () =
   }
 });
 
-test("comments get their own column from 1300 and are a tab below it", () => {
-  assert.equal(cityLayout(COLUMNS_MIN, "open").columns, true);
-  assert.ok(cityLayout(1440, "open").comments > 0);
-  const narrow = cityLayout(1280, "open");
+test("comments get their own column from 1300 and share the restaurant's panel below it", () => {
+  assert.equal(cityLayout(COLUMNS_MIN, "comments").columns, true);
+  assert.ok(cityLayout(1440, "comments").comments > 0);
+  const narrow = cityLayout(1280, "comments");
   assert.equal(narrow.columns, false);
   assert.equal(narrow.comments, 0);
   // The restaurant's panel is wider when it has to hold the comments too.
-  assert.ok(narrow.place > cityLayout(1440, "open").place);
+  assert.ok(narrow.place > cityLayout(1440, "comments").place);
+});
+
+test("a restaurant has no comments panel until they are asked for, and is wider for it", () => {
+  for (const width of [1024, 1280, 1440, 1920]) {
+    const alone = cityLayout(width, "open");
+    assert.equal(alone.columns, false, `at ${width}`);
+    assert.equal(alone.comments, 0, `at ${width}`);
+    assert.ok(alone.place > cityLayout(width, "comments").place, `at ${width}`);
+  }
 });
 
 test("the list narrows to a strip only while a restaurant is open", () => {
   const list = cityLayout(1440, "list");
   assert.equal(cityLayout(1440, "preview").board, list.board);
   assert.ok(cityLayout(1440, "open").board < list.board / 1.5);
+  assert.equal(cityLayout(1440, "comments").board, cityLayout(1440, "open").board);
   assert.equal(list.place, 0);
   assert.equal(list.comments, 0);
 });
@@ -48,8 +58,10 @@ test("a phone is told apart at 720", () => {
 
 test("the map always keeps some room to the right of the panels", () => {
   for (const width of [1280, 1300, 1440, 1920]) {
-    const s = mapSides(width, cityLayout(width, "open"));
-    assert.ok(width - s.left - s.right >= 100, `at ${width}: ${width - s.left - s.right}`);
+    for (const state of ["open", "comments"] as CityState[]) {
+      const s = mapSides(width, cityLayout(width, state));
+      assert.ok(width - s.left - s.right >= 100, `${state} at ${width}: ${width - s.left - s.right}`);
+    }
   }
 });
 
