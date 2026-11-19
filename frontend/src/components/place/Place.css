@@ -26,7 +26,7 @@
 /* ---- The open restaurant ---- */
 
 .place { padding: 8px 0 18px; display: flex; flex-direction: column; container-type: inline-size }
-.place > .back { align-self: flex-start; margin-left: 20px }
+.place > .back { align-self: flex-start; margin-left: 20px; min-height: 36px }
 .place > .place-overview { margin-top: -14px }
 .place-loading { display: flex; flex-direction: column; gap: 14px; padding: 12px 28px }
 .place-loading .skel, .place-body > .skel { display: block }
@@ -79,7 +79,12 @@
   font-size: 14px; font-weight: 700; line-height: 1.45; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink);
 }
 .place-summary { font-size: 18px; font-weight: 500; line-height: 1.4 }
-.place-all { align-self: flex-start; min-height: 32px }
+/* The way to the complaints sits on the box's top edge, opposite its label. */
+.box-link {
+  position: absolute; top: -14px; right: 6px; padding: 2px 12px; border: 0; border-radius: var(--r-pill);
+  background: var(--surface); box-shadow: var(--lift-pill); font-size: 13px; font-weight: 600; line-height: 1.6; color: var(--ink-2);
+}
+.box-link:hover { color: var(--accent-ink) }
 
 /* A row is a button where there is a number: it opens the comments that
    made it. One nobody has said enough about is there all the same, empty. */
@@ -129,18 +134,36 @@ button.rated-row:hover > :first-child { color: var(--accent-ink) }
 .dishes li { padding: 8px 16px; border-radius: var(--r-pill); background: var(--ground); font-size: 17px; font-weight: 700 }
 .dishes li:first-child { background: var(--accent); color: var(--on-accent) }
 
-/* On its own the panel is wide enough for the boxes to sit two abreast, the
-   summary beside the ratings and the comment beside what to order, which is
-   what lets the whole restaurant show without scrolling. */
+/* On its own the panel is wider and the same boxes, in the same order, are
+   set tighter, with the top comment's foot beside its words, so that the
+   whole restaurant shows without scrolling. */
 @container (min-width: 640px) {
-  .place-body { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); row-gap: 26px }
-  .place-empty { grid-column: 1 / -1 }
-  .place-summary { font-size: 16px }
-  .rated-row { padding: 4px 0 }
-  .quote-text { -webkit-line-clamp: 3; line-clamp: 3; font-size: 21px }
-  /* Beside a taller box the card is stretched: its foot keeps to the bottom. */
-  .quote { justify-content: space-between }
-  .dishes li { padding: 6px 14px; font-size: 16px }
+  .place-head { padding-bottom: 22px }
+  .place-body { gap: 22px }
+  .box { padding: 20px 14px 12px }
+  .place-summary { font-size: 15px; line-height: 1.4 }
+  .rated-row { padding: 2px 0; font-size: 15px }
+  .rated-row .meter { height: 7px }
+  .quote { flex-direction: row; align-items: center; gap: 20px; padding: 20px 14px 12px }
+  .quote-text { flex: 1 1 0; min-width: 0; -webkit-line-clamp: 2; line-clamp: 2; font-size: 20px }
+  .quote-foot { flex-shrink: 0; flex-wrap: nowrap; max-width: 55% }
+  .quote-by { font-size: 15px }
+  .dishes li { padding: 5px 14px; font-size: 15px }
+}
+/* A short window gives up a little more of each. */
+@media (max-height: 800px) {
+  .place { padding: 4px 0 10px }
+  @container (min-width: 640px) {
+    .place-name, .place-score { font-size: 40px }
+    .place-head { padding-bottom: 20px }
+    .place-body { gap: 18px }
+    .box, .quote { padding-top: 18px }
+  }
+}
+@media (max-height: 745px) {
+  @container (min-width: 640px) {
+    .place-summary { font-size: 14px }
+  }
 }
 
 /* Where the comments have no panel of their own they take the overview's

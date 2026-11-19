@@ -428,7 +428,7 @@ function About({ item, data, failed, ask, allComments }: AboutProps) {
             })}
           </ul>
           {hasComplaints && (
-            <button type="button" className="textlink place-quiet place-all" onClick={ask({ title: "Complaints", voice: "neg", category: null })}>
+            <button type="button" className="box-link" onClick={ask({ title: "Complaints", voice: "neg", category: null })}>
               Read the complaints
             </button>
           )}
