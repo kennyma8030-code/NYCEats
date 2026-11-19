@@ -40,8 +40,8 @@ export const CommentCard = memo(function CommentCard({ mention: m, dev }: CardPr
 
   return (
     <li className="cmt">
-      <p className="cmt-meta">
-        <span className="cmt-who">{author}</span>
+      <p className="cmt-head">
+        <b>{author}</b>
         {m.created_utc && <time dateTime={m.created_utc}>{ago(m.created_utc)}</time>}
         {m.is_negated && <span className="cmt-avoid">says avoid</span>}
       </p>
@@ -55,11 +55,10 @@ export const CommentCard = memo(function CommentCard({ mention: m, dev }: CardPr
           )}
         </p>
       )}
-      {m.thread_title && <p className="cmt-thread">In “{m.thread_title}”</p>}
-      <p className="cmt-meta">
+      <p className="cmt-act">
         {m.score != null && (
           <span className="cmt-score" aria-label={plural(m.score, "upvote", "upvotes")}>
-            <Icon name="up" size={12} stroke={2.6} />
+            <Icon name="up" size={14} stroke={2.8} />
             {m.score.toLocaleString()}
           </span>
         )}
@@ -69,11 +68,12 @@ export const CommentCard = memo(function CommentCard({ mention: m, dev }: CardPr
           <span>Deleted from Reddit</span>
         )}
         {dev && (
-          <button type="button" className="textlink" aria-pressed={extraction} onClick={() => setExtraction((v) => !v)}>
-            {extraction ? "Text" : "Extraction"}
+          <button type="button" className="cmt-ex" aria-pressed={extraction} onClick={() => setExtraction((v) => !v)}>
+            Extraction
           </button>
         )}
       </p>
+      {m.thread_title && <p className="cmt-thread">In “{m.thread_title}”</p>}
     </li>
   );
 });
@@ -107,7 +107,7 @@ function PagedList<T>({ paged, empty, children }: ListProps<T>) {
       {error && <p className="place-quiet" role="alert">The comments could not be loaded: {error}</p>}
       {!loading && !error && items.length === 0 && <p className="place-quiet">{empty}</p>}
       {hasMore && (
-        <button type="button" className="pill cmts-more" onClick={loadMore} disabled={loading}>
+        <button type="button" className="redpill cmts-more" onClick={loadMore} disabled={loading}>
           {loading ? "Loading…" : `Show more (${(total - items.length).toLocaleString()} left)`}
         </button>
       )}

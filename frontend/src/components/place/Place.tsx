@@ -1,9 +1,12 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import type { LedgerItem, RestaurantDetail } from "../../api/types";
+import { api } from "../../api/client";
+import type { LedgerItem, RatingCategory, RestaurantDetail } from "../../api/types";
+import { useFetch } from "../../hooks/useFetch";
 import { useRestaurant } from "../../hooks/useRestaurant";
-import { capitalize, monthYear, plural, titleCase, whereLine } from "../../lib/format";
+import { capitalize, monthYear, plural, redditUrl, titleCase, whereLine } from "../../lib/format";
 import { previewTop } from "../../lib/layout";
-import { goodToKnow, isRankable, pct, people, type Verdict } from "../../lib/rating";
+import { CATEGORY_LABEL, isRankable, pct, people } from "../../lib/rating";
+import { currentCity } from "../../state/city";
 import { Icon } from "../Icon";
 import { CommentsPane, type VoiceView } from "./Comments";
 import "./Place.css";
@@ -245,27 +248,62 @@ interface HeadProps {
   ask: Ask;
 }
 
-/** Who and where on the left, the one score on the right. */
+/** What and where in a line of small capitals, the name beside the one
+ *  score, then that score drawn as a bar with the people behind it. */
 function Head({ item, data, heading, head, ask }: HeadProps) {
   const r = item.rating ?? null;
   const ranked = isRankable(r);
-  const where = whereLine(item.cuisine, item.neighborhood ?? item.borough);
+  const area = item.neighborhood ?? item.borough;
   const at = data?.locations?.[0] ?? item.location ?? null;
   const more = (data?.locations?.length ?? item.location_count ?? 0) - 1;
+  const address = at?.address ? `${titleCase(at.address)}${at.borough ? `, ${at.borough}` : ""}` : null;
+  const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    [item.name, address ?? area].filter(Boolean).join(", "),
+  )}`;
   const opinions = ask({ title: "Positive and negative", voice: "opinions", category: null });
   return (
     <header className="place-head" ref={head}>
-      <div className="place-id">
-        <h2 className="place-name" tabIndex={-1} ref={heading}>{item.name}</h2>
-        {where && <p className="place-what">{where}</p>}
-        {at?.address && (
+      {(item.cuisine || area) && (
+        <p className="place-kicker">
+          <span className="place-cuisine">{item.cuisine}</span>
+          <span>{area}</span>
+        </p>
+      )}
+      <div className="place-title">
+        <div className="place-title-id">
+          <h2 className="place-name" tabIndex={-1} ref={heading}>{item.name}</h2>
+          <a className="place-pin" href={mapUrl} target="_blank" rel="noopener noreferrer" aria-label={`${item.name} on Google Maps`}>
+            <svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" />
+              <circle cx="12" cy="10" r="2.5" />
+            </svg>
+          </a>
+        </div>
+        {ranked && r && (
+          <button
+            type="button" className="place-score" onClick={opinions}
+            aria-label={`${pct(r.pct_pos!)}% positive, ${plural(people(r), "person", "people")}. Show their comments`}
+          >
+            {pct(r.pct_pos!)}%
+          </button>
+        )}
+      </div>
+      {ranked && r && (
+        <div className="meter" aria-hidden="true"><i style={{ width: `${pct(r.pct_pos!)}%` }} /></div>
+      )}
+      <div className="place-under">
+        {address && (
           <p className="place-where">
-            {titleCase(at.address)}{at.borough ? `, ${at.borough}` : ""}
+            {address}
             {more > 0 ? `, and ${plural(more, "more location", "more locations")}` : ""}
           </p>
         )}
-        {!ranked && (
-          <p className="place-where">
+        {ranked && r ? (
+          <button type="button" className="place-liked" onClick={opinions}>
+            {r.pos.toLocaleString()} of {plural(people(r), "person", "people")} recommend it
+          </button>
+        ) : (
+          <p className="place-liked">
             Not enough opinions yet to rate it.
             {r && people(r) > 0 && (
               <>
@@ -276,16 +314,58 @@ function Head({ item, data, heading, head, ask }: HeadProps) {
           </p>
         )}
       </div>
-      {ranked && r && (
-        <button
-          type="button" className="place-score" onClick={opinions}
-          aria-label={`${pct(r.pct_pos!)}% positive, ${plural(people(r), "person", "people")}. Show their comments`}
-        >
-          <b>{pct(r.pct_pos!)}%</b>
-          <small>{plural(people(r), "person", "people")}</small>
-        </button>
-      )}
     </header>
+  );
+}
+
+// How long one comment stays up in the quote card before the next.
+const TURN_MS = 5000;
+
+/** The most upvoted comments, one at a time, each turning to the next with a
+ *  flash of colour. Pointing at the card or focusing inside it holds the one
+ *  showing. Its author links to Reddit only while the comment is still there. */
+function QuoteCard({ entityKey, onAll }: { entityKey: string; onAll: () => void }) {
+  const city = currentCity();
+  const { data } = useFetch(`${city}|${entityKey}|quotes`, (signal) => api.mentions(entityKey, "score", 0, 3, signal));
+  const [turn, setTurn] = useState(0);
+  const [held, setHeld] = useState(false);
+  const quotes = (data?.items ?? []).filter((m) => (m.body ?? "").trim());
+  const count = quotes.length;
+
+  useEffect(() => {
+    if (held || count < 2) return;
+    const timer = setInterval(() => setTurn((t) => t + 1), TURN_MS);
+    return () => clearInterval(timer);
+  }, [held, count]);
+
+  if (!data || count === 0) return null;
+  const m = quotes[turn % count];
+  const author = m.author && m.author !== "[deleted]" ? `u/${m.author}` : "[deleted]";
+  const url = m.was_deleted_later ? null : redditUrl(m.permalink);
+  return (
+    <section
+      // A new key restarts the flash for each comment.
+      key={turn} className={turn ? "quote flash" : "quote"} aria-label="A top comment"
+      onPointerEnter={() => setHeld(true)} onPointerLeave={() => setHeld(false)}
+      onFocus={() => setHeld(true)} onBlur={() => setHeld(false)}
+    >
+      <span className="quote-src">r/{city}</span>
+      <p className="quote-text">{(m.body ?? "").trim()}</p>
+      <div className="quote-foot">
+        <p className="quote-by">
+          {m.score != null && (
+            <span className="quote-votes" aria-label={plural(m.score, "upvote", "upvotes")}>
+              <Icon name="up" size={14} stroke={2.8} />
+              {m.score.toLocaleString()}
+            </span>
+          )}
+          {url ? <a href={url} target="_blank" rel="noopener noreferrer">{author}</a> : <span>{author}</span>}
+        </p>
+        <button type="button" className="redpill" onClick={onAll}>
+          All {plural(data.total, "comment", "comments")}
+        </button>
+      </div>
+    </section>
   );
 }
 
@@ -297,45 +377,30 @@ interface AboutProps {
   allComments: () => void;
 }
 
-/** The sections under the header, each ruled off and labelled: the summary,
- *  what to order, and what the place is liked and faulted for. */
+/** The boxes under the header, each with its label on its top edge: the
+ *  summary, the five things a place is rated on, a top comment, and what to
+ *  order. */
 function About({ item, data, failed, ask, allComments }: AboutProps) {
   const r = item.rating ?? null;
   const summary = data?.place_summary?.text ? data.place_summary : null;
   const dishes = dishNames(data, 6);
-  const know = r && isRankable(r) ? goodToKnow(r) : { liked: [], complaints: [] };
   const hasComplaints = !!r && r.neg > 0;
   const written = summary ? monthYear(summary.written_at) : "";
 
   if (!data && !failed) {
     return (
-      <div className="place-sec" aria-busy="true">
-        <span className="skel" style={{ height: 12, width: 120 }} />
-        <span className="skel" style={{ height: 96 }} />
+      <div className="place-body" aria-busy="true">
+        <span className="skel" style={{ height: 120 }} />
+        <span className="skel" style={{ height: 180 }} />
       </div>
     );
   }
 
-  const row = (v: Verdict, side: "positive" | "negative") => (
-    <li key={v.key}>
-      <button
-        type="button" className="know-row"
-        aria-label={`${v.label}: ${v.pct}% ${side}. Show the comments`}
-        onClick={ask(side === "positive"
-          ? { title: `${v.label}: what people liked`, voice: "pos", category: v.key }
-          : { title: `${v.label}: complaints`, voice: "neg", category: v.key })}
-      >
-        <span>{v.label}</span>
-        <span className="know-num"><b>{v.pct}%</b> {side}</span>
-      </button>
-    </li>
-  );
-
   return (
-    <>
+    <div className="place-body">
       {summary && (
-        <section className="place-sec" aria-label="Summary of the comments">
-          <h3 className="eyebrow">What people say</h3>
+        <section className="box" aria-label="Summary of the comments">
+          <h3 className="box-label">Summary</h3>
           <p className="place-summary">{summary.text}</p>
           <p className="place-quiet">
             Summary of{" "}
@@ -347,50 +412,65 @@ function About({ item, data, failed, ask, allComments }: AboutProps) {
         </section>
       )}
 
-      {dishes.length > 0 && (
-        <section className="place-sec">
-          <h3 className="eyebrow">What people order</h3>
-          <ul className="dishes">
-            {dishes.map((d) => <li key={d}>{d}</li>)}
+      {r && (
+        <section className="box">
+          <h3 className="box-label">Rated</h3>
+          {/* Always the same five rows, so a place with little said about it
+              shows what is missing rather than a shorter list. */}
+          <ul className="rated">
+            {(Object.keys(CATEGORY_LABEL) as RatingCategory[]).map((key) => {
+              const c = r.categories[key];
+              const label = CATEGORY_LABEL[key];
+              if (!c || !c.rankable || c.pct_pos == null) {
+                return (
+                  <li key={key} className="rated-row off">
+                    <span>{label}</span>
+                    <span className="meter" aria-hidden="true" />
+                    <span className="rated-num">N/A</span>
+                  </li>
+                );
+              }
+              const share = pct(c.pct_pos);
+              return (
+                <li key={key}>
+                  <button
+                    type="button" className="rated-row"
+                    aria-label={`${label}: ${share}% positive, ${plural(people(c), "person", "people")}. Show their comments`}
+                    onClick={ask({ title: `${label}: positive and negative`, voice: "opinions", category: key })}
+                  >
+                    <span>{label}</span>
+                    <span className="meter" aria-hidden="true"><i style={{ width: `${share}%` }} /></span>
+                    <span className="rated-num">{share}%</span>
+                  </button>
+                </li>
+              );
+            })}
           </ul>
-        </section>
-      )}
-
-      {(know.liked.length > 0 || know.complaints.length > 0 || hasComplaints) && (
-        <section className="place-sec">
-          <h3 className="eyebrow">Good to know</h3>
-          {(know.liked.length > 0 || know.complaints.length > 0) && (
-            <div className={know.liked.length > 0 && know.complaints.length > 0 ? "know" : "know one"}>
-              {know.liked.length > 0 && (
-                <div>
-                  <p className="know-label">People like</p>
-                  <ul>{know.liked.map((v) => row(v, "positive"))}</ul>
-                </div>
-              )}
-              {know.complaints.length > 0 && (
-                <div>
-                  <p className="know-label">People complain about</p>
-                  <ul>{know.complaints.map((v) => row(v, "negative"))}</ul>
-                </div>
-              )}
-            </div>
-          )}
           {hasComplaints && (
-            <button type="button" className="textlink place-all" onClick={ask({ title: "Complaints", voice: "neg", category: null })}>
+            <button type="button" className="textlink place-quiet place-all" onClick={ask({ title: "Complaints", voice: "neg", category: null })}>
               Read the complaints
             </button>
           )}
         </section>
       )}
 
-      {!summary && dishes.length === 0 && know.liked.length === 0 && know.complaints.length === 0 && !hasComplaints && (
-        <section className="place-sec">
-          <p className="place-quiet">
-            Nothing has been summarised for this place yet.{" "}
-            <button type="button" className="textlink" onClick={allComments}>Read the comments</button>
-          </p>
+      <QuoteCard key={item.entity_key} entityKey={item.entity_key} onAll={allComments} />
+
+      {dishes.length > 0 && (
+        <section className="box">
+          <h3 className="box-label">Order</h3>
+          <ul className="dishes">
+            {dishes.map((d) => <li key={d}>{d}</li>)}
+          </ul>
         </section>
       )}
-    </>
+
+      {!summary && !r && dishes.length === 0 && (
+        <p className="place-quiet">
+          Nothing has been summarised for this place yet.{" "}
+          <button type="button" className="textlink" onClick={allComments}>Read the comments</button>
+        </p>
+      )}
+    </div>
   );
 }

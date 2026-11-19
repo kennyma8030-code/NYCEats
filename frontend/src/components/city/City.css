@@ -9,8 +9,10 @@
 .panel {
   position: absolute; left: var(--edge); top: var(--edge); bottom: var(--edge); width: var(--board); pointer-events: auto;
   display: flex; flex-direction: column; overflow: hidden;
-  background: rgba(255, 255, 255, .84); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  /* A warm ground, nearly solid, so the white boxes inside lift off it. */
+  background: color-mix(in srgb, var(--panel) 93%, transparent); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
   border: 1px solid var(--line); border-radius: var(--r-panel); box-shadow: var(--shadow-panel);
+  font-family: var(--warm);
   animation: panel-in .6s var(--ease);
 }
 .panel-scroll { flex-grow: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain }
@@ -49,9 +51,10 @@
 
 .board { display: flex; flex-direction: column; min-height: 0; flex-grow: 1 }
 .board-head {
-  position: relative; z-index: 2; padding: 14px 20px 14px; display: flex; flex-direction: column; gap: 14px;
-  border-bottom: 1px solid var(--line);
+  position: relative; z-index: 2; padding: 14px 20px 12px; display: flex; flex-direction: column; gap: 14px;
 }
+/* The search field is one more white pill floating on the panel. */
+.board-head .search.in-panel input { border-color: transparent; box-shadow: var(--lift-pill); font-weight: 500 }
 .board-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: -8px }
 .board-top .wordmark { font-size: 16px }
 .board-city { font-family: var(--display); font-weight: 800; font-size: 38px; line-height: 1.05; letter-spacing: -.03em }
@@ -64,22 +67,28 @@
 }
 .period:hover { color: var(--ink) }
 
-.seg { display: flex; gap: 2px; padding: 4px; border-radius: 26px; background: var(--wash) }
+/* Sorts and filters are white pills lifted off the panel; the one in force
+   is the accent. */
+.seg { display: flex; gap: 6px }
 .seg button {
-  flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0 4px; border: 0; border-radius: 22px; background: none;
-  font-size: 13px; font-weight: 600; white-space: nowrap;
+  flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0 4px; border: 0; border-radius: 22px; background: var(--surface);
+  box-shadow: var(--lift-pill); font-size: 13px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap;
 }
-.seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface) }
+.seg button:hover { color: var(--accent-ink) }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); box-shadow: var(--lift-accent) }
 
 .chips { position: relative; display: flex; flex-wrap: wrap; gap: 8px }
 .chip {
   display: inline-flex; align-items: center; gap: 6px; min-height: 44px; max-width: 100%; padding: 0 16px;
-  border: 1px solid var(--line-2); border-radius: var(--r-pill); background: none; font-size: 13px; font-weight: 500;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  border: 0; border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--lift-pill);
+  font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.chip:hover { background: var(--wash) }
-.chip.on { background: var(--ink); border-color: var(--ink); color: var(--surface) }
-.chip.clear { border-color: transparent; padding: 0 10px; color: var(--ink-2); text-decoration: underline; text-underline-offset: 3px }
+.chip:hover { color: var(--accent-ink) }
+.chip.on { background: var(--accent); color: var(--on-accent); box-shadow: var(--lift-accent) }
+.chip.clear {
+  padding: 0 10px; background: none; box-shadow: none; color: var(--ink-2);
+  text-decoration: underline; text-underline-offset: 3px;
+}
 
 .menu {
   position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 20; padding: 8px; max-height: min(46vh, 340px);
@@ -99,13 +108,22 @@
 
 .board-note { padding: 12px 20px 4px; font-size: 13px; color: var(--muted) }
 
-.rows { flex-grow: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 4px 8px 12px; transition: opacity .2s ease }
+/* Each place is a white box of its own, like the boxes of an open
+   restaurant; the one that is open is outlined in the accent, as the
+   restaurant's top comment is. */
+.rows {
+  flex-grow: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 6px 14px 14px;
+  display: flex; flex-direction: column; gap: 10px; transition: opacity .2s ease;
+}
+.rows > li { flex-shrink: 0 }
 .rows.busy { opacity: .5 }
 .row {
-  width: 100%; display: flex; align-items: center; gap: 14px; padding: 12px; border: 0; border-radius: var(--r-item);
-  background: none; text-align: left; transition: background .15s ease;
+  width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 14px 12px 10px;
+  border: 2px solid var(--surface); border-radius: 16px; background: var(--surface); box-shadow: var(--lift);
+  text-align: left; transition: border-color .15s ease, box-shadow .15s ease;
 }
-.row:hover, .row.on { background: var(--wash) }
+.row:hover, .row.on { border-color: var(--accent-tint); box-shadow: var(--lift-accent) }
+.row[aria-current="true"] { border-color: var(--accent); box-shadow: var(--lift-accent) }
 .row-n {
   flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--accent); background: var(--surface);
   display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--accent);
@@ -113,23 +131,26 @@
 /* No coordinates, so no pin: the number is still its rank, drawn without the map's colour. */
 .row-n.off { border-color: var(--line-2); color: var(--muted) }
 .row-main { flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px }
-.row-name { font-family: var(--display); font-weight: 700; font-size: 19px; line-height: 1.2; letter-spacing: -.01em }
-.row-meta { font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.row-name { font-family: var(--display); font-weight: 800; font-size: 20px; line-height: 1.15; letter-spacing: -.02em }
+/* The cuisine in the accent's small capitals, as over an open restaurant. */
+.row-meta { display: flex; align-items: baseline; gap: 8px; font-size: 13px; font-weight: 500; color: var(--muted); white-space: nowrap }
+.row-cuisine { flex-shrink: 0; max-width: 60%; overflow: hidden; text-overflow: ellipsis; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink) }
+.row-area { min-width: 0; overflow: hidden; text-overflow: ellipsis }
 .row-num { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 2px }
-.row-num b { font-family: var(--display); font-weight: 700; font-size: 21px; line-height: 1.1; color: var(--accent) }
-.row-num small { font-size: 12px; color: var(--muted) }
-.row-skel { height: 62px; margin: 6px 4px }
-.rows-foot { padding: 12px 12px 4px; font-size: 13px; color: var(--muted) }
+.row-num b { font-family: var(--display); font-weight: 800; font-size: 24px; line-height: 1; letter-spacing: -.02em; color: var(--accent) }
+.row-num small { font-size: 12px; font-weight: 600; color: var(--muted) }
+.row-skel { flex-shrink: 0; height: 70px; border-radius: 16px }
+.rows-foot { padding: 6px 6px 0; font-size: 13px; font-weight: 500; color: var(--muted) }
 .rows-foot:empty { display: none }
 
 /* Beside an open restaurant: what was ranked, then rank and name only. */
 .board.compact .board-head { padding: 18px 16px 14px; gap: 4px }
 .board.compact .board-city { font-size: 22px; letter-spacing: -.02em }
-.board.compact .rows { padding: 6px 6px 10px }
-.board.compact .row { gap: 10px; padding: 8px }
-.board.compact .row-name { font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.board.compact .rows { padding: 6px 10px 12px; gap: 8px }
+.board.compact .row { gap: 8px; padding: 6px 8px 6px 6px; border-radius: 14px }
+.board.compact .row-name { font-size: 15px; letter-spacing: -.01em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 .board.compact .row-meta, .board.compact .row-num { display: none }
-.board.compact .row-skel { height: 42px }
+.board.compact .row-skel { height: 46px; border-radius: 14px }
 .row[aria-current="true"] .row-n { background: var(--accent); color: var(--on-accent) }
 
 .board-msg { padding: 28px 20px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; font-size: 16px }

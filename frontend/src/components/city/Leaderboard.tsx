@@ -3,7 +3,6 @@ import type { Facets, Flaw, Need, WindowDays } from "../../api/types";
 import { BRAND } from "../../brand";
 import type { RowHover } from "../../hooks/useHoverPreview";
 import type { Ranking } from "../../hooks/useRanking";
-import { whereLine } from "../../lib/format";
 import { SORTS, rowMetric, sortNote, sortOf } from "../../lib/sorts";
 import { areaWords } from "../../state/city";
 import { FLAWS, NEEDS, WINDOWS, windowOf } from "../../state/filters";
@@ -224,7 +223,7 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
         <ol className={!current && items.length ? "rows busy" : "rows"} aria-busy={loading} onScroll={hover.follow}>
           {items.map((item, i) => {
             const m = rowMetric(route.sort, item);
-            const meta = whereLine(item.cuisine, item.neighborhood ?? item.borough);
+            const area = item.neighborhood ?? item.borough;
             const key = item.entity_key;
             return (
               <li key={item.entity_key}>
@@ -258,7 +257,12 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
                   </span>
                   <span className="row-main">
                     <span className="row-name">{item.name}</span>
-                    {meta && <span className="row-meta">{meta}</span>}
+                    {(item.cuisine || area) && (
+                      <span className="row-meta">
+                        {item.cuisine && <span className="row-cuisine">{item.cuisine}</span>}
+                        {area && <span className="row-area">{area}</span>}
+                      </span>
+                    )}
                   </span>
                   <span className="row-num">
                     <b>{m.big}</b>

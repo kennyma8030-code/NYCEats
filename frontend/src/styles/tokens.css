@@ -16,6 +16,12 @@
   --accent: #D43D0A;
   --accent-deep: #A52E06;
   --on-accent: #FFFFFF;
+  --accent-ink: #C23708;   /* the accent as small text: labels and cuisines */
+  --accent-tint: #FFE6DB;
+
+  /* A city's panels: a warm ground that white boxes float off. */
+  --panel: #FBFAF8;
+  --track: #E3DED6;        /* the empty part of a bar */
 
   /* The map's own palette (map/style.ts reads these). */
   --map-water: #D6E4EA;
@@ -27,6 +33,7 @@
 
   --display: "Bricolage Grotesque", Inter, system-ui, sans-serif;
   --body: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --warm: "Instrument Sans", Inter, system-ui, sans-serif;
 
   --r-panel: 22px;
   --r-card: 20px;
@@ -36,6 +43,10 @@
   --shadow-card: 0 16px 44px rgba(21, 23, 26, .2);
   --shadow-panel: 0 24px 70px rgba(21, 23, 26, .22);
   --shadow-soft: 0 12px 32px rgba(21, 23, 26, .09);
+  /* What lifts a box, a pill and the one red-outlined card off a panel. */
+  --lift: 0 0 0 1px rgba(74, 45, 25, .05), 0 2px 4px rgba(74, 45, 25, .05), 0 12px 28px -8px rgba(74, 45, 25, .14);
+  --lift-pill: 0 0 0 1px rgba(74, 45, 25, .11), 0 1px 2px rgba(74, 45, 25, .12), 0 3px 8px rgba(74, 45, 25, .16);
+  --lift-accent: 0 2px 4px rgba(212, 61, 10, .08), 0 12px 24px -8px rgba(212, 61, 10, .22);
 
   --ease: cubic-bezier(.2, .7, .2, 1);
 }

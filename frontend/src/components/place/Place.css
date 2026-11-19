@@ -9,114 +9,189 @@
 .preview-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px }
 .preview-id { min-width: 0; display: flex; flex-direction: column; gap: 4px }
 .preview-name { font-family: var(--display); font-weight: 800; font-size: 22px; line-height: 1.12; letter-spacing: -.02em; overflow-wrap: anywhere }
-.preview-where { font-size: 13px; color: var(--muted) }
+.preview-where { font-size: 13px; font-weight: 600; color: var(--muted) }
 .preview-score { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 2px }
 .preview-score b { font-family: var(--display); font-weight: 800; font-size: 28px; line-height: 1; letter-spacing: -.02em; color: var(--accent) }
-.preview-score small { font-size: 12px; color: var(--muted); white-space: nowrap }
+.preview-score small { font-size: 12px; font-weight: 600; color: var(--muted); white-space: nowrap }
 .preview-summary {
   display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden;
-  font-size: 14px; line-height: 1.5; color: var(--ink-2);
+  font-size: 14px; font-weight: 500; line-height: 1.45; color: var(--ink-2);
 }
 .preview-loading { display: flex; flex-direction: column; gap: 8px }
 .preview-loading .skel { display: block; height: 12px }
 .preview-loading .skel + .skel { width: 70% }
-.preview-dishes { display: flex; flex-direction: column; gap: 4px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 14px }
-.preview-dishes .eyebrow { margin-bottom: 4px }
+.preview-dishes { display: flex; flex-direction: column; gap: 4px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 14px; font-weight: 600 }
+.preview-dishes .eyebrow { margin-bottom: 4px; color: var(--accent-ink) }
 
 /* ---- The open restaurant ---- */
 
-.place { padding: 10px 28px 12px; display: flex; flex-direction: column }
-.place > .back { align-self: flex-start }
-.place-loading { display: flex; flex-direction: column; gap: 14px; padding-top: 12px }
-.place-loading .skel, .place-sec > .skel { display: block }
+.place { padding: 10px 0 20px; display: flex; flex-direction: column }
+.place > .back { align-self: flex-start; margin-left: 20px }
+.place-loading { display: flex; flex-direction: column; gap: 14px; padding: 12px 28px }
+.place-loading .skel, .place-body > .skel { display: block }
+.place-body > .skel { border-radius: 16px }
 
-/* Who and where on the left, the one score on the right. */
-.place-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding: 6px 0 26px }
-.place-id { min-width: 0; display: flex; flex-direction: column; gap: 6px }
+/* What and where in small capitals, the name beside the one score, then the
+   score again as a bar with the people behind it under its right end. */
+.place-head { padding: 10px 28px 26px; display: flex; flex-direction: column; gap: 12px }
+.place-kicker {
+  display: flex; justify-content: space-between; gap: 16px;
+  font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
+}
+.place-cuisine { color: var(--accent-ink) }
+.place-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px }
+.place-title-id { min-width: 0; display: flex; align-items: flex-start; gap: 8px }
 .place-name {
-  font-family: var(--display); font-weight: 800; font-size: 36px; line-height: 1.04; letter-spacing: -.03em;
-  overflow-wrap: anywhere;
+  font-family: var(--display); font-weight: 800; font-size: 46px; line-height: 1; letter-spacing: -.02em;
+  overflow-wrap: anywhere; text-wrap: balance;
 }
 .place-name:focus { outline: none }
-.place-what { font-size: 15px; color: var(--ink-2) }
-.place-where { font-size: 13px; color: var(--muted) }
+.place-pin {
+  flex-shrink: 0; width: 44px; height: 44px; margin-top: 1px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.place-pin svg { fill: var(--accent-tint); stroke: var(--accent); transition: transform .2s var(--ease) }
+.place-pin:hover svg { transform: translateY(-2px) }
 .place-score {
-  flex-shrink: 0; padding: 0; border: 0; background: none; display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+  flex-shrink: 0; padding: 0; border: 0; background: none;
+  font-family: var(--display); font-weight: 800; font-size: 46px; line-height: 1; letter-spacing: -.02em; color: var(--accent);
 }
-.place-score b {
-  font-family: var(--display); font-weight: 800; font-size: 54px; line-height: .9; letter-spacing: -.03em; color: var(--accent);
+.place-score:hover { color: var(--accent-deep) }
+.place-under { display: flex; align-items: baseline; justify-content: space-between; gap: 6px 20px; flex-wrap: wrap }
+.place-where { font-size: 14px; font-weight: 500; color: var(--muted) }
+.place-liked {
+  margin-left: auto; padding: 0; border: 0; background: none; text-align: right; font-size: 17px; font-weight: 600;
 }
-.place-score:hover b { color: var(--accent-deep) }
-.place-score small { font-size: 13px; color: var(--muted); white-space: nowrap }
-.place-quiet { font-size: 13px; color: var(--muted) }
+button.place-liked:hover { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px }
+.place-quiet { font-size: 14px; font-weight: 500; color: var(--muted) }
 
-/* Every section is ruled off from the one above and opens with its label. */
-.place-sec { display: flex; flex-direction: column; gap: 12px; padding: 22px 0 26px; border-top: 1px solid var(--line) }
-.place-summary { font-size: 16px; line-height: 1.6 }
-.place-all { align-self: flex-start; min-height: 32px; font-size: 14px }
+/* A share drawn as a bar: the header's, and one for each thing rated. */
+.meter { display: block; height: 10px; border-radius: 5px; background: var(--track); overflow: hidden }
+.meter i { display: block; height: 100%; border-radius: inherit; background: var(--accent) }
 
-.dishes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 28px; font-size: 15px }
-
-/* What the place is liked for and faulted for, side by side. A row is a
-   button: it opens the comments that made its percentage. */
-.know { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 28px; align-items: start }
-/* Only one of the two lists: its rows take both columns instead. */
-.know.one { grid-template-columns: 1fr }
-.know.one ul { display: grid; grid-template-columns: 1fr 1fr; column-gap: 28px }
-.know-label { margin-bottom: 4px; font-size: 13px; font-weight: 600; color: var(--ink-2) }
-.know-row {
-  width: calc(100% + 16px); min-height: 40px; margin: 0 -8px; padding: 0 8px; border: 0; border-radius: 10px; background: none;
-  display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 15px; text-align: left;
+/* The boxes: white, lifted off the panel, each with its label sitting on
+   its top edge. The gap between them leaves room for that label. */
+.place-body { padding: 0 16px; display: flex; flex-direction: column; gap: 30px }
+.box {
+  position: relative; padding: 24px 12px 16px; display: flex; flex-direction: column; gap: 10px;
+  background: var(--surface); border: 2px solid var(--surface); border-radius: 16px; box-shadow: var(--lift);
 }
-.know-row:hover { background: var(--wash) }
-.know-num { flex-shrink: 0; font-size: 13px; color: var(--muted) }
-.know-num b { font-size: 15px; font-weight: 600; color: var(--ink) }
+.box-label {
+  position: absolute; top: -14px; left: 6px; padding: 2px 10px;
+  background: var(--surface); border: 2px solid var(--surface); border-radius: var(--r-pill); box-shadow: var(--lift-pill);
+  font-size: 14px; font-weight: 700; line-height: 1.45; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink);
+}
+.place-summary { font-size: 18px; font-weight: 500; line-height: 1.4 }
+.place-all { align-self: flex-start; min-height: 32px }
+
+/* A row is a button where there is a number: it opens the comments that
+   made it. One nobody has said enough about is there all the same, empty. */
+.rated { display: flex; flex-direction: column }
+.rated-row {
+  width: 100%; padding: 6px 0; border: 0; background: none; text-align: left;
+  display: grid; grid-template-columns: 104px minmax(0, 1fr) 48px; column-gap: 14px; align-items: center;
+  font-size: 17px; font-weight: 700;
+}
+.rated-row .meter { height: 8px; border-radius: 4px }
+.rated-num { text-align: right; font-variant-numeric: tabular-nums }
+button.rated-row:hover > :first-child { color: var(--accent-ink) }
+.rated-row.off { color: var(--muted) }
+
+/* The one box drawn in the accent: a top comment, turning to the next. */
+@keyframes quote-flash { from { background: var(--surface) } 12% { background: var(--accent-tint) } to { background: var(--surface) } }
+.quote {
+  position: relative; padding: 24px 12px 12px; display: flex; flex-direction: column; gap: 14px;
+  background: var(--surface); border: 2px solid var(--accent); border-radius: 16px; box-shadow: var(--lift-accent);
+}
+.quote.flash { animation: quote-flash 2.8s ease-out }
+.quote-src {
+  position: absolute; top: -13px; left: 6px; padding: 3px 10px; border-radius: var(--r-pill);
+  background: var(--accent); color: var(--on-accent); font-size: 14px; font-weight: 700; line-height: 1.3; letter-spacing: .06em;
+}
+/* A top comment can run to paragraphs; the card shows its opening. */
+.quote-text {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; line-clamp: 6; overflow: hidden;
+  font-family: var(--display); font-weight: 600; font-size: 22px; line-height: 1.2; letter-spacing: -.01em; overflow-wrap: anywhere;
+}
+.quote-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 16px }
+.quote-by { min-width: 0; display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700 }
+.quote-by a { color: inherit; text-decoration: none; overflow-wrap: anywhere }
+.quote-by a:hover { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px }
+.quote-votes { display: inline-flex; align-items: center; gap: 4px }
+.quote-votes svg { color: var(--accent) }
+
+.redpill {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; margin-left: auto; padding: 0 18px;
+  border: 0; border-radius: var(--r-pill); background: var(--accent); color: var(--on-accent);
+  font-size: 16px; font-weight: 700; white-space: nowrap;
+}
+.redpill:hover { background: var(--accent-deep) }
+.redpill:disabled { opacity: .6 }
+
+/* What to order, most mentioned first, and that one in the accent. */
+.dishes { display: flex; flex-wrap: wrap; gap: 8px }
+.dishes li { padding: 8px 16px; border-radius: var(--r-pill); background: var(--ground); font-size: 17px; font-weight: 700 }
+.dishes li:first-child { background: var(--accent); color: var(--on-accent) }
 
 /* Where the comments have no panel of their own they are a tab here. The
-   bar stays in view while its pane scrolls under it. */
+   two tabs stay in view while their pane scrolls under them. */
 .place-tabs {
-  position: sticky; top: 0; z-index: 2; margin: 0 -28px; padding: 0 28px; display: flex; gap: 24px;
-  background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; z-index: 2; padding: 8px 16px 22px; display: flex; gap: 8px;
+  background: linear-gradient(var(--panel) 74%, transparent);
 }
 .place-tabs button {
-  min-height: 46px; padding: 0; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: none;
-  font-size: 14px; font-weight: 600; color: var(--muted);
+  min-height: 44px; padding: 0 18px; border: 0; border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--lift-pill);
+  font-size: 15px; font-weight: 700;
 }
-.place-tabs button:hover { color: var(--ink) }
-.place-tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent) }
-/* The tab bar is already a rule. */
-.place-tabs + [role="tabpanel"] > .place-sec:first-child { border-top: 0 }
-.place [role="tabpanel"] > .cpane { padding: 20px 0 16px }
+.place-tabs button:hover { color: var(--accent-ink) }
+.place-tabs button[aria-selected="true"] { background: var(--accent); color: var(--on-accent); box-shadow: var(--lift-accent) }
+.place [role="tabpanel"] > .cpane { padding-top: 0 }
 
 /* ---- Comments: a panel of their own, or a tab of the restaurant's ---- */
 
-.cpane { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 14px }
-.cpane-back { align-self: flex-start; margin: -10px 0 -8px -4px }
-.cpane-head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 10px 16px }
-.cpane-title { font-family: var(--display); font-weight: 800; font-size: 24px; line-height: 1.1; letter-spacing: -.02em }
+.cpane { padding: 22px 16px 24px; display: flex; flex-direction: column; gap: 16px }
+.cpane-back { align-self: flex-start; margin: -10px 0 -8px 4px }
+.cpane-head { padding: 0 8px; display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 12px 16px }
+.cpane-title { font-family: var(--display); font-weight: 800; font-size: 28px; line-height: 1.05; letter-spacing: -.02em }
 .cpane-title:focus { outline: none }
 .cpane-title + .place-quiet { margin-top: 4px }
 
-.minitabs { display: inline-flex; gap: 2px; padding: 3px; border-radius: var(--r-pill); background: var(--wash) }
+.minitabs { display: inline-flex; gap: 6px }
 .minitabs button {
-  min-height: 34px; padding: 0 12px; border: 0; border-radius: var(--r-pill); background: none; font-size: 13px; font-weight: 600;
+  min-height: 36px; padding: 0 14px; border: 0; border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--lift-pill);
+  font-size: 14px; font-weight: 700;
 }
-.minitabs button[aria-pressed="true"] { background: var(--surface); box-shadow: 0 1px 4px rgba(21, 23, 26, .14) }
+.minitabs button:hover { color: var(--accent-ink) }
+.minitabs button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); box-shadow: var(--lift-accent) }
 
-/* Comments are ruled apart, not boxed: who and when, the words, then where
-   they came from. */
-.cmts { display: flex; flex-direction: column }
-.cmt { padding: 18px 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px }
-.cmt-body { font-size: 15px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere }
-.cmt-thread { font-size: 13px; color: var(--muted) }
-.cmt-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; font-size: 13px; color: var(--muted) }
-.cmt-meta:empty { display: none }
-.cmt-who { font-weight: 600; color: var(--ink-2) }
-.cmt-meta a { font-weight: 500 }
-.cmt-score { display: inline-flex; align-items: center; gap: 3px }
-.cmt-avoid { padding: 2px 8px; border-radius: var(--r-pill); background: var(--ink); color: var(--surface); font-size: 12px; font-weight: 600 }
-.cmt-skel { height: 96px; margin-top: 12px; border-radius: var(--r-item) }
-.cmts-more { align-self: center; margin-top: 4px }
+/* Each comment is a box of its own, like the restaurant's: who and when,
+   the words, its votes and the way to Reddit, then the thread it was in. */
+.cmts { display: flex; flex-direction: column; gap: 14px }
+.cmt {
+  padding: 16px 14px 12px; display: flex; flex-direction: column; gap: 10px;
+  background: var(--surface); border: 2px solid var(--surface); border-radius: 16px; box-shadow: var(--lift);
+}
+.cmt-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: 14px; font-weight: 500; color: var(--muted) }
+.cmt-head b { font-size: 16px; font-weight: 700; color: var(--ink); overflow-wrap: anywhere }
+.cmt-avoid {
+  margin-left: auto; padding: 1px 10px; border: 2px solid var(--ink); border-radius: var(--r-pill);
+  font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink);
+}
+.cmt-body { font-size: 16px; font-weight: 500; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere }
+.cmt-act { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; font-size: 15px; font-weight: 700 }
+.cmt-act > span:not(.cmt-score) { font-weight: 500; color: var(--muted) }
+.cmt-act a { color: var(--accent-ink); text-decoration: none }
+.cmt-act a:hover { text-decoration: underline; text-underline-offset: 3px }
+.cmt-score { display: inline-flex; align-items: center; gap: 4px }
+.cmt-score svg { color: var(--accent) }
+.cmt-ex {
+  margin-left: auto; min-height: 28px; padding: 0 12px; border: 0; border-radius: var(--r-pill); background: var(--ground);
+  font-size: 13px; font-weight: 700;
+}
+.cmt-ex[aria-pressed="true"] { background: var(--ink); color: var(--surface) }
+.cmt-thread { padding-top: 10px; border-top: 1px solid var(--line); font-size: 13px; font-weight: 500; color: var(--muted) }
+.cmt-skel { height: 132px; border-radius: 16px }
+.cmts-more { align-self: center; margin: 4px auto 0 }
 
 /* ---- What the extractor read, behind ?dev=1 ---- */
 
@@ -133,9 +208,17 @@
 .ex-facts { margin-top: 4px; font-size: 12px; color: var(--muted) }
 
 @media (max-width: 720px) {
-  .place { padding: 4px 20px 12px }
-  .place-name { font-size: 30px }
-  .place-score b { font-size: 44px }
-  .place-tabs { margin: 0 -20px; padding: 0 20px }
-  .know, .know.one ul, .dishes { grid-template-columns: 1fr }
+  .place-head { padding: 6px 20px 22px }
+  .place > .back { margin-left: 12px }
+  .place-name, .place-score { font-size: 36px }
+  .place-body { padding: 0 10px }
+  .place-tabs { padding: 8px 10px 22px }
+  .cpane { padding: 18px 10px 20px }
+  .rated-row { grid-template-columns: 96px minmax(0, 1fr) 44px; column-gap: 10px }
+  .quote-text { font-size: 20px }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quote.flash { animation: none }
+  .place-pin svg { transition: none }
 }
