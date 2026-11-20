@@ -125,7 +125,21 @@ export default function MapView({ target, padding, pins, dots, hot, selected, li
     const start = moved.current === null;
     moved.current = target.id;
     if (target.bounds) {
-      m.fitBounds(target.bounds, { padding, maxZoom: target.maxZoom ?? 14, duration: start ? 0 : NEAR_MS });
+      // fitBounds takes the padding off the map's size, but a map that already
+      // carries padding (set when it last moved) has had it taken off once
+      // already: the free area shrank twice and the pins were framed in a
+      // sliver of it. So the zoom is worked out on an unpadded map, and the
+      // padding is then set with the move, as everywhere else.
+      const was = m.getPadding();
+      m.setPadding({ top: 0, right: 0, bottom: 0, left: 0 });
+      const cam = m.cameraForBounds(target.bounds, { padding, maxZoom: target.maxZoom ?? 14 });
+      m.setPadding(was);
+      if (cam?.zoom != null) {
+        const [[w, s], [e, n]] = target.bounds;
+        const to = { center: [(w + e) / 2, (s + n) / 2] as [number, number], zoom: cam.zoom, padding };
+        if (start) m.jumpTo(to);
+        else m.easeTo({ ...to, duration: NEAR_MS });
+      }
       return;
     }
     if (!target.center) {
