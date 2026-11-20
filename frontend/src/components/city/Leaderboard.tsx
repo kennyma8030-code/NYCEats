@@ -33,9 +33,8 @@ const daysPhrase = (days: number) => (days === 365 ? "12 months" : days % 30 ===
 
 /**
  * A city's list: where you are, the search, the sort, the filters and the
- * numbered rows. The rows' numbers are the map's pins: both are drawn from
- * the same rows, in the same order. Beside an open restaurant only the rows
- * are left, as rank and name.
+ * rows. The rows are the map's pins: both are drawn from the same rows, in
+ * the same order. Beside an open restaurant only the names are left.
  */
 export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onOpen, selected, hover }: Props) {
   const compact = selected !== null;

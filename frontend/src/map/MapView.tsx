@@ -10,8 +10,15 @@ import "./map.css";
 
 setWorkerUrl(workerUrl);
 
-/** A numbered place on the map. `rank` is its number in the list beside it;
- *  null draws a plain dot, for an open place the list does not hold. */
+/** The classic teardrop, solid, with its tip on the bottom edge of the
+ *  button: the marker is anchored there, so the tip is the coordinate. */
+const PIN_SVG =
+  '<svg class="pin-shape" width="28" height="36" viewBox="0 0 28 36" aria-hidden="true">' +
+  '<path d="M14 34.5C14 34.5 1.5 22 1.5 13.5a12.5 12.5 0 0 1 25 0C26.5 22 14 34.5 14 34.5z"/></svg>';
+
+/** A place on the map, drawn as a pin. `rank` is its place in the list beside
+ *  it and only decides which pin lies on top where two overlap; null is an
+ *  open place the list does not hold, which lies beneath the ranked ones. */
 export interface MapPin {
   key: string;
   rank: number | null;
@@ -58,7 +65,6 @@ interface Props {
 interface Drawn {
   marker: Marker;
   el: HTMLButtonElement;
-  dot: HTMLSpanElement;
   tag: HTMLSpanElement;
 }
 
@@ -135,7 +141,7 @@ export default function MapView({ target, padding, pins, dots, hot, selected, li
   }, [target, padding]);
 
   // The pins are the list's rows, by key: ones that stay are moved and
-  // renumbered in place, so a pin under the pointer survives a new sort.
+  // reordered in place, so a pin under the pointer survives a new sort.
   useEffect(() => {
     const m = map.current;
     if (!m) return;
@@ -153,11 +159,10 @@ export default function MapView({ target, padding, pins, dots, hot, selected, li
         const el = document.createElement("button");
         el.type = "button";
         el.className = "pin";
-        const dot = document.createElement("span");
-        dot.className = "pin-dot";
+        el.innerHTML = PIN_SVG;
         const tag = document.createElement("span");
         tag.className = "pin-tag";
-        el.append(dot, tag);
+        el.append(tag);
         const key = p.key;
         el.addEventListener("mouseenter", () => handlers.current.onHot(key));
         el.addEventListener("mouseleave", () => handlers.current.onHot(null));
@@ -167,15 +172,13 @@ export default function MapView({ target, padding, pins, dots, hot, selected, li
           e.stopPropagation();
           handlers.current.onPick(key);
         });
-        d = { el, dot, tag, marker: new Marker({ element: el }).setLngLat([p.lng, p.lat]).addTo(m) };
+        d = { el, tag, marker: new Marker({ element: el, anchor: "bottom" }).setLngLat([p.lng, p.lat]).addTo(m) };
         markers.set(key, d);
       } else {
         d.marker.setLngLat([p.lng, p.lat]);
       }
-      d.dot.textContent = p.rank == null ? "" : String(p.rank);
       d.tag.textContent = p.name;
       d.el.setAttribute("aria-label", p.label);
-      d.el.classList.toggle("plain", p.rank == null);
       // The best-ranked pin wins where two overlap.
       d.el.style.zIndex = String(100 - (p.rank ?? 0));
     }
