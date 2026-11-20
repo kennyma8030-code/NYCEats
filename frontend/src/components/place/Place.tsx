@@ -164,7 +164,7 @@ export function PlacePanels({
               <>
                 <Head item={item} data={data} heading={heading} head={head} ask={ask} />
                 {/* The overview stays mounted under the comments, so going back finds it as it was left. */}
-                <div hidden={talking && !columns}>
+                <div className="place-about" hidden={talking && !columns}>
                   <About item={item} data={data} failed={!!detailError} ask={ask} allComments={allComments} />
                 </div>
                 {talking && !columns && (
@@ -288,7 +288,6 @@ function Head({ item, data, heading, head, ask }: HeadProps) {
             aria-label={`${pct(r.pct_pos!)}% positive, ${plural(people(r), "person", "people")}. Show their comments`}
           >
             {pct(r.pct_pos!)}%
-            <small>{r.pos.toLocaleString()} of {people(r).toLocaleString()} recommend</small>
           </button>
         )}
       </div>
@@ -438,7 +437,7 @@ function About({ item, data, failed, ask, allComments }: AboutProps) {
       <QuoteCard key={item.entity_key} entityKey={item.entity_key} onAll={allComments} />
 
       {dishes.length > 0 && (
-        <section className="box">
+        <section className="box box-dishes">
           <h3 className="box-label">Most ordered</h3>
           <ul className="dishes">
             {dishes.map((d) => <li key={d}>{d}</li>)}

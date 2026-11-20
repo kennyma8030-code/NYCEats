@@ -43,7 +43,8 @@
 }
 /* The preview's cap is only there to be grown from: its content is shorter. */
 .place-panel.preview { top: var(--y); min-height: 0; max-height: 420px; box-shadow: var(--shadow-card) }
-/* An open restaurant is as tall as its content, up to the window, and scrolls inside past that. */
+/* An open restaurant takes the list's height, its top comment filling what the other boxes leave. */
+.place-panel.open { height: calc(100% - 2 * var(--edge)) }
 
 /* The comments come out from behind the restaurant, to its right. */
 @keyframes comments-in { from { opacity: 0; transform: translateX(-48px) } to { opacity: 1; transform: none } }

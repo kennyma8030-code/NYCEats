@@ -25,7 +25,7 @@
 
 /* ---- The open restaurant ---- */
 
-.place { padding: 8px 0 18px; display: flex; flex-direction: column; container-type: inline-size }
+.place { min-height: 100%; padding: 8px 0 18px; display: flex; flex-direction: column; container-type: inline-size }
 .place > .back { align-self: flex-start; margin-left: 20px; min-height: 36px }
 .place > .place-overview { margin-top: -14px }
 .place-loading { display: flex; flex-direction: column; gap: 14px; padding: 12px 28px }
@@ -68,7 +68,13 @@
 
 /* The boxes: white, lifted off the panel, each with its label sitting on
    its top edge. The gap between them leaves room for that label. */
-.place-body { padding: 0 16px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px 14px }
+.place-body { flex: 1 0 auto; padding: 0 16px; display: flex; flex-direction: column; gap: 30px }
+/* The panel is the full height of the window, and the top comment takes
+   whatever the other boxes leave, so there is no empty band at the bottom.
+   Taller than the window, the panel scrolls and the card is its own size. */
+.place-about { flex: 1 0 auto; display: flex; flex-direction: column }
+.place-about[hidden] { display: none }
+.place-head { flex-shrink: 0 }
 .box {
   position: relative; padding: 24px 12px 16px; display: flex; flex-direction: column; gap: 10px;
   background: var(--surface); border: 2px solid var(--surface); border-radius: 16px; box-shadow: var(--lift);
@@ -101,7 +107,7 @@ button.rated-row:hover > :first-child { color: var(--accent-ink) }
 /* The one box drawn in the accent: a top comment, turning to the next. */
 @keyframes quote-flash { from { background: var(--surface) } 12% { background: var(--accent-tint) } to { background: var(--surface) } }
 .quote {
-  position: relative; padding: 24px 12px 12px; display: flex; flex-direction: column; gap: 14px;
+  position: relative; flex: 1 0 auto; padding: 30px 20px 16px; display: flex; flex-direction: column; gap: 18px;
   background: var(--surface); border: 2px solid var(--accent); border-radius: 16px; box-shadow: var(--lift-accent);
 }
 .quote.flash { animation: quote-flash 2.8s ease-out }
@@ -111,10 +117,10 @@ button.rated-row:hover > :first-child { color: var(--accent-ink) }
 }
 /* A top comment can run to paragraphs; the card shows its opening. */
 .quote-text {
-  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; line-clamp: 6; overflow: hidden;
-  font-family: var(--display); font-weight: 600; font-size: 22px; line-height: 1.2; letter-spacing: -.01em; overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 12; line-clamp: 12; overflow: hidden;
+  font-family: var(--display); font-weight: 600; font-size: 22px; line-height: 1.25; letter-spacing: -.01em; overflow-wrap: anywhere;
 }
-.quote-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 16px }
+.quote-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 16px }
 .quote-by { min-width: 0; display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700 }
 .quote-by a { color: inherit; text-decoration: none; overflow-wrap: anywhere }
 .quote-by a:hover { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px }
@@ -130,8 +136,12 @@ button.rated-row:hover > :first-child { color: var(--accent-ink) }
 .redpill:disabled { opacity: .6 }
 
 /* What to order, most mentioned first, and that one in the accent. */
-.dishes { display: flex; flex-wrap: wrap; gap: 8px }
-.dishes li { padding: 8px 16px; border-radius: var(--r-pill); background: var(--ground); font-size: 17px; font-weight: 700 }
+.dishes { display: flex; flex-wrap: wrap; gap: 6px }
+.box-dishes { padding: 20px 12px 10px; gap: 6px }
+.dishes li {
+  display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px; border-radius: var(--r-pill);
+  background: var(--ground); font-size: 13px; font-weight: 700;
+}
 .dishes li:first-child { background: var(--accent); color: var(--on-accent) }
 
 /* On its own the panel is wider and the same boxes, in the same order, are
@@ -141,14 +151,11 @@ button.rated-row:hover > :first-child { color: var(--accent-ink) }
   .place-head { padding-bottom: 22px }
   .place-body { gap: 22px }
   .box { padding: 20px 14px 12px }
+  .quote { padding: 28px 20px 16px }
   .place-summary { font-size: 15px; line-height: 1.4 }
   .rated-row { padding: 2px 0; font-size: 15px }
   .rated-row .meter { height: 7px }
-  .quote { flex-direction: row; align-items: center; gap: 20px; padding: 20px 14px 12px }
-  .quote-text { flex: 1 1 0; min-width: 0; -webkit-line-clamp: 2; line-clamp: 2; font-size: 20px }
-  .quote-foot { flex-shrink: 0; flex-wrap: nowrap; max-width: 55% }
-  .quote-by { font-size: 15px }
-  .dishes li { padding: 5px 14px; font-size: 15px }
+  .box-dishes { padding: 18px 12px 10px }
 }
 /* A short window gives up a little more of each. */
 @media (max-height: 800px) {
@@ -157,7 +164,7 @@ button.rated-row:hover > :first-child { color: var(--accent-ink) }
     .place-name, .place-score { font-size: 40px }
     .place-head { padding-bottom: 20px }
     .place-body { gap: 18px }
-    .box, .quote { padding-top: 18px }
+    .box { padding-top: 18px }
   }
 }
 @media (max-height: 745px) {
