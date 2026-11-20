@@ -36,11 +36,14 @@ test("a restaurant has no comments panel until they are asked for, and is wider 
   }
 });
 
-test("the list narrows to a strip only while a restaurant is open", () => {
+test("the list takes no room while a restaurant is open, which starts at the margin", () => {
   const list = cityLayout(1440, "list");
   assert.equal(cityLayout(1440, "preview").board, list.board);
-  assert.ok(cityLayout(1440, "open").board < list.board / 1.5);
-  assert.equal(cityLayout(1440, "comments").board, cityLayout(1440, "open").board);
+  assert.ok(cityLayout(1440, "preview").placeLeft > list.board);
+  for (const state of ["open", "comments"] as CityState[]) {
+    assert.equal(cityLayout(1440, state).board, 0);
+    assert.equal(cityLayout(1440, state).placeLeft, MARGIN);
+  }
   assert.equal(list.place, 0);
   assert.equal(list.comments, 0);
 });

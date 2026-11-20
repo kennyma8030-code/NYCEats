@@ -13,8 +13,9 @@ export const COLUMNS_MIN = 1300;
 export const MARGIN = 24;
 export const GAP = 12;
 
-const BOARD = 408;        // the list, with its search, sorts and filters
-const STRIP = 204;        // the list beside an open restaurant: rank and name
+/** The list, with its search, sorts and filters. It keeps this width while it
+ *  slides away for an open restaurant. */
+export const BOARD = 408;
 const PREVIEW = 300;      // a hovered row's preview
 const PLACE = 480;        // an open restaurant, beside its comments
 const PLACE_TABBED = 520; // an open restaurant showing its comments in its own panel
@@ -33,9 +34,12 @@ export interface CityLayout {
   phone: boolean;
   /** The comments have their own column. */
   columns: boolean;
+  /** 0 while a restaurant is open: the list has slid away. */
   board: number;
   /** 0 when there is no such panel. */
   place: number;
+  /** The x where the restaurant's panel starts. */
+  placeLeft: number;
   comments: number;
   /** The x where the last panel ends. */
   covered: number;
@@ -44,18 +48,20 @@ export interface CityLayout {
 export function cityLayout(width: number, state: CityState): CityLayout {
   const phone = width <= PHONE;
   const columns = state === "comments" && width >= COLUMNS_MIN;
-  const board = state === "open" || state === "comments" ? STRIP : BOARD;
+  const board = state === "open" || state === "comments" ? 0 : BOARD;
   // What is left beside the list, between the margins.
-  const room = Math.max(0, width - 2 * MARGIN - board - GAP);
+  const room = Math.max(0, width - 2 * MARGIN - (board ? board + GAP : 0));
   // On its own the restaurant takes the width the comments would have had,
   // so that all of it fits without scrolling.
   const wide = Math.max(PLACE_TABBED, Math.min(PLACE_WIDE, room - MAP_MIN));
   const want = { list: 0, preview: PREVIEW, open: wide, comments: columns ? PLACE : PLACE_TABBED }[state];
   const place = Math.min(room, want);
-  const spare = width - MARGIN - STRIP - GAP - PLACE - GAP - MARGIN - MAP_ROOM;
+  const spare = width - MARGIN - PLACE - GAP - MARGIN - MAP_ROOM;
   const comments = columns ? Math.max(COMMENTS, Math.min(COMMENTS_MAX, spare)) : 0;
-  const covered = MARGIN + board + (place ? GAP + place : 0) + (comments ? GAP + comments : 0);
-  return { phone, columns, board, place, comments, covered };
+  const shown = [board, place, comments].filter((w) => w > 0);
+  const covered = MARGIN + shown.reduce((a, w) => a + w, 0) + GAP * Math.max(0, shown.length - 1);
+  const placeLeft = MARGIN + (board ? board + GAP : 0);
+  return { phone, columns, board, place, placeLeft, comments, covered };
 }
 
 /** The map's left and right padding on a wide screen: nothing is centred

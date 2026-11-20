@@ -16,7 +16,7 @@ import { useRestaurant } from "./hooks/useRestaurant";
 import { useRoute } from "./hooks/useRoute";
 import { useViewport } from "./hooks/useViewport";
 import { cityView, pinBounds } from "./lib/cities";
-import { cityLayout, mapSides } from "./lib/layout";
+import { BOARD, cityLayout, mapSides } from "./lib/layout";
 import { isRankable } from "./lib/rating";
 import { rowMetric } from "./lib/sorts";
 import type { MapPadding, MapPin, MapTarget } from "./map/MapView";
@@ -197,7 +197,7 @@ export default function App() {
     />
   );
   const lit = hot ?? previewed?.entity_key ?? null;
-  const widths = { "--board": `${layout.board}px`, "--place": `${layout.place}px`, "--comments": `${layout.comments}px` } as CSSProperties;
+  const widths = { "--board": `${BOARD}px`, "--place-x": `${layout.placeLeft}px`, "--place": `${layout.place}px`, "--comments": `${layout.comments}px` } as CSSProperties;
 
   return (
     <>
@@ -220,11 +220,11 @@ export default function App() {
         <div className="city" style={widths}>
           {/* A phone has room for one panel: the restaurant takes the list's place. */}
           {!(view.phone && key) && (
-            <aside className={`panel board-panel${key ? " strip" : ""}${peek ? " peek" : ""}`} aria-label={scope.name}>
+            <aside className={`panel board-panel${key ? " away" : ""}${peek ? " peek" : ""}`} aria-label={scope.name}>
               {grab}
               <Leaderboard
                 route={route} go={go} scope={scope} facets={facets.current ? facets.data : null} ranking={ranking}
-                hot={lit} onHot={setHot} onOpen={openPlace} selected={key} hover={hover}
+                hot={lit} onHot={setHot} onOpen={openPlace} selected={null} hover={hover}
               />
             </aside>
           )}

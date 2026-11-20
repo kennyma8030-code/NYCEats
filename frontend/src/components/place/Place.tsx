@@ -387,8 +387,8 @@ function About({ item, data, failed, ask, allComments }: AboutProps) {
   return (
     <div className="place-body">
       {summary && (
-        <section className="box" aria-label="Summary of the comments">
-          <h3 className="box-label">Summary</h3>
+        <section className="box" aria-label="Description, from the comments">
+          <h3 className="box-label">Description</h3>
           <p className="place-summary">{summary.text}</p>
         </section>
       )}
@@ -439,7 +439,7 @@ function About({ item, data, failed, ask, allComments }: AboutProps) {
 
       {dishes.length > 0 && (
         <section className="box">
-          <h3 className="box-label">Order</h3>
+          <h3 className="box-label">Most ordered</h3>
           <ul className="dishes">
             {dishes.map((d) => <li key={d}>{d}</li>)}
           </ul>

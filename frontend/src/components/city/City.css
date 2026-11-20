@@ -1,8 +1,9 @@
 /* A city: the map is the page, and translucent panels float on its left,
    side by side: the list, then the restaurant, then its comments. The layer
    itself lets clicks through to the map; only the panels take them.
-   Their widths arrive as --board, --place and --comments (lib/layout.ts,
-   set in App.tsx), the same numbers the map is padded by. */
+   Their widths arrive as --board, --place and --comments, and where the
+   restaurant starts as --place-x (lib/layout.ts, set in App.tsx), the same
+   numbers the map is padded by. */
 .city { position: fixed; inset: 0; z-index: 2; pointer-events: none; --edge: 24px; --gap: 12px; --grow: .45s var(--ease) }
 
 @keyframes panel-in { from { opacity: 0; transform: translateX(-16px) } to { opacity: 1; transform: none } }
@@ -18,8 +19,14 @@
 .panel-scroll { flex-grow: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain }
 .panel-grab { display: none }
 
-/* The list narrows to a strip beside an open restaurant, and widens back. */
-.board-panel { z-index: 3; transition: width var(--grow) }
+/* The list slides off the left edge for an open restaurant, which moves
+   into its place, and slides back when the restaurant closes. Hidden once
+   it has gone, so nothing in it can be tabbed to. */
+.board-panel { z-index: 3; transition: transform var(--grow), opacity var(--grow), visibility 0s }
+.board-panel.away {
+  transform: translateX(calc(-100% - var(--edge))); opacity: 0; visibility: hidden; pointer-events: none;
+  transition: transform var(--grow), opacity var(--grow), visibility 0s .45s;
+}
 
 /* The restaurant's panel is one element from preview to open: level with
    the hovered row and as tall as its content, then, once clicked, the full
@@ -27,7 +34,7 @@
    the change between them can be animated. */
 @keyframes place-in { from { opacity: 0; transform: translateX(-10px) } to { opacity: 1; transform: none } }
 .place-panel {
-  z-index: 2; left: calc(var(--edge) + var(--board) + var(--gap)); width: var(--place);
+  z-index: 2; left: var(--place-x); width: var(--place);
   bottom: auto; max-height: calc(100% - 2 * var(--edge));
   transition: width var(--grow), left var(--grow), top var(--grow), min-height var(--grow), max-height var(--grow);
   /* One animation name for both states: a change of name on opening would
@@ -41,7 +48,7 @@
 /* The comments come out from behind the restaurant, to its right. */
 @keyframes comments-in { from { opacity: 0; transform: translateX(-48px) } to { opacity: 1; transform: none } }
 .comments-panel {
-  z-index: 1; left: calc(var(--edge) + var(--board) + var(--gap) + var(--place) + var(--gap)); width: var(--comments);
+  z-index: 1; left: calc(var(--place-x) + var(--place) + var(--gap)); width: var(--comments);
   animation: comments-in .5s var(--ease) .12s backwards; transition: width var(--grow), left var(--grow);
 }
 
