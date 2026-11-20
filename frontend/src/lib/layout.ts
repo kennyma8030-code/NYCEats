@@ -13,9 +13,9 @@ export const COLUMNS_MIN = 1300;
 export const MARGIN = 24;
 export const GAP = 12;
 
-/** The list, with its search, sorts and filters. It keeps this width while it
- *  slides away for an open restaurant. */
-export const BOARD = 408;
+/** The list: a 176px rail of sorts and filters beside the title, search and
+ *  rows. It keeps this width while it slides away for an open restaurant. */
+export const BOARD = 580;
 const PREVIEW = 300;      // a hovered row's preview
 const PLACE = 480;        // an open restaurant, beside its comments
 const PLACE_TABBED = 520; // an open restaurant showing its comments in its own panel

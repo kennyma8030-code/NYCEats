@@ -56,16 +56,28 @@
 
 /* ---- The list ---- */
 
-.board { display: flex; flex-direction: column; min-height: 0; flex-grow: 1 }
+/* Two columns: a rail of controls (back, sorts, filters, the wordmark) with
+   a hairline on its right, then the title, search and rows. Beside an open
+   restaurant there is no rail, only the body. */
+.board { display: flex; min-height: 0; flex-grow: 1 }
+.board-body { flex: 1 1 0; min-width: 0; min-height: 0; display: flex; flex-direction: column }
 .board-head {
-  position: relative; z-index: 2; padding: 14px 20px 12px; display: flex; flex-direction: column; gap: 14px;
+  position: relative; z-index: 2; padding: 24px 20px 12px; display: flex; flex-direction: column; gap: 14px;
 }
 /* The search field is one more white pill floating on the panel. */
-.board-head .search.in-panel input { border-color: transparent; box-shadow: var(--lift-pill); font-weight: 500 }
-.board-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: -8px }
-.board-top .wordmark { font-size: 16px }
+.board-head .search.in-panel input { height: 48px; padding-left: 44px; border-color: transparent; box-shadow: var(--lift-pill); font-size: 15px; font-weight: 500 }
+.board-head .search.in-panel .search-glass { top: 16px }
+
+.rail {
+  position: relative; z-index: 3; width: 176px; flex-shrink: 0; padding: 14px 14px 18px;
+  display: flex; flex-direction: column; gap: 22px; border-right: 1px solid var(--line);
+}
+.rail .back { align-self: flex-start; padding: 0 6px; margin-left: 0 }
+.rail .wordmark { margin-top: auto; padding-left: 6px; font-size: 16px }
+.rail-group { display: flex; flex-direction: column; gap: 6px }
+.rail-label { margin: 0 0 4px 6px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
 .board-city { font-family: var(--display); font-weight: 800; font-size: 38px; line-height: 1.05; letter-spacing: -.03em }
-.board-src { margin-top: 6px; font-size: 13px; color: var(--muted) }
+.board-src { position: relative; margin-top: 6px; font-size: 13px; color: var(--muted) }
 
 /* The period is part of the sentence it changes, not a control of its own. */
 .period {
@@ -76,32 +88,37 @@
 
 /* Sorts and filters are white pills lifted off the panel; the one in force
    is the accent. */
-.seg { display: flex; gap: 6px }
-.seg button {
-  flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0 4px; border: 0; border-radius: 22px; background: var(--surface);
-  box-shadow: var(--lift-pill); font-size: 13px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap;
+.sort {
+  min-height: 44px; padding: 0 16px; border: 0; border-radius: var(--r-pill); background: none;
+  text-align: left; font-size: 14px; font-weight: 600; white-space: nowrap;
 }
-.seg button:hover { color: var(--accent-ink) }
-.seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); box-shadow: var(--lift-accent) }
+.sort:hover { color: var(--accent-ink) }
+.sort[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); box-shadow: var(--lift-accent) }
 
-.chips { position: relative; display: flex; flex-wrap: wrap; gap: 8px }
+.chips { position: relative; gap: 8px }
 .chip {
-  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; max-width: 100%; padding: 0 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 6px; min-height: 44px; max-width: 100%; padding: 0 14px 0 16px;
   border: 0; border-radius: var(--r-pill); background: var(--surface); box-shadow: var(--lift-pill);
-  font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-size: 14px; font-weight: 600; text-align: left; white-space: nowrap;
 }
+.chip-text { min-width: 0; overflow: hidden; text-overflow: ellipsis }
+.chip-go { flex-shrink: 0; color: var(--muted) }
+.chip.on .chip-go { color: inherit }
 .chip:hover { color: var(--accent-ink) }
 .chip.on { background: var(--accent); color: var(--on-accent); box-shadow: var(--lift-accent) }
 .chip.clear {
-  padding: 0 10px; background: none; box-shadow: none; color: var(--ink-2);
+  justify-content: center; padding: 0 10px; background: none; box-shadow: none; color: var(--ink-2);
   text-decoration: underline; text-underline-offset: 3px;
 }
 
+/* From the rail a menu opens over the list, level with the filters; the
+   period's opens under the sentence it belongs to. */
 .menu {
-  position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 20; padding: 8px; max-height: min(46vh, 340px);
+  position: absolute; left: calc(100% + 15px); width: 264px; top: 0; z-index: 20; padding: 8px; max-height: min(46vh, 340px);
   overflow-y: auto; border-radius: var(--r-card); background: var(--surface); border: 1px solid var(--line);
   box-shadow: var(--shadow-card);
 }
+.board-src .menu { left: 0; top: calc(100% + 6px); font-size: 15px }
 .menu-note { padding: 6px 12px 8px; font-size: 13px; color: var(--muted) }
 .choice {
   width: 100%; min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--r-item); background: none;
@@ -171,13 +188,30 @@
     border-radius: 3px; background: var(--line-2);
   }
   /* On a phone the head scrolls away with the rows: a fixed one would leave no room for them. */
-  .board { overflow-y: auto; overscroll-behavior: contain }
-  .board-head, .rows { flex-shrink: 0 }
+  .board { flex-direction: column; overflow-y: auto; overscroll-behavior: contain }
+  .board-body, .board-head, .rows { flex-shrink: 0 }
+  .board-head { padding: 6px 16px 12px }
+  .rows { padding-left: 10px; padding-right: 10px }
+
+  /* The rail folds into a bar over the list: sorts in a row that scrolls
+     sideways, filters as pills that wrap. The wordmark sits at the top right. */
+  .rail { width: auto; padding: 8px 16px 4px; gap: 4px; border-right: 0 }
+  .rail .wordmark { position: absolute; top: 20px; right: 16px; margin: 0; padding: 0 }
+  .rail-label { display: none }
+  .rail-sorts {
+    flex-direction: row; overflow-x: auto; margin: 0 -16px; padding: 4px 16px 8px; scrollbar-width: none;
+  }
+  .rail-sorts::-webkit-scrollbar { display: none }
+  .sort { flex: 0 0 auto; background: var(--surface); box-shadow: var(--lift-pill) }
+  .sort[aria-pressed="true"] { background: var(--accent); box-shadow: var(--lift-accent) }
+  .chips { flex-direction: row; flex-wrap: wrap; padding-bottom: 8px }
+  .chip { max-width: 100%; justify-content: flex-start; font-size: 13px }
+  .menu, .board-src .menu { left: 0; right: 0; width: auto; top: calc(100% + 8px) }
+  .board-src .menu { top: calc(100% + 6px) }
   .rows { overflow: visible }
   .board-city { font-size: 32px }
   /* The sheet covers the bottom of the map, so the credit moves to the top. */
   .city .map-credit { top: 8px; bottom: auto; right: 8px }
-  .seg button { font-size: 12px }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -74,125 +74,132 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
       type="button" className={value ? "chip on" : "chip"} aria-haspopup="true" aria-expanded={menu === id}
       onClick={() => flip(id)}
     >
-      {value ?? label}
-      <Icon name="down" size={12} stroke={2.4} />
+      <span className="chip-text">{value ?? label}</span>
+      <Icon name="right" size={12} stroke={2.4} className="chip-go" />
     </button>
   );
   const several = <T,>(picked: T[], label: string, name: (k: T) => string) =>
     picked.length === 0 ? null : picked.length === 1 ? name(picked[0]) : `${label} (${picked.length})`;
 
+  const periodMenu = menu === "period" && (
+    <Menu label="Period">
+      {WINDOWS.map((w) => (
+        <Choice
+          key={w.d} on={ranking.window === w.d}
+          onClick={() => { go({ window: w.d === sortOf(route.sort).window ? null : (w.d as WindowDays) }); setMenu(null); }}
+        >
+          Last {w.long}
+        </Choice>
+      ))}
+    </Menu>
+  );
+
   return (
     <div className={compact ? "board compact" : "board"}>
+      {!compact && (
+        <div className="rail">
+          <button type="button" className="back" onClick={() => go({ screen: "home" })}>
+            <Icon name="left" />
+            All cities
+          </button>
+          <div className="rail-group rail-sorts" role="group" aria-label="Sort by">
+            <p className="rail-label">Sort</p>
+            {SORTS.map((s) => (
+              <button key={s.id} type="button" className="sort" aria-pressed={route.sort === s.id} onClick={() => go({ sort: s.id })}>
+                {s.label}
+              </button>
+            ))}
+          </div>
+          <div className="rail-group chips" ref={filters}>
+            <p className="rail-label">Filter</p>
+            {route.topic && (
+              <button type="button" className="chip on" onClick={() => go({ topic: "" })} aria-label={`Remove the topic ${route.topic}`}>
+                <span className="chip-text">“{route.topic}”</span>
+                <Icon name="close" size={12} stroke={2.4} className="chip-go" />
+              </button>
+            )}
+            {chip("cuisine", "Cuisine", route.cuisine || null)}
+            {chip("area", area.one, route.borough || null)}
+            {chip("needs", "Good for", several(route.needs, "Good for", needLabel))}
+            {chip("flaws", "Complaints", several(route.flaws, "Complaints", flawLabel))}
+            {active > 0 && (
+              <button type="button" className="chip clear" onClick={() => go({ topic: "", cuisine: "", borough: "", needs: [], flaws: [] })}>
+                Clear
+              </button>
+            )}
+
+            {menu === "cuisine" && (
+              <Menu label="Cuisine">
+                <Choice on={!route.cuisine} onClick={() => { go({ cuisine: "" }); setMenu(null); }}>Any cuisine</Choice>
+                {(facets?.cuisines ?? []).map((c) => (
+                  <Choice key={c.name} on={route.cuisine === c.name} count={c.n} onClick={() => { go({ cuisine: c.name }); setMenu(null); }}>
+                    {c.name}
+                  </Choice>
+                ))}
+                {!facets && <p className="menu-note">Loading…</p>}
+              </Menu>
+            )}
+            {menu === "area" && (
+              <Menu label={area.one}>
+                <Choice on={!route.borough} onClick={() => { go({ borough: "" }); setMenu(null); }}>{area.all}</Choice>
+                {(facets?.boroughs ?? []).map((b) => (
+                  <Choice key={b.name} on={route.borough === b.name} count={b.n} onClick={() => { go({ borough: b.name }); setMenu(null); }}>
+                    {b.name}
+                  </Choice>
+                ))}
+                {!facets && <p className="menu-note">Loading…</p>}
+              </Menu>
+            )}
+            {menu === "needs" && (
+              <Menu label="Good for" note={ledger ? null : "Filters Talked about and Trending, so choosing one switches to Talked about."}>
+                {NEEDS.map((n) => (
+                  <Choice key={n.k} many on={route.needs.includes(n.k)} onClick={() => go({ needs: toggle<Need>(route.needs, n.k) })}>
+                    {n.label}
+                  </Choice>
+                ))}
+              </Menu>
+            )}
+            {menu === "flaws" && (
+              <Menu label="Complaints" note={ledger ? "Places among the worst tenth for it." : "Places among the worst tenth for it. Choosing one switches to Talked about."}>
+                {FLAWS.map((n) => (
+                  <Choice key={n.k} many on={route.flaws.includes(n.k)} onClick={() => go({ flaws: toggle<Flaw>(route.flaws, n.k) })}>
+                    {n.label}
+                  </Choice>
+                ))}
+              </Menu>
+            )}
+          </div>
+          <span className="wordmark">{BRAND.first} <span>{BRAND.second}</span></span>
+        </div>
+      )}
+      <div className="board-body">
       {compact ? (
         <div className="board-head">
           <p className="eyebrow">{sortOf(route.sort).label}</p>
           <h1 className="board-city">{scope.name}</h1>
         </div>
       ) : (
-      <div className="board-head">
-        <div className="board-top">
-          <button type="button" className="back" onClick={() => go({ screen: "home" })}>
-            <Icon name="left" />
-            All cities
-          </button>
-          <span className="wordmark">{BRAND.first} <span>{BRAND.second}</span></span>
+        <div className="board-head">
+          <div>
+            <h1 className="board-city">{scope.name}</h1>
+            <p className="board-src" data-menu>
+              From r/{scope.subreddit},{" "}
+              {ledger ? (
+                <button type="button" className="period" aria-haspopup="true" aria-expanded={menu === "period"} onClick={() => flip("period")}>
+                  the last {windowOf(ranking.window).long}
+                  <Icon name="down" size={12} stroke={2.4} />
+                </button>
+              ) : (
+                `opinions from the last ${daysPhrase(ranking.lines?.window_days ?? 365)}`
+              )}
+              {periodMenu}
+            </p>
+          </div>
+          <Search
+            scopes={[scope]} variant="panel" label={`Search restaurants in ${scope.name}`} placeholder="Search a restaurant or a dish"
+            onPlace={(_, key) => onOpen(key)} onTopic={(_, topic) => go({ topic })}
+          />
         </div>
-        <div>
-          <h1 className="board-city">{scope.name}</h1>
-          <p className="board-src" data-menu>
-            From r/{scope.subreddit},{" "}
-            {ledger ? (
-              <button type="button" className="period" aria-haspopup="true" aria-expanded={menu === "period"} onClick={() => flip("period")}>
-                the last {windowOf(ranking.window).long}
-                <Icon name="down" size={12} stroke={2.4} />
-              </button>
-            ) : (
-              `opinions from the last ${daysPhrase(ranking.lines?.window_days ?? 365)}`
-            )}
-          </p>
-        </div>
-        <Search
-          scopes={[scope]} variant="panel" label={`Search restaurants in ${scope.name}`} placeholder="Search a restaurant or a dish"
-          onPlace={(_, key) => onOpen(key)} onTopic={(_, topic) => go({ topic })}
-        />
-        <div className="seg" role="group" aria-label="Sort by">
-          {SORTS.map((s) => (
-            <button key={s.id} type="button" aria-pressed={route.sort === s.id} onClick={() => go({ sort: s.id })}>
-              {s.label}
-            </button>
-          ))}
-        </div>
-        <div className="chips" ref={filters}>
-          {route.topic && (
-            <button type="button" className="chip on" onClick={() => go({ topic: "" })} aria-label={`Remove the topic ${route.topic}`}>
-              “{route.topic}”
-              <Icon name="close" size={12} stroke={2.4} />
-            </button>
-          )}
-          {chip("cuisine", "Cuisine", route.cuisine || null)}
-          {chip("area", area.one, route.borough || null)}
-          {chip("needs", "Good for", several(route.needs, "Good for", needLabel))}
-          {chip("flaws", "Complaints", several(route.flaws, "Complaints", flawLabel))}
-          {active > 0 && (
-            <button type="button" className="chip clear" onClick={() => go({ topic: "", cuisine: "", borough: "", needs: [], flaws: [] })}>
-              Clear
-            </button>
-          )}
-
-          {menu === "cuisine" && (
-            <Menu label="Cuisine">
-              <Choice on={!route.cuisine} onClick={() => { go({ cuisine: "" }); setMenu(null); }}>Any cuisine</Choice>
-              {(facets?.cuisines ?? []).map((c) => (
-                <Choice key={c.name} on={route.cuisine === c.name} count={c.n} onClick={() => { go({ cuisine: c.name }); setMenu(null); }}>
-                  {c.name}
-                </Choice>
-              ))}
-              {!facets && <p className="menu-note">Loading…</p>}
-            </Menu>
-          )}
-          {menu === "area" && (
-            <Menu label={area.one}>
-              <Choice on={!route.borough} onClick={() => { go({ borough: "" }); setMenu(null); }}>{area.all}</Choice>
-              {(facets?.boroughs ?? []).map((b) => (
-                <Choice key={b.name} on={route.borough === b.name} count={b.n} onClick={() => { go({ borough: b.name }); setMenu(null); }}>
-                  {b.name}
-                </Choice>
-              ))}
-              {!facets && <p className="menu-note">Loading…</p>}
-            </Menu>
-          )}
-          {menu === "needs" && (
-            <Menu label="Good for" note={ledger ? null : "Filters Talked about and Trending, so choosing one switches to Talked about."}>
-              {NEEDS.map((n) => (
-                <Choice key={n.k} many on={route.needs.includes(n.k)} onClick={() => go({ needs: toggle<Need>(route.needs, n.k) })}>
-                  {n.label}
-                </Choice>
-              ))}
-            </Menu>
-          )}
-          {menu === "flaws" && (
-            <Menu label="Complaints" note={ledger ? "Places among the worst tenth for it." : "Places among the worst tenth for it. Choosing one switches to Talked about."}>
-              {FLAWS.map((n) => (
-                <Choice key={n.k} many on={route.flaws.includes(n.k)} onClick={() => go({ flaws: toggle<Flaw>(route.flaws, n.k) })}>
-                  {n.label}
-                </Choice>
-              ))}
-            </Menu>
-          )}
-          {menu === "period" && (
-            <Menu label="Period">
-              {WINDOWS.map((w) => (
-                <Choice
-                  key={w.d} on={ranking.window === w.d}
-                  onClick={() => { go({ window: w.d === sortOf(route.sort).window ? null : (w.d as WindowDays) }); setMenu(null); }}
-                >
-                  Last {w.long}
-                </Choice>
-              ))}
-            </Menu>
-          )}
-        </div>
-      </div>
       )}
 
       {error ? (
@@ -271,6 +278,7 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
           )}
         </ol>
       )}
+      </div>
     </div>
   );
 }
