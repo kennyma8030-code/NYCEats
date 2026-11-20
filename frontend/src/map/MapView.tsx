@@ -10,11 +10,22 @@ import "./map.css";
 
 setWorkerUrl(workerUrl);
 
-/** The classic teardrop, solid, with its tip on the bottom edge of the
- *  button: the marker is anchored there, so the tip is the coordinate. */
+/** The classic teardrop with an upvote arrow in its bulb, tip on the bottom
+ *  edge of the button: the marker is anchored there, so the tip is the
+ *  coordinate. The fill is one gradient, defined once for the page (PIN_DEFS)
+ *  and shared by every pin, so adding and removing pins cannot break it.
+ *  The arrow is drawn here: a triangle head on a square stem. */
+const TEARDROP = "M14 34.5C14 34.5 1.5 22 1.5 13.5a12.5 12.5 0 0 1 25 0C26.5 22 14 34.5 14 34.5z";
 const PIN_SVG =
   '<svg class="pin-shape" width="28" height="36" viewBox="0 0 28 36" aria-hidden="true">' +
-  '<path d="M14 34.5C14 34.5 1.5 22 1.5 13.5a12.5 12.5 0 0 1 25 0C26.5 22 14 34.5 14 34.5z"/></svg>';
+  `<path class="pin-halo" d="${TEARDROP}"/>` +
+  `<path class="pin-body" d="${TEARDROP}"/>` +
+  '<ellipse class="pin-shine" cx="9.2" cy="8.4" rx="4.6" ry="3" transform="rotate(-35 9.2 8.4)"/>' +
+  '<path class="pin-arrow" d="M14 6.6L20.4 13.2H16.5V19.4H11.5V13.2H7.6Z"/></svg>';
+const PIN_DEFS =
+  '<svg id="pin-defs" width="0" height="0" style="position:absolute" aria-hidden="true"><defs>' +
+  '<linearGradient id="pin-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF4500"/><stop offset="1" stop-color="#D93A00"/></linearGradient>' +
+  '</defs></svg>';
 
 /** A place on the map, drawn as a pin. `rank` is its place in the list beside
  *  it and only decides which pin lies on top where two overlap; null is an
@@ -159,6 +170,7 @@ export default function MapView({ target, padding, pins, dots, hot, selected, li
   useEffect(() => {
     const m = map.current;
     if (!m) return;
+    if (!document.getElementById("pin-defs")) document.body.insertAdjacentHTML("beforeend", PIN_DEFS);
     const markers = drawn.current;
     const wanted = new Set(pins.map((p) => p.key));
     for (const [key, d] of markers) {
