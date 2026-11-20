@@ -3,7 +3,7 @@ import type { Facets, Flaw, Need, WindowDays } from "../../api/types";
 import { BRAND } from "../../brand";
 import type { RowHover } from "../../hooks/useHoverPreview";
 import type { Ranking } from "../../hooks/useRanking";
-import { SORTS, rowMetric, sortNote, sortOf } from "../../lib/sorts";
+import { SORTS, rowMetric, sortOf } from "../../lib/sorts";
 import { areaWords } from "../../state/city";
 import { FLAWS, NEEDS, WINDOWS, windowOf } from "../../state/filters";
 import { filterCount, flawLabel, isLedgerSort, needLabel, toggle, type Route } from "../../state/route";
@@ -195,13 +195,6 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
       </div>
       )}
 
-      {!compact && (
-        <p className="board-note">
-          {sortNote(route.sort, ranking.window, ranking.lines)}
-          {route.topic ? ` Only mentions under “${route.topic}” are counted.` : ""}
-        </p>
-      )}
-
       {error ? (
         <div className="board-msg" role="alert">
           <p>This list could not be loaded.</p>
@@ -221,7 +214,7 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
         </div>
       ) : (
         <ol className={!current && items.length ? "rows busy" : "rows"} aria-busy={loading} onScroll={hover.follow}>
-          {items.map((item, i) => {
+          {items.map((item) => {
             const m = rowMetric(route.sort, item);
             const area = item.neighborhood ?? item.borough;
             const key = item.entity_key;
@@ -252,9 +245,6 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
                     hover.leave();
                   }}
                 >
-                  <span className={item.location ? "row-n" : "row-n off"} title={item.location ? undefined : "No known address, so no pin"}>
-                    {i + 1}
-                  </span>
                   <span className="row-main">
                     <span className="row-name">{item.name}</span>
                     {(item.cuisine || area) && (
@@ -276,11 +266,7 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
           {current && items.length > 0 && !compact && (
             <li className="rows-foot">
               {total > items.length ? `The top ${items.length} of ${total.toLocaleString()}. ` : ""}
-              {pinned === 0
-                ? `No pins yet: ${scope.name}'s places have no coordinates.`
-                : pinned < items.length
-                  ? "A grey number has no known address, so no pin."
-                  : ""}
+              {pinned === 0 ? `No pins yet: ${scope.name}'s places have no coordinates.` : ""}
             </li>
           )}
         </ol>
