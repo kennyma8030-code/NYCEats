@@ -182,7 +182,7 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
         <div className="board-head">
           <div>
             <h1 className="board-city">{scope.name}</h1>
-            <p className="board-src" data-menu>
+            <div className="board-src" data-menu>
               From r/{scope.subreddit},{" "}
               {ledger ? (
                 <button type="button" className="period" aria-haspopup="true" aria-expanded={menu === "period"} onClick={() => flip("period")}>
@@ -193,7 +193,7 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
                 `opinions from the last ${daysPhrase(ranking.lines?.window_days ?? 365)}`
               )}
               {periodMenu}
-            </p>
+            </div>
           </div>
           <Search
             scopes={[scope]} variant="panel" label={`Search restaurants in ${scope.name}`} placeholder="Search a restaurant or a dish"
