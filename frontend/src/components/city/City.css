@@ -43,7 +43,7 @@
 }
 /* The preview's cap is only there to be grown from: its content is shorter. */
 .place-panel.preview { top: var(--y); min-height: 0; max-height: 420px; box-shadow: var(--shadow-card) }
-.place-panel.open { min-height: calc(100% - 2 * var(--edge)) }
+/* An open restaurant is as tall as its content, up to the window, and scrolls inside past that. */
 
 /* The comments come out from behind the restaurant, to its right. */
 @keyframes comments-in { from { opacity: 0; transform: translateX(-48px) } to { opacity: 1; transform: none } }
@@ -69,12 +69,12 @@
 .board-head .search.in-panel .search-glass { top: 16px }
 
 .rail {
-  position: relative; z-index: 3; width: 176px; flex-shrink: 0; padding: 14px 14px 18px;
+  position: relative; z-index: 3; width: 176px; flex-shrink: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 14px 14px 18px;
   display: flex; flex-direction: column; gap: 22px; border-right: 1px solid var(--line);
 }
 .rail .back { align-self: flex-start; padding: 0 6px; margin-left: 0 }
-.rail .wordmark { margin-top: auto; padding-left: 6px; font-size: 16px }
-.rail-group { display: flex; flex-direction: column; gap: 6px }
+.rail .wordmark { flex-shrink: 0; margin-top: auto; padding-left: 6px; font-size: 16px }
+.rail-group { flex-shrink: 0; display: flex; flex-direction: column; gap: 6px }
 .rail-label { margin: 0 0 4px 6px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
 .board-city { font-family: var(--display); font-weight: 800; font-size: 38px; line-height: 1.05; letter-spacing: -.03em }
 .board-src { position: relative; margin-top: 6px; font-size: 13px; color: var(--muted) }
@@ -104,6 +104,16 @@
 .chip-text { min-width: 0; overflow: hidden; text-overflow: ellipsis }
 .chip-go { flex-shrink: 0; color: var(--muted) }
 .chip.on .chip-go { color: inherit }
+.chip-go { transition: transform .2s var(--ease) }
+.chip[aria-expanded="true"] .chip-go { transform: rotate(90deg) }
+
+/* A filter's options open under its chip, inside the rail, and push the rest down. */
+.acc { display: flex; flex-direction: column; padding: 2px 0 6px }
+.acc .menu-note { padding: 4px 8px 6px; font-size: 12px }
+.acc .choice { min-height: 44px; height: auto; padding: 6px 8px; gap: 8px; font-size: 14px }
+.acc .choice-label { min-width: 0; overflow-wrap: anywhere }
+.acc .choice-tick { width: 14px }
+.acc .choice-n { flex-shrink: 0; font-size: 12px }
 .chip:hover { color: var(--accent-ink) }
 .chip.on { background: var(--accent); color: var(--on-accent); box-shadow: var(--lift-accent) }
 .chip.clear {
@@ -206,8 +216,9 @@
   .sort[aria-pressed="true"] { background: var(--accent); box-shadow: var(--lift-accent) }
   .chips { flex-direction: row; flex-wrap: wrap; padding-bottom: 8px }
   .chip { max-width: 100%; justify-content: flex-start; font-size: 13px }
-  .menu, .board-src .menu { left: 0; right: 0; width: auto; top: calc(100% + 8px) }
-  .board-src .menu { top: calc(100% + 6px) }
+  /* An opened filter's options sit below the whole chip row. */
+  .acc { order: 1; flex: 0 0 100%; padding: 4px 0 0 }
+  .board-src .menu { left: 0; right: 0; width: auto; top: calc(100% + 6px) }
   .rows { overflow: visible }
   .board-city { font-size: 32px }
   /* The sheet covers the bottom of the map, so the credit moves to the top. */

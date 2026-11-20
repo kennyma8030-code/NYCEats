@@ -45,11 +45,12 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
   const ledger = isLedgerSort(route.sort);
   const active = filterCount(route);
 
-  // A menu closes on a click anywhere else and on Escape.
+  // The period's popover closes on a click anywhere else; a filter opens and
+  // closes only by its own chip. Escape closes either.
   useEffect(() => {
     if (!menu) return;
     const onDown = (e: MouseEvent) => {
-      if (!filters.current?.contains(e.target as Node) && !(e.target as Element).closest?.("[data-menu]")) setMenu(null);
+      if (menu === "period" && !(e.target as Element).closest?.("[data-menu]")) setMenu(null);
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
@@ -119,17 +120,8 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
               </button>
             )}
             {chip("cuisine", "Cuisine", route.cuisine || null)}
-            {chip("area", area.one, route.borough || null)}
-            {chip("needs", "Good for", several(route.needs, "Good for", needLabel))}
-            {chip("flaws", "Complaints", several(route.flaws, "Complaints", flawLabel))}
-            {active > 0 && (
-              <button type="button" className="chip clear" onClick={() => go({ topic: "", cuisine: "", borough: "", needs: [], flaws: [] })}>
-                Clear
-              </button>
-            )}
-
             {menu === "cuisine" && (
-              <Menu label="Cuisine">
+              <Menu inline label="Cuisine">
                 <Choice on={!route.cuisine} onClick={() => { go({ cuisine: "" }); setMenu(null); }}>Any cuisine</Choice>
                 {(facets?.cuisines ?? []).map((c) => (
                   <Choice key={c.name} on={route.cuisine === c.name} count={c.n} onClick={() => { go({ cuisine: c.name }); setMenu(null); }}>
@@ -139,8 +131,9 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
                 {!facets && <p className="menu-note">Loading…</p>}
               </Menu>
             )}
+            {chip("area", area.one, route.borough || null)}
             {menu === "area" && (
-              <Menu label={area.one}>
+              <Menu inline label={area.one}>
                 <Choice on={!route.borough} onClick={() => { go({ borough: "" }); setMenu(null); }}>{area.all}</Choice>
                 {(facets?.boroughs ?? []).map((b) => (
                   <Choice key={b.name} on={route.borough === b.name} count={b.n} onClick={() => { go({ borough: b.name }); setMenu(null); }}>
@@ -150,8 +143,9 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
                 {!facets && <p className="menu-note">Loading…</p>}
               </Menu>
             )}
+            {chip("needs", "Good for", several(route.needs, "Good for", needLabel))}
             {menu === "needs" && (
-              <Menu label="Good for" note={ledger ? null : "Filters Talked about and Trending, so choosing one switches to Talked about."}>
+              <Menu inline label="Good for" note={ledger ? null : "Filters Talked about and Trending, so choosing one switches to Talked about."}>
                 {NEEDS.map((n) => (
                   <Choice key={n.k} many on={route.needs.includes(n.k)} onClick={() => go({ needs: toggle<Need>(route.needs, n.k) })}>
                     {n.label}
@@ -159,8 +153,9 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
                 ))}
               </Menu>
             )}
+            {chip("flaws", "Complaints", several(route.flaws, "Complaints", flawLabel))}
             {menu === "flaws" && (
-              <Menu label="Complaints" note={ledger ? "Places among the worst tenth for it." : "Places among the worst tenth for it. Choosing one switches to Talked about."}>
+              <Menu inline label="Complaints" note={ledger ? "Places among the worst tenth for it." : "Places among the worst tenth for it. Choosing one switches to Talked about."}>
                 {FLAWS.map((n) => (
                   <Choice key={n.k} many on={route.flaws.includes(n.k)} onClick={() => go({ flaws: toggle<Flaw>(route.flaws, n.k) })}>
                     {n.label}
@@ -168,6 +163,12 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
                 ))}
               </Menu>
             )}
+            {active > 0 && (
+              <button type="button" className="chip clear" onClick={() => go({ topic: "", cuisine: "", borough: "", needs: [], flaws: [] })}>
+                Clear
+              </button>
+            )}
+
           </div>
           <span className="wordmark">{BRAND.first} <span>{BRAND.second}</span></span>
         </div>
@@ -283,9 +284,11 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
   );
 }
 
-function Menu({ label, note, children }: { label: string; note?: string | null; children: React.ReactNode }) {
+/** inline: an accordion panel under its chip, pushing what follows down;
+ *  otherwise a popover. */
+function Menu({ label, note, inline, children }: { label: string; note?: string | null; inline?: boolean; children: React.ReactNode }) {
   return (
-    <div className="menu pop" role="menu" aria-label={label} data-menu>
+    <div className={inline ? "acc" : "menu pop"} role="menu" aria-label={label} data-menu={inline ? undefined : true}>
       {note && <p className="menu-note">{note}</p>}
       {children}
     </div>
