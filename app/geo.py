@@ -1,12 +1,13 @@
 """Where a place is, for the map.
 
-The database holds no coordinates: the loader (restaurants.py) does not read
-the inspection dataset's latitude and longitude, and `restaurants` has no
-column for them. Until both do, locations.py writes them to a file beside
-this module and they are served from memory. It is a lookup by entity key,
-the same join the official record makes (queries.official_record), and only
-r/FoodNYC has one: every other city's places come back without a location
-and the map shows the city with no pins.
+The database holds no coordinates: the loaders (restaurants.py,
+city_restaurants.py) do not read the inspection datasets' latitude and
+longitude, and their tables have no column for them. Until both do,
+locations.py writes them to a file per city beside this module and they are
+served from memory. It is a lookup by entity key, the same join the official
+record makes (queries.official_record), made within the subreddit: "Joe's
+Pizza" in Chicago is not the one on Carmine Street. A city whose file is
+missing comes back without a location and the map shows it with no pins.
 
 A name with several locations is pinned at the first, which locations.py
 orders oldest licence first: the longest-standing branch, usually the
@@ -21,11 +22,19 @@ import subreddits
 
 log = logging.getLogger("uvicorn.error")
 
-PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "nyc_locations.json")
+DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+# subreddit -> its file. New York's keeps the name it had before there were
+# other cities.
+FILES = {
+    subreddits.HOME: os.path.join(DATA, "nyc_locations.json"),
+    "FoodLosAngeles": os.path.join(DATA, "la_locations.json"),
+    "austinfood": os.path.join(DATA, "austin_locations.json"),
+    "chicagofood": os.path.join(DATA, "chicago_locations.json"),
+}
 
 
-def _load(path=PATH):
-    """The file as {key: [[lat, lng, address, borough], ...]}. A missing or
+def _load(path):
+    """One file as {key: [[lat, lng, address, borough], ...]}. A missing or
     broken file is a warning and an empty lookup: the lists work without
     pins, and the API should not fail to boot over a map."""
     try:
@@ -36,12 +45,11 @@ def _load(path=PATH):
         return {}
 
 
-_LOCATIONS = _load()
+# {subreddit: {key: rows}}, kept apart so one city's name never answers for another's.
+_LOCATIONS = {sub: _load(path) for sub, path in FILES.items()}
 
 
 def locations(sub, entity_key):
-    """Every known location of a place, the one the map pins first."""
-    if sub != subreddits.HOME:
-        return []
+    """Every known location of a place in a subreddit, the one the map pins first."""
     return [{"lat": lat, "lng": lng, "address": address or None, "borough": borough or None}
-            for lat, lng, address, borough in _LOCATIONS.get(entity_key, ())]
+            for lat, lng, address, borough in _LOCATIONS.get(sub, {}).get(entity_key, ())]

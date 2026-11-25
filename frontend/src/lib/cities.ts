@@ -1,6 +1,7 @@
-// Where each city is on the map. Only New York's places have coordinates
-// (app/geo.py), so for every other city this is all the map knows: it opens
-// centred here with no pins. Pure, so it can be tested (frontend/tests).
+// Where each city is on the map. New York, Los Angeles, Austin and Chicago
+// have coordinates for their places (app/geo.py); for any other city this is
+// all the map knows: it opens centred here with no pins. Pure, so it can be
+// tested (frontend/tests).
 
 export interface CityView {
   /** [longitude, latitude], the order MapLibre takes. */
