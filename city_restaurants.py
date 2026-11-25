@@ -117,10 +117,21 @@ def _socrata(base, select, where, order, pause=0.5):
 def _row(name, area, address, zipcode, category, date, ident=None, lat=None, lng=None):
     """One location in the shape restaurants.group_by_name reads. `ident`,
     `lat` and `lng` are for locations.py, which pins these places on the map;
-    group_by_name ignores them, so the table loaded from these rows is the same."""
+    group_by_name ignores them, so the table loaded from these rows is the same.
+    `pin_street` is the address of the row the coordinates came from, which
+    is not always the row the rest came from (see _pin)."""
     return {"dba": name, "boro": area, "building": "", "street": address, "zipcode": zipcode,
             "cuisine_description": category, "inspection_date": date,
-            "id": ident, "lat": lat, "lng": lng}
+            "id": ident, "lat": lat, "lng": lng, "pin_street": address}
+
+
+def _pin(row, lat, lng, street):
+    """Give a place the coordinates of an older inspection that has them, with
+    that inspection's street: a coordinate must not be paired with an address
+    it was not measured at. The row's own street, which the table load stores,
+    stays the newest one."""
+    if row["lat"] in (None, "") and lat not in (None, ""):
+        row.update(lat=lat, lng=lng, pin_street=street)
 
 
 # ---------------------------------------------------------------- Chicago
@@ -135,15 +146,22 @@ CHICAGO_NOT = ("school", "daycare", "grocery", "shared kitchen", "barber", "herb
 
 
 def chicago():
-    seen, out = set(), []
+    seen, out, kept = set(), [], {}
     # Newest inspection first, so the row kept for a licence is its latest:
     # that one says whether the place has since gone out of business.
     for r in _socrata(CHICAGO, "license_,dba_name,aka_name,facility_type,address,zip,inspection_date,results,latitude,longitude",
                       f"inspection_date > '{ACTIVE_SINCE}'", "inspection_date DESC, inspection_id"):
         lic = r.get("license_")
-        if not lic or lic in seen:
+        if not lic:
+            continue
+        if lic in seen:
+            # An older inspection of a kept licence, for the coordinates its
+            # newest one lacks. A licence dropped below stays dropped.
+            if kept.get(lic) is not None:
+                _pin(kept[lic], r.get("latitude"), r.get("longitude"), (r.get("address") or "").strip())
             continue
         seen.add(lic)
+        kept[lic] = None
         kind = (r.get("facility_type") or "").strip()
         low = kind.lower()
         if not any(w in low for w in CHICAGO_SERVES) or any(w in low for w in CHICAGO_NOT):
@@ -153,8 +171,9 @@ def chicago():
         # aka_name is the name on the door ("SURF'S UP"); dba_name is often the
         # company behind it ("TJM FULFILLMENT - SURF'S UP SOUTH SHORE").
         name = (r.get("aka_name") or r.get("dba_name") or "").strip()
-        out.append(_row(name, "Chicago", (r.get("address") or "").strip(), r.get("zip"), kind.title(),
-                        r.get("inspection_date"), lic, r.get("latitude"), r.get("longitude")))
+        kept[lic] = _row(name, "Chicago", (r.get("address") or "").strip(), r.get("zip"), kind.title(),
+                         r.get("inspection_date"), lic, r.get("latitude"), r.get("longitude"))
+        out.append(kept[lic])
     return out
 
 
@@ -188,14 +207,14 @@ def austin_address(raw):
 def austin():
     # Newest inspection first, so a place's row is its latest. That row can
     # lack lat and lng (the dataset geocodes some inspections and not
-    # others), so the coordinates come from the newest row that has them.
+    # others), so the coordinates, and the street they were measured at, come
+    # from the newest row that has them.
     places = {}
     for r in _socrata(AUSTIN, "facility_id,restaurant_name,address,inspection_date,lat,lng",
                       "facility_id is not null", "inspection_date DESC, facility_id"):
         fid = r.get("facility_id")
         if fid in places:
-            if places[fid]["lat"] is None and r.get("lat"):
-                places[fid].update(lat=r["lat"], lng=r.get("lng"))
+            _pin(places[fid], r.get("lat"), r.get("lng"), austin_address(r.get("address"))[0])
             continue
         street, city, zipcode = austin_address(r.get("address"))
         places[fid] = _row((r.get("restaurant_name") or "").strip(), city, street, zipcode, None,
@@ -223,11 +242,13 @@ def la_service():
     raise SystemExit(f"no '{LA_TITLE}' published by {LA_OWNER} was found on ArcGIS")
 
 
-def los_angeles():
+def los_angeles(geometry=False):
+    """`geometry` asks for each place's coordinates too: only locations.py
+    wants them, and the boot load (ensure_loaded) would throw them away."""
     layer, out, offset, size = la_service(), [], 0, 2000
     while True:
         q = urllib.parse.urlencode({
-            "f": "json", "where": "PE_DESCRIPTION LIKE 'RESTAURANT%'", "returnGeometry": "true", "outSR": 4326,
+            "f": "json", "where": "PE_DESCRIPTION LIKE 'RESTAURANT%'", "returnGeometry": str(geometry).lower(), "outSR": 4326,
             "outFields": "FACILITY_ID,FACILITY_NAME,FACILITY_ADDRESS,FACILITY_CITY,FACILITY_ZIP",
             "orderByFields": "ObjectId", "resultOffset": offset, "resultRecordCount": size})
         page = json.loads(_get(f"{layer}/query?{q}"))

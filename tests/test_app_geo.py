@@ -123,5 +123,36 @@ class Grouping(unittest.TestCase):
         self.assertEqual(list(out), ["far away"])
 
 
+class Writing(unittest.TestCase):
+    def test_the_area_is_title_case_and_the_pin_street_is_the_one_measured(self):
+        rows = [{"id": "1", "dba": "Cafe", "boro": "SANTA MONICA", "street": "2 NEW ST", "pin_street": "1 OLD ST",
+                 "lat": "34.0", "lng": "-118.5"}]
+        self.assertEqual(locations.group_by_name(rows, locations.BOXES["FoodLosAngeles"]),
+                         {"cafe": [[34.0, -118.5, "1 OLD ST", "Santa Monica"]]})
+
+    def test_a_thin_source_answer_does_not_overwrite_the_committed_file(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = os.path.join(d, "chicago.json")
+            with open(out, "w", encoding="utf-8") as f:
+                f.write('{"keep": []}')
+            thin = {"chicagofood": lambda: [{"id": "1", "dba": "A", "lat": "41.9", "lng": "-87.6"}]}
+            with mock.patch.object(locations, "FETCHERS", thin), \
+                    mock.patch.dict(geo.FILES, {"chicagofood": out}):
+                with self.assertRaises(locations.TooFew):
+                    locations.write("chicagofood", every=True)
+            with open(out, encoding="utf-8") as f:
+                self.assertEqual(f.read(), '{"keep": []}')
+
+    def test_importing_locations_does_not_load_the_other_cities_loader(self):
+        # city_restaurants is imported when a city's fetch runs, so the New York
+        # fetch and --all do not load its table code. (extract, which keys the
+        # names, imports db itself, as locations.py always has.)
+        import subprocess
+        import sys
+        code = "import sys; import locations; assert 'city_restaurants' not in sys.modules"
+        done = subprocess.run([sys.executable, "-c", code], cwd=ROOT, capture_output=True, text=True)
+        self.assertEqual(done.returncode, 0, done.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -73,11 +73,11 @@ no key; labels are drawn in Inter from the font files `@fontsource/inter`
 ships. Its colours are the `--map-*` tokens in `src/styles/tokens.css`.
 
 Coordinates come from the API (`location` on every list row, `locations` on a
-restaurant), which serves them from `app/data/nyc_locations.json`. That file
-is written by `locations.py` at the repo root from the city's public
-inspection dataset; re-run it to refresh. Only New York has one. Every other
-city opens centred on the table in `src/lib/cities.ts`, with a list and no
-pins.
+restaurant), which serves them from the per-city files in `app/data/` (`app/geo.py`
+lists them). They are written by `locations.py` at the repo root from each
+city's public inspection data; re-run it to refresh. New York, Los Angeles,
+Austin and Chicago have one. Every other city opens centred on the table in
+`src/lib/cities.ts`, with a list and no pins.
 
 ## URLs
 

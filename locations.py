@@ -41,7 +41,6 @@ import time
 import urllib.parse
 import urllib.request
 
-import city_restaurants
 import extract          # for normalize_entity, so keys match mentions.entity_key
 import subreddits
 from app import geo
@@ -113,19 +112,43 @@ def group_by_name(rows, box):
         # The sources write an ungeocoded address as 0, 0, or leave it out.
         if not key or not (south < lat < north and west < lng < east):
             continue
-        groups[key].append([round(lat, 5), round(lng, 5), " ".join((r.get("street") or "").split()),
-                            (r.get("boro") or "").strip()])
+        # The address the coordinates were measured at, and the area in title
+        # case whatever the source writes (LA's is upper case).
+        street = r.get("pin_street") if r.get("pin_street") is not None else r.get("street")
+        groups[key].append([round(lat, 5), round(lng, 5), " ".join((street or "").split()),
+                            (r.get("boro") or "").strip().title()])
     return {k: v[:MAX_LOCATIONS] for k, v in groups.items()}
 
 
-# subreddit -> its fetcher: rows of {id, dba, boro, street, lat, lng}
+def _city(fetcher, **kw):
+    """A city_restaurants fetcher, imported when it runs: that module imports
+    db (psycopg2), which the New York fetch, --all and the tests do not need."""
+    def fetch():
+        import city_restaurants
+        return getattr(city_restaurants, fetcher)(**kw)
+    return fetch
+
+
+# subreddit -> its fetcher: rows of {id, dba, boro, street, lat, lng}, with
+# pin_street where the coordinates were measured at another address than street
 FETCHERS = {
     subreddits.HOME: fetch_all,
-    "FoodLosAngeles": city_restaurants.los_angeles,
-    "austinfood": city_restaurants.austin,
-    "chicagofood": city_restaurants.chicago,
+    "FoodLosAngeles": _city("los_angeles", geometry=True),
+    "austinfood": _city("austin"),
+    "chicagofood": _city("chicago"),
 }
-assert set(FETCHERS) == set(BOXES) == set(geo.FILES)
+
+# The fewest names with coordinates a city's source can honestly give (about
+# half of what each returned in 2026-11), as city_restaurants.MIN_NAMES does
+# for the loaders: an outage that answers 200 with a few rows must not
+# overwrite the committed file with a map that has no pins.
+MIN_NAMES = {subreddits.HOME: 10000, "FoodLosAngeles": 10000, "austinfood": 2500, "chicagofood": 3000}
+MIN_ON_BOARD = 100
+
+
+class TooFew(Exception):
+    """A source or the board answered with too little to replace a city's file."""
+assert set(FETCHERS) == set(BOXES) == set(MIN_NAMES) == set(geo.FILES)
 
 
 def board_keys(subreddit):
@@ -148,10 +171,16 @@ def write(subreddit, every):
     print(f"fetching r/{subreddit}")
     groups = group_by_name(FETCHERS[subreddit](), BOXES[subreddit])
     print(f"{len(groups):,} names with coordinates")
+    if len(groups) < MIN_NAMES[subreddit]:
+        raise TooFew(f"r/{subreddit}: its source gave {len(groups):,} names with coordinates and a real "
+                     f"list has at least {MIN_NAMES[subreddit]:,}; the file was not written")
     if not every:
         keys = board_keys(subreddit)
         groups = {k: v for k, v in groups.items() if k in keys}
         print(f"{len(groups):,} of them are among the board's {len(keys):,} places")
+        if len(groups) < MIN_ON_BOARD:
+            raise TooFew(f"r/{subreddit}: only {len(groups):,} of the board's places matched, "
+                         f"fewer than {MIN_ON_BOARD}; the file was not written")
     out = geo.FILES[subreddit]
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
@@ -166,8 +195,15 @@ def main():
     ap.add_argument("--subreddit", action="append", choices=sorted(FETCHERS),
                     help="only this city (repeatable); default every city with a source")
     args = ap.parse_args()
+    failed = []
     for sub in args.subreddit or FETCHERS:
-        write(sub, args.all)
+        try:
+            write(sub, args.all)
+        except TooFew as e:
+            print(f"REFUSED: {e}")
+            failed.append(sub)
+    if failed:
+        raise SystemExit(f"not written: {', '.join(failed)}")
 
 
 if __name__ == "__main__":
