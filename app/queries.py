@@ -29,7 +29,7 @@ live ones.
 
 import time
 
-from psycopg2.errors import UndefinedColumn, UndefinedTable
+from psycopg2.errors import QueryCanceled, UndefinedColumn, UndefinedTable
 
 import refresh
 
@@ -631,8 +631,8 @@ def search(conn, sub, q, limit, fetch_all):
 
 
 def facets_version(conn, fetch_value):
-    """A cheap fingerprint of what facets() reads, so its result can be kept
-    until a refresh changes it.
+    """A cheap fingerprint of what facets() and the ledger's rankings read,
+    so a result can be kept until a refresh changes it.
 
     The newest mention the scoring layer has weighed moves on every refresh
     that brought in new evidence, and is an index lookup (mention_weights_pk)
@@ -922,46 +922,65 @@ def window_counts_sql(where, algo="v1", topic=None, group=False):
 # How long one computed ranking serves the pages of its list. Ranking a list
 # aggregates every mention of the city in the window (0.1 s to 1 s on the
 # production database), and a reader scrolling to the end asks for a page
-# every few seconds; a minute covers a scroll while keeping the counts at
-# most a minute behind the comments, which only change when the poller or an
-# extraction writes.
+# every few seconds. The key carries facets_version, so a refresh that brings
+# in new mentions starts every list afresh; the TTL bounds what that misses
+# -- a refresh that only re-resolved names, and the window sliding forward
+# with the clock -- to a minute.
 LEDGER_CACHE_TTL = 60.0
-# How many rankings one worker keeps. An entry is (key, current, previous,
-# people) per ranked place, about 140 bytes each: a filtered list is a few
-# hundred places, the largest (r/FoodNYC over a year, unfiltered) ~23,000,
-# 3.3 MB. Few combinations come near that size, so a typical worker holds a
-# few MB, and the bound caps even the worst case near 105 MB.
-LEDGER_CACHE_ENTRIES = 32
-LEDGER_CACHE = RankCache(LEDGER_CACHE_TTL, LEDGER_CACHE_ENTRIES)
+# How many rankings one worker keeps. Only lists someone has scrolled past
+# their first page are cached (ledger_page). An entry is (key, current,
+# previous, people) per ranked place, about 140 bytes each: a filtered list
+# is a few hundred places, the largest (r/FoodNYC over a year, unfiltered)
+# ~23,000, 3.3 MB. So one worker holds at most ~53 MB of them, and the two
+# web workers (Procfile) ~105 MB together, in the worst case; a typical
+# worker a few MB, since few combinations come near that size.
+LEDGER_CACHE_ENTRIES = 16
+# How long a request waits for another request's ranking of the same list
+# before giving up. It holds a pooled connection while it waits, so it gives
+# up well before the 10 s statement timeout (app/db.py) would end a query of
+# its own; a ranking normally takes under a second. It is answered as a
+# timed-out query is: 503, try again.
+LEDGER_CACHE_WAIT = 4.0
+LEDGER_CACHE = RankCache(
+    LEDGER_CACHE_TTL, LEDGER_CACHE_ENTRIES, LEDGER_CACHE_WAIT,
+    timeout_error=lambda: QueryCanceled("waited too long for another request's ranking"))
 
 
-def ledger_page(conn, sub, category, window, cuisine, borough, needs, flaws, limit, fetch_all,
-                algo="v1", topic=None, offset=0):
+def ledger_page(conn, sub, category, window, cuisine, borough, needs, flaws, limit,
+                fetch_all, fetch_value, algo="v1", topic=None, offset=0):
     """One ranked page for (category, window, filters) and the number of
-    places the whole list holds, which a page past the end reports too.
+    places the whole list holds.
 
-    The ranking comes from LEDGER_CACHE, keyed on exactly the arguments
-    ledger_ranking is called with, so nothing that changes the list can be
-    left out of the key; the page's rows are then read for its places alone.
-    Needs and flaws are sorted for the key because their order does not
+    Most lists are only ever read to their first page, so a first page is
+    answered by the ranking statement with a LIMIT, as it always was, and
+    nothing is kept. The first request past it ranks the whole list once and
+    caches it (LEDGER_CACHE), and every later page -- the first one too,
+    while the entry lasts -- is cut from that, with its rows read for its
+    places alone. Counts on a page cut from the cache can lag the comments
+    by up to LEDGER_CACHE_TTL.
+
+    The cache key is exactly the arguments ledger_ranking is called with,
+    plus facets_version, so nothing that changes the list can be left out of
+    it. Needs and flaws are sorted for the key because their order does not
     change the list.
     """
     args = (sub, category, window, cuisine, borough, tuple(sorted(needs)), tuple(sorted(flaws)),
             algo, topic)
-
-    def rank():
-        return ledger_ranking(conn, *args, fetch_all=fetch_all)
-    ranked = LEDGER_CACHE.get(args, rank)
-    page = ranked[offset:offset + limit]
-    rows = _ledger_rows(conn, sub, page, algo, fetch_all)
-    if len(rows) < len(page):
-        # A place in the cached ranking has left the board since (a refresh
-        # merged or dropped it). A short page tells the client the list has
-        # ended, so rank again rather than serve one.
-        LEDGER_CACHE.forget(args)
-        ranked = LEDGER_CACHE.get(args, rank)
-        page = ranked[offset:offset + limit]
-        rows = _ledger_rows(conn, sub, page, algo, fetch_all)
+    key = (facets_version(conn, fetch_value),) + args
+    ranked = LEDGER_CACHE.peek(key)
+    if ranked is None and offset == 0:
+        return ledger_first_page(conn, *args, fetch_all=fetch_all, limit=limit)
+    if ranked is None:
+        ranked = LEDGER_CACHE.get(key, lambda: ledger_ranking(conn, *args, fetch_all=fetch_all))
+    # A place in a cached ranking can have left the board since (a refresh
+    # that only re-resolved names merged it away). The client takes a short
+    # page for the end of the list, so a page is topped up from the places
+    # ranked after it, and is short only where the ranking runs out.
+    rows, start = [], offset
+    while len(rows) < limit and start < len(ranked):
+        chunk = ranked[start:start + limit - len(rows)]
+        rows += _ledger_rows(conn, sub, chunk, algo, fetch_all)
+        start += len(chunk)
     return rows, len(ranked)
 
 
@@ -981,12 +1000,38 @@ def _ledger_rows(conn, sub, ranked, algo, fetch_all):
             for key, current, previous, people in ranked if key in found]
 
 
+def ledger_first_page(conn, sub, category, window, cuisine, borough, needs, flaws, algo, topic,
+                      fetch_all, limit):
+    """The first `limit` rows of one list, whole, and how many places the
+    list holds: the ranking statement with a LIMIT, for a list nobody has
+    scrolled."""
+    sql, params = _ledger_statement(sub, category, window, cuisine, borough, needs, flaws,
+                                    algo, topic, limit)
+    rows = fetch_all(conn, sql, params)
+    total = rows[0]["total"] if rows else 0
+    return [{k: v for k, v in r.items() if k not in ("rank_value", "total")} for r in rows], total
+
+
 def ledger_ranking(conn, sub, category, window, cuisine, borough, needs, flaws, algo, topic,
                    fetch_all):
     """Every place on one list, ranked, as (entity_key, current, previous,
     people) tuples: the windowed counts, which are what costs to compute.
     The leaderboard columns are read per page (_ledger_rows), so a cached
-    ranking stays small.
+    ranking stays small."""
+    sql, params = _ledger_statement(sub, category, window, cuisine, borough, needs, flaws,
+                                    algo, topic)
+    # Tuples, not dicts: a fraction of the memory, and immutable, so threads
+    # reading the same cached ranking cannot change it under each other.
+    return tuple((r["entity_key"], r["current"], r["previous"], r["people"])
+                 for r in fetch_all(conn, sql, params))
+
+
+def _ledger_statement(sub, category, window, cuisine, borough, needs, flaws, algo, topic,
+                      limit=None):
+    """The one ranking statement, as (sql, params): for a whole list, or
+    with `limit` for its first page, every column and the list's size as
+    `total`. One text for both, so a first page answered directly and a page
+    cut from a cached ranking cannot rank differently.
 
     Aspect scores are the all-time shrunk scores from entity_leaderboard; only
     the counts are windowed. A week is too little evidence to score taste.
@@ -1030,10 +1075,18 @@ def ledger_ranking(conn, sub, category, window, cuisine, borough, needs, flaws, 
         ),""" if flaws else ""
     cuts_join = "cross join cuts" if flaws else ""
 
+    # A whole list returns only what a cached ranking keeps; a first page is
+    # served as it stands, so it returns every column.
+    if limit is None:
+        columns, tail = "pool.entity_key, pool.current, pool.previous, pool.people", ""
+    else:
+        columns, tail = "pool.*, count(*) over () as total", "limit %(limit)s"
+        params["limit"] = limit
+
     # mention_v2 is one row per mention_weights row, plus `person`, which the
     # v2 "top" ranking counts. Raw counts are the same under either algorithm;
     # people are only counted under v2.
-    rows = fetch_all(conn, f"""
+    sql = f"""
         with counts as ({window_counts_sql("true", algo, topic, group=True)}
         ),
         -- Over every place mentioned this window, before filters, so a borough
@@ -1053,15 +1106,13 @@ def ledger_ranking(conn, sub, category, window, cuisine, borough, needs, flaws, 
             and coalesce(l.closed, false) = false
             {extra}
         )
-        select pool.entity_key, pool.current, pool.previous, pool.people,
-               ({rank_sql})::float8 as rank_value
+        select {columns}, ({rank_sql})::float8 as rank_value
         from pool cross join median
         where {where_sql}
         order by rank_value desc, current desc, entity_key
-    """, params)
-    # Tuples, not dicts: a fraction of the memory, and immutable, so threads
-    # reading the same cached ranking cannot change it under each other.
-    return tuple((r["entity_key"], r["current"], r["previous"], r["people"]) for r in rows)
+        {tail}
+    """
+    return sql, params
 
 
 def ledger_one(conn, sub, entity_key, window, fetch_all, algo="v1", topic=None):
@@ -1071,7 +1122,9 @@ def ledger_one(conn, sub, entity_key, window, fetch_all, algo="v1", topic=None):
     have been mentioned this window -- so this starts from the leaderboard
     and left-joins the counts rather than starting from the counts. Under a
     `topic` it counts the same mentions ledger_ranking does, so a place opened
-    from search shows the numbers it has in the list.
+    from search shows the numbers it has in the list -- counted now, where a
+    list page after the first carries counts from a cached ranking up to
+    LEDGER_CACHE_TTL old, so the two can differ by what came in since.
     """
     params = {"sub": sub, "key": entity_key, "window": window}
     if topic:
@@ -1119,7 +1172,10 @@ def ledger_series(conn, sub, keys, window, bucket, fetch_all, topic=None):
     Buckets count back from now inside each window separately, so the two
     series line up bucket for bucket even when the window is not a whole
     number of weeks. Under a `topic` only the mentions ledger_ranking counts are
-    drawn, so the chart adds up to `current` and `previous`.
+    drawn, so the chart adds up to `current` and `previous` when both are
+    counted at once. On a list page after the first they are not: the series
+    is drawn now and the counts come from a cached ranking up to
+    LEDGER_CACHE_TTL old, so they can differ by what came in since.
     """
     if not keys:
         return []

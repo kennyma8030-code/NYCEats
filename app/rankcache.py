@@ -8,13 +8,19 @@ and the pages are cut from it.
 
 This is a cache of derived data, never a store of it: an entry is rebuilt
 from the database whenever it is missing or old, and losing one costs only
-the query that rebuilds it. Each uvicorn worker keeps its own.
+the query that rebuilds it. Each uvicorn worker keeps its own (the Procfile
+runs two), so two pages of one list served by different workers can come
+from rankings computed up to the TTL apart; the client already tolerates a
+list that moves while it is read (frontend/src/lib/paging.ts).
 
 Sync endpoints run in a threadpool, so the entries sit behind a lock. That
 lock is never held while a ranking is computed, or one slow list would stall
-every other request; instead each key gets its own lock for the length of
-its computation, so concurrent requests for the same list wait for the one
-query rather than each running it (a stampede on the production database).
+every other request. Instead a computation in progress is shared: the first
+request for a key runs it, and every request for the same key that arrives
+meanwhile waits for that one result -- its value or its exception -- rather
+than running the query again (a stampede on the production database). A
+waiter gives up after `wait` seconds, because it holds a pooled connection
+while it waits.
 """
 
 import threading
@@ -22,26 +28,74 @@ import time
 from collections import OrderedDict
 
 
-class RankCache:
-    """get(key, compute) returns the value cached under `key`, or calls
-    compute() once, caches what it returns for `ttl` seconds and returns
-    that. At most `max_entries` are kept; the least recently used goes
-    first, after anything expired."""
+class _Flight:
+    """One computation in progress, and what it ended with."""
 
-    def __init__(self, ttl, max_entries, clock=time.monotonic):
+    def __init__(self):
+        self.done = threading.Event()
+        self.value = None
+        self.error = None
+
+
+class RankCache:
+    """get(key, compute) returns the value cached under `key`, or the result
+    of one compute() shared by every caller that asked while it ran, cached
+    for `ttl` seconds. At most `max_entries` are kept; the least recently
+    used goes first, after anything expired. A caller that waits longer than
+    `wait` for another's computation gets timeout_error() raised instead."""
+
+    def __init__(self, ttl, max_entries, wait, timeout_error=TimeoutError, clock=time.monotonic):
         self.ttl = ttl
         self.max_entries = max_entries
+        self.wait = wait
+        self.timeout_error = timeout_error
         self.clock = clock
-        # Turned off by tests that need every request to see the database
-        # as it is now. compute() then runs on every call.
-        self.enabled = True
         self._lock = threading.Lock()
         self._entries = OrderedDict()      # key -> (computed_at, value), LRU last
-        self._computing = {}               # key -> lock held while computing it
+        self._flights = {}                 # key -> _Flight while it is computed
+
+    def get(self, key, compute):
+        with self._lock:
+            hit = self._fresh(key)
+            if hit is not None:
+                return hit[1]
+            flight = self._flights.get(key)
+            leader = flight is None
+            if leader:
+                flight = self._flights[key] = _Flight()
+        if not leader:
+            if not flight.done.wait(self.wait):
+                raise self.timeout_error()
+            if flight.error is not None:
+                raise flight.error
+            return flight.value
+        try:
+            flight.value = compute()
+        except BaseException as e:
+            flight.error = e
+            raise
+        finally:
+            # Under one lock with the store, so a request arriving after this
+            # finds either the entry or, after a failure, no flight, and then
+            # starts a computation of its own: a failure is never cached.
+            with self._lock:
+                if flight.error is None:
+                    self._entries[key] = (self.clock(), flight.value)
+                    self._entries.move_to_end(key)
+                    self._evict()
+                del self._flights[key]
+            flight.done.set()
+        return flight.value
+
+    def peek(self, key):
+        """The cached value for `key`, or None: never computes."""
+        with self._lock:
+            hit = self._fresh(key)
+            return None if hit is None else hit[1]
 
     def _fresh(self, key):
-        """The cached value for `key` if it has not expired, else None.
-        Call with self._lock held."""
+        """The (computed_at, value) cached for `key` if it has not expired,
+        else None. Call with self._lock held."""
         hit = self._entries.get(key)
         if hit is None:
             return None
@@ -51,35 +105,6 @@ class RankCache:
         self._entries.move_to_end(key)
         return hit
 
-    def get(self, key, compute):
-        if not self.enabled:
-            return compute()
-        with self._lock:
-            hit = self._fresh(key)
-            if hit is not None:
-                return hit[1]
-            key_lock = self._computing.setdefault(key, threading.Lock())
-        with key_lock:
-            # Whoever held the key lock before us may have just cached it.
-            with self._lock:
-                hit = self._fresh(key)
-                if hit is not None:
-                    return hit[1]
-            try:
-                value = compute()
-                with self._lock:
-                    self._entries[key] = (self.clock(), value)
-                    self._entries.move_to_end(key)
-                    self._evict()
-                return value
-            finally:
-                # Waiters still hold this lock object and find the entry once
-                # they get it; a request arriving later finds the entry first.
-                # If compute() raised, each waiter runs it again in turn.
-                with self._lock:
-                    if self._computing.get(key) is key_lock:
-                        del self._computing[key]
-
     def _evict(self):
         """Drop expired entries, then the least recently used beyond the
         bound. Call with self._lock held."""
@@ -88,11 +113,6 @@ class RankCache:
             del self._entries[k]
         while len(self._entries) > self.max_entries:
             self._entries.popitem(last=False)
-
-    def forget(self, key):
-        """Drop one entry, so the next get() computes it afresh."""
-        with self._lock:
-            self._entries.pop(key, None)
 
     def clear(self):
         with self._lock:

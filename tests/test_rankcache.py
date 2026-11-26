@@ -1,5 +1,5 @@
-"""The ranking cache behind the ledger's pages (app/rankcache.py), and the
-key ledger_page files each list under. No database: the queries are faked."""
+"""The ranking cache behind the ledger's pages (app/rankcache.py), and how
+ledger_page uses it. No database: the queries are faked."""
 
 import threading
 import time
@@ -22,7 +22,7 @@ class Clock:
 class Cache(unittest.TestCase):
     def setUp(self):
         self.clock = Clock()
-        self.cache = RankCache(ttl=60, max_entries=3, clock=self.clock)
+        self.cache = RankCache(ttl=60, max_entries=3, wait=5, clock=self.clock)
         self.calls = []
 
     def compute(self, value):
@@ -60,6 +60,22 @@ class Cache(unittest.TestCase):
         self.cache.get("c", self.compute("c2"))
         self.assertEqual(self.calls, ["old", "b", "c", "d"])
 
+    def test_peek_never_computes_and_clear_empties(self):
+        self.assertIsNone(self.cache.peek("a"))
+        self.cache.get("a", self.compute(1))
+        self.assertEqual(self.cache.peek("a"), 1)
+        self.clock.now += 60
+        self.assertIsNone(self.cache.peek("a"))
+        self.cache.get("b", self.compute(2))
+        self.cache.clear()
+        self.assertEqual((len(self.cache), self.calls), (0, [1, 2]))
+
+    def test_a_zero_ttl_keeps_nothing(self):
+        cache = RankCache(ttl=0, max_entries=3, wait=5)
+        cache.get("a", self.compute(1))
+        cache.get("a", self.compute(2))
+        self.assertEqual((self.calls, len(cache)), ([1, 2], 0))
+
     def test_a_failure_is_not_cached(self):
         def boom():
             raise RuntimeError("statement timeout")
@@ -67,35 +83,63 @@ class Cache(unittest.TestCase):
             self.cache.get("a", boom)
         self.assertEqual(self.cache.get("a", self.compute(1)), 1)
 
-    def test_clear_forget_and_disable(self):
-        self.cache.get("a", self.compute(1))
-        self.cache.get("b", self.compute(2))
-        self.cache.forget("a")
-        self.assertEqual(self.cache.get("a", self.compute(3)), 3)
-        self.cache.clear()
-        self.assertEqual(len(self.cache), 0)
-        self.cache.enabled = False
-        self.cache.get("c", self.compute(4))
-        self.cache.get("c", self.compute(5))
-        self.assertEqual(self.calls, [1, 2, 3, 4, 5])
-        self.assertEqual(len(self.cache), 0)
 
-    def test_concurrent_requests_for_one_list_run_its_query_once(self):
-        cache = RankCache(ttl=60, max_entries=8)
-        started, release = threading.Event(), threading.Event()
-        runs = []
+class InFlight(unittest.TestCase):
+    """Requests for a list being ranked share that one computation."""
 
-        def slow():
-            runs.append(1)
-            started.set()
-            release.wait(5)
-            return "ranked"
-        results = []
-        threads = [threading.Thread(target=lambda: results.append(cache.get("k", slow)))
-                   for _ in range(8)]
+    N = 8
+
+    def crowd(self, cache, compute, key="k"):
+        """N threads asking for `key` at once; their results or errors."""
+        out, lock = [], threading.Lock()
+
+        def ask():
+            try:
+                r = ("ok", cache.get(key, compute))
+            except Exception as e:
+                r = ("error", e)
+            with lock:
+                out.append(r)
+        threads = [threading.Thread(target=ask) for _ in range(self.N)]
         for t in threads:
             t.start()
+        return threads, out
+
+    def gate(self, then):
+        """A compute that waits for release() and then calls then(); it
+        counts its runs and how many were ever running at once."""
+        state = {"runs": 0, "active": 0, "most": 0}
+        started, release, lock = threading.Event(), threading.Event(), threading.Lock()
+
+        def compute():
+            with lock:
+                state["runs"] += 1
+                state["active"] += 1
+                state["most"] = max(state["most"], state["active"])
+            started.set()
+            try:
+                release.wait(5)
+                return then()
+            finally:
+                with lock:
+                    state["active"] -= 1
+        return compute, started, release, state
+
+    def settle(self, cache, threads, key="k"):
+        """Wait until every thread but the leader is waiting on its flight."""
+        deadline = time.monotonic() + 5
+        while time.monotonic() < deadline:
+            if all(t.is_alive() for t in threads) and key in cache._flights:
+                time.sleep(0.1)
+                return
+            time.sleep(0.01)
+
+    def test_concurrent_requests_for_one_list_run_its_query_once(self):
+        cache = RankCache(ttl=60, max_entries=8, wait=5)
+        compute, started, release, state = self.gate(lambda: "ranked")
+        threads, out = self.crowd(cache, compute)
         started.wait(5)
+        self.settle(cache, threads)
         # Another list is not held up by the one being computed.
         t0 = time.monotonic()
         self.assertEqual(cache.get("other", lambda: "other"), "other")
@@ -103,26 +147,89 @@ class Cache(unittest.TestCase):
         release.set()
         for t in threads:
             t.join(5)
-        self.assertEqual((len(runs), results), (1, ["ranked"] * 8))
+        self.assertEqual((state["runs"], out), (1, [("ok", "ranked")] * self.N))
+
+    def test_every_waiter_gets_the_one_failure_and_none_runs_it_again(self):
+        cache = RankCache(ttl=60, max_entries=8, wait=5)
+        failure = RuntimeError("canceling statement due to statement timeout")
+
+        def fail():
+            raise failure
+        compute, started, release, state = self.gate(fail)
+        threads, out = self.crowd(cache, compute)
+        started.wait(5)
+        self.settle(cache, threads)
+        release.set()
+        for t in threads:
+            t.join(5)
+        self.assertEqual(state["runs"], 1)
+        self.assertEqual(out, [("error", failure)] * self.N)
+        # A request after the failure starts a fresh computation, alone.
+        compute, started, release, state = self.gate(lambda: "ranked")
+        threads, out = self.crowd(cache, compute)
+        started.wait(5)
+        self.settle(cache, threads)
+        release.set()
+        for t in threads:
+            t.join(5)
+        self.assertEqual((state["runs"], state["most"]), (1, 1))
+        self.assertEqual(out, [("ok", "ranked")] * self.N)
+
+    def test_a_waiter_gives_up_after_its_wait(self):
+        class Busy(Exception):
+            pass
+        cache = RankCache(ttl=60, max_entries=8, wait=0.1, timeout_error=Busy)
+        compute, started, release, state = self.gate(lambda: "ranked")
+        leader = threading.Thread(target=lambda: cache.get("k", compute))
+        leader.start()
+        started.wait(5)
+        t0 = time.monotonic()
+        with self.assertRaises(Busy):
+            cache.get("k", compute)
+        self.assertLess(time.monotonic() - t0, 2)
+        release.set()
+        leader.join(5)
+        self.assertEqual((state["runs"], cache.peek("k")), (1, "ranked"))
+
+    def test_the_ledgers_waiters_time_out_as_a_query_does(self):
+        """main.py answers QueryCanceled with a 503 and Retry-After."""
+        self.assertIsInstance(queries.LEDGER_CACHE.timeout_error(), queries.QueryCanceled)
+        self.assertLess(queries.LEDGER_CACHE_WAIT, queries.LEDGER_CACHE_TTL)
 
 
-def fake_db(rank_calls):
-    """fetch_all for ledger_page: the ranking query is logged and returns
-    three places; the rows query returns leaderboard columns for whatever
-    keys it is asked for."""
-    def fetch_all(conn, sql, params=()):
+PLACES = 6
+
+
+class FakeDb:
+    """fetch_all / fetch_value for ledger_page. The whole ranking is PLACES
+    places p0..p5; a first page is the ranking statement with a LIMIT; the
+    rows query returns leaderboard columns for the keys asked for, except
+    any in `gone` (a place merged away since it was ranked)."""
+
+    def __init__(self):
+        self.version = 1
+        self.rankings, self.first_pages = [], []
+        self.gone = set()
+
+    def fetch_value(self, conn, sql, params=(), default=None):
+        assert "mention_weights" in sql
+        return self.version
+
+    def fetch_all(self, conn, sql, params=()):
         if "= any(%(keys)s)" in sql:
-            return [{"entity_key": k, "official_name": k.upper()} for k in params["keys"]]
-        rank_calls.append(params)
-        return [{"entity_key": f"p{i}", "current": 3 - i, "previous": i, "people": None}
-                for i in range(3)]
-    return fetch_all
+            return [{"entity_key": k, "official_name": k.upper()}
+                    for k in params["keys"] if k not in self.gone]
+        places = [{"entity_key": f"p{i}", "current": PLACES - i, "previous": i, "people": None,
+                   "rank_value": float(PLACES - i)} for i in range(PLACES)]
+        if "limit %(limit)s" in sql:
+            self.first_pages.append(params)
+            return [dict(p, official_name=p["entity_key"].upper(), total=PLACES)
+                    for p in places[:params["limit"]]]
+        self.rankings.append(params)
+        return places
 
 
-class LedgerKey(unittest.TestCase):
-    """Every argument that changes a list is part of its key; limit and
-    offset, which only cut a page from it, are not."""
-
+class LedgerPage(unittest.TestCase):
     BASE = dict(sub="FoodNYC", category="top", window=30, cuisine=None, borough=None,
                 needs=[], flaws=[], algo="v1", topic=None)
     VARIANTS = dict(sub="FoodLosAngeles", category="gems", window=7, cuisine="Pizza",
@@ -132,59 +239,79 @@ class LedgerKey(unittest.TestCase):
     def setUp(self):
         queries.LEDGER_CACHE.clear()
         self.addCleanup(queries.LEDGER_CACHE.clear)
-        self.rank_calls = []
-        self.fetch_all = fake_db(self.rank_calls)
+        self.db = FakeDb()
 
-    def page(self, limit=50, offset=0, **args):
+    def page(self, limit=2, offset=0, **args):
         a = dict(self.BASE, **args)
-        return queries.ledger_page(None, a["sub"], a["category"], a["window"], a["cuisine"],
-                                   a["borough"], a["needs"], a["flaws"], limit, self.fetch_all,
-                                   algo=a["algo"], topic=a["topic"], offset=offset)
+        rows, total = queries.ledger_page(
+            None, a["sub"], a["category"], a["window"], a["cuisine"], a["borough"], a["needs"],
+            a["flaws"], limit, self.db.fetch_all, self.db.fetch_value,
+            algo=a["algo"], topic=a["topic"], offset=offset)
+        return [r["entity_key"] for r in rows], total
 
-    def test_the_pages_of_one_list_share_one_ranking(self):
-        rows, total = self.page(limit=2)
-        self.assertEqual(([r["entity_key"] for r in rows], total), (["p0", "p1"], 3))
-        rows, total = self.page(limit=2, offset=2)
-        self.assertEqual(([r["entity_key"] for r in rows], total), (["p2"], 3))
-        self.assertEqual(rows[0]["official_name"], "P2")
+    def test_a_first_page_is_one_limited_query_and_caches_nothing(self):
+        self.assertEqual(self.page(), (["p0", "p1"], PLACES))
+        self.assertEqual(self.page(), (["p0", "p1"], PLACES))
+        self.assertEqual((len(self.db.first_pages), len(self.db.rankings)), (2, 0))
+        self.assertEqual(len(queries.LEDGER_CACHE), 0)
+
+    def test_scrolling_ranks_once_and_every_page_is_cut_from_it(self):
+        first = queries.ledger_page(None, "FoodNYC", "top", 30, None, None, [], [], 2,
+                                    self.db.fetch_all, self.db.fetch_value)
+        self.assertEqual(self.page(offset=2), (["p2", "p3"], PLACES))
+        self.assertEqual(len(queries.LEDGER_CACHE), 1)
+        self.assertEqual(self.page(offset=4), (["p4", "p5"], PLACES))
         # Past the end: no rows, but the real size of the list.
-        self.assertEqual(self.page(offset=10), ([], 3))
-        self.assertEqual(len(self.rank_calls), 1)
+        self.assertEqual(self.page(offset=10), ([], PLACES))
+        # With the entry there, the first page comes from it too, and has
+        # the rows the limited query gave.
+        cached = queries.ledger_page(None, "FoodNYC", "top", 30, None, None, [], [], 2,
+                                     self.db.fetch_all, self.db.fetch_value)
+        self.assertEqual(cached, first)
+        self.assertEqual((len(self.db.rankings), len(self.db.first_pages)), (1, 1))
 
     def test_every_argument_that_changes_the_list_has_its_own_entry(self):
-        self.page()
         self.assertEqual(set(self.VARIANTS), set(self.BASE),
                          "a ledger_page argument has no variant here")
+        self.page(offset=1)
         for name, value in self.VARIANTS.items():
-            before = len(self.rank_calls)
-            self.page(**{name: value})
-            self.assertEqual(len(self.rank_calls), before + 1,
+            before = len(self.db.rankings)
+            self.page(offset=1, **{name: value})
+            self.assertEqual(len(self.db.rankings), before + 1,
                              f"{name}={value!r} was served another list's ranking")
         # Each now hits its own entry, never the base one.
-        before = len(self.rank_calls)
+        before = len(self.db.rankings)
         for name, value in self.VARIANTS.items():
-            self.page(**{name: value})
+            self.page(offset=1, **{name: value})
+        self.page(offset=1)
+        self.assertEqual(len(self.db.rankings), before)
+
+    def test_a_refresh_starts_every_list_afresh(self):
+        self.page(offset=2)
+        self.db.version = 2
+        self.page(offset=2)
+        self.assertEqual(len(self.db.rankings), 2)
+        # And a first page after the next one is the limited query again.
+        self.db.version = 3
         self.page()
-        self.assertEqual(len(self.rank_calls), before)
+        self.assertEqual(len(self.db.first_pages), 1)
 
     def test_the_order_of_needs_and_flaws_does_not_split_a_list(self):
-        self.page(needs=["value", "service"], flaws=["wait", "food"])
-        self.page(needs=["service", "value"], flaws=["food", "wait"])
-        self.assertEqual(len(self.rank_calls), 1)
+        self.page(offset=1, needs=["value", "service"], flaws=["wait", "food"])
+        self.page(offset=1, needs=["service", "value"], flaws=["food", "wait"])
+        self.assertEqual(len(self.db.rankings), 1)
 
-    def test_a_place_gone_from_the_board_makes_it_rank_again(self):
-        self.page()
-        real = self.fetch_all
-
-        def board_lost_p1(conn, sql, params=()):
-            rows = real(conn, sql, params)
-            if "= any(%(keys)s)" in sql and len(self.rank_calls) == 1:
-                rows = [r for r in rows if r["entity_key"] != "p1"]
-            return rows
-        self.fetch_all = board_lost_p1
-        rows, total = self.page()
-        self.assertEqual(([r["entity_key"] for r in rows], total), (["p0", "p1", "p2"], 3))
-        self.assertEqual(len(self.rank_calls), 2)
+    def test_a_page_is_topped_up_past_places_gone_from_the_board(self):
+        self.page(offset=2)
+        self.db.gone = {"p2", "p3"}
+        # Full though both of its own places are gone: filled from after it.
+        self.assertEqual(self.page(offset=2), (["p4", "p5"], PLACES))
+        self.db.gone = {"p1"}
+        self.assertEqual(self.page(offset=0, limit=3), (["p0", "p2", "p3"], PLACES))
+        # Short only where the ranking runs out.
+        self.db.gone = {"p4"}
+        self.assertEqual(self.page(offset=3, limit=3), (["p3", "p5"], PLACES))
+        self.assertEqual(len(self.db.rankings), 1)
 
 
 if __name__ == "__main__":

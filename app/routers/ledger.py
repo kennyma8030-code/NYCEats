@@ -117,10 +117,10 @@ def ledger(
                             detail="an aspect cannot be both a need and a flaw")
 
     topic = (topic or "").strip() or None
-    # The list is ranked once and cached for a minute (queries.LEDGER_CACHE),
-    # so the pages after the first cost only their own rows.
+    # A list read past its first page is ranked once and cached for a minute
+    # (queries.LEDGER_CACHE), so the pages after it cost only their own rows.
     rows, total = queries.ledger_page(conn, sub, category, window, cuisine, borough,
-                                      needs, flaws, limit, fetch_all,
+                                      needs, flaws, limit, fetch_all, fetch_value,
                                       algo=algo, topic=topic, offset=offset)
     return Ledger(category=category, window_days=window, bucket_days=bucket, algo=algo, topic=topic,
                   cuisine=cuisine, borough=borough, needs=needs, flaws=flaws,
