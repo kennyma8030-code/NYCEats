@@ -17,6 +17,7 @@ import { useRoute } from "./hooks/useRoute";
 import { useViewport } from "./hooks/useViewport";
 import { cityView, pinBounds } from "./lib/cities";
 import { BOARD, cityLayout, mapSides } from "./lib/layout";
+import { PIN_LIMIT } from "./lib/paging";
 import { isRankable } from "./lib/rating";
 import { rowMetric } from "./lib/sorts";
 import type { MapPadding, MapPin, MapTarget } from "./map/MapView";
@@ -63,8 +64,11 @@ export default function App() {
   // ---- The open restaurant, as a list row: the list's own when it is on
   // the list, otherwise fetched alone (a searched place, a shared link). ----
   const key = inCity ? route.place : null;
-  const index = key ? ranking.items.findIndex((i) => i.entity_key === key) : -1;
-  const listed = index >= 0 ? ranking.items[index] : null;
+  // Where each place is in the list, worked out once per list: it is asked
+  // on every render, and a list read to its end is thousands of rows.
+  const places = useMemo(() => new Map(ranking.items.map((i, n) => [i.entity_key, n])), [ranking.items]);
+  const rowOf = (k: string | null | undefined) => (k != null ? ranking.items[places.get(k) ?? -1] ?? null : null);
+  const listed = rowOf(key);
   const lone = useFetch(
     key && !listed ? `${route.city}|${key}|${ranking.window}|${route.topic}` : null,
     () => api.ledgerEntity(key as string, ranking.window, route.topic),
@@ -86,7 +90,7 @@ export default function App() {
   // ---- The row the pointer is resting on, previewed beside the list. It
   // only ever highlights that row's pin: the map does not move for a hover. ----
   const { shown, hover } = useHoverPreview(inCity && !key && !view.phone);
-  const previewed = shown ? ranking.items.find((i) => i.entity_key === shown.key) ?? null : null;
+  const previewed = rowOf(shown?.key);
   // The panels' widths (lib/layout.ts). The map is padded for the panels
   // that stay put, so a preview coming and going does not shift it.
   const layout = useMemo(
@@ -108,23 +112,37 @@ export default function App() {
   }, [cities.data, route.city]);
 
   // ---- What the map shows ----
+  // The list goes on to its last place, but the map draws the best
+  // PIN_LIMIT rows of it. A row further down that the pointer rests on is
+  // drawn while it does, so every row can still be found on the map. It is
+  // handed to the map apart from the rest, so that moving the pointer down
+  // those rows puts up one pin and leaves the other five hundred alone.
+  const pointed = hot ?? previewed?.entity_key ?? null;
+  const beyond = pointed != null && (places.get(pointed) ?? -1) >= PIN_LIMIT ? rowOf(pointed) : null;
+  const pointedPin: MapPin | null = useMemo(
+    () => (inCity && beyond?.location
+      ? { key: beyond.entity_key, rank: null, name: beyond.name, lat: beyond.location.lat, lng: beyond.location.lng, label: beyond.name }
+      : null),
+    [inCity, beyond],
+  );
   const pins: MapPin[] = useMemo(() => {
     if (!inCity) {
       if (!previewTop.current || !previewTop.data) return NO_PINS;
       return previewTop.data.items.filter((i) => isRankable(i.rating)).flatMap((i, n) =>
         i.location ? [{ key: i.entity_key, rank: n + 1, name: i.name, lat: i.location.lat, lng: i.location.lng, label: `${n + 1}. ${i.name}` }] : []);
     }
-    const out: MapPin[] = ranking.items.flatMap((i, n) => {
+    const out: MapPin[] = ranking.items.slice(0, PIN_LIMIT).flatMap((i, n) => {
       if (!i.location) return [];
       const m = rowMetric(route.sort, i);
       return [{ key: i.entity_key, rank: n + 1, name: i.name, lat: i.location.lat, lng: i.location.lng, label: `${n + 1}. ${i.name}, ${m.big} ${m.small}` }];
     });
-    // A place opened from search is not on the list, but is still somewhere.
-    if (item?.location && !listed) {
+    // A place opened from search, or from further down than the map draws,
+    // has no pin of its own, but is still somewhere.
+    if (item?.location && !out.some((p) => p.key === item.entity_key)) {
       out.push({ key: item.entity_key, rank: null, name: item.name, lat: item.location.lat, lng: item.location.lng, label: item.name });
     }
     return out;
-  }, [inCity, previewTop.current, previewTop.data, ranking.items, route.sort, item, listed]);
+  }, [inCity, previewTop.current, previewTop.data, ranking.items, route.sort, item]);
 
   const dots = useMemo(
     () => (key && detail.data?.locations && detail.data.locations.length > 1 ? detail.data.locations.slice(1) : NO_DOTS),
@@ -141,12 +159,14 @@ export default function App() {
       // No coordinates (or not known yet): hold the map where it is.
       return at ? { id: `place|${route.city}|${key}`, center: [at.lng, at.lat], zoom: PLACE_ZOOM } : { id: `place|${route.city}|${key}|` };
     }
-    const placed = ranking.items.flatMap((i) => (i.location ? [i.location] : []));
+    // The first page only: pages added by scrolling put more pins on the
+    // map but do not move it from where the reader has it.
+    const placed = ranking.lead.flatMap((i) => (i.location ? [i.location] : []));
     const bounds = pinBounds(placed);
     // Named by the rows it frames, so the map refits when the list changes and not before.
-    if (bounds) return { id: `list|${route.city}|${ranking.items.map((i) => i.entity_key).join("\n")}`, bounds, maxZoom: 13.5 };
+    if (bounds) return { id: `list|${route.city}|${ranking.lead.map((i) => i.entity_key).join("\n")}`, bounds, maxZoom: 13.5 };
     return { id: `city|${route.city}`, ...cityView(route.city) };
-  }, [inCity, preview, view.phone, key, item, route.city, ranking.items]);
+  }, [inCity, preview, view.phone, key, item, route.city, ranking.lead]);
 
   const padding: MapPadding = useMemo(() => {
     if (!inCity) {
@@ -204,7 +224,7 @@ export default function App() {
       <div className="map-stage">
         <Suspense fallback={null}>
           <MapView
-            target={target} padding={padding} pins={pins} dots={dots} hot={lit} selected={key} live={inCity}
+            target={target} padding={padding} pins={pins} extra={pointedPin} dots={dots} hot={lit} selected={key} live={inCity}
             onHot={setHot} onPick={pickPin}
           />
         </Suspense>

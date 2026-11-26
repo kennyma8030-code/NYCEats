@@ -63,6 +63,9 @@ interface Props {
   /** The part of the map covered by the panel, so nothing is centred under it. */
   padding: MapPadding;
   pins: MapPin[];
+  /** One more pin, for a row the pointer is on that `pins` does not reach.
+   *  Apart from them so that it comes and goes without the rest being gone over. */
+  extra: MapPin | null;
   /** Further locations of the open place, drawn small and without a number. */
   dots: { lat: number; lng: number }[];
   hot: string | null;
@@ -79,15 +82,54 @@ interface Drawn {
   tag: HTMLSpanElement;
 }
 
+type Handlers = { current: { onHot: (key: string | null) => void; onPick: (key: string) => void } };
+
+/** Puts `p` on the map, or moves and relabels the pin it already has. */
+function drawPin(m: MapLibre, markers: Map<string, Drawn>, handlers: Handlers, p: MapPin) {
+  let d = markers.get(p.key);
+  if (!d) {
+    const el = document.createElement("button");
+    el.type = "button";
+    el.className = "pin";
+    el.innerHTML = PIN_SVG;
+    const tag = document.createElement("span");
+    tag.className = "pin-tag";
+    el.append(tag);
+    const key = p.key;
+    el.addEventListener("mouseenter", () => handlers.current.onHot(key));
+    el.addEventListener("mouseleave", () => handlers.current.onHot(null));
+    el.addEventListener("focus", () => handlers.current.onHot(key));
+    el.addEventListener("blur", () => handlers.current.onHot(null));
+    el.addEventListener("click", (e) => {
+      e.stopPropagation();
+      handlers.current.onPick(key);
+    });
+    d = { el, tag, marker: new Marker({ element: el, anchor: "bottom" }).setLngLat([p.lng, p.lat]).addTo(m) };
+    markers.set(key, d);
+  } else {
+    d.marker.setLngLat([p.lng, p.lat]);
+  }
+  d.tag.textContent = p.name;
+  d.el.setAttribute("aria-label", p.label);
+  // The best-ranked pin wins where two overlap. Never below 1: a list
+  // runs to hundreds of pins, and a negative z-index would put the rest
+  // behind the map itself. A lit pin is lifted to 500 (map.css).
+  d.el.style.zIndex = String(Math.max(1, 499 - (p.rank ?? 0)));
+}
+
 // A move inside a city is a second, like the panel's own transitions; one
 // between cities crosses a continent and gets longer to do it.
 const NEAR_MS = 1100;
 const FAR_MS = 2400;
 
-export default function MapView({ target, padding, pins, dots, hot, selected, live, onHot, onPick }: Props) {
+export default function MapView({ target, padding, pins, extra, dots, hot, selected, live, onHot, onPick }: Props) {
   const box = useRef<HTMLDivElement>(null);
   const map = useRef<MapLibre | null>(null);
   const drawn = useRef(new Map<string, Drawn>());
+  // Which keys `pins` asks for and which `extra` does, so that neither
+  // effect takes down a pin the other still wants.
+  const listed = useRef(new Set<string>());
+  const extraKey = useRef<string | null>(null);
   const minor = useRef<Marker[]>([]);
   const moved = useRef<string | null>(null);
   // The handlers the markers call: always the latest, without rebuilding a marker.
@@ -173,46 +215,34 @@ export default function MapView({ target, padding, pins, dots, hot, selected, li
     if (!document.getElementById("pin-defs")) document.body.insertAdjacentHTML("beforeend", PIN_DEFS);
     const markers = drawn.current;
     const wanted = new Set(pins.map((p) => p.key));
+    listed.current = wanted;
     for (const [key, d] of markers) {
-      if (!wanted.has(key)) {
+      if (!wanted.has(key) && key !== extraKey.current) {
         d.marker.remove();
         markers.delete(key);
       }
     }
-    for (const p of pins) {
-      let d = markers.get(p.key);
-      if (!d) {
-        const el = document.createElement("button");
-        el.type = "button";
-        el.className = "pin";
-        el.innerHTML = PIN_SVG;
-        const tag = document.createElement("span");
-        tag.className = "pin-tag";
-        el.append(tag);
-        const key = p.key;
-        el.addEventListener("mouseenter", () => handlers.current.onHot(key));
-        el.addEventListener("mouseleave", () => handlers.current.onHot(null));
-        el.addEventListener("focus", () => handlers.current.onHot(key));
-        el.addEventListener("blur", () => handlers.current.onHot(null));
-        el.addEventListener("click", (e) => {
-          e.stopPropagation();
-          handlers.current.onPick(key);
-        });
-        d = { el, tag, marker: new Marker({ element: el, anchor: "bottom" }).setLngLat([p.lng, p.lat]).addTo(m) };
-        markers.set(key, d);
-      } else {
-        d.marker.setLngLat([p.lng, p.lat]);
-      }
-      d.tag.textContent = p.name;
-      d.el.setAttribute("aria-label", p.label);
-      // The best-ranked pin wins where two overlap.
-      d.el.style.zIndex = String(100 - (p.rank ?? 0));
-    }
+    for (const p of pins) drawPin(m, markers, handlers, p);
   }, [pins]);
+
+  // The one extra pin, put up and taken down by itself.
+  useEffect(() => {
+    const m = map.current;
+    if (!m || !extra) return;
+    const markers = drawn.current;
+    extraKey.current = extra.key;
+    if (!listed.current.has(extra.key)) drawPin(m, markers, handlers, extra);
+    return () => {
+      extraKey.current = null;
+      if (listed.current.has(extra.key)) return;
+      markers.get(extra.key)?.marker.remove();
+      markers.delete(extra.key);
+    };
+  }, [extra]);
 
   useEffect(() => {
     for (const [key, d] of drawn.current) d.el.classList.toggle("on", key === hot || key === selected);
-  }, [pins, hot, selected]);
+  }, [pins, extra, hot, selected]);
 
   useEffect(() => {
     const m = map.current;

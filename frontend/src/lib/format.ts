@@ -15,9 +15,6 @@ export function ago(iso: string | null, now = Date.now()): string {
   return d < 365 * DAY ? `${MON[x.getMonth()]} ${x.getDate()}` : `${MON[x.getMonth()]} ${x.getFullYear()}`;
 }
 
-/** Change in mention count, signed: "+47", "-3", "0". */
-export const signedCount = (n: number) => `${n > 0 ? "+" : ""}${n.toLocaleString()}`;
-
 export const plural = (n: number, one: string, many: string) => `${n.toLocaleString()} ${n === 1 ? one : many}`;
 
 export function redditUrl(permalink: string | null): string | null {

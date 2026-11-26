@@ -57,13 +57,13 @@ export function wallQuotes(feed: FeedItem[], subreddit: string, limit = 24): Wal
 export function wallPlaces(id: SortId, items: LedgerItem[], limit = 8): WallCard[] {
   const s = sortOf(id);
   return items.slice(0, limit).flatMap((item) => {
-    const stat = cardStat(id, item, s.window);
+    const stat = cardStat(id, item);
     return stat ? [{ kind: "place" as const, label: s.full, text: item.name, stat }] : [];
   });
 }
 
 /** One pool, comments and places alternating for as long as both last, with
- *  the three rankings taking turns among the places. */
+ *  the rankings taking turns among the places. */
 export function wallPool(quotes: WallCard[], rankings: WallCard[][]): WallCard[] {
   const places: WallCard[] = [];
   const longest = Math.max(0, ...rankings.map((r) => r.length));

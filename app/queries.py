@@ -828,11 +828,6 @@ LEDGER_FLAW_SHARE = 0.10                                     # TUNE
 # Per-category ranking as (where_sql, rank_sql), both written against the
 # `pool` CTE in ledger_items, and both module literals -- never caller input.
 LEDGER_CATEGORIES = {
-    # Talked about more than the window before. The floor keeps one comment
-    # against zero from reading as a spike; the sqrt puts 200 -> 260 above
-    # 1 -> 3 the same way the momentum score does.
-    "trending": ("current >= greatest(3, round(%(window)s * 0.03)) and current > previous",
-                 "(current - previous) / sqrt(previous + 2.0)"),
     "top":      ("current > 0",
                  "current"),
     # Loved, but talked about no more than the median place this window.
@@ -850,8 +845,6 @@ LEDGER_CATEGORIES = {
 _FLAG_PENALTY = ("(case when flagged then (select flag_penalty from scoring_v2_params)"
                  " else 1.0 end)")
 LEDGER_CATEGORIES_V2 = {
-    "trending": (LEDGER_CATEGORIES["trending"][0],
-                 f"(current - previous) / sqrt(previous + 2.0) * {_FLAG_PENALTY}"),
     "top":      ("current > 0",
                  f"people * (1.0 + coalesce(sentiment, 0)) / 2.0 * {_FLAG_PENALTY}"),
     "gems":     (LEDGER_CATEGORIES["gems"][0] + " and not coalesce(flagged, false)",
@@ -916,16 +909,17 @@ def window_counts_sql(where, algo="v1", topic=None, group=False):
 
 
 def ledger_items(conn, sub, category, window, cuisine, borough, needs, flaws, limit, fetch_all,
-                 algo="v1", topic=None):
+                 algo="v1", topic=None, offset=0):
     """One ranked page for (category, window, filters), with the match count
-    on every row as `total`.
+    on every row as `total`. A page past the end has no row to carry it, so
+    a client paging by `offset` keeps the first page's total.
 
     Aspect scores are the all-time shrunk scores from entity_leaderboard; only
     the counts are windowed. A week is too little evidence to score taste.
     """
     where_sql, rank_sql = (LEDGER_CATEGORIES_V2 if algo == "v2" else LEDGER_CATEGORIES)[category]
     board = BOARDS[algo]
-    filters, params = [], {"sub": sub, "window": window, "limit": limit}
+    filters, params = [], {"sub": sub, "window": window, "limit": limit, "offset": offset}
     if topic:
         params["topic"] = like_pattern(topic)
     if cuisine:
@@ -992,7 +986,7 @@ def ledger_items(conn, sub, category, window, cuisine, borough, needs, flaws, li
         from pool cross join median
         where {where_sql}
         order by rank_value desc, current desc, entity_key
-        limit %(limit)s
+        limit %(limit)s offset %(offset)s
     """, params)
 
 
@@ -1191,8 +1185,11 @@ def rating_lines(conn, sub, fetch_one):
 # never caller input: ORDER BY cannot take a parameter. One value ranks each
 # board; everything else is a filter.
 RATING_BOARDS = {
-    # The busy tenth, best liked first.
-    "top":     ("er.busy",
+    # Every place anyone has stated an opinion of, best liked first. It has
+    # no floor of its own: lb is the Wilson lower bound, which already puts
+    # 1 for 1 (0.38) far below 50 of 52 (0.91), so thin evidence sinks down
+    # the list instead of being cut off it. lb is null only with no pos or neg.
+    "top":     ("er.lb is not null",
                 "er.lb desc nulls last, er.recommenders desc"),
     # Most recommended, among places liked at least as well as the median.
     "popular": ("er.rankable and er.lb >= er.share_line",
@@ -1206,7 +1203,8 @@ CATEGORY_BOARD = ("cr.rankable",
 assert set(RATING_BOARDS) == set(OVERALL_BOARDS), "RATING_BOARDS out of step with OverallBoard"
 
 
-def board_items(conn, sub, board, window, cuisine, borough, limit, offset, fetch_all, fetch_value):
+def board_items(conn, sub, board, window, cuisine, borough, limit, offset, fetch_all, fetch_value,
+                rated=False):
     """One page of a rating board in the row shape ledger_items returns, and
     the number of places the board holds (right even for a page past the
     end). The rating itself is added per page by ratings_for, like any
@@ -1214,7 +1212,11 @@ def board_items(conn, sub, board, window, cuisine, borough, limit, offset, fetch
 
     Chains and closed places are left out, as on the ledger. The rating is
     over rating_params.window_days whatever `window` is; `window` only sets
-    the mention counts (current, previous) shown beside it. They are counted
+    the mention counts (current, previous) shown beside it. `rated` keeps
+    only places with enough opinions to show a percentage, for a reader of
+    Highest rated who shows nothing else (the landing page's three): the
+    board itself holds thinner places, and one of those can sit above every
+    rated place of a small city. They are counted
     for the page alone, after ranking, so a board costs one pass over a few
     thousand cached rows and one over the page's mentions. Raises one of
     RATING_MISSING when the rating views are missing or stale; the route
@@ -1223,6 +1225,8 @@ def board_items(conn, sub, board, window, cuisine, borough, limit, offset, fetch
     params = {"sub": sub, "window": window, "limit": limit, "offset": offset}
     if board in OVERALL_BOARDS:
         where_sql, order_sql = RATING_BOARDS[board]
+        if rated:
+            where_sql += " and er.rankable"
         source = """from entity_rating er
           join entity_leaderboard l on l.subreddit = er.subreddit
                                    and l.entity_key = er.entity_key"""

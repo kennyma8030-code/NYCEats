@@ -35,10 +35,11 @@ async function get<T>(path: string, signal?: AbortSignal, city: string = current
   return (await res.json()) as T;
 }
 
-export function ledgerParams(f: Filters, limit = 50): string {
+export function ledgerParams(f: Filters, limit = 50, offset = 0): string {
   const p = new URLSearchParams({
     algo: f.algo, category: f.category, window: String(f.window), limit: String(limit),
   });
+  if (offset) p.set("offset", String(offset));
   if (f.topic) p.set("topic", f.topic);
   if (f.cuisine) p.set("cuisine", f.cuisine);
   if (f.borough) p.set("borough", f.borough);
@@ -76,20 +77,25 @@ function cached<T>(what: string, load: () => Promise<T>, city: string = currentC
 }
 
 export const api = {
-  ledger: (f: Filters, signal?: AbortSignal, limit = 50, city?: string) =>
-    get<LedgerResponse>(`/api/ledger?${ledgerParams(f, limit)}`, signal, city),
+  ledger: (f: Filters, signal?: AbortSignal, limit = 50, city?: string, offset = 0) =>
+    get<LedgerResponse>(`/api/ledger?${ledgerParams(f, limit, offset)}`, signal, city),
   /** Restaurants ranked by the rating. The window only sets the counts beside each row. */
   boards: (
     board: BoardId, window: WindowDays, cuisine: string, borough: string, signal?: AbortSignal, limit = 50, city?: string,
+    offset = 0,
   ) => {
     const p = new URLSearchParams({ board, window: String(window), limit: String(limit) });
+    if (offset) p.set("offset", String(offset));
     if (cuisine) p.set("cuisine", cuisine);
     if (borough) p.set("borough", borough);
     return calmly(get<BoardResponse>(`/api/boards?${p}`, signal, city));
   },
-  /** A city's best-liked few, for the card beside its name on the landing page. */
+  /** A city's best-liked few, for the card beside its name on the landing
+   *  page. Rated places only: the card prints a percentage for each, and the
+   *  board also holds places with too few opinions for one, which can come
+   *  first. Its total is then the number of rated places too. */
   cityTop: (city: string) =>
-    cached("top3", () => calmly(get<BoardResponse>("/api/boards?board=top&window=30&limit=3", undefined, city)), city),
+    cached("top3", () => calmly(get<BoardResponse>("/api/boards?board=top&rated=true&window=30&limit=3", undefined, city)), city),
   /** The comments behind one count of a rating. */
   voices: (
     entityKey: string, voice: Voice | CategoryVoice, category: RatingCategory | null, sort: CommentSort, offset: number,

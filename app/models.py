@@ -470,7 +470,7 @@ class JobAccepted(BaseModel):
     detail: Optional[str] = None
 
 
-LedgerCategory = Literal["trending", "top", "gems"]
+LedgerCategory = Literal["top", "gems"]
 LedgerWindow = Literal[7, 14, 30, 90, 180, 365]
 LedgerNeed = Literal["value", "atmosphere", "service", "wait"]
 # The aspect a place does badly on. Food is included here though not in
@@ -564,7 +564,11 @@ class Ledger(BaseModel):
     borough: Optional[str] = None
     needs: list[str] = Field(default_factory=list)
     flaws: list[str] = Field(default_factory=list)
+    # The number of places that match, on any page that has a row; 0 on a
+    # page past the end.
     total: int
+    limit: int = 50
+    offset: int = 0
     items: list[LedgerItem]
 
 

@@ -66,10 +66,16 @@ def display_name(official, entity_key):
     return string.capwords(official.lower()) if official.isupper() else official
 
 
+# A list is read to its last place a page at a time, and the longest one (a
+# big city's rated places) runs past ten thousand rows. The cap only refuses
+# an offset nobody could have scrolled to.
+MAX_OFFSET = 100_000
+
+
 @router.get("/api/ledger", response_model=Ledger, summary="Ranked over a window")
 def ledger(
     sub: Sub,
-    category: LedgerCategory = "trending",
+    category: LedgerCategory = "top",
     window: Annotated[int, Query(description="Days: 7, 14, 30, 90, 180 or 365")] = 7,
     cuisine: Annotated[Optional[str], Query(max_length=100)] = None,
     borough: Annotated[Optional[str], Query(max_length=40)] = None,
@@ -86,12 +92,11 @@ def ledger(
         "negatives count double, flagged places rank at half, gems excludes "
         "flagged places"))] = "v1",
     limit: Annotated[int, Query(ge=1, le=100)] = 50,
+    offset: Annotated[int, Query(ge=0, le=MAX_OFFSET)] = 0,
     conn=Depends(get_conn),
 ):
     """Restaurants ranked for one category over the last `window` days.
 
-    * **trending** -- more mentions than the window before, ranked by how far
-      above it they are relative to its size.
     * **top** -- most mentions in the window.
     * **gems** -- well liked, but mentioned no more than the median place.
 
@@ -114,10 +119,10 @@ def ledger(
     topic = (topic or "").strip() or None
     rows = queries.ledger_items(conn, sub, category, window, cuisine, borough,
                                 needs, flaws, limit, fetch_all,
-                                algo=algo, topic=topic)
+                                algo=algo, topic=topic, offset=offset)
     return Ledger(category=category, window_days=window, bucket_days=bucket, algo=algo, topic=topic,
                   cuisine=cuisine, borough=borough, needs=needs, flaws=flaws,
-                  total=rows[0]["total"] if rows else 0,
+                  total=rows[0]["total"] if rows else 0, limit=limit, offset=offset,
                   items=_build_items(conn, sub, rows, window, bucket, topic))
 
 
@@ -189,7 +194,7 @@ def names(
 def boards(
     sub: Sub,
     board: Annotated[RatingBoard, Query(description=(
-        "top: busy places by lb. popular: by recommenders, among places with "
+        "top (Highest rated): every place with a stated opinion, by lb. popular: by recommenders, among places with "
         "lb at or above the median. gems: hidden gems by lb. taste, value, "
         "service, atmosphere, wait: by that category's lb"))] = "top",
     window: Annotated[int, Query(description=(
@@ -197,8 +202,11 @@ def boards(
         "The ranking itself is over the rating's own window"))] = 30,
     cuisine: Annotated[Optional[str], Query(max_length=100)] = None,
     borough: Annotated[Optional[str], Query(max_length=40)] = None,
+    rated: Annotated[bool, Query(description=(
+        "Only places with enough opinions to show a percentage (rating.rankable). "
+        "`total` then counts those alone"))] = False,
     limit: Annotated[int, Query(ge=1, le=100)] = 50,
-    offset: Annotated[int, Query(ge=0, le=10_000)] = 0,
+    offset: Annotated[int, Query(ge=0, le=MAX_OFFSET)] = 0,
     conn=Depends(get_conn),
 ):
     """Restaurants ranked by one value of the rating (scoring.sql, section 8).
@@ -218,7 +226,7 @@ def boards(
         # Every rating read inside the guard, the page's ratings included, so
         # a view that vanishes mid-request is a 503, never a board of nulls.
         rows, total = queries.board_items(conn, sub, board, window, cuisine, borough,
-                                          limit, offset, fetch_all, fetch_value)
+                                          limit, offset, fetch_all, fetch_value, rated=rated)
         ratings = queries.ratings_for(conn, sub, [r["entity_key"] for r in rows],
                                       fetch_all, fetch_value, strict=True)
         return rows, total, queries.rating_lines(conn, sub, fetch_one), ratings

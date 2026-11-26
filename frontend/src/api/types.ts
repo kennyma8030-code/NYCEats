@@ -1,5 +1,5 @@
 export type AspectKey = "food" | "value" | "service" | "atmosphere" | "wait";
-export type Category = "trending" | "top" | "gems";
+export type Category = "top" | "gems";
 export type WindowDays = 7 | 14 | 30 | 90 | 180 | 365;
 export type Need = "value" | "atmosphere" | "service" | "wait";
 /** An aspect a place does badly on: the bottom tenth of scored places. */
