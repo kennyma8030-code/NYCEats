@@ -13,7 +13,7 @@ export interface Filters {
   flaws: Flaw[];
 }
 
-const CATEGORIES: Category[] = ["trending", "top", "gems"];
+const CATEGORIES: Category[] = ["top", "gems"];
 
 /** `long` completes "the last ...": the last 7 days, the last month. */
 export const WINDOWS: { d: WindowDays; short: string; long: string }[] = [
@@ -43,7 +43,7 @@ export const FLAWS: { k: Flaw; label: string }[] = [
 ];
 
 export const DEFAULT_FILTERS: Filters = {
-  algo: "v1", topic: "", category: "trending", window: 7, cuisine: "", borough: "", needs: [], flaws: [],
+  algo: "v1", topic: "", category: "top", window: 7, cuisine: "", borough: "", needs: [], flaws: [],
 };
 
 export const windowOf = (d: WindowDays) => WINDOWS.find((w) => w.d === d) ?? WINDOWS[0];

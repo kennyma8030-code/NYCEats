@@ -470,7 +470,7 @@ class JobAccepted(BaseModel):
     detail: Optional[str] = None
 
 
-LedgerCategory = Literal["trending", "top", "gems"]
+LedgerCategory = Literal["top", "gems"]
 LedgerWindow = Literal[7, 14, 30, 90, 180, 365]
 LedgerNeed = Literal["value", "atmosphere", "service", "wait"]
 # The aspect a place does badly on. Food is included here though not in

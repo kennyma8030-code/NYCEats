@@ -19,21 +19,18 @@ const comment = (over: Partial<FeedItem>): FeedItem => ({
 test("a row shows the one number its list is ranked by", () => {
   assert.deepEqual(rowMetric("loved", item({})), { big: "100%", small: "53 people" });
   assert.deepEqual(rowMetric("talked", item({})), { big: "12", small: "mentions" });
-  assert.deepEqual(rowMetric("trending", item({})), { big: "+11", small: "12 vs 1 mention" });
   assert.deepEqual(rowMetric("gems", item({ rating: null })), { big: "–", small: "" });
 });
 
 test("a card says the same number as a phrase", () => {
-  assert.equal(cardStat("loved", item({}), 365), "100% positive, 53 people");
-  assert.equal(cardStat("talked", item({ current: 1516 }), 365), "1,516 mentions");
-  assert.equal(cardStat("trending", item({}), 7), "+11 mentions this week");
-  assert.equal(cardStat("loved", item({ rating: null }), 365), "");
+  assert.equal(cardStat("loved", item({})), "100% positive, 53 people");
+  assert.equal(cardStat("talked", item({ current: 1516 })), "1,516 mentions");
+  assert.equal(cardStat("loved", item({ rating: null })), "");
 });
 
 test("the note under the sort names the period it counts", () => {
   assert.equal(sortNote("talked", 365, null), "Most mentions over the last 12 months.");
-  assert.equal(sortNote("trending", 7, null), "Talked about more this week than the week before.");
-  assert.equal(sortNote("trending", 30, null), "Talked about more in the last month than the month before.");
+  assert.equal(sortNote("talked", 30, null), "Most mentions over the last month.");
 });
 
 test("only a comment that reads as one line becomes a card", () => {

@@ -75,7 +75,7 @@ MAX_OFFSET = 100_000
 @router.get("/api/ledger", response_model=Ledger, summary="Ranked over a window")
 def ledger(
     sub: Sub,
-    category: LedgerCategory = "trending",
+    category: LedgerCategory = "top",
     window: Annotated[int, Query(description="Days: 7, 14, 30, 90, 180 or 365")] = 7,
     cuisine: Annotated[Optional[str], Query(max_length=100)] = None,
     borough: Annotated[Optional[str], Query(max_length=40)] = None,
@@ -97,8 +97,6 @@ def ledger(
 ):
     """Restaurants ranked for one category over the last `window` days.
 
-    * **trending** -- more mentions than the window before, ranked by how far
-      above it they are relative to its size.
     * **top** -- most mentions in the window.
     * **gems** -- well liked, but mentioned no more than the median place.
 

@@ -828,11 +828,6 @@ LEDGER_FLAW_SHARE = 0.10                                     # TUNE
 # Per-category ranking as (where_sql, rank_sql), both written against the
 # `pool` CTE in ledger_items, and both module literals -- never caller input.
 LEDGER_CATEGORIES = {
-    # Talked about more than the window before. The floor keeps one comment
-    # against zero from reading as a spike; the sqrt puts 200 -> 260 above
-    # 1 -> 3 the same way the momentum score does.
-    "trending": ("current >= greatest(3, round(%(window)s * 0.03)) and current > previous",
-                 "(current - previous) / sqrt(previous + 2.0)"),
     "top":      ("current > 0",
                  "current"),
     # Loved, but talked about no more than the median place this window.
@@ -850,8 +845,6 @@ LEDGER_CATEGORIES = {
 _FLAG_PENALTY = ("(case when flagged then (select flag_penalty from scoring_v2_params)"
                  " else 1.0 end)")
 LEDGER_CATEGORIES_V2 = {
-    "trending": (LEDGER_CATEGORIES["trending"][0],
-                 f"(current - previous) / sqrt(previous + 2.0) * {_FLAG_PENALTY}"),
     "top":      ("current > 0",
                  f"people * (1.0 + coalesce(sentiment, 0)) / 2.0 * {_FLAG_PENALTY}"),
     "gems":     (LEDGER_CATEGORIES["gems"][0] + " and not coalesce(flagged, false)",

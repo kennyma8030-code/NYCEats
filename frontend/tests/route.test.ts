@@ -16,7 +16,7 @@ test("a bare link is the landing page, and a city link names its subreddit", () 
 
 test("a route survives the URL", () => {
   const r: Route = {
-    ...nyc, city: "FoodLosAngeles", sort: "trending", window: 30, topic: "birria tacos", cuisine: "Mexican",
+    ...nyc, city: "FoodLosAngeles", sort: "talked", window: 30, topic: "birria tacos", cuisine: "Mexican",
     borough: "Los Angeles", needs: ["value"], flaws: ["wait"], place: "sonoratown", dev: true,
   };
   assert.deepEqual(parseRoute(formatRoute(r)), r);
@@ -27,6 +27,9 @@ test("links from the old interface still open New York", () => {
   assert.equal(parseRoute("?category=top&window=30").sort, "talked");
   assert.equal(parseRoute("?category=top&window=30").window, 30);
   assert.equal(parseRoute("?view=boards&board=gems").sort, "gems");
+  // Trending is gone; a link to it opens the city on its usual list.
+  assert.equal(parseRoute("?category=trending").sort, "loved");
+  assert.equal(parseRoute("?subreddit=FoodNYC&sort=trending").sort, "loved");
   // A topic with no sort named lands on a list that can apply it.
   assert.equal(parseRoute("?topic=omakase").sort, "talked");
   assert.equal(parseRoute("?topic=omakase").topic, "omakase");
@@ -37,7 +40,7 @@ test("a topic or a quality moves a rating board to a list that can filter by it"
   assert.equal(topic.sort, "talked");
   assert.equal(topic.topic, "omakase");
   assert.equal(applyPatch(nyc, { needs: ["value"] }).sort, "talked");
-  assert.equal(applyPatch({ ...nyc, sort: "trending" }, { flaws: ["wait"] }).sort, "trending");
+  assert.equal(applyPatch({ ...nyc, sort: "talked" }, { flaws: ["wait"] }).sort, "talked");
   // Cuisine and area filter every list, so the sort stays.
   assert.equal(applyPatch(nyc, { cuisine: "Thai" }).sort, "loved");
 });
@@ -64,7 +67,7 @@ test("another city starts clean, and going home forgets the city", () => {
 });
 
 test("the ledger is asked for exactly what the route says", () => {
-  const f = ledgerFilters({ ...nyc, sort: "trending", topic: "ramen", borough: "Queens" }, 7);
-  assert.deepEqual(f, { algo: "v1", topic: "ramen", category: "trending", window: 7, cuisine: "", borough: "Queens", needs: [], flaws: [] });
+  const f = ledgerFilters({ ...nyc, sort: "talked", topic: "ramen", borough: "Queens" }, 7);
+  assert.deepEqual(f, { algo: "v1", topic: "ramen", category: "top", window: 7, cuisine: "", borough: "Queens", needs: [], flaws: [] });
   assert.equal(ledgerFilters({ ...nyc, sort: "talked" }, 365).category, "top");
 });

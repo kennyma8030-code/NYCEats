@@ -18,6 +18,14 @@ class LedgerEcho(AppCase):
         self.assertEqual((r["cuisine"], r["borough"], r["needs"], r["flaws"], r["topic"]),
                          (None, None, [], [], None))
 
+    def test_trending_is_refused_like_any_unknown_category(self):
+        """Trending was removed; asking for it gets the answer a made-up
+        category gets, and no category at all means the most mentioned."""
+        gone = self.client.get("/api/ledger?category=trending")
+        made_up = self.client.get("/api/ledger?category=nonsense")
+        self.assertEqual((gone.status_code, made_up.status_code), (422, 422))
+        self.assertEqual(self.client.get("/api/ledger").json()["category"], "top")
+
     def test_a_list_is_read_a_page_at_a_time(self):
         """Pages by offset never overlap and add up to the whole list, so the
         frontend can scroll to its last place."""

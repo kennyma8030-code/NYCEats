@@ -5,10 +5,10 @@ import type { Flaw, Need, WindowDays } from "../api/types";
 import { HOME } from "./city.ts";
 import { FLAWS, NEEDS, filtersFromQuery, isWindow, type Filters } from "./filters.ts";
 
-/** The four rankings. Each is one axis; there is no combined score.
- *  loved and gems are rating boards (/api/boards), talked and trending are
- *  counts over a period (/api/ledger). */
-export type SortId = "loved" | "talked" | "trending" | "gems";
+/** The three rankings. Each is one axis; there is no combined score.
+ *  loved and gems are rating boards (/api/boards), talked is a count over a
+ *  period (/api/ledger). */
+export type SortId = "loved" | "talked" | "gems";
 
 export interface Route {
   /** home is the landing page and the list of cities; city is the map. */
@@ -29,13 +29,13 @@ export interface Route {
   dev: boolean;
 }
 
-export const SORT_IDS: SortId[] = ["loved", "talked", "trending", "gems"];
+export const SORT_IDS: SortId[] = ["loved", "talked", "gems"];
 export const DEFAULT_SORT: SortId = "loved";
 
 /** Whether the ledger answers this sort, and so whether a topic, a "good
  *  for" or a complaint can filter it. The rating boards take only a cuisine
  *  and an area. */
-export const isLedgerSort = (s: SortId) => s === "talked" || s === "trending";
+export const isLedgerSort = (s: SortId) => s === "talked";
 
 export const HOME_ROUTE: Route = {
   screen: "home", city: HOME, sort: DEFAULT_SORT, window: null, topic: "", cuisine: "", borough: "",
@@ -43,11 +43,12 @@ export const HOME_ROUTE: Route = {
 };
 
 // Links from the old interface: ?category= named a ledger list and
-// ?view=boards&board= a rating board.
+// ?view=boards&board= a rating board. A link to Trending, which is gone,
+// names no list and opens the city on its usual one.
 function legacySort(p: URLSearchParams): SortId | null {
   if (p.get("view") === "boards") return p.get("board") === "gems" ? "gems" : "loved";
   const c = p.get("category");
-  return c === "trending" ? "trending" : c === "top" ? "talked" : c === "gems" ? "gems" : null;
+  return c === "top" ? "talked" : c === "gems" ? "gems" : null;
 }
 
 // Any of these in a link means a city is open. A bare URL is the landing page.
@@ -123,8 +124,7 @@ export function applyPatch(r: Route, patch: Partial<Route>): Route {
   if (patch.needs) next = { ...next, flaws: next.flaws.filter((x) => !(patch.needs as string[]).includes(x)) };
   else if (patch.flaws) next = { ...next, needs: next.needs.filter((x) => !(patch.flaws as string[]).includes(x)) };
   next = { ...next, topic: next.topic.trim() };
-  // A new sort has its own usual period; one chosen for the last sort would
-  // be a week of "most talked about" or a year of "trending".
+  // A new sort has its own usual period, not the one chosen for the last.
   if (patch.sort != null && patch.sort !== r.sort && patch.window === undefined) next = { ...next, window: null };
   return settle(next, patch.sort ?? null);
 }
@@ -137,7 +137,7 @@ export const filterCount = (r: Route) =>
 /** The ledger's own filter object for a ledger sort over `window`. */
 export function ledgerFilters(r: Route, window: WindowDays): Filters {
   return {
-    algo: "v1", topic: r.topic, category: r.sort === "trending" ? "trending" : "top", window,
+    algo: "v1", topic: r.topic, category: "top", window,
     cuisine: r.cuisine, borough: r.borough, needs: r.needs, flaws: r.flaws,
   };
 }

@@ -166,7 +166,7 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
             )}
             {chip("needs", "Good for", several(route.needs, "Good for", needLabel))}
             {menu === "needs" && (
-              <Menu inline label="Good for" note={ledger ? null : "Filters Talked about and Trending, so choosing one switches to Talked about."}>
+              <Menu inline label="Good for" note={ledger ? null : "Filters Talked about, so choosing one switches to it."}>
                 {NEEDS.map((n) => (
                   <Choice key={n.k} many on={route.needs.includes(n.k)} onClick={() => go({ needs: toggle<Need>(route.needs, n.k) })}>
                     {n.label}
@@ -232,13 +232,11 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
         </div>
       ) : current && !loading && items.length === 0 ? (
         <div className="board-msg">
-          <p>{active ? "Nothing matches these filters." : route.sort === "trending" ? "Nothing is being talked about more than usual." : "Nothing to rank here yet."}</p>
-          {active > 0 ? (
+          <p>{active ? "Nothing matches these filters." : "Nothing to rank here yet."}</p>
+          {active > 0 && (
             <button type="button" className="pill" onClick={() => go({ topic: "", cuisine: "", borough: "", needs: [], flaws: [] })}>
               Clear filters
             </button>
-          ) : route.sort === "trending" && (
-            <p className="board-msg-sub">Try a longer period, above.</p>
           )}
         </div>
       ) : (
