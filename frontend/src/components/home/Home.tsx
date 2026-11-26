@@ -318,7 +318,7 @@ export function Home({ cities, citiesError, active, top, onActive, onOpen, onPla
         {city && (
           <div className="city-card pop" key={city.subreddit}>
             <div>
-              <p className="eyebrow">Most loved right now</p>
+              <p className="eyebrow">Highest rated right now</p>
               <p className="city-card-sub">
                 r/{city.subreddit}
                 {top.current && top.data ? `, ${top.data.total.toLocaleString()} places ranked` : ""}

@@ -18,11 +18,13 @@ export interface SortDef {
   window: WindowDays;
 }
 
-// "Most loved" is the rating's Top board: the busiest places ranked by how
-// sure we are they are liked. The window of a board only sets the mention
-// counts shown in a restaurant's numbers, never the ranking.
+// "Highest rated" is the rating's Top board: every place with a stated
+// opinion, ranked by how sure we are it is liked. Its id stays `loved`, the
+// name it had as "Most loved", because the id is the `sort` in shared URLs.
+// The window of a board only sets the mention counts shown in a
+// restaurant's numbers, never the ranking.
 export const SORTS: SortDef[] = [
-  { id: "loved", label: "Most loved", full: "Most loved", board: "top", window: 365 },
+  { id: "loved", label: "Highest rated", full: "Highest rated", board: "top", window: 365 },
   { id: "talked", label: "Talked about", full: "Most talked about", board: null, window: 365 },
   { id: "trending", label: "Trending", full: "Trending", board: null, window: 7 },
   { id: "gems", label: "Hidden gems", full: "Hidden gem", board: "gems", window: 365 },

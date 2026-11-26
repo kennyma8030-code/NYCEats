@@ -66,6 +66,12 @@ def display_name(official, entity_key):
     return string.capwords(official.lower()) if official.isupper() else official
 
 
+# A list is read to its last place a page at a time, and the longest one (a
+# big city's rated places) runs past ten thousand rows. The cap only refuses
+# an offset nobody could have scrolled to.
+MAX_OFFSET = 100_000
+
+
 @router.get("/api/ledger", response_model=Ledger, summary="Ranked over a window")
 def ledger(
     sub: Sub,
@@ -86,6 +92,7 @@ def ledger(
         "negatives count double, flagged places rank at half, gems excludes "
         "flagged places"))] = "v1",
     limit: Annotated[int, Query(ge=1, le=100)] = 50,
+    offset: Annotated[int, Query(ge=0, le=MAX_OFFSET)] = 0,
     conn=Depends(get_conn),
 ):
     """Restaurants ranked for one category over the last `window` days.
@@ -114,10 +121,10 @@ def ledger(
     topic = (topic or "").strip() or None
     rows = queries.ledger_items(conn, sub, category, window, cuisine, borough,
                                 needs, flaws, limit, fetch_all,
-                                algo=algo, topic=topic)
+                                algo=algo, topic=topic, offset=offset)
     return Ledger(category=category, window_days=window, bucket_days=bucket, algo=algo, topic=topic,
                   cuisine=cuisine, borough=borough, needs=needs, flaws=flaws,
-                  total=rows[0]["total"] if rows else 0,
+                  total=rows[0]["total"] if rows else 0, limit=limit, offset=offset,
                   items=_build_items(conn, sub, rows, window, bucket, topic))
 
 
@@ -189,7 +196,7 @@ def names(
 def boards(
     sub: Sub,
     board: Annotated[RatingBoard, Query(description=(
-        "top: busy places by lb. popular: by recommenders, among places with "
+        "top (Highest rated): every place with a stated opinion, by lb. popular: by recommenders, among places with "
         "lb at or above the median. gems: hidden gems by lb. taste, value, "
         "service, atmosphere, wait: by that category's lb"))] = "top",
     window: Annotated[int, Query(description=(
@@ -198,7 +205,7 @@ def boards(
     cuisine: Annotated[Optional[str], Query(max_length=100)] = None,
     borough: Annotated[Optional[str], Query(max_length=40)] = None,
     limit: Annotated[int, Query(ge=1, le=100)] = 50,
-    offset: Annotated[int, Query(ge=0, le=10_000)] = 0,
+    offset: Annotated[int, Query(ge=0, le=MAX_OFFSET)] = 0,
     conn=Depends(get_conn),
 ):
     """Restaurants ranked by one value of the rating (scoring.sql, section 8).

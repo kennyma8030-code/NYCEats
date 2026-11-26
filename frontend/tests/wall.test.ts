@@ -65,7 +65,7 @@ test("comments and places alternate, and the rankings take turns", () => {
   const talked = wallPlaces("talked", [item({ name: "Katz's" })]);
   const pool = wallPool([q("a"), q("b"), q("c"), q("d")], [loved, talked]);
   assert.deepEqual(pool.map((c) => c.text), ["a", "Raku", "b", "Katz's", "c", "Jua", "d"]);
-  assert.equal(loved[0].kind === "place" && loved[0].label, "Most loved");
+  assert.equal(loved[0].kind === "place" && loved[0].label, "Highest rated");
 });
 
 test("columns loop without a jump and do not move in step", () => {

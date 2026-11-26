@@ -205,8 +205,10 @@ export default function MapView({ target, padding, pins, dots, hot, selected, li
       }
       d.tag.textContent = p.name;
       d.el.setAttribute("aria-label", p.label);
-      // The best-ranked pin wins where two overlap.
-      d.el.style.zIndex = String(100 - (p.rank ?? 0));
+      // The best-ranked pin wins where two overlap. Never below 1: a list
+      // runs to hundreds of pins, and a negative z-index would put the rest
+      // behind the map itself. A lit pin is lifted to 500 (map.css).
+      d.el.style.zIndex = String(Math.max(1, 499 - (p.rank ?? 0)));
     }
   }, [pins]);
 

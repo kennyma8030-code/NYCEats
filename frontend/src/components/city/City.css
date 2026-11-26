@@ -167,8 +167,10 @@
 .row-num b { font-family: var(--display); font-weight: 800; font-size: 24px; line-height: 1; letter-spacing: -.02em; color: var(--accent) }
 .row-num small { font-size: 12px; font-weight: 600; color: var(--muted) }
 .row-skel { flex-shrink: 0; height: 70px; border-radius: 16px }
-.rows-foot { padding: 6px 6px 0; font-size: 13px; font-weight: 500; color: var(--muted) }
-.rows-foot:empty { display: none }
+.rows-foot { position: relative; padding: 6px 6px 0; font-size: 13px; font-weight: 500; color: var(--muted) }
+/* What the list watches to load its next page: it reaches a few screens up
+   from the foot, so the page is asked for before the reader gets there. */
+.rows-mark { position: absolute; left: 0; bottom: 0; width: 1px; height: 1400px; max-height: 60vh; pointer-events: none }
 
 /* Beside an open restaurant: what was ranked, then rank and name only. */
 .board.compact .board-head { padding: 18px 16px 14px; gap: 4px }

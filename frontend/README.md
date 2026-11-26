@@ -82,7 +82,9 @@ pins.
 ## URLs
 
 A bare URL is the landing page. A city is `?subreddit=FoodNYC`, plus `sort`
-(`loved`, `talked`, `trending`, `gems`), `window`, `topic`, `cuisine`,
+(`loved`, `talked`, `trending`, `gems`; `loved` is the list shown as
+"Highest rated", and keeps the id it had as "Most loved" so old links still
+open it), `window`, `topic`, `cuisine`,
 `borough`, `need`, `flaw` and `r` for an open restaurant
 (`src/state/route.ts`). `dev=1` adds the per-comment "Extraction" link.
 

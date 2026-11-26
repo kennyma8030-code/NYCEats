@@ -17,6 +17,7 @@ import { useRoute } from "./hooks/useRoute";
 import { useViewport } from "./hooks/useViewport";
 import { cityView, pinBounds } from "./lib/cities";
 import { BOARD, cityLayout, mapSides } from "./lib/layout";
+import { PIN_LIMIT } from "./lib/paging";
 import { isRankable } from "./lib/rating";
 import { rowMetric } from "./lib/sorts";
 import type { MapPadding, MapPin, MapTarget } from "./map/MapView";
@@ -108,23 +109,32 @@ export default function App() {
   }, [cities.data, route.city]);
 
   // ---- What the map shows ----
+  // The list goes on to its last place, but the map draws the best
+  // PIN_LIMIT rows of it. A row further down that the pointer rests on is
+  // drawn while it does, so every row can still be found on the map.
+  const pointed = hot ?? previewed?.entity_key ?? null;
+  const pointedAt = pointed ? ranking.items.findIndex((i) => i.entity_key === pointed) : -1;
+  const beyond = pointedAt >= PIN_LIMIT ? ranking.items[pointedAt] : null;
   const pins: MapPin[] = useMemo(() => {
     if (!inCity) {
       if (!previewTop.current || !previewTop.data) return NO_PINS;
       return previewTop.data.items.filter((i) => isRankable(i.rating)).flatMap((i, n) =>
         i.location ? [{ key: i.entity_key, rank: n + 1, name: i.name, lat: i.location.lat, lng: i.location.lng, label: `${n + 1}. ${i.name}` }] : []);
     }
-    const out: MapPin[] = ranking.items.flatMap((i, n) => {
+    const out: MapPin[] = ranking.items.slice(0, PIN_LIMIT).flatMap((i, n) => {
       if (!i.location) return [];
       const m = rowMetric(route.sort, i);
       return [{ key: i.entity_key, rank: n + 1, name: i.name, lat: i.location.lat, lng: i.location.lng, label: `${n + 1}. ${i.name}, ${m.big} ${m.small}` }];
     });
-    // A place opened from search is not on the list, but is still somewhere.
-    if (item?.location && !listed) {
-      out.push({ key: item.entity_key, rank: null, name: item.name, lat: item.location.lat, lng: item.location.lng, label: item.name });
+    // A place opened from search, or from further down than the map draws,
+    // has no pin of its own, but is still somewhere.
+    for (const i of [item, beyond]) {
+      if (i?.location && !out.some((p) => p.key === i.entity_key)) {
+        out.push({ key: i.entity_key, rank: null, name: i.name, lat: i.location.lat, lng: i.location.lng, label: i.name });
+      }
     }
     return out;
-  }, [inCity, previewTop.current, previewTop.data, ranking.items, route.sort, item, listed]);
+  }, [inCity, previewTop.current, previewTop.data, ranking.items, route.sort, item, beyond]);
 
   const dots = useMemo(
     () => (key && detail.data?.locations && detail.data.locations.length > 1 ? detail.data.locations.slice(1) : NO_DOTS),
@@ -141,12 +151,14 @@ export default function App() {
       // No coordinates (or not known yet): hold the map where it is.
       return at ? { id: `place|${route.city}|${key}`, center: [at.lng, at.lat], zoom: PLACE_ZOOM } : { id: `place|${route.city}|${key}|` };
     }
-    const placed = ranking.items.flatMap((i) => (i.location ? [i.location] : []));
+    // The first page only: pages added by scrolling put more pins on the
+    // map but do not move it from where the reader has it.
+    const placed = ranking.lead.flatMap((i) => (i.location ? [i.location] : []));
     const bounds = pinBounds(placed);
     // Named by the rows it frames, so the map refits when the list changes and not before.
-    if (bounds) return { id: `list|${route.city}|${ranking.items.map((i) => i.entity_key).join("\n")}`, bounds, maxZoom: 13.5 };
+    if (bounds) return { id: `list|${route.city}|${ranking.lead.map((i) => i.entity_key).join("\n")}`, bounds, maxZoom: 13.5 };
     return { id: `city|${route.city}`, ...cityView(route.city) };
-  }, [inCity, preview, view.phone, key, item, route.city, ranking.items]);
+  }, [inCity, preview, view.phone, key, item, route.city, ranking.lead]);
 
   const padding: MapPadding = useMemo(() => {
     if (!inCity) {

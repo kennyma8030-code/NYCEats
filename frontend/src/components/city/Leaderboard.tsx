@@ -3,6 +3,7 @@ import type { Facets, Flaw, Need, WindowDays } from "../../api/types";
 import { BRAND } from "../../brand";
 import type { RowHover } from "../../hooks/useHoverPreview";
 import type { Ranking } from "../../hooks/useRanking";
+import { PIN_LIMIT, RANKING_PAGE } from "../../lib/paging";
 import { SORTS, rowMetric, sortOf } from "../../lib/sorts";
 import { areaWords } from "../../state/city";
 import { FLAWS, NEEDS, WINDOWS, windowOf } from "../../state/filters";
@@ -66,8 +67,29 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
   useEffect(() => setMenu(null), [route.city, route.sort, compact]);
 
   const flip = (id: MenuId) => setMenu((m) => (m === id ? null : id));
-  const { items, total, loading, error, current } = ranking;
+  const { items, total, loading, error, current, hasMore, loadingMore, moreError, loadMore } = ranking;
   const pinned = items.filter((i) => i.location).length;
+
+  // The list has no end but its last place: the next page is asked for as
+  // the reader nears the bottom. The mark watched is a tall invisible box
+  // reaching up from the foot, so the request leaves a few screens early
+  // whichever element is scrolling (the rows on a desk, the sheet on a
+  // phone). Watched afresh after every page, so a page too short to push
+  // the mark out of view asks for the next one too. A failed page waits for
+  // the reader to ask again, or it would retry in a loop.
+  const mark = useRef<HTMLSpanElement>(null);
+  const moreRef = useRef(loadMore);
+  moreRef.current = loadMore;
+  const waiting = current && hasMore && !loadingMore && !moreError;
+  useEffect(() => {
+    const el = mark.current;
+    if (!el || !waiting || typeof IntersectionObserver === "undefined") return;
+    const seen = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) moreRef.current();
+    });
+    seen.observe(el);
+    return () => seen.disconnect();
+  }, [waiting, items.length]);
 
   const chip = (id: MenuId, label: string, value: string | null) => (
     <button
@@ -271,9 +293,20 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
           })}
           {items.length === 0 && Array.from({ length: 8 }, (_, i) => <li key={i} className="row-skel skel" aria-hidden="true" />)}
           {current && items.length > 0 && !compact && (
-            <li className="rows-foot">
-              {total > items.length ? `The top ${items.length} of ${total.toLocaleString()}. ` : ""}
-              {pinned === 0 ? `No pins yet: ${scope.name}'s places have no coordinates.` : ""}
+            <li className="rows-foot" aria-live="polite">
+              <span className="rows-mark" ref={mark} aria-hidden="true" />
+              {moreError ? (
+                <>
+                  The rest of the list could not be loaded.{" "}
+                  <button type="button" className="textlink" onClick={loadMore}>Try again</button>
+                </>
+              ) : hasMore ? (
+                `Loading more of ${total.toLocaleString()}…`
+              ) : (
+                items.length > RANKING_PAGE && `All ${items.length.toLocaleString()} places.`
+              )}
+              {pinned === 0 ? ` No pins yet: ${scope.name}'s places have no coordinates.`
+                : items.length > PIN_LIMIT ? ` The map shows the first ${PIN_LIMIT.toLocaleString()}.` : ""}
             </li>
           )}
         </ol>

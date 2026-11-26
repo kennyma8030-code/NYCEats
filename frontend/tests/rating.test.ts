@@ -44,7 +44,9 @@ test("not rankable means no percentage", () => {
 });
 
 test("board explainers use the cut-offs", () => {
-  assert.match(boardExplainer("top", lines), /at least 78 people/);
+  // Highest rated has no cut-off to name: it lists every rated place.
+  assert.match(boardExplainer("top", lines), /^Every place with an opinion/);
+  assert.doesNotMatch(boardExplainer("top", lines), /78/);
   assert.match(boardExplainer("gems", lines), /Under 78 recommenders/);
   assert.match(boardExplainer("popular", null), /above the median/);
 });

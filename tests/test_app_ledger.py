@@ -17,3 +17,20 @@ class LedgerEcho(AppCase):
         r = self.client.get("/api/ledger").json()
         self.assertEqual((r["cuisine"], r["borough"], r["needs"], r["flaws"], r["topic"]),
                          (None, None, [], [], None))
+
+    def test_a_list_is_read_a_page_at_a_time(self):
+        """Pages by offset never overlap and add up to the whole list, so the
+        frontend can scroll to its last place."""
+        whole = self.client.get("/api/ledger?category=top&window=7").json()
+        keys = [i["entity_key"] for i in whole["items"]]
+        self.assertEqual((whole["total"], whole["limit"], whole["offset"]), (len(keys), 50, 0))
+        self.assertGreater(len(keys), 1)
+        paged = []
+        for offset in range(len(keys)):
+            page = self.client.get(
+                f"/api/ledger?category=top&window=7&limit=1&offset={offset}").json()
+            self.assertEqual((page["total"], page["offset"]), (len(keys), offset))
+            paged += [i["entity_key"] for i in page["items"]]
+        self.assertEqual(paged, keys)
+        past_end = self.client.get(f"/api/ledger?category=top&window=7&offset={len(keys)}").json()
+        self.assertEqual(past_end["items"], [])

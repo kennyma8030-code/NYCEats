@@ -916,16 +916,17 @@ def window_counts_sql(where, algo="v1", topic=None, group=False):
 
 
 def ledger_items(conn, sub, category, window, cuisine, borough, needs, flaws, limit, fetch_all,
-                 algo="v1", topic=None):
+                 algo="v1", topic=None, offset=0):
     """One ranked page for (category, window, filters), with the match count
-    on every row as `total`.
+    on every row as `total`. A page past the end has no row to carry it, so
+    a client paging by `offset` keeps the first page's total.
 
     Aspect scores are the all-time shrunk scores from entity_leaderboard; only
     the counts are windowed. A week is too little evidence to score taste.
     """
     where_sql, rank_sql = (LEDGER_CATEGORIES_V2 if algo == "v2" else LEDGER_CATEGORIES)[category]
     board = BOARDS[algo]
-    filters, params = [], {"sub": sub, "window": window, "limit": limit}
+    filters, params = [], {"sub": sub, "window": window, "limit": limit, "offset": offset}
     if topic:
         params["topic"] = like_pattern(topic)
     if cuisine:
@@ -992,7 +993,7 @@ def ledger_items(conn, sub, category, window, cuisine, borough, needs, flaws, li
         from pool cross join median
         where {where_sql}
         order by rank_value desc, current desc, entity_key
-        limit %(limit)s
+        limit %(limit)s offset %(offset)s
     """, params)
 
 
@@ -1191,8 +1192,11 @@ def rating_lines(conn, sub, fetch_one):
 # never caller input: ORDER BY cannot take a parameter. One value ranks each
 # board; everything else is a filter.
 RATING_BOARDS = {
-    # The busy tenth, best liked first.
-    "top":     ("er.busy",
+    # Every place anyone has stated an opinion of, best liked first. It has
+    # no floor of its own: lb is the Wilson lower bound, which already puts
+    # 1 for 1 (0.38) far below 50 of 52 (0.91), so thin evidence sinks down
+    # the list instead of being cut off it. lb is null only with no pos or neg.
+    "top":     ("er.lb is not null",
                 "er.lb desc nulls last, er.recommenders desc"),
     # Most recommended, among places liked at least as well as the median.
     "popular": ("er.rankable and er.lb >= er.share_line",
