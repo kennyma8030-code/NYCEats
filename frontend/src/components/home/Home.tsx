@@ -321,7 +321,7 @@ export function Home({ cities, citiesError, active, top, onActive, onOpen, onPla
               <p className="eyebrow">Highest rated right now</p>
               <p className="city-card-sub">
                 r/{city.subreddit}
-                {top.current && top.data ? `, ${top.data.total.toLocaleString()} places ranked` : ""}
+                {top.current && top.data ? `, ${top.data.total.toLocaleString()} places rated` : ""}
               </p>
             </div>
             {three && three.length > 0 && (

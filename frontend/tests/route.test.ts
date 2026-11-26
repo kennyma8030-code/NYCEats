@@ -30,6 +30,10 @@ test("links from the old interface still open New York", () => {
   // Trending is gone; a link to it opens the city on its usual list.
   assert.equal(parseRoute("?category=trending").sort, "loved");
   assert.equal(parseRoute("?subreddit=FoodNYC&sort=trending").sort, "loved");
+  // The period in such a link was Trending's, so it goes with it.
+  assert.deepEqual(parseRoute("?subreddit=FoodNYC&sort=trending&window=7"), nyc);
+  assert.equal(parseRoute("?category=trending&window=7").window, null);
+  assert.equal(parseRoute("?category=top&window=7").window, 7);
   // A topic with no sort named lands on a list that can apply it.
   assert.equal(parseRoute("?topic=omakase").sort, "talked");
   assert.equal(parseRoute("?topic=omakase").topic, "omakase");

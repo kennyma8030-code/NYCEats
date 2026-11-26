@@ -90,9 +90,12 @@ export const api = {
     if (borough) p.set("borough", borough);
     return calmly(get<BoardResponse>(`/api/boards?${p}`, signal, city));
   },
-  /** A city's best-liked few, for the card beside its name on the landing page. */
+  /** A city's best-liked few, for the card beside its name on the landing
+   *  page. Rated places only: the card prints a percentage for each, and the
+   *  board also holds places with too few opinions for one, which can come
+   *  first. Its total is then the number of rated places too. */
   cityTop: (city: string) =>
-    cached("top3", () => calmly(get<BoardResponse>("/api/boards?board=top&window=30&limit=3", undefined, city)), city),
+    cached("top3", () => calmly(get<BoardResponse>("/api/boards?board=top&rated=true&window=30&limit=3", undefined, city)), city),
   /** The comments behind one count of a rating. */
   voices: (
     entityKey: string, voice: Voice | CategoryVoice, category: RatingCategory | null, sort: CommentSort, offset: number,

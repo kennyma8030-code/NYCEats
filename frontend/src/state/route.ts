@@ -44,7 +44,10 @@ export const HOME_ROUTE: Route = {
 
 // Links from the old interface: ?category= named a ledger list and
 // ?view=boards&board= a rating board. A link to Trending, which is gone,
-// names no list and opens the city on its usual one.
+// names no list and opens the city on its usual one, over that list's usual
+// period: the week in the link was Trending's.
+const namesTrending = (p: URLSearchParams) => p.get("sort") === "trending" || p.get("category") === "trending";
+
 function legacySort(p: URLSearchParams): SortId | null {
   if (p.get("view") === "boards") return p.get("board") === "gems" ? "gems" : "loved";
   const c = p.get("category");
@@ -67,7 +70,7 @@ export function parseRoute(search: string): Route {
     screen: "city",
     city: p.get("subreddit")?.trim() || HOME,
     sort: asked ?? DEFAULT_SORT,
-    window: isWindow(win) ? win : null,
+    window: isWindow(win) && !namesTrending(p) ? win : null,
     topic: f.topic.trim(),
     cuisine: f.cuisine,
     borough: f.borough,

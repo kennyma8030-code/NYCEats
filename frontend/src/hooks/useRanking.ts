@@ -88,7 +88,7 @@ export function useRanking(route: Route, enabled: boolean): Ranking {
 
   const first = state.current && state.data && !state.error ? state.data : null;
   const tail = first && more.key === key ? more.tail : NO_TAIL;
-  const further = first !== null && hasMore(first.items.length, tail, first.total);
+  const further = first !== null && hasMore(first.items.length, tail);
   const loadingMore = more.key === key && more.loading;
 
   const loadMore = useCallback(() => {
@@ -99,7 +99,7 @@ export function useRanking(route: Route, enabled: boolean): Ranking {
     setMore({ key, tail, loading: true, error: null });
     pageRef.current(first.items.length + tail.fetched, c.signal).then(
       (d) => {
-        if (!c.signal.aborted) setMore({ key, tail: withPage(first.items, tail, d.items, keyOf), loading: false, error: null });
+        if (!c.signal.aborted) setMore({ key, tail: withPage(first.items, tail, d.items, keyOf, d.total), loading: false, error: null });
       },
       (e: unknown) => {
         if (!c.signal.aborted) setMore({ key, tail, loading: false, error: e instanceof Error ? e.message : String(e) });
@@ -115,7 +115,7 @@ export function useRanking(route: Route, enabled: boolean): Ranking {
   const retry = useCallback(() => setAttempt((n) => n + 1), []);
 
   return {
-    items, total: shown.total, lines: shown.lines, lead: shown.items,
+    items, total: tail.total ?? shown.total, lines: shown.lines, lead: shown.items,
     window, current: state.current, loading: state.loading, error: state.error, retry,
     hasMore: further, loadingMore, moreError: more.key === key ? more.error : null, loadMore,
   };

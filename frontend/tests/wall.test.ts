@@ -20,6 +20,10 @@ test("a row shows the one number its list is ranked by", () => {
   assert.deepEqual(rowMetric("loved", item({})), { big: "100%", small: "53 people" });
   assert.deepEqual(rowMetric("talked", item({})), { big: "12", small: "mentions" });
   assert.deepEqual(rowMetric("gems", item({ rating: null })), { big: "–", small: "" });
+  // Under the minimum number of people: the counts, never a percentage.
+  const thin = { pos: 3, neg: 0, pct_pos: 1, rankable: false } as Rating;
+  assert.deepEqual(rowMetric("loved", item({ rating: thin })), { big: "3 of 3", small: "positive" });
+  assert.equal(cardStat("loved", item({ rating: thin })), "3 of 3 positive");
 });
 
 test("a card says the same number as a phrase", () => {

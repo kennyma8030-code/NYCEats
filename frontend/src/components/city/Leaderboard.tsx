@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import type { Facets, Flaw, Need, WindowDays } from "../../api/types";
+import { memo, useEffect, useRef, useState } from "react";
+import type { Facets, Flaw, LedgerItem, Need, WindowDays } from "../../api/types";
 import { BRAND } from "../../brand";
 import type { RowHover } from "../../hooks/useHoverPreview";
 import type { Ranking } from "../../hooks/useRanking";
@@ -7,7 +7,7 @@ import { PIN_LIMIT, RANKING_PAGE } from "../../lib/paging";
 import { SORTS, rowMetric, sortOf } from "../../lib/sorts";
 import { areaWords } from "../../state/city";
 import { FLAWS, NEEDS, WINDOWS, windowOf } from "../../state/filters";
-import { filterCount, flawLabel, isLedgerSort, needLabel, toggle, type Route } from "../../state/route";
+import { filterCount, flawLabel, isLedgerSort, needLabel, toggle, type Route, type SortId } from "../../state/route";
 import { Icon } from "../Icon";
 import { Search, type Scope } from "../Search";
 
@@ -68,7 +68,12 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
 
   const flip = (id: MenuId) => setMenu((m) => (m === id ? null : id));
   const { items, total, loading, error, current, hasMore, loadingMore, moreError, loadMore } = ranking;
-  const pinned = items.filter((i) => i.location).length;
+  // What the foot of the list has to say. With nothing to say there is no
+  // foot: a short list ends at its last row, not at an empty padded line.
+  const ended = !hasMore && !moreError && items.length > RANKING_PAGE;
+  const pinNote = !items.some((i) => i.location) ? ` No pins yet: ${scope.name}'s places have no coordinates.`
+    : items.length > PIN_LIMIT ? ` The map shows the first ${PIN_LIMIT.toLocaleString()}.` : "";
+  const foot = current && items.length > 0 && !compact && (moreError !== null || hasMore || ended || pinNote !== "");
 
   // The list has no end but its last place: the next page is asked for as
   // the reader nears the bottom. The mark watched is a tall invisible box
@@ -241,70 +246,32 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
         </div>
       ) : (
         <ol className={!current && items.length ? "rows busy" : "rows"} aria-busy={loading} onScroll={hover.follow}>
-          {items.map((item) => {
-            const m = rowMetric(route.sort, item);
-            const area = item.neighborhood ?? item.borough;
-            const key = item.entity_key;
-            return (
-              <li key={item.entity_key}>
-                <button
-                  type="button" className={hot === key || selected === key ? "row on" : "row"} data-key={key}
-                  aria-current={selected === key ? "true" : undefined} title={compact ? item.name : undefined}
-                  onClick={() => onOpen(key)}
-                  // A finger has no hover: only a mouse opens the preview, and
-                  // only focus that came from the keyboard does.
-                  onPointerEnter={(e) => {
-                    if (e.pointerType !== "mouse") return;
-                    onHot(key);
-                    hover.enter(key);
-                  }}
-                  onPointerLeave={(e) => {
-                    if (e.pointerType !== "mouse") return;
-                    onHot(null);
-                    hover.leave();
-                  }}
-                  onFocus={(e) => {
-                    onHot(key);
-                    if (e.currentTarget.matches(":focus-visible")) hover.focus(key);
-                  }}
-                  onBlur={() => {
-                    onHot(null);
-                    hover.leave();
-                  }}
-                >
-                  <span className="row-main">
-                    <span className="row-name">{item.name}</span>
-                    {(item.cuisine || area) && (
-                      <span className="row-meta">
-                        {item.cuisine && <span className="row-cuisine">{item.cuisine}</span>}
-                        {area && <span className="row-area">{area}</span>}
-                      </span>
-                    )}
-                  </span>
-                  <span className="row-num">
-                    <b>{m.big}</b>
-                    <small>{m.small}</small>
-                  </span>
-                </button>
-              </li>
-            );
-          })}
+          {items.map((item) => (
+            <Row
+              key={item.entity_key} item={item} sort={route.sort} on={hot === item.entity_key || selected === item.entity_key}
+              current={selected === item.entity_key} compact={compact} onOpen={onOpen} onHot={onHot} hover={hover}
+            />
+          ))}
           {items.length === 0 && Array.from({ length: 8 }, (_, i) => <li key={i} className="row-skel skel" aria-hidden="true" />)}
-          {current && items.length > 0 && !compact && (
-            <li className="rows-foot" aria-live="polite">
+          {foot && (
+            <li className="rows-foot">
               <span className="rows-mark" ref={mark} aria-hidden="true" />
               {moreError ? (
                 <>
                   The rest of the list could not be loaded.{" "}
                   <button type="button" className="textlink" onClick={loadMore}>Try again</button>
                 </>
-              ) : hasMore ? (
+              ) : loadingMore ? (
                 `Loading more of ${total.toLocaleString()}…`
-              ) : (
-                items.length > RANKING_PAGE && `All ${items.length.toLocaleString()} places.`
+              ) : hasMore && (
+                // Scrolling asks for the next page by itself where it can.
+                // The button is for where it cannot: a browser without the
+                // observer, or a list folded down so its foot is never seen.
+                <button type="button" className="textlink" onClick={loadMore}>Show more</button>
               )}
-              {pinned === 0 ? ` No pins yet: ${scope.name}'s places have no coordinates.`
-                : items.length > PIN_LIMIT ? ` The map shows the first ${PIN_LIMIT.toLocaleString()}.` : ""}
+              {/* Only the end is announced: a reader of the screen is not told of every page. */}
+              <span aria-live="polite">{ended && `All ${items.length.toLocaleString()} places.`}</span>
+              {pinNote}
             </li>
           )}
         </ol>
@@ -313,6 +280,71 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
     </div>
   );
 }
+
+interface RowProps {
+  item: LedgerItem;
+  sort: SortId;
+  /** Lit: the pointer is on it or on its pin, or it is the open restaurant. */
+  on: boolean;
+  current: boolean;
+  compact: boolean;
+  onOpen: (key: string) => void;
+  onHot: (key: string | null) => void;
+  hover: RowHover;
+}
+
+/** One place of the list. Memoised because a list runs to thousands of rows
+ *  and the pointer moving over them changes only two: the one it left and
+ *  the one it is on. Everything it is given keeps its identity between
+ *  renders, so the rest are skipped. */
+const Row = memo(function Row({ item, sort, on, current, compact, onOpen, onHot, hover }: RowProps) {
+  const m = rowMetric(sort, item);
+  const area = item.neighborhood ?? item.borough;
+  const key = item.entity_key;
+  return (
+    <li>
+      <button
+        type="button" className={on ? "row on" : "row"} data-key={key}
+        aria-current={current ? "true" : undefined} title={compact ? item.name : undefined}
+        onClick={() => onOpen(key)}
+        // A finger has no hover: only a mouse opens the preview, and
+        // only focus that came from the keyboard does.
+        onPointerEnter={(e) => {
+          if (e.pointerType !== "mouse") return;
+          onHot(key);
+          hover.enter(key);
+        }}
+        onPointerLeave={(e) => {
+          if (e.pointerType !== "mouse") return;
+          onHot(null);
+          hover.leave();
+        }}
+        onFocus={(e) => {
+          onHot(key);
+          if (e.currentTarget.matches(":focus-visible")) hover.focus(key);
+        }}
+        onBlur={() => {
+          onHot(null);
+          hover.leave();
+        }}
+      >
+        <span className="row-main">
+          <span className="row-name">{item.name}</span>
+          {(item.cuisine || area) && (
+            <span className="row-meta">
+              {item.cuisine && <span className="row-cuisine">{item.cuisine}</span>}
+              {area && <span className="row-area">{area}</span>}
+            </span>
+          )}
+        </span>
+        <span className="row-num">
+          <b>{m.big}</b>
+          <small>{m.small}</small>
+        </span>
+      </button>
+    </li>
+  );
+});
 
 /** inline: an accordion panel under its chip, pushing what follows down;
  *  otherwise a popover. */

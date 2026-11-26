@@ -1203,7 +1203,8 @@ CATEGORY_BOARD = ("cr.rankable",
 assert set(RATING_BOARDS) == set(OVERALL_BOARDS), "RATING_BOARDS out of step with OverallBoard"
 
 
-def board_items(conn, sub, board, window, cuisine, borough, limit, offset, fetch_all, fetch_value):
+def board_items(conn, sub, board, window, cuisine, borough, limit, offset, fetch_all, fetch_value,
+                rated=False):
     """One page of a rating board in the row shape ledger_items returns, and
     the number of places the board holds (right even for a page past the
     end). The rating itself is added per page by ratings_for, like any
@@ -1211,7 +1212,11 @@ def board_items(conn, sub, board, window, cuisine, borough, limit, offset, fetch
 
     Chains and closed places are left out, as on the ledger. The rating is
     over rating_params.window_days whatever `window` is; `window` only sets
-    the mention counts (current, previous) shown beside it. They are counted
+    the mention counts (current, previous) shown beside it. `rated` keeps
+    only places with enough opinions to show a percentage, for a reader of
+    Highest rated who shows nothing else (the landing page's three): the
+    board itself holds thinner places, and one of those can sit above every
+    rated place of a small city. They are counted
     for the page alone, after ranking, so a board costs one pass over a few
     thousand cached rows and one over the page's mentions. Raises one of
     RATING_MISSING when the rating views are missing or stale; the route
@@ -1220,6 +1225,8 @@ def board_items(conn, sub, board, window, cuisine, borough, limit, offset, fetch
     params = {"sub": sub, "window": window, "limit": limit, "offset": offset}
     if board in OVERALL_BOARDS:
         where_sql, order_sql = RATING_BOARDS[board]
+        if rated:
+            where_sql += " and er.rankable"
         source = """from entity_rating er
           join entity_leaderboard l on l.subreddit = er.subreddit
                                    and l.entity_key = er.entity_key"""

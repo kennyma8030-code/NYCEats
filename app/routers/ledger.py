@@ -202,6 +202,9 @@ def boards(
         "The ranking itself is over the rating's own window"))] = 30,
     cuisine: Annotated[Optional[str], Query(max_length=100)] = None,
     borough: Annotated[Optional[str], Query(max_length=40)] = None,
+    rated: Annotated[bool, Query(description=(
+        "Only places with enough opinions to show a percentage (rating.rankable). "
+        "`total` then counts those alone"))] = False,
     limit: Annotated[int, Query(ge=1, le=100)] = 50,
     offset: Annotated[int, Query(ge=0, le=MAX_OFFSET)] = 0,
     conn=Depends(get_conn),
@@ -223,7 +226,7 @@ def boards(
         # Every rating read inside the guard, the page's ratings included, so
         # a view that vanishes mid-request is a 503, never a board of nulls.
         rows, total = queries.board_items(conn, sub, board, window, cuisine, borough,
-                                          limit, offset, fetch_all, fetch_value)
+                                          limit, offset, fetch_all, fetch_value, rated=rated)
         ratings = queries.ratings_for(conn, sub, [r["entity_key"] for r in rows],
                                       fetch_all, fetch_value, strict=True)
         return rows, total, queries.rating_lines(conn, sub, fetch_one), ratings

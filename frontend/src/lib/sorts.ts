@@ -5,7 +5,7 @@ import type { BoardId, LedgerItem, RatingLines, WindowDays } from "../api/types"
 import { windowOf } from "../state/filters.ts";
 import type { SortId } from "../state/route";
 import { plural } from "./format.ts";
-import { boardExplainer, pct, people } from "./rating.ts";
+import { boardExplainer, isRankable, pct, people } from "./rating.ts";
 
 export interface SortDef {
   id: SortId;
@@ -44,18 +44,21 @@ export function sortNote(id: SortId, window: WindowDays, lines: RatingLines | nu
 }
 
 /** The big number on the right of a row and its caption: always the one
- *  value the list is ranked by, never a blend. */
+ *  value the list is ranked by, never a blend. A place under the minimum
+ *  number of people shows its counts and no percentage, here as on its own
+ *  page: "100%" of three people is not a rating. */
 export function rowMetric(id: SortId, item: LedgerItem): { big: string; small: string } {
   if (id === "talked") return { big: item.current.toLocaleString(), small: item.current === 1 ? "mention" : "mentions" };
   const r = item.rating;
   if (!r || r.pct_pos == null) return { big: "–", small: "" };
+  if (!isRankable(r)) return { big: `${r.pos} of ${people(r)}`, small: "positive" };
   return { big: `${pct(r.pct_pos)}%`, small: plural(people(r), "person", "people") };
 }
 
 /** The same number as a sentence fragment, for a card on the landing page:
- *  "98% positive, 56 people", "1,516 mentions". */
+ *  "98% positive, 56 people", "1,516 mentions", "3 of 3 positive". */
 export function cardStat(id: SortId, item: LedgerItem): string {
   const m = rowMetric(id, item);
-  if (id === "talked") return `${m.big} ${m.small}`;
+  if (id === "talked" || (item.rating && !isRankable(item.rating))) return m.small ? `${m.big} ${m.small}` : "";
   return m.small ? `${m.big} positive, ${m.small}` : "";
 }

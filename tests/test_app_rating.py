@@ -223,6 +223,11 @@ class Rating(AppCase):
         second = self.client.get("/api/boards?board=top&limit=1&offset=1").json()
         self.assertEqual(([i["entity_key"] for i in second["items"]], second["total"]),
                          (["alpha"], 2))
+        # The landing page's three want a percentage each: rated places only,
+        # though a thinner one is above them on the board.
+        rated = self.client.get("/api/boards?board=top&rated=true").json()
+        self.assertEqual(([i["entity_key"] for i in rated["items"]], rated["total"]),
+                         (["alpha"], 1))
         past_end = self.client.get("/api/boards?board=top&offset=5").json()
         self.assertEqual((past_end["items"], past_end["total"]), ([], 2))
         # Read to its last place: an offset past ten thousand is still a page.
