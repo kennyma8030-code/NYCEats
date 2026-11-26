@@ -211,7 +211,7 @@ export default function App() {
       </div>
 
       <Home
-        cities={cities.data} citiesError={cities.error} active={preview} top={previewTop} onActive={setPreview}
+        cities={cities.data} citiesError={cities.error} active={preview} onActive={setPreview}
         onOpen={openCity} onPlace={(city, place) => go({ city, place })} onTopic={(city, topic) => go({ city, topic })}
         hidden={inCity}
       />

@@ -1,11 +1,9 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
-import type { BoardResponse, City } from "../../api/types";
+import type { City } from "../../api/types";
 import { BRAND, TAGLINE } from "../../brand";
-import type { FetchState } from "../../hooks/useFetch";
 import { useWall } from "../../hooks/useWall";
 import { countWord } from "../../lib/format";
 import { stepIndex, wheelGestures } from "../../lib/gesture";
-import { isRankable, pct } from "../../lib/rating";
 import { Icon } from "../Icon";
 import { MapCredit } from "../MapCredit";
 import { Search, type Scope } from "../Search";
@@ -17,8 +15,6 @@ interface Props {
   citiesError: string | null;
   /** The city highlighted in the list, which the map behind is showing. */
   active: string;
-  /** That city's best-liked few, which are also the pins on the map behind. */
-  top: FetchState<BoardResponse>;
   onActive: (subreddit: string) => void;
   onOpen: (subreddit: string) => void;
   onPlace: (subreddit: string, key: string) => void;
@@ -51,10 +47,10 @@ const SWIPE_PX = 40;
  *
  * On the cities the page holds still and a scroll steps the highlight
  * instead: one city per gesture, down the list and back up it, with the map
- * and the card following as they do on hover. Up from the first city leaves
+ * following as it does on hover. Up from the first city leaves
  * for the title; down from the last does nothing.
  */
-export function Home({ cities, citiesError, active, top, onActive, onOpen, onPlace, onTopic, hidden }: Props) {
+export function Home({ cities, citiesError, active, onActive, onOpen, onPlace, onTopic, hidden }: Props) {
   const root = useRef<HTMLDivElement>(null);
   const hero = useRef<HTMLElement>(null);
   const list = useRef<HTMLElement>(null);
@@ -257,8 +253,6 @@ export function Home({ cities, citiesError, active, top, onActive, onOpen, onPla
     () => (cities ?? []).map((c) => ({ subreddit: c.subreddit, name: c.name, short: c.short })),
     [cities],
   );
-  const city = cities?.find((c) => c.subreddit === active) ?? null;
-  const three = top.current && top.data ? top.data.items.filter((i) => isRankable(i.rating)) : null;
 
   return (
     <div className={hidden ? "home gone" : "home"} ref={root} aria-hidden={hidden}>
@@ -315,41 +309,6 @@ export function Home({ cities, citiesError, active, top, onActive, onOpen, onPla
           )}
         </div>
 
-        {city && (
-          <div className="city-card pop" key={city.subreddit}>
-            <div>
-              <p className="eyebrow">Most loved right now</p>
-              <p className="city-card-sub">
-                r/{city.subreddit}
-                {top.current && top.data ? `, ${top.data.total.toLocaleString()} places ranked` : ""}
-              </p>
-            </div>
-            {three && three.length > 0 && (
-              <ol className="city-top">
-                {three.map((item, i) => (
-                  <li key={item.entity_key}>
-                    <span className="city-top-n">{i + 1}</span>
-                    <button type="button" className="city-top-name" onClick={() => onPlace(city.subreddit, item.entity_key)}>
-                      {item.name}
-                    </button>
-                    <span className="city-top-pct">{pct(item.rating!.pct_pos!)}%</span>
-                  </li>
-                ))}
-              </ol>
-            )}
-            {!three && !top.error && (
-              <div className="city-top" aria-hidden="true">
-                {[0, 1, 2].map((i) => <span key={i} className="skel city-top-skel" />)}
-              </div>
-            )}
-            {three && three.length === 0 && <p className="city-card-sub">Not enough opinions yet to rank anywhere.</p>}
-            {top.error && <p className="city-card-sub">The ranking could not be loaded. The city still opens.</p>}
-            <button type="button" className="pill solid city-open" onClick={() => onOpen(city.subreddit)}>
-              Open {city.name}
-              <Icon name="arrow" size={18} stroke={2.4} />
-            </button>
-          </div>
-        )}
         <MapCredit />
       </section>
     </div>
