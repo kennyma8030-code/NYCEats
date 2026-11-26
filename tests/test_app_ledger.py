@@ -1,7 +1,11 @@
 """The ledger echoes every filter it ranked under, so the frontend can tell a
 stale list from a current one (frontend/src/lib/fresh.ts)."""
 
+from unittest import mock
+
 from apptest import AppCase
+
+from app import queries
 
 
 class LedgerEcho(AppCase):
@@ -41,4 +45,21 @@ class LedgerEcho(AppCase):
             paged += [i["entity_key"] for i in page["items"]]
         self.assertEqual(paged, keys)
         past_end = self.client.get(f"/api/ledger?category=top&window=7&offset={len(keys)}").json()
-        self.assertEqual(past_end["items"], [])
+        self.assertEqual((past_end["items"], past_end["total"]), ([], len(keys)))
+
+    def test_the_pages_of_a_list_are_cut_from_one_ranking(self):
+        """The window aggregation runs once per list, not once per page, and
+        a list with other filters is ranked on its own."""
+        with mock.patch.object(queries, "ledger_ranking", wraps=queries.ledger_ranking) as rank:
+            first = self.client.get("/api/ledger?category=top&window=7&limit=1").json()
+            second = self.client.get("/api/ledger?category=top&window=7&limit=1&offset=1").json()
+            self.assertEqual(rank.call_count, 1)
+            self.client.get("/api/ledger?category=top&window=14&limit=1")
+            self.client.get("/api/ledger?category=top&window=7&limit=1&algo=v2")
+            self.assertEqual(rank.call_count, 3)
+        self.assertNotEqual(first["items"][0]["entity_key"], second["items"][0]["entity_key"])
+        # Rows cut from the cache are the rows the uncached list returns.
+        queries.LEDGER_CACHE.enabled = False
+        self.addCleanup(setattr, queries.LEDGER_CACHE, "enabled", True)
+        fresh = self.client.get("/api/ledger?category=top&window=7&limit=1&offset=1").json()
+        self.assertEqual(fresh, second)

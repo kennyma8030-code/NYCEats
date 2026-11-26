@@ -35,6 +35,7 @@ import refresh
 
 from .models import (ASPECTS, CATEGORY_VOICE_FILTERS, DEFAULT_SORT, OVERALL_BOARDS,
                      RATING_CATEGORIES, SORTS, V2_SORTS, VOICE_FILTERS)
+from .rankcache import RankCache
 
 # The columns the leaderboard exposes. Listed rather than `l.*` so a change to
 # the materialized view cannot quietly alter the API's response shape.
@@ -826,7 +827,7 @@ LEDGER_NEEDS = {"value": 0.2, "atmosphere": 0.3, "service": 0.2, "wait": -0.1}
 LEDGER_FLAW_SHARE = 0.10                                     # TUNE
 
 # Per-category ranking as (where_sql, rank_sql), both written against the
-# `pool` CTE in ledger_items, and both module literals -- never caller input.
+# `pool` CTE in ledger_ranking, and both module literals -- never caller input.
 LEDGER_CATEGORIES = {
     "top":      ("current > 0",
                  "current"),
@@ -862,6 +863,16 @@ def _ledger_select(algo):
               null::float8 as strong_neg_share, null::int as recent_people"""
 
 
+def _ledger_columns(algo):
+    """A ledger row's leaderboard columns, over `l`: everything but the
+    windowed counts. One list for the ranking's pool and the page's rows, so
+    a page cut from a cached ranking has the columns the ranking had."""
+    return f"""l.official_name, l.cuisine, l.boroughs,
+               l.raw_mentions, l.distinct_authors,
+               l.food, l.value, l.service, l.atmosphere, l.wait,
+               {_ledger_select(algo)}"""
+
+
 # A topic narrows what is COUNTED, not just which rows show: "omakase" over a
 # month means mentions in omakase threads or tagged omakase, so Keens' two
 # passing omakase mentions do not ride its steakhouse volume to the top. A
@@ -891,7 +902,7 @@ def window_counts_sql(where, algo="v1", topic=None, group=False):
     (`previous`) and, under v2, distinct people in the window -- the counts
     every ledger-shaped row carries. One statement for all three callers, so
     a list, a single place and a rating board count alike: `group` for
-    every place of the city at once (ledger_items), else one place picked by
+    every place of the city at once (ledger_ranking), else one place picked by
     `where`, as a lateral (ledger_one, board_items). Needs %(sub)s and
     %(window)s, and %(topic)s when `topic` is set."""
     return f"""
@@ -908,18 +919,81 @@ def window_counts_sql(where, algo="v1", topic=None, group=False):
           {"group by v.entity_key" if group else ""}"""
 
 
-def ledger_items(conn, sub, category, window, cuisine, borough, needs, flaws, limit, fetch_all,
-                 algo="v1", topic=None, offset=0):
-    """One ranked page for (category, window, filters), with the match count
-    on every row as `total`. A page past the end has no row to carry it, so
-    a client paging by `offset` keeps the first page's total.
+# How long one computed ranking serves the pages of its list. Ranking a list
+# aggregates every mention of the city in the window (0.1 s to 1 s on the
+# production database), and a reader scrolling to the end asks for a page
+# every few seconds; a minute covers a scroll while keeping the counts at
+# most a minute behind the comments, which only change when the poller or an
+# extraction writes.
+LEDGER_CACHE_TTL = 60.0
+# How many rankings one worker keeps. An entry is (key, current, previous,
+# people) per ranked place, about 140 bytes each: a filtered list is a few
+# hundred places, the largest (r/FoodNYC over a year, unfiltered) ~23,000,
+# 3.3 MB. Few combinations come near that size, so a typical worker holds a
+# few MB, and the bound caps even the worst case near 105 MB.
+LEDGER_CACHE_ENTRIES = 32
+LEDGER_CACHE = RankCache(LEDGER_CACHE_TTL, LEDGER_CACHE_ENTRIES)
+
+
+def ledger_page(conn, sub, category, window, cuisine, borough, needs, flaws, limit, fetch_all,
+                algo="v1", topic=None, offset=0):
+    """One ranked page for (category, window, filters) and the number of
+    places the whole list holds, which a page past the end reports too.
+
+    The ranking comes from LEDGER_CACHE, keyed on exactly the arguments
+    ledger_ranking is called with, so nothing that changes the list can be
+    left out of the key; the page's rows are then read for its places alone.
+    Needs and flaws are sorted for the key because their order does not
+    change the list.
+    """
+    args = (sub, category, window, cuisine, borough, tuple(sorted(needs)), tuple(sorted(flaws)),
+            algo, topic)
+
+    def rank():
+        return ledger_ranking(conn, *args, fetch_all=fetch_all)
+    ranked = LEDGER_CACHE.get(args, rank)
+    page = ranked[offset:offset + limit]
+    rows = _ledger_rows(conn, sub, page, algo, fetch_all)
+    if len(rows) < len(page):
+        # A place in the cached ranking has left the board since (a refresh
+        # merged or dropped it). A short page tells the client the list has
+        # ended, so rank again rather than serve one.
+        LEDGER_CACHE.forget(args)
+        ranked = LEDGER_CACHE.get(args, rank)
+        page = ranked[offset:offset + limit]
+        rows = _ledger_rows(conn, sub, page, algo, fetch_all)
+    return rows, len(ranked)
+
+
+def _ledger_rows(conn, sub, ranked, algo, fetch_all):
+    """Ledger rows for a slice of a ledger_ranking, in its order: its counts
+    with each place's leaderboard columns. A place no longer on the board is
+    left out."""
+    if not ranked:
+        return []
+    found = {r["entity_key"]: r for r in fetch_all(conn, f"""
+        select l.entity_key, {_ledger_columns(algo)}
+        from {BOARDS[algo]} l
+        where l.subreddit = %(sub)s and l.entity_key = any(%(keys)s)
+    """, {"sub": sub, "keys": [r[0] for r in ranked]})}
+    return [{"entity_key": key, "current": current, "previous": previous, "people": people,
+             **found[key]}
+            for key, current, previous, people in ranked if key in found]
+
+
+def ledger_ranking(conn, sub, category, window, cuisine, borough, needs, flaws, algo, topic,
+                   fetch_all):
+    """Every place on one list, ranked, as (entity_key, current, previous,
+    people) tuples: the windowed counts, which are what costs to compute.
+    The leaderboard columns are read per page (_ledger_rows), so a cached
+    ranking stays small.
 
     Aspect scores are the all-time shrunk scores from entity_leaderboard; only
     the counts are windowed. A week is too little evidence to score taste.
     """
     where_sql, rank_sql = (LEDGER_CATEGORIES_V2 if algo == "v2" else LEDGER_CATEGORIES)[category]
     board = BOARDS[algo]
-    filters, params = [], {"sub": sub, "window": window, "limit": limit, "offset": offset}
+    filters, params = [], {"sub": sub, "window": window}
     if topic:
         params["topic"] = like_pattern(topic)
     if cuisine:
@@ -959,7 +1033,7 @@ def ledger_items(conn, sub, category, window, cuisine, borough, needs, flaws, li
     # mention_v2 is one row per mention_weights row, plus `person`, which the
     # v2 "top" ranking counts. Raw counts are the same under either algorithm;
     # people are only counted under v2.
-    return fetch_all(conn, f"""
+    rows = fetch_all(conn, f"""
         with counts as ({window_counts_sql("true", algo, topic, group=True)}
         ),
         -- Over every place mentioned this window, before filters, so a borough
@@ -971,10 +1045,7 @@ def ledger_items(conn, sub, category, window, cuisine, borough, needs, flaws, li
         pool as (
           select c.entity_key, c.current::int as current, c.previous::int as previous,
                  c.people::int as people,
-                 l.official_name, l.cuisine, l.boroughs,
-                 l.raw_mentions, l.distinct_authors,
-                 l.food, l.value, l.service, l.atmosphere, l.wait,
-                 {_ledger_select(algo)}
+                 {_ledger_columns(algo)}
           from counts c
           join {board} l on l.subreddit = %(sub)s and l.entity_key = c.entity_key
           {cuts_join}
@@ -982,21 +1053,24 @@ def ledger_items(conn, sub, category, window, cuisine, borough, needs, flaws, li
             and coalesce(l.closed, false) = false
             {extra}
         )
-        select pool.*, ({rank_sql})::float8 as rank_value, count(*) over () as total
+        select pool.entity_key, pool.current, pool.previous, pool.people,
+               ({rank_sql})::float8 as rank_value
         from pool cross join median
         where {where_sql}
         order by rank_value desc, current desc, entity_key
-        limit %(limit)s offset %(offset)s
     """, params)
+    # Tuples, not dicts: a fraction of the memory, and immutable, so threads
+    # reading the same cached ranking cannot change it under each other.
+    return tuple((r["entity_key"], r["current"], r["previous"], r["people"]) for r in rows)
 
 
 def ledger_one(conn, sub, entity_key, window, fetch_all, algo="v1", topic=None):
-    """ledger_items' row shape for a single entity, ranked or not.
+    """ledger_page's row shape for a single entity, ranked or not.
 
     Zero counts are real answers here -- a place searched for by name may not
     have been mentioned this window -- so this starts from the leaderboard
     and left-joins the counts rather than starting from the counts. Under a
-    `topic` it counts the same mentions ledger_items does, so a place opened
+    `topic` it counts the same mentions ledger_ranking does, so a place opened
     from search shows the numbers it has in the list.
     """
     params = {"sub": sub, "key": entity_key, "window": window}
@@ -1044,7 +1118,7 @@ def ledger_series(conn, sub, keys, window, bucket, fetch_all, topic=None):
 
     Buckets count back from now inside each window separately, so the two
     series line up bucket for bucket even when the window is not a whole
-    number of weeks. Under a `topic` only the mentions ledger_items counts are
+    number of weeks. Under a `topic` only the mentions ledger_ranking counts are
     drawn, so the chart adds up to `current` and `previous`.
     """
     if not keys:
@@ -1205,7 +1279,7 @@ assert set(RATING_BOARDS) == set(OVERALL_BOARDS), "RATING_BOARDS out of step wit
 
 def board_items(conn, sub, board, window, cuisine, borough, limit, offset, fetch_all, fetch_value,
                 rated=False):
-    """One page of a rating board in the row shape ledger_items returns, and
+    """One page of a rating board in the row shape ledger_page returns, and
     the number of places the board holds (right even for a page past the
     end). The rating itself is added per page by ratings_for, like any
     ledger row's.

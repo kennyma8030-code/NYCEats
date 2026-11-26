@@ -564,8 +564,8 @@ class Ledger(BaseModel):
     borough: Optional[str] = None
     needs: list[str] = Field(default_factory=list)
     flaws: list[str] = Field(default_factory=list)
-    # The number of places that match, on any page that has a row; 0 on a
-    # page past the end.
+    # The number of places that match, on every page, a page past the end
+    # included.
     total: int
     limit: int = 50
     offset: int = 0

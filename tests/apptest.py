@@ -20,7 +20,7 @@ import db as pipeline_db
 import refresh
 import subreddits
 from app import db as appdb
-from app import main
+from app import main, queries
 
 NOW = datetime.now(timezone.utc)
 
@@ -90,8 +90,14 @@ class AppCase(unittest.TestCase):
         cls._url.stop()
         cls.conn.close()
 
+    def setUp(self):
+        # Every case seeds or changes rows of its own, and a ranking cached
+        # by an earlier case would answer with the earlier rows.
+        queries.LEDGER_CACHE.clear()
+
     def tearDown(self):
         appdb.close_pool()
+        queries.LEDGER_CACHE.clear()
         self.conn.rollback()
 
     def q(self, sql, *args):
