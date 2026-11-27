@@ -23,17 +23,26 @@
   --panel: #FBFAF8;
   --track: #E3DED6;        /* the empty part of a bar */
 
-  /* The map's own palette (map/style.ts reads these). */
-  --map-water: #D6E4EA;
-  --map-land: #F8F6F2;
-  --map-land-2: #EDEAE4;
-  --map-park: #D5E6CF;
-  --map-water-ink: #4E6E7C;
-  --map-label: #6A665F;
+  /* The map's own palette (map/style.ts reads these). A night map: it is
+     most of the window behind the panels, and a near-white one glares. The
+     panels stay light, so they are what the eye goes to. */
+  --map-water: #151B22;
+  --map-land: #23262B;
+  --map-land-2: #2A2E34;
+  --map-park: #26332B;
+  --map-water-ink: #7F97AA;
+  --map-label: #9A9CA1;
+  --map-ink: #E6E4DE;            /* city names, the strongest text on it */
+  --map-road: 255, 255, 255;     /* an rgb triple: each road class sets its own alpha */
 
   --display: "Bricolage Grotesque", Inter, system-ui, sans-serif;
   --body: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
   --warm: "Instrument Sans", Inter, system-ui, sans-serif;
+
+  /* The few lines of small print that are left: the display face in the
+     secondary ink, so they read as part of the page, not as grey fine print. */
+  --small: 600 13px/1.35 var(--display);
+  --small-ink: var(--ink-2);
 
   --r-panel: 22px;
   --r-card: 20px;

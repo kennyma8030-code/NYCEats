@@ -21,7 +21,7 @@
 .pin.on .pin-dot { background: var(--accent); color: var(--on-accent); transform: scale(1.3) }
 .pin-tag {
   display: none; position: absolute; left: 42px; top: 50%; transform: translateY(-50%); white-space: nowrap;
-  padding: 5px 12px; border-radius: 10px; background: var(--ink); color: var(--surface);
+  padding: 5px 12px; border-radius: 10px; background: var(--surface); color: var(--ink);
   font-family: var(--display); font-weight: 700; font-size: 15px; box-shadow: 0 6px 18px rgba(21, 23, 26, .3);
   pointer-events: none;
 }

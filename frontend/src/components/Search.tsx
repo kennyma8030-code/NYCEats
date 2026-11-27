@@ -188,7 +188,7 @@ export function Search({ scopes, variant, label, placeholder, hints, onPlace, on
             </button>
           ))}
           {!places.length && !failed && Object.keys(names).length < scopes.length && <p className="search-note">Looking up names…</p>}
-          {failed && <p className="search-note">Names could not be loaded. A topic search still works.</p>}
+          {failed && <p className="search-note">Names could not be loaded.</p>}
           {many ? (
             <div className="search-topics">
               <p className="search-note">Places people bring up for “{text}” in</p>
@@ -217,7 +217,6 @@ export function Search({ scopes, variant, label, placeholder, hints, onPlace, on
                   onMouseDown={(e) => e.preventDefault()} onMouseEnter={() => setActive(i)} onClick={() => choose(o)}
                 >
                   <span className="search-name">Places people bring up for “{text}”</span>
-                  <span className="search-sub">Threads, dishes and descriptions that mention it</span>
                   <Icon name="arrow" size={16} className="search-n" />
                 </button>
               );

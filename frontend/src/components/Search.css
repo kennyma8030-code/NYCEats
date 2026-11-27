@@ -53,12 +53,12 @@
   grid-column: 1; font-family: var(--display); font-weight: 700; font-size: 17px; line-height: 1.2;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.search-sub { grid-column: 1; font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.search-sub { grid-column: 1; font: var(--small); color: var(--small-ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 .search-n { grid-column: 2; grid-row: 1 / span 2; font-size: 13px; color: var(--muted); white-space: nowrap }
 .search-opt.topic { border-top: 1px solid var(--line); border-radius: 0 0 var(--r-item) var(--r-item); margin-top: 4px }
 .search-opt.topic:first-child { border-top: 0; margin-top: 0; border-radius: var(--r-item) }
 .search-opt.topic .search-name { font-family: var(--body); font-weight: 600; font-size: 15px }
-.search-note { padding: 8px 12px 6px; font-size: 13px; color: var(--muted) }
+.search-note { padding: 8px 12px 6px; font: var(--small); color: var(--small-ink) }
 .search-topics { margin-top: 4px; padding-bottom: 6px; border-top: 1px solid var(--line) }
 .search-topics:first-child { border-top: 0; margin-top: 0 }
 .search-cities { display: flex; flex-wrap: wrap; gap: 8px; padding: 2px 12px 4px }

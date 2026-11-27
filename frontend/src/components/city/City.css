@@ -65,12 +65,12 @@
 .board-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: -8px }
 .board-top .wordmark { font-size: 16px }
 .board-city { font-family: var(--display); font-weight: 800; font-size: 38px; line-height: 1.05; letter-spacing: -.03em }
-.board-src { margin-top: 6px; font-size: 13px; color: var(--muted) }
+.board-src { margin-top: 6px; font: var(--small); color: var(--small-ink) }
 
 /* The period is part of the sentence it changes, not a control of its own. */
 .period {
   display: inline-flex; align-items: center; gap: 4px; min-height: 32px; padding: 0 2px; border: 0; background: none;
-  color: var(--ink-2); font-weight: 500; text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 3px;
+  color: inherit; text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 3px;
 }
 .period:hover { color: var(--ink) }
 
@@ -102,7 +102,7 @@
   overflow-y: auto; border-radius: var(--r-card); background: var(--surface); border: 1px solid var(--line);
   box-shadow: var(--shadow-card);
 }
-.menu-note { padding: 6px 12px 8px; font-size: 13px; color: var(--muted) }
+.menu-note { padding: 6px 12px 8px; font: var(--small); color: var(--small-ink) }
 .choice {
   width: 100%; min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--r-item); background: none;
   display: flex; align-items: center; gap: 10px; text-align: left; font-size: 15px;
@@ -139,7 +139,7 @@
 .row-num b { font-family: var(--display); font-weight: 800; font-size: 24px; line-height: 1; letter-spacing: -.02em; color: var(--accent) }
 .row-num small { font-size: 12px; font-weight: 600; color: var(--muted) }
 .row-skel { flex-shrink: 0; height: 70px; border-radius: 16px }
-.rows-foot { padding: 6px 6px 0; font-size: 13px; font-weight: 500; color: var(--muted) }
+.rows-foot { padding: 6px 6px 0; font: var(--small); color: var(--small-ink) }
 .rows-foot:empty { display: none }
 
 /* Beside an open restaurant: what was ranked, then rank and name only. */
@@ -152,7 +152,7 @@
 .board.compact .row-skel { height: 46px; border-radius: 14px }
 
 .board-msg { padding: 28px 20px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; font-size: 16px }
-.board-msg-sub { font-size: 13px; color: var(--muted) }
+.board-msg-sub { font: var(--small); color: var(--small-ink) }
 
 @media (max-width: 720px) {
   /* The panel becomes a sheet over the bottom of the map. Its handle folds

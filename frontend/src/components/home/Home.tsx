@@ -343,7 +343,7 @@ export function Home({ cities, citiesError, active, top, onActive, onOpen, onPla
               </div>
             )}
             {three && three.length === 0 && <p className="city-card-sub">Not enough opinions yet to rank anywhere.</p>}
-            {top.error && <p className="city-card-sub">The ranking could not be loaded. The city still opens.</p>}
+            {top.error && <p className="city-card-sub">The ranking could not be loaded.</p>}
             <button type="button" className="pill solid city-open" onClick={() => onOpen(city.subreddit)}>
               Open {city.name}
               <Icon name="arrow" size={18} stroke={2.4} />

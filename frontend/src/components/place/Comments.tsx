@@ -183,7 +183,7 @@ function VoiceComments({ entityKey, view, dev, onAll, title }: PaneProps & { vie
         <div>
           <h3 className="cpane-title" tabIndex={-1} ref={title}>{view.title}</h3>
           <p className="place-quiet">
-            {paged.total ? `${plural(paged.total, "person", "people")}, one comment each` : " "}
+            {paged.total ? plural(paged.total, "person", "people") : " "}
           </p>
         </div>
         <SortTabs sorts={SORTS.slice(0, 2)} value={sort} onChange={setSort} />

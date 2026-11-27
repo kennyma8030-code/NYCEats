@@ -67,7 +67,6 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
 
   const flip = (id: MenuId) => setMenu((m) => (m === id ? null : id));
   const { items, total, loading, error, current } = ranking;
-  const pinned = items.filter((i) => i.location).length;
 
   const chip = (id: MenuId, label: string, value: string | null) => (
     <button
@@ -103,11 +102,11 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
             From r/{scope.subreddit},{" "}
             {ledger ? (
               <button type="button" className="period" aria-haspopup="true" aria-expanded={menu === "period"} onClick={() => flip("period")}>
-                the last {windowOf(ranking.window).long}
+                last {windowOf(ranking.window).long}
                 <Icon name="down" size={12} stroke={2.4} />
               </button>
             ) : (
-              `opinions from the last ${daysPhrase(ranking.lines?.window_days ?? 365)}`
+              `last ${daysPhrase(ranking.lines?.window_days ?? 365)}`
             )}
           </p>
         </div>
@@ -162,7 +161,7 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
             </Menu>
           )}
           {menu === "needs" && (
-            <Menu label="Good for" note={ledger ? null : "Filters Talked about and Trending, so choosing one switches to Talked about."}>
+            <Menu label="Good for">
               {NEEDS.map((n) => (
                 <Choice key={n.k} many on={route.needs.includes(n.k)} onClick={() => go({ needs: toggle<Need>(route.needs, n.k) })}>
                   {n.label}
@@ -171,7 +170,7 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
             </Menu>
           )}
           {menu === "flaws" && (
-            <Menu label="Complaints" note={ledger ? "Places among the worst tenth for it." : "Places among the worst tenth for it. Choosing one switches to Talked about."}>
+            <Menu label="Complaints">
               {FLAWS.map((n) => (
                 <Choice key={n.k} many on={route.flaws.includes(n.k)} onClick={() => go({ flaws: toggle<Flaw>(route.flaws, n.k) })}>
                   {n.label}
@@ -204,12 +203,10 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
       ) : current && !loading && items.length === 0 ? (
         <div className="board-msg">
           <p>{active ? "Nothing matches these filters." : route.sort === "trending" ? "Nothing is being talked about more than usual." : "Nothing to rank here yet."}</p>
-          {active > 0 ? (
+          {active > 0 && (
             <button type="button" className="pill" onClick={() => go({ topic: "", cuisine: "", borough: "", needs: [], flaws: [] })}>
               Clear filters
             </button>
-          ) : route.sort === "trending" && (
-            <p className="board-msg-sub">Try a longer period, above.</p>
           )}
         </div>
       ) : (
@@ -263,11 +260,8 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
             );
           })}
           {items.length === 0 && Array.from({ length: 8 }, (_, i) => <li key={i} className="row-skel skel" aria-hidden="true" />)}
-          {current && items.length > 0 && !compact && (
-            <li className="rows-foot">
-              {total > items.length ? `The top ${items.length} of ${total.toLocaleString()}. ` : ""}
-              {pinned === 0 ? `No pins yet: ${scope.name}'s places have no coordinates.` : ""}
-            </li>
+          {current && total > items.length && !compact && (
+            <li className="rows-foot">Top {items.length} of {total.toLocaleString()}</li>
           )}
         </ol>
       )}
@@ -275,10 +269,9 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
   );
 }
 
-function Menu({ label, note, children }: { label: string; note?: string | null; children: React.ReactNode }) {
+function Menu({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="menu pop" role="menu" aria-label={label} data-menu>
-      {note && <p className="menu-note">{note}</p>}
       {children}
     </div>
   );

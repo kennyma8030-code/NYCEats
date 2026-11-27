@@ -57,13 +57,14 @@ const grow = (...stops: number[]) => ["interpolate", ["exponential", 1.6], ["zoo
 
 export function mapStyle(): Style {
   // Read from styles/tokens.css, so the map and the page share one palette.
-  const water = token("--map-water", "#D6E4EA");
-  const land = token("--map-land", "#F8F6F2");
-  const land2 = token("--map-land-2", "#EDEAE4");
-  const park = token("--map-park", "#D5E6CF");
-  const waterInk = token("--map-water-ink", "#4E6E7C");
-  const label = token("--map-label", "#6A665F");
-  const ink = token("--ink", "#15171A");
+  const water = token("--map-water", "#151B22");
+  const land = token("--map-land", "#23262B");
+  const land2 = token("--map-land-2", "#2A2E34");
+  const park = token("--map-park", "#26332B");
+  const waterInk = token("--map-water-ink", "#7F97AA");
+  const label = token("--map-label", "#9A9CA1");
+  const ink = token("--map-ink", "#E6E4DE");
+  const roadRgb = token("--map-road", "255, 255, 255");
   const halo = { "text-halo-color": land, "text-halo-width": 1.4 };
 
   const road = (id: string, classes: string[], minzoom: number, alpha: number, widths: number[]) => ({
@@ -71,7 +72,7 @@ export function mapStyle(): Style {
     // Tunnels are left out: a road nobody can see from the street is not part of the shape.
     filter: ["all", ["==", ["geometry-type"], "LineString"], classIn(...classes), ["!=", ["get", "brunnel"], "tunnel"]],
     layout: { "line-cap": "round", "line-join": "round" },
-    paint: { "line-color": `rgba(21, 23, 26, ${alpha})`, "line-width": grow(...widths) },
+    paint: { "line-color": `rgba(${roadRgb}, ${alpha})`, "line-width": grow(...widths) },
   });
 
   const layers = [

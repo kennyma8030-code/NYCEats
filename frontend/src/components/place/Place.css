@@ -60,7 +60,7 @@
 .place-score small { font-family: var(--warm); font-size: 13px; font-weight: 600; letter-spacing: 0; color: var(--muted); white-space: nowrap }
 .place-score:hover { color: var(--accent-deep) }
 .place-score:hover small { color: var(--ink) }
-.place-quiet { font-size: 14px; font-weight: 500; color: var(--muted) }
+.place-quiet { font: var(--small); color: var(--small-ink) }
 
 /* A share drawn as a bar, one for each thing rated. */
 .meter { display: block; height: 8px; border-radius: 4px; background: var(--track); overflow: hidden }
