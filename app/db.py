@@ -198,6 +198,23 @@ def get_conn():
         yield conn
 
 
+@contextmanager
+def transaction(conn):
+    """One explicit transaction on a pooled connection, for the rare read that
+    needs a SET LOCAL to cover it (search's index setting). Autocommit comes
+    back on whatever happens, so the connection never returns to the pool
+    idle in a transaction (connection() says why that matters)."""
+    conn.autocommit = False
+    try:
+        yield conn
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.autocommit = True
+
+
 def fetch_all(conn, sql, params=()):
     with conn.cursor(cursor_factory=RealDictCursor) as cur:
         cur.execute(sql, params)

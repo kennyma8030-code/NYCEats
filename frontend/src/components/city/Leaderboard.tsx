@@ -10,6 +10,7 @@ import { NEEDS, WINDOWS, windowOf } from "../../state/filters";
 import { filterCount, isLedgerSort, needLabel, toggle, type Route, type SortId } from "../../state/route";
 import { Icon } from "../Icon";
 import { Search, type Scope } from "../Search";
+import { SearchResults } from "../search/SearchResults";
 
 interface Props {
   route: Route;
@@ -131,7 +132,7 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
           <div className="rail-group rail-sorts" role="group" aria-label="Sort by">
             <p className="rail-label">Sort</p>
             {SORTS.map((s) => (
-              <button key={s.id} type="button" className="sort" aria-pressed={route.sort === s.id} onClick={() => go({ sort: s.id })}>
+              <button key={s.id} type="button" className="sort" aria-pressed={!route.q && route.sort === s.id} onClick={() => go({ sort: s.id })}>
                 {s.label}
               </button>
             ))}
@@ -213,12 +214,14 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
           </div>
           <Search
             scopes={[scope]} variant="panel" label={`Search restaurants in ${scope.name}`} placeholder="Search a restaurant or a dish"
-            onPlace={(_, key) => onOpen(key)} onTopic={(_, topic) => go({ topic })}
+            onPlace={(_, key) => onOpen(key)} onSearch={(_, q) => go({ q })}
           />
         </div>
       )}
 
-      {error ? (
+      {route.q && !compact ? (
+        <SearchResults query={route.q} city={route.city} dev={route.dev} onOpen={onOpen} onClose={() => go({ q: "" })} />
+      ) : error ? (
         <div className="board-msg" role="alert">
           <p>This list could not be loaded.</p>
           <p className="board-msg-sub">{error}</p>

@@ -520,6 +520,54 @@ end $$;
 
 
 -- ---------------------------------------------------------------------------
+-- Search (app/search.py): what a model made of a typed query, and what
+-- people searched for.
+--
+-- Neither is evidence and neither feeds a score. search_parses is a cache:
+-- the model's reading of one query, kept so the same words never pay for a
+-- second call. It stores what the model said, not the places that resolved
+-- to, because keys move with every refresh and the words do not. A row is
+-- only reused under the same model and prompt (prompt_hash covers the
+-- instructions and the city's cuisine labels), so changing either starts a
+-- clean cache rather than serving answers to a question no longer asked.
+-- search_log is the record of what was asked, for seeing what the parse and
+-- the cutoff get wrong. It holds the query text and nothing about who sent
+-- it. Two new tables: CREATE TABLE IF NOT EXISTS checks the catalog before
+-- it takes a lock, and the index is behind a catalog check, so no boot after
+-- the first waits on anything for them. The web app works without them: it
+-- parses again and logs nothing (app/search.py).
+-- ---------------------------------------------------------------------------
+create table if not exists search_parses (
+  subreddit   text not null,
+  query       text not null,              -- normalised: search.normalize()
+  model       text not null,
+  prompt_hash text not null,
+  parse       jsonb not null,             -- the model's answer, unresolved
+  created_at  timestamptz not null default now(),
+  primary key (subreddit, query, model, prompt_hash)
+);
+
+create table if not exists search_log (
+  id         bigserial primary key,
+  at         timestamptz not null default now(),
+  subreddit  text not null,
+  query      text not null,
+  mode       text not null,               -- fast | full
+  source     text not null,               -- vocabulary | unparsed | model | cache | fallback
+  parse      jsonb,
+  results    int,
+  ms         int
+);
+
+do $$
+begin
+  if to_regclass('search_log_at_idx') is null then
+    create index search_log_at_idx on search_log(at);
+  end if;
+end $$;
+
+
+-- ---------------------------------------------------------------------------
 -- Place summaries (summarize.py, summary_schema.sql).
 --
 -- Same block as summary_schema.sql, which explains it; that file is the

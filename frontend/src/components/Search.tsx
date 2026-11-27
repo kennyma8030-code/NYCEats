@@ -1,6 +1,9 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { api } from "../api/client";
+import type { SearchVocabulary } from "../api/types";
 import { whereLine } from "../lib/format";
 import { loadNames, search, suggest, type Entry, type NameHit } from "../lib/search";
+import { matchTerms, termCount, type TermHit } from "../lib/terms";
 import { Icon } from "./Icon";
 import "./Search.css";
 
@@ -21,32 +24,37 @@ interface Props {
   /** Example searches that take turns in an empty hero bar. */
   hints?: string[];
   onPlace: (subreddit: string, key: string) => void;
-  onTopic: (subreddit: string, topic: string) => void;
+  onSearch: (subreddit: string, query: string) => void;
 }
 
 type Option =
   | { kind: "place"; scope: Scope; hit: NameHit }
-  | { kind: "topic"; scope: Scope };
+  | { kind: "term"; scope: Scope; hit: TermHit }
+  | { kind: "query"; scope: Scope };
 
 const MAX_HITS = 6;
+const MAX_TERMS = 3;
 
 /**
  * One box for both kinds of search. Names are matched as you type, in the
  * browser (lib/search.ts), and listed under the box. Anything else is a
- * topic: Enter on free text opens the city with only what people mention
- * under those words, the API's own `topic` filter.
+ * question for the city's comments: Enter on free text opens the city on
+ * the places that answer it (/api/search). In a single city the box also
+ * offers the cuisines, areas, dishes and descriptors the text could be the
+ * start of (lib/terms.ts); picking one searches for it.
  *
  * Enter takes the highlighted row when the arrow keys have picked one, a
- * place when the text is exactly its name, and the topic otherwise, so
- * "Katz's Delicatessen" opens Katz's and "omakase" lists omakase.
+ * place when the text is exactly its name, and the search otherwise, so
+ * "Katz's Delicatessen" opens Katz's and "date night" lists places for one.
  */
-export function Search({ scopes, variant, label, placeholder, hints, onPlace, onTopic }: Props) {
+export function Search({ scopes, variant, label, placeholder, hints, onPlace, onSearch }: Props) {
   const id = useId();
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1);
   const [names, setNames] = useState<Record<string, Entry[]>>({});
   const [failed, setFailed] = useState(false);
+  const [vocab, setVocab] = useState<Record<string, SearchVocabulary>>({});
   const input = useRef<HTMLInputElement>(null);
   const cities = scopes.map((s) => s.subreddit).join(",");
 
@@ -59,6 +67,13 @@ export function Search({ scopes, variant, label, placeholder, hints, onPlace, on
         (entries) => setNames((n) => (n[sub] ? n : { ...n, [sub]: entries })),
         () => setFailed(true),
       );
+    }
+    // The words of one city only: across several, a cuisine or an area would
+    // need its city named beside it, and the box has the search rows for that.
+    const only = scopes.length === 1 ? scopes[0].subreddit : null;
+    if (only && !vocab[only]) {
+      // Suggestions only: without them the box still searches.
+      api.searchVocabulary(only).then((v) => setVocab((all) => (all[only] ? all : { ...all, [only]: v })), () => {});
     }
   };
 
@@ -84,12 +99,15 @@ export function Search({ scopes, variant, label, placeholder, hints, onPlace, on
         .sort((a, b) => b.hit.score - a.hit.score).slice(0, 3);
       guessed = places.length > 0;
     }
-    const topics = scopes.map((scope) => ({ kind: "topic" as const, scope }));
-    return { options: [...places, ...topics] as Option[], guessed };
-  }, [text, names, scopes]);
+    const words = scopes.length === 1 ? vocab[scopes[0].subreddit] : undefined;
+    const terms = words ? matchTerms(words, text, MAX_TERMS).map((hit) => ({ kind: "term" as const, scope: scopes[0], hit })) : [];
+    const queries = scopes.map((scope) => ({ kind: "query" as const, scope }));
+    return { options: [...places, ...terms, ...queries] as Option[], guessed };
+  }, [text, names, vocab, scopes]);
 
   const places = options.filter((o): o is Extract<Option, { kind: "place" }> => o.kind === "place");
-  const topics = options.filter((o): o is Extract<Option, { kind: "topic" }> => o.kind === "topic");
+  const terms = options.filter((o): o is Extract<Option, { kind: "term" }> => o.kind === "term");
+  const queries = options.filter((o): o is Extract<Option, { kind: "query" }> => o.kind === "query");
   const many = scopes.length > 1;
 
   const choose = (o: Option) => {
@@ -98,14 +116,14 @@ export function Search({ scopes, variant, label, placeholder, hints, onPlace, on
     setActive(-1);
     input.current?.blur();
     if (o.kind === "place") onPlace(o.scope.subreddit, o.hit.key);
-    else onTopic(o.scope.subreddit, text);
+    else onSearch(o.scope.subreddit, o.kind === "term" ? o.hit.label : text);
   };
 
   const submit = () => {
     if (!text) return;
     if (active >= 0 && options[active]) return choose(options[active]);
     const exact = guessed ? undefined : places.find((p) => p.hit.exact);
-    choose(exact ?? { kind: "topic", scope: scopes[0] });
+    choose(exact ?? { kind: "query", scope: scopes[0] });
   };
 
   const onKey = (e: React.KeyboardEvent) => {
@@ -193,8 +211,8 @@ export function Search({ scopes, variant, label, placeholder, hints, onPlace, on
             <div className="search-topics">
               <p className="search-note">Places people bring up for “{text}” in</p>
               <div className="search-cities">
-                {topics.map((o, j) => {
-                  const i = places.length + j;
+                {queries.map((o, j) => {
+                  const i = places.length + terms.length + j;
                   return (
                     <button
                       key={o.scope.subreddit} type="button" role="option" id={optionId(i)} aria-selected={i === active}
@@ -208,11 +226,26 @@ export function Search({ scopes, variant, label, placeholder, hints, onPlace, on
               </div>
             </div>
           ) : (
-            topics.map((o, j) => {
+            <>
+            {terms.map((o, j) => {
               const i = places.length + j;
               return (
                 <button
-                  key="topic" type="button" role="option" id={optionId(i)} aria-selected={i === active}
+                  key={`${o.hit.kind}|${o.hit.label}`} type="button" role="option" id={optionId(i)} aria-selected={i === active}
+                  className={j === 0 ? "search-opt term first" : "search-opt term"} tabIndex={-1}
+                  onMouseDown={(e) => e.preventDefault()} onMouseEnter={() => setActive(i)} onClick={() => choose(o)}
+                >
+                  <span className="search-name">{o.hit.label}</span>
+                  <span className="search-sub">{o.hit.kind}</span>
+                  <span className="search-n">{termCount(o.hit)}</span>
+                </button>
+              );
+            })}
+            {queries.map((o, j) => {
+              const i = places.length + terms.length + j;
+              return (
+                <button
+                  key="query" type="button" role="option" id={optionId(i)} aria-selected={i === active}
                   className="search-opt topic" tabIndex={-1}
                   onMouseDown={(e) => e.preventDefault()} onMouseEnter={() => setActive(i)} onClick={() => choose(o)}
                 >
@@ -220,7 +253,8 @@ export function Search({ scopes, variant, label, placeholder, hints, onPlace, on
                   <Icon name="arrow" size={16} className="search-n" />
                 </button>
               );
-            })
+            })}
+            </>
           )}
         </div>
       )}

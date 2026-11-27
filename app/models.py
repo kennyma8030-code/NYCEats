@@ -616,3 +616,54 @@ class ExtractionView(BaseModel):
     groups: list[ExtractionGroup]
     # Null when v6 never queued the item.
     state: Optional[ExtractionState] = None
+
+
+# Search (app/search.py).
+SearchFilterType = Literal["cuisine", "area", "restaurant"]
+
+
+class SearchFilter(BaseModel):
+    type: SearchFilterType
+    value: str                    # as the vocabulary shows it: "Italian", "west village"
+
+
+class SearchParse(BaseModel):
+    """What the query was understood to mean, so the page can show it and a
+    reader can see why a place is or is not there."""
+    search_text: str              # matched against the meaning of comments; may be empty
+    include: list[SearchFilter]
+    exclude: list[SearchFilter]
+    ignored: list[str]            # things to leave out that named nothing known
+    no_data: list[str]            # price, hours, ...: asked about, not held here
+    hard: bool                    # a question more than a search
+
+
+class SearchItem(BaseModel):
+    """One place in a search. `people` is the number it was ranked by, and
+    `comments` are among the ones it counts: there is no other score."""
+    entity_key: str
+    name: str
+    cuisine: Optional[str] = None
+    borough: Optional[str] = None
+    neighborhood: Optional[str] = None
+    # ranked_by matching_people: different people with a matching comment
+    # among the nearest read. ranked_by people: everyone who brought it up.
+    people: int
+    total_people: Optional[int] = None
+    best_similarity: Optional[float] = None
+    comments: list[Mention]
+
+
+class SearchResponse(BaseModel):
+    query: str
+    mode: Literal["fast", "full"]
+    # True on a mode=fast answer the vocabulary could not fully explain:
+    # ask again with mode=full for the model's reading.
+    needs_model: bool
+    source: Literal["vocabulary", "model", "cache", "unparsed", "fallback"]
+    parse: SearchParse
+    semantic: Literal["ok", "none", "unavailable"]
+    ranked_by: Literal["matching_people", "people"]
+    total: int                    # places before `limit`
+    items: list[SearchItem]
+    notes: list[str]              # plain sentences for the reader

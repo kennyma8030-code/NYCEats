@@ -30,7 +30,9 @@ live ones.
 import time
 
 from psycopg2.errors import QueryCanceled, UndefinedColumn, UndefinedTable
+from psycopg2.extras import Json
 
+import embedding
 import refresh
 
 from .models import (ASPECTS, CATEGORY_VOICE_FILTERS, DEFAULT_SORT, OVERALL_BOARDS,
@@ -1572,3 +1574,252 @@ def item_extraction(conn, sub, item_id, prompt_hash, fetch_all, fetch_one, fetch
         forget_v6_ready()
         return None
     return rows, state
+
+
+# --- Search ------------------------------------------------------------------
+#
+# What app/search.py reads. A search has three kinds of statement: the
+# vocabulary (what words the board can explain without a model), the
+# retrieval (nearest comments to the query, or the board when there is no
+# text to embed), and the two tables search writes to, neither of which is
+# evidence: search_parses caches what a model made of a query, search_log
+# says what was asked.
+
+# The embedding model's key, as a literal in the statement and not a bound
+# value: comment_embeddings' vector index is partial on exactly this literal,
+# and the planner only proves a partial index applies from a constant
+# (SPEC.md, "Embeddings"). It is a module constant, never caller input.
+SEARCH_MODEL = embedding.MODEL_KEY
+assert "'" not in SEARCH_MODEL and "%" not in SEARCH_MODEL, SEARCH_MODEL
+
+# A comment that knocks a place does not count toward it in a search: "skip
+# X, it is overrated" is near "best X" in meaning and must not rank X.
+# is_negated and avoid say "do not go"; a stated opinion below zero says the
+# commenter went and did not like it.
+SEARCH_KNOCK = ("(w.is_negated or coalesce(m.avoid, false)"
+                " or (m.opinion = 'stated' and coalesce(m.overall_level, 0) < 0))")
+
+
+def vocab_places(conn, sub, fetch_all):
+    """Every place on the city's board with what search filters on, and the
+    typed spellings that resolve to it."""
+    return fetch_all(conn, """
+        select l.entity_key, l.official_name, l.cuisine, l.boroughs,
+               coalesce(l.distinct_authors, 0) as people,
+               coalesce(l.is_chain, false) as is_chain, coalesce(l.closed, false) as closed,
+               coalesce(array_agg(a.entity_key) filter (where a.entity_key <> l.entity_key),
+                        '{}') as aliases
+        from entity_leaderboard l
+        left join entity_alias a on a.subreddit = l.subreddit and a.resolved_key = l.entity_key
+        where l.subreddit = %s
+        group by l.entity_key, l.official_name, l.cuisine, l.boroughs,
+                 l.distinct_authors, l.is_chain, l.closed
+    """, (sub,))
+
+
+def vocab_terms(conn, sub, min_n, fetch_all):
+    """The dishes and descriptors commenters used at least `min_n` times, in
+    lower case: (kind, term, n) with kind 'dish' or 'tag'. Two scans of the
+    city's mentions, so the caller keeps the result (search.vocabulary)."""
+    return fetch_all(conn, """
+        select 'dish' as kind, lower(v) as term, count(*) as n
+        from mention_weights w
+        join mentions m on m.id = w.mention_id
+        cross join lateral jsonb_array_elements_text(m.dishes) v
+        where w.subreddit = %(sub)s and jsonb_typeof(m.dishes) = 'array' and v is not null
+        group by 2 having count(*) >= %(min_n)s
+        union all
+        select 'tag', lower(v), count(*)
+        from mention_weights w
+        join mentions m on m.id = w.mention_id
+        cross join lateral jsonb_array_elements_text(m.descriptors) v
+        where w.subreddit = %(sub)s and jsonb_typeof(m.descriptors) = 'array' and v is not null
+        group by 2 having count(*) >= %(min_n)s
+    """, {"sub": sub, "min_n": min_n})
+
+
+def vocab_areas(conn, sub, fetch_all):
+    """(entity_key, term, n): how many of a place's mentions put it in each
+    neighbourhood, in the commenters' own words, lower case."""
+    return fetch_all(conn, """
+        select w.entity_key, lower(m.neighborhood_hint) as term, count(*) as n
+        from mention_weights w
+        join mentions m on m.id = w.mention_id
+        where w.subreddit = %s and m.neighborhood_hint is not null
+        group by 1, 2
+    """, (sub,))
+
+
+def vocab_cuisine_tags(conn, sub, terms, min_n, fetch_all):
+    """(entity_key, term, n): how many different people tagged each place
+    with one of the cuisine words `terms`, where at least `min_n` did. The
+    city's own cuisine label is missing for three places in four, so the
+    tags fill it in. People, not mentions, so `n` compares with the place's
+    distinct_authors."""
+    if not terms:
+        return []
+    return fetch_all(conn, """
+        select w.entity_key, lower(v) as term,
+               count(distinct coalesce(nullif(w.author, '[deleted]'), w.comment_id)) as n
+        from mention_weights w
+        join mentions m on m.id = w.mention_id
+        cross join lateral jsonb_array_elements_text(m.descriptors) v
+        where w.subreddit = %s and jsonb_typeof(m.descriptors) = 'array'
+          and lower(v) = any(%s)
+        group by 1, 2
+        having count(distinct coalesce(nullif(w.author, '[deleted]'), w.comment_id)) >= %s
+    """, (sub, list(terms), min_n))
+
+
+def _search_place_filters(include, exclude, show_chains, params):
+    """The SQL that keeps a place `l` in a search, for both retrievals.
+
+    `include` is a list of key lists, one per kind of filter (every kind must
+    hold, so each is its own ANY); `exclude` is one list. Closed places never
+    show; chains only when the search names a place."""
+    where = ["not coalesce(l.closed, false)",
+             "not exists (select 1 from excluded_entities x"
+             " where x.subreddit = l.subreddit and x.entity_key = l.entity_key)"]
+    if not show_chains:
+        where.append("not coalesce(l.is_chain, false)")
+    for i, keys in enumerate(include):
+        params[f"inc{i}"] = list(keys)
+        where.append(f"l.entity_key = any(%(inc{i})s)")
+    if exclude:
+        params["exc"] = list(exclude)
+        where.append("not (l.entity_key = any(%(exc)s))")
+    return " and ".join(where)
+
+
+def semantic_matches(conn, sub, vec, k, min_similarity, include, exclude, show_chains, fetch_all):
+    """The mentions in the `k` comments nearest the query vector `vec` (a
+    pgvector literal): (entity_key, mention_id, comment_id, person,
+    similarity), after the cutoff, the knocks and the place filters.
+
+    Must run inside db.transaction: the SET LOCAL only lasts that long. It
+    lets the index keep scanning when the filters below drop most of what it
+    found first (SPEC.md, "Embeddings"); without the index it does nothing.
+
+    The nearest comments are taken before any filter, so a narrow filter can
+    leave few of the `k`: the caller says so rather than pretending the count
+    is of every comment. A person is the author, or the comment itself when
+    the account is gone, so two deleted accounts are not one voice.
+    """
+    params = {"sub": sub, "vec": vec, "k": k, "min": min_similarity}
+    places = _search_place_filters(include, exclude, show_chains, params)
+    with conn.cursor() as cur:
+        cur.execute("set local hnsw.iterative_scan = relaxed_order")
+    return fetch_all(conn, f"""
+        with near as materialized (
+            select e.comment_id, e.embedding <=> %(vec)s::halfvec({embedding.DIMS}) as distance
+            from comment_embeddings e
+            where e.model = '{SEARCH_MODEL}'
+            order by 2
+            limit %(k)s
+        )
+        select w.entity_key, w.mention_id, w.comment_id,
+               coalesce(nullif(w.author, '[deleted]'), w.comment_id) as person,
+               1 - n.distance as similarity
+        from near n
+        join mentions m on m.comment_id = n.comment_id
+        join mention_weights w on w.mention_id = m.id
+        join entity_leaderboard l on l.subreddit = w.subreddit and l.entity_key = w.entity_key
+        where w.subreddit = %(sub)s
+          and 1 - n.distance >= %(min)s
+          and not {SEARCH_KNOCK}
+          and {places}
+    """, params)
+
+
+def search_board(conn, sub, include, exclude, show_chains, limit, fetch_all, fetch_value):
+    """A search with nothing to embed ("italian in brooklyn"): the filtered
+    board by how many people brought each place up. Returns (rows, total)."""
+    params = {"sub": sub, "limit": limit}
+    places = _search_place_filters(include, exclude, show_chains, params)
+    total = fetch_value(conn, f"""
+        select count(*) from entity_leaderboard l
+        where l.subreddit = %(sub)s and {places}
+    """, params, default=0)
+    rows = fetch_all(conn, f"""
+        select l.entity_key, coalesce(l.distinct_authors, 0) as people
+        from entity_leaderboard l
+        where l.subreddit = %(sub)s and {places}
+        order by l.distinct_authors desc nulls last, l.entity_key
+        limit %(limit)s
+    """, params)
+    return rows, total
+
+
+def search_places(conn, sub, keys, fetch_all):
+    """What a result row shows about each place."""
+    if not keys:
+        return []
+    return fetch_all(conn, """
+        select l.entity_key, l.official_name, l.cuisine, l.boroughs[1] as borough,
+               coalesce(l.distinct_authors, 0) as total_people
+        from entity_leaderboard l
+        where l.subreddit = %s and l.entity_key = any(%s)
+    """, (sub, list(keys)))
+
+
+def search_evidence(conn, sub, mention_ids, fetch_all):
+    """The comments behind a result, in models.Mention's shape, with the
+    resolved place each belongs to."""
+    if not mention_ids:
+        return []
+    return fetch_all(conn, f"""
+        select w.entity_key, {MENTION_COLUMNS}
+        from mention_weights w
+        join mentions m on m.id = w.mention_id
+        join comments c on c.id = m.comment_id
+        join threads t on t.id = c.thread_id
+        where w.subreddit = %s and w.mention_id = any(%s)
+    """, (sub, list(mention_ids)))
+
+
+def board_evidence(conn, sub, keys, per_place, fetch_all):
+    """The `per_place` most upvoted comments that do not knock each place,
+    for a search that ranked by the board and so has no nearest comments."""
+    if not keys:
+        return []
+    return fetch_all(conn, f"""
+        select * from (
+            select w.entity_key, {MENTION_COLUMNS},
+                   row_number() over (partition by w.entity_key
+                                      order by c.score desc nulls last, c.created_utc desc,
+                                               m.id) as rn
+            from mention_weights w
+            join mentions m on m.id = w.mention_id
+            join comments c on c.id = m.comment_id
+            join threads t on t.id = c.thread_id
+            where w.subreddit = %s and w.entity_key = any(%s)
+              and not {SEARCH_KNOCK}
+        ) x where rn <= %s
+    """, (sub, list(keys), per_place))
+
+
+def search_parse_get(conn, sub, query, model, prompt_hash, fetch_value):
+    """What the model made of this query before, or None. Keyed on the model
+    and the prompt, so changing either asks again instead of serving an
+    answer to a different question."""
+    return fetch_value(conn, """
+        select parse from search_parses
+        where subreddit = %s and query = %s and model = %s and prompt_hash = %s
+    """, (sub, query, model, prompt_hash))
+
+
+def search_parse_put(conn, sub, query, model, prompt_hash, parse):
+    with conn.cursor() as cur:
+        cur.execute("""
+            insert into search_parses (subreddit, query, model, prompt_hash, parse)
+            values (%s, %s, %s, %s, %s)
+            on conflict (subreddit, query, model, prompt_hash) do nothing
+        """, (sub, query, model, prompt_hash, Json(parse)))
+
+
+def search_log_put(conn, sub, query, mode, source, parse, results, ms):
+    with conn.cursor() as cur:
+        cur.execute("""
+            insert into search_log (subreddit, query, mode, source, parse, results, ms)
+            values (%s, %s, %s, %s, %s, %s, %s)
+        """, (sub, query, mode, source, Json(parse), results, ms))

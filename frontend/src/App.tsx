@@ -57,7 +57,10 @@ export default function App() {
   const previewTop = useFetch(inCity ? null : `top|${preview}`, () => api.cityTop(preview));
 
   const facets = useFacets(inCity ? route.city : null);
-  const ranking = useRanking(route, inCity);
+  // A search lists its own answer in the panel (SearchResults), so the
+  // ranking is not asked for under it and the map carries no pins of a list
+  // that is not on screen.
+  const ranking = useRanking(route, inCity && !route.q);
   const [hot, setHot] = useState<string | null>(null);
   const [peek, setPeek] = useState(false);
 
@@ -232,7 +235,7 @@ export default function App() {
 
       <Home
         cities={cities.data} citiesError={cities.error} active={preview} onActive={setPreview}
-        onOpen={openCity} onPlace={(city, place) => go({ city, place })} onTopic={(city, topic) => go({ city, topic })}
+        onOpen={openCity} onPlace={(city, place) => go({ city, place })} onSearch={(city, q) => go({ city, q })}
         hidden={inCity}
       />
 

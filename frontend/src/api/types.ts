@@ -298,3 +298,55 @@ export interface Extraction {
   groups: ExtractionGroup[];
   state: { extracted_at: string | null; failed: boolean; this_prompt: boolean; pending: boolean } | null;
 }
+
+/** What search matches in the browser: `[label, n]` rows, most used first.
+ *  `n` is places for a cuisine or an area and mentions for a dish or a tag. */
+export type TermRow = [string, number];
+export interface SearchVocabulary {
+  cuisines: TermRow[];
+  areas: TermRow[];
+  dishes: TermRow[];
+  tags: TermRow[];
+}
+
+export interface SearchFilter {
+  type: "cuisine" | "area" | "restaurant";
+  value: string;
+}
+
+/** How the query was read, shown so a reader can see why a place is there. */
+export interface SearchParse {
+  search_text: string;
+  include: SearchFilter[];
+  exclude: SearchFilter[];
+  ignored: string[];
+  no_data: string[];
+  hard: boolean;
+}
+
+export interface SearchItem {
+  entity_key: string;
+  name: string;
+  cuisine: string | null;
+  borough: string | null;
+  neighborhood: string | null;
+  /** The number the place is ranked by; `comments` are among the ones it counts. */
+  people: number;
+  total_people: number | null;
+  best_similarity: number | null;
+  comments: Mention[];
+}
+
+export interface SearchResponse {
+  query: string;
+  mode: "fast" | "full";
+  /** A fast answer the vocabulary could not fully explain: ask again in full. */
+  needs_model: boolean;
+  source: "vocabulary" | "model" | "cache" | "unparsed" | "fallback";
+  parse: SearchParse;
+  semantic: "ok" | "none" | "unavailable";
+  ranked_by: "matching_people" | "people";
+  total: number;
+  items: SearchItem[];
+  notes: string[];
+}

@@ -18,7 +18,7 @@ interface Props {
   onActive: (subreddit: string) => void;
   onOpen: (subreddit: string) => void;
   onPlace: (subreddit: string, key: string) => void;
-  onTopic: (subreddit: string, topic: string) => void;
+  onSearch: (subreddit: string, query: string) => void;
   /** True while a city is open: the page fades out and stops taking part. */
   hidden: boolean;
 }
@@ -50,7 +50,7 @@ const SWIPE_PX = 40;
  * following as it does on hover. Up from the first city leaves
  * for the title; down from the last does nothing.
  */
-export function Home({ cities, citiesError, active, onActive, onOpen, onPlace, onTopic, hidden }: Props) {
+export function Home({ cities, citiesError, active, onActive, onOpen, onPlace, onSearch, hidden }: Props) {
   const root = useRef<HTMLDivElement>(null);
   const hero = useRef<HTMLElement>(null);
   const list = useRef<HTMLElement>(null);
@@ -267,7 +267,7 @@ export function Home({ cities, citiesError, active, onActive, onOpen, onPlace, o
             {scopes.length > 0 && (
               <Search
                 scopes={scopes} variant="hero" label="Search a restaurant, dish or neighborhood" hints={HINTS}
-                onPlace={onPlace} onTopic={onTopic}
+                onPlace={onPlace} onSearch={onSearch}
               />
             )}
           </div>

@@ -19,6 +19,9 @@ export interface Route {
   /** The period the counts cover; null is the sort's own (SORTS[].window). */
   window: WindowDays | null;
   topic: string;
+  /** A typed search (/api/search). While there is one the panel lists its
+   *  answer in place of the ranking, which the sort and filters belong to. */
+  q: string;
   cuisine: string;
   borough: string;
   needs: Need[];
@@ -38,7 +41,7 @@ export const DEFAULT_SORT: SortId = "loved";
 export const isLedgerSort = (s: SortId) => s === "talked";
 
 export const HOME_ROUTE: Route = {
-  screen: "home", city: HOME, sort: DEFAULT_SORT, window: null, topic: "", cuisine: "", borough: "",
+  screen: "home", city: HOME, sort: DEFAULT_SORT, window: null, topic: "", q: "", cuisine: "", borough: "",
   needs: [], flaws: [], place: null, dev: false,
 };
 
@@ -55,7 +58,7 @@ function legacySort(p: URLSearchParams): SortId | null {
 }
 
 // Any of these in a link means a city is open. A bare URL is the landing page.
-const CITY_PARAMS = ["subreddit", "r", "sort", "topic", "cuisine", "borough", "need", "flaw", "window", "category", "view"];
+const CITY_PARAMS = ["subreddit", "r", "sort", "topic", "q", "cuisine", "borough", "need", "flaw", "window", "category", "view"];
 
 export function parseRoute(search: string): Route {
   const p = new URLSearchParams(search);
@@ -72,6 +75,7 @@ export function parseRoute(search: string): Route {
     sort: asked ?? DEFAULT_SORT,
     window: isWindow(win) && !namesTrending(p) ? win : null,
     topic: f.topic.trim(),
+    q: (p.get("q") ?? "").trim(),
     cuisine: f.cuisine,
     borough: f.borough,
     needs: f.needs,
@@ -91,6 +95,7 @@ export function formatRoute(r: Route): string {
     if (r.sort !== DEFAULT_SORT) p.set("sort", r.sort);
     if (r.window != null) p.set("window", String(r.window));
     if (r.topic) p.set("topic", r.topic);
+    if (r.q) p.set("q", r.q);
     if (r.cuisine) p.set("cuisine", r.cuisine);
     if (r.borough) p.set("borough", r.borough);
     r.needs.forEach((n) => p.append("need", n));
@@ -114,6 +119,8 @@ function settle(r: Route, keep: SortId | null): Route {
   return { ...r, sort: "talked" };
 }
 
+const RANKING_KEYS = ["sort", "window", "topic", "cuisine", "borough", "needs", "flaws"] as const;
+
 /** The route after a change. Changing city starts that city clean: a
  *  cuisine, an area or a key from one city names nothing in another. An
  *  aspect cannot be both wanted and complained of (the API refuses the
@@ -126,7 +133,10 @@ export function applyPatch(r: Route, patch: Partial<Route>): Route {
   let next: Route = { ...r, ...patch, screen: "city" };
   if (patch.needs) next = { ...next, flaws: next.flaws.filter((x) => !(patch.needs as string[]).includes(x)) };
   else if (patch.flaws) next = { ...next, needs: next.needs.filter((x) => !(patch.flaws as string[]).includes(x)) };
-  next = { ...next, topic: next.topic.trim() };
+  next = { ...next, topic: next.topic.trim(), q: next.q.trim() };
+  // A sort or a filter is asked of the ranking, so choosing one leaves the
+  // search. Opening and closing a restaurant does not.
+  if (patch.q === undefined && RANKING_KEYS.some((k) => patch[k] !== undefined)) next = { ...next, q: "" };
   // A new sort has its own usual period, not the one chosen for the last.
   if (patch.sort != null && patch.sort !== r.sort && patch.window === undefined) next = { ...next, window: null };
   return settle(next, patch.sort ?? null);

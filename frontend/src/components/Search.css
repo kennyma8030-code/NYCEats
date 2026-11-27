@@ -58,6 +58,7 @@
 .search-opt.topic { border-top: 1px solid var(--line); border-radius: 0 0 var(--r-item) var(--r-item); margin-top: 4px }
 .search-opt.topic:first-child { border-top: 0; margin-top: 0; border-radius: var(--r-item) }
 .search-opt.topic .search-name { font-family: var(--body); font-weight: 600; font-size: 15px }
+.search-opt.term.first:not(:first-child) { border-top: 1px solid var(--line); border-radius: 0; margin-top: 4px }
 .search-note { padding: 8px 12px 6px; font: var(--small); color: var(--small-ink) }
 .search-topics { margin-top: 4px; padding-bottom: 6px; border-top: 1px solid var(--line) }
 .search-topics:first-child { border-top: 0; margin-top: 0 }

@@ -1,0 +1,27 @@
+/* A search's answer, in the panel where the ranking would be: the same rows,
+   each followed by the comments its number counts. */
+.sr { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column }
+.sr-head { padding: 0 20px 10px; display: flex; flex-direction: column; gap: 8px }
+.sr-title { display: flex; align-items: center; justify-content: space-between; gap: 12px }
+.sr-title h2 {
+  min-width: 0; font-family: var(--display); font-weight: 800; font-size: 22px; line-height: 1.15; letter-spacing: -.02em;
+  overflow-wrap: anywhere;
+}
+.sr-title .textlink { flex-shrink: 0 }
+.sr-sum, .sr-note { font: var(--small); color: var(--small-ink) }
+
+/* How the query was read: what it is about, what a place must be, what is left out. */
+.sr-parts { display: flex; flex-wrap: wrap; gap: 6px }
+.sr-part {
+  display: inline-flex; align-items: baseline; gap: 6px; padding: 4px 10px; border-radius: var(--r-pill);
+  background: var(--wash); font-size: 13px; font-weight: 600;
+}
+.sr-part i { font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
+.sr-part.out { text-decoration: line-through; text-decoration-color: var(--muted) }
+.sr-part.out i { color: var(--accent-ink) }
+
+.sr-item { display: flex; flex-direction: column; gap: 8px }
+/* Set in from the row they belong to, so a place and its comments read as one. */
+.sr-cmts { margin-left: 16px; gap: 8px }
+.sr-cmts .cmt { padding: 12px 12px 10px; gap: 8px; box-shadow: none; border-color: var(--line) }
+.sr-cmts .cmt-body { font-size: 15px }

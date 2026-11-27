@@ -70,6 +70,19 @@ test("another city starts clean, and going home forgets the city", () => {
   assert.equal(applyPatch(HOME_ROUTE, { city: "FoodNYC", topic: "ramen" }).sort, "talked");
 });
 
+test("a search is in the link, outlasts a restaurant and ends with a sort or filter", () => {
+  const searched = applyPatch(nyc, { q: " date night " });
+  assert.equal(searched.q, "date night");
+  assert.deepEqual(parseRoute(formatRoute(searched)), searched);
+  assert.equal(parseRoute("?q=ramen").screen, "city");
+  assert.equal(applyPatch(searched, { place: "raku" }).q, "date night");
+  assert.equal(applyPatch(applyPatch(searched, { place: "raku" }), { place: null }).q, "date night");
+  assert.equal(applyPatch(searched, { sort: "gems" }).q, "");
+  assert.equal(applyPatch(searched, { cuisine: "Thai" }).q, "");
+  assert.equal(applyPatch(HOME_ROUTE, { city: "austinfood", q: "tacos" }).q, "tacos");
+  assert.equal(applyPatch(searched, { city: "austinfood" }).q, "");
+});
+
 test("the ledger is asked for exactly what the route says", () => {
   const f = ledgerFilters({ ...nyc, sort: "talked", topic: "ramen", borough: "Queens" }, 7);
   assert.deepEqual(f, { algo: "v1", topic: "ramen", category: "top", window: 7, cuisine: "", borough: "Queens", needs: [], flaws: [] });
