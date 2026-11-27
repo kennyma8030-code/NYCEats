@@ -1,0 +1,11761 @@
+{
+ "312 fish market": {
+  "drop": [
+   "platters"
+  ]
+ },
+ "5 rabanitos": {
+  "groups": [
+   {
+    "label": "Torta ahogada",
+    "names": [
+     "torta ahogada",
+     "ahogada torta"
+    ]
+   },
+   {
+    "label": "Torta milanesa",
+    "names": [
+     "milanesa torta",
+     "torta milanesa"
+    ]
+   }
+  ]
+ },
+ "aba": {
+  "drop": [
+   "cocktails"
+  ],
+  "groups": [
+   {
+    "label": "Pita",
+    "names": [
+     "pita",
+     "pita bread"
+    ]
+   }
+  ]
+ },
+ "aberdeen tap": {
+  "drop": [
+   "jerk sauce"
+  ],
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "buffalo wings"
+    ]
+   },
+   {
+    "label": "Chicken caesar wrap",
+    "names": [
+     "caesar wrap",
+     "chicken caesar wrap"
+    ]
+   }
+  ]
+ },
+ "agora": {
+  "drop": [
+   "salsa"
+  ],
+  "groups": [
+   {
+    "label": "House made chips",
+    "names": [
+     "house made chips",
+     "chips"
+    ]
+   }
+  ]
+ },
+ "ahuevo": {
+  "drop": [
+   "sandwich",
+   "sandwiches"
+  ]
+ },
+ "akahoshi": {
+  "drop": [
+   "ramen",
+   "noodles",
+   "broth",
+   "monthly specials",
+   "monthly special",
+   "eggs"
+  ],
+  "groups": [
+   {
+    "label": "Miso ramen",
+    "names": [
+     "miso",
+     "miso ramen"
+    ]
+   },
+   {
+    "label": "Tonkotsu ramen",
+    "names": [
+     "tonkotsu",
+     "tonkotsu ramen"
+    ]
+   }
+  ]
+ },
+ "akahoshi ramen": {
+  "drop": [
+   "ramen",
+   "broth",
+   "noodles",
+   "special",
+   "november special"
+  ]
+ },
+ "alinea": {
+  "groups": [
+   {
+    "label": "Table dessert",
+    "names": [
+     "table dessert",
+     "dessert"
+    ]
+   },
+   {
+    "label": "Black truffle explosion",
+    "names": [
+     "truffle explosion",
+     "black truffle explosion"
+    ]
+   }
+  ]
+ },
+ "all too well": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "alla vita": {
+  "drop": [
+   "bread",
+   "pasta"
+  ]
+ },
+ "allegrettis": {
+  "drop": [
+   "donuts"
+  ]
+ },
+ "allegrettis bakery": {
+  "drop": [
+   "donuts"
+  ]
+ },
+ "allez": {
+  "drop": [
+   "pastries",
+   "jam"
+  ]
+ },
+ "allez cafe": {
+  "drop": [
+   "pastries"
+  ],
+  "groups": [
+   {
+    "label": "Breakfast sandwich",
+    "names": [
+     "breakfast sandwich",
+     "breakfast sando",
+     "breakfast sandwiches",
+     "sandwich"
+    ]
+   }
+  ]
+ },
+ "alliance bakery": {
+  "drop": [
+   "cake",
+   "cakes"
+  ]
+ },
+ "aloha eats": {
+  "groups": [
+   {
+    "label": "Macaroni salad",
+    "names": [
+     "mac salad",
+     "macaroni salad"
+    ]
+   }
+  ]
+ },
+ "alpine": {
+  "drop": [
+   "sandwiches",
+   "sub",
+   "subs"
+  ]
+ },
+ "alpine food shop": {
+  "drop": [
+   "subs"
+  ]
+ },
+ "als": {
+  "drop": [
+   "giardiniera",
+   "hot peppers"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef",
+     "italian beef sandwich"
+    ]
+   }
+  ]
+ },
+ "als beef": {
+  "drop": [
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef"
+    ]
+   }
+  ]
+ },
+ "als italian beef": {
+  "drop": [
+   "cheese sauce"
+  ],
+  "groups": [
+   {
+    "label": "Beef with cheese",
+    "names": [
+     "beef with cheese",
+     "cheese on the beef"
+    ]
+   }
+  ]
+ },
+ "als on taylor": {
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef"
+    ]
+   }
+  ]
+ },
+ "amande": {
+  "groups": [
+   {
+    "label": "Basque cheesecake",
+    "names": [
+     "basque cheesecake",
+     "cheesecake"
+    ]
+   }
+  ]
+ },
+ "amande dessert": {
+  "groups": [
+   {
+    "label": "Basque cheesecake",
+    "names": [
+     "basque cheesecake",
+     "cheesecake",
+     "original basque cheesecake",
+     "vanilla basque cheesecake"
+    ]
+   },
+   {
+    "label": "Caramel Basque cheesecake",
+    "names": [
+     "caramel basque cheesecake",
+     "caramel cheesecake"
+    ]
+   }
+  ]
+ },
+ "andros taverna": {
+  "drop": [
+   "meat"
+  ]
+ },
+ "angelas burrito style": {
+  "drop": [
+   "green sauce"
+  ]
+ },
+ "ann sather": {
+  "groups": [
+   {
+    "label": "Cinnamon rolls",
+    "names": [
+     "cinnamon rolls",
+     "cinnamon roll"
+    ]
+   }
+  ]
+ },
+ "ann sathers": {
+  "groups": [
+   {
+    "label": "Cinnamon rolls",
+    "names": [
+     "cinnamon rolls",
+     "cinnamon roll"
+    ]
+   },
+   {
+    "label": "Swedish pancakes",
+    "names": [
+     "swedish pancakes",
+     "pancakes"
+    ]
+   }
+  ]
+ },
+ "annettes": {
+  "drop": [
+   "ice cream"
+  ]
+ },
+ "antique taco": {
+  "groups": [
+   {
+    "label": "Taco salad",
+    "names": [
+     "taco salad",
+     "salad"
+    ]
+   }
+  ]
+ },
+ "apolonia": {
+  "drop": [
+   "desserts",
+   "pasta"
+  ]
+ },
+ "arepa george cantina": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "arla": {
+  "drop": [
+   "drinks"
+  ]
+ },
+ "armitage alehouse": {
+  "groups": [
+   {
+    "label": "Sticky date cake",
+    "names": [
+     "sticky date cake",
+     "date cake",
+     "sticky toffee date cake"
+    ]
+   },
+   {
+    "label": "Pot pie",
+    "names": [
+     "pot pies",
+     "pot pie",
+     "pies"
+    ]
+   },
+   {
+    "label": "Smoked trout caesar",
+    "names": [
+     "smoked trout caesar",
+     "trout caesar"
+    ]
+   },
+   {
+    "label": "Baked beans",
+    "names": [
+     "baked beans",
+     "beans"
+    ]
+   }
+  ]
+ },
+ "art of chicken": {
+  "drop": [
+   "side sauces"
+  ]
+ },
+ "art of pizza": {
+  "drop": [
+   "slice",
+   "slices",
+   "pizza",
+   "sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "deep dish",
+     "deep dish pizza"
+    ]
+   },
+   {
+    "label": "Deep dish slice",
+    "names": [
+     "deep dish slices",
+     "deep dish slice"
+    ]
+   },
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "thin crust",
+     "thin crust pizza"
+    ]
+   }
+  ]
+ },
+ "artopolis": {
+  "drop": [
+   "desserts"
+  ]
+ },
+ "arts drive in": {
+  "drop": [
+   "breakfast"
+  ]
+ },
+ "asadero": {
+  "groups": [
+   {
+    "label": "Burrito",
+    "names": [
+     "burrito",
+     "burritos"
+    ]
+   }
+  ]
+ },
+ "asador": {
+  "drop": [
+   "beef"
+  ],
+  "groups": [
+   {
+    "label": "Whole fish",
+    "names": [
+     "whole fish",
+     "fish"
+    ]
+   },
+   {
+    "label": "Bone marrow mashed potatoes",
+    "names": [
+     "bone marrow mashed potatoes",
+     "bone marrow potatoes"
+    ]
+   }
+  ]
+ },
+ "asador bastian": {
+  "drop": [
+   "apps",
+   "cocktails",
+   "seafood",
+   "seafood dishes",
+   "sides"
+  ],
+  "groups": [
+   {
+    "label": "Steak",
+    "names": [
+     "steak",
+     "steaks"
+    ]
+   },
+   {
+    "label": "Basque cheesecake",
+    "names": [
+     "basque cheese cake",
+     "basque cheesecake"
+    ]
+   }
+  ]
+ },
+ "asian cuisine express": {
+  "groups": [
+   {
+    "label": "Al pastor tacos",
+    "names": [
+     "al pastor",
+     "al pastor tacos"
+    ]
+   }
+  ]
+ },
+ "atelier": {
+  "groups": [
+   {
+    "label": "Non-alcoholic pairing",
+    "names": [
+     "non-alcoholic pairing",
+     "na pairings"
+    ]
+   }
+  ]
+ },
+ "athenian room": {
+  "drop": [
+   "tzatziki"
+  ],
+  "groups": [
+   {
+    "label": "Kalamata chicken",
+    "names": [
+     "kalamata chicken",
+     "chicken",
+     "chicken dinner"
+    ]
+   },
+   {
+    "label": "Gyro",
+    "names": [
+     "gyro",
+     "gyros"
+    ]
+   },
+   {
+    "label": "Greek fries",
+    "names": [
+     "greek fries",
+     "fries"
+    ]
+   }
+  ]
+ },
+ "atotonilco": {
+  "groups": [
+   {
+    "label": "Al pastor tacos",
+    "names": [
+     "al pastor",
+     "al pastor taco",
+     "al pastor tacos",
+     "pastor"
+    ]
+   },
+   {
+    "label": "Steak tacos",
+    "names": [
+     "steak tacos",
+     "bistec/ribeye taco"
+    ]
+   }
+  ]
+ },
+ "atsumeru": {
+  "groups": [
+   {
+    "label": "Banana caviar",
+    "names": [
+     "banana caviar",
+     "banana"
+    ]
+   }
+  ]
+ },
+ "au cheval": {
+  "drop": [
+   "patties",
+   "sysco patties",
+   "pickles",
+   "chicken",
+   "egg"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "cheeseburger",
+     "double cheeseburger"
+    ]
+   },
+   {
+    "label": "Thick cut bacon",
+    "names": [
+     "bacon",
+     "thick cut bacon"
+    ]
+   },
+   {
+    "label": "Fried bologna sandwich",
+    "names": [
+     "bologna sandwich",
+     "fried bologna sammy",
+     "fried bologna sandwich"
+    ]
+   }
+  ]
+ },
+ "au levain": {
+  "groups": [
+   {
+    "label": "Parisienne sandwich",
+    "names": [
+     "parisienne",
+     "parisienne sandwich"
+    ]
+   }
+  ]
+ },
+ "aurelios": {
+  "groups": [
+   {
+    "label": "Pizza",
+    "names": [
+     "pizza",
+     "tavern style pizza"
+    ]
+   }
+  ]
+ },
+ "avec": {
+  "groups": [
+   {
+    "label": "Chorizo-stuffed medjool dates",
+    "names": [
+     "chorizo stuffed dates",
+     "bacon wrapped dates",
+     "chorizo-stuffed medjool dates",
+     "dates"
+    ]
+   }
+  ]
+ },
+ "aviary": {
+  "drop": [
+   "drinks",
+   "cocktails",
+   "na drinks"
+  ],
+  "groups": [
+   {
+    "label": "Black truffle explosion",
+    "names": [
+     "truffle explosion",
+     "black truffle explosion"
+    ]
+   }
+  ]
+ },
+ "bad apple": {
+  "drop": [
+   "ketchup",
+   "ranch"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "bad butter": {
+  "drop": [
+   "pastries",
+   "laminated pastries",
+   "baked goods"
+  ],
+  "groups": [
+   {
+    "label": "Banana pudding danish",
+    "names": [
+     "banana pudding danish",
+     "banana danish"
+    ]
+   },
+   {
+    "label": "Mac and cheese danish",
+    "names": [
+     "mac and cheese danish",
+     "mac n cheese danish"
+    ]
+   }
+  ]
+ },
+ "bagel": {
+  "drop": [
+   "sandwich",
+   "soups"
+  ]
+ },
+ "bake": {
+  "drop": [
+   "cake",
+   "cakes"
+  ]
+ },
+ "bakers square": {
+  "drop": [
+   "pies"
+  ]
+ },
+ "bandit": {
+  "groups": [
+   {
+    "label": "Mozzarella sticks",
+    "names": [
+     "mozz thiccs",
+     "mozzarella sticks"
+    ]
+   }
+  ]
+ },
+ "bang bang": {
+  "drop": [
+   "pies",
+   "roll"
+  ],
+  "groups": [
+   {
+    "label": "Biscuits",
+    "names": [
+     "biscuits",
+     "biscuit"
+    ]
+   }
+  ]
+ },
+ "bang bang pie": {
+  "drop": [
+   "pie",
+   "pies",
+   "gravy",
+   "pie slice"
+  ]
+ },
+ "bar bambi": {
+  "drop": [
+   "cocktails",
+   "drinks",
+   "food"
+  ]
+ },
+ "bar on buena": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "bar tutto": {
+  "drop": [
+   "bread",
+   "pasta"
+  ]
+ },
+ "barbaro": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "bari": {
+  "drop": [
+   "subs",
+   "sub",
+   "sandwiches",
+   "sandwich",
+   "bread"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef"
+    ]
+   },
+   {
+    "label": "Giardiniera",
+    "names": [
+     "giardiniera",
+     "giardinara",
+     "giardinera"
+    ]
+   },
+   {
+    "label": "Italian sub",
+    "names": [
+     "italian sub",
+     "italian sandwich",
+     "italian hoagie"
+    ]
+   },
+   {
+    "label": "Cold cuts",
+    "names": [
+     "cold cut",
+     "cold cuts"
+    ]
+   }
+  ]
+ },
+ "bari foods": {
+  "drop": [
+   "subs"
+  ]
+ },
+ "bari subs italian foods": {
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef"
+    ]
+   }
+  ]
+ },
+ "barnabys": {
+  "groups": [
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "pizza",
+     "thin crust pizza",
+     "tavern style pizza"
+    ]
+   }
+  ]
+ },
+ "bartolis": {
+  "drop": [
+   "pizza",
+   "sweet sauce",
+   "salad"
+  ],
+  "groups": [
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "thin crust",
+     "thin crust pizza"
+    ]
+   }
+  ]
+ },
+ "bavettes": {
+  "drop": [
+   "sides",
+   "desserts",
+   "cocktails",
+   "chicken",
+   "bread"
+  ],
+  "groups": [
+   {
+    "label": "Steak",
+    "names": [
+     "steak",
+     "steaks"
+    ]
+   },
+   {
+    "label": "Ribeye",
+    "names": [
+     "ribeye",
+     "bone-in ribeye"
+    ]
+   },
+   {
+    "label": "Dry aged ribeye",
+    "names": [
+     "dry aged ribeye",
+     "42-day dry aged ribeye",
+     "dry aged bone-in ribeye"
+    ]
+   },
+   {
+    "label": "Steak tartare",
+    "names": [
+     "steak tartare",
+     "tartare"
+    ]
+   },
+   {
+    "label": "Chocolate cream pie",
+    "names": [
+     "chocolate cream pie",
+     "chocolate pie"
+    ]
+   },
+   {
+    "label": "Crab cake",
+    "names": [
+     "crab cake",
+     "crab cakes"
+    ]
+   },
+   {
+    "label": "Mac and cheese",
+    "names": [
+     "mac and cheese",
+     "mac n cheese"
+    ]
+   },
+   {
+    "label": "Sourdough bread",
+    "names": [
+     "sourdough",
+     "sourdough bread"
+    ]
+   },
+   {
+    "label": "Bone-in filet",
+    "names": [
+     "bone-in filet",
+     "bone-in filet mignon"
+    ]
+   },
+   {
+    "label": "King crab legs",
+    "names": [
+     "king crab legs",
+     "king crab"
+    ]
+   }
+  ]
+ },
+ "bbq king": {
+  "groups": [
+   {
+    "label": "Roast duck",
+    "names": [
+     "roast duck",
+     "duck"
+    ]
+   }
+  ]
+ },
+ "beacon": {
+  "drop": [
+   "donuts",
+   "donut"
+  ]
+ },
+ "beacon doughnuts": {
+  "drop": [
+   "donuts",
+   "doughnuts"
+  ],
+  "groups": [
+   {
+    "label": "Blueberry pancake donut",
+    "names": [
+     "blueberry pancake",
+     "blueberry pancake donut"
+    ]
+   },
+   {
+    "label": "Boston cream",
+    "names": [
+     "boston creme",
+     "boston cream"
+    ]
+   }
+  ]
+ },
+ "beard belly": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "smash burger"
+    ]
+   }
+  ]
+ },
+ "beatrix": {
+  "drop": [
+   "breakfast",
+   "pastry",
+   "baked goods",
+   "cake",
+   "salads"
+  ]
+ },
+ "beaufhaus": {
+  "drop": [
+   "sides"
+  ]
+ },
+ "becks": {
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "buffalo wings"
+    ]
+   }
+  ]
+ },
+ "beer temple": {
+  "groups": [
+   {
+    "label": "Detroit style pizza",
+    "names": [
+     "detroit style pizza",
+     "pizza",
+     "detroit style",
+     "detroit-style pizza",
+     "middlebrow detroit style pizza",
+     "middlebrow's detroit style pizza"
+    ]
+   }
+  ]
+ },
+ "beity": {
+  "drop": [
+   "cocktails"
+  ],
+  "groups": [
+   {
+    "label": "Hummus kafta",
+    "names": [
+     "hummus kafta",
+     "kafta hummus"
+    ]
+   },
+   {
+    "label": "Kafta",
+    "names": [
+     "kafta",
+     "kefta"
+    ]
+   }
+  ]
+ },
+ "bellbird bakeshop": {
+  "drop": [
+   "cakes"
+  ]
+ },
+ "berliner kebap": {
+  "drop": [
+   "sandwich"
+  ]
+ },
+ "best intentions": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "smash burger",
+     "cheeseburger"
+    ]
+   }
+  ]
+ },
+ "big jones": {
+  "drop": [
+   "cocktails"
+  ],
+  "groups": [
+   {
+    "label": "Gumbo",
+    "names": [
+     "gumbo",
+     "gumbo ya ya"
+    ]
+   }
+  ]
+ },
+ "big sauce": {
+  "drop": [
+   "sauces",
+   "sauce"
+  ],
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "chicken wings"
+    ]
+   }
+  ]
+ },
+ "big star": {
+  "drop": [
+   "drinks",
+   "food"
+  ],
+  "groups": [
+   {
+    "label": "Smash burger",
+    "names": [
+     "smash burger",
+     "burger"
+    ]
+   },
+   {
+    "label": "Fish tacos",
+    "names": [
+     "fish tacos",
+     "pescado taco"
+    ]
+   },
+   {
+    "label": "Big Star salad",
+    "names": [
+     "big star salad",
+     "salad"
+    ]
+   }
+  ]
+ },
+ "bills drive in": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "billy goat": {
+  "drop": [
+   "pickles"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "double cheeseburger"
+    ]
+   }
+  ]
+ },
+ "billy goat tavern": {
+  "drop": [
+   "pickles"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   },
+   {
+    "label": "Triple cheezborger",
+    "names": [
+     "triple cheezborger",
+     "triple",
+     "triple burger"
+    ]
+   }
+  ]
+ },
+ "birds nest": {
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "chicken wings",
+     "hot wings"
+    ]
+   }
+  ]
+ },
+ "birria zaragoza": {
+  "groups": [
+   {
+    "label": "Birria",
+    "names": [
+     "birria",
+     "goat"
+    ]
+   }
+  ]
+ },
+ "birrieria zaragoza": {
+  "groups": [
+   {
+    "label": "Birria",
+    "names": [
+     "birria",
+     "goat birria",
+     "birria plate"
+    ]
+   }
+  ]
+ },
+ "bisous": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "bistro monadnock": {
+  "drop": [
+   "cocktails",
+   "bread"
+  ]
+ },
+ "bitter pops": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "smash burger",
+     "burgers"
+    ]
+   },
+   {
+    "label": "Spice bag",
+    "names": [
+     "spice bag",
+     "spice chicken bag"
+    ]
+   }
+  ]
+ },
+ "bittersweet": {
+  "drop": [
+   "cakes",
+   "cake"
+  ],
+  "groups": [
+   {
+    "label": "Flourless chocolate cake",
+    "names": [
+     "flourless chocolate cake",
+     "flourless chocolate torte"
+    ]
+   }
+  ]
+ },
+ "bixi": {
+  "drop": [
+   "sandwich"
+  ]
+ },
+ "bixi beer": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "black dog gelato": {
+  "drop": [
+   "gelato"
+  ]
+ },
+ "blackwood": {
+  "groups": [
+   {
+    "label": "Brisket",
+    "names": [
+     "brisket",
+     "fatty brisket"
+    ]
+   }
+  ]
+ },
+ "bob o rinos": {
+  "drop": [
+   "soups"
+  ]
+ },
+ "bob os": {
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "beef",
+     "italian beef"
+    ]
+   }
+  ]
+ },
+ "bodega bay": {
+  "drop": [
+   "sandwich",
+   "sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Breakfast sandwich",
+    "names": [
+     "breakfast sandwich",
+     "breakfast sandwich on french bread"
+    ]
+   }
+  ]
+ },
+ "boeufhaus": {
+  "drop": [
+   "sides",
+   "beef",
+   "wine list"
+  ],
+  "groups": [
+   {
+    "label": "Steak",
+    "names": [
+     "steak",
+     "steaks"
+    ]
+   },
+   {
+    "label": "Short rib beignets",
+    "names": [
+     "short rib beignets",
+     "beignets",
+     "shortrib beignets",
+     "short rib beignet"
+    ]
+   }
+  ]
+ },
+ "boiler room": {
+  "groups": [
+   {
+    "label": "PBJ special",
+    "names": [
+     "pb&j",
+     "pbj special"
+    ]
+   }
+  ]
+ },
+ "boka": {
+  "drop": [
+   "cocktails"
+  ],
+  "groups": [
+   {
+    "label": "Roasted chicken",
+    "names": [
+     "chicken",
+     "roasted chicken"
+    ]
+   },
+   {
+    "label": "Cured tuna",
+    "names": [
+     "cured tuna",
+     "tuna"
+    ]
+   },
+   {
+    "label": "Wine pairing",
+    "names": [
+     "wine pairing",
+     "wine pairings"
+    ]
+   }
+  ]
+ },
+ "bonci": {
+  "drop": [
+   "crust"
+  ]
+ },
+ "borinquen lounge": {
+  "groups": [
+   {
+    "label": "Jibaritos",
+    "names": [
+     "jibartios"
+    ]
+   }
+  ]
+ },
+ "bouna beef": {
+  "drop": [
+   "giardiniera"
+  ]
+ },
+ "brasa roja": {
+  "groups": [
+   {
+    "label": "Rotisserie chicken",
+    "names": [
+     "chicken",
+     "rotisserie chicken"
+    ]
+   },
+   {
+    "label": "Empanadas",
+    "names": [
+     "empanada",
+     "empanadas"
+    ]
+   }
+  ]
+ },
+ "brasero": {
+  "groups": [
+   {
+    "label": "Leap of faith menu",
+    "names": [
+     "leap of faith",
+     "leap of faith menu"
+    ]
+   },
+   {
+    "label": "Wagyu picanha",
+    "names": [
+     "wagyu picanha",
+     "picanha"
+    ]
+   },
+   {
+    "label": "Oysters",
+    "names": [
+     "oysters",
+     "grilled oysters"
+    ]
+   }
+  ]
+ },
+ "breakfast house": {
+  "drop": [
+   "water"
+  ]
+ },
+ "brgrbelly": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "brobagel": {
+  "groups": [
+   {
+    "label": "Bagels",
+    "names": [
+     "bagels",
+     "bagel"
+    ]
+   }
+  ]
+ },
+ "brunchery": {
+  "drop": [
+   "chicken"
+  ]
+ },
+ "bryn mawr breakfast club": {
+  "groups": [
+   {
+    "label": "Breakfast potatoes",
+    "names": [
+     "breakfast potatoes",
+     "potatoes"
+    ]
+   }
+  ]
+ },
+ "bucktown pizza": {
+  "drop": [
+   "pizza",
+   "slices",
+   "slice"
+  ],
+  "groups": [
+   {
+    "label": "Sausage",
+    "names": [
+     "sausage discs",
+     "sausage"
+    ]
+   }
+  ]
+ },
+ "budackis": {
+  "drop": [
+   "sando"
+  ],
+  "groups": [
+   {
+    "label": "Korean philly cheesesteak",
+    "names": [
+     "korean philly",
+     "korean cheesesteak",
+     "korean philly cheesesteak",
+     "korean cheese steak"
+    ]
+   },
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "korean wings",
+     "seoul sassy wings",
+     "full wing"
+    ]
+   },
+   {
+    "label": "Korean steak bowl",
+    "names": [
+     "korean steak bowl",
+     "steak bowl"
+    ]
+   }
+  ]
+ },
+ "budackis drive in": {
+  "drop": [
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Korean philly cheesesteak",
+    "names": [
+     "korean cheesesteak",
+     "korean philly cheese steak sandwich"
+    ]
+   }
+  ]
+ },
+ "buffalo joes": {
+  "drop": [
+   "sauce"
+  ],
+  "groups": [
+   {
+    "label": "Suicide wings",
+    "names": [
+     "suicide wings",
+     "suicide"
+    ]
+   },
+   {
+    "label": "Spicy wings",
+    "names": [
+     "spicy wings",
+     "spicy"
+    ]
+   },
+   {
+    "label": "Cheese fries",
+    "names": [
+     "cheese fries",
+     "cheesy fries"
+    ]
+   }
+  ]
+ },
+ "bungalow": {
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "pizza",
+     "tavern style pizza"
+    ]
+   }
+  ]
+ },
+ "bungalow by middle brow": {
+  "drop": [
+   "sauce"
+  ],
+  "groups": [
+   {
+    "label": "Soft serve",
+    "names": [
+     "soft serve",
+     "soft-serve"
+    ]
+   }
+  ]
+ },
+ "bungalow by middlebrow": {
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "pizza",
+     "tavern style pizza"
+    ]
+   }
+  ]
+ },
+ "bunny hutch": {
+  "drop": [
+   "dubai sauce",
+   "melted cheese"
+  ],
+  "groups": [
+   {
+    "label": "Dubai burger",
+    "names": [
+     "dubai burger",
+     "dubai"
+    ]
+   }
+  ]
+ },
+ "buona": {
+  "drop": [
+   "giardiniera",
+   "sweet peppers",
+   "sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef",
+     "italian beef sandwich"
+    ]
+   },
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "buona beef": {
+  "drop": [
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "beef",
+     "italian beef"
+    ]
+   }
+  ]
+ },
+ "burger bite": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "burrito house": {
+  "groups": [
+   {
+    "label": "Burrito",
+    "names": [
+     "burrito",
+     "burritos"
+    ]
+   }
+  ]
+ },
+ "burts": {
+  "groups": [
+   {
+    "label": "Pan pizza",
+    "names": [
+     "pizza",
+     "deep dish pizza",
+     "pan pizza",
+     "deep dish"
+    ]
+   }
+  ]
+ },
+ "burts place": {
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "pizza",
+     "deep dish"
+    ]
+   }
+  ]
+ },
+ "butcher the burger": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "buttercup": {
+  "drop": [
+   "cocktails",
+   "pastries"
+  ]
+ },
+ "buttermilk fry": {
+  "drop": [
+   "hot sauce"
+  ]
+ },
+ "button bakery": {
+  "groups": [
+   {
+    "label": "Soft pretzel",
+    "names": [
+     "soft pretzels",
+     "pretzel"
+    ]
+   }
+  ]
+ },
+ "byrons": {
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs",
+     "chicago dog",
+     "chicago-style dogs",
+     "chicago dog with cucumber",
+     "chicago dog with shredded iceberg lettuce"
+    ]
+   }
+  ]
+ },
+ "byrons hot dogs": {
+  "drop": [
+   "poppy seed bun"
+  ],
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs"
+    ]
+   }
+  ]
+ },
+ "cadinho": {
+  "groups": [
+   {
+    "label": "Pastel de nata",
+    "names": [
+     "egg tarts",
+     "pasteis de nata",
+     "pastel de nata"
+    ]
+   }
+  ]
+ },
+ "cafe 53": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "cafe ba ba reeba": {
+  "drop": [
+   "tapas"
+  ]
+ },
+ "cafe tola": {
+  "drop": [
+   "hot sauce"
+  ]
+ },
+ "cafecito": {
+  "drop": [
+   "sandwiches",
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Cubano",
+    "names": [
+     "cubano",
+     "cuban sandwich",
+     "cuban sandwiches"
+    ]
+   }
+  ]
+ },
+ "calabria imports": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "call your mother": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "calo restorante": {
+  "drop": [
+   "shrimp add-on"
+  ]
+ },
+ "calumet fisheries": {
+  "groups": [
+   {
+    "label": "Smoked salmon",
+    "names": [
+     "smoked salmon",
+     "salmon"
+    ]
+   }
+  ]
+ },
+ "canes": {
+  "drop": [
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Chicken fingers",
+    "names": [
+     "chicken fingers",
+     "chicken",
+     "chicken tenders",
+     "tenders"
+    ]
+   },
+   {
+    "label": "Dipping sauce",
+    "names": [
+     "sauce",
+     "dipping sauce"
+    ]
+   },
+   {
+    "label": "Texas toast",
+    "names": [
+     "texas toast",
+     "toast",
+     "bread"
+    ]
+   }
+  ]
+ },
+ "carbon": {
+  "drop": [
+   "roasted red pepper sauce"
+  ],
+  "groups": [
+   {
+    "label": "Stelote burrito",
+    "names": [
+     "stelote",
+     "stelote burrito"
+    ]
+   }
+  ]
+ },
+ "carino": {
+  "groups": [
+   {
+    "label": "Huitlacoche ravioli",
+    "names": [
+     "huitlacoche ravioli",
+     "ravioli"
+    ]
+   }
+  ]
+ },
+ "carms": {
+  "drop": [
+   "giardiniera"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef"
+    ]
+   }
+  ]
+ },
+ "carniceria maribel": {
+  "groups": [
+   {
+    "label": "Burrito",
+    "names": [
+     "burrito",
+     "burritos"
+    ]
+   }
+  ]
+ },
+ "carols": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   },
+   {
+    "label": "Tater tots",
+    "names": [
+     "tots",
+     "tater tots"
+    ]
+   }
+  ]
+ },
+ "carols pub": {
+  "groups": [
+   {
+    "label": "Chicken tenders",
+    "names": [
+     "chicken tenders",
+     "tenders"
+    ]
+   }
+  ]
+ },
+ "carsons": {
+  "drop": [
+   "sauce"
+  ],
+  "groups": [
+   {
+    "label": "Rib tips",
+    "names": [
+     "tips",
+     "rib tips",
+     "rib tips bucket"
+    ]
+   },
+   {
+    "label": "Pork chop",
+    "names": [
+     "pork chop",
+     "pork chops"
+    ]
+   }
+  ]
+ },
+ "casa yari": {
+  "drop": [
+   "vegan options"
+  ]
+ },
+ "cashs kitchen": {
+  "groups": [
+   {
+    "label": "Double smash burger",
+    "names": [
+     "double smash",
+     "double smash burger"
+    ]
+   }
+  ]
+ },
+ "cba": {
+  "groups": [
+   {
+    "label": "Bagels",
+    "names": [
+     "bagels",
+     "bagel"
+    ]
+   }
+  ]
+ },
+ "cellar door provisions": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "thick burger"
+    ]
+   }
+  ]
+ },
+ "cemitas puebla": {
+  "drop": [
+   "salsa"
+  ],
+  "groups": [
+   {
+    "label": "Cemita",
+    "names": [
+     "cemitas",
+     "cemita"
+    ]
+   }
+  ]
+ },
+ "central gyros": {
+  "groups": [
+   {
+    "label": "Gyro",
+    "names": [
+     "gyro",
+     "gyros"
+    ]
+   }
+  ]
+ },
+ "charcoal delights": {
+  "drop": [
+   "chicken"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burgers",
+     "burger"
+    ]
+   }
+  ]
+ },
+ "charcoal flame": {
+  "groups": [
+   {
+    "label": "Gyro",
+    "names": [
+     "gyros",
+     "gyro",
+     "greek gyro"
+    ]
+   }
+  ]
+ },
+ "charlie beinlichs": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "cheba hut": {
+  "drop": [
+   "sandwiches",
+   "bread",
+   "subs"
+  ]
+ },
+ "chef ciccio": {
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef"
+    ]
+   }
+  ]
+ },
+ "chef xiong": {
+  "groups": [
+   {
+    "label": "Dry chili chicken",
+    "names": [
+     "dry chili chicken",
+     "laziji"
+    ]
+   }
+  ]
+ },
+ "chefs special": {
+  "drop": [
+   "cocktails",
+   "drinks",
+   "noodles"
+  ],
+  "groups": [
+   {
+    "label": "Crab rangoon",
+    "names": [
+     "crab rangoon",
+     "crab rangoons"
+    ]
+   },
+   {
+    "label": "Dan dan noodles",
+    "names": [
+     "dan dan noodles",
+     "dan dan noodle"
+    ]
+   },
+   {
+    "label": "Egg rolls",
+    "names": [
+     "egg rolls",
+     "egg roll"
+    ]
+   }
+  ]
+ },
+ "chengdu bistro": {
+  "drop": [
+   "noodles"
+  ],
+  "groups": [
+   {
+    "label": "Dry chili chicken",
+    "names": [
+     "dry chili chicken",
+     "辣子鸡"
+    ]
+   },
+   {
+    "label": "Yibin flaming noodles",
+    "names": [
+     "yibin flaming noodles",
+     "yibin noodles"
+    ]
+   },
+   {
+    "label": "Sichuan green beans",
+    "names": [
+     "szechuan green beans",
+     "sichuan string beans",
+     "green beans"
+    ]
+   },
+   {
+    "label": "Soup dumplings",
+    "names": [
+     "soup dumplings",
+     "xiao long bao"
+    ]
+   }
+  ]
+ },
+ "chengdu impression": {
+  "drop": [
+   "noodles"
+  ],
+  "groups": [
+   {
+    "label": "Dry chili chicken",
+    "names": [
+     "dry chili chicken",
+     "chili chicken",
+     "laziji",
+     "lazijiding"
+    ]
+   },
+   {
+    "label": "Twice cooked pork",
+    "names": [
+     "twice cooked pork",
+     "twice cooked pork with pancake"
+    ]
+   },
+   {
+    "label": "Mongolian beef",
+    "names": [
+     "mangolian beef"
+    ]
+   }
+  ]
+ },
+ "chez poulet": {
+  "drop": [
+   "sauce",
+   "sides",
+   "chimichurri",
+   "chicken jus",
+   "chicken skin jus"
+  ],
+  "groups": [
+   {
+    "label": "Chicken",
+    "names": [
+     "chicken",
+     "whole bird"
+    ]
+   },
+   {
+    "label": "Toum",
+    "names": [
+     "toum",
+     "garlic toum"
+    ]
+   },
+   {
+    "label": "Mac and cheese",
+    "names": [
+     "mac and cheese",
+     "macaroni"
+    ]
+   }
+  ]
+ },
+ "chicago bagel authority": {
+  "drop": [
+   "sandwiches",
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Bagels",
+    "names": [
+     "bagels",
+     "bagel"
+    ]
+   }
+  ]
+ },
+ "chicago cut": {
+  "groups": [
+   {
+    "label": "Steak",
+    "names": [
+     "steak",
+     "steaks"
+    ]
+   }
+  ]
+ },
+ "chicago diner": {
+  "groups": [
+   {
+    "label": "Milkshake",
+    "names": [
+     "milkshake",
+     "milkshakes"
+    ]
+   }
+  ]
+ },
+ "chicago pickle": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "chicago pizza oven grinder": {
+  "drop": [
+   "dressing"
+  ],
+  "groups": [
+   {
+    "label": "Pizza pot pie",
+    "names": [
+     "pizza pot pie",
+     "pizza"
+    ]
+   }
+  ]
+ },
+ "chicago pizza oven grinder company": {
+  "drop": [
+   "bread"
+  ],
+  "groups": [
+   {
+    "label": "Pizza pot pie",
+    "names": [
+     "pizza pot pie",
+     "pot pie pizza",
+     "pizza"
+    ]
+   }
+  ]
+ },
+ "chicago pizza oven grinders": {
+  "drop": [
+   "sauce",
+   "cheese",
+   "bread"
+  ],
+  "groups": [
+   {
+    "label": "Pot pie",
+    "names": [
+     "pot pie"
+    ]
+   },
+   {
+    "label": "Italian fiesta salad",
+    "names": [
+     "italian fiesta salad",
+     "salad"
+    ]
+   }
+  ]
+ },
+ "chicago pros": {
+  "groups": [
+   {
+    "label": "Smash burger",
+    "names": [
+     "smash burger",
+     "burger"
+    ]
+   }
+  ]
+ },
+ "chicago ramen": {
+  "drop": [
+   "ramen"
+  ]
+ },
+ "chicagos": {
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "deep dish pizza",
+     "deep dish"
+    ]
+   }
+  ]
+ },
+ "chicagos pizza": {
+  "drop": [
+   "pizza"
+  ],
+  "groups": [
+   {
+    "label": "Gluten-free pizza",
+    "names": [
+     "gluten-free pizza",
+     "gluten free pizza"
+    ]
+   }
+  ]
+ },
+ "china wok": {
+  "drop": [
+   "noodles",
+   "beef"
+  ]
+ },
+ "chingon": {
+  "groups": [
+   {
+    "label": "Tacos",
+    "names": [
+     "tacos",
+     "taco"
+    ]
+   }
+  ]
+ },
+ "chiu quon": {
+  "drop": [
+   "baked goods"
+  ],
+  "groups": [
+   {
+    "label": "Char siu bao",
+    "names": [
+     "char siu bao",
+     "pork buns"
+    ]
+   }
+  ]
+ },
+ "chiu quon bakery": {
+  "drop": [
+   "buns"
+  ],
+  "groups": [
+   {
+    "label": "Egg tart",
+    "names": [
+     "egg tart",
+     "egg tarts",
+     "egg custard tart"
+    ]
+   },
+   {
+    "label": "Char siu bao",
+    "names": [
+     "char siu bao",
+     "pork bun"
+    ]
+   }
+  ]
+ },
+ "chomp": {
+  "groups": [
+   {
+    "label": "Slice",
+    "names": [
+     "slice",
+     "slices"
+    ]
+   }
+  ]
+ },
+ "chomp pizza": {
+  "drop": [
+   "crust"
+  ],
+  "groups": [
+   {
+    "label": "NYC style slice",
+    "names": [
+     "slice",
+     "nyc style slice",
+     "pizza"
+    ]
+   },
+   {
+    "label": "Cheese slice",
+    "names": [
+     "cheese slice",
+     "cheese pizza",
+     "whole cheese pie"
+    ]
+   }
+  ]
+ },
+ "choppers": {
+  "groups": [
+   {
+    "label": "Milkshake",
+    "names": [
+     "milkshake",
+     "milkshakes"
+    ]
+   }
+  ]
+ },
+ "chucks southern comfort": {
+  "drop": [
+   "soups"
+  ]
+ },
+ "ciccio mio": {
+  "drop": [
+   "pasta"
+  ],
+  "groups": [
+   {
+    "label": "Lasagna",
+    "names": [
+     "lasagna",
+     "rolled lasagna"
+    ]
+   }
+  ]
+ },
+ "cigars stripes": {
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "smoked wings"
+    ]
+   }
+  ]
+ },
+ "cindys": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "cindys rooftop": {
+  "drop": [
+   "cocktails",
+   "drinks"
+  ]
+ },
+ "clark st dog": {
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef"
+    ]
+   },
+   {
+    "label": "Polish sausage",
+    "names": [
+     "polish",
+     "polish sausage"
+    ]
+   },
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs"
+    ]
+   }
+  ]
+ },
+ "cleos": {
+  "drop": [
+   "sauce"
+  ],
+  "groups": [
+   {
+    "label": "Purple drink",
+    "names": [
+     "purple drink",
+     "grape drink"
+    ]
+   },
+   {
+    "label": "Cornbread muffins",
+    "names": [
+     "cornbread muffins",
+     "cornbread",
+     "corn muffin",
+     "muffin"
+    ]
+   },
+   {
+    "label": "Fried chicken",
+    "names": [
+     "fried chicken",
+     "chicken"
+    ]
+   }
+  ]
+ },
+ "club lago": {
+  "drop": [
+   "meat sauce"
+  ]
+ },
+ "club lucky": {
+  "drop": [
+   "drinks",
+   "bread"
+  ],
+  "groups": [
+   {
+    "label": "Martini",
+    "names": [
+     "martini",
+     "martinis"
+    ]
+   },
+   {
+    "label": "Calamari",
+    "names": [
+     "calamari",
+     "calabrese calamari"
+    ]
+   }
+  ]
+ },
+ "coalfire": {
+  "groups": [
+   {
+    "label": "Meatball sub",
+    "names": [
+     "meatball sub",
+     "meatball sandwich"
+    ]
+   }
+  ]
+ },
+ "cobra lounge": {
+  "groups": [
+   {
+    "label": "Smoked pastrami beet reuben",
+    "names": [
+     "smoked pastrami beet reuben",
+     "beet reuben"
+    ]
+   },
+   {
+    "label": "Pizza",
+    "names": [
+     "pizza",
+     "pizza slice"
+    ]
+   }
+  ]
+ },
+ "coda di volpe": {
+  "drop": [
+   "pastas"
+  ],
+  "groups": [
+   {
+    "label": "Neapolitan pizza",
+    "names": [
+     "pizza",
+     "neapolitan pizza"
+    ]
+   }
+  ]
+ },
+ "community tavern": {
+  "groups": [
+   {
+    "label": "Mushroom butter dumplings",
+    "names": [
+     "mushroom dumplings",
+     "mushroom butter dumplings"
+    ]
+   }
+  ]
+ },
+ "corridor brewery provisions": {
+  "groups": [
+   {
+    "label": "Beer",
+    "names": [
+     "beer",
+     "beers"
+    ]
+   }
+  ]
+ },
+ "costco": {
+  "groups": [
+   {
+    "label": "Sheet cake",
+    "names": [
+     "sheet cake",
+     "cake",
+     "cakes",
+     "costco cake"
+    ]
+   }
+  ]
+ },
+ "costco food court": {
+  "drop": [
+   "sauce",
+   "breading"
+  ],
+  "groups": [
+   {
+    "label": "Chicken strips",
+    "names": [
+     "chicken strips",
+     "chicken tenders"
+    ]
+   }
+  ]
+ },
+ "cowabunga pizza": {
+  "groups": [
+   {
+    "label": "Pizza",
+    "names": [
+     "pizza",
+     "slices"
+    ]
+   }
+  ]
+ },
+ "creepies": {
+  "drop": [
+   "desserts",
+   "dessert"
+  ],
+  "groups": [
+   {
+    "label": "Roast chicken",
+    "names": [
+     "chicken",
+     "roast chicken",
+     "roasted chicken"
+    ]
+   },
+   {
+    "label": "Brie gougères",
+    "names": [
+     "gougeres",
+     "brie gougeres"
+    ]
+   },
+   {
+    "label": "Dirty martini",
+    "names": [
+     "dirty gin martini",
+     "dirty martini"
+    ]
+   },
+   {
+    "label": "Parisian gnocchi",
+    "names": [
+     "gnocchi",
+     "parisian gnocchi"
+    ]
+   },
+   {
+    "label": "Leeks vinaigrette",
+    "names": [
+     "leeks",
+     "leeks vinaigrette"
+    ]
+   },
+   {
+    "label": "Baguette soft serve",
+    "names": [
+     "baguette soft serve",
+     "soft serve"
+    ]
+   },
+   {
+    "label": "Fries",
+    "names": [
+     "fries",
+     "french fries"
+    ]
+   }
+  ]
+ },
+ "crisp": {
+  "drop": [
+   "sassy seoul sauce",
+   "sauces"
+  ],
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "chicken wings",
+     "korean wings",
+     "jumbo wings"
+    ]
+   },
+   {
+    "label": "Korean fried chicken",
+    "names": [
+     "fried chicken",
+     "korean fried chicken",
+     "chicken"
+    ]
+   }
+  ]
+ },
+ "crying tiger": {
+  "drop": [
+   "cocktails",
+   "drinks",
+   "appetizers",
+   "dessert",
+   "desserts"
+  ],
+  "groups": [
+   {
+    "label": "Prawn toast",
+    "names": [
+     "prawn toast",
+     "shrimp toast"
+    ]
+   },
+   {
+    "label": "Lobster pad thai",
+    "names": [
+     "lobster pad thai",
+     "clay pot lobster pad thai"
+    ]
+   }
+  ]
+ },
+ "cubano bros": {
+  "drop": [
+   "cuban bread"
+  ],
+  "groups": [
+   {
+    "label": "Cuban sandwich",
+    "names": [
+     "cuban sandwich",
+     "cubano",
+     "cuban"
+    ]
+   }
+  ]
+ },
+ "culvers": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   },
+   {
+    "label": "Walleye sandwich",
+    "names": [
+     "walleye sandwich",
+     "walleye"
+    ]
+   }
+  ]
+ },
+ "cured crafted": {
+  "drop": [
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Beef tallow fries",
+    "names": [
+     "beef tallow fries",
+     "fries"
+    ]
+   }
+  ]
+ },
+ "dags": {
+  "drop": [
+   "red sauce"
+  ]
+ },
+ "daifuku": {
+  "drop": [
+   "ramen"
+  ]
+ },
+ "daisies": {
+  "drop": [
+   "pasta",
+   "pastas",
+   "pastries",
+   "desserts",
+   "dessert",
+   "cocktails",
+   "appetizers"
+  ],
+  "groups": [
+   {
+    "label": "Chocolate babka",
+    "names": [
+     "chocolate babka",
+     "babka"
+    ]
+   },
+   {
+    "label": "Beet agnolotti",
+    "names": [
+     "beet agnolotti",
+     "beet pasta"
+    ]
+   },
+   {
+    "label": "Chicken parm sandwich",
+    "names": [
+     "chicken parm",
+     "chicken parm sandwich"
+    ]
+   }
+  ]
+ },
+ "daly bagel": {
+  "groups": [
+   {
+    "label": "Bagels",
+    "names": [
+     "bagels",
+     "bagel"
+    ]
+   }
+  ]
+ },
+ "dalys donuts": {
+  "drop": [
+   "donuts"
+  ]
+ },
+ "damatos": {
+  "drop": [
+   "sandwiches",
+   "sandwich",
+   "sub",
+   "subs"
+  ],
+  "groups": [
+   {
+    "label": "Chicken cutlet caesar sub",
+    "names": [
+     "chicken cutlet caesar sub",
+     "caesar cutlet sub",
+     "chicken caesar",
+     "chicken caesar cutlet sandwich",
+     "chicken cutlet caesar"
+    ]
+   },
+   {
+    "label": "Vodka chicken parm sub",
+    "names": [
+     "chicken vodka parm sandwich",
+     "vodka chicken parm",
+     "vodka sauce chicken parm sub"
+    ]
+   },
+   {
+    "label": "Chicken parm sub",
+    "names": [
+     "chicken parm sub",
+     "chicken parm"
+    ]
+   },
+   {
+    "label": "Sfogliatelle",
+    "names": [
+     "sfogliatelle",
+     "sfogliatella"
+    ]
+   },
+   {
+    "label": "Chicken cutlet sandwich",
+    "names": [
+     "chicken cutlet",
+     "chicken cutlet sandwich"
+    ]
+   }
+  ]
+ },
+ "dancen": {
+  "groups": [
+   {
+    "label": "Spicy fried pork skins",
+    "names": [
+     "spicy fried pork skins",
+     "spicy pork skin"
+    ]
+   }
+  ]
+ },
+ "dantes": {
+  "groups": [
+   {
+    "label": "NY-style pizza",
+    "names": [
+     "slices",
+     "pizza",
+     "slice",
+     "ny-style pie"
+    ]
+   }
+  ]
+ },
+ "dear franks": {
+  "drop": [
+   "merkt's cheese"
+  ],
+  "groups": [
+   {
+    "label": "Cheese fries",
+    "names": [
+     "cheese fries",
+     "seasoned cheese fries"
+    ]
+   }
+  ]
+ },
+ "dearborn": {
+  "drop": [
+   "bun"
+  ]
+ },
+ "del sur": {
+  "drop": [
+   "pastries"
+  ],
+  "groups": [
+   {
+    "label": "Longanisa croissant",
+    "names": [
+     "longganisa croissant",
+     "longanisa croissant"
+    ]
+   },
+   {
+    "label": "Pandan Basque cake",
+    "names": [
+     "pandan basque cake",
+     "basque cake"
+    ]
+   }
+  ]
+ },
+ "deliz": {
+  "groups": [
+   {
+    "label": "Brioche",
+    "names": [
+     "brioche",
+     "pan brioche"
+    ]
+   }
+  ]
+ },
+ "denuccis": {
+  "drop": [
+   "pasta"
+  ]
+ },
+ "depot dog": {
+  "groups": [
+   {
+    "label": "Depot dog",
+    "names": [
+     "depot dog",
+     "hot dog"
+    ]
+   }
+  ]
+ },
+ "devil dawgs": {
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs",
+     "chicago dog"
+    ]
+   },
+   {
+    "label": "Milkshake",
+    "names": [
+     "milkshakes",
+     "shakes",
+     "shake",
+     "milkshake"
+    ]
+   },
+   {
+    "label": "Fries",
+    "names": [
+     "fries",
+     "french fries"
+    ]
+   },
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "diceys": {
+  "groups": [
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "pizza",
+     "thin crust pizza"
+    ]
+   }
+  ]
+ },
+ "diego": {
+  "groups": [
+   {
+    "label": "Tuna tostada",
+    "names": [
+     "tuna tostada",
+     "tuna tostadas"
+    ]
+   }
+  ]
+ },
+ "dimmi dimmi": {
+  "drop": [
+   "pizza",
+   "pizzas",
+   "pasta",
+   "pastas"
+  ],
+  "groups": [
+   {
+    "label": "Caesar salad",
+    "names": [
+     "caesar",
+     "caesar salad"
+    ]
+   }
+  ]
+ },
+ "dimos": {
+  "drop": [
+   "pizza"
+  ]
+ },
+ "diner grill": {
+  "groups": [
+   {
+    "label": "Slinger",
+    "names": [
+     "slinger",
+     "the slinger"
+    ]
+   },
+   {
+    "label": "Burrito",
+    "names": [
+     "burrito",
+     "burritos"
+    ]
+   },
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "dinos": {
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style pizza",
+     "thin crust pizza"
+    ]
+   }
+  ]
+ },
+ "dinos on higgins ave": {
+  "groups": [
+   {
+    "label": "Tavern pizza",
+    "names": [
+     "thin crust",
+     "tavern pizza"
+    ]
+   }
+  ]
+ },
+ "do rite": {
+  "drop": [
+   "donuts"
+  ],
+  "groups": [
+   {
+    "label": "Old fashioned",
+    "names": [
+     "old fashioned",
+     "buttermilk old fashioned",
+     "old-fashioned"
+    ]
+   },
+   {
+    "label": "Chicken sandwich",
+    "names": [
+     "chicken sandwich",
+     "fried chicken sandwich",
+     "chicken sammy",
+     "chicken"
+    ]
+   },
+   {
+    "label": "Apple fritter",
+    "names": [
+     "apple fritter",
+     "apple fritters",
+     "michigan apple fritter"
+    ]
+   },
+   {
+    "label": "Breakfast sandwich",
+    "names": [
+     "breakfast sandwiches",
+     "breakfast sandwich"
+    ]
+   }
+  ]
+ },
+ "do rite donuts": {
+  "drop": [
+   "donuts",
+   "donut"
+  ]
+ },
+ "do rites": {
+  "drop": [
+   "donuts"
+  ],
+  "groups": [
+   {
+    "label": "Old fashioned donut",
+    "names": [
+     "old fashioned",
+     "old fashioned donut"
+    ]
+   }
+  ]
+ },
+ "doma": {
+  "groups": [
+   {
+    "label": "Breakfast sandwich",
+    "names": [
+     "breakfast sandwich",
+     "breakfast sandwiches"
+    ]
+   }
+  ]
+ },
+ "dominos": {
+  "drop": [
+   "pizza"
+  ]
+ },
+ "dough bros": {
+  "drop": [
+   "sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Pizza",
+    "names": [
+     "pizza",
+     "pizza slices"
+    ]
+   }
+  ]
+ },
+ "doughnut vault": {
+  "drop": [
+   "donuts",
+   "daily doughnut special"
+  ],
+  "groups": [
+   {
+    "label": "Chestnut glazed",
+    "names": [
+     "chestnut glazed",
+     "chestnut donuts"
+    ]
+   },
+   {
+    "label": "Horchata old fashioned",
+    "names": [
+     "horchata",
+     "horchata old fashioned"
+    ]
+   }
+  ]
+ },
+ "downstate donuts": {
+  "drop": [
+   "donuts"
+  ]
+ },
+ "drake": {
+  "drop": [
+   "sandwiches",
+   "finger sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Afternoon tea",
+    "names": [
+     "high tea",
+     "tea",
+     "afternoon tea"
+    ]
+   }
+  ]
+ },
+ "duck duck goat": {
+  "drop": [
+   "desserts"
+  ],
+  "groups": [
+   {
+    "label": "Baobing",
+    "names": [
+     "baobing",
+     "citrus tea baobing"
+    ]
+   },
+   {
+    "label": "Bone marrow dumplings",
+    "names": [
+     "bone marrow dumplings",
+     "bone marrow short rib jiaozi"
+    ]
+   }
+  ]
+ },
+ "duck inn": {
+  "drop": [
+   "cocktails",
+   "sides",
+   "grainy mustard",
+   "super condiment",
+   "chinese beers"
+  ],
+  "groups": [
+   {
+    "label": "Duck Inn dog",
+    "names": [
+     "duck inn dog",
+     "hot dog",
+     "chicago dog",
+     "dog",
+     "duck fat dog",
+     "fancy hot dog",
+     "duck hot dog",
+     "the dog",
+     "hot dogs"
+    ]
+   },
+   {
+    "label": "Rotisserie duck",
+    "names": [
+     "rotisserie duck",
+     "duck",
+     "roast duck",
+     "whole duck"
+    ]
+   },
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef sandwich",
+     "beef"
+    ]
+   },
+   {
+    "label": "Duck fat fries",
+    "names": [
+     "duck fat fries",
+     "fries"
+    ]
+   },
+   {
+    "label": "Duck fat roasted potatoes",
+    "names": [
+     "duck fat roasted potatoes",
+     "potatoes"
+    ]
+   }
+  ]
+ },
+ "due": {
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "deep dish",
+     "deep dish pizza"
+    ]
+   }
+  ]
+ },
+ "duke of perth": {
+  "groups": [
+   {
+    "label": "Fish and chips",
+    "names": [
+     "fish and chips",
+     "all-you-can-eat fish fry"
+    ]
+   }
+  ]
+ },
+ "dunk donuts": {
+  "drop": [
+   "donuts"
+  ]
+ },
+ "eataly": {
+  "drop": [
+   "pastas",
+   "pastries"
+  ]
+ },
+ "ecbg": {
+  "groups": [
+   {
+    "label": "Cake",
+    "names": [
+     "cake",
+     "cakes"
+    ]
+   }
+  ]
+ },
+ "egg tuck": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "eggs with benefits": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "el bagelero": {
+  "groups": [
+   {
+    "label": "Bagels",
+    "names": [
+     "bagels",
+     "bagel"
+    ]
+   }
+  ]
+ },
+ "el che": {
+  "drop": [
+   "desserts",
+   "sides"
+  ],
+  "groups": [
+   {
+    "label": "Steak",
+    "names": [
+     "steak",
+     "steaks"
+    ]
+   },
+   {
+    "label": "Leap of faith menu",
+    "names": [
+     "leap of faith",
+     "leap of faith menu"
+    ]
+   }
+  ]
+ },
+ "el cubanito": {
+  "drop": [
+   "sandwich",
+   "sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Cubano",
+    "names": [
+     "cubano",
+     "cuban sandwich"
+    ]
+   }
+  ]
+ },
+ "el famous burrito": {
+  "groups": [
+   {
+    "label": "Chilaquiles burrito",
+    "names": [
+     "chilaquil burrito",
+     "chilaquiles burrito"
+    ]
+   }
+  ]
+ },
+ "el milagro": {
+  "groups": [
+   {
+    "label": "Tacos",
+    "names": [
+     "tacos",
+     "taco"
+    ]
+   },
+   {
+    "label": "Burrito",
+    "names": [
+     "burrito",
+     "burritos"
+    ]
+   },
+   {
+    "label": "Tortillas",
+    "names": [
+     "tortillas",
+     "corn tortillas"
+    ]
+   }
+  ]
+ },
+ "eleven city diner": {
+  "groups": [
+   {
+    "label": "Club sandwich",
+    "names": [
+     "club",
+     "club sandwich"
+    ]
+   }
+  ]
+ },
+ "elinas": {
+  "drop": [
+   "pasta",
+   "breadbasket"
+  ],
+  "groups": [
+   {
+    "label": "Rigatoni alla vodka",
+    "names": [
+     "vodka rigatoni",
+     "rigatoni alla vodka",
+     "vodka pasta",
+     "rigatoni"
+    ]
+   },
+   {
+    "label": "Eggplant parm",
+    "names": [
+     "eggplant parm",
+     "eggplant parmigiana"
+    ]
+   }
+  ]
+ },
+ "elske": {
+  "drop": [
+   "desserts",
+   "dessert",
+   "cocktails"
+  ]
+ },
+ "enzos pizza": {
+  "drop": [
+   "cheese pull"
+  ]
+ },
+ "ever": {
+  "drop": [
+   "dessert"
+  ]
+ },
+ "evie": {
+  "groups": [
+   {
+    "label": "Wagyu hot dog",
+    "names": [
+     "wagyu dog",
+     "wagyu hot dog",
+     "hot dog"
+    ]
+   }
+  ]
+ },
+ "exchequer": {
+  "drop": [
+   "pizza"
+  ],
+  "groups": [
+   {
+    "label": "The Mob pizza",
+    "names": [
+     "the mob",
+     "the mob pizza"
+    ]
+   },
+   {
+    "label": "Burger",
+    "names": [
+     "burgers",
+     "burger"
+    ]
+   }
+  ]
+ },
+ "falafel grill": {
+  "drop": [
+   "garlic sauce",
+   "toum",
+   "wrap",
+   "wraps",
+   "rice"
+  ]
+ },
+ "falcons": {
+  "groups": [
+   {
+    "label": "Chicken caesar wrap",
+    "names": [
+     "caesar wrap",
+     "chicken caesar wrap"
+    ]
+   }
+  ]
+ },
+ "fare": {
+  "drop": [
+   "bowls",
+   "chicken"
+  ]
+ },
+ "farm bar": {
+  "drop": [
+   "house ketchup",
+   "cocktails"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "fat chriss": {
+  "drop": [
+   "sauce"
+  ]
+ },
+ "fat johnnies": {
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs"
+    ]
+   }
+  ]
+ },
+ "fat peach": {
+  "drop": [
+   "pastries",
+   "mango version"
+  ],
+  "groups": [
+   {
+    "label": "Cinnamon roll",
+    "names": [
+     "cinnamon roll",
+     "cinnamon rolls"
+    ]
+   },
+   {
+    "label": "Guava danish",
+    "names": [
+     "guava dessert",
+     "guava danish"
+    ]
+   }
+  ]
+ },
+ "fat shallot": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "fatsos": {
+  "groups": [
+   {
+    "label": "Fried shrimp",
+    "names": [
+     "shrimp",
+     "fried shrimp"
+    ]
+   },
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   },
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dogs",
+     "chicago dog",
+     "hot dog"
+    ]
+   }
+  ]
+ },
+ "fatsos last stand": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burgers",
+     "burger",
+     "smashburger"
+    ]
+   },
+   {
+    "label": "Char dog",
+    "names": [
+     "char dog",
+     "char dogs"
+    ]
+   },
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs"
+    ]
+   },
+   {
+    "label": "Fried shrimp",
+    "names": [
+     "fried shrimp",
+     "shrimp"
+    ]
+   }
+  ]
+ },
+ "feld": {
+  "groups": [
+   {
+    "label": "Cheese course",
+    "names": [
+     "cheese course",
+     "cheese plate",
+     "cheese dish",
+     "plated cheese"
+    ]
+   }
+  ]
+ },
+ "fioretta": {
+  "drop": [
+   "sides"
+  ],
+  "groups": [
+   {
+    "label": "Steak",
+    "names": [
+     "steak",
+     "steaks"
+    ]
+   },
+   {
+    "label": "Bistecca alla fiorentina",
+    "names": [
+     "bistecca alla fiorentina",
+     "44oz bistecca alla fiorentina"
+    ]
+   },
+   {
+    "label": "Caesar salad",
+    "names": [
+     "caesar salad",
+     "table side caesar salad"
+    ]
+   }
+  ]
+ },
+ "firenze": {
+  "drop": [
+   "sandwiches",
+   "sandwich"
+  ]
+ },
+ "first slice": {
+  "drop": [
+   "pie",
+   "pies"
+  ]
+ },
+ "five guys": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "fixin franks": {
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "dogs",
+     "hot dogs"
+    ]
+   }
+  ]
+ },
+ "flacos tacos": {
+  "drop": [
+   "drinks"
+  ],
+  "groups": [
+   {
+    "label": "Margaritas",
+    "names": [
+     "margaritas",
+     "margarita"
+    ]
+   }
+  ]
+ },
+ "flo santos": {
+  "drop": [
+   "pizza"
+  ],
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern pizza",
+     "tavern style pizza",
+     "thin crust"
+    ]
+   }
+  ]
+ },
+ "floriole": {
+  "drop": [
+   "pastries"
+  ],
+  "groups": [
+   {
+    "label": "Banana bread latte",
+    "names": [
+     "banana bread latte",
+     "banana latte"
+    ]
+   }
+  ]
+ },
+ "flub a dub chubs": {
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "chicago dog",
+     "hot dogs",
+     "hot dog special"
+    ]
+   }
+  ]
+ },
+ "fontanos": {
+  "drop": [
+   "sandwich",
+   "subs",
+   "sandwiches",
+   "sub",
+   "bread",
+   "giardiniera"
+  ],
+  "groups": [
+   {
+    "label": "Italian sub",
+    "names": [
+     "italian sub",
+     "italian subs"
+    ]
+   },
+   {
+    "label": "Wiseguy",
+    "names": [
+     "wiseguy",
+     "wise guy"
+    ]
+   },
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef"
+    ]
+   }
+  ]
+ },
+ "forbidden root": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burger special"
+    ]
+   },
+   {
+    "label": "Deep fried giardiniera",
+    "names": [
+     "deep fried giardiniera",
+     "giardiniera"
+    ]
+   }
+  ]
+ },
+ "forno rosso": {
+  "groups": [
+   {
+    "label": "Gluten-free pizza",
+    "names": [
+     "gluten free pizza",
+     "gluten-free pizza"
+    ]
+   },
+   {
+    "label": "Pistachio pizza",
+    "names": [
+     "pistachio pie",
+     "pistachio pizza"
+    ]
+   }
+  ]
+ },
+ "foxs pizza": {
+  "drop": [
+   "crust"
+  ]
+ },
+ "frannies": {
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "beef",
+     "italian beef"
+    ]
+   }
+  ]
+ },
+ "freddys": {
+  "groups": [
+   {
+    "label": "Arancini",
+    "names": [
+     "arancini",
+     "arancini ball"
+    ]
+   },
+   {
+    "label": "Lasagna",
+    "names": [
+     "lasagna",
+     "cheese lasagna"
+    ]
+   }
+  ]
+ },
+ "friends of friends": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "fry the coop": {
+  "drop": [
+   "chicken",
+   "ranch",
+   "second hottest flavor"
+  ],
+  "groups": [
+   {
+    "label": "Chicken sandwich",
+    "names": [
+     "chicken sandwich",
+     "sandwich"
+    ]
+   }
+  ]
+ },
+ "gage": {
+  "drop": [
+   "cocktails",
+   "cocktail",
+   "special seasonal cocktails",
+   "absinthe cocktails"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "gale street inn": {
+  "drop": [
+   "sauce"
+  ]
+ },
+ "galit": {
+  "drop": [
+   "mains",
+   "mezze"
+  ]
+ },
+ "garcias": {
+  "groups": [
+   {
+    "label": "Margaritas",
+    "names": [
+     "margaritas",
+     "margs"
+    ]
+   }
+  ]
+ },
+ "gene georgetti": {
+  "drop": [
+   "salad"
+  ]
+ },
+ "gene judes": {
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs",
+     "depression dog",
+     "depression dogs",
+     "dogs",
+     "chicago dog",
+     "chicago hot dog",
+     "classic chicago dog"
+    ]
+   }
+  ]
+ },
+ "gene n judes": {
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dogs",
+     "hot dog"
+    ]
+   }
+  ]
+ },
+ "george street pub": {
+  "drop": [
+   "blue cheese sauce"
+  ]
+ },
+ "georges": {
+  "drop": [
+   "pizza",
+   "crust",
+   "salads",
+   "tzatziki"
+  ],
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "deep dish",
+     "deep dish pizza"
+    ]
+   }
+  ]
+ },
+ "georges deep dish": {
+  "drop": [
+   "pizza"
+  ],
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style",
+     "tavern style pizza"
+    ]
+   },
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "thin crust pizza",
+     "thin crust"
+    ]
+   }
+  ]
+ },
+ "geraldines": {
+  "drop": [
+   "baked goods",
+   "cakes"
+  ],
+  "groups": [
+   {
+    "label": "Cinnamon rolls",
+    "names": [
+     "cinnamon rolls",
+     "cinnamon roll"
+    ]
+   }
+  ]
+ },
+ "giant": {
+  "drop": [
+   "pasta"
+  ],
+  "groups": [
+   {
+    "label": "Japanese eggplant",
+    "names": [
+     "japanese eggplant",
+     "eggplant"
+    ]
+   },
+   {
+    "label": "Jalapeño biscuit",
+    "names": [
+     "jalapeño biscuit",
+     "biscuit"
+    ]
+   }
+  ]
+ },
+ "gibson italia": {
+  "drop": [
+   "pasta"
+  ]
+ },
+ "gibsons": {
+  "drop": [
+   "cake",
+   "cake slices"
+  ],
+  "groups": [
+   {
+    "label": "Steak",
+    "names": [
+     "steak",
+     "steaks"
+    ]
+   },
+   {
+    "label": "Filet sliders",
+    "names": [
+     "filet sliders",
+     "sliders"
+    ]
+   }
+  ]
+ },
+ "gibsons italia": {
+  "drop": [
+   "seafood",
+   "pasta"
+  ],
+  "groups": [
+   {
+    "label": "Steak",
+    "names": [
+     "steak",
+     "steaks"
+    ]
+   },
+   {
+    "label": "Banana gelato",
+    "names": [
+     "banana gelato",
+     "banana gelato dessert"
+    ]
+   },
+   {
+    "label": "Tomahawk",
+    "names": [
+     "tomahawk",
+     "carrara wagyu tomahawk"
+    ]
+   }
+  ]
+ },
+ "gigios": {
+  "groups": [
+   {
+    "label": "Pizza",
+    "names": [
+     "pizza",
+     "slices",
+     "slice"
+    ]
+   }
+  ]
+ },
+ "gilda": {
+  "groups": [
+   {
+    "label": "Tortilla española",
+    "names": [
+     "tortilla",
+     "tortilla espanola"
+    ]
+   },
+   {
+    "label": "Croquetas",
+    "names": [
+     "cod croquetas",
+     "croquetas"
+    ]
+   }
+  ]
+ },
+ "gilt": {
+  "drop": [
+   "tavern sauce"
+  ]
+ },
+ "gilt bar": {
+  "groups": [
+   {
+    "label": "Skillet cookie",
+    "names": [
+     "cookie skillet",
+     "skillet cookie"
+    ]
+   },
+   {
+    "label": "Chocolate cream pie",
+    "names": [
+     "chocolate cream pie",
+     "chocolate pie"
+    ]
+   }
+  ]
+ },
+ "ginos": {
+  "drop": [
+   "sauce",
+   "cornbread crust",
+   "deep dish crust"
+  ]
+ },
+ "ginos east": {
+  "drop": [
+   "sauce"
+  ],
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "deep dish",
+     "deep dish pizza",
+     "pizza"
+    ]
+   }
+  ]
+ },
+ "giordanos": {
+  "drop": [
+   "crust",
+   "ranch",
+   "tomato sauce"
+  ],
+  "groups": [
+   {
+    "label": "Stuffed pizza",
+    "names": [
+     "stuffed pizza",
+     "deep dish",
+     "deep dish pizza",
+     "stuffed deep dish",
+     "pizza",
+     "pie"
+    ]
+   },
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style pizza",
+     "tavern style"
+    ]
+   },
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "thin crust",
+     "thin crust pizza",
+     "extra thin crust"
+    ]
+   },
+   {
+    "label": "Frozen deep dish pizza",
+    "names": [
+     "frozen deep dish pizza",
+     "frozen pizza"
+    ]
+   }
+  ]
+ },
+ "go 4 food": {
+  "drop": [
+   "seafood"
+  ],
+  "groups": [
+   {
+    "label": "Lobster",
+    "names": [
+     "lobster",
+     "live lobster"
+    ]
+   }
+  ]
+ },
+ "golden apple": {
+  "drop": [
+   "pie"
+  ]
+ },
+ "golden bull": {
+  "drop": [
+   "seafood"
+  ]
+ },
+ "golden house": {
+  "drop": [
+   "maple syrup"
+  ]
+ },
+ "golden nugget": {
+  "groups": [
+   {
+    "label": "Club sandwich",
+    "names": [
+     "club sandwich",
+     "chicken breast club sandwich"
+    ]
+   }
+  ]
+ },
+ "golden nugget pancake house": {
+  "groups": [
+   {
+    "label": "Pancakes",
+    "names": [
+     "pancakes",
+     "pancake"
+    ]
+   }
+  ]
+ },
+ "good ambler": {
+  "drop": [
+   "pastries"
+  ]
+ },
+ "gotham": {
+  "groups": [
+   {
+    "label": "Bagels",
+    "names": [
+     "bagels",
+     "bagel"
+    ]
+   }
+  ]
+ },
+ "gourmet food": {
+  "groups": [
+   {
+    "label": "Rice box",
+    "names": [
+     "rice box",
+     "rice boxes"
+    ]
+   }
+  ]
+ },
+ "gracies": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "cheeseburger"
+    ]
+   }
+  ]
+ },
+ "great sea": {
+  "groups": [
+   {
+    "label": "Lollipop wings",
+    "names": [
+     "wings",
+     "lollipop wings"
+    ]
+   }
+  ]
+ },
+ "great seas": {
+  "groups": [
+   {
+    "label": "Lollipop wings",
+    "names": [
+     "lollipop chicken wings",
+     "lollipop wings",
+     "wings"
+    ]
+   }
+  ]
+ },
+ "greek islands": {
+  "groups": [
+   {
+    "label": "Grilled octopus",
+    "names": [
+     "grilled octopus",
+     "octopus"
+    ]
+   }
+  ]
+ },
+ "green st": {
+  "drop": [
+   "sides"
+  ]
+ },
+ "green street": {
+  "drop": [
+   "sides",
+   "bbq",
+   "texas bbq"
+  ]
+ },
+ "green street meats": {
+  "drop": [
+   "bbq"
+  ]
+ },
+ "green street smoked meats": {
+  "drop": [
+   "sides"
+  ],
+  "groups": [
+   {
+    "label": "Ribs",
+    "names": [
+     "ribs",
+     "baby back ribs"
+    ]
+   },
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "smokehouse burger"
+    ]
+   }
+  ]
+ },
+ "gretal": {
+  "groups": [
+   {
+    "label": "Mac and cheese",
+    "names": [
+     "mac",
+     "mac and cheese"
+    ]
+   }
+  ]
+ },
+ "gretel": {
+  "drop": [
+   "cocktails",
+   "salad"
+  ],
+  "groups": [
+   {
+    "label": "Gretel burger",
+    "names": [
+     "burger",
+     "burgers",
+     "gretel burger"
+    ]
+   },
+   {
+    "label": "Mac and cheese",
+    "names": [
+     "mac and cheese",
+     "mac&cheese"
+    ]
+   },
+   {
+    "label": "Tonkotsu ramen",
+    "names": [
+     "ramen",
+     "tonkotsu ramen"
+    ]
+   },
+   {
+    "label": "Chicken sandwich",
+    "names": [
+     "chicken sandwich",
+     "fried chicken sandwich"
+    ]
+   }
+  ]
+ },
+ "guillotine": {
+  "drop": [
+   "pastries",
+   "sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Baguette",
+    "names": [
+     "baguette",
+     "baguettes"
+    ]
+   }
+  ]
+ },
+ "guillotine bakery": {
+  "drop": [
+   "pastries"
+  ]
+ },
+ "guinness open gate brewery": {
+  "drop": [
+   "salad",
+   "food"
+  ]
+ },
+ "gus sip dip": {
+  "drop": [
+   "drinks"
+  ]
+ },
+ "guss sip dip": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "guss sip n dip": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "gussies": {
+  "drop": [
+   "bread",
+   "table bread"
+  ]
+ },
+ "guzman y gomez": {
+  "groups": [
+   {
+    "label": "Breakfast burrito",
+    "names": [
+     "brekkie burrito",
+     "breakfast burrito"
+    ]
+   },
+   {
+    "label": "Tacos",
+    "names": [
+     "taco",
+     "tacos"
+    ]
+   }
+  ]
+ },
+ "hackneys": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burgers",
+     "burger"
+    ]
+   }
+  ]
+ },
+ "hagens": {
+  "groups": [
+   {
+    "label": "Fried fish",
+    "names": [
+     "fried fish",
+     "fish"
+    ]
+   }
+  ]
+ },
+ "hai yen": {
+  "groups": [
+   {
+    "label": "Pho",
+    "names": [
+     "pho",
+     "pho tai"
+    ]
+   }
+  ]
+ },
+ "hala kahiki": {
+  "groups": [
+   {
+    "label": "Tiki drinks",
+    "names": [
+     "tiki drinks",
+     "tiki drink",
+     "drinks"
+    ]
+   }
+  ]
+ },
+ "handlebar": {
+  "drop": [
+   "vegan ranch",
+   "brunch"
+  ],
+  "groups": [
+   {
+    "label": "Nashville hot chicken",
+    "names": [
+     "nashville hot",
+     "nashville hot chicken"
+    ]
+   }
+  ]
+ },
+ "handshake speakeasy pop up": {
+  "drop": [
+   "signature cocktails"
+  ]
+ },
+ "happy lamb": {
+  "groups": [
+   {
+    "label": "Hot pot",
+    "names": [
+     "hot pot",
+     "ayce hot pot"
+    ]
+   }
+  ]
+ },
+ "harolds": {
+  "drop": [
+   "hot sauce"
+  ],
+  "groups": [
+   {
+    "label": "Fried chicken",
+    "names": [
+     "fried chicken",
+     "chicken",
+     "bone-in chicken"
+    ]
+   },
+   {
+    "label": "Mild sauce",
+    "names": [
+     "mild sauce"
+    ]
+   },
+   {
+    "label": "Chicken tenders",
+    "names": [
+     "tenders",
+     "chicken tenders"
+    ]
+   },
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "chicken wings",
+     "fried chicken wings"
+    ]
+   }
+  ]
+ },
+ "harolds chicken": {
+  "drop": [
+   "hot sauce"
+  ],
+  "groups": [
+   {
+    "label": "Fried chicken",
+    "names": [
+     "chicken",
+     "fried chicken"
+    ]
+   }
+  ]
+ },
+ "hattie bs": {
+  "drop": [
+   "hot",
+   "sides",
+   "sandwich"
+  ]
+ },
+ "hawksmoor": {
+  "drop": [
+   "cocktails",
+   "sides",
+   "beef"
+  ],
+  "groups": [
+   {
+    "label": "Martini",
+    "names": [
+     "martini",
+     "martinis"
+    ]
+   }
+  ]
+ },
+ "hawksmoore": {
+  "drop": [
+   "cooked thru steak"
+  ]
+ },
+ "heckys": {
+  "drop": [
+   "sauce"
+  ]
+ },
+ "heros": {
+  "drop": [
+   "sub"
+  ]
+ },
+ "hing kee": {
+  "drop": [
+   "noodles"
+  ],
+  "groups": [
+   {
+    "label": "Soup dumplings",
+    "names": [
+     "soup dumplings",
+     "xiao long bao",
+     "xiaolongbao"
+    ]
+   },
+   {
+    "label": "Dumplings",
+    "names": [
+     "dumplings",
+     "dumpling"
+    ]
+   }
+  ]
+ },
+ "holey dough co": {
+  "drop": [
+   "cream cheese"
+  ],
+  "groups": [
+   {
+    "label": "Bagels",
+    "names": [
+     "bagels",
+     "bagel"
+    ]
+   }
+  ]
+ },
+ "home depot": {
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs",
+     "chicago dog",
+     "depot dawg"
+    ]
+   }
+  ]
+ },
+ "home run inn": {
+  "groups": [
+   {
+    "label": "Frozen pizza",
+    "names": [
+     "frozen pizza",
+     "par-cooked supreme pizza"
+    ]
+   }
+  ]
+ },
+ "honey butter fried chicken": {
+  "drop": [
+   "herby ranch"
+  ]
+ },
+ "hooligans": {
+  "drop": [
+   "chicken",
+   "cocktails",
+   "pasta"
+  ]
+ },
+ "hoosier mama": {
+  "drop": [
+   "pie",
+   "pies"
+  ]
+ },
+ "hoosier mama pie company": {
+  "drop": [
+   "pie"
+  ]
+ },
+ "hopleaf": {
+  "drop": [
+   "aioli",
+   "garlic aioli",
+   "cocktails",
+   "salads"
+  ],
+  "groups": [
+   {
+    "label": "Mussels",
+    "names": [
+     "mussels",
+     "muscles",
+     "belgian mussels",
+     "mussels and frites"
+    ]
+   },
+   {
+    "label": "Frites",
+    "names": [
+     "frites",
+     "fries"
+    ]
+   },
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "slagel burger"
+    ]
+   },
+   {
+    "label": "CB&J",
+    "names": [
+     "cb&j",
+     "cbj",
+     "cb&j sandwich"
+    ]
+   },
+   {
+    "label": "Crispy pork belly",
+    "names": [
+     "crispy pork belly",
+     "crispy pork belly appetizer"
+    ]
+   }
+  ]
+ },
+ "hot chi": {
+  "drop": [
+   "chicken",
+   "salad"
+  ],
+  "groups": [
+   {
+    "label": "Chicken sandwich",
+    "names": [
+     "chicken sandwich",
+     "sandwich"
+    ]
+   }
+  ]
+ },
+ "hot dougs": {
+  "drop": [
+   "encased meats",
+   "sausages"
+  ],
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "chicago dogs"
+    ]
+   }
+  ]
+ },
+ "huck finn": {
+  "drop": [
+   "donuts"
+  ]
+ },
+ "humboldt haus": {
+  "drop": [
+   "sandwiches",
+   "subs",
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Italian sub",
+    "names": [
+     "italian",
+     "italian sub"
+    ]
+   }
+  ]
+ },
+ "hutchinson cicero": {
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "beef",
+     "italian beef"
+    ]
+   },
+   {
+    "label": "Combo",
+    "names": [
+     "combo",
+     "combos"
+    ]
+   }
+  ]
+ },
+ "il carciofo": {
+  "drop": [
+   "pasta"
+  ]
+ },
+ "indienne": {
+  "drop": [
+   "cocktails",
+   "chicken"
+  ],
+  "groups": [
+   {
+    "label": "Spirit free pairing",
+    "names": [
+     "spirit free pairing",
+     "na pairing",
+     "non-alcoholic pairing"
+    ]
+   },
+   {
+    "label": "Vegetarian tasting menu",
+    "names": [
+     "vegetarian tasting menu",
+     "vegetarian menu"
+    ]
+   }
+  ]
+ },
+ "ipsento": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "irazu": {
+  "drop": [
+   "sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Oatmeal shake",
+    "names": [
+     "oatmeal shake",
+     "oat meal shake"
+    ]
+   },
+   {
+    "label": "Skirt steak casado",
+    "names": [
+     "skirt steak casado",
+     "skirt steak plate"
+    ]
+   }
+  ]
+ },
+ "irenes bagels": {
+  "groups": [
+   {
+    "label": "Bagels",
+    "names": [
+     "bagels",
+     "bagel"
+    ]
+   }
+  ]
+ },
+ "irenes chicago": {
+  "drop": [
+   "bacon",
+   "eggs",
+   "sausage"
+  ]
+ },
+ "iron age": {
+  "drop": [
+   "banchan",
+   "meat",
+   "beef",
+   "salad"
+  ]
+ },
+ "italian fiesta": {
+  "drop": [
+   "pizza"
+  ]
+ },
+ "izakaya": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "jack in the box": {
+  "groups": [
+   {
+    "label": "Chicken sandwich",
+    "names": [
+     "chicken sandwich",
+     "chicken sandwiches"
+    ]
+   }
+  ]
+ },
+ "jake melnicks": {
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "$1 wings",
+     "giant wings"
+    ]
+   }
+  ]
+ },
+ "jakes pub in the ruff": {
+  "drop": [
+   "grilled onions"
+  ]
+ },
+ "jays": {
+  "drop": [
+   "hot peppers",
+   "giardiniera",
+   "crunchy giardiniera",
+   "hot giardinera"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "beef",
+     "italian beef"
+    ]
+   }
+  ]
+ },
+ "jb albertos": {
+  "drop": [
+   "pizza",
+   "ranch"
+  ]
+ },
+ "jeffs red hots": {
+  "drop": [
+   "tomato",
+   "sauerkraut"
+  ]
+ },
+ "jenis": {
+  "drop": [
+   "signature",
+   "ice cream"
+  ]
+ },
+ "jenivees": {
+  "drop": [
+   "cake"
+  ]
+ },
+ "jennivees": {
+  "drop": [
+   "cakes",
+   "cake slices"
+  ],
+  "groups": [
+   {
+    "label": "Brooklyn blackout cake",
+    "names": [
+     "brooklyn blackout",
+     "brooklyn blackout slice",
+     "brooklyn blackout cake",
+     "chocolate blackout"
+    ]
+   }
+  ]
+ },
+ "jets": {
+  "drop": [
+   "ranch"
+  ],
+  "groups": [
+   {
+    "label": "Detroit style pizza",
+    "names": [
+     "detroit style pizza",
+     "detroit-style pizza",
+     "pizza"
+    ]
+   }
+  ]
+ },
+ "jets pizza": {
+  "drop": [
+   "ranch"
+  ],
+  "groups": [
+   {
+    "label": "Detroit style pizza",
+    "names": [
+     "pizza",
+     "8 corner pizza",
+     "detroit style pizza"
+    ]
+   }
+  ]
+ },
+ "jewel": {
+  "drop": [
+   "chicken",
+   "cake",
+   "cakes"
+  ],
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "chicken wings"
+    ]
+   },
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs"
+    ]
+   },
+   {
+    "label": "Chicken tenders",
+    "names": [
+     "tenders",
+     "chicken tenders",
+     "chicken strips",
+     "tendies"
+    ]
+   },
+   {
+    "label": "Chicken nuggets",
+    "names": [
+     "nuggets",
+     "chicken nuggets"
+    ]
+   }
+  ]
+ },
+ "jewel deli": {
+  "groups": [
+   {
+    "label": "Korean rotisserie chicken",
+    "names": [
+     "korean rotisserie chicken",
+     "korean-spiced rotisserie chicken"
+    ]
+   }
+  ]
+ },
+ "jewel osco": {
+  "drop": [
+   "chicken"
+  ],
+  "groups": [
+   {
+    "label": "Chicken sandwich",
+    "names": [
+     "chicken sandwiches",
+     "chicken sandwich"
+    ]
+   }
+  ]
+ },
+ "jewels": {
+  "drop": [
+   "chicken"
+  ]
+ },
+ "jibarito y mas": {
+  "groups": [
+   {
+    "label": "Jibarito",
+    "names": [
+     "jibaritos",
+     "jibarito"
+    ]
+   }
+  ]
+ },
+ "jibaritos y mas": {
+  "groups": [
+   {
+    "label": "Jibarito",
+    "names": [
+     "jibarito",
+     "jibaritos",
+     "steak jibarito"
+    ]
+   },
+   {
+    "label": "Lechón",
+    "names": [
+     "lechon",
+     "lechón"
+    ]
+   }
+  ]
+ },
+ "jimmys": {
+  "drop": [
+   "fountain drinks"
+  ],
+  "groups": [
+   {
+    "label": "NY style pizza",
+    "names": [
+     "pizza",
+     "slice",
+     "slices",
+     "ny style pizza",
+     "new york style pizza",
+     "cheese slice"
+    ]
+   }
+  ]
+ },
+ "jimmys pizza cafe": {
+  "groups": [
+   {
+    "label": "NY style pizza",
+    "names": [
+     "pizza",
+     "slices",
+     "ny style pizza",
+     "16in pizza",
+     "20in pizza",
+     "whole pie"
+    ]
+   }
+  ]
+ },
+ "jimmys red hots": {
+  "groups": [
+   {
+    "label": "Depression dog",
+    "names": [
+     "depression dog",
+     "chicago dog"
+    ]
+   }
+  ]
+ },
+ "jims": {
+  "groups": [
+   {
+    "label": "Pork chop sandwich",
+    "names": [
+     "pork chop sandwich",
+     "pork chop"
+    ]
+   }
+  ]
+ },
+ "jims original": {
+  "groups": [
+   {
+    "label": "Maxwell Street Polish",
+    "names": [
+     "maxwell street polish",
+     "polish",
+     "maxwell polish",
+     "maxwell st. polish",
+     "polish sausage"
+    ]
+   }
+  ]
+ },
+ "jinsei motto": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "joes": {
+  "drop": [
+   "desserts",
+   "seafood"
+  ],
+  "groups": [
+   {
+    "label": "Steak",
+    "names": [
+     "steak",
+     "steaks"
+    ]
+   },
+   {
+    "label": "King crab legs",
+    "names": [
+     "king crab legs",
+     "crab legs"
+    ]
+   }
+  ]
+ },
+ "johnnies": {
+  "drop": [
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef",
+     "beef sandwich"
+    ]
+   },
+   {
+    "label": "Beef and sausage combo",
+    "names": [
+     "combo",
+     "beef and sausage combo",
+     "beef and sausage sandwich"
+    ]
+   },
+   {
+    "label": "Lemon ice",
+    "names": [
+     "lemon ice",
+     "italian ice"
+    ]
+   },
+   {
+    "label": "Italian sausage",
+    "names": [
+     "sausage",
+     "italian sausage"
+    ]
+   }
+  ]
+ },
+ "johnnies beef": {
+  "drop": [
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef"
+    ]
+   }
+  ]
+ },
+ "johnnys": {
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef",
+     "baptized",
+     "extra wet",
+     "soaked",
+     "wet"
+    ]
+   }
+  ]
+ },
+ "johnnys beef gyros": {
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "beef",
+     "italian beef"
+    ]
+   }
+  ]
+ },
+ "johns food wine": {
+  "groups": [
+   {
+    "label": "French fries",
+    "names": [
+     "french fries",
+     "fries"
+    ]
+   }
+  ]
+ },
+ "joong boo": {
+  "drop": [
+   "soup"
+  ]
+ },
+ "joy yee": {
+  "drop": [
+   "drinks"
+  ],
+  "groups": [
+   {
+    "label": "Fruit smoothie",
+    "names": [
+     "smoothie",
+     "fruit smoothie"
+    ]
+   }
+  ]
+ },
+ "jp graziano": {
+  "drop": [
+   "bread",
+   "sandwiches",
+   "hot giardiniera"
+  ],
+  "groups": [
+   {
+    "label": "Italian sub",
+    "names": [
+     "italian sandwiches",
+     "italian sub"
+    ]
+   },
+   {
+    "label": "Mr. G",
+    "names": [
+     "mr g"
+    ]
+   }
+  ]
+ },
+ "jp grazianos": {
+  "drop": [
+   "sub",
+   "sandwiches",
+   "giardiniera"
+  ],
+  "groups": [
+   {
+    "label": "Italian sub",
+    "names": [
+     "italian sub",
+     "italian subs"
+    ]
+   }
+  ]
+ },
+ "jts": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "jts genuine": {
+  "drop": [
+   "sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Roast pork sandwich",
+    "names": [
+     "roast pork sandwich",
+     "roast pork with broccoli rabe"
+    ]
+   }
+  ]
+ },
+ "jts sandwich shop": {
+  "groups": [
+   {
+    "label": "Pork and greens sandwich",
+    "names": [
+     "pork and greens sandwich",
+     "pork and greens"
+    ]
+   }
+  ]
+ },
+ "justice of the pies": {
+  "drop": [
+   "pies"
+  ]
+ },
+ "kabobi": {
+  "groups": [
+   {
+    "label": "Dill rice",
+    "names": [
+     "dill rice",
+     "rice"
+    ]
+   },
+   {
+    "label": "Kebabs",
+    "names": [
+     "kabobs",
+     "kebabs"
+    ]
+   }
+  ]
+ },
+ "kanin": {
+  "groups": [
+   {
+    "label": "Ube banana pudding",
+    "names": [
+     "ube banana pudding",
+     "banana pudding"
+    ]
+   }
+  ]
+ },
+ "kasama": {
+  "drop": [
+   "pastries",
+   "pastry",
+   "breakfast",
+   "bakery items",
+   "desserts",
+   "dinner",
+   "egg",
+   "cocktails",
+   "coffee drinks",
+   "black truffle croissant ham and cheese danish",
+   "pies"
+  ],
+  "groups": [
+   {
+    "label": "Breakfast sandwich",
+    "names": [
+     "breakfast sandwich",
+     "breakfast sandwiches",
+     "sandwich",
+     "sandwiches"
+    ]
+   },
+   {
+    "label": "Black truffle croissant",
+    "names": [
+     "truffle croissant",
+     "black truffle croissant",
+     "croissant with black truffle frosting"
+    ]
+   },
+   {
+    "label": "Ube Basque cake",
+    "names": [
+     "ube basque cake",
+     "huckleberry ube basque cake",
+     "basque cake",
+     "ube and huckleberry basque cake"
+    ]
+   },
+   {
+    "label": "Matcha pandan eclair",
+    "names": [
+     "matcha pandan eclair",
+     "matcha-pandan eclair"
+    ]
+   },
+   {
+    "label": "Longanisa sandwich",
+    "names": [
+     "longanisa sando",
+     "longanisa sandwich"
+    ]
+   }
+  ]
+ },
+ "kasias": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "katherine anne confections": {
+  "groups": [
+   {
+    "label": "Drinking chocolate",
+    "names": [
+     "drinking chocolate",
+     "hot chocolate",
+     "hot cocoa"
+    ]
+   }
+  ]
+ },
+ "kaufmans": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "khan bbq": {
+  "drop": [
+   "bbq",
+   "grilled meats"
+  ]
+ },
+ "kie gol lanee": {
+  "drop": [
+   "brunch"
+  ],
+  "groups": [
+   {
+    "label": "Chapulines",
+    "names": [
+     "chapulines",
+     "crickets"
+    ]
+   }
+  ]
+ },
+ "kims home cooking": {
+  "drop": [
+   "banchan"
+  ],
+  "groups": [
+   {
+    "label": "Fish cake",
+    "names": [
+     "fish cake",
+     "fish cakes"
+    ]
+   },
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "extra spicy wings"
+    ]
+   }
+  ]
+ },
+ "kims uncle": {
+  "groups": [
+   {
+    "label": "Tavern-style pizza",
+    "names": [
+     "pizza",
+     "tavern-style pizza"
+    ]
+   }
+  ]
+ },
+ "kittys cosmopolitan club": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "kleins": {
+  "groups": [
+   {
+    "label": "Tres leches cake",
+    "names": [
+     "tres leches",
+     "tres leches cake"
+    ]
+   }
+  ]
+ },
+ "kow kow": {
+  "groups": [
+   {
+    "label": "Egg rolls",
+    "names": [
+     "egg rolls",
+     "eggrolls"
+    ]
+   }
+  ]
+ },
+ "kristoffers": {
+  "groups": [
+   {
+    "label": "Tres leches cake",
+    "names": [
+     "tres leches",
+     "tres leches cake"
+    ]
+   }
+  ]
+ },
+ "kristoffers cakes": {
+  "groups": [
+   {
+    "label": "Tres leches cake",
+    "names": [
+     "tres leches",
+     "tres leches cake"
+    ]
+   }
+  ]
+ },
+ "kubo": {
+  "groups": [
+   {
+    "label": "Lumpia",
+    "names": [
+     "lumpia",
+     "filipino eggrolls"
+    ]
+   }
+  ]
+ },
+ "kumas": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "kumas corner": {
+  "drop": [
+   "pretzel buns",
+   "giardinera ketchup",
+   "ketchup"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burgers",
+     "burger"
+    ]
+   }
+  ]
+ },
+ "kumiko": {
+  "drop": [
+   "cocktails",
+   "drinks",
+   "entrees"
+  ]
+ },
+ "kung fu pizza": {
+  "drop": [
+   "pizza",
+   "slice"
+  ]
+ },
+ "kura": {
+  "groups": [
+   {
+    "label": "Seaweed hot dog tempura roll",
+    "names": [
+     "seaweed wrapped hot dog tempura rice roll",
+     "seaweed hot dog tempura roll"
+    ]
+   }
+  ]
+ },
+ "kyoten next door": {
+  "drop": [
+   "rice"
+  ]
+ },
+ "l m": {
+  "drop": [
+   "sandwiches",
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Porchetta sandwich",
+    "names": [
+     "porchetta",
+     "porchetta sandwich",
+     "hot porchetta"
+    ]
+   },
+   {
+    "label": "Muffuletta",
+    "names": [
+     "muffuletta",
+     "muffaletta"
+    ]
+   },
+   {
+    "label": "Turkey and brie sandwich",
+    "names": [
+     "turkey and brie",
+     "turkey & brie sandwich"
+    ]
+   },
+   {
+    "label": "Breakfast sandwich",
+    "names": [
+     "breakfast biscuit sandwich",
+     "breakfast sandwich"
+    ]
+   }
+  ]
+ },
+ "l m fine foods": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "l woods": {
+  "drop": [
+   "blue cheese dressing"
+  ],
+  "groups": [
+   {
+    "label": "Ribs",
+    "names": [
+     "ribs",
+     "baby back ribs",
+     "bbq ribs"
+    ]
+   },
+   {
+    "label": "Beef ribs",
+    "names": [
+     "beef ribs",
+     "beef rib"
+    ]
+   },
+   {
+    "label": "Almond crusted walleye",
+    "names": [
+     "almond crusted walleye",
+     "walleye"
+    ]
+   },
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "chicken wings",
+     "buffalo wings"
+    ]
+   }
+  ]
+ },
+ "la boulangerie": {
+  "drop": [
+   "laminated pastries",
+   "pastry",
+   "loaf"
+  ]
+ },
+ "la creperie": {
+  "groups": [
+   {
+    "label": "Steak frites",
+    "names": [
+     "steak frites",
+     "steak fries"
+    ]
+   }
+  ]
+ },
+ "la pasadita": {
+  "drop": [
+   "bowl"
+  ],
+  "groups": [
+   {
+    "label": "Burrito",
+    "names": [
+     "burrito",
+     "burritos"
+    ]
+   }
+  ]
+ },
+ "la scarola": {
+  "drop": [
+   "pasta",
+   "red sauce"
+  ],
+  "groups": [
+   {
+    "label": "Pasta fagioli",
+    "names": [
+     "pasta fagioli",
+     "pasta fagioli soup"
+    ]
+   }
+  ]
+ },
+ "la villa": {
+  "drop": [
+   "pizza"
+  ]
+ },
+ "labriola": {
+  "drop": [
+   "pizza"
+  ],
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "deep dish",
+     "deep dish pizza"
+    ]
+   },
+   {
+    "label": "Croissant garlic knots",
+    "names": [
+     "croissant garlic knots",
+     "garlic knots"
+    ]
+   },
+   {
+    "label": "Russo sausage",
+    "names": [
+     "russo sausage",
+     "sausage"
+    ]
+   }
+  ]
+ },
+ "labriola ristorante": {
+  "drop": [
+   "pizza"
+  ],
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "deep dish",
+     "half deep dish"
+    ]
+   }
+  ]
+ },
+ "lady gregorys": {
+  "groups": [
+   {
+    "label": "Fish and chips",
+    "names": [
+     "fish and chips",
+     "fish"
+    ]
+   }
+  ]
+ },
+ "lao peng you": {
+  "drop": [
+   "noodles",
+   "broth"
+  ]
+ },
+ "lao sze chuan": {
+  "drop": [
+   "red peppers"
+  ],
+  "groups": [
+   {
+    "label": "Dry chili chicken",
+    "names": [
+     "dry chili chicken",
+     "chili chicken",
+     "laziji"
+    ]
+   }
+  ]
+ },
+ "lardon": {
+  "drop": [
+   "sandwiches",
+   "sandwich"
+  ]
+ },
+ "larrys": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "laschets": {
+  "groups": [
+   {
+    "label": "Smelt",
+    "names": [
+     "smelt",
+     "fried smelt"
+    ]
+   },
+   {
+    "label": "Steak tartare",
+    "names": [
+     "steak tartar"
+    ]
+   }
+  ]
+ },
+ "laschets inn": {
+  "drop": [
+   "beer list"
+  ],
+  "groups": [
+   {
+    "label": "Pork shank",
+    "names": [
+     "pork shank",
+     "schweinshaxe",
+     "pork knuckle"
+    ]
+   }
+  ]
+ },
+ "le bouchon": {
+  "drop": [
+   "bread"
+  ],
+  "groups": [
+   {
+    "label": "French onion soup",
+    "names": [
+     "french onion soup",
+     "onion soup"
+    ]
+   },
+   {
+    "label": "Steak frites",
+    "names": [
+     "steak frites",
+     "manion style steak frites"
+    ]
+   },
+   {
+    "label": "Trout en croute",
+    "names": [
+     "trout en croute",
+     "trout"
+    ]
+   },
+   {
+    "label": "Roasted chicken",
+    "names": [
+     "roasted chicken",
+     "chicken",
+     "poulet roti"
+    ]
+   },
+   {
+    "label": "Crème brûlée",
+    "names": [
+     "creme brulee",
+     "crème brûlée"
+    ]
+   },
+   {
+    "label": "Steak tartare",
+    "names": [
+     "steak tartare",
+     "tartare"
+    ]
+   },
+   {
+    "label": "Rabbit pot pie",
+    "names": [
+     "rabbit pot pie",
+     "rabbit pie"
+    ]
+   },
+   {
+    "label": "Mussels",
+    "names": [
+     "mussels",
+     "moules"
+    ]
+   }
+  ]
+ },
+ "le colonial": {
+  "groups": [
+   {
+    "label": "Red snapper",
+    "names": [
+     "red snapper",
+     "snapper"
+    ]
+   }
+  ]
+ },
+ "leavitt": {
+  "drop": [
+   "patties"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "smash burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "leavitt st": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "smash burger",
+     "cheeseburger"
+    ]
+   }
+  ]
+ },
+ "leavitt st inn": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "smash burger"
+    ]
+   }
+  ]
+ },
+ "leavitt street": {
+  "drop": [
+   "cheese"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "smash burger"
+    ]
+   }
+  ]
+ },
+ "leavitt street burger place": {
+  "drop": [
+   "burger sauce"
+  ]
+ },
+ "leavitt street inn": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "smash burger",
+     "smashburger"
+    ]
+   }
+  ]
+ },
+ "leftys": {
+  "groups": [
+   {
+    "label": "Bagels",
+    "names": [
+     "bagels",
+     "montreal style bagels"
+    ]
+   }
+  ]
+ },
+ "lencis greek pita": {
+  "drop": [
+   "pita"
+  ]
+ },
+ "libanais": {
+  "drop": [
+   "desserts",
+   "dessert selection"
+  ]
+ },
+ "lickity split": {
+  "groups": [
+   {
+    "label": "Milkshake",
+    "names": [
+     "milkshakes",
+     "milkshake"
+    ]
+   }
+  ]
+ },
+ "lincoln park jewish deli reuben bagel sandwiches": {
+  "drop": [
+   "cream cheese"
+  ]
+ },
+ "little bad wolf": {
+  "drop": [
+   "cocktails",
+   "broth"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   },
+   {
+    "label": "Mussels",
+    "names": [
+     "mussels",
+     "green curry mussels"
+    ]
+   },
+   {
+    "label": "Chopped salad",
+    "names": [
+     "chopped salad",
+     "chop salad"
+    ]
+   },
+   {
+    "label": "Bao",
+    "names": [
+     "bao",
+     "bao buns"
+    ]
+   }
+  ]
+ },
+ "little lark": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "little victories": {
+  "drop": [
+   "chicken"
+  ],
+  "groups": [
+   {
+    "label": "Chicken caesar wrap",
+    "names": [
+     "chicken caesar wrap",
+     "caesar wrap",
+     "wrap",
+     "chicken caesar salad wrap",
+     "ccw",
+     "chicken wrap",
+     "wraps"
+    ]
+   }
+  ]
+ },
+ "loaf lounge": {
+  "drop": [
+   "sandwich",
+   "sandwiches",
+   "bread",
+   "pastries",
+   "baked goods",
+   "sausage"
+  ],
+  "groups": [
+   {
+    "label": "Chocolate cake",
+    "names": [
+     "chocolate cake",
+     "cake",
+     "the bear chocolate cake"
+    ]
+   },
+   {
+    "label": "Breakfast sandwich",
+    "names": [
+     "breakfast sandwich",
+     "breakfast sandwiches",
+     "breakfast sandos"
+    ]
+   },
+   {
+    "label": "Veggie breakfast sandwich",
+    "names": [
+     "veggie breakfast sandwich",
+     "vegetarian breakfast sandwich"
+    ]
+   }
+  ]
+ },
+ "loba": {
+  "drop": [
+   "pastries"
+  ],
+  "groups": [
+   {
+    "label": "Mole croissant",
+    "names": [
+     "mole croissant",
+     "green mole croissant"
+    ]
+   },
+   {
+    "label": "Pineapple muffin",
+    "names": [
+     "pineapple muffin",
+     "sourdough pineapple muffin"
+    ]
+   }
+  ]
+ },
+ "loba pastry": {
+  "drop": [
+   "pastries"
+  ]
+ },
+ "lobo": {
+  "drop": [
+   "slices",
+   "pizza",
+   "full pie",
+   "drinks"
+  ],
+  "groups": [
+   {
+    "label": "Banh mi slice",
+    "names": [
+     "bahn mi slice"
+    ]
+   }
+  ]
+ },
+ "lockdown": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burgers",
+     "burger"
+    ]
+   }
+  ]
+ },
+ "lonesome rose": {
+  "drop": [
+   "cocktails",
+   "mango habanero salsa"
+  ],
+  "groups": [
+   {
+    "label": "Nachos",
+    "names": [
+     "nachos",
+     "truckstop nachos"
+    ]
+   }
+  ]
+ },
+ "long john silvers": {
+  "drop": [
+   "chicken"
+  ],
+  "groups": [
+   {
+    "label": "Fish",
+    "names": [
+     "fish",
+     "fried fish"
+    ]
+   }
+  ]
+ },
+ "longman eagle": {
+  "drop": [
+   "desserts",
+   "drinks"
+  ]
+ },
+ "los comales": {
+  "groups": [
+   {
+    "label": "Tacos",
+    "names": [
+     "tacos",
+     "taco"
+    ]
+   }
+  ]
+ },
+ "lost larson": {
+  "drop": [
+   "pastries"
+  ]
+ },
+ "lou": {
+  "groups": [
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "thin crust",
+     "pizza",
+     "thin crust pizza"
+    ]
+   }
+  ]
+ },
+ "lou malnatis": {
+  "drop": [
+   "ranch",
+   "italian dressing",
+   "dressing",
+   "tomato sauce",
+   "crust",
+   "house made thousand island"
+  ],
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "deep dish",
+     "pizza",
+     "deep dish pizza",
+     "large deep dish",
+     "classic deep dish"
+    ]
+   },
+   {
+    "label": "Buttercrust",
+    "names": [
+     "butter crust",
+     "buttercrust"
+    ]
+   },
+   {
+    "label": "Malnati Chicago Classic",
+    "names": [
+     "chicago classic",
+     "malnati chicago classic"
+    ]
+   },
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "thin crust",
+     "thin crust pizza"
+    ]
+   },
+   {
+    "label": "Sausage",
+    "names": [
+     "sausage",
+     "crumbled sausage",
+     "sausage patty"
+    ]
+   },
+   {
+    "label": "The Lou",
+    "names": [
+     "the lou"
+    ]
+   }
+  ]
+ },
+ "lou mitchells": {
+  "drop": [
+   "breakfast"
+  ]
+ },
+ "lous": {
+  "drop": [
+   "crust",
+   "sauce",
+   "house vinaigrette"
+  ],
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "deep dish",
+     "pizza",
+     "deep dish pizza",
+     "pie"
+    ]
+   },
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "thin crust",
+     "thin crust pizza"
+    ]
+   },
+   {
+    "label": "Buttercrust",
+    "names": [
+     "butter crust",
+     "buttercrust well done"
+    ]
+   },
+   {
+    "label": "Frozen pizza",
+    "names": [
+     "frozen pizza",
+     "frozen deep dish pizza",
+     "frozen lou's pizza",
+     "par-baked pizza"
+    ]
+   },
+   {
+    "label": "Malnati salad",
+    "names": [
+     "salad",
+     "lou's salad",
+     "malnati salad"
+    ]
+   },
+   {
+    "label": "Buffalou",
+    "names": [
+     "buffalou",
+     "personal sized buffalou"
+    ]
+   }
+  ]
+ },
+ "loyalist": {
+  "drop": [
+   "cocktails"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "loyalist burger",
+     "og burger"
+    ]
+   }
+  ]
+ },
+ "lucys": {
+  "drop": [
+   "chicken"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "ludlow": {
+  "drop": [
+   "seeded roll",
+   "roll"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "smashburger"
+    ]
+   }
+  ]
+ },
+ "ludlow liquors": {
+  "groups": [
+   {
+    "label": "Cheesesteak",
+    "names": [
+     "cheesesteak",
+     "philly cheesesteak"
+    ]
+   },
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "smash burger"
+    ]
+   }
+  ]
+ },
+ "luellas": {
+  "groups": [
+   {
+    "label": "Fried chicken",
+    "names": [
+     "fried chicken",
+     "chicken"
+    ]
+   }
+  ]
+ },
+ "lukes": {
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef",
+     "beef sandwich"
+    ]
+   },
+   {
+    "label": "Fries",
+    "names": [
+     "fries",
+     "french fries"
+    ]
+   }
+  ]
+ },
+ "lukes italian beef": {
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef",
+     "beef sandwich"
+    ]
+   }
+  ]
+ },
+ "lula cafe": {
+  "drop": [
+   "brunch"
+  ],
+  "groups": [
+   {
+    "label": "Pasta yiayia",
+    "names": [
+     "pasta yiayia",
+     "pasta"
+    ]
+   }
+  ]
+ },
+ "lunch heroes": {
+  "drop": [
+   "bread",
+   "sandwiches"
+  ]
+ },
+ "m henry": {
+  "drop": [
+   "brunch"
+  ]
+ },
+ "magnolia bakery": {
+  "drop": [
+   "cakes"
+  ],
+  "groups": [
+   {
+    "label": "Banana pudding",
+    "names": [
+     "banana pudding",
+     "pudding"
+    ]
+   }
+  ]
+ },
+ "malnatis": {
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "deep dish",
+     "pizza"
+    ]
+   },
+   {
+    "label": "Malnati salad",
+    "names": [
+     "salad",
+     "malnati salad"
+    ]
+   }
+  ]
+ },
+ "manchamanteles": {
+  "groups": [
+   {
+    "label": "Mole",
+    "names": [
+     "mole",
+     "moles"
+    ]
+   },
+   {
+    "label": "Chiles en nogada",
+    "names": [
+     "chile en nogada",
+     "chiles en nogada"
+    ]
+   }
+  ]
+ },
+ "mango mango": {
+  "drop": [
+   "dessert"
+  ]
+ },
+ "mannys": {
+  "drop": [
+   "sandwich",
+   "sandwiches",
+   "mustard"
+  ],
+  "groups": [
+   {
+    "label": "Pastrami sandwich",
+    "names": [
+     "pastrami",
+     "pastrami sandwich",
+     "pastrami on rye"
+    ]
+   },
+   {
+    "label": "Corned beef sandwich",
+    "names": [
+     "corned beef",
+     "corned beef sandwich"
+    ]
+   },
+   {
+    "label": "Potato pancakes",
+    "names": [
+     "latkes",
+     "potato pancakes",
+     "potato pancake",
+     "latke"
+    ]
+   },
+   {
+    "label": "Matzo ball soup",
+    "names": [
+     "matzo ball soup",
+     "matzah ball soup"
+    ]
+   }
+  ]
+ },
+ "mannys deli": {
+  "drop": [
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Pastrami sandwich",
+    "names": [
+     "pastrami",
+     "pastrami sandwich"
+    ]
+   }
+  ]
+ },
+ "mano a mano": {
+  "drop": [
+   "pasta",
+   "pastas"
+  ]
+ },
+ "maple ash": {
+  "drop": [
+   "pasta"
+  ],
+  "groups": [
+   {
+    "label": "Steak",
+    "names": [
+     "steak",
+     "steaks"
+    ]
+   }
+  ]
+ },
+ "maplewood": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "smash burger"
+    ]
+   }
+  ]
+ },
+ "maplewood brewery": {
+  "drop": [
+   "cocktails"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "smash burger",
+     "burger"
+    ]
+   }
+  ]
+ },
+ "margies": {
+  "groups": [
+   {
+    "label": "Banana split",
+    "names": [
+     "banana split",
+     "banana splits",
+     "hot fudge banana split"
+    ]
+   },
+   {
+    "label": "Sundae",
+    "names": [
+     "sundae",
+     "sundaes"
+    ]
+   },
+   {
+    "label": "Turtle sundae",
+    "names": [
+     "turtles",
+     "turtle sundae"
+    ]
+   }
+  ]
+ },
+ "mariela": {
+  "drop": [
+   "cocktails",
+   "mango hot sauce mignonette"
+  ]
+ },
+ "mariscos san pedro": {
+  "groups": [
+   {
+    "label": "Tuna tostada",
+    "names": [
+     "tuna tostada",
+     "tuna tostadas"
+    ]
+   }
+  ]
+ },
+ "marz": {
+  "groups": [
+   {
+    "label": "Smash burger",
+    "names": [
+     "smash burger",
+     "burger",
+     "smashburger"
+    ]
+   }
+  ]
+ },
+ "marz brewery": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "smash burger",
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "marz brewing": {
+  "drop": [
+   "red salsa"
+  ]
+ },
+ "mastros": {
+  "drop": [
+   "soup"
+  ]
+ },
+ "maurice lenell": {
+  "drop": [
+   "cookies"
+  ],
+  "groups": [
+   {
+    "label": "Pinwheel cookies",
+    "names": [
+     "pinwheel cookies",
+     "pinwheel"
+    ]
+   }
+  ]
+ },
+ "maxwell trading": {
+  "groups": [
+   {
+    "label": "Clay pot mushroom rice",
+    "names": [
+     "mushroom clay pot rice"
+    ]
+   }
+  ]
+ },
+ "maxwells trading": {
+  "drop": [
+   "bread served with the dips"
+  ],
+  "groups": [
+   {
+    "label": "Basque butter cake",
+    "names": [
+     "basque butter cake",
+     "butter cake"
+    ]
+   },
+   {
+    "label": "Japanese sweet potato",
+    "names": [
+     "sweet potato",
+     "japanese sweet potato",
+     "sweet potatoes"
+    ]
+   },
+   {
+    "label": "Clay pot mushroom rice",
+    "names": [
+     "mushroom rice dish",
+     "clay pot mushroom rice"
+    ]
+   }
+  ]
+ },
+ "medici": {
+  "drop": [
+   "pizza",
+   "pastries",
+   "sandwiches",
+   "baked goods",
+   "breads"
+  ],
+  "groups": [
+   {
+    "label": "Garbage pan pizza",
+    "names": [
+     "garbage pan pizza",
+     "garbage pizza",
+     "large garbage pan pizza"
+    ]
+   }
+  ]
+ },
+ "menya goku": {
+  "drop": [
+   "ramen"
+  ]
+ },
+ "merichkas": {
+  "drop": [
+   "butterine"
+  ],
+  "groups": [
+   {
+    "label": "Poor boy",
+    "names": [
+     "poor boy",
+     "po boy"
+    ]
+   },
+   {
+    "label": "Twice baked potato",
+    "names": [
+     "twice baked potato",
+     "double baked potato"
+    ]
+   }
+  ]
+ },
+ "mi tocaya": {
+  "groups": [
+   {
+    "label": "Tres leches cake",
+    "names": [
+     "tres leches cake",
+     "tres leches"
+    ]
+   }
+  ]
+ },
+ "michaels": {
+  "drop": [
+   "pizza",
+   "sweet sauce"
+  ],
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style pizza",
+     "tavern style",
+     "tavern-style pizza"
+    ]
+   },
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "deep dish",
+     "deep dish pizza"
+    ]
+   },
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "thin crust",
+     "thin crust pizza"
+    ]
+   }
+  ]
+ },
+ "michaels pizza": {
+  "drop": [
+   "pizza"
+  ],
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "buffalo wings",
+     "wings"
+    ]
+   },
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style pizza",
+     "thin crust pizza"
+    ]
+   }
+  ]
+ },
+ "middle brow": {
+  "drop": [
+   "pizza"
+  ]
+ },
+ "middle brow tavern": {
+  "drop": [
+   "sauce"
+  ]
+ },
+ "middle east bakery": {
+  "drop": [
+   "garlic sauce"
+  ]
+ },
+ "middlebrow": {
+  "drop": [
+   "pizza",
+   "regular pizza"
+  ],
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style pizza",
+     "tavern",
+     "tavern tuesday pizza"
+    ]
+   },
+   {
+    "label": "Soft serve",
+    "names": [
+     "soft serve",
+     "kilgus soft serve"
+    ]
+   }
+  ]
+ },
+ "migos fine foods": {
+  "drop": [
+   "chipotle honey butter",
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Biscuit",
+    "names": [
+     "biscuit",
+     "biscuits"
+    ]
+   }
+  ]
+ },
+ "millers": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "millers pub": {
+  "groups": [
+   {
+    "label": "Tom and Jerry",
+    "names": [
+     "tom and jerry",
+     "tom & jerry"
+    ]
+   },
+   {
+    "label": "Prime rib French dip",
+    "names": [
+     "prime rib french dip",
+     "french dip"
+    ]
+   }
+  ]
+ },
+ "milli": {
+  "drop": [
+   "pastries"
+  ]
+ },
+ "milli by metric": {
+  "drop": [
+   "pastries"
+  ]
+ },
+ "millies": {
+  "groups": [
+   {
+    "label": "Pan pizza",
+    "names": [
+     "pan pizza",
+     "pizza"
+    ]
+   }
+  ]
+ },
+ "millis": {
+  "groups": [
+   {
+    "label": "Pan pizza",
+    "names": [
+     "pizza",
+     "deep dish/pan pizza"
+    ]
+   }
+  ]
+ },
+ "millys": {
+  "groups": [
+   {
+    "label": "Pan pizza",
+    "names": [
+     "pizza",
+     "pan pizza",
+     "deep dish",
+     "only pans",
+     "deep dish pizza",
+     "pie",
+     "pizza in a pan",
+     "pizza in the pan"
+    ]
+   }
+  ]
+ },
+ "millys pizza in the pan": {
+  "groups": [
+   {
+    "label": "Pan pizza",
+    "names": [
+     "pizza",
+     "pan pizza",
+     "pie",
+     "10 inch pan",
+     "only pans",
+     "pizza in the pan"
+    ]
+   }
+  ]
+ },
+ "mindys": {
+  "drop": [
+   "pastries",
+   "cakes"
+  ],
+  "groups": [
+   {
+    "label": "Cinnamon roll",
+    "names": [
+     "cinnamon roll",
+     "cinnamon rolls"
+    ]
+   },
+   {
+    "label": "Banana bread au lait",
+    "names": [
+     "banana bread au lait",
+     "banana bread latte"
+    ]
+   }
+  ]
+ },
+ "mindys bakery": {
+  "groups": [
+   {
+    "label": "Banana bread au lait",
+    "names": [
+     "banana bread au lait",
+     "banana latte"
+    ]
+   }
+  ]
+ },
+ "minghin": {
+  "drop": [
+   "noodles"
+  ],
+  "groups": [
+   {
+    "label": "XO rolled rice noodles",
+    "names": [
+     "xo rolled rice noodles",
+     "rolled rice noodles"
+    ]
+   }
+  ]
+ },
+ "mini hut": {
+  "groups": [
+   {
+    "label": "Fried chicken",
+    "names": [
+     "fried chicken",
+     "chicken"
+    ]
+   }
+  ]
+ },
+ "mirra": {
+  "drop": [
+   "cocktails",
+   "brunch",
+   "dessert"
+  ],
+  "groups": [
+   {
+    "label": "Lamb barbacoa biryani",
+    "names": [
+     "biryani",
+     "lamb barbacoa biryani",
+     "lamb biryani"
+    ]
+   },
+   {
+    "label": "Chaas aguachile",
+    "names": [
+     "chaas aguachile",
+     "aguachile"
+    ]
+   },
+   {
+    "label": "Rasmalai tres leches",
+    "names": [
+     "tres leches",
+     "rasmalai tres leches"
+    ]
+   },
+   {
+    "label": "Mushroom quesadilla",
+    "names": [
+     "mushroom quesadilla",
+     "mushroom quesadillas"
+    ]
+   }
+  ]
+ },
+ "mister tiger": {
+  "drop": [
+   "banchan",
+   "cocktails"
+  ]
+ },
+ "momotaro": {
+  "drop": [
+   "fish"
+  ]
+ },
+ "mon ami gabi": {
+  "groups": [
+   {
+    "label": "Frites",
+    "names": [
+     "fries",
+     "frites"
+    ]
+   }
+  ]
+ },
+ "monster ramen": {
+  "drop": [
+   "ramen"
+  ],
+  "groups": [
+   {
+    "label": "Beef ramen",
+    "names": [
+     "beef ramen",
+     "beef based ramen"
+    ]
+   }
+  ]
+ },
+ "monteverde": {
+  "drop": [
+   "pasta",
+   "pastas",
+   "dessert",
+   "mostarda"
+  ],
+  "groups": [
+   {
+    "label": "Burrata e ham",
+    "names": [
+     "burrata e ham",
+     "burrata and ham",
+     "burrata",
+     "burrata appetizer"
+    ]
+   },
+   {
+    "label": "Birthday cake",
+    "names": [
+     "birthday cake",
+     "birthday cake slice",
+     "birthday dessert"
+    ]
+   },
+   {
+    "label": "Cacio whey pepe",
+    "names": [
+     "cacio whey pepe",
+     "cacio e pepe",
+     "cacio"
+    ]
+   },
+   {
+    "label": "Ragu alla napoletana",
+    "names": [
+     "ragu alla napoletana",
+     "ragu"
+    ]
+   },
+   {
+    "label": "Gnocchetti con pesto",
+    "names": [
+     "gnocchetti con pesto",
+     "pesto gnocchi",
+     "gnocchi with pesto",
+     "pesto",
+     "gnocchi"
+    ]
+   },
+   {
+    "label": "Meatballs",
+    "names": [
+     "meatball",
+     "meatballs"
+    ]
+   }
+  ]
+ },
+ "montis": {
+  "drop": [
+   "buffalo sauce",
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Cheesesteak",
+    "names": [
+     "cheesesteak",
+     "cheesesteaks"
+    ]
+   }
+  ]
+ },
+ "montrose deli": {
+  "drop": [
+   "soups",
+   "hot meals to go"
+  ]
+ },
+ "moody tongue": {
+  "groups": [
+   {
+    "label": "12 layer German chocolate cake",
+    "names": [
+     "chocolate cake",
+     "12 layer german chocolate cake",
+     "cake",
+     "german chocolate cake"
+    ]
+   }
+  ]
+ },
+ "moodys": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   },
+   {
+    "label": "Blue cheese burger",
+    "names": [
+     "blue cheeseburger",
+     "blue cheese burger"
+    ]
+   }
+  ]
+ },
+ "moodys pub": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "moonlighter": {
+  "groups": [
+   {
+    "label": "Piña colada",
+    "names": [
+     "frozen pina colada",
+     "piña colada"
+    ]
+   }
+  ]
+ },
+ "moonwalker cafe": {
+  "groups": [
+   {
+    "label": "Breakfast sandwich",
+    "names": [
+     "breakfast sandwiches",
+     "breakfast sandwich"
+    ]
+   }
+  ]
+ },
+ "morettis": {
+  "drop": [
+   "pizza"
+  ],
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style pizza",
+     "thin crust pizza"
+    ]
+   }
+  ]
+ },
+ "mothers ruin": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "mott st": {
+  "drop": [
+   "regular menu",
+   "cocktails"
+  ],
+  "groups": [
+   {
+    "label": "Mott burger",
+    "names": [
+     "burger",
+     "burgers",
+     "mott burger"
+    ]
+   },
+   {
+    "label": "Miso butter mushrooms",
+    "names": [
+     "miso mushrooms",
+     "miso butter mushrooms",
+     "mushrooms"
+    ]
+   },
+   {
+    "label": "Everything wings",
+    "names": [
+     "everything wings",
+     "wings"
+    ]
+   }
+  ]
+ },
+ "mr beef": {
+  "drop": [
+   "giardiniera",
+   "giardinera",
+   "hot peppers",
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef",
+     "beef sandwich"
+    ]
+   }
+  ]
+ },
+ "murphys bleachers": {
+  "drop": [
+   "ranch"
+  ]
+ },
+ "museum of ice cream": {
+  "groups": [
+   {
+    "label": "Soft serve hot dog",
+    "names": [
+     "soft serve hot dog",
+     "hot dog ice cream"
+    ]
+   }
+  ]
+ },
+ "nadc": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "smash burger"
+    ]
+   }
+  ]
+ },
+ "nadu": {
+  "drop": [
+   "cocktails",
+   "drinks",
+   "appetizers",
+   "kerala dishes"
+  ]
+ },
+ "nancys": {
+  "drop": [
+   "pizza"
+  ],
+  "groups": [
+   {
+    "label": "Stuffed pizza",
+    "names": [
+     "stuffed pizza",
+     "deep dish"
+    ]
+   },
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "thin crust",
+     "thin crust pizza"
+    ]
+   }
+  ]
+ },
+ "nellies": {
+  "groups": [
+   {
+    "label": "Coconut cinnamon oatmeal",
+    "names": [
+     "coconut cinnamon oatmeal",
+     "avena de coco",
+     "oatmeal"
+    ]
+   }
+  ]
+ },
+ "nettare": {
+  "drop": [
+   "cocktails",
+   "pastries"
+  ],
+  "groups": [
+   {
+    "label": "Giardiniera martini",
+    "names": [
+     "giardinera martini",
+     "giardiniera martini",
+     "giard martini"
+    ]
+   },
+   {
+    "label": "Breakfast sandwich",
+    "names": [
+     "breakfast sandwich",
+     "breakfast sandwich with lamb sausage patty"
+    ]
+   }
+  ]
+ },
+ "new line tavern": {
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "regular buffalo wings"
+    ]
+   }
+  ]
+ },
+ "new york bagel bialy": {
+  "drop": [
+   "cream cheese"
+  ],
+  "groups": [
+   {
+    "label": "Lox and cream cheese",
+    "names": [
+     "lox and cream cheese",
+     "bagel and lox",
+     "lox"
+    ]
+   }
+  ]
+ },
+ "nha hang vietnam": {
+  "drop": [
+   "broth"
+  ]
+ },
+ "nhu lan": {
+  "groups": [
+   {
+    "label": "Banh mi",
+    "names": [
+     "bahn mi",
+     "banh mi",
+     "sandwich",
+     "sandwiches"
+    ]
+   }
+  ]
+ },
+ "nhu lan bakery": {
+  "groups": [
+   {
+    "label": "Banh mi",
+    "names": [
+     "banh mi",
+     "bahn mi",
+     "sandwich"
+    ]
+   }
+  ]
+ },
+ "nine bar": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "no pasa nada": {
+  "groups": [
+   {
+    "label": "Al pastor tacos",
+    "names": [
+     "al pastor",
+     "al pastor tacos",
+     "el pastor tacos"
+    ]
+   }
+  ]
+ },
+ "noble thai": {
+  "groups": [
+   {
+    "label": "Tiger cry",
+    "names": [
+     "tiger cry",
+     "tiger cru"
+    ]
+   }
+  ]
+ },
+ "nonnas": {
+  "drop": [
+   "sandwiches",
+   "sandwich",
+   "bread"
+  ],
+  "groups": [
+   {
+    "label": "Chicken parm sandwich",
+    "names": [
+     "chicken parm",
+     "chicken parm sandwich"
+    ]
+   },
+   {
+    "label": "Eggplant parm",
+    "names": [
+     "eggplant parm",
+     "eggplant parm sub",
+     "eggplant sandwich"
+    ]
+   },
+   {
+    "label": "What the? sandwich",
+    "names": [
+     "what the",
+     "what the sandwich",
+     "what the? sandwich",
+     "what the?"
+    ]
+   },
+   {
+    "label": "Chicken caesar wrap",
+    "names": [
+     "caesar wrap",
+     "chicken caesar wrap",
+     "wrap"
+    ]
+   }
+  ]
+ },
+ "noriko": {
+  "groups": [
+   {
+    "label": "Hand rolls",
+    "names": [
+     "hand rolls",
+     "handrolls"
+    ]
+   },
+   {
+    "label": "Edamame hummus",
+    "names": [
+     "edamame dip & nori chips",
+     "edamame hummus"
+    ]
+   }
+  ]
+ },
+ "north buena deli": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "north pond": {
+  "drop": [
+   "brunch",
+   "cocktails"
+  ]
+ },
+ "nottoli": {
+  "drop": [
+   "subs",
+   "sandwich",
+   "sandwiches",
+   "sub"
+  ]
+ },
+ "novel": {
+  "drop": [
+   "dry herbs"
+  ]
+ },
+ "novel pizza": {
+  "drop": [
+   "pizza"
+  ]
+ },
+ "novel pizza cafe": {
+  "drop": [
+   "pizza",
+   "slices",
+   "pie"
+  ]
+ },
+ "novis": {
+  "drop": [
+   "giardiniera"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "beef",
+     "italian beef"
+    ]
+   }
+  ]
+ },
+ "novis beef": {
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "beef",
+     "italian beef"
+    ]
+   }
+  ]
+ },
+ "ny bagel bialy": {
+  "drop": [
+   "cream cheese",
+   "everything bagel seasoning"
+  ],
+  "groups": [
+   {
+    "label": "Bagels",
+    "names": [
+     "bagels",
+     "bagel"
+    ]
+   }
+  ]
+ },
+ "nybb": {
+  "drop": [
+   "sandwich"
+  ]
+ },
+ "obbies": {
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "pizza",
+     "tavern style pizza",
+     "thin pizza"
+    ]
+   }
+  ]
+ },
+ "obelix": {
+  "drop": [
+   "pastries",
+   "brunch",
+   "end pieces of puff pastry"
+  ],
+  "groups": [
+   {
+    "label": "Beef Wellington",
+    "names": [
+     "beef wellington",
+     "wellington"
+    ]
+   },
+   {
+    "label": "French onion soup",
+    "names": [
+     "french onion soup",
+     "onion soup"
+    ]
+   }
+  ]
+ },
+ "oberweis": {
+  "groups": [
+   {
+    "label": "Milkshake",
+    "names": [
+     "milkshake",
+     "milkshakes"
+    ]
+   }
+  ]
+ },
+ "odges": {
+  "drop": [
+   "desserts"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "cheeseburger",
+     "double cheeseburger"
+    ]
+   }
+  ]
+ },
+ "offset": {
+  "drop": [
+   "desserts",
+   "white sauce"
+  ]
+ },
+ "offset bbq": {
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "smoked bbq wings"
+    ]
+   },
+   {
+    "label": "Smoked tuna melt",
+    "names": [
+     "smoked tuna melt",
+     "tuna melt"
+    ]
+   }
+  ]
+ },
+ "oiistar": {
+  "drop": [
+   "ramen",
+   "broth",
+   "noodles",
+   "egg"
+  ]
+ },
+ "old fashioned donuts": {
+  "drop": [
+   "donuts"
+  ],
+  "groups": [
+   {
+    "label": "Apple fritter",
+    "names": [
+     "apple fritter",
+     "fritter",
+     "apple fritters"
+    ]
+   }
+  ]
+ },
+ "old irving brewery": {
+  "drop": [
+   "mac"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "old irving brewing": {
+  "drop": [
+   "kimchi aioli"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burgers",
+     "burger",
+     "thick burger",
+     "wood-fired burger"
+    ]
+   }
+  ]
+ },
+ "olivers": {
+  "drop": [
+   "cocktails",
+   "na halloween cocktails"
+  ],
+  "groups": [
+   {
+    "label": "Half chicken",
+    "names": [
+     "half chicken",
+     "chicken"
+    ]
+   }
+  ]
+ },
+ "omarcitos": {
+  "drop": [
+   "sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Jibarito",
+    "names": [
+     "jibarito",
+     "jibaritos"
+    ]
+   }
+  ]
+ },
+ "opart thai": {
+  "drop": [
+   "curries"
+  ],
+  "groups": [
+   {
+    "label": "Crab rangoon",
+    "names": [
+     "crab rangoon",
+     "crab rangoons"
+    ]
+   }
+  ]
+ },
+ "oriole": {
+  "groups": [
+   {
+    "label": "Foie gras toast",
+    "names": [
+     "foie gras",
+     "foie gras toast"
+    ]
+   }
+  ]
+ },
+ "ositos": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "osteria langhe": {
+  "groups": [
+   {
+    "label": "Rabbit",
+    "names": [
+     "rabbit",
+     "coniglio"
+    ]
+   }
+  ]
+ },
+ "output": {
+  "drop": [
+   "sauces",
+   "sauce options",
+   "chicken"
+  ],
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "6 piece wings",
+     "chicken wings"
+    ]
+   }
+  ]
+ },
+ "oven grinder": {
+  "groups": [
+   {
+    "label": "Pizza pot pie",
+    "names": [
+     "pot pie",
+     "half pound pizza pot pie with meat"
+    ]
+   }
+  ]
+ },
+ "owen engine": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "thick burger"
+    ]
+   }
+  ]
+ },
+ "ox bar hearth": {
+  "drop": [
+   "patty"
+  ],
+  "groups": [
+   {
+    "label": "Half chicken",
+    "names": [
+     "half chicken",
+     "chicken"
+    ]
+   }
+  ]
+ },
+ "pacos tacos": {
+  "groups": [
+   {
+    "label": "Steak tacos",
+    "names": [
+     "steak tacos",
+     "carne asada tacos"
+    ]
+   }
+  ]
+ },
+ "paddy macs": {
+  "drop": [
+   "bar food"
+  ]
+ },
+ "palermos": {
+  "drop": [
+   "sweet sauce"
+  ]
+ },
+ "palmer house": {
+  "groups": [
+   {
+    "label": "Brownies",
+    "names": [
+     "brownies",
+     "brownie"
+    ]
+   }
+  ]
+ },
+ "papas": {
+  "drop": [
+   "chicken"
+  ]
+ },
+ "papas cache": {
+  "drop": [
+   "chicken"
+  ]
+ },
+ "parachute": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "parachute hi fi": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "paradise pup": {
+  "groups": [
+   {
+    "label": "Char cheddar burger",
+    "names": [
+     "burger",
+     "burgers",
+     "cheddar burger",
+     "merkt's cheddar burger",
+     "char cheddar burger"
+    ]
+   }
+  ]
+ },
+ "parlor pizza": {
+  "drop": [
+   "pizza"
+  ]
+ },
+ "parsons": {
+  "drop": [
+   "drinks",
+   "sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Fried chicken",
+    "names": [
+     "fried chicken",
+     "chicken"
+    ]
+   },
+   {
+    "label": "Fried fish",
+    "names": [
+     "fried fish",
+     "fish"
+    ]
+   },
+   {
+    "label": "Negroni slushy",
+    "names": [
+     "negroni slushies",
+     "frozen negroni"
+    ]
+   },
+   {
+    "label": "Ponderosa salad",
+    "names": [
+     "ponderosa",
+     "ponderosa salad"
+    ]
+   }
+  ]
+ },
+ "parts labor": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "pasta bowl": {
+  "drop": [
+   "pasta"
+  ]
+ },
+ "pats": {
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style pizza",
+     "pizza",
+     "thin crust",
+     "thin crust pizza",
+     "pie",
+     "tavern-style pizza"
+    ]
+   }
+  ]
+ },
+ "pats pizza": {
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "pizza",
+     "thin crust pizza",
+     "tavern style pizza"
+    ]
+   }
+  ]
+ },
+ "paulie gees": {
+  "drop": [
+   "pizza",
+   "slice",
+   "slices"
+  ],
+  "groups": [
+   {
+    "label": "Detroit style pizza",
+    "names": [
+     "detroit style pizza",
+     "detroit-style pizza"
+    ]
+   },
+   {
+    "label": "NY style slice",
+    "names": [
+     "ny style slice",
+     "ny style slices",
+     "new york style pizza"
+    ]
+   },
+   {
+    "label": "US Pizza Cup winner pizza",
+    "names": [
+     "us pizza cup winner",
+     "pizza cup winner",
+     "us pizza cup winner pizza"
+    ]
+   }
+  ]
+ },
+ "paulina market": {
+  "drop": [
+   "sandwiches",
+   "subs"
+  ]
+ },
+ "pedestrian coffee": {
+  "groups": [
+   {
+    "label": "Sourdough cinnamon roll",
+    "names": [
+     "sourdough cinnamon rolls",
+     "sourdough cinnamon roll"
+    ]
+   }
+  ]
+ },
+ "peking mandarin": {
+  "groups": [
+   {
+    "label": "Jajangmyeon",
+    "names": [
+     "jajangmyeon",
+     "jjajamgmyeon"
+    ]
+   }
+  ]
+ },
+ "pequods": {
+  "drop": [
+   "crust",
+   "sauce",
+   "caramelized crust",
+   "leftover pizza",
+   "ranch",
+   "slice"
+  ],
+  "groups": [
+   {
+    "label": "Pan pizza",
+    "names": [
+     "pizza",
+     "deep dish",
+     "deep dish pizza",
+     "pan pizza",
+     "pie"
+    ]
+   },
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "thin crust",
+     "thin crust pizza"
+    ]
+   },
+   {
+    "label": "Sausage",
+    "names": [
+     "sausage",
+     "italian sausage"
+    ]
+   }
+  ]
+ },
+ "perch": {
+  "groups": [
+   {
+    "label": "Cheese curds",
+    "names": [
+     "cheese curds",
+     "cheese curds with giardinera"
+    ]
+   }
+  ]
+ },
+ "petes": {
+  "drop": [
+   "giardiniera",
+   "hot bar"
+  ],
+  "groups": [
+   {
+    "label": "Gyro",
+    "names": [
+     "gyros",
+     "gyro"
+    ]
+   }
+  ]
+ },
+ "petes fresh market": {
+  "drop": [
+   "hot bar",
+   "hot food bar"
+  ]
+ },
+ "phils": {
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "pizza",
+     "tavern style pizza"
+    ]
+   }
+  ]
+ },
+ "phils pizza": {
+  "groups": [
+   {
+    "label": "Pizza",
+    "names": [
+     "pizza",
+     "pie"
+    ]
+   }
+  ]
+ },
+ "pho 888": {
+  "drop": [
+   "broth"
+  ]
+ },
+ "phodega": {
+  "drop": [
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Viet dip",
+    "names": [
+     "viet dip",
+     "viet dip sandwich"
+    ]
+   },
+   {
+    "label": "Banh mi",
+    "names": [
+     "banh mi",
+     "bahn mi"
+    ]
+   }
+  ]
+ },
+ "pick me up cafe": {
+  "drop": [
+   "ranch",
+   "pie"
+  ]
+ },
+ "pie pie my darling": {
+  "drop": [
+   "cakes",
+   "cake"
+  ]
+ },
+ "piece": {
+  "groups": [
+   {
+    "label": "New Haven style pizza",
+    "names": [
+     "pizza",
+     "apizza",
+     "new haven style pizza"
+    ]
+   }
+  ]
+ },
+ "piece pizza": {
+  "groups": [
+   {
+    "label": "White clam pizza",
+    "names": [
+     "white clam pie",
+     "white clam pizza"
+    ]
+   }
+  ]
+ },
+ "pierogi kitchen": {
+  "groups": [
+   {
+    "label": "Pierogi",
+    "names": [
+     "pierogi",
+     "pierogis"
+    ]
+   }
+  ]
+ },
+ "piggery": {
+  "drop": [
+   "bbq"
+  ]
+ },
+ "pita inn": {
+  "drop": [
+   "garlic sauce"
+  ],
+  "groups": [
+   {
+    "label": "Lunch special",
+    "names": [
+     "lunch special",
+     "business lunch special"
+    ]
+   }
+  ]
+ },
+ "pizanos": {
+  "drop": [
+   "pizza"
+  ],
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "deep dish",
+     "deep dish pizza",
+     "personal deep dish pizza",
+     "pan pizza"
+    ]
+   },
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "thin crust",
+     "thin crust pizza"
+    ]
+   }
+  ]
+ },
+ "pizza amelia": {
+  "drop": [
+   "pizza",
+   "pies",
+   "slice",
+   "slices"
+  ]
+ },
+ "pizza dada": {
+  "drop": [
+   "slice",
+   "pizza",
+   "crust"
+  ]
+ },
+ "pizza friendly pizza": {
+  "groups": [
+   {
+    "label": "Pizza",
+    "names": [
+     "pizza",
+     "slices"
+    ]
+   }
+  ]
+ },
+ "pizza lobo": {
+  "drop": [
+   "pizza",
+   "slice",
+   "slices",
+   "pizza slices",
+   "hot honey",
+   "caesar dressing"
+  ],
+  "groups": [
+   {
+    "label": "Spicy chopped salad",
+    "names": [
+     "spicy chopped salad",
+     "spicy chopped"
+    ]
+   },
+   {
+    "label": "The Borgata",
+    "names": [
+     "borgata",
+     "the borgata"
+    ]
+   }
+  ]
+ },
+ "pizza matta": {
+  "drop": [
+   "pizza"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef"
+    ]
+   }
+  ]
+ },
+ "pizza y pan pa ya": {
+  "drop": [
+   "pizza"
+  ]
+ },
+ "pizzaamici": {
+  "drop": [
+   "pizza"
+  ]
+ },
+ "pizzamici": {
+  "drop": [
+   "pizza",
+   "salad",
+   "leftover pizza"
+  ],
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style pizza",
+     "tavern pizza",
+     "tavern-style pizza"
+    ]
+   },
+   {
+    "label": "Thin crust pizza",
+    "names": [
+     "thin crust pizza",
+     "thin crust"
+    ]
+   }
+  ]
+ },
+ "pizzeria uno": {
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "pizza",
+     "deep dish"
+    ]
+   }
+  ]
+ },
+ "pleasant house": {
+  "groups": [
+   {
+    "label": "Pies",
+    "names": [
+     "pies",
+     "pie"
+    ]
+   }
+  ]
+ },
+ "pleasant house pub": {
+  "drop": [
+   "cocktails"
+  ],
+  "groups": [
+   {
+    "label": "Pies",
+    "names": [
+     "pies",
+     "pie",
+     "pot pie"
+    ]
+   },
+   {
+    "label": "Meat pies",
+    "names": [
+     "meat pies",
+     "english meat pies"
+    ]
+   },
+   {
+    "label": "Full English breakfast",
+    "names": [
+     "full english breakfast",
+     "english breakfast"
+    ]
+   },
+   {
+    "label": "Welsh rarebit",
+    "names": [
+     "rarebit",
+     "welsh rarebit"
+    ]
+   }
+  ]
+ },
+ "pockets": {
+  "drop": [
+   "ranch"
+  ]
+ },
+ "pollo express": {
+  "groups": [
+   {
+    "label": "Chicken",
+    "names": [
+     "chicken",
+     "whole chicken",
+     "half chicken"
+    ]
+   },
+   {
+    "label": "Rice and beans",
+    "names": [
+     "beans and rice",
+     "rice and beans"
+    ]
+   },
+   {
+    "label": "Burrito bowl",
+    "names": [
+     "burrito bowl",
+     "bowls"
+    ]
+   }
+  ]
+ },
+ "polombia": {
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hotdog",
+     "hot dog"
+    ]
+   }
+  ]
+ },
+ "pops": {
+  "drop": [
+   "hot peppers"
+  ]
+ },
+ "popup bagels": {
+  "drop": [
+   "schmear"
+  ]
+ },
+ "portillos": {
+  "drop": [
+   "shakes",
+   "milkshakes",
+   "bbq sauce",
+   "honey mustard",
+   "ranch",
+   "house dressing",
+   "sweet peppers",
+   "salads",
+   "sauces"
+  ],
+  "groups": [
+   {
+    "label": "Chocolate cake",
+    "names": [
+     "chocolate cake",
+     "cake",
+     "cakes"
+    ]
+   },
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef",
+     "italian beef sandwich",
+     "beefs"
+    ]
+   },
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs",
+     "chicago dog",
+     "dog"
+    ]
+   },
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "hamburgers",
+     "char grilled burgers"
+    ]
+   },
+   {
+    "label": "Cheeseburger",
+    "names": [
+     "cheeseburger",
+     "cheeseburgers"
+    ]
+   },
+   {
+    "label": "Chocolate cake shake",
+    "names": [
+     "chocolate cake shake",
+     "cake shake",
+     "cake shakes"
+    ]
+   },
+   {
+    "label": "Chopped salad",
+    "names": [
+     "chopped salad",
+     "salad"
+    ]
+   },
+   {
+    "label": "Chili dog",
+    "names": [
+     "chili dog",
+     "chili dogs"
+    ]
+   },
+   {
+    "label": "Bacon cheeseburger",
+    "names": [
+     "bacon cheeseburger",
+     "bacon cheese burger"
+    ]
+   },
+   {
+    "label": "Polish sausage",
+    "names": [
+     "polish sausage",
+     "polish"
+    ]
+   }
+  ]
+ },
+ "potbelly": {
+  "drop": [
+   "giardiniera",
+   "sandwiches",
+   "soups"
+  ]
+ },
+ "primo chukis": {
+  "drop": [
+   "red sauce"
+  ],
+  "groups": [
+   {
+    "label": "Cabeza tacos",
+    "names": [
+     "cabeza",
+     "cabeza tacos"
+    ]
+   }
+  ]
+ },
+ "publican": {
+  "drop": [
+   "brunch",
+   "sandwiches",
+   "cocktails"
+  ],
+  "groups": [
+   {
+    "label": "Bread",
+    "names": [
+     "bread",
+     "breads"
+    ]
+   },
+   {
+    "label": "Fries",
+    "names": [
+     "fries",
+     "french fries"
+    ]
+   },
+   {
+    "label": "Smashed potatoes",
+    "names": [
+     "potatoes",
+     "smash potatoes"
+    ]
+   }
+  ]
+ },
+ "publican quality bread": {
+  "groups": [
+   {
+    "label": "Tartine",
+    "names": [
+     "tartine",
+     "tartines"
+    ]
+   }
+  ]
+ },
+ "qiao lin": {
+  "groups": [
+   {
+    "label": "Hot pot",
+    "names": [
+     "hot pot",
+     "hotpot"
+    ]
+   }
+  ]
+ },
+ "quartino": {
+  "drop": [
+   "pasta"
+  ]
+ },
+ "queen mary": {
+  "groups": [
+   {
+    "label": "Martini",
+    "names": [
+     "martinis",
+     "martini"
+    ]
+   }
+  ]
+ },
+ "quick bite": {
+  "drop": [
+   "food"
+  ],
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs"
+    ]
+   }
+  ]
+ },
+ "quonset": {
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style pizza",
+     "pizza"
+    ]
+   }
+  ]
+ },
+ "qxy": {
+  "groups": [
+   {
+    "label": "Soup dumplings",
+    "names": [
+     "soup dumplings",
+     "xiao long bao"
+    ]
+   }
+  ]
+ },
+ "qxy dumplings": {
+  "groups": [
+   {
+    "label": "Boiled dumplings",
+    "names": [
+     "boiled dumplings",
+     "dumplings"
+    ]
+   },
+   {
+    "label": "Lamb and coriander dumplings",
+    "names": [
+     "lamb and coriander",
+     "lamb and coriander dumplings",
+     "lamb coriander"
+    ]
+   }
+  ]
+ },
+ "r a": {
+  "groups": [
+   {
+    "label": "Bagels",
+    "names": [
+     "bagels",
+     "bagel"
+    ]
+   }
+  ]
+ },
+ "racine bakery": {
+  "groups": [
+   {
+    "label": "Bacon buns",
+    "names": [
+     "bacon buns",
+     "bacon bun"
+    ]
+   }
+  ]
+ },
+ "radicle": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "ragadan": {
+  "drop": [
+   "milkshake",
+   "milkshakes",
+   "shakes",
+   "shake",
+   "sauces",
+   "dipping sauces"
+  ],
+  "groups": [
+   {
+    "label": "Baklava shake",
+    "names": [
+     "baklava shake",
+     "baklava milkshake"
+    ]
+   },
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   },
+   {
+    "label": "Oklahoma onion burger",
+    "names": [
+     "oklahoma onion burger",
+     "oklahoma burger"
+    ]
+   },
+   {
+    "label": "Patty melt",
+    "names": [
+     "patty melt",
+     "patty melt x ka'ak",
+     "ka'ak patty melt"
+    ]
+   },
+   {
+    "label": "Falafel ka'ak",
+    "names": [
+     "falafel ka'ak",
+     "falafel on ka'ak",
+     "falafel on a ka'ak"
+    ]
+   },
+   {
+    "label": "Pistachio shake",
+    "names": [
+     "pistachio milkshake",
+     "pistachio shake"
+    ]
+   }
+  ]
+ },
+ "rainbow cone": {
+  "groups": [
+   {
+    "label": "Rainbow cone",
+    "names": [
+     "rainbow cone",
+     "original rainbow cone"
+    ]
+   },
+   {
+    "label": "Ice cream cake",
+    "names": [
+     "ice cream cake",
+     "chocolate ice cream cake"
+    ]
+   }
+  ]
+ },
+ "ramen san": {
+  "drop": [
+   "ramen",
+   "noodles",
+   "tonkotsu broth"
+  ],
+  "groups": [
+   {
+    "label": "Karaage",
+    "names": [
+     "karaage",
+     "chicken karaage nuggets"
+    ]
+   }
+  ]
+ },
+ "ramen wasabi": {
+  "drop": [
+   "ramen",
+   "pork"
+  ]
+ },
+ "ranallis": {
+  "drop": [
+   "pizza",
+   "ranch",
+   "sauce"
+  ]
+ },
+ "red hot ranch": {
+  "drop": [
+   "tomato",
+   "salad",
+   "sandwich",
+   "shakes",
+   "red hot sauce"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "double cheeseburger",
+     "smash burger",
+     "cheeseburger",
+     "smashburger",
+     "double cheeseburger with fries",
+     "burger and fries",
+     "cheeseburgers",
+     "double burger"
+    ]
+   },
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs",
+     "chicago dog",
+     "chicago dog with fries"
+    ]
+   },
+   {
+    "label": "Fried shrimp",
+    "names": [
+     "fried shrimp",
+     "shrimp"
+    ]
+   }
+  ]
+ },
+ "red light chicken": {
+  "drop": [
+   "chicken",
+   "american cheese on chicken"
+  ],
+  "groups": [
+   {
+    "label": "Chicken sandwich",
+    "names": [
+     "chicken sandwich",
+     "sandwich",
+     "chicken sandwiches"
+    ]
+   }
+  ]
+ },
+ "red star": {
+  "drop": [
+   "sandwiches",
+   "sandwich"
+  ]
+ },
+ "redhot ranch": {
+  "drop": [
+   "tomato",
+   "diet soda"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "reggies": {
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "mixed wings"
+    ]
+   }
+  ]
+ },
+ "region": {
+  "drop": [
+   "jalapeños",
+   "pink sauce"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "smash burger",
+     "smashburger"
+    ]
+   }
+  ]
+ },
+ "reno": {
+  "drop": [
+   "brunch"
+  ]
+ },
+ "replay": {
+  "drop": [
+   "cocktails"
+  ],
+  "groups": [
+   {
+    "label": "Cubano",
+    "names": [
+     "cubano sandwich",
+     "cuban",
+     "cubano"
+    ]
+   },
+   {
+    "label": "Old fashioned",
+    "names": [
+     "old-fashioned",
+     "old fashioned"
+    ]
+   }
+  ]
+ },
+ "rhr": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "cheeseburger",
+     "double cheeseburger",
+     "cheeseburgers",
+     "red hot ranch burger",
+     "smash burger"
+    ]
+   },
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs"
+    ]
+   },
+   {
+    "label": "Fried shrimp",
+    "names": [
+     "fried shrimp",
+     "shrimp"
+    ]
+   },
+   {
+    "label": "Fries",
+    "names": [
+     "fries",
+     "french fries"
+    ]
+   }
+  ]
+ },
+ "ricobenes": {
+  "drop": [
+   "sandwich",
+   "sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Breaded steak sandwich",
+    "names": [
+     "breaded steak sandwich",
+     "breaded steak",
+     "steak sandwich"
+    ]
+   },
+   {
+    "label": "Chicken vesuvio sandwich",
+    "names": [
+     "chicken vesuvio",
+     "chicken vesuvio sandwich",
+     "vesuvio",
+     "vesuvio on garlic bread"
+    ]
+   },
+   {
+    "label": "Breaded steak vesuvio style",
+    "names": [
+     "breaded steak vesuvio style",
+     "vesuvio with steak",
+     "steak vesuvio style"
+    ]
+   },
+   {
+    "label": "Buffalo chicken sandwich",
+    "names": [
+     "buffalo chicken sandwich",
+     "buffalo chicken"
+    ]
+   },
+   {
+    "label": "Chicken parm sandwich",
+    "names": [
+     "chicken parm",
+     "chicken parm sandwich",
+     "dipped chicken parm sandwich"
+    ]
+   },
+   {
+    "label": "Pizza puff",
+    "names": [
+     "pizza puff",
+     "pizza puffs"
+    ]
+   }
+  ]
+ },
+ "roberts": {
+  "drop": [
+   "pizza",
+   "crust"
+  ]
+ },
+ "rockwells": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "roister": {
+  "groups": [
+   {
+    "label": "Fried chicken",
+    "names": [
+     "fried chicken",
+     "chicken"
+    ]
+   }
+  ]
+ },
+ "roost": {
+  "drop": [
+   "sandwich",
+   "sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Biscuits",
+    "names": [
+     "biscuits",
+     "biscuit"
+    ]
+   },
+   {
+    "label": "Fried chicken",
+    "names": [
+     "fried chicken",
+     "chicken"
+    ]
+   },
+   {
+    "label": "Chicken tenders",
+    "names": [
+     "chicken tenders",
+     "tenders"
+    ]
+   }
+  ]
+ },
+ "roost chicken biscuits": {
+  "groups": [
+   {
+    "label": "Biscuit",
+    "names": [
+     "biscuit",
+     "biscuits"
+    ]
+   }
+  ]
+ },
+ "roots": {
+  "drop": [
+   "salads"
+  ]
+ },
+ "roots pizza": {
+  "drop": [
+   "salads",
+   "salad"
+  ],
+  "groups": [
+   {
+    "label": "Mozzarella sticks",
+    "names": [
+     "mozzarella sticks",
+     "cheese sticks"
+    ]
+   }
+  ]
+ },
+ "rootstock": {
+  "drop": [
+   "food",
+   "salad"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "thick burger"
+    ]
+   }
+  ]
+ },
+ "rosatis": {
+  "drop": [
+   "pizza"
+  ]
+ },
+ "rose mary": {
+  "drop": [
+   "pasta"
+  ]
+ },
+ "rosemary": {
+  "drop": [
+   "pasta"
+  ],
+  "groups": [
+   {
+    "label": "Cacio e pepe",
+    "names": [
+     "cacio e pepe",
+     "cacio de pepe",
+     "cacio"
+    ]
+   }
+  ]
+ },
+ "rpm": {
+  "drop": [
+   "beef",
+   "pasta",
+   "seafood"
+  ]
+ },
+ "rpm italian": {
+  "drop": [
+   "pasta"
+  ],
+  "groups": [
+   {
+    "label": "Chocolate cake",
+    "names": [
+     "chocolate cake",
+     "14k chocolate cake"
+    ]
+   }
+  ]
+ },
+ "rpm steak": {
+  "groups": [
+   {
+    "label": "Tomahawk ribeye",
+    "names": [
+     "tomahawk",
+     "tomahawk ribeye",
+     "tomahawk steak"
+    ]
+   }
+  ]
+ },
+ "rudys": {
+  "drop": [
+   "broth",
+   "ramen"
+  ]
+ },
+ "russian tea time": {
+  "drop": [
+   "desserts",
+   "pastries",
+   "savory bites"
+  ],
+  "groups": [
+   {
+    "label": "Tea service",
+    "names": [
+     "tea service",
+     "high tea"
+    ]
+   }
+  ]
+ },
+ "s k y": {
+  "groups": [
+   {
+    "label": "Lobster dumplings",
+    "names": [
+     "lobster dumplings",
+     "maine lobster dumplings"
+    ]
+   },
+   {
+    "label": "Banana bundino",
+    "names": [
+     "banana bundino",
+     "banana dessert"
+    ]
+   }
+  ]
+ },
+ "sabroso": {
+  "groups": [
+   {
+    "label": "California burrito",
+    "names": [
+     "california burrito",
+     "cali burrito"
+    ]
+   }
+  ]
+ },
+ "salt": {
+  "drop": [
+   "salt sauce"
+  ]
+ },
+ "sam georges": {
+  "groups": [
+   {
+    "label": "Skillet",
+    "names": [
+     "skillets",
+     "skillet"
+    ]
+   }
+  ]
+ },
+ "sanders": {
+  "groups": [
+   {
+    "label": "Beef rib",
+    "names": [
+     "beef ribs",
+     "beef rib"
+    ]
+   }
+  ]
+ },
+ "sanders bbq supply co": {
+  "drop": [
+   "sides",
+   "barbecue sauce"
+  ],
+  "groups": [
+   {
+    "label": "Honey butter cornbread",
+    "names": [
+     "honey butter cornbread",
+     "cornbread"
+    ]
+   },
+   {
+    "label": "Platter",
+    "names": [
+     "2-4 person platter",
+     "platter"
+    ]
+   }
+  ]
+ },
+ "sauce bread kitchen": {
+  "drop": [
+   "pastries"
+  ],
+  "groups": [
+   {
+    "label": "Friday pizza",
+    "names": [
+     "friday pizza",
+     "pizza"
+    ]
+   },
+   {
+    "label": "Hot sauces",
+    "names": [
+     "hot sauces",
+     "co-op hot sauces"
+    ]
+   }
+  ]
+ },
+ "sawada": {
+  "groups": [
+   {
+    "label": "Matcha latte",
+    "names": [
+     "matcha",
+     "matcha latte"
+    ]
+   }
+  ]
+ },
+ "schneiders deli": {
+  "drop": [
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Soup",
+    "names": [
+     "soup",
+     "bowl of soup"
+    ]
+   }
+  ]
+ },
+ "schoops": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "smash burger"
+    ]
+   }
+  ]
+ },
+ "scofflaw": {
+  "drop": [
+   "cocktails",
+   "drinks"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "seedos": {
+  "drop": [
+   "sandwiches",
+   "sandwich",
+   "pastries",
+   "baked goods"
+  ]
+ },
+ "sepia": {
+  "drop": [
+   "cocktails",
+   "desserts",
+   "dessert"
+  ],
+  "groups": [
+   {
+    "label": "Wine pairing",
+    "names": [
+     "wine pairing",
+     "wine pairings"
+    ]
+   }
+  ]
+ },
+ "sfera": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "shanghai terrace": {
+  "groups": [
+   {
+    "label": "Peking duck",
+    "names": [
+     "peking duck",
+     "duck"
+    ]
+   }
+  ]
+ },
+ "sharpies": {
+  "drop": [
+   "sharpies version"
+  ],
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "buffalo wings"
+    ]
+   },
+   {
+    "label": "Detroit style pizza",
+    "names": [
+     "detroit style pizza",
+     "pizza"
+    ]
+   }
+  ]
+ },
+ "sharpies pizza cocktails": {
+  "drop": [
+   "cocktails",
+   "dough and crust"
+  ]
+ },
+ "shaws": {
+  "drop": [
+   "cocktails",
+   "seafood",
+   "leye",
+   "crab"
+  ],
+  "groups": [
+   {
+    "label": "King crab legs",
+    "names": [
+     "king crab legs",
+     "king crab",
+     "crab legs"
+    ]
+   },
+   {
+    "label": "Crab cake",
+    "names": [
+     "crab cake",
+     "crab cakes"
+    ]
+   },
+   {
+    "label": "Raspberry pie",
+    "names": [
+     "raspberry pie",
+     "raspberry pie with vanilla ice cream"
+    ]
+   },
+   {
+    "label": "Brunch buffet",
+    "names": [
+     "brunch buffet",
+     "buffet"
+    ]
+   },
+   {
+    "label": "Lobster bisque",
+    "names": [
+     "lobster bisque",
+     "bisque"
+    ]
+   }
+  ]
+ },
+ "shokolad": {
+  "drop": [
+   "pastries"
+  ]
+ },
+ "side street saloon": {
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "pizza",
+     "tavern style pizza",
+     "thin crust",
+     "thin crust pizza"
+    ]
+   }
+  ]
+ },
+ "sidetrack": {
+  "groups": [
+   {
+    "label": "Slushies",
+    "names": [
+     "slurpee",
+     "slushies"
+    ]
+   }
+  ]
+ },
+ "slice shop": {
+  "groups": [
+   {
+    "label": "Pizza",
+    "names": [
+     "pizza",
+     "slice"
+    ]
+   }
+  ]
+ },
+ "slims": {
+  "groups": [
+   {
+    "label": "Slim burger",
+    "names": [
+     "burger",
+     "slim burger"
+    ]
+   },
+   {
+    "label": "Milkshake",
+    "names": [
+     "milkshake",
+     "milkshakes"
+    ]
+   }
+  ]
+ },
+ "slurp slurp": {
+  "drop": [
+   "noodles"
+  ]
+ },
+ "smack dab": {
+  "drop": [
+   "aji amarillo mayo",
+   "bacon jam",
+   "onion jam"
+  ],
+  "groups": [
+   {
+    "label": "Breakfast sandwiches",
+    "names": [
+     "breakfast sandwiches"
+    ]
+   },
+   {
+    "label": "Biscuits",
+    "names": [
+     "biscuits",
+     "biscuit"
+    ]
+   },
+   {
+    "label": "Detroit style pizza",
+    "names": [
+     "pizza",
+     "detroit style pizza"
+    ]
+   }
+  ]
+ },
+ "smakosz": {
+  "drop": [
+   "soups"
+  ]
+ },
+ "small bar": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "smash burger"
+    ]
+   }
+  ]
+ },
+ "small cheval": {
+  "drop": [
+   "sauce",
+   "buns",
+   "chicken",
+   "griddled onions"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "cheeseburger",
+     "double cheeseburger",
+     "double burger"
+    ]
+   },
+   {
+    "label": "Chicken tenders",
+    "names": [
+     "chicken tenders",
+     "tenders",
+     "chicken fingers"
+    ]
+   },
+   {
+    "label": "Dijonnaise",
+    "names": [
+     "dijonaise",
+     "dijonaise sauce"
+    ]
+   },
+   {
+    "label": "Garlic aioli",
+    "names": [
+     "aioli",
+     "garlic aioli"
+    ]
+   },
+   {
+    "label": "Milkshake",
+    "names": [
+     "milkshakes",
+     "milkshake",
+     "shakes",
+     "shake"
+    ]
+   },
+   {
+    "label": "Draft lemonade",
+    "names": [
+     "draft lemonade",
+     "lemonade"
+    ]
+   },
+   {
+    "label": "Ice cream cone",
+    "names": [
+     "ice cream cones",
+     "cone"
+    ]
+   }
+  ]
+ },
+ "smoke daddy bbq": {
+  "drop": [
+   "bbq"
+  ]
+ },
+ "smoque": {
+  "drop": [
+   "sides",
+   "sauces",
+   "sauce"
+  ],
+  "groups": [
+   {
+    "label": "Ribs",
+    "names": [
+     "ribs",
+     "baby back ribs"
+    ]
+   },
+   {
+    "label": "BBQ gumbo",
+    "names": [
+     "bbq gumbo",
+     "gumbo"
+    ]
+   },
+   {
+    "label": "Candied jalapeños",
+    "names": [
+     "candied jalapenos",
+     "candied jalapeños"
+    ]
+   },
+   {
+    "label": "Sausage",
+    "names": [
+     "sausages",
+     "sausage"
+    ]
+   }
+  ]
+ },
+ "smoque bbq": {
+  "drop": [
+   "barbecue"
+  ]
+ },
+ "soul smoke": {
+  "drop": [
+   "bbq"
+  ]
+ },
+ "south loop market": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "smash burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "southport jewel": {
+  "groups": [
+   {
+    "label": "Hot dogs",
+    "names": [
+     "hot dogs",
+     "nathan's dogs"
+    ]
+   },
+   {
+    "label": "Breakfast sandwiches",
+    "names": [
+     "breakfast sandwiches",
+     "sausage and egg breakfast sandwich"
+    ]
+   }
+  ]
+ },
+ "spacca napoli": {
+  "groups": [
+   {
+    "label": "Neapolitan pizza",
+    "names": [
+     "pizza",
+     "neapolitan pizza",
+     "pie"
+    ]
+   }
+  ]
+ },
+ "spinning j": {
+  "drop": [
+   "pie"
+  ],
+  "groups": [
+   {
+    "label": "Hibiscus key lime pie",
+    "names": [
+     "hibiscus key lime pie",
+     "key lime hibiscus pie"
+    ]
+   },
+   {
+    "label": "Milkshake",
+    "names": [
+     "milkshakes",
+     "milkshake",
+     "shakes"
+    ]
+   },
+   {
+    "label": "Cinnamon roll",
+    "names": [
+     "cinnamon roll",
+     "cinnamon rolls"
+    ]
+   }
+  ]
+ },
+ "ssyal": {
+  "groups": [
+   {
+    "label": "Samgyetang",
+    "names": [
+     "samgyetang",
+     "삼계탕",
+     "samgaetang"
+    ]
+   }
+  ]
+ },
+ "stans": {
+  "drop": [
+   "donuts"
+  ]
+ },
+ "stans donuts": {
+  "drop": [
+   "donuts"
+  ]
+ },
+ "staropolska": {
+  "drop": [
+   "soup"
+  ]
+ },
+ "steak 48": {
+  "groups": [
+   {
+    "label": "Crème brûlée corn",
+    "names": [
+     "crème brûlée corn",
+     "creme brulee corn"
+    ]
+   }
+  ]
+ },
+ "steak n shake": {
+  "groups": [
+   {
+    "label": "Beef tallow fries",
+    "names": [
+     "beef tallow fries",
+     "tallow fries"
+    ]
+   }
+  ]
+ },
+ "steingolds": {
+  "drop": [
+   "sandwich"
+  ]
+ },
+ "stop along": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "smash burger",
+     "cheeseburger"
+    ]
+   },
+   {
+    "label": "Pizza",
+    "names": [
+     "pizza",
+     "pie"
+    ]
+   }
+  ]
+ },
+ "stopalong": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers",
+     "smash burger",
+     "smashburger",
+     "stopalong burger",
+     "cheeseburger",
+     "burger with diced onions"
+    ]
+   }
+  ]
+ },
+ "storyville": {
+  "drop": [
+   "drinks"
+  ]
+ },
+ "stussys diner": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "$5 burger"
+    ]
+   }
+  ]
+ },
+ "sugar moon": {
+  "drop": [
+   "pastries"
+  ],
+  "groups": [
+   {
+    "label": "Chai roll",
+    "names": [
+     "chai roll",
+     "chai spice roll"
+    ]
+   }
+  ]
+ },
+ "sugoi sweets": {
+  "groups": [
+   {
+    "label": "Bonbons",
+    "names": [
+     "bonbons",
+     "bon bons"
+    ]
+   },
+   {
+    "label": "Matcha soft serve",
+    "names": [
+     "matcha soft serve",
+     "matcha ice cream"
+    ]
+   },
+   {
+    "label": "Matcha latte",
+    "names": [
+     "matcha",
+     "matcha latte"
+    ]
+   }
+  ]
+ },
+ "sultans market": {
+  "drop": [
+   "sauces"
+  ]
+ },
+ "summer house": {
+  "drop": [
+   "chicken add-on",
+   "desserts"
+  ],
+  "groups": [
+   {
+    "label": "Chocolate chip cookie",
+    "names": [
+     "chocolate chip cookie",
+     "chocolate chip cookies"
+    ]
+   },
+   {
+    "label": "Wild Thai banana cookie",
+    "names": [
+     "wild thai banana cookie",
+     "wild thai banana",
+     "thai banana"
+    ]
+   },
+   {
+    "label": "Parmesan truffle fries",
+    "names": [
+     "truffle fries",
+     "parmesan truffle fries"
+    ]
+   },
+   {
+    "label": "Wagyu cheeseburger",
+    "names": [
+     "wagyu cheeseburger",
+     "wagyu burger",
+     "burger"
+    ]
+   }
+  ]
+ },
+ "summer house santa monica": {
+  "drop": [
+   "blue cheese sauce"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "wagyu burger",
+     "cheeseburger",
+     "wagyu cheeseburger"
+    ]
+   }
+  ]
+ },
+ "sun wah": {
+  "drop": [
+   "sauce",
+   "soup"
+  ],
+  "groups": [
+   {
+    "label": "Beijing duck",
+    "names": [
+     "duck",
+     "peking duck",
+     "beijing duck",
+     "duck dinner",
+     "beijing duck dinner"
+    ]
+   },
+   {
+    "label": "Roast duck",
+    "names": [
+     "roast duck",
+     "hong kong roast duck",
+     "bbq duck"
+    ]
+   }
+  ]
+ },
+ "sun wah bbq": {
+  "groups": [
+   {
+    "label": "Peking duck",
+    "names": [
+     "peking duck",
+     "duck",
+     "beijing duck dinner",
+     "peking duck dinner"
+    ]
+   }
+  ]
+ },
+ "sunset pho": {
+  "drop": [
+   "broth"
+  ]
+ },
+ "superdawg": {
+  "drop": [
+   "pickled green tomato",
+   "pickled tomato"
+  ],
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs",
+     "chicago dog",
+     "dog"
+    ]
+   },
+   {
+    "label": "Burger",
+    "names": [
+     "burgers",
+     "burger"
+    ]
+   }
+  ]
+ },
+ "sushi loop": {
+  "groups": [
+   {
+    "label": "Snow crab legs",
+    "names": [
+     "snow crab",
+     "snow crab legs"
+    ]
+   }
+  ]
+ },
+ "sushi san": {
+  "drop": [
+   "rolls"
+  ],
+  "groups": [
+   {
+    "label": "Spicy tuna crispy rice",
+    "names": [
+     "crispy tuna rice",
+     "spicy tuna crispy rice",
+     "tuna crispy rice"
+    ]
+   }
+  ]
+ },
+ "swadesi": {
+  "groups": [
+   {
+    "label": "Banana latte",
+    "names": [
+     "banana cream latte",
+     "banana latte"
+    ]
+   }
+  ]
+ },
+ "sweet mandy bs": {
+  "drop": [
+   "frosting",
+   "cake",
+   "cakes",
+   "sweet treats",
+   "raspberry filling"
+  ],
+  "groups": [
+   {
+    "label": "Cinnamon roll",
+    "names": [
+     "cinnamon rolls",
+     "cinnamon roll"
+    ]
+   },
+   {
+    "label": "Lemon cupcake",
+    "names": [
+     "lemon cupcake",
+     "lemon cupcakes"
+    ]
+   }
+  ]
+ },
+ "sweet rabbit": {
+  "groups": [
+   {
+    "label": "Miso rye",
+    "names": [
+     "miso rye",
+     "miso rye loaf"
+    ]
+   }
+  ]
+ },
+ "swift sons": {
+  "drop": [
+   "sides",
+   "magician",
+   "table side magic",
+   "end cut of meat"
+  ],
+  "groups": [
+   {
+    "label": "Beef Wellington",
+    "names": [
+     "beef wellington",
+     "wellington"
+    ]
+   }
+  ]
+ },
+ "szechuan bistro": {
+  "groups": [
+   {
+    "label": "Dry chili chicken",
+    "names": [
+     "dry chili chicken",
+     "laziji"
+    ]
+   }
+  ]
+ },
+ "table donkey stick": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "taco boom": {
+  "groups": [
+   {
+    "label": "Tacos",
+    "names": [
+     "taco",
+     "tacos"
+    ]
+   }
+  ]
+ },
+ "taco city": {
+  "groups": [
+   {
+    "label": "Pambazo",
+    "names": [
+     "pambazo",
+     "pambazos"
+    ]
+   }
+  ]
+ },
+ "taco sublime": {
+  "groups": [
+   {
+    "label": "Smash burger",
+    "names": [
+     "burger",
+     "burgers",
+     "smash burger",
+     "smashburger",
+     "smash burgers",
+     "classic smash"
+    ]
+   }
+  ]
+ },
+ "tacombi": {
+  "drop": [
+   "other tacos"
+  ],
+  "groups": [
+   {
+    "label": "Fish tacos",
+    "names": [
+     "fish tacos",
+     "fish taco"
+    ]
+   }
+  ]
+ },
+ "tafaris kitchen": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "taipei cafe": {
+  "groups": [
+   {
+    "label": "Braised pork rice",
+    "names": [
+     "braised pork",
+     "braised pork rice"
+    ]
+   }
+  ]
+ },
+ "tala house": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "tango sur": {
+  "drop": [
+   "meat",
+   "chimichurri"
+  ]
+ },
+ "tanta": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "tao": {
+  "drop": [
+   "dessert"
+  ]
+ },
+ "taqueria el asadero": {
+  "groups": [
+   {
+    "label": "Carne asada",
+    "names": [
+     "carne asada",
+     "steak"
+    ]
+   }
+  ]
+ },
+ "taqueria mazamitla": {
+  "drop": [
+   "table salsa"
+  ]
+ },
+ "taqueria moran": {
+  "groups": [
+   {
+    "label": "Carnitas tacos",
+    "names": [
+     "carnitas",
+     "carnitas tacos"
+    ]
+   },
+   {
+    "label": "Chicken tortilla soup",
+    "names": [
+     "chicken tortilla soup",
+     "tortilla soup"
+    ]
+   },
+   {
+    "label": "Caldo de pollo",
+    "names": [
+     "caldo de pollo",
+     "caldo",
+     "chicken soup"
+    ]
+   }
+  ]
+ },
+ "taste of chicago": {
+  "groups": [
+   {
+    "label": "Turkey leg",
+    "names": [
+     "turkey leg",
+     "turkey legs"
+    ]
+   }
+  ]
+ },
+ "taste of heaven": {
+  "drop": [
+   "desserts"
+  ],
+  "groups": [
+   {
+    "label": "Biscuits",
+    "names": [
+     "biscuits",
+     "buttermilk biscuits"
+    ]
+   }
+  ]
+ },
+ "tempesta": {
+  "drop": [
+   "sandwich",
+   "sandwiches"
+  ]
+ },
+ "tempesta market": {
+  "drop": [
+   "bread",
+   "sandwich",
+   "sandwiches",
+   "soups"
+  ],
+  "groups": [
+   {
+    "label": "The Dante",
+    "names": [
+     "the dante",
+     "dante"
+    ]
+   }
+  ]
+ },
+ "thattu": {
+  "drop": [
+   "cocktails",
+   "drinks",
+   "food"
+  ]
+ },
+ "theater on the lake": {
+  "groups": [
+   {
+    "label": "Cheeseburger",
+    "names": [
+     "cheeseburger",
+     "burger"
+    ]
+   }
+  ]
+ },
+ "tied house": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "time breakfast": {
+  "drop": [
+   "sandwiches"
+  ]
+ },
+ "timmy otooles": {
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "buffalo wings"
+    ]
+   }
+  ]
+ },
+ "tiztal": {
+  "groups": [
+   {
+    "label": "Oatmeal shake",
+    "names": [
+     "oatmeal shake",
+     "oatmeal banana shake"
+    ]
+   }
+  ]
+ },
+ "tonys": {
+  "drop": [
+   "sandwiches",
+   "bread"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef"
+    ]
+   }
+  ]
+ },
+ "tonys deli": {
+  "drop": [
+   "subs"
+  ]
+ },
+ "toons": {
+  "drop": [
+   "bar food"
+  ],
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "classic buffalo wings"
+    ]
+   }
+  ]
+ },
+ "top notch": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "torchio": {
+  "drop": [
+   "pasta"
+  ]
+ },
+ "tortello": {
+  "drop": [
+   "pasta",
+   "pastries"
+  ]
+ },
+ "tortorices": {
+  "drop": [
+   "caramelized crust"
+  ]
+ },
+ "traspasada": {
+  "groups": [
+   {
+    "label": "Cabeza tacos",
+    "names": [
+     "cabeza",
+     "cabeza tacos"
+    ]
+   }
+  ]
+ },
+ "traspasadas": {
+  "drop": [
+   "black salsa"
+  ]
+ },
+ "tre dita": {
+  "drop": [
+   "pasta",
+   "pastas",
+   "apps"
+  ],
+  "groups": [
+   {
+    "label": "Steak",
+    "names": [
+     "steak",
+     "steaks"
+    ]
+   }
+  ]
+ },
+ "tre kronor": {
+  "groups": [
+   {
+    "label": "Swedish pancakes",
+    "names": [
+     "swedish pancakes",
+     "pancakes"
+    ]
+   }
+  ]
+ },
+ "trianos": {
+  "drop": [
+   "pasta"
+  ]
+ },
+ "tribeccas": {
+  "groups": [
+   {
+    "label": "Mushroom Maid Wrong",
+    "names": [
+     "mushroom maidwrong",
+     "maid wrong",
+     "maid wrong mushrooom sandwich",
+     "mushroom maid rite"
+    ]
+   }
+  ]
+ },
+ "tribeccass sandwich shop": {
+  "drop": [
+   "sandwiches"
+  ],
+  "groups": [
+   {
+    "label": "Cubano",
+    "names": [
+     "cubano",
+     "cuban"
+    ]
+   }
+  ]
+ },
+ "trivoli tavern": {
+  "drop": [
+   "bread"
+  ],
+  "groups": [
+   {
+    "label": "Sticky date cake",
+    "names": [
+     "sticky date cake",
+     "date cake"
+    ]
+   },
+   {
+    "label": "Chicken pot pie",
+    "names": [
+     "chicken pot pie",
+     "chicken pot pie with bone marrow"
+    ]
+   },
+   {
+    "label": "Crab rangoon",
+    "names": [
+     "crab rangoon",
+     "crab rangoons"
+    ]
+   }
+  ]
+ },
+ "truce": {
+  "drop": [
+   "cocktails",
+   "coffee drinks"
+  ]
+ },
+ "tryzub": {
+  "groups": [
+   {
+    "label": "Varenyky",
+    "names": [
+     "varenyky",
+     "varenyky platter"
+    ]
+   }
+  ]
+ },
+ "tuco blondie": {
+  "drop": [
+   "food"
+  ]
+ },
+ "tweet": {
+  "groups": [
+   {
+    "label": "Eggs Benedict",
+    "names": [
+     "eggs benedict",
+     "benedict"
+    ]
+   },
+   {
+    "label": "Biscuits and gravy",
+    "names": [
+     "biscuits and gravy",
+     "bng"
+    ]
+   }
+  ]
+ },
+ "twin anchors": {
+  "drop": [
+   "sauce"
+  ]
+ },
+ "uncle mikes": {
+  "groups": [
+   {
+    "label": "Longanisa",
+    "names": [
+     "longanisa",
+     "longaniza"
+    ]
+   }
+  ]
+ },
+ "uncle mikes place": {
+  "drop": [
+   "rice"
+  ],
+  "groups": [
+   {
+    "label": "Lugaw",
+    "names": [
+     "lugaw",
+     "lugan",
+     "congee soup"
+    ]
+   },
+   {
+    "label": "Skirt steak breakfast",
+    "names": [
+     "skirt steak breakfast",
+     "skirt steak brekkie"
+    ]
+   }
+  ]
+ },
+ "uncle remus": {
+  "drop": [
+   "sauce"
+  ],
+  "groups": [
+   {
+    "label": "Fried chicken",
+    "names": [
+     "fried chicken",
+     "chicken"
+    ]
+   }
+  ]
+ },
+ "union": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "regular burger"
+    ]
+   }
+  ]
+ },
+ "unos": {
+  "groups": [
+   {
+    "label": "Deep dish pizza",
+    "names": [
+     "deep dish",
+     "pizza",
+     "deep dish pizza",
+     "original deep dish"
+    ]
+   }
+  ]
+ },
+ "uptown deli": {
+  "drop": [
+   "sandwiches",
+   "sandwich"
+  ],
+  "groups": [
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef"
+    ]
+   }
+  ]
+ },
+ "vacas": {
+  "drop": [
+   "ice cream"
+  ]
+ },
+ "vacas creamery": {
+  "groups": [
+   {
+    "label": "Mango sticky rice",
+    "names": [
+     "mango sticky rice",
+     "sticky rice",
+     "mango sticky rice sundae"
+    ]
+   }
+  ]
+ },
+ "valhalla": {
+  "drop": [
+   "desserts",
+   "dessert",
+   "pastry",
+   "cocktails",
+   "cocktail",
+   "cigs",
+   "pairing",
+   "drink pairing",
+   "drink pairings"
+  ],
+  "groups": [
+   {
+    "label": "Wine pairing",
+    "names": [
+     "wine pairing"
+    ]
+   },
+   {
+    "label": "NA pairing",
+    "names": [
+     "na pairing",
+     "na drink pairing"
+    ]
+   },
+   {
+    "label": "Anything but wine pairing",
+    "names": [
+     "anything but wine pairing",
+     "non-wine pairing"
+    ]
+   },
+   {
+    "label": "Donut",
+    "names": [
+     "donut",
+     "doughnut"
+    ]
+   }
+  ]
+ },
+ "van leeuwen": {
+  "drop": [
+   "ice cream",
+   "scoop",
+   "pint"
+  ]
+ },
+ "vanille patisserie": {
+  "drop": [
+   "cake",
+   "pie"
+  ],
+  "groups": [
+   {
+    "label": "Afternoon tea",
+    "names": [
+     "afternoon tea",
+     "afternoon tea service"
+    ]
+   }
+  ]
+ },
+ "vault": {
+  "drop": [
+   "donuts"
+  ]
+ },
+ "verzenay": {
+  "drop": [
+   "cakes",
+   "pastries"
+  ]
+ },
+ "vickys": {
+  "groups": [
+   {
+    "label": "California burrito",
+    "names": [
+     "california burrito",
+     "cali burrito"
+    ]
+   }
+  ]
+ },
+ "vig": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "villa nova": {
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "pizza",
+     "tavern style pizza"
+    ]
+   }
+  ]
+ },
+ "village tap": {
+  "drop": [
+   "croutons"
+  ],
+  "groups": [
+   {
+    "label": "Caesar wrap",
+    "names": [
+     "caesar wrap",
+     "chicken caesar wrap",
+     "caesar salad wrap",
+     "wrap"
+    ]
+   }
+  ]
+ },
+ "village tavern": {
+  "groups": [
+   {
+    "label": "Chicken fingers",
+    "names": [
+     "chicken fingers",
+     "chicken tenders"
+    ]
+   }
+  ]
+ },
+ "vincent": {
+  "drop": [
+   "cocktails"
+  ]
+ },
+ "virtue": {
+  "drop": [
+   "cocktails",
+   "drinks"
+  ],
+  "groups": [
+   {
+    "label": "Mac and cheese",
+    "names": [
+     "mac and cheese",
+     "mac & cheese",
+     "mac"
+    ]
+   },
+   {
+    "label": "Short rib",
+    "names": [
+     "short rib",
+     "short ribs",
+     "braised short rib"
+    ]
+   },
+   {
+    "label": "Fried green tomatoes",
+    "names": [
+     "fried green tomatoes",
+     "fried green tomato",
+     "green tomatoes"
+    ]
+   },
+   {
+    "label": "Blackened catfish",
+    "names": [
+     "blackened catfish",
+     "catfish"
+    ]
+   },
+   {
+    "label": "Collard greens",
+    "names": [
+     "collards",
+     "collard greens",
+     "greens"
+    ]
+   }
+  ]
+ },
+ "vito angelo pizzeria": {
+  "drop": [
+   "pizza"
+  ]
+ },
+ "vito nicks": {
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style pizza",
+     "pizza",
+     "thin crust",
+     "thin crust pizza",
+     "thin pizza",
+     "tavern style"
+    ]
+   }
+  ]
+ },
+ "void": {
+  "drop": [
+   "cocktails",
+   "dessert",
+   "drinks",
+   "pasta"
+  ],
+  "groups": [
+   {
+    "label": "Chicken vesuvio",
+    "names": [
+     "chicken vesuvio",
+     "fried chicken vesuvio"
+    ]
+   },
+   {
+    "label": "Wedge salad",
+    "names": [
+     "wedge salad",
+     "wedge"
+    ]
+   }
+  ]
+ },
+ "vosges": {
+  "drop": [
+   "fruit ones"
+  ]
+ },
+ "walnut room": {
+  "drop": [
+   "salad"
+  ],
+  "groups": [
+   {
+    "label": "Chicken pot pie",
+    "names": [
+     "chicken pot pie",
+     "classic pot pie"
+    ]
+   }
+  ]
+ },
+ "warbler": {
+  "drop": [
+   "salads"
+  ],
+  "groups": [
+   {
+    "label": "Skillet cookie",
+    "names": [
+     "skillet cookie",
+     "cookie skillet"
+    ]
+   }
+  ]
+ },
+ "warlord": {
+  "drop": [
+   "dessert",
+   "food"
+  ],
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "warlord burger"
+    ]
+   }
+  ]
+ },
+ "wasabi": {
+  "drop": [
+   "ramen"
+  ],
+  "groups": [
+   {
+    "label": "Tonkotsu ramen",
+    "names": [
+     "tonkotsu",
+     "tonkotsu ramen"
+    ]
+   }
+  ]
+ },
+ "waterfront cafe": {
+  "groups": [
+   {
+    "label": "Crab roll",
+    "names": [
+     "crab roll",
+     "brown butter crab roll"
+    ]
+   }
+  ]
+ },
+ "weiner circle": {
+  "groups": [
+   {
+    "label": "Chocolate shake",
+    "names": [
+     "chocolate shake",
+     "chocolate milkshake"
+    ]
+   }
+  ]
+ },
+ "weiners circle": {
+  "groups": [
+   {
+    "label": "Chocolate shake",
+    "names": [
+     "chocolate shake",
+     "chocolate milkshake"
+    ]
+   },
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "chicago dog"
+    ]
+   }
+  ]
+ },
+ "white fence farm": {
+  "drop": [
+   "sides"
+  ]
+ },
+ "whole foods": {
+  "drop": [
+   "hot bar"
+  ],
+  "groups": [
+   {
+    "label": "Berry chantilly cake",
+    "names": [
+     "berry chantilly cake",
+     "chantilly cake"
+    ]
+   },
+   {
+    "label": "Tres leches cake",
+    "names": [
+     "tres leches",
+     "tres leches cake"
+    ]
+   }
+  ]
+ },
+ "wiener circle": {
+  "groups": [
+   {
+    "label": "Chocolate shake",
+    "names": [
+     "chocolate milkshake",
+     "chocolate shake"
+    ]
+   }
+  ]
+ },
+ "wieners circle": {
+  "groups": [
+   {
+    "label": "Chocolate shake",
+    "names": [
+     "chocolate shake",
+     "double chocolate milkshake"
+    ]
+   },
+   {
+    "label": "Char dog",
+    "names": [
+     "char dog",
+     "charred johnson"
+    ]
+   },
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs"
+    ]
+   }
+  ]
+ },
+ "wild goose": {
+  "drop": [
+   "ranch",
+   "horseradish dip"
+  ],
+  "groups": [
+   {
+    "label": "Wings",
+    "names": [
+     "wings",
+     "buffalo wings"
+    ]
+   },
+   {
+    "label": "Two day chopped salad",
+    "names": [
+     "two-day salad",
+     "two day chopped salad"
+    ]
+   }
+  ]
+ },
+ "wildberry": {
+  "drop": [
+   "sweet breakfast"
+  ]
+ },
+ "wildfire": {
+  "groups": [
+   {
+    "label": "Chopped salad",
+    "names": [
+     "chopped salad",
+     "chop salad"
+    ]
+   },
+   {
+    "label": "Door County cherry pie",
+    "names": [
+     "cherry pie",
+     "door county cherry pie"
+    ]
+   },
+   {
+    "label": "Steak",
+    "names": [
+     "steaks",
+     "steak"
+    ]
+   }
+  ]
+ },
+ "wilmas bbq": {
+  "groups": [
+   {
+    "label": "BBQ and fish filet plate",
+    "names": [
+     "bbq and fish filet plate",
+     "bbq and fish plate"
+    ]
+   }
+  ]
+ },
+ "windy city gyros": {
+  "groups": [
+   {
+    "label": "Gyro",
+    "names": [
+     "gyro",
+     "gyros",
+     "gyro sandwich"
+    ]
+   }
+  ]
+ },
+ "wing stop": {
+  "drop": [
+   "ranch"
+  ]
+ },
+ "wolf co": {
+  "drop": [
+   "pastries"
+  ]
+ },
+ "wolf company": {
+  "groups": [
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   },
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style pizza",
+     "thin crust"
+    ]
+   }
+  ]
+ },
+ "wolfhound": {
+  "groups": [
+   {
+    "label": "Full Irish",
+    "names": [
+     "fry up",
+     "english breakfast",
+     "full irish"
+    ]
+   }
+  ]
+ },
+ "wolfys": {
+  "groups": [
+   {
+    "label": "Hot dog",
+    "names": [
+     "hot dog",
+     "hot dogs",
+     "chicago dog"
+    ]
+   },
+   {
+    "label": "Italian beef",
+    "names": [
+     "italian beef",
+     "beef"
+    ]
+   },
+   {
+    "label": "Burger",
+    "names": [
+     "burger",
+     "burgers"
+    ]
+   }
+  ]
+ },
+ "wonton gourmet": {
+  "drop": [
+   "noodles"
+  ]
+ },
+ "wurst behavior": {
+  "drop": [
+   "sausages"
+  ]
+ },
+ "xian": {
+  "drop": [
+   "noodles"
+  ]
+ },
+ "xian cuisine": {
+  "drop": [
+   "noodles"
+  ],
+  "groups": [
+   {
+    "label": "Cumin lamb flatbread",
+    "names": [
+     "cumin lamb flatbread",
+     "lamb cumin flatbreads",
+     "lamb flatbread"
+    ]
+   }
+  ]
+ },
+ "xoco": {
+  "groups": [
+   {
+    "label": "Torta ahogada",
+    "names": [
+     "torta ahogada",
+     "ahogada",
+     "ahogada torta"
+    ]
+   }
+  ]
+ },
+ "yao yao": {
+  "groups": [
+   {
+    "label": "Pickled fish soup",
+    "names": [
+     "pickled fish soup",
+     "pickled fish"
+    ]
+   }
+  ]
+ },
+ "yoo yee": {
+  "drop": [
+   "noodles"
+  ],
+  "groups": [
+   {
+    "label": "Hand pulled noodles",
+    "names": [
+     "hand pulled noodles in soup",
+     "hand pulled noodles",
+     "hand-pulled noodles"
+    ]
+   }
+  ]
+ },
+ "yooyee": {
+  "drop": [
+   "noodles",
+   "broth"
+  ],
+  "groups": [
+   {
+    "label": "Scallion pancake",
+    "names": [
+     "scallion pancake",
+     "scallion pancakes"
+    ]
+   }
+  ]
+ },
+ "zarella": {
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style pizza",
+     "pizza",
+     "thin crust pizza",
+     "tavern pizza",
+     "thin crust"
+    ]
+   }
+  ]
+ },
+ "zarellas": {
+  "groups": [
+   {
+    "label": "Tavern style pizza",
+    "names": [
+     "tavern style pizza",
+     "pizza",
+     "tavern pizza",
+     "tavern-style pizza"
+    ]
+   }
+  ]
+ },
+ "zazas": {
+  "groups": [
+   {
+    "label": "NY style pizza",
+    "names": [
+     "pizza",
+     "slices",
+     "slice",
+     "ny style pizza"
+    ]
+   }
+  ]
+ },
+ "zeitlins": {
+  "groups": [
+   {
+    "label": "Bagels",
+    "names": [
+     "bagels",
+     "bagel"
+    ]
+   }
+  ]
+ },
+ "zeitlins deli": {
+  "groups": [
+   {
+    "label": "Bagels",
+    "names": [
+     "bagels",
+     "bagel",
+     "bagel with cream cheese"
+    ]
+   }
+  ]
+ },
+ "zenwich": {
+  "drop": [
+   "bowls",
+   "sandwich",
+   "sandwiches"
+  ]
+ },
+ "zizis": {
+  "drop": [
+   "bread"
+  ]
+ }
+}
