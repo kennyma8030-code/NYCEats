@@ -148,6 +148,27 @@ class Malformed(unittest.TestCase):
         self.assertEqual(labels, {"knish": "Knish"})
         self.assertEqual(dropped, {"bread"})
 
+    def test_a_name_both_grouped_and_dropped_is_refused(self):
+        # "cookie" and "cookies" are one key: top() would drop what the
+        # group meant to count, so the entry is refused, not half applied.
+        with self.assertLogs("uvicorn.error", "WARNING") as logs:
+            got = built({"katzs delicatessen": {
+                "groups": [{"label": "Chocolate chip cookie", "names": ["cookie"]}],
+                "drop": ["Cookies"]}})
+        self.assertEqual(got, ({}, set()))
+        self.assertIn("grouped and dropped: 'cooky' (in 'Chocolate chip cookie')", logs.output[0])
+
+    def test_a_name_in_two_groups_is_refused(self):
+        with self.assertLogs("uvicorn.error", "WARNING") as logs:
+            got = built({"katzs delicatessen": {
+                "groups": [{"label": "Pastrami sandwich", "names": ["sandwich"]},
+                           {"label": "Reuben", "names": ["sandwiches"]}]}})
+        self.assertEqual(got, ({}, set()))
+        self.assertIn("'Pastrami sandwich' and 'Reuben'", logs.output[0])
+        # Twice in one group is only untidy.
+        self.assertEqual(built({"katzs delicatessen": {
+            "groups": [{"label": "Knish", "names": ["knish", "knishes"]}]}}), ({"knish": "Knish"}, set()))
+
     def test_a_bad_entry_does_not_take_its_neighbours_down(self):
         data = {"bad": 5, "katzs delicatessen": {"groups": [], "drop": ["bread"]}}
         self.assertEqual(built(data), ({}, {"bread"}))
@@ -158,6 +179,36 @@ class Malformed(unittest.TestCase):
             with open(os.path.join(d, f"dish_groups_{SUB}.json"), "w") as f:
                 json.dump({"x": {"groups": 3}}, f)
             self.assertEqual(dishes.top(rows(["tacos"], times=3), SUB, "x"), [{"name": "tacos", "n": 3}])
+
+
+class Shipped(unittest.TestCase):
+    """The files in app/data, as the loader reads them. An entry it refuses
+    costs a real place its groups, so one is a failure here."""
+
+    def test_every_entry_of_every_city_loads(self):
+        import subreddits
+        for sub in subreddits.SUBREDDITS:
+            path = dishes._path(sub)
+            if not os.path.exists(path):
+                continue
+            with open(path, encoding="utf-8") as f:
+                data = json.load(f)
+            with self.subTest(sub=sub), self.assertNoLogs("uvicorn.error", "WARNING"):
+                self.assertEqual(len(dishes._build(path)), len(data))
+
+    def test_the_four_names_that_were_grouped_and_dropped(self):
+        def top(sub, key, *names):
+            return dishes.top(rows(*[[n] for n in names], times=3), sub, key)
+        with mock.patch.dict(dishes._PLACES, clear=True):
+            # One cookie and one salad on the list: the bare word is that dish.
+            self.assertEqual(top("FoodNYC", "from lucie", "cookies", "cookie"),
+                             [{"name": "Chocolate chip cookie", "n": 6}])
+            self.assertEqual(top("chicagofood", "portillos", "salads"),
+                             [{"name": "Chopped salad", "n": 3}])
+            # Two cookies, three chowders: the bare word is none of them.
+            self.assertEqual(top("austinfood", "thorough bread", "cookie", "cookies"), [])
+            self.assertEqual(top("FoodLosAngeles", "connie teds", "chowder", "chowders", "clam chowder"),
+                             [{"name": "New England clam chowder", "n": 3}])
 
 
 class TopDishesQuery(unittest.TestCase):

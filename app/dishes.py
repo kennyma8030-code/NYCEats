@@ -20,7 +20,11 @@ A file entry is keyed by the place's resolved key:
 Everything, the file's names, drops and labels and the names mentioned, is
 matched on one key, the lowercased name with a plural on its last word folded,
 so a new "spare rib" meets the group that lists "spare ribs" and "bagel" is
-dropped where "bagels" is.
+dropped where "bagels" is. It follows that a place cannot group "cookie" and
+drop "cookies", or put one name in two groups: they are one key, the two
+decisions contradict each other, and which one is meant is a judgement only
+whoever edits the file can make. Such an entry is refused whole (_place), and
+tests/test_app_dishes.py loads every shipped file so the next one fails there.
 
 Counting is by mention, not by string: one comment that names both "pastrami"
 and "pastrami sandwich" is one vote for the dish, so merging names can never
@@ -83,7 +87,8 @@ def _strings(value):
 
 def _place(key, entry):
     """One entry as (labels, dropped): {folded name: label} and {folded name},
-    or None, with a warning, if it is not the shape the file promises."""
+    or None, with a warning, if it is not the shape the file promises or
+    decides one name two ways (grouped and dropped, or in two groups)."""
     try:
         groups, drop = entry.get("groups", []), entry.get("drop", [])
         if not isinstance(groups, list) or not _strings(drop):
@@ -96,11 +101,17 @@ def _place(key, entry):
                 continue
             label = clean(g["label"])
             for name in [label, *g["names"]]:
-                labels[fold(name)] = label
+                if labels.setdefault(fold(name), label) != label:
+                    raise ValueError(f"{name!r} is in the groups {labels[fold(name)]!r} and {label!r}")
+        dropped = {fold(n) for n in drop}
+        both = sorted(dropped & labels.keys())
+        if both:
+            raise ValueError("grouped and dropped: " + ", ".join(
+                f"{k!r} (in {labels[k]!r})" for k in both))
     except (AttributeError, ValueError) as e:
         log.warning("dish groups of %s skipped: %s", key, e)
         return None
-    return labels, {fold(n) for n in drop}
+    return labels, dropped
 
 
 def _build(path):
