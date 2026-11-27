@@ -1,13 +1,13 @@
 import { memo, useEffect, useRef, useState } from "react";
-import type { Facets, Flaw, LedgerItem, Need, WindowDays } from "../../api/types";
+import type { Facets, LedgerItem, Need, WindowDays } from "../../api/types";
 import { BRAND } from "../../brand";
 import type { RowHover } from "../../hooks/useHoverPreview";
 import type { Ranking } from "../../hooks/useRanking";
 import { PIN_LIMIT, RANKING_PAGE } from "../../lib/paging";
 import { SORTS, rowMetric, sortOf } from "../../lib/sorts";
 import { areaWords } from "../../state/city";
-import { FLAWS, NEEDS, WINDOWS, windowOf } from "../../state/filters";
-import { filterCount, flawLabel, isLedgerSort, needLabel, toggle, type Route, type SortId } from "../../state/route";
+import { NEEDS, WINDOWS, windowOf } from "../../state/filters";
+import { filterCount, isLedgerSort, needLabel, toggle, type Route, type SortId } from "../../state/route";
 import { Icon } from "../Icon";
 import { Search, type Scope } from "../Search";
 
@@ -27,7 +27,7 @@ interface Props {
   hover: RowHover;
 }
 
-type MenuId = "cuisine" | "area" | "needs" | "flaws" | "period";
+type MenuId = "cuisine" | "area" | "needs" | "period";
 
 /** The rating looks back a fixed number of days, whatever period is chosen. */
 const daysPhrase = (days: number) => (days === 365 ? "12 months" : days % 30 === 0 ? `${days / 30} months` : `${days} days`);
@@ -173,16 +173,6 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
               <Menu inline label="Good for">
                 {NEEDS.map((n) => (
                   <Choice key={n.k} many on={route.needs.includes(n.k)} onClick={() => go({ needs: toggle<Need>(route.needs, n.k) })}>
-                    {n.label}
-                  </Choice>
-                ))}
-              </Menu>
-            )}
-            {chip("flaws", "Complaints", several(route.flaws, "Complaints", flawLabel))}
-            {menu === "flaws" && (
-              <Menu inline label="Complaints">
-                {FLAWS.map((n) => (
-                  <Choice key={n.k} many on={route.flaws.includes(n.k)} onClick={() => go({ flaws: toggle<Flaw>(route.flaws, n.k) })}>
                     {n.label}
                   </Choice>
                 ))}
