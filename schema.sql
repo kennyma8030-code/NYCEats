@@ -323,6 +323,21 @@ drop index if exists city_restaurants_trgm_idx;
 create index if not exists city_restaurants_sub_trgm_idx
   on city_restaurants using gin (subreddit, name_key gin_trgm_ops);
 
+-- What the other cities' sources do not say about a place: its cuisine and
+-- the neighborhood it is in (place_labels.py). A table of its own, not columns
+-- on city_restaurants, because that table's loader deletes and reloads a city
+-- whole and would take these with it. The cuisine is a judgment from the name
+-- and what commenters ordered, not a record, so it can be wrong; the
+-- neighborhood is the one the place's pin falls in.
+create table if not exists place_labels (
+  subreddit      text not null,
+  name_key       text not null,          -- matches city_restaurants.name_key
+  cuisine        text,
+  neighborhood   text,
+  labeled_at     timestamptz not null default now(),
+  primary key (subreddit, name_key)
+);
+
 
 -- ---------------------------------------------------------------------------
 -- Manual identity decisions. entity_alias PROPOSES a merge; this DECIDES it.
