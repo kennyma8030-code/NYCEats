@@ -17,11 +17,18 @@ Three steps, and a model is in at most one of them.
      of the query is embedded and the nearest comments found; comments that
      knock a place are dropped; what is left is grouped by place and ranked
      by ONE number: how many different people wrote a matching comment.
-     Every result carries that number and the comments it counts. With
-     nothing to embed, the rank is the board's own people count.
+     Every result carries that number and the comments it counts: the
+     first few in full, and the id of every one, so the whole count can be
+     opened (comments()). With nothing to embed, the rank is the board's
+     own people count. Where the text cannot be matched by meaning (a city
+     whose comments are not embedded, a provider or an index that did not
+     answer) its words are matched as text instead, as the ledger's topic
+     is, so what was typed still filters the list in every city.
 
 Rules that hold throughout: results never wait on a model (mode=fast answers
-from the vocabulary alone, and the client asks for mode=full after it);
+from the vocabulary and from readings already kept, and the client asks for
+mode=full only when a model could read more); a list ranked on words nobody
+read says so (AS_TYPED);
 a model interprets and never picks or ranks; nothing here is evidence
 (search_parses and search_log are a cache and a log); the query and the
 comments are untrusted text, bound into SQL and wrapped as data for the
@@ -51,6 +58,7 @@ import subreddits
 from . import parse as model_parse
 from . import queries
 from .db import connection, fetch_all, fetch_value, transaction
+from .rankcache import RankCache
 
 log = logging.getLogger("uvicorn.error")
 
@@ -259,9 +267,20 @@ def build_vocabulary(conn, sub, version):
                       names=names, labels=labels, boroughs=sorted(boroughs))
 
 
-_vocab = {}
-_vocab_lock = threading.Lock()
+# How long a request waits for another request's build of the same city's
+# vocabulary. A waiter holds no connection (the search routes take none), so
+# this can outlast one statement; past it the answer is 503, try again.
+VOCAB_WAIT = 20.0
+# One entry per city, never expiring here: a vocabulary is replaced in the
+# background (_refresh), not dropped. The cache is what makes the first build
+# one computation that every request for that city waits on and receives,
+# result or failure alike, with no lock held while its queries run, so one
+# city's build never blocks another's search (app/rankcache.py).
+_VOCAB = RankCache(float("inf"), 64, VOCAB_WAIT,
+                   timeout_error=lambda: psycopg2.errors.QueryCanceled(
+                       "waited too long for the search vocabulary"))
 _refreshing = set()
+_refreshing_lock = threading.Lock()      # guards the set only; never held over a query
 
 
 def _load(sub):
@@ -270,50 +289,45 @@ def _load(sub):
         return build_vocabulary(conn, sub, version)
 
 
-def _refresh(sub):
+def _refresh(sub, old):
     """Runs on its own thread: rebuild when the scoring views took in new
     mentions or the copy is old, otherwise just note that it was checked."""
     try:
-        old = _vocab.get(sub)
         with connection() as conn:
             version = queries.facets_version(conn, fetch_value)
-        if (old is None or version != old.version
-                or time.monotonic() - old.built > VOCAB_MAX_AGE):
-            _vocab[sub] = _load(sub)
+        if version != old.version or time.monotonic() - old.built > VOCAB_MAX_AGE:
+            _VOCAB.put(sub, _load(sub))
         else:
             old.checked = time.monotonic()
     except Exception as e:
         log.warning("search vocabulary refresh for %s failed: %s: %s", sub, type(e).__name__, e)
-        if sub in _vocab:
-            _vocab[sub].checked = time.monotonic()      # try again in VOCAB_CHECK
+        old.checked = time.monotonic()      # try again in VOCAB_CHECK
     finally:
-        _refreshing.discard(sub)
+        with _refreshing_lock:
+            _refreshing.discard(sub)
 
 
 def vocabulary(sub):
-    """The city's vocabulary. Built on the first request, which waits for it
-    (several scans of the city's mentions); after that a stale copy is served
-    while a thread replaces it, so no later search waits on those scans."""
-    v = _vocab.get(sub)
-    if v is None:
-        with _vocab_lock:
-            v = _vocab.get(sub)
-            if v is None:
-                v = _vocab[sub] = _load(sub)
-        return v
+    """The city's vocabulary. The first request builds it (several scans of
+    the city's mentions) and every request that arrives meanwhile waits for
+    that one build and gets what it got, its failure included, instead of
+    queueing to run the scans again. After that a stale copy is served while
+    a thread replaces it, so no later search waits on those scans."""
+    v = _VOCAB.get(sub, lambda: _load(sub))
     if time.monotonic() - v.checked > VOCAB_CHECK:
-        with _vocab_lock:
+        with _refreshing_lock:
             start = sub not in _refreshing
             _refreshing.add(sub)
         if start:
-            threading.Thread(target=_refresh, args=(sub,), daemon=True).start()
+            threading.Thread(target=_refresh, args=(sub, v), daemon=True).start()
     return v
 
 
 def forget():
     """Drop every cache in this module. For tests, which swap databases
     under a running process."""
-    _vocab.clear()
+    _VOCAB.clear()
+    _RETRIEVED.clear()
     _parses.clear()
     _embed.cache_clear()
     for w in (REQUESTS, MODEL_CALLS, MODEL_CALLS_ALL):
@@ -340,8 +354,9 @@ class Parsed:
     no_data: list = field(default_factory=list)
     hard: bool = False
     # vocabulary: explained without a model. model / cache: the model's
-    # reading, new or kept. unparsed: mode=fast with words left over, so the
-    # whole query is the text. fallback: the model was needed and not had.
+    # reading, new or kept. unparsed: mode=fast with words left over and a
+    # model to ask, so the whole query is the text until mode=full reads it.
+    # fallback: the model was needed and not had.
     source: str = "vocabulary"
     needs_model: bool = False
 
@@ -540,17 +555,20 @@ def _keep(key, answer):
 
 def understand(sub, query, mode, vocab, caller=None):
     """What `query` means. mode=fast never waits on a model; mode=full asks
-    one when the vocabulary leaves words unexplained."""
+    one when the vocabulary leaves words unexplained.
+
+    Both modes use a reading that was already kept, and mode=fast only says
+    `needs_model` when there is a model to ask, so a second pass is made
+    only when it can change the answer: a repeated query, and any query on a
+    deployment without the key, is one request.
+    """
     parsed, leftover = segment(query, vocab)
     if not leftover:
         return parsed
-    whole = Parsed(search_text=" ".join(query.split()), source="unparsed", needs_model=True)
-    if mode == "fast":
-        # No filters from a half-understood query: "not italian" must not
-        # show Italian places while the model is still reading it.
-        return whole
-
-    whole.source, whole.needs_model = "fallback", False
+    # No filters from a half-understood query: "not italian" must not show
+    # only Italian places while the model is still reading it. The whole
+    # query is the text, and run() tells the reader it was matched as typed.
+    whole = Parsed(search_text=" ".join(query.split()), source="fallback")
     system = model_parse.system_prompt(
         sub, [t.label for t in vocab.terms["cuisine"].values()], vocab.boroughs)
     key = (sub, normalize(query), model_parse.MODEL, model_parse.prompt_hash(system))
@@ -558,6 +576,9 @@ def understand(sub, query, mode, vocab, caller=None):
     if answer is not None:
         return resolve(answer, vocab, query, "cache")
     if not model_parse.api_key():
+        return whole
+    if mode == "fast":
+        whole.source, whole.needs_model = "unparsed", True
         return whole
     if not (MODEL_CALLS.allow(caller) and MODEL_CALLS_ALL.allow("all")):
         return whole
@@ -593,11 +614,42 @@ NO_DATA_WORDS = {"price": "prices", "hours": "opening hours",
                  "party_size": "what size of group a place takes",
                  "diet": "allergies or dietary needs"}
 
+# Said whenever the words were matched without having been read (source
+# unparsed or fallback): a list for "not italian" that leads with Italian
+# places must not pass for an answer to it.
+AS_TYPED = ("These words were matched as typed, without being read for what they "
+            "mean, so a word like “not” or “without” leaves nothing out.")
+
+# How long one retrieval is kept and shared. The fast and full passes of one
+# search often ask for the same thing (the model was not had, or read the
+# query as the vocabulary did), and so do the many people typing "date
+# night": the second asker gets the first one's rows instead of another
+# embedding call and another vector scan. Derived and short-lived, like the
+# ledger's rankings (queries.LEDGER_CACHE).                              TUNE
+RETRIEVED_TTL = 60.0
+RETRIEVED_ENTRIES = 128
+RETRIEVED_WAIT = 15.0
+_RETRIEVED = RankCache(RETRIEVED_TTL, RETRIEVED_ENTRIES, RETRIEVED_WAIT,
+                       timeout_error=lambda: psycopg2.errors.QueryCanceled(
+                           "waited too long for another request's search"))
+
+
+class _NoMeaning(Exception):
+    """Matching by meaning cannot run for this search. `why` is city (only
+    the home city's comments are embedded), vectors (this database has
+    none), provider (the embedding call failed) or database (the vector
+    query failed or timed out); the last two may work a moment later."""
+
+    def __init__(self, why):
+        super().__init__(why)
+        self.why = why
+
 
 def _filters(parsed):
-    """(include, exclude, show_chains) as queries.py takes them. Filters of
-    one kind are alternatives ("italian or french"); different kinds must
-    all hold ("italian" and "in brooklyn")."""
+    """(include, exclude, show_chains) as queries.py takes them, in tuples
+    so they can key a cache. Filters of one kind are alternatives ("italian
+    or french"); different kinds must all hold ("italian" and "in
+    brooklyn")."""
     by_kind = {}
     for f in parsed.include:
         by_kind.setdefault(f.kind, set()).update(f.keys)
@@ -605,21 +657,22 @@ def _filters(parsed):
     for f in parsed.exclude:
         exclude |= f.keys
     named = "restaurant" in by_kind
-    return [sorted(v) for v in by_kind.values()], sorted(exclude), named
+    return (tuple(tuple(sorted(by_kind[k])) for k in sorted(by_kind)),
+            tuple(sorted(exclude)), named)
 
 
-def _semantic(sub, parsed, limit):
+def _semantic(sub, text, include, exclude, named, limit):
     """Nearest comments, grouped by place and ranked by how many different
-    people wrote one. Returns (ranked, total, evidence ids) or None when the
-    semantic half cannot run here."""
+    people wrote one: (ranked, total). Every place carries the mention of
+    each comment it counts, nearest first, so its number can be opened in
+    full. Raises _NoMeaning when the semantic half cannot run here."""
     if sub != subreddits.HOME:
-        return None                 # only the home city's comments are embedded
+        raise _NoMeaning("city")
     try:
-        vec = _embed(parsed.search_text)
+        vec = _embed(text)
     except (embedding.EmbedError, ValueError) as e:
         log.warning("search embedding failed: %s: %s", type(e).__name__, str(e)[:200])
-        return None
-    include, exclude, named = _filters(parsed)
+        raise _NoMeaning("provider") from None
     try:
         # The connection is taken after the embedding call, so a slow
         # provider holds none.
@@ -628,7 +681,14 @@ def _semantic(sub, parsed, limit):
                                             include, exclude, named, fetch_all)
     except _NO_VECTORS as e:
         log.warning("search has no vectors to read: %s", type(e).__name__)
-        return None
+        raise _NoMeaning("vectors") from None
+    except psycopg2.Error as e:
+        # A statement timeout on a cold index, a dropped connection: the
+        # words can still be matched as text, which is an answer, where a
+        # 503 is none. The pool being busy (PoolTimeout) is not caught: the
+        # fallback would need a connection too.
+        log.warning("search vector query failed: %s: %s", type(e).__name__, str(e).strip()[:200])
+        raise _NoMeaning("database") from None
 
     places = {}
     for r in rows:
@@ -643,40 +703,61 @@ def _semantic(sub, parsed, limit):
     ranked = sorted(places.items(), key=lambda kv: (-len(kv[1]["people"]), -kv[1]["best"], kv[0]))
     top = [{"entity_key": k, "people": len(g["people"]), "best_similarity": round(g["best"], 4),
             "mention_ids": [m for _, m in sorted(g["by_comment"].values(),
-                                                 key=lambda sm: (-sm[0], sm[1]))[:EVIDENCE_PER_PLACE]]}
+                                                 key=lambda sm: (-sm[0], sm[1]))]}
            for k, g in ranked[:limit]]
     return top, len(ranked)
 
 
-def retrieve(sub, parsed, limit):
-    """The places for a Parsed query, each with its count and its comments."""
-    from .routers.ledger import display_name
-    notes = []
-    semantic, ranked_by = "none", "people"
-    top, total = None, 0
-    if parsed.search_text:
-        found = _semantic(sub, parsed, limit)
-        if found is None:
-            semantic = "unavailable"
-            notes.append("Matching by meaning is not available right now, so this is "
-                         "the most talked-about places"
-                         + (" for the filters shown." if parsed.include or parsed.exclude else "."))
-        else:
-            semantic, ranked_by = "ok", "matching_people"
-            top, total = found
+def text_words(text):
+    """The words of `text` to look for as typed when it cannot be matched by
+    meaning: lower case, punctuation at either end dropped, filler left out,
+    each once. Accents and inner apostrophes stay, because the comments'
+    own words have them."""
+    out = []
+    for w in text.lower().split():
+        w = w.strip(".,;:!?\"“”()[]")
+        if w and w not in FILLER and w not in out:
+            out.append(w)
+    return out
 
-    include, exclude, named = _filters(parsed)
+
+def _retrieve(sub, text, include, exclude, named, limit):
+    """The ranked places for one retrieval, with the comments first shown
+    for each. Shared between requests through _RETRIEVED, so nothing here
+    may be changed by a caller."""
+    from .routers.ledger import display_name
+    semantic, ranked_by, why = "none", "people", None
+    top, total = None, 0
+    if text:
+        try:
+            top, total = _semantic(sub, text, include, exclude, named, limit)
+            semantic, ranked_by = "ok", "matching_people"
+        except _NoMeaning as e:
+            semantic, why = "unavailable", e.why
+
     with connection() as conn:
+        words = text_words(text) if semantic == "unavailable" else []
+        if words:
+            # The words still filter the list, as the ledger's topic match
+            # does in every city: places by how many different people used
+            # all of them about the place.
+            rows = queries.text_matches(conn, sub, words, include, exclude, named, limit, fetch_all)
+            top = [{"entity_key": r["entity_key"], "people": r["people"],
+                    "best_similarity": None, "mention_ids": r["mention_ids"]} for r in rows]
+            total = rows[0]["total"] if rows else 0
+            semantic, ranked_by = "text", "matching_people"
         if top is None:
             rows, total = queries.search_board(conn, sub, include, exclude, named, limit,
                                                fetch_all, fetch_value)
+            # The board's count is everyone who brought the place up, and
+            # the row opens the place, where all of those comments are.
             top = [{"entity_key": r["entity_key"], "people": r["people"],
                     "best_similarity": None, "mention_ids": None} for r in rows]
             evidence = queries.board_evidence(conn, sub, [t["entity_key"] for t in top],
                                               EVIDENCE_PER_PLACE, fetch_all)
         else:
             evidence = queries.search_evidence(
-                conn, sub, [m for t in top for m in t["mention_ids"]], fetch_all)
+                conn, sub, [m for t in top for m in t["mention_ids"][:EVIDENCE_PER_PLACE]], fetch_all)
         keys = [t["entity_key"] for t in top]
         info = {r["entity_key"]: r for r in queries.search_places(conn, sub, keys, fetch_all)}
         hoods = {r["entity_key"]: r["name"]
@@ -689,15 +770,46 @@ def retrieve(sub, parsed, limit):
     for t in top:
         k, i = t["entity_key"], info.get(t["entity_key"], {})
         mine = by_place.get(k, {})
-        comments = ([mine[m] for m in t["mention_ids"] if m in mine]
+        comments = ([mine[m] for m in t["mention_ids"][:EVIDENCE_PER_PLACE] if m in mine]
                     if t["mention_ids"] is not None
                     else sorted(mine.values(), key=lambda e: e["rn"]))
         items.append({"entity_key": k, "name": display_name(i.get("official_name"), k),
                       "cuisine": i.get("cuisine"), "borough": i.get("borough"),
                       "neighborhood": hoods.get(k), "people": t["people"],
                       "total_people": i.get("total_people"),
-                      "best_similarity": t["best_similarity"], "comments": comments})
+                      "best_similarity": t["best_similarity"],
+                      "mention_ids": t["mention_ids"], "comments": comments})
+    return {"semantic": semantic, "ranked_by": ranked_by, "total": total,
+            "items": items, "why": why}
 
+
+def retrieve(sub, parsed, limit):
+    """The places for a Parsed query, each with its count and its comments,
+    and the sentences that say how far the answer can be trusted."""
+    include, exclude, named = _filters(parsed)
+    key = (sub, parsed.search_text, include, exclude, named, limit)
+    found = _RETRIEVED.get(key, lambda: _retrieve(sub, parsed.search_text, include, exclude,
+                                                  named, limit))
+    why = found["why"]
+    if why in ("provider", "database"):
+        # Whoever was waiting on this shares it; the next search tries the
+        # provider or the index again rather than living with a hiccup for
+        # a minute.
+        _RETRIEVED.discard(key)
+    out = {k: v for k, v in found.items() if k != "why"}
+    semantic, items = out["semantic"], out["items"]
+
+    notes = []
+    if parsed.source in ("unparsed", "fallback") and semantic in ("ok", "text"):
+        notes.append(AS_TYPED)
+    if why is not None:
+        missing = ("Matching by meaning is not available for this city yet" if why == "city"
+                   else "Matching by meaning is not available right now")
+        if semantic == "text":
+            notes.append(missing + ", so these are the places whose comments use the words searched for.")
+        else:
+            notes.append(missing + ", so this is the most talked-about places"
+                         + (" for the filters shown." if parsed.include or parsed.exclude else "."))
     for x in parsed.ignored:
         notes.append(f"Could not find “{x}” to leave out.")
     if parsed.no_data:
@@ -709,10 +821,21 @@ def retrieve(sub, parsed, limit):
                      "matches, not an answer.")
     if semantic == "ok" and not items:
         notes.append("No comments match that closely enough.")
+    elif semantic == "text" and not items:
+        notes.append("No comments use those words.")
     elif not items:
         notes.append("No places match those filters.")
-    return {"semantic": semantic, "ranked_by": ranked_by, "total": total,
-            "items": items, "notes": notes}
+    out["notes"] = notes
+    return out
+
+
+def comments(sub, mention_ids):
+    """The comments behind a result's count that the search itself did not
+    load, in the order asked for. Read through mention_weights, so only the
+    city's live mentions answer, whatever ids are sent."""
+    with connection() as conn:
+        rows = {r["mention_id"]: r for r in queries.search_evidence(conn, sub, mention_ids, fetch_all)}
+    return [rows[m] for m in dict.fromkeys(mention_ids) if m in rows]
 
 
 def run(sub, query, mode, limit, caller=None):
@@ -724,6 +847,11 @@ def run(sub, query, mode, limit, caller=None):
     out = retrieve(sub, parsed, limit)
     out.update(query=query, mode=mode, source=parsed.source,
                needs_model=parsed.needs_model, parse=parsed.as_json())
+    if parsed.needs_model:
+        # A provisional answer: the browser asks again in full at once, and
+        # that request is the row for this search. Logging both counted
+        # every such search twice.
+        return out
     ms = int((time.monotonic() - started) * 1000)
     try:
         with connection() as conn:

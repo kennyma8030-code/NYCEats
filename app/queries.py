@@ -1741,6 +1741,53 @@ def semantic_matches(conn, sub, vec, k, min_similarity, include, exclude, show_c
     """, params)
 
 
+def text_matches(conn, sub, words, include, exclude, show_chains, limit, fetch_all):
+    """A search whose text cannot be matched by meaning (a city without
+    vectors, a provider or an index that did not answer): the places whose
+    comments use every one of `words`, by how many different people did.
+
+    A word matches a mention the way the ledger's topic does (TOPIC_TEXT_MATCH):
+    in the thread's title or among the commenter's dishes or descriptors.
+    Knocks are left out and a person is counted as in semantic_matches.
+    Returns (entity_key, people, mention_ids, total): one mention per comment
+    counted, most upvoted first, so the count can be opened in full, and the
+    number of places before `limit` on every row. No index serves this; it is
+    one scan of the city's mentions, as a topic is.
+    """
+    params = {"sub": sub, "limit": limit}
+    places = _search_place_filters(include, exclude, show_chains, params)
+    each = []
+    for i, word in enumerate(words):
+        params[f"w{i}"] = like_pattern(word)
+        each.append(TOPIC_TEXT_MATCH.replace("%(topic)s", f"%(w{i})s"))
+    return fetch_all(conn, f"""
+        with hits as (
+            select distinct on (w.entity_key, w.comment_id)
+                   w.entity_key, w.mention_id,
+                   coalesce(nullif(w.author, '[deleted]'), w.comment_id) as person,
+                   c.score, c.created_utc
+            from mention_weights w
+            join mentions m on m.id = w.mention_id
+            join comments c on c.id = w.comment_id
+            join threads t on t.id = w.thread_id
+            join entity_leaderboard l on l.subreddit = w.subreddit and l.entity_key = w.entity_key
+            where w.subreddit = %(sub)s
+              and {" and ".join(each)}
+              and not {SEARCH_KNOCK}
+              and {places}
+            order by w.entity_key, w.comment_id, w.mention_id
+        )
+        select entity_key, count(distinct person)::int as people,
+               array_agg(mention_id order by score desc nulls last, created_utc desc,
+                                             mention_id) as mention_ids,
+               (count(*) over ())::int as total
+        from hits
+        group by entity_key
+        order by 2 desc, entity_key
+        limit %(limit)s
+    """, params)
+
+
 def search_board(conn, sub, include, exclude, show_chains, limit, fetch_all, fetch_value):
     """A search with nothing to embed ("italian in brooklyn"): the filtered
     board by how many people brought each place up. Returns (rows, total)."""

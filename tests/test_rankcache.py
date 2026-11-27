@@ -48,6 +48,20 @@ class Cache(unittest.TestCase):
         self.assertEqual(self.cache.get("a", self.compute("x")), "a")
         self.assertEqual(self.cache.get("b", self.compute("b2")), "b2")   # b was evicted
 
+    def test_a_value_put_from_outside_is_served_like_a_computed_one(self):
+        self.cache.get("a", self.compute(1))
+        self.cache.put("a", 2)
+        self.assertEqual(self.cache.get("a", self.compute(3)), 2)
+        self.cache.put("b", 4)
+        self.assertEqual(self.cache.peek("b"), 4)
+        self.assertEqual(self.calls, [1])
+
+    def test_a_discarded_key_is_computed_again(self):
+        self.cache.get("a", self.compute(1))
+        self.cache.discard("a")
+        self.cache.discard("never there")
+        self.assertEqual(self.cache.get("a", self.compute(2)), 2)
+
     def test_expired_entries_go_before_live_ones(self):
         self.cache.get("old", self.compute("old"))
         self.clock.now += 30

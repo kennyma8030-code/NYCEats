@@ -93,6 +93,21 @@ class RankCache:
             hit = self._fresh(key)
             return None if hit is None else hit[1]
 
+    def put(self, key, value):
+        """Store a value computed elsewhere, as if get() had just computed
+        it: for a caller that replaces an entry in the background while the
+        old one is still being served (search's vocabulary)."""
+        with self._lock:
+            self._entries[key] = (self.clock(), value)
+            self._entries.move_to_end(key)
+            self._evict()
+
+    def discard(self, key):
+        """Forget `key`, for a value that was worth sharing with the requests
+        waiting on it and is not worth serving to later ones."""
+        with self._lock:
+            self._entries.pop(key, None)
+
     def _fresh(self, key):
         """The (computed_at, value) cached for `key` if it has not expired,
         else None. Call with self._lock held."""

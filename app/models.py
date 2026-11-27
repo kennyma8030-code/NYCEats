@@ -640,7 +640,13 @@ class SearchParse(BaseModel):
 
 class SearchItem(BaseModel):
     """One place in a search. `people` is the number it was ranked by, and
-    `comments` are among the ones it counts: there is no other score."""
+    `comments` are among the ones it counts: there is no other score.
+
+    `mention_ids` is every comment the count counts, in the order shown, one
+    mention per comment; `comments` are the first of them, and the rest are
+    read from /api/search/comments, so the number always opens in full.
+    It is null when `people` is the board's own count (ranked_by people):
+    there the place's page lists everyone who brought it up."""
     entity_key: str
     name: str
     cuisine: Optional[str] = None
@@ -651,6 +657,7 @@ class SearchItem(BaseModel):
     people: int
     total_people: Optional[int] = None
     best_similarity: Optional[float] = None
+    mention_ids: Optional[list[int]] = None
     comments: list[Mention]
 
 
@@ -662,7 +669,10 @@ class SearchResponse(BaseModel):
     needs_model: bool
     source: Literal["vocabulary", "model", "cache", "unparsed", "fallback"]
     parse: SearchParse
-    semantic: Literal["ok", "none", "unavailable"]
+    # ok: the text was matched by meaning. text: it could not be, and its
+    # words were matched as text instead. unavailable: it could not be and
+    # held no word to match, so the list is the board. none: no text.
+    semantic: Literal["ok", "text", "none", "unavailable"]
     ranked_by: Literal["matching_people", "people"]
     total: int                    # places before `limit`
     items: list[SearchItem]

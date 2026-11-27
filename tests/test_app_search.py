@@ -8,6 +8,8 @@ on that server as well.
 
 import json
 import os
+import threading
+import time
 import unittest
 from unittest import mock
 
@@ -190,6 +192,22 @@ class Understand(unittest.TestCase):
         self.assertEqual((p.source, p.needs_model, p.search_text, p.include, p.exclude),
                          ("unparsed", True, "not italian", [], []))
 
+    def test_fast_without_a_model_to_ask_asks_for_no_second_pass(self):
+        # No key: mode=full could read no more than this, so the browser is
+        # not sent back for it.
+        with mock.patch.dict(os.environ, {parse.KEY_VAR: ""}):
+            p = search.understand(subreddits.HOME, "not italian", "fast", vocab(), "x")
+        self.assertEqual((p.source, p.needs_model, p.search_text, p.include),
+                         ("fallback", False, "not italian", []))
+
+    def test_fast_answers_from_a_reading_already_kept(self):
+        with says(answer("romantic", exclude=[("cuisine", "Italian")])) as api:
+            self.ask(api, "romantic but not italian")
+            p = self.ask(api, "Romantic but not Italian", mode="fast")
+            self.assertEqual(len(api.requests), 1)
+        self.assertEqual((p.source, p.needs_model, kinds(p.exclude)),
+                         ("cache", False, [("cuisine", "Italian")]))
+
     def test_a_query_the_vocabulary_explains_never_calls(self):
         with says(answer()) as api:
             p = self.ask(api, "romantic italian in brooklyn")
@@ -247,6 +265,103 @@ class Understand(unittest.TestCase):
         c = parse.prompt_hash(parse.system_prompt(subreddits.HOME, ["Italian"], ["Queens"]))
         self.assertEqual(a, b)
         self.assertNotEqual(a, c)
+
+
+class Building(unittest.TestCase):
+    """The vocabulary's first build, with the scans faked: one computation
+    per city, shared by everyone waiting, and no city waiting on another."""
+
+    def setUp(self):
+        search.forget()
+        self.addCleanup(search.forget)
+        self.go = threading.Event()
+        self.calls = []
+
+    def load(self, sub):
+        self.calls.append(sub)
+        if sub == "slow":
+            self.go.wait(5)
+        if sub == "broken":
+            self.go.wait(5)
+            raise psycopg2.OperationalError("no db")
+        return Vocabulary(sub=sub, version=1, terms={}, names={}, labels={}, boroughs=[])
+
+    def together(self, sub, n=4):
+        """n requests for one city at once, released together: what each got."""
+        got = []
+
+        def ask():
+            try:
+                got.append(search.vocabulary(sub))
+            except Exception as e:
+                got.append(e)
+        threads = [threading.Thread(target=ask) for _ in range(n)]
+        for t in threads:
+            t.start()
+        deadline = time.monotonic() + 5
+        while self.calls.count(sub) < 1 and time.monotonic() < deadline:
+            time.sleep(0.01)
+        time.sleep(0.05)                    # the others have joined the wait
+        return threads, got
+
+    def test_requests_for_one_city_share_one_build(self):
+        with mock.patch.object(search, "_load", side_effect=self.load):
+            threads, got = self.together("slow")
+            self.go.set()
+            for t in threads:
+                t.join(5)
+        self.assertEqual(self.calls, ["slow"])
+        self.assertEqual(len(got), 4)
+        self.assertTrue(all(v is got[0] for v in got))
+
+    def test_a_failed_build_reaches_every_waiter_and_is_not_rerun_for_them(self):
+        with mock.patch.object(search, "_load", side_effect=self.load):
+            threads, got = self.together("broken")
+            self.go.set()
+            for t in threads:
+                t.join(5)
+            self.assertEqual(self.calls, ["broken"])
+            self.assertEqual([type(e) for e in got], [psycopg2.OperationalError] * 4)
+            # Not remembered either: the next request builds again.
+            self.assertRaises(psycopg2.OperationalError, search.vocabulary, "broken")
+        self.assertEqual(self.calls, ["broken", "broken"])
+
+    def test_one_citys_build_does_not_hold_up_another(self):
+        with mock.patch.object(search, "_load", side_effect=self.load):
+            threads, _ = self.together("slow", n=1)
+            started = time.monotonic()
+            self.assertEqual(search.vocabulary("quick").sub, "quick")
+            self.assertLess(time.monotonic() - started, 1)
+            self.go.set()
+            threads[0].join(5)
+
+    def test_a_waiter_gives_up_after_a_bounded_wait(self):
+        with mock.patch.object(search, "_load", side_effect=self.load), \
+                mock.patch.object(search._VOCAB, "wait", 0.05):
+            threads, _ = self.together("slow", n=1)
+            self.assertRaises(psycopg2.errors.QueryCanceled, search.vocabulary, "slow")
+            self.go.set()
+            threads[0].join(5)
+
+    def test_a_stale_copy_is_served_while_one_thread_replaces_it(self):
+        with mock.patch.object(search, "_load", side_effect=self.load) as load, \
+                mock.patch.object(search, "connection"), \
+                mock.patch.object(queries, "facets_version", return_value=2):
+            old = search.vocabulary("quick")
+            old.checked -= search.VOCAB_CHECK + 1
+            self.assertIs(search.vocabulary("quick"), old)       # no wait
+            deadline = time.monotonic() + 5
+            while search._VOCAB.peek("quick") is old and time.monotonic() < deadline:
+                time.sleep(0.01)
+            self.assertIsNot(search._VOCAB.peek("quick"), old)
+            self.assertEqual(load.call_count, 2)
+
+
+class TextWords(unittest.TestCase):
+    def test_the_words_looked_for_as_typed(self):
+        self.assertEqual(search.text_words("Best jalapeño  tacos, tacos!"), ["jalapeño", "tacos"])
+        self.assertEqual(search.text_words("mac 'n' cheese"), ["mac", "'n'", "cheese"])
+        self.assertEqual(search.text_words("the best"), [])
 
 
 class Limits(unittest.TestCase):
@@ -366,17 +481,20 @@ class Endpoint(SearchCase):
             self.assertEqual(len(api.requests), 1)
         self.assertEqual((fast["source"], fast["needs_model"], fast["parse"]["exclude"]),
                          ("unparsed", True, []))
-        self.assertEqual(fast["semantic"], "unavailable")
+        # Nobody wrote both words, and the answer says they were not read.
+        self.assertEqual((fast["semantic"], fast["items"]), ("text", []))
+        self.assertIn(search.AS_TYPED, fast["notes"])
+        self.assertNotIn(search.AS_TYPED, full["notes"])
         self.assertEqual((full["source"], again["source"]), ("model", "cache"))
         self.assertEqual(full["parse"]["exclude"], [{"type": "cuisine", "value": "Pizza"}])
         self.assertEqual(self.keys(full), ["abc"])
-        # Kept for good, as the model said it; and every search is logged.
+        # Kept for good, as the model said it; and every search is logged
+        # once: the provisional fast answer is not a search of its own.
         self.assertEqual(self.q("select query, model, parse->'exclude' from search_parses"),
                          [("not pizza", parse.MODEL, [{"type": "cuisine", "value": "Pizza"}])])
         self.assertEqual(self.q("select query, mode, source, results from search_log "
                                 "where query = 'not pizza' order by id"),
-                         [("not pizza", "fast", "unparsed", 3), ("not pizza", "full", "model", 1),
-                          ("not pizza", "full", "cache", 1)])
+                         [("not pizza", "full", "model", 1), ("not pizza", "full", "cache", 1)])
         # A new process finds it in the table.
         search.forget()
         with mock.patch.dict(os.environ, {parse.KEY_VAR: ""}):
@@ -396,23 +514,163 @@ class Endpoint(SearchCase):
         self.assertIn("not available right now", notes)
         self.assertEqual(body["parse"]["ignored"], ["Nowhere Grill"])
 
-    def test_text_without_vectors_says_so_and_falls_back(self):
-        # This server has no embeddings table (or the test below covers it):
-        # the answer is the board, and a note, not a 500.
-        with mock.patch.object(search, "_embed", return_value=embedding.to_pgvector([0.0] * embedding.DIMS)), \
-                mock.patch.object(queries, "semantic_matches",
-                                  side_effect=psycopg2.errors.UndefinedTable("comment_embeddings")):
+    def no_vectors(self, error=None):
+        """Search as on a server whose vector query fails with `error`."""
+        error = error or psycopg2.errors.UndefinedTable("comment_embeddings")
+        return mock.patch.multiple(
+            "app.search", _embed=mock.Mock(return_value=embedding.to_pgvector([0.0] * embedding.DIMS)),
+            queries=mock.Mock(wraps=queries, semantic_matches=mock.Mock(side_effect=error)))
+
+    def test_text_without_vectors_is_matched_as_words_and_says_so(self):
+        # This server has no embeddings table (or the class below covers
+        # it): the words still filter the list, with a note, not a 500.
+        with self.no_vectors():
             body = self.get("cash only")
         self.assertEqual((body["parse"]["search_text"], body["semantic"], body["ranked_by"]),
-                         ("cash only", "unavailable", "people"))
-        self.assertEqual(self.keys(body), ["katzs", "cellos", "abc"])
+                         ("cash only", "text", "matching_people"))
+        # One person each wrote "cash only" of these three; nobody of a fourth.
+        self.assertEqual(self.keys(body), ["abc", "cellos", "katzs"])
+        self.assertEqual([i["people"] for i in body["items"]], [1, 1, 1])
+        self.assertEqual(body["total"], 3)
+        self.assertEqual([c["comment_id"] for c in body["items"][2]["comments"]], ["t1_c5"])
+        self.assertIn("not available right now", " ".join(body["notes"]))
+        # Read from the vocabulary, so nothing says the words went unread.
+        self.assertNotIn(search.AS_TYPED, body["notes"])
+
+    def test_a_slow_or_failed_vector_query_degrades_instead_of_failing(self):
+        for error in (psycopg2.errors.QueryCanceled("statement timeout"),
+                      psycopg2.OperationalError("server closed the connection")):
+            search.forget()
+            with self.no_vectors(error):
+                body = self.get("cash only")
+            self.assertEqual((body["semantic"], self.keys(body)),
+                             ("text", ["abc", "cellos", "katzs"]), error)
+
+    def test_filters_hold_under_the_text_match(self):
+        with self.no_vectors():
+            self.assertEqual(self.keys(self.get("cash only pizza")), ["cellos", "katzs"])
+            # abc's only comment in the thread that is not a knock is c4.
+            self.assertEqual(self.keys(self.get("cash only in manhattan")), ["abc"])
+
+    def test_text_with_no_word_to_match_is_the_board_and_says_so(self):
+        with self.no_vectors():
+            out = search.retrieve(subreddits.HOME, search.Parsed(search_text="the best"), 20)
+        self.assertEqual((out["semantic"], out["ranked_by"]), ("unavailable", "people"))
+        self.assertEqual([i["entity_key"] for i in out["items"]], ["katzs", "cellos", "abc"])
+        self.assertIn("most talked-about", " ".join(out["notes"]))
 
     def test_another_city_is_never_matched_against_new_yorks_vectors(self):
         with mock.patch.object(search, "_embed") as embed:
             r = self.client.get("/api/search/query", params={"q": "tacos", "subreddit": "austinfood"})
             self.assertEqual(r.status_code, 200, r.text)
             embed.assert_not_called()
-        self.assertEqual(r.json()["semantic"], "unavailable")
+        body = r.json()
+        # The typed word filters the list, as the topic match did: nobody
+        # in this empty city wrote it, so nothing is listed, not everything.
+        self.assertEqual((body["semantic"], body["items"]), ("text", []))
+        self.assertIn("not available for this city yet", " ".join(body["notes"]))
+
+    def test_another_citys_words_filter_its_own_list(self):
+        self.q("""insert into threads (id, subreddit, title, created_utc)
+                  values ('t3_x', 'austinfood', 'Lunch?', now())""")
+        self.q("""insert into comments (id, thread_id, parent_id, subreddit, author, body, permalink,
+                                        created_utc, score, score_settled)
+                  values ('t1_x1', 't3_x', 't3_x', 'austinfood', 'ua', 'go', '/r/austinfood/x/1/', now(), 3, true),
+                         ('t1_x2', 't3_x', 't3_x', 'austinfood', 'ub', 'go', '/r/austinfood/x/2/', now(), 2, true)""")
+        self.q("""insert into mentions (comment_id, restaurant_raw, entity_key, dishes, model_version, prompt_hash)
+                  values ('t1_x1', 'Veracruz', 'veracruz', '["migas tacos"]', 'm', 'p'),
+                         ('t1_x2', 'Franklin', 'franklin', '["brisket"]', 'm', 'p')""")
+        apptest.build_views(self.conn)
+        search.forget()
+        r = self.client.get("/api/search/query", params={"q": "tacos", "subreddit": "austinfood"})
+        self.assertEqual(r.status_code, 200, r.text)
+        body = r.json()
+        self.assertEqual((body["semantic"], self.keys(body)), ("text", ["veracruz"]))
+        self.assertEqual([c["comment_id"] for c in body["items"][0]["comments"]], ["t1_x1"])
+
+    def test_unread_words_are_said_to_be_matched_as_typed(self):
+        # No key: "not pizza" cannot be read, and the list is not passed off
+        # as an answer to it.
+        with self.no_vectors(), mock.patch.dict(os.environ, {parse.KEY_VAR: ""}):
+            body = self.get("not slice", mode="fast")
+        self.assertEqual((body["source"], body["needs_model"]), ("fallback", False))
+        self.assertEqual(body["notes"][0], search.AS_TYPED)
+        # One request was the whole search, so it is the one logged.
+        self.assertEqual(self.q("select mode, source from search_log where query = 'not slice'"),
+                         [("fast", "fallback")])
+
+    def test_the_second_pass_reuses_the_first_ones_retrieval(self):
+        with fake.FakeAnthropic(answer=lambda p: fake.error(529, "overloaded_error")) as api, \
+                mock.patch.dict(os.environ, {parse.KEY_VAR: "sk-test"}), \
+                mock.patch.object(parse, "BASE_URL", api.base_url), \
+                self.no_vectors(), \
+                mock.patch.object(search, "_retrieve", wraps=search._retrieve) as retrieved:
+            fast = self.get("zzz slice", mode="fast")
+            full = self.get("zzz slice")
+            self.assertEqual(retrieved.call_count, 1)
+        self.assertEqual((fast["source"], full["source"]), ("unparsed", "fallback"))
+        self.assertEqual(fast["items"], full["items"])
+        self.assertEqual(self.q("select mode, source from search_log where query = 'zzz slice'"),
+                         [("full", "fallback")])
+
+    def test_a_provider_hiccup_is_not_kept_for_the_next_search(self):
+        with mock.patch.object(search, "_embed", side_effect=embedding.EmbedError("down")), \
+                mock.patch.object(search, "_retrieve", wraps=search._retrieve) as retrieved:
+            self.get("cash only")
+            self.get("cash only")
+            self.assertEqual(retrieved.call_count, 2)
+
+    def test_the_whole_count_can_be_opened(self):
+        # Every mention is in the thread "Best slice?", so each place's
+        # count for "slice" is all of its people who did not knock it.
+        with self.no_vectors():
+            body = self.get("slice")
+        self.assertEqual([(i["entity_key"], i["people"]) for i in body["items"]],
+                         [("katzs", 4), ("cellos", 3), ("abc", 1)])
+        katzs, cellos, _ = body["items"]
+        # Three comments come with the answer; the ids name all four.
+        self.assertEqual((len(katzs["comments"]), len(katzs["mention_ids"])), (3, 4))
+        self.assertEqual([c["mention_id"] for c in katzs["comments"]], katzs["mention_ids"][:3])
+        r = self.client.get("/api/search/comments", params={"ids": katzs["mention_ids"]})
+        self.assertEqual(r.status_code, 200, r.text)
+        rest = r.json()
+        self.assertEqual([c["mention_id"] for c in rest], katzs["mention_ids"])
+        self.assertEqual({c["author"] for c in rest}, {"u5", "u6", "u7", "u8"})
+        # Never a link to a deleted comment, here either.
+        r = self.client.get("/api/search/comments", params={"ids": cellos["mention_ids"]})
+        links = {c["comment_id"]: c["permalink"] for c in r.json()}
+        self.assertIsNone(links["t1_c2"])
+        self.assertTrue(links["t1_c1"].endswith("/a/1/"))
+        # Ids are only ever this city's mentions; and a request is bounded.
+        other = self.client.get("/api/search/comments",
+                                params={"ids": katzs["mention_ids"], "subreddit": "austinfood"})
+        self.assertEqual((other.status_code, other.json()), (200, []))
+        self.assertEqual(self.client.get("/api/search/comments",
+                                         params={"ids": list(range(51))}).status_code, 422)
+        self.assertEqual(self.client.get("/api/search/comments").status_code, 422)
+
+    def test_a_meaning_ranked_count_names_every_comment_it_counts(self):
+        # The vector query is faked (the class below runs the real one where
+        # there is pgvector): four of katzs' comments are near, by four people.
+        ids = dict(self.q("""select comment_id, min(id) from mentions
+                             where entity_key = 'katzs' group by 1"""))
+        near = [{"entity_key": "katzs", "mention_id": ids[c], "comment_id": c, "person": who,
+                 "similarity": sim}
+                for c, who, sim in (("t1_c5", "u5", 0.7), ("t1_c6", "u6", 0.9),
+                                    ("t1_c7", "u7", 0.8), ("t1_c8", "u8", 0.6))]
+        with mock.patch.multiple(
+                "app.search", _embed=mock.Mock(return_value="[0]"),
+                queries=mock.Mock(wraps=queries, semantic_matches=mock.Mock(return_value=near))):
+            body = self.get("cash only")
+        self.assertEqual((body["semantic"], body["ranked_by"], body["total"]), ("ok", "matching_people", 1))
+        katzs = body["items"][0]
+        self.assertEqual(katzs["people"], 4)
+        self.assertEqual(katzs["mention_ids"], [ids[c] for c in ("t1_c6", "t1_c7", "t1_c5", "t1_c8")])
+        self.assertEqual([c["comment_id"] for c in katzs["comments"]], ["t1_c6", "t1_c7", "t1_c5"])
+
+    def test_the_boards_own_count_names_no_comments_of_its_own(self):
+        body = self.get("pizza")
+        self.assertEqual({i["mention_ids"] for i in body["items"]}, {None})
 
     def test_rate_limit_and_bad_input(self):
         with mock.patch.object(search, "REQUESTS", search.Window(2, 60)):
@@ -493,6 +751,7 @@ class Semantic(SearchCase):
         # Evidence is the matching comments, nearest first; the deleted one
         # shows without a link.
         self.assertEqual([c["comment_id"] for c in cellos["comments"]], ["t1_c1", "t1_c2", "t1_c3"])
+        self.assertEqual(cellos["mention_ids"], [c["mention_id"] for c in cellos["comments"]])
         self.assertIsNone(cellos["comments"][1]["permalink"])
         self.assertAlmostEqual(cellos["best_similarity"], 0.90, places=2)
         # The knock is nearer than the praise and is neither counted nor shown.

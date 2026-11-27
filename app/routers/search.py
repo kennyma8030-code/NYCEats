@@ -12,7 +12,7 @@ from fastapi.responses import JSONResponse
 
 from .. import search
 from ..city import Sub
-from ..models import SearchResponse
+from ..models import Mention, SearchResponse
 
 router = APIRouter()
 
@@ -67,6 +67,11 @@ def query(
     matching_people`). With nothing left to match, the rank is everyone who
     brought the place up (`people`). Comments that knock a place never count
     toward it. `parse` shows how the query was read.
+
+    Where the text cannot be matched by meaning (`semantic: text`) its words
+    are matched in thread titles, dishes and descriptors instead. A
+    `mode=fast` answer with `needs_model` is provisional and is not logged;
+    the `mode=full` request that follows it is the search.
     """
     if not q.strip():
         raise HTTPException(status_code=422, detail="q is empty")
@@ -75,3 +80,17 @@ def query(
         raise HTTPException(status_code=429, detail="too many searches: wait a minute",
                             headers={"Retry-After": "60"})
     return search.run(sub, q.strip(), mode, limit, who)
+
+
+@router.get("/api/search/comments", response_model=list[Mention],
+            summary="The rest of the comments a search result counts")
+def comments(
+    sub: Sub,
+    ids: Annotated[list[int], Query(min_length=1, max_length=50, description=(
+        "mention ids from a result's `mention_ids`, at most 50 a request"))],
+):
+    """A result shows its first few comments and names all of them in
+    `mention_ids`; this returns the others, in the order asked for, so the
+    count a place is ranked by can be read in full. A deleted comment comes
+    back without its permalink, as everywhere."""
+    return search.comments(sub, ids)
