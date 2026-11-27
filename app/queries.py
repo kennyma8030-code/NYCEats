@@ -35,6 +35,7 @@ from psycopg2.extras import Json
 import embedding
 import refresh
 
+from . import dishes as dish_groups
 from .models import (ASPECTS, CATEGORY_VOICE_FILTERS, DEFAULT_SORT, OVERALL_BOARDS,
                      RATING_CATEGORIES, SORTS, V2_SORTS, VOICE_FILTERS)
 from .rankcache import RankCache
@@ -411,8 +412,17 @@ def _jsonb_top(conn, sub, entity_key, column, fetch_all, limit=15):
     """, (sub, entity_key, limit))
 
 
-def top_dishes(conn, sub, entity_key, fetch_all):
-    return _jsonb_top(conn, sub, entity_key, "dishes", fetch_all)
+def top_dishes(conn, sub, entity_key, fetch_all, limit=15):
+    """Dishes by distinct mentions, with names that are one dish merged and
+    filler dropped (dishes.py). Grouped in Python because the merge is a
+    lookup, and a place has at most a few hundred mentions with dishes."""
+    rows = fetch_all(conn, f"""
+        select m.dishes
+        {PLACE_MENTIONS}
+        where al.subreddit = %s and al.resolved_key = %s
+          and jsonb_typeof(m.dishes) = 'array'
+    """, (sub, entity_key))
+    return dish_groups.top([r["dishes"] for r in rows], sub, entity_key, limit)
 
 
 def top_descriptors(conn, sub, entity_key, fetch_all):
