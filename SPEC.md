@@ -413,8 +413,10 @@ Measured Nov 4, 2026: 1,319 rankable places; busy at 76 recommenders,
 share_line 0.661, gem_line 0.823; 80 consensus, 52 overhyped / mixed, 177
 hidden gems.
 
-**Boards.** Each ranks by one value; the rest are filters. Top: busy places by
-lb. Popular: by recommenders, among places with lb ≥ share_line. Hidden gems:
+**Boards.** Each ranks by one value; the rest are filters. Top (shown as
+"Highest rated"): every place with a stated pos or neg, by lb, with no floor
+of its own. lb is what keeps thin evidence down the list rather than off it:
+1 for 1 is 0.38, 10 for 10 is 0.86, 50 of 52 is 0.91. Popular: by recommenders, among places with lb ≥ share_line. Hidden gems:
 by lb. Category boards: by the category's lb, among places rankable in it.
 Overhyped / mixed is a badge, not a board. There is no Divisive badge.
 

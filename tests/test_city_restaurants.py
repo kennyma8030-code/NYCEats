@@ -151,5 +151,49 @@ class Unreachable(unittest.TestCase):
         self.assertEqual(sum("LIST NOT LOADED (OSError" in line for line in lines), 2)
 
 
+class Coordinates(unittest.TestCase):
+    """What the fetchers carry for locations.py, without changing the table's rows."""
+
+    def test_austin_pins_the_newest_row_that_has_coordinates_with_its_own_street(self):
+        rows = [  # newest first, as the query orders them
+            {"facility_id": "1", "restaurant_name": "Cafe", "address": "2 New St Austin, TX 78701",
+             "inspection_date": "2026-02-01"},
+            {"facility_id": "1", "restaurant_name": "Cafe", "address": "1 Old St Austin, TX 78701",
+             "inspection_date": "2025-02-01", "lat": "30.3", "lng": "-97.7"},
+            {"facility_id": "1", "restaurant_name": "Cafe", "address": "0 Older St Austin, TX 78701",
+             "inspection_date": "2024-02-01", "lat": "30.9", "lng": "-97.9"},
+        ]
+        with mock.patch.object(C, "_socrata", return_value=iter(rows)):
+            (row,) = C.austin()
+        self.assertEqual((row["lat"], row["lng"], row["pin_street"]), ("30.3", "-97.7", "1 Old St"))
+        self.assertEqual(row["street"], "2 New St")        # the table keeps the newest
+
+    def test_chicago_falls_back_to_an_older_row_for_coordinates_only_when_the_licence_is_kept(self):
+        def r(lic, date, addr, lat=None, kind="Restaurant", results="Pass"):
+            return {"license_": lic, "aka_name": f"Place {lic}", "facility_type": kind, "address": addr,
+                    "inspection_date": date, "results": results, "latitude": lat,
+                    "longitude": "-87.6" if lat else None}
+        rows = [r("1", "2026-03-01", "9 NEW ST"), r("1", "2025-03-01", "8 OLD ST", "41.9"),
+                r("2", "2026-03-01", "1 X ST", None, "School"), r("2", "2025-03-01", "1 X ST", "41.8", "School"),
+                r("3", "2026-03-01", "3 Y ST", None, results="Out of Business"),
+                r("3", "2025-03-01", "3 Y ST", "41.8")]
+        with mock.patch.object(C, "_socrata", return_value=iter(rows)):
+            out = C.chicago()
+        self.assertEqual([x["id"] for x in out], ["1"])
+        self.assertEqual((out[0]["lat"], out[0]["pin_street"], out[0]["street"]), ("41.9", "8 OLD ST", "9 NEW ST"))
+
+    def test_los_angeles_asks_for_geometry_only_when_told_to(self):
+        urls = []
+
+        def get(url, *a, **k):
+            urls.append(url)
+            return b'{"features": []}'
+        with mock.patch.object(C, "la_service", return_value="http://x/0"), mock.patch.object(C, "_get", get):
+            C.los_angeles()
+            C.los_angeles(geometry=True)
+        self.assertIn("returnGeometry=false", urls[0])
+        self.assertIn("returnGeometry=true", urls[1])
+
+
 if __name__ == "__main__":
     unittest.main()

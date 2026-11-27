@@ -91,7 +91,7 @@ export function boardExplainer(board: BoardId, lines: RatingLines | null): strin
   const busy = lines?.busy_line != null ? n(lines.busy_line) : "many";
   switch (board) {
     case "top":
-      return `Places at least ${busy} people recommend, ranked by how sure we are they're liked.`;
+      return "Every place with an opinion on it, ranked by how sure we are it's liked: a few raves count for less than many.";
     case "popular":
       return "Most recommended, among places rated above the median.";
     case "gems":

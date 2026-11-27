@@ -136,13 +136,14 @@ class Cities(AppCase):
         self.assertEqual(keys("/api/ledger", category="top", window=7), ["alpha", "beta"])
         self.assertEqual(sorted(keys("/api/ledger", LA, category="top", window=7)), ["alpha", "gamma"])
         self.assertEqual(self.get("/api/ledger/entity", LA, key="alpha")["name"], "Alpha LA")
-        # Each city's lines are cut from its own places: New York's only
-        # rankable place is alpha, Los Angeles's best liked is gamma.
+        # Each city's board holds its own rated places, best liked first, and
+        # its lines are cut from them: New York's only rankable place is
+        # alpha, Los Angeles's best liked is gamma, above its disliked alpha.
         home, la = self.get("/api/boards", board="top"), self.get("/api/boards", LA, board="top")
         self.assertEqual(([i["entity_key"] for i in home["items"]], home["lines"]["busy_line"]),
-                         (["alpha"], 12))
+                         (["alpha", "beta"], 12))
         self.assertEqual(([i["entity_key"] for i in la["items"]], la["lines"]["busy_line"]),
-                         (["gamma"], 11))
+                         (["gamma", "alpha"], 11))
         self.assertEqual(home["items"][0]["rating"]["badge"], "consensus")
         # The same name, badged against its own city: busy in New York, not in Los Angeles.
         self.assertFalse(self.get("/api/restaurants/alpha", LA)["rating"]["busy"])

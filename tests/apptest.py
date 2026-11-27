@@ -20,7 +20,7 @@ import db as pipeline_db
 import refresh
 import subreddits
 from app import db as appdb
-from app import main
+from app import main, queries
 
 NOW = datetime.now(timezone.utc)
 
@@ -89,6 +89,13 @@ class AppCase(unittest.TestCase):
         appdb.close_pool()
         cls._url.stop()
         cls.conn.close()
+
+    def run(self, result=None):
+        # Every case seeds or changes rows of its own, and a ranking cached
+        # by an earlier case would answer with the earlier rows. Here rather
+        # than in setUp, which subclasses override without calling super().
+        queries.LEDGER_CACHE.clear()
+        return super().run(result)
 
     def tearDown(self):
         appdb.close_pool()
