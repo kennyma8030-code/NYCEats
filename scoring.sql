@@ -74,8 +74,9 @@ select
 --    (tests/test_home_literal.py checks it).
 --
 --    The other cities' sources say what kind of premises a row is, not what
---    it serves, and list only what is open, so cuisine is NULL and closed is
---    false there. `areas` is the boroughs in New York and the cities or
+--    it serves, and list only what is open, so closed is false there and
+--    cuisine comes from place_labels (place_labels.py), NULL for a place it
+--    has no label for. `areas` is the boroughs in New York and the cities or
 --    districts a place has locations in elsewhere.
 -- ---------------------------------------------------------------------------
 drop view if exists places cascade;
@@ -85,10 +86,11 @@ select 'FoodNYC'::text as subreddit,
        is_chain, closed, last_seen
 from restaurants
 union all
-select subreddit,
-       name, name_key, null::text, areas, location_count, addresses,
-       is_chain, false, last_seen
-from city_restaurants;
+select c.subreddit,
+       c.name, c.name_key, l.cuisine, c.areas, c.location_count, c.addresses,
+       c.is_chain, false, c.last_seen
+from city_restaurants c
+left join place_labels l on l.subreddit = c.subreddit and l.name_key = c.name_key;
 
 
 -- ---------------------------------------------------------------------------
