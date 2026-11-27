@@ -1,6 +1,8 @@
 /* A search's answer, in the panel where the ranking would be: the same rows,
-   each followed by the comments its number counts. */
-.sr { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column }
+   each followed by the comments its number counts. Not `.sr`: that name is
+   the global rule that hides a label from everyone but a screen reader
+   (styles/global.css), and under it this whole answer was a 1px box. */
+.sr-panel { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column }
 .sr-head { padding: 0 20px 10px; display: flex; flex-direction: column; gap: 8px }
 .sr-title { display: flex; align-items: center; justify-content: space-between; gap: 12px }
 .sr-title h2 {
@@ -25,3 +27,5 @@
 .sr-cmts { margin-left: 16px; gap: 8px }
 .sr-cmts .cmt { padding: 12px 12px 10px; gap: 8px; box-shadow: none; border-color: var(--line) }
 .sr-cmts .cmt-body { font-size: 15px }
+/* The way to the rest of the comments a count counts, under the ones shown. */
+.sr-more { margin-left: 16px; font: var(--small); color: var(--small-ink) }

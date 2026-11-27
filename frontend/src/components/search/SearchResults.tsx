@@ -1,7 +1,9 @@
+import { useEffect, useRef, useState } from "react";
 import { api } from "../../api/client";
-import type { SearchFilter, SearchResponse } from "../../api/types";
+import type { Mention, SearchFilter, SearchItem, SearchResponse } from "../../api/types";
 import { useFetch } from "../../hooks/useFetch";
 import { plural } from "../../lib/format";
+import { countedBy, moreLabel, nextComments } from "../../lib/results";
 import { CommentCard } from "../place/Comments";
 import "./SearchResults.css";
 
@@ -11,6 +13,8 @@ interface Props {
    *  stands under another's name. */
   city: string;
   dev: boolean;
+  /** Beside an open restaurant: only the names, still in the answer's order. */
+  compact?: boolean;
   onOpen: (key: string) => void;
   onClose: () => void;
 }
@@ -31,9 +35,14 @@ function Part({ f, out }: { f: SearchFilter; out?: boolean }) {
  * Two requests, so nothing waits on a model: the fast answer is read from
  * the site's own vocabulary and shows at once. Only when it says the query
  * held words it could not explain is the full one asked for, and it replaces
- * the fast one when it lands. If the full one fails, the fast one stays.
+ * the fast one when it lands. If the full one fails, the fast one stays,
+ * with the server's own note that its words were matched as typed.
+ *
+ * The number beside a place is a count of comments' authors, and every one
+ * of those comments can be opened here: the first few come with the answer
+ * and the rest are a button away (Evidence).
  */
-export function SearchResults({ query, city, dev, onOpen, onClose }: Props) {
+export function SearchResults({ query, city, dev, compact = false, onOpen, onClose }: Props) {
   const fast = useFetch<SearchResponse>(`${city}|fast|${query}`, (signal) => api.search(query, "fast", signal));
   // useFetch keeps the last answer while the next loads; only the answer to
   // this query may be shown under it.
@@ -47,8 +56,8 @@ export function SearchResults({ query, city, dev, onOpen, onClose }: Props) {
   const byMeaning = data?.ranked_by === "matching_people";
 
   return (
-    <div className="sr">
-      <div className="sr-head">
+    <div className="sr-panel">
+      {!compact && <div className="sr-head">
         <div className="sr-title">
           <h2>“{query}”</h2>
           <button type="button" className="textlink" onClick={onClose}>Clear search</button>
@@ -57,8 +66,7 @@ export function SearchResults({ query, city, dev, onOpen, onClose }: Props) {
           {fast.loading && !data
             ? "Searching…"
             : data
-              ? `${plural(data.total, "place", "places")}, by how many people ` +
-                (byMeaning ? "wrote a matching comment." : "brought them up.")
+              ? `${plural(data.total, "place", "places")}, by how many people ${countedBy(data)}.`
               : ""}
           {reading && " Reading the query more closely…"}
         </p>
@@ -75,7 +83,7 @@ export function SearchResults({ query, city, dev, onOpen, onClose }: Props) {
           </p>
         )}
         {data?.notes.map((n) => <p key={n} className="sr-note">{n}</p>)}
-      </div>
+      </div>}
 
       {fast.error ? (
         <div className="board-msg" role="alert">
@@ -89,12 +97,16 @@ export function SearchResults({ query, city, dev, onOpen, onClose }: Props) {
         </div>
       ) : (
         <ol className={reading ? "rows busy" : "rows"} aria-busy={fast.loading || reading}>
+          {/* Placeholders only while the answer is on its way; a failure or an empty answer is said above. */}
           {!data && Array.from({ length: 6 }, (_, i) => <li key={i} className="row-skel skel" aria-hidden="true" />)}
           {data?.items.map((it) => {
             const area = it.neighborhood ?? it.borough;
             return (
               <li key={it.entity_key} className="sr-item">
-                <button type="button" className="row" data-key={it.entity_key} onClick={() => onOpen(it.entity_key)}>
+                <button
+                  type="button" className="row" data-key={it.entity_key} title={compact ? it.name : undefined}
+                  onClick={() => onOpen(it.entity_key)}
+                >
                   <span className="row-main">
                     <span className="row-name">{it.name}</span>
                     {(it.cuisine || area) && (
@@ -108,21 +120,81 @@ export function SearchResults({ query, city, dev, onOpen, onClose }: Props) {
                     <b>{it.people.toLocaleString()}</b>
                     <small>
                       {byMeaning && it.total_people != null
-                        ? `of ${it.total_people.toLocaleString()} people`
+                        ? `of ${plural(it.total_people, "person", "people")}`
                         : it.people === 1 ? "person" : "people"}
                     </small>
                   </span>
                 </button>
-                {it.comments.length > 0 && (
-                  <ol className="cmts sr-cmts">
-                    {it.comments.map((c) => <CommentCard key={c.mention_id} mention={c} dev={dev} />)}
-                  </ol>
-                )}
+                {/* Keyed by the answer it belongs to: comments loaded for one
+                    reading of the query are not shown under another. */}
+                {!compact && <Evidence key={`${city}|${query}|${data.mode}`} item={it} dev={dev} />}
               </li>
             );
           })}
         </ol>
       )}
     </div>
+  );
+}
+
+/**
+ * The comments one result's count counts. The answer brings the first few;
+ * the button reads the rest, a page at a time and in the answer's order,
+ * until every comment behind the number is on screen. A count of the board's
+ * own names no comments here: its row opens the place, which lists them all.
+ */
+function Evidence({ item, dev }: { item: SearchItem; dev: boolean }) {
+  const [extra, setExtra] = useState<Mention[]>([]);
+  // Ids asked for that did not come back (a comment gone since the search):
+  // counted as read, so the button does not ask for them forever.
+  const [missing, setMissing] = useState<number[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const ctl = useRef<AbortController | null>(null);
+  useEffect(() => () => ctl.current?.abort(), []);
+
+  const shown = [...item.comments, ...extra];
+  const seen = [...shown.map((c) => c.mention_id), ...missing];
+  const more = moreLabel(item, seen.length);
+  const load = () => {
+    const ids = nextComments(item, seen);
+    if (!ids.length || loading) return;
+    const c = new AbortController();
+    ctl.current = c;
+    setLoading(true);
+    setError(null);
+    api.searchComments(ids, c.signal).then(
+      (rows) => {
+        if (c.signal.aborted) return;
+        const got = new Set(rows.map((r) => r.mention_id));
+        setExtra((x) => [...x, ...rows]);
+        setMissing((m) => [...m, ...ids.filter((id) => !got.has(id))]);
+        setLoading(false);
+      },
+      (e: unknown) => {
+        if (c.signal.aborted) return;
+        setError(e instanceof Error ? e.message : String(e));
+        setLoading(false);
+      },
+    );
+  };
+
+  if (!shown.length && !more) return null;
+  return (
+    <>
+      {shown.length > 0 && (
+        <ol className="cmts sr-cmts">
+          {shown.map((c) => <CommentCard key={c.mention_id} mention={c} dev={dev} />)}
+        </ol>
+      )}
+      {more && (
+        <p className="sr-more">
+          <button type="button" className="textlink" disabled={loading} onClick={load}>
+            {loading ? "Loading…" : more}
+          </button>
+          {error && <span role="alert"> These comments could not be loaded.</span>}
+        </p>
+      )}
+    </>
   );
 }

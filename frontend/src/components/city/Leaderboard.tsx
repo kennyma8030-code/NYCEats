@@ -192,7 +192,8 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
       <div className="board-body">
       {compact ? (
         <div className="board-head">
-          <p className="eyebrow">{sortOf(route.sort).label}</p>
+          {/* What the names below are: a search's answer is not a sort's ranking. */}
+          <p className="eyebrow">{route.q ? `“${route.q}”` : sortOf(route.sort).label}</p>
           <h1 className="board-city">{scope.name}</h1>
         </div>
       ) : (
@@ -219,8 +220,11 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
         </div>
       )}
 
-      {route.q && !compact ? (
-        <SearchResults query={route.q} city={route.city} dev={route.dev} onOpen={onOpen} onClose={() => go({ q: "" })} />
+      {route.q ? (
+        // Beside an open restaurant too: the ranking is not loaded under a
+        // search (App.tsx), so the strip of names is the search's own answer,
+        // never rows of a list nobody asked for.
+        <SearchResults query={route.q} city={route.city} dev={route.dev} compact={compact} onOpen={onOpen} onClose={() => go({ q: "" })} />
       ) : error ? (
         <div className="board-msg" role="alert">
           <p>This list could not be loaded.</p>

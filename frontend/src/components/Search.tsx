@@ -39,7 +39,7 @@ const MAX_TERMS = 3;
  * One box for both kinds of search. Names are matched as you type, in the
  * browser (lib/search.ts), and listed under the box. Anything else is a
  * question for the city's comments: Enter on free text opens the city on
- * the places that answer it (/api/search). In a single city the box also
+ * the places that answer it (/api/search/query). In a single city the box also
  * offers the cuisines, areas, dishes and descriptors the text could be the
  * start of (lib/terms.ts); picking one searches for it.
  *

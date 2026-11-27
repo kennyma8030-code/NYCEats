@@ -124,6 +124,10 @@ export const api = {
    *  first time anyone asks that query. */
   search: (q: string, mode: "fast" | "full", signal?: AbortSignal) =>
     get<SearchResponse>(`/api/search/query?q=${encodeURIComponent(q)}&mode=${mode}`, signal),
+  /** The comments a search result counts beyond the ones it came with, by
+   *  the mention ids it named (at most lib/results.ts COMMENTS_PAGE a call). */
+  searchComments: (ids: number[], signal?: AbortSignal) =>
+    get<Mention[]>(`/api/search/comments?${ids.map((id) => `ids=${id}`).join("&")}`, signal),
   facets: (signal?: AbortSignal) => get<Facets>("/api/facets", signal),
   /** The cities that have a board, New York first. */
   cities: (signal?: AbortSignal) => get<City[]>("/api/cities", signal),

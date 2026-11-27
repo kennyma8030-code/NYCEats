@@ -334,6 +334,10 @@ export interface SearchItem {
   people: number;
   total_people: number | null;
   best_similarity: number | null;
+  /** Every comment `people` counts, one mention each, in the order shown;
+   *  `comments` are the first of them and api.searchComments reads the rest.
+   *  Null when the count is the board's own, which the place's page opens. */
+  mention_ids: number[] | null;
   comments: Mention[];
 }
 
@@ -344,7 +348,10 @@ export interface SearchResponse {
   needs_model: boolean;
   source: "vocabulary" | "model" | "cache" | "unparsed" | "fallback";
   parse: SearchParse;
-  semantic: "ok" | "none" | "unavailable";
+  /** ok: the text was matched by meaning. text: it could not be, so its
+   *  words were matched as text. unavailable: it could not be and held no
+   *  word to match, so the list is the board. none: there was no text. */
+  semantic: "ok" | "text" | "none" | "unavailable";
   ranked_by: "matching_people" | "people";
   total: number;
   items: SearchItem[];
