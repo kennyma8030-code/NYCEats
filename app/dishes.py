@@ -2,27 +2,37 @@
 
 The extractor writes whatever people typed, so one dish arrives as "pastrami",
 "pastrami sandwich", "pastrami on rye" and "sandwiches", and filler like
-"sandwich" or "bread" takes a slot of its own. Two layers clean that up. A file
-per city beside this module (dish_groups_<subreddit>.json, written offline)
-says which names of a place are one dish and which are filler; it is a
-rebuildable cache over mentions.dishes, which is never touched. Names the file
-does not cover, and new ones arrive daily, fall back to a plain normalisation.
+"sandwich" or "bread" takes a slot of its own. Two layers clean that up.
+
+A file per city beside this module (dish_groups_<subreddit>.json) holds
+curated per-place decisions: which of a place's names are one dish, and which
+are filler. They were written by reading each place's dish names, so they are
+judgement kept in the repo, like alias_overrides are curated identity
+decisions; they cannot be rebuilt from mentions.dishes, which is never
+touched. A place missing from its file (new, or renamed by resolve) is not an
+error: its names fall back to plural folding alone, as do names the file does
+not mention, and new ones arrive daily.
 
 A file entry is keyed by the place's resolved key:
     {"katzs delicatessen": {"groups": [{"label": "Pastrami sandwich",
                                         "names": ["pastrami", "pastrami on rye"]}],
                             "drop": ["sandwich", "bread"]}}
-A city whose file is missing is served by the fallback alone.
+Everything, the file's names, drops and labels and the names mentioned, is
+matched on one key, the lowercased name with a plural on its last word folded,
+so a new "spare rib" meets the group that lists "spare ribs" and "bagel" is
+dropped where "bagels" is.
 
 Counting is by mention, not by string: one comment that names both "pastrami"
 and "pastrami sandwich" is one vote for the dish, so merging names can never
 inflate it.
 """
 
-import json
 import logging
 import os
+import threading
 from collections import Counter
+
+from . import jsonfile
 
 log = logging.getLogger("uvicorn.error")
 
@@ -30,53 +40,90 @@ DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 # A dish named by fewer mentions than this is one person's order, not what the place is known for.
 MIN_MENTIONS = 3
 
-# {subreddit: {place key: entry}}, filled the first time a city is asked for.
-_GROUPS = {}
+# {subreddit: {place key: (labels, dropped)}}, each city built once, on first use.
+_PLACES = {}
+_LOCK = threading.Lock()
 
 
 def _path(sub):
     return os.path.join(DATA, f"dish_groups_{sub}.json")
 
 
-def _load(path):
-    """One file as {place key: entry}. A missing or broken file is a warning
-    and an empty lookup: the list works on the fallback alone, and the API
-    should not fail over a cleanup file."""
-    try:
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
-    except (OSError, ValueError) as e:
-        log.warning("no dish groups loaded from %s: %s", path, e)
-        return {}
-
-
 def clean(name):
-    """Lowercased with runs of whitespace collapsed, the form the files use."""
-    return " ".join(name.lower().split())
-
-
-def groups(sub, entity_key):
-    """The place's lookup as ({name: label}, {dropped names}), read from its
-    city's file the first time that city is asked for."""
-    if sub not in _GROUPS:
-        _GROUPS[sub] = _load(_path(sub))
-    entry = _GROUPS[sub].get(entity_key) or {}
-    labels = {}
-    for g in entry.get("groups", ()):
-        for name in g.get("names", ()):
-            labels[clean(name)] = g["label"]
-    return labels, {clean(n) for n in entry.get("drop", ())}
+    """The name with runs of whitespace collapsed and the ends trimmed."""
+    return " ".join(name.split())
 
 
 def fold(name):
-    """The name with a simple plural on its last word removed, so "burritos"
-    and "burrito" are one dish. Words that merely end in s are left alone:
-    "fries", "ss" words, "us"/"is" words (hummus), and anything too short to
-    be a plural of something."""
-    head, _, last = name.rpartition(" ")
-    if len(last) > 3 and last.endswith("s") and not last.endswith(("ss", "us", "is", "ies")):
-        last = last[:-2] if last.endswith(("ches", "shes", "xes")) else last[:-1]
+    """The key a name is matched on: lowercased, with the plural of its last
+    word folded so "burritos" and "burrito" are one dish. Only the key is
+    folded; it is never shown. The folds are chosen so that a word and its
+    plural meet, not to be good English: "quiche" and "quiches" both become
+    "quich", "cookie" and "cookies" both "cooky". Left alone are "fries",
+    words ending "ss", "us" or "is" (hummus, couscous), and anything of three
+    letters or fewer."""
+    head, _, last = clean(name).lower().rpartition(" ")
+    if len(last) > 3 and last != "fries":
+        if last.endswith("ies"):
+            last = last[:-3] + "y" if len(last) > 4 else last[:-1]
+        elif last.endswith("ie"):
+            last = last[:-2] + "y"
+        elif last.endswith(("ches", "shes", "xes", "oes")):
+            last = last[:-2]
+        elif last.endswith("che"):
+            last = last[:-1]
+        elif last.endswith("s") and not last.endswith(("ss", "us", "is")):
+            last = last[:-1]
     return f"{head} {last}" if head else last
+
+
+def _strings(value):
+    return isinstance(value, list) and all(isinstance(v, str) for v in value)
+
+
+def _place(key, entry):
+    """One entry as (labels, dropped): {folded name: label} and {folded name},
+    or None, with a warning, if it is not the shape the file promises."""
+    try:
+        groups, drop = entry.get("groups", []), entry.get("drop", [])
+        if not isinstance(groups, list) or not _strings(drop):
+            raise ValueError("groups and drop must be lists")
+        labels = {}
+        for g in groups:
+            if not (isinstance(g, dict) and isinstance(g.get("label"), str) and g["label"].strip()
+                    and _strings(g.get("names"))):
+                log.warning("dish group of %s skipped: needs a label and a list of names: %r", key, g)
+                continue
+            label = clean(g["label"])
+            for name in [label, *g["names"]]:
+                labels[fold(name)] = label
+    except (AttributeError, ValueError) as e:
+        log.warning("dish groups of %s skipped: %s", key, e)
+        return None
+    return labels, {fold(n) for n in drop}
+
+
+def _build(path):
+    data = jsonfile.load(path, "dish groups")
+    if not isinstance(data, dict):
+        log.warning("no dish groups loaded from %s: not an object", path)
+        return {}
+    places = {}
+    for key, entry in data.items():
+        place = _place(key, entry)
+        if place:
+            places[key] = place
+    return places
+
+
+def groups(sub, entity_key):
+    """The place's lookup as ({folded name: label}, {folded dropped names}),
+    empty for a place the file does not mention."""
+    if sub not in _PLACES:
+        with _LOCK:
+            if sub not in _PLACES:
+                _PLACES[sub] = _build(_path(sub))
+    return _PLACES[sub].get(entity_key, ({}, set()))
 
 
 def top(rows, sub, entity_key, limit=15):
@@ -85,24 +132,28 @@ def top(rows, sub, entity_key, limit=15):
     labels, dropped = groups(sub, entity_key)
     counts = Counter()
     shown = {}  # key -> the file's label
-    forms = {}  # key -> Counter of original spellings, for names the file does not cover
+    forms = {}  # key -> Counter of the spellings typed, for names the file does not cover
     for dishes in rows:
         keys = set()
         for raw in dishes:
-            if not isinstance(raw, str):
+            if not isinstance(raw, str) or not raw.strip():
                 continue
-            name = clean(raw)
-            if not name or name in dropped:
+            key = fold(raw)
+            if key in dropped:
                 continue
-            if name in labels:
-                key = labels[name].lower()
-                shown[key] = labels[name]
+            if key in labels:
+                shown[fold(labels[key])] = labels[key]
+                key = fold(labels[key])
             else:
-                key = fold(name)
-                forms.setdefault(key, Counter())[name] += 1
+                forms.setdefault(key, Counter())[clean(raw)] += 1
             keys.add(key)
         counts.update(keys)
-    out = [{"name": shown.get(k) or forms[k].most_common(1)[0][0], "n": n}
-           for k, n in counts.items() if n >= MIN_MENTIONS]
-    out.sort(key=lambda d: (-d["n"], d["name"]))
-    return out[:limit]
+    out = []
+    for key, n in counts.items():
+        if n < MIN_MENTIONS:
+            continue
+        # A label wins over the spellings typed: the file named the dish.
+        name = shown[key] if key in shown else min(forms[key].items(), key=lambda f: (-f[1], f[0]))[0]
+        out.append((-n, key, name))
+    out.sort()
+    return [{"name": name, "n": -neg} for neg, _, name in out[:limit]]

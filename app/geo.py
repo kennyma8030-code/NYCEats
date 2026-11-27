@@ -14,13 +14,11 @@ orders oldest licence first: the longest-standing branch, usually the
 original. All of them are on the detail response.
 """
 
-import json
-import logging
 import os
 
 import subreddits
 
-log = logging.getLogger("uvicorn.error")
+from . import jsonfile
 
 DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 # subreddit -> its file. New York's keeps the name it had before there were
@@ -34,15 +32,9 @@ FILES = {
 
 
 def _load(path):
-    """One file as {key: [[lat, lng, address, borough], ...]}. A missing or
-    broken file is a warning and an empty lookup: the lists work without
-    pins, and the API should not fail to boot over a map."""
-    try:
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
-    except (OSError, ValueError) as e:
-        log.warning("no coordinates loaded from %s: %s", path, e)
-        return {}
+    """One file as {key: [[lat, lng, address, borough], ...]}. Missing or
+    broken, it is an empty lookup: the lists work without pins."""
+    return jsonfile.load(path, "coordinates")
 
 
 # {subreddit: {key: rows}}, kept apart so one city's name never answers for another's.
