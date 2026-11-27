@@ -371,7 +371,7 @@ interface AboutProps {
 function About({ item, data, failed, ask, allComments }: AboutProps) {
   const r = item.rating ?? null;
   const summary = data?.place_summary?.text ? data.place_summary : null;
-  const dishes = dishNames(data, 6);
+  const dishes = dishNames(data, 5);
   const hasComplaints = !!r && r.neg > 0;
 
   if (!data && !failed) {
