@@ -69,7 +69,8 @@ def query(
     toward it. `parse` shows how the query was read.
 
     Where the text cannot be matched by meaning (`semantic: text`) its words
-    are matched in thread titles, dishes and descriptors instead. A
+    are matched in thread titles, dishes and descriptors instead, and
+    `matched` says which words and how many of them a counted comment uses. A
     `mode=fast` answer with `needs_model` is provisional and is not logged;
     the `mode=full` request that follows it is the search.
     """
@@ -89,8 +90,31 @@ def comments(
     ids: Annotated[list[int], Query(min_length=1, max_length=50, description=(
         "mention ids from a result's `mention_ids`, at most 50 a request"))],
 ):
-    """A result shows its first few comments and names all of them in
-    `mention_ids`; this returns the others, in the order asked for, so the
-    count a place is ranked by can be read in full. A deleted comment comes
-    back without its permalink, as everywhere."""
+    """A result shows its first few comments and names more of them in
+    `mention_ids` (all of them, unless it is a text match: see
+    /api/search/matched); this returns the others, in the order asked for,
+    so the count a place is ranked by can be read in full. A deleted comment
+    comes back without its permalink, as everywhere."""
     return search.comments(sub, ids)
+
+
+@router.get("/api/search/matched", response_model=list[Mention],
+            summary="The comments of a text match past the ones it named")
+def matched(
+    sub: Sub,
+    key: Annotated[str, Query(min_length=1, max_length=200, description="a result's `entity_key`")],
+    words: Annotated[list[str], Query(min_length=1, max_length=search.TEXT_WORDS_MAX, description=(
+        "the answer's `matched.words`"))],
+    need: Annotated[int, Query(ge=1, le=search.TEXT_WORDS_MAX, description="the answer's `matched.need`")],
+    offset: Annotated[int, Query(ge=0, le=100000, description=(
+        "how many of the place's comments to pass over: at first, the length of its `mention_ids`"))],
+    limit: Annotated[int, Query(ge=1, le=50)] = 50,
+):
+    """A text match counts every comment that uses its words but names only
+    the first of them in `mention_ids`, since a common word is in thousands.
+    This reads on from there, a page at a time and in the same order, so the
+    count still opens in full. Each word is at most 200 characters, as a
+    query is; a longer one is refused."""
+    if any(len(w) > 200 for w in words):
+        raise HTTPException(status_code=422, detail="a word is too long")
+    return search.matched_comments(sub, key, words, need, offset, limit)

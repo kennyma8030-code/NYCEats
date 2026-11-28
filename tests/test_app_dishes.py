@@ -148,23 +148,33 @@ class Malformed(unittest.TestCase):
         self.assertEqual(labels, {"knish": "Knish"})
         self.assertEqual(dropped, {"bread"})
 
-    def test_a_name_both_grouped_and_dropped_is_refused(self):
+    def test_a_name_both_grouped_and_dropped_is_left_out_and_the_rest_kept(self):
         # "cookie" and "cookies" are one key: top() would drop what the
-        # group meant to count, so the entry is refused, not half applied.
+        # group meant to count. Which was meant is not ours to guess, so
+        # that name is in neither, and every other decision stands.
         with self.assertLogs("uvicorn.error", "WARNING") as logs:
             got = built({"katzs delicatessen": {
-                "groups": [{"label": "Chocolate chip cookie", "names": ["cookie"]}],
-                "drop": ["Cookies"]}})
-        self.assertEqual(got, ({}, set()))
+                "groups": [{"label": "Chocolate chip cookie", "names": ["cookie", "choc chip"]},
+                           {"label": "Knish", "names": ["knishes"]}],
+                "drop": ["Cookies", "bread"]}})
+        self.assertEqual(got, ({"chocolate chip cooky": "Chocolate chip cookie",
+                                "choc chip": "Chocolate chip cookie", "knish": "Knish"}, {"bread"}))
+        self.assertEqual(len(logs.output), 1)
         self.assertIn("grouped and dropped: 'cooky' (in 'Chocolate chip cookie')", logs.output[0])
 
-    def test_a_name_in_two_groups_is_refused(self):
+    def test_a_name_in_two_groups_is_left_out_and_the_rest_kept(self):
         with self.assertLogs("uvicorn.error", "WARNING") as logs:
             got = built({"katzs delicatessen": {
-                "groups": [{"label": "Pastrami sandwich", "names": ["sandwich"]},
-                           {"label": "Reuben", "names": ["sandwiches"]}]}})
-        self.assertEqual(got, ({}, set()))
-        self.assertIn("'Pastrami sandwich' and 'Reuben'", logs.output[0])
+                "groups": [{"label": "Pastrami sandwich", "names": ["sandwich", "pastrami"]},
+                           {"label": "Reuben", "names": ["sandwiches", "reuben on rye"]},
+                           {"label": "Club", "names": ["Sandwich"]}],
+                "drop": ["bread"]}})
+        # Not the third group's either: nobody decided it.
+        self.assertEqual(got, ({"pastrami sandwich": "Pastrami sandwich", "pastrami": "Pastrami sandwich",
+                                "reuben": "Reuben", "reuben on rye": "Reuben", "club": "Club"},
+                               {"bread"}))
+        self.assertEqual(len(logs.output), 1)
+        self.assertIn("'sandwiches' is in the groups 'Pastrami sandwich' and 'Reuben'", logs.output[0])
         # Twice in one group is only untidy.
         self.assertEqual(built({"katzs delicatessen": {
             "groups": [{"label": "Knish", "names": ["knish", "knishes"]}]}}), ({"knish": "Knish"}, set()))

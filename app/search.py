@@ -23,7 +23,11 @@ Three steps, and a model is in at most one of them.
      own people count. Where the text cannot be matched by meaning (a city
      whose comments are not embedded, a provider or an index that did not
      answer) its words are matched as text instead, as the ledger's topic
-     is, so what was typed still filters the list in every city.
+     is, so what was typed still filters the list in every city. Asked as
+     a sentence, the words are rarely all in one comment, so the match is
+     on as many of them as any comment uses together, and the answer says
+     which. A query that timed out is never followed by a second scan in
+     the same request: that search is the plain board, with a note.
 
 Rules that hold throughout: results never wait on a model (mode=fast answers
 from the vocabulary and from readings already kept, and the client asks for
@@ -57,7 +61,8 @@ import subreddits
 
 from . import parse as model_parse
 from . import queries
-from .db import connection, fetch_all, fetch_value, transaction
+from .db import (POOL_TIMEOUT, STATEMENT_TIMEOUT_MS, connection, fetch_all, fetch_value,
+                 transaction)
 from .rankcache import RankCache
 
 log = logging.getLogger("uvicorn.error")
@@ -85,6 +90,14 @@ NEAREST = int(os.environ.get("SEARCH_NEAREST", "500"))
 # from real query vectors (SEARCH_MIN_SIMILARITY).                         TUNE
 MIN_SIMILARITY = float(os.environ.get("SEARCH_MIN_SIMILARITY", "0"))
 EVIDENCE_PER_PLACE = 3
+# How many of a place's matching comments a text match names by id. The count
+# beside the place is of all of them; the rest are read a page at a time
+# (matched_comments), so neither the answer nor the cache that keeps it
+# carries an array as long as a popular word's comments.
+TEXT_IDS = 50
+# The most words one text match looks for. Each is three pattern matches on
+# every mention of the city, in a scan no index serves.                    TUNE
+TEXT_WORDS_MAX = 6
 MAX_WORDS = 4                     # the longest vocabulary phrase looked for
 
 # How long a vocabulary is served before asking whether the scoring views
@@ -102,6 +115,28 @@ FILLER = frozenset("""
     best good great top favorite favourite
     restaurant restaurants place places spot spots food eats
     nyc ny
+""".split())
+
+# Words of a question that say nothing about a place. Only the text match
+# (text_words) leaves them out: it looks for words literally, and "where
+# should i take my parents for dinner" asked that way matches no comment at
+# all. The model and the embedding still get the query whole.
+TEXT_STOP = frozenset("""
+    i me my mine we us our you your they them their he she it its
+    is are was were be been am do does did can could should would will
+    what where which who whom whose when why how
+    that this these those there here any some anything something anywhere
+    somewhere go going get getting find want looking look
+    recommend recommendation recommendations suggestion suggestions
+    please thanks from by as if so than then too very really just also
+    about into around near nearby
+    what's where's who's that's it's i'm i'd i've we're we'd
+""".split())
+# Words that turn a phrase round. They stay in a text match, and a query
+# holding one is never loosened to some of its words: a comment that uses
+# "crowded" is no answer to "not crowded".
+NEGATIONS = frozenset("""
+    not no without but except never non don't dont doesn't isn't aren't
 """.split())
 
 FILTER_KINDS = ("cuisine", "area", "restaurant")
@@ -172,6 +207,17 @@ class Vocabulary:
     boroughs: list
     built: float = field(default_factory=time.monotonic)
     checked: float = field(default_factory=time.monotonic)
+    _prompt: tuple = None         # (system prompt, its hash), made on first use
+
+    def prompt(self):
+        """The model's instructions for this city and their hash, which keys
+        every kept parse. They depend on the vocabulary alone, so they are
+        made once for it and not on every search with a word left over."""
+        if self._prompt is None:
+            system = model_parse.system_prompt(
+                self.sub, [t.label for t in self.terms["cuisine"].values()], self.boroughs)
+            self._prompt = (system, model_parse.prompt_hash(system))
+        return self._prompt
 
     def lookup(self, phrase, kinds):
         """The first of `kinds` that knows `phrase` (already folded)."""
@@ -329,6 +375,8 @@ def forget():
     _VOCAB.clear()
     _RETRIEVED.clear()
     _parses.clear()
+    _misses.clear()
+    _vectors_up()
     _embed.cache_clear()
     for w in (REQUESTS, MODEL_CALLS, MODEL_CALLS_ALL):
         w.clear()
@@ -511,35 +559,57 @@ MODEL_CALLS = Window(int(os.environ.get("SEARCH_PARSE_PER_MIN", "10")), 60)
 MODEL_CALLS_ALL = Window(int(os.environ.get("SEARCH_PARSE_PER_HOUR", "1000")), 3600)
 
 _parses = OrderedDict()             # (sub, query, model, prompt_hash) -> answer
-_parses_lock = threading.Lock()
+_misses = OrderedDict()             # the same key -> when search_parses last had nothing
+_parses_lock = threading.Lock()     # guards both; never held over a query
 PARSES_KEPT = 2000
+# How long mode=fast trusts that a query has no kept parse before looking in
+# search_parses again. Without it every keystroke-fast request with a word
+# left over took a connection to learn the same nothing. Short, because the
+# other worker may have kept one meanwhile; mode=full always looks.        TUNE
+MISS_TTL = 60.0
 
 
 def _remember(key, answer):
     with _parses_lock:
+        _misses.pop(key, None)
         _parses[key] = answer
         _parses.move_to_end(key)
         while len(_parses) > PARSES_KEPT:
             _parses.popitem(last=False)
 
 
-def _kept(key):
-    """A parse from memory, else from search_parses, else None. A missing
-    table or an unreadable row reads as "not kept": the cache is a saving,
-    never a requirement."""
+def _kept(key, trust_miss=False):
+    """A parse from memory, else from search_parses, else None. Anything
+    that goes wrong on the way reads as "not kept" -- a missing table, an
+    unreadable row, and the pool being busy (PoolTimeout) alike: the cache
+    is a saving, never a requirement, and no search fails for want of it.
+
+    With `trust_miss` (mode=fast) a recent "not kept" is believed without
+    asking the table again. mode=full never does that: it is about to pay
+    for a model call, and the other worker may have kept the answer."""
+    now = time.monotonic()
     with _parses_lock:
         if key in _parses:
             _parses.move_to_end(key)
             return _parses[key]
+        if trust_miss and now - _misses.get(key, float("-inf")) < MISS_TTL:
+            return None
     try:
         with connection() as conn:
             row = queries.search_parse_get(conn, *key, fetch_value)
         answer = model_parse.clean(row) if row is not None else None
-    except (psycopg2.Error, model_parse.ParseFailed):
-        return None
+    except Exception as e:
+        log.debug("search parse not read: %s", type(e).__name__)
+        answer = None
     if answer is not None:
         _remember(key, answer)
-    return answer
+        return answer
+    with _parses_lock:
+        _misses[key] = now
+        _misses.move_to_end(key)
+        while len(_misses) > PARSES_KEPT:
+            _misses.popitem(last=False)
+    return None
 
 
 def _keep(key, answer):
@@ -569,10 +639,9 @@ def understand(sub, query, mode, vocab, caller=None):
     # only Italian places while the model is still reading it. The whole
     # query is the text, and run() tells the reader it was matched as typed.
     whole = Parsed(search_text=" ".join(query.split()), source="fallback")
-    system = model_parse.system_prompt(
-        sub, [t.label for t in vocab.terms["cuisine"].values()], vocab.boroughs)
-    key = (sub, normalize(query), model_parse.MODEL, model_parse.prompt_hash(system))
-    answer = _kept(key)
+    system, prompt_hash = vocab.prompt()
+    key = (sub, normalize(query), model_parse.MODEL, prompt_hash)
+    answer = _kept(key, trust_miss=mode == "fast")
     if answer is not None:
         return resolve(answer, vocab, query, "cache")
     if not model_parse.api_key():
@@ -628,7 +697,15 @@ AS_TYPED = ("These words were matched as typed, without being read for what they
 # ledger's rankings (queries.LEDGER_CACHE).                              TUNE
 RETRIEVED_TTL = 60.0
 RETRIEVED_ENTRIES = 128
-RETRIEVED_WAIT = 15.0
+# How long a request waits for another's retrieval of the same thing: the
+# longest that retrieval can take, so nobody gives up on an answer that is
+# about to arrive. That is every attempt at the embedding with the pause
+# between them, two waits for a connection, ONE statement run to its timeout
+# (a vector query that times out is not followed by the text scan, and the
+# text scan only follows one that failed at once) and a little for the
+# small statements after it. A waiter holds no connection meanwhile.
+RETRIEVED_WAIT = (embedding.QUERY_ATTEMPTS * (embedding.QUERY_TIMEOUT + 1)
+                  + 2 * POOL_TIMEOUT + STATEMENT_TIMEOUT_MS / 1000 + 5)
 _RETRIEVED = RankCache(RETRIEVED_TTL, RETRIEVED_ENTRIES, RETRIEVED_WAIT,
                        timeout_error=lambda: psycopg2.errors.QueryCanceled(
                            "waited too long for another request's search"))
@@ -637,12 +714,30 @@ _RETRIEVED = RankCache(RETRIEVED_TTL, RETRIEVED_ENTRIES, RETRIEVED_WAIT,
 class _NoMeaning(Exception):
     """Matching by meaning cannot run for this search. `why` is city (only
     the home city's comments are embedded), vectors (this database has
-    none), provider (the embedding call failed) or database (the vector
-    query failed or timed out); the last two may work a moment later."""
+    none), provider (the embedding call failed), database (the connection
+    to it failed), timeout (the vector query ran out of time) or fault (the
+    vector query is broken: a bug or a schema it does not fit). provider,
+    database and timeout may work a moment later."""
 
     def __init__(self, why):
         super().__init__(why)
         self.why = why
+
+
+# How long the vector query is left alone after it failed for a reason that
+# the next search will meet too: no vectors here, or a statement that is
+# simply wrong. Without this every new search ran, and logged, the same
+# failing statement before falling back.                                  TUNE
+VECTORS_RETRY = 60.0
+_down = {"until": 0.0, "why": None}
+
+
+def _vectors_down(why):
+    _down.update(until=time.monotonic() + VECTORS_RETRY, why=why)
+
+
+def _vectors_up():
+    _down.update(until=0.0, why=None)
 
 
 def _filters(parsed):
@@ -665,9 +760,16 @@ def _semantic(sub, text, include, exclude, named, limit):
     """Nearest comments, grouped by place and ranked by how many different
     people wrote one: (ranked, total). Every place carries the mention of
     each comment it counts, nearest first, so its number can be opened in
-    full. Raises _NoMeaning when the semantic half cannot run here."""
+    full. Raises _NoMeaning when the semantic half cannot run here.
+
+    Only the failures a deployment is expected to meet are quiet: no
+    vectors, a timeout, a lost connection. Anything else from the vector
+    query is a fault in it, and is logged as an error with its traceback so
+    that a renamed column does not hide for weeks behind a polite note."""
     if sub != subreddits.HOME:
         raise _NoMeaning("city")
+    if time.monotonic() < _down["until"]:
+        raise _NoMeaning(_down["why"])
     try:
         vec = _embed(text)
     except (embedding.EmbedError, ValueError) as e:
@@ -675,20 +777,31 @@ def _semantic(sub, text, include, exclude, named, limit):
         raise _NoMeaning("provider") from None
     try:
         # The connection is taken after the embedding call, so a slow
-        # provider holds none.
+        # provider holds none. The pool being busy (PoolTimeout) is not
+        # caught: whatever came next would need a connection too.
         with connection() as conn, transaction(conn):
             rows = queries.semantic_matches(conn, sub, vec, NEAREST, MIN_SIMILARITY,
                                             include, exclude, named, fetch_all)
-    except _NO_VECTORS as e:
-        log.warning("search has no vectors to read: %s", type(e).__name__)
-        raise _NoMeaning("vectors") from None
     except psycopg2.Error as e:
-        # A statement timeout on a cold index, a dropped connection: the
-        # words can still be matched as text, which is an answer, where a
-        # 503 is none. The pool being busy (PoolTimeout) is not caught: the
-        # fallback would need a connection too.
-        log.warning("search vector query failed: %s: %s", type(e).__name__, str(e).strip()[:200])
-        raise _NoMeaning("database") from None
+        said = str(e).strip()[:200]
+        missing_table = isinstance(e, psycopg2.errors.UndefinedTable)
+        if isinstance(e, _NO_VECTORS) and (not missing_table or "comment_embeddings" in str(e)):
+            # Any other missing table is a fault, below.
+            log.warning("search has no vectors to read: %s", type(e).__name__)
+            _vectors_down("vectors")
+            raise _NoMeaning("vectors") from None
+        if isinstance(e, psycopg2.errors.QueryCanceled):
+            log.warning("search vector query timed out: %s", said)
+            raise _NoMeaning("timeout") from None
+        if isinstance(e, (psycopg2.OperationalError, psycopg2.InterfaceError)):
+            # The connection, not the statement: the words can still be
+            # matched as text on another one.
+            log.warning("search vector query lost its connection: %s: %s", type(e).__name__, said)
+            raise _NoMeaning("database") from None
+        log.error("search vector query is broken, and is left alone for %ds: %s: %s",
+                  VECTORS_RETRY, type(e).__name__, said, exc_info=True)
+        _vectors_down("fault")
+        raise _NoMeaning("fault") from None
 
     places = {}
     for r in rows:
@@ -702,23 +815,35 @@ def _semantic(sub, text, include, exclude, named, limit):
             g["by_comment"][r["comment_id"]] = (r["similarity"], r["mention_id"])
     ranked = sorted(places.items(), key=lambda kv: (-len(kv[1]["people"]), -kv[1]["best"], kv[0]))
     top = [{"entity_key": k, "people": len(g["people"]), "best_similarity": round(g["best"], 4),
+            "comment_count": len(g["by_comment"]),
             "mention_ids": [m for _, m in sorted(g["by_comment"].values(),
                                                  key=lambda sm: (-sm[0], sm[1]))]}
            for k, g in ranked[:limit]]
     return top, len(ranked)
 
 
+# A word: letters and digits, with an apostrophe or a hyphen only between
+# them ("katz's", "pan-fried").
+_WORD = re.compile(r"[^\W_]+(?:['’-][^\W_]+)*")
+
+
 def text_words(text):
     """The words of `text` to look for as typed when it cannot be matched by
-    meaning: lower case, punctuation at either end dropped, filler left out,
-    each once. Accents and inner apostrophes stay, because the comments'
-    own words have them."""
+    meaning: lower case, each once, at most TEXT_WORDS_MAX.
+
+    Only what has a letter or a digit is a word: the "&" of "mac & cheese"
+    and the dash of "pizza - cheap" are in no comment's dishes, and asking
+    for them matched nothing. A single letter is left out because it is in
+    nearly everything, and filler and the words of a question (TEXT_STOP)
+    because they describe no place. Accents and inner apostrophes stay: the
+    comments' own words have them."""
     out = []
-    for w in text.lower().split():
-        w = w.strip(".,;:!?\"“”()[]")
-        if w and w not in FILLER and w not in out:
-            out.append(w)
-    return out
+    for w in _WORD.findall(text.lower()):
+        plain = w.replace("’", "'")
+        if len(w) < 2 or plain in FILLER or plain in TEXT_STOP or w in out:
+            continue
+        out.append(w)
+    return out[:TEXT_WORDS_MAX]
 
 
 def _retrieve(sub, text, include, exclude, named, limit):
@@ -726,8 +851,8 @@ def _retrieve(sub, text, include, exclude, named, limit):
     for each. Shared between requests through _RETRIEVED, so nothing here
     may be changed by a caller."""
     from .routers.ledger import display_name
-    semantic, ranked_by, why = "none", "people", None
-    top, total = None, 0
+    semantic, ranked_by, why, slow = "none", "people", None, False
+    top, total, matched = None, 0, None
     if text:
         try:
             top, total = _semantic(sub, text, include, exclude, named, limit)
@@ -735,24 +860,38 @@ def _retrieve(sub, text, include, exclude, named, limit):
         except _NoMeaning as e:
             semantic, why = "unavailable", e.why
 
+    # A vector query that ran out of time says the database cannot serve a
+    # heavy statement just now. The text match is a heavier one, unindexed,
+    # so it is not sent after it: this search is the board, which is cheap.
+    words = text_words(text) if semantic == "unavailable" and why != "timeout" else []
     with connection() as conn:
-        words = text_words(text) if semantic == "unavailable" else []
         if words:
             # The words still filter the list, as the ledger's topic match
             # does in every city: places by how many different people used
-            # all of them about the place.
-            rows = queries.text_matches(conn, sub, words, include, exclude, named, limit, fetch_all)
-            top = [{"entity_key": r["entity_key"], "people": r["people"],
-                    "best_similarity": None, "mention_ids": r["mention_ids"]} for r in rows]
-            total = rows[0]["total"] if rows else 0
-            semantic, ranked_by = "text", "matching_people"
+            # them about the place.
+            try:
+                rows = queries.text_matches(conn, sub, words, not NEGATIONS.intersection(words),
+                                            include, exclude, named, limit, TEXT_IDS, fetch_all)
+            except psycopg2.errors.QueryCanceled as e:
+                # Too slow, not broken, and the connection is still good
+                # under autocommit: the board below is an answer, where a
+                # 503 after ten seconds is none.
+                log.warning("search text match timed out: %s", str(e).strip()[:200])
+                slow = True
+            else:
+                top = [{"entity_key": r["entity_key"], "people": r["people"],
+                        "best_similarity": None, "comment_count": r["comments"],
+                        "mention_ids": r["mention_ids"]} for r in rows]
+                total = rows[0]["total"] if rows else 0
+                matched = {"words": words, "need": rows[0]["need"] if rows else len(words)}
+                semantic, ranked_by = "text", "matching_people"
         if top is None:
             rows, total = queries.search_board(conn, sub, include, exclude, named, limit,
                                                fetch_all, fetch_value)
             # The board's count is everyone who brought the place up, and
             # the row opens the place, where all of those comments are.
-            top = [{"entity_key": r["entity_key"], "people": r["people"],
-                    "best_similarity": None, "mention_ids": None} for r in rows]
+            top = [{"entity_key": r["entity_key"], "people": r["people"], "best_similarity": None,
+                    "comment_count": None, "mention_ids": None} for r in rows]
             evidence = queries.board_evidence(conn, sub, [t["entity_key"] for t in top],
                                               EVIDENCE_PER_PLACE, fetch_all)
         else:
@@ -778,9 +917,28 @@ def _retrieve(sub, text, include, exclude, named, limit):
                       "neighborhood": hoods.get(k), "people": t["people"],
                       "total_people": i.get("total_people"),
                       "best_similarity": t["best_similarity"],
+                      "comment_count": t["comment_count"],
                       "mention_ids": t["mention_ids"], "comments": comments})
     return {"semantic": semantic, "ranked_by": ranked_by, "total": total,
-            "items": items, "why": why}
+            "items": items, "matched": matched, "why": why, "slow": slow}
+
+
+def _quoted(words):
+    """“a”, “b” and “c”."""
+    q = [f"“{w}”" for w in words]
+    return q[0] if len(q) == 1 else ", ".join(q[:-1]) + " and " + q[-1]
+
+
+def _matched_note(matched):
+    """What a text match looked for, in the reader's terms."""
+    words, need = matched["words"], matched["need"]
+    if len(words) == 1:
+        return f", so these are the places whose comments use the word {_quoted(words)}."
+    if need >= len(words):
+        return f", so these are the places whose comments use the words {_quoted(words)}."
+    some = "any of them" if need == 1 else f"at least {need} of them"
+    return (f", and no comment uses all of the words {_quoted(words)}, so these are the "
+            f"places whose comments use {some}.")
 
 
 def retrieve(sub, parsed, limit):
@@ -790,13 +948,14 @@ def retrieve(sub, parsed, limit):
     key = (sub, parsed.search_text, include, exclude, named, limit)
     found = _RETRIEVED.get(key, lambda: _retrieve(sub, parsed.search_text, include, exclude,
                                                   named, limit))
-    why = found["why"]
+    why, slow = found["why"], found["slow"]
     if why in ("provider", "database"):
         # Whoever was waiting on this shares it; the next search tries the
-        # provider or the index again rather than living with a hiccup for
-        # a minute.
+        # provider or the connection again rather than living with a hiccup
+        # for a minute. An answer that follows a timeout is kept its minute:
+        # asking again at once would run the statement that just timed out.
         _RETRIEVED.discard(key)
-    out = {k: v for k, v in found.items() if k != "why"}
+    out = {k: v for k, v in found.items() if k not in ("why", "slow")}
     semantic, items = out["semantic"], out["items"]
 
     notes = []
@@ -806,8 +965,10 @@ def retrieve(sub, parsed, limit):
         missing = ("Matching by meaning is not available for this city yet" if why == "city"
                    else "Matching by meaning is not available right now")
         if semantic == "text":
-            notes.append(missing + ", so these are the places whose comments use the words searched for.")
+            notes.append(missing + _matched_note(out["matched"]))
         else:
+            if slow:
+                missing += ", and looking for the words as typed took too long just now"
             notes.append(missing + ", so this is the most talked-about places"
                          + (" for the filters shown." if parsed.include or parsed.exclude else "."))
     for x in parsed.ignored:
@@ -827,6 +988,22 @@ def retrieve(sub, parsed, limit):
         notes.append("No places match those filters.")
     out["notes"] = notes
     return out
+
+
+def matched_comments(sub, entity_key, words, need, offset, limit):
+    """One page of the comments a text match counts for a place, past the
+    ones the answer named by id: the same match and the same order as
+    queries.text_matches, for one place. The words pass through text_words
+    again, so a request can ask for no more than a search could."""
+    words = text_words(" ".join(words))
+    if not words:
+        return []
+    need = max(1, min(need, len(words)))
+    with connection() as conn:
+        ids = [r["mention_id"] for r in queries.text_match_ids(
+            conn, sub, entity_key, words, need, offset, limit, fetch_all)]
+        rows = {r["mention_id"]: r for r in queries.search_evidence(conn, sub, ids, fetch_all)}
+    return [rows[m] for m in ids if m in rows]
 
 
 def comments(sub, mention_ids):

@@ -1,5 +1,5 @@
 import type {
-  BoardId, CategoryVoice, BoardResponse, City, CommentSort, Extraction, Facets, Feed, LedgerItem, LedgerResponse, Mention, NameRow, Page, RatingCategory, RestaurantDetail, SearchResponse, SearchVocabulary, Voice, WindowDays,
+  BoardId, CategoryVoice, BoardResponse, City, CommentSort, Extraction, Facets, Feed, LedgerItem, LedgerResponse, Mention, NameRow, Page, RatingCategory, RestaurantDetail, SearchMatched, SearchResponse, SearchVocabulary, Voice, WindowDays,
 } from "./types";
 import type { Filters } from "../state/filters";
 import { currentCity, withCity } from "../state/city";
@@ -128,6 +128,13 @@ export const api = {
    *  the mention ids it named (at most lib/results.ts COMMENTS_PAGE a call). */
   searchComments: (ids: number[], signal?: AbortSignal) =>
     get<Mention[]>(`/api/search/comments?${ids.map((id) => `ids=${id}`).join("&")}`, signal),
+  /** A text match's comments for one place past the ones it named by id:
+   *  `limit` of them from position `offset`, in the answer's order. */
+  searchMatched: (place: string, m: SearchMatched, offset: number, limit: number, signal?: AbortSignal) => {
+    const p = new URLSearchParams({ key: place, need: String(m.need), offset: String(offset), limit: String(limit) });
+    m.words.forEach((w) => p.append("words", w));
+    return get<Mention[]>(`/api/search/matched?${p}`, signal);
+  },
   facets: (signal?: AbortSignal) => get<Facets>("/api/facets", signal),
   /** The cities that have a board, New York first. */
   cities: (signal?: AbortSignal) => get<City[]>("/api/cities", signal),

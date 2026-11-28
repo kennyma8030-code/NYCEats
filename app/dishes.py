@@ -23,7 +23,8 @@ so a new "spare rib" meets the group that lists "spare ribs" and "bagel" is
 dropped where "bagels" is. It follows that a place cannot group "cookie" and
 drop "cookies", or put one name in two groups: they are one key, the two
 decisions contradict each other, and which one is meant is a judgement only
-whoever edits the file can make. Such an entry is refused whole (_place), and
+whoever edits the file can make. Such a name is left out of both decisions,
+with a warning, and the rest of the entry stands (_place);
 tests/test_app_dishes.py loads every shipped file so the next one fails there.
 
 Counting is by mention, not by string: one comment that names both "pastrami"
@@ -87,30 +88,40 @@ def _strings(value):
 
 def _place(key, entry):
     """One entry as (labels, dropped): {folded name: label} and {folded name},
-    or None, with a warning, if it is not the shape the file promises or
-    decides one name two ways (grouped and dropped, or in two groups)."""
+    or None, with a warning, if it is not the shape the file promises.
+
+    A name the entry decides two ways (grouped and dropped, or in two
+    groups) is left out of both, with a warning that names it, and so falls
+    back to plural folding like a name the file never mentioned. The rest of
+    the entry stands: one slip should not cost a place every other decision
+    made for it."""
     try:
         groups, drop = entry.get("groups", []), entry.get("drop", [])
         if not isinstance(groups, list) or not _strings(drop):
             raise ValueError("groups and drop must be lists")
-        labels = {}
-        for g in groups:
-            if not (isinstance(g, dict) and isinstance(g.get("label"), str) and g["label"].strip()
-                    and _strings(g.get("names"))):
-                log.warning("dish group of %s skipped: needs a label and a list of names: %r", key, g)
-                continue
-            label = clean(g["label"])
-            for name in [label, *g["names"]]:
-                if labels.setdefault(fold(name), label) != label:
-                    raise ValueError(f"{name!r} is in the groups {labels[fold(name)]!r} and {label!r}")
-        dropped = {fold(n) for n in drop}
-        both = sorted(dropped & labels.keys())
-        if both:
-            raise ValueError("grouped and dropped: " + ", ".join(
-                f"{k!r} (in {labels[k]!r})" for k in both))
     except (AttributeError, ValueError) as e:
         log.warning("dish groups of %s skipped: %s", key, e)
         return None
+    labels, undecided = {}, set()
+    for g in groups:
+        if not (isinstance(g, dict) and isinstance(g.get("label"), str) and g["label"].strip()
+                and _strings(g.get("names"))):
+            log.warning("dish group of %s skipped: needs a label and a list of names: %r", key, g)
+            continue
+        label = clean(g["label"])
+        for name in [label, *g["names"]]:
+            k = fold(name)
+            if k not in undecided and labels.setdefault(k, label) != label:
+                log.warning("dish name of %s skipped: %r is in the groups %r and %r",
+                            key, name, labels[k], label)
+                # In neither: a third group naming it must not win by default.
+                undecided.add(k)
+                del labels[k]
+    dropped = {fold(n) for n in drop}
+    for k in sorted(dropped & labels.keys()):
+        log.warning("dish name of %s skipped: grouped and dropped: %r (in %r)", key, k, labels[k])
+        del labels[k]
+        dropped.discard(k)
     return labels, dropped
 
 

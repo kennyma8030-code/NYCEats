@@ -1741,29 +1741,23 @@ def semantic_matches(conn, sub, vec, k, min_similarity, include, exclude, show_c
     """, params)
 
 
-def text_matches(conn, sub, words, include, exclude, show_chains, limit, fetch_all):
-    """A search whose text cannot be matched by meaning (a city without
-    vectors, a provider or an index that did not answer): the places whose
-    comments use every one of `words`, by how many different people did.
-
-    A word matches a mention the way the ledger's topic does (TOPIC_TEXT_MATCH):
-    in the thread's title or among the commenter's dishes or descriptors.
-    Knocks are left out and a person is counted as in semantic_matches.
-    Returns (entity_key, people, mention_ids, total): one mention per comment
-    counted, most upvoted first, so the count can be opened in full, and the
-    number of places before `limit` on every row. No index serves this; it is
-    one scan of the city's mentions, as a topic is.
-    """
-    params = {"sub": sub, "limit": limit}
-    places = _search_place_filters(include, exclude, show_chains, params)
+def _text_hits(words, params):
+    """The SQL for the mentions a text match reads, one per place and
+    comment, each with `n`: how many of `words` it uses. A word matches a
+    mention the way the ledger's topic does (TOPIC_TEXT_MATCH): in the
+    thread's title or among the commenter's dishes or descriptors. Each word
+    is a CASE and not a cast of the match, so a mention with no dishes
+    counts nought for it instead of making the whole sum null. The caller
+    supplies %(sub)s and %(floor)s, adds to the WHERE and gives the order
+    that picks a comment's mention."""
     each = []
     for i, word in enumerate(words):
         params[f"w{i}"] = like_pattern(word)
-        each.append(TOPIC_TEXT_MATCH.replace("%(topic)s", f"%(w{i})s"))
-    return fetch_all(conn, f"""
-        with hits as (
+        match = TOPIC_TEXT_MATCH.replace("%(topic)s", f"%(w{i})s")
+        each.append(f"case when {match} then 1 else 0 end")
+    return f"""
             select distinct on (w.entity_key, w.comment_id)
-                   w.entity_key, w.mention_id,
+                   w.entity_key, w.mention_id, k.n,
                    coalesce(nullif(w.author, '[deleted]'), w.comment_id) as person,
                    c.score, c.created_utc
             from mention_weights w
@@ -1771,20 +1765,74 @@ def text_matches(conn, sub, words, include, exclude, show_chains, limit, fetch_a
             join comments c on c.id = w.comment_id
             join threads t on t.id = w.thread_id
             join entity_leaderboard l on l.subreddit = w.subreddit and l.entity_key = w.entity_key
+            cross join lateral (select {" + ".join(each)} as n) k
             where w.subreddit = %(sub)s
-              and {" and ".join(each)}
-              and not {SEARCH_KNOCK}
+              and k.n >= %(floor)s
+              and not {SEARCH_KNOCK}"""
+
+
+def text_matches(conn, sub, words, loose, include, exclude, show_chains, limit, ids, fetch_all):
+    """A search whose text cannot be matched by meaning (a city without
+    vectors, a provider or an index that did not answer): the places whose
+    comments use `words`, by how many different people did.
+
+    A comment counts when it uses every word. With `loose`, when no comment
+    in the city does, the ones that use the most of them together count
+    instead: a question typed as a sentence is rarely all in one comment,
+    and an empty list for it helps nobody. Both come from the one scan, and
+    `need` on every row says how many words a counted comment uses, so the
+    caller can say what was matched. The rank is still the one count.
+
+    Knocks are left out and a person is counted as in semantic_matches.
+    Returns (entity_key, people, comments, mention_ids, total, need):
+    `comments` is every comment counted, one mention each, and `mention_ids`
+    names only the `ids` most upvoted of them, since a common word is in
+    thousands (text_match_ids pages through the rest); `total` is the number
+    of places before `limit`. No index serves this; it is one scan of the
+    city's mentions, as a topic is.
+    """
+    params = {"sub": sub, "limit": limit, "ids": ids, "floor": 1 if loose else len(words)}
+    places = _search_place_filters(include, exclude, show_chains, params)
+    hits = _text_hits(words, params)
+    return fetch_all(conn, f"""
+        with hits as ({hits}
               and {places}
-            order by w.entity_key, w.comment_id, w.mention_id
+            order by w.entity_key, w.comment_id, k.n desc, w.mention_id
+        ), best as (
+            select max(n) as n from hits
+        ), ranked as (
+            select h.*, row_number() over (partition by h.entity_key
+                                           order by h.score desc nulls last, h.created_utc desc,
+                                                    h.mention_id) as rn
+            from hits h join best b on h.n = b.n
         )
-        select entity_key, count(distinct person)::int as people,
-               array_agg(mention_id order by score desc nulls last, created_utc desc,
-                                             mention_id) as mention_ids,
-               (count(*) over ())::int as total
-        from hits
+        select entity_key, count(distinct person)::int as people, count(*)::int as comments,
+               coalesce(array_agg(mention_id order by rn) filter (where rn <= %(ids)s),
+                        '{{}}') as mention_ids,
+               (count(*) over ())::int as total,
+               (select n from best)::int as need
+        from ranked
         group by entity_key
         order by 2 desc, entity_key
         limit %(limit)s
+    """, params)
+
+
+def text_match_ids(conn, sub, entity_key, words, need, offset, limit, fetch_all):
+    """One page of the mentions text_matches counts for one place: a mention
+    per comment that uses at least `need` of `words`, in the order its
+    `mention_ids` are in, so a count too long to name in the answer can
+    still be read to its end."""
+    params = {"sub": sub, "key": entity_key, "floor": need, "offset": offset, "limit": limit}
+    hits = _text_hits(words, params)
+    return fetch_all(conn, f"""
+        with hits as ({hits}
+              and w.entity_key = %(key)s
+            order by w.entity_key, w.comment_id, k.n desc, w.mention_id
+        )
+        select mention_id from hits
+        order by score desc nulls last, created_utc desc, mention_id
+        limit %(limit)s offset %(offset)s
     """, params)
 
 

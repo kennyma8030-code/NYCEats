@@ -642,11 +642,15 @@ class SearchItem(BaseModel):
     """One place in a search. `people` is the number it was ranked by, and
     `comments` are among the ones it counts: there is no other score.
 
-    `mention_ids` is every comment the count counts, in the order shown, one
-    mention per comment; `comments` are the first of them, and the rest are
-    read from /api/search/comments, so the number always opens in full.
-    It is null when `people` is the board's own count (ranked_by people):
-    there the place's page lists everyone who brought it up."""
+    `comment_count` is how many comments the count counts and `mention_ids`
+    names them in the order shown, one mention per comment; `comments` are
+    the first of them, and the rest are read from /api/search/comments, so
+    the number always opens in full. A text match (semantic text) names only
+    the first of its comments, since a common word is in thousands; the ones
+    past `mention_ids` are read from /api/search/matched with the response's
+    `matched`. Both are null when `people` is the board's own count
+    (ranked_by people): there the place's page lists everyone who brought
+    it up."""
     entity_key: str
     name: str
     cuisine: Optional[str] = None
@@ -657,8 +661,18 @@ class SearchItem(BaseModel):
     people: int
     total_people: Optional[int] = None
     best_similarity: Optional[float] = None
+    comment_count: Optional[int] = None
     mention_ids: Optional[list[int]] = None
     comments: list[Mention]
+
+
+class SearchMatched(BaseModel):
+    """What a text match looked for: the words, and how many of them a
+    counted comment uses. Fewer than all of them when no comment in the city
+    used every one. Sent back to /api/search/matched to read the comments an
+    answer did not name."""
+    words: list[str]
+    need: int
 
 
 class SearchResponse(BaseModel):
@@ -670,9 +684,11 @@ class SearchResponse(BaseModel):
     source: Literal["vocabulary", "model", "cache", "unparsed", "fallback"]
     parse: SearchParse
     # ok: the text was matched by meaning. text: it could not be, and its
-    # words were matched as text instead. unavailable: it could not be and
-    # held no word to match, so the list is the board. none: no text.
+    # words were matched as text instead. unavailable: it could not be, and
+    # its words were not matched either (it held none, or the database was
+    # too slow to be asked twice), so the list is the board. none: no text.
     semantic: Literal["ok", "text", "none", "unavailable"]
+    matched: Optional[SearchMatched] = None   # only with semantic text
     ranked_by: Literal["matching_people", "people"]
     total: int                    # places before `limit`
     items: list[SearchItem]

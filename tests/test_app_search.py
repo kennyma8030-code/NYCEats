@@ -360,8 +360,305 @@ class Building(unittest.TestCase):
 class TextWords(unittest.TestCase):
     def test_the_words_looked_for_as_typed(self):
         self.assertEqual(search.text_words("Best jalapeño  tacos, tacos!"), ["jalapeño", "tacos"])
-        self.assertEqual(search.text_words("mac 'n' cheese"), ["mac", "'n'", "cheese"])
         self.assertEqual(search.text_words("the best"), [])
+
+    def test_only_what_has_a_letter_or_a_digit_is_a_word(self):
+        # Punctuation standing alone, or a single letter, is in no comment's
+        # dishes: asked for, it matched nothing.
+        self.assertEqual(search.text_words("mac & cheese"), ["mac", "cheese"])
+        self.assertEqual(search.text_words("mac 'n' cheese"), ["mac", "cheese"])
+        self.assertEqual(search.text_words("pizza - cheap"), ["pizza", "cheap"])
+        self.assertEqual(search.text_words("“pizza”, (cheap)... $$ 24/7?"), ["pizza", "cheap", "24"])
+        self.assertEqual(search.text_words("katz's pan-fried soup_dumplings"),
+                         ["katz's", "pan-fried", "soup", "dumplings"])
+        self.assertEqual(search.text_words("& - !!"), [])
+
+    def test_the_words_of_a_question_are_not_looked_for(self):
+        self.assertEqual(search.text_words("Where should I take my parents for dinner?"),
+                         ["take", "parents", "dinner"])
+        self.assertEqual(search.text_words("what's cheap near me"), ["cheap"])
+        # A word that turns the phrase round stays, so the match stays strict.
+        self.assertEqual(search.text_words("not crowded"), ["not", "crowded"])
+
+    def test_a_long_query_is_a_bounded_scan(self):
+        words = search.text_words(" ".join(f"word{i}" for i in range(40)))
+        self.assertEqual(len(words), search.TEXT_WORDS_MAX)
+
+
+class FakeConn:
+    """Stands in for a pooled connection; the queries are faked beside it."""
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+
+def hit(key, people, comments, ids, total, need):
+    return {"entity_key": key, "people": people, "comments": comments, "mention_ids": ids,
+            "total": total, "need": need}
+
+
+class Degrading(unittest.TestCase):
+    """What a search does when matching by meaning cannot run, with the
+    database faked: which statements are sent, what is remembered and what
+    the answer says. The statements themselves run in the classes below."""
+
+    def setUp(self):
+        search.forget()
+        self.addCleanup(search.forget)
+        self.q = mock.Mock()
+        self.q.search_board.return_value = ([{"entity_key": "katzs", "people": 4}], 1)
+        self.q.board_evidence.return_value = []
+        self.q.search_evidence.return_value = []
+        self.q.search_places.return_value = []
+        self.q.top_neighborhoods.return_value = []
+        self.q.text_matches.return_value = [hit("cellos", 2, 70, [5, 6], 1, 2)]
+        for name, value in (("queries", self.q), ("connection", FakeConn),
+                            ("transaction", lambda conn: FakeConn()),
+                            ("_embed", mock.Mock(return_value="[0]"))):
+            p = mock.patch.object(search, name, value)
+            p.start()
+            self.addCleanup(p.stop)
+
+    def find(self, text="cash only", **parsed):
+        return search.retrieve(subreddits.HOME, search.Parsed(search_text=text, **parsed), 20)
+
+    def test_a_vector_query_that_timed_out_is_not_followed_by_a_heavier_scan(self):
+        self.q.semantic_matches.side_effect = psycopg2.errors.QueryCanceled("statement timeout")
+        with self.assertLogs("uvicorn.error", "WARNING"):
+            out = self.find()
+        self.q.text_matches.assert_not_called()
+        self.assertEqual((out["semantic"], out["ranked_by"], out["matched"]),
+                         ("unavailable", "people", None))
+        self.assertEqual([i["entity_key"] for i in out["items"]], ["katzs"])
+        self.assertEqual(out["notes"], ["Matching by meaning is not available right now, so this "
+                                        "is the most talked-about places."])
+        self.assertNotIn("why", out)
+        self.assertNotIn("slow", out)
+        # Kept its minute: asking again at once would run the statement that
+        # just timed out.
+        self.find()
+        self.assertEqual(self.q.semantic_matches.call_count, 1)
+
+    def test_a_text_match_that_timed_out_is_the_board_and_not_an_error(self):
+        self.q.semantic_matches.side_effect = psycopg2.OperationalError("connection reset")
+        self.q.text_matches.side_effect = psycopg2.errors.QueryCanceled("statement timeout")
+        with self.assertLogs("uvicorn.error", "WARNING"):
+            out = self.find()
+        self.assertEqual((out["semantic"], out["ranked_by"]), ("unavailable", "people"))
+        self.assertEqual([i["entity_key"] for i in out["items"]], ["katzs"])
+        self.assertIn("took too long", out["notes"][0])
+        self.assertIn("most talked-about", out["notes"][0])
+
+    def test_a_lost_connection_still_matches_the_words_and_is_tried_again(self):
+        self.q.semantic_matches.side_effect = psycopg2.OperationalError("connection reset")
+        with self.assertLogs("uvicorn.error", "WARNING"):
+            out = self.find()
+            self.find()
+        self.assertEqual(out["semantic"], "text")
+        self.assertEqual(self.q.semantic_matches.call_count, 2)
+
+    def test_a_broken_vector_query_is_an_error_in_the_log_and_is_not_rerun(self):
+        for error in (psycopg2.errors.UndefinedColumn("column e.embeding does not exist"),
+                      psycopg2.errors.UndefinedTable('relation "mention_weights" does not exist')):
+            search.forget()
+            self.q.semantic_matches.reset_mock()
+            self.q.semantic_matches.side_effect = error
+            with self.assertLogs("uvicorn.error", "ERROR") as logged:
+                out = self.find()
+            self.assertIsNotNone(logged.records[0].exc_info)
+            # The search is still answered, by its words.
+            self.assertEqual(out["semantic"], "text")
+            # Another search, a moment later, does not run it again.
+            with self.assertNoLogs("uvicorn.error", "WARNING"):
+                self.find("date night")
+            self.assertEqual(self.q.semantic_matches.call_count, 1)
+            self.assertEqual(search._embed.call_count, 1)
+            search._embed.reset_mock()
+            # Until the wait is over.
+            later = time.monotonic() + search.VECTORS_RETRY + 1
+            with mock.patch.object(search.time, "monotonic", return_value=later), \
+                    self.assertLogs("uvicorn.error", "ERROR"):
+                self.find("brunch")
+            self.assertEqual(self.q.semantic_matches.call_count, 2)
+            search._embed.reset_mock()
+
+    def test_a_database_without_vectors_is_quiet_and_is_not_asked_again(self):
+        self.q.semantic_matches.side_effect = psycopg2.errors.UndefinedTable(
+            'relation "comment_embeddings" does not exist')
+        with self.assertNoLogs("uvicorn.error", "ERROR"):
+            self.find()
+            self.find("date night")
+        self.assertEqual(self.q.semantic_matches.call_count, 1)
+
+    def test_a_busy_pool_is_not_swallowed(self):
+        from app.db import PoolTimeout
+        self.q.semantic_matches.side_effect = PoolTimeout("busy")
+        with self.assertRaises(PoolTimeout):
+            self.find()
+
+    def test_the_note_says_which_words_were_matched(self):
+        self.q.semantic_matches.side_effect = psycopg2.OperationalError("connection reset")
+        with self.assertLogs("uvicorn.error", "WARNING"):
+            out = self.find("cash only")
+            self.assertEqual(out["matched"], {"words": ["cash", "only"], "need": 2})
+            self.assertEqual(out["notes"], [
+                "Matching by meaning is not available right now, so these are the places whose "
+                "comments use the words “cash” and “only”."])
+            # Loose unless a word turns the phrase round.
+            self.assertIs(self.q.text_matches.call_args.args[3], True)
+
+            self.q.text_matches.return_value = [hit("cellos", 2, 2, [5, 6], 1, 1)]
+            out = self.find("where should we take my parents for dinner")
+            self.assertEqual(out["matched"], {"words": ["take", "parents", "dinner"], "need": 1})
+            self.assertTrue(out["notes"][0].endswith(
+                "and no comment uses all of the words “take”, “parents” and “dinner”, so these "
+                "are the places whose comments use any of them."), out["notes"])
+
+            self.q.text_matches.return_value = [hit("cellos", 2, 2, [5, 6], 1, 2)]
+            out = self.find("cheap parents dinner")
+            self.assertIn("use at least 2 of them.", out["notes"][0])
+
+            out = self.find("tacos")
+            self.assertIn("use the word “tacos”.", out["notes"][0])
+
+            self.find("not crowded")
+            self.assertIs(self.q.text_matches.call_args.args[3], False)
+
+            self.q.text_matches.return_value = []
+            out = self.find("zzz qqq")
+            self.assertEqual((out["semantic"], out["items"], out["notes"][-1]),
+                             ("text", [], "No comments use those words."))
+
+    def test_a_text_match_names_a_bounded_number_of_its_comments(self):
+        self.q.semantic_matches.side_effect = psycopg2.OperationalError("connection reset")
+        with self.assertLogs("uvicorn.error", "WARNING"):
+            out = self.find()
+        self.assertEqual(self.q.text_matches.call_args.args[-2], search.TEXT_IDS)
+        cellos = out["items"][0]
+        # The count is all seventy; two are named and the rest are paged.
+        self.assertEqual((cellos["people"], cellos["comment_count"], cellos["mention_ids"]),
+                         (2, 70, [5, 6]))
+
+    def test_a_meaning_match_and_the_board_say_how_many_comments(self):
+        self.q.semantic_matches.return_value = [
+            {"entity_key": "katzs", "mention_id": m, "comment_id": f"c{m}", "person": f"u{m}",
+             "similarity": 0.9} for m in (1, 2, 3)]
+        out = self.find()
+        self.assertEqual((out["semantic"], out["items"][0]["comment_count"]), ("ok", 3))
+        out = self.find("")
+        self.assertEqual((out["semantic"], out["items"][0]["comment_count"],
+                          out["items"][0]["mention_ids"]), ("none", None, None))
+
+    def test_the_rest_of_a_text_match_is_read_a_page_at_a_time(self):
+        self.q.text_match_ids.return_value = [{"mention_id": 9}, {"mention_id": 7}, {"mention_id": 8}]
+        self.q.search_evidence.return_value = [{"mention_id": 7}, {"mention_id": 9}]
+        rows = search.matched_comments(subreddits.HOME, "cellos", ["Cash", "&", "only", "the"], 9, 50, 50)
+        # In the match's order, without the comment gone since.
+        self.assertEqual(rows, [{"mention_id": 9}, {"mention_id": 7}])
+        args = self.q.text_match_ids.call_args.args
+        # Only what a search could have asked: its words, and no more of
+        # them than there are.
+        self.assertEqual(args[1:7], (subreddits.HOME, "cellos", ["cash", "only"], 2, 50, 50))
+        self.q.text_match_ids.reset_mock()
+        self.assertEqual(search.matched_comments(subreddits.HOME, "cellos", ["&", "the"], 1, 0, 50), [])
+        self.q.text_match_ids.assert_not_called()
+
+    def test_a_waiter_outlasts_the_slowest_retrieval(self):
+        slowest = (embedding.QUERY_ATTEMPTS * (embedding.QUERY_TIMEOUT + 1)
+                   + 2 * search.POOL_TIMEOUT + search.STATEMENT_TIMEOUT_MS / 1000)
+        self.assertGreater(search.RETRIEVED_WAIT, slowest)
+
+
+class Statements(unittest.TestCase):
+    """The text match's SQL, as far as it can be read without a database:
+    every word is a parameter, and the place a page is for is one too."""
+
+    def sent(self, call, *args):
+        seen = {}
+
+        def fetch_all(conn, sql, params):
+            seen.update(sql=sql, params=params)
+            return []
+        call(None, subreddits.HOME, *args, fetch_all)
+        # Every placeholder has its parameter, and nothing typed is in the text.
+        seen["sql"] % {k: "?" for k in seen["params"]}
+        return seen["sql"], seen["params"]
+
+    def test_text_matches(self):
+        sql, params = self.sent(queries.text_matches, ["50%", "o'brien"], True, (("a",),), ("b",),
+                                False, 20, 50)
+        self.assertEqual((params["w0"], params["w1"]), ("%50\\%%", "%o'brien%"))
+        self.assertNotIn("o'brien", sql)
+        self.assertEqual((params["floor"], params["ids"], params["limit"]), (1, 50, 20))
+        self.assertIn("rn <= %(ids)s", sql)
+        _, params = self.sent(queries.text_matches, ["a", "b", "c"], False, (), (), False, 20, 50)
+        self.assertEqual(params["floor"], 3)
+
+    def test_text_match_ids(self):
+        sql, params = self.sent(queries.text_match_ids, "cellos", ["cash", "only"], 2, 50, 25)
+        self.assertEqual((params["key"], params["floor"], params["offset"], params["limit"]),
+                         ("cellos", 2, 50, 25))
+        self.assertIn("w.entity_key = %(key)s", sql)
+
+
+class KeptParses(unittest.TestCase):
+    """mode=fast must cost no connection for a query it has just learned has
+    no kept parse, and must never fail for want of the cache."""
+
+    def setUp(self):
+        search.forget()
+        self.addCleanup(search.forget)
+        self.get = mock.Mock(return_value=None)
+        for name, value in (("connection", FakeConn),
+                            ("queries", mock.Mock(search_parse_get=self.get))):
+            p = mock.patch.object(search, name, value)
+            p.start()
+            self.addCleanup(p.stop)
+
+    def fast(self, q, v):
+        with mock.patch.dict(os.environ, {parse.KEY_VAR: "sk-test"}):
+            return search.understand(subreddits.HOME, q, "fast", v, "1.2.3.4")
+
+    def test_a_miss_is_remembered_and_the_prompt_is_built_once(self):
+        v = vocab()
+        with mock.patch.object(parse, "system_prompt", wraps=parse.system_prompt) as built:
+            for _ in range(3):
+                p = self.fast("not italian", v)
+            self.fast("not pizza", v)
+            self.assertEqual(built.call_count, 1)
+        self.assertEqual((p.source, p.needs_model), ("unparsed", True))
+        self.assertEqual(self.get.call_count, 2)        # once a query, not once a request
+        # Not for good: the other worker may keep one.
+        later = time.monotonic() + search.MISS_TTL + 1
+        with mock.patch.object(search.time, "monotonic", return_value=later):
+            self.fast("not italian", v)
+        self.assertEqual(self.get.call_count, 3)
+
+    def test_the_full_pass_always_looks(self):
+        v = vocab()
+        self.fast("not italian", v)
+        key = (subreddits.HOME, "not italian", parse.MODEL, v.prompt()[1])
+        self.assertIsNone(search._kept(key))
+        self.assertEqual(self.get.call_count, 2)
+
+    def test_a_parse_kept_meanwhile_ends_the_miss(self):
+        v = vocab()
+        self.fast("not italian", v)
+        key = (subreddits.HOME, "not italian", parse.MODEL, v.prompt()[1])
+        search._remember(key, answer(exclude=[("cuisine", "Italian")]))
+        p = self.fast("not italian", v)
+        self.assertEqual((p.source, p.needs_model), ("cache", False))
+
+    def test_a_busy_pool_is_a_miss_and_not_a_failure(self):
+        from app.db import PoolTimeout
+        v = vocab()
+        with mock.patch.object(search, "connection", side_effect=PoolTimeout("busy")) as taken:
+            p = self.fast("not italian", v)
+            self.fast("not italian", v)
+            self.assertEqual(taken.call_count, 1)
+        self.assertEqual((p.source, p.needs_model), ("unparsed", True))
 
 
 class Limits(unittest.TestCase):
@@ -538,13 +835,64 @@ class Endpoint(SearchCase):
         self.assertNotIn(search.AS_TYPED, body["notes"])
 
     def test_a_slow_or_failed_vector_query_degrades_instead_of_failing(self):
-        for error in (psycopg2.errors.QueryCanceled("statement timeout"),
-                      psycopg2.OperationalError("server closed the connection")):
-            search.forget()
-            with self.no_vectors(error):
-                body = self.get("cash only")
-            self.assertEqual((body["semantic"], self.keys(body)),
-                             ("text", ["abc", "cellos", "katzs"]), error)
+        with self.no_vectors(psycopg2.OperationalError("server closed the connection")):
+            body = self.get("cash only")
+        self.assertEqual((body["semantic"], self.keys(body)), ("text", ["abc", "cellos", "katzs"]))
+        self.assertEqual(body["matched"], {"words": ["cash", "only"], "need": 2})
+        # One that timed out is not followed by the heavier text scan: the
+        # board, and a note.
+        search.forget()
+        with self.no_vectors(psycopg2.errors.QueryCanceled("statement timeout")), \
+                mock.patch.object(queries, "text_matches", wraps=queries.text_matches) as scan:
+            body = self.get("cash only")
+            scan.assert_not_called()
+        self.assertEqual((body["semantic"], self.keys(body)), ("unavailable", ["katzs", "cellos", "abc"]))
+        self.assertIn("not available right now", " ".join(body["notes"]))
+
+    def test_a_question_matches_the_words_some_comment_uses(self):
+        # Nobody wrote "cash", "only" and "parents" of one place, so the
+        # comments that use the most of them together count, and the note
+        # says so. Asked for strictly, this was an empty list.
+        with self.no_vectors():
+            body = self.get("where should I take my parents, cash only?")
+        self.assertEqual(body["matched"], {"words": ["take", "parents", "cash", "only"], "need": 2})
+        self.assertEqual(self.keys(body), ["abc", "cellos", "katzs"])
+        self.assertEqual([i["people"] for i in body["items"]], [1, 1, 1])
+        self.assertIn("at least 2 of them", " ".join(body["notes"]))
+        # A word that turns the phrase round keeps the match strict.
+        with self.no_vectors(), mock.patch.dict(os.environ, {parse.KEY_VAR: ""}):
+            body = self.get("not zzz slice")
+        self.assertEqual((body["semantic"], body["items"]), ("text", []))
+
+    def test_punctuation_is_not_a_word_to_match(self):
+        with self.no_vectors():
+            self.assertEqual(self.keys(self.get("cash & only")), ["abc", "cellos", "katzs"])
+
+    def test_a_long_text_match_is_named_in_part_and_read_in_pages(self):
+        with self.no_vectors(), mock.patch.object(search, "TEXT_IDS", 2):
+            body = self.get("slice")
+        katzs = body["items"][0]
+        self.assertEqual((katzs["entity_key"], katzs["people"], katzs["comment_count"],
+                          len(katzs["mention_ids"])), ("katzs", 4, 4, 2))
+        self.assertEqual(body["matched"], {"words": ["slice"], "need": 1})
+        with self.no_vectors():
+            whole = self.get("slice", limit=19)["items"][0]["mention_ids"]
+        self.assertEqual(whole[:2], katzs["mention_ids"])
+        page = {"key": "katzs", "words": ["slice"], "need": 1}
+        r = self.client.get("/api/search/matched", params={**page, "offset": 2, "limit": 1})
+        self.assertEqual(r.status_code, 200, r.text)
+        self.assertEqual([c["mention_id"] for c in r.json()], whole[2:3])
+        r = self.client.get("/api/search/matched", params={**page, "offset": 3})
+        self.assertEqual([c["mention_id"] for c in r.json()], whole[3:])
+        self.assertEqual(self.client.get("/api/search/matched", params={**page, "offset": 4}).json(), [])
+        # Another city's place has none of these; and a request is bounded.
+        other = self.client.get("/api/search/matched",
+                                params={**page, "offset": 0, "subreddit": "austinfood"})
+        self.assertEqual((other.status_code, other.json()), (200, []))
+        for bad in ({"limit": 51}, {"need": 0}, {"words": ["x" * 201]},
+                    {"words": [f"w{i}" for i in range(search.TEXT_WORDS_MAX + 1)]}):
+            r = self.client.get("/api/search/matched", params={**page, "offset": 0, **bad})
+            self.assertEqual(r.status_code, 422, bad)
 
     def test_filters_hold_under_the_text_match(self):
         with self.no_vectors():

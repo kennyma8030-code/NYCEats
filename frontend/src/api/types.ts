@@ -334,11 +334,20 @@ export interface SearchItem {
   people: number;
   total_people: number | null;
   best_similarity: number | null;
-  /** Every comment `people` counts, one mention each, in the order shown;
+  /** How many comments `people` counts. Null when the count is the board's
+   *  own, which the place's page opens. */
+  comment_count?: number | null;
+  /** The comments `people` counts, one mention each, in the order shown;
    *  `comments` are the first of them and api.searchComments reads the rest.
-   *  Null when the count is the board's own, which the place's page opens. */
+   *  A text match names only the first of them: past these, the rest are
+   *  read by position (api.searchMatched). Null with the board's own count. */
   mention_ids: number[] | null;
   comments: Mention[];
+}
+
+export interface SearchMatched {
+  words: string[];
+  need: number;
 }
 
 export interface SearchResponse {
@@ -349,9 +358,12 @@ export interface SearchResponse {
   source: "vocabulary" | "model" | "cache" | "unparsed" | "fallback";
   parse: SearchParse;
   /** ok: the text was matched by meaning. text: it could not be, so its
-   *  words were matched as text. unavailable: it could not be and held no
-   *  word to match, so the list is the board. none: there was no text. */
+   *  words were matched as text. unavailable: it could not be and its words
+   *  were not matched either, so the list is the board. none: no text. */
   semantic: "ok" | "text" | "none" | "unavailable";
+  /** With semantic text: the words looked for, and how many of them a
+   *  counted comment uses. */
+  matched?: SearchMatched | null;
   ranked_by: "matching_people" | "people";
   total: number;
   items: SearchItem[];

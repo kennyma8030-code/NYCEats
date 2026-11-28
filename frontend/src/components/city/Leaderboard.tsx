@@ -224,7 +224,10 @@ export function Leaderboard({ route, go, scope, facets, ranking, hot, onHot, onO
         // Beside an open restaurant too: the ranking is not loaded under a
         // search (App.tsx), so the strip of names is the search's own answer,
         // never rows of a list nobody asked for.
-        <SearchResults query={route.q} city={route.city} dev={route.dev} compact={compact} onOpen={onOpen} onClose={() => go({ q: "" })} />
+        <SearchResults
+          query={route.q} city={route.city} dev={route.dev} compact={compact}
+          hot={hot} onHot={onHot} selected={selected} hover={hover} onOpen={onOpen} onClose={() => go({ q: "" })}
+        />
       ) : error ? (
         <div className="board-msg" role="alert">
           <p>This list could not be loaded.</p>

@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { api } from "../../api/client";
-import type { Mention, SearchFilter, SearchItem, SearchResponse } from "../../api/types";
+import type { SearchFilter, SearchItem, SearchMatched, SearchResponse } from "../../api/types";
 import { useFetch } from "../../hooks/useFetch";
+import type { RowHover } from "../../hooks/useHoverPreview";
 import { plural } from "../../lib/format";
-import { countedBy, moreLabel, nextComments } from "../../lib/results";
+import { afterIds, afterPage, countedBy, loaded, moreLabel, nextRequest, resultId, seenCount, type Loaded } from "../../lib/results";
 import { CommentCard } from "../place/Comments";
 import "./SearchResults.css";
 
@@ -15,6 +16,13 @@ interface Props {
   dev: boolean;
   /** Beside an open restaurant: only the names, still in the answer's order. */
   compact?: boolean;
+  /** The row to light: the pointer is on it or on its pin. */
+  hot: string | null;
+  onHot: (key: string | null) => void;
+  /** The open restaurant, lit and marked as the current one. */
+  selected: string | null;
+  /** Opens a preview beside a row the pointer rests on. */
+  hover: RowHover;
   onOpen: (key: string) => void;
   onClose: () => void;
 }
@@ -42,7 +50,7 @@ function Part({ f, out }: { f: SearchFilter; out?: boolean }) {
  * of those comments can be opened here: the first few come with the answer
  * and the rest are a button away (Evidence).
  */
-export function SearchResults({ query, city, dev, compact = false, onOpen, onClose }: Props) {
+export function SearchResults({ query, city, dev, compact = false, hot, onHot, selected, hover, onOpen, onClose }: Props) {
   const fast = useFetch<SearchResponse>(`${city}|fast|${query}`, (signal) => api.search(query, "fast", signal));
   // useFetch keeps the last answer while the next loads; only the answer to
   // this query may be shown under it.
@@ -96,16 +104,39 @@ export function SearchResults({ query, city, dev, compact = false, onOpen, onClo
           <button type="button" className="pill" onClick={onClose}>Back to the list</button>
         </div>
       ) : (
-        <ol className={reading ? "rows busy" : "rows"} aria-busy={fast.loading || reading}>
+        <ol className={reading ? "rows busy" : "rows"} aria-busy={fast.loading || reading} onScroll={hover.follow}>
           {/* Placeholders only while the answer is on its way; a failure or an empty answer is said above. */}
           {!data && Array.from({ length: 6 }, (_, i) => <li key={i} className="row-skel skel" aria-hidden="true" />)}
           {data?.items.map((it) => {
             const area = it.neighborhood ?? it.borough;
+            const key = it.entity_key;
             return (
-              <li key={it.entity_key} className="sr-item">
+              <li key={key} className="sr-item">
+                {/* Lit, marked and previewed exactly as a row of the ranking
+                    is (Row in Leaderboard.tsx): a finger has no hover, and
+                    only focus that came from the keyboard opens a preview. */}
                 <button
-                  type="button" className="row" data-key={it.entity_key} title={compact ? it.name : undefined}
-                  onClick={() => onOpen(it.entity_key)}
+                  type="button" className={hot === key || selected === key ? "row on" : "row"} data-key={key}
+                  aria-current={selected === key ? "true" : undefined} title={compact ? it.name : undefined}
+                  onClick={() => onOpen(key)}
+                  onPointerEnter={(e) => {
+                    if (e.pointerType !== "mouse") return;
+                    onHot(key);
+                    hover.enter(key);
+                  }}
+                  onPointerLeave={(e) => {
+                    if (e.pointerType !== "mouse") return;
+                    onHot(null);
+                    hover.leave();
+                  }}
+                  onFocus={(e) => {
+                    onHot(key);
+                    if (e.currentTarget.matches(":focus-visible")) hover.focus(key);
+                  }}
+                  onBlur={() => {
+                    onHot(null);
+                    hover.leave();
+                  }}
                 >
                   <span className="row-main">
                     <span className="row-name">{it.name}</span>
@@ -127,7 +158,12 @@ export function SearchResults({ query, city, dev, compact = false, onOpen, onClo
                 </button>
                 {/* Keyed by the answer it belongs to: comments loaded for one
                     reading of the query are not shown under another. */}
-                {!compact && <Evidence key={`${city}|${query}|${data.mode}`} item={it} dev={dev} />}
+                {!compact && (
+                  <Evidence
+                    key={`${city}|${query}|${data.mode}`} answer={`${city}|${query}|${data.mode}`}
+                    item={it} matched={data.matched ?? null} dev={dev}
+                  />
+                )}
               </li>
             );
           })}
@@ -142,33 +178,42 @@ export function SearchResults({ query, city, dev, compact = false, onOpen, onClo
  * the button reads the rest, a page at a time and in the answer's order,
  * until every comment behind the number is on screen. A count of the board's
  * own names no comments here: its row opens the place, which lists them all.
+ *
+ * What has been read is kept in lib/results (loaded), not only here: this is
+ * taken down whenever the list is (a restaurant opened beside it, or over it
+ * on a phone), and coming back must not ask for the same comments again.
  */
-function Evidence({ item, dev }: { item: SearchItem; dev: boolean }) {
-  const [extra, setExtra] = useState<Mention[]>([]);
-  // Ids asked for that did not come back (a comment gone since the search):
-  // counted as read, so the button does not ask for them forever.
-  const [missing, setMissing] = useState<number[]>([]);
+function Evidence({ answer, item, matched, dev }: { answer: string; item: SearchItem; matched: SearchMatched | null; dev: boolean }) {
+  const id = resultId(item);
+  const [read, setRead] = useState(() => loaded.get(answer, id));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const ctl = useRef<AbortController | null>(null);
   useEffect(() => () => ctl.current?.abort(), []);
+  // After the render, so the store is never written while React is drawing.
+  useEffect(() => {
+    if (read !== loaded.get(answer, id)) loaded.set(answer, id, read);
+  }, [answer, id, read]);
 
-  const shown = [...item.comments, ...extra];
-  const seen = [...shown.map((c) => c.mention_id), ...missing];
-  const more = moreLabel(item, seen.length);
+  const shown = [...item.comments, ...read.extra];
+  const next = nextRequest(item, read, matched !== null);
+  const more = next && moreLabel(item, seenCount(item, read));
   const load = () => {
-    const ids = nextComments(item, seen);
-    if (!ids.length || loading) return;
+    if (!next || loading) return;
     const c = new AbortController();
     ctl.current = c;
     setLoading(true);
     setError(null);
-    api.searchComments(ids, c.signal).then(
-      (rows) => {
+    // The ids the answer named first; past them, a text match's comments
+    // by their place in its order.
+    const asked: Promise<(l: Loaded) => Loaded> = "ids" in next
+      ? api.searchComments(next.ids, c.signal).then((rows) => (l) => afterIds(l, next.ids, rows))
+      : api.searchMatched(item.entity_key, matched!, next.offset, next.limit, c.signal)
+        .then((rows) => (l) => afterPage(item, l, next.limit, rows));
+    asked.then(
+      (apply) => {
         if (c.signal.aborted) return;
-        const got = new Set(rows.map((r) => r.mention_id));
-        setExtra((x) => [...x, ...rows]);
-        setMissing((m) => [...m, ...ids.filter((id) => !got.has(id))]);
+        setRead(apply);
         setLoading(false);
       },
       (e: unknown) => {
